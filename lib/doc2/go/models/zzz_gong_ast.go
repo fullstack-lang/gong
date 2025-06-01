@@ -1349,34 +1349,33 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// remove first and last char
 				enumValue := Sel.Name
 				_ = enumValue
-
 				switch gongstructName {
-				// insertion point for enums assignments
+				// insertion point for selector expr assignments
 				case "AttributeShape":
 					switch fieldName {
+					// insertion point for selector expr assign code
 					case "IdentifierMeta":
 						__gong__map_AttributeShape[identifier].IdentifierMeta = basicLit.Value
-						// insertion point for enum assign code
 					}
 				case "Classdiagram":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "DiagramPackage":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongEnumShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongEnumValueShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongNoteLinkShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					case "Type":
 						var val NoteShapeLinkType
 						err := (&val).FromCodeString(enumValue)
@@ -1387,15 +1386,19 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				case "GongNoteShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongStructShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
+					case "IdentifierMeta":
+						__gong__map_GongStructShape[identifier].IdentifierMeta = basicLit.Value
 					}
 				case "LinkShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
+					case "IdentifierMeta":
+						__gong__map_LinkShape[identifier].IdentifierMeta = basicLit.Value
 					case "TargetMultiplicity":
 						var val MultiplicityType
 						err := (&val).FromCodeString(enumValue)
