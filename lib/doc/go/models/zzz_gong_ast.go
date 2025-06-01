@@ -864,20 +864,44 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				}
 			}
-		case *ast.BasicLit, *ast.UnaryExpr:
+		case *ast.BasicLit, *ast.UnaryExpr, *ast.CompositeLit:
 
 			var basicLit *ast.BasicLit
 			var exprSign = 1.0
 			_ = exprSign // in case this is not used
-
-			if bl, ok := expr.(*ast.BasicLit); ok {
-				// expression is  for instance ... = 18.000
-				basicLit = bl
-			} else if ue, ok := expr.(*ast.UnaryExpr); ok {
-				// expression is  for instance ... = -18.000
+			switch v := expr.(type) {
+			case *ast.BasicLit:
+				// expression is for instance ... = 18.000
+				basicLit = v
+			case *ast.UnaryExpr:
+				// expression is for instance ... = -18.000
 				// we want to extract a *ast.BasicLit from the *ast.UnaryExpr
-				basicLit = ue.X.(*ast.BasicLit)
-				exprSign = -1
+				if bl, ok := v.X.(*ast.BasicLit); ok {
+					basicLit = bl
+					// Check the operator to set the sign
+					if v.Op == token.SUB { // token.SUB is for '-'
+						exprSign = -1
+					} else if v.Op == token.ADD { // token.ADD is for '+'
+						exprSign = 1
+					}
+				}
+			case *ast.CompositeLit:
+				var sl *ast.SelectorExpr
+				var ident *ast.Ident
+				var ok bool
+
+				if sl, ok = v.Type.(*ast.SelectorExpr); !ok {
+					break // Exits the switch case
+				}
+
+				if ident, ok = sl.X.(*ast.Ident); !ok {
+					break // Exits the switch case
+				}
+
+				basicLit = new(ast.BasicLit)
+				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
+				basicLit.Kind = token.STRING // Or another appropriate token.Kind
+				basicLit.Value = ident.Name + "." + sl.Sel.Name + "{}"
 			}
 
 			// astCoordinate := astCoordinate + "\tBasicLit" + "." + basicLit.Value
@@ -1364,6 +1388,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				}
 			}
 		case *ast.SelectorExpr:
+			var basicLit *ast.BasicLit
+			var ident *ast.Ident
+
 			// assignment to enum field
 			selectorExpr := expr
 			// astCoordinate := astCoordinate + "\tSelectorExpr"
@@ -1373,7 +1400,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = ident
 				// astCoordinate := astCoordinate + "\tX" + "." + ident.Name
 				// log.Println(astCoordinate)
+			case *ast.CompositeLit:
+				var ok bool
+				var sl *ast.SelectorExpr
+
+				if sl, ok = X.Type.(*ast.SelectorExpr); !ok {
+					break // Exits the switch case
+				}
+
+				if ident, ok = sl.X.(*ast.Ident); !ok {
+					break // Exits the switch case
+				}
+
+				basicLit = new(ast.BasicLit)
+				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
+				basicLit.Kind = token.STRING // Or another appropriate token.Kind
+				basicLit.Value = ident.Name + "." + sl.Sel.Name + "{}." + selectorExpr.Sel.Name
 			}
+
 			if Sel := selectorExpr.Sel; Sel != nil {
 				// astCoordinate := astCoordinate + "\tSel" + "." + Sel.Name
 				// log.Println(astCoordinate)
@@ -1389,34 +1433,34 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				enumValue := Sel.Name
 				_ = enumValue
 				switch gongstructName {
-				// insertion point for enums assignments
+				// insertion point for selector expr assignments
 				case "Classdiagram":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "DiagramPackage":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "Field":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongEnumShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongEnumValueEntry":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "GongStructShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "Link":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					case "TargetMultiplicity":
 						var val MultiplicityType
 						err := (&val).FromCodeString(enumValue)
@@ -1448,11 +1492,11 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				case "NoteShape":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "NoteShapeLink":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					case "Type":
 						var val NoteShapeLinkType
 						err := (&val).FromCodeString(enumValue)
@@ -1463,19 +1507,19 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 				case "Position":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "UmlState":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "Umlsc":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				case "Vertice":
 					switch fieldName {
-					// insertion point for enum assign code
+					// insertion point for selector expr assign code
 					}
 				}
 			}
