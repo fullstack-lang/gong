@@ -170,7 +170,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 			nodeNamedStruct := &tree.Node{
 				Name:               gongStruct.Name,
 				HasCheckboxButton:  true,
-				IsCheckboxDisabled: stager.embeddedDiagrams,
+				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 				IsChecked:          isGongStructShapeInDiagram,
 				IsExpanded:         isExpanded,
 			}
@@ -199,7 +199,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						Name:               field.GetName(),
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
-						IsCheckboxDisabled: !isGongStructShapeInDiagram || stager.embeddedDiagrams,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram || stager.embeddedDiagrams || !selected,
 					}
 
 					nodeField.Impl = &AttributeFieldNodeProxy{
@@ -239,7 +239,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 						Name:               field.GetName(),
 						HasCheckboxButton:  true,
 						IsChecked:          isInDiagram,
-						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent || stager.embeddedDiagrams,
+						IsCheckboxDisabled: !isGongStructShapeInDiagram || isTargetGongstructAbsent || stager.embeddedDiagrams || !selected,
 					}
 
 					nodeField.Impl = &LinkFieldNodeProxy{
@@ -279,7 +279,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				HasCheckboxButton:  true,
 				IsChecked:          isEnumInDiagram,
 				IsExpanded:         isExpanded,
-				IsCheckboxDisabled: stager.embeddedDiagrams,
+				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 			}
 			node.Impl = &GongEnumNodeProxy{
 				node:          node,
@@ -298,7 +298,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					Name:               gongEnumValue.Name,
 					HasCheckboxButton:  true,
 					IsChecked:          isEnumValueInDiagram,
-					IsCheckboxDisabled: !isEnumInDiagram || stager.embeddedDiagrams,
+					IsCheckboxDisabled: !isEnumInDiagram || stager.embeddedDiagrams || !selected,
 				}
 				nodeEnumValue.Impl = &GongEnumNodeValueProxy{
 					stager:        stager,
@@ -334,7 +334,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				HasCheckboxButton:  true,
 				IsChecked:          isGongNoteShapeInDiagram,
 				IsExpanded:         noteIsExpanded,
-				IsCheckboxDisabled: stager.embeddedDiagrams,
+				IsCheckboxDisabled: stager.embeddedDiagrams || !selected,
 			}
 			gongNoteNode.Impl = &GongNoteNodeProxy{
 				node:          gongNoteNode,
