@@ -651,9 +651,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Bs":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_B[targetIdentifier]
-							__gong__map_A[identifier].Bs =
-								append(__gong__map_A[identifier].Bs, target)
+							// when parsing A[identifier].Bs = append(A[identifier].Bs, B instance )
+							// the map will not find the B instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_B[targetIdentifier]; ok {
+								__gong__map_A[identifier].Bs =
+									append(__gong__map_A[identifier].Bs, target)
+							}
 						}
 					case "B":
 						switch fieldName {

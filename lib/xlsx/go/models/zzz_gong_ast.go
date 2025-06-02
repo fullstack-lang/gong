@@ -692,9 +692,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Sheets":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_XLSheet[targetIdentifier]
-							__gong__map_XLFile[identifier].Sheets =
-								append(__gong__map_XLFile[identifier].Sheets, target)
+							// when parsing XLFile[identifier].Sheets = append(XLFile[identifier].Sheets, XLSheet instance )
+							// the map will not find the XLSheet instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_XLSheet[targetIdentifier]; ok {
+								__gong__map_XLFile[identifier].Sheets =
+									append(__gong__map_XLFile[identifier].Sheets, target)
+							}
 						}
 					case "XLRow":
 						switch fieldName {
@@ -702,9 +706,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Cells":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_XLCell[targetIdentifier]
-							__gong__map_XLRow[identifier].Cells =
-								append(__gong__map_XLRow[identifier].Cells, target)
+							// when parsing XLRow[identifier].Cells = append(XLRow[identifier].Cells, XLCell instance )
+							// the map will not find the XLCell instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_XLCell[targetIdentifier]; ok {
+								__gong__map_XLRow[identifier].Cells =
+									append(__gong__map_XLRow[identifier].Cells, target)
+							}
 						}
 					case "XLSheet":
 						switch fieldName {
@@ -712,15 +720,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Rows":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_XLRow[targetIdentifier]
-							__gong__map_XLSheet[identifier].Rows =
-								append(__gong__map_XLSheet[identifier].Rows, target)
+							// when parsing XLSheet[identifier].Rows = append(XLSheet[identifier].Rows, XLRow instance )
+							// the map will not find the XLRow instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_XLRow[targetIdentifier]; ok {
+								__gong__map_XLSheet[identifier].Rows =
+									append(__gong__map_XLSheet[identifier].Rows, target)
+							}
 						case "SheetCells":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_XLCell[targetIdentifier]
-							__gong__map_XLSheet[identifier].SheetCells =
-								append(__gong__map_XLSheet[identifier].SheetCells, target)
+							// when parsing XLSheet[identifier].SheetCells = append(XLSheet[identifier].SheetCells, XLCell instance )
+							// the map will not find the XLCell instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_XLCell[targetIdentifier]; ok {
+								__gong__map_XLSheet[identifier].SheetCells =
+									append(__gong__map_XLSheet[identifier].SheetCells, target)
+							}
 						}
 					}
 				}

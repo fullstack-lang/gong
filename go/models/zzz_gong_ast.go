@@ -765,9 +765,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GongEnumValues":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongEnumValue[targetIdentifier]
-							__gong__map_GongEnum[identifier].GongEnumValues =
-								append(__gong__map_GongEnum[identifier].GongEnumValues, target)
+							// when parsing GongEnum[identifier].GongEnumValues = append(GongEnum[identifier].GongEnumValues, GongEnumValue instance )
+							// the map will not find the GongEnumValue instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongEnumValue[targetIdentifier]; ok {
+								__gong__map_GongEnum[identifier].GongEnumValues =
+									append(__gong__map_GongEnum[identifier].GongEnumValues, target)
+							}
 						}
 					case "GongEnumValue":
 						switch fieldName {
@@ -783,9 +787,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Links":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongLink[targetIdentifier]
-							__gong__map_GongNote[identifier].Links =
-								append(__gong__map_GongNote[identifier].Links, target)
+							// when parsing GongNote[identifier].Links = append(GongNote[identifier].Links, GongLink instance )
+							// the map will not find the GongLink instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongLink[targetIdentifier]; ok {
+								__gong__map_GongNote[identifier].Links =
+									append(__gong__map_GongNote[identifier].Links, target)
+							}
 						}
 					case "GongStruct":
 						switch fieldName {
@@ -793,27 +801,43 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GongBasicFields":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongBasicField[targetIdentifier]
-							__gong__map_GongStruct[identifier].GongBasicFields =
-								append(__gong__map_GongStruct[identifier].GongBasicFields, target)
+							// when parsing GongStruct[identifier].GongBasicFields = append(GongStruct[identifier].GongBasicFields, GongBasicField instance )
+							// the map will not find the GongBasicField instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongBasicField[targetIdentifier]; ok {
+								__gong__map_GongStruct[identifier].GongBasicFields =
+									append(__gong__map_GongStruct[identifier].GongBasicFields, target)
+							}
 						case "GongTimeFields":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongTimeField[targetIdentifier]
-							__gong__map_GongStruct[identifier].GongTimeFields =
-								append(__gong__map_GongStruct[identifier].GongTimeFields, target)
+							// when parsing GongStruct[identifier].GongTimeFields = append(GongStruct[identifier].GongTimeFields, GongTimeField instance )
+							// the map will not find the GongTimeField instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongTimeField[targetIdentifier]; ok {
+								__gong__map_GongStruct[identifier].GongTimeFields =
+									append(__gong__map_GongStruct[identifier].GongTimeFields, target)
+							}
 						case "PointerToGongStructFields":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_PointerToGongStructField[targetIdentifier]
-							__gong__map_GongStruct[identifier].PointerToGongStructFields =
-								append(__gong__map_GongStruct[identifier].PointerToGongStructFields, target)
+							// when parsing GongStruct[identifier].PointerToGongStructFields = append(GongStruct[identifier].PointerToGongStructFields, PointerToGongStructField instance )
+							// the map will not find the PointerToGongStructField instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_PointerToGongStructField[targetIdentifier]; ok {
+								__gong__map_GongStruct[identifier].PointerToGongStructFields =
+									append(__gong__map_GongStruct[identifier].PointerToGongStructFields, target)
+							}
 						case "SliceOfPointerToGongStructFields":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_SliceOfPointerToGongStructField[targetIdentifier]
-							__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields =
-								append(__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields, target)
+							// when parsing GongStruct[identifier].SliceOfPointerToGongStructFields = append(GongStruct[identifier].SliceOfPointerToGongStructFields, SliceOfPointerToGongStructField instance )
+							// the map will not find the SliceOfPointerToGongStructField instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_SliceOfPointerToGongStructField[targetIdentifier]; ok {
+								__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields =
+									append(__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields, target)
+							}
 						}
 					case "GongTimeField":
 						switch fieldName {
@@ -825,9 +849,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "MetaReferences":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_MetaReference[targetIdentifier]
-							__gong__map_Meta[identifier].MetaReferences =
-								append(__gong__map_Meta[identifier].MetaReferences, target)
+							// when parsing Meta[identifier].MetaReferences = append(Meta[identifier].MetaReferences, MetaReference instance )
+							// the map will not find the MetaReference instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_MetaReference[targetIdentifier]; ok {
+								__gong__map_Meta[identifier].MetaReferences =
+									append(__gong__map_Meta[identifier].MetaReferences, target)
+							}
 						}
 					case "MetaReference":
 						switch fieldName {
