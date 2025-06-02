@@ -677,15 +677,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Children":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Node[targetIdentifier]
-							__gong__map_Node[identifier].Children =
-								append(__gong__map_Node[identifier].Children, target)
+							// when parsing Node[identifier].Children = append(Node[identifier].Children, Node instance )
+							// the map will not find the Node instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Node[targetIdentifier]; ok {
+								__gong__map_Node[identifier].Children =
+									append(__gong__map_Node[identifier].Children, target)
+							}
 						case "Buttons":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Button[targetIdentifier]
-							__gong__map_Node[identifier].Buttons =
-								append(__gong__map_Node[identifier].Buttons, target)
+							// when parsing Node[identifier].Buttons = append(Node[identifier].Buttons, Button instance )
+							// the map will not find the Button instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Button[targetIdentifier]; ok {
+								__gong__map_Node[identifier].Buttons =
+									append(__gong__map_Node[identifier].Buttons, target)
+							}
 						}
 					case "SVGIcon":
 						switch fieldName {
@@ -697,9 +705,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "RootNodes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Node[targetIdentifier]
-							__gong__map_Tree[identifier].RootNodes =
-								append(__gong__map_Tree[identifier].RootNodes, target)
+							// when parsing Tree[identifier].RootNodes = append(Tree[identifier].RootNodes, Node instance )
+							// the map will not find the Node instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Node[targetIdentifier]; ok {
+								__gong__map_Tree[identifier].RootNodes =
+									append(__gong__map_Tree[identifier].RootNodes, target)
+							}
 						}
 					}
 				}
