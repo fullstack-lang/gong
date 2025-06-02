@@ -842,9 +842,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animations":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Circle[identifier].Animations =
-								append(__gong__map_Circle[identifier].Animations, target)
+							// when parsing Circle[identifier].Animations = append(Circle[identifier].Animations, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Circle[identifier].Animations =
+									append(__gong__map_Circle[identifier].Animations, target)
+							}
 						}
 					case "Ellipse":
 						switch fieldName {
@@ -852,9 +856,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Ellipse[identifier].Animates =
-								append(__gong__map_Ellipse[identifier].Animates, target)
+							// when parsing Ellipse[identifier].Animates = append(Ellipse[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Ellipse[identifier].Animates =
+									append(__gong__map_Ellipse[identifier].Animates, target)
+							}
 						}
 					case "Layer":
 						switch fieldName {
@@ -862,63 +870,103 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Rects":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Rect[targetIdentifier]
-							__gong__map_Layer[identifier].Rects =
-								append(__gong__map_Layer[identifier].Rects, target)
+							// when parsing Layer[identifier].Rects = append(Layer[identifier].Rects, Rect instance )
+							// the map will not find the Rect instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Rect[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Rects =
+									append(__gong__map_Layer[identifier].Rects, target)
+							}
 						case "Texts":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Text[targetIdentifier]
-							__gong__map_Layer[identifier].Texts =
-								append(__gong__map_Layer[identifier].Texts, target)
+							// when parsing Layer[identifier].Texts = append(Layer[identifier].Texts, Text instance )
+							// the map will not find the Text instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Text[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Texts =
+									append(__gong__map_Layer[identifier].Texts, target)
+							}
 						case "Circles":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Circle[targetIdentifier]
-							__gong__map_Layer[identifier].Circles =
-								append(__gong__map_Layer[identifier].Circles, target)
+							// when parsing Layer[identifier].Circles = append(Layer[identifier].Circles, Circle instance )
+							// the map will not find the Circle instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Circle[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Circles =
+									append(__gong__map_Layer[identifier].Circles, target)
+							}
 						case "Lines":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Line[targetIdentifier]
-							__gong__map_Layer[identifier].Lines =
-								append(__gong__map_Layer[identifier].Lines, target)
+							// when parsing Layer[identifier].Lines = append(Layer[identifier].Lines, Line instance )
+							// the map will not find the Line instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Line[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Lines =
+									append(__gong__map_Layer[identifier].Lines, target)
+							}
 						case "Ellipses":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Ellipse[targetIdentifier]
-							__gong__map_Layer[identifier].Ellipses =
-								append(__gong__map_Layer[identifier].Ellipses, target)
+							// when parsing Layer[identifier].Ellipses = append(Layer[identifier].Ellipses, Ellipse instance )
+							// the map will not find the Ellipse instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Ellipse[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Ellipses =
+									append(__gong__map_Layer[identifier].Ellipses, target)
+							}
 						case "Polylines":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Polyline[targetIdentifier]
-							__gong__map_Layer[identifier].Polylines =
-								append(__gong__map_Layer[identifier].Polylines, target)
+							// when parsing Layer[identifier].Polylines = append(Layer[identifier].Polylines, Polyline instance )
+							// the map will not find the Polyline instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Polyline[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Polylines =
+									append(__gong__map_Layer[identifier].Polylines, target)
+							}
 						case "Polygones":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Polygone[targetIdentifier]
-							__gong__map_Layer[identifier].Polygones =
-								append(__gong__map_Layer[identifier].Polygones, target)
+							// when parsing Layer[identifier].Polygones = append(Layer[identifier].Polygones, Polygone instance )
+							// the map will not find the Polygone instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Polygone[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Polygones =
+									append(__gong__map_Layer[identifier].Polygones, target)
+							}
 						case "Paths":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Path[targetIdentifier]
-							__gong__map_Layer[identifier].Paths =
-								append(__gong__map_Layer[identifier].Paths, target)
+							// when parsing Layer[identifier].Paths = append(Layer[identifier].Paths, Path instance )
+							// the map will not find the Path instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Path[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Paths =
+									append(__gong__map_Layer[identifier].Paths, target)
+							}
 						case "Links":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Link[targetIdentifier]
-							__gong__map_Layer[identifier].Links =
-								append(__gong__map_Layer[identifier].Links, target)
+							// when parsing Layer[identifier].Links = append(Layer[identifier].Links, Link instance )
+							// the map will not find the Link instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Link[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].Links =
+									append(__gong__map_Layer[identifier].Links, target)
+							}
 						case "RectLinkLinks":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_RectLinkLink[targetIdentifier]
-							__gong__map_Layer[identifier].RectLinkLinks =
-								append(__gong__map_Layer[identifier].RectLinkLinks, target)
+							// when parsing Layer[identifier].RectLinkLinks = append(Layer[identifier].RectLinkLinks, RectLinkLink instance )
+							// the map will not find the RectLinkLink instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_RectLinkLink[targetIdentifier]; ok {
+								__gong__map_Layer[identifier].RectLinkLinks =
+									append(__gong__map_Layer[identifier].RectLinkLinks, target)
+							}
 						}
 					case "Line":
 						switch fieldName {
@@ -926,9 +974,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Line[identifier].Animates =
-								append(__gong__map_Line[identifier].Animates, target)
+							// when parsing Line[identifier].Animates = append(Line[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Line[identifier].Animates =
+									append(__gong__map_Line[identifier].Animates, target)
+							}
 						}
 					case "Link":
 						switch fieldName {
@@ -936,21 +988,33 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "TextAtArrowStart":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_LinkAnchoredText[targetIdentifier]
-							__gong__map_Link[identifier].TextAtArrowStart =
-								append(__gong__map_Link[identifier].TextAtArrowStart, target)
+							// when parsing Link[identifier].TextAtArrowStart = append(Link[identifier].TextAtArrowStart, LinkAnchoredText instance )
+							// the map will not find the LinkAnchoredText instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_LinkAnchoredText[targetIdentifier]; ok {
+								__gong__map_Link[identifier].TextAtArrowStart =
+									append(__gong__map_Link[identifier].TextAtArrowStart, target)
+							}
 						case "TextAtArrowEnd":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_LinkAnchoredText[targetIdentifier]
-							__gong__map_Link[identifier].TextAtArrowEnd =
-								append(__gong__map_Link[identifier].TextAtArrowEnd, target)
+							// when parsing Link[identifier].TextAtArrowEnd = append(Link[identifier].TextAtArrowEnd, LinkAnchoredText instance )
+							// the map will not find the LinkAnchoredText instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_LinkAnchoredText[targetIdentifier]; ok {
+								__gong__map_Link[identifier].TextAtArrowEnd =
+									append(__gong__map_Link[identifier].TextAtArrowEnd, target)
+							}
 						case "ControlPoints":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Point[targetIdentifier]
-							__gong__map_Link[identifier].ControlPoints =
-								append(__gong__map_Link[identifier].ControlPoints, target)
+							// when parsing Link[identifier].ControlPoints = append(Link[identifier].ControlPoints, Point instance )
+							// the map will not find the Point instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Point[targetIdentifier]; ok {
+								__gong__map_Link[identifier].ControlPoints =
+									append(__gong__map_Link[identifier].ControlPoints, target)
+							}
 						}
 					case "LinkAnchoredText":
 						switch fieldName {
@@ -958,9 +1022,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_LinkAnchoredText[identifier].Animates =
-								append(__gong__map_LinkAnchoredText[identifier].Animates, target)
+							// when parsing LinkAnchoredText[identifier].Animates = append(LinkAnchoredText[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_LinkAnchoredText[identifier].Animates =
+									append(__gong__map_LinkAnchoredText[identifier].Animates, target)
+							}
 						}
 					case "Path":
 						switch fieldName {
@@ -968,9 +1036,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Path[identifier].Animates =
-								append(__gong__map_Path[identifier].Animates, target)
+							// when parsing Path[identifier].Animates = append(Path[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Path[identifier].Animates =
+									append(__gong__map_Path[identifier].Animates, target)
+							}
 						}
 					case "Point":
 						switch fieldName {
@@ -982,9 +1054,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Polygone[identifier].Animates =
-								append(__gong__map_Polygone[identifier].Animates, target)
+							// when parsing Polygone[identifier].Animates = append(Polygone[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Polygone[identifier].Animates =
+									append(__gong__map_Polygone[identifier].Animates, target)
+							}
 						}
 					case "Polyline":
 						switch fieldName {
@@ -992,9 +1068,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Polyline[identifier].Animates =
-								append(__gong__map_Polyline[identifier].Animates, target)
+							// when parsing Polyline[identifier].Animates = append(Polyline[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Polyline[identifier].Animates =
+									append(__gong__map_Polyline[identifier].Animates, target)
+							}
 						}
 					case "Rect":
 						switch fieldName {
@@ -1002,27 +1082,43 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animations":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Rect[identifier].Animations =
-								append(__gong__map_Rect[identifier].Animations, target)
+							// when parsing Rect[identifier].Animations = append(Rect[identifier].Animations, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Rect[identifier].Animations =
+									append(__gong__map_Rect[identifier].Animations, target)
+							}
 						case "RectAnchoredTexts":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_RectAnchoredText[targetIdentifier]
-							__gong__map_Rect[identifier].RectAnchoredTexts =
-								append(__gong__map_Rect[identifier].RectAnchoredTexts, target)
+							// when parsing Rect[identifier].RectAnchoredTexts = append(Rect[identifier].RectAnchoredTexts, RectAnchoredText instance )
+							// the map will not find the RectAnchoredText instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_RectAnchoredText[targetIdentifier]; ok {
+								__gong__map_Rect[identifier].RectAnchoredTexts =
+									append(__gong__map_Rect[identifier].RectAnchoredTexts, target)
+							}
 						case "RectAnchoredRects":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_RectAnchoredRect[targetIdentifier]
-							__gong__map_Rect[identifier].RectAnchoredRects =
-								append(__gong__map_Rect[identifier].RectAnchoredRects, target)
+							// when parsing Rect[identifier].RectAnchoredRects = append(Rect[identifier].RectAnchoredRects, RectAnchoredRect instance )
+							// the map will not find the RectAnchoredRect instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_RectAnchoredRect[targetIdentifier]; ok {
+								__gong__map_Rect[identifier].RectAnchoredRects =
+									append(__gong__map_Rect[identifier].RectAnchoredRects, target)
+							}
 						case "RectAnchoredPaths":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_RectAnchoredPath[targetIdentifier]
-							__gong__map_Rect[identifier].RectAnchoredPaths =
-								append(__gong__map_Rect[identifier].RectAnchoredPaths, target)
+							// when parsing Rect[identifier].RectAnchoredPaths = append(Rect[identifier].RectAnchoredPaths, RectAnchoredPath instance )
+							// the map will not find the RectAnchoredPath instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_RectAnchoredPath[targetIdentifier]; ok {
+								__gong__map_Rect[identifier].RectAnchoredPaths =
+									append(__gong__map_Rect[identifier].RectAnchoredPaths, target)
+							}
 						}
 					case "RectAnchoredPath":
 						switch fieldName {
@@ -1038,9 +1134,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_RectAnchoredText[identifier].Animates =
-								append(__gong__map_RectAnchoredText[identifier].Animates, target)
+							// when parsing RectAnchoredText[identifier].Animates = append(RectAnchoredText[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_RectAnchoredText[identifier].Animates =
+									append(__gong__map_RectAnchoredText[identifier].Animates, target)
+							}
 						}
 					case "RectLinkLink":
 						switch fieldName {
@@ -1052,9 +1152,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Layers":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Layer[targetIdentifier]
-							__gong__map_SVG[identifier].Layers =
-								append(__gong__map_SVG[identifier].Layers, target)
+							// when parsing SVG[identifier].Layers = append(SVG[identifier].Layers, Layer instance )
+							// the map will not find the Layer instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Layer[targetIdentifier]; ok {
+								__gong__map_SVG[identifier].Layers =
+									append(__gong__map_SVG[identifier].Layers, target)
+							}
 						}
 					case "SvgText":
 						switch fieldName {
@@ -1066,9 +1170,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Animates":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Animate[targetIdentifier]
-							__gong__map_Text[identifier].Animates =
-								append(__gong__map_Text[identifier].Animates, target)
+							// when parsing Text[identifier].Animates = append(Text[identifier].Animates, Animate instance )
+							// the map will not find the Animate instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
+								__gong__map_Text[identifier].Animates =
+									append(__gong__map_Text[identifier].Animates, target)
+							}
 						}
 					}
 				}

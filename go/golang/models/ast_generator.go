@@ -155,9 +155,13 @@ map[ModelGongAstFieldInsertionId]string{
 						case "{{FieldName}}":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_{{AssociationStructName}}[targetIdentifier]
-							__gong__map_{{Structname}}[identifier].{{FieldName}} =
-								append(__gong__map_{{Structname}}[identifier].{{FieldName}}, target)`,
+							// when parsing {{Structname}}[identifier].{{FieldName}} = append({{Structname}}[identifier].{{FieldName}}, {{AssociationStructName}} instance )
+							// the map will not find the {{AssociationStructName}} instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_{{AssociationStructName}}[targetIdentifier]; ok {
+								__gong__map_{{Structname}}[identifier].{{FieldName}} =
+									append(__gong__map_{{Structname}}[identifier].{{FieldName}}, target)
+							}`,
 }
 
 func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
