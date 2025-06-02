@@ -734,21 +734,33 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GongStructShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongStructShape[targetIdentifier]
-							__gong__map_Classdiagram[identifier].GongStructShapes =
-								append(__gong__map_Classdiagram[identifier].GongStructShapes, target)
+							// when parsing Classdiagram[identifier].GongStructShapes = append(Classdiagram[identifier].GongStructShapes, GongStructShape instance )
+							// the map will not find the GongStructShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongStructShape[targetIdentifier]; ok {
+								__gong__map_Classdiagram[identifier].GongStructShapes =
+									append(__gong__map_Classdiagram[identifier].GongStructShapes, target)
+							}
 						case "GongEnumShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongEnumShape[targetIdentifier]
-							__gong__map_Classdiagram[identifier].GongEnumShapes =
-								append(__gong__map_Classdiagram[identifier].GongEnumShapes, target)
+							// when parsing Classdiagram[identifier].GongEnumShapes = append(Classdiagram[identifier].GongEnumShapes, GongEnumShape instance )
+							// the map will not find the GongEnumShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongEnumShape[targetIdentifier]; ok {
+								__gong__map_Classdiagram[identifier].GongEnumShapes =
+									append(__gong__map_Classdiagram[identifier].GongEnumShapes, target)
+							}
 						case "GongNoteShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongNoteShape[targetIdentifier]
-							__gong__map_Classdiagram[identifier].GongNoteShapes =
-								append(__gong__map_Classdiagram[identifier].GongNoteShapes, target)
+							// when parsing Classdiagram[identifier].GongNoteShapes = append(Classdiagram[identifier].GongNoteShapes, GongNoteShape instance )
+							// the map will not find the GongNoteShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongNoteShape[targetIdentifier]; ok {
+								__gong__map_Classdiagram[identifier].GongNoteShapes =
+									append(__gong__map_Classdiagram[identifier].GongNoteShapes, target)
+							}
 						}
 					case "DiagramPackage":
 						switch fieldName {
@@ -756,9 +768,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Classdiagrams":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Classdiagram[targetIdentifier]
-							__gong__map_DiagramPackage[identifier].Classdiagrams =
-								append(__gong__map_DiagramPackage[identifier].Classdiagrams, target)
+							// when parsing DiagramPackage[identifier].Classdiagrams = append(DiagramPackage[identifier].Classdiagrams, Classdiagram instance )
+							// the map will not find the Classdiagram instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Classdiagram[targetIdentifier]; ok {
+								__gong__map_DiagramPackage[identifier].Classdiagrams =
+									append(__gong__map_DiagramPackage[identifier].Classdiagrams, target)
+							}
 						}
 					case "GongEnumShape":
 						switch fieldName {
@@ -768,9 +784,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GongEnumValueShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongEnumValueShape[targetIdentifier]
-							__gong__map_GongEnumShape[identifier].GongEnumValueShapes =
-								append(__gong__map_GongEnumShape[identifier].GongEnumValueShapes, target)
+							// when parsing GongEnumShape[identifier].GongEnumValueShapes = append(GongEnumShape[identifier].GongEnumValueShapes, GongEnumValueShape instance )
+							// the map will not find the GongEnumValueShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongEnumValueShape[targetIdentifier]; ok {
+								__gong__map_GongEnumShape[identifier].GongEnumValueShapes =
+									append(__gong__map_GongEnumShape[identifier].GongEnumValueShapes, target)
+							}
 						}
 					case "GongEnumValueShape":
 						switch fieldName {
@@ -786,9 +806,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GongNoteLinkShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_GongNoteLinkShape[targetIdentifier]
-							__gong__map_GongNoteShape[identifier].GongNoteLinkShapes =
-								append(__gong__map_GongNoteShape[identifier].GongNoteLinkShapes, target)
+							// when parsing GongNoteShape[identifier].GongNoteLinkShapes = append(GongNoteShape[identifier].GongNoteLinkShapes, GongNoteLinkShape instance )
+							// the map will not find the GongNoteLinkShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_GongNoteLinkShape[targetIdentifier]; ok {
+								__gong__map_GongNoteShape[identifier].GongNoteLinkShapes =
+									append(__gong__map_GongNoteShape[identifier].GongNoteLinkShapes, target)
+							}
 						}
 					case "GongStructShape":
 						switch fieldName {
@@ -798,15 +822,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "AttributeShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_AttributeShape[targetIdentifier]
-							__gong__map_GongStructShape[identifier].AttributeShapes =
-								append(__gong__map_GongStructShape[identifier].AttributeShapes, target)
+							// when parsing GongStructShape[identifier].AttributeShapes = append(GongStructShape[identifier].AttributeShapes, AttributeShape instance )
+							// the map will not find the AttributeShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_AttributeShape[targetIdentifier]; ok {
+								__gong__map_GongStructShape[identifier].AttributeShapes =
+									append(__gong__map_GongStructShape[identifier].AttributeShapes, target)
+							}
 						case "LinkShapes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_LinkShape[targetIdentifier]
-							__gong__map_GongStructShape[identifier].LinkShapes =
-								append(__gong__map_GongStructShape[identifier].LinkShapes, target)
+							// when parsing GongStructShape[identifier].LinkShapes = append(GongStructShape[identifier].LinkShapes, LinkShape instance )
+							// the map will not find the LinkShape instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_LinkShape[targetIdentifier]; ok {
+								__gong__map_GongStructShape[identifier].LinkShapes =
+									append(__gong__map_GongStructShape[identifier].LinkShapes, target)
+							}
 						}
 					case "LinkShape":
 						switch fieldName {

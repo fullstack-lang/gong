@@ -666,9 +666,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Frequencies":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Freqency[targetIdentifier]
-							__gong__map_Note[identifier].Frequencies =
-								append(__gong__map_Note[identifier].Frequencies, target)
+							// when parsing Note[identifier].Frequencies = append(Note[identifier].Frequencies, Freqency instance )
+							// the map will not find the Freqency instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Freqency[targetIdentifier]; ok {
+								__gong__map_Note[identifier].Frequencies =
+									append(__gong__map_Note[identifier].Frequencies, target)
+							}
 						}
 					case "Player":
 						switch fieldName {

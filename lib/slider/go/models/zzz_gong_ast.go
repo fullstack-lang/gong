@@ -677,15 +677,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Sliders":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Slider[targetIdentifier]
-							__gong__map_Group[identifier].Sliders =
-								append(__gong__map_Group[identifier].Sliders, target)
+							// when parsing Group[identifier].Sliders = append(Group[identifier].Sliders, Slider instance )
+							// the map will not find the Slider instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Slider[targetIdentifier]; ok {
+								__gong__map_Group[identifier].Sliders =
+									append(__gong__map_Group[identifier].Sliders, target)
+							}
 						case "Checkboxes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Checkbox[targetIdentifier]
-							__gong__map_Group[identifier].Checkboxes =
-								append(__gong__map_Group[identifier].Checkboxes, target)
+							// when parsing Group[identifier].Checkboxes = append(Group[identifier].Checkboxes, Checkbox instance )
+							// the map will not find the Checkbox instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Checkbox[targetIdentifier]; ok {
+								__gong__map_Group[identifier].Checkboxes =
+									append(__gong__map_Group[identifier].Checkboxes, target)
+							}
 						}
 					case "Layout":
 						switch fieldName {
@@ -693,9 +701,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Groups":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Group[targetIdentifier]
-							__gong__map_Layout[identifier].Groups =
-								append(__gong__map_Layout[identifier].Groups, target)
+							// when parsing Layout[identifier].Groups = append(Layout[identifier].Groups, Group instance )
+							// the map will not find the Group instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Group[targetIdentifier]; ok {
+								__gong__map_Layout[identifier].Groups =
+									append(__gong__map_Layout[identifier].Groups, target)
+							}
 						}
 					case "Slider":
 						switch fieldName {
