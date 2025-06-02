@@ -802,6 +802,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// For a "fake" literal, Kind might be set to something like token.STRING or a custom indicator
 				basicLit.Kind = token.STRING // Or another appropriate token.Kind
 				basicLit.Value = "new(" + seXident.Name + "." + se.Sel.Name + ")"
+				// following lines are here to avoid warning "unused write to field..."
+				_ = basicLit.Kind
+				_ = basicLit.Value
 				_ = basicLit
 			}
 			for _, arg := range callExpr.Args {
