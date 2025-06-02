@@ -926,15 +926,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "FormFields":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_FormField[targetIdentifier]
-							__gong__map_FormDiv[identifier].FormFields =
-								append(__gong__map_FormDiv[identifier].FormFields, target)
+							// when parsing FormDiv[identifier].FormFields = append(FormDiv[identifier].FormFields, FormField instance )
+							// the map will not find the FormField instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_FormField[targetIdentifier]; ok {
+								__gong__map_FormDiv[identifier].FormFields =
+									append(__gong__map_FormDiv[identifier].FormFields, target)
+							}
 						case "CheckBoxs":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_CheckBox[targetIdentifier]
-							__gong__map_FormDiv[identifier].CheckBoxs =
-								append(__gong__map_FormDiv[identifier].CheckBoxs, target)
+							// when parsing FormDiv[identifier].CheckBoxs = append(FormDiv[identifier].CheckBoxs, CheckBox instance )
+							// the map will not find the CheckBox instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_CheckBox[targetIdentifier]; ok {
+								__gong__map_FormDiv[identifier].CheckBoxs =
+									append(__gong__map_FormDiv[identifier].CheckBoxs, target)
+							}
 						}
 					case "FormEditAssocButton":
 						switch fieldName {
@@ -966,9 +974,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Options":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Option[targetIdentifier]
-							__gong__map_FormFieldSelect[identifier].Options =
-								append(__gong__map_FormFieldSelect[identifier].Options, target)
+							// when parsing FormFieldSelect[identifier].Options = append(FormFieldSelect[identifier].Options, Option instance )
+							// the map will not find the Option instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Option[targetIdentifier]; ok {
+								__gong__map_FormFieldSelect[identifier].Options =
+									append(__gong__map_FormFieldSelect[identifier].Options, target)
+							}
 						}
 					case "FormFieldString":
 						switch fieldName {
@@ -984,9 +996,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "FormDivs":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_FormDiv[targetIdentifier]
-							__gong__map_FormGroup[identifier].FormDivs =
-								append(__gong__map_FormGroup[identifier].FormDivs, target)
+							// when parsing FormGroup[identifier].FormDivs = append(FormGroup[identifier].FormDivs, FormDiv instance )
+							// the map will not find the FormDiv instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_FormDiv[targetIdentifier]; ok {
+								__gong__map_FormGroup[identifier].FormDivs =
+									append(__gong__map_FormGroup[identifier].FormDivs, target)
+							}
 						}
 					case "FormSortAssocButton":
 						switch fieldName {
@@ -1002,9 +1018,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Cells":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Cell[targetIdentifier]
-							__gong__map_Row[identifier].Cells =
-								append(__gong__map_Row[identifier].Cells, target)
+							// when parsing Row[identifier].Cells = append(Row[identifier].Cells, Cell instance )
+							// the map will not find the Cell instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Cell[targetIdentifier]; ok {
+								__gong__map_Row[identifier].Cells =
+									append(__gong__map_Row[identifier].Cells, target)
+							}
 						}
 					case "Table":
 						switch fieldName {
@@ -1012,15 +1032,23 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "DisplayedColumns":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_DisplayedColumn[targetIdentifier]
-							__gong__map_Table[identifier].DisplayedColumns =
-								append(__gong__map_Table[identifier].DisplayedColumns, target)
+							// when parsing Table[identifier].DisplayedColumns = append(Table[identifier].DisplayedColumns, DisplayedColumn instance )
+							// the map will not find the DisplayedColumn instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_DisplayedColumn[targetIdentifier]; ok {
+								__gong__map_Table[identifier].DisplayedColumns =
+									append(__gong__map_Table[identifier].DisplayedColumns, target)
+							}
 						case "Rows":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Row[targetIdentifier]
-							__gong__map_Table[identifier].Rows =
-								append(__gong__map_Table[identifier].Rows, target)
+							// when parsing Table[identifier].Rows = append(Table[identifier].Rows, Row instance )
+							// the map will not find the Row instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Row[targetIdentifier]; ok {
+								__gong__map_Table[identifier].Rows =
+									append(__gong__map_Table[identifier].Rows, target)
+							}
 						}
 					}
 				}

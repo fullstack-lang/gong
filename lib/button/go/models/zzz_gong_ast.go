@@ -666,9 +666,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Buttons":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Button[targetIdentifier]
-							__gong__map_Group[identifier].Buttons =
-								append(__gong__map_Group[identifier].Buttons, target)
+							// when parsing Group[identifier].Buttons = append(Group[identifier].Buttons, Button instance )
+							// the map will not find the Button instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Button[targetIdentifier]; ok {
+								__gong__map_Group[identifier].Buttons =
+									append(__gong__map_Group[identifier].Buttons, target)
+							}
 						}
 					case "Layout":
 						switch fieldName {
@@ -676,9 +680,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Groups":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Group[targetIdentifier]
-							__gong__map_Layout[identifier].Groups =
-								append(__gong__map_Layout[identifier].Groups, target)
+							// when parsing Layout[identifier].Groups = append(Layout[identifier].Groups, Group instance )
+							// the map will not find the Group instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Group[targetIdentifier]; ok {
+								__gong__map_Layout[identifier].Groups =
+									append(__gong__map_Layout[identifier].Groups, target)
+							}
 						}
 					}
 				}
