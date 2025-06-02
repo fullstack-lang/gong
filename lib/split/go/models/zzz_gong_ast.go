@@ -794,9 +794,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "AsSplitAreas":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_AsSplitArea[targetIdentifier]
-							__gong__map_AsSplit[identifier].AsSplitAreas =
-								append(__gong__map_AsSplit[identifier].AsSplitAreas, target)
+							// when parsing AsSplit[identifier].AsSplitAreas = append(AsSplit[identifier].AsSplitAreas, AsSplitArea instance )
+							// the map will not find the AsSplitArea instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_AsSplitArea[targetIdentifier]; ok {
+								__gong__map_AsSplit[identifier].AsSplitAreas =
+									append(__gong__map_AsSplit[identifier].AsSplitAreas, target)
+							}
 						}
 					case "AsSplitArea":
 						switch fieldName {
@@ -852,9 +856,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "RootAsSplitAreas":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_AsSplitArea[targetIdentifier]
-							__gong__map_View[identifier].RootAsSplitAreas =
-								append(__gong__map_View[identifier].RootAsSplitAreas, target)
+							// when parsing View[identifier].RootAsSplitAreas = append(View[identifier].RootAsSplitAreas, AsSplitArea instance )
+							// the map will not find the AsSplitArea instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_AsSplitArea[targetIdentifier]; ok {
+								__gong__map_View[identifier].RootAsSplitAreas =
+									append(__gong__map_View[identifier].RootAsSplitAreas, target)
+							}
 						}
 					case "Xlsx":
 						switch fieldName {

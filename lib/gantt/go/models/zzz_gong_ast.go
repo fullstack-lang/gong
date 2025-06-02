@@ -742,27 +742,43 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Lanes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Lane[targetIdentifier]
-							__gong__map_Gantt[identifier].Lanes =
-								append(__gong__map_Gantt[identifier].Lanes, target)
+							// when parsing Gantt[identifier].Lanes = append(Gantt[identifier].Lanes, Lane instance )
+							// the map will not find the Lane instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Lane[targetIdentifier]; ok {
+								__gong__map_Gantt[identifier].Lanes =
+									append(__gong__map_Gantt[identifier].Lanes, target)
+							}
 						case "Milestones":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Milestone[targetIdentifier]
-							__gong__map_Gantt[identifier].Milestones =
-								append(__gong__map_Gantt[identifier].Milestones, target)
+							// when parsing Gantt[identifier].Milestones = append(Gantt[identifier].Milestones, Milestone instance )
+							// the map will not find the Milestone instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Milestone[targetIdentifier]; ok {
+								__gong__map_Gantt[identifier].Milestones =
+									append(__gong__map_Gantt[identifier].Milestones, target)
+							}
 						case "Groups":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Group[targetIdentifier]
-							__gong__map_Gantt[identifier].Groups =
-								append(__gong__map_Gantt[identifier].Groups, target)
+							// when parsing Gantt[identifier].Groups = append(Gantt[identifier].Groups, Group instance )
+							// the map will not find the Group instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Group[targetIdentifier]; ok {
+								__gong__map_Gantt[identifier].Groups =
+									append(__gong__map_Gantt[identifier].Groups, target)
+							}
 						case "Arrows":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Arrow[targetIdentifier]
-							__gong__map_Gantt[identifier].Arrows =
-								append(__gong__map_Gantt[identifier].Arrows, target)
+							// when parsing Gantt[identifier].Arrows = append(Gantt[identifier].Arrows, Arrow instance )
+							// the map will not find the Arrow instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Arrow[targetIdentifier]; ok {
+								__gong__map_Gantt[identifier].Arrows =
+									append(__gong__map_Gantt[identifier].Arrows, target)
+							}
 						}
 					case "Group":
 						switch fieldName {
@@ -770,9 +786,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "GroupLanes":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Lane[targetIdentifier]
-							__gong__map_Group[identifier].GroupLanes =
-								append(__gong__map_Group[identifier].GroupLanes, target)
+							// when parsing Group[identifier].GroupLanes = append(Group[identifier].GroupLanes, Lane instance )
+							// the map will not find the Lane instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Lane[targetIdentifier]; ok {
+								__gong__map_Group[identifier].GroupLanes =
+									append(__gong__map_Group[identifier].GroupLanes, target)
+							}
 						}
 					case "Lane":
 						switch fieldName {
@@ -780,9 +800,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Bars":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Bar[targetIdentifier]
-							__gong__map_Lane[identifier].Bars =
-								append(__gong__map_Lane[identifier].Bars, target)
+							// when parsing Lane[identifier].Bars = append(Lane[identifier].Bars, Bar instance )
+							// the map will not find the Bar instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Bar[targetIdentifier]; ok {
+								__gong__map_Lane[identifier].Bars =
+									append(__gong__map_Lane[identifier].Bars, target)
+							}
 						}
 					case "LaneUse":
 						switch fieldName {
@@ -794,9 +818,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "LanesToDisplayMilestoneUse":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_LaneUse[targetIdentifier]
-							__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse =
-								append(__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse, target)
+							// when parsing Milestone[identifier].LanesToDisplayMilestoneUse = append(Milestone[identifier].LanesToDisplayMilestoneUse, LaneUse instance )
+							// the map will not find the LaneUse instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_LaneUse[targetIdentifier]; ok {
+								__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse =
+									append(__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse, target)
+							}
 						}
 					}
 				}
