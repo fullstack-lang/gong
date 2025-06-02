@@ -71,8 +71,8 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_NoName_yet.X = 0.000000
 	__GongEnumShape__000000_NoName_yet.Y = 0.000000
 
-	//gong:ident [......] comment added to overcome the problem with the comment map association
-	__GongEnumShape__000000_NoName_yet.Identifier = `......`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__GongEnumShape__000000_NoName_yet.Identifier = `.......`
 	__GongEnumShape__000000_NoName_yet.IdentifierMeta = new(ref_models.AEnumType)
 	__GongEnumShape__000000_NoName_yet.Width = 0.000000
 	__GongEnumShape__000000_NoName_yet.Height = 0.000000
