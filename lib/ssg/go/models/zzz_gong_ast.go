@@ -662,9 +662,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Pages":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Page[targetIdentifier]
-							__gong__map_Chapter[identifier].Pages =
-								append(__gong__map_Chapter[identifier].Pages, target)
+							// when parsing Chapter[identifier].Pages = append(Chapter[identifier].Pages, Page instance )
+							// the map will not find the Page instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Page[targetIdentifier]; ok {
+								__gong__map_Chapter[identifier].Pages =
+									append(__gong__map_Chapter[identifier].Pages, target)
+							}
 						}
 					case "Content":
 						switch fieldName {
@@ -672,9 +676,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Chapters":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							target := __gong__map_Chapter[targetIdentifier]
-							__gong__map_Content[identifier].Chapters =
-								append(__gong__map_Content[identifier].Chapters, target)
+							// when parsing Content[identifier].Chapters = append(Content[identifier].Chapters, Chapter instance )
+							// the map will not find the Chapter instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_Chapter[targetIdentifier]; ok {
+								__gong__map_Content[identifier].Chapters =
+									append(__gong__map_Content[identifier].Chapters, target)
+							}
 						}
 					case "Page":
 						switch fieldName {
