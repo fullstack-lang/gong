@@ -2721,6 +2721,96 @@ func (textanchortype TextAnchorType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for WritingMode
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (writingmode WritingMode) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch writingmode {
+	// insertion code per enum code
+	case WritingModeHorizontalTB:
+		res = "horizontal-tb"
+	case WritingModeVerticalRL:
+		res = "vertical-rl"
+	case WritingModeVertivcalLR:
+		res = "vertical-lr"
+	}
+	return
+}
+
+func (writingmode *WritingMode) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "horizontal-tb":
+		*writingmode = WritingModeHorizontalTB
+		return
+	case "vertical-rl":
+		*writingmode = WritingModeVerticalRL
+		return
+	case "vertical-lr":
+		*writingmode = WritingModeVertivcalLR
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (writingmode *WritingMode) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "WritingModeHorizontalTB":
+		*writingmode = WritingModeHorizontalTB
+	case "WritingModeVerticalRL":
+		*writingmode = WritingModeVerticalRL
+	case "WritingModeVertivcalLR":
+		*writingmode = WritingModeVertivcalLR
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (writingmode *WritingMode) ToCodeString() (res string) {
+
+	switch *writingmode {
+	// insertion code per enum code
+	case WritingModeHorizontalTB:
+		res = "WritingModeHorizontalTB"
+	case WritingModeVerticalRL:
+		res = "WritingModeVerticalRL"
+	case WritingModeVertivcalLR:
+		res = "WritingModeVertivcalLR"
+	}
+	return
+}
+
+func (writingmode WritingMode) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "WritingModeHorizontalTB")
+	res = append(res, "WritingModeVerticalRL")
+	res = append(res, "WritingModeVertivcalLR")
+
+	return
+}
+
+func (writingmode WritingMode) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "horizontal-tb")
+	res = append(res, "vertical-rl")
+	res = append(res, "vertical-lr")
+
+	return
+}
+
 // end of insertion point for enum utility functions
 
 type GongstructEnumStringField interface {

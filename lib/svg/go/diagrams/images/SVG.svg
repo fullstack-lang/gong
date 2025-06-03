@@ -1,5 +1,5 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 2043.333333 857.999985">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 2133.333333 947.999985">
 <style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="400" y="581" width="584" height="266.999985" rx="5" ry="5"
 			fill="bisque"
             fill-opacity="50.000000"
@@ -10,7 +10,8 @@
             transform="" />
   <text xml:space="preserve"
 			x="692" 
-			y="581" 
+			y="601"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight="100"
 			font-style=""
@@ -22,7 +23,7 @@
             stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="692" dy="1.2em">This is an example of a note that</tspan>
+    <tspan >This is an example of a note that</tspan>
     <tspan x="692" dy="1.2em">could be displayed on a diagram.</tspan>
     <tspan x="692" dy="1.2em"> </tspan>
     <tspan x="692" dy="1.2em">It could explain one aspect of the model</tspan>
@@ -283,7 +284,8 @@
             transform="" />
   <text xml:space="preserve"
 			x="1606.833333" 
-			y="140.119054" 
+			y="140.119054"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight=""
 			font-style=""
@@ -307,7 +309,8 @@
             transform="" />
   <text xml:space="preserve"
 			x="1393.769231" 
-			y="577.256327" 
+			y="577.256327"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight=""
 			font-style=""

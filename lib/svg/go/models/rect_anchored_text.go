@@ -19,9 +19,44 @@ type RectAnchoredText struct {
 	RectAnchorType RectAnchorType
 	TextAnchorType TextAnchorType
 
+	WritingMode WritingMode
+
 	Presentation
 	Animates []*Animate
 }
+
+/*
+The writing-mode property in SVG and CSS specifies how lines of text are laid out, determining whether text
+flows horizontally or vertically, and the direction in which lines stack. Here are the primary possible values:
+
+horizontal-tb:
+
+This is the default value for most languages.
+Text flows horizontally from left to right (for left-to-right scripts like English) or right to left (for right-to-left scripts like Arabic or Hebrew).
+Lines are stacked from top to bottom.
+Think of a standard English book.
+
+vertical-rl:
+
+Text flows vertically from top to bottom.
+Lines are stacked from right to left.
+This is common for traditional East Asian scripts like Chinese, Japanese, and Korean.
+Individual characters within the vertical lines are typically oriented according to their script's rules (Latin characters will usually appear rotated 90 degrees clockwise by default).
+
+vertical-lr:
+
+Text flows vertically from top to bottom.
+Lines are stacked from left to right.
+This is less common for natural language scripts but can be used for specific layout effects or some boustrophedon scripts.
+Similar to vertical-rl, Latin characters will usually appear rotated 90 degrees clockwise by default.
+*/
+type WritingMode string
+
+const (
+	WritingModeHorizontalTB WritingMode = "horizontal-tb"
+	WritingModeVerticalRL   WritingMode = "vertical-rl"
+	WritingModeVertivcalLR  WritingMode = "vertical-lr"
+)
 
 func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y float64) {
 
@@ -29,13 +64,15 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 		fmt.Sprintf(
 			`  <text xml:space="preserve"
 			x="%s" 
-			y="%s" 
+			y="%s"
+			writing-mode="%s"
 			text-anchor="%s"
 			font-weight="%s"
 			font-style="%s"
 			font-size="%s"`,
 			formatFloat(x+rectAnchoredText.X_Offset),
 			formatFloat(y+rectAnchoredText.Y_Offset),
+			rectAnchoredText.WritingMode.ToString(),
 			rectAnchoredText.TextAnchorType.ToString(),
 			rectAnchoredText.FontWeight,
 			rectAnchoredText.FontStyle,

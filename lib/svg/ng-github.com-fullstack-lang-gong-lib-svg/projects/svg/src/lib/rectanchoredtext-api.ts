@@ -23,6 +23,7 @@ export class RectAnchoredTextAPI {
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
 	TextAnchorType: string = ""
+	WritingMode: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
