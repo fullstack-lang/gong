@@ -61,7 +61,7 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshap
 	for _, _gongenumshape := range classdiagram.GongEnumShapes {
 
 		// strange behavior when the gongenumshape is remove within the loop
-		if IdentifierToGongObjectName(_gongenumshape.Identifier) == gongenumshapeName && !foundGongEnumShape {
+		if IdentifierToGongStructName(_gongenumshape.Identifier) == gongenumshapeName && !foundGongEnumShape {
 			gongenumshape = _gongenumshape
 		}
 	}

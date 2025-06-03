@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"slices"
 	"strings"
 
@@ -46,7 +45,6 @@ func (classdiagram *Classdiagram) RemoveLinkFieldShape(
 
 	idx := slices.Index(gongStructShape.LinkShapes, linkShape)
 	gongStructShape.LinkShapes = slices.Delete(gongStructShape.LinkShapes, idx, idx+1)
-	gongStructShape.Height = gongStructShape.Height - HeightBetween2AttributeShapes
 	linkShape.Unstage(stage)
 
 }
@@ -88,7 +86,7 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		case *gong.SliceOfPointerToGongStructField:
 		}
 
-		concreteField.Structname = IdentifierToGongObjectName(gongStructShape.Identifier)
+		concreteField.Structname = IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
 		concreteField.Stage(stage)
 
 		gongStructShape.Height = gongStructShape.Height + HeightBetween2AttributeShapes
@@ -130,96 +128,4 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		}
 
 	}
-}
-
-// AddToDiagram implements diagrammer.ElementNode.
-func (classdiagram *Classdiagram) AddLinkFieldShape(
-	stage *Stage,
-	gongStage *gong.Stage,
-	gongStruct *gong.GongStruct,
-	field gong.FieldInterface,
-	gongStructShape *GongStructShape) {
-	diagramPackage := getTheDiagramPackage(stage)
-
-	switch field.(type) {
-	case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
-
-		var targetStructName string
-		var sourceMultiplicity MultiplicityType
-		var targetMultiplicity MultiplicityType
-
-		switch realField := field.(type) {
-		case *gong.PointerToGongStructField:
-			targetStructName = realField.GongStruct.Name
-			sourceMultiplicity = MANY
-			targetMultiplicity = ZERO_ONE
-		case *gong.SliceOfPointerToGongStructField:
-			targetStructName = realField.GongStruct.Name
-			sourceMultiplicity = MANY
-			targetMultiplicity = MANY
-		}
-		targetSourceGongStructShape := false
-		var targetGongStructShape *GongStructShape
-		for _, _gongstructshape := range diagramPackage.SelectedClassdiagram.GongStructShapes {
-
-			// strange behavior when the gongstructshape is remove within the loop
-			if IdentifierToGongObjectName(_gongstructshape.Identifier) == targetStructName && !targetSourceGongStructShape {
-				targetSourceGongStructShape = true
-				targetGongStructShape = _gongstructshape
-			}
-		}
-		if !targetSourceGongStructShape {
-			log.Panicf("GongStructShape %s of field not present ", targetStructName)
-		}
-		_ = targetGongStructShape
-
-		link := new(LinkShape).Stage(stage)
-		link.Name = field.GetName()
-		link.SourceMultiplicity = sourceMultiplicity
-		link.SourceMultiplicityOffsetX = 0
-		link.SourceMultiplicityOffsetY = 0
-
-		link.TargetMultiplicity = targetMultiplicity
-		link.TargetMultiplicityOffsetX = 0
-		link.TargetMultiplicityOffsetY = 0
-
-		link.FieldOffsetX = 0
-		link.FieldOffsetY = 0
-
-		link.Identifier =
-			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		link.IdentifierMeta = moveStructLiteralToType(link.Identifier)
-		link.Fieldtypename = GongStructNameToIdentifier(targetStructName)
-
-		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, link)
-
-		link.X = (gongStructShape.X+targetGongStructShape.X)/2.0 +
-			gongStructShape.Width*1.5
-		link.Y = (gongStructShape.Y+targetGongStructShape.Y)/2.0 +
-			gongStructShape.Height/2.0
-
-		link.StartOrientation = ORIENTATION_HORIZONTAL
-		link.StartRatio = 0.5
-		link.EndOrientation = ORIENTATION_HORIZONTAL
-		link.EndRatio = 0.5
-		link.CornerOffsetRatio = 1.38
-	}
-}
-
-// moveStructLiteralToType converts "Type.Field{}" to "Type{}.Field"
-func moveStructLiteralToType(input string) string {
-
-	// Find the last dot to separate type from field
-	lastDotIndex := strings.LastIndex(input, ".")
-	if lastDotIndex == -1 {
-		// No dot found, return as is
-		return input
-	}
-
-	// Split into type part and field part
-	typePart := input[:lastDotIndex]    // Everything before the last dot
-	fieldPart := input[lastDotIndex+1:] // Everything after the last dot
-
-	// Rebuild as "Type{}.Field" and add quotes back
-	return typePart + "{}." + fieldPart
 }
