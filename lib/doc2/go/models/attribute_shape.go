@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"slices"
 	"strings"
 
@@ -129,97 +128,4 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		}
 
 	}
-}
-
-// AddToDiagram implements diagrammer.ElementNode.
-func (classdiagram *Classdiagram) AddLinkFieldShape(
-	stage *Stage,
-	gongStage *gong.Stage,
-	gongStruct *gong.GongStruct,
-	field gong.FieldInterface,
-	gongStructShape *GongStructShape) {
-	diagramPackage := getTheDiagramPackage(stage)
-
-	switch field.(type) {
-	case *gong.PointerToGongStructField, *gong.SliceOfPointerToGongStructField:
-
-		var targetStructName string
-		var sourceMultiplicity MultiplicityType
-		var targetMultiplicity MultiplicityType
-
-		switch realField := field.(type) {
-		case *gong.PointerToGongStructField:
-			targetStructName = realField.GongStruct.Name
-			sourceMultiplicity = MANY
-			targetMultiplicity = ZERO_ONE
-		case *gong.SliceOfPointerToGongStructField:
-			targetStructName = realField.GongStruct.Name
-			sourceMultiplicity = MANY
-			targetMultiplicity = MANY
-		}
-		targetSourceGongStructShape := false
-		var targetGongStructShape *GongStructShape
-		for _, _gongstructshape := range diagramPackage.SelectedClassdiagram.GongStructShapes {
-
-			// strange behavior when the gongstructshape is remove within the loop
-			if IdentifierMetaToGongStructName(_gongstructshape.IdentifierMeta) == targetStructName && !targetSourceGongStructShape {
-				targetSourceGongStructShape = true
-				targetGongStructShape = _gongstructshape
-			}
-		}
-		if !targetSourceGongStructShape {
-			log.Panicf("GongStructShape %s of field not present ", targetStructName)
-		}
-		_ = targetGongStructShape
-
-		linkShape := new(LinkShape).Stage(stage)
-		linkShape.Name = field.GetName()
-		linkShape.SourceMultiplicity = sourceMultiplicity
-		linkShape.SourceMultiplicityOffsetX = 0
-		linkShape.SourceMultiplicityOffsetY = 0
-
-		linkShape.TargetMultiplicity = targetMultiplicity
-		linkShape.TargetMultiplicityOffsetX = 0
-		linkShape.TargetMultiplicityOffsetY = 0
-
-		linkShape.FieldOffsetX = 0
-		linkShape.FieldOffsetY = 0
-
-		linkShape.Identifier =
-			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		linkShape.IdentifierMeta = moveStructLiteralToType(linkShape.Identifier)
-		linkShape.Fieldtypename = GongStructNameToIdentifier(targetStructName)
-		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
-
-		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
-
-		linkShape.X = (gongStructShape.X+targetGongStructShape.X)/2.0 +
-			gongStructShape.Width*1.5
-		linkShape.Y = (gongStructShape.Y+targetGongStructShape.Y)/2.0 +
-			gongStructShape.Height/2.0
-
-		linkShape.StartOrientation = ORIENTATION_HORIZONTAL
-		linkShape.StartRatio = 0.5
-		linkShape.EndOrientation = ORIENTATION_HORIZONTAL
-		linkShape.EndRatio = 0.5
-		linkShape.CornerOffsetRatio = 1.38
-	}
-}
-
-// moveStructLiteralToType converts "Type.Field{}" to "Type{}.Field"
-func moveStructLiteralToType(input string) string {
-
-	// Find the last dot to separate type from field
-	lastDotIndex := strings.LastIndex(input, ".")
-	if lastDotIndex == -1 {
-		// No dot found, return as is
-		return input
-	}
-
-	// Split into type part and field part
-	typePart := input[:lastDotIndex]    // Everything before the last dot
-	fieldPart := input[lastDotIndex+1:] // Everything after the last dot
-
-	// Rebuild as "Type{}.Field" and add quotes back
-	return typePart + "{}." + fieldPart
 }
