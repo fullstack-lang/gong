@@ -56,11 +56,32 @@ func GongstructAndFieldnameToFieldIdentifier(structName string, fieldName string
 	return
 }
 
-// IdentifierToGongObjectName take an ident in the forms
+// IdentifierToGongStructName take an ident in the forms
 // "ref_models.Foo" and returns "Foo"
-func IdentifierToGongObjectName(structIdentifier string) (structName string) {
+func IdentifierToGongStructName(structIdentifier string) (structName string) {
 
 	structName = strings.TrimPrefix(structIdentifier, RefPrefixReferencedPackage+"models.")
+
+	// in case we uses the identifier meta
+	structName = strings.TrimSuffix(structName, "{}")
+
+	return
+}
+
+// IdentifierMetaToGongStructName take an ident in the forms
+// "ref_models.Foo" and returns "Foo"
+func IdentifierMetaToGongStructName(structIdentifierMeta any) (structName string) {
+
+	var structIdentifier string
+	var ok bool
+	if structIdentifier, ok = structIdentifierMeta.(string); !ok {
+		return ""
+	}
+
+	structName = strings.TrimPrefix(structIdentifier, RefPrefixReferencedPackage+"models.")
+
+	// in case we uses the identifier meta
+	structName = strings.TrimSuffix(structName, "{}")
 
 	return
 }

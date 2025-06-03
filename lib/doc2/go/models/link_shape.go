@@ -20,6 +20,9 @@ type LinkShape struct {
 	//gong:ident
 	Fieldtypename string
 
+	//gong:meta
+	FieldTypeIdentifierMeta any
+
 	// position of the field text relative to the
 	// arrow end
 	FieldOffsetX float64
