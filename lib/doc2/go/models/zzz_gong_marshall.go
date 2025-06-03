@@ -795,7 +795,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		if str, ok := linkshape.FieldTypeIdentifierMeta.(string); ok {
 			setValueField = MetaFieldStructInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IdentifierMeta")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FieldTypeIdentifierMeta")
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
 			initializerStatements += setValueField
 		}
