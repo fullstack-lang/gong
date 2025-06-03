@@ -50,7 +50,7 @@ func (classdiagram *Classdiagram) HasGongNoteShape(gongstructName string) (found
 	for _, _gongNoteShape := range classdiagram.GongNoteShapes {
 
 		// strange behavior when the gongNoteShape is remove within the loop
-		if IdentifierToGongObjectName(_gongNoteShape.Identifier) == gongstructName && !foundGongNoteShape {
+		if IdentifierToGongStructName(_gongNoteShape.Identifier) == gongstructName && !foundGongNoteShape {
 			foundGongNoteShape = true
 			gongNoteShape = _gongNoteShape
 		}
@@ -78,8 +78,8 @@ func (classdiagram *Classdiagram) RemoveGongNoteShape(stage *Stage, gongNoteName
 
 		newSliceOfLinks := make([]*GongNoteLinkShape, 0)
 		for _, noteShapeLink := range fromGongNoteShape.GongNoteLinkShapes {
-			typeOfTheField := IdentifierToGongObjectName(gongNoteShape.Identifier)
-			typeOfTheLink := IdentifierToGongObjectName(noteShapeLink.Identifier)
+			typeOfTheField := IdentifierToGongStructName(gongNoteShape.Identifier)
+			typeOfTheLink := IdentifierToGongStructName(noteShapeLink.Identifier)
 			if typeOfTheLink == typeOfTheField {
 				noteShapeLink.Unstage(stage)
 			} else {

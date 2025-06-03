@@ -66,17 +66,20 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 	for _, gongstructShape := range selectedDiagram.GongStructShapes {
 
 		rectLayer := new(svg_models.Layer).Stage(docSVGMapper.svgStage)
-		rectLayer.Name = "Layer" + gongstructShape.Identifier
+
+		gongStructIdentifier := IdentifierMetaToGongStructName(gongstructShape.IdentifierMeta)
+
+		rectLayer.Name = "Layer" + gongStructIdentifier
 		svg.Layers = append(svg.Layers, rectLayer)
 
 		rect := new(svg_models.Rect).Stage(docSVGMapper.svgStage)
-		rect.Name = gongstructShape.Identifier
+		rect.Name = gongStructIdentifier
 
 		// hook a callback on rect modifications
 		rect.Impl = NewRectImplGongstructShape(gongstructShape, gongdocStage)
 
 		docSVGMapper.map_GongstructShape_Rect[gongstructShape] = rect
-		docSVGMapper.map_Structname_Rect[gongstructShape.Identifier] = rect
+		docSVGMapper.map_Structname_Rect[gongStructIdentifier] = rect
 
 		rectLayer.Rects = append(rectLayer.Rects, rect)
 		rect.X = gongstructShape.X
@@ -111,7 +114,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// Title
 		//
 		title := new(svg_models.RectAnchoredText).Stage(docSVGMapper.svgStage)
-		title.Name = IdentifierToGongObjectName(gongstructShape.Identifier)
+		title.Name = gongStructIdentifier
 		title.Content = title.Name
 		title.X_Offset = 0
 		title.Y_Offset = 20
@@ -124,7 +127,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 		// additional box to hightlight the title
 		titleBox := new(svg_models.RectAnchoredRect).Stage(docSVGMapper.svgStage)
-		titleBox.Name = IdentifierToGongObjectName(gongstructShape.Identifier)
+		titleBox.Name = gongStructIdentifier
 		titleBox.X_Offset = rect.StrokeWidth
 		titleBox.Y_Offset = rect.StrokeWidth
 		titleBox.Width = rect.Width - 2*rect.StrokeWidth - 30
@@ -345,7 +348,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// Title
 		//
 		title := new(svg_models.RectAnchoredText).Stage(docSVGMapper.svgStage)
-		title.Name = IdentifierToGongObjectName(gongenumShape.Identifier)
+		title.Name = IdentifierToGongStructName(gongenumShape.Identifier)
 		title.Content = title.Name
 		title.X_Offset = 0
 		title.Y_Offset = 20
@@ -358,7 +361,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 
 		// additional box to hightlight the title
 		titleBox := new(svg_models.RectAnchoredRect).Stage(docSVGMapper.svgStage)
-		titleBox.Name = IdentifierToGongObjectName(gongenumShape.Identifier)
+		titleBox.Name = IdentifierToGongStructName(gongenumShape.Identifier)
 		titleBox.X_Offset = 0
 		titleBox.Y_Offset = 0
 		titleBox.Width = rect.Width
@@ -438,7 +441,7 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		// Title
 		//
 		title := new(svg_models.RectAnchoredText).Stage(docSVGMapper.svgStage)
-		title.Name = IdentifierToGongObjectName(noteShape.Identifier)
+		title.Name = IdentifierToGongStructName(noteShape.Identifier)
 		title.Content = title.Name
 		title.X_Offset = 0
 		title.Y_Offset = 20

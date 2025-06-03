@@ -845,6 +845,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						// insertion point for slice of pointers assign code
 						case "IdentifierMeta":
 							__gong__map_LinkShape[identifier].IdentifierMeta = basicLit.Value
+						case "FieldTypeIdentifierMeta":
+							__gong__map_LinkShape[identifier].FieldTypeIdentifierMeta = basicLit.Value
 						}
 					}
 				}
@@ -1154,6 +1156,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_LinkShape[identifier].Fieldtypename = fielValue
+				case "FieldTypeIdentifierMeta":
+					__gong__map_LinkShape[identifier].FieldTypeIdentifierMeta = basicLit.Value
 				case "FieldOffsetX":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1460,6 +1464,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					case "IdentifierMeta":
 						__gong__map_LinkShape[identifier].IdentifierMeta = basicLit.Value
+					case "FieldTypeIdentifierMeta":
+						__gong__map_LinkShape[identifier].FieldTypeIdentifierMeta = basicLit.Value
 					case "TargetMultiplicity":
 						var val MultiplicityType
 						err := (&val).FromCodeString(enumValue)
