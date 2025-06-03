@@ -46,7 +46,6 @@ func (classdiagram *Classdiagram) RemoveLinkFieldShape(
 
 	idx := slices.Index(gongStructShape.LinkShapes, linkShape)
 	gongStructShape.LinkShapes = slices.Delete(gongStructShape.LinkShapes, idx, idx+1)
-	gongStructShape.Height = gongStructShape.Height - HeightBetween2AttributeShapes
 	linkShape.Unstage(stage)
 
 }
@@ -173,37 +172,37 @@ func (classdiagram *Classdiagram) AddLinkFieldShape(
 		}
 		_ = targetGongStructShape
 
-		link := new(LinkShape).Stage(stage)
-		link.Name = field.GetName()
-		link.SourceMultiplicity = sourceMultiplicity
-		link.SourceMultiplicityOffsetX = 0
-		link.SourceMultiplicityOffsetY = 0
+		linkShape := new(LinkShape).Stage(stage)
+		linkShape.Name = field.GetName()
+		linkShape.SourceMultiplicity = sourceMultiplicity
+		linkShape.SourceMultiplicityOffsetX = 0
+		linkShape.SourceMultiplicityOffsetY = 0
 
-		link.TargetMultiplicity = targetMultiplicity
-		link.TargetMultiplicityOffsetX = 0
-		link.TargetMultiplicityOffsetY = 0
+		linkShape.TargetMultiplicity = targetMultiplicity
+		linkShape.TargetMultiplicityOffsetX = 0
+		linkShape.TargetMultiplicityOffsetY = 0
 
-		link.FieldOffsetX = 0
-		link.FieldOffsetY = 0
+		linkShape.FieldOffsetX = 0
+		linkShape.FieldOffsetY = 0
 
-		link.Identifier =
+		linkShape.Identifier =
 			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		link.IdentifierMeta = moveStructLiteralToType(link.Identifier)
-		link.Fieldtypename = GongStructNameToIdentifier(targetStructName)
-		link.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
+		linkShape.IdentifierMeta = moveStructLiteralToType(linkShape.Identifier)
+		linkShape.Fieldtypename = GongStructNameToIdentifier(targetStructName)
+		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
 
-		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, link)
+		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
 
-		link.X = (gongStructShape.X+targetGongStructShape.X)/2.0 +
+		linkShape.X = (gongStructShape.X+targetGongStructShape.X)/2.0 +
 			gongStructShape.Width*1.5
-		link.Y = (gongStructShape.Y+targetGongStructShape.Y)/2.0 +
+		linkShape.Y = (gongStructShape.Y+targetGongStructShape.Y)/2.0 +
 			gongStructShape.Height/2.0
 
-		link.StartOrientation = ORIENTATION_HORIZONTAL
-		link.StartRatio = 0.5
-		link.EndOrientation = ORIENTATION_HORIZONTAL
-		link.EndRatio = 0.5
-		link.CornerOffsetRatio = 1.38
+		linkShape.StartOrientation = ORIENTATION_HORIZONTAL
+		linkShape.StartRatio = 0.5
+		linkShape.EndOrientation = ORIENTATION_HORIZONTAL
+		linkShape.EndRatio = 0.5
+		linkShape.CornerOffsetRatio = 1.38
 	}
 }
 

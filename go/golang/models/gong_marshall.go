@@ -154,7 +154,7 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 		if str, ok := {{structname}}.{{FieldName}}.(string); ok {
 			setValueField = MetaFieldStructInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IdentifierMeta")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
 			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
 			initializerStatements += setValueField
 		}
