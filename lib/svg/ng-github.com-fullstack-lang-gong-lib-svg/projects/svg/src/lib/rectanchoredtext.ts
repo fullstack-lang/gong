@@ -28,6 +28,7 @@ export class RectAnchoredText {
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
 	TextAnchorType: string = ""
+	WritingMode: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
@@ -58,6 +59,7 @@ export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: Rect
 	rectanchoredtextAPI.Y_Offset = rectanchoredtext.Y_Offset
 	rectanchoredtextAPI.RectAnchorType = rectanchoredtext.RectAnchorType
 	rectanchoredtextAPI.TextAnchorType = rectanchoredtext.TextAnchorType
+	rectanchoredtextAPI.WritingMode = rectanchoredtext.WritingMode
 	rectanchoredtextAPI.Color = rectanchoredtext.Color
 	rectanchoredtextAPI.FillOpacity = rectanchoredtext.FillOpacity
 	rectanchoredtextAPI.Stroke = rectanchoredtext.Stroke
@@ -98,6 +100,7 @@ export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: R
 	rectanchoredtext.Y_Offset = rectanchoredtextAPI.Y_Offset
 	rectanchoredtext.RectAnchorType = rectanchoredtextAPI.RectAnchorType
 	rectanchoredtext.TextAnchorType = rectanchoredtextAPI.TextAnchorType
+	rectanchoredtext.WritingMode = rectanchoredtextAPI.WritingMode
 	rectanchoredtext.Color = rectanchoredtextAPI.Color
 	rectanchoredtext.FillOpacity = rectanchoredtextAPI.FillOpacity
 	rectanchoredtext.Stroke = rectanchoredtextAPI.Stroke

@@ -33,6 +33,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start := (&models.Rect{}).Stage(stage)
 	__Rect__000001_End := (&models.Rect{}).Stage(stage)
 
+	__RectAnchoredText__000000_Oriented := (&models.RectAnchoredText{}).Stage(stage)
+
 	__SVG__000000_simple := (&models.SVG{}).Stage(stage)
 
 	// Setup of values
@@ -155,6 +157,26 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.CanMoveHorizontaly = false
 	__Rect__000001_End.CanMoveVerticaly = false
 
+	__RectAnchoredText__000000_Oriented.Name = `Oriented`
+	__RectAnchoredText__000000_Oriented.Content = `Oriented`
+	__RectAnchoredText__000000_Oriented.FontWeight = ``
+	__RectAnchoredText__000000_Oriented.FontSize = ``
+	__RectAnchoredText__000000_Oriented.FontStyle = ``
+	__RectAnchoredText__000000_Oriented.LetterSpacing = ``
+	__RectAnchoredText__000000_Oriented.X_Offset = 0.000000
+	__RectAnchoredText__000000_Oriented.Y_Offset = 0.000000
+	__RectAnchoredText__000000_Oriented.RectAnchorType = models.RECT_CENTER
+	__RectAnchoredText__000000_Oriented.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000000_Oriented.WritingMode = models.WritingModeVerticalRL
+	__RectAnchoredText__000000_Oriented.Color = `black`
+	__RectAnchoredText__000000_Oriented.FillOpacity = 1.000000
+	__RectAnchoredText__000000_Oriented.Stroke = `black`
+	__RectAnchoredText__000000_Oriented.StrokeOpacity = 1.000000
+	__RectAnchoredText__000000_Oriented.StrokeWidth = -5.000000
+	__RectAnchoredText__000000_Oriented.StrokeDashArray = ``
+	__RectAnchoredText__000000_Oriented.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredText__000000_Oriented.Transform = ``
+
 	__SVG__000000_simple.Name = `simple`
 	__SVG__000000_simple.IsEditable = false
 	__SVG__000000_simple.IsSVGFrontEndFileGenerated = false
@@ -175,6 +197,8 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End.TextAtArrowEnd = append(__Link__000000_Start_to_End.TextAtArrowEnd, __LinkAnchoredText__000001_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
+	__Rect__000000_Start.RectAnchoredTexts = append(__Rect__000000_Start.RectAnchoredTexts, __RectAnchoredText__000000_Oriented)
+	// setup of RectAnchoredText instances pointers
 	// setup of SVG instances pointers
 	__SVG__000000_simple.Layers = append(__SVG__000000_simple.Layers, __Layer__000000_Layer_1)
 }

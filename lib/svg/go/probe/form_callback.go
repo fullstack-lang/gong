@@ -3710,6 +3710,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivEnumStringFieldToField(&(rectanchoredtext_.RectAnchorType), formDiv)
 		case "TextAnchorType":
 			FormDivEnumStringFieldToField(&(rectanchoredtext_.TextAnchorType), formDiv)
+		case "WritingMode":
+			FormDivEnumStringFieldToField(&(rectanchoredtext_.WritingMode), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Color), formDiv)
 		case "FillOpacity":

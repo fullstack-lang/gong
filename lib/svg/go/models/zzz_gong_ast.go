@@ -2817,6 +2817,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_RectAnchoredText[identifier].TextAnchorType = TextAnchorType(val)
+					case "WritingMode":
+						var val WritingMode
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_RectAnchoredText[identifier].WritingMode = WritingMode(val)
 					}
 				case "RectLinkLink":
 					switch fieldName {
