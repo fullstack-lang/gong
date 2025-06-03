@@ -246,6 +246,8 @@ type LinkShape_WOP struct {
 
 	Fieldtypename string
 
+	FieldTypeIdentifierMeta any
+
 	FieldOffsetX float64
 
 	FieldOffsetY float64
@@ -283,6 +285,7 @@ func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	to.Identifier = from.Identifier
 	to.IdentifierMeta = from.IdentifierMeta
 	to.Fieldtypename = from.Fieldtypename
+	to.FieldTypeIdentifierMeta = from.FieldTypeIdentifierMeta
 	to.FieldOffsetX = from.FieldOffsetX
 	to.FieldOffsetY = from.FieldOffsetY
 	to.TargetMultiplicity = from.TargetMultiplicity

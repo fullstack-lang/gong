@@ -88,7 +88,7 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		case *gong.SliceOfPointerToGongStructField:
 		}
 
-		concreteField.Structname = IdentifierToGongObjectName(gongStructShape.Identifier)
+		concreteField.Structname = IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
 		concreteField.Stage(stage)
 
 		gongStructShape.Height = gongStructShape.Height + HeightBetween2AttributeShapes
@@ -163,7 +163,7 @@ func (classdiagram *Classdiagram) AddLinkFieldShape(
 		for _, _gongstructshape := range diagramPackage.SelectedClassdiagram.GongStructShapes {
 
 			// strange behavior when the gongstructshape is remove within the loop
-			if IdentifierToGongObjectName(_gongstructshape.Identifier) == targetStructName && !targetSourceGongStructShape {
+			if IdentifierMetaToGongStructName(_gongstructshape.IdentifierMeta) == targetStructName && !targetSourceGongStructShape {
 				targetSourceGongStructShape = true
 				targetGongStructShape = _gongstructshape
 			}
@@ -190,6 +190,7 @@ func (classdiagram *Classdiagram) AddLinkFieldShape(
 			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
 		link.IdentifierMeta = moveStructLiteralToType(link.Identifier)
 		link.Fieldtypename = GongStructNameToIdentifier(targetStructName)
+		link.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, link)
 
