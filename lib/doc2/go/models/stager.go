@@ -125,7 +125,7 @@ func NewStager(
 
 		for _, gongNoteShape := range classdiagram.GongNoteShapes {
 
-			gongNote, ok := gongNotes[IdentifierToGongObjectName(gongNoteShape.Identifier)]
+			gongNote, ok := gongNotes[IdentifierToGongStructName(gongNoteShape.Identifier)]
 
 			if !ok {
 				log.Println("UnmarshallOneDiagram: In diagram", classdiagram.Name, "unknown note related to note shape", gongNoteShape.Identifier)
