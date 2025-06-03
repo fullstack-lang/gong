@@ -3374,7 +3374,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
@@ -3579,7 +3579,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectAnchoredRect:
 		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
@@ -4445,6 +4445,9 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = enum.ToCodeString()
 		case "TextAnchorType":
 			enum := inferedInstance.TextAnchorType
+			res.valueString = enum.ToCodeString()
+		case "WritingMode":
+			enum := inferedInstance.WritingMode
 			res.valueString = enum.ToCodeString()
 		case "Color":
 			res.valueString = inferedInstance.Color
@@ -5441,6 +5444,9 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = enum.ToCodeString()
 		case "TextAnchorType":
 			enum := inferedInstance.TextAnchorType
+			res.valueString = enum.ToCodeString()
+		case "WritingMode":
+			enum := inferedInstance.WritingMode
 			res.valueString = enum.ToCodeString()
 		case "Color":
 			res.valueString = inferedInstance.Color
