@@ -22,7 +22,7 @@ func (proxy *LinkFieldNodeProxy) OnAfterUpdate(
 	// intercept update to the node that are when the node is checked
 	if front.IsChecked && !staged.IsChecked {
 		// uncheck all other diagram
-		proxy.classDiagram.AddLinkFieldShape(
+		proxy.classDiagram.AddLinkShape(
 			proxy.stager.stage,
 			proxy.stager.gongStage,
 			proxy.gongstruct,
