@@ -246,8 +246,8 @@ func (stage *Stage) StageBranchMilestone(milestone *Milestone) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _laneuse := range milestone.LanesToDisplayMilestoneUse {
-		StageBranch(stage, _laneuse)
+	for _, _lane := range milestone.LanesToDisplay {
+		StageBranch(stage, _lane)
 	}
 
 }
@@ -454,8 +454,8 @@ func CopyBranchMilestone(mapOrigCopy map[any]any, milestoneFrom *Milestone) (mil
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _laneuse := range milestoneFrom.LanesToDisplayMilestoneUse {
-		milestoneTo.LanesToDisplayMilestoneUse = append(milestoneTo.LanesToDisplayMilestoneUse, CopyBranchLaneUse(mapOrigCopy, _laneuse))
+	for _, _lane := range milestoneFrom.LanesToDisplay {
+		milestoneTo.LanesToDisplay = append(milestoneTo.LanesToDisplay, CopyBranchLane(mapOrigCopy, _lane))
 	}
 
 	return
@@ -625,8 +625,8 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _laneuse := range milestone.LanesToDisplayMilestoneUse {
-		UnstageBranch(stage, _laneuse)
+	for _, _lane := range milestone.LanesToDisplay {
+		UnstageBranch(stage, _lane)
 	}
 
 }

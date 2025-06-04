@@ -291,13 +291,13 @@ func (ganttSVGMapper *GanttSVGMapper) GenerateSvg(
 		// draw diamond
 		//
 		diamondWidth := 18.0
-		for _, lanesToDisplayMilestone := range milestone.LanesToDisplayMilestoneUse {
+		for _, laneToDisplay := range milestone.LanesToDisplay {
 
 			diamond := new(gongsvg_models.Rect).Stage(gongsvgStage)
 			layerLanes.Rects = append(layerLanes.Rects, diamond)
 			diamond.Name = milestone.Name
 			diamond.X = lineX - diamondWidth/2.0
-			diamond.Y = mapLane_TextY[lanesToDisplayMilestone.Lane] - diamondWidth + LaneHeight/2.0
+			diamond.Y = mapLane_TextY[laneToDisplay] - diamondWidth + LaneHeight/2.0
 			diamond.Width = diamondWidth
 			diamond.Height = diamondWidth
 			diamond.Color = "red"
