@@ -482,8 +482,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Milestone.X = 655.000000
 	__GongStructShape__000000_Default_Milestone.Y = 516.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_Milestone.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000000_Default_Milestone.Identifier = `..`
 	__GongStructShape__000000_Default_Milestone.IdentifierMeta = ref_models.Milestone{}
 	__GongStructShape__000000_Default_Milestone.ShowNbInstances = false
 	__GongStructShape__000000_Default_Milestone.NbInstances = 0
@@ -495,8 +495,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_LaneUse.X = 1157.000000
 	__GongStructShape__000001_Default_LaneUse.Y = 545.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000001_Default_LaneUse.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000001_Default_LaneUse.Identifier = `..`
 	__GongStructShape__000001_Default_LaneUse.IdentifierMeta = ref_models.LaneUse{}
 	__GongStructShape__000001_Default_LaneUse.ShowNbInstances = false
 	__GongStructShape__000001_Default_LaneUse.NbInstances = 0
@@ -508,8 +508,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Lane.X = 656.000000
 	__GongStructShape__000002_Default_Lane.Y = 164.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000002_Default_Lane.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000002_Default_Lane.Identifier = `..`
 	__GongStructShape__000002_Default_Lane.IdentifierMeta = ref_models.Lane{}
 	__GongStructShape__000002_Default_Lane.ShowNbInstances = false
 	__GongStructShape__000002_Default_Lane.NbInstances = 0
@@ -521,8 +521,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Group.X = 659.000000
 	__GongStructShape__000003_Default_Group.Y = 68.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000003_Default_Group.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000003_Default_Group.Identifier = `..`
 	__GongStructShape__000003_Default_Group.IdentifierMeta = ref_models.Group{}
 	__GongStructShape__000003_Default_Group.ShowNbInstances = false
 	__GongStructShape__000003_Default_Group.NbInstances = 0
@@ -534,8 +534,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_Gantt.X = 48.000000
 	__GongStructShape__000004_Default_Gantt.Y = 81.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000004_Default_Gantt.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000004_Default_Gantt.Identifier = `..`
 	__GongStructShape__000004_Default_Gantt.IdentifierMeta = ref_models.Gantt{}
 	__GongStructShape__000004_Default_Gantt.ShowNbInstances = false
 	__GongStructShape__000004_Default_Gantt.NbInstances = 0
@@ -547,8 +547,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Bar.X = 657.000000
 	__GongStructShape__000005_Default_Bar.Y = 322.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000005_Default_Bar.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000005_Default_Bar.Identifier = `..`
 	__GongStructShape__000005_Default_Bar.IdentifierMeta = ref_models.Bar{}
 	__GongStructShape__000005_Default_Bar.ShowNbInstances = false
 	__GongStructShape__000005_Default_Bar.NbInstances = 0
@@ -560,8 +560,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000006_Default_Arrow.X = 656.000000
 	__GongStructShape__000006_Default_Arrow.Y = 677.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000006_Default_Arrow.Identifier = `.`
+	//gong:ident [..] comment added to overcome the problem with the comment map association
+	__GongStructShape__000006_Default_Arrow.Identifier = `..`
 	__GongStructShape__000006_Default_Arrow.IdentifierMeta = ref_models.Arrow{}
 	__GongStructShape__000006_Default_Arrow.ShowNbInstances = false
 	__GongStructShape__000006_Default_Arrow.NbInstances = 0
@@ -723,7 +723,7 @@ func _(stage *models.Stage) {
 
 	//gong:ident [ref_models.Milestone.LanesToDisplayMilestoneUse] comment added to overcome the problem with the comment map association
 	__LinkShape__000006_LanesToDisplayMilestoneUse.Identifier = `ref_models.Milestone.LanesToDisplayMilestoneUse`
-	__LinkShape__000006_LanesToDisplayMilestoneUse.IdentifierMeta = ref_models.Milestone{}.LanesToDisplayMilestoneUse
+	__LinkShape__000006_LanesToDisplayMilestoneUse.IdentifierMeta = ref_models.Milestone{}.LanesToDisplay
 
 	//gong:ident [ref_models.LaneUse] comment added to overcome the problem with the comment map association
 	__LinkShape__000006_LanesToDisplayMilestoneUse.Fieldtypename = `ref_models.LaneUse`

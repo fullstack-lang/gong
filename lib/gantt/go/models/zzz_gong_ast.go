@@ -613,7 +613,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						var ok bool
 						gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 						if !ok {
-							log.Fatalln("gongstructName not found for identifier", identifier)
+							log.Println("gongstructName not found for identifier", identifier)
+							break
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
@@ -724,7 +725,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 					if !ok {
-						log.Fatalln("gongstructName not found for identifier", identifier)
+						log.Println("gongstructName not found for identifier", identifier)
+						break
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
@@ -815,15 +817,15 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Milestone":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "LanesToDisplayMilestoneUse":
+						case "LanesToDisplay":
 							// remove first and last char
 							targetIdentifier := ident.Name
-							// when parsing Milestone[identifier].LanesToDisplayMilestoneUse = append(Milestone[identifier].LanesToDisplayMilestoneUse, LaneUse instance )
-							// the map will not find the LaneUse instance, when parsing the first arg
+							// when parsing Milestone[identifier].LanesToDisplay = append(Milestone[identifier].LanesToDisplay, Lane instance )
+							// the map will not find the Lane instance, when parsing the first arg
 							// therefore, the condition is necessary
-							if target, ok := __gong__map_LaneUse[targetIdentifier]; ok {
-								__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse =
-									append(__gong__map_Milestone[identifier].LanesToDisplayMilestoneUse, target)
+							if target, ok := __gong__map_Lane[targetIdentifier]; ok {
+								__gong__map_Milestone[identifier].LanesToDisplay =
+									append(__gong__map_Milestone[identifier].LanesToDisplay, target)
 							}
 						}
 					}
@@ -874,7 +876,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var ok bool
 			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 			if !ok {
-				log.Fatalln("gongstructName not found for identifier", identifier)
+				log.Println("gongstructName not found for identifier", identifier)
+				break
 			}
 
 			// substitute the RHS part of the assignment if a //gong:ident directive is met
@@ -1112,7 +1115,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			var ok bool
 			gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 			if !ok {
-				log.Fatalln("gongstructName not found for identifier", identifier)
+				log.Println("gongstructName not found for identifier", identifier)
+				break
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
@@ -1214,7 +1218,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				var ok bool
 				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 				if !ok {
-					log.Fatalln("gongstructName not found for identifier", identifier)
+					log.Println("gongstructName not found for identifier", identifier)
+					break
 				}
 
 				if basicLit == nil {
