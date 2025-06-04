@@ -75,8 +75,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 25.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Y = 53.000000
 
-	//gong:ident [....] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_LinkAnchoredText.Identifier = `....`
+	//gong:ident [.......] comment added to overcome the problem with the comment map association
+	__GongStructShape__000000_Default_LinkAnchoredText.Identifier = `.......`
 	__GongStructShape__000000_Default_LinkAnchoredText.IdentifierMeta = ref_models.LinkAnchoredText{}
 	__GongStructShape__000000_Default_LinkAnchoredText.ShowNbInstances = false
 	__GongStructShape__000000_Default_LinkAnchoredText.NbInstances = 0
