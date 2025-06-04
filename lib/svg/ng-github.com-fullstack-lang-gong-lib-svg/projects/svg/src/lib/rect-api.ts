@@ -43,6 +43,11 @@ export class RectAPI {
 	HasBottomHandle: boolean = false
 	CanMoveHorizontaly: boolean = false
 	CanMoveVerticaly: boolean = false
+	ChangeColorWhenHovered: boolean = false
+	ColorWhenHovered: string = ""
+	OriginalColor: string = ""
+	FillOpacityWhenHovered: number = 0
+	OriginalFillOpacity: number = 0
 
 	// insertion point for other decls
 
