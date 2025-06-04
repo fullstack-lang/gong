@@ -931,6 +931,73 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.GroupLanes = append(newSource.GroupLanes, lane_)
+		case "Milestone:LanesToDisplay":
+			// WARNING : this form deals with the N-N association "Milestone.LanesToDisplay []*Lane" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Lane). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Milestone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Milestone"
+				rf.Fieldname = "LanesToDisplay"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					laneFormCallback.probe.stageOfInterest,
+					lane_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Milestone)
+					if !ok {
+						log.Fatalln("Source of Milestone.LanesToDisplay []*Lane, is not an Milestone instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.LanesToDisplay, lane_)
+					formerSource.LanesToDisplay = slices.Delete(formerSource.LanesToDisplay, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Milestone
+			for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _milestone.GetName() == newSourceName.GetName() {
+					newSource = _milestone // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Milestone.LanesToDisplay []*Lane, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.LanesToDisplay = append(newSource.LanesToDisplay, lane_)
 		}
 	}
 
@@ -1010,73 +1077,6 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(laneuse_.Name), formDiv)
 		case "Lane":
 			FormDivSelectFieldToField(&(laneuse_.Lane), laneuseFormCallback.probe.stageOfInterest, formDiv)
-		case "Milestone:LanesToDisplayMilestoneUse":
-			// WARNING : this form deals with the N-N association "Milestone.LanesToDisplayMilestoneUse []*LaneUse" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of LaneUse). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Milestone
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Milestone"
-				rf.Fieldname = "LanesToDisplayMilestoneUse"
-				formerAssociationSource := models.GetReverseFieldOwner(
-					laneuseFormCallback.probe.stageOfInterest,
-					laneuse_,
-					&rf)
-
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Milestone)
-					if !ok {
-						log.Fatalln("Source of Milestone.LanesToDisplayMilestoneUse []*LaneUse, is not an Milestone instance")
-					}
-				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.LanesToDisplayMilestoneUse, laneuse_)
-					formerSource.LanesToDisplayMilestoneUse = slices.Delete(formerSource.LanesToDisplayMilestoneUse, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Milestone
-			for _milestone := range *models.GetGongstructInstancesSet[models.Milestone](laneuseFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _milestone.GetName() == newSourceName.GetName() {
-					newSource = _milestone // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Milestone.LanesToDisplayMilestoneUse []*LaneUse, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.LanesToDisplayMilestoneUse = append(newSource.LanesToDisplayMilestoneUse, laneuse_)
 		}
 	}
 
@@ -1158,12 +1158,12 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(milestone_.Date), formDiv)
 		case "DisplayVerticalBar":
 			FormDivBasicFieldToField(&(milestone_.DisplayVerticalBar), formDiv)
-		case "LanesToDisplayMilestoneUse":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.LaneUse](milestoneFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.LaneUse, 0)
+		case "LanesToDisplay":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Lane](milestoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Lane, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.LaneUse)
+			map_id_instances := make(map[uint]*models.Lane)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -1181,7 +1181,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 			for _, id := range ids {
 				instanceSlice = append(instanceSlice, map_id_instances[id])
 			}
-			milestone_.LanesToDisplayMilestoneUse = instanceSlice
+			milestone_.LanesToDisplay = instanceSlice
 
 		case "Gantt:Milestones":
 			// WARNING : this form deals with the N-N association "Gantt.Milestones []*Milestone" but

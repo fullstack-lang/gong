@@ -229,34 +229,34 @@ func FillUpForm(
 					probe)
 			}
 		}
-
-	case *models.LaneUse:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		AssociationFieldToForm("Lane", instanceWithInferedType.Lane, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Milestone"
-			rf.Fieldname = "LanesToDisplayMilestoneUse"
+			rf.Fieldname = "LanesToDisplay"
 			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Milestone),
-					"LanesToDisplayMilestoneUse",
+					"LanesToDisplay",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Milestone](
 					nil,
-					"LanesToDisplayMilestoneUse",
+					"LanesToDisplay",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			}
 		}
+
+	case *models.LaneUse:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationFieldToForm("Lane", instanceWithInferedType.Lane, formGroup, probe)
 
 	case *models.Milestone:
 		// insertion point
@@ -266,7 +266,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DisplayVerticalBar", instanceWithInferedType.DisplayVerticalBar, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("LanesToDisplayMilestoneUse", instanceWithInferedType, &instanceWithInferedType.LanesToDisplayMilestoneUse, formGroup, probe)
+		AssociationSliceToForm("LanesToDisplay", instanceWithInferedType, &instanceWithInferedType.LanesToDisplay, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
