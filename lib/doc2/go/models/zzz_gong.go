@@ -1781,7 +1781,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case GongEnumValueShape:
-		res = []string{"Name", "Identifier", "IdentifierMeta"}
+		res = []string{"Name", "IdentifierMeta"}
 	case GongNoteLinkShape:
 		res = []string{"Name", "Identifier", "Type"}
 	case GongNoteShape:
@@ -1879,7 +1879,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case *GongEnumValueShape:
-		res = []string{"Name", "Identifier", "IdentifierMeta"}
+		res = []string{"Name", "IdentifierMeta"}
 	case *GongNoteLinkShape:
 		res = []string{"Name", "Identifier", "Type"}
 	case *GongNoteShape:
@@ -2065,8 +2065,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Identifier":
-			res.valueString = inferedInstance.Identifier
 		}
 	case *GongNoteLinkShape:
 		switch fieldName {
@@ -2384,8 +2382,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
-		case "Identifier":
-			res.valueString = inferedInstance.Identifier
 		}
 	case GongNoteLinkShape:
 		switch fieldName {

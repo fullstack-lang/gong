@@ -10,10 +10,6 @@ type GongEnumValueShape struct {
 	// Name of the enum value
 	Name string
 
-	// Identifier is the identifier of the enum value referenced by the shape in the modeled package
-	//gong:ident
-	Identifier string
-
 	//gong:meta
 	IdentifierMeta any
 }
@@ -38,9 +34,7 @@ func (classdiagram *Classdiagram) AddGongEnumValueShapeToDiagram(
 	gongEnumShape.Height = gongEnumShape.Height + HeightBetween2AttributeShapes
 
 	gongEnumValueShape := (&GongEnumValueShape{
-		Name: gongEnumValue.GetName(),
-		Identifier: GongstructAndFieldnameToFieldIdentifier(
-			gongEnum.Name, gongEnumValue.GetName()),
+		Name:           gongEnumValue.GetName(),
 		IdentifierMeta: GongEnumValueToIdentifierMeta(gongEnumValue.GetName()),
 	}).Stage(stage)
 
