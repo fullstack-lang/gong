@@ -48,8 +48,8 @@ type MilestoneAPI struct {
 type MilestonePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field LanesToDisplayMilestoneUse is a slice of pointers to another Struct (optional or 0..1)
-	LanesToDisplayMilestoneUse IntSlice `gorm:"type:TEXT"`
+	// field LanesToDisplay is a slice of pointers to another Struct (optional or 0..1)
+	LanesToDisplay IntSlice `gorm:"type:TEXT"`
 }
 
 // MilestoneDB describes a milestone in the database
@@ -240,21 +240,21 @@ func (backRepoMilestone *BackRepoMilestoneStruct) CommitPhaseTwoInstance(backRep
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
-		milestoneDB.MilestonePointersEncoding.LanesToDisplayMilestoneUse = make([]int, 0)
+		milestoneDB.MilestonePointersEncoding.LanesToDisplay = make([]int, 0)
 		// 2. encode
-		for _, laneuseAssocEnd := range milestone.LanesToDisplayMilestoneUse {
-			laneuseAssocEnd_DB :=
-				backRepo.BackRepoLaneUse.GetLaneUseDBFromLaneUsePtr(laneuseAssocEnd)
+		for _, laneAssocEnd := range milestone.LanesToDisplay {
+			laneAssocEnd_DB :=
+				backRepo.BackRepoLane.GetLaneDBFromLanePtr(laneAssocEnd)
 			
-			// the stage might be inconsistant, meaning that the laneuseAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the laneAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if laneuseAssocEnd_DB == nil {
+			if laneAssocEnd_DB == nil {
 				continue
 			}
 			
-			milestoneDB.MilestonePointersEncoding.LanesToDisplayMilestoneUse =
-				append(milestoneDB.MilestonePointersEncoding.LanesToDisplayMilestoneUse, int(laneuseAssocEnd_DB.ID))
+			milestoneDB.MilestonePointersEncoding.LanesToDisplay =
+				append(milestoneDB.MilestonePointersEncoding.LanesToDisplay, int(laneAssocEnd_DB.ID))
 		}
 
 		_, err := backRepoMilestone.db.Save(milestoneDB)
@@ -370,13 +370,13 @@ func (backRepoMilestone *BackRepoMilestoneStruct) CheckoutPhaseTwoInstance(backR
 func (milestoneDB *MilestoneDB) DecodePointers(backRepo *BackRepoStruct, milestone *models.Milestone) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem milestone.LanesToDisplayMilestoneUse in the stage from the encode in the back repo
-	// It parses all LaneUseDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// This loop redeem milestone.LanesToDisplay in the stage from the encode in the back repo
+	// It parses all LaneDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
-	milestone.LanesToDisplayMilestoneUse = milestone.LanesToDisplayMilestoneUse[:0]
-	for _, _LaneUseid := range milestoneDB.MilestonePointersEncoding.LanesToDisplayMilestoneUse {
-		milestone.LanesToDisplayMilestoneUse = append(milestone.LanesToDisplayMilestoneUse, backRepo.BackRepoLaneUse.Map_LaneUseDBID_LaneUsePtr[uint(_LaneUseid)])
+	milestone.LanesToDisplay = milestone.LanesToDisplay[:0]
+	for _, _Laneid := range milestoneDB.MilestonePointersEncoding.LanesToDisplay {
+		milestone.LanesToDisplay = append(milestone.LanesToDisplay, backRepo.BackRepoLane.Map_LaneDBID_LanePtr[uint(_Laneid)])
 	}
 
 	return
