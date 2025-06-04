@@ -63,9 +63,6 @@ type GongEnumValueShapeDB struct {
 	// Declation for basic field gongenumvalueshapeDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field gongenumvalueshapeDB.Identifier
-	Identifier_Data sql.NullString
-
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	GongEnumValueShapePointersEncoding
@@ -90,9 +87,7 @@ type GongEnumValueShapeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Identifier string `xlsx:"2"`
-
-	IdentifierMeta any `xlsx:"3"`
+	IdentifierMeta any `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -100,7 +95,6 @@ var GongEnumValueShape_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Identifier",
 	"IdentifierMeta",
 }
 
@@ -381,9 +375,6 @@ func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsFromGongEnumVal
 
 	gongenumvalueshapeDB.Name_Data.String = gongenumvalueshape.Name
 	gongenumvalueshapeDB.Name_Data.Valid = true
-
-	gongenumvalueshapeDB.Identifier_Data.String = gongenumvalueshape.Identifier
-	gongenumvalueshapeDB.Identifier_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongEnumValueShape_WOP
@@ -392,9 +383,6 @@ func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsFromGongEnumVal
 
 	gongenumvalueshapeDB.Name_Data.String = gongenumvalueshape.Name
 	gongenumvalueshapeDB.Name_Data.Valid = true
-
-	gongenumvalueshapeDB.Identifier_Data.String = gongenumvalueshape.Identifier
-	gongenumvalueshapeDB.Identifier_Data.Valid = true
 }
 
 // CopyBasicFieldsFromGongEnumValueShapeWOP
@@ -403,23 +391,18 @@ func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsFromGongEnumVal
 
 	gongenumvalueshapeDB.Name_Data.String = gongenumvalueshape.Name
 	gongenumvalueshapeDB.Name_Data.Valid = true
-
-	gongenumvalueshapeDB.Identifier_Data.String = gongenumvalueshape.Identifier
-	gongenumvalueshapeDB.Identifier_Data.Valid = true
 }
 
 // CopyBasicFieldsToGongEnumValueShape
 func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsToGongEnumValueShape(gongenumvalueshape *models.GongEnumValueShape) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumvalueshape.Name = gongenumvalueshapeDB.Name_Data.String
-	gongenumvalueshape.Identifier = gongenumvalueshapeDB.Identifier_Data.String
 }
 
 // CopyBasicFieldsToGongEnumValueShape_WOP
 func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsToGongEnumValueShape_WOP(gongenumvalueshape *models.GongEnumValueShape_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumvalueshape.Name = gongenumvalueshapeDB.Name_Data.String
-	gongenumvalueshape.Identifier = gongenumvalueshapeDB.Identifier_Data.String
 }
 
 // CopyBasicFieldsToGongEnumValueShapeWOP
@@ -427,7 +410,6 @@ func (gongenumvalueshapeDB *GongEnumValueShapeDB) CopyBasicFieldsToGongEnumValue
 	gongenumvalueshape.ID = int(gongenumvalueshapeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongenumvalueshape.Name = gongenumvalueshapeDB.Name_Data.String
-	gongenumvalueshape.Identifier = gongenumvalueshapeDB.Identifier_Data.String
 }
 
 // Backup generates a json file from a slice of all GongEnumValueShapeDB instances in the backrepo

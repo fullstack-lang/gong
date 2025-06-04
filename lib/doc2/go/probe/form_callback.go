@@ -746,8 +746,6 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(gongenumvalueshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(gongenumvalueshape_.Identifier), formDiv)
 		case "GongEnumShape:GongEnumValueShapes":
 			// WARNING : this form deals with the N-N association "GongEnumShape.GongEnumValueShapes []*GongEnumValueShape" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
