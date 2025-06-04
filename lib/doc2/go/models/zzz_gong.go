@@ -1781,7 +1781,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case GongEnumValueShape:
-		res = []string{"Name", "Identifier"}
+		res = []string{"Name", "Identifier", "IdentifierMeta"}
 	case GongNoteLinkShape:
 		res = []string{"Name", "Identifier", "Type"}
 	case GongNoteShape:
@@ -1879,7 +1879,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongEnumShape:
 		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case *GongEnumValueShape:
-		res = []string{"Name", "Identifier"}
+		res = []string{"Name", "Identifier", "IdentifierMeta"}
 	case *GongNoteLinkShape:
 		res = []string{"Name", "Identifier", "Type"}
 	case *GongNoteShape:
