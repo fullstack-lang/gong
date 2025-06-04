@@ -91,6 +91,8 @@ type GongEnumValueShapeWOP struct {
 	Name string `xlsx:"1"`
 
 	Identifier string `xlsx:"2"`
+
+	IdentifierMeta any `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +101,7 @@ var GongEnumValueShape_Fields = []string{
 	"ID",
 	"Name",
 	"Identifier",
+	"IdentifierMeta",
 }
 
 type BackRepoGongEnumValueShapeStruct struct {

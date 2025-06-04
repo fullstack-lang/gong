@@ -13,6 +13,9 @@ type GongEnumValueShape struct {
 	// Identifier is the identifier of the enum value referenced by the shape in the modeled package
 	//gong:ident
 	Identifier string
+
+	//gong:meta
+	IdentifierMeta any
 }
 
 const HeightBetween2AttributeShapes = 20
@@ -38,6 +41,7 @@ func (classdiagram *Classdiagram) AddGongEnumValueShapeToDiagram(
 		Name: gongEnumValue.GetName(),
 		Identifier: GongstructAndFieldnameToFieldIdentifier(
 			gongEnum.Name, gongEnumValue.GetName()),
+		IdentifierMeta: GongEnumValueToIdentifierMeta(gongEnumValue.GetName()),
 	}).Stage(stage)
 
 	for idx, gongEnumValue := range gongEnum.GongEnumValues {
@@ -52,8 +56,8 @@ func (classdiagram *Classdiagram) AddGongEnumValueShapeToDiagram(
 
 	// compute insertionIndex (index where to insert the field to display)
 	insertionIndex := 0
-	for idx, field := range gongEnumShape.GongEnumValueShapes {
-		value := map_ValueName_Value[IdentifierToFieldName(field.Identifier)]
+	for idx, gongEnumValueShape := range gongEnumShape.GongEnumValueShapes {
+		value := map_ValueName_Value[GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)]
 		_rankInEnum := map_Value_rankInEnum[value]
 		if rankInEnum > _rankInEnum {
 			insertionIndex = idx + 1
@@ -79,9 +83,9 @@ func (classdiagram *Classdiagram) RemoveGongEnumValueShapeFromDiagram(
 
 	var gongEnumValueShape *GongEnumValueShape
 
-	for _, _field := range gongEnumShape.GongEnumValueShapes {
-		if IdentifierToFieldName(_field.Identifier) == gongEnumValue.GetName() {
-			gongEnumValueShape = _field
+	for _, _gongEnumValueShape := range gongEnumShape.GongEnumValueShapes {
+		if GongEnumValueShapeIdentifierMetaToValueName(_gongEnumValueShape.IdentifierMeta) == gongEnumValue.GetName() {
+			gongEnumValueShape = _gongEnumValueShape
 		}
 	}
 	if gongEnumValueShape != nil {
