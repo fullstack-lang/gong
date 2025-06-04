@@ -73,12 +73,12 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Milestone
 	// insertion point per field
-	clear(stage.Milestone_LanesToDisplayMilestoneUse_reverseMap)
-	stage.Milestone_LanesToDisplayMilestoneUse_reverseMap = make(map[*LaneUse]*Milestone)
+	clear(stage.Milestone_LanesToDisplay_reverseMap)
+	stage.Milestone_LanesToDisplay_reverseMap = make(map[*Lane]*Milestone)
 	for milestone := range stage.Milestones {
 		_ = milestone
-		for _, _laneuse := range milestone.LanesToDisplayMilestoneUse {
-			stage.Milestone_LanesToDisplayMilestoneUse_reverseMap[_laneuse] = milestone
+		for _, _lane := range milestone.LanesToDisplay {
+			stage.Milestone_LanesToDisplay_reverseMap[_lane] = milestone
 		}
 	}
 
