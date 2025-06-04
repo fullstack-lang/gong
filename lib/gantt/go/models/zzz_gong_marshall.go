@@ -768,11 +768,11 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_Milestone_Identifiers[milestone] = id
 
 		// Initialisation of values
-		for _, _laneuse := range milestone.LanesToDisplayMilestoneUse {
+		for _, _lane := range milestone.LanesToDisplay {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "LanesToDisplayMilestoneUse")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_LaneUse_Identifiers[_laneuse])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "LanesToDisplay")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Lane_Identifiers[_lane])
 			pointersInitializesStatements += setPointerField
 		}
 
