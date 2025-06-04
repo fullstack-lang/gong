@@ -1955,6 +1955,28 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Rect[identifier].Transform = fielValue
+				case "ColorWhenHovered":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Rect[identifier].ColorWhenHovered = fielValue
+				case "OriginalColor":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Rect[identifier].OriginalColor = fielValue
+				case "FillOpacityWhenHovered":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].FillOpacityWhenHovered = exprSign * fielValue
+				case "OriginalFillOpacity":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].OriginalFillOpacity = exprSign * fielValue
 				}
 			case "RectAnchoredPath":
 				switch fieldName {
@@ -2561,6 +2583,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].CanMoveVerticaly = fielValue
+				case "ChangeColorWhenHovered":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].ChangeColorWhenHovered = fielValue
 				}
 			case "RectAnchoredPath":
 				switch fieldName {
