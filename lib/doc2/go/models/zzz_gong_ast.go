@@ -795,6 +795,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "GongEnumValueShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "IdentifierMeta":
+							__gong__map_GongEnumValueShape[identifier].IdentifierMeta = basicLit.Value
 						}
 					case "GongNoteLinkShape":
 						switch fieldName {
@@ -1029,6 +1031,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongEnumValueShape[identifier].Identifier = fielValue
+				case "IdentifierMeta":
+					__gong__map_GongEnumValueShape[identifier].IdentifierMeta = basicLit.Value
 				}
 			case "GongNoteLinkShape":
 				switch fieldName {
@@ -1437,6 +1441,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "GongEnumValueShape":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "IdentifierMeta":
+						__gong__map_GongEnumValueShape[identifier].IdentifierMeta = basicLit.Value
 					}
 				case "GongNoteLinkShape":
 					switch fieldName {
