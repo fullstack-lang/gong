@@ -19,11 +19,26 @@ func IdentifierToFieldName(fieldIdentifier string) (fieldName string) {
 	structNameWithFieldName := strings.TrimPrefix(fieldIdentifier, RefPrefixReferencedPackage+RefPackagePlusPeriod)
 
 	subStrings := strings.Split(structNameWithFieldName, ".")
-	// if len(subStrings) != 2 {
-	// 	log.Fatalln("IdentifierToFieldName: wrong number of substrings in ", structNameWithFieldName)
-	// }
+	if len(subStrings) != 2 {
+		log.Fatalln("IdentifierToFieldName: wrong number of substrings in ", structNameWithFieldName)
+	}
 
 	fieldName = subStrings[1]
+
+	return
+}
+
+// IdentifierToFieldName take an ident in the forms
+// ref_models.Foo{}.Name and returns "Name"
+func GongEnumValueShapeIdentifierMetaToValueName(identifierMeta any) (valueName string) {
+
+	var identifierMetaString string
+	var ok bool
+	if identifierMetaString, ok = identifierMeta.(string); !ok {
+		return ""
+	}
+
+	valueName = strings.TrimPrefix(identifierMetaString, RefPrefixReferencedPackage+RefPackagePlusPeriod)
 
 	return
 }
@@ -53,6 +68,12 @@ func GongstructAndFieldnameToFieldIdentifier(structName string, fieldName string
 	fieldIdentifier = RefPrefixReferencedPackage + RefPackagePlusPeriod +
 		structName + "." + fieldName
 
+	return
+}
+
+func GongEnumValueToIdentifierMeta(gongEnumValue string) (res string) {
+
+	res = RefPrefixReferencedPackage + RefPackagePlusPeriod + gongEnumValue
 	return
 }
 
