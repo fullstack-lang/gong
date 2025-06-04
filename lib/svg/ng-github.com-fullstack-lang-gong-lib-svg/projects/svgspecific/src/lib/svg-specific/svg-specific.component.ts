@@ -1124,4 +1124,22 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     )
   }
+
+  onRectHover(rect: svg.Rect, isHovered: boolean) {
+    if (rect.ChangeColorWhenHovered == true) {
+      if (isHovered) {
+        console.log("entrer is hovered, color", rect.ColorWhenHovered)
+        rect.OriginalColor = rect.Color; // Store original
+        rect.Color = rect.ColorWhenHovered; // Hover color
+        rect.OriginalFillOpacity = rect.FillOpacity
+        rect.FillOpacity = rect.FillOpacityWhenHovered
+        this.changeDetectorRef.detectChanges();
+      } else {
+        console.log("exit is hovered")
+        rect.Color = rect.OriginalColor; // Restore original
+        rect.FillOpacity = rect.OriginalFillOpacity
+        this.changeDetectorRef.detectChanges();
+      }
+    }
+}
 }

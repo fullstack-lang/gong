@@ -233,7 +233,9 @@
             [attr.transform]="rect.Transform"
             (mousedown)="rectMouseDown($event, rect)"
             (mousemove)="onmousemove($event)"
-            (mouseup)="rectMouseUp($event, rect)">
+            (mouseup)="rectMouseUp($event, rect)"
+            (mouseenter)="onRectHover(rect, true)"
+            (mouseleave)="onRectHover(rect, false)">
             @for(animate of rect.Animations; track animate) {
               <animate
                 [attr.attributeName]="animate.AttributeName"

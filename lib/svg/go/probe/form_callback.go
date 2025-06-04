@@ -3196,6 +3196,16 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			}
 			rect_.RectAnchoredPaths = instanceSlice
 
+		case "ChangeColorWhenHovered":
+			FormDivBasicFieldToField(&(rect_.ChangeColorWhenHovered), formDiv)
+		case "ColorWhenHovered":
+			FormDivBasicFieldToField(&(rect_.ColorWhenHovered), formDiv)
+		case "OriginalColor":
+			FormDivBasicFieldToField(&(rect_.OriginalColor), formDiv)
+		case "FillOpacityWhenHovered":
+			FormDivBasicFieldToField(&(rect_.FillOpacityWhenHovered), formDiv)
+		case "OriginalFillOpacity":
+			FormDivBasicFieldToField(&(rect_.OriginalFillOpacity), formDiv)
 		case "Layer:Rects":
 			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

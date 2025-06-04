@@ -120,7 +120,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.Width = 200.000000
 	__Rect__000000_Start.Height = 200.000000
 	__Rect__000000_Start.RX = 0.000000
-	__Rect__000000_Start.Color = ``
+	__Rect__000000_Start.Color = `blue`
 	__Rect__000000_Start.FillOpacity = 0.000000
 	__Rect__000000_Start.Stroke = `black`
 	__Rect__000000_Start.StrokeOpacity = 0.500000
@@ -141,6 +141,11 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.HasBottomHandle = false
 	__Rect__000000_Start.CanMoveHorizontaly = false
 	__Rect__000000_Start.CanMoveVerticaly = false
+	__Rect__000000_Start.ChangeColorWhenHovered = true
+	__Rect__000000_Start.ColorWhenHovered = `red`
+	__Rect__000000_Start.OriginalColor = ``
+	__Rect__000000_Start.FillOpacityWhenHovered = 0.500000
+	__Rect__000000_Start.OriginalFillOpacity = 0.000000
 
 	__Rect__000001_End.Name = `End`
 	__Rect__000001_End.X = 700.000000
@@ -169,6 +174,11 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.HasBottomHandle = false
 	__Rect__000001_End.CanMoveHorizontaly = false
 	__Rect__000001_End.CanMoveVerticaly = false
+	__Rect__000001_End.ChangeColorWhenHovered = false
+	__Rect__000001_End.ColorWhenHovered = ``
+	__Rect__000001_End.OriginalColor = ``
+	__Rect__000001_End.FillOpacityWhenHovered = 0.000000
+	__Rect__000001_End.OriginalFillOpacity = 0.000000
 
 	__RectAnchoredRect__000000_Top.Name = `Top`
 	__RectAnchoredRect__000000_Top.X = 0.000000
@@ -418,7 +428,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000000_Oriented.LetterSpacing = ``
 	__RectAnchoredText__000000_Oriented.X_Offset = 0.000000
 	__RectAnchoredText__000000_Oriented.Y_Offset = 0.000000
-	__RectAnchoredText__000000_Oriented.RectAnchorType = models.RECT_LEFT
+	__RectAnchoredText__000000_Oriented.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredText__000000_Oriented.TextAnchorType = models.TEXT_ANCHOR_CENTER
 	__RectAnchoredText__000000_Oriented.WritingMode = models.WritingModeVerticalRL
 	__RectAnchoredText__000000_Oriented.Color = `black`
