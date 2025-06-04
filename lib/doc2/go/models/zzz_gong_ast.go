@@ -1376,8 +1376,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			// astCoordinate := astCoordinate + "\tSelectorExpr"
 			switch X := selectorExpr.X.(type) {
 			case *ast.Ident:
-				ident = X
-
+				ident := X
+				_ = ident
+				// astCoordinate := astCoordinate + "\tX" + "." + ident.Name
+				// log.Println(astCoordinate)
 			case *ast.CompositeLit:
 				var ok bool
 				var sl *ast.SelectorExpr
