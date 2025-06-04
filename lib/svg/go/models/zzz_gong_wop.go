@@ -519,6 +519,16 @@ type Rect_WOP struct {
 	CanMoveHorizontaly bool
 
 	CanMoveVerticaly bool
+
+	ChangeColorWhenHovered bool
+
+	ColorWhenHovered string
+
+	OriginalColor string
+
+	FillOpacityWhenHovered float64
+
+	OriginalFillOpacity float64
 }
 
 func (from *Rect) CopyBasicFields(to *Rect) {
@@ -550,6 +560,11 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.HasBottomHandle = from.HasBottomHandle
 	to.CanMoveHorizontaly = from.CanMoveHorizontaly
 	to.CanMoveVerticaly = from.CanMoveVerticaly
+	to.ChangeColorWhenHovered = from.ChangeColorWhenHovered
+	to.ColorWhenHovered = from.ColorWhenHovered
+	to.OriginalColor = from.OriginalColor
+	to.FillOpacityWhenHovered = from.FillOpacityWhenHovered
+	to.OriginalFillOpacity = from.OriginalFillOpacity
 }
 
 type RectAnchoredPath_WOP struct {
