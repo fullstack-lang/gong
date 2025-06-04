@@ -1027,10 +1027,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongEnumValueShape[identifier].Name = fielValue
-				case "Identifier":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_GongEnumValueShape[identifier].Identifier = fielValue
 				case "IdentifierMeta":
 					__gong__map_GongEnumValueShape[identifier].IdentifierMeta = basicLit.Value
 				}
@@ -1380,10 +1376,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			// astCoordinate := astCoordinate + "\tSelectorExpr"
 			switch X := selectorExpr.X.(type) {
 			case *ast.Ident:
-				ident := X
-				_ = ident
-				// astCoordinate := astCoordinate + "\tX" + "." + ident.Name
-				// log.Println(astCoordinate)
+				ident = X
+
 			case *ast.CompositeLit:
 				var ok bool
 				var sl *ast.SelectorExpr
@@ -1411,6 +1405,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
 				if !ok {
 					log.Fatalln("gongstructName not found for identifier", identifier)
+				}
+
+				if basicLit == nil {
+					// for the meta field written as ref_models.ENUM_VALUE1
+					basicLit = new(ast.BasicLit)
+					basicLit.Kind = token.STRING // Or another appropriate token.Kind
+					basicLit.Value = ident.Name + "." + Sel.Name
 				}
 
 				// remove first and last char
