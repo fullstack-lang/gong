@@ -145,4 +145,7 @@ func _(stage *models.Stage) {
 	__Lane__000001_Lane_2.Bars = append(__Lane__000001_Lane_2.Bars, __Bar__000002_Bar_3)
 	__Lane__000002_Lane_3.Bars = append(__Lane__000002_Lane_3.Bars, __Bar__000003_Bar_4)
 	// setup of Milestone instances pointers
+	__Milestone__000000_Milestone.LanesToDisplay = append(__Milestone__000000_Milestone.LanesToDisplay, __Lane__000000_Lane_1)
+	__Milestone__000000_Milestone.LanesToDisplay = append(__Milestone__000000_Milestone.LanesToDisplay, __Lane__000001_Lane_2)
+	__Milestone__000000_Milestone.LanesToDisplay = append(__Milestone__000000_Milestone.LanesToDisplay, __Lane__000002_Lane_3)
 }

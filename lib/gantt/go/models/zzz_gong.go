@@ -152,7 +152,7 @@ type Stage struct {
 	Milestones_mapString map[string]*Milestone
 
 	// insertion point for slice of pointers maps
-	Milestone_LanesToDisplayMilestoneUse_reverseMap map[*LaneUse]*Milestone
+	Milestone_LanesToDisplay_reverseMap map[*Lane]*Milestone
 
 	OnAfterMilestoneCreateCallback OnAfterCreateInterface[Milestone]
 	OnAfterMilestoneUpdateCallback OnAfterUpdateInterface[Milestone]
@@ -1271,8 +1271,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Milestone:
 		return any(&Milestone{
 			// Initialisation of associations
-			// field is initialized with an instance of LaneUse with the name of the field
-			LanesToDisplayMilestoneUse: []*LaneUse{{Name: "LanesToDisplayMilestoneUse"}},
+			// field is initialized with an instance of Lane with the name of the field
+			LanesToDisplay: []*Lane{{Name: "LanesToDisplay"}},
 		}).(*Type)
 	default:
 		return nil
@@ -1476,11 +1476,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Milestone:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "LanesToDisplayMilestoneUse":
-			res := make(map[*LaneUse][]*Milestone)
+		case "LanesToDisplay":
+			res := make(map[*Lane][]*Milestone)
 			for milestone := range stage.Milestones {
-				for _, laneuse_ := range milestone.LanesToDisplayMilestoneUse {
-					res[laneuse_] = append(res[laneuse_], milestone)
+				for _, lane_ := range milestone.LanesToDisplay {
+					res[lane_] = append(res[lane_], milestone)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -1561,7 +1561,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case LaneUse:
 		res = []string{"Name", "Lane"}
 	case Milestone:
-		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplayMilestoneUse"}
+		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplay"}
 	}
 	return
 }
@@ -1610,12 +1610,12 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Group"
 		rf.Fieldname = "GroupLanes"
 		res = append(res, rf)
+		rf.GongstructName = "Milestone"
+		rf.Fieldname = "LanesToDisplay"
+		res = append(res, rf)
 	case LaneUse:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Milestone"
-		rf.Fieldname = "LanesToDisplayMilestoneUse"
-		res = append(res, rf)
 	case Milestone:
 		var rf ReverseField
 		_ = rf
@@ -1646,7 +1646,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *LaneUse:
 		res = []string{"Name", "Lane"}
 	case *Milestone:
-		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplayMilestoneUse"}
+		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplay"}
 	}
 	return
 }
@@ -1973,8 +1973,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.DisplayVerticalBar)
 			res.valueBool = inferedInstance.DisplayVerticalBar
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "LanesToDisplayMilestoneUse":
-			for idx, __instance__ := range inferedInstance.LanesToDisplayMilestoneUse {
+		case "LanesToDisplay":
+			for idx, __instance__ := range inferedInstance.LanesToDisplay {
 				if idx > 0 {
 					res.valueString += "\n"
 				}
@@ -2276,8 +2276,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.DisplayVerticalBar)
 			res.valueBool = inferedInstance.DisplayVerticalBar
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "LanesToDisplayMilestoneUse":
-			for idx, __instance__ := range inferedInstance.LanesToDisplayMilestoneUse {
+		case "LanesToDisplay":
+			for idx, __instance__ := range inferedInstance.LanesToDisplay {
 				if idx > 0 {
 					res.valueString += "\n"
 				}

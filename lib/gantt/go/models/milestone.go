@@ -11,5 +11,5 @@ type Milestone struct {
 	DisplayVerticalBar bool
 
 	// a red diamond a text anchor will be displayed
-	LanesToDisplayMilestoneUse []*LaneUse
+	LanesToDisplay []*Lane
 }

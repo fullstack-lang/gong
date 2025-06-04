@@ -67,18 +67,18 @@ func GetReverseFieldOwnerName(
 					res = _group.Name
 				}
 			}
+		case "Milestone":
+			switch reverseField.Fieldname {
+			case "LanesToDisplay":
+				if _milestone, ok := stage.Milestone_LanesToDisplay_reverseMap[inst]; ok {
+					res = _milestone.Name
+				}
+			}
 		}
 
 	case *LaneUse:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Milestone":
-			switch reverseField.Fieldname {
-			case "LanesToDisplayMilestoneUse":
-				if _milestone, ok := stage.Milestone_LanesToDisplayMilestoneUse_reverseMap[inst]; ok {
-					res = _milestone.Name
-				}
-			}
 		}
 
 	case *Milestone:
@@ -155,16 +155,16 @@ func GetReverseFieldOwner[T Gongstruct](
 			case "GroupLanes":
 				res = stage.Group_GroupLanes_reverseMap[inst]
 			}
+		case "Milestone":
+			switch reverseField.Fieldname {
+			case "LanesToDisplay":
+				res = stage.Milestone_LanesToDisplay_reverseMap[inst]
+			}
 		}
 
 	case *LaneUse:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Milestone":
-			switch reverseField.Fieldname {
-			case "LanesToDisplayMilestoneUse":
-				res = stage.Milestone_LanesToDisplayMilestoneUse_reverseMap[inst]
-			}
 		}
 
 	case *Milestone:
