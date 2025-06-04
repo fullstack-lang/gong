@@ -41,6 +41,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Bstruct := (&models.GongStructShape{}).Stage(stage)
 
 	__LinkShape__000000_Associationtob := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000001_Anarrayofb := (&models.LinkShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -91,11 +92,11 @@ func _(stage *models.Stage) {
 	__GongEnumValueShape__000002_ENUM_VAL2.IdentifierMeta = ref_models.ENUM_VAL2
 
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
-	__GongStructShape__000000_Default_Astruct.X = 564.000000
-	__GongStructShape__000000_Default_Astruct.Y = 148.000000
+	__GongStructShape__000000_Default_Astruct.X = 153.000000
+	__GongStructShape__000000_Default_Astruct.Y = 41.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_Astruct.Identifier = `.`
+	//gong:ident [...] comment added to overcome the problem with the comment map association
+	__GongStructShape__000000_Default_Astruct.Identifier = `...`
 	__GongStructShape__000000_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
 	__GongStructShape__000000_Default_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_Default_Astruct.NbInstances = 0
@@ -104,16 +105,16 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
 
 	__GongStructShape__000001_Default_Bstruct.Name = `Default-Bstruct`
-	__GongStructShape__000001_Default_Bstruct.X = 54.000000
-	__GongStructShape__000001_Default_Bstruct.Y = 58.000000
+	__GongStructShape__000001_Default_Bstruct.X = 964.000000
+	__GongStructShape__000001_Default_Bstruct.Y = 110.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
-	__GongStructShape__000001_Default_Bstruct.Identifier = `.`
+	//gong:ident [...] comment added to overcome the problem with the comment map association
+	__GongStructShape__000001_Default_Bstruct.Identifier = `...`
 	__GongStructShape__000001_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
 	__GongStructShape__000001_Default_Bstruct.ShowNbInstances = false
 	__GongStructShape__000001_Default_Bstruct.NbInstances = 0
 	__GongStructShape__000001_Default_Bstruct.Width = 240.000000
-	__GongStructShape__000001_Default_Bstruct.Height = 63.000000
+	__GongStructShape__000001_Default_Bstruct.Height = 227.000000
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
 
 	__LinkShape__000000_Associationtob.Name = `Associationtob`
@@ -138,8 +139,33 @@ func _(stage *models.Stage) {
 	__LinkShape__000000_Associationtob.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__000000_Associationtob.StartRatio = 0.500000
 	__LinkShape__000000_Associationtob.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000000_Associationtob.EndRatio = 0.500000
+	__LinkShape__000000_Associationtob.EndRatio = 0.233159
 	__LinkShape__000000_Associationtob.CornerOffsetRatio = 1.380000
+
+	__LinkShape__000001_Anarrayofb.Name = `Anarrayofb`
+
+	//gong:ident [ref_models.Astruct.Anarrayofb] comment added to overcome the problem with the comment map association
+	__LinkShape__000001_Anarrayofb.Identifier = `ref_models.Astruct.Anarrayofb`
+	__LinkShape__000001_Anarrayofb.IdentifierMeta = ref_models.Astruct{}.Anarrayofb
+
+	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
+	__LinkShape__000001_Anarrayofb.Fieldtypename = `ref_models.Bstruct`
+	__LinkShape__000001_Anarrayofb.FieldTypeIdentifierMeta = ref_models.Bstruct{}
+	__LinkShape__000001_Anarrayofb.FieldOffsetX = 0.000000
+	__LinkShape__000001_Anarrayofb.FieldOffsetY = 0.000000
+	__LinkShape__000001_Anarrayofb.TargetMultiplicity = models.MANY
+	__LinkShape__000001_Anarrayofb.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000001_Anarrayofb.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000001_Anarrayofb.SourceMultiplicity = models.MANY
+	__LinkShape__000001_Anarrayofb.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000001_Anarrayofb.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000001_Anarrayofb.X = 918.500000
+	__LinkShape__000001_Anarrayofb.Y = 117.000000
+	__LinkShape__000001_Anarrayofb.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000001_Anarrayofb.StartRatio = 0.500000
+	__LinkShape__000001_Anarrayofb.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000001_Anarrayofb.EndRatio = 0.863115
+	__LinkShape__000001_Anarrayofb.CornerOffsetRatio = 1.285547
 
 	// Setup of pointers
 	// setup of AttributeShape instances pointers
@@ -157,5 +183,6 @@ func _(stage *models.Stage) {
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000000_Associationtob)
+	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Anarrayofb)
 	// setup of LinkShape instances pointers
 }
