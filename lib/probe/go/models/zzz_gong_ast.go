@@ -770,6 +770,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					basicLit = new(ast.BasicLit)
 					basicLit.Kind = token.STRING // Or another appropriate token.Kind
 					basicLit.Value = ident.Name + "." + Sel.Name
+					_ = basicLit.Kind
+					_ = basicLit.Value
 				}
 
 				// remove first and last char
