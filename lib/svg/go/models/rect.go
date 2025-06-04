@@ -37,6 +37,12 @@ type Rect struct {
 	RectAnchoredRects []*RectAnchoredRect
 	RectAnchoredPaths []*RectAnchoredPath
 
+	ChangeColorWhenHovered bool
+	ColorWhenHovered       string
+	OriginalColor          string
+	FillOpacityWhenHovered float64
+	OriginalFillOpacity    float64
+
 	Impl RectImplInterface
 }
 
