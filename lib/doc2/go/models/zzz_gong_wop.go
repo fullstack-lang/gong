@@ -134,12 +134,15 @@ type GongEnumValueShape_WOP struct {
 	Name string
 
 	Identifier string
+
+	IdentifierMeta any
 }
 
 func (from *GongEnumValueShape) CopyBasicFields(to *GongEnumValueShape) {
 	// insertion point
 	to.Name = from.Name
 	to.Identifier = from.Identifier
+	to.IdentifierMeta = from.IdentifierMeta
 }
 
 type GongNoteLinkShape_WOP struct {
