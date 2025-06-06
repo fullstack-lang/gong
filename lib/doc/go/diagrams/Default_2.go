@@ -56,14 +56,12 @@ func _(stage *models.Stage) {
 
 	__GongEnumShape__000000_Default_2_OrientationType.Name = `Default_2-OrientationType`
 
-	//gong:ident [ref_models.OrientationType] comment added to overcome the problem with the comment map association
 	__GongEnumShape__000000_Default_2_OrientationType.Identifier = `ref_models.OrientationType`
 	__GongEnumShape__000000_Default_2_OrientationType.Width = 240.000000
 	__GongEnumShape__000000_Default_2_OrientationType.Height = 63.000000
 
 	__GongStructShape__000000_Default_2_Classdiagram.Name = `Default_2-Classdiagram`
 
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_2_Classdiagram.Identifier = `ref_models.Classdiagram`
 	__GongStructShape__000000_Default_2_Classdiagram.ShowNbInstances = false
 	__GongStructShape__000000_Default_2_Classdiagram.NbInstances = 0
@@ -73,7 +71,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_2_Field.Name = `Default_2-Field`
 
-	//gong:ident [ref_models.Field] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_2_Field.Identifier = `ref_models.Field`
 	__GongStructShape__000001_Default_2_Field.ShowNbInstances = false
 	__GongStructShape__000001_Default_2_Field.NbInstances = 0
@@ -83,7 +80,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000002_Default_2_NoteShape.Name = `Default_2-NoteShape`
 
-	//gong:ident [ref_models.NoteShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_2_NoteShape.Identifier = `ref_models.NoteShape`
 	__GongStructShape__000002_Default_2_NoteShape.ShowNbInstances = false
 	__GongStructShape__000002_Default_2_NoteShape.NbInstances = 0
@@ -93,10 +89,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_NoteShapes.Name = `NoteShapes`
 
-	//gong:ident [ref_models.Classdiagram.NoteShapes] comment added to overcome the problem with the comment map association
 	__Link__000000_NoteShapes.Identifier = `ref_models.Classdiagram.NoteShapes`
 
-	//gong:ident [ref_models.NoteShape] comment added to overcome the problem with the comment map association
 	__Link__000000_NoteShapes.Fieldtypename = `ref_models.NoteShape`
 	__Link__000000_NoteShapes.FieldOffsetX = -50.000000
 	__Link__000000_NoteShapes.FieldOffsetY = -16.000000
@@ -114,7 +108,6 @@ func _(stage *models.Stage) {
 
 	__NoteShape__000000_NoteOnGongdoc.Name = `NoteOnGongdoc`
 
-	//gong:ident [ref_models.NoteOnGongdoc] comment added to overcome the problem with the comment map association
 	__NoteShape__000000_NoteOnGongdoc.Identifier = `ref_models.NoteOnGongdoc`
 	__NoteShape__000000_NoteOnGongdoc.Body = `Note Example
 
@@ -135,19 +128,16 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__NoteShapeLink__000000_NoteShape.Name = `NoteShape`
 
-	//gong:ident [ref_models.NoteShape] comment added to overcome the problem with the comment map association
 	__NoteShapeLink__000000_NoteShape.Identifier = `ref_models.NoteShape`
 	__NoteShapeLink__000000_NoteShape.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
 
 	__NoteShapeLink__000001_OrientationType.Name = `OrientationType`
 
-	//gong:ident [ref_models.OrientationType] comment added to overcome the problem with the comment map association
 	__NoteShapeLink__000001_OrientationType.Identifier = `ref_models.OrientationType`
 	__NoteShapeLink__000001_OrientationType.Type = models.NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE
 
 	__NoteShapeLink__000002_NoteShapes.Name = `NoteShapes`
 
-	//gong:ident [ref_models.Classdiagram.NoteShapes] comment added to overcome the problem with the comment map association
 	__NoteShapeLink__000002_NoteShapes.Identifier = `ref_models.Classdiagram.NoteShapes`
 	__NoteShapeLink__000002_NoteShapes.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
 

@@ -43,7 +43,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.A.Name] comment added to overcome the problem with the comment map association
 	__Field__000000_Name.Identifier = `ref_models.A.Name`
 	__Field__000000_Name.FieldTypeAsString = ``
 	__Field__000000_Name.Structname = `A`
@@ -51,7 +50,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_A.Name = `Default-A`
 
-	//gong:ident [ref_models.A] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_A.Identifier = `ref_models.A`
 	__GongStructShape__000000_Default_A.ShowNbInstances = false
 	__GongStructShape__000000_Default_A.NbInstances = 0
@@ -61,7 +59,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_B.Name = `Default-B`
 
-	//gong:ident [ref_models.B] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_B.Identifier = `ref_models.B`
 	__GongStructShape__000001_Default_B.ShowNbInstances = false
 	__GongStructShape__000001_Default_B.NbInstances = 0

@@ -2198,7 +2198,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
 	case GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case GongEnumValue:
@@ -2308,7 +2308,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsDocLink", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
+		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
 	case *GongEnum:
 		res = []string{"Name", "Type", "GongEnumValues"}
 	case *GongEnumValue:
@@ -2391,10 +2391,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
 			res.valueInt = inferedInstance.Index
 			res.GongFieldValueType = GongFieldValueTypeInt
-		case "IsDocLink":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDocLink)
-			res.valueBool = inferedInstance.IsDocLink
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsTextArea":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
 			res.valueBool = inferedInstance.IsTextArea
@@ -2647,10 +2643,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%d", inferedInstance.Index)
 			res.valueInt = inferedInstance.Index
 			res.GongFieldValueType = GongFieldValueTypeInt
-		case "IsDocLink":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsDocLink)
-			res.valueBool = inferedInstance.IsDocLink
-			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsTextArea":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
 			res.valueBool = inferedInstance.IsTextArea

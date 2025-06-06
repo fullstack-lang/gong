@@ -65,7 +65,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.Tree.Name] comment added to overcome the problem with the comment map association
 	__Field__000000_Name.Identifier = `ref_models.Tree.Name`
 	__Field__000000_Name.FieldTypeAsString = ``
 	__Field__000000_Name.Structname = `Tree`
@@ -73,7 +72,6 @@ func _(stage *models.Stage) {
 
 	__Field__000001_Name.Name = `Name`
 
-	//gong:ident [ref_models.Node.Name] comment added to overcome the problem with the comment map association
 	__Field__000001_Name.Identifier = `ref_models.Node.Name`
 	__Field__000001_Name.FieldTypeAsString = ``
 	__Field__000001_Name.Structname = `Node`
@@ -81,7 +79,6 @@ func _(stage *models.Stage) {
 
 	__Field__000002_IsExpanded.Name = `IsExpanded`
 
-	//gong:ident [ref_models.Node.IsExpanded] comment added to overcome the problem with the comment map association
 	__Field__000002_IsExpanded.Identifier = `ref_models.Node.IsExpanded`
 	__Field__000002_IsExpanded.FieldTypeAsString = ``
 	__Field__000002_IsExpanded.Structname = `Node`
@@ -89,7 +86,6 @@ func _(stage *models.Stage) {
 
 	__Field__000003_HasCheckboxButton.Name = `HasCheckboxButton`
 
-	//gong:ident [ref_models.Node.HasCheckboxButton] comment added to overcome the problem with the comment map association
 	__Field__000003_HasCheckboxButton.Identifier = `ref_models.Node.HasCheckboxButton`
 	__Field__000003_HasCheckboxButton.FieldTypeAsString = ``
 	__Field__000003_HasCheckboxButton.Structname = `Node`
@@ -97,7 +93,6 @@ func _(stage *models.Stage) {
 
 	__Field__000004_IsChecked.Name = `IsChecked`
 
-	//gong:ident [ref_models.Node.IsChecked] comment added to overcome the problem with the comment map association
 	__Field__000004_IsChecked.Identifier = `ref_models.Node.IsChecked`
 	__Field__000004_IsChecked.FieldTypeAsString = ``
 	__Field__000004_IsChecked.Structname = `Node`
@@ -105,7 +100,6 @@ func _(stage *models.Stage) {
 
 	__Field__000005_Name.Name = `Name`
 
-	//gong:ident [ref_models.Button.Name] comment added to overcome the problem with the comment map association
 	__Field__000005_Name.Identifier = `ref_models.Button.Name`
 	__Field__000005_Name.FieldTypeAsString = ``
 	__Field__000005_Name.Structname = `Button`
@@ -113,7 +107,6 @@ func _(stage *models.Stage) {
 
 	__Field__000006_Icon.Name = `Icon`
 
-	//gong:ident [ref_models.Button.Icon] comment added to overcome the problem with the comment map association
 	__Field__000006_Icon.Identifier = `ref_models.Button.Icon`
 	__Field__000006_Icon.FieldTypeAsString = ``
 	__Field__000006_Icon.Structname = `Button`
@@ -121,7 +114,6 @@ func _(stage *models.Stage) {
 
 	__Field__000007_Name.Name = `Name`
 
-	//gong:ident [ref_models.SVGIcon.Name] comment added to overcome the problem with the comment map association
 	__Field__000007_Name.Identifier = `ref_models.SVGIcon.Name`
 	__Field__000007_Name.FieldTypeAsString = ``
 	__Field__000007_Name.Structname = `SVGIcon`
@@ -129,7 +121,6 @@ func _(stage *models.Stage) {
 
 	__Field__000008_SVG.Name = `SVG`
 
-	//gong:ident [ref_models.SVGIcon.SVG] comment added to overcome the problem with the comment map association
 	__Field__000008_SVG.Identifier = `ref_models.SVGIcon.SVG`
 	__Field__000008_SVG.FieldTypeAsString = ``
 	__Field__000008_SVG.Structname = `SVGIcon`
@@ -137,7 +128,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_Tree.Name = `Default-Tree`
 
-	//gong:ident [ref_models.Tree] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_Tree.Identifier = `ref_models.Tree`
 	__GongStructShape__000000_Default_Tree.ShowNbInstances = false
 	__GongStructShape__000000_Default_Tree.NbInstances = 0
@@ -147,7 +137,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_Node.Name = `Default-Node`
 
-	//gong:ident [ref_models.Node] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_Node.Identifier = `ref_models.Node`
 	__GongStructShape__000001_Default_Node.ShowNbInstances = false
 	__GongStructShape__000001_Default_Node.NbInstances = 0
@@ -157,7 +146,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000002_Default_Button.Name = `Default-Button`
 
-	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_Button.Identifier = `ref_models.Button`
 	__GongStructShape__000002_Default_Button.ShowNbInstances = false
 	__GongStructShape__000002_Default_Button.NbInstances = 0
@@ -167,7 +155,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000003_Default_SVGIcon.Name = `Default-SVGIcon`
 
-	//gong:ident [ref_models.SVGIcon] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_SVGIcon.Identifier = `ref_models.SVGIcon`
 	__GongStructShape__000003_Default_SVGIcon.ShowNbInstances = false
 	__GongStructShape__000003_Default_SVGIcon.NbInstances = 0
@@ -177,10 +164,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_RootNodes.Name = `RootNodes`
 
-	//gong:ident [ref_models.Tree.RootNodes] comment added to overcome the problem with the comment map association
 	__Link__000000_RootNodes.Identifier = `ref_models.Tree.RootNodes`
 
-	//gong:ident [ref_models.Node] comment added to overcome the problem with the comment map association
 	__Link__000000_RootNodes.Fieldtypename = `ref_models.Node`
 	__Link__000000_RootNodes.FieldOffsetX = 0.000000
 	__Link__000000_RootNodes.FieldOffsetY = 0.000000
@@ -198,10 +183,8 @@ func _(stage *models.Stage) {
 
 	__Link__000001_Children.Name = `Children`
 
-	//gong:ident [ref_models.Node.Children] comment added to overcome the problem with the comment map association
 	__Link__000001_Children.Identifier = `ref_models.Node.Children`
 
-	//gong:ident [ref_models.Node] comment added to overcome the problem with the comment map association
 	__Link__000001_Children.Fieldtypename = `ref_models.Node`
 	__Link__000001_Children.FieldOffsetX = 0.000000
 	__Link__000001_Children.FieldOffsetY = 0.000000
@@ -219,10 +202,8 @@ func _(stage *models.Stage) {
 
 	__Link__000002_Buttons.Name = `Buttons`
 
-	//gong:ident [ref_models.Node.Buttons] comment added to overcome the problem with the comment map association
 	__Link__000002_Buttons.Identifier = `ref_models.Node.Buttons`
 
-	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
 	__Link__000002_Buttons.Fieldtypename = `ref_models.Button`
 	__Link__000002_Buttons.FieldOffsetX = 0.000000
 	__Link__000002_Buttons.FieldOffsetY = 0.000000
@@ -240,10 +221,8 @@ func _(stage *models.Stage) {
 
 	__Link__000003_SVGIcon.Name = `SVGIcon`
 
-	//gong:ident [ref_models.Button.SVGIcon] comment added to overcome the problem with the comment map association
 	__Link__000003_SVGIcon.Identifier = `ref_models.Button.SVGIcon`
 
-	//gong:ident [ref_models.SVGIcon] comment added to overcome the problem with the comment map association
 	__Link__000003_SVGIcon.Fieldtypename = `ref_models.SVGIcon`
 	__Link__000003_SVGIcon.FieldOffsetX = 0.000000
 	__Link__000003_SVGIcon.FieldOffsetY = 0.000000

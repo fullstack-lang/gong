@@ -79,10 +79,6 @@ type GongBasicFieldDB struct {
 	// Declation for basic field gongbasicfieldDB.Index
 	Index_Data sql.NullInt64
 
-	// Declation for basic field gongbasicfieldDB.IsDocLink
-	// provide the sql storage for the boolan
-	IsDocLink_Data sql.NullBool
-
 	// Declation for basic field gongbasicfieldDB.IsTextArea
 	// provide the sql storage for the boolan
 	IsTextArea_Data sql.NullBool
@@ -133,17 +129,15 @@ type GongBasicFieldWOP struct {
 
 	Index int `xlsx:"5"`
 
-	IsDocLink bool `xlsx:"6"`
+	IsTextArea bool `xlsx:"6"`
 
-	IsTextArea bool `xlsx:"7"`
+	IsBespokeWidth bool `xlsx:"7"`
 
-	IsBespokeWidth bool `xlsx:"8"`
+	BespokeWidth int `xlsx:"8"`
 
-	BespokeWidth int `xlsx:"9"`
+	IsBespokeHeight bool `xlsx:"9"`
 
-	IsBespokeHeight bool `xlsx:"10"`
-
-	BespokeHeight int `xlsx:"11"`
+	BespokeHeight int `xlsx:"10"`
 	// insertion for WOP pointer fields
 }
 
@@ -155,7 +149,6 @@ var GongBasicField_Fields = []string{
 	"DeclaredType",
 	"CompositeStructName",
 	"Index",
-	"IsDocLink",
 	"IsTextArea",
 	"IsBespokeWidth",
 	"BespokeWidth",
@@ -486,9 +479,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField(gong
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
 
-	gongbasicfieldDB.IsDocLink_Data.Bool = gongbasicfield.IsDocLink
-	gongbasicfieldDB.IsDocLink_Data.Valid = true
-
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
 
@@ -523,9 +513,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicField_WOP(
 
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
-
-	gongbasicfieldDB.IsDocLink_Data.Bool = gongbasicfield.IsDocLink
-	gongbasicfieldDB.IsDocLink_Data.Valid = true
 
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
@@ -562,9 +549,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsFromGongBasicFieldWOP(g
 	gongbasicfieldDB.Index_Data.Int64 = int64(gongbasicfield.Index)
 	gongbasicfieldDB.Index_Data.Valid = true
 
-	gongbasicfieldDB.IsDocLink_Data.Bool = gongbasicfield.IsDocLink
-	gongbasicfieldDB.IsDocLink_Data.Valid = true
-
 	gongbasicfieldDB.IsTextArea_Data.Bool = gongbasicfield.IsTextArea
 	gongbasicfieldDB.IsTextArea_Data.Valid = true
 
@@ -589,7 +573,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField(gongba
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
-	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
 	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
 	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)
@@ -605,7 +588,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicField_WOP(go
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
-	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
 	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
 	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)
@@ -622,7 +604,6 @@ func (gongbasicfieldDB *GongBasicFieldDB) CopyBasicFieldsToGongBasicFieldWOP(gon
 	gongbasicfield.DeclaredType = gongbasicfieldDB.DeclaredType_Data.String
 	gongbasicfield.CompositeStructName = gongbasicfieldDB.CompositeStructName_Data.String
 	gongbasicfield.Index = int(gongbasicfieldDB.Index_Data.Int64)
-	gongbasicfield.IsDocLink = gongbasicfieldDB.IsDocLink_Data.Bool
 	gongbasicfield.IsTextArea = gongbasicfieldDB.IsTextArea_Data.Bool
 	gongbasicfield.IsBespokeWidth = gongbasicfieldDB.IsBespokeWidth_Data.Bool
 	gongbasicfield.BespokeWidth = int(gongbasicfieldDB.BespokeWidth_Data.Int64)

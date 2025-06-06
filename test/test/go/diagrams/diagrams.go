@@ -46,8 +46,6 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__AttributeShape__000000_Name.Name = `Name`
-
-	//gong:ident [ref_models.Astruct.Name] comment added to overcome the problem with the comment map association
 	__AttributeShape__000000_Name.Identifier = `ref_models.Astruct.Name`
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Astruct{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
@@ -74,8 +72,6 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.Name = `Default-AEnumType`
 	__GongEnumShape__000000_Default_AEnumType.X = 72.000000
 	__GongEnumShape__000000_Default_AEnumType.Y = 226.000000
-
-	//gong:ident [ref_models.AEnumType] comment added to overcome the problem with the comment map association
 	__GongEnumShape__000000_Default_AEnumType.Identifier = `ref_models.AEnumType`
 	__GongEnumShape__000000_Default_AEnumType.IdentifierMeta = new(ref_models.AEnumType)
 	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000
@@ -112,13 +108,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
 
 	__LinkShape__000000_Associationtob.Name = `Associationtob`
-
-	//gong:ident [ref_models.Astruct.Associationtob] comment added to overcome the problem with the comment map association
 	__LinkShape__000000_Associationtob.Identifier = `ref_models.Astruct.Associationtob`
 	__LinkShape__000000_Associationtob.IdentifierMeta = ref_models.Astruct{}.Associationtob
-
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-
 	__LinkShape__000000_Associationtob.FieldTypeIdentifierMeta = ref_models.Bstruct{}
 	__LinkShape__000000_Associationtob.FieldOffsetX = 0.000000
 	__LinkShape__000000_Associationtob.FieldOffsetY = 0.000000
@@ -137,13 +128,8 @@ func _(stage *models.Stage) {
 	__LinkShape__000000_Associationtob.CornerOffsetRatio = 1.380000
 
 	__LinkShape__000001_Anarrayofb.Name = `Anarrayofb`
-
-	//gong:ident [ref_models.Astruct.Anarrayofb] comment added to overcome the problem with the comment map association
 	__LinkShape__000001_Anarrayofb.Identifier = `ref_models.Astruct.Anarrayofb`
 	__LinkShape__000001_Anarrayofb.IdentifierMeta = ref_models.Astruct{}.Anarrayofb
-
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-
 	__LinkShape__000001_Anarrayofb.FieldTypeIdentifierMeta = ref_models.Bstruct{}
 	__LinkShape__000001_Anarrayofb.FieldOffsetX = 0.000000
 	__LinkShape__000001_Anarrayofb.FieldOffsetY = 0.000000
