@@ -68,8 +68,6 @@ func _(stage *models.Stage) {
 
 	__GongNoteLinkShape__000000_NoName_yet.Name = `NoName yet`
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__GongNoteLinkShape__000000_NoName_yet.Identifier = `..`
 	__GongNoteLinkShape__000000_NoName_yet.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
 
 	__GongStructShape__000000_Default_Group.Name = `Default-Group`
@@ -99,11 +97,11 @@ func _(stage *models.Stage) {
 	__LinkShape__000000_Buttons.Name = `Buttons`
 
 	//gong:ident [ref_models.Group.Buttons] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Buttons.Identifier = `ref_models.Group.Buttons`
+
 	__LinkShape__000000_Buttons.IdentifierMeta = ref_models.Group{}.Buttons
 
 	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Buttons.Fieldtypename = `ref_models.Button`
+
 	__LinkShape__000000_Buttons.FieldTypeIdentifierMeta = ref_models.Button{}
 	__LinkShape__000000_Buttons.FieldOffsetX = 0.000000
 	__LinkShape__000000_Buttons.FieldOffsetY = 0.000000
