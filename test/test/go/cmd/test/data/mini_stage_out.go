@@ -50,24 +50,6 @@ func _(stage *models.Stage) {
 	__Astruct__000000_.Intfield = 0
 	__Astruct__000000_.Anotherbooleanfield = false
 	__Astruct__000000_.Duration1 = 0
-
-	//gong:ident [dummy.Dummy2] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.StructRef = `dummy.Dummy2`
-
-	//gong:ident [dummy.Dummy2.Name] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.FieldRef = `dummy.Dummy2.Name`
-
-	//gong:ident [dummy.DummyTypeInt] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumIntRef = `dummy.DummyTypeInt`
-
-	//gong:ident [dummy.DummyTypeString] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumStringRef = `dummy.DummyTypeString`
-
-	//gong:ident [dummy.A] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.EnumValue = `dummy.A`
-
-	//gong:ident [] comment added to overcome the problem with the comment map association
-	__Astruct__000000_.ConstIdentifierValue = ``
 	__Astruct__000000_.TextFieldBespokeSize = ``
 	__Astruct__000000_.TextArea = ``
 

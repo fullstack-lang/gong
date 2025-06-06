@@ -16,10 +16,6 @@ type GongBasicField struct {
 
 	Index int
 
-	// IsDocLink is true if the field is a string field
-	// that is set at compile time by a DocLink directive //gong:ident
-	IsDocLink bool
-
 	// if there is a gong:text gong directive
 	IsTextArea bool
 

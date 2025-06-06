@@ -23,7 +23,6 @@ export class GongBasicField {
 	DeclaredType: string = ""
 	CompositeStructName: string = ""
 	Index: number = 0
-	IsDocLink: boolean = false
 	IsTextArea: boolean = false
 	IsBespokeWidth: boolean = false
 	BespokeWidth: number = 0
@@ -47,7 +46,6 @@ export function CopyGongBasicFieldToGongBasicFieldAPI(gongbasicfield: GongBasicF
 	gongbasicfieldAPI.DeclaredType = gongbasicfield.DeclaredType
 	gongbasicfieldAPI.CompositeStructName = gongbasicfield.CompositeStructName
 	gongbasicfieldAPI.Index = gongbasicfield.Index
-	gongbasicfieldAPI.IsDocLink = gongbasicfield.IsDocLink
 	gongbasicfieldAPI.IsTextArea = gongbasicfield.IsTextArea
 	gongbasicfieldAPI.IsBespokeWidth = gongbasicfield.IsBespokeWidth
 	gongbasicfieldAPI.BespokeWidth = gongbasicfield.BespokeWidth
@@ -82,7 +80,6 @@ export function CopyGongBasicFieldAPIToGongBasicField(gongbasicfieldAPI: GongBas
 	gongbasicfield.DeclaredType = gongbasicfieldAPI.DeclaredType
 	gongbasicfield.CompositeStructName = gongbasicfieldAPI.CompositeStructName
 	gongbasicfield.Index = gongbasicfieldAPI.Index
-	gongbasicfield.IsDocLink = gongbasicfieldAPI.IsDocLink
 	gongbasicfield.IsTextArea = gongbasicfieldAPI.IsTextArea
 	gongbasicfield.IsBespokeWidth = gongbasicfieldAPI.IsBespokeWidth
 	gongbasicfield.BespokeWidth = gongbasicfieldAPI.BespokeWidth

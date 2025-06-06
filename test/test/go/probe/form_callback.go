@@ -258,18 +258,6 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 
 		case "AnAstruct":
 			FormDivSelectFieldToField(&(astruct_.AnAstruct), astructFormCallback.probe.stageOfInterest, formDiv)
-		case "StructRef":
-			FormDivBasicFieldToField(&(astruct_.StructRef), formDiv)
-		case "FieldRef":
-			FormDivBasicFieldToField(&(astruct_.FieldRef), formDiv)
-		case "EnumIntRef":
-			FormDivBasicFieldToField(&(astruct_.EnumIntRef), formDiv)
-		case "EnumStringRef":
-			FormDivBasicFieldToField(&(astruct_.EnumStringRef), formDiv)
-		case "EnumValue":
-			FormDivBasicFieldToField(&(astruct_.EnumValue), formDiv)
-		case "ConstIdentifierValue":
-			FormDivBasicFieldToField(&(astruct_.ConstIdentifierValue), formDiv)
 		case "TextFieldBespokeSize":
 			FormDivBasicFieldToField(&(astruct_.TextFieldBespokeSize), formDiv)
 		case "TextArea":

@@ -18,7 +18,6 @@ export class GongBasicFieldAPI {
 	DeclaredType: string = ""
 	CompositeStructName: string = ""
 	Index: number = 0
-	IsDocLink: boolean = false
 	IsTextArea: boolean = false
 	IsBespokeWidth: boolean = false
 	BespokeWidth: number = 0

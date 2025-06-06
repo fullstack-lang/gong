@@ -101,7 +101,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_Size.Name = `Size`
 
-	//gong:ident [ref_models.AsSplitArea.Size] comment added to overcome the problem with the comment map association
 	__Field__000000_Size.Identifier = `ref_models.AsSplitArea.Size`
 	__Field__000000_Size.FieldTypeAsString = ``
 	__Field__000000_Size.Structname = `AsSplitArea`
@@ -109,7 +108,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_AsSplit.Name = `Default-AsSplit`
 
-	//gong:ident [ref_models.AsSplit] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_AsSplit.Identifier = `ref_models.AsSplit`
 	__GongStructShape__000000_Default_AsSplit.ShowNbInstances = false
 	__GongStructShape__000000_Default_AsSplit.NbInstances = 0
@@ -119,7 +117,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_AsSplitArea.Name = `Default-AsSplitArea`
 
-	//gong:ident [ref_models.AsSplitArea] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_AsSplitArea.Identifier = `ref_models.AsSplitArea`
 	__GongStructShape__000001_Default_AsSplitArea.ShowNbInstances = false
 	__GongStructShape__000001_Default_AsSplitArea.NbInstances = 0
@@ -129,7 +126,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000002_Default_Button.Name = `Default-Button`
 
-	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_Button.Identifier = `ref_models.Button`
 	__GongStructShape__000002_Default_Button.ShowNbInstances = false
 	__GongStructShape__000002_Default_Button.NbInstances = 0
@@ -139,7 +135,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000003_Default_Cursor.Name = `Default-Cursor`
 
-	//gong:ident [ref_models.Cursor] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_Cursor.Identifier = `ref_models.Cursor`
 	__GongStructShape__000003_Default_Cursor.ShowNbInstances = false
 	__GongStructShape__000003_Default_Cursor.NbInstances = 0
@@ -149,7 +144,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000004_Default_Doc.Name = `Default-Doc`
 
-	//gong:ident [ref_models.Doc] comment added to overcome the problem with the comment map association
 	__GongStructShape__000004_Default_Doc.Identifier = `ref_models.Doc`
 	__GongStructShape__000004_Default_Doc.ShowNbInstances = false
 	__GongStructShape__000004_Default_Doc.NbInstances = 0
@@ -159,7 +153,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000005_Default_Form.Name = `Default-Form`
 
-	//gong:ident [ref_models.Form] comment added to overcome the problem with the comment map association
 	__GongStructShape__000005_Default_Form.Identifier = `ref_models.Form`
 	__GongStructShape__000005_Default_Form.ShowNbInstances = false
 	__GongStructShape__000005_Default_Form.NbInstances = 0
@@ -169,7 +162,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000006_Default_Load.Name = `Default-Load`
 
-	//gong:ident [ref_models.Load] comment added to overcome the problem with the comment map association
 	__GongStructShape__000006_Default_Load.Identifier = `ref_models.Load`
 	__GongStructShape__000006_Default_Load.ShowNbInstances = false
 	__GongStructShape__000006_Default_Load.NbInstances = 0
@@ -179,7 +171,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000007_Default_Slider.Name = `Default-Slider`
 
-	//gong:ident [ref_models.Slider] comment added to overcome the problem with the comment map association
 	__GongStructShape__000007_Default_Slider.Identifier = `ref_models.Slider`
 	__GongStructShape__000007_Default_Slider.ShowNbInstances = false
 	__GongStructShape__000007_Default_Slider.NbInstances = 0
@@ -189,7 +180,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000008_Default_Split.Name = `Default-Split`
 
-	//gong:ident [ref_models.Split] comment added to overcome the problem with the comment map association
 	__GongStructShape__000008_Default_Split.Identifier = `ref_models.Split`
 	__GongStructShape__000008_Default_Split.ShowNbInstances = false
 	__GongStructShape__000008_Default_Split.NbInstances = 0
@@ -199,7 +189,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000009_Default_Svg.Name = `Default-Svg`
 
-	//gong:ident [ref_models.Svg] comment added to overcome the problem with the comment map association
 	__GongStructShape__000009_Default_Svg.Identifier = `ref_models.Svg`
 	__GongStructShape__000009_Default_Svg.ShowNbInstances = false
 	__GongStructShape__000009_Default_Svg.NbInstances = 0
@@ -209,7 +198,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000010_Default_Table.Name = `Default-Table`
 
-	//gong:ident [ref_models.Table] comment added to overcome the problem with the comment map association
 	__GongStructShape__000010_Default_Table.Identifier = `ref_models.Table`
 	__GongStructShape__000010_Default_Table.ShowNbInstances = false
 	__GongStructShape__000010_Default_Table.NbInstances = 0
@@ -219,7 +207,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000011_Default_Tone.Name = `Default-Tone`
 
-	//gong:ident [ref_models.Tone] comment added to overcome the problem with the comment map association
 	__GongStructShape__000011_Default_Tone.Identifier = `ref_models.Tone`
 	__GongStructShape__000011_Default_Tone.ShowNbInstances = false
 	__GongStructShape__000011_Default_Tone.NbInstances = 0
@@ -229,7 +216,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000012_Default_Tree.Name = `Default-Tree`
 
-	//gong:ident [ref_models.Tree] comment added to overcome the problem with the comment map association
 	__GongStructShape__000012_Default_Tree.Identifier = `ref_models.Tree`
 	__GongStructShape__000012_Default_Tree.ShowNbInstances = false
 	__GongStructShape__000012_Default_Tree.NbInstances = 0
@@ -239,7 +225,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000013_Default_View.Name = `Default-View`
 
-	//gong:ident [ref_models.View] comment added to overcome the problem with the comment map association
 	__GongStructShape__000013_Default_View.Identifier = `ref_models.View`
 	__GongStructShape__000013_Default_View.ShowNbInstances = false
 	__GongStructShape__000013_Default_View.NbInstances = 0
@@ -249,7 +234,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000014_Default_Xlsx.Name = `Default-Xlsx`
 
-	//gong:ident [ref_models.Xlsx] comment added to overcome the problem with the comment map association
 	__GongStructShape__000014_Default_Xlsx.Identifier = `ref_models.Xlsx`
 	__GongStructShape__000014_Default_Xlsx.ShowNbInstances = false
 	__GongStructShape__000014_Default_Xlsx.NbInstances = 0
@@ -259,10 +243,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_AsSplitAreas.Name = `AsSplitAreas`
 
-	//gong:ident [ref_models.AsSplit.AsSplitAreas] comment added to overcome the problem with the comment map association
 	__Link__000000_AsSplitAreas.Identifier = `ref_models.AsSplit.AsSplitAreas`
 
-	//gong:ident [ref_models.AsSplitArea] comment added to overcome the problem with the comment map association
 	__Link__000000_AsSplitAreas.Fieldtypename = `ref_models.AsSplitArea`
 	__Link__000000_AsSplitAreas.FieldOffsetX = 0.000000
 	__Link__000000_AsSplitAreas.FieldOffsetY = 0.000000
@@ -280,10 +262,8 @@ func _(stage *models.Stage) {
 
 	__Link__000001_AsSplit.Name = `AsSplit`
 
-	//gong:ident [ref_models.AsSplitArea.AsSplit] comment added to overcome the problem with the comment map association
 	__Link__000001_AsSplit.Identifier = `ref_models.AsSplitArea.AsSplit`
 
-	//gong:ident [ref_models.AsSplit] comment added to overcome the problem with the comment map association
 	__Link__000001_AsSplit.Fieldtypename = `ref_models.AsSplit`
 	__Link__000001_AsSplit.FieldOffsetX = 0.000000
 	__Link__000001_AsSplit.FieldOffsetY = 0.000000
@@ -301,10 +281,8 @@ func _(stage *models.Stage) {
 
 	__Link__000002_Button.Name = `Button`
 
-	//gong:ident [ref_models.AsSplitArea.Button] comment added to overcome the problem with the comment map association
 	__Link__000002_Button.Identifier = `ref_models.AsSplitArea.Button`
 
-	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
 	__Link__000002_Button.Fieldtypename = `ref_models.Button`
 	__Link__000002_Button.FieldOffsetX = 0.000000
 	__Link__000002_Button.FieldOffsetY = 0.000000
@@ -322,10 +300,8 @@ func _(stage *models.Stage) {
 
 	__Link__000003_Cursor.Name = `Cursor`
 
-	//gong:ident [ref_models.AsSplitArea.Cursor] comment added to overcome the problem with the comment map association
 	__Link__000003_Cursor.Identifier = `ref_models.AsSplitArea.Cursor`
 
-	//gong:ident [ref_models.Cursor] comment added to overcome the problem with the comment map association
 	__Link__000003_Cursor.Fieldtypename = `ref_models.Cursor`
 	__Link__000003_Cursor.FieldOffsetX = 0.000000
 	__Link__000003_Cursor.FieldOffsetY = 0.000000
@@ -343,10 +319,8 @@ func _(stage *models.Stage) {
 
 	__Link__000004_Doc.Name = `Doc`
 
-	//gong:ident [ref_models.AsSplitArea.Doc] comment added to overcome the problem with the comment map association
 	__Link__000004_Doc.Identifier = `ref_models.AsSplitArea.Doc`
 
-	//gong:ident [ref_models.Doc] comment added to overcome the problem with the comment map association
 	__Link__000004_Doc.Fieldtypename = `ref_models.Doc`
 	__Link__000004_Doc.FieldOffsetX = 0.000000
 	__Link__000004_Doc.FieldOffsetY = 0.000000
@@ -364,10 +338,8 @@ func _(stage *models.Stage) {
 
 	__Link__000005_Form.Name = `Form`
 
-	//gong:ident [ref_models.AsSplitArea.Form] comment added to overcome the problem with the comment map association
 	__Link__000005_Form.Identifier = `ref_models.AsSplitArea.Form`
 
-	//gong:ident [ref_models.Form] comment added to overcome the problem with the comment map association
 	__Link__000005_Form.Fieldtypename = `ref_models.Form`
 	__Link__000005_Form.FieldOffsetX = 0.000000
 	__Link__000005_Form.FieldOffsetY = 0.000000
@@ -385,10 +357,8 @@ func _(stage *models.Stage) {
 
 	__Link__000006_Load.Name = `Load`
 
-	//gong:ident [ref_models.AsSplitArea.Load] comment added to overcome the problem with the comment map association
 	__Link__000006_Load.Identifier = `ref_models.AsSplitArea.Load`
 
-	//gong:ident [ref_models.Load] comment added to overcome the problem with the comment map association
 	__Link__000006_Load.Fieldtypename = `ref_models.Load`
 	__Link__000006_Load.FieldOffsetX = 0.000000
 	__Link__000006_Load.FieldOffsetY = 0.000000
@@ -406,10 +376,8 @@ func _(stage *models.Stage) {
 
 	__Link__000007_Slider.Name = `Slider`
 
-	//gong:ident [ref_models.AsSplitArea.Slider] comment added to overcome the problem with the comment map association
 	__Link__000007_Slider.Identifier = `ref_models.AsSplitArea.Slider`
 
-	//gong:ident [ref_models.Slider] comment added to overcome the problem with the comment map association
 	__Link__000007_Slider.Fieldtypename = `ref_models.Slider`
 	__Link__000007_Slider.FieldOffsetX = 0.000000
 	__Link__000007_Slider.FieldOffsetY = 0.000000
@@ -427,10 +395,8 @@ func _(stage *models.Stage) {
 
 	__Link__000008_Split.Name = `Split`
 
-	//gong:ident [ref_models.AsSplitArea.Split] comment added to overcome the problem with the comment map association
 	__Link__000008_Split.Identifier = `ref_models.AsSplitArea.Split`
 
-	//gong:ident [ref_models.Split] comment added to overcome the problem with the comment map association
 	__Link__000008_Split.Fieldtypename = `ref_models.Split`
 	__Link__000008_Split.FieldOffsetX = 0.000000
 	__Link__000008_Split.FieldOffsetY = 0.000000
@@ -448,10 +414,8 @@ func _(stage *models.Stage) {
 
 	__Link__000009_Svg.Name = `Svg`
 
-	//gong:ident [ref_models.AsSplitArea.Svg] comment added to overcome the problem with the comment map association
 	__Link__000009_Svg.Identifier = `ref_models.AsSplitArea.Svg`
 
-	//gong:ident [ref_models.Svg] comment added to overcome the problem with the comment map association
 	__Link__000009_Svg.Fieldtypename = `ref_models.Svg`
 	__Link__000009_Svg.FieldOffsetX = 0.000000
 	__Link__000009_Svg.FieldOffsetY = 0.000000
@@ -469,10 +433,8 @@ func _(stage *models.Stage) {
 
 	__Link__000010_Table.Name = `Table`
 
-	//gong:ident [ref_models.AsSplitArea.Table] comment added to overcome the problem with the comment map association
 	__Link__000010_Table.Identifier = `ref_models.AsSplitArea.Table`
 
-	//gong:ident [ref_models.Table] comment added to overcome the problem with the comment map association
 	__Link__000010_Table.Fieldtypename = `ref_models.Table`
 	__Link__000010_Table.FieldOffsetX = 0.000000
 	__Link__000010_Table.FieldOffsetY = 0.000000
@@ -490,10 +452,8 @@ func _(stage *models.Stage) {
 
 	__Link__000011_Tone.Name = `Tone`
 
-	//gong:ident [ref_models.AsSplitArea.Tone] comment added to overcome the problem with the comment map association
 	__Link__000011_Tone.Identifier = `ref_models.AsSplitArea.Tone`
 
-	//gong:ident [ref_models.Tone] comment added to overcome the problem with the comment map association
 	__Link__000011_Tone.Fieldtypename = `ref_models.Tone`
 	__Link__000011_Tone.FieldOffsetX = 0.000000
 	__Link__000011_Tone.FieldOffsetY = 0.000000
@@ -511,10 +471,8 @@ func _(stage *models.Stage) {
 
 	__Link__000012_Tree.Name = `Tree`
 
-	//gong:ident [ref_models.AsSplitArea.Tree] comment added to overcome the problem with the comment map association
 	__Link__000012_Tree.Identifier = `ref_models.AsSplitArea.Tree`
 
-	//gong:ident [ref_models.Tree] comment added to overcome the problem with the comment map association
 	__Link__000012_Tree.Fieldtypename = `ref_models.Tree`
 	__Link__000012_Tree.FieldOffsetX = 0.000000
 	__Link__000012_Tree.FieldOffsetY = 0.000000
@@ -532,10 +490,8 @@ func _(stage *models.Stage) {
 
 	__Link__000013_Xlsx.Name = `Xlsx`
 
-	//gong:ident [ref_models.AsSplitArea.Xlsx] comment added to overcome the problem with the comment map association
 	__Link__000013_Xlsx.Identifier = `ref_models.AsSplitArea.Xlsx`
 
-	//gong:ident [ref_models.Xlsx] comment added to overcome the problem with the comment map association
 	__Link__000013_Xlsx.Fieldtypename = `ref_models.Xlsx`
 	__Link__000013_Xlsx.FieldOffsetX = 0.000000
 	__Link__000013_Xlsx.FieldOffsetY = 0.000000
@@ -553,10 +509,8 @@ func _(stage *models.Stage) {
 
 	__Link__000014_RootAsSplitAreas.Name = `RootAsSplitAreas`
 
-	//gong:ident [ref_models.View.RootAsSplitAreas] comment added to overcome the problem with the comment map association
 	__Link__000014_RootAsSplitAreas.Identifier = `ref_models.View.RootAsSplitAreas`
 
-	//gong:ident [ref_models.AsSplitArea] comment added to overcome the problem with the comment map association
 	__Link__000014_RootAsSplitAreas.Fieldtypename = `ref_models.AsSplitArea`
 	__Link__000014_RootAsSplitAreas.FieldOffsetX = 0.000000
 	__Link__000014_RootAsSplitAreas.FieldOffsetY = 0.000000

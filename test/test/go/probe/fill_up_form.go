@@ -58,18 +58,6 @@ func FillUpForm(
 		AssociationSliceToForm("AnarrayofbUse", instanceWithInferedType, &instanceWithInferedType.AnarrayofbUse, formGroup, probe)
 		AssociationSliceToForm("Anarrayofb2Use", instanceWithInferedType, &instanceWithInferedType.Anarrayofb2Use, formGroup, probe)
 		AssociationFieldToForm("AnAstruct", instanceWithInferedType.AnAstruct, formGroup, probe)
-		BasicFieldtoForm("StructRef", instanceWithInferedType.StructRef, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("FieldRef", instanceWithInferedType.FieldRef, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("EnumIntRef", instanceWithInferedType.EnumIntRef, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("EnumStringRef", instanceWithInferedType.EnumStringRef, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("EnumValue", instanceWithInferedType.EnumValue, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ConstIdentifierValue", instanceWithInferedType.ConstIdentifierValue, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		BasicFieldtoForm("TextFieldBespokeSize", instanceWithInferedType.TextFieldBespokeSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, true, 600, true, 300)
 		BasicFieldtoForm("TextArea", instanceWithInferedType.TextArea, instanceWithInferedType, probe.formStage, formGroup,

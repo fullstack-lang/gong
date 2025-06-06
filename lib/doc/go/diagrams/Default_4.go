@@ -39,7 +39,6 @@ func _(stage *models.Stage) {
 
 	__GongEnumShape__000000_Default_4_MultiplicityType.Name = `Default_4-MultiplicityType`
 
-	//gong:ident [ref_models.MultiplicityType] comment added to overcome the problem with the comment map association
 	__GongEnumShape__000000_Default_4_MultiplicityType.Identifier = `ref_models.MultiplicityType`
 	__GongEnumShape__000000_Default_4_MultiplicityType.Width = 240.000000
 	__GongEnumShape__000000_Default_4_MultiplicityType.Height = 63.000000

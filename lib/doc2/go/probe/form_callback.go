@@ -1435,8 +1435,6 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkshape_.Name), formDiv)
 		case "Identifier":
 			FormDivBasicFieldToField(&(linkshape_.Identifier), formDiv)
-		case "Fieldtypename":
-			FormDivBasicFieldToField(&(linkshape_.Fieldtypename), formDiv)
 		case "FieldOffsetX":
 			FormDivBasicFieldToField(&(linkshape_.FieldOffsetX), formDiv)
 		case "FieldOffsetY":
