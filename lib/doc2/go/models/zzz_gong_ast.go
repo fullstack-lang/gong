@@ -1114,10 +1114,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_GongStructShape[identifier].Y = exprSign * fielValue
-				case "Identifier":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_GongStructShape[identifier].Identifier = fielValue
 				case "IdentifierMeta":
 					__gong__map_GongStructShape[identifier].IdentifierMeta = basicLit.Value
 				case "NbInstances":
