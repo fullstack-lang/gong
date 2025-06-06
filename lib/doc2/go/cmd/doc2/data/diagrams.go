@@ -302,7 +302,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000000_Classdiagrams.Identifier = `ref_models.DiagramPackage.Classdiagrams`
 
 	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Classdiagrams.Fieldtypename = `ref_models.Classdiagram`
+
 	__LinkShape__000000_Classdiagrams.FieldOffsetX = 0.000000
 	__LinkShape__000000_Classdiagrams.FieldOffsetY = 0.000000
 	__LinkShape__000000_Classdiagrams.TargetMultiplicity = models.MANY
@@ -324,7 +324,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
+
 	__LinkShape__000001_GongStructShapes.FieldOffsetX = 0.000000
 	__LinkShape__000001_GongStructShapes.FieldOffsetY = 0.000000
 	__LinkShape__000001_GongStructShapes.TargetMultiplicity = models.MANY
@@ -347,7 +347,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000002_AttributeShapes.Identifier = `ref_models.GongStructShape.AttributeShapes`
 
 	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_AttributeShapes.Fieldtypename = `ref_models.AttributeShape`
+
 	__LinkShape__000002_AttributeShapes.FieldOffsetX = 0.000000
 	__LinkShape__000002_AttributeShapes.FieldOffsetY = 0.000000
 	__LinkShape__000002_AttributeShapes.TargetMultiplicity = models.MANY
@@ -369,7 +369,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000003_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
+
 	__LinkShape__000003_GongStructShapes.FieldOffsetX = 0.000000
 	__LinkShape__000003_GongStructShapes.FieldOffsetY = 0.000000
 	__LinkShape__000003_GongStructShapes.TargetMultiplicity = models.MANY
@@ -392,7 +392,7 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000004_GongEnumShapes.Identifier = `ref_models.Classdiagram.GongEnumShapes`
 
 	//gong:ident [ref_models.GongEnumShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GongEnumShapes.Fieldtypename = `ref_models.GongEnumShape`
+
 	__LinkShape__000004_GongEnumShapes.FieldOffsetX = 0.000000
 	__LinkShape__000004_GongEnumShapes.FieldOffsetY = 0.000000
 	__LinkShape__000004_GongEnumShapes.TargetMultiplicity = models.MANY

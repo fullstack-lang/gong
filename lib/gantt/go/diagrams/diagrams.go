@@ -576,7 +576,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000000_Lanes.IdentifierMeta = ref_models.Gantt{}.Lanes
 
 	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Lanes.Fieldtypename = `ref_models.Lane`
+
 	__LinkShape__000000_Lanes.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000000_Lanes.FieldOffsetX = 0.000000
 	__LinkShape__000000_Lanes.FieldOffsetY = 0.000000
@@ -601,7 +601,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000001_Milestones.IdentifierMeta = ref_models.Gantt{}.Milestones
 
 	//gong:ident [ref_models.Milestone] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_Milestones.Fieldtypename = `ref_models.Milestone`
+
 	__LinkShape__000001_Milestones.FieldTypeIdentifierMeta = ref_models.Milestone{}
 	__LinkShape__000001_Milestones.FieldOffsetX = 0.000000
 	__LinkShape__000001_Milestones.FieldOffsetY = 0.000000
@@ -626,7 +626,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000002_Groups.IdentifierMeta = ref_models.Gantt{}.Groups
 
 	//gong:ident [ref_models.Group] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_Groups.Fieldtypename = `ref_models.Group`
+
 	__LinkShape__000002_Groups.FieldTypeIdentifierMeta = ref_models.Group{}
 	__LinkShape__000002_Groups.FieldOffsetX = 0.000000
 	__LinkShape__000002_Groups.FieldOffsetY = 0.000000
@@ -651,7 +651,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000003_Arrows.IdentifierMeta = ref_models.Gantt{}.Arrows
 
 	//gong:ident [ref_models.Arrow] comment added to overcome the problem with the comment map association
-	__LinkShape__000003_Arrows.Fieldtypename = `ref_models.Arrow`
+
 	__LinkShape__000003_Arrows.FieldTypeIdentifierMeta = ref_models.Arrow{}
 	__LinkShape__000003_Arrows.FieldOffsetX = 0.000000
 	__LinkShape__000003_Arrows.FieldOffsetY = 0.000000
@@ -676,7 +676,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000004_GroupLanes.IdentifierMeta = ref_models.Group{}.GroupLanes
 
 	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GroupLanes.Fieldtypename = `ref_models.Lane`
+
 	__LinkShape__000004_GroupLanes.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000004_GroupLanes.FieldOffsetX = 0.000000
 	__LinkShape__000004_GroupLanes.FieldOffsetY = 0.000000
@@ -701,7 +701,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000005_Bars.IdentifierMeta = ref_models.Lane{}.Bars
 
 	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000005_Bars.Fieldtypename = `ref_models.Bar`
+
 	__LinkShape__000005_Bars.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000005_Bars.FieldOffsetX = 0.000000
 	__LinkShape__000005_Bars.FieldOffsetY = 0.000000
@@ -726,7 +726,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000006_LanesToDisplayMilestoneUse.IdentifierMeta = ref_models.Milestone{}.LanesToDisplay
 
 	//gong:ident [ref_models.LaneUse] comment added to overcome the problem with the comment map association
-	__LinkShape__000006_LanesToDisplayMilestoneUse.Fieldtypename = `ref_models.LaneUse`
+
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldTypeIdentifierMeta = ref_models.LaneUse{}
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldOffsetX = 0.000000
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldOffsetY = 0.000000
@@ -751,7 +751,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000007_Lane.IdentifierMeta = ref_models.LaneUse{}.Lane
 
 	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000007_Lane.Fieldtypename = `ref_models.Lane`
+
 	__LinkShape__000007_Lane.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000007_Lane.FieldOffsetX = 0.000000
 	__LinkShape__000007_Lane.FieldOffsetY = 0.000000
@@ -776,7 +776,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000008_From.IdentifierMeta = ref_models.Arrow{}.From
 
 	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000008_From.Fieldtypename = `ref_models.Bar`
+
 	__LinkShape__000008_From.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000008_From.FieldOffsetX = 0.000000
 	__LinkShape__000008_From.FieldOffsetY = 0.000000
@@ -801,7 +801,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000009_To.IdentifierMeta = ref_models.Arrow{}.To
 
 	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000009_To.Fieldtypename = `ref_models.Bar`
+
 	__LinkShape__000009_To.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000009_To.FieldOffsetX = 0.000000
 	__LinkShape__000009_To.FieldOffsetY = 0.000000
