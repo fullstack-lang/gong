@@ -67,7 +67,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.XLSheet.Name] comment added to overcome the problem with the comment map association
 	__Field__000000_Name.Identifier = `ref_models.XLSheet.Name`
 	__Field__000000_Name.FieldTypeAsString = ``
 	__Field__000000_Name.Structname = `XLSheet`
@@ -75,7 +74,6 @@ func _(stage *models.Stage) {
 
 	__Field__000001_RowIndex.Name = `RowIndex`
 
-	//gong:ident [ref_models.XLRow.RowIndex] comment added to overcome the problem with the comment map association
 	__Field__000001_RowIndex.Identifier = `ref_models.XLRow.RowIndex`
 	__Field__000001_RowIndex.FieldTypeAsString = ``
 	__Field__000001_RowIndex.Structname = `XLRow`
@@ -83,7 +81,6 @@ func _(stage *models.Stage) {
 
 	__Field__000002_Name.Name = `Name`
 
-	//gong:ident [ref_models.XLCell.Name] comment added to overcome the problem with the comment map association
 	__Field__000002_Name.Identifier = `ref_models.XLCell.Name`
 	__Field__000002_Name.FieldTypeAsString = ``
 	__Field__000002_Name.Structname = `XLCell`
@@ -91,7 +88,6 @@ func _(stage *models.Stage) {
 
 	__Field__000003_X.Name = `X`
 
-	//gong:ident [ref_models.XLCell.X] comment added to overcome the problem with the comment map association
 	__Field__000003_X.Identifier = `ref_models.XLCell.X`
 	__Field__000003_X.FieldTypeAsString = ``
 	__Field__000003_X.Structname = `XLCell`
@@ -99,7 +95,6 @@ func _(stage *models.Stage) {
 
 	__Field__000004_Y.Name = `Y`
 
-	//gong:ident [ref_models.XLCell.Y] comment added to overcome the problem with the comment map association
 	__Field__000004_Y.Identifier = `ref_models.XLCell.Y`
 	__Field__000004_Y.FieldTypeAsString = ``
 	__Field__000004_Y.Structname = `XLCell`
@@ -107,7 +102,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_XLSheet.Name = `Default-XLSheet`
 
-	//gong:ident [ref_models.XLSheet] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_XLSheet.Identifier = `ref_models.XLSheet`
 	__GongStructShape__000000_Default_XLSheet.ShowNbInstances = false
 	__GongStructShape__000000_Default_XLSheet.NbInstances = 0
@@ -117,7 +111,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_XLRow.Name = `Default-XLRow`
 
-	//gong:ident [ref_models.XLRow] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_XLRow.Identifier = `ref_models.XLRow`
 	__GongStructShape__000001_Default_XLRow.ShowNbInstances = false
 	__GongStructShape__000001_Default_XLRow.NbInstances = 0
@@ -127,7 +120,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000002_Default_XLFile.Name = `Default-XLFile`
 
-	//gong:ident [ref_models.XLFile] comment added to overcome the problem with the comment map association
 	__GongStructShape__000002_Default_XLFile.Identifier = `ref_models.XLFile`
 	__GongStructShape__000002_Default_XLFile.ShowNbInstances = false
 	__GongStructShape__000002_Default_XLFile.NbInstances = 0
@@ -137,7 +129,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000003_Default_XLCell.Name = `Default-XLCell`
 
-	//gong:ident [ref_models.XLCell] comment added to overcome the problem with the comment map association
 	__GongStructShape__000003_Default_XLCell.Identifier = `ref_models.XLCell`
 	__GongStructShape__000003_Default_XLCell.ShowNbInstances = false
 	__GongStructShape__000003_Default_XLCell.NbInstances = 0
@@ -147,7 +138,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000004_Default_DisplaySelection.Name = `Default-DisplaySelection`
 
-	//gong:ident [ref_models.DisplaySelection] comment added to overcome the problem with the comment map association
 	__GongStructShape__000004_Default_DisplaySelection.Identifier = `ref_models.DisplaySelection`
 	__GongStructShape__000004_Default_DisplaySelection.ShowNbInstances = false
 	__GongStructShape__000004_Default_DisplaySelection.NbInstances = 0
@@ -157,10 +147,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_Rows.Name = `Rows`
 
-	//gong:ident [ref_models.XLSheet.Rows] comment added to overcome the problem with the comment map association
 	__Link__000000_Rows.Identifier = `ref_models.XLSheet.Rows`
 
-	//gong:ident [ref_models.XLRow] comment added to overcome the problem with the comment map association
 	__Link__000000_Rows.Fieldtypename = `ref_models.XLRow`
 	__Link__000000_Rows.FieldOffsetX = 0.000000
 	__Link__000000_Rows.FieldOffsetY = 0.000000
@@ -178,10 +166,8 @@ func _(stage *models.Stage) {
 
 	__Link__000001_SheetCells.Name = `SheetCells`
 
-	//gong:ident [ref_models.XLSheet.SheetCells] comment added to overcome the problem with the comment map association
 	__Link__000001_SheetCells.Identifier = `ref_models.XLSheet.SheetCells`
 
-	//gong:ident [ref_models.XLCell] comment added to overcome the problem with the comment map association
 	__Link__000001_SheetCells.Fieldtypename = `ref_models.XLCell`
 	__Link__000001_SheetCells.FieldOffsetX = 0.000000
 	__Link__000001_SheetCells.FieldOffsetY = 0.000000
@@ -199,10 +185,8 @@ func _(stage *models.Stage) {
 
 	__Link__000002_Cells.Name = `Cells`
 
-	//gong:ident [ref_models.XLRow.Cells] comment added to overcome the problem with the comment map association
 	__Link__000002_Cells.Identifier = `ref_models.XLRow.Cells`
 
-	//gong:ident [ref_models.XLCell] comment added to overcome the problem with the comment map association
 	__Link__000002_Cells.Fieldtypename = `ref_models.XLCell`
 	__Link__000002_Cells.FieldOffsetX = 0.000000
 	__Link__000002_Cells.FieldOffsetY = 0.000000
@@ -220,10 +204,8 @@ func _(stage *models.Stage) {
 
 	__Link__000003_Sheets.Name = `Sheets`
 
-	//gong:ident [ref_models.XLFile.Sheets] comment added to overcome the problem with the comment map association
 	__Link__000003_Sheets.Identifier = `ref_models.XLFile.Sheets`
 
-	//gong:ident [ref_models.XLSheet] comment added to overcome the problem with the comment map association
 	__Link__000003_Sheets.Fieldtypename = `ref_models.XLSheet`
 	__Link__000003_Sheets.FieldOffsetX = 0.000000
 	__Link__000003_Sheets.FieldOffsetY = 0.000000
@@ -241,10 +223,8 @@ func _(stage *models.Stage) {
 
 	__Link__000004_XLFile.Name = `XLFile`
 
-	//gong:ident [ref_models.DisplaySelection.XLFile] comment added to overcome the problem with the comment map association
 	__Link__000004_XLFile.Identifier = `ref_models.DisplaySelection.XLFile`
 
-	//gong:ident [ref_models.XLFile] comment added to overcome the problem with the comment map association
 	__Link__000004_XLFile.Fieldtypename = `ref_models.XLFile`
 	__Link__000004_XLFile.FieldOffsetX = 0.000000
 	__Link__000004_XLFile.FieldOffsetY = 0.000000
@@ -262,10 +242,8 @@ func _(stage *models.Stage) {
 
 	__Link__000005_XLSheet.Name = `XLSheet`
 
-	//gong:ident [ref_models.DisplaySelection.XLSheet] comment added to overcome the problem with the comment map association
 	__Link__000005_XLSheet.Identifier = `ref_models.DisplaySelection.XLSheet`
 
-	//gong:ident [ref_models.XLSheet] comment added to overcome the problem with the comment map association
 	__Link__000005_XLSheet.Fieldtypename = `ref_models.XLSheet`
 	__Link__000005_XLSheet.FieldOffsetX = 0.000000
 	__Link__000005_XLSheet.FieldOffsetY = 0.000000

@@ -48,7 +48,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.Classdiagram.Name] comment added to overcome the problem with the comment map association
 	__Field__000000_Name.Identifier = `ref_models.Classdiagram.Name`
 	__Field__000000_Name.FieldTypeAsString = ``
 	__Field__000000_Name.Structname = `Classdiagram`
@@ -56,7 +55,6 @@ func _(stage *models.Stage) {
 
 	__Field__000001_IsInDrawMode.Name = `IsInDrawMode`
 
-	//gong:ident [ref_models.Classdiagram.IsInDrawMode] comment added to overcome the problem with the comment map association
 	__Field__000001_IsInDrawMode.Identifier = `ref_models.Classdiagram.IsInDrawMode`
 	__Field__000001_IsInDrawMode.FieldTypeAsString = ``
 	__Field__000001_IsInDrawMode.Structname = `Classdiagram`
@@ -64,7 +62,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_3_Classdiagram.Name = `Default_3-Classdiagram`
 
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_3_Classdiagram.Identifier = `ref_models.Classdiagram`
 	__GongStructShape__000000_Default_3_Classdiagram.ShowNbInstances = false
 	__GongStructShape__000000_Default_3_Classdiagram.NbInstances = 0
@@ -74,7 +71,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_3_DiagramPackage.Name = `Default_3-DiagramPackage`
 
-	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_3_DiagramPackage.Identifier = `ref_models.DiagramPackage`
 	__GongStructShape__000001_Default_3_DiagramPackage.ShowNbInstances = false
 	__GongStructShape__000001_Default_3_DiagramPackage.NbInstances = 0
@@ -84,10 +80,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_Classdiagrams.Name = `Classdiagrams`
 
-	//gong:ident [ref_models.DiagramPackage.Classdiagrams] comment added to overcome the problem with the comment map association
 	__Link__000000_Classdiagrams.Identifier = `ref_models.DiagramPackage.Classdiagrams`
 
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__Link__000000_Classdiagrams.Fieldtypename = `ref_models.Classdiagram`
 	__Link__000000_Classdiagrams.FieldOffsetX = -50.000000
 	__Link__000000_Classdiagrams.FieldOffsetY = -16.000000

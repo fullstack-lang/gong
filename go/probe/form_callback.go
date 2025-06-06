@@ -74,8 +74,6 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongbasicfield_.CompositeStructName), formDiv)
 		case "Index":
 			FormDivBasicFieldToField(&(gongbasicfield_.Index), formDiv)
-		case "IsDocLink":
-			FormDivBasicFieldToField(&(gongbasicfield_.IsDocLink), formDiv)
 		case "IsTextArea":
 			FormDivBasicFieldToField(&(gongbasicfield_.IsTextArea), formDiv)
 		case "IsBespokeWidth":

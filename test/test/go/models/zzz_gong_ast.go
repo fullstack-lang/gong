@@ -924,30 +924,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Astruct[identifier].Duration1 = time.Duration(int(exprSign) * int(fielValue))
-				case "StructRef":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].StructRef = fielValue
-				case "FieldRef":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].FieldRef = fielValue
-				case "EnumIntRef":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].EnumIntRef = fielValue
-				case "EnumStringRef":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].EnumStringRef = fielValue
-				case "EnumValue":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].EnumValue = fielValue
-				case "ConstIdentifierValue":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Astruct[identifier].ConstIdentifierValue = fielValue
 				case "TextFieldBespokeSize":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
