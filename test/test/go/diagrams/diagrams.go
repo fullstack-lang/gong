@@ -94,9 +94,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
 	__GongStructShape__000000_Default_Astruct.X = 153.000000
 	__GongStructShape__000000_Default_Astruct.Y = 41.000000
-
-	//gong:ident [...] comment added to overcome the problem with the comment map association
-	__GongStructShape__000000_Default_Astruct.Identifier = `...`
 	__GongStructShape__000000_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
 	__GongStructShape__000000_Default_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_Default_Astruct.NbInstances = 0
@@ -107,9 +104,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Bstruct.Name = `Default-Bstruct`
 	__GongStructShape__000001_Default_Bstruct.X = 964.000000
 	__GongStructShape__000001_Default_Bstruct.Y = 110.000000
-
-	//gong:ident [...] comment added to overcome the problem with the comment map association
-	__GongStructShape__000001_Default_Bstruct.Identifier = `...`
 	__GongStructShape__000001_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
 	__GongStructShape__000001_Default_Bstruct.ShowNbInstances = false
 	__GongStructShape__000001_Default_Bstruct.NbInstances = 0

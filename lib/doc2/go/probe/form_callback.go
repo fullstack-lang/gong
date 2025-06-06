@@ -1229,8 +1229,6 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(gongstructshape_.Identifier), formDiv)
 		case "ShowNbInstances":
 			FormDivBasicFieldToField(&(gongstructshape_.ShowNbInstances), formDiv)
 		case "NbInstances":
