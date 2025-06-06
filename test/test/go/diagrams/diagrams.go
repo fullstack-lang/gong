@@ -116,10 +116,7 @@ func _(stage *models.Stage) {
 	//gong:ident [ref_models.Astruct.Associationtob] comment added to overcome the problem with the comment map association
 	__LinkShape__000000_Associationtob.Identifier = `ref_models.Astruct.Associationtob`
 	__LinkShape__000000_Associationtob.IdentifierMeta = ref_models.Astruct{}.Associationtob
-
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Associationtob.Fieldtypename = `ref_models.Bstruct`
-	__LinkShape__000000_Associationtob.FieldTypeIdentifierMeta = ref_models.Bstruct{}
+	__LinkShape__000000_Associationtob.FieldTypeIdentifierMeta = [ref_models.Bstruct]
 	__LinkShape__000000_Associationtob.FieldOffsetX = 0.000000
 	__LinkShape__000000_Associationtob.FieldOffsetY = 0.000000
 	__LinkShape__000000_Associationtob.TargetMultiplicity = models.ZERO_ONE
@@ -141,10 +138,7 @@ func _(stage *models.Stage) {
 	//gong:ident [ref_models.Astruct.Anarrayofb] comment added to overcome the problem with the comment map association
 	__LinkShape__000001_Anarrayofb.Identifier = `ref_models.Astruct.Anarrayofb`
 	__LinkShape__000001_Anarrayofb.IdentifierMeta = ref_models.Astruct{}.Anarrayofb
-
-	//gong:ident [ref_models.Bstruct] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_Anarrayofb.Fieldtypename = `ref_models.Bstruct`
-	__LinkShape__000001_Anarrayofb.FieldTypeIdentifierMeta = ref_models.Bstruct{}
+	__LinkShape__000001_Anarrayofb.FieldTypeIdentifierMeta = [ref_models.Bstruct]
 	__LinkShape__000001_Anarrayofb.FieldOffsetX = 0.000000
 	__LinkShape__000001_Anarrayofb.FieldOffsetY = 0.000000
 	__LinkShape__000001_Anarrayofb.TargetMultiplicity = models.MANY
