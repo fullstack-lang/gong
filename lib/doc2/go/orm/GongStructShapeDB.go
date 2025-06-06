@@ -75,9 +75,6 @@ type GongStructShapeDB struct {
 	// Declation for basic field gongstructshapeDB.Y
 	Y_Data sql.NullFloat64
 
-	// Declation for basic field gongstructshapeDB.Identifier
-	Identifier_Data sql.NullString
-
 	// Declation for basic field gongstructshapeDB.ShowNbInstances
 	// provide the sql storage for the boolan
 	ShowNbInstances_Data sql.NullBool
@@ -123,19 +120,17 @@ type GongStructShapeWOP struct {
 
 	Y float64 `xlsx:"3"`
 
-	Identifier string `xlsx:"4"`
+	IdentifierMeta any `xlsx:"4"`
 
-	IdentifierMeta any `xlsx:"5"`
+	ShowNbInstances bool `xlsx:"5"`
 
-	ShowNbInstances bool `xlsx:"6"`
+	NbInstances int `xlsx:"6"`
 
-	NbInstances int `xlsx:"7"`
+	Width float64 `xlsx:"7"`
 
-	Width float64 `xlsx:"8"`
+	Height float64 `xlsx:"8"`
 
-	Height float64 `xlsx:"9"`
-
-	IsSelected bool `xlsx:"10"`
+	IsSelected bool `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -145,7 +140,6 @@ var GongStructShape_Fields = []string{
 	"Name",
 	"X",
 	"Y",
-	"Identifier",
 	"IdentifierMeta",
 	"ShowNbInstances",
 	"NbInstances",
@@ -492,9 +486,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape(g
 	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
 	gongstructshapeDB.Y_Data.Valid = true
 
-	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
-	gongstructshapeDB.Identifier_Data.Valid = true
-
 	gongstructshapeDB.ShowNbInstances_Data.Bool = gongstructshape.ShowNbInstances
 	gongstructshapeDB.ShowNbInstances_Data.Valid = true
 
@@ -523,9 +514,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShape_W
 
 	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
 	gongstructshapeDB.Y_Data.Valid = true
-
-	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
-	gongstructshapeDB.Identifier_Data.Valid = true
 
 	gongstructshapeDB.ShowNbInstances_Data.Bool = gongstructshape.ShowNbInstances
 	gongstructshapeDB.ShowNbInstances_Data.Valid = true
@@ -556,9 +544,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsFromGongStructShapeWO
 	gongstructshapeDB.Y_Data.Float64 = gongstructshape.Y
 	gongstructshapeDB.Y_Data.Valid = true
 
-	gongstructshapeDB.Identifier_Data.String = gongstructshape.Identifier
-	gongstructshapeDB.Identifier_Data.Valid = true
-
 	gongstructshapeDB.ShowNbInstances_Data.Bool = gongstructshape.ShowNbInstances
 	gongstructshapeDB.ShowNbInstances_Data.Valid = true
 
@@ -581,7 +566,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape(gon
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
 	gongstructshape.X = gongstructshapeDB.X_Data.Float64
 	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
-	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
@@ -595,7 +579,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShape_WOP
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
 	gongstructshape.X = gongstructshapeDB.X_Data.Float64
 	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
-	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
@@ -610,7 +593,6 @@ func (gongstructshapeDB *GongStructShapeDB) CopyBasicFieldsToGongStructShapeWOP(
 	gongstructshape.Name = gongstructshapeDB.Name_Data.String
 	gongstructshape.X = gongstructshapeDB.X_Data.Float64
 	gongstructshape.Y = gongstructshapeDB.Y_Data.Float64
-	gongstructshape.Identifier = gongstructshapeDB.Identifier_Data.String
 	gongstructshape.ShowNbInstances = gongstructshapeDB.ShowNbInstances_Data.Bool
 	gongstructshape.NbInstances = int(gongstructshapeDB.NbInstances_Data.Int64)
 	gongstructshape.Width = gongstructshapeDB.Width_Data.Float64
