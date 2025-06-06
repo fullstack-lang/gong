@@ -677,15 +677,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gongstructshape.Y))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string(gongstructshape.Identifier)))
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongstructshape.Identifier))
-		initializerStatements += setValueField
-
 		if str, ok := gongstructshape.IdentifierMeta.(string); ok {
 			setValueField = MetaFieldStructInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
