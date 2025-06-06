@@ -31,12 +31,6 @@ export class AstructAPI {
 	Intfield: number = 0
 	Anotherbooleanfield: boolean = false
 	Duration1: number = 0
-	StructRef: string = ""
-	FieldRef: string = ""
-	EnumIntRef: string = ""
-	EnumStringRef: string = ""
-	EnumValue: string = ""
-	ConstIdentifierValue: string = ""
 	TextFieldBespokeSize: string = ""
 	TextArea: string = ""
 

@@ -24,9 +24,6 @@ type LinkShape struct {
 	//gong:meta
 	IdentifierMeta any
 
-	//gong:ident
-	Fieldtypename string
-
 	//gong:meta
 	FieldTypeIdentifierMeta any
 
@@ -122,7 +119,6 @@ func (classdiagram *Classdiagram) AddLinkShape(
 		linkShape.Identifier =
 			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
 		linkShape.IdentifierMeta = moveStructLiteralToType(linkShape.Identifier)
-		linkShape.Fieldtypename = GongStructNameToIdentifier(targetStructName)
 		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
