@@ -136,12 +136,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Name))
 		initializerStatements += setValueField
 
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Identifier")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(attributeshape.Identifier))
-		initializerStatements += setValueField
-
 		if str, ok := attributeshape.IdentifierMeta.(string); ok {
 			setValueField = MetaFieldStructInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)

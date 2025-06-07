@@ -63,9 +63,6 @@ type AttributeShapeDB struct {
 	// Declation for basic field attributeshapeDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field attributeshapeDB.Identifier
-	Identifier_Data sql.NullString
-
 	// Declation for basic field attributeshapeDB.FieldTypeAsString
 	FieldTypeAsString_Data sql.NullString
 
@@ -99,15 +96,13 @@ type AttributeShapeWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Identifier string `xlsx:"2"`
+	IdentifierMeta any `xlsx:"2"`
 
-	IdentifierMeta any `xlsx:"3"`
+	FieldTypeAsString string `xlsx:"3"`
 
-	FieldTypeAsString string `xlsx:"4"`
+	Structname string `xlsx:"4"`
 
-	Structname string `xlsx:"5"`
-
-	Fieldtypename string `xlsx:"6"`
+	Fieldtypename string `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -115,7 +110,6 @@ var AttributeShape_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Identifier",
 	"IdentifierMeta",
 	"FieldTypeAsString",
 	"Structname",
@@ -400,9 +394,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsFromAttributeShape(attr
 	attributeshapeDB.Name_Data.String = attributeshape.Name
 	attributeshapeDB.Name_Data.Valid = true
 
-	attributeshapeDB.Identifier_Data.String = attributeshape.Identifier
-	attributeshapeDB.Identifier_Data.Valid = true
-
 	attributeshapeDB.FieldTypeAsString_Data.String = attributeshape.FieldTypeAsString
 	attributeshapeDB.FieldTypeAsString_Data.Valid = true
 
@@ -419,9 +410,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsFromAttributeShape_WOP(
 
 	attributeshapeDB.Name_Data.String = attributeshape.Name
 	attributeshapeDB.Name_Data.Valid = true
-
-	attributeshapeDB.Identifier_Data.String = attributeshape.Identifier
-	attributeshapeDB.Identifier_Data.Valid = true
 
 	attributeshapeDB.FieldTypeAsString_Data.String = attributeshape.FieldTypeAsString
 	attributeshapeDB.FieldTypeAsString_Data.Valid = true
@@ -440,9 +428,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsFromAttributeShapeWOP(a
 	attributeshapeDB.Name_Data.String = attributeshape.Name
 	attributeshapeDB.Name_Data.Valid = true
 
-	attributeshapeDB.Identifier_Data.String = attributeshape.Identifier
-	attributeshapeDB.Identifier_Data.Valid = true
-
 	attributeshapeDB.FieldTypeAsString_Data.String = attributeshape.FieldTypeAsString
 	attributeshapeDB.FieldTypeAsString_Data.Valid = true
 
@@ -457,7 +442,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsFromAttributeShapeWOP(a
 func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsToAttributeShape(attributeshape *models.AttributeShape) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	attributeshape.Name = attributeshapeDB.Name_Data.String
-	attributeshape.Identifier = attributeshapeDB.Identifier_Data.String
 	attributeshape.FieldTypeAsString = attributeshapeDB.FieldTypeAsString_Data.String
 	attributeshape.Structname = attributeshapeDB.Structname_Data.String
 	attributeshape.Fieldtypename = attributeshapeDB.Fieldtypename_Data.String
@@ -467,7 +451,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsToAttributeShape(attrib
 func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsToAttributeShape_WOP(attributeshape *models.AttributeShape_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	attributeshape.Name = attributeshapeDB.Name_Data.String
-	attributeshape.Identifier = attributeshapeDB.Identifier_Data.String
 	attributeshape.FieldTypeAsString = attributeshapeDB.FieldTypeAsString_Data.String
 	attributeshape.Structname = attributeshapeDB.Structname_Data.String
 	attributeshape.Fieldtypename = attributeshapeDB.Fieldtypename_Data.String
@@ -478,7 +461,6 @@ func (attributeshapeDB *AttributeShapeDB) CopyBasicFieldsToAttributeShapeWOP(att
 	attributeshape.ID = int(attributeshapeDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	attributeshape.Name = attributeshapeDB.Name_Data.String
-	attributeshape.Identifier = attributeshapeDB.Identifier_Data.String
 	attributeshape.FieldTypeAsString = attributeshapeDB.FieldTypeAsString_Data.String
 	attributeshape.Structname = attributeshapeDB.Structname_Data.String
 	attributeshape.Fieldtypename = attributeshapeDB.Fieldtypename_Data.String
