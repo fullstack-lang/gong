@@ -250,102 +250,140 @@
                 [attr.repeatCount]="animate.RepeatCount" />
             }
           </rect>
-          @for(rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect) {
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_TOP_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X - rect.Height + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width - rect.Height + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height/2 + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height/2 + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
-            }
-            @if(rectAnchoredRect.RectAnchorType == RectAnchorType.RECT_CENTER) {
-              <ng-container [ngTemplateOutlet]="anchoredRect" [ngTemplateOutletContext]="{ 
-                      rect: rectAnchoredRect, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredRect.X_Offset, 
-                      anchorY: rect.Y + rect.Height/2 + rectAnchoredRect.Y_Offset,
-                      width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width) }">
-              </ng-container>
+          @for (rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect) {
+            @switch (rectAnchoredRect.RectAnchorType) {
+              @case (RectAnchorType.RECT_TOP) {
+                <ng-container 
+                  [ngTemplateOutlet]="anchoredRect" 
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width / 2 + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_TOP_LEFT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_TOP_RIGHT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width / 2 + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM_LEFT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X - rect.Height + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM_RIGHT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width - rect.Height + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_LEFT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height / 2 + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_RIGHT) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height / 2 + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
+              @case (RectAnchorType.RECT_CENTER) {
+                <ng-container
+                  [ngTemplateOutlet]="anchoredRect"
+                  [ngTemplateOutletContext]="{
+                    rect: rectAnchoredRect,
+                    anchorX: rect.X + rect.Width / 2 + rectAnchoredRect.X_Offset,
+                    anchorY: rect.Y + rect.Height / 2 + rectAnchoredRect.Y_Offset,
+                    width: (rectAnchoredRect.WidthFollowRect ? rect.Width : rectAnchoredRect.Width)
+                  }">
+                </ng-container>
+              }
             }
           }
           @for(rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
@@ -414,92 +452,10 @@
             }
           }
           @for(text of rect.RectAnchoredTexts!; track text) {
-            @switch(text.RectAnchorType) {
-              @case(RectAnchorType.RECT_TOP_LEFT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + text.X_Offset, 
-                  anchorY: rect.Y + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_TOP) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                  anchorY: rect.Y + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_TOP_RIGHT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width + text.X_Offset, 
-                  anchorY: rect.Y + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM_LEFT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X - text.X_Offset, 
-                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height + text.Y_Offset * 2 }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM_RIGHT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width - text.X_Offset, 
-                  anchorY: rect.Y + rect.Height - text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_LEFT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_RIGHT) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
-                </ng-container>
-              }
-              @case(RectAnchorType.RECT_CENTER) {
-                <ng-container [ngTemplateOutlet]="anchoredText" [ngTemplateOutletContext]="{ 
-                  text: text, 
-                  anchorX: rect.X + rect.Width/2 + text.X_Offset, 
-                  anchorY: rect.Y + rect.Height/2 + text.Y_Offset }">
-                </ng-container>
-              }
-            }
+            <ng-container 
+              [ngTemplateOutlet]="anchoredText" 
+              [ngTemplateOutletContext]="getContextForAnchoredText(text, rect)">
+            </ng-container>
           }
           <ng-container>
             @if(rect.HasLeftHandle) {
