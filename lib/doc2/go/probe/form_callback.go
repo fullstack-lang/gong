@@ -64,8 +64,6 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(attributeshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(attributeshape_.Identifier), formDiv)
 		case "FieldTypeAsString":
 			FormDivBasicFieldToField(&(attributeshape_.FieldTypeAsString), formDiv)
 		case "Structname":

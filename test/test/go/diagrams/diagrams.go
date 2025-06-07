@@ -46,7 +46,6 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__AttributeShape__000000_Name.Name = `Name`
-	__AttributeShape__000000_Name.Identifier = `ref_models.Astruct.Name`
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Astruct{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `Astruct`

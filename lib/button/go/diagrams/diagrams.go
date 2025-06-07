@@ -42,7 +42,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_NoName_yet.Name = `NoName yet`
 
-	__AttributeShape__000000_NoName_yet.Identifier = `..`
 	__AttributeShape__000000_NoName_yet.IdentifierMeta = ref_models.Button{}.Name
 	__AttributeShape__000000_NoName_yet.FieldTypeAsString = ``
 	__AttributeShape__000000_NoName_yet.Structname = ``

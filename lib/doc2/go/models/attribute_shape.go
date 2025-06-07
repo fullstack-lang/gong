@@ -11,9 +11,6 @@ import (
 type AttributeShape struct {
 	Name string
 
-	//gong:ident
-	Identifier string
-
 	// for storing the reference as a renaming target for gopls
 	// for instance 'ref_models.Astruct.IntField'
 	//gong:meta
@@ -66,8 +63,6 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 
 		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(
 			gongStruct.Name, field.GetName())
-
-		concreteField.Identifier = fieldIdentifier
 
 		// turn ref_models.Button.Name{} into ref_models.Button{}.Name
 		concreteField.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
