@@ -64,8 +64,6 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(attributeshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(attributeshape_.Identifier), formDiv)
 		case "FieldTypeAsString":
 			FormDivBasicFieldToField(&(attributeshape_.FieldTypeAsString), formDiv)
 		case "Structname":
@@ -1433,10 +1431,6 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(linkshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(linkshape_.Identifier), formDiv)
-		case "Fieldtypename":
-			FormDivBasicFieldToField(&(linkshape_.Fieldtypename), formDiv)
 		case "FieldOffsetX":
 			FormDivBasicFieldToField(&(linkshape_.FieldOffsetX), formDiv)
 		case "FieldOffsetY":

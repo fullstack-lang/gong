@@ -47,7 +47,6 @@ func _(stage *models.Stage) {
 
 	__Field__000000_IsInDrawMode.Name = `IsInDrawMode`
 
-	//gong:ident [ref_models.Classdiagram.IsInDrawMode] comment added to overcome the problem with the comment map association
 	__Field__000000_IsInDrawMode.Identifier = `ref_models.Classdiagram.IsInDrawMode`
 	__Field__000000_IsInDrawMode.FieldTypeAsString = ``
 	__Field__000000_IsInDrawMode.Structname = `Classdiagram`
@@ -55,7 +54,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_1_GongStructShape.Name = `Default_1-GongStructShape`
 
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_1_GongStructShape.Identifier = `ref_models.GongStructShape`
 	__GongStructShape__000000_Default_1_GongStructShape.ShowNbInstances = false
 	__GongStructShape__000000_Default_1_GongStructShape.NbInstances = 0
@@ -65,7 +63,6 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000001_Default_1_Classdiagram.Name = `Default_1-Classdiagram`
 
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_1_Classdiagram.Identifier = `ref_models.Classdiagram`
 	__GongStructShape__000001_Default_1_Classdiagram.ShowNbInstances = false
 	__GongStructShape__000001_Default_1_Classdiagram.NbInstances = 0
@@ -75,10 +72,8 @@ func _(stage *models.Stage) {
 
 	__Link__000000_GongStructShapes.Name = `GongStructShapes`
 
-	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
 	__Link__000000_GongStructShapes.Identifier = `ref_models.Classdiagram.GongStructShapes`
 
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
 	__Link__000000_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
 	__Link__000000_GongStructShapes.FieldOffsetX = 0.000000
 	__Link__000000_GongStructShapes.FieldOffsetY = 0.000000

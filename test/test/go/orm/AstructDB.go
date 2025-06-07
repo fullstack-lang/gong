@@ -158,24 +158,6 @@ type AstructDB struct {
 	// Declation for basic field astructDB.Duration1
 	Duration1_Data sql.NullInt64
 
-	// Declation for basic field astructDB.StructRef
-	StructRef_Data sql.NullString
-
-	// Declation for basic field astructDB.FieldRef
-	FieldRef_Data sql.NullString
-
-	// Declation for basic field astructDB.EnumIntRef
-	EnumIntRef_Data sql.NullString
-
-	// Declation for basic field astructDB.EnumStringRef
-	EnumStringRef_Data sql.NullString
-
-	// Declation for basic field astructDB.EnumValue
-	EnumValue_Data sql.NullString
-
-	// Declation for basic field astructDB.ConstIdentifierValue
-	ConstIdentifierValue_Data sql.NullString
-
 	// Declation for basic field astructDB.TextFieldBespokeSize
 	TextFieldBespokeSize_Data sql.NullString
 
@@ -234,21 +216,9 @@ type AstructWOP struct {
 
 	Duration1 time.Duration `xlsx:"15"`
 
-	StructRef string `xlsx:"16"`
+	TextFieldBespokeSize string `xlsx:"16"`
 
-	FieldRef string `xlsx:"17"`
-
-	EnumIntRef string `xlsx:"18"`
-
-	EnumStringRef string `xlsx:"19"`
-
-	EnumValue string `xlsx:"20"`
-
-	ConstIdentifierValue string `xlsx:"21"`
-
-	TextFieldBespokeSize string `xlsx:"22"`
-
-	TextArea string `xlsx:"23"`
+	TextArea string `xlsx:"17"`
 	// insertion for WOP pointer fields
 }
 
@@ -270,12 +240,6 @@ var Astruct_Fields = []string{
 	"Intfield",
 	"Anotherbooleanfield",
 	"Duration1",
-	"StructRef",
-	"FieldRef",
-	"EnumIntRef",
-	"EnumStringRef",
-	"EnumValue",
-	"ConstIdentifierValue",
 	"TextFieldBespokeSize",
 	"TextArea",
 }
@@ -1056,24 +1020,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct(astruct *models.Astruct) 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
 
-	astructDB.StructRef_Data.String = astruct.StructRef
-	astructDB.StructRef_Data.Valid = true
-
-	astructDB.FieldRef_Data.String = astruct.FieldRef
-	astructDB.FieldRef_Data.Valid = true
-
-	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
-	astructDB.EnumIntRef_Data.Valid = true
-
-	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
-	astructDB.EnumStringRef_Data.Valid = true
-
-	astructDB.EnumValue_Data.String = astruct.EnumValue
-	astructDB.EnumValue_Data.Valid = true
-
-	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
-	astructDB.ConstIdentifierValue_Data.Valid = true
-
 	astructDB.TextFieldBespokeSize_Data.String = astruct.TextFieldBespokeSize
 	astructDB.TextFieldBespokeSize_Data.Valid = true
 
@@ -1126,24 +1072,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstruct_WOP(astruct *models.Astru
 
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
-
-	astructDB.StructRef_Data.String = astruct.StructRef
-	astructDB.StructRef_Data.Valid = true
-
-	astructDB.FieldRef_Data.String = astruct.FieldRef
-	astructDB.FieldRef_Data.Valid = true
-
-	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
-	astructDB.EnumIntRef_Data.Valid = true
-
-	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
-	astructDB.EnumStringRef_Data.Valid = true
-
-	astructDB.EnumValue_Data.String = astruct.EnumValue
-	astructDB.EnumValue_Data.Valid = true
-
-	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
-	astructDB.ConstIdentifierValue_Data.Valid = true
 
 	astructDB.TextFieldBespokeSize_Data.String = astruct.TextFieldBespokeSize
 	astructDB.TextFieldBespokeSize_Data.Valid = true
@@ -1198,24 +1126,6 @@ func (astructDB *AstructDB) CopyBasicFieldsFromAstructWOP(astruct *AstructWOP) {
 	astructDB.Duration1_Data.Int64 = int64(astruct.Duration1)
 	astructDB.Duration1_Data.Valid = true
 
-	astructDB.StructRef_Data.String = astruct.StructRef
-	astructDB.StructRef_Data.Valid = true
-
-	astructDB.FieldRef_Data.String = astruct.FieldRef
-	astructDB.FieldRef_Data.Valid = true
-
-	astructDB.EnumIntRef_Data.String = astruct.EnumIntRef
-	astructDB.EnumIntRef_Data.Valid = true
-
-	astructDB.EnumStringRef_Data.String = astruct.EnumStringRef
-	astructDB.EnumStringRef_Data.Valid = true
-
-	astructDB.EnumValue_Data.String = astruct.EnumValue
-	astructDB.EnumValue_Data.Valid = true
-
-	astructDB.ConstIdentifierValue_Data.String = astruct.ConstIdentifierValue
-	astructDB.ConstIdentifierValue_Data.Valid = true
-
 	astructDB.TextFieldBespokeSize_Data.String = astruct.TextFieldBespokeSize
 	astructDB.TextFieldBespokeSize_Data.Valid = true
 
@@ -1240,12 +1150,6 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct(astruct *models.Astruct) {
 	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
 	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
-	astruct.StructRef = astructDB.StructRef_Data.String
-	astruct.FieldRef = astructDB.FieldRef_Data.String
-	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
-	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
-	astruct.EnumValue = astructDB.EnumValue_Data.String
-	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
 	astruct.TextFieldBespokeSize = astructDB.TextFieldBespokeSize_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
@@ -1267,12 +1171,6 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstruct_WOP(astruct *models.Astruct
 	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
 	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
-	astruct.StructRef = astructDB.StructRef_Data.String
-	astruct.FieldRef = astructDB.FieldRef_Data.String
-	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
-	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
-	astruct.EnumValue = astructDB.EnumValue_Data.String
-	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
 	astruct.TextFieldBespokeSize = astructDB.TextFieldBespokeSize_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }
@@ -1295,12 +1193,6 @@ func (astructDB *AstructDB) CopyBasicFieldsToAstructWOP(astruct *AstructWOP) {
 	astruct.Intfield = int(astructDB.Intfield_Data.Int64)
 	astruct.Anotherbooleanfield = astructDB.Anotherbooleanfield_Data.Bool
 	astruct.Duration1 = time.Duration(astructDB.Duration1_Data.Int64)
-	astruct.StructRef = astructDB.StructRef_Data.String
-	astruct.FieldRef = astructDB.FieldRef_Data.String
-	astruct.EnumIntRef = astructDB.EnumIntRef_Data.String
-	astruct.EnumStringRef = astructDB.EnumStringRef_Data.String
-	astruct.EnumValue = astructDB.EnumValue_Data.String
-	astruct.ConstIdentifierValue = astructDB.ConstIdentifierValue_Data.String
 	astruct.TextFieldBespokeSize = astructDB.TextFieldBespokeSize_Data.String
 	astruct.TextArea = astructDB.TextArea_Data.String
 }

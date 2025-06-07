@@ -87,30 +87,6 @@ type Astruct struct {
 	// StructRef is a string that can be set by a gong:ident directive followed by
 	// a doclink declaration such as [pkg.Name1]
 
-	// FieldRef for a field ref [pkg.Name1]
-	//gong:ident
-	StructRef string
-
-	// FieldRef for a field ref [pkg.Name1.Name2]
-	//gong:ident
-	FieldRef string
-
-	// docLinkRemapping "pkg.IntEnum(0)"
-	//gong:ident [pkg.Name1]
-	EnumIntRef string
-
-	// docLinkRemapping "pkg.StringEnum("")"
-	//gong:ident [pkg.Name1]
-	EnumStringRef string
-
-	// docLinkRemapping "pkg.Name1"
-	//gong:ident [pkg.Name1]
-	EnumValue string
-
-	// docLinkRemapping "pkg.Name1"
-	//gong:ident [pkg.Name1]
-	ConstIdentifierValue string
-
 	// TextFieldBespokeSize is a field with a larger form field
 	//gong:width 600 gong:height 300
 	TextFieldBespokeSize string
