@@ -237,8 +237,6 @@ type LinkShape_WOP struct {
 
 	Name string
 
-	Identifier string
-
 	IdentifierMeta any
 
 	FieldTypeIdentifierMeta any
@@ -277,7 +275,6 @@ type LinkShape_WOP struct {
 func (from *LinkShape) CopyBasicFields(to *LinkShape) {
 	// insertion point
 	to.Name = from.Name
-	to.Identifier = from.Identifier
 	to.IdentifierMeta = from.IdentifierMeta
 	to.FieldTypeIdentifierMeta = from.FieldTypeIdentifierMeta
 	to.FieldOffsetX = from.FieldOffsetX
