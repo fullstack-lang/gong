@@ -14,8 +14,6 @@ type AttributeShape_WOP struct {
 
 	Name string
 
-	Identifier string
-
 	IdentifierMeta any
 
 	FieldTypeAsString string
@@ -28,7 +26,6 @@ type AttributeShape_WOP struct {
 func (from *AttributeShape) CopyBasicFields(to *AttributeShape) {
 	// insertion point
 	to.Name = from.Name
-	to.Identifier = from.Identifier
 	to.IdentifierMeta = from.IdentifierMeta
 	to.FieldTypeAsString = from.FieldTypeAsString
 	to.Structname = from.Structname
