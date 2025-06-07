@@ -32,7 +32,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 		map_ModelElement_Shape[gongStruct] = gongStructShape
 
 		for _, fieldShape := range gongStructShape.AttributeShapes {
-			fieldShapeName := IdentifierToFieldName(fieldShape.Identifier)
+			fieldShapeName := IdentifierMetaToFieldName(fieldShape.IdentifierMeta)
 
 			var fieldFound bool
 			for _, field := range gongStruct.Fields {
@@ -48,7 +48,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 		}
 
 		for _, linkShape := range gongStructShape.LinkShapes {
-			linkShapeName := IdentifierToFieldName(linkShape.Identifier)
+			linkShapeName := IdentifierMetaToFieldName(linkShape.IdentifierMeta)
 
 			for _, link := range gongStruct.SliceOfPointerToGongStructFields {
 				if link.GetName() == linkShapeName {

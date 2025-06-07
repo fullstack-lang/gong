@@ -17,169 +17,6 @@ var ___dummy__Time_Default time.Time
 // Injection point for meta package dummy declaration
 var ___dummy__ref_models_Default ref_models.Stage
 
-// currently, DocLink renaming is not enabled in gopls
-// the following map are devised to overcome this limitation
-// those maps and the processing code will be eleminated when
-// DocLink renaming will be enabled in gopls
-// [Corresponding Issue](https://github.com/golang/go/issues/57559)
-//
-// When parsed, those maps will help with the renaming process
-var map_DocLink_Identifier_Default map[string]any = map[string]any{
-	// injection point for docLink to identifiers
-
-	"ref_models.GongBasicField": &(ref_models.GongBasicField{}),
-
-	"ref_models.GongBasicField.BasicKindName": (ref_models.GongBasicField{}).BasicKindName,
-
-	"ref_models.GongBasicField.BespokeHeight": (ref_models.GongBasicField{}).BespokeHeight,
-
-	"ref_models.GongBasicField.BespokeWidth": (ref_models.GongBasicField{}).BespokeWidth,
-
-	"ref_models.GongBasicField.CompositeStructName": (ref_models.GongBasicField{}).CompositeStructName,
-
-	"ref_models.GongBasicField.DeclaredType": (ref_models.GongBasicField{}).DeclaredType,
-
-	"ref_models.GongBasicField.GongEnum": (ref_models.GongBasicField{}).GongEnum,
-
-	"ref_models.GongBasicField.Index": (ref_models.GongBasicField{}).Index,
-
-	"ref_models.GongBasicField.IsBespokeHeight": (ref_models.GongBasicField{}).IsBespokeHeight,
-
-	"ref_models.GongBasicField.IsBespokeWidth": (ref_models.GongBasicField{}).IsBespokeWidth,
-
-	"ref_models.GongBasicField.IsDocLink": (ref_models.GongBasicField{}).IsDocLink,
-
-	"ref_models.GongBasicField.IsTextArea": (ref_models.GongBasicField{}).IsTextArea,
-
-	"ref_models.GongBasicField.Name": (ref_models.GongBasicField{}).Name,
-
-	"ref_models.GongEnum": &(ref_models.GongEnum{}),
-
-	"ref_models.GongEnum.GongEnumValues": (ref_models.GongEnum{}).GongEnumValues,
-
-	"ref_models.GongEnum.Name": (ref_models.GongEnum{}).Name,
-
-	"ref_models.GongEnum.Type": (ref_models.GongEnum{}).Type,
-
-	"ref_models.GongEnumType": ref_models.GongEnumType(0),
-
-	"ref_models.GongEnumValue": &(ref_models.GongEnumValue{}),
-
-	"ref_models.GongEnumValue.Name": (ref_models.GongEnumValue{}).Name,
-
-	"ref_models.GongEnumValue.Value": (ref_models.GongEnumValue{}).Value,
-
-	"ref_models.GongLink": &(ref_models.GongLink{}),
-
-	"ref_models.GongLink.ImportPath": (ref_models.GongLink{}).ImportPath,
-
-	"ref_models.GongLink.Name": (ref_models.GongLink{}).Name,
-
-	"ref_models.GongLink.Recv": (ref_models.GongLink{}).Recv,
-
-	"ref_models.GongNote": &(ref_models.GongNote{}),
-
-	"ref_models.GongNote.Body": (ref_models.GongNote{}).Body,
-
-	"ref_models.GongNote.BodyHTML": (ref_models.GongNote{}).BodyHTML,
-
-	"ref_models.GongNote.Links": (ref_models.GongNote{}).Links,
-
-	"ref_models.GongNote.Name": (ref_models.GongNote{}).Name,
-
-	"ref_models.GongStruct": &(ref_models.GongStruct{}),
-
-	"ref_models.GongStruct.GongBasicFields": (ref_models.GongStruct{}).GongBasicFields,
-
-	"ref_models.GongStruct.GongTimeFields": (ref_models.GongStruct{}).GongTimeFields,
-
-	"ref_models.GongStruct.HasOnAfterUpdateSignature": (ref_models.GongStruct{}).HasOnAfterUpdateSignature,
-
-	"ref_models.GongStruct.IsIgnoredForFront": (ref_models.GongStruct{}).IsIgnoredForFront,
-
-	"ref_models.GongStruct.Name": (ref_models.GongStruct{}).Name,
-
-	"ref_models.GongStruct.PointerToGongStructFields": (ref_models.GongStruct{}).PointerToGongStructFields,
-
-	"ref_models.GongStruct.SliceOfPointerToGongStructFields": (ref_models.GongStruct{}).SliceOfPointerToGongStructFields,
-
-	"ref_models.GongTimeField": &(ref_models.GongTimeField{}),
-
-	"ref_models.GongTimeField.CompositeStructName": (ref_models.GongTimeField{}).CompositeStructName,
-
-	"ref_models.GongTimeField.Index": (ref_models.GongTimeField{}).Index,
-
-	"ref_models.GongTimeField.Name": (ref_models.GongTimeField{}).Name,
-
-	"ref_models.Int": ref_models.Int,
-
-	"ref_models.Meta": &(ref_models.Meta{}),
-
-	"ref_models.Meta.MetaReferences": (ref_models.Meta{}).MetaReferences,
-
-	"ref_models.Meta.Name": (ref_models.Meta{}).Name,
-
-	"ref_models.Meta.Text": (ref_models.Meta{}).Text,
-
-	"ref_models.MetaReference": &(ref_models.MetaReference{}),
-
-	"ref_models.MetaReference.Name": (ref_models.MetaReference{}).Name,
-
-	"ref_models.ModelPkg": &(ref_models.ModelPkg{}),
-
-	"ref_models.ModelPkg.ControllersPkgGenPath": (ref_models.ModelPkg{}).ControllersPkgGenPath,
-
-	"ref_models.ModelPkg.FullstackPkgGenPath": (ref_models.ModelPkg{}).FullstackPkgGenPath,
-
-	"ref_models.ModelPkg.MaterialLibDatamodelTargetPath": (ref_models.ModelPkg{}).MaterialLibDatamodelTargetPath,
-
-	"ref_models.ModelPkg.Name": (ref_models.ModelPkg{}).Name,
-
-	"ref_models.ModelPkg.NgDataLibrarySourceCodeDirectory": (ref_models.ModelPkg{}).NgDataLibrarySourceCodeDirectory,
-
-	"ref_models.ModelPkg.NgSpecificLibrarySourceCodeDirectory": (ref_models.ModelPkg{}).NgSpecificLibrarySourceCodeDirectory,
-
-	"ref_models.ModelPkg.NgWorkspaceName": (ref_models.ModelPkg{}).NgWorkspaceName,
-
-	"ref_models.ModelPkg.NgWorkspacePath": (ref_models.ModelPkg{}).NgWorkspacePath,
-
-	"ref_models.ModelPkg.OrmPkgGenPath": (ref_models.ModelPkg{}).OrmPkgGenPath,
-
-	"ref_models.ModelPkg.PathToGoSubDirectory": (ref_models.ModelPkg{}).PathToGoSubDirectory,
-
-	"ref_models.ModelPkg.PkgPath": (ref_models.ModelPkg{}).PkgPath,
-
-	"ref_models.ModelPkg.ProbePkgGenPath": (ref_models.ModelPkg{}).ProbePkgGenPath,
-
-	"ref_models.ModelPkg.StackPkgGenPath": (ref_models.ModelPkg{}).StackPkgGenPath,
-
-	"ref_models.ModelPkg.StaticPkgGenPath": (ref_models.ModelPkg{}).StaticPkgGenPath,
-
-	"ref_models.PointerToGongStructField": &(ref_models.PointerToGongStructField{}),
-
-	"ref_models.PointerToGongStructField.CompositeStructName": (ref_models.PointerToGongStructField{}).CompositeStructName,
-
-	"ref_models.PointerToGongStructField.GongStruct": (ref_models.PointerToGongStructField{}).GongStruct,
-
-	"ref_models.PointerToGongStructField.Index": (ref_models.PointerToGongStructField{}).Index,
-
-	"ref_models.PointerToGongStructField.IsType": (ref_models.PointerToGongStructField{}).IsType,
-
-	"ref_models.PointerToGongStructField.Name": (ref_models.PointerToGongStructField{}).Name,
-
-	"ref_models.SliceOfPointerToGongStructField": &(ref_models.SliceOfPointerToGongStructField{}),
-
-	"ref_models.SliceOfPointerToGongStructField.CompositeStructName": (ref_models.SliceOfPointerToGongStructField{}).CompositeStructName,
-
-	"ref_models.SliceOfPointerToGongStructField.GongStruct": (ref_models.SliceOfPointerToGongStructField{}).GongStruct,
-
-	"ref_models.SliceOfPointerToGongStructField.Index": (ref_models.SliceOfPointerToGongStructField{}).Index,
-
-	"ref_models.SliceOfPointerToGongStructField.Name": (ref_models.SliceOfPointerToGongStructField{}).Name,
-
-	"ref_models.String": ref_models.String,
-}
-
 // init might be handy if one want to have the data embedded in the binary
 // but it has to properly reference the Injection gateway in the main package
 // func init() {
@@ -283,8 +120,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000000_BasicKindName.Name = `BasicKindName`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.BasicKindName]
 	__Field__000000_BasicKindName.Identifier = `ref_models.GongBasicField.BasicKindName`
 	__Field__000000_BasicKindName.FieldTypeAsString = ``
@@ -293,8 +128,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000001_BespokeHeight.Name = `BespokeHeight`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.BespokeHeight]
 	__Field__000001_BespokeHeight.Identifier = `ref_models.GongBasicField.BespokeHeight`
@@ -305,8 +138,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000002_BespokeWidth.Name = `BespokeWidth`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.BespokeWidth]
 	__Field__000002_BespokeWidth.Identifier = `ref_models.GongBasicField.BespokeWidth`
 	__Field__000002_BespokeWidth.FieldTypeAsString = ``
@@ -315,8 +146,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000003_Body.Name = `Body`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongNote.Body]
 	__Field__000003_Body.Identifier = `ref_models.GongNote.Body`
@@ -327,8 +156,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000004_BodyHTML.Name = `BodyHTML`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongNote.BodyHTML]
 	__Field__000004_BodyHTML.Identifier = `ref_models.GongNote.BodyHTML`
 	__Field__000004_BodyHTML.FieldTypeAsString = ``
@@ -337,8 +164,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000005_CompositeStructName.Name = `CompositeStructName`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.CompositeStructName]
 	__Field__000005_CompositeStructName.Identifier = `ref_models.GongBasicField.CompositeStructName`
@@ -349,8 +174,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000006_DeclaredType.Name = `DeclaredType`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.DeclaredType]
 	__Field__000006_DeclaredType.Identifier = `ref_models.GongBasicField.DeclaredType`
 	__Field__000006_DeclaredType.FieldTypeAsString = ``
@@ -359,8 +182,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000007_HasOnAfterUpdateSignature.Name = `HasOnAfterUpdateSignature`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongStruct.HasOnAfterUpdateSignature]
 	__Field__000007_HasOnAfterUpdateSignature.Identifier = `ref_models.GongStruct.HasOnAfterUpdateSignature`
@@ -371,8 +192,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000008_ImportPath.Name = `ImportPath`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongLink.ImportPath]
 	__Field__000008_ImportPath.Identifier = `ref_models.GongLink.ImportPath`
 	__Field__000008_ImportPath.FieldTypeAsString = ``
@@ -381,8 +200,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000009_Index.Name = `Index`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.Index]
 	__Field__000009_Index.Identifier = `ref_models.GongBasicField.Index`
@@ -393,8 +210,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000010_IsBespokeHeight.Name = `IsBespokeHeight`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.IsBespokeHeight]
 	__Field__000010_IsBespokeHeight.Identifier = `ref_models.GongBasicField.IsBespokeHeight`
 	__Field__000010_IsBespokeHeight.FieldTypeAsString = ``
@@ -403,8 +218,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000011_IsBespokeWidth.Name = `IsBespokeWidth`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.IsBespokeWidth]
 	__Field__000011_IsBespokeWidth.Identifier = `ref_models.GongBasicField.IsBespokeWidth`
@@ -415,8 +228,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000012_IsDocLink.Name = `IsDocLink`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.IsDocLink]
 	__Field__000012_IsDocLink.Identifier = `ref_models.GongBasicField.IsDocLink`
 	__Field__000012_IsDocLink.FieldTypeAsString = ``
@@ -425,8 +236,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000013_IsTextArea.Name = `IsTextArea`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.IsTextArea]
 	__Field__000013_IsTextArea.Identifier = `ref_models.GongBasicField.IsTextArea`
@@ -437,8 +246,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000014_Name.Name = `Name`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongNote.Name]
 	__Field__000014_Name.Identifier = `ref_models.GongNote.Name`
 	__Field__000014_Name.FieldTypeAsString = ``
@@ -447,8 +254,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000015_Name.Name = `Name`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField.Name]
 	__Field__000015_Name.Identifier = `ref_models.GongBasicField.Name`
@@ -459,8 +264,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000016_Name.Name = `Name`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongStruct.Name]
 	__Field__000016_Name.Identifier = `ref_models.GongStruct.Name`
 	__Field__000016_Name.FieldTypeAsString = ``
@@ -469,8 +272,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000017_Name.Name = `Name`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnum.Name]
 	__Field__000017_Name.Identifier = `ref_models.GongEnum.Name`
@@ -481,8 +282,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000018_Name.Name = `Name`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongLink.Name]
 	__Field__000018_Name.Identifier = `ref_models.GongLink.Name`
 	__Field__000018_Name.FieldTypeAsString = ``
@@ -491,8 +290,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000019_Name.Name = `Name`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnumValue.Name]
 	__Field__000019_Name.Identifier = `ref_models.GongEnumValue.Name`
@@ -503,8 +300,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000020_Recv.Name = `Recv`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongLink.Recv]
 	__Field__000020_Recv.Identifier = `ref_models.GongLink.Recv`
 	__Field__000020_Recv.FieldTypeAsString = ``
@@ -513,8 +308,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// Field values setup
 	__Field__000021_Type.Name = `Type`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnum.Type]
 	__Field__000021_Type.Identifier = `ref_models.GongEnum.Type`
@@ -525,8 +318,6 @@ func DefaultInjection(stage *models.Stage) {
 	// Field values setup
 	__Field__000022_Value.Name = `Value`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongEnumValue.Value]
 	__Field__000022_Value.Identifier = `ref_models.GongEnumValue.Value`
 	__Field__000022_Value.FieldTypeAsString = ``
@@ -535,8 +326,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// GongStructShape values setup
 	__GongStructShape__000000_Default_GongBasicField.Name = `Default-GongBasicField`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField]
 	__GongStructShape__000000_Default_GongBasicField.Identifier = `ref_models.GongBasicField`
@@ -549,8 +338,6 @@ func DefaultInjection(stage *models.Stage) {
 	// GongStructShape values setup
 	__GongStructShape__000001_Default_GongEnum.Name = `Default-GongEnum`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongEnum]
 	__GongStructShape__000001_Default_GongEnum.Identifier = `ref_models.GongEnum`
 	__GongStructShape__000001_Default_GongEnum.ShowNbInstances = false
@@ -561,8 +348,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// GongStructShape values setup
 	__GongStructShape__000002_Default_GongEnumValue.Name = `Default-GongEnumValue`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnumValue]
 	__GongStructShape__000002_Default_GongEnumValue.Identifier = `ref_models.GongEnumValue`
@@ -575,8 +360,6 @@ func DefaultInjection(stage *models.Stage) {
 	// GongStructShape values setup
 	__GongStructShape__000003_Default_GongLink.Name = `Default-GongLink`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongLink]
 	__GongStructShape__000003_Default_GongLink.Identifier = `ref_models.GongLink`
 	__GongStructShape__000003_Default_GongLink.ShowNbInstances = false
@@ -587,8 +370,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// GongStructShape values setup
 	__GongStructShape__000004_Default_GongNote.Name = `Default-GongNote`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongNote]
 	__GongStructShape__000004_Default_GongNote.Identifier = `ref_models.GongNote`
@@ -601,8 +382,6 @@ func DefaultInjection(stage *models.Stage) {
 	// GongStructShape values setup
 	__GongStructShape__000005_Default_GongStruct.Name = `Default-GongStruct`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongStruct]
 	__GongStructShape__000005_Default_GongStruct.Identifier = `ref_models.GongStruct`
 	__GongStructShape__000005_Default_GongStruct.ShowNbInstances = false
@@ -613,8 +392,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// GongStructShape values setup
 	__GongStructShape__000006_Default_GongTimeField.Name = `Default-GongTimeField`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongTimeField]
 	__GongStructShape__000006_Default_GongTimeField.Identifier = `ref_models.GongTimeField`
@@ -627,8 +404,6 @@ func DefaultInjection(stage *models.Stage) {
 	// GongStructShape values setup
 	__GongStructShape__000007_Default_ModelPkg.Name = `Default-ModelPkg`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.ModelPkg]
 	__GongStructShape__000007_Default_ModelPkg.Identifier = `ref_models.ModelPkg`
 	__GongStructShape__000007_Default_ModelPkg.ShowNbInstances = false
@@ -639,8 +414,6 @@ func DefaultInjection(stage *models.Stage) {
 
 	// GongStructShape values setup
 	__GongStructShape__000008_Default_PointerToGongStructField.Name = `Default-PointerToGongStructField`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.PointerToGongStructField]
 	__GongStructShape__000008_Default_PointerToGongStructField.Identifier = `ref_models.PointerToGongStructField`
@@ -653,8 +426,6 @@ func DefaultInjection(stage *models.Stage) {
 	// GongStructShape values setup
 	__GongStructShape__000009_Default_SliceOfPointerToGongStructField.Name = `Default-SliceOfPointerToGongStructField`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.SliceOfPointerToGongStructField]
 	__GongStructShape__000009_Default_SliceOfPointerToGongStructField.Identifier = `ref_models.SliceOfPointerToGongStructField`
 	__GongStructShape__000009_Default_SliceOfPointerToGongStructField.ShowNbInstances = false
@@ -666,12 +437,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000000_GongBasicFields.Name = `GongBasicFields`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongStruct.GongBasicFields]
 	__Link__000000_GongBasicFields.Identifier = `ref_models.GongStruct.GongBasicFields`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongBasicField]
 	__Link__000000_GongBasicFields.Fieldtypename = `ref_models.GongBasicField`
@@ -692,12 +459,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000001_GongEnum.Name = `GongEnum`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongBasicField.GongEnum]
 	__Link__000001_GongEnum.Identifier = `ref_models.GongBasicField.GongEnum`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnum]
 	__Link__000001_GongEnum.Fieldtypename = `ref_models.GongEnum`
@@ -718,12 +481,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000002_GongEnumValues.Name = `GongEnumValues`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongEnum.GongEnumValues]
 	__Link__000002_GongEnumValues.Identifier = `ref_models.GongEnum.GongEnumValues`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongEnumValue]
 	__Link__000002_GongEnumValues.Fieldtypename = `ref_models.GongEnumValue`
@@ -744,12 +503,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000003_Links.Name = `Links`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongNote.Links]
 	__Link__000003_Links.Identifier = `ref_models.GongNote.Links`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.GongLink]
 	__Link__000003_Links.Fieldtypename = `ref_models.GongLink`
@@ -770,12 +525,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000004_PointerToGongStructFields.Name = `PointerToGongStructFields`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongStruct.PointerToGongStructFields]
 	__Link__000004_PointerToGongStructFields.Identifier = `ref_models.GongStruct.PointerToGongStructFields`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.PointerToGongStructField]
 	__Link__000004_PointerToGongStructFields.Fieldtypename = `ref_models.PointerToGongStructField`
@@ -796,12 +547,8 @@ func DefaultInjection(stage *models.Stage) {
 	// Link values setup
 	__Link__000005_SliceOfPointerToGongStructFields.Name = `SliceOfPointerToGongStructFields`
 
-	// comment added to overcome the problem with the comment map association
-
 	//gong:ident [ref_models.GongStruct.SliceOfPointerToGongStructFields]
 	__Link__000005_SliceOfPointerToGongStructFields.Identifier = `ref_models.GongStruct.SliceOfPointerToGongStructFields`
-
-	// comment added to overcome the problem with the comment map association
 
 	//gong:ident [ref_models.SliceOfPointerToGongStructField]
 	__Link__000005_SliceOfPointerToGongStructFields.Fieldtypename = `ref_models.SliceOfPointerToGongStructField`
