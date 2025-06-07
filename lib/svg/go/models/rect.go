@@ -43,6 +43,9 @@ type Rect struct {
 	FillOpacityWhenHovered float64
 	OriginalFillOpacity    float64
 
+	CheckboxHasToolTip  bool
+	CheckboxToolTipText string
+
 	Impl RectImplInterface
 }
 

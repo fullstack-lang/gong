@@ -53,6 +53,8 @@ export class Rect {
 	OriginalColor: string = ""
 	FillOpacityWhenHovered: number = 0
 	OriginalFillOpacity: number = 0
+	CheckboxHasToolTip: boolean = false
+	CheckboxToolTipText: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Animations: Array<Animate> = []
@@ -100,6 +102,8 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.OriginalColor = rect.OriginalColor
 	rectAPI.FillOpacityWhenHovered = rect.FillOpacityWhenHovered
 	rectAPI.OriginalFillOpacity = rect.OriginalFillOpacity
+	rectAPI.CheckboxHasToolTip = rect.CheckboxHasToolTip
+	rectAPI.CheckboxToolTipText = rect.CheckboxToolTipText
 
 	// insertion point for pointer fields encoding
 
@@ -169,6 +173,8 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.OriginalColor = rectAPI.OriginalColor
 	rect.FillOpacityWhenHovered = rectAPI.FillOpacityWhenHovered
 	rect.OriginalFillOpacity = rectAPI.OriginalFillOpacity
+	rect.CheckboxHasToolTip = rectAPI.CheckboxHasToolTip
+	rect.CheckboxToolTipText = rectAPI.CheckboxToolTipText
 
 	// insertion point for pointer fields encoding
 
