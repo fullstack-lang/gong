@@ -118,7 +118,8 @@ func (classdiagram *Classdiagram) AddLinkShape(
 
 		linkShape.Identifier =
 			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		linkShape.IdentifierMeta = moveStructLiteralToType(linkShape.Identifier)
+		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
+		linkShape.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
 		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
