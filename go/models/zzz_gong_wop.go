@@ -22,8 +22,6 @@ type GongBasicField_WOP struct {
 
 	Index int
 
-	IsDocLink bool
-
 	IsTextArea bool
 
 	IsBespokeWidth bool
@@ -42,7 +40,6 @@ func (from *GongBasicField) CopyBasicFields(to *GongBasicField) {
 	to.DeclaredType = from.DeclaredType
 	to.CompositeStructName = from.CompositeStructName
 	to.Index = from.Index
-	to.IsDocLink = from.IsDocLink
 	to.IsTextArea = from.IsTextArea
 	to.IsBespokeWidth = from.IsBespokeWidth
 	to.BespokeWidth = from.BespokeWidth

@@ -90,7 +90,6 @@ const (
 	GongMarshallFileFieldSubTmplSetBasicFieldFloat64
 	GongMarshallFileFieldSubTmplSetBasicFieldString
 	GongMarshallFileFieldSubTmplSetBasicFieldMeta
-	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink
 	GongMarshallFileFieldSubTmplSetTimeField
 	GongMarshallFileFieldSubTmplSetPointerField
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField
@@ -159,16 +158,6 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 			initializerStatements += setValueField
 		}
 `,
-	GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink: `
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "\n\t{{Identifier}}",
-			fmt.Sprintf("\n\n\t//gong:ident [%s] comment added to overcome the problem with the comment map association\n\t{{Identifier}}",
-				string({{structname}}.{{FieldName}})))
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
-`,
 	GongMarshallFileFieldSubTmplSetPointerField: `
 		if {{structname}}.{{FieldName}} != nil {
 			setPointerField = PointerFieldInitStatement
@@ -231,15 +220,9 @@ func CodeGeneratorModelGongMarshall(
 					case types.String:
 						if field.GongEnum == nil {
 
-							if !field.IsDocLink {
-								valInitCode += models.Replace1(
-									GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldString],
-									"{{FieldName}}", field.Name)
-							} else {
-								valInitCode += models.Replace1(
-									GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldStringDocLink],
-									"{{FieldName}}", field.Name)
-							}
+							valInitCode += models.Replace1(
+								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldString],
+								"{{FieldName}}", field.Name)
 
 						} else {
 							valInitCode += models.Replace1(

@@ -42,8 +42,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_NoName_yet.Name = `NoName yet`
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__AttributeShape__000000_NoName_yet.Identifier = `..`
 	__AttributeShape__000000_NoName_yet.IdentifierMeta = ref_models.Button{}.Name
 	__AttributeShape__000000_NoName_yet.FieldTypeAsString = ``
 	__AttributeShape__000000_NoName_yet.Structname = ``
@@ -68,15 +66,12 @@ func _(stage *models.Stage) {
 
 	__GongNoteLinkShape__000000_NoName_yet.Name = `NoName yet`
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-	__GongNoteLinkShape__000000_NoName_yet.Identifier = `..`
 	__GongNoteLinkShape__000000_NoName_yet.Type = models.NOTE_SHAPE_LINK_TO_GONG_FIELD
 
 	__GongStructShape__000000_Default_Group.Name = `Default-Group`
 	__GongStructShape__000000_Default_Group.X = 17.000000
 	__GongStructShape__000000_Default_Group.Y = 52.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
 	__GongStructShape__000000_Default_Group.IdentifierMeta = ref_models.Group{}
 	__GongStructShape__000000_Default_Group.ShowNbInstances = false
 	__GongStructShape__000000_Default_Group.NbInstances = 0
@@ -88,7 +83,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Button.X = 554.000000
 	__GongStructShape__000001_Default_Button.Y = 128.000000
 
-	//gong:ident [.] comment added to overcome the problem with the comment map association
 	__GongStructShape__000001_Default_Button.IdentifierMeta = ref_models.Button{}
 	__GongStructShape__000001_Default_Button.ShowNbInstances = false
 	__GongStructShape__000001_Default_Button.NbInstances = 0
@@ -98,12 +92,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000000_Buttons.Name = `Buttons`
 
-	//gong:ident [ref_models.Group.Buttons] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Buttons.Identifier = `ref_models.Group.Buttons`
 	__LinkShape__000000_Buttons.IdentifierMeta = ref_models.Group{}.Buttons
 
-	//gong:ident [ref_models.Button] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Buttons.Fieldtypename = `ref_models.Button`
 	__LinkShape__000000_Buttons.FieldTypeIdentifierMeta = ref_models.Button{}
 	__LinkShape__000000_Buttons.FieldOffsetX = 0.000000
 	__LinkShape__000000_Buttons.FieldOffsetY = 0.000000

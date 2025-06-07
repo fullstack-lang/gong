@@ -36,12 +36,6 @@ export class Astruct {
 	Intfield: number = 0
 	Anotherbooleanfield: boolean = false
 	Duration1: number = 0
-	StructRef: string = ""
-	FieldRef: string = ""
-	EnumIntRef: string = ""
-	EnumStringRef: string = ""
-	EnumValue: string = ""
-	ConstIdentifierValue: string = ""
 	TextFieldBespokeSize: string = ""
 	TextArea: string = ""
 
@@ -96,12 +90,6 @@ export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI
 	astructAPI.Intfield = astruct.Intfield
 	astructAPI.Anotherbooleanfield = astruct.Anotherbooleanfield
 	astructAPI.Duration1 = astruct.Duration1
-	astructAPI.StructRef = astruct.StructRef
-	astructAPI.FieldRef = astruct.FieldRef
-	astructAPI.EnumIntRef = astruct.EnumIntRef
-	astructAPI.EnumStringRef = astruct.EnumStringRef
-	astructAPI.EnumValue = astruct.EnumValue
-	astructAPI.ConstIdentifierValue = astruct.ConstIdentifierValue
 	astructAPI.TextFieldBespokeSize = astruct.TextFieldBespokeSize
 	astructAPI.TextArea = astruct.TextArea
 
@@ -229,12 +217,6 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 	astruct.Intfield = astructAPI.Intfield
 	astruct.Anotherbooleanfield = astructAPI.Anotherbooleanfield
 	astruct.Duration1 = astructAPI.Duration1
-	astruct.StructRef = astructAPI.StructRef
-	astruct.FieldRef = astructAPI.FieldRef
-	astruct.EnumIntRef = astructAPI.EnumIntRef
-	astruct.EnumStringRef = astructAPI.EnumStringRef
-	astruct.EnumValue = astructAPI.EnumValue
-	astruct.ConstIdentifierValue = astructAPI.ConstIdentifierValue
 	astruct.TextFieldBespokeSize = astructAPI.TextFieldBespokeSize
 	astruct.TextArea = astructAPI.TextArea
 

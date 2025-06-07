@@ -94,8 +94,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.Gantt.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000000_Name.Identifier = `ref_models.Gantt.Name`
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.Gantt{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `Gantt`
@@ -103,8 +101,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000001_ComputedStart.Name = `ComputedStart`
 
-	//gong:ident [ref_models.Gantt.ComputedStart] comment added to overcome the problem with the comment map association
-	__AttributeShape__000001_ComputedStart.Identifier = `ref_models.Gantt.ComputedStart`
 	__AttributeShape__000001_ComputedStart.IdentifierMeta = ref_models.Gantt{}.ComputedStart
 	__AttributeShape__000001_ComputedStart.FieldTypeAsString = ``
 	__AttributeShape__000001_ComputedStart.Structname = `Gantt`
@@ -112,8 +108,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000002_ComputedEnd.Name = `ComputedEnd`
 
-	//gong:ident [ref_models.Gantt.ComputedEnd] comment added to overcome the problem with the comment map association
-	__AttributeShape__000002_ComputedEnd.Identifier = `ref_models.Gantt.ComputedEnd`
 	__AttributeShape__000002_ComputedEnd.IdentifierMeta = ref_models.Gantt{}.ComputedEnd
 	__AttributeShape__000002_ComputedEnd.FieldTypeAsString = ``
 	__AttributeShape__000002_ComputedEnd.Structname = `Gantt`
@@ -121,8 +115,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000003_ComputedDuration.Name = `ComputedDuration`
 
-	//gong:ident [ref_models.Gantt.ComputedDuration] comment added to overcome the problem with the comment map association
-	__AttributeShape__000003_ComputedDuration.Identifier = `ref_models.Gantt.ComputedDuration`
 	__AttributeShape__000003_ComputedDuration.IdentifierMeta = ref_models.Gantt{}.ComputedDuration
 	__AttributeShape__000003_ComputedDuration.FieldTypeAsString = ``
 	__AttributeShape__000003_ComputedDuration.Structname = `Gantt`
@@ -130,8 +122,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000004_UseManualStartAndEndDates.Name = `UseManualStartAndEndDates`
 
-	//gong:ident [ref_models.Gantt.UseManualStartAndEndDates] comment added to overcome the problem with the comment map association
-	__AttributeShape__000004_UseManualStartAndEndDates.Identifier = `ref_models.Gantt.UseManualStartAndEndDates`
 	__AttributeShape__000004_UseManualStartAndEndDates.IdentifierMeta = ref_models.Gantt{}.UseManualStartAndEndDates
 	__AttributeShape__000004_UseManualStartAndEndDates.FieldTypeAsString = ``
 	__AttributeShape__000004_UseManualStartAndEndDates.Structname = `Gantt`
@@ -139,8 +129,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000005_ManualStart.Name = `ManualStart`
 
-	//gong:ident [ref_models.Gantt.ManualStart] comment added to overcome the problem with the comment map association
-	__AttributeShape__000005_ManualStart.Identifier = `ref_models.Gantt.ManualStart`
 	__AttributeShape__000005_ManualStart.IdentifierMeta = ref_models.Gantt{}.ManualStart
 	__AttributeShape__000005_ManualStart.FieldTypeAsString = ``
 	__AttributeShape__000005_ManualStart.Structname = `Gantt`
@@ -148,8 +136,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000006_ManualEnd.Name = `ManualEnd`
 
-	//gong:ident [ref_models.Gantt.ManualEnd] comment added to overcome the problem with the comment map association
-	__AttributeShape__000006_ManualEnd.Identifier = `ref_models.Gantt.ManualEnd`
 	__AttributeShape__000006_ManualEnd.IdentifierMeta = ref_models.Gantt{}.ManualEnd
 	__AttributeShape__000006_ManualEnd.FieldTypeAsString = ``
 	__AttributeShape__000006_ManualEnd.Structname = `Gantt`
@@ -157,8 +143,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000007_LaneHeight.Name = `LaneHeight`
 
-	//gong:ident [ref_models.Gantt.LaneHeight] comment added to overcome the problem with the comment map association
-	__AttributeShape__000007_LaneHeight.Identifier = `ref_models.Gantt.LaneHeight`
 	__AttributeShape__000007_LaneHeight.IdentifierMeta = ref_models.Gantt{}.LaneHeight
 	__AttributeShape__000007_LaneHeight.FieldTypeAsString = ``
 	__AttributeShape__000007_LaneHeight.Structname = `Gantt`
@@ -166,8 +150,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000008_RatioBarToLaneHeight.Name = `RatioBarToLaneHeight`
 
-	//gong:ident [ref_models.Gantt.RatioBarToLaneHeight] comment added to overcome the problem with the comment map association
-	__AttributeShape__000008_RatioBarToLaneHeight.Identifier = `ref_models.Gantt.RatioBarToLaneHeight`
 	__AttributeShape__000008_RatioBarToLaneHeight.IdentifierMeta = ref_models.Gantt{}.RatioBarToLaneHeight
 	__AttributeShape__000008_RatioBarToLaneHeight.FieldTypeAsString = ``
 	__AttributeShape__000008_RatioBarToLaneHeight.Structname = `Gantt`
@@ -175,8 +157,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000009_YTopMargin.Name = `YTopMargin`
 
-	//gong:ident [ref_models.Gantt.YTopMargin] comment added to overcome the problem with the comment map association
-	__AttributeShape__000009_YTopMargin.Identifier = `ref_models.Gantt.YTopMargin`
 	__AttributeShape__000009_YTopMargin.IdentifierMeta = ref_models.Gantt{}.YTopMargin
 	__AttributeShape__000009_YTopMargin.FieldTypeAsString = ``
 	__AttributeShape__000009_YTopMargin.Structname = `Gantt`
@@ -184,8 +164,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000010_XLeftText.Name = `XLeftText`
 
-	//gong:ident [ref_models.Gantt.XLeftText] comment added to overcome the problem with the comment map association
-	__AttributeShape__000010_XLeftText.Identifier = `ref_models.Gantt.XLeftText`
 	__AttributeShape__000010_XLeftText.IdentifierMeta = ref_models.Gantt{}.XLeftText
 	__AttributeShape__000010_XLeftText.FieldTypeAsString = ``
 	__AttributeShape__000010_XLeftText.Structname = `Gantt`
@@ -193,8 +171,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000011_TextHeight.Name = `TextHeight`
 
-	//gong:ident [ref_models.Gantt.TextHeight] comment added to overcome the problem with the comment map association
-	__AttributeShape__000011_TextHeight.Identifier = `ref_models.Gantt.TextHeight`
 	__AttributeShape__000011_TextHeight.IdentifierMeta = ref_models.Gantt{}.TextHeight
 	__AttributeShape__000011_TextHeight.FieldTypeAsString = ``
 	__AttributeShape__000011_TextHeight.Structname = `Gantt`
@@ -202,8 +178,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000012_XLeftLanes.Name = `XLeftLanes`
 
-	//gong:ident [ref_models.Gantt.XLeftLanes] comment added to overcome the problem with the comment map association
-	__AttributeShape__000012_XLeftLanes.Identifier = `ref_models.Gantt.XLeftLanes`
 	__AttributeShape__000012_XLeftLanes.IdentifierMeta = ref_models.Gantt{}.XLeftLanes
 	__AttributeShape__000012_XLeftLanes.FieldTypeAsString = ``
 	__AttributeShape__000012_XLeftLanes.Structname = `Gantt`
@@ -211,8 +185,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000013_XRightMargin.Name = `XRightMargin`
 
-	//gong:ident [ref_models.Gantt.XRightMargin] comment added to overcome the problem with the comment map association
-	__AttributeShape__000013_XRightMargin.Identifier = `ref_models.Gantt.XRightMargin`
 	__AttributeShape__000013_XRightMargin.IdentifierMeta = ref_models.Gantt{}.XRightMargin
 	__AttributeShape__000013_XRightMargin.FieldTypeAsString = ``
 	__AttributeShape__000013_XRightMargin.Structname = `Gantt`
@@ -220,8 +192,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000014_ArrowLengthToTheRightOfStartBar.Name = `ArrowLengthToTheRightOfStartBar`
 
-	//gong:ident [ref_models.Gantt.ArrowLengthToTheRightOfStartBar] comment added to overcome the problem with the comment map association
-	__AttributeShape__000014_ArrowLengthToTheRightOfStartBar.Identifier = `ref_models.Gantt.ArrowLengthToTheRightOfStartBar`
 	__AttributeShape__000014_ArrowLengthToTheRightOfStartBar.IdentifierMeta = ref_models.Gantt{}.ArrowLengthToTheRightOfStartBar
 	__AttributeShape__000014_ArrowLengthToTheRightOfStartBar.FieldTypeAsString = ``
 	__AttributeShape__000014_ArrowLengthToTheRightOfStartBar.Structname = `Gantt`
@@ -229,8 +199,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000015_ArrowTipLenght.Name = `ArrowTipLenght`
 
-	//gong:ident [ref_models.Gantt.ArrowTipLenght] comment added to overcome the problem with the comment map association
-	__AttributeShape__000015_ArrowTipLenght.Identifier = `ref_models.Gantt.ArrowTipLenght`
 	__AttributeShape__000015_ArrowTipLenght.IdentifierMeta = ref_models.Gantt{}.ArrowTipLenght
 	__AttributeShape__000015_ArrowTipLenght.FieldTypeAsString = ``
 	__AttributeShape__000015_ArrowTipLenght.Structname = `Gantt`
@@ -238,8 +206,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000016_TimeLine_Color.Name = `TimeLine_Color`
 
-	//gong:ident [ref_models.Gantt.TimeLine_Color] comment added to overcome the problem with the comment map association
-	__AttributeShape__000016_TimeLine_Color.Identifier = `ref_models.Gantt.TimeLine_Color`
 	__AttributeShape__000016_TimeLine_Color.IdentifierMeta = ref_models.Gantt{}.TimeLine_Color
 	__AttributeShape__000016_TimeLine_Color.FieldTypeAsString = ``
 	__AttributeShape__000016_TimeLine_Color.Structname = `Gantt`
@@ -247,8 +213,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000017_TimeLine_FillOpacity.Name = `TimeLine_FillOpacity`
 
-	//gong:ident [ref_models.Gantt.TimeLine_FillOpacity] comment added to overcome the problem with the comment map association
-	__AttributeShape__000017_TimeLine_FillOpacity.Identifier = `ref_models.Gantt.TimeLine_FillOpacity`
 	__AttributeShape__000017_TimeLine_FillOpacity.IdentifierMeta = ref_models.Gantt{}.TimeLine_FillOpacity
 	__AttributeShape__000017_TimeLine_FillOpacity.FieldTypeAsString = ``
 	__AttributeShape__000017_TimeLine_FillOpacity.Structname = `Gantt`
@@ -256,8 +220,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000018_TimeLine_Stroke.Name = `TimeLine_Stroke`
 
-	//gong:ident [ref_models.Gantt.TimeLine_Stroke] comment added to overcome the problem with the comment map association
-	__AttributeShape__000018_TimeLine_Stroke.Identifier = `ref_models.Gantt.TimeLine_Stroke`
 	__AttributeShape__000018_TimeLine_Stroke.IdentifierMeta = ref_models.Gantt{}.TimeLine_Stroke
 	__AttributeShape__000018_TimeLine_Stroke.FieldTypeAsString = ``
 	__AttributeShape__000018_TimeLine_Stroke.Structname = `Gantt`
@@ -265,8 +227,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000019_TimeLine_StrokeWidth.Name = `TimeLine_StrokeWidth`
 
-	//gong:ident [ref_models.Gantt.TimeLine_StrokeWidth] comment added to overcome the problem with the comment map association
-	__AttributeShape__000019_TimeLine_StrokeWidth.Identifier = `ref_models.Gantt.TimeLine_StrokeWidth`
 	__AttributeShape__000019_TimeLine_StrokeWidth.IdentifierMeta = ref_models.Gantt{}.TimeLine_StrokeWidth
 	__AttributeShape__000019_TimeLine_StrokeWidth.FieldTypeAsString = ``
 	__AttributeShape__000019_TimeLine_StrokeWidth.Structname = `Gantt`
@@ -274,8 +234,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000020_Group_Stroke.Name = `Group_Stroke`
 
-	//gong:ident [ref_models.Gantt.Group_Stroke] comment added to overcome the problem with the comment map association
-	__AttributeShape__000020_Group_Stroke.Identifier = `ref_models.Gantt.Group_Stroke`
 	__AttributeShape__000020_Group_Stroke.IdentifierMeta = ref_models.Gantt{}.Group_Stroke
 	__AttributeShape__000020_Group_Stroke.FieldTypeAsString = ``
 	__AttributeShape__000020_Group_Stroke.Structname = `Gantt`
@@ -283,8 +241,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000021_Group_StrokeWidth.Name = `Group_StrokeWidth`
 
-	//gong:ident [ref_models.Gantt.Group_StrokeWidth] comment added to overcome the problem with the comment map association
-	__AttributeShape__000021_Group_StrokeWidth.Identifier = `ref_models.Gantt.Group_StrokeWidth`
 	__AttributeShape__000021_Group_StrokeWidth.IdentifierMeta = ref_models.Gantt{}.Group_StrokeWidth
 	__AttributeShape__000021_Group_StrokeWidth.FieldTypeAsString = ``
 	__AttributeShape__000021_Group_StrokeWidth.Structname = `Gantt`
@@ -292,8 +248,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000022_Group_StrokeDashArray.Name = `Group_StrokeDashArray`
 
-	//gong:ident [ref_models.Gantt.Group_StrokeDashArray] comment added to overcome the problem with the comment map association
-	__AttributeShape__000022_Group_StrokeDashArray.Identifier = `ref_models.Gantt.Group_StrokeDashArray`
 	__AttributeShape__000022_Group_StrokeDashArray.IdentifierMeta = ref_models.Gantt{}.Group_StrokeDashArray
 	__AttributeShape__000022_Group_StrokeDashArray.FieldTypeAsString = ``
 	__AttributeShape__000022_Group_StrokeDashArray.Structname = `Gantt`
@@ -301,8 +255,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000023_DateYOffset.Name = `DateYOffset`
 
-	//gong:ident [ref_models.Gantt.DateYOffset] comment added to overcome the problem with the comment map association
-	__AttributeShape__000023_DateYOffset.Identifier = `ref_models.Gantt.DateYOffset`
 	__AttributeShape__000023_DateYOffset.IdentifierMeta = ref_models.Gantt{}.DateYOffset
 	__AttributeShape__000023_DateYOffset.FieldTypeAsString = ``
 	__AttributeShape__000023_DateYOffset.Structname = `Gantt`
@@ -310,8 +262,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000024_AlignOnStartEndOnYearStart.Name = `AlignOnStartEndOnYearStart`
 
-	//gong:ident [ref_models.Gantt.AlignOnStartEndOnYearStart] comment added to overcome the problem with the comment map association
-	__AttributeShape__000024_AlignOnStartEndOnYearStart.Identifier = `ref_models.Gantt.AlignOnStartEndOnYearStart`
 	__AttributeShape__000024_AlignOnStartEndOnYearStart.IdentifierMeta = ref_models.Gantt{}.AlignOnStartEndOnYearStart
 	__AttributeShape__000024_AlignOnStartEndOnYearStart.FieldTypeAsString = ``
 	__AttributeShape__000024_AlignOnStartEndOnYearStart.Structname = `Gantt`
@@ -319,8 +269,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000025_Name.Name = `Name`
 
-	//gong:ident [ref_models.Group.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000025_Name.Identifier = `ref_models.Group.Name`
 	__AttributeShape__000025_Name.IdentifierMeta = ref_models.Group{}.Name
 	__AttributeShape__000025_Name.FieldTypeAsString = ``
 	__AttributeShape__000025_Name.Structname = `Group`
@@ -328,8 +276,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000026_Name.Name = `Name`
 
-	//gong:ident [ref_models.Lane.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000026_Name.Identifier = `ref_models.Lane.Name`
 	__AttributeShape__000026_Name.IdentifierMeta = ref_models.Lane{}.Name
 	__AttributeShape__000026_Name.FieldTypeAsString = ``
 	__AttributeShape__000026_Name.Structname = `Lane`
@@ -337,8 +283,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000027_Order.Name = `Order`
 
-	//gong:ident [ref_models.Lane.Order] comment added to overcome the problem with the comment map association
-	__AttributeShape__000027_Order.Identifier = `ref_models.Lane.Order`
 	__AttributeShape__000027_Order.IdentifierMeta = ref_models.Lane{}.Order
 	__AttributeShape__000027_Order.FieldTypeAsString = ``
 	__AttributeShape__000027_Order.Structname = `Lane`
@@ -346,8 +290,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000028_Name.Name = `Name`
 
-	//gong:ident [ref_models.Milestone.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000028_Name.Identifier = `ref_models.Milestone.Name`
 	__AttributeShape__000028_Name.IdentifierMeta = ref_models.Milestone{}.Name
 	__AttributeShape__000028_Name.FieldTypeAsString = ``
 	__AttributeShape__000028_Name.Structname = `Milestone`
@@ -355,8 +297,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000029_Date.Name = `Date`
 
-	//gong:ident [ref_models.Milestone.Date] comment added to overcome the problem with the comment map association
-	__AttributeShape__000029_Date.Identifier = `ref_models.Milestone.Date`
 	__AttributeShape__000029_Date.IdentifierMeta = ref_models.Milestone{}.Date
 	__AttributeShape__000029_Date.FieldTypeAsString = ``
 	__AttributeShape__000029_Date.Structname = `Milestone`
@@ -364,8 +304,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000030_DisplayVerticalBar.Name = `DisplayVerticalBar`
 
-	//gong:ident [ref_models.Milestone.DisplayVerticalBar] comment added to overcome the problem with the comment map association
-	__AttributeShape__000030_DisplayVerticalBar.Identifier = `ref_models.Milestone.DisplayVerticalBar`
 	__AttributeShape__000030_DisplayVerticalBar.IdentifierMeta = ref_models.Milestone{}.DisplayVerticalBar
 	__AttributeShape__000030_DisplayVerticalBar.FieldTypeAsString = ``
 	__AttributeShape__000030_DisplayVerticalBar.Structname = `Milestone`
@@ -373,8 +311,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000031_Name.Name = `Name`
 
-	//gong:ident [ref_models.LaneUse.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000031_Name.Identifier = `ref_models.LaneUse.Name`
 	__AttributeShape__000031_Name.IdentifierMeta = ref_models.LaneUse{}.Name
 	__AttributeShape__000031_Name.FieldTypeAsString = ``
 	__AttributeShape__000031_Name.Structname = `LaneUse`
@@ -382,8 +318,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000032_Name.Name = `Name`
 
-	//gong:ident [ref_models.Arrow.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000032_Name.Identifier = `ref_models.Arrow.Name`
 	__AttributeShape__000032_Name.IdentifierMeta = ref_models.Arrow{}.Name
 	__AttributeShape__000032_Name.FieldTypeAsString = ``
 	__AttributeShape__000032_Name.Structname = `Arrow`
@@ -391,8 +325,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000033_OptionnalColor.Name = `OptionnalColor`
 
-	//gong:ident [ref_models.Arrow.OptionnalColor] comment added to overcome the problem with the comment map association
-	__AttributeShape__000033_OptionnalColor.Identifier = `ref_models.Arrow.OptionnalColor`
 	__AttributeShape__000033_OptionnalColor.IdentifierMeta = ref_models.Arrow{}.OptionnalColor
 	__AttributeShape__000033_OptionnalColor.FieldTypeAsString = ``
 	__AttributeShape__000033_OptionnalColor.Structname = `Arrow`
@@ -400,8 +332,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000034_OptionnalStroke.Name = `OptionnalStroke`
 
-	//gong:ident [ref_models.Arrow.OptionnalStroke] comment added to overcome the problem with the comment map association
-	__AttributeShape__000034_OptionnalStroke.Identifier = `ref_models.Arrow.OptionnalStroke`
 	__AttributeShape__000034_OptionnalStroke.IdentifierMeta = ref_models.Arrow{}.OptionnalStroke
 	__AttributeShape__000034_OptionnalStroke.FieldTypeAsString = ``
 	__AttributeShape__000034_OptionnalStroke.Structname = `Arrow`
@@ -409,8 +339,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000035_Name.Name = `Name`
 
-	//gong:ident [ref_models.Bar.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000035_Name.Identifier = `ref_models.Bar.Name`
 	__AttributeShape__000035_Name.IdentifierMeta = ref_models.Bar{}.Name
 	__AttributeShape__000035_Name.FieldTypeAsString = ``
 	__AttributeShape__000035_Name.Structname = `Bar`
@@ -418,8 +346,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000036_Start.Name = `Start`
 
-	//gong:ident [ref_models.Bar.Start] comment added to overcome the problem with the comment map association
-	__AttributeShape__000036_Start.Identifier = `ref_models.Bar.Start`
 	__AttributeShape__000036_Start.IdentifierMeta = ref_models.Bar{}.Start
 	__AttributeShape__000036_Start.FieldTypeAsString = ``
 	__AttributeShape__000036_Start.Structname = `Bar`
@@ -427,8 +353,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000037_End.Name = `End`
 
-	//gong:ident [ref_models.Bar.End] comment added to overcome the problem with the comment map association
-	__AttributeShape__000037_End.Identifier = `ref_models.Bar.End`
 	__AttributeShape__000037_End.IdentifierMeta = ref_models.Bar{}.End
 	__AttributeShape__000037_End.FieldTypeAsString = ``
 	__AttributeShape__000037_End.Structname = `Bar`
@@ -436,8 +360,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000038_ComputedDuration.Name = `ComputedDuration`
 
-	//gong:ident [ref_models.Bar.ComputedDuration] comment added to overcome the problem with the comment map association
-	__AttributeShape__000038_ComputedDuration.Identifier = `ref_models.Bar.ComputedDuration`
 	__AttributeShape__000038_ComputedDuration.IdentifierMeta = ref_models.Bar{}.ComputedDuration
 	__AttributeShape__000038_ComputedDuration.FieldTypeAsString = ``
 	__AttributeShape__000038_ComputedDuration.Structname = `Bar`
@@ -445,8 +367,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000039_OptionnalColor.Name = `OptionnalColor`
 
-	//gong:ident [ref_models.Bar.OptionnalColor] comment added to overcome the problem with the comment map association
-	__AttributeShape__000039_OptionnalColor.Identifier = `ref_models.Bar.OptionnalColor`
 	__AttributeShape__000039_OptionnalColor.IdentifierMeta = ref_models.Bar{}.OptionnalColor
 	__AttributeShape__000039_OptionnalColor.FieldTypeAsString = ``
 	__AttributeShape__000039_OptionnalColor.Structname = `Bar`
@@ -454,8 +374,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000040_OptionnalStroke.Name = `OptionnalStroke`
 
-	//gong:ident [ref_models.Bar.OptionnalStroke] comment added to overcome the problem with the comment map association
-	__AttributeShape__000040_OptionnalStroke.Identifier = `ref_models.Bar.OptionnalStroke`
 	__AttributeShape__000040_OptionnalStroke.IdentifierMeta = ref_models.Bar{}.OptionnalStroke
 	__AttributeShape__000040_OptionnalStroke.FieldTypeAsString = ``
 	__AttributeShape__000040_OptionnalStroke.Structname = `Bar`
@@ -482,8 +400,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Milestone.X = 655.000000
 	__GongStructShape__000000_Default_Milestone.Y = 516.000000
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000000_Default_Milestone.IdentifierMeta = ref_models.Milestone{}
 	__GongStructShape__000000_Default_Milestone.ShowNbInstances = false
 	__GongStructShape__000000_Default_Milestone.NbInstances = 0
@@ -494,8 +410,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_LaneUse.Name = `Default-LaneUse`
 	__GongStructShape__000001_Default_LaneUse.X = 1157.000000
 	__GongStructShape__000001_Default_LaneUse.Y = 545.000000
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000001_Default_LaneUse.IdentifierMeta = ref_models.LaneUse{}
 	__GongStructShape__000001_Default_LaneUse.ShowNbInstances = false
@@ -508,8 +422,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Lane.X = 656.000000
 	__GongStructShape__000002_Default_Lane.Y = 164.000000
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000002_Default_Lane.IdentifierMeta = ref_models.Lane{}
 	__GongStructShape__000002_Default_Lane.ShowNbInstances = false
 	__GongStructShape__000002_Default_Lane.NbInstances = 0
@@ -520,8 +432,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Group.Name = `Default-Group`
 	__GongStructShape__000003_Default_Group.X = 659.000000
 	__GongStructShape__000003_Default_Group.Y = 68.000000
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000003_Default_Group.IdentifierMeta = ref_models.Group{}
 	__GongStructShape__000003_Default_Group.ShowNbInstances = false
@@ -534,8 +444,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_Gantt.X = 48.000000
 	__GongStructShape__000004_Default_Gantt.Y = 81.000000
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000004_Default_Gantt.IdentifierMeta = ref_models.Gantt{}
 	__GongStructShape__000004_Default_Gantt.ShowNbInstances = false
 	__GongStructShape__000004_Default_Gantt.NbInstances = 0
@@ -546,8 +454,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Bar.Name = `Default-Bar`
 	__GongStructShape__000005_Default_Bar.X = 657.000000
 	__GongStructShape__000005_Default_Bar.Y = 322.000000
-
-	//gong:ident [..] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000005_Default_Bar.IdentifierMeta = ref_models.Bar{}
 	__GongStructShape__000005_Default_Bar.ShowNbInstances = false
@@ -560,8 +466,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000006_Default_Arrow.X = 656.000000
 	__GongStructShape__000006_Default_Arrow.Y = 677.000000
 
-	//gong:ident [..] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000006_Default_Arrow.IdentifierMeta = ref_models.Arrow{}
 	__GongStructShape__000006_Default_Arrow.ShowNbInstances = false
 	__GongStructShape__000006_Default_Arrow.NbInstances = 0
@@ -571,12 +475,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000000_Lanes.Name = `Lanes`
 
-	//gong:ident [ref_models.Gantt.Lanes] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Lanes.Identifier = `ref_models.Gantt.Lanes`
 	__LinkShape__000000_Lanes.IdentifierMeta = ref_models.Gantt{}.Lanes
 
-	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Lanes.Fieldtypename = `ref_models.Lane`
 	__LinkShape__000000_Lanes.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000000_Lanes.FieldOffsetX = 0.000000
 	__LinkShape__000000_Lanes.FieldOffsetY = 0.000000
@@ -596,12 +496,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000001_Milestones.Name = `Milestones`
 
-	//gong:ident [ref_models.Gantt.Milestones] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_Milestones.Identifier = `ref_models.Gantt.Milestones`
 	__LinkShape__000001_Milestones.IdentifierMeta = ref_models.Gantt{}.Milestones
 
-	//gong:ident [ref_models.Milestone] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_Milestones.Fieldtypename = `ref_models.Milestone`
 	__LinkShape__000001_Milestones.FieldTypeIdentifierMeta = ref_models.Milestone{}
 	__LinkShape__000001_Milestones.FieldOffsetX = 0.000000
 	__LinkShape__000001_Milestones.FieldOffsetY = 0.000000
@@ -621,12 +517,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000002_Groups.Name = `Groups`
 
-	//gong:ident [ref_models.Gantt.Groups] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_Groups.Identifier = `ref_models.Gantt.Groups`
 	__LinkShape__000002_Groups.IdentifierMeta = ref_models.Gantt{}.Groups
 
-	//gong:ident [ref_models.Group] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_Groups.Fieldtypename = `ref_models.Group`
 	__LinkShape__000002_Groups.FieldTypeIdentifierMeta = ref_models.Group{}
 	__LinkShape__000002_Groups.FieldOffsetX = 0.000000
 	__LinkShape__000002_Groups.FieldOffsetY = 0.000000
@@ -646,12 +538,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000003_Arrows.Name = `Arrows`
 
-	//gong:ident [ref_models.Gantt.Arrows] comment added to overcome the problem with the comment map association
-	__LinkShape__000003_Arrows.Identifier = `ref_models.Gantt.Arrows`
 	__LinkShape__000003_Arrows.IdentifierMeta = ref_models.Gantt{}.Arrows
 
-	//gong:ident [ref_models.Arrow] comment added to overcome the problem with the comment map association
-	__LinkShape__000003_Arrows.Fieldtypename = `ref_models.Arrow`
 	__LinkShape__000003_Arrows.FieldTypeIdentifierMeta = ref_models.Arrow{}
 	__LinkShape__000003_Arrows.FieldOffsetX = 0.000000
 	__LinkShape__000003_Arrows.FieldOffsetY = 0.000000
@@ -671,12 +559,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000004_GroupLanes.Name = `GroupLanes`
 
-	//gong:ident [ref_models.Group.GroupLanes] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GroupLanes.Identifier = `ref_models.Group.GroupLanes`
 	__LinkShape__000004_GroupLanes.IdentifierMeta = ref_models.Group{}.GroupLanes
 
-	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GroupLanes.Fieldtypename = `ref_models.Lane`
 	__LinkShape__000004_GroupLanes.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000004_GroupLanes.FieldOffsetX = 0.000000
 	__LinkShape__000004_GroupLanes.FieldOffsetY = 0.000000
@@ -696,12 +580,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000005_Bars.Name = `Bars`
 
-	//gong:ident [ref_models.Lane.Bars] comment added to overcome the problem with the comment map association
-	__LinkShape__000005_Bars.Identifier = `ref_models.Lane.Bars`
 	__LinkShape__000005_Bars.IdentifierMeta = ref_models.Lane{}.Bars
 
-	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000005_Bars.Fieldtypename = `ref_models.Bar`
 	__LinkShape__000005_Bars.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000005_Bars.FieldOffsetX = 0.000000
 	__LinkShape__000005_Bars.FieldOffsetY = 0.000000
@@ -721,12 +601,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000006_LanesToDisplayMilestoneUse.Name = `LanesToDisplayMilestoneUse`
 
-	//gong:ident [ref_models.Milestone.LanesToDisplayMilestoneUse] comment added to overcome the problem with the comment map association
-	__LinkShape__000006_LanesToDisplayMilestoneUse.Identifier = `ref_models.Milestone.LanesToDisplayMilestoneUse`
 	__LinkShape__000006_LanesToDisplayMilestoneUse.IdentifierMeta = ref_models.Milestone{}.LanesToDisplay
 
-	//gong:ident [ref_models.LaneUse] comment added to overcome the problem with the comment map association
-	__LinkShape__000006_LanesToDisplayMilestoneUse.Fieldtypename = `ref_models.LaneUse`
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldTypeIdentifierMeta = ref_models.LaneUse{}
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldOffsetX = 0.000000
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldOffsetY = 0.000000
@@ -746,12 +622,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000007_Lane.Name = `Lane`
 
-	//gong:ident [ref_models.LaneUse.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000007_Lane.Identifier = `ref_models.LaneUse.Lane`
 	__LinkShape__000007_Lane.IdentifierMeta = ref_models.LaneUse{}.Lane
 
-	//gong:ident [ref_models.Lane] comment added to overcome the problem with the comment map association
-	__LinkShape__000007_Lane.Fieldtypename = `ref_models.Lane`
 	__LinkShape__000007_Lane.FieldTypeIdentifierMeta = ref_models.Lane{}
 	__LinkShape__000007_Lane.FieldOffsetX = 0.000000
 	__LinkShape__000007_Lane.FieldOffsetY = 0.000000
@@ -771,12 +643,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000008_From.Name = `From`
 
-	//gong:ident [ref_models.Arrow.From] comment added to overcome the problem with the comment map association
-	__LinkShape__000008_From.Identifier = `ref_models.Arrow.From`
 	__LinkShape__000008_From.IdentifierMeta = ref_models.Arrow{}.From
 
-	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000008_From.Fieldtypename = `ref_models.Bar`
 	__LinkShape__000008_From.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000008_From.FieldOffsetX = 0.000000
 	__LinkShape__000008_From.FieldOffsetY = 0.000000
@@ -796,12 +664,8 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000009_To.Name = `To`
 
-	//gong:ident [ref_models.Arrow.To] comment added to overcome the problem with the comment map association
-	__LinkShape__000009_To.Identifier = `ref_models.Arrow.To`
 	__LinkShape__000009_To.IdentifierMeta = ref_models.Arrow{}.To
 
-	//gong:ident [ref_models.Bar] comment added to overcome the problem with the comment map association
-	__LinkShape__000009_To.Fieldtypename = `ref_models.Bar`
 	__LinkShape__000009_To.FieldTypeIdentifierMeta = ref_models.Bar{}
 	__LinkShape__000009_To.FieldOffsetX = 0.000000
 	__LinkShape__000009_To.FieldOffsetY = 0.000000
