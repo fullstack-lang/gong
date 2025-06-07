@@ -1207,4 +1207,76 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     anchorY: anchorY,
   };
   }
+
+  // In your component.ts file
+
+  getContextForAnchoredRect(anchoredRect: svg.RectAnchoredRect, parentRect: svg.Rect) {
+    let anchorX = 0;
+    let anchorY = 0;
+
+    // Calculate width based on whether it should follow the parent
+    const width = anchoredRect.WidthFollowRect 
+      ? parentRect.Width 
+      : anchoredRect.Width;
+
+    // The switch logic is now neatly contained in the component method
+    switch (anchoredRect.RectAnchorType) {
+      case svg.RectAnchorType.RECT_TOP:
+        anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_TOP_LEFT:
+        anchorX = parentRect.X + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_TOP_RIGHT:
+        anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM:
+        anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_LEFT:
+        anchorX = parentRect.X + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_LEFT_LEFT:
+        anchorX = parentRect.X - parentRect.Height + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT:
+        anchorX = parentRect.X + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_RIGHT:
+        anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT:
+        anchorX = parentRect.X + parentRect.Width - parentRect.Height + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_LEFT:
+        anchorX = parentRect.X + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_RIGHT:
+        anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_CENTER:
+        anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
+        break;
+    }
+
+    // Return the complete context object that the template needs
+    return {
+      rect: anchoredRect,
+      anchorX: anchorX,
+      anchorY: anchorY,
+      width: width,
+    };
+  }
 }
