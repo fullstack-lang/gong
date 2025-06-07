@@ -33,6 +33,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start := (&models.Rect{}).Stage(stage)
 	__Rect__000001_End := (&models.Rect{}).Stage(stage)
 
+	__RectAnchoredPath__000000_arrow := (&models.RectAnchoredPath{}).Stage(stage)
+
 	__RectAnchoredRect__000000_Top := (&models.RectAnchoredRect{}).Stage(stage)
 	__RectAnchoredRect__000001_TopLeft := (&models.RectAnchoredRect{}).Stage(stage)
 	__RectAnchoredRect__000002_TopRight := (&models.RectAnchoredRect{}).Stage(stage)
@@ -195,6 +197,22 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.OriginalFillOpacity = 0.000000
 	__Rect__000001_End.CheckboxHasToolTip = false
 	__Rect__000001_End.CheckboxToolTipText = `End`
+
+	__RectAnchoredPath__000000_arrow.Name = `arrow`
+	__RectAnchoredPath__000000_arrow.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
+	__RectAnchoredPath__000000_arrow.X_Offset = 0.000000
+	__RectAnchoredPath__000000_arrow.Y_Offset = 0.000000
+	__RectAnchoredPath__000000_arrow.RectAnchorType = models.RECT_CENTER
+	__RectAnchoredPath__000000_arrow.ScalePropotionnally = true
+	__RectAnchoredPath__000000_arrow.AppliedScaling = 1.000000
+	__RectAnchoredPath__000000_arrow.Color = `lightblue`
+	__RectAnchoredPath__000000_arrow.FillOpacity = 0.500000
+	__RectAnchoredPath__000000_arrow.Stroke = ``
+	__RectAnchoredPath__000000_arrow.StrokeOpacity = 0.000000
+	__RectAnchoredPath__000000_arrow.StrokeWidth = 0.000000
+	__RectAnchoredPath__000000_arrow.StrokeDashArray = ``
+	__RectAnchoredPath__000000_arrow.StrokeDashArrayWhenSelected = ``
+	__RectAnchoredPath__000000_arrow.Transform = ``
 
 	__RectAnchoredRect__000000_Top.Name = `Top`
 	__RectAnchoredRect__000000_Top.X = 0.000000
@@ -753,6 +771,8 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000005_BottomLeftLeft)
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000010_Right)
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000004_BottomLeft)
+	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000000_arrow)
+	// setup of RectAnchoredPath instances pointers
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
 	// setup of SVG instances pointers
