@@ -14,5 +14,8 @@ type RectAnchoredRect struct {
 	WidthFollowRect  bool
 	HeightFollowRect bool
 
+	CheckboxHasToolTip  bool
+	CheckboxToolTipText string
+
 	Presentation
 }

@@ -37,14 +37,12 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__AttributeShape__000000_Name.Name = `Name`
-
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.LinkAnchoredText{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `LinkAnchoredText`
 	__AttributeShape__000000_Name.Fieldtypename = `string`
 
 	__AttributeShape__000001_Content.Name = `Content`
-
 	__AttributeShape__000001_Content.IdentifierMeta = ref_models.LinkAnchoredText{}.Content
 	__AttributeShape__000001_Content.FieldTypeAsString = ``
 	__AttributeShape__000001_Content.Structname = `LinkAnchoredText`
@@ -70,7 +68,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.Name = `Default-LinkAnchoredText`
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 25.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Y = 53.000000
-
 	__GongStructShape__000000_Default_LinkAnchoredText.IdentifierMeta = ref_models.LinkAnchoredText{}
 	__GongStructShape__000000_Default_LinkAnchoredText.ShowNbInstances = false
 	__GongStructShape__000000_Default_LinkAnchoredText.NbInstances = 0

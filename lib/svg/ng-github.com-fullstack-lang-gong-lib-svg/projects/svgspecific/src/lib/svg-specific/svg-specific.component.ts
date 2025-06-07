@@ -11,6 +11,8 @@ import { MatDividerModule } from '@angular/material/divider'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 import { manageHandles } from '../manage.handles';
 import { Segment, createPoint, drawSegments, drawSegmentsFromLink } from '../draw.segments';
@@ -50,7 +52,7 @@ import { LayoutService } from '../layout.service';
     MatSliderModule,
     MatInputModule,     // <-- Add if not present
     MatDividerModule,
-
+    MatTooltipModule,
 
     TextWidthCalculatorComponent,
     LinkSegmentsPipe,
