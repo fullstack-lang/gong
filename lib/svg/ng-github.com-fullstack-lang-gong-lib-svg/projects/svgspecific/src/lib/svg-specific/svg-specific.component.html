@@ -256,70 +256,11 @@
               [ngTemplateOutletContext]="getContextForAnchoredRect(rectAnchoredRect, rect)">
             </ng-container>
           }
-          @for(rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_TOP_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_LEFT_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X - rect.Height + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rect.Width + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_CENTER) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rect.Width/2 + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height/2 + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
-            @if(rectAnchoredPath.RectAnchorType == RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT) {
-              <ng-container [ngTemplateOutlet]="anchoredPath" [ngTemplateOutletContext]="{ 
-                      path: rectAnchoredPath, 
-                      anchorX: rect.X + rect.Width - rect.Height + rectAnchoredPath.X_Offset, 
-                      anchorY: rect.Y + rect.Height + rectAnchoredPath.Y_Offset }">
-              </ng-container>
-            }
+          @for (rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
+            <ng-container
+              [ngTemplateOutlet]="anchoredPath"
+              [ngTemplateOutletContext]="getContextForAnchoredPath(rectAnchoredPath, rect)">
+            </ng-container>
           }
           @for(text of rect.RectAnchoredTexts!; track text) {
             <ng-container 
