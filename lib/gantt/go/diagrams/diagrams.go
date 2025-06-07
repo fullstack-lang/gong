@@ -516,7 +516,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000000_Lanes.Name = `Lanes`
 
-	__LinkShape__000000_Lanes.Identifier = `ref_models.Gantt.Lanes`
 	__LinkShape__000000_Lanes.IdentifierMeta = ref_models.Gantt{}.Lanes
 
 	__LinkShape__000000_Lanes.FieldTypeIdentifierMeta = ref_models.Lane{}
@@ -538,7 +537,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000001_Milestones.Name = `Milestones`
 
-	__LinkShape__000001_Milestones.Identifier = `ref_models.Gantt.Milestones`
 	__LinkShape__000001_Milestones.IdentifierMeta = ref_models.Gantt{}.Milestones
 
 	__LinkShape__000001_Milestones.FieldTypeIdentifierMeta = ref_models.Milestone{}
@@ -560,7 +558,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000002_Groups.Name = `Groups`
 
-	__LinkShape__000002_Groups.Identifier = `ref_models.Gantt.Groups`
 	__LinkShape__000002_Groups.IdentifierMeta = ref_models.Gantt{}.Groups
 
 	__LinkShape__000002_Groups.FieldTypeIdentifierMeta = ref_models.Group{}
@@ -582,7 +579,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000003_Arrows.Name = `Arrows`
 
-	__LinkShape__000003_Arrows.Identifier = `ref_models.Gantt.Arrows`
 	__LinkShape__000003_Arrows.IdentifierMeta = ref_models.Gantt{}.Arrows
 
 	__LinkShape__000003_Arrows.FieldTypeIdentifierMeta = ref_models.Arrow{}
@@ -604,7 +600,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000004_GroupLanes.Name = `GroupLanes`
 
-	__LinkShape__000004_GroupLanes.Identifier = `ref_models.Group.GroupLanes`
 	__LinkShape__000004_GroupLanes.IdentifierMeta = ref_models.Group{}.GroupLanes
 
 	__LinkShape__000004_GroupLanes.FieldTypeIdentifierMeta = ref_models.Lane{}
@@ -626,7 +621,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000005_Bars.Name = `Bars`
 
-	__LinkShape__000005_Bars.Identifier = `ref_models.Lane.Bars`
 	__LinkShape__000005_Bars.IdentifierMeta = ref_models.Lane{}.Bars
 
 	__LinkShape__000005_Bars.FieldTypeIdentifierMeta = ref_models.Bar{}
@@ -648,7 +642,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000006_LanesToDisplayMilestoneUse.Name = `LanesToDisplayMilestoneUse`
 
-	__LinkShape__000006_LanesToDisplayMilestoneUse.Identifier = `ref_models.Milestone.LanesToDisplayMilestoneUse`
 	__LinkShape__000006_LanesToDisplayMilestoneUse.IdentifierMeta = ref_models.Milestone{}.LanesToDisplay
 
 	__LinkShape__000006_LanesToDisplayMilestoneUse.FieldTypeIdentifierMeta = ref_models.LaneUse{}
@@ -670,7 +663,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000007_Lane.Name = `Lane`
 
-	__LinkShape__000007_Lane.Identifier = `ref_models.LaneUse.Lane`
 	__LinkShape__000007_Lane.IdentifierMeta = ref_models.LaneUse{}.Lane
 
 	__LinkShape__000007_Lane.FieldTypeIdentifierMeta = ref_models.Lane{}
@@ -692,7 +684,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000008_From.Name = `From`
 
-	__LinkShape__000008_From.Identifier = `ref_models.Arrow.From`
 	__LinkShape__000008_From.IdentifierMeta = ref_models.Arrow{}.From
 
 	__LinkShape__000008_From.FieldTypeIdentifierMeta = ref_models.Bar{}
@@ -714,7 +705,6 @@ func _(stage *models.Stage) {
 
 	__LinkShape__000009_To.Name = `To`
 
-	__LinkShape__000009_To.Identifier = `ref_models.Arrow.To`
 	__LinkShape__000009_To.IdentifierMeta = ref_models.Arrow{}.To
 
 	__LinkShape__000009_To.FieldTypeIdentifierMeta = ref_models.Bar{}
