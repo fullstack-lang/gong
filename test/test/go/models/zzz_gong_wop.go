@@ -42,18 +42,6 @@ type Astruct_WOP struct {
 
 	Duration1 time.Duration
 
-	StructRef string
-
-	FieldRef string
-
-	EnumIntRef string
-
-	EnumStringRef string
-
-	EnumValue string
-
-	ConstIdentifierValue string
-
 	TextFieldBespokeSize string
 
 	TextArea string
@@ -76,12 +64,6 @@ func (from *Astruct) CopyBasicFields(to *Astruct) {
 	to.Intfield = from.Intfield
 	to.Anotherbooleanfield = from.Anotherbooleanfield
 	to.Duration1 = from.Duration1
-	to.StructRef = from.StructRef
-	to.FieldRef = from.FieldRef
-	to.EnumIntRef = from.EnumIntRef
-	to.EnumStringRef = from.EnumStringRef
-	to.EnumValue = from.EnumValue
-	to.ConstIdentifierValue = from.ConstIdentifierValue
 	to.TextFieldBespokeSize = from.TextFieldBespokeSize
 	to.TextArea = from.TextArea
 }

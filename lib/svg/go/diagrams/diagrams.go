@@ -38,8 +38,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_Name.Name = `Name`
 
-	//gong:ident [ref_models.LinkAnchoredText.Name] comment added to overcome the problem with the comment map association
-	__AttributeShape__000000_Name.Identifier = `ref_models.LinkAnchoredText.Name`
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.LinkAnchoredText{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `LinkAnchoredText`
@@ -47,8 +45,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000001_Content.Name = `Content`
 
-	//gong:ident [ref_models.LinkAnchoredText.Content] comment added to overcome the problem with the comment map association
-	__AttributeShape__000001_Content.Identifier = `ref_models.LinkAnchoredText.Content`
 	__AttributeShape__000001_Content.IdentifierMeta = ref_models.LinkAnchoredText{}.Content
 	__AttributeShape__000001_Content.FieldTypeAsString = ``
 	__AttributeShape__000001_Content.Structname = `LinkAnchoredText`
@@ -74,8 +70,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.Name = `Default-LinkAnchoredText`
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 25.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Y = 53.000000
-
-	//gong:ident [.............] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000000_Default_LinkAnchoredText.IdentifierMeta = ref_models.LinkAnchoredText{}
 	__GongStructShape__000000_Default_LinkAnchoredText.ShowNbInstances = false

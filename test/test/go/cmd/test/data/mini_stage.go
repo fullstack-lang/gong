@@ -34,12 +34,4 @@ func stageInjection2(stage *models.Stage) {
 
 	__Astruct__000000_A1.Name = "Foo"
 
-	//gong:ident [dummy.Dummy]
-	__Astruct__000000_A1.StructRef = ""
-
-	// comment added to overcome the problem with the comment map association
-
-	//gong:ident [dummy.Dummy.Name]
-	__Astruct__000000_A1.FieldRef = ""
-
 }

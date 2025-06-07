@@ -59,32 +59,24 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_FieldTypeAsString.Name = `FieldTypeAsString`
 
-	//gong:ident [ref_models.AttributeShape.FieldTypeAsString] comment added to overcome the problem with the comment map association
-	__AttributeShape__000000_FieldTypeAsString.Identifier = `ref_models.AttributeShape.FieldTypeAsString`
 	__AttributeShape__000000_FieldTypeAsString.FieldTypeAsString = ``
 	__AttributeShape__000000_FieldTypeAsString.Structname = `AttributeShape`
 	__AttributeShape__000000_FieldTypeAsString.Fieldtypename = `string`
 
 	__AttributeShape__000001_Fieldtypename.Name = `Fieldtypename`
 
-	//gong:ident [ref_models.AttributeShape.Fieldtypename] comment added to overcome the problem with the comment map association
-	__AttributeShape__000001_Fieldtypename.Identifier = `ref_models.AttributeShape.Fieldtypename`
 	__AttributeShape__000001_Fieldtypename.FieldTypeAsString = ``
 	__AttributeShape__000001_Fieldtypename.Structname = `AttributeShape`
 	__AttributeShape__000001_Fieldtypename.Fieldtypename = `string`
 
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Name = `TargetMultiplicityOffsetX`
 
-	//gong:ident [ref_models.LinkShape.TargetMultiplicityOffsetX] comment added to overcome the problem with the comment map association
-	__AttributeShape__000002_TargetMultiplicityOffsetX.Identifier = `ref_models.LinkShape.TargetMultiplicityOffsetX`
 	__AttributeShape__000002_TargetMultiplicityOffsetX.FieldTypeAsString = ``
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Structname = `LinkShape`
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Fieldtypename = `float64`
 
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Name = `TargetMultiplicityOffsetY`
 
-	//gong:ident [ref_models.LinkShape.TargetMultiplicityOffsetY] comment added to overcome the problem with the comment map association
-	__AttributeShape__000003_TargetMultiplicityOffsetY.Identifier = `ref_models.LinkShape.TargetMultiplicityOffsetY`
 	__AttributeShape__000003_TargetMultiplicityOffsetY.FieldTypeAsString = ``
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Structname = `LinkShape`
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Fieldtypename = `float64`
@@ -120,7 +112,6 @@ func _(stage *models.Stage) {
 
 	__GongNoteShape__000000_Default_NoteOnGongdoc.Name = `Default-NoteOnGongdoc`
 
-	//gong:ident [ref_models.NoteOnGongdoc] comment added to overcome the problem with the comment map association
 	__GongNoteShape__000000_Default_NoteOnGongdoc.Identifier = `ref_models.NoteOnGongdoc`
 	__GongNoteShape__000000_Default_NoteOnGongdoc.Body = `Note Example
 
@@ -144,8 +135,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000000_Default_AttributeShape.X = 984.000000
 	__GongStructShape__000000_Default_AttributeShape.Y = 230.000000
 
-	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000000_Default_AttributeShape.ShowNbInstances = false
 	__GongStructShape__000000_Default_AttributeShape.NbInstances = 0
 	__GongStructShape__000000_Default_AttributeShape.Width = 240.000000
@@ -155,8 +144,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000001_Default_DiagramPackage.Name = `Default-DiagramPackage`
 	__GongStructShape__000001_Default_DiagramPackage.X = 58.000000
 	__GongStructShape__000001_Default_DiagramPackage.Y = 36.000000
-
-	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000001_Default_DiagramPackage.ShowNbInstances = false
 	__GongStructShape__000001_Default_DiagramPackage.NbInstances = 0
@@ -168,8 +155,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000002_Default_GongStructShape.X = 985.000000
 	__GongStructShape__000002_Default_GongStructShape.Y = 32.000000
 
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000002_Default_GongStructShape.ShowNbInstances = false
 	__GongStructShape__000002_Default_GongStructShape.NbInstances = 0
 	__GongStructShape__000002_Default_GongStructShape.Width = 240.000000
@@ -179,8 +164,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000003_Default_Classdiagram.Name = `Default-Classdiagram`
 	__GongStructShape__000003_Default_Classdiagram.X = 545.000000
 	__GongStructShape__000003_Default_Classdiagram.Y = 94.000000
-
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000003_Default_Classdiagram.ShowNbInstances = false
 	__GongStructShape__000003_Default_Classdiagram.NbInstances = 0
@@ -192,8 +175,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000004_Default_1_AttributeShape.X = 25.000000
 	__GongStructShape__000004_Default_1_AttributeShape.Y = 46.000000
 
-	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000004_Default_1_AttributeShape.ShowNbInstances = false
 	__GongStructShape__000004_Default_1_AttributeShape.NbInstances = 0
 	__GongStructShape__000004_Default_1_AttributeShape.Width = 240.000000
@@ -203,8 +184,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000005_Default_1_Classdiagram.Name = `Default_1-Classdiagram`
 	__GongStructShape__000005_Default_1_Classdiagram.X = 401.000000
 	__GongStructShape__000005_Default_1_Classdiagram.Y = 306.000000
-
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000005_Default_1_Classdiagram.ShowNbInstances = false
 	__GongStructShape__000005_Default_1_Classdiagram.NbInstances = 0
@@ -216,8 +195,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000006_Default_1_DiagramPackage.X = 95.000000
 	__GongStructShape__000006_Default_1_DiagramPackage.Y = 101.000000
 
-	//gong:ident [ref_models.DiagramPackage] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000006_Default_1_DiagramPackage.ShowNbInstances = false
 	__GongStructShape__000006_Default_1_DiagramPackage.NbInstances = 0
 	__GongStructShape__000006_Default_1_DiagramPackage.Width = 240.000000
@@ -227,8 +204,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000007_Default_1_GongEnumShape.Name = `Default_1-GongEnumShape`
 	__GongStructShape__000007_Default_1_GongEnumShape.X = 416.000000
 	__GongStructShape__000007_Default_1_GongEnumShape.Y = 105.000000
-
-	//gong:ident [ref_models.GongEnumShape] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000007_Default_1_GongEnumShape.ShowNbInstances = false
 	__GongStructShape__000007_Default_1_GongEnumShape.NbInstances = 0
@@ -240,8 +215,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000008_Default_1_GongEnumValueShape.X = 22.000000
 	__GongStructShape__000008_Default_1_GongEnumValueShape.Y = 100.000000
 
-	//gong:ident [ref_models.GongEnumValueShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000008_Default_1_GongEnumValueShape.ShowNbInstances = false
 	__GongStructShape__000008_Default_1_GongEnumValueShape.NbInstances = 0
 	__GongStructShape__000008_Default_1_GongEnumValueShape.Width = 240.000000
@@ -251,8 +224,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000009_Default_1_GongNoteLinkShape.Name = `Default_1-GongNoteLinkShape`
 	__GongStructShape__000009_Default_1_GongNoteLinkShape.X = 32.000000
 	__GongStructShape__000009_Default_1_GongNoteLinkShape.Y = 100.000000
-
-	//gong:ident [ref_models.GongNoteLinkShape] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000009_Default_1_GongNoteLinkShape.ShowNbInstances = false
 	__GongStructShape__000009_Default_1_GongNoteLinkShape.NbInstances = 0
@@ -264,8 +235,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000010_Default_1_GongNoteShape.X = 33.000000
 	__GongStructShape__000010_Default_1_GongNoteShape.Y = 105.000000
 
-	//gong:ident [ref_models.GongNoteShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000010_Default_1_GongNoteShape.ShowNbInstances = false
 	__GongStructShape__000010_Default_1_GongNoteShape.NbInstances = 0
 	__GongStructShape__000010_Default_1_GongNoteShape.Width = 240.000000
@@ -275,8 +244,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000011_Default_1_GongStructShape.Name = `Default_1-GongStructShape`
 	__GongStructShape__000011_Default_1_GongStructShape.X = 335.000000
 	__GongStructShape__000011_Default_1_GongStructShape.Y = 542.000000
-
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
 
 	__GongStructShape__000011_Default_1_GongStructShape.ShowNbInstances = false
 	__GongStructShape__000011_Default_1_GongStructShape.NbInstances = 0
@@ -288,8 +255,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__GongStructShape__000012_Default_1_LinkShape.X = 91.000000
 	__GongStructShape__000012_Default_1_LinkShape.Y = 77.000000
 
-	//gong:ident [ref_models.LinkShape] comment added to overcome the problem with the comment map association
-
 	__GongStructShape__000012_Default_1_LinkShape.ShowNbInstances = false
 	__GongStructShape__000012_Default_1_LinkShape.NbInstances = 0
 	__GongStructShape__000012_Default_1_LinkShape.Width = 240.000000
@@ -298,11 +263,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000000_Classdiagrams.Name = `Classdiagrams`
 
-	//gong:ident [ref_models.DiagramPackage.Classdiagrams] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Classdiagrams.Identifier = `ref_models.DiagramPackage.Classdiagrams`
-
-	//gong:ident [ref_models.Classdiagram] comment added to overcome the problem with the comment map association
-	__LinkShape__000000_Classdiagrams.Fieldtypename = `ref_models.Classdiagram`
 	__LinkShape__000000_Classdiagrams.FieldOffsetX = 0.000000
 	__LinkShape__000000_Classdiagrams.FieldOffsetY = 0.000000
 	__LinkShape__000000_Classdiagrams.TargetMultiplicity = models.MANY
@@ -321,10 +281,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000001_GongStructShapes.Name = `GongStructShapes`
 
-	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000001_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
 	__LinkShape__000001_GongStructShapes.FieldOffsetX = 0.000000
 	__LinkShape__000001_GongStructShapes.FieldOffsetY = 0.000000
 	__LinkShape__000001_GongStructShapes.TargetMultiplicity = models.MANY
@@ -343,11 +299,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000002_AttributeShapes.Name = `AttributeShapes`
 
-	//gong:ident [ref_models.GongStructShape.AttributeShapes] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_AttributeShapes.Identifier = `ref_models.GongStructShape.AttributeShapes`
-
-	//gong:ident [ref_models.AttributeShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000002_AttributeShapes.Fieldtypename = `ref_models.AttributeShape`
 	__LinkShape__000002_AttributeShapes.FieldOffsetX = 0.000000
 	__LinkShape__000002_AttributeShapes.FieldOffsetY = 0.000000
 	__LinkShape__000002_AttributeShapes.TargetMultiplicity = models.MANY
@@ -366,10 +317,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000003_GongStructShapes.Name = `GongStructShapes`
 
-	//gong:ident [ref_models.Classdiagram.GongStructShapes] comment added to overcome the problem with the comment map association
-
-	//gong:ident [ref_models.GongStructShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000003_GongStructShapes.Fieldtypename = `ref_models.GongStructShape`
 	__LinkShape__000003_GongStructShapes.FieldOffsetX = 0.000000
 	__LinkShape__000003_GongStructShapes.FieldOffsetY = 0.000000
 	__LinkShape__000003_GongStructShapes.TargetMultiplicity = models.MANY
@@ -388,11 +335,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000004_GongEnumShapes.Name = `GongEnumShapes`
 
-	//gong:ident [ref_models.Classdiagram.GongEnumShapes] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GongEnumShapes.Identifier = `ref_models.Classdiagram.GongEnumShapes`
-
-	//gong:ident [ref_models.GongEnumShape] comment added to overcome the problem with the comment map association
-	__LinkShape__000004_GongEnumShapes.Fieldtypename = `ref_models.GongEnumShape`
 	__LinkShape__000004_GongEnumShapes.FieldOffsetX = 0.000000
 	__LinkShape__000004_GongEnumShapes.FieldOffsetY = 0.000000
 	__LinkShape__000004_GongEnumShapes.TargetMultiplicity = models.MANY

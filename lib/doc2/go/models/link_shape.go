@@ -14,18 +14,10 @@ import (
 type LinkShape struct {
 	Name string
 
-	// Identifier is the identifier of the struct field referenced by the
-	// UML field of the classshape in the modeled package
-	//gong:ident
-	Identifier string
-
 	// for storing the reference as a renaming target for gopls
 	// for instance 'ref_models.Astruct.Anarrayofb'
 	//gong:meta
 	IdentifierMeta any
-
-	//gong:ident
-	Fieldtypename string
 
 	//gong:meta
 	FieldTypeIdentifierMeta any
@@ -119,10 +111,8 @@ func (classdiagram *Classdiagram) AddLinkShape(
 		linkShape.FieldOffsetX = 0
 		linkShape.FieldOffsetY = 0
 
-		linkShape.Identifier =
-			GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
-		linkShape.IdentifierMeta = moveStructLiteralToType(linkShape.Identifier)
-		linkShape.Fieldtypename = GongStructNameToIdentifier(targetStructName)
+		fieldIdentifier := GongstructAndFieldnameToFieldIdentifier(gongStruct.Name, field.GetName())
+		linkShape.IdentifierMeta = moveStructLiteralToType(fieldIdentifier)
 		linkShape.FieldTypeIdentifierMeta = GongStructNameToIdentifier(targetStructName) + "{}"
 
 		gongStructShape.LinkShapes = append(gongStructShape.LinkShapes, linkShape)
