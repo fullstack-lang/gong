@@ -111,7 +111,7 @@ func (classdiagram *Classdiagram) AddAttributeFieldShape(
 		// compute insertionIndex (index where to insert the field to display)
 		insertionIndex := 0
 		for idx, field := range gongStructShape.AttributeShapes {
-			gongField := map_Name_Field[IdentifierToFieldName(field.Identifier)]
+			gongField := map_Name_Field[IdentifierMetaToFieldName(field.IdentifierMeta)]
 			_fieldRank := map_Field_Rank[gongField]
 			if fieldRank > _fieldRank {
 				insertionIndex = idx + 1

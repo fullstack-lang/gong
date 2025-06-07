@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"log"
 
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
@@ -204,7 +205,12 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 			link.Impl = NewLinkImplLink(linkShape, gongdocStage)
 
 			linkLayer := new(svg_models.Layer).Stage(docSVGMapper.svgStage)
-			docSVGMapper.map_Fieldname_Link[linkShape.Identifier] = link
+
+			var fieldMetaIdentifierString string
+			if fieldMetaIdentifierString, ok = linkShape.IdentifierMeta.(string); !ok {
+				log.Fatalln("not a identifier meta as string")
+			}
+			docSVGMapper.map_Fieldname_Link[fieldMetaIdentifierString] = link
 
 			linkLayer.Links = append(linkLayer.Links, link)
 			svg.Layers = append(svg.Layers, linkLayer)
