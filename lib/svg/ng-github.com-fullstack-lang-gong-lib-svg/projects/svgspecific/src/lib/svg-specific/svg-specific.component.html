@@ -231,11 +231,17 @@
             [attr.stroke-width]="rect.StrokeWidth"
             [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
             [attr.transform]="rect.Transform"
+
             (mousedown)="rectMouseDown($event, rect)"
             (mousemove)="onmousemove($event)"
             (mouseup)="rectMouseUp($event, rect)"
             (mouseenter)="onRectHover(rect, true)"
-            (mouseleave)="onRectHover(rect, false)">
+            (mouseleave)="onRectHover(rect, false)"
+            
+            [matTooltip]="rect.CheckboxToolTipText"
+            [matTooltipDisabled]="!rect.CheckboxHasToolTip">
+            
+            >
             @for(animate of rect.Animations; track animate) {
               <animate
                 [attr.attributeName]="animate.AttributeName"
@@ -840,7 +846,8 @@
     [attr.fill-opacity]="rect.FillOpacity"
     [attr.stroke]="rect.Stroke"
     [attr.stroke-opacity]="rect.StrokeOpacity"
-    [attr.stroke-width]="rect.StrokeWidth">
+    [attr.stroke-width]="rect.StrokeWidth"
+    >
   </svg:rect>
 </ng-template>
 

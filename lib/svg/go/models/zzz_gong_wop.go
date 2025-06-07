@@ -529,6 +529,10 @@ type Rect_WOP struct {
 	FillOpacityWhenHovered float64
 
 	OriginalFillOpacity float64
+
+	CheckboxHasToolTip bool
+
+	CheckboxToolTipText string
 }
 
 func (from *Rect) CopyBasicFields(to *Rect) {
@@ -565,6 +569,8 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.OriginalColor = from.OriginalColor
 	to.FillOpacityWhenHovered = from.FillOpacityWhenHovered
 	to.OriginalFillOpacity = from.OriginalFillOpacity
+	to.CheckboxHasToolTip = from.CheckboxHasToolTip
+	to.CheckboxToolTipText = from.CheckboxToolTipText
 }
 
 type RectAnchoredPath_WOP struct {
@@ -645,6 +651,10 @@ type RectAnchoredRect_WOP struct {
 
 	HeightFollowRect bool
 
+	CheckboxHasToolTip bool
+
+	CheckboxToolTipText string
+
 	Color string
 
 	FillOpacity float64
@@ -675,6 +685,8 @@ func (from *RectAnchoredRect) CopyBasicFields(to *RectAnchoredRect) {
 	to.RectAnchorType = from.RectAnchorType
 	to.WidthFollowRect = from.WidthFollowRect
 	to.HeightFollowRect = from.HeightFollowRect
+	to.CheckboxHasToolTip = from.CheckboxHasToolTip
+	to.CheckboxToolTipText = from.CheckboxToolTipText
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
 	to.Stroke = from.Stroke

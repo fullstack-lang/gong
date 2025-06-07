@@ -842,6 +842,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("OriginalFillOpacity", instanceWithInferedType.OriginalFillOpacity, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxHasToolTip", instanceWithInferedType.CheckboxHasToolTip, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxToolTipText", instanceWithInferedType.CheckboxToolTipText, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -941,6 +945,10 @@ func FillUpForm(
 		BasicFieldtoForm("WidthFollowRect", instanceWithInferedType.WidthFollowRect, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("HeightFollowRect", instanceWithInferedType.HeightFollowRect, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxHasToolTip", instanceWithInferedType.CheckboxHasToolTip, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("CheckboxToolTipText", instanceWithInferedType.CheckboxToolTipText, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

@@ -3206,6 +3206,10 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.FillOpacityWhenHovered), formDiv)
 		case "OriginalFillOpacity":
 			FormDivBasicFieldToField(&(rect_.OriginalFillOpacity), formDiv)
+		case "CheckboxHasToolTip":
+			FormDivBasicFieldToField(&(rect_.CheckboxHasToolTip), formDiv)
+		case "CheckboxToolTipText":
+			FormDivBasicFieldToField(&(rect_.CheckboxToolTipText), formDiv)
 		case "Layer:Rects":
 			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3542,6 +3546,10 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredrect_.WidthFollowRect), formDiv)
 		case "HeightFollowRect":
 			FormDivBasicFieldToField(&(rectanchoredrect_.HeightFollowRect), formDiv)
+		case "CheckboxHasToolTip":
+			FormDivBasicFieldToField(&(rectanchoredrect_.CheckboxHasToolTip), formDiv)
+		case "CheckboxToolTipText":
+			FormDivBasicFieldToField(&(rectanchoredrect_.CheckboxToolTipText), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Color), formDiv)
 		case "FillOpacity":
