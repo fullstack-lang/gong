@@ -267,8 +267,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000000_Classdiagrams.Name = `Classdiagrams`
 
-	__LinkShape__000000_Classdiagrams.Identifier = `ref_models.DiagramPackage.Classdiagrams`
-
 	__LinkShape__000000_Classdiagrams.FieldOffsetX = 0.000000
 	__LinkShape__000000_Classdiagrams.FieldOffsetY = 0.000000
 	__LinkShape__000000_Classdiagrams.TargetMultiplicity = models.MANY
@@ -305,8 +303,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 
 	__LinkShape__000002_AttributeShapes.Name = `AttributeShapes`
 
-	__LinkShape__000002_AttributeShapes.Identifier = `ref_models.GongStructShape.AttributeShapes`
-
 	__LinkShape__000002_AttributeShapes.FieldOffsetX = 0.000000
 	__LinkShape__000002_AttributeShapes.FieldOffsetY = 0.000000
 	__LinkShape__000002_AttributeShapes.TargetMultiplicity = models.MANY
@@ -342,8 +338,6 @@ or to <a href="/models#OrientationType">models.OrientationType</a>
 	__LinkShape__000003_GongStructShapes.CornerOffsetRatio = 1.690631
 
 	__LinkShape__000004_GongEnumShapes.Name = `GongEnumShapes`
-
-	__LinkShape__000004_GongEnumShapes.Identifier = `ref_models.Classdiagram.GongEnumShapes`
 
 	__LinkShape__000004_GongEnumShapes.FieldOffsetX = 0.000000
 	__LinkShape__000004_GongEnumShapes.FieldOffsetY = 0.000000

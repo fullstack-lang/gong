@@ -1433,8 +1433,6 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(linkshape_.Name), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(linkshape_.Identifier), formDiv)
 		case "FieldOffsetX":
 			FormDivBasicFieldToField(&(linkshape_.FieldOffsetX), formDiv)
 		case "FieldOffsetY":
