@@ -1279,4 +1279,56 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       width: width,
     };
   }
+
+  getContextForAnchoredPath(path: svg.RectAnchoredPath, parentRect: svg.Rect) {
+    let anchorX = 0;
+    let anchorY = 0;
+
+    // The switch logic is moved here from the template
+    switch (path.RectAnchorType) {
+      case svg.RectAnchorType.RECT_TOP:
+        anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
+        anchorY = parentRect.Y + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_TOP_LEFT:
+        anchorX = parentRect.X + path.X_Offset;
+        anchorY = parentRect.Y + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM:
+        anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_LEFT:
+        anchorX = parentRect.X + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_LEFT_LEFT:
+        anchorX = parentRect.X - parentRect.Height + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_BOTTOM_LEFT:
+        anchorX = parentRect.X + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + parentRect.Height + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_RIGHT:
+        anchorX = parentRect.X + parentRect.Width + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_CENTER:
+        anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
+        break;
+      case svg.RectAnchorType.RECT_BOTTOM_INSIDE_RIGHT:
+        anchorX = parentRect.X + parentRect.Width - parentRect.Height + path.X_Offset;
+        anchorY = parentRect.Y + parentRect.Height + path.Y_Offset;
+        break;
+    }
+
+    // Return the context object for the template
+    return {
+      path: path,
+      anchorX: anchorX,
+      anchorY: anchorY,
+    };
+  }
 }
