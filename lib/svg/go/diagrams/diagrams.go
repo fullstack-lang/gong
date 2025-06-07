@@ -38,7 +38,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_Name.Name = `Name`
 
-	__AttributeShape__000000_Name.Identifier = `ref_models.LinkAnchoredText.Name`
 	__AttributeShape__000000_Name.IdentifierMeta = ref_models.LinkAnchoredText{}.Name
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `LinkAnchoredText`
@@ -46,7 +45,6 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000001_Content.Name = `Content`
 
-	__AttributeShape__000001_Content.Identifier = `ref_models.LinkAnchoredText.Content`
 	__AttributeShape__000001_Content.IdentifierMeta = ref_models.LinkAnchoredText{}.Content
 	__AttributeShape__000001_Content.FieldTypeAsString = ``
 	__AttributeShape__000001_Content.Structname = `LinkAnchoredText`

@@ -59,28 +59,24 @@ func _(stage *models.Stage) {
 
 	__AttributeShape__000000_FieldTypeAsString.Name = `FieldTypeAsString`
 
-	__AttributeShape__000000_FieldTypeAsString.Identifier = `ref_models.AttributeShape.FieldTypeAsString`
 	__AttributeShape__000000_FieldTypeAsString.FieldTypeAsString = ``
 	__AttributeShape__000000_FieldTypeAsString.Structname = `AttributeShape`
 	__AttributeShape__000000_FieldTypeAsString.Fieldtypename = `string`
 
 	__AttributeShape__000001_Fieldtypename.Name = `Fieldtypename`
 
-	__AttributeShape__000001_Fieldtypename.Identifier = `ref_models.AttributeShape.Fieldtypename`
 	__AttributeShape__000001_Fieldtypename.FieldTypeAsString = ``
 	__AttributeShape__000001_Fieldtypename.Structname = `AttributeShape`
 	__AttributeShape__000001_Fieldtypename.Fieldtypename = `string`
 
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Name = `TargetMultiplicityOffsetX`
 
-	__AttributeShape__000002_TargetMultiplicityOffsetX.Identifier = `ref_models.LinkShape.TargetMultiplicityOffsetX`
 	__AttributeShape__000002_TargetMultiplicityOffsetX.FieldTypeAsString = ``
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Structname = `LinkShape`
 	__AttributeShape__000002_TargetMultiplicityOffsetX.Fieldtypename = `float64`
 
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Name = `TargetMultiplicityOffsetY`
 
-	__AttributeShape__000003_TargetMultiplicityOffsetY.Identifier = `ref_models.LinkShape.TargetMultiplicityOffsetY`
 	__AttributeShape__000003_TargetMultiplicityOffsetY.FieldTypeAsString = ``
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Structname = `LinkShape`
 	__AttributeShape__000003_TargetMultiplicityOffsetY.Fieldtypename = `float64`
