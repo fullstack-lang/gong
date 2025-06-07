@@ -26,6 +26,7 @@ func _(stage *models.Stage) {
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000001_Booleanfield_renamed_renamed := (&models.AttributeShape{}).Stage(stage)
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
 
@@ -50,6 +51,12 @@ func _(stage *models.Stage) {
 	__AttributeShape__000000_Name.FieldTypeAsString = ``
 	__AttributeShape__000000_Name.Structname = `Astruct`
 	__AttributeShape__000000_Name.Fieldtypename = `string`
+
+	__AttributeShape__000001_Booleanfield_renamed_renamed.Name = `Booleanfield_renamed_renamed`
+	__AttributeShape__000001_Booleanfield_renamed_renamed.IdentifierMeta = ref_models.Astruct{}.Booleanfield
+	__AttributeShape__000001_Booleanfield_renamed_renamed.FieldTypeAsString = ``
+	__AttributeShape__000001_Booleanfield_renamed_renamed.Structname = `Astruct`
+	__AttributeShape__000001_Booleanfield_renamed_renamed.Fieldtypename = `bool`
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = ``
@@ -93,7 +100,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_Default_Astruct.NbInstances = 0
 	__GongStructShape__000000_Default_Astruct.Width = 240.000000
-	__GongStructShape__000000_Default_Astruct.Height = 83.000000
+	__GongStructShape__000000_Default_Astruct.Height = 103.000000
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
 
 	__GongStructShape__000001_Default_Bstruct.Name = `Default-Bstruct`
@@ -159,6 +166,7 @@ func _(stage *models.Stage) {
 	// setup of GongEnumValueShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
+	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000001_Booleanfield_renamed_renamed)
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000000_Anarrayofb)
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Associationtob)
 	// setup of LinkShape instances pointers
