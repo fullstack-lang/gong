@@ -1,6 +1,6 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 1069.000000 163.000000">
-<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="26" y="83" width="240" height="63" rx="8" ry="8"
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 1188.000000 550.000000">
+<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="848" y="40" width="240" height="103" rx="8" ry="8"
 			fill="white"
             fill-opacity="100.000000"
             stroke="lightgrey"
@@ -9,8 +9,9 @@
             stroke-dasharray=""
             transform="" />
   <text xml:space="preserve"
-			x="146" 
-			y="83" 
+			x="968" 
+			y="60"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight="bold"
 			font-style=""
@@ -22,9 +23,56 @@
             stroke-width="0.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="146" dy="1.2em">SVG</tspan>
+    <tspan >LinkAnchoredText</tspan>
 </text>
-  <rect x="425" y="81" width="240" height="63" rx="8" ry="8"
+  <text xml:space="preserve"
+			x="858" 
+			y="90"
+			writing-mode=""
+			text-anchor="start"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+    <tspan >Name : string</tspan>
+</text>
+  <text xml:space="preserve"
+			x="858" 
+			y="110"
+			writing-mode=""
+			text-anchor="start"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+    <tspan >Content : string</tspan>
+</text>
+  <rect
+			x="851" 
+			y="43"
+			width="204"
+			height="30"
+			fill="white"
+            fill-opacity="0.000000"
+            stroke="white"
+            stroke-opacity="1.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect x="75" y="77" width="240" height="103" rx="8" ry="8"
 			fill="white"
             fill-opacity="100.000000"
             stroke="lightgrey"
@@ -33,8 +81,9 @@
             stroke-dasharray=""
             transform="" />
   <text xml:space="preserve"
-			x="545" 
-			y="81" 
+			x="195" 
+			y="97"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight="bold"
 			font-style=""
@@ -46,9 +95,56 @@
             stroke-width="0.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="545" dy="1.2em">Layer</tspan>
+    <tspan >Link</tspan>
 </text>
-  <rect x="819" y="90" width="240" height="63" rx="8" ry="8"
+  <text xml:space="preserve"
+			x="85" 
+			y="127"
+			writing-mode=""
+			text-anchor="start"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+    <tspan >Name : string</tspan>
+</text>
+  <text xml:space="preserve"
+			x="85" 
+			y="147"
+			writing-mode=""
+			text-anchor="start"
+			font-weight=""
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+    <tspan >StartAnchorType : AnchorType</tspan>
+</text>
+  <rect
+			x="78" 
+			y="80"
+			width="204"
+			height="30"
+			fill="white"
+            fill-opacity="0.000000"
+            stroke="white"
+            stroke-opacity="1.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect x="515" y="387" width="240" height="63" rx="8" ry="8"
 			fill="white"
             fill-opacity="100.000000"
             stroke="lightgrey"
@@ -57,8 +153,9 @@
             stroke-dasharray=""
             transform="" />
   <text xml:space="preserve"
-			x="939" 
-			y="90" 
+			x="635" 
+			y="407"
+			writing-mode=""
 			text-anchor="middle"
 			font-weight="bold"
 			font-style=""
@@ -70,59 +167,126 @@
             stroke-width="0.000000"
             stroke-dasharray=""
             transform="" >
-    <tspan x="939" dy="1.2em">Circle</tspan>
+    <tspan >Rect</tspan>
 </text>
-	<line x1="266" y1="114.5" x2="357.2" y2="114.5"
-			fill=""
+  <rect
+			x="518" 
+			y="390"
+			width="204"
+			height="30"
+			fill="white"
             fill-opacity="0.000000"
-            stroke="slategray"
+            stroke="white"
             stroke-opacity="1.000000"
-            stroke-width="3.000000"
+            stroke-width="0.000000"
             stroke-dasharray=""
-            transform="" />
-		<path d="M 357.200000 114.500000 A 8.000000 8.000000 0 0 0 357.200000 114.500000"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-	<line x1="357.2" y1="114.5" x2="357.2" y2="114.5"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-		<path d="M 357.200000 114.500000 A 8.000000 8.000000 0 0 1 357.200000 114.500000"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-	<line x1="357.2" y1="114.5" x2="425" y2="112.5"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-		<path d="M 426.060660 113.560660 L 417.000000 104.500000 M 426.060660 111.439340 L 417.000000 120.500000"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
+            transform="" >
+</rect>
+  <rect x="95" y="98" width="240" height="63" rx="8" ry="8"
+			fill="white"
+            fill-opacity="100.000000"
+            stroke="lightgrey"
             stroke-opacity="1.000000"
             stroke-width="3.000000"
             stroke-dasharray=""
             transform="" />
   <text xml:space="preserve"
-			x="412" 
-			y="130.5" 
+			x="215" 
+			y="118"
+			writing-mode=""
+			text-anchor="middle"
+			font-weight="bold"
+			font-style=""
+			font-size=""
+			fill="black"
+            fill-opacity="1.000000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+    <tspan >Line</tspan>
+</text>
+  <rect
+			x="98" 
+			y="101"
+			width="204"
+			height="30"
+			fill="white"
+            fill-opacity="0.000000"
+            stroke="white"
+            stroke-opacity="1.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+	<line x1="315" y1="128.5" x2="398.2" y2="128.5"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<path d="M 398.200000 128.500000 A 8.000000 8.000000 0 0 1 406.200000 136.500000"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<text xml:space="preserve"
+			x="315" 
+			y="155.5" 
+			text-anchor="start"
+			font-weight="300"
+			font-style=""
+			font-size="15"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> * </tspan>
+	</text>
+	<line x1="406.2" y1="136.5" x2="406.2" y2="410.5"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<path d="M 406.200000 410.500000 A 8.000000 8.000000 0 0 0 414.200000 418.500000"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<line x1="414.2" y1="418.5" x2="515" y2="418.5"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<path d="M 516.060660 419.560660 L 507.000000 410.500000 M 516.060660 417.439340 L 507.000000 426.500000"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="slategray"
+            stroke-opacity="1.000000"
+            stroke-width="3.000000"
+            stroke-dasharray=""
+            transform="" />
+	<text xml:space="preserve"
+			x="515" 
+			y="445.5" 
 			text-anchor="end"
 			font-weight="300"
 			font-style=""
@@ -133,12 +297,12 @@
             stroke-opacity="1.000000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >*</tspan>
-</text>
-  <text xml:space="preserve"
-			x="412" 
-			y="102.5" 
+            transform="">
+		<tspan xml:space="preserve"> 0..1 </tspan>
+	</text>
+	<text xml:space="preserve"
+			x="515" 
+			y="402.9" 
 			text-anchor="end"
 			font-weight="300"
 			font-style=""
@@ -149,10 +313,10 @@
             stroke-opacity="1.000000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Layers</tspan>
-</text>
-	<line x1="665" y1="112.5" x2="756.1999999999999" y2="112.5"
+            transform="">
+		<tspan xml:space="preserve"> End </tspan>
+	</text>
+	<line x1="315" y1="128.5" x2="725.53125" y2="128.5"
 			fill=""
             fill-opacity="0.000000"
             stroke="slategray"
@@ -160,7 +324,7 @@
             stroke-width="3.000000"
             stroke-dasharray=""
             transform="" />
-		<path d="M 756.200000 112.500000 A 8.000000 8.000000 0 0 0 756.200000 112.500000"
+	<path d="M 725.531250 128.500000 A 8.000000 8.000000 0 0 1 733.531250 136.500000"
 			fill=""
             fill-opacity="0.000000"
             stroke="slategray"
@@ -168,7 +332,23 @@
             stroke-width="3.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="756.1999999999999" y1="112.5" x2="756.1999999999999" y2="112.5"
+	<text xml:space="preserve"
+			x="315" 
+			y="155.5" 
+			text-anchor="start"
+			font-weight="300"
+			font-style=""
+			font-size="15"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="1.000000"
+            stroke-width="1.000000"
+            stroke-dasharray=""
+            transform="">
+		<tspan xml:space="preserve"> * </tspan>
+	</text>
+	<line x1="733.53125" y1="136.5" x2="733.53125" y2="387"
 			fill=""
             fill-opacity="0.000000"
             stroke="slategray"
@@ -176,7 +356,7 @@
             stroke-width="3.000000"
             stroke-dasharray=""
             transform="" />
-		<path d="M 756.200000 112.500000 A 8.000000 8.000000 0 0 1 756.200000 112.500000"
+	<path d="M 734.591910 388.060660 L 725.531250 379.000000 M 732.470590 388.060660 L 741.531250 379.000000"
 			fill=""
             fill-opacity="0.000000"
             stroke="slategray"
@@ -184,25 +364,25 @@
             stroke-width="3.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="756.1999999999999" y1="112.5" x2="819" y2="121.5"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
+	<text xml:space="preserve"
+			x="733.53125" 
+			y="371.4" 
+			text-anchor="start"
+			font-weight="300"
+			font-style=""
+			font-size="15"
+			fill="black"
+            fill-opacity="100.000000"
+            stroke="black"
             stroke-opacity="1.000000"
-            stroke-width="3.000000"
+            stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" />
-		<path d="M 820.060660 122.560660 L 811.000000 113.500000 M 820.060660 120.439340 L 811.000000 129.500000"
-			fill=""
-            fill-opacity="0.000000"
-            stroke="slategray"
-            stroke-opacity="1.000000"
-            stroke-width="3.000000"
-            stroke-dasharray=""
-            transform="" />
-  <text xml:space="preserve"
-			x="806" 
-			y="139.5" 
+            transform="">
+		<tspan xml:space="preserve"> 0..1 </tspan>
+	</text>
+	<text xml:space="preserve"
+			x="733.53125" 
+			y="371.4" 
 			text-anchor="end"
 			font-weight="300"
 			font-style=""
@@ -213,23 +393,7 @@
             stroke-opacity="1.000000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >*</tspan>
-</text>
-  <text xml:space="preserve"
-			x="806" 
-			y="111.5" 
-			text-anchor="end"
-			font-weight="300"
-			font-style=""
-			font-size="15"
-			fill="black"
-            fill-opacity="100.000000"
-            stroke="black"
-            stroke-opacity="1.000000"
-            stroke-width="1.000000"
-            stroke-dasharray=""
-            transform="" >
-    <tspan >Circles</tspan>
-</text>
+            transform="">
+		<tspan xml:space="preserve"> Start </tspan>
+	</text>
 </svg>

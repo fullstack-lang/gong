@@ -75,12 +75,19 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 	rect.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
 
-	for _, anchoredText := range rect.RectAnchoredTexts {
+	for _, rectAnchoredText := range rect.RectAnchoredTexts {
+		x, y := getRectAnchorPoint(rect, rectAnchoredText.RectAnchorType)
+		rectAnchoredText.WriteSVG(sb, x, y)
+	}
 
-		x, y := getRectAnchorPoint(rect, anchoredText.RectAnchorType)
+	for _, rectAnchoredRect := range rect.RectAnchoredRects {
+		x, y := getRectAnchorPoint(rect, rectAnchoredRect.RectAnchorType)
+		rectAnchoredRect.WriteSVG(sb, x, y)
+	}
 
-		anchoredText.WriteSVG(sb, x, y)
-
+	for _, rectAnchoredPath := range rect.RectAnchoredPaths {
+		x, y := getRectAnchorPoint(rect, rectAnchoredPath.RectAnchorType)
+		rectAnchoredPath.WriteSVG(sb, x, y)
 	}
 
 	return

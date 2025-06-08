@@ -282,28 +282,221 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	return os.WriteFile(pathToFile, []byte(result), 0644)
 }
 
+type RectContext struct {
+	Rect    *RectAnchoredRect
+	AnchorX float64
+	AnchorY float64
+	Width   float64
+}
+
+type PathContext struct {
+	Path    *RectAnchoredPath
+	AnchorX float64
+	AnchorY float64
+}
+
+type TextContext struct {
+	Text    *RectAnchoredText
+	AnchorX float64
+	AnchorY float64
+}
+
+func getContextForAnchoredRect(anchoredRect *RectAnchoredRect, parentRect *Rect) *RectContext {
+	var anchorX, anchorY float64
+
+	// Calculate width based on whether it should follow the parent
+	width := anchoredRect.Width
+	if anchoredRect.WidthFollowRect {
+		width = parentRect.Width
+	}
+
+	switch anchoredRect.RectAnchorType {
+	case RECT_TOP:
+		anchorX = parentRect.X + parentRect.Width/2 + anchoredRect.X_Offset
+		anchorY = parentRect.Y + anchoredRect.Y_Offset
+	case RECT_TOP_LEFT:
+		anchorX = parentRect.X + anchoredRect.X_Offset
+		anchorY = parentRect.Y + anchoredRect.Y_Offset
+	case RECT_TOP_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset
+		anchorY = parentRect.Y + anchoredRect.Y_Offset
+	case RECT_BOTTOM:
+		anchorX = parentRect.X + parentRect.Width/2 + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset
+	case RECT_BOTTOM_LEFT:
+		anchorX = parentRect.X + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset
+	case RECT_BOTTOM_LEFT_LEFT:
+		anchorX = parentRect.X - parentRect.Height + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		anchorX = parentRect.X + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + parentRect.Height + anchoredRect.Y_Offset
+	case RECT_BOTTOM_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + anchoredRect.Y_Offset
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		anchorX = parentRect.X + parentRect.Width - anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height - anchoredRect.Y_Offset
+	case RECT_LEFT:
+		anchorX = parentRect.X + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + anchoredRect.Y_Offset
+	case RECT_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + anchoredRect.Y_Offset
+	case RECT_CENTER:
+		anchorX = parentRect.X + parentRect.Width/2 + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + anchoredRect.Y_Offset
+	default:
+		anchorX = parentRect.X + parentRect.Width/2 + anchoredRect.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + anchoredRect.Y_Offset
+	}
+
+	return &RectContext{
+		Rect:    anchoredRect,
+		AnchorX: anchorX,
+		AnchorY: anchorY,
+		Width:   width,
+	}
+}
+
+func getContextForAnchoredPath(path *RectAnchoredPath, parentRect *Rect) *PathContext {
+	var anchorX, anchorY float64
+
+	switch path.RectAnchorType {
+	case RECT_TOP:
+		anchorX = parentRect.X + parentRect.Width/2 + path.X_Offset
+		anchorY = parentRect.Y + path.Y_Offset
+	case RECT_TOP_LEFT:
+		anchorX = parentRect.X + path.X_Offset
+		anchorY = parentRect.Y + path.Y_Offset
+	case RECT_TOP_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + path.X_Offset
+		anchorY = parentRect.Y + path.Y_Offset
+	case RECT_BOTTOM:
+		anchorX = parentRect.X + parentRect.Width/2 + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + path.Y_Offset
+	case RECT_BOTTOM_LEFT:
+		anchorX = parentRect.X + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + path.Y_Offset
+	case RECT_BOTTOM_LEFT_LEFT:
+		anchorX = parentRect.X - parentRect.Height + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + path.Y_Offset
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		anchorX = parentRect.X + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + parentRect.Height + path.Y_Offset
+	case RECT_BOTTOM_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height + path.Y_Offset
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		anchorX = parentRect.X + parentRect.Width - path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height - path.Y_Offset
+	case RECT_LEFT:
+		anchorX = parentRect.X + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + path.Y_Offset
+	case RECT_RIGHT:
+		anchorX = parentRect.X + parentRect.Width + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + path.Y_Offset
+	case RECT_CENTER:
+		anchorX = parentRect.X + parentRect.Width/2 + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + path.Y_Offset
+	default:
+		anchorX = parentRect.X + parentRect.Width/2 + path.X_Offset
+		anchorY = parentRect.Y + parentRect.Height/2 + path.Y_Offset
+	}
+
+	return &PathContext{
+		Path:    path,
+		AnchorX: anchorX,
+		AnchorY: anchorY,
+	}
+}
+
+func getContextForAnchoredText(text *RectAnchoredText, rect *Rect) *TextContext {
+	var anchorX, anchorY float64
+
+	switch text.RectAnchorType {
+	case RECT_TOP:
+		anchorX = rect.X + rect.Width/2 + text.X_Offset
+		anchorY = rect.Y + text.Y_Offset
+	case RECT_TOP_LEFT:
+		anchorX = rect.X + text.X_Offset
+		anchorY = rect.Y + text.Y_Offset
+	case RECT_TOP_RIGHT:
+		anchorX = rect.X + rect.Width + text.X_Offset
+		anchorY = rect.Y + text.Y_Offset
+	case RECT_BOTTOM:
+		anchorX = rect.X + rect.Width/2 + text.X_Offset
+		anchorY = rect.Y + rect.Height + text.Y_Offset
+	case RECT_BOTTOM_LEFT:
+		anchorX = rect.X + text.X_Offset
+		anchorY = rect.Y + rect.Height + text.Y_Offset
+	case RECT_BOTTOM_LEFT_LEFT:
+		anchorX = rect.X - rect.Height + text.X_Offset
+		anchorY = rect.Y + rect.Height + text.Y_Offset
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		anchorX = rect.X + text.X_Offset
+		anchorY = rect.Y + rect.Height + rect.Height + text.Y_Offset
+	case RECT_BOTTOM_RIGHT:
+		anchorX = rect.X + rect.Width + text.X_Offset
+		anchorY = rect.Y + rect.Height + text.Y_Offset
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		anchorX = rect.X + rect.Width - text.X_Offset
+		anchorY = rect.Y + rect.Height - text.Y_Offset
+	case RECT_LEFT:
+		anchorX = rect.X + text.X_Offset
+		anchorY = rect.Y + rect.Height/2 + text.Y_Offset
+	case RECT_RIGHT:
+		anchorX = rect.X + rect.Width + text.X_Offset
+		anchorY = rect.Y + rect.Height/2 + text.Y_Offset
+	case RECT_CENTER:
+		anchorX = rect.X + rect.Width/2 + text.X_Offset
+		anchorY = rect.Y + rect.Height/2 + text.Y_Offset
+	default:
+		anchorX = rect.X + rect.Width/2 + text.X_Offset
+		anchorY = rect.Y + rect.Height/2 + text.Y_Offset
+	}
+
+	return &TextContext{
+		Text:    text,
+		AnchorX: anchorX,
+		AnchorY: anchorY,
+	}
+}
+
+// If you still need the simple version for basic use cases:
 func getRectAnchorPoint(rect *Rect, anchorType RectAnchorType) (x, y float64) {
+	return getRectAnchorPointWithOffset(rect, anchorType, 0, 0)
+}
+
+func getRectAnchorPointWithOffset(rect *Rect, anchorType RectAnchorType, xOffset, yOffset float64) (x, y float64) {
 	switch anchorType {
 	case RECT_TOP_LEFT:
-		return rect.X, rect.Y
+		return rect.X + xOffset, rect.Y + yOffset
 	case RECT_TOP:
-		return rect.X + rect.Width/2, rect.Y
+		return rect.X + rect.Width/2 + xOffset, rect.Y + yOffset
 	case RECT_TOP_RIGHT:
-		return rect.X + rect.Width, rect.Y
+		return rect.X + rect.Width + xOffset, rect.Y + yOffset
 	case RECT_LEFT:
-		return rect.X, rect.Y + rect.Height/2
+		return rect.X + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_CENTER:
-		return rect.X + rect.Width/2, rect.Y + rect.Height/2
+		return rect.X + rect.Width/2 + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_RIGHT:
-		return rect.X + rect.Width, rect.Y + rect.Height/2
+		return rect.X + rect.Width + xOffset, rect.Y + rect.Height/2 + yOffset
 	case RECT_BOTTOM_LEFT:
-		return rect.X, rect.Y + rect.Height
+		return rect.X + xOffset, rect.Y + rect.Height + yOffset
 	case RECT_BOTTOM:
-		return rect.X + rect.Width/2, rect.Y + rect.Height
+		return rect.X + rect.Width/2 + xOffset, rect.Y + rect.Height + yOffset
 	case RECT_BOTTOM_RIGHT:
-		return rect.X + rect.Width, rect.Y + rect.Height
+		return rect.X + rect.Width + xOffset, rect.Y + rect.Height + yOffset
+	case RECT_BOTTOM_LEFT_LEFT:
+		return rect.X - rect.Height + xOffset, rect.Y + rect.Height + yOffset
+	case RECT_BOTTOM_BOTTOM_LEFT:
+		return rect.X + xOffset, rect.Y + rect.Height + rect.Height + yOffset
+	case RECT_BOTTOM_INSIDE_RIGHT:
+		return rect.X + rect.Width - xOffset, rect.Y + rect.Height - yOffset
 	default:
-		return rect.X + rect.Width/2, rect.Y + rect.Height/2
+		return rect.X + rect.Width/2 + xOffset, rect.Y + rect.Height/2 + yOffset
 	}
 }
 
