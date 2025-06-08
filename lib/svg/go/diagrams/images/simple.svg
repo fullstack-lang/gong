@@ -20,7 +20,7 @@
             fill-opacity="1.000000"
             stroke="black"
             stroke-opacity="0.500000"
-            stroke-width="-5.000000"
+            stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >Oriented</tspan>
@@ -60,9 +60,9 @@
 			font-size=""
 			fill=""
             fill-opacity="0.000000"
-            stroke="yellow"
+            stroke="magenta"
             stroke-opacity="0.500000"
-            stroke-width="10.000000"
+            stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >TopRight</tspan>
@@ -96,14 +96,14 @@
             fill-opacity="0.000000"
             stroke="green"
             stroke-opacity="0.200000"
-            stroke-width="8.000000"
+            stroke-width="2.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >BottomLeft</tspan>
 </text>
   <text xml:space="preserve"
-			x="850" 
-			y="250"
+			x="400" 
+			y="400"
 			writing-mode=""
 			text-anchor="middle"
 			font-weight=""
@@ -113,14 +113,14 @@
             fill-opacity="0.000000"
             stroke="violet"
             stroke-opacity="0.500000"
-            stroke-width="5.000000"
+            stroke-width="2.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >BottomLeftLeft</tspan>
 </text>
   <text xml:space="preserve"
-			x="850" 
-			y="250"
+			x="700" 
+			y="700"
 			writing-mode=""
 			text-anchor="middle"
 			font-weight=""
@@ -130,7 +130,7 @@
             fill-opacity="0.000000"
             stroke="blue"
             stroke-opacity="0.500000"
-            stroke-width="4.000000"
+            stroke-width="1.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >BottomBottomLeft</tspan>
@@ -153,8 +153,8 @@
     <tspan >BottomRight</tspan>
 </text>
   <text xml:space="preserve"
-			x="850" 
-			y="250"
+			x="900" 
+			y="330"
 			writing-mode=""
 			text-anchor="middle"
 			font-weight=""
@@ -164,7 +164,7 @@
             fill-opacity="0.000000"
             stroke="red"
             stroke-opacity="0.500000"
-            stroke-width="9.000000"
+            stroke-width="2.000000"
             stroke-dasharray=""
             transform="" >
     <tspan >BottomInsideRight</tspan>
@@ -237,6 +237,282 @@
             transform="" >
     <tspan >Top</tspan>
 </text>
+  <rect
+			x="700" 
+			y="100"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="red"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="1000" 
+			y="100"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="yellow"
+            stroke-opacity="0.500000"
+            stroke-width="10.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="1000" 
+			y="400"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="850" 
+			y="100"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="blue"
+            stroke-opacity="0.500000"
+            stroke-width="4.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="700" 
+			y="250"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="violet"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="850" 
+			y="250"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="700" 
+			y="700"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="blue"
+            stroke-opacity="0.500000"
+            stroke-width="4.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="850" 
+			y="400"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="1000" 
+			y="400"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="red"
+            stroke-opacity="0.500000"
+            stroke-width="9.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="400" 
+			y="400"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="violet"
+            stroke-opacity="0.500000"
+            stroke-width="5.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="1000" 
+			y="250"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="black"
+            stroke-opacity="0.500000"
+            stroke-width="2.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+  <rect
+			x="700" 
+			y="400"
+			width="100"
+			height="70"
+			fill=""
+            fill-opacity="0.000000"
+            stroke="green"
+            stroke-opacity="0.200000"
+            stroke-width="8.000000"
+            stroke-dasharray=""
+            transform="" >
+</rect>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="lightblue"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(850 250) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="blue"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(850 100) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="red"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(700 100) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="yellow"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(1000 100) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="black"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(850 400) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="green"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(700 400) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="violet"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(400 400) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="purple"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(700 700) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="orange"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(1000 400) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="magenta"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(900 330) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="brown"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(700 250) " >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="cyan"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(1000 250) " >
+</path>
 	<line x1="300" y1="100" x2="500" y2="100"
 			fill=""
             fill-opacity="0.000000"

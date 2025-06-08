@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"strings"
+)
+
 type RectAnchoredPath struct {
 	Name string
 
@@ -21,4 +26,24 @@ type RectAnchoredPath struct {
 	AppliedScaling float64
 
 	Presentation
+}
+
+func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y float64) {
+
+	sb.WriteString(
+		fmt.Sprintf(
+			`<path
+			d="%s"`,
+			rectAnchoredPath.Definition,
+		))
+
+	rectAnchoredPath.Presentation.Transform =
+		fmt.Sprintf("translate(%s %s) ",
+			formatFloat(x+rectAnchoredPath.X_Offset),
+			formatFloat(y+rectAnchoredPath.Y_Offset),
+		) + rectAnchoredPath.Presentation.Transform
+	rectAnchoredPath.Presentation.WriteSVG(sb)
+	sb.WriteString(" >\n")
+
+	sb.WriteString("</path>\n")
 }
