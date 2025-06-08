@@ -379,6 +379,17 @@
                 "-marshallOnCommit=data/simple.go"
             ],
         },
+                {
+            "name": "go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/path.go",
+                "-marshallOnCommit=data/path.go"
+            ],
+        },
         {
             "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
             "type": "go",

@@ -3,6 +3,8 @@ package models
 import (
 	"fmt"
 	"strings"
+
+	"github.com/fullstack-lang/gong/lib/svg/go/models/path"
 )
 
 type RectAnchoredPath struct {
@@ -28,7 +30,7 @@ type RectAnchoredPath struct {
 	Presentation
 }
 
-func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y float64) {
+func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y float64) (maxX, maxY float64) {
 
 	sb.WriteString(
 		fmt.Sprintf(
@@ -51,4 +53,10 @@ func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y flo
 	sb.WriteString(" >\n")
 
 	sb.WriteString("</path>\n")
+
+	pathBound := path.ProcessSVGPath(rectAnchoredPath.Definition)
+	maxX = x + rectAnchoredPath.X_Offset + pathBound.MaxX
+	maxY = y + rectAnchoredPath.Y_Offset + pathBound.MaxY
+
+	return
 }
