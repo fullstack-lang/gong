@@ -262,10 +262,10 @@
               [ngTemplateOutletContext]="getContextForAnchoredPath(rectAnchoredPath, rect)">
             </ng-container>
           }
-          @for(text of rect.RectAnchoredTexts!; track text) {
+          @for(rectAnchoredText of rect.RectAnchoredTexts!; track rectAnchoredText) {
             <ng-container 
               [ngTemplateOutlet]="anchoredText" 
-              [ngTemplateOutletContext]="getContextForAnchoredText(text, rect)">
+              [ngTemplateOutletContext]="getContextForAnchoredText(rectAnchoredText, rect)">
             </ng-container>
           }
           <ng-container>
