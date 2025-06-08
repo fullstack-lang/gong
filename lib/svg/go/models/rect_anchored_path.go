@@ -37,12 +37,17 @@ func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y flo
 			rectAnchoredPath.Definition,
 		))
 
-	rectAnchoredPath.Presentation.Transform =
+	// add a translation to the presentation of the path
+	// (path does not treat x,y)
+	var presentation Presentation
+	presentation = rectAnchoredPath.Presentation
+
+	presentation.Transform =
 		fmt.Sprintf("translate(%s %s) ",
 			formatFloat(x+rectAnchoredPath.X_Offset),
 			formatFloat(y+rectAnchoredPath.Y_Offset),
-		) + rectAnchoredPath.Presentation.Transform
-	rectAnchoredPath.Presentation.WriteSVG(sb)
+		) + presentation.Transform
+	presentation.WriteSVG(sb)
 	sb.WriteString(" >\n")
 
 	sb.WriteString("</path>\n")
