@@ -355,12 +355,12 @@ func _(stage *models.Stage) {
 
 	__RectAnchoredPath__000009_PathBottomInsideRight.Name = `PathBottomInsideRight`
 	__RectAnchoredPath__000009_PathBottomInsideRight.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
-	__RectAnchoredPath__000009_PathBottomInsideRight.X_Offset = 0.000000
-	__RectAnchoredPath__000009_PathBottomInsideRight.Y_Offset = 0.000000
+	__RectAnchoredPath__000009_PathBottomInsideRight.X_Offset = -100.000000
+	__RectAnchoredPath__000009_PathBottomInsideRight.Y_Offset = -70.000000
 	__RectAnchoredPath__000009_PathBottomInsideRight.RectAnchorType = models.RECT_BOTTOM_INSIDE_RIGHT
 	__RectAnchoredPath__000009_PathBottomInsideRight.ScalePropotionnally = true
 	__RectAnchoredPath__000009_PathBottomInsideRight.AppliedScaling = 1.000000
-	__RectAnchoredPath__000009_PathBottomInsideRight.Color = `pink`
+	__RectAnchoredPath__000009_PathBottomInsideRight.Color = `magenta`
 	__RectAnchoredPath__000009_PathBottomInsideRight.FillOpacity = 0.500000
 	__RectAnchoredPath__000009_PathBottomInsideRight.Stroke = ``
 	__RectAnchoredPath__000009_PathBottomInsideRight.StrokeOpacity = 0.000000
