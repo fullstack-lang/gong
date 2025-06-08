@@ -78,16 +78,19 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 	for _, rectAnchoredText := range rect.RectAnchoredTexts {
 		x, y := getRectAnchorPoint(rect, rectAnchoredText.RectAnchorType)
 		rectAnchoredText.WriteSVG(sb, x, y)
+
 	}
 
 	for _, rectAnchoredRect := range rect.RectAnchoredRects {
 		x, y := getRectAnchorPoint(rect, rectAnchoredRect.RectAnchorType)
-		rectAnchoredRect.WriteSVG(sb, x, y)
+		maxX_, maxY_ := rectAnchoredRect.WriteSVG(sb, x, y)
+		updateMaxx(maxX_, maxY_, &maxX, &maxY)
 	}
 
 	for _, rectAnchoredPath := range rect.RectAnchoredPaths {
 		x, y := getRectAnchorPoint(rect, rectAnchoredPath.RectAnchorType)
-		rectAnchoredPath.WriteSVG(sb, x, y)
+		maxX_, maxY_ := rectAnchoredPath.WriteSVG(sb, x, y)
+		updateMaxx(maxX_, maxY_, &maxX, &maxY)
 	}
 
 	return

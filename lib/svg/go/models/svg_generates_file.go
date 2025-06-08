@@ -18,6 +18,11 @@ func updateMaxx(maxX_, maxY_ float64, maxX, maxY *float64) {
 	}
 }
 
+// the generated svg wifth and Heigth are computed
+// but some edge case are not taken into accound (rectAnchoredText & Path)
+// therefore, we add some margin
+const extraMargin = 10
+
 // GenerateFile generates an SVG file that represents the content of the SVG object.
 func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	var sb strings.Builder
@@ -276,8 +281,8 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 
 	result := sb.String()
 
-	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+100))
-	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+100))
+	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+extraMargin))
+	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+extraMargin))
 
 	return os.WriteFile(pathToFile, []byte(result), 0644)
 }
