@@ -594,7 +594,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000008_BottomInsideRight.FillOpacity = 0.000000
 	__RectAnchoredRect__000008_BottomInsideRight.Stroke = `red`
 	__RectAnchoredRect__000008_BottomInsideRight.StrokeOpacity = 0.500000
-	__RectAnchoredRect__000008_BottomInsideRight.StrokeWidth = 9.000000
+	__RectAnchoredRect__000008_BottomInsideRight.StrokeWidth = 3.000000
 	__RectAnchoredRect__000008_BottomInsideRight.StrokeDashArray = ``
 	__RectAnchoredRect__000008_BottomInsideRight.StrokeDashArrayWhenSelected = ``
 	__RectAnchoredRect__000008_BottomInsideRight.Transform = ``

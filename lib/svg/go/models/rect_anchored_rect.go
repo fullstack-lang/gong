@@ -25,7 +25,7 @@ type RectAnchoredRect struct {
 	Presentation
 }
 
-func (rectAnchoredRect *RectAnchoredRect) WriteSVG(sb *strings.Builder, x, y float64) {
+func (rectAnchoredRect *RectAnchoredRect) WriteSVG(sb *strings.Builder, x, y float64) (maxX, maxY float64) {
 
 	sb.WriteString(
 		fmt.Sprintf(
@@ -44,4 +44,9 @@ func (rectAnchoredRect *RectAnchoredRect) WriteSVG(sb *strings.Builder, x, y flo
 	sb.WriteString(" >\n")
 
 	sb.WriteString("</rect>\n")
+
+	maxX = rectAnchoredRect.X + rectAnchoredRect.Width + rectAnchoredRect.X_Offset
+	maxY = rectAnchoredRect.Y + rectAnchoredRect.Height + rectAnchoredRect.Y_Offset
+
+	return
 }
