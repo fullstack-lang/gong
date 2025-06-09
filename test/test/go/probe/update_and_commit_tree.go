@@ -69,7 +69,7 @@ func updateAndCommitTree(
 		name := gongStruct.Name + " (" +
 			fmt.Sprintf("%d", probe.stageOfInterest.Map_GongStructName_InstancesNb[gongStruct.Name]) + ")"
 
-		nodeGongstruct := &tree.Node{Name: name}
+		nodeGongstruct := (&tree.Node{Name: name}).Stage(probe.treeStage)
 
 		nodeGongstruct.IsExpanded = false
 		if _, ok := expandedNodesSet[strings.Fields(name)[0]]; ok {
@@ -154,9 +154,9 @@ func updateAndCommitTree(
 		nodeGongstruct.Impl = NewTreeNodeImplGongstruct(gongStruct, probe)
 
 		// add add button
-		addButton := &tree.Button{
+		addButton := (&tree.Button{
 			Name: gongStruct.Name + " " + string(gongtree_buttons.BUTTON_add),
-			Icon: string(gongtree_buttons.BUTTON_add)}
+			Icon: string(gongtree_buttons.BUTTON_add)}).Stage(probe.treeStage)
 		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
 		addButton.Impl = NewButtonImplGongstruct(
 			gongStruct,
@@ -168,6 +168,7 @@ func updateAndCommitTree(
 	}
 
 	tree.StageBranch(probe.treeStage, sidebar)
+
 	probe.treeStage.Commit()
 }
 
