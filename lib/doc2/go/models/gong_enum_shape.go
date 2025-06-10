@@ -12,10 +12,6 @@ type GongEnumShape struct {
 
 	X, Y float64
 
-	// Identifier is the identifier of the struct referenced by the shape in the modeled package
-	//gong:ident
-	Identifier string
-
 	//gong:meta
 	IdentifierMeta any
 

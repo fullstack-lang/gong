@@ -72,9 +72,6 @@ type GongEnumShapeDB struct {
 	// Declation for basic field gongenumshapeDB.Y
 	Y_Data sql.NullFloat64
 
-	// Declation for basic field gongenumshapeDB.Identifier
-	Identifier_Data sql.NullString
-
 	// Declation for basic field gongenumshapeDB.Width
 	Width_Data sql.NullFloat64
 
@@ -113,15 +110,13 @@ type GongEnumShapeWOP struct {
 
 	Y float64 `xlsx:"3"`
 
-	Identifier string `xlsx:"4"`
+	IdentifierMeta any `xlsx:"4"`
 
-	IdentifierMeta any `xlsx:"5"`
+	Width float64 `xlsx:"5"`
 
-	Width float64 `xlsx:"6"`
+	Height float64 `xlsx:"6"`
 
-	Height float64 `xlsx:"7"`
-
-	IsExpanded bool `xlsx:"8"`
+	IsExpanded bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -131,7 +126,6 @@ var GongEnumShape_Fields = []string{
 	"Name",
 	"X",
 	"Y",
-	"Identifier",
 	"IdentifierMeta",
 	"Width",
 	"Height",
@@ -449,9 +443,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape(gongenu
 	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
 	gongenumshapeDB.Y_Data.Valid = true
 
-	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
-	gongenumshapeDB.Identifier_Data.Valid = true
-
 	gongenumshapeDB.Width_Data.Float64 = gongenumshape.Width
 	gongenumshapeDB.Width_Data.Valid = true
 
@@ -474,9 +465,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShape_WOP(gon
 
 	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
 	gongenumshapeDB.Y_Data.Valid = true
-
-	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
-	gongenumshapeDB.Identifier_Data.Valid = true
 
 	gongenumshapeDB.Width_Data.Float64 = gongenumshape.Width
 	gongenumshapeDB.Width_Data.Valid = true
@@ -501,9 +489,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsFromGongEnumShapeWOP(gong
 	gongenumshapeDB.Y_Data.Float64 = gongenumshape.Y
 	gongenumshapeDB.Y_Data.Valid = true
 
-	gongenumshapeDB.Identifier_Data.String = gongenumshape.Identifier
-	gongenumshapeDB.Identifier_Data.Valid = true
-
 	gongenumshapeDB.Width_Data.Float64 = gongenumshape.Width
 	gongenumshapeDB.Width_Data.Valid = true
 
@@ -520,7 +505,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape(gongenums
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
 	gongenumshape.X = gongenumshapeDB.X_Data.Float64
 	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
-	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
 	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
@@ -532,7 +516,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShape_WOP(gonge
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
 	gongenumshape.X = gongenumshapeDB.X_Data.Float64
 	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
-	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
 	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
@@ -545,7 +528,6 @@ func (gongenumshapeDB *GongEnumShapeDB) CopyBasicFieldsToGongEnumShapeWOP(gongen
 	gongenumshape.Name = gongenumshapeDB.Name_Data.String
 	gongenumshape.X = gongenumshapeDB.X_Data.Float64
 	gongenumshape.Y = gongenumshapeDB.Y_Data.Float64
-	gongenumshape.Identifier = gongenumshapeDB.Identifier_Data.String
 	gongenumshape.Width = gongenumshapeDB.Width_Data.Float64
 	gongenumshape.Height = gongenumshapeDB.Height_Data.Float64
 	gongenumshape.IsExpanded = gongenumshapeDB.IsExpanded_Data.Bool
