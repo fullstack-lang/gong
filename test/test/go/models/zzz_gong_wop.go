@@ -154,3 +154,4 @@ func (from *Gstruct) CopyBasicFields(to *Gstruct) {
 	to.Floatfield2 = from.Floatfield2
 	to.Intfield = from.Intfield
 }
+

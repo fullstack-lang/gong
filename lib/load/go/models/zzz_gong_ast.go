@@ -836,7 +836,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// for the meta field written as ref_models.ENUM_VALUE1
 					basicLit = new(ast.BasicLit)
 					basicLit.Kind = token.STRING // Or another appropriate token.Kind
-					basicLit.Value =  selectorExpr.X.(*ast.Ident).Name + "." + Sel.Name
+					basicLit.Value = selectorExpr.X.(*ast.Ident).Name + "." + Sel.Name
 					_ = basicLit.Kind
 					_ = basicLit.Value
 				}
