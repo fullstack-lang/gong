@@ -390,14 +390,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofb =
 				append(astructDB.AstructPointersEncoding.Anarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -492,14 +492,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, dstructAssocEnd := range astruct.Dstruct4s {
 			dstructAssocEnd_DB :=
 				backRepo.BackRepoDstruct.GetDstructDBFromDstructPtr(dstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the dstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if dstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Dstruct4s =
 				append(astructDB.AstructPointersEncoding.Dstruct4s, int(dstructAssocEnd_DB.ID))
 		}
@@ -510,14 +510,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructAssocEnd := range astruct.Anarrayofa {
 			astructAssocEnd_DB :=
 				backRepo.BackRepoAstruct.GetAstructDBFromAstructPtr(astructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofa =
 				append(astructDB.AstructPointersEncoding.Anarrayofa, int(astructAssocEnd_DB.ID))
 		}
@@ -528,14 +528,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, bstructAssocEnd := range astruct.Anotherarrayofb {
 			bstructAssocEnd_DB :=
 				backRepo.BackRepoBstruct.GetBstructDBFromBstructPtr(bstructAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the bstructAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if bstructAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anotherarrayofb =
 				append(astructDB.AstructPointersEncoding.Anotherarrayofb, int(bstructAssocEnd_DB.ID))
 		}
@@ -546,14 +546,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstructuseAssocEnd := range astruct.AnarrayofbUse {
 			astructbstructuseAssocEnd_DB :=
 				backRepo.BackRepoAstructBstructUse.GetAstructBstructUseDBFromAstructBstructUsePtr(astructbstructuseAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructbstructuseAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstructuseAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.AnarrayofbUse =
 				append(astructDB.AstructPointersEncoding.AnarrayofbUse, int(astructbstructuseAssocEnd_DB.ID))
 		}
@@ -564,14 +564,14 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		for _, astructbstruct2useAssocEnd := range astruct.Anarrayofb2Use {
 			astructbstruct2useAssocEnd_DB :=
 				backRepo.BackRepoAstructBstruct2Use.GetAstructBstruct2UseDBFromAstructBstruct2UsePtr(astructbstruct2useAssocEnd)
-			
+
 			// the stage might be inconsistant, meaning that the astructbstruct2useAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
 			if astructbstruct2useAssocEnd_DB == nil {
 				continue
 			}
-			
+
 			astructDB.AstructPointersEncoding.Anarrayofb2Use =
 				append(astructDB.AstructPointersEncoding.Anarrayofb2Use, int(astructbstruct2useAssocEnd_DB.ID))
 		}
@@ -701,7 +701,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *models.Astruct) {
 
 	// insertion point for checkout of pointer encoding
-	// Associationtob field	
+	// Associationtob field
 	{
 		id := astructDB.AssociationtobID.Int64
 		if id != 0 {
@@ -721,7 +721,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Associationtob = nil
 		}
 	}
-	
+
 	// This loop redeem astruct.Anarrayofb in the stage from the encode in the back repo
 	// It parses all BstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -731,7 +731,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb = append(astruct.Anarrayofb, backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[uint(_Bstructid)])
 	}
 
-	// Anotherassociationtob_2 field	
+	// Anotherassociationtob_2 field
 	{
 		id := astructDB.Anotherassociationtob_2ID.Int64
 		if id != 0 {
@@ -751,8 +751,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Anotherassociationtob_2 = nil
 		}
 	}
-	
-	// Bstruct field	
+
+	// Bstruct field
 	{
 		id := astructDB.BstructID.Int64
 		if id != 0 {
@@ -772,8 +772,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Bstruct = nil
 		}
 	}
-	
-	// Bstruct2 field	
+
+	// Bstruct2 field
 	{
 		id := astructDB.Bstruct2ID.Int64
 		if id != 0 {
@@ -793,8 +793,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Bstruct2 = nil
 		}
 	}
-	
-	// Dstruct field	
+
+	// Dstruct field
 	{
 		id := astructDB.DstructID.Int64
 		if id != 0 {
@@ -814,8 +814,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Dstruct = nil
 		}
 	}
-	
-	// Dstruct2 field	
+
+	// Dstruct2 field
 	{
 		id := astructDB.Dstruct2ID.Int64
 		if id != 0 {
@@ -835,8 +835,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Dstruct2 = nil
 		}
 	}
-	
-	// Dstruct3 field	
+
+	// Dstruct3 field
 	{
 		id := astructDB.Dstruct3ID.Int64
 		if id != 0 {
@@ -856,8 +856,8 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Dstruct3 = nil
 		}
 	}
-	
-	// Dstruct4 field	
+
+	// Dstruct4 field
 	{
 		id := astructDB.Dstruct4ID.Int64
 		if id != 0 {
@@ -877,7 +877,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.Dstruct4 = nil
 		}
 	}
-	
+
 	// This loop redeem astruct.Dstruct4s in the stage from the encode in the back repo
 	// It parses all DstructDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
@@ -923,7 +923,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[uint(_AstructBstruct2Useid)])
 	}
 
-	// AnAstruct field	
+	// AnAstruct field
 	{
 		id := astructDB.AnAstructID.Int64
 		if id != 0 {
@@ -943,7 +943,7 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 			astruct.AnAstruct = nil
 		}
 	}
-	
+
 	return
 }
 
