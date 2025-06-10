@@ -35,8 +35,8 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType := (&models.GongEnumShape{}).Stage(stage)
 
 	__GongEnumValueShape__000000_NoName_yet := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000001_ENUM_VAL1 := (&models.GongEnumValueShape{}).Stage(stage)
-	__GongEnumValueShape__000002_ENUM_VAL2 := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000001_ENUM_VAL2 := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000002_ENUM_VAL1_ := (&models.GongEnumValueShape{}).Stage(stage)
 
 	__GongStructShape__000000_Default_Astruct := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_Bstruct := (&models.GongStructShape{}).Stage(stage)
@@ -78,7 +78,6 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.Name = `Default-AEnumType`
 	__GongEnumShape__000000_Default_AEnumType.X = 597.000000
 	__GongEnumShape__000000_Default_AEnumType.Y = 28.000000
-	__GongEnumShape__000000_Default_AEnumType.Identifier = `ref_models.AEnumType`
 	__GongEnumShape__000000_Default_AEnumType.IdentifierMeta = new(ref_models.AEnumType)
 	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000
 	__GongEnumShape__000000_Default_AEnumType.Height = 103.000000
@@ -87,11 +86,11 @@ func _(stage *models.Stage) {
 	__GongEnumValueShape__000000_NoName_yet.Name = `NoName yet`
 	__GongEnumValueShape__000000_NoName_yet.IdentifierMeta = ref_models.ENUM_VAL1
 
-	__GongEnumValueShape__000001_ENUM_VAL1.Name = `ENUM_VAL1`
-	__GongEnumValueShape__000001_ENUM_VAL1.IdentifierMeta = ref_models.ENUM_VAL1
+	__GongEnumValueShape__000001_ENUM_VAL2.Name = `ENUM_VAL2`
+	__GongEnumValueShape__000001_ENUM_VAL2.IdentifierMeta = ref_models.ENUM_VAL2
 
-	__GongEnumValueShape__000002_ENUM_VAL2.Name = `ENUM_VAL2`
-	__GongEnumValueShape__000002_ENUM_VAL2.IdentifierMeta = ref_models.ENUM_VAL2
+	__GongEnumValueShape__000002_ENUM_VAL1_.Name = `ENUM_VAL1_____`
+	__GongEnumValueShape__000002_ENUM_VAL1_.IdentifierMeta = ref_models.ENUM_VAL1
 
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
 	__GongStructShape__000000_Default_Astruct.X = 153.000000
@@ -161,8 +160,8 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000000_Default
 	// setup of GongEnumShape instances pointers
-	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL1)
-	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL2)
+	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL1_)
+	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL2)
 	// setup of GongEnumValueShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
