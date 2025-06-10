@@ -998,10 +998,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_GongEnumShape[identifier].Y = exprSign * fielValue
-				case "Identifier":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_GongEnumShape[identifier].Identifier = fielValue
 				case "IdentifierMeta":
 					__gong__map_GongEnumShape[identifier].IdentifierMeta = basicLit.Value
 				case "Width":
@@ -1402,7 +1398,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// for the meta field written as ref_models.ENUM_VALUE1
 					basicLit = new(ast.BasicLit)
 					basicLit.Kind = token.STRING // Or another appropriate token.Kind
-					basicLit.Value =  selectorExpr.X.(*ast.Ident).Name + "." + Sel.Name
+					basicLit.Value = selectorExpr.X.(*ast.Ident).Name + "." + Sel.Name
 					_ = basicLit.Kind
 					_ = basicLit.Value
 				}
