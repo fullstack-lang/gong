@@ -388,10 +388,10 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		//
 		// fields
 		//
-		for idx, field := range gongenumShape.GongEnumValueShapes {
+		for idx, gongEnumValueShape := range gongenumShape.GongEnumValueShapes {
 			fieldText := new(svg_models.RectAnchoredText)
-			fieldText.Name = field.Name
-			fieldText.Content = field.Name
+			fieldText.Name = GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
+			fieldText.Content = GongEnumValueShapeIdentifierMetaToValueName(gongEnumValueShape.IdentifierMeta)
 
 			// field position
 			fieldText.X_Offset = 10
