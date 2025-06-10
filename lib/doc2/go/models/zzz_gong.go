@@ -1803,7 +1803,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case GongEnumValueShape:
 		res = []string{"Name", "IdentifierMeta"}
 	case GongNoteLinkShape:
@@ -1901,7 +1901,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
-		res = []string{"Name", "X", "Y", "Identifier", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+		res = []string{"Name", "X", "Y", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
 	case *GongEnumValueShape:
 		res = []string{"Name", "IdentifierMeta"}
 	case *GongNoteLinkShape:
@@ -2060,8 +2060,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Identifier":
-			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueShapes":
 			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
@@ -2369,8 +2367,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Identifier":
-			res.valueString = inferedInstance.Identifier
 		case "GongEnumValueShapes":
 			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
