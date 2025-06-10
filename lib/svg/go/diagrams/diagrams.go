@@ -34,6 +34,27 @@ func _(stage *models.Stage) {
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z := (&models.DiagramPackage{}).Stage(stage)
 
+	__GongEnumShape__000000_Default_AnchorType := (&models.GongEnumShape{}).Stage(stage)
+	__GongEnumShape__000001_Default_RectAnchorType := (&models.GongEnumShape{}).Stage(stage)
+
+	__GongEnumValueShape__000000_ANCHOR_TOP := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000001_ANCHOR_BOTTOM := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000002_ANCHOR_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000003_ANCHOR_RIGHT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000004_ANCHOR_CENTER := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000005_RECT_TOP := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000006_RECT_TOP_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000007_RECT_TOP_RIGHT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000008_RECT_BOTTOM := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000009_RECT_BOTTOM_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000010_RECT_BOTTOM_LEFT_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000011_RECT_BOTTOM_BOTTOM_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000012_RECT_BOTTOM_RIGHT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000013_RECT_BOTTOM_INSIDE_RIGHT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000014_RECT_LEFT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000015_RECT_RIGHT := (&models.GongEnumValueShape{}).Stage(stage)
+	__GongEnumValueShape__000016_RECT_CENTER := (&models.GongEnumValueShape{}).Stage(stage)
+
 	__GongStructShape__000000_Default_LinkAnchoredText := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_Link := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000002_Default_Rect := (&models.GongStructShape{}).Stage(stage)
@@ -73,11 +94,11 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,false,false,true,false]`
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false,false,false,false,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = ``
 
@@ -85,6 +106,73 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.Path = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.AbsolutePathToDiagramPackage = ``
+
+	__GongEnumShape__000000_Default_AnchorType.Name = `Default-AnchorType`
+	__GongEnumShape__000000_Default_AnchorType.X = 1421.000000
+	__GongEnumShape__000000_Default_AnchorType.Y = 49.000000
+	__GongEnumShape__000000_Default_AnchorType.IdentifierMeta = new(ref_models.AnchorType)
+	__GongEnumShape__000000_Default_AnchorType.Width = 240.000000
+	__GongEnumShape__000000_Default_AnchorType.Height = 163.000000
+	__GongEnumShape__000000_Default_AnchorType.IsExpanded = false
+
+	__GongEnumShape__000001_Default_RectAnchorType.Name = `Default-RectAnchorType`
+	__GongEnumShape__000001_Default_RectAnchorType.X = 1147.000000
+	__GongEnumShape__000001_Default_RectAnchorType.Y = 49.000000
+	__GongEnumShape__000001_Default_RectAnchorType.IdentifierMeta = new(ref_models.RectAnchorType)
+	__GongEnumShape__000001_Default_RectAnchorType.Width = 253.000000
+	__GongEnumShape__000001_Default_RectAnchorType.Height = 303.000000
+	__GongEnumShape__000001_Default_RectAnchorType.IsExpanded = false
+
+	__GongEnumValueShape__000000_ANCHOR_TOP.Name = `ANCHOR_TOP`
+	__GongEnumValueShape__000000_ANCHOR_TOP.IdentifierMeta = ref_models.ANCHOR_TOP
+
+	__GongEnumValueShape__000001_ANCHOR_BOTTOM.Name = `ANCHOR_BOTTOM`
+	__GongEnumValueShape__000001_ANCHOR_BOTTOM.IdentifierMeta = ref_models.ANCHOR_BOTTOM
+
+	__GongEnumValueShape__000002_ANCHOR_LEFT.Name = `ANCHOR_LEFT`
+	__GongEnumValueShape__000002_ANCHOR_LEFT.IdentifierMeta = ref_models.ANCHOR_LEFT
+
+	__GongEnumValueShape__000003_ANCHOR_RIGHT.Name = `ANCHOR_RIGHT`
+	__GongEnumValueShape__000003_ANCHOR_RIGHT.IdentifierMeta = ref_models.ANCHOR_RIGHT
+
+	__GongEnumValueShape__000004_ANCHOR_CENTER.Name = `ANCHOR_CENTER`
+	__GongEnumValueShape__000004_ANCHOR_CENTER.IdentifierMeta = ref_models.ANCHOR_CENTER
+
+	__GongEnumValueShape__000005_RECT_TOP.Name = `RECT_TOP`
+	__GongEnumValueShape__000005_RECT_TOP.IdentifierMeta = ref_models.RECT_TOP
+
+	__GongEnumValueShape__000006_RECT_TOP_LEFT.Name = `RECT_TOP_LEFT`
+	__GongEnumValueShape__000006_RECT_TOP_LEFT.IdentifierMeta = ref_models.RECT_TOP_LEFT
+
+	__GongEnumValueShape__000007_RECT_TOP_RIGHT.Name = `RECT_TOP_RIGHT`
+	__GongEnumValueShape__000007_RECT_TOP_RIGHT.IdentifierMeta = ref_models.RECT_TOP_RIGHT
+
+	__GongEnumValueShape__000008_RECT_BOTTOM.Name = `RECT_BOTTOM`
+	__GongEnumValueShape__000008_RECT_BOTTOM.IdentifierMeta = ref_models.RECT_BOTTOM
+
+	__GongEnumValueShape__000009_RECT_BOTTOM_LEFT.Name = `RECT_BOTTOM_LEFT`
+	__GongEnumValueShape__000009_RECT_BOTTOM_LEFT.IdentifierMeta = ref_models.RECT_BOTTOM_LEFT
+
+	__GongEnumValueShape__000010_RECT_BOTTOM_LEFT_LEFT.Name = `RECT_BOTTOM_LEFT_LEFT`
+	__GongEnumValueShape__000010_RECT_BOTTOM_LEFT_LEFT.IdentifierMeta = ref_models.RECT_BOTTOM_LEFT_LEFT
+
+	__GongEnumValueShape__000011_RECT_BOTTOM_BOTTOM_LEFT.Name = `RECT_BOTTOM_BOTTOM_LEFT`
+	__GongEnumValueShape__000011_RECT_BOTTOM_BOTTOM_LEFT.IdentifierMeta = ref_models.RECT_BOTTOM_BOTTOM_LEFT
+
+	__GongEnumValueShape__000012_RECT_BOTTOM_RIGHT.Name = `RECT_BOTTOM_RIGHT`
+	__GongEnumValueShape__000012_RECT_BOTTOM_RIGHT.IdentifierMeta = ref_models.RECT_BOTTOM_RIGHT
+
+	__GongEnumValueShape__000013_RECT_BOTTOM_INSIDE_RIGHT.Name = `RECT_BOTTOM_INSIDE_RIGHT`
+	__GongEnumValueShape__000013_RECT_BOTTOM_INSIDE_RIGHT.IdentifierMeta = ref_models.RECT_BOTTOM_INSIDE_RIGHT
+
+	__GongEnumValueShape__000014_RECT_LEFT.Name = `RECT_LEFT`
+	__GongEnumValueShape__000014_RECT_LEFT.IdentifierMeta = ref_models.RECT_LEFT
+
+	__GongEnumValueShape__000015_RECT_RIGHT.Name = `RECT_RIGHT`
+	__GongEnumValueShape__000015_RECT_RIGHT.IdentifierMeta = ref_models.RECT_RIGHT
+
+	__GongEnumValueShape__000016_RECT_CENTER.Name = `RECT_CENTER`
+	__GongEnumValueShape__000016_RECT_CENTER.IdentifierMeta = ref_models.RECT_CENTER
 
 	__GongStructShape__000000_Default_LinkAnchoredText.Name = `Default-LinkAnchoredText`
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 854.000000
@@ -198,9 +286,30 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_LinkAnchoredText)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Link)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000002_Default_Rect)
+	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_AnchorType)
+	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000001_Default_RectAnchorType)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_05T06_12_28Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	// setup of GongEnumShape instances pointers
+	__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes, __GongEnumValueShape__000000_ANCHOR_TOP)
+	__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes, __GongEnumValueShape__000001_ANCHOR_BOTTOM)
+	__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes, __GongEnumValueShape__000002_ANCHOR_LEFT)
+	__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes, __GongEnumValueShape__000003_ANCHOR_RIGHT)
+	__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AnchorType.GongEnumValueShapes, __GongEnumValueShape__000004_ANCHOR_CENTER)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000005_RECT_TOP)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000006_RECT_TOP_LEFT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000007_RECT_TOP_RIGHT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000008_RECT_BOTTOM)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000009_RECT_BOTTOM_LEFT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000010_RECT_BOTTOM_LEFT_LEFT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000011_RECT_BOTTOM_BOTTOM_LEFT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000012_RECT_BOTTOM_RIGHT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000013_RECT_BOTTOM_INSIDE_RIGHT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000014_RECT_LEFT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000015_RECT_RIGHT)
+	__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes = append(__GongEnumShape__000001_Default_RectAnchorType.GongEnumValueShapes, __GongEnumValueShape__000016_RECT_CENTER)
+	// setup of GongEnumValueShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_LinkAnchoredText.AttributeShapes = append(__GongStructShape__000000_Default_LinkAnchoredText.AttributeShapes, __AttributeShape__000000_Name)
 	__GongStructShape__000000_Default_LinkAnchoredText.AttributeShapes = append(__GongStructShape__000000_Default_LinkAnchoredText.AttributeShapes, __AttributeShape__000001_Content)
