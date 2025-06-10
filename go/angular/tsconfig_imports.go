@@ -6,4 +6,6 @@ const TsConfigInsertForPaths = `      // with gong, some angular standalone comp
         "../../vendor/*", // path for stack within 1 level of the module
         "../../../vendor/*", // path for stack within 2 levels of the module
         "../../../../../../*", // path with gong internal lib and test libraries
+        "../../../../*", // path when compile gong ng
+
       ],`
