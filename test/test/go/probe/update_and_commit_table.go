@@ -46,7 +46,7 @@ func updateAndCommitTable[T models.Gongstruct](
 
 	probe.tableStage.Reset()
 
-	table := new(gongtable.Table).Stage(probe.tableStage)
+	table := new(gongtable.Table)
 	table.Name = TableName
 	table.HasColumnSorting = true
 	table.HasFiltering = true
@@ -74,28 +74,28 @@ func updateAndCommitTable[T models.Gongstruct](
 			models.GetOrder(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
 
-	column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
+	column := new(gongtable.DisplayedColumn)
 	column.Name = "ID"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
-	column = new(gongtable.DisplayedColumn).Stage(probe.tableStage)
+	column = new(gongtable.DisplayedColumn)
 	column.Name = "Delete"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
 	for _, fieldName := range fields {
-		column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
+		column := new(gongtable.DisplayedColumn)
 		column.Name = fieldName
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 	for _, reverseField := range reverseFields {
-		column := new(gongtable.DisplayedColumn).Stage(probe.tableStage)
+		column := new(gongtable.DisplayedColumn)
 		column.Name = "(" + reverseField.GongstructName + ") -> " + reverseField.Fieldname
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
-		row := new(gongtable.Row).Stage(probe.tableStage)
+		row := new(gongtable.Row)
 		value := models.GetFieldStringValue(*structInstance, "Name")
 		row.Name = value.GetValueString()
 
@@ -105,32 +105,32 @@ func updateAndCommitTable[T models.Gongstruct](
 
 		table.Rows = append(table.Rows, row)
 
-		cell := (&gongtable.Cell{
+		cell := &gongtable.Cell{
 			Name: "ID",
-		}).Stage(probe.tableStage)
+		}
 		row.Cells = append(row.Cells, cell)
-		cellInt := (&gongtable.CellInt{
+		cellInt := &gongtable.CellInt{
 			Name: "ID",
 			Value: int(models.GetOrder(
 				probe.stageOfInterest,
 				structInstance,
 			)),
-		}).Stage(probe.tableStage)
+		}
 		cell.CellInt = cellInt
 
-		cell = (&gongtable.Cell{
+		cell = &gongtable.Cell{
 			Name: "Delete Icon",
-		}).Stage(probe.tableStage)
+		}
 		row.Cells = append(row.Cells, cell)
-		cellIcon := (&gongtable.CellIcon{
+		cellIcon := &gongtable.CellIcon{
 			Name: fmt.Sprintf("Delete Icon %d", models.GetOrder(
 				probe.stageOfInterest,
 				structInstance,
 			)),
-			Icon: string(maticons.BUTTON_delete),
+			Icon:                string(maticons.BUTTON_delete),
 			NeedsConfirmation:   true,
 			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
-		}).Stage(probe.tableStage)
+		}
 		cellIcon.Impl = NewCellDeleteIconImpl(structInstance, probe)
 		cell.CellIcon = cellIcon
 
@@ -139,35 +139,35 @@ func updateAndCommitTable[T models.Gongstruct](
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
 			fieldIndex++
 			// log.Println(fieldName, value)
-			cell := (&gongtable.Cell{
+			cell := &gongtable.Cell{
 				Name: name,
-			}).Stage(probe.tableStage)
+			}
 			row.Cells = append(row.Cells, cell)
 
 			switch value.GongFieldValueType {
 			case models.GongFieldValueTypeInt:
-				cellInt := (&gongtable.CellInt{
+				cellInt := &gongtable.CellInt{
 					Name:  name,
 					Value: value.GetValueInt(),
-				}).Stage(probe.tableStage)
+				}
 				cell.CellInt = cellInt
 			case models.GongFieldValueTypeFloat:
-				cellFloat := (&gongtable.CellFloat64{
+				cellFloat := &gongtable.CellFloat64{
 					Name:  name,
 					Value: value.GetValueFloat(),
-				}).Stage(probe.tableStage)
+				}
 				cell.CellFloat64 = cellFloat
 			case models.GongFieldValueTypeBool:
-				cellBool := (&gongtable.CellBoolean{
+				cellBool := &gongtable.CellBoolean{
 					Name:  name,
 					Value: value.GetValueBool(),
-				}).Stage(probe.tableStage)
+				}
 				cell.CellBool = cellBool
 			default:
-				cellString := (&gongtable.CellString{
+				cellString := &gongtable.CellString{
 					Name:  name,
 					Value: value.GetValueString(),
-				}).Stage(probe.tableStage)
+				}
 				cell.CellString = cellString
 
 			}
@@ -181,18 +181,21 @@ func updateAndCommitTable[T models.Gongstruct](
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++
 			// log.Println(fieldName, value)
-			cell := (&gongtable.Cell{
+			cell := &gongtable.Cell{
 				Name: name,
-			}).Stage(probe.tableStage)
+			}
 			row.Cells = append(row.Cells, cell)
 
-			cellString := (&gongtable.CellString{
+			cellString := &gongtable.CellString{
 				Name:  name,
 				Value: value,
-			}).Stage(probe.tableStage)
+			}
 			cell.CellString = cellString
 		}
 	}
+
+	gongtable.StageBranch(probe.tableStage, table)
+
 }
 
 func NewRowUpdate[T models.Gongstruct](
