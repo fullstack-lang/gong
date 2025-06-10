@@ -30,8 +30,6 @@ func _(stage *models.Stage) {
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z := (&models.DiagramPackage{}).Stage(stage)
 
-	__GongNoteShape__000000_Default_NoteOnGongdoc := (&models.GongNoteShape{}).Stage(stage)
-
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
@@ -39,19 +37,19 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = ``
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[true]`
 
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
 	__Classdiagram__000001_spoil_diagram.Description = `Spoil diagram`
 	__Classdiagram__000001_spoil_diagram.IsIncludedInStaticWebSite = false
 	__Classdiagram__000001_spoil_diagram.IsInRenameMode = false
-	__Classdiagram__000001_spoil_diagram.IsExpanded = true
-	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = true
+	__Classdiagram__000001_spoil_diagram.IsExpanded = false
+	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = false
 	__Classdiagram__000001_spoil_diagram.NodeGongStructNodeExpansion = ``
 	__Classdiagram__000001_spoil_diagram.NodeGongEnumsIsExpanded = true
 	__Classdiagram__000001_spoil_diagram.NodeGongEnumNodeExpansion = ``
@@ -63,32 +61,10 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.AbsolutePathToDiagramPackage = ``
 
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Name = `Default-NoteOnGongdoc`
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Identifier = `ref_models.NoteOnGongdoc`
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Body = `Note Example
-
-This note can refers to [models.GongNoteShape]
-or to [models.Classdiagram.GongNoteShapes]
-or to [models.OrientationType]
-`
-	__GongNoteShape__000000_Default_NoteOnGongdoc.BodyHTML = `<p>Note Example
-<p>This note can refers to <a href="/models#GongNoteShape">models.GongNoteShape</a>
-or to <a href="/models#Classdiagram.GongNoteShapes">models.Classdiagram.GongNoteShapes</a>
-or to <a href="/models#OrientationType">models.OrientationType</a>
-`
-	__GongNoteShape__000000_Default_NoteOnGongdoc.X = 176.000000
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Y = 231.000000
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Width = 497.999969
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Height = 119.000000
-	__GongNoteShape__000000_Default_NoteOnGongdoc.Matched = false
-	__GongNoteShape__000000_Default_NoteOnGongdoc.IsExpanded = false
-
 	// Setup of pointers
 	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnGongdoc)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
-	// setup of GongNoteShape instances pointers
 }

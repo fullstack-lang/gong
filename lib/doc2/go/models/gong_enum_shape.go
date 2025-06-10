@@ -39,10 +39,9 @@ func (classdiagram *Classdiagram) AddGongEnumShape(stage *Stage, diagramPackage 
 
 	var enumshape GongEnumShape
 	enumshape.Name = classdiagram.Name + "-" + enumshapeName
-	enumshape.Identifier = GongStructNameToIdentifier(enumshapeName)
 
 	// this is a way to initiate an enum
-	enumshape.IdentifierMeta = "new(" + enumshape.Identifier + ")"
+	enumshape.IdentifierMeta = "new(" + GongStructNameToIdentifier(enumshapeName) + ")"
 	enumshape.Width = 240
 	enumshape.Height = 63
 
@@ -61,7 +60,7 @@ func (classdiagram *Classdiagram) RemoveGongEnumShape(stage *Stage, gongenumshap
 	for _, _gongenumshape := range classdiagram.GongEnumShapes {
 
 		// strange behavior when the gongenumshape is remove within the loop
-		if IdentifierToGongStructName(_gongenumshape.Identifier) == gongenumshapeName && !foundGongEnumShape {
+		if IdentifierToGongStructName(GongEnumIdentifierMetaToGongEnumName(_gongenumshape.IdentifierMeta)) == gongenumshapeName && !foundGongEnumShape {
 			gongenumshape = _gongenumshape
 		}
 	}
