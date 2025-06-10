@@ -76,8 +76,8 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.AbsolutePathToDiagramPackage = ``
 
 	__GongEnumShape__000000_Default_AEnumType.Name = `Default-AEnumType`
-	__GongEnumShape__000000_Default_AEnumType.X = 72.000000
-	__GongEnumShape__000000_Default_AEnumType.Y = 226.000000
+	__GongEnumShape__000000_Default_AEnumType.X = 597.000000
+	__GongEnumShape__000000_Default_AEnumType.Y = 28.000000
 	__GongEnumShape__000000_Default_AEnumType.Identifier = `ref_models.AEnumType`
 	__GongEnumShape__000000_Default_AEnumType.IdentifierMeta = new(ref_models.AEnumType)
 	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000

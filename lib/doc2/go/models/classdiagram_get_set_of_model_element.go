@@ -67,10 +67,10 @@ func (stager *Stager) compute_map_modelElement_shape(
 	gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](gongStage)
 	for _, gongEnumShape := range classdiagram.GongEnumShapes {
 
-		gongEnumName := IdentifierToGongStructName(gongEnumShape.Identifier)
+		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
 		gongEnum, ok := gongEnumSet[gongEnumName]
 		if !ok {
-			log.Fatalln("unkown element", gongEnumShape.Identifier)
+			log.Fatalln("unkown element", gongEnumName)
 		}
 
 		map_ModelElement_Shape[gongEnum] = gongEnumShape
