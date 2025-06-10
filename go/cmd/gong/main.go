@@ -5,8 +5,13 @@ import (
 	"log"
 	"strconv"
 
+	// insertion point for models import
+	gong_models "github.com/fullstack-lang/gong/go/models"
 	gong_stack "github.com/fullstack-lang/gong/go/stack"
 	gong_static "github.com/fullstack-lang/gong/go/static"
+
+	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 var (
@@ -15,7 +20,6 @@ var (
 	unmarshallFromCode = flag.String("unmarshallFromCode", "", "unmarshall data from go file and '.go' (must be lowercased without spaces), If unmarshallFromCode arg is '', no unmarshalling")
 	marshallOnCommit   = flag.String("marshallOnCommit", "", "on all commits, marshall staged data to a go file with the marshall name and '.go' (must be lowercased without spaces). If marshall arg is '', no marshalling")
 
-	diagrams         = flag.Bool("diagrams", true, "parse/analysis go/models and go/diagrams")
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 
 	port = flag.Int("port", 8080, "port server")
@@ -32,11 +36,42 @@ func main() {
 	// setup the static file server and get the controller
 	r := gong_static.ServeStaticFiles(*logGINFlag)
 
-	// setup stack
+	// setup model stack with its probe
 	stack := gong_stack.NewStack(r, "gong", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
 
-	log.Printf("Server ready serve on localhost:" + strconv.Itoa(*port))
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+
+	stager := gong_models.NewStager(r, stack.Stage, splitStage)
+
+	// one for the probe of the
+	split.StageBranch(splitStage, &split.View{
+		Name: stack.Stage.GetName() + "with Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
+	// commit the split stage (this will initiate the front components)
+	splitStage.Commit()
+
+	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())

@@ -640,6 +640,15 @@ ng build
 ```
 
 ```bash
+find .. -type d -name "node_modules" -prune -exec rm -rf '{}' +
+find .. -type d -name "dist" -prune -exec rm -rf '{}' +
+find .. -type d -name ".angular" -prune -exec rm -rf '{}' +
+find .. -name "package-lock.json" -prune -exec rm -rf '{}' +
+npm i
+ng build
+```
+
+```bash
 find . -type f -name "embed_ng_dist_ng.go" -exec dirname {} \; | sort -u | while IFS= read -r dir; do
   (cd "$dir" && gongc -skipGoModCommands -skipNpmWorkspaces go/models)
 done

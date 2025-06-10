@@ -196,6 +196,7 @@
       "group": "build",
       "args": [
         "-skipGoModCommands",
+        "-skipStager=false",
         "-skipNpmWorkspaces",
         "go/models"
       ]
