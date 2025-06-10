@@ -35,7 +35,21 @@ func updateAndCommitTree(
 	probe.treeStage.Reset()
 
 	// create tree
-	sidebar := (&tree.Tree{Name: SideBarTreeName}).Stage(probe.treeStage)
+	sidebar := &tree.Tree{Name: SideBarTreeName}
+
+	// Add a refresh button
+	nodeRefreshButton := &tree.Node{Name: ""}
+	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
+	refreshButton := &tree.Button{
+		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
+		Icon:            string(gongtree_buttons.BUTTON_refresh),
+		HasToolTip:      true,
+		ToolTipText:     "Refresh probe",
+		ToolTipPosition: tree.Left,
+	}
+
+	nodeRefreshButton.Buttons = append(nodeRefreshButton.Buttons, refreshButton)
+	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
@@ -68,7 +82,7 @@ func updateAndCommitTree(
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Chapter](probe.stageOfInterest)
 			for _chapter := range set {
-				nodeInstance := (&tree.Node{Name: _chapter.GetName()}).Stage(probe.treeStage)
+				nodeInstance := &tree.Node{Name: _chapter.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_chapter, "Chapter", probe)
 
@@ -78,7 +92,7 @@ func updateAndCommitTree(
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Content](probe.stageOfInterest)
 			for _content := range set {
-				nodeInstance := (&tree.Node{Name: _content.GetName()}).Stage(probe.treeStage)
+				nodeInstance := &tree.Node{Name: _content.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_content, "Content", probe)
 
@@ -88,7 +102,7 @@ func updateAndCommitTree(
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Page](probe.stageOfInterest)
 			for _page := range set {
-				nodeInstance := (&tree.Node{Name: _page.GetName()}).Stage(probe.treeStage)
+				nodeInstance := &tree.Node{Name: _page.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_page, "Page", probe)
 
@@ -113,14 +127,7 @@ func updateAndCommitTree(
 		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
 	}
 
-	// Add a refresh button
-	nodeRefreshButton := (&tree.Node{Name: ""}).Stage(probe.treeStage)
-	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
-	refreshButton := (&tree.Button{
-		Name: "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
-		Icon: string(gongtree_buttons.BUTTON_refresh)}).Stage(probe.treeStage)
-	nodeRefreshButton.Buttons = append(nodeRefreshButton.Buttons, refreshButton)
-	refreshButton.Impl = NewButtonImplRefresh(probe)
+	tree.StageBranch(probe.treeStage, sidebar)
 
 	probe.treeStage.Commit()
 }
