@@ -567,8 +567,6 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongenumshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(gongenumshape_.Y), formDiv)
-		case "Identifier":
-			FormDivBasicFieldToField(&(gongenumshape_.Identifier), formDiv)
 		case "GongEnumValueShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValueShape](gongenumshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.GongEnumValueShape, 0)
