@@ -79,9 +79,12 @@ type GongStructInterface interface {
 // Stage enables storage of staged instances
 // swagger:ignore
 type Stage struct {
-	name            string
-	commitId        uint // commitId is updated at each commit
-	commitTimeStamp time.Time
+	name               string
+	commitId           uint // commitId is updated at each commit
+	commitTimeStamp    time.Time
+	contentWhenParsed  string
+	commitIdWhenParsed uint
+	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
 	Cursors           map[*Cursor]any
@@ -125,6 +128,10 @@ type Stage struct {
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
+}
+
+func (stage *Stage) SetGeneratesDiff(generatesDiff bool) {
+	stage.generatesDiff = generatesDiff
 }
 
 // GetNamedStructs implements models.ProbebStage.
