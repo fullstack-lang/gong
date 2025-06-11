@@ -25,6 +25,7 @@ export class Table {
 	HasPaginator: boolean = false
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
+	SaveButtonLabel: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false
@@ -48,6 +49,7 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	tableAPI.HasPaginator = table.HasPaginator
 	tableAPI.HasCheckableRows = table.HasCheckableRows
 	tableAPI.HasSaveButton = table.HasSaveButton
+	tableAPI.SaveButtonLabel = table.SaveButtonLabel
 	tableAPI.CanDragDropRows = table.CanDragDropRows
 	tableAPI.HasCloseButton = table.HasCloseButton
 	tableAPI.SavingInProgress = table.SavingInProgress
@@ -85,6 +87,7 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 	table.HasPaginator = tableAPI.HasPaginator
 	table.HasCheckableRows = tableAPI.HasCheckableRows
 	table.HasSaveButton = tableAPI.HasSaveButton
+	table.SaveButtonLabel = tableAPI.SaveButtonLabel
 	table.CanDragDropRows = tableAPI.CanDragDropRows
 	table.HasCloseButton = tableAPI.HasCloseButton
 	table.SavingInProgress = tableAPI.SavingInProgress

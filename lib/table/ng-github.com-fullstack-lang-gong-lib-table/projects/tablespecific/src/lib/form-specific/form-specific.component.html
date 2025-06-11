@@ -98,14 +98,48 @@
           <div class="flex-align-items-center">
             @if (div.FormEditAssocButton) {
               <p class="custom-text">{{div.FormEditAssocButton.Label}}</p>
-              <button type="button" (click)="openTableAssociation(div.FormEditAssocButton.Name)" mat-raised-button class="custom-button">
-                <mat-icon>list</mat-icon>
-              </button>
+              @if (!div.FormEditAssocButton.HasToolTip) {
+                <button type="button" 
+                  (click)="openTableAssociation(div.FormEditAssocButton.Name)" 
+                  mat-raised-button class="custom-button"
+
+                  >
+                  <mat-icon>list</mat-icon>
+                </button>
+              } @else {
+                <button type="button" 
+                  (click)="openTableAssociation(div.FormEditAssocButton.Name)" 
+                  mat-raised-button class="custom-button"
+
+                  [matTooltip]="div.FormEditAssocButton.ToolTipText"
+                  matTooltipPosition="above"
+                  [matTooltipDisabled]="!div.FormEditAssocButton.HasToolTip"
+                  >
+                  <mat-icon>list</mat-icon>
+                </button>
+              }
+
             }
             @if (div.FormSortAssocButton) {
-              <button type="button" (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
-                <mat-icon>shuffle</mat-icon>
-              </button>
+              @if (!div.FormSortAssocButton.HasToolTip) {
+                <button type="button" 
+                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                  mat-raised-button class="custom-button">
+                  <mat-icon>shuffle</mat-icon>
+                </button>
+              } @else {
+                                <button type="button" 
+                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                  mat-raised-button class="custom-button"
+                  
+                  [matTooltip]="div.FormSortAssocButton.ToolTipText"
+                  matTooltipPosition="above"
+                  [matTooltipDisabled]="!div.FormSortAssocButton.HasToolTip"
+                  >
+                  <mat-icon>shuffle</mat-icon>
+                </button>
+              }
+
             }
           </div>
         }

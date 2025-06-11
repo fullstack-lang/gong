@@ -14,6 +14,8 @@ export class FormSortAssocButtonAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
 
 	// insertion point for other decls
 

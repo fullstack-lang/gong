@@ -22,6 +22,9 @@ type FormEditAssocButton struct {
 
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
+
+	HasToolTip  bool
+	ToolTipText string
 }
 
 // OnAfterUpdate is called when the button is pressed

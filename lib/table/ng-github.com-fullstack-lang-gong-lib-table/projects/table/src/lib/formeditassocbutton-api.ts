@@ -17,6 +17,8 @@ export class FormEditAssocButtonAPI {
 	AssociationStorage: string = ""
 	HasChanged: boolean = false
 	IsForSavePurpose: boolean = false
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
 
 	// insertion point for other decls
 

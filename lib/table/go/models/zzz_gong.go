@@ -3830,7 +3830,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -3850,13 +3850,13 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case FormSortAssocButton:
-		res = []string{"Name", "Label"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText"}
 	case Option:
 		res = []string{"Name"}
 	case Row:
 		res = []string{"Name", "Cells", "IsChecked"}
 	case Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
 	}
 	return
 }
@@ -3995,7 +3995,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4015,13 +4015,13 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case *FormSortAssocButton:
-		res = []string{"Name", "Label"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText"}
 	case *Option:
 		res = []string{"Name"}
 	case *Row:
 		res = []string{"Name", "Cells", "IsChecked"}
 	case *Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
 	}
 	return
 }
@@ -4202,6 +4202,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
 			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case *FormField:
 		switch fieldName {
@@ -4403,6 +4409,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "Label":
 			res.valueString = inferedInstance.Label
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case *Option:
 		switch fieldName {
@@ -4466,6 +4478,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
 			res.valueBool = inferedInstance.HasSaveButton
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SaveButtonLabel":
+			res.valueString = inferedInstance.SaveButtonLabel
 		case "CanDragDropRows":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
 			res.valueBool = inferedInstance.CanDragDropRows
@@ -4632,6 +4646,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
 			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case FormField:
 		switch fieldName {
@@ -4833,6 +4853,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "Label":
 			res.valueString = inferedInstance.Label
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case Option:
 		switch fieldName {
@@ -4896,6 +4922,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
 			res.valueBool = inferedInstance.HasSaveButton
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SaveButtonLabel":
+			res.valueString = inferedInstance.SaveButtonLabel
 		case "CanDragDropRows":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
 			res.valueBool = inferedInstance.CanDragDropRows
