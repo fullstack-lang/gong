@@ -28,6 +28,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	}
 	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
 
+	if stager.embeddedDiagrams {
+		root.Name += " (embbeded in executable, for consultation only)"
+	}
+
 	// if diagram can be edited
 	// 1/ put a "add a class diagram" button
 	// 2/ put a "generate sss" button
