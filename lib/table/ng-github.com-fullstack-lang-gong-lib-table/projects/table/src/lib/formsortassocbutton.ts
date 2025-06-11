@@ -19,6 +19,8 @@ export class FormSortAssocButton {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Label: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -32,6 +34,8 @@ export function CopyFormSortAssocButtonToFormSortAssocButtonAPI(formsortassocbut
 	// insertion point for basic fields copy operations
 	formsortassocbuttonAPI.Name = formsortassocbutton.Name
 	formsortassocbuttonAPI.Label = formsortassocbutton.Label
+	formsortassocbuttonAPI.HasToolTip = formsortassocbutton.HasToolTip
+	formsortassocbuttonAPI.ToolTipText = formsortassocbutton.ToolTipText
 
 	// insertion point for pointer fields encoding
 
@@ -51,6 +55,8 @@ export function CopyFormSortAssocButtonAPIToFormSortAssocButton(formsortassocbut
 	// insertion point for basic fields copy operations
 	formsortassocbutton.Name = formsortassocbuttonAPI.Name
 	formsortassocbutton.Label = formsortassocbuttonAPI.Label
+	formsortassocbutton.HasToolTip = formsortassocbuttonAPI.HasToolTip
+	formsortassocbutton.ToolTipText = formsortassocbuttonAPI.ToolTipText
 
 	// insertion point for pointer fields encoding
 

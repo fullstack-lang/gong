@@ -80,15 +80,17 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		Label:              fieldName,
 		AssociationStorage: storage,
 		HasToolTip:         true,
-		ToolTipText:        "Edit what instances of `" + models.GetPointerToGongstructName[FieldType]() + "` are associated to this field",
+		ToolTipText:        "Edit list of the instances of `" + models.GetPointerToGongstructName[FieldType]() + "` associated to this field",
 	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
 	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, probe)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
-		Name:  fieldName,
-		Label: fieldName,
+		Name:        fieldName,
+		Label:       fieldName,
+		HasToolTip:  true,
+		ToolTipText: "Edit order within the list instances of `" + models.GetPointerToGongstructName[FieldType]() + "` associated to this field",
 	}).Stage(probe.formStage)
 	formDiv.FormSortAssocButton = formSortAssocButton
 	onSortingEditon := NewOnSortingEditon(instance, field, probe)

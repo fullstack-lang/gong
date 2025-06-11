@@ -121,9 +121,25 @@
 
             }
             @if (div.FormSortAssocButton) {
-              <button type="button" (click)="openTableSort(div.FormSortAssocButton.Name)" mat-raised-button class="custom-button">
-                <mat-icon>shuffle</mat-icon>
-              </button>
+              @if (!div.FormSortAssocButton.HasToolTip) {
+                <button type="button" 
+                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                  mat-raised-button class="custom-button">
+                  <mat-icon>shuffle</mat-icon>
+                </button>
+              } @else {
+                                <button type="button" 
+                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                  mat-raised-button class="custom-button"
+                  
+                  [matTooltip]="div.FormSortAssocButton.ToolTipText"
+                  matTooltipPosition="above"
+                  [matTooltipDisabled]="!div.FormSortAssocButton.HasToolTip"
+                  >
+                  <mat-icon>shuffle</mat-icon>
+                </button>
+              }
+
             }
           </div>
         }
