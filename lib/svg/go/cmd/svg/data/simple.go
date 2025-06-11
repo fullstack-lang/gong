@@ -171,8 +171,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.OriginalColor = ``
 	__Rect__000000_Start.FillOpacityWhenHovered = 0.500000
 	__Rect__000000_Start.OriginalFillOpacity = 0.000000
-	__Rect__000000_Start.CheckboxHasToolTip = true
-	__Rect__000000_Start.CheckboxToolTipText = `Start`
+	__Rect__000000_Start.HasToolTip = true
+	__Rect__000000_Start.ToolTipText = `Start`
 
 	__Rect__000001_End.Name = `End`
 	__Rect__000001_End.X = 700.000000
@@ -206,8 +206,8 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.OriginalColor = ``
 	__Rect__000001_End.FillOpacityWhenHovered = 0.000000
 	__Rect__000001_End.OriginalFillOpacity = 0.000000
-	__Rect__000001_End.CheckboxHasToolTip = false
-	__Rect__000001_End.CheckboxToolTipText = `End`
+	__Rect__000001_End.HasToolTip = false
+	__Rect__000001_End.ToolTipText = `End`
 
 	__RectAnchoredPath__000000_arrow.Name = `arrow`
 	__RectAnchoredPath__000000_arrow.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
@@ -412,8 +412,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000000_Top.RectAnchorType = models.RECT_TOP
 	__RectAnchoredRect__000000_Top.WidthFollowRect = false
 	__RectAnchoredRect__000000_Top.HeightFollowRect = false
-	__RectAnchoredRect__000000_Top.CheckboxHasToolTip = true
-	__RectAnchoredRect__000000_Top.CheckboxToolTipText = `top`
+	__RectAnchoredRect__000000_Top.HasToolTip = true
+	__RectAnchoredRect__000000_Top.ToolTipText = `top`
 	__RectAnchoredRect__000000_Top.Color = ``
 	__RectAnchoredRect__000000_Top.FillOpacity = 0.000000
 	__RectAnchoredRect__000000_Top.Stroke = `blue`
@@ -434,8 +434,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000001_TopLeft.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredRect__000001_TopLeft.WidthFollowRect = false
 	__RectAnchoredRect__000001_TopLeft.HeightFollowRect = false
-	__RectAnchoredRect__000001_TopLeft.CheckboxHasToolTip = true
-	__RectAnchoredRect__000001_TopLeft.CheckboxToolTipText = `RECT_TOP_LEFT`
+	__RectAnchoredRect__000001_TopLeft.HasToolTip = true
+	__RectAnchoredRect__000001_TopLeft.ToolTipText = `RECT_TOP_LEFT`
 	__RectAnchoredRect__000001_TopLeft.Color = ``
 	__RectAnchoredRect__000001_TopLeft.FillOpacity = 0.000000
 	__RectAnchoredRect__000001_TopLeft.Stroke = `red`
@@ -456,8 +456,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000002_TopRight.RectAnchorType = models.RECT_TOP_RIGHT
 	__RectAnchoredRect__000002_TopRight.WidthFollowRect = false
 	__RectAnchoredRect__000002_TopRight.HeightFollowRect = false
-	__RectAnchoredRect__000002_TopRight.CheckboxHasToolTip = false
-	__RectAnchoredRect__000002_TopRight.CheckboxToolTipText = ``
+	__RectAnchoredRect__000002_TopRight.HasToolTip = false
+	__RectAnchoredRect__000002_TopRight.ToolTipText = ``
 	__RectAnchoredRect__000002_TopRight.Color = ``
 	__RectAnchoredRect__000002_TopRight.FillOpacity = 0.000000
 	__RectAnchoredRect__000002_TopRight.Stroke = `yellow`
@@ -478,8 +478,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000003_Test.RectAnchorType = models.RECT_BOTTOM
 	__RectAnchoredRect__000003_Test.WidthFollowRect = false
 	__RectAnchoredRect__000003_Test.HeightFollowRect = false
-	__RectAnchoredRect__000003_Test.CheckboxHasToolTip = false
-	__RectAnchoredRect__000003_Test.CheckboxToolTipText = ``
+	__RectAnchoredRect__000003_Test.HasToolTip = false
+	__RectAnchoredRect__000003_Test.ToolTipText = ``
 	__RectAnchoredRect__000003_Test.Color = ``
 	__RectAnchoredRect__000003_Test.FillOpacity = 0.000000
 	__RectAnchoredRect__000003_Test.Stroke = `black`
@@ -500,8 +500,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000004_BottomLeft.RectAnchorType = models.RECT_BOTTOM_LEFT
 	__RectAnchoredRect__000004_BottomLeft.WidthFollowRect = false
 	__RectAnchoredRect__000004_BottomLeft.HeightFollowRect = false
-	__RectAnchoredRect__000004_BottomLeft.CheckboxHasToolTip = false
-	__RectAnchoredRect__000004_BottomLeft.CheckboxToolTipText = ``
+	__RectAnchoredRect__000004_BottomLeft.HasToolTip = false
+	__RectAnchoredRect__000004_BottomLeft.ToolTipText = ``
 	__RectAnchoredRect__000004_BottomLeft.Color = ``
 	__RectAnchoredRect__000004_BottomLeft.FillOpacity = 0.000000
 	__RectAnchoredRect__000004_BottomLeft.Stroke = `green`
@@ -522,8 +522,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000005_BottomLeftLeft.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
 	__RectAnchoredRect__000005_BottomLeftLeft.WidthFollowRect = false
 	__RectAnchoredRect__000005_BottomLeftLeft.HeightFollowRect = false
-	__RectAnchoredRect__000005_BottomLeftLeft.CheckboxHasToolTip = true
-	__RectAnchoredRect__000005_BottomLeftLeft.CheckboxToolTipText = `RECT_BOTTOM_LEFT_LEFT`
+	__RectAnchoredRect__000005_BottomLeftLeft.HasToolTip = true
+	__RectAnchoredRect__000005_BottomLeftLeft.ToolTipText = `RECT_BOTTOM_LEFT_LEFT`
 	__RectAnchoredRect__000005_BottomLeftLeft.Color = ``
 	__RectAnchoredRect__000005_BottomLeftLeft.FillOpacity = 0.000000
 	__RectAnchoredRect__000005_BottomLeftLeft.Stroke = `violet`
@@ -544,8 +544,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000006_BottomBottomLeft.RectAnchorType = models.RECT_BOTTOM_BOTTOM_LEFT
 	__RectAnchoredRect__000006_BottomBottomLeft.WidthFollowRect = false
 	__RectAnchoredRect__000006_BottomBottomLeft.HeightFollowRect = false
-	__RectAnchoredRect__000006_BottomBottomLeft.CheckboxHasToolTip = false
-	__RectAnchoredRect__000006_BottomBottomLeft.CheckboxToolTipText = ``
+	__RectAnchoredRect__000006_BottomBottomLeft.HasToolTip = false
+	__RectAnchoredRect__000006_BottomBottomLeft.ToolTipText = ``
 	__RectAnchoredRect__000006_BottomBottomLeft.Color = ``
 	__RectAnchoredRect__000006_BottomBottomLeft.FillOpacity = 0.000000
 	__RectAnchoredRect__000006_BottomBottomLeft.Stroke = `blue`
@@ -566,8 +566,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000007_BottomRight.RectAnchorType = models.RECT_BOTTOM_RIGHT
 	__RectAnchoredRect__000007_BottomRight.WidthFollowRect = false
 	__RectAnchoredRect__000007_BottomRight.HeightFollowRect = false
-	__RectAnchoredRect__000007_BottomRight.CheckboxHasToolTip = false
-	__RectAnchoredRect__000007_BottomRight.CheckboxToolTipText = ``
+	__RectAnchoredRect__000007_BottomRight.HasToolTip = false
+	__RectAnchoredRect__000007_BottomRight.ToolTipText = ``
 	__RectAnchoredRect__000007_BottomRight.Color = ``
 	__RectAnchoredRect__000007_BottomRight.FillOpacity = 0.000000
 	__RectAnchoredRect__000007_BottomRight.Stroke = `black`
@@ -588,8 +588,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000008_BottomInsideRight.RectAnchorType = models.RECT_BOTTOM_INSIDE_RIGHT
 	__RectAnchoredRect__000008_BottomInsideRight.WidthFollowRect = false
 	__RectAnchoredRect__000008_BottomInsideRight.HeightFollowRect = false
-	__RectAnchoredRect__000008_BottomInsideRight.CheckboxHasToolTip = false
-	__RectAnchoredRect__000008_BottomInsideRight.CheckboxToolTipText = ``
+	__RectAnchoredRect__000008_BottomInsideRight.HasToolTip = false
+	__RectAnchoredRect__000008_BottomInsideRight.ToolTipText = ``
 	__RectAnchoredRect__000008_BottomInsideRight.Color = ``
 	__RectAnchoredRect__000008_BottomInsideRight.FillOpacity = 0.000000
 	__RectAnchoredRect__000008_BottomInsideRight.Stroke = `red`
@@ -610,8 +610,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000009_Left.RectAnchorType = models.RECT_LEFT
 	__RectAnchoredRect__000009_Left.WidthFollowRect = false
 	__RectAnchoredRect__000009_Left.HeightFollowRect = false
-	__RectAnchoredRect__000009_Left.CheckboxHasToolTip = false
-	__RectAnchoredRect__000009_Left.CheckboxToolTipText = ``
+	__RectAnchoredRect__000009_Left.HasToolTip = false
+	__RectAnchoredRect__000009_Left.ToolTipText = ``
 	__RectAnchoredRect__000009_Left.Color = ``
 	__RectAnchoredRect__000009_Left.FillOpacity = 0.000000
 	__RectAnchoredRect__000009_Left.Stroke = `violet`
@@ -632,8 +632,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000010_Right.RectAnchorType = models.RECT_RIGHT
 	__RectAnchoredRect__000010_Right.WidthFollowRect = false
 	__RectAnchoredRect__000010_Right.HeightFollowRect = false
-	__RectAnchoredRect__000010_Right.CheckboxHasToolTip = false
-	__RectAnchoredRect__000010_Right.CheckboxToolTipText = ``
+	__RectAnchoredRect__000010_Right.HasToolTip = false
+	__RectAnchoredRect__000010_Right.ToolTipText = ``
 	__RectAnchoredRect__000010_Right.Color = ``
 	__RectAnchoredRect__000010_Right.FillOpacity = 0.000000
 	__RectAnchoredRect__000010_Right.Stroke = `black`
@@ -654,8 +654,8 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000011_Center.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredRect__000011_Center.WidthFollowRect = false
 	__RectAnchoredRect__000011_Center.HeightFollowRect = false
-	__RectAnchoredRect__000011_Center.CheckboxHasToolTip = false
-	__RectAnchoredRect__000011_Center.CheckboxToolTipText = ``
+	__RectAnchoredRect__000011_Center.HasToolTip = false
+	__RectAnchoredRect__000011_Center.ToolTipText = ``
 	__RectAnchoredRect__000011_Center.Color = ``
 	__RectAnchoredRect__000011_Center.FillOpacity = 0.000000
 	__RectAnchoredRect__000011_Center.Stroke = `black`

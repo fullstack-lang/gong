@@ -1977,10 +1977,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].OriginalFillOpacity = exprSign * fielValue
-				case "CheckboxToolTipText":
+				case "ToolTipText":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Rect[identifier].CheckboxToolTipText = fielValue
+					__gong__map_Rect[identifier].ToolTipText = fielValue
 				}
 			case "RectAnchoredPath":
 				switch fieldName {
@@ -2112,10 +2112,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_RectAnchoredRect[identifier].Y_Offset = exprSign * fielValue
-				case "CheckboxToolTipText":
+				case "ToolTipText":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_RectAnchoredRect[identifier].CheckboxToolTipText = fielValue
+					__gong__map_RectAnchoredRect[identifier].ToolTipText = fielValue
 				case "Color":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -2598,13 +2598,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Rect[identifier].ChangeColorWhenHovered = fielValue
-				case "CheckboxHasToolTip":
+				case "HasToolTip":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Rect[identifier].CheckboxHasToolTip = fielValue
+					__gong__map_Rect[identifier].HasToolTip = fielValue
 				}
 			case "RectAnchoredPath":
 				switch fieldName {
@@ -2634,13 +2634,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_RectAnchoredRect[identifier].HeightFollowRect = fielValue
-				case "CheckboxHasToolTip":
+				case "HasToolTip":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_RectAnchoredRect[identifier].CheckboxHasToolTip = fielValue
+					__gong__map_RectAnchoredRect[identifier].HasToolTip = fielValue
 				}
 			case "RectAnchoredText":
 				switch fieldName {
