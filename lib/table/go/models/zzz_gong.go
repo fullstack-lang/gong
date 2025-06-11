@@ -3856,7 +3856,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Row:
 		res = []string{"Name", "Cells", "IsChecked"}
 	case Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
 	}
 	return
 }
@@ -4021,7 +4021,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Row:
 		res = []string{"Name", "Cells", "IsChecked"}
 	case *Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
 	}
 	return
 }
@@ -4478,6 +4478,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
 			res.valueBool = inferedInstance.HasSaveButton
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SaveButtonLabel":
+			res.valueString = inferedInstance.SaveButtonLabel
 		case "CanDragDropRows":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
 			res.valueBool = inferedInstance.CanDragDropRows
@@ -4920,6 +4922,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
 			res.valueBool = inferedInstance.HasSaveButton
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "SaveButtonLabel":
+			res.valueString = inferedInstance.SaveButtonLabel
 		case "CanDragDropRows":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
 			res.valueBool = inferedInstance.CanDragDropRows
