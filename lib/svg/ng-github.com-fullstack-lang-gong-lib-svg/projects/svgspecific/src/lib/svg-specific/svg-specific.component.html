@@ -238,8 +238,8 @@
             (mouseenter)="onRectHover(rect, true)"
             (mouseleave)="onRectHover(rect, false)"
             
-            [matTooltip]="rect.CheckboxToolTipText"
-            [matTooltipDisabled]="!rect.CheckboxHasToolTip">
+            [matTooltip]="rect.ToolTipText"
+            [matTooltipDisabled]="!rect.HasToolTip">
             
             >
             @for(animate of rect.Animations; track animate) {
