@@ -1113,6 +1113,10 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.HasChanged), formDiv)
 		case "IsForSavePurpose":
 			FormDivBasicFieldToField(&(formeditassocbutton_.IsForSavePurpose), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(formeditassocbutton_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(formeditassocbutton_.ToolTipText), formDiv)
 		}
 	}
 
@@ -2072,6 +2076,10 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formsortassocbutton_.Name), formDiv)
 		case "Label":
 			FormDivBasicFieldToField(&(formsortassocbutton_.Label), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(formsortassocbutton_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(formsortassocbutton_.ToolTipText), formDiv)
 		}
 	}
 
@@ -2524,6 +2532,8 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(table_.HasCheckableRows), formDiv)
 		case "HasSaveButton":
 			FormDivBasicFieldToField(&(table_.HasSaveButton), formDiv)
+		case "SaveButtonLabel":
+			FormDivBasicFieldToField(&(table_.SaveButtonLabel), formDiv)
 		case "CanDragDropRows":
 			FormDivBasicFieldToField(&(table_.CanDragDropRows), formDiv)
 		case "HasCloseButton":

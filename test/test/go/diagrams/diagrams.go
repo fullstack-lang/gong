@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-12 00:31:28.493492 CEST"
-	const __write__utc_time__ = "2025-06-11 22:31:28.493492 UTC"
+	const __write__local_time = "2025-06-12 00:46:42.878992 CEST"
+	const __write__utc_time__ = "2025-06-11 22:46:42.878992 UTC"
 
-	const __commitId__ = "0000000015"
+	const __commitId__ = "0000000016"
 
 	// Declaration of instances to stage
 
@@ -67,7 +67,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
@@ -175,3 +175,4 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Associationtob)
 	// setup of LinkShape instances pointers
 }
+

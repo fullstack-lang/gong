@@ -10,6 +10,9 @@ type FormSortAssocButton struct {
 
 	// swagger:ignore
 	OnSortEdition FormSortAssocButtonInterface
+
+	HasToolTip  bool
+	ToolTipText string
 }
 
 // OnAfterUpdate is called when the button is pressed
