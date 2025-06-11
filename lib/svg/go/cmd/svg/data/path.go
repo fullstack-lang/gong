@@ -80,8 +80,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Host.OriginalColor = ``
 	__Rect__000000_Host.FillOpacityWhenHovered = 0.000000
 	__Rect__000000_Host.OriginalFillOpacity = 0.000000
-	__Rect__000000_Host.CheckboxHasToolTip = false
-	__Rect__000000_Host.CheckboxToolTipText = ``
+	__Rect__000000_Host.HasToolTip = false
+	__Rect__000000_Host.ToolTipText = ``
 
 	__RectAnchoredPath__000000_Anchored_Path.Name = `Anchored Path`
 	__RectAnchoredPath__000000_Anchored_Path.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`

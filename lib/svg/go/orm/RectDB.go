@@ -182,12 +182,12 @@ type RectDB struct {
 	// Declation for basic field rectDB.OriginalFillOpacity
 	OriginalFillOpacity_Data sql.NullFloat64
 
-	// Declation for basic field rectDB.CheckboxHasToolTip
+	// Declation for basic field rectDB.HasToolTip
 	// provide the sql storage for the boolan
-	CheckboxHasToolTip_Data sql.NullBool
+	HasToolTip_Data sql.NullBool
 
-	// Declation for basic field rectDB.CheckboxToolTipText
-	CheckboxToolTipText_Data sql.NullString
+	// Declation for basic field rectDB.ToolTipText
+	ToolTipText_Data sql.NullString
 
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
@@ -275,9 +275,9 @@ type RectWOP struct {
 
 	OriginalFillOpacity float64 `xlsx:"32"`
 
-	CheckboxHasToolTip bool `xlsx:"33"`
+	HasToolTip bool `xlsx:"33"`
 
-	CheckboxToolTipText string `xlsx:"34"`
+	ToolTipText string `xlsx:"34"`
 	// insertion for WOP pointer fields
 }
 
@@ -316,8 +316,8 @@ var Rect_Fields = []string{
 	"OriginalColor",
 	"FillOpacityWhenHovered",
 	"OriginalFillOpacity",
-	"CheckboxHasToolTip",
-	"CheckboxToolTipText",
+	"HasToolTip",
+	"ToolTipText",
 }
 
 type BackRepoRectStruct struct {
@@ -799,11 +799,11 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 	rectDB.OriginalFillOpacity_Data.Float64 = rect.OriginalFillOpacity
 	rectDB.OriginalFillOpacity_Data.Valid = true
 
-	rectDB.CheckboxHasToolTip_Data.Bool = rect.CheckboxHasToolTip
-	rectDB.CheckboxHasToolTip_Data.Valid = true
+	rectDB.HasToolTip_Data.Bool = rect.HasToolTip
+	rectDB.HasToolTip_Data.Valid = true
 
-	rectDB.CheckboxToolTipText_Data.String = rect.CheckboxToolTipText
-	rectDB.CheckboxToolTipText_Data.Valid = true
+	rectDB.ToolTipText_Data.String = rect.ToolTipText
+	rectDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRect_WOP
@@ -906,11 +906,11 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 	rectDB.OriginalFillOpacity_Data.Float64 = rect.OriginalFillOpacity
 	rectDB.OriginalFillOpacity_Data.Valid = true
 
-	rectDB.CheckboxHasToolTip_Data.Bool = rect.CheckboxHasToolTip
-	rectDB.CheckboxHasToolTip_Data.Valid = true
+	rectDB.HasToolTip_Data.Bool = rect.HasToolTip
+	rectDB.HasToolTip_Data.Valid = true
 
-	rectDB.CheckboxToolTipText_Data.String = rect.CheckboxToolTipText
-	rectDB.CheckboxToolTipText_Data.Valid = true
+	rectDB.ToolTipText_Data.String = rect.ToolTipText
+	rectDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectWOP
@@ -1013,11 +1013,11 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 	rectDB.OriginalFillOpacity_Data.Float64 = rect.OriginalFillOpacity
 	rectDB.OriginalFillOpacity_Data.Valid = true
 
-	rectDB.CheckboxHasToolTip_Data.Bool = rect.CheckboxHasToolTip
-	rectDB.CheckboxHasToolTip_Data.Valid = true
+	rectDB.HasToolTip_Data.Bool = rect.HasToolTip
+	rectDB.HasToolTip_Data.Valid = true
 
-	rectDB.CheckboxToolTipText_Data.String = rect.CheckboxToolTipText
-	rectDB.CheckboxToolTipText_Data.Valid = true
+	rectDB.ToolTipText_Data.String = rect.ToolTipText
+	rectDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsToRect
@@ -1055,8 +1055,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.OriginalColor = rectDB.OriginalColor_Data.String
 	rect.FillOpacityWhenHovered = rectDB.FillOpacityWhenHovered_Data.Float64
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
-	rect.CheckboxHasToolTip = rectDB.CheckboxHasToolTip_Data.Bool
-	rect.CheckboxToolTipText = rectDB.CheckboxToolTipText_Data.String
+	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
+	rect.ToolTipText = rectDB.ToolTipText_Data.String
 }
 
 // CopyBasicFieldsToRect_WOP
@@ -1094,8 +1094,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.OriginalColor = rectDB.OriginalColor_Data.String
 	rect.FillOpacityWhenHovered = rectDB.FillOpacityWhenHovered_Data.Float64
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
-	rect.CheckboxHasToolTip = rectDB.CheckboxHasToolTip_Data.Bool
-	rect.CheckboxToolTipText = rectDB.CheckboxToolTipText_Data.String
+	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
+	rect.ToolTipText = rectDB.ToolTipText_Data.String
 }
 
 // CopyBasicFieldsToRectWOP
@@ -1134,8 +1134,8 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.OriginalColor = rectDB.OriginalColor_Data.String
 	rect.FillOpacityWhenHovered = rectDB.FillOpacityWhenHovered_Data.Float64
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
-	rect.CheckboxHasToolTip = rectDB.CheckboxHasToolTip_Data.Bool
-	rect.CheckboxToolTipText = rectDB.CheckboxToolTipText_Data.String
+	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
+	rect.ToolTipText = rectDB.ToolTipText_Data.String
 }
 
 // Backup generates a json file from a slice of all RectDB instances in the backrepo
