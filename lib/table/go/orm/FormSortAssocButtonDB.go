@@ -66,6 +66,13 @@ type FormSortAssocButtonDB struct {
 	// Declation for basic field formsortassocbuttonDB.Label
 	Label_Data sql.NullString
 
+	// Declation for basic field formsortassocbuttonDB.HasToolTip
+	// provide the sql storage for the boolan
+	HasToolTip_Data sql.NullBool
+
+	// Declation for basic field formsortassocbuttonDB.ToolTipText
+	ToolTipText_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormSortAssocButtonPointersEncoding
@@ -91,6 +98,10 @@ type FormSortAssocButtonWOP struct {
 	Name string `xlsx:"1"`
 
 	Label string `xlsx:"2"`
+
+	HasToolTip bool `xlsx:"3"`
+
+	ToolTipText string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -99,6 +110,8 @@ var FormSortAssocButton_Fields = []string{
 	"ID",
 	"Name",
 	"Label",
+	"HasToolTip",
+	"ToolTipText",
 }
 
 type BackRepoFormSortAssocButtonStruct struct {
@@ -381,6 +394,12 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.Label_Data.String = formsortassocbutton.Label
 	formsortassocbuttonDB.Label_Data.Valid = true
+
+	formsortassocbuttonDB.HasToolTip_Data.Bool = formsortassocbutton.HasToolTip
+	formsortassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
+	formsortassocbuttonDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormSortAssocButton_WOP
@@ -392,6 +411,12 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.Label_Data.String = formsortassocbutton.Label
 	formsortassocbuttonDB.Label_Data.Valid = true
+
+	formsortassocbuttonDB.HasToolTip_Data.Bool = formsortassocbutton.HasToolTip
+	formsortassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
+	formsortassocbuttonDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormSortAssocButtonWOP
@@ -403,6 +428,12 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.Label_Data.String = formsortassocbutton.Label
 	formsortassocbuttonDB.Label_Data.Valid = true
+
+	formsortassocbuttonDB.HasToolTip_Data.Bool = formsortassocbutton.HasToolTip
+	formsortassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
+	formsortassocbuttonDB.ToolTipText_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormSortAssocButton
@@ -410,6 +441,8 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formsortassocbutton.Name = formsortassocbuttonDB.Name_Data.String
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
+	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
+	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
 }
 
 // CopyBasicFieldsToFormSortAssocButton_WOP
@@ -417,6 +450,8 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formsortassocbutton.Name = formsortassocbuttonDB.Name_Data.String
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
+	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
+	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
 }
 
 // CopyBasicFieldsToFormSortAssocButtonWOP
@@ -425,6 +460,8 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	// insertion point for checkout of basic fields (back repo to stage)
 	formsortassocbutton.Name = formsortassocbuttonDB.Name_Data.String
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
+	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
+	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
 }
 
 // Backup generates a json file from a slice of all FormSortAssocButtonDB instances in the backrepo
