@@ -144,6 +144,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	table.HasPaginator = false
 	table.HasCheckableRows = true
 	table.HasSaveButton = true
+	table.SaveButtonLabel = "Close form"
 
 	column := new(gongtable_models.DisplayedColumn).Stage(tableStageForSelection)
 	column.Name = "ID"

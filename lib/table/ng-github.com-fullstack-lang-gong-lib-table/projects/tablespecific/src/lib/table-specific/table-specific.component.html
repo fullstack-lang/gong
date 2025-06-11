@@ -11,9 +11,18 @@
 
         <div class="center-toolbar">
             <!-- Save Button -->
-            <button class="table__save" mat-button *ngIf="selectedTable.HasSaveButton" (click)="save()">
-                Save
-            </button>
+             @if (selectedTable.HasSaveButton) {
+                @if (selectedTable.SaveButtonLabel != "") {
+                    <button class="table__save" mat-button (click)="save()">
+                        {{selectedTable.SaveButtonLabel}}
+                    </button>
+                } @else {
+                    <button class="table__save" mat-button (click)="save()">
+                        Save
+                    </button>
+                }
+             }
+
             <button class="table__save" mat-button *ngIf="selectedTable.HasCloseButton" (click)="close()">
                 Close
             </button>

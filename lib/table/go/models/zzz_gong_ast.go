@@ -1451,6 +1451,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Table[identifier].Name = fielValue
+				case "SaveButtonLabel":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Table[identifier].SaveButtonLabel = fielValue
 				case "NbOfStickyColumns":
 					// convert string to int
 					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
