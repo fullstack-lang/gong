@@ -79,6 +79,8 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		Name:               fieldName,
 		Label:              fieldName,
 		AssociationStorage: storage,
+		HasToolTip:         true,
+		ToolTipText:        "Edit what instances of `" + models.GetPointerToGongstructName[FieldType]() + "` are associated to this field",
 	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
 	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, probe)

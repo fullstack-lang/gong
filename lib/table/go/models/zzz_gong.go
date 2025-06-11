@@ -3830,7 +3830,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -3995,7 +3995,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4202,6 +4202,15 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
 			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
+		case "ToolTipPosition":
+			enum := inferedInstance.ToolTipPosition
+			res.valueString = enum.ToCodeString()
 		}
 	case *FormField:
 		switch fieldName {
@@ -4632,6 +4641,15 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
 			res.valueBool = inferedInstance.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
+		case "ToolTipPosition":
+			enum := inferedInstance.ToolTipPosition
+			res.valueString = enum.ToCodeString()
 		}
 	case FormField:
 		switch fieldName {
