@@ -23,6 +23,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-12 00:31:28.493492 CEST"
+	const __write__utc_time__ = "2025-06-11 22:31:28.493492 UTC"
+
+	const __commitId__ = "0000000015"
+
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
@@ -93,8 +98,8 @@ func _(stage *models.Stage) {
 	__GongEnumValueShape__000002_ENUM_VAL1_.IdentifierMeta = ref_models.ENUM_VAL1
 
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
-	__GongStructShape__000000_Default_Astruct.X = 153.000000
-	__GongStructShape__000000_Default_Astruct.Y = 41.000000
+	__GongStructShape__000000_Default_Astruct.X = 146.000000
+	__GongStructShape__000000_Default_Astruct.Y = 47.000000
 	__GongStructShape__000000_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
 	__GongStructShape__000000_Default_Astruct.ShowNbInstances = false
 	__GongStructShape__000000_Default_Astruct.NbInstances = 0
