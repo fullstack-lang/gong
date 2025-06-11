@@ -77,6 +77,16 @@ type FormEditAssocButtonDB struct {
 	// provide the sql storage for the boolan
 	IsForSavePurpose_Data sql.NullBool
 
+	// Declation for basic field formeditassocbuttonDB.HasToolTip
+	// provide the sql storage for the boolan
+	HasToolTip_Data sql.NullBool
+
+	// Declation for basic field formeditassocbuttonDB.ToolTipText
+	ToolTipText_Data sql.NullString
+
+	// Declation for basic field formeditassocbuttonDB.ToolTipPosition
+	ToolTipPosition_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormEditAssocButtonPointersEncoding
@@ -108,6 +118,12 @@ type FormEditAssocButtonWOP struct {
 	HasChanged bool `xlsx:"4"`
 
 	IsForSavePurpose bool `xlsx:"5"`
+
+	HasToolTip bool `xlsx:"6"`
+
+	ToolTipText string `xlsx:"7"`
+
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -119,6 +135,9 @@ var FormEditAssocButton_Fields = []string{
 	"AssociationStorage",
 	"HasChanged",
 	"IsForSavePurpose",
+	"HasToolTip",
+	"ToolTipText",
+	"ToolTipPosition",
 }
 
 type BackRepoFormEditAssocButtonStruct struct {
@@ -410,6 +429,15 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
 	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
+
+	formeditassocbuttonDB.HasToolTip_Data.Bool = formeditassocbutton.HasToolTip
+	formeditassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipText_Data.String = formeditassocbutton.ToolTipText
+	formeditassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipPosition_Data.String = formeditassocbutton.ToolTipPosition.ToString()
+	formeditassocbuttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButton_WOP
@@ -430,6 +458,15 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
 	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
+
+	formeditassocbuttonDB.HasToolTip_Data.Bool = formeditassocbutton.HasToolTip
+	formeditassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipText_Data.String = formeditassocbutton.ToolTipText
+	formeditassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipPosition_Data.String = formeditassocbutton.ToolTipPosition.ToString()
+	formeditassocbuttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormEditAssocButtonWOP
@@ -450,6 +487,15 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsFromFormEditA
 
 	formeditassocbuttonDB.IsForSavePurpose_Data.Bool = formeditassocbutton.IsForSavePurpose
 	formeditassocbuttonDB.IsForSavePurpose_Data.Valid = true
+
+	formeditassocbuttonDB.HasToolTip_Data.Bool = formeditassocbutton.HasToolTip
+	formeditassocbuttonDB.HasToolTip_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipText_Data.String = formeditassocbutton.ToolTipText
+	formeditassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formeditassocbuttonDB.ToolTipPosition_Data.String = formeditassocbutton.ToolTipPosition.ToString()
+	formeditassocbuttonDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormEditAssocButton
@@ -460,6 +506,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
 	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
+	formeditassocbutton.HasToolTip = formeditassocbuttonDB.HasToolTip_Data.Bool
+	formeditassocbutton.ToolTipText = formeditassocbuttonDB.ToolTipText_Data.String
+	formeditassocbutton.ToolTipPosition.FromString(formeditassocbuttonDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToFormEditAssocButton_WOP
@@ -470,6 +519,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
 	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
+	formeditassocbutton.HasToolTip = formeditassocbuttonDB.HasToolTip_Data.Bool
+	formeditassocbutton.ToolTipText = formeditassocbuttonDB.ToolTipText_Data.String
+	formeditassocbutton.ToolTipPosition.FromString(formeditassocbuttonDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToFormEditAssocButtonWOP
@@ -481,6 +533,9 @@ func (formeditassocbuttonDB *FormEditAssocButtonDB) CopyBasicFieldsToFormEditAss
 	formeditassocbutton.AssociationStorage = formeditassocbuttonDB.AssociationStorage_Data.String
 	formeditassocbutton.HasChanged = formeditassocbuttonDB.HasChanged_Data.Bool
 	formeditassocbutton.IsForSavePurpose = formeditassocbuttonDB.IsForSavePurpose_Data.Bool
+	formeditassocbutton.HasToolTip = formeditassocbuttonDB.HasToolTip_Data.Bool
+	formeditassocbutton.ToolTipText = formeditassocbuttonDB.ToolTipText_Data.String
+	formeditassocbutton.ToolTipPosition.FromString(formeditassocbuttonDB.ToolTipPosition_Data.String)
 }
 
 // Backup generates a json file from a slice of all FormEditAssocButtonDB instances in the backrepo
