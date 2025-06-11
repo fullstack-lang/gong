@@ -78,7 +78,7 @@ func computeLCS(a, b []string) []DiffOp {
 			if a[i-1] == b[j-1] {
 				lcs[i][j] = lcs[i-1][j-1] + 1
 			} else {
-				lcs[i][j] = max(lcs[i-1][j], lcs[i][j-1])
+				lcs[i][j] = diff_max(lcs[i-1][j], lcs[i][j-1])
 			}
 		}
 	}
@@ -171,7 +171,7 @@ func groupIntoHunks(ops []DiffOp) []DiffHunk {
 			// Ensure we have a current hunk for changes
 			if currentHunk == nil {
 				// Include some context before
-				contextStart := max(0, i-contextBefore)
+				contextStart := diff_max(0, i-contextBefore)
 				currentHunk = &DiffHunk{
 					OldStart: oldLine - (i - contextStart),
 					NewStart: newLine - (i - contextStart),
@@ -349,7 +349,7 @@ func readRemainingLines(scanner *bufio.Scanner) string {
 	return result.String()
 }
 
-func max(a, b int) int {
+func diff_max(a, b int) int {
 	if a > b {
 		return a
 	}
