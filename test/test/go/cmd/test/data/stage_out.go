@@ -23,6 +23,9 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-11 06:18:20.155172 CEST"
+	const __write__utc_time__ = "2025-06-11 04:18:20.155172 UTC"
+
 	// Declaration of instances to stage
 
 	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
@@ -60,8 +63,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
-
+	__Astruct__000000_A1.Duration1 = -79653000000000
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
 
@@ -76,7 +78,6 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 796530000000000000
-
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
@@ -92,7 +93,6 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = -79653000000000
-
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
@@ -107,7 +107,6 @@ Second Line`
 	__Astruct__000003_A3.Intfield = 0
 	__Astruct__000003_A3.Anotherbooleanfield = false
 	__Astruct__000003_A3.Duration1 = 0
-
 	__Astruct__000003_A3.TextFieldBespokeSize = ``
 	__Astruct__000003_A3.TextArea = ``
 
@@ -145,9 +144,9 @@ Second Line`
 	// Setup of pointers
 	// setup of Astruct instances pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	// setup of AstructBstruct2Use instances pointers
