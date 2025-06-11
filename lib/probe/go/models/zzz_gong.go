@@ -79,7 +79,9 @@ type GongStructInterface interface {
 // Stage enables storage of staged instances
 // swagger:ignore
 type Stage struct {
-	name string
+	name            string
+	commitId        uint // commitId is updated at each commit
+	commitTimeStamp time.Time
 
 	// insertion point for definition of arrays registering instances
 	Probe2s           map[*Probe2]any
@@ -328,6 +330,8 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
+	stage.commitId++
+	stage.commitTimeStamp = time.Now()
 
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
