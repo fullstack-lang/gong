@@ -171,13 +171,28 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  gongNodeToMatTreeNode(nodeDB: tree.Node): Node {
-    var matTreeNode: Node = { name: nodeDB.Name, gongNode: nodeDB, children: [] }
-    if (nodeDB.Children != undefined) {
-      matTreeNode.children = nodeDB.Children.map(child => this.gongNodeToMatTreeNode(child))
+  gongNodeToMatTreeNode(nodeDB: tree.Node, visited: Set<tree.Node> = new Set()): Node {
+    // Check if we've already visited this node
+    if (visited.has(nodeDB)) {
+      // Return a node without children to break the cycle
+      return { name: nodeDB.Name + ' (cycle detected)', gongNode: nodeDB, children: [] };
     }
 
-    return matTreeNode
+    // Mark this node as visited
+    visited.add(nodeDB);
+
+    var matTreeNode: Node = { name: nodeDB.Name, gongNode: nodeDB, children: [] };
+    
+    if (nodeDB.Children != undefined) {
+      matTreeNode.children = nodeDB.Children.map(child => 
+        this.gongNodeToMatTreeNode(child, visited)
+      );
+    }
+
+    // Remove from visited set after processing (allows same node in different branches)
+    visited.delete(nodeDB);
+    
+    return matTreeNode;
   }
 
   toggleNodeExpansion(node: FlatNode): void {
