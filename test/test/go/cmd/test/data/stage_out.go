@@ -23,6 +23,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-11 06:39:14.683154 CEST"
+	const __write__utc_time__ = "2025-06-11 04:39:14.683154 UTC"
+
+	const __commitId__ = "0000000007"
+
 	// Declaration of instances to stage
 
 	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
@@ -60,8 +65,7 @@ Second Line`
 	__Astruct__000000_A1.Floatfield = 0.000000
 	__Astruct__000000_A1.Intfield = 3
 	__Astruct__000000_A1.Anotherbooleanfield = false
-	__Astruct__000000_A1.Duration1 = 79653000000000
-
+	__Astruct__000000_A1.Duration1 = -79653000000000
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
 	__Astruct__000000_A1.TextArea = ``
 
@@ -76,7 +80,6 @@ Second Line`
 	__Astruct__000001_A2.Intfield = 0
 	__Astruct__000001_A2.Anotherbooleanfield = false
 	__Astruct__000001_A2.Duration1 = 796530000000000000
-
 	__Astruct__000001_A2.TextFieldBespokeSize = ``
 	__Astruct__000001_A2.TextArea = ``
 
@@ -92,7 +95,6 @@ Second Line`
 	__Astruct__000002_A3.Intfield = 0
 	__Astruct__000002_A3.Anotherbooleanfield = false
 	__Astruct__000002_A3.Duration1 = -79653000000000
-
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
@@ -107,7 +109,6 @@ Second Line`
 	__Astruct__000003_A3.Intfield = 0
 	__Astruct__000003_A3.Anotherbooleanfield = false
 	__Astruct__000003_A3.Duration1 = 0
-
 	__Astruct__000003_A3.TextFieldBespokeSize = ``
 	__Astruct__000003_A3.TextArea = ``
 
