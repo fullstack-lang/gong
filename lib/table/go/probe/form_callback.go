@@ -1113,6 +1113,12 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.HasChanged), formDiv)
 		case "IsForSavePurpose":
 			FormDivBasicFieldToField(&(formeditassocbutton_.IsForSavePurpose), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(formeditassocbutton_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(formeditassocbutton_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(formeditassocbutton_.ToolTipPosition), formDiv)
 		}
 	}
 

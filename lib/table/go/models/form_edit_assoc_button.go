@@ -22,7 +22,20 @@ type FormEditAssocButton struct {
 
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
+
+	HasToolTip      bool
+	ToolTipText     string
+	ToolTipPosition ToolTipPositionEnum
 }
+
+type ToolTipPositionEnum string
+
+const (
+	Below ToolTipPositionEnum = "below"
+	Above ToolTipPositionEnum = "above"
+	Left  ToolTipPositionEnum = "left"
+	Right ToolTipPositionEnum = "right"
+)
 
 // OnAfterUpdate is called when the button is pressed
 func (formEditAssocButton *FormEditAssocButton) OnAfterUpdate(

@@ -22,6 +22,9 @@ export class FormEditAssocButton {
 	AssociationStorage: string = ""
 	HasChanged: boolean = false
 	IsForSavePurpose: boolean = false
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -38,6 +41,9 @@ export function CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbut
 	formeditassocbuttonAPI.AssociationStorage = formeditassocbutton.AssociationStorage
 	formeditassocbuttonAPI.HasChanged = formeditassocbutton.HasChanged
 	formeditassocbuttonAPI.IsForSavePurpose = formeditassocbutton.IsForSavePurpose
+	formeditassocbuttonAPI.HasToolTip = formeditassocbutton.HasToolTip
+	formeditassocbuttonAPI.ToolTipText = formeditassocbutton.ToolTipText
+	formeditassocbuttonAPI.ToolTipPosition = formeditassocbutton.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 
@@ -60,6 +66,9 @@ export function CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbut
 	formeditassocbutton.AssociationStorage = formeditassocbuttonAPI.AssociationStorage
 	formeditassocbutton.HasChanged = formeditassocbuttonAPI.HasChanged
 	formeditassocbutton.IsForSavePurpose = formeditassocbuttonAPI.IsForSavePurpose
+	formeditassocbutton.HasToolTip = formeditassocbuttonAPI.HasToolTip
+	formeditassocbutton.ToolTipText = formeditassocbuttonAPI.ToolTipText
+	formeditassocbutton.ToolTipPosition = formeditassocbuttonAPI.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 
