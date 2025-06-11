@@ -791,13 +791,11 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
 
-	now := time.Now()
-
 	// Local time with timezone
-	localTimestamp := now.Format("2006-01-02 15:04:05.000000 MST")
+	localTimestamp := stage.commitTimeStamp.Format("2006-01-02 15:04:05.000000 MST")
 
 	// UTC time
-	utcTimestamp := now.UTC().Format("2006-01-02 15:04:05.000000 UTC")
+	utcTimestamp := stage.commitTimeStamp.UTC().Format("2006-01-02 15:04:05.000000 UTC")
 	res = strings.ReplaceAll(res, "{{LocalTimeStamp}}", localTimestamp)
 	res = strings.ReplaceAll(res, "{{UTCTimeStamp}}", utcTimestamp)
 	res = strings.ReplaceAll(res, "{{CommitId}}", fmt.Sprintf("%.10d", stage.commitId))
