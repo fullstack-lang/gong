@@ -89,6 +89,9 @@ type TableDB struct {
 	// provide the sql storage for the boolan
 	HasSaveButton_Data sql.NullBool
 
+	// Declation for basic field tableDB.SaveButtonLabel
+	SaveButtonLabel_Data sql.NullString
+
 	// Declation for basic field tableDB.CanDragDropRows
 	// provide the sql storage for the boolan
 	CanDragDropRows_Data sql.NullBool
@@ -138,13 +141,15 @@ type TableWOP struct {
 
 	HasSaveButton bool `xlsx:"6"`
 
-	CanDragDropRows bool `xlsx:"7"`
+	SaveButtonLabel string `xlsx:"7"`
 
-	HasCloseButton bool `xlsx:"8"`
+	CanDragDropRows bool `xlsx:"8"`
 
-	SavingInProgress bool `xlsx:"9"`
+	HasCloseButton bool `xlsx:"9"`
 
-	NbOfStickyColumns int `xlsx:"10"`
+	SavingInProgress bool `xlsx:"10"`
+
+	NbOfStickyColumns int `xlsx:"11"`
 	// insertion for WOP pointer fields
 }
 
@@ -157,6 +162,7 @@ var Table_Fields = []string{
 	"HasPaginator",
 	"HasCheckableRows",
 	"HasSaveButton",
+	"SaveButtonLabel",
 	"CanDragDropRows",
 	"HasCloseButton",
 	"SavingInProgress",
@@ -510,6 +516,9 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable(table *models.Table) {
 	tableDB.HasSaveButton_Data.Bool = table.HasSaveButton
 	tableDB.HasSaveButton_Data.Valid = true
 
+	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
+	tableDB.SaveButtonLabel_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -544,6 +553,9 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable_WOP(table *models.Table_WOP) {
 
 	tableDB.HasSaveButton_Data.Bool = table.HasSaveButton
 	tableDB.HasSaveButton_Data.Valid = true
+
+	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
+	tableDB.SaveButtonLabel_Data.Valid = true
 
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
@@ -580,6 +592,9 @@ func (tableDB *TableDB) CopyBasicFieldsFromTableWOP(table *TableWOP) {
 	tableDB.HasSaveButton_Data.Bool = table.HasSaveButton
 	tableDB.HasSaveButton_Data.Valid = true
 
+	tableDB.SaveButtonLabel_Data.String = table.SaveButtonLabel
+	tableDB.SaveButtonLabel_Data.Valid = true
+
 	tableDB.CanDragDropRows_Data.Bool = table.CanDragDropRows
 	tableDB.CanDragDropRows_Data.Valid = true
 
@@ -602,6 +617,7 @@ func (tableDB *TableDB) CopyBasicFieldsToTable(table *models.Table) {
 	table.HasPaginator = tableDB.HasPaginator_Data.Bool
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
+	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -617,6 +633,7 @@ func (tableDB *TableDB) CopyBasicFieldsToTable_WOP(table *models.Table_WOP) {
 	table.HasPaginator = tableDB.HasPaginator_Data.Bool
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
+	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool
@@ -633,6 +650,7 @@ func (tableDB *TableDB) CopyBasicFieldsToTableWOP(table *TableWOP) {
 	table.HasPaginator = tableDB.HasPaginator_Data.Bool
 	table.HasCheckableRows = tableDB.HasCheckableRows_Data.Bool
 	table.HasSaveButton = tableDB.HasSaveButton_Data.Bool
+	table.SaveButtonLabel = tableDB.SaveButtonLabel_Data.String
 	table.CanDragDropRows = tableDB.CanDragDropRows_Data.Bool
 	table.HasCloseButton = tableDB.HasCloseButton_Data.Bool
 	table.SavingInProgress = tableDB.SavingInProgress_Data.Bool

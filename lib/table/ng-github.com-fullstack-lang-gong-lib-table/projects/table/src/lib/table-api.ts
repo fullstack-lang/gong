@@ -20,6 +20,7 @@ export class TableAPI {
 	HasPaginator: boolean = false
 	HasCheckableRows: boolean = false
 	HasSaveButton: boolean = false
+	SaveButtonLabel: string = ""
 	CanDragDropRows: boolean = false
 	HasCloseButton: boolean = false
 	SavingInProgress: boolean = false

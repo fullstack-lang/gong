@@ -401,6 +401,8 @@ type Table_WOP struct {
 
 	HasSaveButton bool
 
+	SaveButtonLabel string
+
 	CanDragDropRows bool
 
 	HasCloseButton bool
@@ -418,6 +420,7 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.HasPaginator = from.HasPaginator
 	to.HasCheckableRows = from.HasCheckableRows
 	to.HasSaveButton = from.HasSaveButton
+	to.SaveButtonLabel = from.SaveButtonLabel
 	to.CanDragDropRows = from.CanDragDropRows
 	to.HasCloseButton = from.HasCloseButton
 	to.SavingInProgress = from.SavingInProgress
