@@ -45,7 +45,8 @@ func _(stage *models.Stage) {
 	// Setup of values{{ValueInitializers}}
 
 	// Setup of pointers{{PointersInitializers}}
-}`
+}
+`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)`
@@ -846,6 +847,13 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
 	}
+
+	if stage.generatesDiff {
+		diff := ComputeDiff(stage.contentWhenParsed, res)
+		os.WriteFile(fmt.Sprintf("%s-%.10d-%.10d.diff", name, stage.commitIdWhenParsed, stage.commitId), []byte(diff), os.FileMode(0666))
+	}
+	stage.contentWhenParsed = res
+	stage.commitIdWhenParsed = stage.commitId
 
 	fmt.Fprintln(file, res)
 }
