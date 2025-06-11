@@ -42,3 +42,4 @@ lib/probe/go/cmd/probe/probe
 lib/ssg/go/cmd/ssg/ssg
 lib/doc2/go/cmd/doc2/doc2
 test/test/go/cmd/test/~$foo.xlsx
+test/test/go/cmd/test/data/stage.go-*.diff
