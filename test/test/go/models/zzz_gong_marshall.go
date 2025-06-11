@@ -35,6 +35,9 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "{{LocalTimeStamp}}"
+	const __write__utc_time__ = "{{UTCTimeStamp}}"
+
 	// Declaration of instances to stage{{Identifiers}}
 
 	// Setup of values{{ValueInitializers}}
@@ -785,6 +788,16 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
 	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
 	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+
+	now := time.Now()
+
+	// Local time with timezone
+	localTimestamp := now.Format("2006-01-02 15:04:05.000000 MST")
+
+	// UTC time
+	utcTimestamp := now.UTC().Format("2006-01-02 15:04:05.000000 UTC")
+	res = strings.ReplaceAll(res, "{{LocalTimeStamp}}", localTimestamp)
+	res = strings.ReplaceAll(res, "{{UTCTimeStamp}}", utcTimestamp)
 
 	if stage.MetaPackageImportAlias != "" {
 		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
