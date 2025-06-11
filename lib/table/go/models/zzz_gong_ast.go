@@ -1256,6 +1256,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FormEditAssocButton[identifier].AssociationStorage = fielValue
+				case "ToolTipText":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FormEditAssocButton[identifier].ToolTipText = fielValue
 				}
 			case "FormField":
 				switch fieldName {
@@ -1561,6 +1565,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_FormEditAssocButton[identifier].IsForSavePurpose = fielValue
+				case "HasToolTip":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_FormEditAssocButton[identifier].HasToolTip = fielValue
 				}
 			case "FormField":
 				switch fieldName {
@@ -1868,6 +1879,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "FormEditAssocButton":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "ToolTipPosition":
+						var val ToolTipPositionEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_FormEditAssocButton[identifier].ToolTipPosition = ToolTipPositionEnum(val)
 					}
 				case "FormField":
 					switch fieldName {
