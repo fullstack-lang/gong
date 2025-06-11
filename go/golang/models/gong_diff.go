@@ -1,4 +1,6 @@
-// generated code - do not edit
+package models
+
+const ModelGongDiffFileTemplate = `// generated code - do not edit
 package models
 
 import (
@@ -356,3 +358,4 @@ func diff_max(a, b int) int {
 	}
 	return b
 }
+`
