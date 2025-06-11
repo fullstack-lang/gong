@@ -70,10 +70,6 @@ func Prepare(
 	splits := strings.Split(doc2StackName, ":")
 	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
 
-	stage.Checkout()
-	stage.Reset()
-	stage.Commit()
-
 	if !embeddedDiagrams {
 		err := models.ParseAstFile(stage, "../../diagrams/diagrams.go")
 
@@ -97,10 +93,6 @@ func Prepare(
 			log.Println("no file to read " + err.Error())
 		}
 	}
-
-	stage.Commit()
-
-	stage.Checkout()
 
 	treeStage, _ := tree_fullstack.NewStackInstance(r, doc2StackName+":doc2-sidebar", "", "")
 	svgStage, _ := svg_fullstack.NewStackInstance(r, doc2StackName+":doc2-svg", "", "", "")
