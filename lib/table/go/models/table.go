@@ -11,7 +11,8 @@ type Table struct {
 
 	HasCheckableRows bool
 
-	HasSaveButton bool
+	HasSaveButton   bool
+	SaveButtonLabel string
 
 	CanDragDropRows bool
 	HasCloseButton  bool // Is used in case of drag drop since drag drop operation save the result

@@ -144,6 +144,10 @@ type FormEditAssocButton_WOP struct {
 	HasChanged bool
 
 	IsForSavePurpose bool
+
+	HasToolTip bool
+
+	ToolTipText string
 }
 
 func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
@@ -153,6 +157,8 @@ func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
 	to.AssociationStorage = from.AssociationStorage
 	to.HasChanged = from.HasChanged
 	to.IsForSavePurpose = from.IsForSavePurpose
+	to.HasToolTip = from.HasToolTip
+	to.ToolTipText = from.ToolTipText
 }
 
 type FormField_WOP struct {
@@ -341,12 +347,18 @@ type FormSortAssocButton_WOP struct {
 	Name string
 
 	Label string
+
+	HasToolTip bool
+
+	ToolTipText string
 }
 
 func (from *FormSortAssocButton) CopyBasicFields(to *FormSortAssocButton) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
+	to.HasToolTip = from.HasToolTip
+	to.ToolTipText = from.ToolTipText
 }
 
 type Option_WOP struct {
@@ -389,6 +401,8 @@ type Table_WOP struct {
 
 	HasSaveButton bool
 
+	SaveButtonLabel string
+
 	CanDragDropRows bool
 
 	HasCloseButton bool
@@ -406,6 +420,7 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.HasPaginator = from.HasPaginator
 	to.HasCheckableRows = from.HasCheckableRows
 	to.HasSaveButton = from.HasSaveButton
+	to.SaveButtonLabel = from.SaveButtonLabel
 	to.CanDragDropRows = from.CanDragDropRows
 	to.HasCloseButton = from.HasCloseButton
 	to.SavingInProgress = from.SavingInProgress

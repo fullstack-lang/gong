@@ -49,6 +49,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 	table.HasPaginator = false
 	table.HasCheckableRows = false
 	table.HasSaveButton = true
+	table.SaveButtonLabel = "Close form"
 	table.CanDragDropRows = true
 
 	for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
