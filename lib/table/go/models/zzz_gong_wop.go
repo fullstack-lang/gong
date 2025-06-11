@@ -148,8 +148,6 @@ type FormEditAssocButton_WOP struct {
 	HasToolTip bool
 
 	ToolTipText string
-
-	ToolTipPosition ToolTipPositionEnum
 }
 
 func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
@@ -161,7 +159,6 @@ func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
 	to.IsForSavePurpose = from.IsForSavePurpose
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
-	to.ToolTipPosition = from.ToolTipPosition
 }
 
 type FormField_WOP struct {
@@ -350,12 +347,18 @@ type FormSortAssocButton_WOP struct {
 	Name string
 
 	Label string
+
+	HasToolTip bool
+
+	ToolTipText string
 }
 
 func (from *FormSortAssocButton) CopyBasicFields(to *FormSortAssocButton) {
 	// insertion point
 	to.Name = from.Name
 	to.Label = from.Label
+	to.HasToolTip = from.HasToolTip
+	to.ToolTipText = from.ToolTipText
 }
 
 type Option_WOP struct {

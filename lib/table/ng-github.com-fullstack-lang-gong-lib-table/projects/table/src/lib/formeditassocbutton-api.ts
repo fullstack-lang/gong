@@ -19,7 +19,6 @@ export class FormEditAssocButtonAPI {
 	IsForSavePurpose: boolean = false
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
-	ToolTipPosition: string = ""
 
 	// insertion point for other decls
 

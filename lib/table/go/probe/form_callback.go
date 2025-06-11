@@ -1117,8 +1117,6 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.HasToolTip), formDiv)
 		case "ToolTipText":
 			FormDivBasicFieldToField(&(formeditassocbutton_.ToolTipText), formDiv)
-		case "ToolTipPosition":
-			FormDivEnumStringFieldToField(&(formeditassocbutton_.ToolTipPosition), formDiv)
 		}
 	}
 
@@ -2078,6 +2076,10 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formsortassocbutton_.Name), formDiv)
 		case "Label":
 			FormDivBasicFieldToField(&(formsortassocbutton_.Label), formDiv)
+		case "HasToolTip":
+			FormDivBasicFieldToField(&(formsortassocbutton_.HasToolTip), formDiv)
+		case "ToolTipText":
+			FormDivBasicFieldToField(&(formsortassocbutton_.ToolTipText), formDiv)
 		}
 	}
 
