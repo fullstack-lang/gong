@@ -2532,6 +2532,8 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(table_.HasCheckableRows), formDiv)
 		case "HasSaveButton":
 			FormDivBasicFieldToField(&(table_.HasSaveButton), formDiv)
+		case "SaveButtonLabel":
+			FormDivBasicFieldToField(&(table_.SaveButtonLabel), formDiv)
 		case "CanDragDropRows":
 			FormDivBasicFieldToField(&(table_.CanDragDropRows), formDiv)
 		case "HasCloseButton":
