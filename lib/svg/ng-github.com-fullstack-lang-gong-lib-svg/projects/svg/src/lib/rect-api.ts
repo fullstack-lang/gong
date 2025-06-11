@@ -48,8 +48,8 @@ export class RectAPI {
 	OriginalColor: string = ""
 	FillOpacityWhenHovered: number = 0
 	OriginalFillOpacity: number = 0
-	CheckboxHasToolTip: boolean = false
-	CheckboxToolTipText: string = ""
+	HasToolTip: boolean = false
+	ToolTipText: string = ""
 
 	// insertion point for other decls
 

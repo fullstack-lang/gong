@@ -3392,11 +3392,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "CheckboxHasToolTip", "CheckboxToolTipText"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText"}
 	case RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredRect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "CheckboxHasToolTip", "CheckboxToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredText:
 		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case RectLinkLink:
@@ -3597,11 +3597,11 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "CheckboxHasToolTip", "CheckboxToolTipText"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText"}
 	case *RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredRect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "CheckboxHasToolTip", "CheckboxToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredText:
 		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *RectLinkLink:
@@ -4340,12 +4340,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.OriginalFillOpacity)
 			res.valueFloat = inferedInstance.OriginalFillOpacity
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "CheckboxHasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
-			res.valueBool = inferedInstance.CheckboxHasToolTip
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxToolTipText":
-			res.valueString = inferedInstance.CheckboxToolTipText
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case *RectAnchoredPath:
 		switch fieldName {
@@ -4440,12 +4440,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HeightFollowRect)
 			res.valueBool = inferedInstance.HeightFollowRect
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxHasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
-			res.valueBool = inferedInstance.CheckboxHasToolTip
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxToolTipText":
-			res.valueString = inferedInstance.CheckboxToolTipText
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		case "Color":
 			res.valueString = inferedInstance.Color
 		case "FillOpacity":
@@ -5367,12 +5367,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.OriginalFillOpacity)
 			res.valueFloat = inferedInstance.OriginalFillOpacity
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "CheckboxHasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
-			res.valueBool = inferedInstance.CheckboxHasToolTip
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxToolTipText":
-			res.valueString = inferedInstance.CheckboxToolTipText
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		}
 	case RectAnchoredPath:
 		switch fieldName {
@@ -5467,12 +5467,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HeightFollowRect)
 			res.valueBool = inferedInstance.HeightFollowRect
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxHasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CheckboxHasToolTip)
-			res.valueBool = inferedInstance.CheckboxHasToolTip
+		case "HasToolTip":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
+			res.valueBool = inferedInstance.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
-		case "CheckboxToolTipText":
-			res.valueString = inferedInstance.CheckboxToolTipText
+		case "ToolTipText":
+			res.valueString = inferedInstance.ToolTipText
 		case "Color":
 			res.valueString = inferedInstance.Color
 		case "FillOpacity":
