@@ -160,7 +160,7 @@ func _(stage *models.Stage) {
 
 	__Node__000002_root2.Name = `root2`
 	__Node__000002_root2.BackgroundColor = ``
-	__Node__000002_root2.IsExpanded = false
+	__Node__000002_root2.IsExpanded = true
 	__Node__000002_root2.HasCheckboxButton = false
 	__Node__000002_root2.IsChecked = false
 	__Node__000002_root2.IsCheckboxDisabled = false
@@ -177,7 +177,7 @@ func _(stage *models.Stage) {
 
 	__Node__000003_root3.Name = `root3`
 	__Node__000003_root3.BackgroundColor = ``
-	__Node__000003_root3.IsExpanded = false
+	__Node__000003_root3.IsExpanded = true
 	__Node__000003_root3.HasCheckboxButton = false
 	__Node__000003_root3.IsChecked = false
 	__Node__000003_root3.IsCheckboxDisabled = false
@@ -361,13 +361,13 @@ func _(stage *models.Stage) {
 	__Button__000000_Button_For_Empty_Space.SVGIcon = __SVGIcon__000001_sync_alt_rotated_90
 	__Button__000001_PreceedingSVGIcon.SVGIcon = __SVGIcon__000001_sync_alt_rotated_90
 	// setup of Node instances pointers
-	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000007_test_1_3)
-	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000012_test3)
-	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000006_test_1_2_clickable_)
-	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000010_test_1_4)
 	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000005_test_1_1)
-	__Node__000001_root1.Buttons = append(__Node__000001_root1.Buttons, __Button__000005_dynamic_form)
+	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000006_test_1_2_clickable_)
+	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000007_test_1_3)
+	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000010_test_1_4)
+	__Node__000001_root1.Children = append(__Node__000001_root1.Children, __Node__000012_test3)
 	__Node__000001_root1.Buttons = append(__Node__000001_root1.Buttons, __Button__000006_key)
+	__Node__000001_root1.Buttons = append(__Node__000001_root1.Buttons, __Button__000005_dynamic_form)
 	__Node__000002_root2.Children = append(__Node__000002_root2.Children, __Node__000000_Test_1_2_without_checkbox)
 	__Node__000002_root2.Children = append(__Node__000002_root2.Children, __Node__000011_test_2_1)
 	__Node__000002_root2.Buttons = append(__Node__000002_root2.Buttons, __Button__000008_root_2_add)
@@ -375,8 +375,8 @@ func _(stage *models.Stage) {
 	__Node__000005_test_1_1.Buttons = append(__Node__000005_test_1_1.Buttons, __Button__000007_logout)
 	__Node__000005_test_1_1.Buttons = append(__Node__000005_test_1_1.Buttons, __Button__000004_dataset)
 	__Node__000006_test_1_2_clickable_.Buttons = append(__Node__000006_test_1_2_clickable_.Buttons, __Button__000006_key)
-	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000008_test_1_3_1_F)
 	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000009_test_1_3_1_svg_icon)
+	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000008_test_1_3_1_F)
 	__Node__000009_test_1_3_1_svg_icon.PreceedingSVGIcon = __SVGIcon__000001_sync_alt_rotated_90
 	__Node__000009_test_1_3_1_svg_icon.Buttons = append(__Node__000009_test_1_3_1_svg_icon.Buttons, __Button__000001_PreceedingSVGIcon)
 	__Node__000011_test_2_1.Buttons = append(__Node__000011_test_2_1.Buttons, __Button__000000_Button_For_Empty_Space)
