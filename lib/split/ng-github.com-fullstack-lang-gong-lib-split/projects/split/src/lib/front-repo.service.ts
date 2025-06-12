@@ -48,6 +48,10 @@ import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
 
+import { TitleAPI } from './title-api'
+import { Title, CopyTitleAPIToTitle } from './title'
+import { TitleService } from './title.service'
+
 import { ToneAPI } from './tone-api'
 import { Tone, CopyToneAPIToTone } from './tone'
 import { ToneService } from './tone.service'
@@ -104,6 +108,9 @@ export class FrontRepo { // insertion point sub template
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
 
+	array_Titles = new Array<Title>() // array of front instances
+	map_ID_Title = new Map<number, Title>() // map of front instances
+
 	array_Tones = new Array<Tone>() // array of front instances
 	map_ID_Tone = new Map<number, Tone>() // map of front instances
 
@@ -147,6 +154,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Svgs as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
+			case 'Title':
+				return this.array_Titles as unknown as Array<Type>
 			case 'Tone':
 				return this.array_Tones as unknown as Array<Type>
 			case 'Tree':
@@ -185,6 +194,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Svg as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
+			case 'Title':
+				return this.map_ID_Title as unknown as Map<number, Type>
 			case 'Tone':
 				return this.map_ID_Tone as unknown as Map<number, Type>
 			case 'Tree':
@@ -271,6 +282,7 @@ export class FrontRepoService {
 		private splitService: SplitService,
 		private svgService: SvgService,
 		private tableService: TableService,
+		private titleService: TitleService,
 		private toneService: ToneService,
 		private treeService: TreeService,
 		private viewService: ViewService,
@@ -318,6 +330,7 @@ export class FrontRepoService {
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
 		Observable<TableAPI[]>,
+		Observable<TitleAPI[]>,
 		Observable<ToneAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
@@ -348,6 +361,7 @@ export class FrontRepoService {
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
 			this.tableService.getTables(this.Name, this.frontRepo),
+			this.titleService.getTitles(this.Name, this.frontRepo),
 			this.toneService.getTones(this.Name, this.frontRepo),
 			this.treeService.getTrees(this.Name, this.frontRepo),
 			this.viewService.getViews(this.Name, this.frontRepo),
@@ -373,6 +387,7 @@ export class FrontRepoService {
 						splits_,
 						svgs_,
 						tables_,
+						titles_,
 						tones_,
 						trees_,
 						views_,
@@ -403,6 +418,8 @@ export class FrontRepoService {
 						svgs = svgs_ as SvgAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
+						var titles: TitleAPI[]
+						titles = titles_ as TitleAPI[]
 						var tones: ToneAPI[]
 						tones = tones_ as ToneAPI[]
 						var trees: TreeAPI[]
@@ -548,6 +565,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_Titles = []
+						this.frontRepo.map_ID_Title.clear()
+
+						titles.forEach(
+							titleAPI => {
+								let title = new Title
+								this.frontRepo.array_Titles.push(title)
+								this.frontRepo.map_ID_Title.set(titleAPI.ID, title)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Tones = []
 						this.frontRepo.map_ID_Tone.clear()
 
@@ -684,6 +713,14 @@ export class FrontRepoService {
 							tableAPI => {
 								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
 								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						titles.forEach(
+							titleAPI => {
+								let title = this.frontRepo.map_ID_Title.get(titleAPI.ID)
+								CopyTitleAPIToTitle(titleAPI, title!, this.frontRepo)
 							}
 						)
 
@@ -901,6 +938,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Titles = []
+				frontRepo.map_ID_Title.clear()
+
+				backRepoData.TitleAPIs.forEach(
+					titleAPI => {
+						let title = new Title
+						frontRepo.array_Titles.push(title)
+						frontRepo.map_ID_Title.set(titleAPI.ID, title)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Tones = []
 				frontRepo.map_ID_Tone.clear()
 
@@ -1043,6 +1092,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.TitleAPIs.forEach(
+					titleAPI => {
+						let title = frontRepo.map_ID_Title.get(titleAPI.ID)
+						CopyTitleAPIToTitle(titleAPI, title!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.ToneAPIs.forEach(
 					toneAPI => {
 						let tone = frontRepo.map_ID_Tone.get(toneAPI.ID)
@@ -1126,15 +1183,18 @@ export function getSvgUniqueID(id: number): number {
 export function getTableUniqueID(id: number): number {
 	return 73 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 79 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 83 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 89 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 97 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 101 * id
 }

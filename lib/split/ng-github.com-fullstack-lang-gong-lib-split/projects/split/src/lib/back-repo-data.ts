@@ -23,6 +23,8 @@ import { SvgAPI } from './svg-api'
 
 import { TableAPI } from './table-api'
 
+import { TitleAPI } from './title-api'
+
 import { ToneAPI } from './tone-api'
 
 import { TreeAPI } from './tree-api'
@@ -55,6 +57,8 @@ export class BackRepoData {
 	SvgAPIs = new Array<SvgAPI>()
 
 	TableAPIs = new Array<TableAPI>()
+
+	TitleAPIs = new Array<TitleAPI>()
 
 	ToneAPIs = new Array<ToneAPI>()
 
@@ -91,6 +95,8 @@ export class BackRepoData {
 		this.SvgAPIs = data?.SvgAPIs || [];
 
 		this.TableAPIs = data?.TableAPIs || [];
+
+		this.TitleAPIs = data?.TitleAPIs || [];
 
 		this.ToneAPIs = data?.ToneAPIs || [];
 

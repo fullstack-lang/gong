@@ -46,6 +46,9 @@ func main() {
 	// that do not develop their specific angular component
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
+	// set the title of the application (name of the tab)
+	(&split.Title{Name: "Test"}).Stage(splitStage)
+
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
 	// one for the probe of the

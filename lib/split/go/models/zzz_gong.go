@@ -188,6 +188,15 @@ type Stage struct {
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
+	Titles           map[*Title]any
+	Titles_mapString map[string]*Title
+
+	// insertion point for slice of pointers maps
+	OnAfterTitleCreateCallback OnAfterCreateInterface[Title]
+	OnAfterTitleUpdateCallback OnAfterUpdateInterface[Title]
+	OnAfterTitleDeleteCallback OnAfterDeleteInterface[Title]
+	OnAfterTitleReadCallback   OnAfterReadInterface[Title]
+
 	Tones           map[*Tone]any
 	Tones_mapString map[string]*Tone
 
@@ -284,6 +293,9 @@ type Stage struct {
 
 	TableOrder            uint
 	TableMap_Staged_Order map[*Table]uint
+
+	TitleOrder            uint
+	TitleMap_Staged_Order map[*Title]uint
 
 	ToneOrder            uint
 	ToneMap_Staged_Order map[*Tone]uint
@@ -390,6 +402,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Svgs, stage.SvgMap_Staged_Order)
 	case "Table":
 		res = GetNamedStructInstances(stage.Tables, stage.TableMap_Staged_Order)
+	case "Title":
+		res = GetNamedStructInstances(stage.Titles, stage.TitleMap_Staged_Order)
 	case "Tone":
 		res = GetNamedStructInstances(stage.Tones, stage.ToneMap_Staged_Order)
 	case "Tree":
@@ -489,6 +503,8 @@ type BackRepoInterface interface {
 	CheckoutSvg(svg *Svg)
 	CommitTable(table *Table)
 	CheckoutTable(table *Table)
+	CommitTitle(title *Title)
+	CheckoutTitle(title *Title)
 	CommitTone(tone *Tone)
 	CheckoutTone(tone *Tone)
 	CommitTree(tree *Tree)
@@ -537,6 +553,9 @@ func NewStage(name string) (stage *Stage) {
 		Tables:           make(map[*Table]any),
 		Tables_mapString: make(map[string]*Table),
 
+		Titles:           make(map[*Title]any),
+		Titles_mapString: make(map[string]*Title),
+
 		Tones:           make(map[*Tone]any),
 		Tones_mapString: make(map[string]*Tone),
 
@@ -581,6 +600,8 @@ func NewStage(name string) (stage *Stage) {
 
 		TableMap_Staged_Order: make(map[*Table]uint),
 
+		TitleMap_Staged_Order: make(map[*Title]uint),
+
 		ToneMap_Staged_Order: make(map[*Tone]uint),
 
 		TreeMap_Staged_Order: make(map[*Tree]uint),
@@ -603,6 +624,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Split"},
 			{name: "Svg"},
 			{name: "Table"},
+			{name: "Title"},
 			{name: "Tone"},
 			{name: "Tree"},
 			{name: "View"},
@@ -639,6 +661,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.SvgMap_Staged_Order[instance]
 	case *Table:
 		return stage.TableMap_Staged_Order[instance]
+	case *Title:
+		return stage.TitleMap_Staged_Order[instance]
 	case *Tone:
 		return stage.ToneMap_Staged_Order[instance]
 	case *Tree:
@@ -678,6 +702,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.SvgMap_Staged_Order[instance]
 	case *Table:
 		return stage.TableMap_Staged_Order[instance]
+	case *Title:
+		return stage.TitleMap_Staged_Order[instance]
 	case *Tone:
 		return stage.ToneMap_Staged_Order[instance]
 	case *Tree:
@@ -724,6 +750,7 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
+	stage.Map_GongStructName_InstancesNb["Title"] = len(stage.Titles)
 	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
@@ -749,6 +776,7 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
+	stage.Map_GongStructName_InstancesNb["Title"] = len(stage.Titles)
 	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
@@ -1390,6 +1418,61 @@ func (table *Table) GetName() (res string) {
 	return table.Name
 }
 
+// Stage puts title to the model stage
+func (title *Title) Stage(stage *Stage) *Title {
+
+	if _, ok := stage.Titles[title]; !ok {
+		stage.Titles[title] = __member
+		stage.TitleMap_Staged_Order[title] = stage.TitleOrder
+		stage.TitleOrder++
+	}
+	stage.Titles_mapString[title.Name] = title
+
+	return title
+}
+
+// Unstage removes title off the model stage
+func (title *Title) Unstage(stage *Stage) *Title {
+	delete(stage.Titles, title)
+	delete(stage.Titles_mapString, title.Name)
+	return title
+}
+
+// UnstageVoid removes title off the model stage
+func (title *Title) UnstageVoid(stage *Stage) {
+	delete(stage.Titles, title)
+	delete(stage.Titles_mapString, title.Name)
+}
+
+// commit title to the back repo (if it is already staged)
+func (title *Title) Commit(stage *Stage) *Title {
+	if _, ok := stage.Titles[title]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTitle(title)
+		}
+	}
+	return title
+}
+
+func (title *Title) CommitVoid(stage *Stage) {
+	title.Commit(stage)
+}
+
+// Checkout title to the back repo (if it is already staged)
+func (title *Title) Checkout(stage *Stage) *Title {
+	if _, ok := stage.Titles[title]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTitle(title)
+		}
+	}
+	return title
+}
+
+// for satisfaction of GongStruct interface
+func (title *Title) GetName() (res string) {
+	return title.Name
+}
+
 // Stage puts tone to the model stage
 func (tone *Tone) Stage(stage *Stage) *Tone {
 
@@ -1623,6 +1706,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMSplit(Split *Split)
 	CreateORMSvg(Svg *Svg)
 	CreateORMTable(Table *Table)
+	CreateORMTitle(Title *Title)
 	CreateORMTone(Tone *Tone)
 	CreateORMTree(Tree *Tree)
 	CreateORMView(View *View)
@@ -1641,6 +1725,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMSplit(Split *Split)
 	DeleteORMSvg(Svg *Svg)
 	DeleteORMTable(Table *Table)
+	DeleteORMTitle(Title *Title)
 	DeleteORMTone(Tone *Tone)
 	DeleteORMTree(Tree *Tree)
 	DeleteORMView(View *View)
@@ -1703,6 +1788,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TableMap_Staged_Order = make(map[*Table]uint)
 	stage.TableOrder = 0
 
+	stage.Titles = make(map[*Title]any)
+	stage.Titles_mapString = make(map[string]*Title)
+	stage.TitleMap_Staged_Order = make(map[*Title]uint)
+	stage.TitleOrder = 0
+
 	stage.Tones = make(map[*Tone]any)
 	stage.Tones_mapString = make(map[string]*Tone)
 	stage.ToneMap_Staged_Order = make(map[*Tone]uint)
@@ -1758,6 +1848,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.Tables = nil
 	stage.Tables_mapString = nil
+
+	stage.Titles = nil
+	stage.Titles_mapString = nil
 
 	stage.Tones = nil
 	stage.Tones_mapString = nil
@@ -1816,6 +1909,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for table := range stage.Tables {
 		table.Unstage(stage)
+	}
+
+	for title := range stage.Titles {
+		title.Unstage(stage)
 	}
 
 	for tone := range stage.Tones {
@@ -1917,6 +2014,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Svgs).(*Type)
 	case map[*Table]any:
 		return any(&stage.Tables).(*Type)
+	case map[*Title]any:
+		return any(&stage.Titles).(*Type)
 	case map[*Tone]any:
 		return any(&stage.Tones).(*Type)
 	case map[*Tree]any:
@@ -1959,6 +2058,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Svgs_mapString).(*Type)
 	case map[string]*Table:
 		return any(&stage.Tables_mapString).(*Type)
+	case map[string]*Title:
+		return any(&stage.Titles_mapString).(*Type)
 	case map[string]*Tone:
 		return any(&stage.Tones_mapString).(*Type)
 	case map[string]*Tree:
@@ -2001,6 +2102,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Svgs).(*map[*Type]any)
 	case Table:
 		return any(&stage.Tables).(*map[*Type]any)
+	case Title:
+		return any(&stage.Titles).(*map[*Type]any)
 	case Tone:
 		return any(&stage.Tones).(*map[*Type]any)
 	case Tree:
@@ -2043,6 +2146,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Svgs).(*map[Type]any)
 	case *Table:
 		return any(&stage.Tables).(*map[Type]any)
+	case *Title:
+		return any(&stage.Titles).(*map[Type]any)
 	case *Tone:
 		return any(&stage.Tones).(*map[Type]any)
 	case *Tree:
@@ -2085,6 +2190,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Svgs_mapString).(*map[string]*Type)
 	case Table:
 		return any(&stage.Tables_mapString).(*map[string]*Type)
+	case Title:
+		return any(&stage.Titles_mapString).(*map[string]*Type)
 	case Tone:
 		return any(&stage.Tones_mapString).(*map[string]*Type)
 	case Tree:
@@ -2177,6 +2284,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Table:
 		return any(&Table{
+			// Initialisation of associations
+		}).(*Type)
+	case Title:
+		return any(&Title{
 			// Initialisation of associations
 		}).(*Type)
 	case Tone:
@@ -2491,6 +2602,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Title
+	case Title:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Tone
 	case Tone:
 		switch fieldname {
@@ -2590,6 +2706,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Title
+	case Title:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Tone
 	case Tone:
 		switch fieldname {
@@ -2652,6 +2773,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Svg"
 	case Table:
 		res = "Table"
+	case Title:
+		res = "Title"
 	case Tone:
 		res = "Tone"
 	case Tree:
@@ -2694,6 +2817,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Svg"
 	case *Table:
 		res = "Table"
+	case *Title:
+		res = "Title"
 	case *Tone:
 		res = "Tone"
 	case *Tree:
@@ -2735,6 +2860,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "Style"}
 	case Table:
 		res = []string{"Name", "StackName", "TableName"}
+	case Title:
+		res = []string{"Name"}
 	case Tone:
 		res = []string{"Name", "StackName"}
 	case Tree:
@@ -2800,6 +2927,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Table:
 		var rf ReverseField
 		_ = rf
+	case Title:
+		var rf ReverseField
+		_ = rf
 	case Tone:
 		var rf ReverseField
 		_ = rf
@@ -2845,6 +2975,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "Style"}
 	case *Table:
 		res = []string{"Name", "StackName", "TableName"}
+	case *Title:
+		res = []string{"Name"}
 	case *Tone:
 		res = []string{"Name", "StackName"}
 	case *Tree:
@@ -3065,6 +3197,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StackName
 		case "TableName":
 			res.valueString = inferedInstance.TableName
+		}
+	case *Title:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
 		}
 	case *Tone:
 		switch fieldName {
@@ -3290,6 +3428,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StackName
 		case "TableName":
 			res.valueString = inferedInstance.TableName
+		}
+	case Title:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
 		}
 	case Tone:
 		switch fieldName {

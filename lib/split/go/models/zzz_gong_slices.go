@@ -46,6 +46,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Table
 	// insertion point per field
 
+	// Compute reverse map for named struct Title
+	// insertion point per field
+
 	// Compute reverse map for named struct Tone
 	// insertion point per field
 

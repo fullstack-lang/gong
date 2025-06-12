@@ -26,6 +26,8 @@ type BackRepoData struct {
 
 	TableAPIs []*TableAPI
 
+	TitleAPIs []*TitleAPI
+
 	ToneAPIs []*ToneAPI
 
 	TreeAPIs []*TreeAPI
@@ -153,6 +155,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		tableDB.CopyBasicFieldsToTable_WOP(&tableAPI.Table_WOP)
 
 		backRepoData.TableAPIs = append(backRepoData.TableAPIs, &tableAPI)
+	}
+
+	for _, titleDB := range backRepo.BackRepoTitle.Map_TitleDBID_TitleDB {
+
+		var titleAPI TitleAPI
+		titleAPI.ID = titleDB.ID
+		titleAPI.TitlePointersEncoding = titleDB.TitlePointersEncoding
+		titleDB.CopyBasicFieldsToTitle_WOP(&titleAPI.Title_WOP)
+
+		backRepoData.TitleAPIs = append(backRepoData.TitleAPIs, &titleAPI)
 	}
 
 	for _, toneDB := range backRepo.BackRepoTone.Map_ToneDBID_ToneDB {

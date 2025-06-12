@@ -187,6 +187,17 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.TableName = from.TableName
 }
 
+type Title_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Title) CopyBasicFields(to *Title) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Tone_WOP struct {
 	// insertion point
 
