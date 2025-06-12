@@ -372,6 +372,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_FavIcon_Identifiers := make(map[*FavIcon]string)
+	_ = map_FavIcon_Identifiers
+
+	faviconOrdered := []*FavIcon{}
+	for favicon := range stage.FavIcons {
+		faviconOrdered = append(faviconOrdered, favicon)
+	}
+	sort.Slice(faviconOrdered[:], func(i, j int) bool {
+		faviconi := faviconOrdered[i]
+		faviconj := faviconOrdered[j]
+		faviconi_order, oki := stage.FavIconMap_Staged_Order[faviconi]
+		faviconj_order, okj := stage.FavIconMap_Staged_Order[faviconj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return faviconi_order < faviconj_order
+	})
+	if len(faviconOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, favicon := range faviconOrdered {
+
+		id = generatesIdentifier("FavIcon", idx, favicon.Name)
+		map_FavIcon_Identifiers[favicon] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FavIcon")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", favicon.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(favicon.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(favicon.SVG))
+		initializerStatements += setValueField
+
+	}
+
 	map_Form_Identifiers := make(map[*Form]string)
 	_ = map_Form_Identifiers
 
@@ -1081,6 +1128,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("Doc", idx, doc.Name)
 		map_Doc_Identifiers[doc] = id
+
+		// Initialisation of values
+	}
+
+	if len(faviconOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of FavIcon instances pointers"
+	}
+	for idx, favicon := range faviconOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("FavIcon", idx, favicon.Name)
+		map_FavIcon_Identifiers[favicon] = id
 
 		// Initialisation of values
 	}
