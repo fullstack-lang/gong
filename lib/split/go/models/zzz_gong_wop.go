@@ -139,7 +139,7 @@ func (from *Load) CopyBasicFields(to *Load) {
 	to.StackName = from.StackName
 }
 
-type Logo_WOP struct {
+type LogoOnTheLeft_WOP struct {
 	// insertion point
 
 	Name string
@@ -151,7 +151,27 @@ type Logo_WOP struct {
 	SVG string
 }
 
-func (from *Logo) CopyBasicFields(to *Logo) {
+func (from *LogoOnTheLeft) CopyBasicFields(to *LogoOnTheLeft) {
+	// insertion point
+	to.Name = from.Name
+	to.Width = from.Width
+	to.Height = from.Height
+	to.SVG = from.SVG
+}
+
+type LogoOnTheRight_WOP struct {
+	// insertion point
+
+	Name string
+
+	Width int
+
+	Height int
+
+	SVG string
+}
+
+func (from *LogoOnTheRight) CopyBasicFields(to *LogoOnTheRight) {
 	// insertion point
 	to.Name = from.Name
 	to.Width = from.Width

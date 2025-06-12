@@ -14,16 +14,16 @@ import (
 )
 
 // declaration in order to justify use of the models import
-var __Logo__dummysDeclaration__ models.Logo
-var __Logo_time__dummyDeclaration time.Duration
+var __LogoOnTheLeft__dummysDeclaration__ models.LogoOnTheLeft
+var __LogoOnTheLeft_time__dummyDeclaration time.Duration
 
-var mutexLogo sync.Mutex
+var mutexLogoOnTheLeft sync.Mutex
 
-// An LogoID parameter model.
+// An LogoOnTheLeftID parameter model.
 //
 // This is used for operations that want the ID of an order in the path
-// swagger:parameters getLogo updateLogo deleteLogo
-type LogoID struct {
+// swagger:parameters getLogoOnTheLeft updateLogoOnTheLeft deleteLogoOnTheLeft
+type LogoOnTheLeftID struct {
 	// The ID of the order
 	//
 	// in: path
@@ -31,29 +31,29 @@ type LogoID struct {
 	ID int64
 }
 
-// LogoInput is a schema that can validate the user’s
+// LogoOnTheLeftInput is a schema that can validate the user’s
 // input to prevent us from getting invalid data
-// swagger:parameters postLogo updateLogo
-type LogoInput struct {
-	// The Logo to submit or modify
+// swagger:parameters postLogoOnTheLeft updateLogoOnTheLeft
+type LogoOnTheLeftInput struct {
+	// The LogoOnTheLeft to submit or modify
 	// in: body
-	Logo *orm.LogoAPI
+	LogoOnTheLeft *orm.LogoOnTheLeftAPI
 }
 
-// GetLogos
+// GetLogoOnTheLefts
 //
-// swagger:route GET /logos logos getLogos
+// swagger:route GET /logoonthelefts logoonthelefts getLogoOnTheLefts
 //
-// # Get all logos
+// # Get all logoonthelefts
 //
 // Responses:
 // default: genericError
 //
-//	200: logoDBResponse
-func (controller *Controller) GetLogos(c *gin.Context) {
+//	200: logoontheleftDBResponse
+func (controller *Controller) GetLogoOnTheLefts(c *gin.Context) {
 
 	// source slice
-	var logoDBs []orm.LogoDB
+	var logoontheleftDBs []orm.LogoOnTheLeftDB
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -61,7 +61,7 @@ func (controller *Controller) GetLogos(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLogos", "Name", stackPath)
+			// log.Println("GetLogoOnTheLefts", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -75,9 +75,9 @@ func (controller *Controller) GetLogos(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLogo.GetDB()
+	db := backRepo.BackRepoLogoOnTheLeft.GetDB()
 
-	_, err := db.Find(&logoDBs)
+	_, err := db.Find(&logoontheleftDBs)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -88,29 +88,29 @@ func (controller *Controller) GetLogos(c *gin.Context) {
 	}
 
 	// slice that will be transmitted to the front
-	logoAPIs := make([]orm.LogoAPI, 0)
+	logoontheleftAPIs := make([]orm.LogoOnTheLeftAPI, 0)
 
-	// for each logo, update fields from the database nullable fields
-	for idx := range logoDBs {
-		logoDB := &logoDBs[idx]
-		_ = logoDB
-		var logoAPI orm.LogoAPI
+	// for each logoontheleft, update fields from the database nullable fields
+	for idx := range logoontheleftDBs {
+		logoontheleftDB := &logoontheleftDBs[idx]
+		_ = logoontheleftDB
+		var logoontheleftAPI orm.LogoOnTheLeftAPI
 
 		// insertion point for updating fields
-		logoAPI.ID = logoDB.ID
-		logoDB.CopyBasicFieldsToLogo_WOP(&logoAPI.Logo_WOP)
-		logoAPI.LogoPointersEncoding = logoDB.LogoPointersEncoding
-		logoAPIs = append(logoAPIs, logoAPI)
+		logoontheleftAPI.ID = logoontheleftDB.ID
+		logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft_WOP(&logoontheleftAPI.LogoOnTheLeft_WOP)
+		logoontheleftAPI.LogoOnTheLeftPointersEncoding = logoontheleftDB.LogoOnTheLeftPointersEncoding
+		logoontheleftAPIs = append(logoontheleftAPIs, logoontheleftAPI)
 	}
 
-	c.JSON(http.StatusOK, logoAPIs)
+	c.JSON(http.StatusOK, logoontheleftAPIs)
 }
 
-// PostLogo
+// PostLogoOnTheLeft
 //
-// swagger:route POST /logos logos postLogo
+// swagger:route POST /logoonthelefts logoonthelefts postLogoOnTheLeft
 //
-// Creates a logo
+// Creates a logoontheleft
 //
 //	Consumes:
 //	- application/json
@@ -120,10 +120,10 @@ func (controller *Controller) GetLogos(c *gin.Context) {
 //
 //	Responses:
 //	  200: nodeDBResponse
-func (controller *Controller) PostLogo(c *gin.Context) {
+func (controller *Controller) PostLogoOnTheLeft(c *gin.Context) {
 
-	mutexLogo.Lock()
-	defer mutexLogo.Unlock()
+	mutexLogoOnTheLeft.Lock()
+	defer mutexLogoOnTheLeft.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -131,7 +131,7 @@ func (controller *Controller) PostLogo(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("PostLogos", "Name", stackPath)
+			// log.Println("PostLogoOnTheLefts", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -145,10 +145,10 @@ func (controller *Controller) PostLogo(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLogo.GetDB()
+	db := backRepo.BackRepoLogoOnTheLeft.GetDB()
 
 	// Validate input
-	var input orm.LogoAPI
+	var input orm.LogoOnTheLeftAPI
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -160,12 +160,12 @@ func (controller *Controller) PostLogo(c *gin.Context) {
 		return
 	}
 
-	// Create logo
-	logoDB := orm.LogoDB{}
-	logoDB.LogoPointersEncoding = input.LogoPointersEncoding
-	logoDB.CopyBasicFieldsFromLogo_WOP(&input.Logo_WOP)
+	// Create logoontheleft
+	logoontheleftDB := orm.LogoOnTheLeftDB{}
+	logoontheleftDB.LogoOnTheLeftPointersEncoding = input.LogoOnTheLeftPointersEncoding
+	logoontheleftDB.CopyBasicFieldsFromLogoOnTheLeft_WOP(&input.LogoOnTheLeft_WOP)
 
-	_, err = db.Create(&logoDB)
+	_, err = db.Create(&logoontheleftDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -176,31 +176,31 @@ func (controller *Controller) PostLogo(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	backRepo.BackRepoLogo.CheckoutPhaseOneInstance(&logoDB)
-	logo := backRepo.BackRepoLogo.Map_LogoDBID_LogoPtr[logoDB.ID]
+	backRepo.BackRepoLogoOnTheLeft.CheckoutPhaseOneInstance(&logoontheleftDB)
+	logoontheleft := backRepo.BackRepoLogoOnTheLeft.Map_LogoOnTheLeftDBID_LogoOnTheLeftPtr[logoontheleftDB.ID]
 
-	if logo != nil {
-		models.AfterCreateFromFront(backRepo.GetStage(), logo)
+	if logoontheleft != nil {
+		models.AfterCreateFromFront(backRepo.GetStage(), logoontheleft)
 	}
 
 	// a POST is equivalent to a back repo commit increase
 	// (this will be improved with implementation of unit of work design pattern)
 	backRepo.IncrementPushFromFrontNb()
 
-	c.JSON(http.StatusOK, logoDB)
+	c.JSON(http.StatusOK, logoontheleftDB)
 }
 
-// GetLogo
+// GetLogoOnTheLeft
 //
-// swagger:route GET /logos/{ID} logos getLogo
+// swagger:route GET /logoonthelefts/{ID} logoonthelefts getLogoOnTheLeft
 //
-// Gets the details for a logo.
+// Gets the details for a logoontheleft.
 //
 // Responses:
 // default: genericError
 //
-//	200: logoDBResponse
-func (controller *Controller) GetLogo(c *gin.Context) {
+//	200: logoontheleftDBResponse
+func (controller *Controller) GetLogoOnTheLeft(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -208,7 +208,7 @@ func (controller *Controller) GetLogo(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("GetLogo", "Name", stackPath)
+			// log.Println("GetLogoOnTheLeft", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -222,11 +222,11 @@ func (controller *Controller) GetLogo(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLogo.GetDB()
+	db := backRepo.BackRepoLogoOnTheLeft.GetDB()
 
-	// Get logoDB in DB
-	var logoDB orm.LogoDB
-	if _, err := db.First(&logoDB, c.Param("id")); err != nil {
+	// Get logoontheleftDB in DB
+	var logoontheleftDB orm.LogoOnTheLeftDB
+	if _, err := db.First(&logoontheleftDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -235,28 +235,28 @@ func (controller *Controller) GetLogo(c *gin.Context) {
 		return
 	}
 
-	var logoAPI orm.LogoAPI
-	logoAPI.ID = logoDB.ID
-	logoAPI.LogoPointersEncoding = logoDB.LogoPointersEncoding
-	logoDB.CopyBasicFieldsToLogo_WOP(&logoAPI.Logo_WOP)
+	var logoontheleftAPI orm.LogoOnTheLeftAPI
+	logoontheleftAPI.ID = logoontheleftDB.ID
+	logoontheleftAPI.LogoOnTheLeftPointersEncoding = logoontheleftDB.LogoOnTheLeftPointersEncoding
+	logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft_WOP(&logoontheleftAPI.LogoOnTheLeft_WOP)
 
-	c.JSON(http.StatusOK, logoAPI)
+	c.JSON(http.StatusOK, logoontheleftAPI)
 }
 
-// UpdateLogo
+// UpdateLogoOnTheLeft
 //
-// swagger:route PATCH /logos/{ID} logos updateLogo
+// swagger:route PATCH /logoonthelefts/{ID} logoonthelefts updateLogoOnTheLeft
 //
-// # Update a logo
+// # Update a logoontheleft
 //
 // Responses:
 // default: genericError
 //
-//	200: logoDBResponse
-func (controller *Controller) UpdateLogo(c *gin.Context) {
+//	200: logoontheleftDBResponse
+func (controller *Controller) UpdateLogoOnTheLeft(c *gin.Context) {
 
-	mutexLogo.Lock()
-	defer mutexLogo.Unlock()
+	mutexLogoOnTheLeft.Lock()
+	defer mutexLogoOnTheLeft.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -264,7 +264,7 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("UpdateLogo", "Name", stackPath)
+			// log.Println("UpdateLogoOnTheLeft", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -278,10 +278,10 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLogo.GetDB()
+	db := backRepo.BackRepoLogoOnTheLeft.GetDB()
 
 	// Validate input
-	var input orm.LogoAPI
+	var input orm.LogoOnTheLeftAPI
 	if err := c.ShouldBindJSON(&input); err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -289,10 +289,10 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 	}
 
 	// Get model if exist
-	var logoDB orm.LogoDB
+	var logoontheleftDB orm.LogoOnTheLeftDB
 
-	// fetch the logo
-	_, err := db.First(&logoDB, c.Param("id"))
+	// fetch the logoontheleft
+	_, err := db.First(&logoontheleftDB, c.Param("id"))
 
 	if err != nil {
 		var returnError GenericError
@@ -304,11 +304,11 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 	}
 
 	// update
-	logoDB.CopyBasicFieldsFromLogo_WOP(&input.Logo_WOP)
-	logoDB.LogoPointersEncoding = input.LogoPointersEncoding
+	logoontheleftDB.CopyBasicFieldsFromLogoOnTheLeft_WOP(&input.LogoOnTheLeft_WOP)
+	logoontheleftDB.LogoOnTheLeftPointersEncoding = input.LogoOnTheLeftPointersEncoding
 
-	db, _ = db.Model(&logoDB)
-	_, err = db.Updates(&logoDB)
+	db, _ = db.Model(&logoontheleftDB)
+	_, err = db.Updates(&logoontheleftDB)
 	if err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
@@ -319,16 +319,16 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 	}
 
 	// get an instance (not staged) from DB instance, and call callback function
-	logoNew := new(models.Logo)
-	logoDB.CopyBasicFieldsToLogo(logoNew)
+	logoontheleftNew := new(models.LogoOnTheLeft)
+	logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft(logoontheleftNew)
 
 	// redeem pointers
-	logoDB.DecodePointers(backRepo, logoNew)
+	logoontheleftDB.DecodePointers(backRepo, logoontheleftNew)
 
 	// get stage instance from DB instance, and call callback function
-	logoOld := backRepo.BackRepoLogo.Map_LogoDBID_LogoPtr[logoDB.ID]
-	if logoOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), logoOld, logoNew)
+	logoontheleftOld := backRepo.BackRepoLogoOnTheLeft.Map_LogoOnTheLeftDBID_LogoOnTheLeftPtr[logoontheleftDB.ID]
+	if logoontheleftOld != nil {
+		models.AfterUpdateFromFront(backRepo.GetStage(), logoontheleftOld, logoontheleftNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
@@ -337,23 +337,23 @@ func (controller *Controller) UpdateLogo(c *gin.Context) {
 	// generates a checkout
 	backRepo.IncrementPushFromFrontNb()
 
-	// return status OK with the marshalling of the the logoDB
-	c.JSON(http.StatusOK, logoDB)
+	// return status OK with the marshalling of the the logoontheleftDB
+	c.JSON(http.StatusOK, logoontheleftDB)
 }
 
-// DeleteLogo
+// DeleteLogoOnTheLeft
 //
-// swagger:route DELETE /logos/{ID} logos deleteLogo
+// swagger:route DELETE /logoonthelefts/{ID} logoonthelefts deleteLogoOnTheLeft
 //
-// # Delete a logo
+// # Delete a logoontheleft
 //
 // default: genericError
 //
-//	200: logoDBResponse
-func (controller *Controller) DeleteLogo(c *gin.Context) {
+//	200: logoontheleftDBResponse
+func (controller *Controller) DeleteLogoOnTheLeft(c *gin.Context) {
 
-	mutexLogo.Lock()
-	defer mutexLogo.Unlock()
+	mutexLogoOnTheLeft.Lock()
+	defer mutexLogoOnTheLeft.Unlock()
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
@@ -361,7 +361,7 @@ func (controller *Controller) DeleteLogo(c *gin.Context) {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
-			// log.Println("DeleteLogo", "Name", stackPath)
+			// log.Println("DeleteLogoOnTheLeft", "Name", stackPath)
 		}
 	}
 	backRepo := controller.Map_BackRepos[stackPath]
@@ -375,11 +375,11 @@ func (controller *Controller) DeleteLogo(c *gin.Context) {
 
 		log.Panic(message)
 	}
-	db := backRepo.BackRepoLogo.GetDB()
+	db := backRepo.BackRepoLogoOnTheLeft.GetDB()
 
 	// Get model if exist
-	var logoDB orm.LogoDB
-	if _, err := db.First(&logoDB, c.Param("id")); err != nil {
+	var logoontheleftDB orm.LogoOnTheLeftDB
+	if _, err := db.First(&logoontheleftDB, c.Param("id")); err != nil {
 		var returnError GenericError
 		returnError.Body.Code = http.StatusBadRequest
 		returnError.Body.Message = err.Error()
@@ -390,16 +390,16 @@ func (controller *Controller) DeleteLogo(c *gin.Context) {
 
 	// with gorm.Model field, default delete is a soft delete. Unscoped() force delete
 	db.Unscoped()
-	db.Delete(&logoDB)
+	db.Delete(&logoontheleftDB)
 
 	// get an instance (not staged) from DB instance, and call callback function
-	logoDeleted := new(models.Logo)
-	logoDB.CopyBasicFieldsToLogo(logoDeleted)
+	logoontheleftDeleted := new(models.LogoOnTheLeft)
+	logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft(logoontheleftDeleted)
 
 	// get stage instance from DB instance, and call callback function
-	logoStaged := backRepo.BackRepoLogo.Map_LogoDBID_LogoPtr[logoDB.ID]
-	if logoStaged != nil {
-		models.AfterDeleteFromFront(backRepo.GetStage(), logoStaged, logoDeleted)
+	logoontheleftStaged := backRepo.BackRepoLogoOnTheLeft.Map_LogoOnTheLeftDBID_LogoOnTheLeftPtr[logoontheleftDB.ID]
+	if logoontheleftStaged != nil {
+		models.AfterDeleteFromFront(backRepo.GetStage(), logoontheleftStaged, logoontheleftDeleted)
 	}
 
 	// a DELETE generates a back repo commit increase

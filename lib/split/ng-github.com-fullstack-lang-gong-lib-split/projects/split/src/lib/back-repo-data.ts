@@ -17,7 +17,9 @@ import { FormAPI } from './form-api'
 
 import { LoadAPI } from './load-api'
 
-import { LogoAPI } from './logo-api'
+import { LogoOnTheLeftAPI } from './logoontheleft-api'
+
+import { LogoOnTheRightAPI } from './logoontheright-api'
 
 import { SliderAPI } from './slider-api'
 
@@ -56,7 +58,9 @@ export class BackRepoData {
 
 	LoadAPIs = new Array<LoadAPI>()
 
-	LogoAPIs = new Array<LogoAPI>()
+	LogoOnTheLeftAPIs = new Array<LogoOnTheLeftAPI>()
+
+	LogoOnTheRightAPIs = new Array<LogoOnTheRightAPI>()
 
 	SliderAPIs = new Array<SliderAPI>()
 
@@ -98,7 +102,9 @@ export class BackRepoData {
 
 		this.LoadAPIs = data?.LoadAPIs || [];
 
-		this.LogoAPIs = data?.LogoAPIs || [];
+		this.LogoOnTheLeftAPIs = data?.LogoOnTheLeftAPIs || [];
+
+		this.LogoOnTheRightAPIs = data?.LogoOnTheRightAPIs || [];
 
 		this.SliderAPIs = data?.SliderAPIs || [];
 

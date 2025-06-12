@@ -36,9 +36,13 @@ import { LoadAPI } from './load-api'
 import { Load, CopyLoadAPIToLoad } from './load'
 import { LoadService } from './load.service'
 
-import { LogoAPI } from './logo-api'
-import { Logo, CopyLogoAPIToLogo } from './logo'
-import { LogoService } from './logo.service'
+import { LogoOnTheLeftAPI } from './logoontheleft-api'
+import { LogoOnTheLeft, CopyLogoOnTheLeftAPIToLogoOnTheLeft } from './logoontheleft'
+import { LogoOnTheLeftService } from './logoontheleft.service'
+
+import { LogoOnTheRightAPI } from './logoontheright-api'
+import { LogoOnTheRight, CopyLogoOnTheRightAPIToLogoOnTheRight } from './logoontheright'
+import { LogoOnTheRightService } from './logoontheright.service'
 
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
@@ -107,8 +111,11 @@ export class FrontRepo { // insertion point sub template
 	array_Loads = new Array<Load>() // array of front instances
 	map_ID_Load = new Map<number, Load>() // map of front instances
 
-	array_Logos = new Array<Logo>() // array of front instances
-	map_ID_Logo = new Map<number, Logo>() // map of front instances
+	array_LogoOnTheLefts = new Array<LogoOnTheLeft>() // array of front instances
+	map_ID_LogoOnTheLeft = new Map<number, LogoOnTheLeft>() // map of front instances
+
+	array_LogoOnTheRights = new Array<LogoOnTheRight>() // array of front instances
+	map_ID_LogoOnTheRight = new Map<number, LogoOnTheRight>() // map of front instances
 
 	array_Sliders = new Array<Slider>() // array of front instances
 	map_ID_Slider = new Map<number, Slider>() // map of front instances
@@ -162,8 +169,10 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Forms as unknown as Array<Type>
 			case 'Load':
 				return this.array_Loads as unknown as Array<Type>
-			case 'Logo':
-				return this.array_Logos as unknown as Array<Type>
+			case 'LogoOnTheLeft':
+				return this.array_LogoOnTheLefts as unknown as Array<Type>
+			case 'LogoOnTheRight':
+				return this.array_LogoOnTheRights as unknown as Array<Type>
 			case 'Slider':
 				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
@@ -206,8 +215,10 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Form as unknown as Map<number, Type>
 			case 'Load':
 				return this.map_ID_Load as unknown as Map<number, Type>
-			case 'Logo':
-				return this.map_ID_Logo as unknown as Map<number, Type>
+			case 'LogoOnTheLeft':
+				return this.map_ID_LogoOnTheLeft as unknown as Map<number, Type>
+			case 'LogoOnTheRight':
+				return this.map_ID_LogoOnTheRight as unknown as Map<number, Type>
 			case 'Slider':
 				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
@@ -301,7 +312,8 @@ export class FrontRepoService {
 		private faviconService: FavIconService,
 		private formService: FormService,
 		private loadService: LoadService,
-		private logoService: LogoService,
+		private logoontheleftService: LogoOnTheLeftService,
+		private logoontherightService: LogoOnTheRightService,
 		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
@@ -351,7 +363,8 @@ export class FrontRepoService {
 		Observable<FavIconAPI[]>,
 		Observable<FormAPI[]>,
 		Observable<LoadAPI[]>,
-		Observable<LogoAPI[]>,
+		Observable<LogoOnTheLeftAPI[]>,
+		Observable<LogoOnTheRightAPI[]>,
 		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
@@ -384,7 +397,8 @@ export class FrontRepoService {
 			this.faviconService.getFavIcons(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
 			this.loadService.getLoads(this.Name, this.frontRepo),
-			this.logoService.getLogos(this.Name, this.frontRepo),
+			this.logoontheleftService.getLogoOnTheLefts(this.Name, this.frontRepo),
+			this.logoontherightService.getLogoOnTheRights(this.Name, this.frontRepo),
 			this.sliderService.getSliders(this.Name, this.frontRepo),
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
@@ -412,7 +426,8 @@ export class FrontRepoService {
 						favicons_,
 						forms_,
 						loads_,
-						logos_,
+						logoonthelefts_,
+						logoontherights_,
 						sliders_,
 						splits_,
 						svgs_,
@@ -442,8 +457,10 @@ export class FrontRepoService {
 						forms = forms_ as FormAPI[]
 						var loads: LoadAPI[]
 						loads = loads_ as LoadAPI[]
-						var logos: LogoAPI[]
-						logos = logos_ as LogoAPI[]
+						var logoonthelefts: LogoOnTheLeftAPI[]
+						logoonthelefts = logoonthelefts_ as LogoOnTheLeftAPI[]
+						var logoontherights: LogoOnTheRightAPI[]
+						logoontherights = logoontherights_ as LogoOnTheRightAPI[]
 						var sliders: SliderAPI[]
 						sliders = sliders_ as SliderAPI[]
 						var splits: SplitAPI[]
@@ -563,14 +580,26 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
-						this.frontRepo.array_Logos = []
-						this.frontRepo.map_ID_Logo.clear()
+						this.frontRepo.array_LogoOnTheLefts = []
+						this.frontRepo.map_ID_LogoOnTheLeft.clear()
 
-						logos.forEach(
-							logoAPI => {
-								let logo = new Logo
-								this.frontRepo.array_Logos.push(logo)
-								this.frontRepo.map_ID_Logo.set(logoAPI.ID, logo)
+						logoonthelefts.forEach(
+							logoontheleftAPI => {
+								let logoontheleft = new LogoOnTheLeft
+								this.frontRepo.array_LogoOnTheLefts.push(logoontheleft)
+								this.frontRepo.map_ID_LogoOnTheLeft.set(logoontheleftAPI.ID, logoontheleft)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_LogoOnTheRights = []
+						this.frontRepo.map_ID_LogoOnTheRight.clear()
+
+						logoontherights.forEach(
+							logoontherightAPI => {
+								let logoontheright = new LogoOnTheRight
+								this.frontRepo.array_LogoOnTheRights.push(logoontheright)
+								this.frontRepo.map_ID_LogoOnTheRight.set(logoontherightAPI.ID, logoontheright)
 							}
 						)
 
@@ -751,10 +780,18 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
-						logos.forEach(
-							logoAPI => {
-								let logo = this.frontRepo.map_ID_Logo.get(logoAPI.ID)
-								CopyLogoAPIToLogo(logoAPI, logo!, this.frontRepo)
+						logoonthelefts.forEach(
+							logoontheleftAPI => {
+								let logoontheleft = this.frontRepo.map_ID_LogoOnTheLeft.get(logoontheleftAPI.ID)
+								CopyLogoOnTheLeftAPIToLogoOnTheLeft(logoontheleftAPI, logoontheleft!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						logoontherights.forEach(
+							logoontherightAPI => {
+								let logoontheright = this.frontRepo.map_ID_LogoOnTheRight.get(logoontherightAPI.ID)
+								CopyLogoOnTheRightAPIToLogoOnTheRight(logoontherightAPI, logoontheright!, this.frontRepo)
 							}
 						)
 
@@ -976,14 +1013,26 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
-				frontRepo.array_Logos = []
-				frontRepo.map_ID_Logo.clear()
+				frontRepo.array_LogoOnTheLefts = []
+				frontRepo.map_ID_LogoOnTheLeft.clear()
 
-				backRepoData.LogoAPIs.forEach(
-					logoAPI => {
-						let logo = new Logo
-						frontRepo.array_Logos.push(logo)
-						frontRepo.map_ID_Logo.set(logoAPI.ID, logo)
+				backRepoData.LogoOnTheLeftAPIs.forEach(
+					logoontheleftAPI => {
+						let logoontheleft = new LogoOnTheLeft
+						frontRepo.array_LogoOnTheLefts.push(logoontheleft)
+						frontRepo.map_ID_LogoOnTheLeft.set(logoontheleftAPI.ID, logoontheleft)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_LogoOnTheRights = []
+				frontRepo.map_ID_LogoOnTheRight.clear()
+
+				backRepoData.LogoOnTheRightAPIs.forEach(
+					logoontherightAPI => {
+						let logoontheright = new LogoOnTheRight
+						frontRepo.array_LogoOnTheRights.push(logoontheright)
+						frontRepo.map_ID_LogoOnTheRight.set(logoontherightAPI.ID, logoontheright)
 					}
 				)
 
@@ -1166,10 +1215,18 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
-				backRepoData.LogoAPIs.forEach(
-					logoAPI => {
-						let logo = frontRepo.map_ID_Logo.get(logoAPI.ID)
-						CopyLogoAPIToLogo(logoAPI, logo!, frontRepo)
+				backRepoData.LogoOnTheLeftAPIs.forEach(
+					logoontheleftAPI => {
+						let logoontheleft = frontRepo.map_ID_LogoOnTheLeft.get(logoontheleftAPI.ID)
+						CopyLogoOnTheLeftAPIToLogoOnTheLeft(logoontheleftAPI, logoontheleft!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.LogoOnTheRightAPIs.forEach(
+					logoontherightAPI => {
+						let logoontheright = frontRepo.map_ID_LogoOnTheRight.get(logoontherightAPI.ID)
+						CopyLogoOnTheRightAPIToLogoOnTheRight(logoontherightAPI, logoontheright!, frontRepo)
 					}
 				)
 
@@ -1288,33 +1345,36 @@ export function getFormUniqueID(id: number): number {
 export function getLoadUniqueID(id: number): number {
 	return 61 * id
 }
-export function getLogoUniqueID(id: number): number {
+export function getLogoOnTheLeftUniqueID(id: number): number {
 	return 67 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getLogoOnTheRightUniqueID(id: number): number {
 	return 71 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 79 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 83 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 89 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 101 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 103 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 107 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 109 * id
 }
