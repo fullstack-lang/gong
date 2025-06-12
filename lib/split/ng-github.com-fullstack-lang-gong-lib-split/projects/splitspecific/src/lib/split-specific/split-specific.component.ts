@@ -22,7 +22,7 @@ import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-f
 import { XlsxSpecificComponent } from '../../../../../../../xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx/projects/xlsxspecific/src/lib/xlsx-specific/xlsx-specific.component'
 
 // to set the title of the application
-import { Title } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'lib-split-specific',
@@ -60,6 +60,7 @@ export class SplitSpecificComponent implements OnInit {
     private frontRepoService: split.FrontRepoService,
     private titleService: Title,
     private renderer: Renderer2,
+    private sanitizer: DomSanitizer,
     @Inject(DOCUMENT) private document: Document
   ) { }
 
@@ -119,4 +120,8 @@ export class SplitSpecificComponent implements OnInit {
 
     }
   }
+
+     getSafeHtml(svgContent: string): SafeHtml {
+        return this.sanitizer.bypassSecurityTrustHtml(svgContent);
+    }
 }

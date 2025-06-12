@@ -158,6 +158,16 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "Logo":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.Logo](probe.stageOfInterest)
+			for _logo := range set {
+				nodeInstance := &tree.Node{Name: _logo.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_logo, "Logo", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Slider":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Slider](probe.stageOfInterest)
