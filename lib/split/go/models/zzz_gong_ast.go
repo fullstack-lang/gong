@@ -1120,6 +1120,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Logo[identifier].Name = fielValue
+				case "Width":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Logo[identifier].Width = int(exprSign) * int(fielValue)
+				case "Height":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Logo[identifier].Height = int(exprSign) * int(fielValue)
 				case "SVG":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
