@@ -403,6 +403,7 @@ var __gong__map_Slider = make(map[string]*Slider)
 var __gong__map_Split = make(map[string]*Split)
 var __gong__map_Svg = make(map[string]*Svg)
 var __gong__map_Table = make(map[string]*Table)
+var __gong__map_Title = make(map[string]*Title)
 var __gong__map_Tone = make(map[string]*Tone)
 var __gong__map_Tree = make(map[string]*Tree)
 var __gong__map_View = make(map[string]*View)
@@ -645,6 +646,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceTable.Stage(stage)
 										instance = any(instanceTable)
 										__gong__map_Table[identifier] = instanceTable
+									case "Title":
+										instanceTitle := new(Title)
+										instanceTitle.Name = instanceName
+										instanceTitle.Stage(stage)
+										instance = any(instanceTitle)
+										__gong__map_Title[identifier] = instanceTitle
 									case "Tone":
 										instanceTone := new(Tone)
 										instanceTone.Name = instanceName
@@ -747,6 +754,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "Table":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Title":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -873,6 +884,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						// insertion point for slice of pointers assign code
 						}
 					case "Table":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "Title":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1112,6 +1127,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Table[identifier].TableName = fielValue
 				}
+			case "Title":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Title[identifier].Name = fielValue
+				}
 			case "Tone":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1279,6 +1302,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "Title":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Tone":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1408,6 +1435,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "Table":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "Title":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

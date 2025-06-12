@@ -50,6 +50,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTableCreateCallback != nil {
 			stage.OnAfterTableCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Title:
+		if stage.OnAfterTitleCreateCallback != nil {
+			stage.OnAfterTitleCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Tone:
 		if stage.OnAfterToneCreateCallback != nil {
 			stage.OnAfterToneCreateCallback.OnAfterCreate(stage, target)
@@ -130,6 +134,11 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Table)
 		if stage.OnAfterTableUpdateCallback != nil {
 			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Title:
+		newTarget := any(new).(*Title)
+		if stage.OnAfterTitleUpdateCallback != nil {
+			stage.OnAfterTitleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Tone:
 		newTarget := any(new).(*Tone)
@@ -216,6 +225,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Table)
 			stage.OnAfterTableDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Title:
+		if stage.OnAfterTitleDeleteCallback != nil {
+			staged := any(staged).(*Title)
+			stage.OnAfterTitleDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Tone:
 		if stage.OnAfterToneDeleteCallback != nil {
 			staged := any(staged).(*Tone)
@@ -290,6 +304,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterTableReadCallback != nil {
 			stage.OnAfterTableReadCallback.OnAfterRead(stage, target)
 		}
+	case *Title:
+		if stage.OnAfterTitleReadCallback != nil {
+			stage.OnAfterTitleReadCallback.OnAfterRead(stage, target)
+		}
 	case *Tone:
 		if stage.OnAfterToneReadCallback != nil {
 			stage.OnAfterToneReadCallback.OnAfterRead(stage, target)
@@ -350,6 +368,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
 	
+	case *Title:
+		stage.OnAfterTitleUpdateCallback = any(callback).(OnAfterUpdateInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneUpdateCallback = any(callback).(OnAfterUpdateInterface[Tone])
 	
@@ -401,6 +422,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
+	
+	case *Title:
+		stage.OnAfterTitleCreateCallback = any(callback).(OnAfterCreateInterface[Title])
 	
 	case *Tone:
 		stage.OnAfterToneCreateCallback = any(callback).(OnAfterCreateInterface[Tone])
@@ -454,6 +478,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
 	
+	case *Title:
+		stage.OnAfterTitleDeleteCallback = any(callback).(OnAfterDeleteInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneDeleteCallback = any(callback).(OnAfterDeleteInterface[Tone])
 	
@@ -505,6 +532,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
+	
+	case *Title:
+		stage.OnAfterTitleReadCallback = any(callback).(OnAfterReadInterface[Title])
 	
 	case *Tone:
 		stage.OnAfterToneReadCallback = any(callback).(OnAfterReadInterface[Tone])

@@ -53,6 +53,7 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.Split](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Svg](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Table](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Title](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tone](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Tree](stage)
 	models.SetOrchestratorOnAfterUpdate[models.View](stage)

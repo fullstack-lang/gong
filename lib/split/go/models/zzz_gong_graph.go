@@ -38,6 +38,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Table:
 		ok = stage.IsStagedTable(target)
 
+	case *Title:
+		ok = stage.IsStagedTitle(target)
+
 	case *Tone:
 		ok = stage.IsStagedTone(target)
 
@@ -134,6 +137,13 @@ func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
+
+	_, ok = stage.Titles[title]
+
+	return
+}
+
 func (stage *Stage) IsStagedTone(tone *Tone) (ok bool) {
 
 	_, ok = stage.Tones[tone]
@@ -202,6 +212,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Table:
 		stage.StageBranchTable(target)
+
+	case *Title:
+		stage.StageBranchTitle(target)
 
 	case *Tone:
 		stage.StageBranchTone(target)
@@ -428,6 +441,21 @@ func (stage *Stage) StageBranchTable(table *Table) {
 
 }
 
+func (stage *Stage) StageBranchTitle(title *Title) {
+
+	// check if instance is already staged
+	if IsStaged(stage, title) {
+		return
+	}
+
+	title.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTone(tone *Tone) {
 
 	// check if instance is already staged
@@ -544,6 +572,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Table:
 		toT := CopyBranchTable(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Title:
+		toT := CopyBranchTitle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tone:
@@ -820,6 +852,25 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	return
 }
 
+func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
+
+	// titleFrom has already been copied
+	if _titleTo, ok := mapOrigCopy[titleFrom]; ok {
+		titleTo = _titleTo.(*Title)
+		return
+	}
+
+	titleTo = new(Title)
+	mapOrigCopy[titleFrom] = titleTo
+	titleFrom.CopyBasicFields(titleTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
 
 	// toneFrom has already been copied
@@ -939,6 +990,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Table:
 		stage.UnstageBranchTable(target)
+
+	case *Title:
+		stage.UnstageBranchTitle(target)
 
 	case *Tone:
 		stage.UnstageBranchTone(target)
@@ -1158,6 +1212,21 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 	}
 
 	table.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTitle(title *Title) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, title) {
+		return
+	}
+
+	title.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

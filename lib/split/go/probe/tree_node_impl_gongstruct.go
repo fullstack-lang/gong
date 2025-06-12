@@ -83,6 +83,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Table" {
 		updateAndCommitTable[models.Table](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Title" {
+		updateAndCommitTable[models.Title](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Tone" {
 		updateAndCommitTable[models.Tone](nodeImplGongstruct.probe)
 	}

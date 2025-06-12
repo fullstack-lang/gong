@@ -64,6 +64,10 @@ type DBLite struct {
 
 	nextIDTableDB uint
 
+	titleDBs map[uint]*TitleDB
+
+	nextIDTitleDB uint
+
 	toneDBs map[uint]*ToneDB
 
 	nextIDToneDB uint
@@ -107,6 +111,8 @@ func NewDBLite() *DBLite {
 		svgDBs: make(map[uint]*SvgDB),
 
 		tableDBs: make(map[uint]*TableDB),
+
+		titleDBs: make(map[uint]*TitleDB),
 
 		toneDBs: make(map[uint]*ToneDB),
 
@@ -173,6 +179,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
 		db.tableDBs[v.ID] = v
+	case *TitleDB:
+		db.nextIDTitleDB++
+		v.ID = db.nextIDTitleDB
+		db.titleDBs[v.ID] = v
 	case *ToneDB:
 		db.nextIDToneDB++
 		v.ID = db.nextIDToneDB
@@ -239,6 +249,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.svgDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
+	case *TitleDB:
+		delete(db.titleDBs, v.ID)
 	case *ToneDB:
 		delete(db.toneDBs, v.ID)
 	case *TreeDB:
@@ -297,6 +309,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
+		return db, nil
+	case *TitleDB:
+		db.titleDBs[v.ID] = v
 		return db, nil
 	case *ToneDB:
 		db.toneDBs[v.ID] = v
@@ -391,6 +406,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Table github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *TitleDB:
+		if existing, ok := db.titleDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Title github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *ToneDB:
 		if existing, ok := db.toneDBs[v.ID]; ok {
@@ -493,6 +514,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]TableDB:
 		*ptr = make([]TableDB, 0, len(db.tableDBs))
 		for _, v := range db.tableDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]TitleDB:
+		*ptr = make([]TitleDB, 0, len(db.titleDBs))
+		for _, v := range db.titleDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -662,6 +689,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
+		
+	case *TitleDB:
+		tmp, ok := db.titleDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Title Unkown entry %d", i))
+		}
+
+		titleDB, _ := instanceDB.(*TitleDB)
+		*titleDB = *tmp
 		
 	case *ToneDB:
 		tmp, ok := db.toneDBs[uint(i)]

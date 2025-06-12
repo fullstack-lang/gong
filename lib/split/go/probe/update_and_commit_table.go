@@ -41,6 +41,8 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.Svg](probe)
 	case *models.Table:
 		updateAndCommitTable[models.Table](probe)
+	case *models.Title:
+		updateAndCommitTable[models.Title](probe)
 	case *models.Tone:
 		updateAndCommitTable[models.Tone](probe)
 	case *models.Tree:
