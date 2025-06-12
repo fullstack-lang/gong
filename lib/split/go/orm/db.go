@@ -52,9 +52,13 @@ type DBLite struct {
 
 	nextIDLoadDB uint
 
-	logoDBs map[uint]*LogoDB
+	logoontheleftDBs map[uint]*LogoOnTheLeftDB
 
-	nextIDLogoDB uint
+	nextIDLogoOnTheLeftDB uint
+
+	logoontherightDBs map[uint]*LogoOnTheRightDB
+
+	nextIDLogoOnTheRightDB uint
 
 	sliderDBs map[uint]*SliderDB
 
@@ -114,7 +118,9 @@ func NewDBLite() *DBLite {
 
 		loadDBs: make(map[uint]*LoadDB),
 
-		logoDBs: make(map[uint]*LogoDB),
+		logoontheleftDBs: make(map[uint]*LogoOnTheLeftDB),
+
+		logoontherightDBs: make(map[uint]*LogoOnTheRightDB),
 
 		sliderDBs: make(map[uint]*SliderDB),
 
@@ -179,10 +185,14 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDLoadDB++
 		v.ID = db.nextIDLoadDB
 		db.loadDBs[v.ID] = v
-	case *LogoDB:
-		db.nextIDLogoDB++
-		v.ID = db.nextIDLogoDB
-		db.logoDBs[v.ID] = v
+	case *LogoOnTheLeftDB:
+		db.nextIDLogoOnTheLeftDB++
+		v.ID = db.nextIDLogoOnTheLeftDB
+		db.logoontheleftDBs[v.ID] = v
+	case *LogoOnTheRightDB:
+		db.nextIDLogoOnTheRightDB++
+		v.ID = db.nextIDLogoOnTheRightDB
+		db.logoontherightDBs[v.ID] = v
 	case *SliderDB:
 		db.nextIDSliderDB++
 		v.ID = db.nextIDSliderDB
@@ -263,8 +273,10 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.formDBs, v.ID)
 	case *LoadDB:
 		delete(db.loadDBs, v.ID)
-	case *LogoDB:
-		delete(db.logoDBs, v.ID)
+	case *LogoOnTheLeftDB:
+		delete(db.logoontheleftDBs, v.ID)
+	case *LogoOnTheRightDB:
+		delete(db.logoontherightDBs, v.ID)
 	case *SliderDB:
 		delete(db.sliderDBs, v.ID)
 	case *SplitDB:
@@ -325,8 +337,11 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *LoadDB:
 		db.loadDBs[v.ID] = v
 		return db, nil
-	case *LogoDB:
-		db.logoDBs[v.ID] = v
+	case *LogoOnTheLeftDB:
+		db.logoontheleftDBs[v.ID] = v
+		return db, nil
+	case *LogoOnTheRightDB:
+		db.logoontherightDBs[v.ID] = v
 		return db, nil
 	case *SliderDB:
 		db.sliderDBs[v.ID] = v
@@ -419,11 +434,17 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Load github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
-	case *LogoDB:
-		if existing, ok := db.logoDBs[v.ID]; ok {
+	case *LogoOnTheLeftDB:
+		if existing, ok := db.logoontheleftDBs[v.ID]; ok {
 			*existing = *v
 		} else {
-			return nil, errors.New("db Logo github.com/fullstack-lang/gong/lib/split/go, record not found")
+			return nil, errors.New("db LogoOnTheLeft github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *LogoOnTheRightDB:
+		if existing, ok := db.logoontherightDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db LogoOnTheRight github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SliderDB:
 		if existing, ok := db.sliderDBs[v.ID]; ok {
@@ -541,9 +562,15 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
-	case *[]LogoDB:
-		*ptr = make([]LogoDB, 0, len(db.logoDBs))
-		for _, v := range db.logoDBs {
+	case *[]LogoOnTheLeftDB:
+		*ptr = make([]LogoOnTheLeftDB, 0, len(db.logoontheleftDBs))
+		for _, v := range db.logoontheleftDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]LogoOnTheRightDB:
+		*ptr = make([]LogoOnTheRightDB, 0, len(db.logoontherightDBs))
+		for _, v := range db.logoontherightDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -714,15 +741,25 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		loadDB, _ := instanceDB.(*LoadDB)
 		*loadDB = *tmp
 		
-	case *LogoDB:
-		tmp, ok := db.logoDBs[uint(i)]
+	case *LogoOnTheLeftDB:
+		tmp, ok := db.logoontheleftDBs[uint(i)]
 
 		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Logo Unkown entry %d", i))
+			return nil, errors.New(fmt.Sprintf("db.First LogoOnTheLeft Unkown entry %d", i))
 		}
 
-		logoDB, _ := instanceDB.(*LogoDB)
-		*logoDB = *tmp
+		logoontheleftDB, _ := instanceDB.(*LogoOnTheLeftDB)
+		*logoontheleftDB = *tmp
+		
+	case *LogoOnTheRightDB:
+		tmp, ok := db.logoontherightDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First LogoOnTheRight Unkown entry %d", i))
+		}
+
+		logoontherightDB, _ := instanceDB.(*LogoOnTheRightDB)
+		*logoontherightDB = *tmp
 		
 	case *SliderDB:
 		tmp, ok := db.sliderDBs[uint(i)]

@@ -158,13 +158,23 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Logo":
+		case "LogoOnTheLeft":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Logo](probe.stageOfInterest)
-			for _logo := range set {
-				nodeInstance := &tree.Node{Name: _logo.GetName()}
+			set := *models.GetGongstructInstancesSet[models.LogoOnTheLeft](probe.stageOfInterest)
+			for _logoontheleft := range set {
+				nodeInstance := &tree.Node{Name: _logoontheleft.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_logo, "Logo", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_logoontheleft, "LogoOnTheLeft", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "LogoOnTheRight":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.LogoOnTheRight](probe.stageOfInterest)
+			for _logoontheright := range set {
+				nodeInstance := &tree.Node{Name: _logoontheright.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_logoontheright, "LogoOnTheRight", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

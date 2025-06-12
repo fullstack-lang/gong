@@ -35,8 +35,10 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.Form](probe)
 	case *models.Load:
 		updateAndCommitTable[models.Load](probe)
-	case *models.Logo:
-		updateAndCommitTable[models.Logo](probe)
+	case *models.LogoOnTheLeft:
+		updateAndCommitTable[models.LogoOnTheLeft](probe)
+	case *models.LogoOnTheRight:
+		updateAndCommitTable[models.LogoOnTheRight](probe)
 	case *models.Slider:
 		updateAndCommitTable[models.Slider](probe)
 	case *models.Split:

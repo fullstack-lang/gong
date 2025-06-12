@@ -29,8 +29,11 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Load:
 		ok = stage.IsStagedLoad(target)
 
-	case *Logo:
-		ok = stage.IsStagedLogo(target)
+	case *LogoOnTheLeft:
+		ok = stage.IsStagedLogoOnTheLeft(target)
+
+	case *LogoOnTheRight:
+		ok = stage.IsStagedLogoOnTheRight(target)
 
 	case *Slider:
 		ok = stage.IsStagedSlider(target)
@@ -122,9 +125,16 @@ func (stage *Stage) IsStagedLoad(load *Load) (ok bool) {
 	return
 }
 
-func (stage *Stage) IsStagedLogo(logo *Logo) (ok bool) {
+func (stage *Stage) IsStagedLogoOnTheLeft(logoontheleft *LogoOnTheLeft) (ok bool) {
 
-	_, ok = stage.Logos[logo]
+	_, ok = stage.LogoOnTheLefts[logoontheleft]
+
+	return
+}
+
+func (stage *Stage) IsStagedLogoOnTheRight(logoontheright *LogoOnTheRight) (ok bool) {
+
+	_, ok = stage.LogoOnTheRights[logoontheright]
 
 	return
 }
@@ -224,8 +234,11 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Load:
 		stage.StageBranchLoad(target)
 
-	case *Logo:
-		stage.StageBranchLogo(target)
+	case *LogoOnTheLeft:
+		stage.StageBranchLogoOnTheLeft(target)
+
+	case *LogoOnTheRight:
+		stage.StageBranchLogoOnTheRight(target)
 
 	case *Slider:
 		stage.StageBranchSlider(target)
@@ -422,14 +435,29 @@ func (stage *Stage) StageBranchLoad(load *Load) {
 
 }
 
-func (stage *Stage) StageBranchLogo(logo *Logo) {
+func (stage *Stage) StageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
-	if IsStaged(stage, logo) {
+	if IsStaged(stage, logoontheleft) {
 		return
 	}
 
-	logo.Stage(stage)
+	logoontheleft.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
+
+	// check if instance is already staged
+	if IsStaged(stage, logoontheright) {
+		return
+	}
+
+	logoontheright.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -618,8 +646,12 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchLoad(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Logo:
-		toT := CopyBranchLogo(mapOrigCopy, fromT)
+	case *LogoOnTheLeft:
+		toT := CopyBranchLogoOnTheLeft(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *LogoOnTheRight:
+		toT := CopyBranchLogoOnTheRight(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slider:
@@ -859,17 +891,36 @@ func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
 	return
 }
 
-func CopyBranchLogo(mapOrigCopy map[any]any, logoFrom *Logo) (logoTo *Logo) {
+func CopyBranchLogoOnTheLeft(mapOrigCopy map[any]any, logoontheleftFrom *LogoOnTheLeft) (logoontheleftTo *LogoOnTheLeft) {
 
-	// logoFrom has already been copied
-	if _logoTo, ok := mapOrigCopy[logoFrom]; ok {
-		logoTo = _logoTo.(*Logo)
+	// logoontheleftFrom has already been copied
+	if _logoontheleftTo, ok := mapOrigCopy[logoontheleftFrom]; ok {
+		logoontheleftTo = _logoontheleftTo.(*LogoOnTheLeft)
 		return
 	}
 
-	logoTo = new(Logo)
-	mapOrigCopy[logoFrom] = logoTo
-	logoFrom.CopyBasicFields(logoTo)
+	logoontheleftTo = new(LogoOnTheLeft)
+	mapOrigCopy[logoontheleftFrom] = logoontheleftTo
+	logoontheleftFrom.CopyBasicFields(logoontheleftTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchLogoOnTheRight(mapOrigCopy map[any]any, logoontherightFrom *LogoOnTheRight) (logoontherightTo *LogoOnTheRight) {
+
+	// logoontherightFrom has already been copied
+	if _logoontherightTo, ok := mapOrigCopy[logoontherightFrom]; ok {
+		logoontherightTo = _logoontherightTo.(*LogoOnTheRight)
+		return
+	}
+
+	logoontherightTo = new(LogoOnTheRight)
+	mapOrigCopy[logoontherightFrom] = logoontherightTo
+	logoontherightFrom.CopyBasicFields(logoontherightTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1084,8 +1135,11 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Load:
 		stage.UnstageBranchLoad(target)
 
-	case *Logo:
-		stage.UnstageBranchLogo(target)
+	case *LogoOnTheLeft:
+		stage.UnstageBranchLogoOnTheLeft(target)
+
+	case *LogoOnTheRight:
+		stage.UnstageBranchLogoOnTheRight(target)
 
 	case *Slider:
 		stage.UnstageBranchSlider(target)
@@ -1282,14 +1336,29 @@ func (stage *Stage) UnstageBranchLoad(load *Load) {
 
 }
 
-func (stage *Stage) UnstageBranchLogo(logo *Logo) {
+func (stage *Stage) UnstageBranchLogoOnTheLeft(logoontheleft *LogoOnTheLeft) {
 
 	// check if instance is already staged
-	if !IsStaged(stage, logo) {
+	if !IsStaged(stage, logoontheleft) {
 		return
 	}
 
-	logo.Unstage(stage)
+	logoontheleft.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchLogoOnTheRight(logoontheright *LogoOnTheRight) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, logoontheright) {
+		return
+	}
+
+	logoontheright.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

@@ -40,7 +40,9 @@ type BackRepoStruct struct {
 
 	BackRepoLoad BackRepoLoadStruct
 
-	BackRepoLogo BackRepoLogoStruct
+	BackRepoLogoOnTheLeft BackRepoLogoOnTheLeftStruct
+
+	BackRepoLogoOnTheRight BackRepoLogoOnTheRightStruct
 
 	BackRepoSlider BackRepoSliderStruct
 
@@ -89,7 +91,8 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&FavIconDB{},
 		&FormDB{},
 		&LoadDB{},
-		&LogoDB{},
+		&LogoOnTheLeftDB{},
+		&LogoOnTheRightDB{},
 		&SliderDB{},
 		&SplitDB{},
 		&SvgDB{},
@@ -169,10 +172,18 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
-	backRepo.BackRepoLogo = BackRepoLogoStruct{
-		Map_LogoDBID_LogoPtr: make(map[uint]*models.Logo, 0),
-		Map_LogoDBID_LogoDB:  make(map[uint]*LogoDB, 0),
-		Map_LogoPtr_LogoDBID: make(map[*models.Logo]uint, 0),
+	backRepo.BackRepoLogoOnTheLeft = BackRepoLogoOnTheLeftStruct{
+		Map_LogoOnTheLeftDBID_LogoOnTheLeftPtr: make(map[uint]*models.LogoOnTheLeft, 0),
+		Map_LogoOnTheLeftDBID_LogoOnTheLeftDB:  make(map[uint]*LogoOnTheLeftDB, 0),
+		Map_LogoOnTheLeftPtr_LogoOnTheLeftDBID: make(map[*models.LogoOnTheLeft]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoLogoOnTheRight = BackRepoLogoOnTheRightStruct{
+		Map_LogoOnTheRightDBID_LogoOnTheRightPtr: make(map[uint]*models.LogoOnTheRight, 0),
+		Map_LogoOnTheRightDBID_LogoOnTheRightDB:  make(map[uint]*LogoOnTheRightDB, 0),
+		Map_LogoOnTheRightPtr_LogoOnTheRightDBID: make(map[*models.LogoOnTheRight]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -309,7 +320,8 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoFavIcon.CommitPhaseOne(stage)
 	backRepo.BackRepoForm.CommitPhaseOne(stage)
 	backRepo.BackRepoLoad.CommitPhaseOne(stage)
-	backRepo.BackRepoLogo.CommitPhaseOne(stage)
+	backRepo.BackRepoLogoOnTheLeft.CommitPhaseOne(stage)
+	backRepo.BackRepoLogoOnTheRight.CommitPhaseOne(stage)
 	backRepo.BackRepoSlider.CommitPhaseOne(stage)
 	backRepo.BackRepoSplit.CommitPhaseOne(stage)
 	backRepo.BackRepoSvg.CommitPhaseOne(stage)
@@ -329,7 +341,8 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoFavIcon.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLoad.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoLogo.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoLogoOnTheLeft.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoLogoOnTheRight.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSlider.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSplit.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CommitPhaseTwo(backRepo)
@@ -361,7 +374,8 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoFavIcon.CheckoutPhaseOne()
 	backRepo.BackRepoForm.CheckoutPhaseOne()
 	backRepo.BackRepoLoad.CheckoutPhaseOne()
-	backRepo.BackRepoLogo.CheckoutPhaseOne()
+	backRepo.BackRepoLogoOnTheLeft.CheckoutPhaseOne()
+	backRepo.BackRepoLogoOnTheRight.CheckoutPhaseOne()
 	backRepo.BackRepoSlider.CheckoutPhaseOne()
 	backRepo.BackRepoSplit.CheckoutPhaseOne()
 	backRepo.BackRepoSvg.CheckoutPhaseOne()
@@ -381,7 +395,8 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoFavIcon.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoForm.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLoad.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoLogo.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoLogoOnTheLeft.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoLogoOnTheRight.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSlider.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSplit.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CheckoutPhaseTwo(backRepo)
@@ -406,7 +421,8 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFavIcon.Backup(dirPath)
 	backRepo.BackRepoForm.Backup(dirPath)
 	backRepo.BackRepoLoad.Backup(dirPath)
-	backRepo.BackRepoLogo.Backup(dirPath)
+	backRepo.BackRepoLogoOnTheLeft.Backup(dirPath)
+	backRepo.BackRepoLogoOnTheRight.Backup(dirPath)
 	backRepo.BackRepoSlider.Backup(dirPath)
 	backRepo.BackRepoSplit.Backup(dirPath)
 	backRepo.BackRepoSvg.Backup(dirPath)
@@ -434,7 +450,8 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFavIcon.BackupXL(file)
 	backRepo.BackRepoForm.BackupXL(file)
 	backRepo.BackRepoLoad.BackupXL(file)
-	backRepo.BackRepoLogo.BackupXL(file)
+	backRepo.BackRepoLogoOnTheLeft.BackupXL(file)
+	backRepo.BackRepoLogoOnTheRight.BackupXL(file)
 	backRepo.BackRepoSlider.BackupXL(file)
 	backRepo.BackRepoSplit.BackupXL(file)
 	backRepo.BackRepoSvg.BackupXL(file)
@@ -476,7 +493,8 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFavIcon.RestorePhaseOne(dirPath)
 	backRepo.BackRepoForm.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLoad.RestorePhaseOne(dirPath)
-	backRepo.BackRepoLogo.RestorePhaseOne(dirPath)
+	backRepo.BackRepoLogoOnTheLeft.RestorePhaseOne(dirPath)
+	backRepo.BackRepoLogoOnTheRight.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSlider.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSplit.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSvg.RestorePhaseOne(dirPath)
@@ -500,7 +518,8 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFavIcon.RestorePhaseTwo()
 	backRepo.BackRepoForm.RestorePhaseTwo()
 	backRepo.BackRepoLoad.RestorePhaseTwo()
-	backRepo.BackRepoLogo.RestorePhaseTwo()
+	backRepo.BackRepoLogoOnTheLeft.RestorePhaseTwo()
+	backRepo.BackRepoLogoOnTheRight.RestorePhaseTwo()
 	backRepo.BackRepoSlider.RestorePhaseTwo()
 	backRepo.BackRepoSplit.RestorePhaseTwo()
 	backRepo.BackRepoSvg.RestorePhaseTwo()
@@ -545,7 +564,8 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoFavIcon.RestoreXLPhaseOne(file)
 	backRepo.BackRepoForm.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLoad.RestoreXLPhaseOne(file)
-	backRepo.BackRepoLogo.RestoreXLPhaseOne(file)
+	backRepo.BackRepoLogoOnTheLeft.RestoreXLPhaseOne(file)
+	backRepo.BackRepoLogoOnTheRight.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSlider.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSplit.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSvg.RestoreXLPhaseOne(file)

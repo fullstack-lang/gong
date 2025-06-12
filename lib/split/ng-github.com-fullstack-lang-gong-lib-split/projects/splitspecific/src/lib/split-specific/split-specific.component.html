@@ -1,7 +1,7 @@
 <ng-template #radioToolbar>
     <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
         <!-- SVG Logo section -->
-        @for (logo_ of frontRepo?.array_Logos; track logo_) {
+        @for (logo_ of frontRepo?.array_LogoOnTheLefts; track logo_) {
         <div 
         [style.width.px]="logo_.Width" 
         [style.height.px]="logo_.Height"
@@ -19,6 +19,15 @@
                 }
             </mat-radio-group>
         </div>
+
+        <!-- SVG Logo section -->
+        @for (logo_ of frontRepo?.array_LogoOnTheRights; track logo_) {
+        <div 
+            [style.width.px]="logo_.Width" 
+            [style.height.px]="logo_.Height"
+            style="flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;" [innerHTML]="getSafeHtml(logo_.SVG)">
+        </div>
+        }
     </div>
 </ng-template>
 

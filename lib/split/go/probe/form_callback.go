@@ -848,23 +848,23 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 
 	updateAndCommitTree(loadFormCallback.probe)
 }
-func __gong__New__LogoFormCallback(
-	logo *models.Logo,
+func __gong__New__LogoOnTheLeftFormCallback(
+	logoontheleft *models.LogoOnTheLeft,
 	probe *Probe,
 	formGroup *table.FormGroup,
-) (logoFormCallback *LogoFormCallback) {
-	logoFormCallback = new(LogoFormCallback)
-	logoFormCallback.probe = probe
-	logoFormCallback.logo = logo
-	logoFormCallback.formGroup = formGroup
+) (logoontheleftFormCallback *LogoOnTheLeftFormCallback) {
+	logoontheleftFormCallback = new(LogoOnTheLeftFormCallback)
+	logoontheleftFormCallback.probe = probe
+	logoontheleftFormCallback.logoontheleft = logoontheleft
+	logoontheleftFormCallback.formGroup = formGroup
 
-	logoFormCallback.CreationMode = (logo == nil)
+	logoontheleftFormCallback.CreationMode = (logoontheleft == nil)
 
 	return
 }
 
-type LogoFormCallback struct {
-	logo *models.Logo
+type LogoOnTheLeftFormCallback struct {
+	logoontheleft *models.LogoOnTheLeft
 
 	// If the form call is called on the creation of a new instnace
 	CreationMode bool
@@ -874,62 +874,145 @@ type LogoFormCallback struct {
 	formGroup *table.FormGroup
 }
 
-func (logoFormCallback *LogoFormCallback) OnSave() {
+func (logoontheleftFormCallback *LogoOnTheLeftFormCallback) OnSave() {
 
-	// log.Println("LogoFormCallback, OnSave")
+	// log.Println("LogoOnTheLeftFormCallback, OnSave")
 
 	// checkout formStage to have the form group on the stage synchronized with the
 	// back repo (and front repo)
-	logoFormCallback.probe.formStage.Checkout()
+	logoontheleftFormCallback.probe.formStage.Checkout()
 
-	if logoFormCallback.logo == nil {
-		logoFormCallback.logo = new(models.Logo).Stage(logoFormCallback.probe.stageOfInterest)
+	if logoontheleftFormCallback.logoontheleft == nil {
+		logoontheleftFormCallback.logoontheleft = new(models.LogoOnTheLeft).Stage(logoontheleftFormCallback.probe.stageOfInterest)
 	}
-	logo_ := logoFormCallback.logo
-	_ = logo_
+	logoontheleft_ := logoontheleftFormCallback.logoontheleft
+	_ = logoontheleft_
 
-	for _, formDiv := range logoFormCallback.formGroup.FormDivs {
+	for _, formDiv := range logoontheleftFormCallback.formGroup.FormDivs {
 		switch formDiv.Name {
 		// insertion point per field
 		case "Name":
-			FormDivBasicFieldToField(&(logo_.Name), formDiv)
+			FormDivBasicFieldToField(&(logoontheleft_.Name), formDiv)
 		case "Width":
-			FormDivBasicFieldToField(&(logo_.Width), formDiv)
+			FormDivBasicFieldToField(&(logoontheleft_.Width), formDiv)
 		case "Height":
-			FormDivBasicFieldToField(&(logo_.Height), formDiv)
+			FormDivBasicFieldToField(&(logoontheleft_.Height), formDiv)
 		case "SVG":
-			FormDivBasicFieldToField(&(logo_.SVG), formDiv)
+			FormDivBasicFieldToField(&(logoontheleft_.SVG), formDiv)
 		}
 	}
 
 	// manage the suppress operation
-	if logoFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		logo_.Unstage(logoFormCallback.probe.stageOfInterest)
+	if logoontheleftFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logoontheleft_.Unstage(logoontheleftFormCallback.probe.stageOfInterest)
 	}
 
-	logoFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Logo](
-		logoFormCallback.probe,
+	logoontheleftFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.LogoOnTheLeft](
+		logoontheleftFormCallback.probe,
 	)
-	logoFormCallback.probe.tableStage.Commit()
+	logoontheleftFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
-	if logoFormCallback.CreationMode || logoFormCallback.formGroup.HasSuppressButtonBeenPressed {
-		logoFormCallback.probe.formStage.Reset()
+	if logoontheleftFormCallback.CreationMode || logoontheleftFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logoontheleftFormCallback.probe.formStage.Reset()
 		newFormGroup := (&table.FormGroup{
 			Name: FormName,
-		}).Stage(logoFormCallback.probe.formStage)
-		newFormGroup.OnSave = __gong__New__LogoFormCallback(
+		}).Stage(logoontheleftFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__LogoOnTheLeftFormCallback(
 			nil,
-			logoFormCallback.probe,
+			logoontheleftFormCallback.probe,
 			newFormGroup,
 		)
-		logo := new(models.Logo)
-		FillUpForm(logo, newFormGroup, logoFormCallback.probe)
-		logoFormCallback.probe.formStage.Commit()
+		logoontheleft := new(models.LogoOnTheLeft)
+		FillUpForm(logoontheleft, newFormGroup, logoontheleftFormCallback.probe)
+		logoontheleftFormCallback.probe.formStage.Commit()
 	}
 
-	updateAndCommitTree(logoFormCallback.probe)
+	updateAndCommitTree(logoontheleftFormCallback.probe)
+}
+func __gong__New__LogoOnTheRightFormCallback(
+	logoontheright *models.LogoOnTheRight,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (logoontherightFormCallback *LogoOnTheRightFormCallback) {
+	logoontherightFormCallback = new(LogoOnTheRightFormCallback)
+	logoontherightFormCallback.probe = probe
+	logoontherightFormCallback.logoontheright = logoontheright
+	logoontherightFormCallback.formGroup = formGroup
+
+	logoontherightFormCallback.CreationMode = (logoontheright == nil)
+
+	return
+}
+
+type LogoOnTheRightFormCallback struct {
+	logoontheright *models.LogoOnTheRight
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (logoontherightFormCallback *LogoOnTheRightFormCallback) OnSave() {
+
+	// log.Println("LogoOnTheRightFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	logoontherightFormCallback.probe.formStage.Checkout()
+
+	if logoontherightFormCallback.logoontheright == nil {
+		logoontherightFormCallback.logoontheright = new(models.LogoOnTheRight).Stage(logoontherightFormCallback.probe.stageOfInterest)
+	}
+	logoontheright_ := logoontherightFormCallback.logoontheright
+	_ = logoontheright_
+
+	for _, formDiv := range logoontherightFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(logoontheright_.Name), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(logoontheright_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(logoontheright_.Height), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(logoontheright_.SVG), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if logoontherightFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logoontheright_.Unstage(logoontherightFormCallback.probe.stageOfInterest)
+	}
+
+	logoontherightFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.LogoOnTheRight](
+		logoontherightFormCallback.probe,
+	)
+	logoontherightFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if logoontherightFormCallback.CreationMode || logoontherightFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logoontherightFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(logoontherightFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__LogoOnTheRightFormCallback(
+			nil,
+			logoontherightFormCallback.probe,
+			newFormGroup,
+		)
+		logoontheright := new(models.LogoOnTheRight)
+		FillUpForm(logoontheright, newFormGroup, logoontherightFormCallback.probe)
+		logoontherightFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(logoontherightFormCallback.probe)
 }
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,

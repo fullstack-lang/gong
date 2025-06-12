@@ -3,9 +3,9 @@
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class LogoAPI {
+export class LogoOnTheLeftAPI {
 
-	static GONGSTRUCT_NAME = "Logo"
+	static GONGSTRUCT_NAME = "LogoOnTheLeft"
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -19,9 +19,9 @@ export class LogoAPI {
 
 	// insertion point for other decls
 
-	LogoPointersEncoding: LogoPointersEncoding = new LogoPointersEncoding
+	LogoOnTheLeftPointersEncoding: LogoOnTheLeftPointersEncoding = new LogoOnTheLeftPointersEncoding
 }
 
-export class LogoPointersEncoding {
+export class LogoOnTheLeftPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 }
