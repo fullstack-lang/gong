@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	// insertion point for models import
+
 	test_models "github.com/fullstack-lang/gong/test/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
@@ -61,11 +62,16 @@ func main() {
 				}),
 			}),
 			(&split.AsSplitArea{
-				Size: 50,
-				Split: (&split.Split{
-					StackName: stack.Stage.GetProbeSplitStageName(),
-				}),
+				Size:    50,
+				AsSplit: stack.Probe.GetDataEditor(),
 			}),
+		},
+	})
+
+	split.StageBranch(splitStage, &split.View{
+		Name: "Diagram Editor",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			stack.Probe.GetDiagramEditor(),
 		},
 	})
 
