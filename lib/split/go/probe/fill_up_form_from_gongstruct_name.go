@@ -90,6 +90,19 @@ func FillUpFormFromGongstructName(
 		doc := new(models.Doc)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(doc, formGroup, probe)
+	case "FavIcon":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FavIcon Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FavIconFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		favicon := new(models.FavIcon)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(favicon, formGroup, probe)
 	case "Form":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -65,6 +65,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Doc" {
 		updateAndCommitTable[models.Doc](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "FavIcon" {
+		updateAndCommitTable[models.FavIcon](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Form" {
 		updateAndCommitTable[models.Form](nodeImplGongstruct.probe)
 	}
