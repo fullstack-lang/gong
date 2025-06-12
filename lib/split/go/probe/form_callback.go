@@ -893,6 +893,10 @@ func (logoFormCallback *LogoFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(logo_.Name), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(logo_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(logo_.Height), formDiv)
 		case "SVG":
 			FormDivBasicFieldToField(&(logo_.SVG), formDiv)
 		}

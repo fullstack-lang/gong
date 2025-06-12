@@ -3105,7 +3105,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Load:
 		res = []string{"Name", "StackName"}
 	case Logo:
-		res = []string{"Name", "SVG"}
+		res = []string{"Name", "Width", "Height", "SVG"}
 	case Slider:
 		res = []string{"Name", "StackName"}
 	case Split:
@@ -3230,7 +3230,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Load:
 		res = []string{"Name", "StackName"}
 	case *Logo:
-		res = []string{"Name", "SVG"}
+		res = []string{"Name", "Width", "Height", "SVG"}
 	case *Slider:
 		res = []string{"Name", "StackName"}
 	case *Split:
@@ -3439,6 +3439,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Width":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Width)
+			res.valueInt = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeInt
+		case "Height":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Height)
+			res.valueInt = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "SVG":
 			res.valueString = inferedInstance.SVG
 		}
@@ -3686,6 +3694,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "Width":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Width)
+			res.valueInt = inferedInstance.Width
+			res.GongFieldValueType = GongFieldValueTypeInt
+		case "Height":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.Height)
+			res.valueInt = inferedInstance.Height
+			res.GongFieldValueType = GongFieldValueTypeInt
 		case "SVG":
 			res.valueString = inferedInstance.SVG
 		}

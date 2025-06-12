@@ -63,6 +63,12 @@ type LogoDB struct {
 	// Declation for basic field logoDB.Name
 	Name_Data sql.NullString
 
+	// Declation for basic field logoDB.Width
+	Width_Data sql.NullInt64
+
+	// Declation for basic field logoDB.Height
+	Height_Data sql.NullInt64
+
 	// Declation for basic field logoDB.SVG
 	SVG_Data sql.NullString
 
@@ -90,7 +96,11 @@ type LogoWOP struct {
 
 	Name string `xlsx:"1"`
 
-	SVG string `xlsx:"2"`
+	Width int `xlsx:"2"`
+
+	Height int `xlsx:"3"`
+
+	SVG string `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -98,6 +108,8 @@ var Logo_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
+	"Width",
+	"Height",
 	"SVG",
 }
 
@@ -379,6 +391,12 @@ func (logoDB *LogoDB) CopyBasicFieldsFromLogo(logo *models.Logo) {
 	logoDB.Name_Data.String = logo.Name
 	logoDB.Name_Data.Valid = true
 
+	logoDB.Width_Data.Int64 = int64(logo.Width)
+	logoDB.Width_Data.Valid = true
+
+	logoDB.Height_Data.Int64 = int64(logo.Height)
+	logoDB.Height_Data.Valid = true
+
 	logoDB.SVG_Data.String = logo.SVG
 	logoDB.SVG_Data.Valid = true
 }
@@ -389,6 +407,12 @@ func (logoDB *LogoDB) CopyBasicFieldsFromLogo_WOP(logo *models.Logo_WOP) {
 
 	logoDB.Name_Data.String = logo.Name
 	logoDB.Name_Data.Valid = true
+
+	logoDB.Width_Data.Int64 = int64(logo.Width)
+	logoDB.Width_Data.Valid = true
+
+	logoDB.Height_Data.Int64 = int64(logo.Height)
+	logoDB.Height_Data.Valid = true
 
 	logoDB.SVG_Data.String = logo.SVG
 	logoDB.SVG_Data.Valid = true
@@ -401,6 +425,12 @@ func (logoDB *LogoDB) CopyBasicFieldsFromLogoWOP(logo *LogoWOP) {
 	logoDB.Name_Data.String = logo.Name
 	logoDB.Name_Data.Valid = true
 
+	logoDB.Width_Data.Int64 = int64(logo.Width)
+	logoDB.Width_Data.Valid = true
+
+	logoDB.Height_Data.Int64 = int64(logo.Height)
+	logoDB.Height_Data.Valid = true
+
 	logoDB.SVG_Data.String = logo.SVG
 	logoDB.SVG_Data.Valid = true
 }
@@ -409,6 +439,8 @@ func (logoDB *LogoDB) CopyBasicFieldsFromLogoWOP(logo *LogoWOP) {
 func (logoDB *LogoDB) CopyBasicFieldsToLogo(logo *models.Logo) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	logo.Name = logoDB.Name_Data.String
+	logo.Width = int(logoDB.Width_Data.Int64)
+	logo.Height = int(logoDB.Height_Data.Int64)
 	logo.SVG = logoDB.SVG_Data.String
 }
 
@@ -416,6 +448,8 @@ func (logoDB *LogoDB) CopyBasicFieldsToLogo(logo *models.Logo) {
 func (logoDB *LogoDB) CopyBasicFieldsToLogo_WOP(logo *models.Logo_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	logo.Name = logoDB.Name_Data.String
+	logo.Width = int(logoDB.Width_Data.Int64)
+	logo.Height = int(logoDB.Height_Data.Int64)
 	logo.SVG = logoDB.SVG_Data.String
 }
 
@@ -424,6 +458,8 @@ func (logoDB *LogoDB) CopyBasicFieldsToLogoWOP(logo *LogoWOP) {
 	logo.ID = int(logoDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	logo.Name = logoDB.Name_Data.String
+	logo.Width = int(logoDB.Width_Data.Int64)
+	logo.Height = int(logoDB.Height_Data.Int64)
 	logo.SVG = logoDB.SVG_Data.String
 }
 

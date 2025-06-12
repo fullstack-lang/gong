@@ -13,6 +13,8 @@ export class LogoAPI {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Width: number = 0
+	Height: number = 0
 	SVG: string = ""
 
 	// insertion point for other decls
