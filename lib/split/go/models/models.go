@@ -131,3 +131,17 @@ type View struct {
 	ShowViewName     bool // by default, a standalone views wont display the
 	RootAsSplitAreas []*AsSplitArea
 }
+
+// You can configure the browser tab title and favicon dynamically in Angular
+type Title struct {
+	Name string
+}
+
+// You can configure the browser tab title and favicon dynamically in Angular
+// creates one instance and it will set the browser accordingly
+type FavIcon struct {
+	Name string
+
+	//gong:width 600 gong:height 300
+	SVG string
+}

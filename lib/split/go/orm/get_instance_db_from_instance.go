@@ -35,6 +35,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		docInstance := any(concreteInstance).(*models.Doc)
 		ret2 := backRepo.BackRepoDoc.GetDocDBFromDocPtr(docInstance)
 		ret = any(ret2).(*T2)
+	case *models.FavIcon:
+		faviconInstance := any(concreteInstance).(*models.FavIcon)
+		ret2 := backRepo.BackRepoFavIcon.GetFavIconDBFromFavIconPtr(faviconInstance)
+		ret = any(ret2).(*T2)
 	case *models.Form:
 		formInstance := any(concreteInstance).(*models.Form)
 		ret2 := backRepo.BackRepoForm.GetFormDBFromFormPtr(formInstance)
@@ -58,6 +62,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 	case *models.Table:
 		tableInstance := any(concreteInstance).(*models.Table)
 		ret2 := backRepo.BackRepoTable.GetTableDBFromTablePtr(tableInstance)
+		ret = any(ret2).(*T2)
+	case *models.Title:
+		titleInstance := any(concreteInstance).(*models.Title)
+		ret2 := backRepo.BackRepoTitle.GetTitleDBFromTitlePtr(titleInstance)
 		ret = any(ret2).(*T2)
 	case *models.Tone:
 		toneInstance := any(concreteInstance).(*models.Tone)
@@ -113,6 +121,11 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.FavIcon:
+		tmp := GetInstanceDBFromInstance[models.FavIcon, FavIconDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
 			stage, backRepo, inst,
@@ -140,6 +153,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Table:
 		tmp := GetInstanceDBFromInstance[models.Table, TableDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Title:
+		tmp := GetInstanceDBFromInstance[models.Title, TitleDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -201,6 +219,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
+	case *models.FavIcon:
+		tmp := GetInstanceDBFromInstance[models.FavIcon, FavIconDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
 	case *models.Form:
 		tmp := GetInstanceDBFromInstance[models.Form, FormDB](
 			stage, backRepo, inst,
@@ -228,6 +251,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Table:
 		tmp := GetInstanceDBFromInstance[models.Table, TableDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Title:
+		tmp := GetInstanceDBFromInstance[models.Title, TitleDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
