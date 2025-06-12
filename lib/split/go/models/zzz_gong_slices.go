@@ -37,7 +37,10 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Load
 	// insertion point per field
 
-	// Compute reverse map for named struct Logo
+	// Compute reverse map for named struct LogoOnTheLeft
+	// insertion point per field
+
+	// Compute reverse map for named struct LogoOnTheRight
 	// insertion point per field
 
 	// Compute reverse map for named struct Slider

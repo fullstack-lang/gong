@@ -146,8 +146,19 @@ type FavIcon struct {
 	SVG string
 }
 
-// Logo displayed in the banner
-type Logo struct {
+// LogoOnTheLeft displayed in the banner
+type LogoOnTheLeft struct {
+	Name string
+
+	Width  int
+	Height int
+
+	//gong:width 600 gong:height 300
+	SVG string
+}
+
+// LogoOnTheLeft displayed in the banner
+type LogoOnTheRight struct {
 	Name string
 
 	Width  int

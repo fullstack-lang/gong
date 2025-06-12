@@ -63,7 +63,12 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
-	case *Logo:
+	case *LogoOnTheLeft:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *LogoOnTheRight:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
@@ -177,7 +182,12 @@ func GetReverseFieldOwner[T Gongstruct](
 		// insertion point
 		}
 
-	case *Logo:
+	case *LogoOnTheLeft:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *LogoOnTheRight:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
