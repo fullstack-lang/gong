@@ -20,6 +20,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Doc:
 		ok = stage.IsStagedDoc(target)
 
+	case *FavIcon:
+		ok = stage.IsStagedFavIcon(target)
+
 	case *Form:
 		ok = stage.IsStagedForm(target)
 
@@ -37,6 +40,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Table:
 		ok = stage.IsStagedTable(target)
+
+	case *Title:
+		ok = stage.IsStagedTitle(target)
 
 	case *Tone:
 		ok = stage.IsStagedTone(target)
@@ -92,6 +98,13 @@ func (stage *Stage) IsStagedDoc(doc *Doc) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
+
+	_, ok = stage.FavIcons[favicon]
+
+	return
+}
+
 func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
 
 	_, ok = stage.Forms[form]
@@ -130,6 +143,13 @@ func (stage *Stage) IsStagedSvg(svg *Svg) (ok bool) {
 func (stage *Stage) IsStagedTable(table *Table) (ok bool) {
 
 	_, ok = stage.Tables[table]
+
+	return
+}
+
+func (stage *Stage) IsStagedTitle(title *Title) (ok bool) {
+
+	_, ok = stage.Titles[title]
 
 	return
 }
@@ -185,6 +205,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Doc:
 		stage.StageBranchDoc(target)
 
+	case *FavIcon:
+		stage.StageBranchFavIcon(target)
+
 	case *Form:
 		stage.StageBranchForm(target)
 
@@ -202,6 +225,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Table:
 		stage.StageBranchTable(target)
+
+	case *Title:
+		stage.StageBranchTitle(target)
 
 	case *Tone:
 		stage.StageBranchTone(target)
@@ -338,6 +364,21 @@ func (stage *Stage) StageBranchDoc(doc *Doc) {
 
 }
 
+func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, favicon) {
+		return
+	}
+
+	favicon.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchForm(form *Form) {
 
 	// check if instance is already staged
@@ -421,6 +462,21 @@ func (stage *Stage) StageBranchTable(table *Table) {
 	}
 
 	table.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchTitle(title *Title) {
+
+	// check if instance is already staged
+	if IsStaged(stage, title) {
+		return
+	}
+
+	title.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -522,6 +578,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDoc(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *FavIcon:
+		toT := CopyBranchFavIcon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Form:
 		toT := CopyBranchForm(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -544,6 +604,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Table:
 		toT := CopyBranchTable(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Title:
+		toT := CopyBranchTitle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Tone:
@@ -706,6 +770,25 @@ func CopyBranchDoc(mapOrigCopy map[any]any, docFrom *Doc) (docTo *Doc) {
 	return
 }
 
+func CopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo *FavIcon) {
+
+	// faviconFrom has already been copied
+	if _faviconTo, ok := mapOrigCopy[faviconFrom]; ok {
+		faviconTo = _faviconTo.(*FavIcon)
+		return
+	}
+
+	faviconTo = new(FavIcon)
+	mapOrigCopy[faviconFrom] = faviconTo
+	faviconFrom.CopyBasicFields(faviconTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchForm(mapOrigCopy map[any]any, formFrom *Form) (formTo *Form) {
 
 	// formFrom has already been copied
@@ -820,6 +903,25 @@ func CopyBranchTable(mapOrigCopy map[any]any, tableFrom *Table) (tableTo *Table)
 	return
 }
 
+func CopyBranchTitle(mapOrigCopy map[any]any, titleFrom *Title) (titleTo *Title) {
+
+	// titleFrom has already been copied
+	if _titleTo, ok := mapOrigCopy[titleFrom]; ok {
+		titleTo = _titleTo.(*Title)
+		return
+	}
+
+	titleTo = new(Title)
+	mapOrigCopy[titleFrom] = titleTo
+	titleFrom.CopyBasicFields(titleTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTone(mapOrigCopy map[any]any, toneFrom *Tone) (toneTo *Tone) {
 
 	// toneFrom has already been copied
@@ -922,6 +1024,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Doc:
 		stage.UnstageBranchDoc(target)
 
+	case *FavIcon:
+		stage.UnstageBranchFavIcon(target)
+
 	case *Form:
 		stage.UnstageBranchForm(target)
 
@@ -939,6 +1044,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Table:
 		stage.UnstageBranchTable(target)
+
+	case *Title:
+		stage.UnstageBranchTitle(target)
 
 	case *Tone:
 		stage.UnstageBranchTone(target)
@@ -1075,6 +1183,21 @@ func (stage *Stage) UnstageBranchDoc(doc *Doc) {
 
 }
 
+func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, favicon) {
+		return
+	}
+
+	favicon.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchForm(form *Form) {
 
 	// check if instance is already staged
@@ -1158,6 +1281,21 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 	}
 
 	table.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTitle(title *Title) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, title) {
+		return
+	}
+
+	title.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

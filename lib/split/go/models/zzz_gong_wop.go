@@ -94,6 +94,20 @@ func (from *Doc) CopyBasicFields(to *Doc) {
 	to.StackName = from.StackName
 }
 
+type FavIcon_WOP struct {
+	// insertion point
+
+	Name string
+
+	SVG string
+}
+
+func (from *FavIcon) CopyBasicFields(to *FavIcon) {
+	// insertion point
+	to.Name = from.Name
+	to.SVG = from.SVG
+}
+
 type Form_WOP struct {
 	// insertion point
 
@@ -185,6 +199,17 @@ func (from *Table) CopyBasicFields(to *Table) {
 	to.Name = from.Name
 	to.StackName = from.StackName
 	to.TableName = from.TableName
+}
+
+type Title_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Title) CopyBasicFields(to *Title) {
+	// insertion point
+	to.Name = from.Name
 }
 
 type Tone_WOP struct {

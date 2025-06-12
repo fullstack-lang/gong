@@ -609,6 +609,85 @@ func (docFormCallback *DocFormCallback) OnSave() {
 
 	updateAndCommitTree(docFormCallback.probe)
 }
+func __gong__New__FavIconFormCallback(
+	favicon *models.FavIcon,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (faviconFormCallback *FavIconFormCallback) {
+	faviconFormCallback = new(FavIconFormCallback)
+	faviconFormCallback.probe = probe
+	faviconFormCallback.favicon = favicon
+	faviconFormCallback.formGroup = formGroup
+
+	faviconFormCallback.CreationMode = (favicon == nil)
+
+	return
+}
+
+type FavIconFormCallback struct {
+	favicon *models.FavIcon
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (faviconFormCallback *FavIconFormCallback) OnSave() {
+
+	// log.Println("FavIconFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	faviconFormCallback.probe.formStage.Checkout()
+
+	if faviconFormCallback.favicon == nil {
+		faviconFormCallback.favicon = new(models.FavIcon).Stage(faviconFormCallback.probe.stageOfInterest)
+	}
+	favicon_ := faviconFormCallback.favicon
+	_ = favicon_
+
+	for _, formDiv := range faviconFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(favicon_.Name), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(favicon_.SVG), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if faviconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		favicon_.Unstage(faviconFormCallback.probe.stageOfInterest)
+	}
+
+	faviconFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.FavIcon](
+		faviconFormCallback.probe,
+	)
+	faviconFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if faviconFormCallback.CreationMode || faviconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		faviconFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(faviconFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__FavIconFormCallback(
+			nil,
+			faviconFormCallback.probe,
+			newFormGroup,
+		)
+		favicon := new(models.FavIcon)
+		FillUpForm(favicon, newFormGroup, faviconFormCallback.probe)
+		faviconFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(faviconFormCallback.probe)
+}
 func __gong__New__FormFormCallback(
 	form *models.Form,
 	probe *Probe,
@@ -1088,6 +1167,83 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	}
 
 	updateAndCommitTree(tableFormCallback.probe)
+}
+func __gong__New__TitleFormCallback(
+	title *models.Title,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (titleFormCallback *TitleFormCallback) {
+	titleFormCallback = new(TitleFormCallback)
+	titleFormCallback.probe = probe
+	titleFormCallback.title = title
+	titleFormCallback.formGroup = formGroup
+
+	titleFormCallback.CreationMode = (title == nil)
+
+	return
+}
+
+type TitleFormCallback struct {
+	title *models.Title
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (titleFormCallback *TitleFormCallback) OnSave() {
+
+	// log.Println("TitleFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	titleFormCallback.probe.formStage.Checkout()
+
+	if titleFormCallback.title == nil {
+		titleFormCallback.title = new(models.Title).Stage(titleFormCallback.probe.stageOfInterest)
+	}
+	title_ := titleFormCallback.title
+	_ = title_
+
+	for _, formDiv := range titleFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(title_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if titleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		title_.Unstage(titleFormCallback.probe.stageOfInterest)
+	}
+
+	titleFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.Title](
+		titleFormCallback.probe,
+	)
+	titleFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if titleFormCallback.CreationMode || titleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		titleFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(titleFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TitleFormCallback(
+			nil,
+			titleFormCallback.probe,
+			newFormGroup,
+		)
+		title := new(models.Title)
+		FillUpForm(title, newFormGroup, titleFormCallback.probe)
+		titleFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(titleFormCallback.probe)
 }
 func __gong__New__ToneFormCallback(
 	tone *models.Tone,

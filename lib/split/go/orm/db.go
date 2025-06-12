@@ -40,6 +40,10 @@ type DBLite struct {
 
 	nextIDDocDB uint
 
+	faviconDBs map[uint]*FavIconDB
+
+	nextIDFavIconDB uint
+
 	formDBs map[uint]*FormDB
 
 	nextIDFormDB uint
@@ -63,6 +67,10 @@ type DBLite struct {
 	tableDBs map[uint]*TableDB
 
 	nextIDTableDB uint
+
+	titleDBs map[uint]*TitleDB
+
+	nextIDTitleDB uint
 
 	toneDBs map[uint]*ToneDB
 
@@ -96,6 +104,8 @@ func NewDBLite() *DBLite {
 
 		docDBs: make(map[uint]*DocDB),
 
+		faviconDBs: make(map[uint]*FavIconDB),
+
 		formDBs: make(map[uint]*FormDB),
 
 		loadDBs: make(map[uint]*LoadDB),
@@ -107,6 +117,8 @@ func NewDBLite() *DBLite {
 		svgDBs: make(map[uint]*SvgDB),
 
 		tableDBs: make(map[uint]*TableDB),
+
+		titleDBs: make(map[uint]*TitleDB),
 
 		toneDBs: make(map[uint]*ToneDB),
 
@@ -149,6 +161,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDDocDB++
 		v.ID = db.nextIDDocDB
 		db.docDBs[v.ID] = v
+	case *FavIconDB:
+		db.nextIDFavIconDB++
+		v.ID = db.nextIDFavIconDB
+		db.faviconDBs[v.ID] = v
 	case *FormDB:
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
@@ -173,6 +189,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDTableDB++
 		v.ID = db.nextIDTableDB
 		db.tableDBs[v.ID] = v
+	case *TitleDB:
+		db.nextIDTitleDB++
+		v.ID = db.nextIDTitleDB
+		db.titleDBs[v.ID] = v
 	case *ToneDB:
 		db.nextIDToneDB++
 		v.ID = db.nextIDToneDB
@@ -227,6 +247,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.cursorDBs, v.ID)
 	case *DocDB:
 		delete(db.docDBs, v.ID)
+	case *FavIconDB:
+		delete(db.faviconDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
 	case *LoadDB:
@@ -239,6 +261,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.svgDBs, v.ID)
 	case *TableDB:
 		delete(db.tableDBs, v.ID)
+	case *TitleDB:
+		delete(db.titleDBs, v.ID)
 	case *ToneDB:
 		delete(db.toneDBs, v.ID)
 	case *TreeDB:
@@ -280,6 +304,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *DocDB:
 		db.docDBs[v.ID] = v
 		return db, nil
+	case *FavIconDB:
+		db.faviconDBs[v.ID] = v
+		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
 		return db, nil
@@ -297,6 +324,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *TableDB:
 		db.tableDBs[v.ID] = v
+		return db, nil
+	case *TitleDB:
+		db.titleDBs[v.ID] = v
 		return db, nil
 	case *ToneDB:
 		db.toneDBs[v.ID] = v
@@ -356,6 +386,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Doc github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
+	case *FavIconDB:
+		if existing, ok := db.faviconDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db FavIcon github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
 	case *FormDB:
 		if existing, ok := db.formDBs[v.ID]; ok {
 			*existing = *v
@@ -391,6 +427,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Table github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *TitleDB:
+		if existing, ok := db.titleDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Title github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *ToneDB:
 		if existing, ok := db.toneDBs[v.ID]; ok {
@@ -460,6 +502,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]FavIconDB:
+		*ptr = make([]FavIconDB, 0, len(db.faviconDBs))
+		for _, v := range db.faviconDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]FormDB:
 		*ptr = make([]FormDB, 0, len(db.formDBs))
 		for _, v := range db.formDBs {
@@ -493,6 +541,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]TableDB:
 		*ptr = make([]TableDB, 0, len(db.tableDBs))
 		for _, v := range db.tableDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]TitleDB:
+		*ptr = make([]TitleDB, 0, len(db.titleDBs))
+		for _, v := range db.titleDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -603,6 +657,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		docDB, _ := instanceDB.(*DocDB)
 		*docDB = *tmp
 		
+	case *FavIconDB:
+		tmp, ok := db.faviconDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FavIcon Unkown entry %d", i))
+		}
+
+		faviconDB, _ := instanceDB.(*FavIconDB)
+		*faviconDB = *tmp
+		
 	case *FormDB:
 		tmp, ok := db.formDBs[uint(i)]
 
@@ -662,6 +726,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		tableDB, _ := instanceDB.(*TableDB)
 		*tableDB = *tmp
+		
+	case *TitleDB:
+		tmp, ok := db.titleDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Title Unkown entry %d", i))
+		}
+
+		titleDB, _ := instanceDB.(*TitleDB)
+		*titleDB = *tmp
 		
 	case *ToneDB:
 		tmp, ok := db.toneDBs[uint(i)]
