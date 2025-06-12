@@ -46,6 +46,17 @@ func main() {
 	// that do not develop their specific angular component
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
+	// set the title of the application (name of the tab)
+	(&split.Title{Name: "Test"}).Stage(splitStage)
+	(&split.FavIcon{Name: "Test",
+		SVG: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+			<circle cx="12" cy="12" r="10" fill="#ff6b6b"/>
+			<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
+			<circle cx="9" cy="9" r="1" fill="white"/>
+			<circle cx="15" cy="9" r="1" fill="white"/>
+		</svg>`,
+	}).Stage(splitStage)
+
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
 	// one for the probe of the

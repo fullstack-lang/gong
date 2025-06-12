@@ -24,6 +24,10 @@ import { DocAPI } from './doc-api'
 import { Doc, CopyDocAPIToDoc } from './doc'
 import { DocService } from './doc.service'
 
+import { FavIconAPI } from './favicon-api'
+import { FavIcon, CopyFavIconAPIToFavIcon } from './favicon'
+import { FavIconService } from './favicon.service'
+
 import { FormAPI } from './form-api'
 import { Form, CopyFormAPIToForm } from './form'
 import { FormService } from './form.service'
@@ -47,6 +51,10 @@ import { SvgService } from './svg.service'
 import { TableAPI } from './table-api'
 import { Table, CopyTableAPIToTable } from './table'
 import { TableService } from './table.service'
+
+import { TitleAPI } from './title-api'
+import { Title, CopyTitleAPIToTitle } from './title'
+import { TitleService } from './title.service'
 
 import { ToneAPI } from './tone-api'
 import { Tone, CopyToneAPIToTone } from './tone'
@@ -86,6 +94,9 @@ export class FrontRepo { // insertion point sub template
 	array_Docs = new Array<Doc>() // array of front instances
 	map_ID_Doc = new Map<number, Doc>() // map of front instances
 
+	array_FavIcons = new Array<FavIcon>() // array of front instances
+	map_ID_FavIcon = new Map<number, FavIcon>() // map of front instances
+
 	array_Forms = new Array<Form>() // array of front instances
 	map_ID_Form = new Map<number, Form>() // map of front instances
 
@@ -103,6 +114,9 @@ export class FrontRepo { // insertion point sub template
 
 	array_Tables = new Array<Table>() // array of front instances
 	map_ID_Table = new Map<number, Table>() // map of front instances
+
+	array_Titles = new Array<Title>() // array of front instances
+	map_ID_Title = new Map<number, Title>() // map of front instances
 
 	array_Tones = new Array<Tone>() // array of front instances
 	map_ID_Tone = new Map<number, Tone>() // map of front instances
@@ -135,6 +149,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Cursors as unknown as Array<Type>
 			case 'Doc':
 				return this.array_Docs as unknown as Array<Type>
+			case 'FavIcon':
+				return this.array_FavIcons as unknown as Array<Type>
 			case 'Form':
 				return this.array_Forms as unknown as Array<Type>
 			case 'Load':
@@ -147,6 +163,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Svgs as unknown as Array<Type>
 			case 'Table':
 				return this.array_Tables as unknown as Array<Type>
+			case 'Title':
+				return this.array_Titles as unknown as Array<Type>
 			case 'Tone':
 				return this.array_Tones as unknown as Array<Type>
 			case 'Tree':
@@ -173,6 +191,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Cursor as unknown as Map<number, Type>
 			case 'Doc':
 				return this.map_ID_Doc as unknown as Map<number, Type>
+			case 'FavIcon':
+				return this.map_ID_FavIcon as unknown as Map<number, Type>
 			case 'Form':
 				return this.map_ID_Form as unknown as Map<number, Type>
 			case 'Load':
@@ -185,6 +205,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Svg as unknown as Map<number, Type>
 			case 'Table':
 				return this.map_ID_Table as unknown as Map<number, Type>
+			case 'Title':
+				return this.map_ID_Title as unknown as Map<number, Type>
 			case 'Tone':
 				return this.map_ID_Tone as unknown as Map<number, Type>
 			case 'Tree':
@@ -265,12 +287,14 @@ export class FrontRepoService {
 		private buttonService: ButtonService,
 		private cursorService: CursorService,
 		private docService: DocService,
+		private faviconService: FavIconService,
 		private formService: FormService,
 		private loadService: LoadService,
 		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
 		private tableService: TableService,
+		private titleService: TitleService,
 		private toneService: ToneService,
 		private treeService: TreeService,
 		private viewService: ViewService,
@@ -312,12 +336,14 @@ export class FrontRepoService {
 		Observable<ButtonAPI[]>,
 		Observable<CursorAPI[]>,
 		Observable<DocAPI[]>,
+		Observable<FavIconAPI[]>,
 		Observable<FormAPI[]>,
 		Observable<LoadAPI[]>,
 		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
 		Observable<TableAPI[]>,
+		Observable<TitleAPI[]>,
 		Observable<ToneAPI[]>,
 		Observable<TreeAPI[]>,
 		Observable<ViewAPI[]>,
@@ -342,12 +368,14 @@ export class FrontRepoService {
 			this.buttonService.getButtons(this.Name, this.frontRepo),
 			this.cursorService.getCursors(this.Name, this.frontRepo),
 			this.docService.getDocs(this.Name, this.frontRepo),
+			this.faviconService.getFavIcons(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
 			this.loadService.getLoads(this.Name, this.frontRepo),
 			this.sliderService.getSliders(this.Name, this.frontRepo),
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
 			this.tableService.getTables(this.Name, this.frontRepo),
+			this.titleService.getTitles(this.Name, this.frontRepo),
 			this.toneService.getTones(this.Name, this.frontRepo),
 			this.treeService.getTrees(this.Name, this.frontRepo),
 			this.viewService.getViews(this.Name, this.frontRepo),
@@ -367,12 +395,14 @@ export class FrontRepoService {
 						buttons_,
 						cursors_,
 						docs_,
+						favicons_,
 						forms_,
 						loads_,
 						sliders_,
 						splits_,
 						svgs_,
 						tables_,
+						titles_,
 						tones_,
 						trees_,
 						views_,
@@ -391,6 +421,8 @@ export class FrontRepoService {
 						cursors = cursors_ as CursorAPI[]
 						var docs: DocAPI[]
 						docs = docs_ as DocAPI[]
+						var favicons: FavIconAPI[]
+						favicons = favicons_ as FavIconAPI[]
 						var forms: FormAPI[]
 						forms = forms_ as FormAPI[]
 						var loads: LoadAPI[]
@@ -403,6 +435,8 @@ export class FrontRepoService {
 						svgs = svgs_ as SvgAPI[]
 						var tables: TableAPI[]
 						tables = tables_ as TableAPI[]
+						var titles: TitleAPI[]
+						titles = titles_ as TitleAPI[]
 						var tones: ToneAPI[]
 						tones = tones_ as ToneAPI[]
 						var trees: TreeAPI[]
@@ -476,6 +510,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_FavIcons = []
+						this.frontRepo.map_ID_FavIcon.clear()
+
+						favicons.forEach(
+							faviconAPI => {
+								let favicon = new FavIcon
+								this.frontRepo.array_FavIcons.push(favicon)
+								this.frontRepo.map_ID_FavIcon.set(faviconAPI.ID, favicon)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Forms = []
 						this.frontRepo.map_ID_Form.clear()
 
@@ -544,6 +590,18 @@ export class FrontRepoService {
 								let table = new Table
 								this.frontRepo.array_Tables.push(table)
 								this.frontRepo.map_ID_Table.set(tableAPI.ID, table)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Titles = []
+						this.frontRepo.map_ID_Title.clear()
+
+						titles.forEach(
+							titleAPI => {
+								let title = new Title
+								this.frontRepo.array_Titles.push(title)
+								this.frontRepo.map_ID_Title.set(titleAPI.ID, title)
 							}
 						)
 
@@ -640,6 +698,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						favicons.forEach(
+							faviconAPI => {
+								let favicon = this.frontRepo.map_ID_FavIcon.get(faviconAPI.ID)
+								CopyFavIconAPIToFavIcon(faviconAPI, favicon!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						forms.forEach(
 							formAPI => {
 								let form = this.frontRepo.map_ID_Form.get(formAPI.ID)
@@ -684,6 +750,14 @@ export class FrontRepoService {
 							tableAPI => {
 								let table = this.frontRepo.map_ID_Table.get(tableAPI.ID)
 								CopyTableAPIToTable(tableAPI, table!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						titles.forEach(
+							titleAPI => {
+								let title = this.frontRepo.map_ID_Title.get(titleAPI.ID)
+								CopyTitleAPIToTitle(titleAPI, title!, this.frontRepo)
 							}
 						)
 
@@ -829,6 +903,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_FavIcons = []
+				frontRepo.map_ID_FavIcon.clear()
+
+				backRepoData.FavIconAPIs.forEach(
+					faviconAPI => {
+						let favicon = new FavIcon
+						frontRepo.array_FavIcons.push(favicon)
+						frontRepo.map_ID_FavIcon.set(faviconAPI.ID, favicon)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Forms = []
 				frontRepo.map_ID_Form.clear()
 
@@ -897,6 +983,18 @@ export class FrontRepoService {
 						let table = new Table
 						frontRepo.array_Tables.push(table)
 						frontRepo.map_ID_Table.set(tableAPI.ID, table)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_Titles = []
+				frontRepo.map_ID_Title.clear()
+
+				backRepoData.TitleAPIs.forEach(
+					titleAPI => {
+						let title = new Title
+						frontRepo.array_Titles.push(title)
+						frontRepo.map_ID_Title.set(titleAPI.ID, title)
 					}
 				)
 
@@ -995,6 +1093,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.FavIconAPIs.forEach(
+					faviconAPI => {
+						let favicon = frontRepo.map_ID_FavIcon.get(faviconAPI.ID)
+						CopyFavIconAPIToFavIcon(faviconAPI, favicon!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.FormAPIs.forEach(
 					formAPI => {
 						let form = frontRepo.map_ID_Form.get(formAPI.ID)
@@ -1039,6 +1145,14 @@ export class FrontRepoService {
 					tableAPI => {
 						let table = frontRepo.map_ID_Table.get(tableAPI.ID)
 						CopyTableAPIToTable(tableAPI, table!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.TitleAPIs.forEach(
+					titleAPI => {
+						let title = frontRepo.map_ID_Title.get(titleAPI.ID)
+						CopyTitleAPIToTitle(titleAPI, title!, frontRepo)
 					}
 				)
 
@@ -1108,33 +1222,39 @@ export function getCursorUniqueID(id: number): number {
 export function getDocUniqueID(id: number): number {
 	return 47 * id
 }
-export function getFormUniqueID(id: number): number {
+export function getFavIconUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLoadUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 59 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getLoadUniqueID(id: number): number {
 	return 61 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 67 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 71 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 73 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 79 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 83 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 89 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 97 * id
+}
+export function getViewUniqueID(id: number): number {
+	return 101 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 103 * id
 }

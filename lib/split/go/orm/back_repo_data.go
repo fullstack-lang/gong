@@ -14,6 +14,8 @@ type BackRepoData struct {
 
 	DocAPIs []*DocAPI
 
+	FavIconAPIs []*FavIconAPI
+
 	FormAPIs []*FormAPI
 
 	LoadAPIs []*LoadAPI
@@ -25,6 +27,8 @@ type BackRepoData struct {
 	SvgAPIs []*SvgAPI
 
 	TableAPIs []*TableAPI
+
+	TitleAPIs []*TitleAPI
 
 	ToneAPIs []*ToneAPI
 
@@ -95,6 +99,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.DocAPIs = append(backRepoData.DocAPIs, &docAPI)
 	}
 
+	for _, faviconDB := range backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconDB {
+
+		var faviconAPI FavIconAPI
+		faviconAPI.ID = faviconDB.ID
+		faviconAPI.FavIconPointersEncoding = faviconDB.FavIconPointersEncoding
+		faviconDB.CopyBasicFieldsToFavIcon_WOP(&faviconAPI.FavIcon_WOP)
+
+		backRepoData.FavIconAPIs = append(backRepoData.FavIconAPIs, &faviconAPI)
+	}
+
 	for _, formDB := range backRepo.BackRepoForm.Map_FormDBID_FormDB {
 
 		var formAPI FormAPI
@@ -153,6 +167,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		tableDB.CopyBasicFieldsToTable_WOP(&tableAPI.Table_WOP)
 
 		backRepoData.TableAPIs = append(backRepoData.TableAPIs, &tableAPI)
+	}
+
+	for _, titleDB := range backRepo.BackRepoTitle.Map_TitleDBID_TitleDB {
+
+		var titleAPI TitleAPI
+		titleAPI.ID = titleDB.ID
+		titleAPI.TitlePointersEncoding = titleDB.TitlePointersEncoding
+		titleDB.CopyBasicFieldsToTitle_WOP(&titleAPI.Title_WOP)
+
+		backRepoData.TitleAPIs = append(backRepoData.TitleAPIs, &titleAPI)
 	}
 
 	for _, toneDB := range backRepo.BackRepoTone.Map_ToneDBID_ToneDB {

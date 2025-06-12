@@ -90,6 +90,19 @@ func FillUpFormFromGongstructName(
 		doc := new(models.Doc)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(doc, formGroup, probe)
+	case "FavIcon":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "FavIcon Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__FavIconFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		favicon := new(models.FavIcon)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(favicon, formGroup, probe)
 	case "Form":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -168,6 +181,19 @@ func FillUpFormFromGongstructName(
 		table := new(models.Table)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(table, formGroup, probe)
+	case "Title":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Title Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TitleFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		title := new(models.Title)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(title, formGroup, probe)
 	case "Tone":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
