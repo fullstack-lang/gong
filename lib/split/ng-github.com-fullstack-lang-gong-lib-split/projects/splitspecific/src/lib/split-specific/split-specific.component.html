@@ -1,11 +1,20 @@
 <ng-template #radioToolbar>
-    <mat-radio-group aria-label="Select an option" [(ngModel)]="view">
-        @for (view_ of frontRepo?.array_Views; track view_) {
-        <mat-radio-button [value]="view_.Name">
-            {{view_.Name}}&nbsp;&nbsp;&nbsp;
-        </mat-radio-button>
+    <div style="display: flex; align-items: center; gap: 20px;">
+        <!-- SVG Logo section -->
+        @for (logo_ of frontRepo?.array_Logos; track logo_) {
+        <div style="width: 48px; height: 48px; flex-shrink: 0;" [innerHTML]="getSafeHtml(logo_.SVG)">
+        </div>
         }
-    </mat-radio-group>
+        
+        <!-- Radio group -->
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center;">
+            @for (view_ of frontRepo?.array_Views; track view_) {
+            <mat-radio-button [value]="view_.Name" style="margin-right: 16px;">
+                {{view_.Name}}
+            </mat-radio-button>
+            }
+        </mat-radio-group>
+    </div>
 </ng-template>
 
 @for (view_ of frontRepo?.array_Views; track view_) {

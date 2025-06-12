@@ -36,6 +36,10 @@ import { LoadAPI } from './load-api'
 import { Load, CopyLoadAPIToLoad } from './load'
 import { LoadService } from './load.service'
 
+import { LogoAPI } from './logo-api'
+import { Logo, CopyLogoAPIToLogo } from './logo'
+import { LogoService } from './logo.service'
+
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
 import { SliderService } from './slider.service'
@@ -103,6 +107,9 @@ export class FrontRepo { // insertion point sub template
 	array_Loads = new Array<Load>() // array of front instances
 	map_ID_Load = new Map<number, Load>() // map of front instances
 
+	array_Logos = new Array<Logo>() // array of front instances
+	map_ID_Logo = new Map<number, Logo>() // map of front instances
+
 	array_Sliders = new Array<Slider>() // array of front instances
 	map_ID_Slider = new Map<number, Slider>() // map of front instances
 
@@ -155,6 +162,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Forms as unknown as Array<Type>
 			case 'Load':
 				return this.array_Loads as unknown as Array<Type>
+			case 'Logo':
+				return this.array_Logos as unknown as Array<Type>
 			case 'Slider':
 				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
@@ -197,6 +206,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Form as unknown as Map<number, Type>
 			case 'Load':
 				return this.map_ID_Load as unknown as Map<number, Type>
+			case 'Logo':
+				return this.map_ID_Logo as unknown as Map<number, Type>
 			case 'Slider':
 				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
@@ -290,6 +301,7 @@ export class FrontRepoService {
 		private faviconService: FavIconService,
 		private formService: FormService,
 		private loadService: LoadService,
+		private logoService: LogoService,
 		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
@@ -339,6 +351,7 @@ export class FrontRepoService {
 		Observable<FavIconAPI[]>,
 		Observable<FormAPI[]>,
 		Observable<LoadAPI[]>,
+		Observable<LogoAPI[]>,
 		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
@@ -371,6 +384,7 @@ export class FrontRepoService {
 			this.faviconService.getFavIcons(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
 			this.loadService.getLoads(this.Name, this.frontRepo),
+			this.logoService.getLogos(this.Name, this.frontRepo),
 			this.sliderService.getSliders(this.Name, this.frontRepo),
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
@@ -398,6 +412,7 @@ export class FrontRepoService {
 						favicons_,
 						forms_,
 						loads_,
+						logos_,
 						sliders_,
 						splits_,
 						svgs_,
@@ -427,6 +442,8 @@ export class FrontRepoService {
 						forms = forms_ as FormAPI[]
 						var loads: LoadAPI[]
 						loads = loads_ as LoadAPI[]
+						var logos: LogoAPI[]
+						logos = logos_ as LogoAPI[]
 						var sliders: SliderAPI[]
 						sliders = sliders_ as SliderAPI[]
 						var splits: SplitAPI[]
@@ -542,6 +559,18 @@ export class FrontRepoService {
 								let load = new Load
 								this.frontRepo.array_Loads.push(load)
 								this.frontRepo.map_ID_Load.set(loadAPI.ID, load)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Logos = []
+						this.frontRepo.map_ID_Logo.clear()
+
+						logos.forEach(
+							logoAPI => {
+								let logo = new Logo
+								this.frontRepo.array_Logos.push(logo)
+								this.frontRepo.map_ID_Logo.set(logoAPI.ID, logo)
 							}
 						)
 
@@ -718,6 +747,14 @@ export class FrontRepoService {
 							loadAPI => {
 								let load = this.frontRepo.map_ID_Load.get(loadAPI.ID)
 								CopyLoadAPIToLoad(loadAPI, load!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						logos.forEach(
+							logoAPI => {
+								let logo = this.frontRepo.map_ID_Logo.get(logoAPI.ID)
+								CopyLogoAPIToLogo(logoAPI, logo!, this.frontRepo)
 							}
 						)
 
@@ -939,6 +976,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Logos = []
+				frontRepo.map_ID_Logo.clear()
+
+				backRepoData.LogoAPIs.forEach(
+					logoAPI => {
+						let logo = new Logo
+						frontRepo.array_Logos.push(logo)
+						frontRepo.map_ID_Logo.set(logoAPI.ID, logo)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Sliders = []
 				frontRepo.map_ID_Slider.clear()
 
@@ -1117,6 +1166,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.LogoAPIs.forEach(
+					logoAPI => {
+						let logo = frontRepo.map_ID_Logo.get(logoAPI.ID)
+						CopyLogoAPIToLogo(logoAPI, logo!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.SliderAPIs.forEach(
 					sliderAPI => {
 						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
@@ -1231,30 +1288,33 @@ export function getFormUniqueID(id: number): number {
 export function getLoadUniqueID(id: number): number {
 	return 61 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getLogoUniqueID(id: number): number {
 	return 67 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 71 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 73 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 79 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 83 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 97 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 101 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 103 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 107 * id
 }
