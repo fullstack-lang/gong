@@ -672,6 +672,47 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_Title_Identifiers := make(map[*Title]string)
+	_ = map_Title_Identifiers
+
+	titleOrdered := []*Title{}
+	for title := range stage.Titles {
+		titleOrdered = append(titleOrdered, title)
+	}
+	sort.Slice(titleOrdered[:], func(i, j int) bool {
+		titlei := titleOrdered[i]
+		titlej := titleOrdered[j]
+		titlei_order, oki := stage.TitleMap_Staged_Order[titlei]
+		titlej_order, okj := stage.TitleMap_Staged_Order[titlej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return titlei_order < titlej_order
+	})
+	if len(titleOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, title := range titleOrdered {
+
+		id = generatesIdentifier("Title", idx, title.Name)
+		map_Title_Identifiers[title] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Title")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", title.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(title.Name))
+		initializerStatements += setValueField
+
+	}
+
 	map_Tone_Identifiers := make(map[*Tone]string)
 	_ = map_Tone_Identifiers
 
@@ -1118,6 +1159,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("Table", idx, table.Name)
 		map_Table_Identifiers[table] = id
+
+		// Initialisation of values
+	}
+
+	if len(titleOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Title instances pointers"
+	}
+	for idx, title := range titleOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Title", idx, title.Name)
+		map_Title_Identifiers[title] = id
 
 		// Initialisation of values
 	}

@@ -78,6 +78,11 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
+	case *Title:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *Tone:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -173,6 +178,11 @@ func GetReverseFieldOwner[T Gongstruct](
 		}
 
 	case *Table:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *Title:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

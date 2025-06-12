@@ -20,7 +20,8 @@ import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-f
 import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
 import { XlsxSpecificComponent } from '../../../../../../../xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx/projects/xlsxspecific/src/lib/xlsx-specific/xlsx-specific.component'
 
-
+// to set the title of the application
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'lib-split-specific',
@@ -42,7 +43,6 @@ import { XlsxSpecificComponent } from '../../../../../../../xlsx/ng-github.com-f
     ToneSpecificComponent,
     TreeSpecificComponent,
     XlsxSpecificComponent,
-
   
   ],
   templateUrl: './split-specific.component.html',
@@ -57,6 +57,7 @@ export class SplitSpecificComponent implements OnInit {
 
     constructor(
       private frontRepoService: split.FrontRepoService,
+      private titleService: Title
     ) { }
 
     ngOnInit(): void {
@@ -65,6 +66,10 @@ export class SplitSpecificComponent implements OnInit {
       this.frontRepoService.connectToWebSocket(this.Name).subscribe({
         next: (frontRepo) => {
           this.frontRepo = frontRepo;
+
+          if (this.frontRepo.array_Titles.length > 0) {
+            this.titleService.setTitle(this.frontRepo.array_Titles[0].Name)
+          }
   
           if (this.frontRepo.array_Views.length > 0) {
 
