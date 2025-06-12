@@ -31,6 +31,12 @@ type Probe struct {
 	formStage       *form.Stage
 	tableStage      *form.Stage
 	splitStage      *split.Stage
+
+	// AsSplit to be used if one need only the data editor
+	dataEditor *split.AsSplit
+
+	// AsSplitArea for the diagram editor
+	diagramEditor *split.AsSplitArea
 }
 
 func NewProbe(
@@ -69,7 +75,7 @@ func NewProbe(
 	probe.splitStage = splitStage
 
 	// prepare the receiving AsSplitArea
-	receivingAsSplitArea := &split.AsSplitArea{
+	probe.diagramEditor = &split.AsSplitArea{
 		Name:             "Bottom",
 		ShowNameInHeader: false,
 		Size:             50,
@@ -85,50 +91,52 @@ func NewProbe(
 		"github.com/fullstack-lang/gong/lib/doc2/go"+":"+stageOfInterest.GetName(),
 		doc2_go.GoModelsDir,
 		doc2_go.GoDiagramsDir,
-		receivingAsSplitArea,
+		probe.diagramEditor,
 	)
+
+	probe.dataEditor = &split.AsSplit{
+		Name:      "Top, sidebar, table & form",
+		Direction: split.Horizontal,
+		AsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Name: "sidebar tree",
+				Size: 20,
+				Tree: (&split.Tree{
+					Name:      "Sidebar",
+					StackName: probe.treeStage.GetName(),
+					TreeName:  SideBarTreeName,
+				}),
+			}),
+			(&split.AsSplitArea{
+				Name: "table",
+				Size: 50,
+				Table: (&split.Table{
+					Name:      "Table",
+					StackName: probe.tableStage.GetName(),
+					TableName: TableName,
+				}),
+			}),
+			(&split.AsSplitArea{
+				Name: "form",
+				Size: 30,
+				Form: (&split.Form{
+					Name:      "Form",
+					StackName: probe.formStage.GetName(),
+					FormName:  FormName,
+				}),
+			}),
+		},
+	}
 
 	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Name: "Top",
-				Size: 50,
-				AsSplit: (&split.AsSplit{
-					Name:      "Top, sidebar, table & form",
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						(&split.AsSplitArea{
-							Name: "sidebar tree",
-							Size: 20,
-							Tree: (&split.Tree{
-								Name:      "Sidebar",
-								StackName: probe.treeStage.GetName(),
-								TreeName:  SideBarTreeName,
-							}),
-						}),
-						(&split.AsSplitArea{
-							Name: "table",
-							Size: 50,
-							Table: (&split.Table{
-								Name:      "Table",
-								StackName: probe.tableStage.GetName(),
-								TableName: TableName,
-							}),
-						}),
-						(&split.AsSplitArea{
-							Name: "form",
-							Size: 30,
-							Form: (&split.Form{
-								Name:      "Form",
-								StackName: probe.formStage.GetName(),
-								FormName:  FormName,
-							}),
-						}),
-					},
-				}),
+				Name:    "Top",
+				Size:    50,
+				AsSplit: probe.dataEditor,
 			}),
-			receivingAsSplitArea,
+			probe.diagramEditor,
 		},
 	})
 	probe.splitStage.Commit()
@@ -144,4 +152,12 @@ func (probe *Probe) Refresh() {
 
 func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
+}
+
+func (probe *Probe) GetDataEditor() *split.AsSplit {
+	return probe.dataEditor
+}
+
+func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
+	return probe.diagramEditor
 }
