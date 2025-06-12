@@ -86,6 +86,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/docs/:id", GetController().UpdateDoc)
 		v1.DELETE("/v1/docs/:id", GetController().DeleteDoc)
 
+		v1.GET("/v1/favicons", GetController().GetFavIcons)
+		v1.GET("/v1/favicons/:id", GetController().GetFavIcon)
+		v1.POST("/v1/favicons", GetController().PostFavIcon)
+		v1.PATCH("/v1/favicons/:id", GetController().UpdateFavIcon)
+		v1.PUT("/v1/favicons/:id", GetController().UpdateFavIcon)
+		v1.DELETE("/v1/favicons/:id", GetController().DeleteFavIcon)
+
 		v1.GET("/v1/forms", GetController().GetForms)
 		v1.GET("/v1/forms/:id", GetController().GetForm)
 		v1.POST("/v1/forms", GetController().PostForm)
@@ -127,6 +134,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PATCH("/v1/tables/:id", GetController().UpdateTable)
 		v1.PUT("/v1/tables/:id", GetController().UpdateTable)
 		v1.DELETE("/v1/tables/:id", GetController().DeleteTable)
+
+		v1.GET("/v1/titles", GetController().GetTitles)
+		v1.GET("/v1/titles/:id", GetController().GetTitle)
+		v1.POST("/v1/titles", GetController().PostTitle)
+		v1.PATCH("/v1/titles/:id", GetController().UpdateTitle)
+		v1.PUT("/v1/titles/:id", GetController().UpdateTitle)
+		v1.DELETE("/v1/titles/:id", GetController().DeleteTitle)
 
 		v1.GET("/v1/tones", GetController().GetTones)
 		v1.GET("/v1/tones/:id", GetController().GetTone)
