@@ -519,6 +519,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_Logo_Identifiers := make(map[*Logo]string)
+	_ = map_Logo_Identifiers
+
+	logoOrdered := []*Logo{}
+	for logo := range stage.Logos {
+		logoOrdered = append(logoOrdered, logo)
+	}
+	sort.Slice(logoOrdered[:], func(i, j int) bool {
+		logoi := logoOrdered[i]
+		logoj := logoOrdered[j]
+		logoi_order, oki := stage.LogoMap_Staged_Order[logoi]
+		logoj_order, okj := stage.LogoMap_Staged_Order[logoj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return logoi_order < logoj_order
+	})
+	if len(logoOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, logo := range logoOrdered {
+
+		id = generatesIdentifier("Logo", idx, logo.Name)
+		map_Logo_Identifiers[logo] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Logo")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logo.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logo.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logo.SVG))
+		initializerStatements += setValueField
+
+	}
+
 	map_Slider_Identifiers := make(map[*Slider]string)
 	_ = map_Slider_Identifiers
 
@@ -1167,6 +1214,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("Load", idx, load.Name)
 		map_Load_Identifiers[load] = id
+
+		// Initialisation of values
+	}
+
+	if len(logoOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Logo instances pointers"
+	}
+	for idx, logo := range logoOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Logo", idx, logo.Name)
+		map_Logo_Identifiers[logo] = id
 
 		// Initialisation of values
 	}
