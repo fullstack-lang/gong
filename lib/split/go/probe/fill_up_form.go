@@ -124,7 +124,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
+			false, true, 600, true, 300)
 
 	case *models.Form:
 		// insertion point
@@ -141,6 +141,13 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+
+	case *models.Logo:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("SVG", instanceWithInferedType.SVG, instanceWithInferedType, probe.formStage, formGroup,
+			false, true, 600, true, 300)
 
 	case *models.Slider:
 		// insertion point

@@ -145,3 +145,11 @@ type FavIcon struct {
 	//gong:width 600 gong:height 300
 	SVG string
 }
+
+// Logo displayed in the banner
+type Logo struct {
+	Name string
+
+	//gong:width 600 gong:height 300
+	SVG string
+}
