@@ -1,19 +1,24 @@
 <ng-template #radioToolbar>
-    <div style="display: flex; align-items: center; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 20px; width: 100%;">
         <!-- SVG Logo section -->
         @for (logo_ of frontRepo?.array_Logos; track logo_) {
-        <div style="width: 48px; height: 48px; flex-shrink: 0;" [innerHTML]="getSafeHtml(logo_.SVG)">
+        <div 
+        [style.width.px]="logo_.Width" 
+        [style.height.px]="logo_.Height"
+        style="flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;" [innerHTML]="getSafeHtml(logo_.SVG)">
         </div>
         }
         
         <!-- Radio group -->
-        <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center;">
-            @for (view_ of frontRepo?.array_Views; track view_) {
-            <mat-radio-button [value]="view_.Name" style="margin-right: 16px;">
-                {{view_.Name}}
-            </mat-radio-button>
-            }
-        </mat-radio-group>
+        <div style="flex: 1; min-width: 0;">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center; flex-wrap: nowrap;">
+                @for (view_ of frontRepo?.array_Views; track view_) {
+                <mat-radio-button [value]="view_.Name" style="margin-right: 16px; white-space: nowrap;">
+                    {{view_.Name}}
+                </mat-radio-button>
+                }
+            </mat-radio-group>
+        </div>
     </div>
 </ng-template>
 
@@ -22,7 +27,7 @@
 <as-split unit="pixel" direction="vertical">
 
     @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length > 1) {
-    <as-split-area [size]=40>
+    <as-split-area [size]="radioButtonHeight">
         <ng-container *ngTemplateOutlet="radioToolbar"></ng-container>
     </as-split-area>
     }

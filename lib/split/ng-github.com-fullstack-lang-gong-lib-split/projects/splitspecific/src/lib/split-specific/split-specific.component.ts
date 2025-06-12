@@ -56,6 +56,8 @@ export class SplitSpecificComponent implements OnInit {
 
   view = ""
 
+  radioButtonHeight = 40
+
   constructor(
     private frontRepoService: split.FrontRepoService,
     private titleService: Title,
@@ -78,6 +80,12 @@ export class SplitSpecificComponent implements OnInit {
 
         if (this.frontRepo.array_FavIcons.length > 0) {
           this.setSvgFavicon(this.frontRepo.array_FavIcons[0].SVG)
+        }
+
+        for (let logo of this.frontRepo.array_Logos) {
+          if (this.radioButtonHeight < logo.Height) {
+            this.radioButtonHeight = logo.Height
+          }
         }
 
         if (this.frontRepo.array_Views.length > 0) {
@@ -121,7 +129,7 @@ export class SplitSpecificComponent implements OnInit {
     }
   }
 
-     getSafeHtml(svgContent: string): SafeHtml {
-        return this.sanitizer.bypassSecurityTrustHtml(svgContent);
-    }
+  getSafeHtml(svgContent: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(svgContent);
+  }
 }

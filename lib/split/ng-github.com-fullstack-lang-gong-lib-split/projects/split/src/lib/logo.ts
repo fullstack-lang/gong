@@ -18,6 +18,8 @@ export class Logo {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Width: number = 0
+	Height: number = 0
 	SVG: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
@@ -31,6 +33,8 @@ export function CopyLogoToLogoAPI(logo: Logo, logoAPI: LogoAPI) {
 
 	// insertion point for basic fields copy operations
 	logoAPI.Name = logo.Name
+	logoAPI.Width = logo.Width
+	logoAPI.Height = logo.Height
 	logoAPI.SVG = logo.SVG
 
 	// insertion point for pointer fields encoding
@@ -50,6 +54,8 @@ export function CopyLogoAPIToLogo(logoAPI: LogoAPI, logo: Logo, frontRepo: Front
 
 	// insertion point for basic fields copy operations
 	logo.Name = logoAPI.Name
+	logo.Width = logoAPI.Width
+	logo.Height = logoAPI.Height
 	logo.SVG = logoAPI.SVG
 
 	// insertion point for pointer fields encoding

@@ -144,12 +144,18 @@ type Logo_WOP struct {
 
 	Name string
 
+	Width int
+
+	Height int
+
 	SVG string
 }
 
 func (from *Logo) CopyBasicFields(to *Logo) {
 	// insertion point
 	to.Name = from.Name
+	to.Width = from.Width
+	to.Height = from.Height
 	to.SVG = from.SVG
 }
 

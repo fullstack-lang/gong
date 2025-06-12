@@ -69,12 +69,22 @@ func main() {
 
 	// set the title of the application (name of the tab)
 	(&split.Logo{
-		Name: "Test",
-		SVG: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
-			<circle cx="12" cy="12" r="10" fill="#ff6b6b"/>
-			<path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="white" stroke-width="2" stroke-linecap="round"/>
-			<circle cx="9" cy="9" r="1" fill="white"/>
-			<circle cx="15" cy="9" r="1" fill="white"/>
+		Name:   "Test",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="green" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="green" text-anchor="middle" dominant-baseline="middle">SVG 1</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.Logo{
+		Name:   "Test 2",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG 2</text>
 		</svg>`,
 	}).Stage(splitStage)
 

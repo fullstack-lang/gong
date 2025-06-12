@@ -150,6 +150,9 @@ type FavIcon struct {
 type Logo struct {
 	Name string
 
+	Width  int
+	Height int
+
 	//gong:width 600 gong:height 300
 	SVG string
 }
