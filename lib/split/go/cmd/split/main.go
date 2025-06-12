@@ -68,7 +68,27 @@ func main() {
 	}).Stage(splitStage)
 
 	// set the title of the application (name of the tab)
-	(&split.Logo{
+	(&split.LogoOnTheLeft{
+		Name:   "Test",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="green" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="green" text-anchor="middle" dominant-baseline="middle">SVG Left 1</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheLeft{
+		Name:   "Test 2",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG 2</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheRight{
 		Name:   "Test",
 		Width:  200,
 		Height: 100,
@@ -78,13 +98,13 @@ func main() {
 		</svg>`,
 	}).Stage(splitStage)
 
-	(&split.Logo{
+	(&split.LogoOnTheRight{
 		Name:   "Test 2",
 		Width:  200,
 		Height: 100,
 		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
 			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
-			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG 2</text>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG R 2</text>
 		</svg>`,
 	}).Stage(splitStage)
 

@@ -47,9 +47,13 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		loadInstance := any(concreteInstance).(*models.Load)
 		ret2 := backRepo.BackRepoLoad.GetLoadDBFromLoadPtr(loadInstance)
 		ret = any(ret2).(*T2)
-	case *models.Logo:
-		logoInstance := any(concreteInstance).(*models.Logo)
-		ret2 := backRepo.BackRepoLogo.GetLogoDBFromLogoPtr(logoInstance)
+	case *models.LogoOnTheLeft:
+		logoontheleftInstance := any(concreteInstance).(*models.LogoOnTheLeft)
+		ret2 := backRepo.BackRepoLogoOnTheLeft.GetLogoOnTheLeftDBFromLogoOnTheLeftPtr(logoontheleftInstance)
+		ret = any(ret2).(*T2)
+	case *models.LogoOnTheRight:
+		logoontherightInstance := any(concreteInstance).(*models.LogoOnTheRight)
+		ret2 := backRepo.BackRepoLogoOnTheRight.GetLogoOnTheRightDBFromLogoOnTheRightPtr(logoontherightInstance)
 		ret = any(ret2).(*T2)
 	case *models.Slider:
 		sliderInstance := any(concreteInstance).(*models.Slider)
@@ -140,8 +144,13 @@ func GetID[T models.Gongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Logo:
-		tmp := GetInstanceDBFromInstance[models.Logo, LogoDB](
+	case *models.LogoOnTheLeft:
+		tmp := GetInstanceDBFromInstance[models.LogoOnTheLeft, LogoOnTheLeftDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.LogoOnTheRight:
+		tmp := GetInstanceDBFromInstance[models.LogoOnTheRight, LogoOnTheRightDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -243,8 +252,13 @@ func GetIDPointer[T models.PointerToGongstruct](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
-	case *models.Logo:
-		tmp := GetInstanceDBFromInstance[models.Logo, LogoDB](
+	case *models.LogoOnTheLeft:
+		tmp := GetInstanceDBFromInstance[models.LogoOnTheLeft, LogoOnTheLeftDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.LogoOnTheRight:
+		tmp := GetInstanceDBFromInstance[models.LogoOnTheRight, LogoOnTheRightDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

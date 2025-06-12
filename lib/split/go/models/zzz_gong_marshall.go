@@ -519,35 +519,35 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Logo_Identifiers := make(map[*Logo]string)
-	_ = map_Logo_Identifiers
+	map_LogoOnTheLeft_Identifiers := make(map[*LogoOnTheLeft]string)
+	_ = map_LogoOnTheLeft_Identifiers
 
-	logoOrdered := []*Logo{}
-	for logo := range stage.Logos {
-		logoOrdered = append(logoOrdered, logo)
+	logoontheleftOrdered := []*LogoOnTheLeft{}
+	for logoontheleft := range stage.LogoOnTheLefts {
+		logoontheleftOrdered = append(logoontheleftOrdered, logoontheleft)
 	}
-	sort.Slice(logoOrdered[:], func(i, j int) bool {
-		logoi := logoOrdered[i]
-		logoj := logoOrdered[j]
-		logoi_order, oki := stage.LogoMap_Staged_Order[logoi]
-		logoj_order, okj := stage.LogoMap_Staged_Order[logoj]
+	sort.Slice(logoontheleftOrdered[:], func(i, j int) bool {
+		logoonthelefti := logoontheleftOrdered[i]
+		logoontheleftj := logoontheleftOrdered[j]
+		logoonthelefti_order, oki := stage.LogoOnTheLeftMap_Staged_Order[logoonthelefti]
+		logoontheleftj_order, okj := stage.LogoOnTheLeftMap_Staged_Order[logoontheleftj]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return logoi_order < logoj_order
+		return logoonthelefti_order < logoontheleftj_order
 	})
-	if len(logoOrdered) > 0 {
+	if len(logoontheleftOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, logo := range logoOrdered {
+	for idx, logoontheleft := range logoontheleftOrdered {
 
-		id = generatesIdentifier("Logo", idx, logo.Name)
-		map_Logo_Identifiers[logo] = id
+		id = generatesIdentifier("LogoOnTheLeft", idx, logoontheleft.Name)
+		map_LogoOnTheLeft_Identifiers[logoontheleft] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Logo")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logo.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LogoOnTheLeft")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logoontheleft.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -555,25 +555,84 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logo.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logoontheleft.Name))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logo.Width))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheleft.Width))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logo.Height))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheleft.Height))
 		initializerStatements += setValueField
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logo.SVG))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logoontheleft.SVG))
+		initializerStatements += setValueField
+
+	}
+
+	map_LogoOnTheRight_Identifiers := make(map[*LogoOnTheRight]string)
+	_ = map_LogoOnTheRight_Identifiers
+
+	logoontherightOrdered := []*LogoOnTheRight{}
+	for logoontheright := range stage.LogoOnTheRights {
+		logoontherightOrdered = append(logoontherightOrdered, logoontheright)
+	}
+	sort.Slice(logoontherightOrdered[:], func(i, j int) bool {
+		logoontherighti := logoontherightOrdered[i]
+		logoontherightj := logoontherightOrdered[j]
+		logoontherighti_order, oki := stage.LogoOnTheRightMap_Staged_Order[logoontherighti]
+		logoontherightj_order, okj := stage.LogoOnTheRightMap_Staged_Order[logoontherightj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return logoontherighti_order < logoontherightj_order
+	})
+	if len(logoontherightOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, logoontheright := range logoontherightOrdered {
+
+		id = generatesIdentifier("LogoOnTheRight", idx, logoontheright.Name)
+		map_LogoOnTheRight_Identifiers[logoontheright] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LogoOnTheRight")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", logoontheright.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logoontheright.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheright.Width))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", logoontheright.Height))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(logoontheright.SVG))
 		initializerStatements += setValueField
 
 	}
@@ -1230,15 +1289,28 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		// Initialisation of values
 	}
 
-	if len(logoOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Logo instances pointers"
+	if len(logoontheleftOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of LogoOnTheLeft instances pointers"
 	}
-	for idx, logo := range logoOrdered {
+	for idx, logoontheleft := range logoontheleftOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Logo", idx, logo.Name)
-		map_Logo_Identifiers[logo] = id
+		id = generatesIdentifier("LogoOnTheLeft", idx, logoontheleft.Name)
+		map_LogoOnTheLeft_Identifiers[logoontheleft] = id
+
+		// Initialisation of values
+	}
+
+	if len(logoontherightOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of LogoOnTheRight instances pointers"
+	}
+	for idx, logoontheright := range logoontherightOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("LogoOnTheRight", idx, logoontheright.Name)
+		map_LogoOnTheRight_Identifiers[logoontheright] = id
 
 		// Initialisation of values
 	}

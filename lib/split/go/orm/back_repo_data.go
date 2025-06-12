@@ -20,7 +20,9 @@ type BackRepoData struct {
 
 	LoadAPIs []*LoadAPI
 
-	LogoAPIs []*LogoAPI
+	LogoOnTheLeftAPIs []*LogoOnTheLeftAPI
+
+	LogoOnTheRightAPIs []*LogoOnTheRightAPI
 
 	SliderAPIs []*SliderAPI
 
@@ -131,14 +133,24 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.LoadAPIs = append(backRepoData.LoadAPIs, &loadAPI)
 	}
 
-	for _, logoDB := range backRepo.BackRepoLogo.Map_LogoDBID_LogoDB {
+	for _, logoontheleftDB := range backRepo.BackRepoLogoOnTheLeft.Map_LogoOnTheLeftDBID_LogoOnTheLeftDB {
 
-		var logoAPI LogoAPI
-		logoAPI.ID = logoDB.ID
-		logoAPI.LogoPointersEncoding = logoDB.LogoPointersEncoding
-		logoDB.CopyBasicFieldsToLogo_WOP(&logoAPI.Logo_WOP)
+		var logoontheleftAPI LogoOnTheLeftAPI
+		logoontheleftAPI.ID = logoontheleftDB.ID
+		logoontheleftAPI.LogoOnTheLeftPointersEncoding = logoontheleftDB.LogoOnTheLeftPointersEncoding
+		logoontheleftDB.CopyBasicFieldsToLogoOnTheLeft_WOP(&logoontheleftAPI.LogoOnTheLeft_WOP)
 
-		backRepoData.LogoAPIs = append(backRepoData.LogoAPIs, &logoAPI)
+		backRepoData.LogoOnTheLeftAPIs = append(backRepoData.LogoOnTheLeftAPIs, &logoontheleftAPI)
+	}
+
+	for _, logoontherightDB := range backRepo.BackRepoLogoOnTheRight.Map_LogoOnTheRightDBID_LogoOnTheRightDB {
+
+		var logoontherightAPI LogoOnTheRightAPI
+		logoontherightAPI.ID = logoontherightDB.ID
+		logoontherightAPI.LogoOnTheRightPointersEncoding = logoontherightDB.LogoOnTheRightPointersEncoding
+		logoontherightDB.CopyBasicFieldsToLogoOnTheRight_WOP(&logoontherightAPI.LogoOnTheRight_WOP)
+
+		backRepoData.LogoOnTheRightAPIs = append(backRepoData.LogoOnTheRightAPIs, &logoontherightAPI)
 	}
 
 	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {
