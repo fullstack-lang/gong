@@ -1089,6 +1089,83 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 
 	updateAndCommitTree(tableFormCallback.probe)
 }
+func __gong__New__TitleFormCallback(
+	title *models.Title,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (titleFormCallback *TitleFormCallback) {
+	titleFormCallback = new(TitleFormCallback)
+	titleFormCallback.probe = probe
+	titleFormCallback.title = title
+	titleFormCallback.formGroup = formGroup
+
+	titleFormCallback.CreationMode = (title == nil)
+
+	return
+}
+
+type TitleFormCallback struct {
+	title *models.Title
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (titleFormCallback *TitleFormCallback) OnSave() {
+
+	// log.Println("TitleFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	titleFormCallback.probe.formStage.Checkout()
+
+	if titleFormCallback.title == nil {
+		titleFormCallback.title = new(models.Title).Stage(titleFormCallback.probe.stageOfInterest)
+	}
+	title_ := titleFormCallback.title
+	_ = title_
+
+	for _, formDiv := range titleFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(title_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if titleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		title_.Unstage(titleFormCallback.probe.stageOfInterest)
+	}
+
+	titleFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.Title](
+		titleFormCallback.probe,
+	)
+	titleFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if titleFormCallback.CreationMode || titleFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		titleFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(titleFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TitleFormCallback(
+			nil,
+			titleFormCallback.probe,
+			newFormGroup,
+		)
+		title := new(models.Title)
+		FillUpForm(title, newFormGroup, titleFormCallback.probe)
+		titleFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(titleFormCallback.probe)
+}
 func __gong__New__ToneFormCallback(
 	tone *models.Tone,
 	probe *Probe,

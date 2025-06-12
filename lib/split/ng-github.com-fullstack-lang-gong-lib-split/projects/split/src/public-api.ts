@@ -57,6 +57,10 @@ export * from './lib/table-api'
 export * from './lib/table'
 export * from './lib/table.service'
 
+export * from './lib/title-api'
+export * from './lib/title'
+export * from './lib/title.service'
+
 export * from './lib/tone-api'
 export * from './lib/tone'
 export * from './lib/tone.service'

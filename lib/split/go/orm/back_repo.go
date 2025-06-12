@@ -46,6 +46,8 @@ type BackRepoStruct struct {
 
 	BackRepoTable BackRepoTableStruct
 
+	BackRepoTitle BackRepoTitleStruct
+
 	BackRepoTone BackRepoToneStruct
 
 	BackRepoTree BackRepoTreeStruct
@@ -86,6 +88,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&SplitDB{},
 		&SvgDB{},
 		&TableDB{},
+		&TitleDB{},
 		&ToneDB{},
 		&TreeDB{},
 		&ViewDB{},
@@ -180,6 +183,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_TableDBID_TablePtr: make(map[uint]*models.Table, 0),
 		Map_TableDBID_TableDB:  make(map[uint]*TableDB, 0),
 		Map_TablePtr_TableDBID: make(map[*models.Table]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoTitle = BackRepoTitleStruct{
+		Map_TitleDBID_TitlePtr: make(map[uint]*models.Title, 0),
+		Map_TitleDBID_TitleDB:  make(map[uint]*TitleDB, 0),
+		Map_TitlePtr_TitleDBID: make(map[*models.Title]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -279,6 +290,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoSplit.CommitPhaseOne(stage)
 	backRepo.BackRepoSvg.CommitPhaseOne(stage)
 	backRepo.BackRepoTable.CommitPhaseOne(stage)
+	backRepo.BackRepoTitle.CommitPhaseOne(stage)
 	backRepo.BackRepoTone.CommitPhaseOne(stage)
 	backRepo.BackRepoTree.CommitPhaseOne(stage)
 	backRepo.BackRepoView.CommitPhaseOne(stage)
@@ -296,6 +308,7 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoSplit.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoTitle.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTone.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoView.CommitPhaseTwo(backRepo)
@@ -325,6 +338,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoSplit.CheckoutPhaseOne()
 	backRepo.BackRepoSvg.CheckoutPhaseOne()
 	backRepo.BackRepoTable.CheckoutPhaseOne()
+	backRepo.BackRepoTitle.CheckoutPhaseOne()
 	backRepo.BackRepoTone.CheckoutPhaseOne()
 	backRepo.BackRepoTree.CheckoutPhaseOne()
 	backRepo.BackRepoView.CheckoutPhaseOne()
@@ -342,6 +356,7 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoSplit.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSvg.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTable.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoTitle.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTone.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoTree.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoView.CheckoutPhaseTwo(backRepo)
@@ -364,6 +379,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoSplit.Backup(dirPath)
 	backRepo.BackRepoSvg.Backup(dirPath)
 	backRepo.BackRepoTable.Backup(dirPath)
+	backRepo.BackRepoTitle.Backup(dirPath)
 	backRepo.BackRepoTone.Backup(dirPath)
 	backRepo.BackRepoTree.Backup(dirPath)
 	backRepo.BackRepoView.Backup(dirPath)
@@ -389,6 +405,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoSplit.BackupXL(file)
 	backRepo.BackRepoSvg.BackupXL(file)
 	backRepo.BackRepoTable.BackupXL(file)
+	backRepo.BackRepoTitle.BackupXL(file)
 	backRepo.BackRepoTone.BackupXL(file)
 	backRepo.BackRepoTree.BackupXL(file)
 	backRepo.BackRepoView.BackupXL(file)
@@ -428,6 +445,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoSplit.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSvg.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTable.RestorePhaseOne(dirPath)
+	backRepo.BackRepoTitle.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTone.RestorePhaseOne(dirPath)
 	backRepo.BackRepoTree.RestorePhaseOne(dirPath)
 	backRepo.BackRepoView.RestorePhaseOne(dirPath)
@@ -449,6 +467,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoSplit.RestorePhaseTwo()
 	backRepo.BackRepoSvg.RestorePhaseTwo()
 	backRepo.BackRepoTable.RestorePhaseTwo()
+	backRepo.BackRepoTitle.RestorePhaseTwo()
 	backRepo.BackRepoTone.RestorePhaseTwo()
 	backRepo.BackRepoTree.RestorePhaseTwo()
 	backRepo.BackRepoView.RestorePhaseTwo()
@@ -491,6 +510,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoSplit.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSvg.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTable.RestoreXLPhaseOne(file)
+	backRepo.BackRepoTitle.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTone.RestoreXLPhaseOne(file)
 	backRepo.BackRepoTree.RestoreXLPhaseOne(file)
 	backRepo.BackRepoView.RestoreXLPhaseOne(file)
