@@ -20,6 +20,8 @@ type BackRepoData struct {
 
 	LoadAPIs []*LoadAPI
 
+	LogoAPIs []*LogoAPI
+
 	SliderAPIs []*SliderAPI
 
 	SplitAPIs []*SplitAPI
@@ -127,6 +129,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		loadDB.CopyBasicFieldsToLoad_WOP(&loadAPI.Load_WOP)
 
 		backRepoData.LoadAPIs = append(backRepoData.LoadAPIs, &loadAPI)
+	}
+
+	for _, logoDB := range backRepo.BackRepoLogo.Map_LogoDBID_LogoDB {
+
+		var logoAPI LogoAPI
+		logoAPI.ID = logoDB.ID
+		logoAPI.LogoPointersEncoding = logoDB.LogoPointersEncoding
+		logoDB.CopyBasicFieldsToLogo_WOP(&logoAPI.Logo_WOP)
+
+		backRepoData.LogoAPIs = append(backRepoData.LogoAPIs, &logoAPI)
 	}
 
 	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {

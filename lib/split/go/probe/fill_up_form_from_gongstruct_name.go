@@ -129,6 +129,19 @@ func FillUpFormFromGongstructName(
 		load := new(models.Load)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(load, formGroup, probe)
+	case "Logo":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Logo Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__LogoFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		logo := new(models.Logo)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(logo, formGroup, probe)
 	case "Slider":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -161,6 +161,15 @@ type Stage struct {
 	OnAfterLoadDeleteCallback OnAfterDeleteInterface[Load]
 	OnAfterLoadReadCallback   OnAfterReadInterface[Load]
 
+	Logos           map[*Logo]any
+	Logos_mapString map[string]*Logo
+
+	// insertion point for slice of pointers maps
+	OnAfterLogoCreateCallback OnAfterCreateInterface[Logo]
+	OnAfterLogoUpdateCallback OnAfterUpdateInterface[Logo]
+	OnAfterLogoDeleteCallback OnAfterDeleteInterface[Logo]
+	OnAfterLogoReadCallback   OnAfterReadInterface[Logo]
+
 	Sliders           map[*Slider]any
 	Sliders_mapString map[string]*Slider
 
@@ -294,6 +303,9 @@ type Stage struct {
 	LoadOrder            uint
 	LoadMap_Staged_Order map[*Load]uint
 
+	LogoOrder            uint
+	LogoMap_Staged_Order map[*Logo]uint
+
 	SliderOrder            uint
 	SliderMap_Staged_Order map[*Slider]uint
 
@@ -408,6 +420,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Forms, stage.FormMap_Staged_Order)
 	case "Load":
 		res = GetNamedStructInstances(stage.Loads, stage.LoadMap_Staged_Order)
+	case "Logo":
+		res = GetNamedStructInstances(stage.Logos, stage.LogoMap_Staged_Order)
 	case "Slider":
 		res = GetNamedStructInstances(stage.Sliders, stage.SliderMap_Staged_Order)
 	case "Split":
@@ -511,6 +525,8 @@ type BackRepoInterface interface {
 	CheckoutForm(form *Form)
 	CommitLoad(load *Load)
 	CheckoutLoad(load *Load)
+	CommitLogo(logo *Logo)
+	CheckoutLogo(logo *Logo)
 	CommitSlider(slider *Slider)
 	CheckoutSlider(slider *Slider)
 	CommitSplit(split *Split)
@@ -559,6 +575,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Loads:           make(map[*Load]any),
 		Loads_mapString: make(map[string]*Load),
+
+		Logos:           make(map[*Logo]any),
+		Logos_mapString: make(map[string]*Logo),
 
 		Sliders:           make(map[*Slider]any),
 		Sliders_mapString: make(map[string]*Slider),
@@ -613,6 +632,8 @@ func NewStage(name string) (stage *Stage) {
 
 		LoadMap_Staged_Order: make(map[*Load]uint),
 
+		LogoMap_Staged_Order: make(map[*Logo]uint),
+
 		SliderMap_Staged_Order: make(map[*Slider]uint),
 
 		SplitMap_Staged_Order: make(map[*Split]uint),
@@ -642,6 +663,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "FavIcon"},
 			{name: "Form"},
 			{name: "Load"},
+			{name: "Logo"},
 			{name: "Slider"},
 			{name: "Split"},
 			{name: "Svg"},
@@ -677,6 +699,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.FormMap_Staged_Order[instance]
 	case *Load:
 		return stage.LoadMap_Staged_Order[instance]
+	case *Logo:
+		return stage.LogoMap_Staged_Order[instance]
 	case *Slider:
 		return stage.SliderMap_Staged_Order[instance]
 	case *Split:
@@ -720,6 +744,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.FormMap_Staged_Order[instance]
 	case *Load:
 		return stage.LoadMap_Staged_Order[instance]
+	case *Logo:
+		return stage.LogoMap_Staged_Order[instance]
 	case *Slider:
 		return stage.SliderMap_Staged_Order[instance]
 	case *Split:
@@ -773,6 +799,7 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
+	stage.Map_GongStructName_InstancesNb["Logo"] = len(stage.Logos)
 	stage.Map_GongStructName_InstancesNb["Slider"] = len(stage.Sliders)
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
@@ -800,6 +827,7 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
+	stage.Map_GongStructName_InstancesNb["Logo"] = len(stage.Logos)
 	stage.Map_GongStructName_InstancesNb["Slider"] = len(stage.Sliders)
 	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
 	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
@@ -1279,6 +1307,61 @@ func (load *Load) Checkout(stage *Stage) *Load {
 // for satisfaction of GongStruct interface
 func (load *Load) GetName() (res string) {
 	return load.Name
+}
+
+// Stage puts logo to the model stage
+func (logo *Logo) Stage(stage *Stage) *Logo {
+
+	if _, ok := stage.Logos[logo]; !ok {
+		stage.Logos[logo] = __member
+		stage.LogoMap_Staged_Order[logo] = stage.LogoOrder
+		stage.LogoOrder++
+	}
+	stage.Logos_mapString[logo.Name] = logo
+
+	return logo
+}
+
+// Unstage removes logo off the model stage
+func (logo *Logo) Unstage(stage *Stage) *Logo {
+	delete(stage.Logos, logo)
+	delete(stage.Logos_mapString, logo.Name)
+	return logo
+}
+
+// UnstageVoid removes logo off the model stage
+func (logo *Logo) UnstageVoid(stage *Stage) {
+	delete(stage.Logos, logo)
+	delete(stage.Logos_mapString, logo.Name)
+}
+
+// commit logo to the back repo (if it is already staged)
+func (logo *Logo) Commit(stage *Stage) *Logo {
+	if _, ok := stage.Logos[logo]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitLogo(logo)
+		}
+	}
+	return logo
+}
+
+func (logo *Logo) CommitVoid(stage *Stage) {
+	logo.Commit(stage)
+}
+
+// Checkout logo to the back repo (if it is already staged)
+func (logo *Logo) Checkout(stage *Stage) *Logo {
+	if _, ok := stage.Logos[logo]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutLogo(logo)
+		}
+	}
+	return logo
+}
+
+// for satisfaction of GongStruct interface
+func (logo *Logo) GetName() (res string) {
+	return logo.Name
 }
 
 // Stage puts slider to the model stage
@@ -1786,6 +1869,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMFavIcon(FavIcon *FavIcon)
 	CreateORMForm(Form *Form)
 	CreateORMLoad(Load *Load)
+	CreateORMLogo(Logo *Logo)
 	CreateORMSlider(Slider *Slider)
 	CreateORMSplit(Split *Split)
 	CreateORMSvg(Svg *Svg)
@@ -1806,6 +1890,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMFavIcon(FavIcon *FavIcon)
 	DeleteORMForm(Form *Form)
 	DeleteORMLoad(Load *Load)
+	DeleteORMLogo(Logo *Logo)
 	DeleteORMSlider(Slider *Slider)
 	DeleteORMSplit(Split *Split)
 	DeleteORMSvg(Svg *Svg)
@@ -1857,6 +1942,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Loads_mapString = make(map[string]*Load)
 	stage.LoadMap_Staged_Order = make(map[*Load]uint)
 	stage.LoadOrder = 0
+
+	stage.Logos = make(map[*Logo]any)
+	stage.Logos_mapString = make(map[string]*Logo)
+	stage.LogoMap_Staged_Order = make(map[*Logo]uint)
+	stage.LogoOrder = 0
 
 	stage.Sliders = make(map[*Slider]any)
 	stage.Sliders_mapString = make(map[string]*Slider)
@@ -1930,6 +2020,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Loads = nil
 	stage.Loads_mapString = nil
 
+	stage.Logos = nil
+	stage.Logos_mapString = nil
+
 	stage.Sliders = nil
 	stage.Sliders_mapString = nil
 
@@ -1990,6 +2083,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for load := range stage.Loads {
 		load.Unstage(stage)
+	}
+
+	for logo := range stage.Logos {
+		logo.Unstage(stage)
 	}
 
 	for slider := range stage.Sliders {
@@ -2105,6 +2202,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Forms).(*Type)
 	case map[*Load]any:
 		return any(&stage.Loads).(*Type)
+	case map[*Logo]any:
+		return any(&stage.Logos).(*Type)
 	case map[*Slider]any:
 		return any(&stage.Sliders).(*Type)
 	case map[*Split]any:
@@ -2151,6 +2250,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Forms_mapString).(*Type)
 	case map[string]*Load:
 		return any(&stage.Loads_mapString).(*Type)
+	case map[string]*Logo:
+		return any(&stage.Logos_mapString).(*Type)
 	case map[string]*Slider:
 		return any(&stage.Sliders_mapString).(*Type)
 	case map[string]*Split:
@@ -2197,6 +2298,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Forms).(*map[*Type]any)
 	case Load:
 		return any(&stage.Loads).(*map[*Type]any)
+	case Logo:
+		return any(&stage.Logos).(*map[*Type]any)
 	case Slider:
 		return any(&stage.Sliders).(*map[*Type]any)
 	case Split:
@@ -2243,6 +2346,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Forms).(*map[Type]any)
 	case *Load:
 		return any(&stage.Loads).(*map[Type]any)
+	case *Logo:
+		return any(&stage.Logos).(*map[Type]any)
 	case *Slider:
 		return any(&stage.Sliders).(*map[Type]any)
 	case *Split:
@@ -2289,6 +2394,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Forms_mapString).(*map[string]*Type)
 	case Load:
 		return any(&stage.Loads_mapString).(*map[string]*Type)
+	case Logo:
+		return any(&stage.Logos_mapString).(*map[string]*Type)
 	case Slider:
 		return any(&stage.Sliders_mapString).(*map[string]*Type)
 	case Split:
@@ -2379,6 +2486,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Load:
 		return any(&Load{
+			// Initialisation of associations
+		}).(*Type)
+	case Logo:
+		return any(&Logo{
 			// Initialisation of associations
 		}).(*Type)
 	case Slider:
@@ -2698,6 +2809,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Logo
+	case Logo:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Slider
 	case Slider:
 		switch fieldname {
@@ -2807,6 +2923,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of Logo
+	case Logo:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Slider
 	case Slider:
 		switch fieldname {
@@ -2888,6 +3009,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Form"
 	case Load:
 		res = "Load"
+	case Logo:
+		res = "Logo"
 	case Slider:
 		res = "Slider"
 	case Split:
@@ -2934,6 +3057,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Form"
 	case *Load:
 		res = "Load"
+	case *Logo:
+		res = "Logo"
 	case *Slider:
 		res = "Slider"
 	case *Split:
@@ -2979,6 +3104,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "FormName"}
 	case Load:
 		res = []string{"Name", "StackName"}
+	case Logo:
+		res = []string{"Name", "SVG"}
 	case Slider:
 		res = []string{"Name", "StackName"}
 	case Split:
@@ -3045,6 +3172,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Load:
 		var rf ReverseField
 		_ = rf
+	case Logo:
+		var rf ReverseField
+		_ = rf
 	case Slider:
 		var rf ReverseField
 		_ = rf
@@ -3099,6 +3229,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "StackName", "FormName"}
 	case *Load:
 		res = []string{"Name", "StackName"}
+	case *Logo:
+		res = []string{"Name", "SVG"}
 	case *Slider:
 		res = []string{"Name", "StackName"}
 	case *Split:
@@ -3301,6 +3433,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		}
+	case *Logo:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "SVG":
+			res.valueString = inferedInstance.SVG
 		}
 	case *Slider:
 		switch fieldName {
@@ -3540,6 +3680,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
+		}
+	case Logo:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "SVG":
+			res.valueString = inferedInstance.SVG
 		}
 	case Slider:
 		switch fieldName {
