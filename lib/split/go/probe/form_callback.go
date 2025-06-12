@@ -609,6 +609,85 @@ func (docFormCallback *DocFormCallback) OnSave() {
 
 	updateAndCommitTree(docFormCallback.probe)
 }
+func __gong__New__FavIconFormCallback(
+	favicon *models.FavIcon,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (faviconFormCallback *FavIconFormCallback) {
+	faviconFormCallback = new(FavIconFormCallback)
+	faviconFormCallback.probe = probe
+	faviconFormCallback.favicon = favicon
+	faviconFormCallback.formGroup = formGroup
+
+	faviconFormCallback.CreationMode = (favicon == nil)
+
+	return
+}
+
+type FavIconFormCallback struct {
+	favicon *models.FavIcon
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (faviconFormCallback *FavIconFormCallback) OnSave() {
+
+	// log.Println("FavIconFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	faviconFormCallback.probe.formStage.Checkout()
+
+	if faviconFormCallback.favicon == nil {
+		faviconFormCallback.favicon = new(models.FavIcon).Stage(faviconFormCallback.probe.stageOfInterest)
+	}
+	favicon_ := faviconFormCallback.favicon
+	_ = favicon_
+
+	for _, formDiv := range faviconFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(favicon_.Name), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(favicon_.SVG), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if faviconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		favicon_.Unstage(faviconFormCallback.probe.stageOfInterest)
+	}
+
+	faviconFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.FavIcon](
+		faviconFormCallback.probe,
+	)
+	faviconFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if faviconFormCallback.CreationMode || faviconFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		faviconFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(faviconFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__FavIconFormCallback(
+			nil,
+			faviconFormCallback.probe,
+			newFormGroup,
+		)
+		favicon := new(models.FavIcon)
+		FillUpForm(favicon, newFormGroup, faviconFormCallback.probe)
+		faviconFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(faviconFormCallback.probe)
+}
 func __gong__New__FormFormCallback(
 	form *models.Form,
 	probe *Probe,

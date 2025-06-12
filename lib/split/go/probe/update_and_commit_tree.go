@@ -128,6 +128,16 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "FavIcon":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSet[models.FavIcon](probe.stageOfInterest)
+			for _favicon := range set {
+				nodeInstance := &tree.Node{Name: _favicon.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_favicon, "FavIcon", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Form":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.Form](probe.stageOfInterest)

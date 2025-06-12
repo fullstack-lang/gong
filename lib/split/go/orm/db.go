@@ -40,6 +40,10 @@ type DBLite struct {
 
 	nextIDDocDB uint
 
+	faviconDBs map[uint]*FavIconDB
+
+	nextIDFavIconDB uint
+
 	formDBs map[uint]*FormDB
 
 	nextIDFormDB uint
@@ -100,6 +104,8 @@ func NewDBLite() *DBLite {
 
 		docDBs: make(map[uint]*DocDB),
 
+		faviconDBs: make(map[uint]*FavIconDB),
+
 		formDBs: make(map[uint]*FormDB),
 
 		loadDBs: make(map[uint]*LoadDB),
@@ -155,6 +161,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDDocDB++
 		v.ID = db.nextIDDocDB
 		db.docDBs[v.ID] = v
+	case *FavIconDB:
+		db.nextIDFavIconDB++
+		v.ID = db.nextIDFavIconDB
+		db.faviconDBs[v.ID] = v
 	case *FormDB:
 		db.nextIDFormDB++
 		v.ID = db.nextIDFormDB
@@ -237,6 +247,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.cursorDBs, v.ID)
 	case *DocDB:
 		delete(db.docDBs, v.ID)
+	case *FavIconDB:
+		delete(db.faviconDBs, v.ID)
 	case *FormDB:
 		delete(db.formDBs, v.ID)
 	case *LoadDB:
@@ -291,6 +303,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *DocDB:
 		db.docDBs[v.ID] = v
+		return db, nil
+	case *FavIconDB:
+		db.faviconDBs[v.ID] = v
 		return db, nil
 	case *FormDB:
 		db.formDBs[v.ID] = v
@@ -370,6 +385,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Doc github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *FavIconDB:
+		if existing, ok := db.faviconDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db FavIcon github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *FormDB:
 		if existing, ok := db.formDBs[v.ID]; ok {
@@ -478,6 +499,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]DocDB:
 		*ptr = make([]DocDB, 0, len(db.docDBs))
 		for _, v := range db.docDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]FavIconDB:
+		*ptr = make([]FavIconDB, 0, len(db.faviconDBs))
+		for _, v := range db.faviconDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -629,6 +656,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		docDB, _ := instanceDB.(*DocDB)
 		*docDB = *tmp
+		
+	case *FavIconDB:
+		tmp, ok := db.faviconDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First FavIcon Unkown entry %d", i))
+		}
+
+		faviconDB, _ := instanceDB.(*FavIconDB)
+		*faviconDB = *tmp
 		
 	case *FormDB:
 		tmp, ok := db.formDBs[uint(i)]

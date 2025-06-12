@@ -35,6 +35,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		docInstance := any(concreteInstance).(*models.Doc)
 		ret2 := backRepo.BackRepoDoc.GetDocDBFromDocPtr(docInstance)
 		ret = any(ret2).(*T2)
+	case *models.FavIcon:
+		faviconInstance := any(concreteInstance).(*models.FavIcon)
+		ret2 := backRepo.BackRepoFavIcon.GetFavIconDBFromFavIconPtr(faviconInstance)
+		ret = any(ret2).(*T2)
 	case *models.Form:
 		formInstance := any(concreteInstance).(*models.Form)
 		ret2 := backRepo.BackRepoForm.GetFormDBFromFormPtr(formInstance)
@@ -114,6 +118,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Doc:
 		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FavIcon:
+		tmp := GetInstanceDBFromInstance[models.FavIcon, FavIconDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -207,6 +216,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Doc:
 		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.FavIcon:
+		tmp := GetInstanceDBFromInstance[models.FavIcon, FavIconDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

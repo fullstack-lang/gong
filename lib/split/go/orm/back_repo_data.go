@@ -14,6 +14,8 @@ type BackRepoData struct {
 
 	DocAPIs []*DocAPI
 
+	FavIconAPIs []*FavIconAPI
+
 	FormAPIs []*FormAPI
 
 	LoadAPIs []*LoadAPI
@@ -95,6 +97,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		docDB.CopyBasicFieldsToDoc_WOP(&docAPI.Doc_WOP)
 
 		backRepoData.DocAPIs = append(backRepoData.DocAPIs, &docAPI)
+	}
+
+	for _, faviconDB := range backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconDB {
+
+		var faviconAPI FavIconAPI
+		faviconAPI.ID = faviconDB.ID
+		faviconAPI.FavIconPointersEncoding = faviconDB.FavIconPointersEncoding
+		faviconDB.CopyBasicFieldsToFavIcon_WOP(&faviconAPI.FavIcon_WOP)
+
+		backRepoData.FavIconAPIs = append(backRepoData.FavIconAPIs, &faviconAPI)
 	}
 
 	for _, formDB := range backRepo.BackRepoForm.Map_FormDBID_FormDB {
