@@ -29,6 +29,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Load:
 		ok = stage.IsStagedLoad(target)
 
+	case *Logo:
+		ok = stage.IsStagedLogo(target)
+
 	case *Slider:
 		ok = stage.IsStagedSlider(target)
 
@@ -115,6 +118,13 @@ func (stage *Stage) IsStagedForm(form *Form) (ok bool) {
 func (stage *Stage) IsStagedLoad(load *Load) (ok bool) {
 
 	_, ok = stage.Loads[load]
+
+	return
+}
+
+func (stage *Stage) IsStagedLogo(logo *Logo) (ok bool) {
+
+	_, ok = stage.Logos[logo]
 
 	return
 }
@@ -213,6 +223,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Load:
 		stage.StageBranchLoad(target)
+
+	case *Logo:
+		stage.StageBranchLogo(target)
 
 	case *Slider:
 		stage.StageBranchSlider(target)
@@ -409,6 +422,21 @@ func (stage *Stage) StageBranchLoad(load *Load) {
 
 }
 
+func (stage *Stage) StageBranchLogo(logo *Logo) {
+
+	// check if instance is already staged
+	if IsStaged(stage, logo) {
+		return
+	}
+
+	logo.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchSlider(slider *Slider) {
 
 	// check if instance is already staged
@@ -588,6 +616,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Load:
 		toT := CopyBranchLoad(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Logo:
+		toT := CopyBranchLogo(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Slider:
@@ -827,6 +859,25 @@ func CopyBranchLoad(mapOrigCopy map[any]any, loadFrom *Load) (loadTo *Load) {
 	return
 }
 
+func CopyBranchLogo(mapOrigCopy map[any]any, logoFrom *Logo) (logoTo *Logo) {
+
+	// logoFrom has already been copied
+	if _logoTo, ok := mapOrigCopy[logoFrom]; ok {
+		logoTo = _logoTo.(*Logo)
+		return
+	}
+
+	logoTo = new(Logo)
+	mapOrigCopy[logoFrom] = logoTo
+	logoFrom.CopyBasicFields(logoTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchSlider(mapOrigCopy map[any]any, sliderFrom *Slider) (sliderTo *Slider) {
 
 	// sliderFrom has already been copied
@@ -1033,6 +1084,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Load:
 		stage.UnstageBranchLoad(target)
 
+	case *Logo:
+		stage.UnstageBranchLogo(target)
+
 	case *Slider:
 		stage.UnstageBranchSlider(target)
 
@@ -1221,6 +1275,21 @@ func (stage *Stage) UnstageBranchLoad(load *Load) {
 	}
 
 	load.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchLogo(logo *Logo) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, logo) {
+		return
+	}
+
+	logo.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
