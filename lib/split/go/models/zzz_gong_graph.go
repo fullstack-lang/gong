@@ -20,6 +20,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Doc:
 		ok = stage.IsStagedDoc(target)
 
+	case *FavIcon:
+		ok = stage.IsStagedFavIcon(target)
+
 	case *Form:
 		ok = stage.IsStagedForm(target)
 
@@ -91,6 +94,13 @@ func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
 func (stage *Stage) IsStagedDoc(doc *Doc) (ok bool) {
 
 	_, ok = stage.Docs[doc]
+
+	return
+}
+
+func (stage *Stage) IsStagedFavIcon(favicon *FavIcon) (ok bool) {
+
+	_, ok = stage.FavIcons[favicon]
 
 	return
 }
@@ -194,6 +204,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Doc:
 		stage.StageBranchDoc(target)
+
+	case *FavIcon:
+		stage.StageBranchFavIcon(target)
 
 	case *Form:
 		stage.StageBranchForm(target)
@@ -344,6 +357,21 @@ func (stage *Stage) StageBranchDoc(doc *Doc) {
 	}
 
 	doc.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchFavIcon(favicon *FavIcon) {
+
+	// check if instance is already staged
+	if IsStaged(stage, favicon) {
+		return
+	}
+
+	favicon.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -550,6 +578,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDoc(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *FavIcon:
+		toT := CopyBranchFavIcon(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Form:
 		toT := CopyBranchForm(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -730,6 +762,25 @@ func CopyBranchDoc(mapOrigCopy map[any]any, docFrom *Doc) (docTo *Doc) {
 	docTo = new(Doc)
 	mapOrigCopy[docFrom] = docTo
 	docFrom.CopyBasicFields(docTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchFavIcon(mapOrigCopy map[any]any, faviconFrom *FavIcon) (faviconTo *FavIcon) {
+
+	// faviconFrom has already been copied
+	if _faviconTo, ok := mapOrigCopy[faviconFrom]; ok {
+		faviconTo = _faviconTo.(*FavIcon)
+		return
+	}
+
+	faviconTo = new(FavIcon)
+	mapOrigCopy[faviconFrom] = faviconTo
+	faviconFrom.CopyBasicFields(faviconTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -973,6 +1024,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Doc:
 		stage.UnstageBranchDoc(target)
 
+	case *FavIcon:
+		stage.UnstageBranchFavIcon(target)
+
 	case *Form:
 		stage.UnstageBranchForm(target)
 
@@ -1122,6 +1176,21 @@ func (stage *Stage) UnstageBranchDoc(doc *Doc) {
 	}
 
 	doc.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchFavIcon(favicon *FavIcon) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, favicon) {
+		return
+	}
+
+	favicon.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

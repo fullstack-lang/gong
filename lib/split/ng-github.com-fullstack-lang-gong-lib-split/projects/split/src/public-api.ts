@@ -33,6 +33,10 @@ export * from './lib/doc-api'
 export * from './lib/doc'
 export * from './lib/doc.service'
 
+export * from './lib/favicon-api'
+export * from './lib/favicon'
+export * from './lib/favicon.service'
+
 export * from './lib/form-api'
 export * from './lib/form'
 export * from './lib/form.service'

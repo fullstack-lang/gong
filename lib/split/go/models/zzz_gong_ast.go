@@ -397,6 +397,7 @@ var __gong__map_AsSplitArea = make(map[string]*AsSplitArea)
 var __gong__map_Button = make(map[string]*Button)
 var __gong__map_Cursor = make(map[string]*Cursor)
 var __gong__map_Doc = make(map[string]*Doc)
+var __gong__map_FavIcon = make(map[string]*FavIcon)
 var __gong__map_Form = make(map[string]*Form)
 var __gong__map_Load = make(map[string]*Load)
 var __gong__map_Slider = make(map[string]*Slider)
@@ -610,6 +611,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceDoc.Stage(stage)
 										instance = any(instanceDoc)
 										__gong__map_Doc[identifier] = instanceDoc
+									case "FavIcon":
+										instanceFavIcon := new(FavIcon)
+										instanceFavIcon.Name = instanceName
+										instanceFavIcon.Stage(stage)
+										instance = any(instanceFavIcon)
+										__gong__map_FavIcon[identifier] = instanceFavIcon
 									case "Form":
 										instanceForm := new(Form)
 										instanceForm.Name = instanceName
@@ -730,6 +737,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "Doc":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "FavIcon":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -860,6 +871,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						// insertion point for slice of pointers assign code
 						}
 					case "Doc":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "FavIcon":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1042,6 +1057,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Doc[identifier].StackName = fielValue
+				}
+			case "FavIcon":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FavIcon[identifier].Name = fielValue
+				case "SVG":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FavIcon[identifier].SVG = fielValue
 				}
 			case "Form":
 				switch fieldName {
@@ -1278,6 +1305,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "FavIcon":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Form":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1411,6 +1442,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "Doc":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "FavIcon":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
