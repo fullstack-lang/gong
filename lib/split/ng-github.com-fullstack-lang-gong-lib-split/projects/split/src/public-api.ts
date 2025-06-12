@@ -45,6 +45,10 @@ export * from './lib/load-api'
 export * from './lib/load'
 export * from './lib/load.service'
 
+export * from './lib/logo-api'
+export * from './lib/logo'
+export * from './lib/logo.service'
+
 export * from './lib/slider-api'
 export * from './lib/slider'
 export * from './lib/slider.service'
