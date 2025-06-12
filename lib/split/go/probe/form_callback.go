@@ -848,6 +848,85 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 
 	updateAndCommitTree(loadFormCallback.probe)
 }
+func __gong__New__LogoFormCallback(
+	logo *models.Logo,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (logoFormCallback *LogoFormCallback) {
+	logoFormCallback = new(LogoFormCallback)
+	logoFormCallback.probe = probe
+	logoFormCallback.logo = logo
+	logoFormCallback.formGroup = formGroup
+
+	logoFormCallback.CreationMode = (logo == nil)
+
+	return
+}
+
+type LogoFormCallback struct {
+	logo *models.Logo
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (logoFormCallback *LogoFormCallback) OnSave() {
+
+	// log.Println("LogoFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	logoFormCallback.probe.formStage.Checkout()
+
+	if logoFormCallback.logo == nil {
+		logoFormCallback.logo = new(models.Logo).Stage(logoFormCallback.probe.stageOfInterest)
+	}
+	logo_ := logoFormCallback.logo
+	_ = logo_
+
+	for _, formDiv := range logoFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(logo_.Name), formDiv)
+		case "SVG":
+			FormDivBasicFieldToField(&(logo_.SVG), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if logoFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logo_.Unstage(logoFormCallback.probe.stageOfInterest)
+	}
+
+	logoFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.Logo](
+		logoFormCallback.probe,
+	)
+	logoFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if logoFormCallback.CreationMode || logoFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		logoFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(logoFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__LogoFormCallback(
+			nil,
+			logoFormCallback.probe,
+			newFormGroup,
+		)
+		logo := new(models.Logo)
+		FillUpForm(logo, newFormGroup, logoFormCallback.probe)
+		logoFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(logoFormCallback.probe)
+}
 func __gong__New__SliderFormCallback(
 	slider *models.Slider,
 	probe *Probe,
