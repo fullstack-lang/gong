@@ -91,6 +91,8 @@ type Stage struct {
 	As_mapString map[string]*A
 
 	// insertion point for slice of pointers maps
+	A_As_reverseMap map[*A]*A
+
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
@@ -608,6 +610,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case A:
 		return any(&A{
 			// Initialisation of associations
+			// field is initialized with an instance of A with the name of the field
+			As: []*A{{Name: "As"}},
 		}).(*Type)
 	default:
 		return nil
@@ -652,6 +656,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case A:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "As":
+			res := make(map[*A][]*A)
+			for a := range stage.As {
+				for _, a_ := range a.As {
+					res[a_] = append(res[a_], a)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -693,7 +705,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case A:
-		res = []string{"Name"}
+		res = []string{"Name", "As"}
 	}
 	return
 }
@@ -715,6 +727,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case A:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "A"
+		rf.Fieldname = "As"
+		res = append(res, rf)
 	}
 	return
 }
@@ -727,7 +742,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *A:
-		res = []string{"Name"}
+		res = []string{"Name", "As"}
 	}
 	return
 }
@@ -774,6 +789,13 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "As":
+			for idx, __instance__ := range inferedInstance.As {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance
@@ -790,6 +812,13 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		// string value of fields
 		case "Name":
 			res.valueString = inferedInstance.Name
+		case "As":
+			for idx, __instance__ := range inferedInstance.As {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	default:
 		_ = inferedInstance

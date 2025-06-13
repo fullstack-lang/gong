@@ -51,6 +51,9 @@ func (stage *Stage) StageBranchA(a *A) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _a := range a.As {
+		StageBranch(stage, _a)
+	}
 
 }
 
@@ -91,6 +94,9 @@ func CopyBranchA(mapOrigCopy map[any]any, aFrom *A) (aTo *A) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _a := range aFrom.As {
+		aTo.As = append(aTo.As, CopyBranchA(mapOrigCopy, _a))
+	}
 
 	return
 }
@@ -124,5 +130,8 @@ func (stage *Stage) UnstageBranchA(a *A) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _a := range a.As {
+		UnstageBranch(stage, _a)
+	}
 
 }
