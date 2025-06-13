@@ -8,7 +8,4 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct A
 	// insertion point per field
 
-	// Compute reverse map for named struct B
-	// insertion point per field
-
 }

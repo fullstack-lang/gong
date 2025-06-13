@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+import { SplitSpecificComponent } from '@vendored_components/github.com/fullstack-lang/gong/lib/split/ng-github.com-fullstack-lang-gong-lib-split/projects/splitspecific/src/lib/split-specific/split-specific.component'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: `
-    <h1>Welcome to {{title}}!</h1>
+  standalone: true,
+  imports: [
+    SplitSpecificComponent,
+  ],
 
-    <router-outlet />
-  `,
-  styles: [],
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'ng-github.com-fullstack-lang-gong-test-test3';
 }

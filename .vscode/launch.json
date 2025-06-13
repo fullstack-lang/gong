@@ -564,6 +564,17 @@
             ]
         },
         {
+            "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=data/stage.go",
+                "-marshallOnCommit=data/stage.go"
+            ]
+        },
+        {
             "name": "go test BclassOrder",
             "type": "go",
             "request": "launch",
@@ -634,7 +645,7 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/test3/go/models",
+            "cwd": "${workspaceFolder}/test/test3/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
@@ -642,14 +653,14 @@
             ]
         },
         {
-            "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
+            "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/test3/go/cmd/test3",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage_out"
+                "-marshallOnCommit=data/stage.go"
             ]
         },
         {

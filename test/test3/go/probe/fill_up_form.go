@@ -22,11 +22,6 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
-	case *models.B:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-
 	default:
 		_ = instanceWithInferedType
 	}
