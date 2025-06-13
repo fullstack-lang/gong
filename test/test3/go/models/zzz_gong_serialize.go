@@ -17,7 +17,6 @@ func SerializeStage(stage *Stage, filename string) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct[*A](stage, f)
-		SerializeExcelizePointerToGongstruct[*B](stage, f)
 	}
 
 	// Create a style with wrap text enabled

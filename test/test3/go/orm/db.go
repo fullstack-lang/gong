@@ -23,10 +23,6 @@ type DBLite struct {
 	aDBs map[uint]*ADB
 
 	nextIDADB uint
-
-	bDBs map[uint]*BDB
-
-	nextIDBDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -35,8 +31,6 @@ func NewDBLite() *DBLite {
 		// insertion point maps init
 
 		aDBs: make(map[uint]*ADB),
-
-		bDBs: make(map[uint]*BDB),
 	}
 }
 
@@ -55,10 +49,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDADB++
 		v.ID = db.nextIDADB
 		db.aDBs[v.ID] = v
-	case *BDB:
-		db.nextIDBDB++
-		v.ID = db.nextIDBDB
-		db.bDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test3/go, unsupported type in Create")
 	}
@@ -89,8 +79,6 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ADB:
 		delete(db.aDBs, v.ID)
-	case *BDB:
-		delete(db.bDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test3/go, unsupported type in Delete")
 	}
@@ -111,9 +99,6 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ADB:
 		db.aDBs[v.ID] = v
-		return db, nil
-	case *BDB:
-		db.bDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test3/go, Save: unsupported type")
@@ -137,12 +122,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db A github.com/fullstack-lang/gong/test/test3/go, record not found")
 		}
-	case *BDB:
-		if existing, ok := db.bDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db B github.com/fullstack-lang/gong/test/test3/go, record not found")
-		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test3/go, unsupported type in Updates")
 	}
@@ -160,12 +139,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ADB:
 		*ptr = make([]ADB, 0, len(db.aDBs))
 		for _, v := range db.aDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]BDB:
-		*ptr = make([]BDB, 0, len(db.bDBs))
-		for _, v := range db.bDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -211,16 +184,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		aDB, _ := instanceDB.(*ADB)
 		*aDB = *tmp
-		
-	case *BDB:
-		tmp, ok := db.bDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First B Unkown entry %d", i))
-		}
-
-		bDB, _ := instanceDB.(*BDB)
-		*bDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/test/test3/go, Unkown type")

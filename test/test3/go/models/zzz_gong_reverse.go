@@ -14,11 +14,6 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
-	case *B:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	default:
 		_ = inst
 	}
@@ -34,11 +29,6 @@ func GetReverseFieldOwner[T Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *A:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *B:
 		switch reverseField.GongstructName {
 		// insertion point
 		}
