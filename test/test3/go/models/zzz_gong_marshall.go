@@ -158,6 +158,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_A_Identifiers[a] = id
 
 		// Initialisation of values
+		for _, _a := range a.As {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "As")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_A_Identifiers[_a])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)

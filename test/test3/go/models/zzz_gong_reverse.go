@@ -12,6 +12,13 @@ func GetReverseFieldOwnerName(
 	case *A:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "As":
+				if _a, ok := stage.A_As_reverseMap[inst]; ok {
+					res = _a.Name
+				}
+			}
 		}
 
 	default:
@@ -31,6 +38,11 @@ func GetReverseFieldOwner[T Gongstruct](
 	case *A:
 		switch reverseField.GongstructName {
 		// insertion point
+		case "A":
+			switch reverseField.Fieldname {
+			case "As":
+				res = stage.A_As_reverseMap[inst]
+			}
 		}
 
 	default:

@@ -7,5 +7,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct A
 	// insertion point per field
+	clear(stage.A_As_reverseMap)
+	stage.A_As_reverseMap = make(map[*A]*A)
+	for a := range stage.As {
+		_ = a
+		for _, _a := range a.As {
+			stage.A_As_reverseMap[_a] = a
+		}
+	}
 
 }
