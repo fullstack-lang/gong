@@ -21,6 +21,29 @@ func FillUpForm(
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		AssociationSliceToForm("As", instanceWithInferedType, &instanceWithInferedType.As, formGroup, probe)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "A"
+			rf.Fieldname = "As"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.A),
+					"As",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.A](
+					nil,
+					"As",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	default:
 		_ = instanceWithInferedType

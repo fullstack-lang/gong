@@ -47,6 +47,9 @@ type AAPI struct {
 // reverse pointers of slice of poitners to Struct
 type APointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field As is a slice of pointers to another Struct (optional or 0..1)
+	As IntSlice `gorm:"type:TEXT"`
 }
 
 // ADB describes a a in the database
@@ -223,6 +226,24 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		aDB.CopyBasicFieldsFromA(a)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// 1. reset
+		aDB.APointersEncoding.As = make([]int, 0)
+		// 2. encode
+		for _, aAssocEnd := range a.As {
+			aAssocEnd_DB :=
+				backRepo.BackRepoA.GetADBFromAPtr(aAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the aAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if aAssocEnd_DB == nil {
+				continue
+			}
+			
+			aDB.APointersEncoding.As =
+				append(aDB.APointersEncoding.As, int(aAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoA.db.Save(aDB)
 		if err != nil {
 			log.Fatal(err)
@@ -336,6 +357,15 @@ func (backRepoA *BackRepoAStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 func (aDB *ADB) DecodePointers(backRepo *BackRepoStruct, a *models.A) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem a.As in the stage from the encode in the back repo
+	// It parses all ADB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	a.As = a.As[:0]
+	for _, _Aid := range aDB.APointersEncoding.As {
+		a.As = append(a.As, backRepo.BackRepoA.Map_ADBID_APtr[uint(_Aid)])
+	}
+
 	return
 }
 
