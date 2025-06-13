@@ -96,15 +96,6 @@ type Stage struct {
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
 	OnAfterAReadCallback   OnAfterReadInterface[A]
 
-	Bs           map[*B]any
-	Bs_mapString map[string]*B
-
-	// insertion point for slice of pointers maps
-	OnAfterBCreateCallback OnAfterCreateInterface[B]
-	OnAfterBUpdateCallback OnAfterUpdateInterface[B]
-	OnAfterBDeleteCallback OnAfterDeleteInterface[B]
-	OnAfterBReadCallback   OnAfterReadInterface[B]
-
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
 	AllModelsStructDeleteCallback AllModelsStructDeleteInterface
@@ -133,9 +124,6 @@ type Stage struct {
 	// insertion point for order fields declaration
 	AOrder            uint
 	AMap_Staged_Order map[*A]uint
-
-	BOrder            uint
-	BMap_Staged_Order map[*B]uint
 
 	// end of insertion point
 
@@ -210,8 +198,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 	// insertion point for case
 	case "A":
 		res = GetNamedStructInstances(stage.As, stage.AMap_Staged_Order)
-	case "B":
-		res = GetNamedStructInstances(stage.Bs, stage.BMap_Staged_Order)
 	}
 
 	return
@@ -283,8 +269,6 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitA(a *A)
 	CheckoutA(a *A)
-	CommitB(b *B)
-	CheckoutB(b *B)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -294,9 +278,6 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		As:           make(map[*A]any),
 		As_mapString: make(map[string]*A),
-
-		Bs:           make(map[*B]any),
-		Bs_mapString: make(map[string]*B),
 
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
@@ -310,13 +291,10 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		AMap_Staged_Order: make(map[*A]uint),
 
-		BMap_Staged_Order: make(map[*B]uint),
-
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "A"},
-			{name: "B"},
 		}, // end of insertion point
 	}
 
@@ -329,8 +307,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *A:
 		return stage.AMap_Staged_Order[instance]
-	case *B:
-		return stage.BMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -342,8 +318,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *A:
 		return stage.AMap_Staged_Order[instance]
-	case *B:
-		return stage.BMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -372,7 +346,6 @@ func (stage *Stage) Commit() {
 
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
-	stage.Map_GongStructName_InstancesNb["B"] = len(stage.Bs)
 
 }
 
@@ -384,7 +357,6 @@ func (stage *Stage) Checkout() {
 	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["A"] = len(stage.As)
-	stage.Map_GongStructName_InstancesNb["B"] = len(stage.Bs)
 
 }
 
@@ -472,70 +444,13 @@ func (a *A) GetName() (res string) {
 	return a.Name
 }
 
-// Stage puts b to the model stage
-func (b *B) Stage(stage *Stage) *B {
-
-	if _, ok := stage.Bs[b]; !ok {
-		stage.Bs[b] = __member
-		stage.BMap_Staged_Order[b] = stage.BOrder
-		stage.BOrder++
-	}
-	stage.Bs_mapString[b.Name] = b
-
-	return b
-}
-
-// Unstage removes b off the model stage
-func (b *B) Unstage(stage *Stage) *B {
-	delete(stage.Bs, b)
-	delete(stage.Bs_mapString, b.Name)
-	return b
-}
-
-// UnstageVoid removes b off the model stage
-func (b *B) UnstageVoid(stage *Stage) {
-	delete(stage.Bs, b)
-	delete(stage.Bs_mapString, b.Name)
-}
-
-// commit b to the back repo (if it is already staged)
-func (b *B) Commit(stage *Stage) *B {
-	if _, ok := stage.Bs[b]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitB(b)
-		}
-	}
-	return b
-}
-
-func (b *B) CommitVoid(stage *Stage) {
-	b.Commit(stage)
-}
-
-// Checkout b to the back repo (if it is already staged)
-func (b *B) Checkout(stage *Stage) *B {
-	if _, ok := stage.Bs[b]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutB(b)
-		}
-	}
-	return b
-}
-
-// for satisfaction of GongStruct interface
-func (b *B) GetName() (res string) {
-	return b.Name
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMA(A *A)
-	CreateORMB(B *B)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMA(A *A)
-	DeleteORMB(B *B)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -544,29 +459,17 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.AMap_Staged_Order = make(map[*A]uint)
 	stage.AOrder = 0
 
-	stage.Bs = make(map[*B]any)
-	stage.Bs_mapString = make(map[string]*B)
-	stage.BMap_Staged_Order = make(map[*B]uint)
-	stage.BOrder = 0
-
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
 	stage.As = nil
 	stage.As_mapString = nil
 
-	stage.Bs = nil
-	stage.Bs_mapString = nil
-
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for a := range stage.As {
 		a.Unstage(stage)
-	}
-
-	for b := range stage.Bs {
-		b.Unstage(stage)
 	}
 
 }
@@ -632,8 +535,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*A]any:
 		return any(&stage.As).(*Type)
-	case map[*B]any:
-		return any(&stage.Bs).(*Type)
 	default:
 		return nil
 	}
@@ -648,8 +549,6 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[string]*A:
 		return any(&stage.As_mapString).(*Type)
-	case map[string]*B:
-		return any(&stage.Bs_mapString).(*Type)
 	default:
 		return nil
 	}
@@ -664,8 +563,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	// insertion point for generic get functions
 	case A:
 		return any(&stage.As).(*map[*Type]any)
-	case B:
-		return any(&stage.Bs).(*map[*Type]any)
 	default:
 		return nil
 	}
@@ -680,8 +577,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *A:
 		return any(&stage.As).(*map[Type]any)
-	case *B:
-		return any(&stage.Bs).(*map[Type]any)
 	default:
 		return nil
 	}
@@ -696,8 +591,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case A:
 		return any(&stage.As_mapString).(*map[string]*Type)
-	case B:
-		return any(&stage.Bs_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -714,10 +607,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case A:
 		return any(&A{
-			// Initialisation of associations
-		}).(*Type)
-	case B:
-		return any(&B{
 			// Initialisation of associations
 		}).(*Type)
 	default:
@@ -743,11 +632,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of B
-	case B:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	}
 	return nil
 }
@@ -769,11 +653,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of B
-	case B:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	}
 	return nil
 }
@@ -788,8 +667,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case A:
 		res = "A"
-	case B:
-		res = "B"
 	}
 	return res
 }
@@ -804,8 +681,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *A:
 		res = "A"
-	case *B:
-		res = "B"
 	}
 	return res
 }
@@ -818,8 +693,6 @@ func GetFields[Type Gongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case A:
-		res = []string{"Name"}
-	case B:
 		res = []string{"Name"}
 	}
 	return
@@ -842,9 +715,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case A:
 		var rf ReverseField
 		_ = rf
-	case B:
-		var rf ReverseField
-		_ = rf
 	}
 	return
 }
@@ -857,8 +727,6 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *A:
-		res = []string{"Name"}
-	case *B:
 		res = []string{"Name"}
 	}
 	return
@@ -907,12 +775,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		}
-	case *B:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
 	default:
 		_ = inferedInstance
 	}
@@ -924,12 +786,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
 	case A:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	case B:
 		switch fieldName {
 		// string value of fields
 		case "Name":
