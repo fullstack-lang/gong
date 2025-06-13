@@ -357,7 +357,8 @@
       "group": "build",
       "args": [
         "-skipGoModCommands",
-        "-skipNpmWorkspaces"
+        "-skipNpmWorkspaces",
+        "-skipStager=false",
       ]
     },
     {
@@ -775,7 +776,7 @@
       ],
       "group": "build"
     },
-        {
+    {
       "label": "04 - go run svg on simple port 8090",
       "type": "shell",
       "options": {
@@ -794,7 +795,7 @@
       ],
       "group": "build"
     },
-            {
+    {
       "label": "04 - go run svg on simple",
       "type": "shell",
       "options": {
@@ -811,7 +812,7 @@
       ],
       "group": "build"
     },
-            {
+    {
       "label": "04 - go run table",
       "type": "shell",
       "options": {

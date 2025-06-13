@@ -21,8 +21,6 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 	// insertion point
 	case *models.A:
 		updateAndCommitTable[models.A](probe)
-	case *models.B:
-		updateAndCommitTable[models.B](probe)
 	default:
 		log.Println("unknow type")
 	}
