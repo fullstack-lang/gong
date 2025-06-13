@@ -671,6 +671,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "A":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "As":
+							// remove first and last char
+							targetIdentifier := ident.Name
+							// when parsing A[identifier].As = append(A[identifier].As, A instance )
+							// the map will not find the A instance, when parsing the first arg
+							// therefore, the condition is necessary
+							if target, ok := __gong__map_A[targetIdentifier]; ok {
+								__gong__map_A[identifier].As =
+									append(__gong__map_A[identifier].As, target)
+							}
 						}
 					}
 				}
