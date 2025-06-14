@@ -896,7 +896,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -958,24 +958,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "FormFields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing FormDiv[identifier].FormFields = append(FormDiv[identifier].FormFields, FormField instance )
-							// the map will not find the FormField instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_FormField[targetIdentifier]; ok {
-								__gong__map_FormDiv[identifier].FormFields =
-									append(__gong__map_FormDiv[identifier].FormFields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_FormField[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_FormDiv[identifier]
+								instanceWhoseFieldIsAppended.FormFields = append(instanceWhoseFieldIsAppended.FormFields, instanceToAppend)
 							}
 						case "CheckBoxs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing FormDiv[identifier].CheckBoxs = append(FormDiv[identifier].CheckBoxs, CheckBox instance )
-							// the map will not find the CheckBox instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_CheckBox[targetIdentifier]; ok {
-								__gong__map_FormDiv[identifier].CheckBoxs =
-									append(__gong__map_FormDiv[identifier].CheckBoxs, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_CheckBox[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_FormDiv[identifier]
+								instanceWhoseFieldIsAppended.CheckBoxs = append(instanceWhoseFieldIsAppended.CheckBoxs, instanceToAppend)
 							}
 						}
 					case "FormEditAssocButton":
@@ -1006,14 +1006,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Options":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing FormFieldSelect[identifier].Options = append(FormFieldSelect[identifier].Options, Option instance )
-							// the map will not find the Option instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Option[targetIdentifier]; ok {
-								__gong__map_FormFieldSelect[identifier].Options =
-									append(__gong__map_FormFieldSelect[identifier].Options, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Option[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_FormFieldSelect[identifier]
+								instanceWhoseFieldIsAppended.Options = append(instanceWhoseFieldIsAppended.Options, instanceToAppend)
 							}
 						}
 					case "FormFieldString":
@@ -1028,14 +1028,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "FormDivs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing FormGroup[identifier].FormDivs = append(FormGroup[identifier].FormDivs, FormDiv instance )
-							// the map will not find the FormDiv instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_FormDiv[targetIdentifier]; ok {
-								__gong__map_FormGroup[identifier].FormDivs =
-									append(__gong__map_FormGroup[identifier].FormDivs, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_FormDiv[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_FormGroup[identifier]
+								instanceWhoseFieldIsAppended.FormDivs = append(instanceWhoseFieldIsAppended.FormDivs, instanceToAppend)
 							}
 						}
 					case "FormSortAssocButton":
@@ -1050,38 +1050,38 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Cells":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Row[identifier].Cells = append(Row[identifier].Cells, Cell instance )
-							// the map will not find the Cell instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Cell[targetIdentifier]; ok {
-								__gong__map_Row[identifier].Cells =
-									append(__gong__map_Row[identifier].Cells, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Cell[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Row[identifier]
+								instanceWhoseFieldIsAppended.Cells = append(instanceWhoseFieldIsAppended.Cells, instanceToAppend)
 							}
 						}
 					case "Table":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "DisplayedColumns":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Table[identifier].DisplayedColumns = append(Table[identifier].DisplayedColumns, DisplayedColumn instance )
-							// the map will not find the DisplayedColumn instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_DisplayedColumn[targetIdentifier]; ok {
-								__gong__map_Table[identifier].DisplayedColumns =
-									append(__gong__map_Table[identifier].DisplayedColumns, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_DisplayedColumn[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Table[identifier]
+								instanceWhoseFieldIsAppended.DisplayedColumns = append(instanceWhoseFieldIsAppended.DisplayedColumns, instanceToAppend)
 							}
 						case "Rows":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Table[identifier].Rows = append(Table[identifier].Rows, Row instance )
-							// the map will not find the Row instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Row[targetIdentifier]; ok {
-								__gong__map_Table[identifier].Rows =
-									append(__gong__map_Table[identifier].Rows, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Row[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Table[identifier]
+								instanceWhoseFieldIsAppended.Rows = append(instanceWhoseFieldIsAppended.Rows, instanceToAppend)
 							}
 						}
 					}
