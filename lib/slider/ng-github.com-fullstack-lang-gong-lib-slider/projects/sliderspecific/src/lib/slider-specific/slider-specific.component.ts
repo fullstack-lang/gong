@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { AngularSplitModule } from 'angular-split';
 
@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon'
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -31,7 +32,7 @@ import { MatIconModule } from '@angular/material/icon'
   templateUrl: './slider-specific.component.html',
   styleUrl: './slider-specific.component.css'
 })
-export class SliderSpecificComponent {
+export class SliderSpecificComponent implements OnInit, OnDestroy {
 
   @Input() Name: string = ""
 
@@ -42,6 +43,9 @@ export class SliderSpecificComponent {
   splitAreaSize = 0
 
   layout: slider.Layout | undefined
+
+  private frontRepoSub: Subscription | undefined;
+  private sliderServiceSub: Subscription | undefined;
 
   constructor(
     private frontRepoService: slider.FrontRepoService,
@@ -58,7 +62,12 @@ export class SliderSpecificComponent {
   }
 
   ngOnInit(): void {
-    console.log("ngOnInit");
+    this.subscribeToFrontRepo()
+  }
+
+  subscribeToFrontRepo(): void {
+    // Unsubscribe from any previous subscription to prevent memory leaks
+    this.frontRepoSub?.unsubscribe()
 
     this.frontRepoService.connectToWebSocket(this.Name).subscribe({
       next: (frontRepo) => {
@@ -74,7 +83,15 @@ export class SliderSpecificComponent {
     )
   }
 
+  ngOnDestroy(): void {
+    // This is the crucial part. Unsubscribing here will trigger the
+    // teardown logic in the connectToWebSocket observable, closing the socket.
+    this.frontRepoSub?.unsubscribe()
+    this.sliderServiceSub?.unsubscribe()
+  }
+
   input($event: Event, slider: slider.Slider) {
+    this.sliderServiceSub?.unsubscribe()
     this.sliderService.updateFront(slider, this.Name).subscribe(
       () => {
         console.log("slider updated")
