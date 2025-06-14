@@ -840,7 +840,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -870,14 +870,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "AsSplitAreas":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing AsSplit[identifier].AsSplitAreas = append(AsSplit[identifier].AsSplitAreas, AsSplitArea instance )
-							// the map will not find the AsSplitArea instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_AsSplitArea[targetIdentifier]; ok {
-								__gong__map_AsSplit[identifier].AsSplitAreas =
-									append(__gong__map_AsSplit[identifier].AsSplitAreas, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_AsSplitArea[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_AsSplit[identifier]
+								instanceWhoseFieldIsAppended.AsSplitAreas = append(instanceWhoseFieldIsAppended.AsSplitAreas, instanceToAppend)
 							}
 						}
 					case "AsSplitArea":
@@ -948,14 +948,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "RootAsSplitAreas":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing View[identifier].RootAsSplitAreas = append(View[identifier].RootAsSplitAreas, AsSplitArea instance )
-							// the map will not find the AsSplitArea instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_AsSplitArea[targetIdentifier]; ok {
-								__gong__map_View[identifier].RootAsSplitAreas =
-									append(__gong__map_View[identifier].RootAsSplitAreas, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_AsSplitArea[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_View[identifier]
+								instanceWhoseFieldIsAppended.RootAsSplitAreas = append(instanceWhoseFieldIsAppended.RootAsSplitAreas, instanceToAppend)
 							}
 						}
 					case "Xlsx":
