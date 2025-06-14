@@ -36,6 +36,10 @@ type Node struct {
 	IsSecondCheckboxDisabled bool
 	TextAfterSecondCheckbox  string
 
+	HasToolTip      bool
+	ToolTipText     string
+	ToolTipPosition ToolTipPositionEnum
+
 	// in case the user wants to change the name of the node
 	IsInEditMode bool
 
