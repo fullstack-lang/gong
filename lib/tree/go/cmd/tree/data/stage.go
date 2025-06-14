@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 02:52:18.498420 CEST"
-	const __write__utc_time__ = "2025-06-14 00:52:18.498420 UTC"
+	const __write__local_time = "2025-06-14 02:59:57.565183 CEST"
+	const __write__utc_time__ = "2025-06-14 00:59:57.565183 UTC"
 
-	const __commitId__ = "0000000017"
+	const __commitId__ = "0000000022"
 
 	// Declaration of instances to stage
 
@@ -149,6 +149,8 @@ func _(stage *models.Stage) {
 	__Node__000000_Test_1_2_without_checkbox.IsSecondCheckboxChecked = false
 	__Node__000000_Test_1_2_without_checkbox.IsSecondCheckboxDisabled = false
 	__Node__000000_Test_1_2_without_checkbox.TextAfterSecondCheckbox = `Text After Second CheckBox`
+	__Node__000000_Test_1_2_without_checkbox.HasToolTip = false
+	__Node__000000_Test_1_2_without_checkbox.ToolTipText = ``
 	__Node__000000_Test_1_2_without_checkbox.IsInEditMode = false
 	__Node__000000_Test_1_2_without_checkbox.IsNodeClickable = false
 	__Node__000000_Test_1_2_without_checkbox.IsWithPreceedingIcon = false
@@ -166,6 +168,8 @@ func _(stage *models.Stage) {
 	__Node__000001_root1.IsSecondCheckboxChecked = false
 	__Node__000001_root1.IsSecondCheckboxDisabled = false
 	__Node__000001_root1.TextAfterSecondCheckbox = ``
+	__Node__000001_root1.HasToolTip = false
+	__Node__000001_root1.ToolTipText = ``
 	__Node__000001_root1.IsInEditMode = false
 	__Node__000001_root1.IsNodeClickable = false
 	__Node__000001_root1.IsWithPreceedingIcon = false
@@ -183,6 +187,9 @@ func _(stage *models.Stage) {
 	__Node__000002_root2.IsSecondCheckboxChecked = false
 	__Node__000002_root2.IsSecondCheckboxDisabled = false
 	__Node__000002_root2.TextAfterSecondCheckbox = ``
+	__Node__000002_root2.HasToolTip = true
+	__Node__000002_root2.ToolTipText = `This node has tool tip`
+	__Node__000002_root2.ToolTipPosition = models.Above
 	__Node__000002_root2.IsInEditMode = false
 	__Node__000002_root2.IsNodeClickable = false
 	__Node__000002_root2.IsWithPreceedingIcon = false
@@ -200,6 +207,8 @@ func _(stage *models.Stage) {
 	__Node__000003_root3.IsSecondCheckboxChecked = false
 	__Node__000003_root3.IsSecondCheckboxDisabled = false
 	__Node__000003_root3.TextAfterSecondCheckbox = ``
+	__Node__000003_root3.HasToolTip = false
+	__Node__000003_root3.ToolTipText = ``
 	__Node__000003_root3.IsInEditMode = false
 	__Node__000003_root3.IsNodeClickable = false
 	__Node__000003_root3.IsWithPreceedingIcon = false
@@ -217,6 +226,8 @@ func _(stage *models.Stage) {
 	__Node__000004_root3_test3.IsSecondCheckboxChecked = false
 	__Node__000004_root3_test3.IsSecondCheckboxDisabled = false
 	__Node__000004_root3_test3.TextAfterSecondCheckbox = ``
+	__Node__000004_root3_test3.HasToolTip = false
+	__Node__000004_root3_test3.ToolTipText = ``
 	__Node__000004_root3_test3.IsInEditMode = false
 	__Node__000004_root3_test3.IsNodeClickable = false
 	__Node__000004_root3_test3.IsWithPreceedingIcon = false
@@ -234,6 +245,8 @@ func _(stage *models.Stage) {
 	__Node__000005_test_1_1.IsSecondCheckboxChecked = false
 	__Node__000005_test_1_1.IsSecondCheckboxDisabled = false
 	__Node__000005_test_1_1.TextAfterSecondCheckbox = ``
+	__Node__000005_test_1_1.HasToolTip = false
+	__Node__000005_test_1_1.ToolTipText = ``
 	__Node__000005_test_1_1.IsInEditMode = false
 	__Node__000005_test_1_1.IsNodeClickable = false
 	__Node__000005_test_1_1.IsWithPreceedingIcon = false
@@ -251,6 +264,8 @@ func _(stage *models.Stage) {
 	__Node__000006_test_1_2_clickable_.IsSecondCheckboxChecked = false
 	__Node__000006_test_1_2_clickable_.IsSecondCheckboxDisabled = false
 	__Node__000006_test_1_2_clickable_.TextAfterSecondCheckbox = ``
+	__Node__000006_test_1_2_clickable_.HasToolTip = false
+	__Node__000006_test_1_2_clickable_.ToolTipText = ``
 	__Node__000006_test_1_2_clickable_.IsInEditMode = false
 	__Node__000006_test_1_2_clickable_.IsNodeClickable = true
 	__Node__000006_test_1_2_clickable_.IsWithPreceedingIcon = true
@@ -269,6 +284,8 @@ func _(stage *models.Stage) {
 	__Node__000007_test_1_3.IsSecondCheckboxChecked = false
 	__Node__000007_test_1_3.IsSecondCheckboxDisabled = false
 	__Node__000007_test_1_3.TextAfterSecondCheckbox = ``
+	__Node__000007_test_1_3.HasToolTip = false
+	__Node__000007_test_1_3.ToolTipText = ``
 	__Node__000007_test_1_3.IsInEditMode = false
 	__Node__000007_test_1_3.IsNodeClickable = false
 	__Node__000007_test_1_3.IsWithPreceedingIcon = false
@@ -287,6 +304,8 @@ func _(stage *models.Stage) {
 	__Node__000008_test_1_3_1_F.IsSecondCheckboxChecked = false
 	__Node__000008_test_1_3_1_F.IsSecondCheckboxDisabled = false
 	__Node__000008_test_1_3_1_F.TextAfterSecondCheckbox = ``
+	__Node__000008_test_1_3_1_F.HasToolTip = false
+	__Node__000008_test_1_3_1_F.ToolTipText = ``
 	__Node__000008_test_1_3_1_F.IsInEditMode = false
 	__Node__000008_test_1_3_1_F.IsNodeClickable = false
 	__Node__000008_test_1_3_1_F.IsWithPreceedingIcon = true
@@ -304,6 +323,8 @@ func _(stage *models.Stage) {
 	__Node__000009_test_1_3_1_svg_icon.IsSecondCheckboxChecked = false
 	__Node__000009_test_1_3_1_svg_icon.IsSecondCheckboxDisabled = false
 	__Node__000009_test_1_3_1_svg_icon.TextAfterSecondCheckbox = ``
+	__Node__000009_test_1_3_1_svg_icon.HasToolTip = false
+	__Node__000009_test_1_3_1_svg_icon.ToolTipText = ``
 	__Node__000009_test_1_3_1_svg_icon.IsInEditMode = false
 	__Node__000009_test_1_3_1_svg_icon.IsNodeClickable = false
 	__Node__000009_test_1_3_1_svg_icon.IsWithPreceedingIcon = false
@@ -321,6 +342,8 @@ func _(stage *models.Stage) {
 	__Node__000010_test_1_4.IsSecondCheckboxChecked = false
 	__Node__000010_test_1_4.IsSecondCheckboxDisabled = false
 	__Node__000010_test_1_4.TextAfterSecondCheckbox = ``
+	__Node__000010_test_1_4.HasToolTip = false
+	__Node__000010_test_1_4.ToolTipText = ``
 	__Node__000010_test_1_4.IsInEditMode = false
 	__Node__000010_test_1_4.IsNodeClickable = true
 	__Node__000010_test_1_4.IsWithPreceedingIcon = false
@@ -338,6 +361,8 @@ func _(stage *models.Stage) {
 	__Node__000011_test_2_1.IsSecondCheckboxChecked = false
 	__Node__000011_test_2_1.IsSecondCheckboxDisabled = false
 	__Node__000011_test_2_1.TextAfterSecondCheckbox = `Text After Second Checkbox`
+	__Node__000011_test_2_1.HasToolTip = false
+	__Node__000011_test_2_1.ToolTipText = ``
 	__Node__000011_test_2_1.IsInEditMode = false
 	__Node__000011_test_2_1.IsNodeClickable = false
 	__Node__000011_test_2_1.IsWithPreceedingIcon = false
@@ -356,6 +381,8 @@ func _(stage *models.Stage) {
 	__Node__000012_test3.IsSecondCheckboxChecked = false
 	__Node__000012_test3.IsSecondCheckboxDisabled = false
 	__Node__000012_test3.TextAfterSecondCheckbox = ``
+	__Node__000012_test3.HasToolTip = false
+	__Node__000012_test3.ToolTipText = ``
 	__Node__000012_test3.IsInEditMode = false
 	__Node__000012_test3.IsNodeClickable = false
 	__Node__000012_test3.IsWithPreceedingIcon = false
