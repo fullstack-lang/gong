@@ -89,6 +89,19 @@
             ]
         },
         {
+            "name": "gongc slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/slider/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
             "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
