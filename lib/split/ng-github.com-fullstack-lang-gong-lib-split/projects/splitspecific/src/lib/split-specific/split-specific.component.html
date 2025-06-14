@@ -31,8 +31,7 @@
     </div>
 </ng-template>
 
-@for (view_ of frontRepo?.array_Views; track view_) {
-@if (view_.Name == view) {
+@if (currentView; as view_) {
 <as-split unit="pixel" direction="vertical">
 
     @if (frontRepo && frontRepo.array_Views && frontRepo.array_Views.length > 1) {
@@ -61,7 +60,6 @@
         </as-split>
     </as-split-area>
 </as-split>
-}
 }
 
 <!-- Recursive template with typed parameter -->

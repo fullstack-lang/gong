@@ -137,4 +137,9 @@ export class SplitSpecificComponent implements OnInit {
   getSafeHtml(svgContent: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(svgContent);
   }
+
+  get currentView(): split.View | undefined {
+    return this.frontRepo?.array_Views.find(v => v.Name === this.view);
+  }
+
 }

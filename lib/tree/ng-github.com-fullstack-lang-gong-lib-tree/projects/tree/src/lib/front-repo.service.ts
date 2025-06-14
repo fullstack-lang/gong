@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 
 import { Observable, combineLatest, BehaviorSubject, of } from 'rxjs'
+import { shareReplay } from 'rxjs/operators'
 
 // insertion point sub template for services imports
 import { ButtonAPI } from './button-api'
@@ -57,7 +58,7 @@ export class FrontRepo { // insertion point sub template
 			case 'Tree':
 				return this.array_Trees as unknown as Array<Type>
 			default:
-				throw new Error("Type not recognized");
+				throw new Error("Type not recognized")
 		}
 	}
 
@@ -73,7 +74,7 @@ export class FrontRepo { // insertion point sub template
 			case 'Tree':
 				return this.map_ID_Tree as unknown as Map<number, Type>
 			default:
-				throw new Error("Type not recognized");
+				throw new Error("Type not recognized")
 		}
 	}
 }
@@ -126,16 +127,19 @@ export enum SelectionMode {
 export class FrontRepoService {
 
 	Name: string = ""
-	private socket: WebSocket | undefined
 
 	httpOptions = {
 		headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-	};
+	}
 
 	//
 	// Store of all instances of the stack
 	//
 	frontRepo = new (FrontRepo)
+
+	// Manage open WebSocket connections
+	private webSocketConnections = new Map<string, Observable<FrontRepo>>()
+
 
 	constructor(
 		private http: HttpClient, // insertion point sub template 
@@ -155,7 +159,7 @@ export class FrontRepoService {
 				let behaviorSubject = instanceToBePosted[(structName + "ServiceChanged") as keyof typeof instanceToBePosted] as unknown as BehaviorSubject<string>
 				behaviorSubject.next("post")
 			}
-		);
+		)
 	}
 
 	// deleteService provides a delete function for each struct name
@@ -168,7 +172,7 @@ export class FrontRepoService {
 				let behaviorSubject = instanceToBeDeleted[(structName + "ServiceChanged") as keyof typeof instanceToBeDeleted] as unknown as BehaviorSubject<string>
 				behaviorSubject.next("delete")
 			}
-		);
+		)
 	}
 
 	// typing of observable can be messy in typescript. Therefore, one force the type
@@ -179,7 +183,7 @@ export class FrontRepoService {
 		Observable<NodeAPI[]>,
 		Observable<SVGIconAPI[]>,
 		Observable<TreeAPI[]>,
-	];
+	]
 
 	//
 	// pull performs a GET on all struct of the stack and redeem association pointers 
@@ -323,37 +327,35 @@ export class FrontRepoService {
 
 	public connectToWebSocket(Name: string): Observable<FrontRepo> {
 
-		this.Name = Name
+		// Check if a connection for this name already exists
+		if (this.webSocketConnections.has(Name)) {
+			return this.webSocketConnections.get(Name)!
+		}
 
+		//
+		// Create a new connection
+		//
+		let host = window.location.host
+		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
 
-		// Determine the base URL for the WebSocket connection dynamically
-		// window.location.host includes hostname and port (e.g., "localhost:8080" or "yourdomain.com:8090")
-		// If running on standard ports (80 for http, 443 for https), the port might not be explicitly in window.location.host
-		// but WebSocket constructor handles 'ws://' and 'wss://' correctly with host.
-		let host = window.location.host; // e.g., localhost:4200 or myapp.com
-		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'; // Use wss for https, ws for http
-
-		// Check if the host is localhost:4200 and change it to localhost:8080 (when using ng serve)
 		if (host === 'localhost:4200') {
-			host = 'localhost:8080';
+			host = 'localhost:8080'
 		}
 
 		// Construct the base path using the dynamic host and protocol
 		// The API path remains the same.
 		let basePath = `${protocol}//${host}/api/github.com/fullstack-lang/gong/lib/tree/go/v1/ws/stage`
 
-		let params = new HttpParams().set("Name", this.Name)
+		let params = new HttpParams().set("Name", Name)
 		let paramString = params.toString()
 		let url = `${basePath}?${paramString}`
-		this.socket = new WebSocket(url)
 
-		return new Observable(observer => {
-			this.socket!.onmessage = event => {
+		const newConnection$ = new Observable<FrontRepo>(observer => {
+			const socket = new WebSocket(url)
 
-
+			socket.onmessage = event => {
 				const backRepoData = new BackRepoData(JSON.parse(event.data))
-
-				let frontRepo = new (FrontRepo)
+				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
 
 				// 
@@ -448,20 +450,29 @@ export class FrontRepoService {
 				)
 
 
-
 				observer.next(frontRepo)
 			}
-			this.socket!.onerror = event => {
-				observer.error(event)
-			}
-			this.socket!.onclose = event => {
-				observer.complete()
-			}
 
+			socket.onerror = event => observer.error(event)
+			socket.onclose = () => observer.complete()
+
+			// Teardown logic: Called when the last subscriber unsubscribes.
 			return () => {
-				this.socket!.close()
+				this.webSocketConnections.delete(Name) // Remove from cache
+				socket.close()
 			}
-		})
+		}).pipe(
+			// This is the key:
+			// - shareReplay makes this a "multicast" observable, sharing the single WebSocket among subscribers.
+			// - { bufferSize: 1, refCount: true } means:
+			//   - bufferSize: 1 => new subscribers get the last emitted value immediately.
+			//   - refCount: true => the connection starts with the first subscriber and stops with the last.
+			shareReplay({ bufferSize: 1, refCount: true })
+		)
+
+		// Store the new connection observable in the map
+		this.webSocketConnections.set(Name, newConnection$)
+		return newConnection$
 	}
 }
 
