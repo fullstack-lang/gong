@@ -140,6 +140,7 @@ export class FrontRepoService {
 	// Manage open WebSocket connections
 	private webSocketConnections = new Map<string, Observable<FrontRepo>>()
 
+
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private checkboxService: CheckboxService,
@@ -341,6 +342,8 @@ export class FrontRepoService {
 			host = 'localhost:8080'
 		}
 
+		// Construct the base path using the dynamic host and protocol
+		// The API path remains the same.
 		let basePath = `${protocol}//${host}/api/github.com/fullstack-lang/gong/lib/slider/go/v1/ws/stage`
 
 		let params = new HttpParams().set("Name", Name)
@@ -355,59 +358,98 @@ export class FrontRepoService {
 				let frontRepo = new (FrontRepo)()
 				frontRepo.GONG__Index = backRepoData.GONG__Index
 
-				// init maps
+				// 
+				// First Step: init map of instances
+				// insertion point sub template for init 
+				// init the arrays
+				// insertion point sub template for init 
+				// init the arrays
 				frontRepo.array_Checkboxs = []
 				frontRepo.map_ID_Checkbox.clear()
-				backRepoData.CheckboxAPIs.forEach(cbAPI => {
-					let cb = new Checkbox()
-					frontRepo.array_Checkboxs.push(cb)
-					frontRepo.map_ID_Checkbox.set(cbAPI.ID, cb)
-				})
 
+				backRepoData.CheckboxAPIs.forEach(
+					checkboxAPI => {
+						let checkbox = new Checkbox
+						frontRepo.array_Checkboxs.push(checkbox)
+						frontRepo.map_ID_Checkbox.set(checkboxAPI.ID, checkbox)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Groups = []
 				frontRepo.map_ID_Group.clear()
-				backRepoData.GroupAPIs.forEach(groupAPI => {
-					let group = new Group()
-					frontRepo.array_Groups.push(group)
-					frontRepo.map_ID_Group.set(groupAPI.ID, group)
-				})
 
+				backRepoData.GroupAPIs.forEach(
+					groupAPI => {
+						let group = new Group
+						frontRepo.array_Groups.push(group)
+						frontRepo.map_ID_Group.set(groupAPI.ID, group)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Layouts = []
 				frontRepo.map_ID_Layout.clear()
-				backRepoData.LayoutAPIs.forEach(layoutAPI => {
-					let layout = new Layout()
-					frontRepo.array_Layouts.push(layout)
-					frontRepo.map_ID_Layout.set(layoutAPI.ID, layout)
-				})
 
+				backRepoData.LayoutAPIs.forEach(
+					layoutAPI => {
+						let layout = new Layout
+						frontRepo.array_Layouts.push(layout)
+						frontRepo.map_ID_Layout.set(layoutAPI.ID, layout)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Sliders = []
 				frontRepo.map_ID_Slider.clear()
-				backRepoData.SliderAPIs.forEach(sliderAPI => {
-					let slider = new Slider()
-					frontRepo.array_Sliders.push(slider)
-					frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
-				})
 
-				// redeem objects
-				backRepoData.CheckboxAPIs.forEach(cbAPI => {
-					let cb = frontRepo.map_ID_Checkbox.get(cbAPI.ID)
-					CopyCheckboxAPIToCheckbox(cbAPI, cb!, frontRepo)
-				})
+				backRepoData.SliderAPIs.forEach(
+					sliderAPI => {
+						let slider = new Slider
+						frontRepo.array_Sliders.push(slider)
+						frontRepo.map_ID_Slider.set(sliderAPI.ID, slider)
+					}
+				)
 
-				backRepoData.GroupAPIs.forEach(groupAPI => {
-					let group = frontRepo.map_ID_Group.get(groupAPI.ID)
-					CopyGroupAPIToGroup(groupAPI, group!, frontRepo)
-				})
 
-				backRepoData.LayoutAPIs.forEach(layoutAPI => {
-					let layout = frontRepo.map_ID_Layout.get(layoutAPI.ID)
-					CopyLayoutAPIToLayout(layoutAPI, layout!, frontRepo)
-				})
+				// 
+				// Second Step: reddeem front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				// insertion point sub template for redeem 
+				// fill up front objects
+				backRepoData.CheckboxAPIs.forEach(
+					checkboxAPI => {
+						let checkbox = frontRepo.map_ID_Checkbox.get(checkboxAPI.ID)
+						CopyCheckboxAPIToCheckbox(checkboxAPI, checkbox!, frontRepo)
+					}
+				)
 
-				backRepoData.SliderAPIs.forEach(sliderAPI => {
-					let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
-					CopySliderAPIToSlider(sliderAPI, slider!, frontRepo)
-				})
+				// fill up front objects
+				backRepoData.GroupAPIs.forEach(
+					groupAPI => {
+						let group = frontRepo.map_ID_Group.get(groupAPI.ID)
+						CopyGroupAPIToGroup(groupAPI, group!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.LayoutAPIs.forEach(
+					layoutAPI => {
+						let layout = frontRepo.map_ID_Layout.get(layoutAPI.ID)
+						CopyLayoutAPIToLayout(layoutAPI, layout!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.SliderAPIs.forEach(
+					sliderAPI => {
+						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
+						CopySliderAPIToSlider(sliderAPI, slider!, frontRepo)
+					}
+				)
+
+
 
 				observer.next(frontRepo)
 			}
