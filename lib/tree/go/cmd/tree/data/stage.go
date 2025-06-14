@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 02:32:59.686240 CEST"
-	const __write__utc_time__ = "2025-06-14 00:32:59.686240 UTC"
+	const __write__local_time = "2025-06-14 02:52:18.498420 CEST"
+	const __write__utc_time__ = "2025-06-14 00:52:18.498420 UTC"
 
-	const __commitId__ = "0000000007"
+	const __commitId__ = "0000000017"
 
 	// Declaration of instances to stage
 
@@ -39,6 +39,7 @@ func _(stage *models.Stage) {
 	__Button__000008_root_2_add := (&models.Button{}).Stage(stage)
 	__Button__000009_settings := (&models.Button{}).Stage(stage)
 	__Button__000010_test := (&models.Button{}).Stage(stage)
+	__Button__000011_test_1_3_plus_button := (&models.Button{}).Stage(stage)
 
 	__Node__000000_Test_1_2_without_checkbox := (&models.Node{}).Stage(stage)
 	__Node__000001_root1 := (&models.Node{}).Stage(stage)
@@ -84,7 +85,7 @@ func _(stage *models.Stage) {
 	__Button__000003_arrow_circle_left.IsDisabled = true
 	__Button__000003_arrow_circle_left.HasToolTip = true
 	__Button__000003_arrow_circle_left.ToolTipText = `This is a tooltip for the button`
-	__Button__000003_arrow_circle_left.ToolTipPosition = models.Above
+	__Button__000003_arrow_circle_left.ToolTipPosition = models.Right
 
 	__Button__000004_dataset.Name = `dataset`
 	__Button__000004_dataset.Icon = `dataset`
@@ -127,6 +128,13 @@ func _(stage *models.Stage) {
 	__Button__000010_test.IsDisabled = false
 	__Button__000010_test.HasToolTip = false
 	__Button__000010_test.ToolTipText = ``
+
+	__Button__000011_test_1_3_plus_button.Name = `test 1.3 plus button`
+	__Button__000011_test_1_3_plus_button.Icon = `refresh`
+	__Button__000011_test_1_3_plus_button.IsDisabled = false
+	__Button__000011_test_1_3_plus_button.HasToolTip = true
+	__Button__000011_test_1_3_plus_button.ToolTipText = `refresh`
+	__Button__000011_test_1_3_plus_button.ToolTipPosition = models.Right
 
 	__Node__000000_Test_1_2_without_checkbox.Name = `Test 1.2 without checkbox`
 	__Node__000000_Test_1_2_without_checkbox.FontStyle = models.NORMAL
@@ -314,7 +322,7 @@ func _(stage *models.Stage) {
 	__Node__000010_test_1_4.IsSecondCheckboxDisabled = false
 	__Node__000010_test_1_4.TextAfterSecondCheckbox = ``
 	__Node__000010_test_1_4.IsInEditMode = false
-	__Node__000010_test_1_4.IsNodeClickable = false
+	__Node__000010_test_1_4.IsNodeClickable = true
 	__Node__000010_test_1_4.IsWithPreceedingIcon = false
 	__Node__000010_test_1_4.PreceedingIcon = ``
 
@@ -382,12 +390,13 @@ func _(stage *models.Stage) {
 	__Node__000006_test_1_2_clickable_.Buttons = append(__Node__000006_test_1_2_clickable_.Buttons, __Button__000006_key)
 	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000009_test_1_3_1_svg_icon)
 	__Node__000007_test_1_3.Children = append(__Node__000007_test_1_3.Children, __Node__000008_test_1_3_1_F)
+	__Node__000007_test_1_3.Buttons = append(__Node__000007_test_1_3.Buttons, __Button__000011_test_1_3_plus_button)
 	__Node__000009_test_1_3_1_svg_icon.PreceedingSVGIcon = __SVGIcon__000001_sync_alt_rotated_90
 	__Node__000009_test_1_3_1_svg_icon.Buttons = append(__Node__000009_test_1_3_1_svg_icon.Buttons, __Button__000001_PreceedingSVGIcon)
+	__Node__000010_test_1_4.Buttons = append(__Node__000010_test_1_4.Buttons, __Button__000003_arrow_circle_left)
 	__Node__000011_test_2_1.Buttons = append(__Node__000011_test_2_1.Buttons, __Button__000000_Button_For_Empty_Space)
 	__Node__000012_test3.Buttons = append(__Node__000012_test3.Buttons, __Button__000010_test)
 	__Node__000012_test3.Buttons = append(__Node__000012_test3.Buttons, __Button__000009_settings)
-	__Node__000012_test3.Buttons = append(__Node__000012_test3.Buttons, __Button__000003_arrow_circle_left)
 	// setup of SVGIcon instances pointers
 	// setup of Tree instances pointers
 	__Tree__000000_test.RootNodes = append(__Tree__000000_test.RootNodes, __Node__000001_root1)
