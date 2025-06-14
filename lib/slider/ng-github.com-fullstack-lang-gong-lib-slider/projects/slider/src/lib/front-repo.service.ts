@@ -450,7 +450,6 @@ export class FrontRepoService {
 				)
 
 
-
 				observer.next(frontRepo)
 			}
 
