@@ -763,7 +763,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -797,14 +797,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongEnumValues":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongEnum[identifier].GongEnumValues = append(GongEnum[identifier].GongEnumValues, GongEnumValue instance )
-							// the map will not find the GongEnumValue instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongEnumValue[targetIdentifier]; ok {
-								__gong__map_GongEnum[identifier].GongEnumValues =
-									append(__gong__map_GongEnum[identifier].GongEnumValues, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongEnumValue[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongEnum[identifier]
+								instanceWhoseFieldIsAppended.GongEnumValues = append(instanceWhoseFieldIsAppended.GongEnumValues, instanceToAppend)
 							}
 						}
 					case "GongEnumValue":
@@ -819,58 +819,58 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Links":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongNote[identifier].Links = append(GongNote[identifier].Links, GongLink instance )
-							// the map will not find the GongLink instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongLink[targetIdentifier]; ok {
-								__gong__map_GongNote[identifier].Links =
-									append(__gong__map_GongNote[identifier].Links, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongLink[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongNote[identifier]
+								instanceWhoseFieldIsAppended.Links = append(instanceWhoseFieldIsAppended.Links, instanceToAppend)
 							}
 						}
 					case "GongStruct":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongBasicFields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStruct[identifier].GongBasicFields = append(GongStruct[identifier].GongBasicFields, GongBasicField instance )
-							// the map will not find the GongBasicField instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongBasicField[targetIdentifier]; ok {
-								__gong__map_GongStruct[identifier].GongBasicFields =
-									append(__gong__map_GongStruct[identifier].GongBasicFields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongBasicField[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+								instanceWhoseFieldIsAppended.GongBasicFields = append(instanceWhoseFieldIsAppended.GongBasicFields, instanceToAppend)
 							}
 						case "GongTimeFields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStruct[identifier].GongTimeFields = append(GongStruct[identifier].GongTimeFields, GongTimeField instance )
-							// the map will not find the GongTimeField instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongTimeField[targetIdentifier]; ok {
-								__gong__map_GongStruct[identifier].GongTimeFields =
-									append(__gong__map_GongStruct[identifier].GongTimeFields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongTimeField[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+								instanceWhoseFieldIsAppended.GongTimeFields = append(instanceWhoseFieldIsAppended.GongTimeFields, instanceToAppend)
 							}
 						case "PointerToGongStructFields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStruct[identifier].PointerToGongStructFields = append(GongStruct[identifier].PointerToGongStructFields, PointerToGongStructField instance )
-							// the map will not find the PointerToGongStructField instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_PointerToGongStructField[targetIdentifier]; ok {
-								__gong__map_GongStruct[identifier].PointerToGongStructFields =
-									append(__gong__map_GongStruct[identifier].PointerToGongStructFields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_PointerToGongStructField[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+								instanceWhoseFieldIsAppended.PointerToGongStructFields = append(instanceWhoseFieldIsAppended.PointerToGongStructFields, instanceToAppend)
 							}
 						case "SliceOfPointerToGongStructFields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStruct[identifier].SliceOfPointerToGongStructFields = append(GongStruct[identifier].SliceOfPointerToGongStructFields, SliceOfPointerToGongStructField instance )
-							// the map will not find the SliceOfPointerToGongStructField instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_SliceOfPointerToGongStructField[targetIdentifier]; ok {
-								__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields =
-									append(__gong__map_GongStruct[identifier].SliceOfPointerToGongStructFields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_SliceOfPointerToGongStructField[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStruct[identifier]
+								instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields = append(instanceWhoseFieldIsAppended.SliceOfPointerToGongStructFields, instanceToAppend)
 							}
 						}
 					case "GongTimeField":
@@ -881,14 +881,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "MetaReferences":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Meta[identifier].MetaReferences = append(Meta[identifier].MetaReferences, MetaReference instance )
-							// the map will not find the MetaReference instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_MetaReference[targetIdentifier]; ok {
-								__gong__map_Meta[identifier].MetaReferences =
-									append(__gong__map_Meta[identifier].MetaReferences, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_MetaReference[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Meta[identifier]
+								instanceWhoseFieldIsAppended.MetaReferences = append(instanceWhoseFieldIsAppended.MetaReferences, instanceToAppend)
 							}
 						}
 					case "MetaReference":

@@ -664,7 +664,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -698,28 +698,28 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Buttons":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Group[identifier].Buttons = append(Group[identifier].Buttons, Button instance )
-							// the map will not find the Button instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Button[targetIdentifier]; ok {
-								__gong__map_Group[identifier].Buttons =
-									append(__gong__map_Group[identifier].Buttons, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Button[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
+								instanceWhoseFieldIsAppended.Buttons = append(instanceWhoseFieldIsAppended.Buttons, instanceToAppend)
 							}
 						}
 					case "Layout":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Groups":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layout[identifier].Groups = append(Layout[identifier].Groups, Group instance )
-							// the map will not find the Group instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Group[targetIdentifier]; ok {
-								__gong__map_Layout[identifier].Groups =
-									append(__gong__map_Layout[identifier].Groups, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Group[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+								instanceWhoseFieldIsAppended.Groups = append(instanceWhoseFieldIsAppended.Groups, instanceToAppend)
 							}
 						}
 					}

@@ -664,7 +664,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -694,28 +694,28 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Pages":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Chapter[identifier].Pages = append(Chapter[identifier].Pages, Page instance )
-							// the map will not find the Page instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Page[targetIdentifier]; ok {
-								__gong__map_Chapter[identifier].Pages =
-									append(__gong__map_Chapter[identifier].Pages, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Page[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Chapter[identifier]
+								instanceWhoseFieldIsAppended.Pages = append(instanceWhoseFieldIsAppended.Pages, instanceToAppend)
 							}
 						}
 					case "Content":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Chapters":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Content[identifier].Chapters = append(Content[identifier].Chapters, Chapter instance )
-							// the map will not find the Chapter instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Chapter[targetIdentifier]; ok {
-								__gong__map_Content[identifier].Chapters =
-									append(__gong__map_Content[identifier].Chapters, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Chapter[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Content[identifier]
+								instanceWhoseFieldIsAppended.Chapters = append(instanceWhoseFieldIsAppended.Chapters, instanceToAppend)
 							}
 						}
 					case "Page":
