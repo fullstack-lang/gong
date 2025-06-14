@@ -720,7 +720,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -752,64 +752,64 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Field":
 							__gong__map_Astruct[identifier].Field = basicLit.Value
 						case "Anarrayofb":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].Anarrayofb = append(Astruct[identifier].Anarrayofb, Bstruct instance )
-							// the map will not find the Bstruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Bstruct[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].Anarrayofb =
-									append(__gong__map_Astruct[identifier].Anarrayofb, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
 							}
 						case "Dstruct4s":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].Dstruct4s = append(Astruct[identifier].Dstruct4s, Dstruct instance )
-							// the map will not find the Dstruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Dstruct[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].Dstruct4s =
-									append(__gong__map_Astruct[identifier].Dstruct4s, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Dstruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.Dstruct4s = append(instanceWhoseFieldIsAppended.Dstruct4s, instanceToAppend)
 							}
 						case "Anarrayofa":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].Anarrayofa = append(Astruct[identifier].Anarrayofa, Astruct instance )
-							// the map will not find the Astruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Astruct[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].Anarrayofa =
-									append(__gong__map_Astruct[identifier].Anarrayofa, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Astruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.Anarrayofa = append(instanceWhoseFieldIsAppended.Anarrayofa, instanceToAppend)
 							}
 						case "Anotherarrayofb":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].Anotherarrayofb = append(Astruct[identifier].Anotherarrayofb, Bstruct instance )
-							// the map will not find the Bstruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Bstruct[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].Anotherarrayofb =
-									append(__gong__map_Astruct[identifier].Anotherarrayofb, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.Anotherarrayofb = append(instanceWhoseFieldIsAppended.Anotherarrayofb, instanceToAppend)
 							}
 						case "AnarrayofbUse":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].AnarrayofbUse = append(Astruct[identifier].AnarrayofbUse, AstructBstructUse instance )
-							// the map will not find the AstructBstructUse instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_AstructBstructUse[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].AnarrayofbUse =
-									append(__gong__map_Astruct[identifier].AnarrayofbUse, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_AstructBstructUse[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.AnarrayofbUse = append(instanceWhoseFieldIsAppended.AnarrayofbUse, instanceToAppend)
 							}
 						case "Anarrayofb2Use":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Astruct[identifier].Anarrayofb2Use = append(Astruct[identifier].Anarrayofb2Use, AstructBstruct2Use instance )
-							// the map will not find the AstructBstruct2Use instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_AstructBstruct2Use[targetIdentifier]; ok {
-								__gong__map_Astruct[identifier].Anarrayofb2Use =
-									append(__gong__map_Astruct[identifier].Anarrayofb2Use, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_AstructBstruct2Use[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Astruct[identifier]
+								instanceWhoseFieldIsAppended.Anarrayofb2Use = append(instanceWhoseFieldIsAppended.Anarrayofb2Use, instanceToAppend)
 							}
 						}
 					case "AstructBstruct2Use":
@@ -828,24 +828,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Anarrayofb":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Dstruct[identifier].Anarrayofb = append(Dstruct[identifier].Anarrayofb, Bstruct instance )
-							// the map will not find the Bstruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Bstruct[targetIdentifier]; ok {
-								__gong__map_Dstruct[identifier].Anarrayofb =
-									append(__gong__map_Dstruct[identifier].Anarrayofb, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Bstruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+								instanceWhoseFieldIsAppended.Anarrayofb = append(instanceWhoseFieldIsAppended.Anarrayofb, instanceToAppend)
 							}
 						case "Gstructs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Dstruct[identifier].Gstructs = append(Dstruct[identifier].Gstructs, Gstruct instance )
-							// the map will not find the Gstruct instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Gstruct[targetIdentifier]; ok {
-								__gong__map_Dstruct[identifier].Gstructs =
-									append(__gong__map_Dstruct[identifier].Gstructs, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Gstruct[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Dstruct[identifier]
+								instanceWhoseFieldIsAppended.Gstructs = append(instanceWhoseFieldIsAppended.Gstructs, instanceToAppend)
 							}
 						}
 					case "F0123456789012345678901234567890":

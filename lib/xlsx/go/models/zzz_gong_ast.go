@@ -686,7 +686,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -724,52 +724,52 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Sheets":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing XLFile[identifier].Sheets = append(XLFile[identifier].Sheets, XLSheet instance )
-							// the map will not find the XLSheet instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_XLSheet[targetIdentifier]; ok {
-								__gong__map_XLFile[identifier].Sheets =
-									append(__gong__map_XLFile[identifier].Sheets, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_XLSheet[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_XLFile[identifier]
+								instanceWhoseFieldIsAppended.Sheets = append(instanceWhoseFieldIsAppended.Sheets, instanceToAppend)
 							}
 						}
 					case "XLRow":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Cells":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing XLRow[identifier].Cells = append(XLRow[identifier].Cells, XLCell instance )
-							// the map will not find the XLCell instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_XLCell[targetIdentifier]; ok {
-								__gong__map_XLRow[identifier].Cells =
-									append(__gong__map_XLRow[identifier].Cells, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_XLCell[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_XLRow[identifier]
+								instanceWhoseFieldIsAppended.Cells = append(instanceWhoseFieldIsAppended.Cells, instanceToAppend)
 							}
 						}
 					case "XLSheet":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Rows":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing XLSheet[identifier].Rows = append(XLSheet[identifier].Rows, XLRow instance )
-							// the map will not find the XLRow instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_XLRow[targetIdentifier]; ok {
-								__gong__map_XLSheet[identifier].Rows =
-									append(__gong__map_XLSheet[identifier].Rows, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_XLRow[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_XLSheet[identifier]
+								instanceWhoseFieldIsAppended.Rows = append(instanceWhoseFieldIsAppended.Rows, instanceToAppend)
 							}
 						case "SheetCells":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing XLSheet[identifier].SheetCells = append(XLSheet[identifier].SheetCells, XLCell instance )
-							// the map will not find the XLCell instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_XLCell[targetIdentifier]; ok {
-								__gong__map_XLSheet[identifier].SheetCells =
-									append(__gong__map_XLSheet[identifier].SheetCells, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_XLCell[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_XLSheet[identifier]
+								instanceWhoseFieldIsAppended.SheetCells = append(instanceWhoseFieldIsAppended.SheetCells, instanceToAppend)
 							}
 						}
 					}

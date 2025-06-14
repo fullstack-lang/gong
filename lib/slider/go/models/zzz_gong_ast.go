@@ -675,7 +675,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -709,38 +709,38 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Sliders":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Group[identifier].Sliders = append(Group[identifier].Sliders, Slider instance )
-							// the map will not find the Slider instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Slider[targetIdentifier]; ok {
-								__gong__map_Group[identifier].Sliders =
-									append(__gong__map_Group[identifier].Sliders, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Slider[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
+								instanceWhoseFieldIsAppended.Sliders = append(instanceWhoseFieldIsAppended.Sliders, instanceToAppend)
 							}
 						case "Checkboxes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Group[identifier].Checkboxes = append(Group[identifier].Checkboxes, Checkbox instance )
-							// the map will not find the Checkbox instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Checkbox[targetIdentifier]; ok {
-								__gong__map_Group[identifier].Checkboxes =
-									append(__gong__map_Group[identifier].Checkboxes, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Checkbox[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Group[identifier]
+								instanceWhoseFieldIsAppended.Checkboxes = append(instanceWhoseFieldIsAppended.Checkboxes, instanceToAppend)
 							}
 						}
 					case "Layout":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Groups":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layout[identifier].Groups = append(Layout[identifier].Groups, Group instance )
-							// the map will not find the Group instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Group[targetIdentifier]; ok {
-								__gong__map_Layout[identifier].Groups =
-									append(__gong__map_Layout[identifier].Groups, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Group[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layout[identifier]
+								instanceWhoseFieldIsAppended.Groups = append(instanceWhoseFieldIsAppended.Groups, instanceToAppend)
 							}
 						}
 					case "Slider":

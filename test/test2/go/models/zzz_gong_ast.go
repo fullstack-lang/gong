@@ -653,7 +653,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -683,14 +683,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Bs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing A[identifier].Bs = append(A[identifier].Bs, B instance )
-							// the map will not find the B instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_B[targetIdentifier]; ok {
-								__gong__map_A[identifier].Bs =
-									append(__gong__map_A[identifier].Bs, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_B[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_A[identifier]
+								instanceWhoseFieldIsAppended.Bs = append(instanceWhoseFieldIsAppended.Bs, instanceToAppend)
 							}
 						}
 					case "B":
