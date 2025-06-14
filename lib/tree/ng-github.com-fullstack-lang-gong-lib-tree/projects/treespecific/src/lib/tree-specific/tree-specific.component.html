@@ -28,9 +28,9 @@
                              (change)="toggleNodeCheckbox(node)"
                              (click)="$event.stopPropagation()"
                              
-                             [matTooltip]="node.CheckboxToolTipText"
-                             [matTooltipPosition]="node.CheckboxToolTipPosition"
-                             [matTooltipDisabled]="!node.CheckboxHasToolTip">
+                             [matTooltip]="node.gongNode.CheckboxToolTipText"
+                             [matTooltipPosition]="node.gongNode.CheckboxToolTipPosition"
+                             [matTooltipDisabled]="!node.gongNode.CheckboxHasToolTip">
                             <!-- Note that the tooltip stuff is not working as of angular 1.19
                                 https://github.com/angular/components/issues/28107 -->    
                 </mat-checkbox>
@@ -39,7 +39,10 @@
             <!-- Node name display or edit mode -->
             @if (!node.gongNode.IsInEditMode) {
                 <div [id]="'node' + node.gongNode.Name" 
-                     [ngStyle]="getStyle(node)">
+                     [ngStyle]="getStyle(node)"
+                     [matTooltip]="node.gongNode.ToolTipText"
+                     [matTooltipPosition]="node.gongNode.ToolTipPosition"
+                     [matTooltipDisabled]="!node.gongNode.HasToolTip">
                     {{node.name}}
                 </div>
             } @else {
@@ -92,21 +95,21 @@
         <ng-template #nodeButtons let-node let-buttonClass="buttonClass">
             @for (button of node.gongNode.Buttons; track button.Name) {
                 <span [matTooltip]="button.ToolTipText"
-                    [matTooltipPosition]="button.ToolTipPosition"
-                    [matTooltipDisabled]="!button.HasToolTip">
+                      [matTooltipPosition]="button.ToolTipPosition"
+                      [matTooltipDisabled]="!button.HasToolTip">
                     <button [id]="'button-' + button.Name"
                             mat-icon-button
                             [class]="buttonClass"
                             (click)="onButtonClick($event, node, button)"
                             [disabled]="button.IsDisabled">
-
+                
                         @if (!button.SVGIcon) {
                             <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}">
                                 {{button.Icon}}
                             </mat-icon>
                         } @else {
                             <mat-icon [ngStyle]="{'color':'rgba(0,0,0,.50)'}"
-                                    [svgIcon]="button.SVGIcon.Name">
+                                      [svgIcon]="button.SVGIcon.Name">
                             </mat-icon>
                         }
                     </button>
