@@ -153,14 +153,14 @@ map[ModelGongAstFieldInsertionId]string{
 									date)`,
 	ModelGongAstFieldAssignSliceOfPointers: `
 						case "{{FieldName}}":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing {{Structname}}[identifier].{{FieldName}} = append({{Structname}}[identifier].{{FieldName}}, {{AssociationStructName}} instance )
-							// the map will not find the {{AssociationStructName}} instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_{{AssociationStructName}}[targetIdentifier]; ok {
-								__gong__map_{{Structname}}[identifier].{{FieldName}} =
-									append(__gong__map_{{Structname}}[identifier].{{FieldName}}, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_{{AssociationStructName}}[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_{{Structname}}[identifier]
+								instanceWhoseFieldIsAppended.{{FieldName}} = append(instanceWhoseFieldIsAppended.{{FieldName}}, instanceToAppend)
 							}`,
 }
 
