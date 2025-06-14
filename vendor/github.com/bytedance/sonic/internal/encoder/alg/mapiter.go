@@ -97,17 +97,18 @@ func (self *MapIterator) append(t *rt.GoType, k unsafe.Pointer, v unsafe.Pointer
 
 func (self *MapIterator) appendGeneric(p *_MapPair, t *rt.GoType, v reflect.Kind, k unsafe.Pointer) error {
     switch v {
-        case reflect.Int       : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int)(k)), 10))      ; return nil
-        case reflect.Int8      : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int8)(k)), 10))     ; return nil
-        case reflect.Int16     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int16)(k)), 10))    ; return nil
-        case reflect.Int32     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int32)(k)), 10))    ; return nil
-        case reflect.Int64     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int64)(k)), 10))           ; return nil
+        case reflect.Int       : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int)(k)), 10))       ; return nil
+        case reflect.Int8      : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int8)(k)), 10))      ; return nil
+        case reflect.Int16     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int16)(k)), 10))     ; return nil
+        case reflect.Int32     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int32)(k)), 10))     ; return nil
+        case reflect.Int64     : p.k = rt.Mem2Str(strconv.AppendInt(p.m[:0], int64(*(*int64)(k)), 10))     ; return nil
         case reflect.Uint      : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint)(k)), 10))    ; return nil
         case reflect.Uint8     : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint8)(k)), 10))   ; return nil
         case reflect.Uint16    : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint16)(k)), 10))  ; return nil
         case reflect.Uint32    : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint32)(k)), 10))  ; return nil
-        case reflect.Uint64    : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint64)(k)), 10))          ; return nil
+        case reflect.Uint64    : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uint64)(k)), 10))  ; return nil
         case reflect.Uintptr   : p.k = rt.Mem2Str(strconv.AppendUint(p.m[:0], uint64(*(*uintptr)(k)), 10)) ; return nil
+        case reflect.Bool      : if *(*bool)(k) { p.k = "true" } else { p.k = "false" }; return nil
         case reflect.Interface : return self.appendInterface(p, t, k)
         case reflect.Struct, reflect.Ptr : return self.appendConcrete(p, t, k)
         default                : panic("unexpected map key type")
@@ -165,19 +166,20 @@ func IteratorNext(p *MapIterator) {
     p.ki++
 }
 
-func IteratorStart(t *rt.GoMapType, m *rt.GoMap, fv uint64) (*MapIterator, error) {
+func IteratorStart(t *rt.GoMapType, m unsafe.Pointer, fv uint64) (*MapIterator, error) {
     it := newIterator()
     rt.Mapiterinit(t, m, &it.It)
+    count := rt.Maplen(m)
 
     /* check for key-sorting, empty map don't need sorting */
-    if m.Count == 0 || (fv & (1<<BitSortMapKeys)) == 0 {
+    if count == 0 || (fv & (1<<BitSortMapKeys)) == 0 {
         it.ki = -1
         return it, nil
     }
 
     /* pre-allocate space if needed */
-    if m.Count > it.kv.Cap {
-        it.kv = rt.GrowSlice(iteratorPair, it.kv, m.Count)
+    if count > it.kv.Cap {
+        it.kv = rt.GrowSlice(iteratorPair, it.kv, count)
     }
 
     /* dump all the key-value pairs */
@@ -189,7 +191,7 @@ func IteratorStart(t *rt.GoMapType, m *rt.GoMap, fv uint64) (*MapIterator, error
     }
 
     /* sort the keys, map with only 1 item don't need sorting */
-    if it.ki = 1; m.Count > 1 {
+    if it.ki = 1; count > 1 {
         radixQsort(it.data(), 0, maxDepth(it.kv.Len))
     }
 
