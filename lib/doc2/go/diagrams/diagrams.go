@@ -23,6 +23,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-14 02:28:54.995885 CEST"
+	const __write__utc_time__ = "2025-06-14 00:28:54.995885 UTC"
+
+	const __commitId__ = "0000000001"
+
 	// Declaration of instances to stage
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
@@ -37,7 +42,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
@@ -68,3 +73,4 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
 }
+

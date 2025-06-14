@@ -840,7 +840,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -874,208 +874,208 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animations":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Circle[identifier].Animations = append(Circle[identifier].Animations, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Circle[identifier].Animations =
-									append(__gong__map_Circle[identifier].Animations, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Circle[identifier]
+								instanceWhoseFieldIsAppended.Animations = append(instanceWhoseFieldIsAppended.Animations, instanceToAppend)
 							}
 						}
 					case "Ellipse":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Ellipse[identifier].Animates = append(Ellipse[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Ellipse[identifier].Animates =
-									append(__gong__map_Ellipse[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Ellipse[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Layer":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Rects":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Rects = append(Layer[identifier].Rects, Rect instance )
-							// the map will not find the Rect instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Rect[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Rects =
-									append(__gong__map_Layer[identifier].Rects, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Rect[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Rects = append(instanceWhoseFieldIsAppended.Rects, instanceToAppend)
 							}
 						case "Texts":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Texts = append(Layer[identifier].Texts, Text instance )
-							// the map will not find the Text instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Text[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Texts =
-									append(__gong__map_Layer[identifier].Texts, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Text[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Texts = append(instanceWhoseFieldIsAppended.Texts, instanceToAppend)
 							}
 						case "Circles":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Circles = append(Layer[identifier].Circles, Circle instance )
-							// the map will not find the Circle instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Circle[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Circles =
-									append(__gong__map_Layer[identifier].Circles, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Circle[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Circles = append(instanceWhoseFieldIsAppended.Circles, instanceToAppend)
 							}
 						case "Lines":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Lines = append(Layer[identifier].Lines, Line instance )
-							// the map will not find the Line instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Line[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Lines =
-									append(__gong__map_Layer[identifier].Lines, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Line[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Lines = append(instanceWhoseFieldIsAppended.Lines, instanceToAppend)
 							}
 						case "Ellipses":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Ellipses = append(Layer[identifier].Ellipses, Ellipse instance )
-							// the map will not find the Ellipse instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Ellipse[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Ellipses =
-									append(__gong__map_Layer[identifier].Ellipses, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Ellipse[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Ellipses = append(instanceWhoseFieldIsAppended.Ellipses, instanceToAppend)
 							}
 						case "Polylines":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Polylines = append(Layer[identifier].Polylines, Polyline instance )
-							// the map will not find the Polyline instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Polyline[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Polylines =
-									append(__gong__map_Layer[identifier].Polylines, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Polyline[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Polylines = append(instanceWhoseFieldIsAppended.Polylines, instanceToAppend)
 							}
 						case "Polygones":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Polygones = append(Layer[identifier].Polygones, Polygone instance )
-							// the map will not find the Polygone instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Polygone[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Polygones =
-									append(__gong__map_Layer[identifier].Polygones, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Polygone[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Polygones = append(instanceWhoseFieldIsAppended.Polygones, instanceToAppend)
 							}
 						case "Paths":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Paths = append(Layer[identifier].Paths, Path instance )
-							// the map will not find the Path instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Path[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Paths =
-									append(__gong__map_Layer[identifier].Paths, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Path[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Paths = append(instanceWhoseFieldIsAppended.Paths, instanceToAppend)
 							}
 						case "Links":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].Links = append(Layer[identifier].Links, Link instance )
-							// the map will not find the Link instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Link[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].Links =
-									append(__gong__map_Layer[identifier].Links, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Link[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.Links = append(instanceWhoseFieldIsAppended.Links, instanceToAppend)
 							}
 						case "RectLinkLinks":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Layer[identifier].RectLinkLinks = append(Layer[identifier].RectLinkLinks, RectLinkLink instance )
-							// the map will not find the RectLinkLink instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_RectLinkLink[targetIdentifier]; ok {
-								__gong__map_Layer[identifier].RectLinkLinks =
-									append(__gong__map_Layer[identifier].RectLinkLinks, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_RectLinkLink[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Layer[identifier]
+								instanceWhoseFieldIsAppended.RectLinkLinks = append(instanceWhoseFieldIsAppended.RectLinkLinks, instanceToAppend)
 							}
 						}
 					case "Line":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Line[identifier].Animates = append(Line[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Line[identifier].Animates =
-									append(__gong__map_Line[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Line[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Link":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "TextAtArrowStart":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Link[identifier].TextAtArrowStart = append(Link[identifier].TextAtArrowStart, LinkAnchoredText instance )
-							// the map will not find the LinkAnchoredText instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_LinkAnchoredText[targetIdentifier]; ok {
-								__gong__map_Link[identifier].TextAtArrowStart =
-									append(__gong__map_Link[identifier].TextAtArrowStart, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_LinkAnchoredText[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
+								instanceWhoseFieldIsAppended.TextAtArrowStart = append(instanceWhoseFieldIsAppended.TextAtArrowStart, instanceToAppend)
 							}
 						case "TextAtArrowEnd":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Link[identifier].TextAtArrowEnd = append(Link[identifier].TextAtArrowEnd, LinkAnchoredText instance )
-							// the map will not find the LinkAnchoredText instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_LinkAnchoredText[targetIdentifier]; ok {
-								__gong__map_Link[identifier].TextAtArrowEnd =
-									append(__gong__map_Link[identifier].TextAtArrowEnd, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_LinkAnchoredText[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
+								instanceWhoseFieldIsAppended.TextAtArrowEnd = append(instanceWhoseFieldIsAppended.TextAtArrowEnd, instanceToAppend)
 							}
 						case "ControlPoints":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Link[identifier].ControlPoints = append(Link[identifier].ControlPoints, Point instance )
-							// the map will not find the Point instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Point[targetIdentifier]; ok {
-								__gong__map_Link[identifier].ControlPoints =
-									append(__gong__map_Link[identifier].ControlPoints, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Point[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
+								instanceWhoseFieldIsAppended.ControlPoints = append(instanceWhoseFieldIsAppended.ControlPoints, instanceToAppend)
 							}
 						}
 					case "LinkAnchoredText":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing LinkAnchoredText[identifier].Animates = append(LinkAnchoredText[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_LinkAnchoredText[identifier].Animates =
-									append(__gong__map_LinkAnchoredText[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_LinkAnchoredText[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Path":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Path[identifier].Animates = append(Path[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Path[identifier].Animates =
-									append(__gong__map_Path[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Path[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Point":
@@ -1086,72 +1086,72 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Polygone[identifier].Animates = append(Polygone[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Polygone[identifier].Animates =
-									append(__gong__map_Polygone[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Polygone[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Polyline":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Polyline[identifier].Animates = append(Polyline[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Polyline[identifier].Animates =
-									append(__gong__map_Polyline[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Polyline[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "Rect":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animations":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Rect[identifier].Animations = append(Rect[identifier].Animations, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Rect[identifier].Animations =
-									append(__gong__map_Rect[identifier].Animations, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Rect[identifier]
+								instanceWhoseFieldIsAppended.Animations = append(instanceWhoseFieldIsAppended.Animations, instanceToAppend)
 							}
 						case "RectAnchoredTexts":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Rect[identifier].RectAnchoredTexts = append(Rect[identifier].RectAnchoredTexts, RectAnchoredText instance )
-							// the map will not find the RectAnchoredText instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_RectAnchoredText[targetIdentifier]; ok {
-								__gong__map_Rect[identifier].RectAnchoredTexts =
-									append(__gong__map_Rect[identifier].RectAnchoredTexts, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_RectAnchoredText[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Rect[identifier]
+								instanceWhoseFieldIsAppended.RectAnchoredTexts = append(instanceWhoseFieldIsAppended.RectAnchoredTexts, instanceToAppend)
 							}
 						case "RectAnchoredRects":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Rect[identifier].RectAnchoredRects = append(Rect[identifier].RectAnchoredRects, RectAnchoredRect instance )
-							// the map will not find the RectAnchoredRect instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_RectAnchoredRect[targetIdentifier]; ok {
-								__gong__map_Rect[identifier].RectAnchoredRects =
-									append(__gong__map_Rect[identifier].RectAnchoredRects, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_RectAnchoredRect[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Rect[identifier]
+								instanceWhoseFieldIsAppended.RectAnchoredRects = append(instanceWhoseFieldIsAppended.RectAnchoredRects, instanceToAppend)
 							}
 						case "RectAnchoredPaths":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Rect[identifier].RectAnchoredPaths = append(Rect[identifier].RectAnchoredPaths, RectAnchoredPath instance )
-							// the map will not find the RectAnchoredPath instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_RectAnchoredPath[targetIdentifier]; ok {
-								__gong__map_Rect[identifier].RectAnchoredPaths =
-									append(__gong__map_Rect[identifier].RectAnchoredPaths, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_RectAnchoredPath[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Rect[identifier]
+								instanceWhoseFieldIsAppended.RectAnchoredPaths = append(instanceWhoseFieldIsAppended.RectAnchoredPaths, instanceToAppend)
 							}
 						}
 					case "RectAnchoredPath":
@@ -1166,14 +1166,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing RectAnchoredText[identifier].Animates = append(RectAnchoredText[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_RectAnchoredText[identifier].Animates =
-									append(__gong__map_RectAnchoredText[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredText[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					case "RectLinkLink":
@@ -1184,14 +1184,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Layers":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing SVG[identifier].Layers = append(SVG[identifier].Layers, Layer instance )
-							// the map will not find the Layer instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Layer[targetIdentifier]; ok {
-								__gong__map_SVG[identifier].Layers =
-									append(__gong__map_SVG[identifier].Layers, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Layer[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_SVG[identifier]
+								instanceWhoseFieldIsAppended.Layers = append(instanceWhoseFieldIsAppended.Layers, instanceToAppend)
 							}
 						}
 					case "SvgText":
@@ -1202,14 +1202,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Animates":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Text[identifier].Animates = append(Text[identifier].Animates, Animate instance )
-							// the map will not find the Animate instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Animate[targetIdentifier]; ok {
-								__gong__map_Text[identifier].Animates =
-									append(__gong__map_Text[identifier].Animates, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Animate[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Text[identifier]
+								instanceWhoseFieldIsAppended.Animates = append(instanceWhoseFieldIsAppended.Animates, instanceToAppend)
 							}
 						}
 					}

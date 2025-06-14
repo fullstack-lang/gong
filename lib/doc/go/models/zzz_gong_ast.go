@@ -774,7 +774,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -804,58 +804,58 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongStructShapes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Classdiagram[identifier].GongStructShapes = append(Classdiagram[identifier].GongStructShapes, GongStructShape instance )
-							// the map will not find the GongStructShape instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongStructShape[targetIdentifier]; ok {
-								__gong__map_Classdiagram[identifier].GongStructShapes =
-									append(__gong__map_Classdiagram[identifier].GongStructShapes, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongStructShape[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Classdiagram[identifier]
+								instanceWhoseFieldIsAppended.GongStructShapes = append(instanceWhoseFieldIsAppended.GongStructShapes, instanceToAppend)
 							}
 						case "GongEnumShapes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Classdiagram[identifier].GongEnumShapes = append(Classdiagram[identifier].GongEnumShapes, GongEnumShape instance )
-							// the map will not find the GongEnumShape instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongEnumShape[targetIdentifier]; ok {
-								__gong__map_Classdiagram[identifier].GongEnumShapes =
-									append(__gong__map_Classdiagram[identifier].GongEnumShapes, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongEnumShape[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Classdiagram[identifier]
+								instanceWhoseFieldIsAppended.GongEnumShapes = append(instanceWhoseFieldIsAppended.GongEnumShapes, instanceToAppend)
 							}
 						case "NoteShapes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Classdiagram[identifier].NoteShapes = append(Classdiagram[identifier].NoteShapes, NoteShape instance )
-							// the map will not find the NoteShape instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_NoteShape[targetIdentifier]; ok {
-								__gong__map_Classdiagram[identifier].NoteShapes =
-									append(__gong__map_Classdiagram[identifier].NoteShapes, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_NoteShape[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Classdiagram[identifier]
+								instanceWhoseFieldIsAppended.NoteShapes = append(instanceWhoseFieldIsAppended.NoteShapes, instanceToAppend)
 							}
 						}
 					case "DiagramPackage":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Classdiagrams":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing DiagramPackage[identifier].Classdiagrams = append(DiagramPackage[identifier].Classdiagrams, Classdiagram instance )
-							// the map will not find the Classdiagram instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Classdiagram[targetIdentifier]; ok {
-								__gong__map_DiagramPackage[identifier].Classdiagrams =
-									append(__gong__map_DiagramPackage[identifier].Classdiagrams, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Classdiagram[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_DiagramPackage[identifier]
+								instanceWhoseFieldIsAppended.Classdiagrams = append(instanceWhoseFieldIsAppended.Classdiagrams, instanceToAppend)
 							}
 						case "Umlscs":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing DiagramPackage[identifier].Umlscs = append(DiagramPackage[identifier].Umlscs, Umlsc instance )
-							// the map will not find the Umlsc instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Umlsc[targetIdentifier]; ok {
-								__gong__map_DiagramPackage[identifier].Umlscs =
-									append(__gong__map_DiagramPackage[identifier].Umlscs, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Umlsc[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_DiagramPackage[identifier]
+								instanceWhoseFieldIsAppended.Umlscs = append(instanceWhoseFieldIsAppended.Umlscs, instanceToAppend)
 							}
 						}
 					case "Field":
@@ -866,14 +866,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "GongEnumValueEntrys":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongEnumShape[identifier].GongEnumValueEntrys = append(GongEnumShape[identifier].GongEnumValueEntrys, GongEnumValueEntry instance )
-							// the map will not find the GongEnumValueEntry instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_GongEnumValueEntry[targetIdentifier]; ok {
-								__gong__map_GongEnumShape[identifier].GongEnumValueEntrys =
-									append(__gong__map_GongEnumShape[identifier].GongEnumValueEntrys, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_GongEnumValueEntry[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongEnumShape[identifier]
+								instanceWhoseFieldIsAppended.GongEnumValueEntrys = append(instanceWhoseFieldIsAppended.GongEnumValueEntrys, instanceToAppend)
 							}
 						}
 					case "GongEnumValueEntry":
@@ -884,24 +884,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Fields":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStructShape[identifier].Fields = append(GongStructShape[identifier].Fields, Field instance )
-							// the map will not find the Field instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Field[targetIdentifier]; ok {
-								__gong__map_GongStructShape[identifier].Fields =
-									append(__gong__map_GongStructShape[identifier].Fields, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Field[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStructShape[identifier]
+								instanceWhoseFieldIsAppended.Fields = append(instanceWhoseFieldIsAppended.Fields, instanceToAppend)
 							}
 						case "Links":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing GongStructShape[identifier].Links = append(GongStructShape[identifier].Links, Link instance )
-							// the map will not find the Link instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Link[targetIdentifier]; ok {
-								__gong__map_GongStructShape[identifier].Links =
-									append(__gong__map_GongStructShape[identifier].Links, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Link[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_GongStructShape[identifier]
+								instanceWhoseFieldIsAppended.Links = append(instanceWhoseFieldIsAppended.Links, instanceToAppend)
 							}
 						}
 					case "Link":
@@ -912,14 +912,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "NoteShapeLinks":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing NoteShape[identifier].NoteShapeLinks = append(NoteShape[identifier].NoteShapeLinks, NoteShapeLink instance )
-							// the map will not find the NoteShapeLink instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_NoteShapeLink[targetIdentifier]; ok {
-								__gong__map_NoteShape[identifier].NoteShapeLinks =
-									append(__gong__map_NoteShape[identifier].NoteShapeLinks, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_NoteShapeLink[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_NoteShape[identifier]
+								instanceWhoseFieldIsAppended.NoteShapeLinks = append(instanceWhoseFieldIsAppended.NoteShapeLinks, instanceToAppend)
 							}
 						}
 					case "NoteShapeLink":
@@ -938,14 +938,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "States":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Umlsc[identifier].States = append(Umlsc[identifier].States, UmlState instance )
-							// the map will not find the UmlState instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_UmlState[targetIdentifier]; ok {
-								__gong__map_Umlsc[identifier].States =
-									append(__gong__map_Umlsc[identifier].States, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_UmlState[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Umlsc[identifier]
+								instanceWhoseFieldIsAppended.States = append(instanceWhoseFieldIsAppended.States, instanceToAppend)
 							}
 						}
 					case "Vertice":

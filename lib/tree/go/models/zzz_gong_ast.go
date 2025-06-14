@@ -675,7 +675,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = basicLit.Value
 				_ = basicLit
 			}
-			for _, arg := range callExpr.Args {
+			for argNb, arg := range callExpr.Args {
 				// astCoordinate := astCoordinate + "\tArg"
 				switch arg := arg.(type) {
 				case *ast.Ident, *ast.SelectorExpr:
@@ -709,24 +709,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "Children":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Node[identifier].Children = append(Node[identifier].Children, Node instance )
-							// the map will not find the Node instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Node[targetIdentifier]; ok {
-								__gong__map_Node[identifier].Children =
-									append(__gong__map_Node[identifier].Children, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Node[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Node[identifier]
+								instanceWhoseFieldIsAppended.Children = append(instanceWhoseFieldIsAppended.Children, instanceToAppend)
 							}
 						case "Buttons":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Node[identifier].Buttons = append(Node[identifier].Buttons, Button instance )
-							// the map will not find the Button instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Button[targetIdentifier]; ok {
-								__gong__map_Node[identifier].Buttons =
-									append(__gong__map_Node[identifier].Buttons, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Button[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Node[identifier]
+								instanceWhoseFieldIsAppended.Buttons = append(instanceWhoseFieldIsAppended.Buttons, instanceToAppend)
 							}
 						}
 					case "SVGIcon":
@@ -737,14 +737,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						case "RootNodes":
-							// remove first and last char
-							targetIdentifier := ident.Name
-							// when parsing Tree[identifier].RootNodes = append(Tree[identifier].RootNodes, Node instance )
-							// the map will not find the Node instance, when parsing the first arg
-							// therefore, the condition is necessary
-							if target, ok := __gong__map_Node[targetIdentifier]; ok {
-								__gong__map_Tree[identifier].RootNodes =
-									append(__gong__map_Tree[identifier].RootNodes, target)
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Node[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Tree[identifier]
+								instanceWhoseFieldIsAppended.RootNodes = append(instanceWhoseFieldIsAppended.RootNodes, instanceToAppend)
 							}
 						}
 					}
