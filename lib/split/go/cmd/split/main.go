@@ -136,7 +136,7 @@ func main() {
 		slider.MinInt = 10
 		slider.MaxInt = 100
 		slider.StepInt = 5
-		slider.Name = "example"
+		slider.Name = "slider 1"
 		group.Sliders = append(group.Sliders, slider)
 
 		sliderStage1.Commit()
@@ -154,7 +154,7 @@ func main() {
 		slider.MinInt = 10
 		slider.MaxInt = 100
 		slider.StepInt = 5
-		slider.Name = "example"
+		slider.Name = "slider 2"
 		group.Sliders = append(group.Sliders, slider)
 
 		sliderStage2.Commit()
@@ -304,7 +304,7 @@ func main() {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
-					StackName: sliderStage1.GetProbeSplitStageName(),
+					StackName: sliderStage2.GetProbeSplitStageName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
