@@ -282,7 +282,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				return false
 			}
 
-			log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
+			log.Printf("%s CheckOrigin: Accepted - Origin '%s' with port %d", time.Now().Format("2006-01-02 15:04:05.000000"), origin, port)
 			return true
 		},
 	}
@@ -335,7 +335,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// ReadMessage is used to detect client disconnection
 			_, _, err := wsConnection.ReadMessage()
 			if err != nil {
-				log.Println("github.com/fullstack-lang/gong/lib/table/go", stackPath, "WS client disconnected:", err)
+				log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "github.com/fullstack-lang/gong/lib/table/go", stackPath, "WS client disconnected:", err)
 				cancel() // Cancel the context
 				return
 			}
