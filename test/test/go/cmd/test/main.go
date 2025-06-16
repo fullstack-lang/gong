@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 	"strconv"
 
 	// insertion point for models import
@@ -23,7 +24,8 @@ var (
 
 	embeddedDiagrams = flag.Bool("embeddedDiagrams", false, "parse/analysis go/models and go/embeddedDiagrams")
 
-	port = flag.Int("port", 8080, "port server")
+	port    = flag.Int("port", 8080, "port server")
+	logFile = flag.String("logFile", "", "path to the log file")
 )
 
 func main() {
@@ -33,6 +35,14 @@ func main() {
 
 	// parse program arguments
 	flag.Parse()
+
+	if *logFile != "" {
+		file, err := os.OpenFile(*logFile, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+		if err != nil {
+			log.Fatalf("Failed to open log file: %v", err)
+		}
+		log.SetOutput(file)
+	}
 
 	// setup the static file server and get the controller
 	r := test_static.ServeStaticFiles(*logGINFlag)

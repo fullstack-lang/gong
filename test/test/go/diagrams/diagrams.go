@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-16 23:14:44.175643 CEST"
-	const __write__utc_time__ = "2025-06-16 21:14:44.175643 UTC"
+	const __write__local_time = "2025-06-16 23:48:09.933470 CEST"
+	const __write__utc_time__ = "2025-06-16 21:48:09.933470 UTC"
 
-	const __commitId__ = "0000000034"
+	const __commitId__ = "0000000035"
 
 	// Declaration of instances to stage
 
@@ -132,8 +132,8 @@ renaming
 <pre>-
 </pre>
 `
-	__GongNoteShape__000000_Default_NoteOnOrganisation.X = 101.000000
-	__GongNoteShape__000000_Default_NoteOnOrganisation.Y = 356.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.X = 44.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Y = 344.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Width = 625.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Height = 226.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Matched = false
