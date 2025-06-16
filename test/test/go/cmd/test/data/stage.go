@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 03:37:16.933106 CEST"
-	const __write__utc_time__ = "2025-06-14 01:37:16.933106 UTC"
+	const __write__local_time = "2025-06-16 23:54:07.002441 CEST"
+	const __write__utc_time__ = "2025-06-16 21:54:07.002441 UTC"
 
-	const __commitId__ = "0000000042"
+	const __commitId__ = "0000000044"
 
 	// Declaration of instances to stage
 
@@ -149,9 +149,6 @@ Second Line`
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
-	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	// setup of AstructBstruct2Use instances pointers
