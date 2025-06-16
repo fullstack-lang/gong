@@ -110,10 +110,14 @@ func NewStager(
 		diagramPackage = k
 	}
 	if diagramPackage == nil {
-		diagramPackage = (&DiagramPackage{
-			Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
-		}).Stage(stage)
-		stage.Commit()
+		if !embeddedDiagrams {
+			diagramPackage = (&DiagramPackage{
+				Name: fmt.Sprintf("Diagram Package created the %s", time.Now().Local().UTC().Format(time.RFC3339)),
+			}).Stage(stage)
+			stage.Commit()
+		} else {
+			return
+		}
 	}
 
 	// refresh all notes body from the original gong note in the package models
