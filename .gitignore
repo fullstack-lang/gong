@@ -44,3 +44,4 @@ lib/doc2/go/cmd/doc2/doc2
 test/test/go/cmd/test/~$foo.xlsx
 test/test/go/cmd/test/data/stage.go-*.diff
 test/test/go/cmd/test/data/stage.go-*.delta
+test/test/go/cmd/test/app.log
