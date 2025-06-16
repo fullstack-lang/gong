@@ -39,7 +39,7 @@ func updateAndCommitTree(
 	sidebar := &tree.Tree{Name: SideBarTreeName}
 
 	// Add a refresh button
-	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf(`Stage "%s", # %d, %s`,
 		probe.stageOfInterest.GetName(),
 		probe.stageOfInterest.GetCommitId(),
 		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
