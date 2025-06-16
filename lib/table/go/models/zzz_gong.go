@@ -408,6 +408,14 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 }
 
+func (stage *Stage) GetCommitId() uint {
+	return stage.commitId
+}
+
+func (stage *Stage) GetCommitTS() time.Time {
+	return stage.commitTimeStamp
+}
+
 func (stage *Stage) SetGeneratesDiff(generatesDiff bool) {
 	stage.generatesDiff = generatesDiff
 }
