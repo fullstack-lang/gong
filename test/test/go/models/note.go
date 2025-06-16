@@ -1,6 +1,7 @@
 package models
 
-// GONGDOC(NoteOnOrganisation):
+// GONGDOC(NoteOnOrganisation): Note on the organisation
+//
 // and [models.Bstruct],
 // and [models.Astruct],
 // and [models.Astruct],
