@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"log"
+	"regexp"
 	"strings"
 
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
@@ -459,6 +460,10 @@ func (docSVGMapper *DocSVGMapper) GenerateSvg(
 		if len(bodyLines) > 1 {
 			// Trim leading/trailing whitespace and newlines from the rest of the content
 			noteContent = strings.TrimSpace(bodyLines[1])
+
+			// remove [models. prefix and ] suffix
+			re := regexp.MustCompile(`\[models\.([^\]]+)\]`)
+			noteContent = re.ReplaceAllString(noteContent, "$1")
 		}
 
 		//
