@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -38,7 +39,10 @@ func updateAndCommitTree(
 	sidebar := &tree.Tree{Name: SideBarTreeName}
 
 	// Add a refresh button
-	nodeRefreshButton := &tree.Node{Name: ""}
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
+		probe.stageOfInterest.GetName(),
+		probe.stageOfInterest.GetCommitId(),
+		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
 	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
