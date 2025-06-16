@@ -58,13 +58,26 @@ func (modelPkg *ModelPkg) GenerateDocs(docPackage *doc.Package) {
 						switch docLink := text.(type) {
 						case *comment.DocLink:
 
-							link := (&GongLink{
-								Name:       docLink.Name,
-								Recv:       docLink.Recv,
-								ImportPath: docLink.ImportPath,
-							}).Stage(modelPkg.GetStage())
+							// check if link already exists
+							linkExists := false
+							for _, existingLink := range gongNote.Links {
+								if existingLink.Name == docLink.Name &&
+									existingLink.Recv == docLink.Recv &&
+									existingLink.ImportPath == docLink.ImportPath {
+									linkExists = true
+									break
+								}
+							}
 
-							gongNote.Links = append(gongNote.Links, link)
+							if !linkExists {
+								link := (&GongLink{
+									Name:       docLink.Name,
+									Recv:       docLink.Recv,
+									ImportPath: docLink.ImportPath,
+								}).Stage(modelPkg.GetStage())
+
+								gongNote.Links = append(gongNote.Links, link)
+							}
 						}
 					}
 				}

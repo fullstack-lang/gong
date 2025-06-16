@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 03:37:38.887305 CEST"
-	const __write__utc_time__ = "2025-06-14 01:37:38.887305 UTC"
+	const __write__local_time = "2025-06-16 19:42:25.971451 CEST"
+	const __write__utc_time__ = "2025-06-16 17:42:25.971451 UTC"
 
-	const __commitId__ = "0000000018"
+	const __commitId__ = "0000000031"
 
 	// Declaration of instances to stage
 
@@ -42,6 +42,8 @@ func _(stage *models.Stage) {
 	__GongEnumValueShape__000000_NoName_yet := (&models.GongEnumValueShape{}).Stage(stage)
 	__GongEnumValueShape__000001_ENUM_VAL2 := (&models.GongEnumValueShape{}).Stage(stage)
 	__GongEnumValueShape__000002_ENUM_VAL1_ := (&models.GongEnumValueShape{}).Stage(stage)
+
+	__GongNoteShape__000000_Default_NoteOnOrganisation := (&models.GongNoteShape{}).Stage(stage)
 
 	__GongStructShape__000000_Default_Astruct := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_Bstruct := (&models.GongStructShape{}).Stage(stage)
@@ -67,13 +69,13 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true]`
+	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = ``
+	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false]`
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[true]`
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Name = `Diagram Package created the 2025-06-04T05:37:56Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Path = ``
@@ -96,6 +98,44 @@ func _(stage *models.Stage) {
 
 	__GongEnumValueShape__000002_ENUM_VAL1_.Name = `ENUM_VAL1_____`
 	__GongEnumValueShape__000002_ENUM_VAL1_.IdentifierMeta = ref_models.ENUM_VAL1
+
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Name = `Default-NoteOnOrganisation`
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Identifier = `ref_models.NoteOnOrganisation`
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Body = `
+and [models.Bstruct],
+and [models.Astruct],
+and [models.Astruct],
+and [models.Astruct],
+and [models.Astruct.Associationtob],
+having the following const exported identifier allows for
+referencing the note from the UML note and allows for
+renaming
+
+# This is heading 1
+
+## This is heading 1.1
+
+ -
+`
+	__GongNoteShape__000000_Default_NoteOnOrganisation.BodyHTML = `<p>and <a href="/models#Bstruct">models.Bstruct</a>,
+and <a href="/models#Astruct">models.Astruct</a>,
+and <a href="/models#Astruct">models.Astruct</a>,
+and <a href="/models#Astruct">models.Astruct</a>,
+and <a href="/models#Astruct.Associationtob">models.Astruct.Associationtob</a>,
+having the following const exported identifier allows for
+referencing the note from the UML note and allows for
+renaming
+<h3 id="hdr-This_is_heading_1">This is heading 1</h3>
+<p>## This is heading 1.1
+<pre>-
+</pre>
+`
+	__GongNoteShape__000000_Default_NoteOnOrganisation.X = 169.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Y = 361.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Width = 625.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Height = 226.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Matched = false
+	__GongNoteShape__000000_Default_NoteOnOrganisation.IsExpanded = false
 
 	__GongStructShape__000000_Default_Astruct.Name = `Default-Astruct`
 	__GongStructShape__000000_Default_Astruct.X = 127.000000
@@ -161,6 +201,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Astruct)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Bstruct)
 	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
+	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnOrganisation)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000000_Default
@@ -168,6 +209,7 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL1_)
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL2)
 	// setup of GongEnumValueShape instances pointers
+	// setup of GongNoteShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000000_Name)
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000001_Booleanfield_renamed_renamed)
