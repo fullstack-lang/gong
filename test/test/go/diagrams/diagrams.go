@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-16 19:42:25.971451 CEST"
-	const __write__utc_time__ = "2025-06-16 17:42:25.971451 UTC"
+	const __write__local_time = "2025-06-16 23:14:44.175643 CEST"
+	const __write__utc_time__ = "2025-06-16 21:14:44.175643 UTC"
 
-	const __commitId__ = "0000000031"
+	const __commitId__ = "0000000034"
 
 	// Declaration of instances to stage
 
@@ -101,7 +101,8 @@ func _(stage *models.Stage) {
 
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Name = `Default-NoteOnOrganisation`
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Identifier = `ref_models.NoteOnOrganisation`
-	__GongNoteShape__000000_Default_NoteOnOrganisation.Body = `
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Body = `Note on the organisation
+
 and [models.Bstruct],
 and [models.Astruct],
 and [models.Astruct],
@@ -117,7 +118,8 @@ renaming
 
  -
 `
-	__GongNoteShape__000000_Default_NoteOnOrganisation.BodyHTML = `<p>and <a href="/models#Bstruct">models.Bstruct</a>,
+	__GongNoteShape__000000_Default_NoteOnOrganisation.BodyHTML = `<p>Note on the organisation
+<p>and <a href="/models#Bstruct">models.Bstruct</a>,
 and <a href="/models#Astruct">models.Astruct</a>,
 and <a href="/models#Astruct">models.Astruct</a>,
 and <a href="/models#Astruct">models.Astruct</a>,
@@ -130,8 +132,8 @@ renaming
 <pre>-
 </pre>
 `
-	__GongNoteShape__000000_Default_NoteOnOrganisation.X = 169.000000
-	__GongNoteShape__000000_Default_NoteOnOrganisation.Y = 361.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.X = 101.000000
+	__GongNoteShape__000000_Default_NoteOnOrganisation.Y = 356.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Width = 625.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Height = 226.000000
 	__GongNoteShape__000000_Default_NoteOnOrganisation.Matched = false
