@@ -68,9 +68,6 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	if err != nil {
 		log.Panic("Unable to encode association")
 	}
-	if len(instanceSliceID) > 0 {
-		log.Println("AssociationSliceToFormn, encoding", instanceSliceID)
-	}
 
 	formEditAssocButton := (&form.FormEditAssocButton{
 		Name:               fieldName,
