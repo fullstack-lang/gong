@@ -56,14 +56,8 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
-	// filteredInstanceSet is the set of instance that are part of the field
-	filteredInstanceSet := make(map[FieldType]any, 0)
-	for _, instance := range *field {
-		filteredInstanceSet[instance] = nil
-	}
-
 	instanceSliceID := make([]uint, 0)
-	for instance := range filteredInstanceSet {
+	for _, instance := range *field {
 		id := uint(models.GetOrderPointerGongstruct(
 			probe.stageOfInterest,
 			instance,
@@ -87,8 +81,8 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
-		Name:  fieldName,
-		Label: fieldName,
+		Name:        fieldName,
+		Label:       fieldName,
 		HasToolTip:  true,
 		ToolTipText: "Edit order within the list instances of " + models.GetPointerToGongstructName[FieldType]() + " associated to this field",
 	}).Stage(probe.formStage)
