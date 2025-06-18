@@ -93,8 +93,8 @@ func main() {
 		Width:  200,
 		Height: 100,
 		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
-			<rect x="10" y="10" width="180" height="80" fill="none" stroke="green" stroke-width="10"/>
-			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="green" text-anchor="middle" dominant-baseline="middle">SVG 1</text>
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="blue" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="blue" text-anchor="middle" dominant-baseline="middle">SVG R 1</text>
 		</svg>`,
 	}).Stage(splitStage)
 
@@ -104,7 +104,17 @@ func main() {
 		Height: 100,
 		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
 			<rect x="10" y="10" width="180" height="80" fill="none" stroke="gray" stroke-width="10"/>
-			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="gray" text-anchor="middle" dominant-baseline="middle">SVG R 2</text>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="lightgray" text-anchor="middle" dominant-baseline="middle">SVG R 2</text>
+		</svg>`,
+	}).Stage(splitStage)
+
+	(&split.LogoOnTheRight{
+		Name:   "Test 3",
+		Width:  200,
+		Height: 100,
+		SVG: `<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+			<rect x="10" y="10" width="180" height="80" fill="none" stroke="red" stroke-width="10"/>
+			<text x="100" y="50" font-family="Arial, sans-serif" font-size="24" fill="red" text-anchor="middle" dominant-baseline="middle">SVG R 3</text>
 		</svg>`,
 	}).Stage(splitStage)
 
@@ -326,6 +336,7 @@ func main() {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
 				Split: (&split.Split{
+					Name:      "Button Split Probe",
 					StackName: buttonStage.GetProbeSplitStageName(),
 				}).Stage(splitStage),
 			}).Stage(splitStage),

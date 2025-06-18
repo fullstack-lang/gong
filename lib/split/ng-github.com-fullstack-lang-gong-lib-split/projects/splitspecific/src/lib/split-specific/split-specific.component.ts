@@ -82,6 +82,20 @@ export class SplitSpecificComponent implements OnInit {
           this.setSvgFavicon(this.frontRepo.array_FavIcons[0].SVG)
         }
 
+        if (this.frontRepo.array_LogoOnTheLefts.length > 0) {
+
+          this.frontRepo.array_LogoOnTheLefts.sort((a: split.LogoOnTheLeft, b: split.LogoOnTheLeft) => {
+            return a.ID - b.ID
+          })
+        }
+
+        if (this.frontRepo.array_LogoOnTheRights.length > 0) {
+
+          this.frontRepo.array_LogoOnTheRights.sort((a: split.LogoOnTheRight, b: split.LogoOnTheRight) => {
+            return a.ID - b.ID
+          })
+        }
+
         for (let logo of this.frontRepo.array_LogoOnTheLefts) {
           if (this.radioButtonHeight < logo.Height) {
             this.radioButtonHeight = logo.Height
