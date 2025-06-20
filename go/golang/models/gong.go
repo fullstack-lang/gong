@@ -60,6 +60,8 @@ const (
 	ModelGongNamedStructsSliceInit
 	ModelGongNamedStructsInstancesNames
 
+	ModelGongNamedStructSortedOrderInstances
+
 	ModelGongStructInsertionsNb
 )
 
@@ -291,6 +293,22 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	ModelGongNamedStructsInstancesNames: `
 	case "{{Structname}}":
 		res = GetNamedStructInstances(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)`,
+
+	ModelGongNamedStructSortedOrderInstances: `
+	case *{{Structname}}:
+		tmp := GetStructInstancesByOrder(stage.{{Structname}}s, stage.{{Structname}}Map_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *{{Structname}} implements.
+			res = append(res, any(v).(T))
+		}
+		return res`,
 }
 
 // Sub sub Templates identifiers per gong field
