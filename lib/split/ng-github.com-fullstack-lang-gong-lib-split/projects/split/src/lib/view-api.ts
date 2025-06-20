@@ -15,6 +15,7 @@ export class ViewAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	ShowViewName: boolean = false
+	IsSelectedView: boolean = false
 
 	// insertion point for other decls
 

@@ -1643,6 +1643,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 			}
 			view_.RootAsSplitAreas = instanceSlice
 
+		case "IsSelectedView":
+			FormDivBasicFieldToField(&(view_.IsSelectedView), formDiv)
 		}
 	}
 
