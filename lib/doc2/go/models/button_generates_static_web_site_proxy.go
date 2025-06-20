@@ -42,7 +42,6 @@ func (proxy *ButtonGeneratesStaticWebSiteProxy) ButtonUpdated(
 		}
 
 		diagramPackage.SelectedClassdiagram = classDiagram
-		stager.UpdateSVGStage()
 
 		imageFilePath := filepath.Join(imageFilesDirectoryPath, classDiagram.Name+".svg")
 		svg.GrabGeneratedSVGFile(stager.svgStage, imageFilePath, 5000*time.Millisecond)
