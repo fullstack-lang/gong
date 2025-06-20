@@ -69,6 +69,10 @@ func main() {
 
 	stager := test_models.NewStager(r, stack.Stage, splitStage)
 
+	tmp := test_models.GetStructInstancesByOrderAuto[*test_models.Astruct](stack.Stage)
+
+	log.Printf("%v\n", tmp)
+
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
 		Name: stack.Stage.GetName() + "with Probe",
