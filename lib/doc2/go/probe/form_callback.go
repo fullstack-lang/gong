@@ -1225,10 +1225,6 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(gongstructshape_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(gongstructshape_.Y), formDiv)
-		case "ShowNbInstances":
-			FormDivBasicFieldToField(&(gongstructshape_.ShowNbInstances), formDiv)
-		case "NbInstances":
-			FormDivBasicFieldToField(&(gongstructshape_.NbInstances), formDiv)
 		case "AttributeShapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.AttributeShape](gongstructshapeFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.AttributeShape, 0)

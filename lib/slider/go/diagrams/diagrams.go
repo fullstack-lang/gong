@@ -193,8 +193,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Slider.X = 919.000000
 	__GongStructShape__000000_Default_Slider.Y = 257.000000
 	__GongStructShape__000000_Default_Slider.IdentifierMeta = ref_models.Slider{}
-	__GongStructShape__000000_Default_Slider.ShowNbInstances = false
-	__GongStructShape__000000_Default_Slider.NbInstances = 0
+
 	__GongStructShape__000000_Default_Slider.Width = 240.000000
 	__GongStructShape__000000_Default_Slider.Height = 283.000000
 	__GongStructShape__000000_Default_Slider.IsSelected = false
@@ -203,8 +202,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Layout.X = 43.000000
 	__GongStructShape__000001_Default_Layout.Y = 99.000000
 	__GongStructShape__000001_Default_Layout.IdentifierMeta = ref_models.Layout{}
-	__GongStructShape__000001_Default_Layout.ShowNbInstances = false
-	__GongStructShape__000001_Default_Layout.NbInstances = 0
+
 	__GongStructShape__000001_Default_Layout.Width = 240.000000
 	__GongStructShape__000001_Default_Layout.Height = 83.000000
 	__GongStructShape__000001_Default_Layout.IsSelected = false
@@ -213,8 +211,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Group.X = 411.000000
 	__GongStructShape__000002_Default_Group.Y = 97.000000
 	__GongStructShape__000002_Default_Group.IdentifierMeta = ref_models.Group{}
-	__GongStructShape__000002_Default_Group.ShowNbInstances = false
-	__GongStructShape__000002_Default_Group.NbInstances = 0
+
 	__GongStructShape__000002_Default_Group.Width = 240.000000
 	__GongStructShape__000002_Default_Group.Height = 103.000000
 	__GongStructShape__000002_Default_Group.IsSelected = false
@@ -223,8 +220,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Checkbox.X = 916.000000
 	__GongStructShape__000003_Default_Checkbox.Y = 82.000000
 	__GongStructShape__000003_Default_Checkbox.IdentifierMeta = ref_models.Checkbox{}
-	__GongStructShape__000003_Default_Checkbox.ShowNbInstances = false
-	__GongStructShape__000003_Default_Checkbox.NbInstances = 0
+
 	__GongStructShape__000003_Default_Checkbox.Width = 240.000000
 	__GongStructShape__000003_Default_Checkbox.Height = 143.000000
 	__GongStructShape__000003_Default_Checkbox.IsSelected = false
@@ -320,4 +316,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Checkbox.AttributeShapes = append(__GongStructShape__000003_Default_Checkbox.AttributeShapes, __AttributeShape__000015_LabelForFalse)
 	// setup of LinkShape instances pointers
 }
-

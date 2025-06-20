@@ -129,8 +129,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Tree.Name = `Default-Tree`
 
 	__GongStructShape__000000_Default_Tree.Identifier = `ref_models.Tree`
-	__GongStructShape__000000_Default_Tree.ShowNbInstances = false
-	__GongStructShape__000000_Default_Tree.NbInstances = 0
+
 	__GongStructShape__000000_Default_Tree.Width = 240.000000
 	__GongStructShape__000000_Default_Tree.Height = 78.000000
 	__GongStructShape__000000_Default_Tree.IsSelected = false
@@ -138,8 +137,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Node.Name = `Default-Node`
 
 	__GongStructShape__000001_Default_Node.Identifier = `ref_models.Node`
-	__GongStructShape__000001_Default_Node.ShowNbInstances = false
-	__GongStructShape__000001_Default_Node.NbInstances = 0
+
 	__GongStructShape__000001_Default_Node.Width = 240.000000
 	__GongStructShape__000001_Default_Node.Height = 123.000000
 	__GongStructShape__000001_Default_Node.IsSelected = false
@@ -147,8 +145,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Button.Name = `Default-Button`
 
 	__GongStructShape__000002_Default_Button.Identifier = `ref_models.Button`
-	__GongStructShape__000002_Default_Button.ShowNbInstances = false
-	__GongStructShape__000002_Default_Button.NbInstances = 0
+
 	__GongStructShape__000002_Default_Button.Width = 240.000000
 	__GongStructShape__000002_Default_Button.Height = 93.000000
 	__GongStructShape__000002_Default_Button.IsSelected = false
@@ -156,8 +153,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_SVGIcon.Name = `Default-SVGIcon`
 
 	__GongStructShape__000003_Default_SVGIcon.Identifier = `ref_models.SVGIcon`
-	__GongStructShape__000003_Default_SVGIcon.ShowNbInstances = false
-	__GongStructShape__000003_Default_SVGIcon.NbInstances = 0
+
 	__GongStructShape__000003_Default_SVGIcon.Width = 240.000000
 	__GongStructShape__000003_Default_SVGIcon.Height = 93.000000
 	__GongStructShape__000003_Default_SVGIcon.IsSelected = false
