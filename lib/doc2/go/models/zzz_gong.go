@@ -1965,7 +1965,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongNoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "GongNoteLinkShapes", "IsExpanded"}
 	case GongStructShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
+		res = []string{"Name", "X", "Y", "IdentifierMeta", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
 	case LinkShape:
 		res = []string{"Name", "IdentifierMeta", "FieldTypeIdentifierMeta", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	}
@@ -2063,7 +2063,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongNoteShape:
 		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "GongNoteLinkShapes", "IsExpanded"}
 	case *GongStructShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "ShowNbInstances", "NbInstances", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
+		res = []string{"Name", "X", "Y", "IdentifierMeta", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
 	case *LinkShape:
 		res = []string{"Name", "IdentifierMeta", "FieldTypeIdentifierMeta", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
 	}
@@ -2307,14 +2307,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "ShowNbInstances":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
-			res.valueBool = inferedInstance.ShowNbInstances
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "NbInstances":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbInstances)
-			res.valueInt = inferedInstance.NbInstances
-			res.GongFieldValueType = GongFieldValueTypeInt
 		case "AttributeShapes":
 			for idx, __instance__ := range inferedInstance.AttributeShapes {
 				if idx > 0 {
@@ -2614,14 +2606,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Y)
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "ShowNbInstances":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
-			res.valueBool = inferedInstance.ShowNbInstances
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "NbInstances":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbInstances)
-			res.valueInt = inferedInstance.NbInstances
-			res.GongFieldValueType = GongFieldValueTypeInt
 		case "AttributeShapes":
 			for idx, __instance__ := range inferedInstance.AttributeShapes {
 				if idx > 0 {
