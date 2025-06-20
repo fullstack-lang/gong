@@ -17,6 +17,18 @@ import (
 	_ "github.com/fullstack-lang/gong/lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx"
 )
 
+// View is the top structuring eleement of the split component
+//
+// There can be many instancied views
+// The one with [models.IsSelectedView] set to true will be displayed
+// (if more than one view has this field to true, the behavior is not specified)
+type View struct {
+	Name             string
+	ShowViewName     bool // by default, a standalone views wont display the
+	RootAsSplitAreas []*AsSplitArea
+	IsSelectedView   bool
+}
+
 type Direction string
 
 const (
@@ -124,12 +136,6 @@ type Tree struct {
 type Xlsx struct {
 	Name      string // name of the stack
 	StackName string
-}
-
-type View struct {
-	Name             string
-	ShowViewName     bool // by default, a standalone views wont display the
-	RootAsSplitAreas []*AsSplitArea
 }
 
 // You can configure the browser tab title and favicon dynamically in Angular
