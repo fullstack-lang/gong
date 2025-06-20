@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-20 16:54:39.492897 CEST"
-	const __write__utc_time__ = "2025-06-20 14:54:39.492897 UTC"
+	const __write__local_time = "2025-06-20 18:36:02.277153 CEST"
+	const __write__utc_time__ = "2025-06-20 16:36:02.277153 UTC"
 
-	const __commitId__ = "0000000050"
+	const __commitId__ = "0000000055"
 
 	// Declaration of instances to stage
 
@@ -92,8 +92,8 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.IsExpanded = false
 
 	__GongEnumShape__000001_Default_BEnumType.Name = `Default-BEnumType`
-	__GongEnumShape__000001_Default_BEnumType.X = 100.000000
-	__GongEnumShape__000001_Default_BEnumType.Y = 59.000000
+	__GongEnumShape__000001_Default_BEnumType.X = 86.000000
+	__GongEnumShape__000001_Default_BEnumType.Y = 228.999985
 	__GongEnumShape__000001_Default_BEnumType.IdentifierMeta = new(ref_models.BEnumType)
 	__GongEnumShape__000001_Default_BEnumType.Width = 240.000000
 	__GongEnumShape__000001_Default_BEnumType.Height = 63.000000

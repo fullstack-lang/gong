@@ -2,11 +2,8 @@ package models
 
 import (
 	"log"
-	"path/filepath"
-	"time"
 
 	ssg "github.com/fullstack-lang/gong/lib/ssg/go/models"
-	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -34,20 +31,19 @@ func (proxy *ButtonGeneratesStaticWebSiteProxy) ButtonUpdated(
 
 	stager.prepareStaticDic(imageFilesDirectoryPath)
 
-	// grab all images of diagrams to be included in the static web site
-	selectedClassdiagram := diagramPackage.SelectedClassdiagram
-	for _, classDiagram := range diagramPackage.Classdiagrams {
-		if !classDiagram.IsIncludedInStaticWebSite {
-			continue
-		}
+	// // grab all images of diagrams to be included in the static web site
+	// selectedClassdiagram := diagramPackage.SelectedClassdiagram
+	// for _, classDiagram := range diagramPackage.Classdiagrams {
+	// 	if !classDiagram.IsIncludedInStaticWebSite {
+	// 		continue
+	// 	}
 
-		diagramPackage.SelectedClassdiagram = classDiagram
-		stager.UpdateSVGStage()
+	// 	diagramPackage.SelectedClassdiagram = classDiagram
 
-		imageFilePath := filepath.Join(imageFilesDirectoryPath, classDiagram.Name+".svg")
-		svg.GrabGeneratedSVGFile(stager.svgStage, imageFilePath, 5000*time.Millisecond)
-	}
-	diagramPackage.SelectedClassdiagram = selectedClassdiagram
+	// 	imageFilePath := filepath.Join(imageFilesDirectoryPath, classDiagram.Name+".svg")
+	// 	svg.GrabGeneratedSVGFile(stager.svgStage, imageFilePath, 5000*time.Millisecond)
+	// }
+	// diagramPackage.SelectedClassdiagram = selectedClassdiagram
 
 	stager.ssgStage.Reset()
 
