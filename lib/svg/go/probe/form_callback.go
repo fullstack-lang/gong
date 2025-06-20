@@ -4120,6 +4120,8 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(svg_.IsSVGBackEndFileGenerated), formDiv)
 		case "DefaultDirectoryForGeneratedImages":
 			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
+		case "IsControlBannerHidden":
+			FormDivBasicFieldToField(&(svg_.IsControlBannerHidden), formDiv)
 		}
 	}
 

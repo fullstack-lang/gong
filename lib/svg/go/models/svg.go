@@ -34,6 +34,10 @@ type SVG struct {
 	DefaultDirectoryForGeneratedImages string
 
 	Impl SVGImplInterface
+
+	// IsControlBannerHidden control the appearance of the control banner on top of the svg
+	// it can be usefull if one does not need to control the zoom, shift x and shift y, ...
+	IsControlBannerHidden bool
 }
 
 // OnAfterUpdate, notice that rect == stagedRect

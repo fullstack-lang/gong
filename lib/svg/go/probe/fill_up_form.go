@@ -1113,6 +1113,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("DefaultDirectoryForGeneratedImages", instanceWithInferedType.DefaultDirectoryForGeneratedImages, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsControlBannerHidden", instanceWithInferedType.IsControlBannerHidden, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.SvgText:
 		// insertion point
