@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 02:28:54.995885 CEST"
-	const __write__utc_time__ = "2025-06-14 00:28:54.995885 UTC"
+	const __write__local_time = "2025-06-20 18:53:32.198440 CEST"
+	const __write__utc_time__ = "2025-06-20 16:53:32.198440 UTC"
 
-	const __commitId__ = "0000000001"
+	const __commitId__ = "0000000010"
 
 	// Declaration of instances to stage
 
@@ -34,6 +34,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000001_spoil_diagram := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z := (&models.DiagramPackage{}).Stage(stage)
+
+	__GongStructShape__000000_Default_AttributeShape := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000001_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -66,11 +69,34 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.AbsolutePathToDiagramPackage = ``
 
+	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
+	__GongStructShape__000000_Default_AttributeShape.X = 53.000000
+	__GongStructShape__000000_Default_AttributeShape.Y = 18.000000
+	__GongStructShape__000000_Default_AttributeShape.IdentifierMeta = ref_models.AttributeShape{}
+	__GongStructShape__000000_Default_AttributeShape.ShowNbInstances = false
+	__GongStructShape__000000_Default_AttributeShape.NbInstances = 0
+	__GongStructShape__000000_Default_AttributeShape.Width = 240.000000
+	__GongStructShape__000000_Default_AttributeShape.Height = 63.000000
+	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
+
+	__GongStructShape__000001_Default_Classdiagram.Name = `Default-Classdiagram`
+	__GongStructShape__000001_Default_Classdiagram.X = 439.000000
+	__GongStructShape__000001_Default_Classdiagram.Y = 58.000000
+	__GongStructShape__000001_Default_Classdiagram.IdentifierMeta = ref_models.Classdiagram{}
+	__GongStructShape__000001_Default_Classdiagram.ShowNbInstances = false
+	__GongStructShape__000001_Default_Classdiagram.NbInstances = 0
+	__GongStructShape__000001_Default_Classdiagram.Width = 240.000000
+	__GongStructShape__000001_Default_Classdiagram.Height = 63.000000
+	__GongStructShape__000001_Default_Classdiagram.IsSelected = false
+
 	// Setup of pointers
 	// setup of Classdiagram instances pointers
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	// setup of GongStructShape instances pointers
 }
 
