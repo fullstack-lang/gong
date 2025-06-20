@@ -152,8 +152,7 @@ renaming
 	__GongStructShape__000000_Default_Astruct.X = 127.000000
 	__GongStructShape__000000_Default_Astruct.Y = 46.000000
 	__GongStructShape__000000_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
-	__GongStructShape__000000_Default_Astruct.ShowNbInstances = false
-	__GongStructShape__000000_Default_Astruct.NbInstances = 0
+
 	__GongStructShape__000000_Default_Astruct.Width = 240.000000
 	__GongStructShape__000000_Default_Astruct.Height = 103.000000
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
@@ -162,8 +161,7 @@ renaming
 	__GongStructShape__000001_Default_Bstruct.X = 964.000000
 	__GongStructShape__000001_Default_Bstruct.Y = 110.000000
 	__GongStructShape__000001_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
-	__GongStructShape__000001_Default_Bstruct.ShowNbInstances = false
-	__GongStructShape__000001_Default_Bstruct.NbInstances = 0
+
 	__GongStructShape__000001_Default_Bstruct.Width = 240.000000
 	__GongStructShape__000001_Default_Bstruct.Height = 227.000000
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
@@ -229,4 +227,3 @@ renaming
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Associationtob)
 	// setup of LinkShape instances pointers
 }
-

@@ -20,11 +20,6 @@ type GongStructShape struct {
 	//gong:meta
 	IdentifierMeta any
 
-	// gongdoc can be integrated in a runtime application
-	// the application can then set up the number of instances of Struct
-	ShowNbInstances bool
-	NbInstances     int
-
 	// models of the composition of Field
 	AttributeShapes []*AttributeShape
 
@@ -125,11 +120,8 @@ func (classdiagram *Classdiagram) AddGongStructShape(stage *Stage, diagramPackag
 	gongStructShape.Height = 63
 
 	// attach GongStruct to gongstructshape
-	nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructShapeName]
-	if ok {
-		gongStructShape.ShowNbInstances = true
-		gongStructShape.NbInstances = nbInstances
-	}
+	// nbInstances, ok := diagramPackage.Map_Identifier_NbInstances[gongStructShapeName]
+
 	gongStructShape.Stage(stage)
 
 	gongStructShape.X = float64(int(rand.Float32()*100) + 10)
