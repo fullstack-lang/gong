@@ -9,7 +9,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/sergi/go-diff/diffmatchpatch"
 )
@@ -83,7 +82,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		log.Fatalln(name + " is not a go filename")
 	}
 
-	log.Printf("%s Marshalling %s", time.Now().Format("2006-01-02 15:04:05.000000"), name)
+	log.Printf("Marshalling %s", name)
 	newBase := filepath.Base(file.Name())
 
 	res := marshallRes
