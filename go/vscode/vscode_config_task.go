@@ -13,25 +13,10 @@ const VsCodeTasksConfig = `{
 		"args": [
 		  "run",
 		  "main.go",
-		  "-diagrams",
-		  "-unmarshallFromCode=data/stage.go",
-		  "-marshallOnCommit=data/stage"
-		],
-		"group": "build"
-	  },
-	  {
-		"label": "02 - run {{pkgname}} w/o diagrams",
-		"type": "shell",
-		"options": {
-		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
-		},
-		"command": "go",
-		"args": [
-		  "run",
-		  ".",
-		  "-diagrams=false",
-		  "--unmarshall=data/stage",
-		  "-marshallOnCommit=data/stage"
+		  "-unmarshallFromCode",
+		  "data/stage.go",
+		  "-marshallOnCommit",
+		  "data/stage.go"
 		],
 		"group": "build"
 	  },
@@ -103,16 +88,12 @@ const VsCodeTasksConfig = `{
 		]
 	  },
 	  {
-		"label": "00 - update dependencies",
+		"label": "00 - update gong dependency",
 		"type": "shell",
 		"command": "go",
 		"args": [
 		  "get",
-		  "github.com/fullstack-lang/gong@HEAD",
-		  "github.com/fullstack-lang/gongtable@HEAD",
-		  "github.com/fullstack-lang/gongtree@HEAD",
-		  "github.com/fullstack-lang/gongdoc@HEAD",
-		  "github.com/fullstack-lang/gongsvg@HEAD",
+		  "github.com/fullstack-lang/gong@main",
 		],
 		"group": "build"
 	  },
