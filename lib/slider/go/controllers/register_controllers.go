@@ -3,6 +3,7 @@ package controllers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -149,7 +150,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				return false
 			}
 
-			log.Printf("%s CheckOrigin: Accepted - Origin '%s' with port %d", time.Now().Format("2006-01-02 15:04:05.000000"), origin, port)
+			log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
 			return true
 		},
 	}
@@ -178,8 +179,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	index := controller.listenerIndex
 	controller.listenerIndex++
 	log.Printf(
-		"%s github.com/fullstack-lang/gong/lib/slider/go: Con: '%s', index %d",
-		time.Now().Format("2006-01-02 15:04:05.000000"),
+		"github.com/fullstack-lang/gong/lib/slider/go: Con: '%s', index %d",
 		stackPath, index,
 	)
 
@@ -202,7 +202,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// ReadMessage is used to detect client disconnection
 			_, _, err := wsConnection.ReadMessage()
 			if err != nil {
-				log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "github.com/fullstack-lang/gong/lib/slider/go", stackPath, "WS client disconnected:", err)
+				log.Println("github.com/fullstack-lang/gong/lib/slider/go", stackPath, "WS client disconnected:", err)
 				cancel() // Cancel the context
 				return
 			}
@@ -212,21 +212,34 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	backRepoData := new(orm.BackRepoData)
 	orm.CopyBackRepoToBackRepoData(backRepo, backRepoData)
 	backRepoData.GONG__Index = index
-	
+
 	refresh := 0
-	err = wsConnection.WriteJSON(backRepoData)
+	// Marshal the data to JSON first to be able to get its size
+	jsonData, err := json.Marshal(backRepoData)
+	if err != nil {
+		log.Printf("Error marshaling JSON: %v", err)
+		return
+	}
+
+	// Get the size of the JSON data in bytes
+	jsonSize := len(jsonData)
+
+	// Use WriteMessage to send the pre-marshaled JSON data.
+	// websocket.TextMessage is typically what WriteJSON uses.
+	err = wsConnection.WriteMessage(websocket.TextMessage, jsonData)
 	if err != nil {
 		log.Println("github.com/fullstack-lang/gong/lib/slider/go:\n",
 			"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 		fmt.Println(err)
 		return
 	} else {
-	log.Printf(
-		"%s github.com/fullstack-lang/gong/lib/slider/go: %03d: '%s', index %d",
-		time.Now().Format("2006-01-02 15:04:05.000000"),
-		refresh,
-		stackPath, index,
-	)
+		log.Printf(
+			"github.com/fullstack-lang/gong/lib/slider/go: %03d: '%s', index %d, size: %d bytes",
+			refresh,
+			stackPath,
+			index,
+			jsonSize, // Print the size here
+		)
 	}
 	for {
 		select {
@@ -246,19 +259,31 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				wsConnection.SetWriteDeadline(time.Now().Add(10 * time.Second))
 
 				// Send backRepo data
-				err = wsConnection.WriteJSON(backRepoData)
+				// Marshal the data to JSON first to be able to get its size
+				jsonData, err := json.Marshal(backRepoData)
 				if err != nil {
-					log.Println("github.com/fullstack-lang/gong/lib/slider/go:\n", stackPath,
-						"client no longer receiver web socket message,closing websocket handler")
+					log.Printf("Error marshaling JSON: %v", err)
+					return
+				}
+
+				// Get the size of the JSON data in bytes
+				jsonSize := len(jsonData)
+
+				// Use WriteMessage to send the pre-marshaled JSON data.
+				// websocket.TextMessage is typically what WriteJSON uses.
+				err = wsConnection.WriteMessage(websocket.TextMessage, jsonData)
+				if err != nil {
+					log.Println("github.com/fullstack-lang/gong/lib/slider/go:\n",
+						"client no longer receiver web socket message, assuming it is no longer alive, closing websocket handler")
 					fmt.Println(err)
-					cancel() // Cancel the context
 					return
 				} else {
 					log.Printf(
-						"%s github.com/fullstack-lang/gong/lib/slider/go: %03d: '%s', index %d",
-						time.Now().Format("2006-01-02 15:04:05.000000"),
+						"github.com/fullstack-lang/gong/lib/slider/go: %03d: '%s', index %d, size: %d bytes",
 						refresh,
-						stackPath, index,
+						stackPath,
+						index,
+						jsonSize, // Print the size here
 					)
 				}
 			}
