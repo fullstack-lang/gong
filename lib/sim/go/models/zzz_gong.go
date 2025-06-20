@@ -236,6 +236,99 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 	return
 }
 
+func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
+	var t T
+	switch any(t).(type) {
+		// insertion point for case
+	case *Command:
+		tmp := GetStructInstancesByOrder(stage.Commands, stage.CommandMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Command implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *DummyAgent:
+		tmp := GetStructInstancesByOrder(stage.DummyAgents, stage.DummyAgentMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *DummyAgent implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Engine:
+		tmp := GetStructInstancesByOrder(stage.Engines, stage.EngineMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Engine implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Event:
+		tmp := GetStructInstancesByOrder(stage.Events, stage.EventMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Event implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Status:
+		tmp := GetStructInstancesByOrder(stage.Statuss, stage.StatusMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Status implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *UpdateState:
+		tmp := GetStructInstancesByOrder(stage.UpdateStates, stage.UpdateStateMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *UpdateState implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+
+	}
+	return
+}
+
 func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
