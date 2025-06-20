@@ -3256,7 +3256,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case View:
-		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
 	case Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -3386,7 +3386,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Tree:
 		res = []string{"Name", "StackName", "TreeName"}
 	case *View:
-		res = []string{"Name", "ShowViewName", "RootAsSplitAreas"}
+		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
 	case *Xlsx:
 		res = []string{"Name", "StackName"}
 	}
@@ -3682,6 +3682,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		case "IsSelectedView":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSelectedView)
+			res.valueBool = inferedInstance.IsSelectedView
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *Xlsx:
 		switch fieldName {
@@ -3953,6 +3957,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		case "IsSelectedView":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsSelectedView)
+			res.valueBool = inferedInstance.IsSelectedView
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case Xlsx:
 		switch fieldName {

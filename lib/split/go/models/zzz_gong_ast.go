@@ -1446,6 +1446,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_View[identifier].ShowViewName = fielValue
+				case "IsSelectedView":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_View[identifier].IsSelectedView = fielValue
 				}
 			case "Xlsx":
 				switch fieldName {
