@@ -2719,6 +2719,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_SVG[identifier].IsSVGBackEndFileGenerated = fielValue
+				case "IsControlBannerHidden":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_SVG[identifier].IsControlBannerHidden = fielValue
 				}
 			case "SvgText":
 				switch fieldName {
