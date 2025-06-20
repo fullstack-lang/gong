@@ -123,7 +123,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				return false
 			}
 
-			log.Printf("%s CheckOrigin: Accepted - Origin '%s' with port %d", time.Now().Format("2006-01-02 15:04:05.000000"), origin, port)
+			log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
 			return true
 		},
 	}
@@ -152,8 +152,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	index := controller.listenerIndex
 	controller.listenerIndex++
 	log.Printf(
-		"%s {{PkgPathRoot}}: Con: '%s', index %d",
-		time.Now().Format("2006-01-02 15:04:05.000000"),
+		"{{PkgPathRoot}}: Con: '%s', index %d",
 		stackPath, index,
 	)
 
@@ -176,7 +175,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 			// ReadMessage is used to detect client disconnection
 			_, _, err := wsConnection.ReadMessage()
 			if err != nil {
-				log.Println(time.Now().Format("2006-01-02 15:04:05.000000"), "{{PkgPathRoot}}", stackPath, "WS client disconnected:", err)
+				log.Println("{{PkgPathRoot}}", stackPath, "WS client disconnected:", err)
 				cancel() // Cancel the context
 				return
 			}
@@ -196,8 +195,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		return
 	} else {
 	log.Printf(
-		"%s {{PkgPathRoot}}: %03d: '%s', index %d",
-		time.Now().Format("2006-01-02 15:04:05.000000"),
+		"{{PkgPathRoot}}: %03d: '%s', index %d",
 		refresh,
 		stackPath, index,
 	)
@@ -229,8 +227,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					return
 				} else {
 					log.Printf(
-						"%s {{PkgPathRoot}}: %03d: '%s', index %d",
-						time.Now().Format("2006-01-02 15:04:05.000000"),
+						"{{PkgPathRoot}}: %03d: '%s', index %d",
 						refresh,
 						stackPath, index,
 					)
