@@ -109,8 +109,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_AsSplit.Name = `Default-AsSplit`
 
 	__GongStructShape__000000_Default_AsSplit.Identifier = `ref_models.AsSplit`
-	__GongStructShape__000000_Default_AsSplit.ShowNbInstances = false
-	__GongStructShape__000000_Default_AsSplit.NbInstances = 0
+
 	__GongStructShape__000000_Default_AsSplit.Width = 240.000000
 	__GongStructShape__000000_Default_AsSplit.Height = 63.000000
 	__GongStructShape__000000_Default_AsSplit.IsSelected = false
@@ -118,8 +117,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_AsSplitArea.Name = `Default-AsSplitArea`
 
 	__GongStructShape__000001_Default_AsSplitArea.Identifier = `ref_models.AsSplitArea`
-	__GongStructShape__000001_Default_AsSplitArea.ShowNbInstances = false
-	__GongStructShape__000001_Default_AsSplitArea.NbInstances = 0
+
 	__GongStructShape__000001_Default_AsSplitArea.Width = 240.000000
 	__GongStructShape__000001_Default_AsSplitArea.Height = 131.000000
 	__GongStructShape__000001_Default_AsSplitArea.IsSelected = false
@@ -127,8 +125,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Button.Name = `Default-Button`
 
 	__GongStructShape__000002_Default_Button.Identifier = `ref_models.Button`
-	__GongStructShape__000002_Default_Button.ShowNbInstances = false
-	__GongStructShape__000002_Default_Button.NbInstances = 0
+
 	__GongStructShape__000002_Default_Button.Width = 240.000000
 	__GongStructShape__000002_Default_Button.Height = 63.000000
 	__GongStructShape__000002_Default_Button.IsSelected = false
@@ -136,8 +133,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Cursor.Name = `Default-Cursor`
 
 	__GongStructShape__000003_Default_Cursor.Identifier = `ref_models.Cursor`
-	__GongStructShape__000003_Default_Cursor.ShowNbInstances = false
-	__GongStructShape__000003_Default_Cursor.NbInstances = 0
+
 	__GongStructShape__000003_Default_Cursor.Width = 240.000000
 	__GongStructShape__000003_Default_Cursor.Height = 63.000000
 	__GongStructShape__000003_Default_Cursor.IsSelected = false
@@ -145,8 +141,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_Doc.Name = `Default-Doc`
 
 	__GongStructShape__000004_Default_Doc.Identifier = `ref_models.Doc`
-	__GongStructShape__000004_Default_Doc.ShowNbInstances = false
-	__GongStructShape__000004_Default_Doc.NbInstances = 0
+
 	__GongStructShape__000004_Default_Doc.Width = 240.000000
 	__GongStructShape__000004_Default_Doc.Height = 63.000000
 	__GongStructShape__000004_Default_Doc.IsSelected = false
@@ -154,8 +149,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Form.Name = `Default-Form`
 
 	__GongStructShape__000005_Default_Form.Identifier = `ref_models.Form`
-	__GongStructShape__000005_Default_Form.ShowNbInstances = false
-	__GongStructShape__000005_Default_Form.NbInstances = 0
+
 	__GongStructShape__000005_Default_Form.Width = 240.000000
 	__GongStructShape__000005_Default_Form.Height = 63.000000
 	__GongStructShape__000005_Default_Form.IsSelected = false
@@ -163,8 +157,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000006_Default_Load.Name = `Default-Load`
 
 	__GongStructShape__000006_Default_Load.Identifier = `ref_models.Load`
-	__GongStructShape__000006_Default_Load.ShowNbInstances = false
-	__GongStructShape__000006_Default_Load.NbInstances = 0
+
 	__GongStructShape__000006_Default_Load.Width = 240.000000
 	__GongStructShape__000006_Default_Load.Height = 63.000000
 	__GongStructShape__000006_Default_Load.IsSelected = false
@@ -172,8 +165,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000007_Default_Slider.Name = `Default-Slider`
 
 	__GongStructShape__000007_Default_Slider.Identifier = `ref_models.Slider`
-	__GongStructShape__000007_Default_Slider.ShowNbInstances = false
-	__GongStructShape__000007_Default_Slider.NbInstances = 0
+
 	__GongStructShape__000007_Default_Slider.Width = 240.000000
 	__GongStructShape__000007_Default_Slider.Height = 63.000000
 	__GongStructShape__000007_Default_Slider.IsSelected = false
@@ -181,8 +173,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000008_Default_Split.Name = `Default-Split`
 
 	__GongStructShape__000008_Default_Split.Identifier = `ref_models.Split`
-	__GongStructShape__000008_Default_Split.ShowNbInstances = false
-	__GongStructShape__000008_Default_Split.NbInstances = 0
+
 	__GongStructShape__000008_Default_Split.Width = 240.000000
 	__GongStructShape__000008_Default_Split.Height = 63.000000
 	__GongStructShape__000008_Default_Split.IsSelected = false
@@ -190,8 +181,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000009_Default_Svg.Name = `Default-Svg`
 
 	__GongStructShape__000009_Default_Svg.Identifier = `ref_models.Svg`
-	__GongStructShape__000009_Default_Svg.ShowNbInstances = false
-	__GongStructShape__000009_Default_Svg.NbInstances = 0
+
 	__GongStructShape__000009_Default_Svg.Width = 240.000000
 	__GongStructShape__000009_Default_Svg.Height = 63.000000
 	__GongStructShape__000009_Default_Svg.IsSelected = false
@@ -199,8 +189,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000010_Default_Table.Name = `Default-Table`
 
 	__GongStructShape__000010_Default_Table.Identifier = `ref_models.Table`
-	__GongStructShape__000010_Default_Table.ShowNbInstances = false
-	__GongStructShape__000010_Default_Table.NbInstances = 0
+
 	__GongStructShape__000010_Default_Table.Width = 240.000000
 	__GongStructShape__000010_Default_Table.Height = 63.000000
 	__GongStructShape__000010_Default_Table.IsSelected = false
@@ -208,8 +197,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000011_Default_Tone.Name = `Default-Tone`
 
 	__GongStructShape__000011_Default_Tone.Identifier = `ref_models.Tone`
-	__GongStructShape__000011_Default_Tone.ShowNbInstances = false
-	__GongStructShape__000011_Default_Tone.NbInstances = 0
+
 	__GongStructShape__000011_Default_Tone.Width = 240.000000
 	__GongStructShape__000011_Default_Tone.Height = 63.000000
 	__GongStructShape__000011_Default_Tone.IsSelected = false
@@ -217,8 +205,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000012_Default_Tree.Name = `Default-Tree`
 
 	__GongStructShape__000012_Default_Tree.Identifier = `ref_models.Tree`
-	__GongStructShape__000012_Default_Tree.ShowNbInstances = false
-	__GongStructShape__000012_Default_Tree.NbInstances = 0
+
 	__GongStructShape__000012_Default_Tree.Width = 240.000000
 	__GongStructShape__000012_Default_Tree.Height = 63.000000
 	__GongStructShape__000012_Default_Tree.IsSelected = false
@@ -226,8 +213,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000013_Default_View.Name = `Default-View`
 
 	__GongStructShape__000013_Default_View.Identifier = `ref_models.View`
-	__GongStructShape__000013_Default_View.ShowNbInstances = false
-	__GongStructShape__000013_Default_View.NbInstances = 0
+
 	__GongStructShape__000013_Default_View.Width = 240.000000
 	__GongStructShape__000013_Default_View.Height = 63.000000
 	__GongStructShape__000013_Default_View.IsSelected = false
@@ -235,8 +221,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000014_Default_Xlsx.Name = `Default-Xlsx`
 
 	__GongStructShape__000014_Default_Xlsx.Identifier = `ref_models.Xlsx`
-	__GongStructShape__000014_Default_Xlsx.ShowNbInstances = false
-	__GongStructShape__000014_Default_Xlsx.NbInstances = 0
+
 	__GongStructShape__000014_Default_Xlsx.Width = 240.000000
 	__GongStructShape__000014_Default_Xlsx.Height = 63.000000
 	__GongStructShape__000014_Default_Xlsx.IsSelected = false

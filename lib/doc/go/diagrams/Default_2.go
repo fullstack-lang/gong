@@ -63,8 +63,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_2_Classdiagram.Name = `Default_2-Classdiagram`
 
 	__GongStructShape__000000_Default_2_Classdiagram.Identifier = `ref_models.Classdiagram`
-	__GongStructShape__000000_Default_2_Classdiagram.ShowNbInstances = false
-	__GongStructShape__000000_Default_2_Classdiagram.NbInstances = 0
+
 	__GongStructShape__000000_Default_2_Classdiagram.Width = 240.000000
 	__GongStructShape__000000_Default_2_Classdiagram.Height = 63.000000
 	__GongStructShape__000000_Default_2_Classdiagram.IsSelected = false
@@ -72,8 +71,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_2_Field.Name = `Default_2-Field`
 
 	__GongStructShape__000001_Default_2_Field.Identifier = `ref_models.Field`
-	__GongStructShape__000001_Default_2_Field.ShowNbInstances = false
-	__GongStructShape__000001_Default_2_Field.NbInstances = 0
+
 	__GongStructShape__000001_Default_2_Field.Width = 240.000000
 	__GongStructShape__000001_Default_2_Field.Height = 63.000000
 	__GongStructShape__000001_Default_2_Field.IsSelected = false
@@ -81,8 +79,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_2_NoteShape.Name = `Default_2-NoteShape`
 
 	__GongStructShape__000002_Default_2_NoteShape.Identifier = `ref_models.NoteShape`
-	__GongStructShape__000002_Default_2_NoteShape.ShowNbInstances = false
-	__GongStructShape__000002_Default_2_NoteShape.NbInstances = 0
+
 	__GongStructShape__000002_Default_2_NoteShape.Width = 240.000000
 	__GongStructShape__000002_Default_2_NoteShape.Height = 63.000000
 	__GongStructShape__000002_Default_2_NoteShape.IsSelected = false
