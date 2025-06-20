@@ -3421,7 +3421,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages", "IsControlBannerHidden"}
 	case SvgText:
 		res = []string{"Name", "Text"}
 	case Text:
@@ -3626,7 +3626,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *RectLinkLink:
 		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages"}
+		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages", "IsControlBannerHidden"}
 	case *SvgText:
 		res = []string{"Name", "Text"}
 	case *Text:
@@ -4627,6 +4627,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "DefaultDirectoryForGeneratedImages":
 			res.valueString = inferedInstance.DefaultDirectoryForGeneratedImages
+		case "IsControlBannerHidden":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsControlBannerHidden)
+			res.valueBool = inferedInstance.IsControlBannerHidden
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *SvgText:
 		switch fieldName {
@@ -5654,6 +5658,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "DefaultDirectoryForGeneratedImages":
 			res.valueString = inferedInstance.DefaultDirectoryForGeneratedImages
+		case "IsControlBannerHidden":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.IsControlBannerHidden)
+			res.valueBool = inferedInstance.IsControlBannerHidden
+			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case SvgText:
 		switch fieldName {

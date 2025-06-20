@@ -25,6 +25,7 @@ export class SVG {
 	IsSVGFrontEndFileGenerated: boolean = false
 	IsSVGBackEndFileGenerated: boolean = false
 	DefaultDirectoryForGeneratedImages: string = ""
+	IsControlBannerHidden: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 	Layers: Array<Layer> = []
@@ -47,6 +48,7 @@ export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {
 	svgAPI.IsSVGFrontEndFileGenerated = svg.IsSVGFrontEndFileGenerated
 	svgAPI.IsSVGBackEndFileGenerated = svg.IsSVGBackEndFileGenerated
 	svgAPI.DefaultDirectoryForGeneratedImages = svg.DefaultDirectoryForGeneratedImages
+	svgAPI.IsControlBannerHidden = svg.IsControlBannerHidden
 
 	// insertion point for pointer fields encoding
 	svgAPI.SVGPointersEncoding.StartRectID.Valid = true
@@ -89,6 +91,7 @@ export function CopySVGAPIToSVG(svgAPI: SVGAPI, svg: SVG, frontRepo: FrontRepo) 
 	svg.IsSVGFrontEndFileGenerated = svgAPI.IsSVGFrontEndFileGenerated
 	svg.IsSVGBackEndFileGenerated = svgAPI.IsSVGBackEndFileGenerated
 	svg.DefaultDirectoryForGeneratedImages = svgAPI.DefaultDirectoryForGeneratedImages
+	svg.IsControlBannerHidden = svgAPI.IsControlBannerHidden
 
 	// insertion point for pointer fields encoding
 	svg.StartRect = frontRepo.map_ID_Rect.get(svgAPI.SVGPointersEncoding.StartRectID.Int64)

@@ -814,6 +814,8 @@ type SVG_WOP struct {
 	IsSVGBackEndFileGenerated bool
 
 	DefaultDirectoryForGeneratedImages string
+
+	IsControlBannerHidden bool
 }
 
 func (from *SVG) CopyBasicFields(to *SVG) {
@@ -824,6 +826,7 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.IsSVGFrontEndFileGenerated = from.IsSVGFrontEndFileGenerated
 	to.IsSVGBackEndFileGenerated = from.IsSVGBackEndFileGenerated
 	to.DefaultDirectoryForGeneratedImages = from.DefaultDirectoryForGeneratedImages
+	to.IsControlBannerHidden = from.IsControlBannerHidden
 }
 
 type SvgText_WOP struct {

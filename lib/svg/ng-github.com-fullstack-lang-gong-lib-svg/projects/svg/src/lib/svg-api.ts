@@ -20,6 +20,7 @@ export class SVGAPI {
 	IsSVGFrontEndFileGenerated: boolean = false
 	IsSVGBackEndFileGenerated: boolean = false
 	DefaultDirectoryForGeneratedImages: string = ""
+	IsControlBannerHidden: boolean = false
 
 	// insertion point for other decls
 

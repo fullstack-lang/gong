@@ -92,6 +92,10 @@ type SVGDB struct {
 	// Declation for basic field svgDB.DefaultDirectoryForGeneratedImages
 	DefaultDirectoryForGeneratedImages_Data sql.NullString
 
+	// Declation for basic field svgDB.IsControlBannerHidden
+	// provide the sql storage for the boolan
+	IsControlBannerHidden_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	SVGPointersEncoding
@@ -125,6 +129,8 @@ type SVGWOP struct {
 	IsSVGBackEndFileGenerated bool `xlsx:"5"`
 
 	DefaultDirectoryForGeneratedImages string `xlsx:"6"`
+
+	IsControlBannerHidden bool `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -137,6 +143,7 @@ var SVG_Fields = []string{
 	"IsSVGFrontEndFileGenerated",
 	"IsSVGBackEndFileGenerated",
 	"DefaultDirectoryForGeneratedImages",
+	"IsControlBannerHidden",
 }
 
 type BackRepoSVGStruct struct {
@@ -524,6 +531,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG(svg *models.SVG) {
 
 	svgDB.DefaultDirectoryForGeneratedImages_Data.String = svg.DefaultDirectoryForGeneratedImages
 	svgDB.DefaultDirectoryForGeneratedImages_Data.Valid = true
+
+	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
+	svgDB.IsControlBannerHidden_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSVG_WOP
@@ -547,6 +557,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVG_WOP(svg *models.SVG_WOP) {
 
 	svgDB.DefaultDirectoryForGeneratedImages_Data.String = svg.DefaultDirectoryForGeneratedImages
 	svgDB.DefaultDirectoryForGeneratedImages_Data.Valid = true
+
+	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
+	svgDB.IsControlBannerHidden_Data.Valid = true
 }
 
 // CopyBasicFieldsFromSVGWOP
@@ -570,6 +583,9 @@ func (svgDB *SVGDB) CopyBasicFieldsFromSVGWOP(svg *SVGWOP) {
 
 	svgDB.DefaultDirectoryForGeneratedImages_Data.String = svg.DefaultDirectoryForGeneratedImages
 	svgDB.DefaultDirectoryForGeneratedImages_Data.Valid = true
+
+	svgDB.IsControlBannerHidden_Data.Bool = svg.IsControlBannerHidden
+	svgDB.IsControlBannerHidden_Data.Valid = true
 }
 
 // CopyBasicFieldsToSVG
@@ -581,6 +597,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG(svg *models.SVG) {
 	svg.IsSVGFrontEndFileGenerated = svgDB.IsSVGFrontEndFileGenerated_Data.Bool
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
+	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
 }
 
 // CopyBasicFieldsToSVG_WOP
@@ -592,6 +609,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVG_WOP(svg *models.SVG_WOP) {
 	svg.IsSVGFrontEndFileGenerated = svgDB.IsSVGFrontEndFileGenerated_Data.Bool
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
+	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
 }
 
 // CopyBasicFieldsToSVGWOP
@@ -604,6 +622,7 @@ func (svgDB *SVGDB) CopyBasicFieldsToSVGWOP(svg *SVGWOP) {
 	svg.IsSVGFrontEndFileGenerated = svgDB.IsSVGFrontEndFileGenerated_Data.Bool
 	svg.IsSVGBackEndFileGenerated = svgDB.IsSVGBackEndFileGenerated_Data.Bool
 	svg.DefaultDirectoryForGeneratedImages = svgDB.DefaultDirectoryForGeneratedImages_Data.String
+	svg.IsControlBannerHidden = svgDB.IsControlBannerHidden_Data.Bool
 }
 
 // Backup generates a json file from a slice of all SVGDB instances in the backrepo
