@@ -21,6 +21,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-20 09:29:02.804682 CEST"
+	const __write__utc_time__ = "2025-06-20 07:29:02.804682 UTC"
+
+	const __commitId__ = "0000000006"
+
 	// Declaration of instances to stage
 
 	__Layer__000000_Layer_1 := (&models.Layer{}).Stage(stage)
@@ -918,6 +923,7 @@ func _(stage *models.Stage) {
 	__SVG__000000_simple.IsSVGFrontEndFileGenerated = false
 	__SVG__000000_simple.IsSVGBackEndFileGenerated = false
 	__SVG__000000_simple.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
+	__SVG__000000_simple.IsControlBannerHidden = false
 
 	// Setup of pointers
 	// setup of Layer instances pointers
@@ -976,3 +982,4 @@ func _(stage *models.Stage) {
 	// setup of SVG instances pointers
 	__SVG__000000_simple.Layers = append(__SVG__000000_simple.Layers, __Layer__000000_Layer_1)
 }
+
