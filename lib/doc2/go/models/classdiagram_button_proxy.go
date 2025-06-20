@@ -53,8 +53,15 @@ func (proxy *ClassDiagramButtonProxy) ButtonUpdated(
 	case DUPLICATE:
 		duplicateDiagram := proxy.classdiagram.DuplicateDiagram()
 		duplicateDiagram.Name += " Copy"
+		StageBranch(proxy.stager.stage, duplicateDiagram)
 
-		proxy.stager.treeStage.Commit()
+		diagramPackage := getTheDiagramPackage(proxy.stager.stage)
+		diagramPackage.Classdiagrams = append(diagramPackage.Classdiagrams, duplicateDiagram)
+
+		proxy.stager.UpdateAndCommitTreeStage()
+		proxy.stager.UpdateAndCommitFormStage()
+		proxy.stager.UpdateAndCommitSVGStage()
+		proxy.stager.stage.Commit()
 
 	// case EDIT_CANCEL:
 	// 	map_ModelNode_Shape := proxy.portfolioDiagramNode.CancelEdit()

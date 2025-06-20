@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-20 09:48:28.204648 CEST"
-	const __write__utc_time__ = "2025-06-20 07:48:28.204648 UTC"
+	const __write__local_time = "2025-06-20 16:54:39.492897 CEST"
+	const __write__utc_time__ = "2025-06-20 14:54:39.492897 UTC"
 
-	const __commitId__ = "0000000036"
+	const __commitId__ = "0000000050"
 
 	// Declaration of instances to stage
 
@@ -70,7 +70,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
