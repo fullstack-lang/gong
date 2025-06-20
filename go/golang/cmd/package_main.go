@@ -40,7 +40,7 @@ var (
 func main() {
 
 	log.SetPrefix("{{pkgname}}: ")
-	log.SetFlags(0)
+	log.SetFlags(log.Lmicroseconds)
 
 	// parse program arguments
 	flag.Parse()
