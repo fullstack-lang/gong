@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-16 23:48:09.933470 CEST"
-	const __write__utc_time__ = "2025-06-16 21:48:09.933470 UTC"
+	const __write__local_time = "2025-06-20 09:48:28.204648 CEST"
+	const __write__utc_time__ = "2025-06-20 07:48:28.204648 UTC"
 
-	const __commitId__ = "0000000035"
+	const __commitId__ = "0000000036"
 
 	// Declaration of instances to stage
 
@@ -38,6 +38,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z := (&models.DiagramPackage{}).Stage(stage)
 
 	__GongEnumShape__000000_Default_AEnumType := (&models.GongEnumShape{}).Stage(stage)
+	__GongEnumShape__000001_Default_BEnumType := (&models.GongEnumShape{}).Stage(stage)
 
 	__GongEnumValueShape__000000_NoName_yet := (&models.GongEnumValueShape{}).Stage(stage)
 	__GongEnumValueShape__000001_ENUM_VAL2 := (&models.GongEnumValueShape{}).Stage(stage)
@@ -89,6 +90,14 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000
 	__GongEnumShape__000000_Default_AEnumType.Height = 103.000000
 	__GongEnumShape__000000_Default_AEnumType.IsExpanded = false
+
+	__GongEnumShape__000001_Default_BEnumType.Name = `Default-BEnumType`
+	__GongEnumShape__000001_Default_BEnumType.X = 100.000000
+	__GongEnumShape__000001_Default_BEnumType.Y = 59.000000
+	__GongEnumShape__000001_Default_BEnumType.IdentifierMeta = new(ref_models.BEnumType)
+	__GongEnumShape__000001_Default_BEnumType.Width = 240.000000
+	__GongEnumShape__000001_Default_BEnumType.Height = 63.000000
+	__GongEnumShape__000001_Default_BEnumType.IsExpanded = false
 
 	__GongEnumValueShape__000000_NoName_yet.Name = `NoName yet`
 	__GongEnumValueShape__000000_NoName_yet.IdentifierMeta = ref_models.ENUM_VAL1
@@ -203,6 +212,7 @@ renaming
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Astruct)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Bstruct)
 	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
+	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000001_Default_BEnumType)
 	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnOrganisation)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_Default)
