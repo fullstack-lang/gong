@@ -13,7 +13,7 @@
         <div style="flex: 1; min-width: 0;">
             <mat-radio-group aria-label="Select an option" [(ngModel)]="view" style="display: flex; align-items: center; flex-wrap: nowrap;">
                 @for (view_ of frontRepo?.array_Views; track view_) {
-                <mat-radio-button [value]="view_.Name" style="margin-right: 16px; white-space: nowrap;">
+                <mat-radio-button [value]="view_" style="margin-right: 16px; white-space: nowrap;">
                     {{view_.Name}}
                 </mat-radio-button>
                 }

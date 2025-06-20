@@ -285,6 +285,7 @@ func main() {
 				}).Stage(splitStage),
 			}).Stage(splitStage),
 		},
+		IsSelectedView: true,
 	}).Stage(splitStage)
 
 	(&split.View{

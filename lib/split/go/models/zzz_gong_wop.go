@@ -289,12 +289,15 @@ type View_WOP struct {
 	Name string
 
 	ShowViewName bool
+
+	IsSelectedView bool
 }
 
 func (from *View) CopyBasicFields(to *View) {
 	// insertion point
 	to.Name = from.Name
 	to.ShowViewName = from.ShowViewName
+	to.IsSelectedView = from.IsSelectedView
 }
 
 type Xlsx_WOP struct {

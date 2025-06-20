@@ -70,6 +70,10 @@ type ViewDB struct {
 	// provide the sql storage for the boolan
 	ShowViewName_Data sql.NullBool
 
+	// Declation for basic field viewDB.IsSelectedView
+	// provide the sql storage for the boolan
+	IsSelectedView_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ViewPointersEncoding
@@ -95,6 +99,8 @@ type ViewWOP struct {
 	Name string `xlsx:"1"`
 
 	ShowViewName bool `xlsx:"2"`
+
+	IsSelectedView bool `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -103,6 +109,7 @@ var View_Fields = []string{
 	"ID",
 	"Name",
 	"ShowViewName",
+	"IsSelectedView",
 }
 
 type BackRepoViewStruct struct {
@@ -412,6 +419,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView(view *models.View) {
 
 	viewDB.ShowViewName_Data.Bool = view.ShowViewName
 	viewDB.ShowViewName_Data.Valid = true
+
+	viewDB.IsSelectedView_Data.Bool = view.IsSelectedView
+	viewDB.IsSelectedView_Data.Valid = true
 }
 
 // CopyBasicFieldsFromView_WOP
@@ -423,6 +433,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromView_WOP(view *models.View_WOP) {
 
 	viewDB.ShowViewName_Data.Bool = view.ShowViewName
 	viewDB.ShowViewName_Data.Valid = true
+
+	viewDB.IsSelectedView_Data.Bool = view.IsSelectedView
+	viewDB.IsSelectedView_Data.Valid = true
 }
 
 // CopyBasicFieldsFromViewWOP
@@ -434,6 +447,9 @@ func (viewDB *ViewDB) CopyBasicFieldsFromViewWOP(view *ViewWOP) {
 
 	viewDB.ShowViewName_Data.Bool = view.ShowViewName
 	viewDB.ShowViewName_Data.Valid = true
+
+	viewDB.IsSelectedView_Data.Bool = view.IsSelectedView
+	viewDB.IsSelectedView_Data.Valid = true
 }
 
 // CopyBasicFieldsToView
@@ -441,6 +457,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView(view *models.View) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	view.Name = viewDB.Name_Data.String
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
+	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 }
 
 // CopyBasicFieldsToView_WOP
@@ -448,6 +465,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToView_WOP(view *models.View_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	view.Name = viewDB.Name_Data.String
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
+	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 }
 
 // CopyBasicFieldsToViewWOP
@@ -456,6 +474,7 @@ func (viewDB *ViewDB) CopyBasicFieldsToViewWOP(view *ViewWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	view.Name = viewDB.Name_Data.String
 	view.ShowViewName = viewDB.ShowViewName_Data.Bool
+	view.IsSelectedView = viewDB.IsSelectedView_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ViewDB instances in the backrepo

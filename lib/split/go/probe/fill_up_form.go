@@ -224,6 +224,8 @@ func FillUpForm(
 		BasicFieldtoForm("ShowViewName", instanceWithInferedType.ShowViewName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("RootAsSplitAreas", instanceWithInferedType, &instanceWithInferedType.RootAsSplitAreas, formGroup, probe)
+		BasicFieldtoForm("IsSelectedView", instanceWithInferedType.IsSelectedView, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.Xlsx:
 		// insertion point

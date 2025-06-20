@@ -54,7 +54,7 @@ export class SplitSpecificComponent implements OnInit {
 
   public frontRepo?: split.FrontRepo;
 
-  view = ""
+  public view: split.View | undefined
 
   radioButtonHeight = 40
 
@@ -113,7 +113,16 @@ export class SplitSpecificComponent implements OnInit {
             return a.ID - b.ID
           })
 
-          this.view = this.frontRepo.array_Views[0].Name
+          // in case no view has the field IsSelectedView set to true,
+          // the first view is selected
+          this.view = this.frontRepo.array_Views[0]
+        }
+
+        // set the view to the view with IsSelectedView to true
+        for (let view_ of this.frontRepo.array_Views) {
+          if (view_.IsSelectedView) {
+            this.view = view_
+          }
         }
 
       }
@@ -153,7 +162,7 @@ export class SplitSpecificComponent implements OnInit {
   }
 
   get currentView(): split.View | undefined {
-    return this.frontRepo?.array_Views.find(v => v.Name === this.view);
+    return this.frontRepo?.array_Views.find(v => v === this.view);
   }
 
 }
