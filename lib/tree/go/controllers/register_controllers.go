@@ -3,6 +3,8 @@ package controllers
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -224,6 +226,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 	// Get the size of the JSON data in bytes
 	jsonSize := len(jsonData)
 
+    // Calculate the full SHA-256 hash
+    fullHash := sha256.Sum256(jsonData)
+
+    // Use the first 12 characters for a shorter, yet highly unique, signature
+    shortHash := hex.EncodeToString(fullHash[:])[0:12]
+
 	// Use WriteMessage to send the pre-marshaled JSON data.
 	// websocket.TextMessage is typically what WriteJSON uses.
 	err = wsConnection.WriteMessage(websocket.TextMessage, jsonData)
@@ -234,11 +242,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		return
 	} else {
 		log.Printf(
-			"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes",
+			"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes, hash; %s",
 			refresh,
 			stackPath,
 			index,
 			jsonSize, // Print the size here
+			shortHash,
 		)
 	}
 	for {
@@ -269,6 +278,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				// Get the size of the JSON data in bytes
 				jsonSize := len(jsonData)
 
+				// Calculate the full SHA-256 hash
+				fullHash := sha256.Sum256(jsonData)
+
+				// Use the first 12 characters for a shorter, yet highly unique, signature
+				shortHash := hex.EncodeToString(fullHash[:])[0:12]
+
 				// Use WriteMessage to send the pre-marshaled JSON data.
 				// websocket.TextMessage is typically what WriteJSON uses.
 				err = wsConnection.WriteMessage(websocket.TextMessage, jsonData)
@@ -279,11 +294,12 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					return
 				} else {
 					log.Printf(
-						"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes",
+						"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes, hash; %s",
 						refresh,
 						stackPath,
 						index,
 						jsonSize, // Print the size here
+						shortHash,
 					)
 				}
 			}
