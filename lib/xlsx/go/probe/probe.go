@@ -92,6 +92,7 @@ func NewProbe(
 		xlsx_go.GoModelsDir,
 		xlsx_go.GoDiagramsDir,
 		probe.diagramEditor,
+		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
 	probe.dataEditor = &split.AsSplit{
