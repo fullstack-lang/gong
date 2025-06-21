@@ -60,6 +60,7 @@ func Prepare(
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
 	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc2 areas
+	map_GongStructName_InstancesNb map[string]int,
 ) {
 	var stage *models.Stage
 
@@ -112,5 +113,6 @@ func Prepare(
 		gongStage,
 		formStage,
 		ssgStage,
-		embeddedDiagrams)
+		embeddedDiagrams,
+		map_GongStructName_InstancesNb)
 }

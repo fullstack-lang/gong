@@ -150,7 +150,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		//
 		// number of instance (x%d)
 		//
-		// if gongstructShape.ShowNbInstances {
+		// if ok {
 		// 	nbInstancesText := new(svg_models.RectAnchoredText)
 		// 	nbInstancesText.Name = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
 		// 	nbInstancesText.Content = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
