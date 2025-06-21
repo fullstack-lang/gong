@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-20 16:54:39.492897 CEST"
-	const __write__utc_time__ = "2025-06-20 14:54:39.492897 UTC"
+	const __write__local_time = "2025-06-21 11:13:34.765318 CEST"
+	const __write__utc_time__ = "2025-06-21 09:13:34.765318 UTC"
 
-	const __commitId__ = "0000000050"
+	const __commitId__ = "0000000051"
 
 	// Declaration of instances to stage
 
@@ -92,8 +92,8 @@ func _(stage *models.Stage) {
 	__GongEnumShape__000000_Default_AEnumType.IsExpanded = false
 
 	__GongEnumShape__000001_Default_BEnumType.Name = `Default-BEnumType`
-	__GongEnumShape__000001_Default_BEnumType.X = 100.000000
-	__GongEnumShape__000001_Default_BEnumType.Y = 59.000000
+	__GongEnumShape__000001_Default_BEnumType.X = 72.000000
+	__GongEnumShape__000001_Default_BEnumType.Y = 151.000000
 	__GongEnumShape__000001_Default_BEnumType.IdentifierMeta = new(ref_models.BEnumType)
 	__GongEnumShape__000001_Default_BEnumType.Width = 240.000000
 	__GongEnumShape__000001_Default_BEnumType.Height = 63.000000
@@ -152,7 +152,6 @@ renaming
 	__GongStructShape__000000_Default_Astruct.X = 127.000000
 	__GongStructShape__000000_Default_Astruct.Y = 46.000000
 	__GongStructShape__000000_Default_Astruct.IdentifierMeta = ref_models.Astruct{}
-
 	__GongStructShape__000000_Default_Astruct.Width = 240.000000
 	__GongStructShape__000000_Default_Astruct.Height = 103.000000
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
@@ -161,7 +160,6 @@ renaming
 	__GongStructShape__000001_Default_Bstruct.X = 964.000000
 	__GongStructShape__000001_Default_Bstruct.Y = 110.000000
 	__GongStructShape__000001_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
-
 	__GongStructShape__000001_Default_Bstruct.Width = 240.000000
 	__GongStructShape__000001_Default_Bstruct.Height = 227.000000
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
@@ -227,3 +225,4 @@ renaming
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Associationtob)
 	// setup of LinkShape instances pointers
 }
+
