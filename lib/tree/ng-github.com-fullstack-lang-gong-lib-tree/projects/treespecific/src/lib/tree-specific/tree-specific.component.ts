@@ -12,7 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -21,6 +21,15 @@ import { Router, RouterState } from '@angular/router';
 
 import * as tree from '../../../../tree/src/public-api'
 import { IconService } from '../icon-service.service';
+
+// Define the custom default options for the tooltips
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 500,
+  hideDelay: 100,
+  position: 'below',
+  touchGestures: 'off',
+  touchendHideDelay: 1500
+}
 
 /**
  * Food data with nested structure.
@@ -54,6 +63,9 @@ interface FlatNode {
     MatInputModule,
     MatRadioModule,
     MatTooltipModule,
+  ],
+  providers: [
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }
   ],
   templateUrl: './tree-specific.component.html',
   styleUrl: './tree-specific.component.css'

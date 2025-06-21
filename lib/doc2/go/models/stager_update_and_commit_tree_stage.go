@@ -36,6 +36,23 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	// 1/ put a "add a class diagram" button
 	// 2/ put a "generate sss" button
 	if !stager.embeddedDiagrams {
+
+		button := &tree.Button{
+			Name: "Class Diagramm Add Button",
+			Impl: &ButtonToggleShowNbInstancesProxy{
+				stager: stager,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+		if stager.showNbInstances {
+			button.ToolTipText = "Hide nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		} else {
+			button.ToolTipText = "Show nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility)
+		}
+
 		root.Buttons = append(root.Buttons,
 			&tree.Button{
 				Name: "Class Diagramm Add Button",
@@ -57,6 +74,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				ToolTipText:     "Generates the documentation static web site",
 				ToolTipPosition: tree.Above,
 			},
+			button,
 		)
 	}
 
@@ -70,17 +88,32 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		nodeClassdiagram := &tree.Node{
 			Name: classDiagram.Name,
 
-			IsChecked:           selected,
-			CheckboxHasToolTip:  true,
-			CheckboxToolTipText: "Select this diagram for display",
+			IsChecked:               selected,
+			CheckboxHasToolTip:      true,
+			CheckboxToolTipPosition: tree.Above,
 
 			IsExpanded: classDiagram.IsExpanded,
 
 			IsInEditMode: classDiagram.IsInRenameMode,
 
-			HasCheckboxButton:       true,
-			IsSecondCheckboxChecked: classDiagram.IsIncludedInStaticWebSite,
+			HasCheckboxButton:             true,
+			IsSecondCheckboxChecked:       classDiagram.IsIncludedInStaticWebSite,
+			SecondCheckboxHasToolTip:      true,
+			SecondCheckboxToolTipPosition: tree.Above,
 		}
+
+		if selected {
+			nodeClassdiagram.CheckboxToolTipText = "Hide diagram"
+		} else {
+			nodeClassdiagram.CheckboxToolTipText = "Show diagram"
+		}
+
+		if classDiagram.IsIncludedInStaticWebSite {
+			nodeClassdiagram.SecondCheckboxToolTipText = "Remove from documentation"
+		} else {
+			nodeClassdiagram.SecondCheckboxToolTipText = "Add to documentation"
+		}
+
 		nodeClassdiagram.Impl = &ClassDiagramNodeProxy{
 			node:         nodeClassdiagram,
 			stager:       stager,
@@ -437,7 +470,7 @@ func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, 
 			),
 			HasToolTip:      true,
 			ToolTipText:     "Duplicate diagram",
-			ToolTipPosition: tree.Above,
+			ToolTipPosition: tree.Right,
 		})
 
 	// add a second checkbox for including the diagram into
