@@ -92,6 +92,7 @@ func NewProbe(
 		svg_go.GoModelsDir,
 		svg_go.GoDiagramsDir,
 		probe.diagramEditor,
+		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
 	probe.dataEditor = &split.AsSplit{
