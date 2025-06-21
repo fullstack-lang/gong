@@ -262,10 +262,6 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Y", instanceWithInferedType.Y, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("ShowNbInstances", instanceWithInferedType.ShowNbInstances, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("NbInstances", instanceWithInferedType.NbInstances, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
 		AssociationSliceToForm("AttributeShapes", instanceWithInferedType, &instanceWithInferedType.AttributeShapes, formGroup, probe)
 		AssociationSliceToForm("LinkShapes", instanceWithInferedType, &instanceWithInferedType.LinkShapes, formGroup, probe)
 		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,

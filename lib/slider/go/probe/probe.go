@@ -92,6 +92,7 @@ func NewProbe(
 		slider_go.GoModelsDir,
 		slider_go.GoDiagramsDir,
 		probe.diagramEditor,
+		stageOfInterest.Map_GongStructName_InstancesNb,
 	)
 
 	probe.dataEditor = &split.AsSplit{
