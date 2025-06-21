@@ -8,9 +8,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/orm"
@@ -152,7 +154,7 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 				return false
 			}
 
-			log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
+			// log.Printf("CheckOrigin: Accepted - Origin '%s' with port %d", origin, port)
 			return true
 		},
 	}
@@ -180,10 +182,6 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 
 	index := controller.listenerIndex
 	controller.listenerIndex++
-	log.Printf(
-		"github.com/fullstack-lang/gong/lib/tree/go: Con: '%s', index %d",
-		stackPath, index,
-	)
 
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
@@ -241,12 +239,21 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 		fmt.Println(err)
 		return
 	} else {
+		// 1. Extract the component name from the long path for cleaner logs
+		// For example, "github.com/fullstack-lang/gong/lib/table/go" becomes "table"
+		parts := strings.Split("github.com/fullstack-lang/gong/lib/tree/go", "/") // Assuming goFilePath holds the path
+		component := "unknown"
+		if len(parts) > 2 {
+			component = parts[len(parts)-2]
+		}
+
+		// 2. Use a single, formatted log line
 		log.Printf(
-			"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes, hash; %s",
-			refresh,
+			"%-12s | %-85s | Idx: %d | Size: %-9s | Hash: %s",
+			component,
 			stackPath,
 			index,
-			jsonSize, // Print the size here
+			formatBytes(jsonSize),
 			shortHash,
 		)
 	}
@@ -293,18 +300,44 @@ func (controller *Controller) onWebSocketRequestForBackRepoContent(c *gin.Contex
 					fmt.Println(err)
 					return
 				} else {
+					// 1. Extract the component name from the long path for cleaner logs
+					// For example, "github.com/fullstack-lang/gong/lib/table/go" becomes "table"
+					parts := strings.Split("github.com/fullstack-lang/gong/lib/tree/go", "/") // Assuming goFilePath holds the path
+					component := "unknown"
+					if len(parts) > 2 {
+						component = parts[len(parts)-2]
+					}
+
+					// 2. Use a single, formatted log line
 					log.Printf(
-						"github.com/fullstack-lang/gong/lib/tree/go: %03d: '%s', index %d, size: %d bytes, hash; %s",
-						refresh,
+						"%-12s | %-85s | Idx: %d | Size: %-9s | Hash: %s",
+						component,
 						stackPath,
 						index,
-						jsonSize, // Print the size here
+						formatBytes(jsonSize),
 						shortHash,
 					)
 				}
 			}
 		}
 	}
+}
+
+// formatBytes converts a size in bytes to a human-readable string (KB, MB, GB).
+func formatBytes(size int) string {
+    if size < 1024 {
+        return fmt.Sprintf("%d B", size)
+    }
+    sizeInKB := float64(size) / 1024.0
+    if sizeInKB < 1024.0 {
+        // For KB, show one decimal place if it's not a whole number
+        if math.Mod(sizeInKB, 1.0) == 0 {
+            return fmt.Sprintf("%.0f KB", sizeInKB)
+        }
+        return fmt.Sprintf("%.1f KB", sizeInKB)
+    }
+    sizeInMB := sizeInKB / 1024.0
+    return fmt.Sprintf("%.2f MB", sizeInMB)
 }
 
 // swagger:route GET /commitfrombacknb backrepo GetLastCommitFromBackNb
