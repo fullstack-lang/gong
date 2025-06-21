@@ -64,6 +64,12 @@ type Node_WOP struct {
 
 	IsSecondCheckboxDisabled bool
 
+	SecondCheckboxHasToolTip bool
+
+	SecondCheckboxToolTipText string
+
+	SecondCheckboxToolTipPosition ToolTipPositionEnum
+
 	TextAfterSecondCheckbox string
 
 	HasToolTip bool
@@ -96,6 +102,9 @@ func (from *Node) CopyBasicFields(to *Node) {
 	to.HasSecondCheckboxButton = from.HasSecondCheckboxButton
 	to.IsSecondCheckboxChecked = from.IsSecondCheckboxChecked
 	to.IsSecondCheckboxDisabled = from.IsSecondCheckboxDisabled
+	to.SecondCheckboxHasToolTip = from.SecondCheckboxHasToolTip
+	to.SecondCheckboxToolTipText = from.SecondCheckboxToolTipText
+	to.SecondCheckboxToolTipPosition = from.SecondCheckboxToolTipPosition
 	to.TextAfterSecondCheckbox = from.TextAfterSecondCheckbox
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText

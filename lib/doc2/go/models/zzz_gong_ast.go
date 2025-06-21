@@ -1141,13 +1141,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					__gong__map_GongStructShape[identifier].Y = exprSign * fielValue
 				case "IdentifierMeta":
 					__gong__map_GongStructShape[identifier].IdentifierMeta = basicLit.Value
-				case "NbInstances":
-					// convert string to int
-					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_GongStructShape[identifier].NbInstances = int(exprSign) * int(fielValue)
 				case "Width":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1364,13 +1357,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "GongStructShape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "ShowNbInstances":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_GongStructShape[identifier].ShowNbInstances = fielValue
 				case "IsSelected":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

@@ -199,8 +199,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Layout.Name = `Default-Layout`
 
 	__GongStructShape__000000_Default_Layout.Identifier = `ref_models.Layout`
-	__GongStructShape__000000_Default_Layout.ShowNbInstances = false
-	__GongStructShape__000000_Default_Layout.NbInstances = 0
+
 	__GongStructShape__000000_Default_Layout.Width = 240.000000
 	__GongStructShape__000000_Default_Layout.Height = 78.000000
 	__GongStructShape__000000_Default_Layout.IsSelected = false
@@ -208,8 +207,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Slider.Name = `Default-Slider`
 
 	__GongStructShape__000001_Default_Slider.Identifier = `ref_models.Slider`
-	__GongStructShape__000001_Default_Slider.ShowNbInstances = false
-	__GongStructShape__000001_Default_Slider.NbInstances = 0
+
 	__GongStructShape__000001_Default_Slider.Width = 240.000000
 	__GongStructShape__000001_Default_Slider.Height = 228.000000
 	__GongStructShape__000001_Default_Slider.IsSelected = false
@@ -217,8 +215,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Group.Name = `Default-Group`
 
 	__GongStructShape__000002_Default_Group.Identifier = `ref_models.Group`
-	__GongStructShape__000002_Default_Group.ShowNbInstances = false
-	__GongStructShape__000002_Default_Group.NbInstances = 0
+
 	__GongStructShape__000002_Default_Group.Width = 240.000000
 	__GongStructShape__000002_Default_Group.Height = 93.000000
 	__GongStructShape__000002_Default_Group.IsSelected = false
@@ -226,8 +223,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Checkbox.Name = `Default-Checkbox`
 
 	__GongStructShape__000003_Default_Checkbox.Identifier = `ref_models.Checkbox`
-	__GongStructShape__000003_Default_Checkbox.ShowNbInstances = false
-	__GongStructShape__000003_Default_Checkbox.NbInstances = 0
+
 	__GongStructShape__000003_Default_Checkbox.Width = 240.000000
 	__GongStructShape__000003_Default_Checkbox.Height = 123.000000
 	__GongStructShape__000003_Default_Checkbox.IsSelected = false

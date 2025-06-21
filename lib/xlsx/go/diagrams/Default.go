@@ -103,8 +103,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_XLSheet.Name = `Default-XLSheet`
 
 	__GongStructShape__000000_Default_XLSheet.Identifier = `ref_models.XLSheet`
-	__GongStructShape__000000_Default_XLSheet.ShowNbInstances = false
-	__GongStructShape__000000_Default_XLSheet.NbInstances = 0
+
 	__GongStructShape__000000_Default_XLSheet.Width = 240.000000
 	__GongStructShape__000000_Default_XLSheet.Height = 78.000000
 	__GongStructShape__000000_Default_XLSheet.IsSelected = false
@@ -112,8 +111,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_XLRow.Name = `Default-XLRow`
 
 	__GongStructShape__000001_Default_XLRow.Identifier = `ref_models.XLRow`
-	__GongStructShape__000001_Default_XLRow.ShowNbInstances = false
-	__GongStructShape__000001_Default_XLRow.NbInstances = 0
+
 	__GongStructShape__000001_Default_XLRow.Width = 240.000000
 	__GongStructShape__000001_Default_XLRow.Height = 78.000000
 	__GongStructShape__000001_Default_XLRow.IsSelected = false
@@ -121,8 +119,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_XLFile.Name = `Default-XLFile`
 
 	__GongStructShape__000002_Default_XLFile.Identifier = `ref_models.XLFile`
-	__GongStructShape__000002_Default_XLFile.ShowNbInstances = false
-	__GongStructShape__000002_Default_XLFile.NbInstances = 0
+
 	__GongStructShape__000002_Default_XLFile.Width = 240.000000
 	__GongStructShape__000002_Default_XLFile.Height = 63.000000
 	__GongStructShape__000002_Default_XLFile.IsSelected = false
@@ -130,8 +127,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_XLCell.Name = `Default-XLCell`
 
 	__GongStructShape__000003_Default_XLCell.Identifier = `ref_models.XLCell`
-	__GongStructShape__000003_Default_XLCell.ShowNbInstances = false
-	__GongStructShape__000003_Default_XLCell.NbInstances = 0
+
 	__GongStructShape__000003_Default_XLCell.Width = 240.000000
 	__GongStructShape__000003_Default_XLCell.Height = 108.000000
 	__GongStructShape__000003_Default_XLCell.IsSelected = false
@@ -139,8 +135,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_DisplaySelection.Name = `Default-DisplaySelection`
 
 	__GongStructShape__000004_Default_DisplaySelection.Identifier = `ref_models.DisplaySelection`
-	__GongStructShape__000004_Default_DisplaySelection.ShowNbInstances = false
-	__GongStructShape__000004_Default_DisplaySelection.NbInstances = 0
+
 	__GongStructShape__000004_Default_DisplaySelection.Width = 240.000000
 	__GongStructShape__000004_Default_DisplaySelection.Height = 63.000000
 	__GongStructShape__000004_Default_DisplaySelection.IsSelected = false

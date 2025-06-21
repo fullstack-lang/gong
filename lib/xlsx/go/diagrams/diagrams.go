@@ -96,8 +96,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_XLSheet.X = 466.000000
 	__GongStructShape__000000_Default_XLSheet.Y = 185.000000
 	__GongStructShape__000000_Default_XLSheet.IdentifierMeta = ref_models.XLSheet{}
-	__GongStructShape__000000_Default_XLSheet.ShowNbInstances = false
-	__GongStructShape__000000_Default_XLSheet.NbInstances = 0
+
 	__GongStructShape__000000_Default_XLSheet.Width = 240.000000
 	__GongStructShape__000000_Default_XLSheet.Height = 103.000000
 	__GongStructShape__000000_Default_XLSheet.IsSelected = false
@@ -106,8 +105,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_XLRow.X = 875.000000
 	__GongStructShape__000001_Default_XLRow.Y = 199.000000
 	__GongStructShape__000001_Default_XLRow.IdentifierMeta = ref_models.XLRow{}
-	__GongStructShape__000001_Default_XLRow.ShowNbInstances = false
-	__GongStructShape__000001_Default_XLRow.NbInstances = 0
+
 	__GongStructShape__000001_Default_XLRow.Width = 240.000000
 	__GongStructShape__000001_Default_XLRow.Height = 83.000000
 	__GongStructShape__000001_Default_XLRow.IsSelected = false
@@ -116,8 +114,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_XLFile.X = 64.000000
 	__GongStructShape__000002_Default_XLFile.Y = 196.000000
 	__GongStructShape__000002_Default_XLFile.IdentifierMeta = ref_models.XLFile{}
-	__GongStructShape__000002_Default_XLFile.ShowNbInstances = false
-	__GongStructShape__000002_Default_XLFile.NbInstances = 0
+
 	__GongStructShape__000002_Default_XLFile.Width = 240.000000
 	__GongStructShape__000002_Default_XLFile.Height = 83.000000
 	__GongStructShape__000002_Default_XLFile.IsSelected = false
@@ -126,8 +123,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_XLCell.X = 1244.000000
 	__GongStructShape__000003_Default_XLCell.Y = 91.000000
 	__GongStructShape__000003_Default_XLCell.IdentifierMeta = ref_models.XLCell{}
-	__GongStructShape__000003_Default_XLCell.ShowNbInstances = false
-	__GongStructShape__000003_Default_XLCell.NbInstances = 0
+
 	__GongStructShape__000003_Default_XLCell.Width = 240.000000
 	__GongStructShape__000003_Default_XLCell.Height = 120.000000
 	__GongStructShape__000003_Default_XLCell.IsSelected = false
@@ -229,4 +225,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_XLFile.LinkShapes = append(__GongStructShape__000002_Default_XLFile.LinkShapes, __LinkShape__000003_Sheets)
 	// setup of LinkShape instances pointers
 }
-
