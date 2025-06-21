@@ -95,8 +95,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_SVG.Name = `Default-SVG`
 
 	__GongStructShape__000000_Default_SVG.Identifier = `ref_models.SVG`
-	__GongStructShape__000000_Default_SVG.ShowNbInstances = false
-	__GongStructShape__000000_Default_SVG.NbInstances = 0
+
 	__GongStructShape__000000_Default_SVG.Width = 240.000000
 	__GongStructShape__000000_Default_SVG.Height = 93.000000
 	__GongStructShape__000000_Default_SVG.IsSelected = false
@@ -104,8 +103,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Layer.Name = `Default-Layer`
 
 	__GongStructShape__000001_Default_Layer.Identifier = `ref_models.Layer`
-	__GongStructShape__000001_Default_Layer.ShowNbInstances = false
-	__GongStructShape__000001_Default_Layer.NbInstances = 0
+
 	__GongStructShape__000001_Default_Layer.Width = 240.000000
 	__GongStructShape__000001_Default_Layer.Height = 78.000000
 	__GongStructShape__000001_Default_Layer.IsSelected = false
@@ -113,8 +111,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Link.Name = `Default-Link`
 
 	__GongStructShape__000002_Default_Link.Identifier = `ref_models.Link`
-	__GongStructShape__000002_Default_Link.ShowNbInstances = false
-	__GongStructShape__000002_Default_Link.NbInstances = 0
+
 	__GongStructShape__000002_Default_Link.Width = 240.000000
 	__GongStructShape__000002_Default_Link.Height = 63.000000
 	__GongStructShape__000002_Default_Link.IsSelected = false
@@ -122,8 +119,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Rect.Name = `Default-Rect`
 
 	__GongStructShape__000003_Default_Rect.Identifier = `ref_models.Rect`
-	__GongStructShape__000003_Default_Rect.ShowNbInstances = false
-	__GongStructShape__000003_Default_Rect.NbInstances = 0
+
 	__GongStructShape__000003_Default_Rect.Width = 240.000000
 	__GongStructShape__000003_Default_Rect.Height = 123.000000
 	__GongStructShape__000003_Default_Rect.IsSelected = false
@@ -131,8 +127,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_RectLinkLink.Name = `Default-RectLinkLink`
 
 	__GongStructShape__000004_Default_RectLinkLink.Identifier = `ref_models.RectLinkLink`
-	__GongStructShape__000004_Default_RectLinkLink.ShowNbInstances = false
-	__GongStructShape__000004_Default_RectLinkLink.NbInstances = 0
+
 	__GongStructShape__000004_Default_RectLinkLink.Width = 240.000000
 	__GongStructShape__000004_Default_RectLinkLink.Height = 63.000000
 	__GongStructShape__000004_Default_RectLinkLink.IsSelected = false
@@ -140,8 +135,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_RectAnchoredRect.Name = `Default-RectAnchoredRect`
 
 	__GongStructShape__000005_Default_RectAnchoredRect.Identifier = `ref_models.RectAnchoredRect`
-	__GongStructShape__000005_Default_RectAnchoredRect.ShowNbInstances = false
-	__GongStructShape__000005_Default_RectAnchoredRect.NbInstances = 0
+
 	__GongStructShape__000005_Default_RectAnchoredRect.Width = 240.000000
 	__GongStructShape__000005_Default_RectAnchoredRect.Height = 63.000000
 	__GongStructShape__000005_Default_RectAnchoredRect.IsSelected = false
@@ -149,8 +143,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000006_Default_RectAnchoredPath.Name = `Default-RectAnchoredPath`
 
 	__GongStructShape__000006_Default_RectAnchoredPath.Identifier = `ref_models.RectAnchoredPath`
-	__GongStructShape__000006_Default_RectAnchoredPath.ShowNbInstances = false
-	__GongStructShape__000006_Default_RectAnchoredPath.NbInstances = 0
+
 	__GongStructShape__000006_Default_RectAnchoredPath.Width = 240.000000
 	__GongStructShape__000006_Default_RectAnchoredPath.Height = 63.000000
 	__GongStructShape__000006_Default_RectAnchoredPath.IsSelected = false
@@ -158,8 +151,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000007_Default_RectAnchoredText.Name = `Default-RectAnchoredText`
 
 	__GongStructShape__000007_Default_RectAnchoredText.Identifier = `ref_models.RectAnchoredText`
-	__GongStructShape__000007_Default_RectAnchoredText.ShowNbInstances = false
-	__GongStructShape__000007_Default_RectAnchoredText.NbInstances = 0
+
 	__GongStructShape__000007_Default_RectAnchoredText.Width = 240.000000
 	__GongStructShape__000007_Default_RectAnchoredText.Height = 63.000000
 	__GongStructShape__000007_Default_RectAnchoredText.IsSelected = false

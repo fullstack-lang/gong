@@ -178,8 +178,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 854.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Y = 259.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.IdentifierMeta = ref_models.LinkAnchoredText{}
-	__GongStructShape__000000_Default_LinkAnchoredText.ShowNbInstances = false
-	__GongStructShape__000000_Default_LinkAnchoredText.NbInstances = 0
+
 	__GongStructShape__000000_Default_LinkAnchoredText.Width = 240.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Height = 103.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.IsSelected = false
@@ -188,8 +187,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Link.X = 75.000000
 	__GongStructShape__000001_Default_Link.Y = 77.000000
 	__GongStructShape__000001_Default_Link.IdentifierMeta = ref_models.Link{}
-	__GongStructShape__000001_Default_Link.ShowNbInstances = false
-	__GongStructShape__000001_Default_Link.NbInstances = 0
+
 	__GongStructShape__000001_Default_Link.Width = 240.000000
 	__GongStructShape__000001_Default_Link.Height = 103.000000
 	__GongStructShape__000001_Default_Link.IsSelected = false
@@ -198,8 +196,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Rect.X = 842.000000
 	__GongStructShape__000002_Default_Rect.Y = 46.000000
 	__GongStructShape__000002_Default_Rect.IdentifierMeta = ref_models.Rect{}
-	__GongStructShape__000002_Default_Rect.ShowNbInstances = false
-	__GongStructShape__000002_Default_Rect.NbInstances = 0
+
 	__GongStructShape__000002_Default_Rect.Width = 240.000000
 	__GongStructShape__000002_Default_Rect.Height = 182.000000
 	__GongStructShape__000002_Default_Rect.IsSelected = false
