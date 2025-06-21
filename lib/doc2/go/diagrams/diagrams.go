@@ -73,8 +73,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_AttributeShape.X = 53.000000
 	__GongStructShape__000000_Default_AttributeShape.Y = 18.000000
 	__GongStructShape__000000_Default_AttributeShape.IdentifierMeta = ref_models.AttributeShape{}
-	__GongStructShape__000000_Default_AttributeShape.ShowNbInstances = false
-	__GongStructShape__000000_Default_AttributeShape.NbInstances = 0
+
 	__GongStructShape__000000_Default_AttributeShape.Width = 240.000000
 	__GongStructShape__000000_Default_AttributeShape.Height = 63.000000
 	__GongStructShape__000000_Default_AttributeShape.IsSelected = false
@@ -83,8 +82,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Classdiagram.X = 439.000000
 	__GongStructShape__000001_Default_Classdiagram.Y = 58.000000
 	__GongStructShape__000001_Default_Classdiagram.IdentifierMeta = ref_models.Classdiagram{}
-	__GongStructShape__000001_Default_Classdiagram.ShowNbInstances = false
-	__GongStructShape__000001_Default_Classdiagram.NbInstances = 0
+
 	__GongStructShape__000001_Default_Classdiagram.Width = 240.000000
 	__GongStructShape__000001_Default_Classdiagram.Height = 63.000000
 	__GongStructShape__000001_Default_Classdiagram.IsSelected = false
@@ -99,4 +97,3 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
 	// setup of GongStructShape instances pointers
 }
-

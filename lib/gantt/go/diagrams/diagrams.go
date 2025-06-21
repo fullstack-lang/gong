@@ -401,8 +401,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Milestone.Y = 516.000000
 
 	__GongStructShape__000000_Default_Milestone.IdentifierMeta = ref_models.Milestone{}
-	__GongStructShape__000000_Default_Milestone.ShowNbInstances = false
-	__GongStructShape__000000_Default_Milestone.NbInstances = 0
+
 	__GongStructShape__000000_Default_Milestone.Width = 240.000000
 	__GongStructShape__000000_Default_Milestone.Height = 123.000000
 	__GongStructShape__000000_Default_Milestone.IsSelected = false
@@ -412,8 +411,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_LaneUse.Y = 545.000000
 
 	__GongStructShape__000001_Default_LaneUse.IdentifierMeta = ref_models.LaneUse{}
-	__GongStructShape__000001_Default_LaneUse.ShowNbInstances = false
-	__GongStructShape__000001_Default_LaneUse.NbInstances = 0
+
 	__GongStructShape__000001_Default_LaneUse.Width = 240.000000
 	__GongStructShape__000001_Default_LaneUse.Height = 83.000000
 	__GongStructShape__000001_Default_LaneUse.IsSelected = false
@@ -423,8 +421,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Lane.Y = 164.000000
 
 	__GongStructShape__000002_Default_Lane.IdentifierMeta = ref_models.Lane{}
-	__GongStructShape__000002_Default_Lane.ShowNbInstances = false
-	__GongStructShape__000002_Default_Lane.NbInstances = 0
+
 	__GongStructShape__000002_Default_Lane.Width = 240.000000
 	__GongStructShape__000002_Default_Lane.Height = 138.000000
 	__GongStructShape__000002_Default_Lane.IsSelected = false
@@ -434,8 +431,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Group.Y = 68.000000
 
 	__GongStructShape__000003_Default_Group.IdentifierMeta = ref_models.Group{}
-	__GongStructShape__000003_Default_Group.ShowNbInstances = false
-	__GongStructShape__000003_Default_Group.NbInstances = 0
+
 	__GongStructShape__000003_Default_Group.Width = 240.000000
 	__GongStructShape__000003_Default_Group.Height = 83.000000
 	__GongStructShape__000003_Default_Group.IsSelected = false
@@ -445,8 +441,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000004_Default_Gantt.Y = 81.000000
 
 	__GongStructShape__000004_Default_Gantt.IdentifierMeta = ref_models.Gantt{}
-	__GongStructShape__000004_Default_Gantt.ShowNbInstances = false
-	__GongStructShape__000004_Default_Gantt.NbInstances = 0
+
 	__GongStructShape__000004_Default_Gantt.Width = 240.000000
 	__GongStructShape__000004_Default_Gantt.Height = 563.000000
 	__GongStructShape__000004_Default_Gantt.IsSelected = false
@@ -456,8 +451,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Bar.Y = 322.000000
 
 	__GongStructShape__000005_Default_Bar.IdentifierMeta = ref_models.Bar{}
-	__GongStructShape__000005_Default_Bar.ShowNbInstances = false
-	__GongStructShape__000005_Default_Bar.NbInstances = 0
+
 	__GongStructShape__000005_Default_Bar.Width = 240.000000
 	__GongStructShape__000005_Default_Bar.Height = 170.000000
 	__GongStructShape__000005_Default_Bar.IsSelected = false
@@ -467,8 +461,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000006_Default_Arrow.Y = 677.000000
 
 	__GongStructShape__000006_Default_Arrow.IdentifierMeta = ref_models.Arrow{}
-	__GongStructShape__000006_Default_Arrow.ShowNbInstances = false
-	__GongStructShape__000006_Default_Arrow.NbInstances = 0
+
 	__GongStructShape__000006_Default_Arrow.Width = 240.000000
 	__GongStructShape__000006_Default_Arrow.Height = 123.000000
 	__GongStructShape__000006_Default_Arrow.IsSelected = false

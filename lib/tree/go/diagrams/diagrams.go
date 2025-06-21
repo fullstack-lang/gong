@@ -210,8 +210,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_Tree.X = 7.000000
 	__GongStructShape__000000_Default_Tree.Y = 196.000000
 	__GongStructShape__000000_Default_Tree.IdentifierMeta = ref_models.Tree{}
-	__GongStructShape__000000_Default_Tree.ShowNbInstances = false
-	__GongStructShape__000000_Default_Tree.NbInstances = 0
+
 	__GongStructShape__000000_Default_Tree.Width = 240.000000
 	__GongStructShape__000000_Default_Tree.Height = 63.000000
 	__GongStructShape__000000_Default_Tree.IsSelected = false
@@ -220,8 +219,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_SVGIcon.X = 1014.000000
 	__GongStructShape__000001_Default_SVGIcon.Y = 331.000000
 	__GongStructShape__000001_Default_SVGIcon.IdentifierMeta = ref_models.SVGIcon{}
-	__GongStructShape__000001_Default_SVGIcon.ShowNbInstances = false
-	__GongStructShape__000001_Default_SVGIcon.NbInstances = 0
+
 	__GongStructShape__000001_Default_SVGIcon.Width = 240.000000
 	__GongStructShape__000001_Default_SVGIcon.Height = 63.000000
 	__GongStructShape__000001_Default_SVGIcon.IsSelected = false
@@ -230,8 +228,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Node.X = 426.000000
 	__GongStructShape__000002_Default_Node.Y = 48.000000
 	__GongStructShape__000002_Default_Node.IdentifierMeta = ref_models.Node{}
-	__GongStructShape__000002_Default_Node.ShowNbInstances = false
-	__GongStructShape__000002_Default_Node.NbInstances = 0
+
 	__GongStructShape__000002_Default_Node.Width = 377.000000
 	__GongStructShape__000002_Default_Node.Height = 363.000000
 	__GongStructShape__000002_Default_Node.IsSelected = false
@@ -240,8 +237,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_Button.X = 985.000000
 	__GongStructShape__000003_Default_Button.Y = 43.000000
 	__GongStructShape__000003_Default_Button.IdentifierMeta = ref_models.Button{}
-	__GongStructShape__000003_Default_Button.ShowNbInstances = false
-	__GongStructShape__000003_Default_Button.NbInstances = 0
+
 	__GongStructShape__000003_Default_Button.Width = 316.000000
 	__GongStructShape__000003_Default_Button.Height = 183.000000
 	__GongStructShape__000003_Default_Button.IsSelected = false

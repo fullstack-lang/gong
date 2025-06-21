@@ -151,20 +151,24 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		//
 		// number of instance (x%d)
 		//
-		if gongstructShape.ShowNbInstances {
-			nbInstancesText := new(svg_models.RectAnchoredText)
-			nbInstancesText.Name = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
-			nbInstancesText.Content = fmt.Sprintf("(x%d)", gongstructShape.NbInstances)
+		if stager.showNbInstances {
 
-			// text position
-			nbInstancesText.X_Offset = -5 - 2*rect.StrokeWidth
-			nbInstancesText.Y_Offset = 20
-			nbInstancesText.RectAnchorType = svg_models.RECT_TOP_RIGHT
-			nbInstancesText.TextAnchorType = svg_models.TEXT_ANCHOR_END
+			if nbInstance, ok := stager.map_GongStructName_InstancesNb[gongStructIdentifier]; ok {
 
-			nbInstancesText.Color = "black"
-			nbInstancesText.FillOpacity = 1.0
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, nbInstancesText)
+				nbInstancesText := new(svg_models.RectAnchoredText)
+				nbInstancesText.Name = fmt.Sprintf("(%d)", nbInstance)
+				nbInstancesText.Content = fmt.Sprintf("(%d)", nbInstance)
+
+				// text position
+				nbInstancesText.X_Offset = -5 - 2*rect.StrokeWidth
+				nbInstancesText.Y_Offset = 20
+				nbInstancesText.RectAnchorType = svg_models.RECT_TOP_RIGHT
+				nbInstancesText.TextAnchorType = svg_models.TEXT_ANCHOR_END
+
+				nbInstancesText.Color = "black"
+				nbInstancesText.FillOpacity = 1.0
+				rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, nbInstancesText)
+			}
 		}
 	}
 
