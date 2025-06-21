@@ -38,6 +38,7 @@ type Stager struct {
 	// to inform of the number of instance by gongstruct names
 	// this map is managed by callee stage struct
 	map_GongStructName_InstancesNb map[string]int
+	showNbInstances                bool
 }
 
 func NewStager(
@@ -66,6 +67,8 @@ func NewStager(
 	stager.ssgStage = ssgStage
 
 	stager.embeddedDiagrams = embeddedDiagrams
+
+	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
 
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
