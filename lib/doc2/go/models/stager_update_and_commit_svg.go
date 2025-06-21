@@ -151,7 +151,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		//
 		// number of instance (x%d)
 		//
-		if true {
+		if stager.showNbInstances {
 
 			if nbInstance, ok := stager.map_GongStructName_InstancesNb[gongStructIdentifier]; ok {
 

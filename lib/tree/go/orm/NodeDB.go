@@ -117,6 +117,16 @@ type NodeDB struct {
 	// provide the sql storage for the boolan
 	IsSecondCheckboxDisabled_Data sql.NullBool
 
+	// Declation for basic field nodeDB.SecondCheckboxHasToolTip
+	// provide the sql storage for the boolan
+	SecondCheckboxHasToolTip_Data sql.NullBool
+
+	// Declation for basic field nodeDB.SecondCheckboxToolTipText
+	SecondCheckboxToolTipText_Data sql.NullString
+
+	// Declation for basic field nodeDB.SecondCheckboxToolTipPosition
+	SecondCheckboxToolTipPosition_Data sql.NullString
+
 	// Declation for basic field nodeDB.TextAfterSecondCheckbox
 	TextAfterSecondCheckbox_Data sql.NullString
 
@@ -193,21 +203,27 @@ type NodeWOP struct {
 
 	IsSecondCheckboxDisabled bool `xlsx:"13"`
 
-	TextAfterSecondCheckbox string `xlsx:"14"`
+	SecondCheckboxHasToolTip bool `xlsx:"14"`
 
-	HasToolTip bool `xlsx:"15"`
+	SecondCheckboxToolTipText string `xlsx:"15"`
 
-	ToolTipText string `xlsx:"16"`
+	SecondCheckboxToolTipPosition models.ToolTipPositionEnum `xlsx:"16"`
 
-	ToolTipPosition models.ToolTipPositionEnum `xlsx:"17"`
+	TextAfterSecondCheckbox string `xlsx:"17"`
 
-	IsInEditMode bool `xlsx:"18"`
+	HasToolTip bool `xlsx:"18"`
 
-	IsNodeClickable bool `xlsx:"19"`
+	ToolTipText string `xlsx:"19"`
 
-	IsWithPreceedingIcon bool `xlsx:"20"`
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"20"`
 
-	PreceedingIcon string `xlsx:"21"`
+	IsInEditMode bool `xlsx:"21"`
+
+	IsNodeClickable bool `xlsx:"22"`
+
+	IsWithPreceedingIcon bool `xlsx:"23"`
+
+	PreceedingIcon string `xlsx:"24"`
 	// insertion for WOP pointer fields
 }
 
@@ -227,6 +243,9 @@ var Node_Fields = []string{
 	"HasSecondCheckboxButton",
 	"IsSecondCheckboxChecked",
 	"IsSecondCheckboxDisabled",
+	"SecondCheckboxHasToolTip",
+	"SecondCheckboxToolTipText",
+	"SecondCheckboxToolTipPosition",
 	"TextAfterSecondCheckbox",
 	"HasToolTip",
 	"ToolTipText",
@@ -638,6 +657,15 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode(node *models.Node) {
 	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
 	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
 
+	nodeDB.SecondCheckboxHasToolTip_Data.Bool = node.SecondCheckboxHasToolTip
+	nodeDB.SecondCheckboxHasToolTip_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipText_Data.String = node.SecondCheckboxToolTipText
+	nodeDB.SecondCheckboxToolTipText_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipPosition_Data.String = node.SecondCheckboxToolTipPosition.ToString()
+	nodeDB.SecondCheckboxToolTipPosition_Data.Valid = true
+
 	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
 	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
 
@@ -705,6 +733,15 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNode_WOP(node *models.Node_WOP) {
 
 	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
 	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
+
+	nodeDB.SecondCheckboxHasToolTip_Data.Bool = node.SecondCheckboxHasToolTip
+	nodeDB.SecondCheckboxHasToolTip_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipText_Data.String = node.SecondCheckboxToolTipText
+	nodeDB.SecondCheckboxToolTipText_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipPosition_Data.String = node.SecondCheckboxToolTipPosition.ToString()
+	nodeDB.SecondCheckboxToolTipPosition_Data.Valid = true
 
 	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
 	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
@@ -774,6 +811,15 @@ func (nodeDB *NodeDB) CopyBasicFieldsFromNodeWOP(node *NodeWOP) {
 	nodeDB.IsSecondCheckboxDisabled_Data.Bool = node.IsSecondCheckboxDisabled
 	nodeDB.IsSecondCheckboxDisabled_Data.Valid = true
 
+	nodeDB.SecondCheckboxHasToolTip_Data.Bool = node.SecondCheckboxHasToolTip
+	nodeDB.SecondCheckboxHasToolTip_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipText_Data.String = node.SecondCheckboxToolTipText
+	nodeDB.SecondCheckboxToolTipText_Data.Valid = true
+
+	nodeDB.SecondCheckboxToolTipPosition_Data.String = node.SecondCheckboxToolTipPosition.ToString()
+	nodeDB.SecondCheckboxToolTipPosition_Data.Valid = true
+
 	nodeDB.TextAfterSecondCheckbox_Data.String = node.TextAfterSecondCheckbox
 	nodeDB.TextAfterSecondCheckbox_Data.Valid = true
 
@@ -815,6 +861,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode(node *models.Node) {
 	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
 	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
 	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.SecondCheckboxHasToolTip = nodeDB.SecondCheckboxHasToolTip_Data.Bool
+	node.SecondCheckboxToolTipText = nodeDB.SecondCheckboxToolTipText_Data.String
+	node.SecondCheckboxToolTipPosition.FromString(nodeDB.SecondCheckboxToolTipPosition_Data.String)
 	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
@@ -841,6 +890,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNode_WOP(node *models.Node_WOP) {
 	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
 	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
 	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.SecondCheckboxHasToolTip = nodeDB.SecondCheckboxHasToolTip_Data.Bool
+	node.SecondCheckboxToolTipText = nodeDB.SecondCheckboxToolTipText_Data.String
+	node.SecondCheckboxToolTipPosition.FromString(nodeDB.SecondCheckboxToolTipPosition_Data.String)
 	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
@@ -868,6 +920,9 @@ func (nodeDB *NodeDB) CopyBasicFieldsToNodeWOP(node *NodeWOP) {
 	node.HasSecondCheckboxButton = nodeDB.HasSecondCheckboxButton_Data.Bool
 	node.IsSecondCheckboxChecked = nodeDB.IsSecondCheckboxChecked_Data.Bool
 	node.IsSecondCheckboxDisabled = nodeDB.IsSecondCheckboxDisabled_Data.Bool
+	node.SecondCheckboxHasToolTip = nodeDB.SecondCheckboxHasToolTip_Data.Bool
+	node.SecondCheckboxToolTipText = nodeDB.SecondCheckboxToolTipText_Data.String
+	node.SecondCheckboxToolTipPosition.FromString(nodeDB.SecondCheckboxToolTipPosition_Data.String)
 	node.TextAfterSecondCheckbox = nodeDB.TextAfterSecondCheckbox_Data.String
 	node.HasToolTip = nodeDB.HasToolTip_Data.Bool
 	node.ToolTipText = nodeDB.ToolTipText_Data.String
