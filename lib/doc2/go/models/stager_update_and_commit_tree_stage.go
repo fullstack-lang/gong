@@ -25,6 +25,7 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	root := &tree.Node{
 		Name:       "Class Diagrams",
 		IsExpanded: true,
+		FontStyle:  tree.ITALIC,
 	}
 	classdiagramsTree.RootNodes = append(classdiagramsTree.RootNodes, root)
 
