@@ -460,6 +460,8 @@ export class FormSpecificComponent {
       if (formDiv.FormSortAssocButton) {
         if (formDiv.FormSortAssocButton.Name == fieldName) {
 
+          this.currentFormEditAssocButton = formDiv.FormSortAssocButton.FormEditAssocButton
+
           this.formSortAssocButtonService.updateFront(formDiv.FormSortAssocButton, this.Name).subscribe(
             () => {
               console.log("sort button updated")
@@ -468,7 +470,8 @@ export class FormSpecificComponent {
               this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
-                  TableName: table.TableExtraNameEnum.TableSortExtraName
+                  TableName: table.TableExtraNameEnum.TableSortExtraName,
+                  AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
                 },
               });
             }
