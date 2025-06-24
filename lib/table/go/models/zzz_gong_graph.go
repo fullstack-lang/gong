@@ -677,6 +677,9 @@ func (stage *Stage) StageBranchFormSortAssocButton(formsortassocbutton *FormSort
 	formsortassocbutton.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if formsortassocbutton.FormEditAssocButton != nil {
+		StageBranch(stage, formsortassocbutton.FormEditAssocButton)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1277,6 +1280,9 @@ func CopyBranchFormSortAssocButton(mapOrigCopy map[any]any, formsortassocbuttonF
 	formsortassocbuttonFrom.CopyBasicFields(formsortassocbuttonTo)
 
 	//insertion point for the staging of instances referenced by pointers
+	if formsortassocbuttonFrom.FormEditAssocButton != nil {
+		formsortassocbuttonTo.FormEditAssocButton = CopyBranchFormEditAssocButton(mapOrigCopy, formsortassocbuttonFrom.FormEditAssocButton)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1784,6 +1790,9 @@ func (stage *Stage) UnstageBranchFormSortAssocButton(formsortassocbutton *FormSo
 	formsortassocbutton.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+	if formsortassocbutton.FormEditAssocButton != nil {
+		UnstageBranch(stage, formsortassocbutton.FormEditAssocButton)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
