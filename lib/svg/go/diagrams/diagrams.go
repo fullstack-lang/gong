@@ -23,6 +23,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-06-24 08:39:46.583880 CEST"
+	const __write__utc_time__ = "2025-06-24 06:39:46.583880 UTC"
+
+	const __commitId__ = "0000000001"
+
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
@@ -95,7 +100,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,false,false,true,false]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false,false,false,false,false,false,false,true]`
@@ -178,7 +183,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.X = 854.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Y = 259.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.IdentifierMeta = ref_models.LinkAnchoredText{}
-
 	__GongStructShape__000000_Default_LinkAnchoredText.Width = 240.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.Height = 103.000000
 	__GongStructShape__000000_Default_LinkAnchoredText.IsSelected = false
@@ -187,7 +191,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Link.X = 75.000000
 	__GongStructShape__000001_Default_Link.Y = 77.000000
 	__GongStructShape__000001_Default_Link.IdentifierMeta = ref_models.Link{}
-
 	__GongStructShape__000001_Default_Link.Width = 240.000000
 	__GongStructShape__000001_Default_Link.Height = 103.000000
 	__GongStructShape__000001_Default_Link.IsSelected = false
@@ -196,7 +199,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Rect.X = 842.000000
 	__GongStructShape__000002_Default_Rect.Y = 46.000000
 	__GongStructShape__000002_Default_Rect.IdentifierMeta = ref_models.Rect{}
-
 	__GongStructShape__000002_Default_Rect.Width = 240.000000
 	__GongStructShape__000002_Default_Rect.Height = 182.000000
 	__GongStructShape__000002_Default_Rect.IsSelected = false
@@ -318,3 +320,4 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Link.LinkShapes = append(__GongStructShape__000001_Default_Link.LinkShapes, __LinkShape__000003_TextAtArrowEnd)
 	// setup of LinkShape instances pointers
 }
+
