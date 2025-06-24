@@ -13,6 +13,10 @@ type FormSortAssocButton struct {
 
 	HasToolTip  bool
 	ToolTipText string
+
+	// The link is to allows for the access to the
+	// association storage
+	FormEditAssocButton *FormEditAssocButton
 }
 
 // OnAfterUpdate is called when the button is pressed

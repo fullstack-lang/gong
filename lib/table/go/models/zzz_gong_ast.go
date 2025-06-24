@@ -1722,6 +1722,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_FormSortAssocButton[identifier].HasToolTip = fielValue
+				case "FormEditAssocButton":
+					targetIdentifier := ident.Name
+					__gong__map_FormSortAssocButton[identifier].FormEditAssocButton = __gong__map_FormEditAssocButton[targetIdentifier]
 				}
 			case "Option":
 				switch fieldName {
