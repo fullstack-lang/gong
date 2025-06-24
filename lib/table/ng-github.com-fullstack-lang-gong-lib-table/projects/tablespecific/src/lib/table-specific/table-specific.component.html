@@ -54,7 +54,7 @@
                 </ng-container>
             }
 
-            @for (column of displayedColumns; track column; let i = $index) {
+            @for (column of displayedColumns; track $index; let i = $index) {
                 <ng-container [matColumnDef]="column" [sticky]="this.selectedTable && i < this.selectedTable.NbOfStickyColumns">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{column}}</th>
 
