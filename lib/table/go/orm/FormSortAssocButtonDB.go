@@ -47,6 +47,10 @@ type FormSortAssocButtonAPI struct {
 // reverse pointers of slice of poitners to Struct
 type FormSortAssocButtonPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
+
+	// field FormEditAssocButton is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	FormEditAssocButtonID sql.NullInt64
 }
 
 // FormSortAssocButtonDB describes a formsortassocbutton in the database
@@ -242,6 +246,18 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 		formsortassocbuttonDB.CopyBasicFieldsFromFormSortAssocButton(formsortassocbutton)
 
 		// insertion point for translating pointers encodings into actual pointers
+		// commit pointer value formsortassocbutton.FormEditAssocButton translates to updating the formsortassocbutton.FormEditAssocButtonID
+		formsortassocbuttonDB.FormEditAssocButtonID.Valid = true // allow for a 0 value (nil association)
+		if formsortassocbutton.FormEditAssocButton != nil {
+			if FormEditAssocButtonId, ok := backRepo.BackRepoFormEditAssocButton.Map_FormEditAssocButtonPtr_FormEditAssocButtonDBID[formsortassocbutton.FormEditAssocButton]; ok {
+				formsortassocbuttonDB.FormEditAssocButtonID.Int64 = int64(FormEditAssocButtonId)
+				formsortassocbuttonDB.FormEditAssocButtonID.Valid = true
+			}
+		} else {
+			formsortassocbuttonDB.FormEditAssocButtonID.Int64 = 0
+			formsortassocbuttonDB.FormEditAssocButtonID.Valid = true
+		}
+
 		_, err := backRepoFormSortAssocButton.db.Save(formsortassocbuttonDB)
 		if err != nil {
 			log.Fatal(err)
@@ -355,6 +371,27 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CheckoutPh
 func (formsortassocbuttonDB *FormSortAssocButtonDB) DecodePointers(backRepo *BackRepoStruct, formsortassocbutton *models.FormSortAssocButton) {
 
 	// insertion point for checkout of pointer encoding
+	// FormEditAssocButton field	
+	{
+		id := formsortassocbuttonDB.FormEditAssocButtonID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoFormEditAssocButton.Map_FormEditAssocButtonDBID_FormEditAssocButtonPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: formsortassocbutton.FormEditAssocButton, unknown pointer id", id)
+				formsortassocbutton.FormEditAssocButton = nil
+			} else {
+				// updates only if field has changed
+				if formsortassocbutton.FormEditAssocButton == nil || formsortassocbutton.FormEditAssocButton != tmp {
+					formsortassocbutton.FormEditAssocButton = tmp
+				}
+			}
+		} else {
+			formsortassocbutton.FormEditAssocButton = nil
+		}
+	}
+	
 	return
 }
 
@@ -619,6 +656,12 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) RestorePha
 		_ = formsortassocbuttonDB
 
 		// insertion point for reindexing pointers encoding
+		// reindexing FormEditAssocButton field
+		if formsortassocbuttonDB.FormEditAssocButtonID.Int64 != 0 {
+			formsortassocbuttonDB.FormEditAssocButtonID.Int64 = int64(BackRepoFormEditAssocButtonid_atBckpTime_newID[uint(formsortassocbuttonDB.FormEditAssocButtonID.Int64)])
+			formsortassocbuttonDB.FormEditAssocButtonID.Valid = true
+		}
+
 		// update databse with new index encoding
 		db, _ := backRepoFormSortAssocButton.db.Model(formsortassocbuttonDB)
 		_, err := db.Updates(*formsortassocbuttonDB)
