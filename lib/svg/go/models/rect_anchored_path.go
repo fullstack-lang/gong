@@ -44,10 +44,20 @@ func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y flo
 	var presentation Presentation
 	presentation = rectAnchoredPath.Presentation
 
+	var scaling string
+
+	if rectAnchoredPath.ScalePropotionnally {
+		scaling = fmt.Sprintf("scale(%s %s)",
+			formatFloat(rectAnchoredPath.AppliedScaling),
+			formatFloat(rectAnchoredPath.AppliedScaling),
+		)
+	}
+
 	presentation.Transform =
-		fmt.Sprintf("translate(%s %s) ",
+		fmt.Sprintf("translate(%s %s) %s",
 			formatFloat(x+rectAnchoredPath.X_Offset),
 			formatFloat(y+rectAnchoredPath.Y_Offset),
+			scaling,
 		) + presentation.Transform
 	presentation.WriteSVG(sb)
 	sb.WriteString(" >\n")
