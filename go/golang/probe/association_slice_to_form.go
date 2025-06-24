@@ -79,7 +79,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		ToolTipText:        "Edit list of the instances of " + models.GetPointerToGongstructName[FieldType]() + " associated to this field",
 	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
-	onAssocEditon := NewOnAssocEditon(instance, field, fieldName, probe)
+	onAssocEditon := NewOnAssocEditon(instance, field, probe)
 	formEditAssocButton.OnAssocEditon = onAssocEditon
 
 	formSortAssocButton := (&form.FormSortAssocButton{
@@ -97,21 +97,18 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
 	instance  InstanceType
 	field     *[]FieldType
-	fieldName string
 	probe     *Probe
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
 	instance InstanceType,
 	field *[]FieldType,
-	fieldName string,
 	probe *Probe,
 ) (onAssocEdition *OnAssocEditon[InstanceType, FieldType]) {
 
 	onAssocEdition = new(OnAssocEditon[InstanceType, FieldType])
 	onAssocEdition.instance = instance
 	onAssocEdition.field = field
-	onAssocEdition.fieldName = fieldName
 	onAssocEdition.probe = probe
 
 	return

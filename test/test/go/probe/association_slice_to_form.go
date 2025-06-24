@@ -93,9 +93,9 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 }
 
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance InstanceType
-	field    *[]FieldType
-	probe    *Probe
+	instance  InstanceType
+	field     *[]FieldType
+	probe     *Probe
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
