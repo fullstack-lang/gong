@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-20 09:29:02.804682 CEST"
-	const __write__utc_time__ = "2025-06-20 07:29:02.804682 UTC"
+	const __write__local_time = "2025-06-24 19:05:41.604536 CEST"
+	const __write__utc_time__ = "2025-06-24 17:05:41.604536 UTC"
 
-	const __commitId__ = "0000000006"
+	const __commitId__ = "0000000015"
 
 	// Declaration of instances to stage
 
@@ -247,12 +247,12 @@ func _(stage *models.Stage) {
 	__RectAnchoredPath__000001_PathTop.Transform = ``
 
 	__RectAnchoredPath__000002_PathTopLeft.Name = `PathTopLeft`
-	__RectAnchoredPath__000002_PathTopLeft.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
+	__RectAnchoredPath__000002_PathTopLeft.Definition = `M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z`
 	__RectAnchoredPath__000002_PathTopLeft.X_Offset = 0.000000
 	__RectAnchoredPath__000002_PathTopLeft.Y_Offset = 0.000000
 	__RectAnchoredPath__000002_PathTopLeft.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredPath__000002_PathTopLeft.ScalePropotionnally = true
-	__RectAnchoredPath__000002_PathTopLeft.AppliedScaling = 1.000000
+	__RectAnchoredPath__000002_PathTopLeft.AppliedScaling = 0.100000
 	__RectAnchoredPath__000002_PathTopLeft.Color = `red`
 	__RectAnchoredPath__000002_PathTopLeft.FillOpacity = 0.500000
 	__RectAnchoredPath__000002_PathTopLeft.Stroke = ``

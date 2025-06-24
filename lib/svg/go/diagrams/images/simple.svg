@@ -401,7 +401,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(850 250) " >
+            transform="translate(850 250) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -411,17 +411,17 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(850 100) " >
+            transform="translate(850 100) scale(1 1)" >
 </path>
 <path
-			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z"
 			fill="red"
             fill-opacity="0.500000"
             stroke=""
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(700 100) " >
+            transform="translate(700 100) scale(0.1 0.1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -431,7 +431,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(1000 100) " >
+            transform="translate(1000 100) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -441,7 +441,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(850 400) " >
+            transform="translate(850 400) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -451,7 +451,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(700 400) " >
+            transform="translate(700 400) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -461,7 +461,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(400 400) " >
+            transform="translate(400 400) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -471,7 +471,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(700 700) " >
+            transform="translate(700 700) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -481,7 +481,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(1000 400) " >
+            transform="translate(1000 400) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -491,7 +491,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(900 330) " >
+            transform="translate(900 330) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -501,7 +501,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(700 250) " >
+            transform="translate(700 250) scale(1 1)" >
 </path>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
@@ -511,7 +511,7 @@
             stroke-opacity="0.000000"
             stroke-width="0.000000"
             stroke-dasharray=""
-            transform="translate(1000 250) " >
+            transform="translate(1000 250) scale(1 1)" >
 </path>
 	<line x1="300" y1="100" x2="500" y2="100"
 			fill=""
