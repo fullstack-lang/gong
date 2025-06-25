@@ -442,7 +442,6 @@ export class FormSpecificComponent {
   }
 
   openTableSort(fieldName: string) {
-
     console.log("openTableSort: ", fieldName)
 
     if (this.angularFormGroup == undefined) {
@@ -478,17 +477,15 @@ export class FormSpecificComponent {
 
               this.dialogRef.afterClosed().subscribe(result => {
                 console.log('The sort dialog was closed');
-                // 'result' will contain any data passed when closing the dialog
-                // For example, if you close the dialog like this: dialogRef.close('I am a result');
-                // then 'result' will be 'I am a result'
-                if (result) {
 
+                // Get the updated AssociationStorage from the dialog data
+                const updatedAssociationStorage = this.dialogRef?.componentInstance?.tableDialogData?.AssociationStorage;
 
-                  if (this.currentFormEditAssocButton) {
-                    // this.currentFormEditAssocButton.AssociationStorage = dialogRef.data
-                    this.currentFormEditAssocButton.HasChanged = true
-                    console.log('Result after sorting:', this.currentFormEditAssocButton.AssociationStorage)
-                  }
+                if (updatedAssociationStorage && this.currentFormEditAssocButton) {
+                  // Update the FormEditAssocButton with the new association storage
+                  this.currentFormEditAssocButton.AssociationStorage = updatedAssociationStorage;
+                  this.currentFormEditAssocButton.HasChanged = true;
+                  console.log('Updated AssociationStorage after sorting:', this.currentFormEditAssocButton.AssociationStorage);
                 }
               })
             }
