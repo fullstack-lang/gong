@@ -357,58 +357,12 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
 
     this.selectedTable.SavingInProgress = true // Indicate saving started
 
-    if (modifiedRows.size === 0) {
-      // Even if no rows changed selection status, we might want to save the table state
-      // or simply close if that's the desired behavior.
-      this.tableService.updateFront(this.selectedTable, this.Name).subscribe({
-        next: () => {
-          console.log('Table state saved (no selection changes).')
-          if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
-          if (this.tableDialogData && this.dialogRef) {
-            // Pass the current selection (which might be empty or unchanged)
-            this.dialogRef.close(this.selection.selected)
-          }
-        },
-        error: (err) => {
-          console.error('Error saving table state:', err)
-          if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
-        }
-      })
-      return
+    if (this.tableDialogData && this.dialogRef) {
+      // Pass the current selection (which might be empty or unchanged)
+      this.dialogRef.close(this.selection.selected)
     }
+    return
 
-    const promises = Array.from(modifiedRows).map(row =>
-      this.rowService.updateFront(row, this.Name)
-    )
-
-    forkJoin(promises).subscribe({
-      next: () => {
-        console.log('Modified rows updated.')
-        // After rows are updated, update the table itself
-        if (!this.selectedTable) { // Guard against undefined selectedTable
-          console.error("Selected table became undefined during save operation.")
-          return
-        }
-        this.tableService.updateFront(this.selectedTable, this.Name).subscribe({
-          next: () => {
-            console.log('Table updated after row modifications.')
-            if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
-            if (this.tableDialogData && this.dialogRef) {
-              // Pass the final selection state
-              this.dialogRef.close(this.selection.selected)
-            }
-          },
-          error: (err) => {
-            console.error('Error updating table after row modifications:', err)
-            if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
-          }
-        })
-      },
-      error: (err) => {
-        console.error('Error updating one or more rows:', err)
-        if (this.selectedTable) this.selectedTable.SavingInProgress = false // Ensure selectedTable is defined
-      }
-    })
   }
 
   drop(event: CdkDragDrop<string[]>) {
