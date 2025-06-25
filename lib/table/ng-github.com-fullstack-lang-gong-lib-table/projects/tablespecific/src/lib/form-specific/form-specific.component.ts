@@ -26,7 +26,7 @@ import { TableDialogData } from '../table-dialog-data';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { encodeIntArrayToString_json } from '../association-storage';
+import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../association-storage';
 
 @Component({
   selector: 'lib-form-specific',
@@ -414,26 +414,42 @@ export class FormSpecificComponent {
 
               this.dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed');
-                // 'result' will contain any data passed when closing the dialog
-                // For example, if you close the dialog like this: dialogRef.close('I am a result');
-                // then 'result' will be 'I am a result'
+
                 if (result) {
-
-
-                  let selectedIDs = new Array<number>()
+                  // Extract selected IDs from result
+                  let selectedIDs = new Array<number>();
                   for (let row of result) {
-                    // fetch the first cell CellInt Value
-                    selectedIDs.push(row.Cells[0].CellInt.Value)
+                    selectedIDs.push(row.Cells[0].CellInt.Value);
                   }
 
                   if (this.currentFormEditAssocButton) {
-                    this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(selectedIDs)
-                    this.currentFormEditAssocButton.HasChanged = true
-                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
+                    // Get current association storage as array
+                    let currentAssociationIDs = decodeStringToIntArray_json(this.currentFormEditAssocButton.AssociationStorage);
+
+                    // Create new ordered array
+                    let newOrderedIDs = new Array<number>();
+
+                    // First, preserve the original order for existing items that are still selected
+                    for (let existingID of currentAssociationIDs) {
+                      if (selectedIDs.includes(existingID)) {
+                        newOrderedIDs.push(existingID);
+                      }
+                    }
+
+                    // Then, append any new items that weren't in the original association storage
+                    for (let selectedID of selectedIDs) {
+                      if (!currentAssociationIDs.includes(selectedID)) {
+                        newOrderedIDs.push(selectedID);
+                      }
+                    }
+
+                    // Update the association storage with the new ordered array
+                    this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(newOrderedIDs);
+                    this.currentFormEditAssocButton.HasChanged = true;
+                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage);
                   }
                 }
               });
-
             }
           )
         }

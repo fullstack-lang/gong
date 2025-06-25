@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-25 04:32:32.075872 CEST"
-	const __write__utc_time__ = "2025-06-25 02:32:32.075872 UTC"
+	const __write__local_time = "2025-06-25 05:06:40.038609 CEST"
+	const __write__utc_time__ = "2025-06-25 03:06:40.038609 UTC"
 
-	const __commitId__ = "0000000034"
+	const __commitId__ = "0000000051"
 
 	// Declaration of instances to stage
 
@@ -964,10 +964,10 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000005_BottomLeftLeft)
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000010_Right)
 	__Rect__000001_End.RectAnchoredRects = append(__Rect__000001_End.RectAnchoredRects, __RectAnchoredRect__000004_BottomLeft)
-	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000010_10_PathLeft)
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000000_0_PathCenter)
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000001_1_PathTop)
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000004_4_PathBottom)
+	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000010_10_PathLeft)
 	// setup of RectAnchoredPath instances pointers
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
