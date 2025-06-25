@@ -17,6 +17,7 @@ import { FormSortAssocButton, CopyFormSortAssocButtonToFormSortAssocButtonAPI } 
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { FormEditAssocButtonAPI } from './formeditassocbutton-api'
 
 @Injectable({
   providedIn: 'root'

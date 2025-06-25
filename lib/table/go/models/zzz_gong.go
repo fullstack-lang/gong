@@ -3429,6 +3429,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case FormSortAssocButton:
 		return any(&FormSortAssocButton{
 			// Initialisation of associations
+			// field is initialized with an instance of FormEditAssocButton with the name of the field
+			FormEditAssocButton: &FormEditAssocButton{Name: "FormEditAssocButton"},
 		}).(*Type)
 	case Option:
 		return any(&Option{
@@ -3820,6 +3822,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case FormSortAssocButton:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "FormEditAssocButton":
+			res := make(map[*FormEditAssocButton][]*FormSortAssocButton)
+			for formsortassocbutton := range stage.FormSortAssocButtons {
+				if formsortassocbutton.FormEditAssocButton != nil {
+					formeditassocbutton_ := formsortassocbutton.FormEditAssocButton
+					var formsortassocbuttons []*FormSortAssocButton
+					_, ok := res[formeditassocbutton_]
+					if ok {
+						formsortassocbuttons = res[formeditassocbutton_]
+					} else {
+						formsortassocbuttons = make([]*FormSortAssocButton, 0)
+					}
+					formsortassocbuttons = append(formsortassocbuttons, formsortassocbutton)
+					res[formeditassocbutton_] = formsortassocbuttons
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Option
 	case Option:
@@ -4189,7 +4208,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "FormEditAssocButton"}
 	case Option:
 		res = []string{"Name"}
 	case Row:
@@ -4354,7 +4373,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case *FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "FormEditAssocButton"}
 	case *Option:
 		res = []string{"Name"}
 	case *Row:
@@ -4754,6 +4773,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "FormEditAssocButton":
+			if inferedInstance.FormEditAssocButton != nil {
+				res.valueString = inferedInstance.FormEditAssocButton.Name
+			}
 		}
 	case *Option:
 		switch fieldName {
@@ -5198,6 +5221,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "FormEditAssocButton":
+			if inferedInstance.FormEditAssocButton != nil {
+				res.valueString = inferedInstance.FormEditAssocButton.Name
+			}
 		}
 	case Option:
 		switch fieldName {
