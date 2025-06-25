@@ -45,10 +45,10 @@ type BackRepoStruct struct {
 	stage *models.Stage
 
 	// the back repo can broadcast the CommitFromBackNb to all interested subscribers
-	rwMutex sync.RWMutex
+	rwMutex     sync.RWMutex
 
 	subscribersRwMutex sync.RWMutex
-	subscribers        []chan int
+	subscribers []chan int
 }
 
 func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct) {
@@ -377,8 +377,9 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	backRepoStruct.subscribersRwMutex.RUnlock()
 
 	if len(subscribers) == 0 {
-		log.Println(backRepoStruct.stage.GetName(), backRepoStruct.stage.GetType(), "no subsribers to broadcast to")
+		log.Println(backRepoStruct.stage.GetType(), backRepoStruct.stage.GetName(), "no subsribers to broadcast to")
 	}
+
 
 	for _, ch := range subscribers {
 		select {
