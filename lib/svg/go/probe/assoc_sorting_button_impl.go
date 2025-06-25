@@ -56,12 +56,30 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
+	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onSortingEditon.probe.stageOfInterest)
+	instanceSlice := make([]FieldType, 0)
+	for instance := range instanceSet {
+		instanceSlice = append(instanceSlice, instance)
+	}
 	map_RowID_instance := make(map[*gongtable_models.Row]FieldType)
-	for _, instance := range *onSortingEditon.field {
+	for instance := range instanceSet {
 		row := new(gongtable_models.Row).Stage(tableStageForSelection)
 		row.Name = instance.GetName()
 		map_RowID_instance[row] = instance
 		table.Rows = append(table.Rows, row)
+
+		cell := (&gongtable_models.Cell{
+			Name: "ID",
+		}).Stage(tableStageForSelection)
+		row.Cells = append(row.Cells, cell)
+		cellInt := (&gongtable_models.CellInt{
+			Name: "ID",
+			Value: int(models.GetOrderPointerGongstruct(
+				onSortingEditon.probe.stageOfInterest,
+				instance,
+			)),
+		}).Stage(tableStageForSelection)
+		cell.CellInt = cellInt
 
 		for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
 			cell := new(gongtable_models.Cell).Stage(tableStageForSelection)
@@ -76,12 +94,6 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 			row.Cells = append(row.Cells, cell)
 		}
 	}
-
-	table.Impl = NewTableSortSaver(
-		onSortingEditon.instance,
-		onSortingEditon.field,
-		onSortingEditon.probe,
-		&map_RowID_instance)
 	tableStageForSelection.Commit()
 }
 
