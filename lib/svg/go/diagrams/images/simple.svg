@@ -395,6 +395,16 @@
 </rect>
 <path
 			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="lightblue"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(850 250) scale(1 1)" >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
 			fill="blue"
             fill-opacity="0.500000"
             stroke=""
@@ -412,6 +422,16 @@
             stroke-width="0.000000"
             stroke-dasharray=""
             transform="translate(850 400) scale(1 1)" >
+</path>
+<path
+			d="M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z"
+			fill="brown"
+            fill-opacity="0.500000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="translate(700 250) scale(1 1)" >
 </path>
 	<line x1="300" y1="100" x2="500" y2="100"
 			fill=""
