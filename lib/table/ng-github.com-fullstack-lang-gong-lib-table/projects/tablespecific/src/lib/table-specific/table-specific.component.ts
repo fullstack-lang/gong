@@ -166,7 +166,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
           return
         }
 
-        this.dataSource = new MatTableDataSource(this.selectedTable.Rows || [])
 
         this.mapHeaderIdIndex = new Map<string, number>()
         this.displayedColumns = []
@@ -255,6 +254,53 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         if (this.selectedTable.HasPaginator && this.paginator) {
           this.dataSource.paginator = this.paginator
         }
+
+        // for sorting, we reorder the items according to the order in the association storage
+        // and we remove the items that are not in the association storage
+        if (this.selectedTable.CanDragDropRows && this.tableDialogData.AssociationStorage) {
+          const sliceOfIDs = decodeStringToIntArray_json(this.tableDialogData.AssociationStorage)
+
+          // --- DEBUGGING START ---
+          // Step 1: Check the IDs you expect to find.
+          console.log("Association IDs to order by:", sliceOfIDs);
+          // --- DEBUGGING END ---
+
+          // Create a Map for quick lookup of rows by their ID.
+          const rowMapByID = new Map<number, table.Row>()
+          for (const row of this.selectedTable.Rows) {
+            if (row.Cells.length > 0 && row.Cells[0]?.CellInt) {
+
+              // FIX: Explicitly convert the ID from the cell to a number to prevent type mismatch (e.g., "4" vs 4).
+              const id = Number(row.Cells[0].CellInt.Value)
+
+              // Only add the row to the map if its ID is a valid number.
+              if (!isNaN(id)) {
+                rowMapByID.set(id, row)
+              }
+            }
+          }
+
+          // --- DEBUGGING START ---
+          // Step 2: Check the map that was created. Does it contain keys 4 and 1?
+          // If not, the original `this.selectedTable.Rows` does not contain rows with these IDs.
+          console.log("Map of available rows (ID -> Row):", rowMapByID);
+          // --- DEBUGGING END ---
+
+          // Build the new `Rows` array by iterating through the ordered IDs.
+          const orderedRows: table.Row[] = sliceOfIDs
+            .map(id => rowMapByID.get(id)) // Look up the row for each ID (as a number)
+            .filter((row): row is table.Row => row !== undefined) // Filter out any IDs that didn't have a matching row
+
+          // --- DEBUGGING START ---
+          // Step 3: Check the final result.
+          console.log("Final ordered and filtered rows:", orderedRows);
+          // --- DEBUGGING END ---
+
+          this.selectedTable.Rows = orderedRows
+        }
+
+        this.dataSource = new MatTableDataSource(this.selectedTable.Rows || [])
+
       }
     )
   }
@@ -366,16 +412,44 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (!this.selectedTable || !this.selectedTable.Rows) return
+    if (!this.selectedTable || !this.selectedTable.Rows) {
+      return
+    }
 
+    // This moves the item in the local array, reordering the rows
     moveItemInArray(this.selectedTable.Rows, event.previousIndex, event.currentIndex)
-    this.dataSource.data = [...this.selectedTable.Rows] // Update data source data
 
-    this.tableService.updateFront(this.selectedTable, this.Name).subscribe(
-      () => {
-        console.log("Table rows shuffled and updated:", this.selectedTable?.Name)
-      }
-    )
+    // This updates the MatTableDataSource to reflect the new order in the UI
+    this.dataSource.data = [...this.selectedTable.Rows]
+
+    // one need to update the associated storage
+    // [START] Completed Code
+    if (this.selectedTable?.CanDragDropRows && this.tableDialogData?.AssociationStorage) {
+
+      // 1. Extract the IDs from the rows in their new order.
+      // We must ensure that we only process rows that have a valid ID structure,
+      // which is assumed to be in the first cell as an integer (CellInt).
+      const newOrderedIDs: number[] = this.selectedTable.Rows
+        .map(row => {
+          // Safely access the ID from the first cell
+          if (row.Cells && row.Cells.length > 0 && row.Cells[0]?.CellInt) {
+            return row.Cells[0].CellInt.Value
+          }
+          return null // Return null for rows that don't match the structure
+        })
+        .filter((id): id is number => id !== null) // Filter out any nulls to get a clean number array
+
+      // 2. Convert the new array of IDs into a JSON string.
+      const newAssociationStorage = JSON.stringify(newOrderedIDs)
+
+      // 3. Update the AssociationStorage property in the dialog data.
+      // This ensures that when the dialog is saved or closed, the new order is available
+      // to the component that opened it.
+      this.tableDialogData.AssociationStorage = newAssociationStorage
+
+      console.log("Updated association order:", this.tableDialogData.AssociationStorage)
+    }
+    // [END] Completed Code
   }
 
   isDraggableRow = (index: number, item: table.Row): boolean => !!this.selectedTable?.CanDragDropRows
@@ -435,7 +509,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-            this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+      this.celliconService.updateFront(cellIcon, this.Name).subscribe(
         () => {
           console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
         }

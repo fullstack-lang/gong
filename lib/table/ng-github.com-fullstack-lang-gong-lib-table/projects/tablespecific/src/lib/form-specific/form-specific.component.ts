@@ -5,7 +5,7 @@ import * as table from '../../../../table/src/public-api'
 
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 
 
@@ -71,8 +71,9 @@ export class FormSpecificComponent {
   // generated form by getting info from the back
   angularFormGroup: FormGroup | undefined
 
-  currentFormEditAssocButton : table.FormEditAssocButton | undefined = undefined
+  currentFormEditAssocButton: table.FormEditAssocButton | undefined = undefined
 
+  dialogRef: MatDialogRef<TableSpecificComponent, any> | undefined = undefined
 
   constructor(
     public dialog: MatDialog,
@@ -342,7 +343,7 @@ export class FormSpecificComponent {
       }
       if (formDiv.FormEditAssocButton && formDiv.FormEditAssocButton.HasChanged) {
         formDiv.FormEditAssocButton.IsForSavePurpose = true
-         promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
+        promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
       }
     }
 
@@ -351,7 +352,7 @@ export class FormSpecificComponent {
       () => {
         this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
-            console.log("Form refreshed",promises.length)
+            console.log("Form refreshed", promises.length)
             // a refresh is necessary to redeem all associations
             // this.refresh()
           }
@@ -362,7 +363,7 @@ export class FormSpecificComponent {
     if (promises.length == 0) {
       this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
         () => {
-            console.log("Form refreshed without updates")
+          console.log("Form refreshed without updates")
 
           // a refresh is necessary to redeem all associations
           // this.refresh()
@@ -403,7 +404,7 @@ export class FormSpecificComponent {
               console.log("assoc button updated")
 
               // when the association button is pressed
-              let dialogRef = this.dialog.open(TableSpecificComponent, {
+              this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: table.TableExtraNameEnum.TableSelectExtraName,
@@ -411,7 +412,7 @@ export class FormSpecificComponent {
                 },
               });
 
-              dialogRef.afterClosed().subscribe(result => {
+              this.dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed');
                 // 'result' will contain any data passed when closing the dialog
                 // For example, if you close the dialog like this: dialogRef.close('I am a result');
@@ -429,7 +430,7 @@ export class FormSpecificComponent {
                     this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(selectedIDs)
                     this.currentFormEditAssocButton.HasChanged = true
                     console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
-                  }                 
+                  }
                 }
               });
 
@@ -467,13 +468,29 @@ export class FormSpecificComponent {
               console.log("sort button updated")
 
               // when the association button is pressed
-              this.dialog.open(TableSpecificComponent, {
+              this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
                   TableName: table.TableExtraNameEnum.TableSortExtraName,
                   AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
                 },
-              });
+              })
+
+              this.dialogRef.afterClosed().subscribe(result => {
+                console.log('The dialog was closed');
+                // 'result' will contain any data passed when closing the dialog
+                // For example, if you close the dialog like this: dialogRef.close('I am a result');
+                // then 'result' will be 'I am a result'
+                if (result) {
+
+
+                  if (this.currentFormEditAssocButton) {
+                    // this.currentFormEditAssocButton.AssociationStorage = dialogRef.data
+                    this.currentFormEditAssocButton.HasChanged = true
+                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
+                  }
+                }
+              })
             }
           )
         }
