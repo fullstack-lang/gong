@@ -71,12 +71,13 @@ func (svg *SVG) OnAfterUpdate(stage *Stage, _, frontSVG *SVG) {
 
 	if frontSVG.IsSVGBackEndFileGenerated {
 		log.Println("SVG generation requested")
-		err := svg.GenerateFile(filepath.Join(svg.DefaultDirectoryForGeneratedImages, svg.Name+".svg"))
+		err, _, _ := svg.GenerateFile(filepath.Join(svg.DefaultDirectoryForGeneratedImages, svg.Name+".svg"))
 		if err != nil {
 			log.Println("SVG generation request failed", err.Error())
 		}
 	}
 
+	return
 }
 
 func closestMidpoints(r1, r2 *Rect) *Line {
