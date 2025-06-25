@@ -2,8 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"strconv"
+	"time"
 
 	// insertion point for models import
 	test3_models "github.com/fullstack-lang/gong/test/test3/go/models"
@@ -25,10 +27,12 @@ var (
 	port = flag.Int("port", 8080, "port server")
 )
 
+const nbInstances = 1000
+
 func main() {
 
 	log.SetPrefix("test3: ")
-	log.SetFlags(0)
+	log.SetFlags(log.Lmicroseconds)
 
 	// parse program arguments
 	flag.Parse()
@@ -37,14 +41,29 @@ func main() {
 	r := test3_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
+	log.Println("Before new Stack")
+	start := time.Now()
 	stack := test3_stack.NewStack(r, "test3", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	duration := time.Since(start).Milliseconds()
+	log.Printf("%d, per int %f", duration, float64(duration)/nbInstances)
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
+
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	log.Println("After new Stack")
 
 	stager := test3_models.NewStager(r, stack.Stage, splitStage)
+
+	as := *test3_models.GetGongstructInstancesSet[test3_models.A](stack.Stage)
+
+	if *unmarshallFromCode == "data/stage-large.go" && len(as) == 0 {
+		for i := range nbInstances {
+			(&test3_models.A{Name: fmt.Sprintf("%.5d", i)}).Stage(stack.Stage)
+		}
+		stack.Stage.Commit()
+	}
 
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
