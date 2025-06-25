@@ -4,6 +4,7 @@ import (
 
 	// For escaping text and attribute values
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -24,7 +25,7 @@ func updateMaxx(maxX_, maxY_ float64, maxX, maxY *float64) {
 const extraMargin = 10
 
 // GenerateFile generates an SVG file that represents the content of the SVG object.
-func (svg *SVG) GenerateFile(pathToFile string) (err error) {
+func (svg *SVG) GenerateFile(pathToFile string) (err error, maxX, maxY float64) {
 	var sb strings.Builder
 
 	maxX_string_to_be_replaced := "__gong__maxX_string_to_be_replaced"
@@ -37,8 +38,6 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 			maxX_string_to_be_replaced,
 			maxY_string_to_be_replaced))
 	sb.WriteString("<style>text { font-family: Roboto, Arial, sans-serif !important; }</style>")
-
-	maxX, maxY := 0.0, 0.0
 
 	for _, layer := range svg.Layers {
 		// Rects
@@ -284,7 +283,13 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error) {
 	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+extraMargin))
 	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+extraMargin))
 
-	return os.WriteFile(pathToFile, []byte(result), 0644)
+	err = os.WriteFile(pathToFile, []byte(result), 0644)
+	if err != nil {
+		log.Fatalln("Probleme lors de l'écriture du fichier SVG", err.Error())
+		return err, 0, 0
+	}
+
+	return
 }
 
 type RectContext struct {
