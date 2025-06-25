@@ -477,7 +477,7 @@ export class FormSpecificComponent {
               })
 
               this.dialogRef.afterClosed().subscribe(result => {
-                console.log('The dialog was closed');
+                console.log('The sort dialog was closed');
                 // 'result' will contain any data passed when closing the dialog
                 // For example, if you close the dialog like this: dialogRef.close('I am a result');
                 // then 'result' will be 'I am a result'
@@ -487,7 +487,7 @@ export class FormSpecificComponent {
                   if (this.currentFormEditAssocButton) {
                     // this.currentFormEditAssocButton.AssociationStorage = dialogRef.data
                     this.currentFormEditAssocButton.HasChanged = true
-                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
+                    console.log('Result after sorting:', this.currentFormEditAssocButton.AssociationStorage)
                   }
                 }
               })
