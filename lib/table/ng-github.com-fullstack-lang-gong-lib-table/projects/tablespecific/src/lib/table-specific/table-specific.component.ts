@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, Optional, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, Inject, Input, OnInit, OnDestroy, Optional, ViewChild } from '@angular/core'
 import { Subscription, debounceTime, distinctUntilChanged, forkJoin } from 'rxjs'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
@@ -50,7 +50,7 @@ import { ConfirmationDialogComponent } from '../dialog/dialog.component'
   templateUrl: './table-specific.component.html',
   styleUrl: './table-specific.component.css'
 })
-export class TableSpecificComponent implements OnInit, AfterViewInit {
+export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy {
 
   displayedColumns: string[] = []
   allDisplayedColumns: string[] = [] // in case there is a checkbox
@@ -88,6 +88,10 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
   currTime: number = 0
   dateOfLastTimerEmission: Date = new Date()
 
+  // Subscription management
+  private subscriptions: Subscription = new Subscription()
+  private webSocketSubscription?: Subscription
+  private filterSubscription?: Subscription
 
   public gongtableFrontRepo?: table.FrontRepo
 
@@ -131,7 +135,8 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
 
     this.refresh()
 
-    this.filterControl.valueChanges
+    // Subscribe to filter control changes and add to subscriptions
+    this.filterSubscription = this.filterControl.valueChanges
       .pipe(
         debounceTime(200),
         distinctUntilChanged()
@@ -139,10 +144,35 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
       .subscribe(value => {
         this.dataSource.filter = value ? value.trim().toLowerCase() : ''
       })
+
+    // Add filter subscription to the main subscriptions container
+    if (this.filterSubscription) {
+      this.subscriptions.add(this.filterSubscription)
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions to prevent memory leaks
+    this.subscriptions.unsubscribe()
+    
+    // Explicitly unsubscribe from the WebSocket connection if it exists
+    if (this.webSocketSubscription) {
+      this.webSocketSubscription.unsubscribe()
+    }
+
+    // Unsubscribe from the commit number subscription
+    if (this.commutNbFromBackSubscription) {
+      this.commutNbFromBackSubscription.unsubscribe()
+    }
   }
 
   refresh(): void {
-    this.gongtableFrontRepoService.connectToWebSocket(this.Name).subscribe(
+    // Unsubscribe from previous WebSocket connection if it exists
+    if (this.webSocketSubscription) {
+      this.webSocketSubscription.unsubscribe()
+    }
+
+    this.webSocketSubscription = this.gongtableFrontRepoService.connectToWebSocket(this.Name).subscribe(
       gongtablesFrontRepo => {
         this.gongtableFrontRepo = gongtablesFrontRepo
         this.selectedTable = undefined
@@ -303,6 +333,11 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
 
       }
     )
+
+    // Add the WebSocket subscription to the main subscriptions container
+    if (this.webSocketSubscription) {
+      this.subscriptions.add(this.webSocketSubscription)
+    }
   }
 
   ngAfterViewInit() {
@@ -362,7 +397,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
       this.dialogRef.close(this.selection.selected)
     }
     return
-
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -420,11 +454,14 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
     console.log("Material Table: onClick: Stack: `" + this.Name + "`table:`" + this.TableName + "`row:" + (row.Name || 'Unnamed Row'))
 
     const originalCells = row.Cells
-    this.rowService.updateFront(row, this.Name).subscribe(
+    const updateSubscription = this.rowService.updateFront(row, this.Name).subscribe(
       () => {
         console.log("Row updated on click:", row.Name || 'Unnamed Row')
       }
     )
+    
+    // Add the subscription to be cleaned up
+    this.subscriptions.add(updateSubscription)
   }
 
   getDynamicStyles(columnIndex: number): { [key: string]: any } {
@@ -451,23 +488,31 @@ export class TableSpecificComponent implements OnInit, AfterViewInit {
         data: { message: cellIcon.ConfirmationMessage }
       });
 
-      dialogRef.afterClosed().subscribe(result => {
+      const dialogSubscription = dialogRef.afterClosed().subscribe(result => {
         if (!result) {
           return
         } else {
-          this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+          const updateSubscription = this.celliconService.updateFront(cellIcon, this.Name).subscribe(
             () => {
               console.log("Cell icon updated after confirmation:", cellIcon.Name || 'Unnamed Icon')
             }
           )
+          // Add the subscription to be cleaned up
+          this.subscriptions.add(updateSubscription)
         }
       });
+      
+      // Add the dialog subscription to be cleaned up
+      this.subscriptions.add(dialogSubscription)
     } else {
-      this.celliconService.updateFront(cellIcon, this.Name).subscribe(
+      const updateSubscription = this.celliconService.updateFront(cellIcon, this.Name).subscribe(
         () => {
           console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
         }
       )
+      
+      // Add the subscription to be cleaned up
+      this.subscriptions.add(updateSubscription)
     }
   }
 }
