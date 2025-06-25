@@ -2080,6 +2080,8 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formsortassocbutton_.HasToolTip), formDiv)
 		case "ToolTipText":
 			FormDivBasicFieldToField(&(formsortassocbutton_.ToolTipText), formDiv)
+		case "FormEditAssocButton":
+			FormDivSelectFieldToField(&(formsortassocbutton_.FormEditAssocButton), formsortassocbuttonFormCallback.probe.stageOfInterest, formDiv)
 		}
 	}
 

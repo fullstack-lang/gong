@@ -5,7 +5,7 @@ import * as table from '../../../../table/src/public-api'
 
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 
 
@@ -26,7 +26,7 @@ import { TableDialogData } from '../table-dialog-data';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { encodeIntArrayToString_json } from '../association-storage';
+import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../association-storage';
 
 @Component({
   selector: 'lib-form-specific',
@@ -71,8 +71,9 @@ export class FormSpecificComponent {
   // generated form by getting info from the back
   angularFormGroup: FormGroup | undefined
 
-  currentFormEditAssocButton : table.FormEditAssocButton | undefined = undefined
+  currentFormEditAssocButton: table.FormEditAssocButton | undefined = undefined
 
+  dialogRef: MatDialogRef<TableSpecificComponent, any> | undefined = undefined
 
   constructor(
     public dialog: MatDialog,
@@ -342,7 +343,7 @@ export class FormSpecificComponent {
       }
       if (formDiv.FormEditAssocButton && formDiv.FormEditAssocButton.HasChanged) {
         formDiv.FormEditAssocButton.IsForSavePurpose = true
-         promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
+        promises.push(this.formEditAssocButtonService.updateFront(formDiv.FormEditAssocButton, this.Name))
       }
     }
 
@@ -351,7 +352,7 @@ export class FormSpecificComponent {
       () => {
         this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
-            console.log("Form refreshed",promises.length)
+            console.log("Form refreshed", promises.length)
             // a refresh is necessary to redeem all associations
             // this.refresh()
           }
@@ -362,7 +363,7 @@ export class FormSpecificComponent {
     if (promises.length == 0) {
       this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
         () => {
-            console.log("Form refreshed without updates")
+          console.log("Form refreshed without updates")
 
           // a refresh is necessary to redeem all associations
           // this.refresh()
@@ -403,7 +404,7 @@ export class FormSpecificComponent {
               console.log("assoc button updated")
 
               // when the association button is pressed
-              let dialogRef = this.dialog.open(TableSpecificComponent, {
+              this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
                   TableName: table.TableExtraNameEnum.TableSelectExtraName,
@@ -411,28 +412,44 @@ export class FormSpecificComponent {
                 },
               });
 
-              dialogRef.afterClosed().subscribe(result => {
+              this.dialogRef.afterClosed().subscribe(result => {
                 console.log('The dialog was closed');
-                // 'result' will contain any data passed when closing the dialog
-                // For example, if you close the dialog like this: dialogRef.close('I am a result');
-                // then 'result' will be 'I am a result'
+
                 if (result) {
-
-
-                  let selectedIDs = new Array<number>()
+                  // Extract selected IDs from result
+                  let selectedIDs = new Array<number>();
                   for (let row of result) {
-                    // fetch the first cell CellInt Value
-                    selectedIDs.push(row.Cells[0].CellInt.Value)
+                    selectedIDs.push(row.Cells[0].CellInt.Value);
                   }
 
                   if (this.currentFormEditAssocButton) {
-                    this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(selectedIDs)
-                    this.currentFormEditAssocButton.HasChanged = true
-                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage)
-                  }                 
+                    // Get current association storage as array
+                    let currentAssociationIDs = decodeStringToIntArray_json(this.currentFormEditAssocButton.AssociationStorage);
+
+                    // Create new ordered array
+                    let newOrderedIDs = new Array<number>();
+
+                    // First, preserve the original order for existing items that are still selected
+                    for (let existingID of currentAssociationIDs) {
+                      if (selectedIDs.includes(existingID)) {
+                        newOrderedIDs.push(existingID);
+                      }
+                    }
+
+                    // Then, append any new items that weren't in the original association storage
+                    for (let selectedID of selectedIDs) {
+                      if (!currentAssociationIDs.includes(selectedID)) {
+                        newOrderedIDs.push(selectedID);
+                      }
+                    }
+
+                    // Update the association storage with the new ordered array
+                    this.currentFormEditAssocButton.AssociationStorage = encodeIntArrayToString_json(newOrderedIDs);
+                    this.currentFormEditAssocButton.HasChanged = true;
+                    console.log('Result:', this.currentFormEditAssocButton.AssociationStorage);
+                  }
                 }
               });
-
             }
           )
         }
@@ -441,7 +458,6 @@ export class FormSpecificComponent {
   }
 
   openTableSort(fieldName: string) {
-
     console.log("openTableSort: ", fieldName)
 
     if (this.angularFormGroup == undefined) {
@@ -460,17 +476,34 @@ export class FormSpecificComponent {
       if (formDiv.FormSortAssocButton) {
         if (formDiv.FormSortAssocButton.Name == fieldName) {
 
+          this.currentFormEditAssocButton = formDiv.FormSortAssocButton.FormEditAssocButton
+
           this.formSortAssocButtonService.updateFront(formDiv.FormSortAssocButton, this.Name).subscribe(
             () => {
               console.log("sort button updated")
 
               // when the association button is pressed
-              this.dialog.open(TableSpecificComponent, {
+              this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociationSorting,
-                  TableName: table.TableExtraNameEnum.TableSortExtraName
+                  TableName: table.TableExtraNameEnum.TableSortExtraName,
+                  AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
                 },
-              });
+              })
+
+              this.dialogRef.afterClosed().subscribe(result => {
+                console.log('The sort dialog was closed');
+
+                // Get the updated AssociationStorage from the dialog data
+                const updatedAssociationStorage = this.dialogRef?.componentInstance?.tableDialogData?.AssociationStorage;
+
+                if (updatedAssociationStorage && this.currentFormEditAssocButton) {
+                  // Update the FormEditAssocButton with the new association storage
+                  this.currentFormEditAssocButton.AssociationStorage = updatedAssociationStorage;
+                  this.currentFormEditAssocButton.HasChanged = true;
+                  console.log('Updated AssociationStorage after sorting:', this.currentFormEditAssocButton.AssociationStorage);
+                }
+              })
             }
           )
         }
