@@ -599,6 +599,17 @@
                 "-marshallOnCommit=data/stage.go"
             ]
         },
+                {
+            "name": "go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
+            "args": [
+                "-unmarshallFromCode=data/stage-large.go",
+                "-marshallOnCommit=data/stage-large.go"
+            ]
+        },
         {
             "name": "go test BclassOrder",
             "type": "go",
