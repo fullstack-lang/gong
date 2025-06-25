@@ -55,7 +55,7 @@ func main() {
 	NewStager(r, stack.Stage)
 
 	for svg := range *svg_models.GetGongstructInstancesSet[svg_models.SVG](stack.Stage) {
-		err := svg.GenerateFile(filepath.Join("../../diagrams/images", svg.Name+".svg"))
+		err, _, _ := svg.GenerateFile(filepath.Join("../../diagrams/images", svg.Name+".svg"))
 		if err != nil {
 			log.Fatalln("Unable to generate file", err.Error())
 		}
