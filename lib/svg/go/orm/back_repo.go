@@ -616,9 +616,9 @@ func (backRepoStruct *BackRepoStruct) broadcastNbCommitToBack() {
 	copy(subscribers, backRepoStruct.subscribers)
 	backRepoStruct.subscribersRwMutex.RUnlock()
 
-	if len(subscribers) == 0 {
-		log.Println(backRepoStruct.stage.GetType(), backRepoStruct.stage.GetName(), "no subsribers to broadcast to")
-	}
+	// if len(subscribers) == 0 {
+	// 	log.Println(backRepoStruct.stage.GetType(), backRepoStruct.stage.GetName(), "no subsribers to broadcast to")
+	// }
 
 
 	for _, ch := range subscribers {
