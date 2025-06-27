@@ -106,7 +106,7 @@ body {
     padding: 30px 40px;
     max-width: 900px;
     /* Limit content width for readability */
-    margin-left: auto;
+    /* margin-left: auto; */
     /* Center content area if space allows */
     margin-right: auto;
     box-sizing: border-box;
