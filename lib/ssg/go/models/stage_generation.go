@@ -88,7 +88,7 @@ func (stage *Stage) Generation() {
 		// Use chapter.Name for the subdirectory name. Consider sanitizing the name
 		// if it might contain characters invalid for directory names.
 		// For simplicity, assuming chapter.Name is a valid directory name here.
-		chapterDirName := chapter.Name // Might need sanitization in a real application
+		chapterDirName := SanitizeFileName(chapter.Name, "_") // <--- MODIFIED: Sanitize the chapter name
 		chapterDirPath := filepath.Join(contentPath, chapterDirName)
 
 		err := os.MkdirAll(chapterDirPath, 0755) // Use 0755 for standard directory permissions
@@ -122,6 +122,7 @@ weight: %d
 		// log.Printf("File created successfully: %s", chapterIndexFilePath)
 
 		for idx, page := range chapter.Pages {
+			sanitizedPageName := SanitizeFileName(page.GetName(), "_") // <--- ADDED: Sanitize the page name
 			pageIndexFilePath := filepath.Join(chapterDirPath, page.GetName()+".md")
 
 			pageFileContent := fmt.Sprintf(`---
@@ -129,7 +130,7 @@ title: "%s"
 weight: %d
 ---
 %s`,
-				page.Name,
+				sanitizedPageName,
 				idx,                 // Convert float64 weight to int
 				page.MardownContent) // Use Description as body content based on example
 
