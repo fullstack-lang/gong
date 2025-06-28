@@ -10,7 +10,7 @@ func (proxy *ButtonToggleShowNbInstancesProxy) ButtonUpdated(
 	treeStage *tree.Stage,
 	staged, front *tree.Button) {
 
-	proxy.stager.showNbInstances = !proxy.stager.showNbInstances
+	proxy.stager.hideNbInstances = !proxy.stager.hideNbInstances
 
 	proxy.stager.UpdateAndCommitSVGStage()
 	proxy.stager.UpdateAndCommitTreeStage()

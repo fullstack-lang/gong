@@ -38,7 +38,7 @@ type Stager struct {
 	// to inform of the number of instance by gongstruct names
 	// this map is managed by callee stage struct
 	map_GongStructName_InstancesNb map[string]int
-	showNbInstances                bool
+	hideNbInstances                bool
 }
 
 func NewStager(
