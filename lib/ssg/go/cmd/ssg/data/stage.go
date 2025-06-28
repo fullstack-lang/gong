@@ -21,15 +21,16 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-27 06:46:20.210247 CEST"
-	const __write__utc_time__ = "2025-06-27 04:46:20.210247 UTC"
+	const __write__local_time = "2025-06-28 03:30:47.663526 CEST"
+	const __write__utc_time__ = "2025-06-28 01:30:47.663526 UTC"
 
-	const __commitId__ = "0000000003"
+	const __commitId__ = "0000000014"
 
 	// Declaration of instances to stage
 
 	__Chapter__000000_Getting_Started := (&models.Chapter{}).Stage(stage)
 	__Chapter__000001_Advanced_Topics := (&models.Chapter{}).Stage(stage)
+	__Chapter__000002_Problem_D_dsq_ := (&models.Chapter{}).Stage(stage)
 
 	__Content__000000_My_Awesome_Go_Book := (&models.Content{}).Stage(stage)
 
@@ -45,6 +46,9 @@ This demonstrates how new lines are generated`
 
 	__Chapter__000001_Advanced_Topics.Name = `Advanced Topics`
 	__Chapter__000001_Advanced_Topics.MardownContent = `Moving onto more advanced concepts in the second chapter.`
+
+	__Chapter__000002_Problem_D_dsq_.Name = `Problem %%%%D```dsq*@@&é°`
+	__Chapter__000002_Problem_D_dsq_.MardownContent = `This is the third chapter`
 
 	__Content__000000_My_Awesome_Go_Book.Name = `My Awesome Go Book`
 	__Content__000000_My_Awesome_Go_Book.MardownContent = `The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory in Chile. Its main task is an astronomical survey of the entire available southern sky every few nights, creating a time-lapse record over ten years, the Legacy Survey of Space and Time (also abbreviated LSST).[2][3][4] The observatory is located on the El Peñón peak of Cerro Pachón, a 2,682-meter-high (8,799 ft) mountain in Coquimbo Region, in northern Chile, alongside the existing Gemini South and Southern Astrophysical Research Telescopes.[5] The Rubin Observatory base facility is located about 100 kilometres (62 miles) away from the observatory by road, in the city of La Serena. The observatory is named for Vera Rubin, an American astronomer who pioneered discoveries about galactic rotation rates.
@@ -93,6 +97,7 @@ Legend of the table`
 	// setup of Content instances pointers
 	__Content__000000_My_Awesome_Go_Book.Chapters = append(__Content__000000_My_Awesome_Go_Book.Chapters, __Chapter__000000_Getting_Started)
 	__Content__000000_My_Awesome_Go_Book.Chapters = append(__Content__000000_My_Awesome_Go_Book.Chapters, __Chapter__000001_Advanced_Topics)
+	__Content__000000_My_Awesome_Go_Book.Chapters = append(__Content__000000_My_Awesome_Go_Book.Chapters, __Chapter__000002_Problem_D_dsq_)
 	// setup of Page instances pointers
 }
 
