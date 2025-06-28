@@ -154,7 +154,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnDestroy(): void {
     // Unsubscribe from all subscriptions to prevent memory leaks
     this.subscriptions.unsubscribe()
-    
+
     // Explicitly unsubscribe from the WebSocket connection if it exists
     if (this.webSocketSubscription) {
       this.webSocketSubscription.unsubscribe()
@@ -281,10 +281,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         }
 
-        if (this.selectedTable.HasPaginator && this.paginator) {
-          this.dataSource.paginator = this.paginator
-        }
-
         // for sorting, we reorder the items according to the order in the association storage
         // and we remove the items that are not in the association storage
         if (this.selectedTable.CanDragDropRows && this.tableDialogData.AssociationStorage) {
@@ -292,7 +288,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
 
           // --- DEBUGGING START ---
           // Step 1: Check the IDs you expect to find.
-          console.log("Association IDs to order by:", sliceOfIDs);
+          console.log("Association IDs to order by:", sliceOfIDs)
           // --- DEBUGGING END ---
 
           // Create a Map for quick lookup of rows by their ID.
@@ -313,7 +309,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           // --- DEBUGGING START ---
           // Step 2: Check the map that was created. Does it contain keys 4 and 1?
           // If not, the original `this.selectedTable.Rows` does not contain rows with these IDs.
-          console.log("Map of available rows (ID -> Row):", rowMapByID);
+          console.log("Map of available rows (ID -> Row):", rowMapByID)
           // --- DEBUGGING END ---
 
           // Build the new `Rows` array by iterating through the ordered IDs.
@@ -323,13 +319,23 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
 
           // --- DEBUGGING START ---
           // Step 3: Check the final result.
-          console.log("Final ordered and filtered rows:", orderedRows);
+          console.log("Final ordered and filtered rows:", orderedRows)
           // --- DEBUGGING END ---
 
           this.selectedTable.Rows = orderedRows
         }
 
         this.dataSource = new MatTableDataSource(this.selectedTable.Rows || [])
+
+        // IMPORTANT: Re-apply sort and paginator after creating new data source
+        if (this.selectedTable.HasColumnSorting && this.sort) {
+          this.dataSource.sort = this.sort;
+          this.setupSortingDataAccessor()
+        }
+
+        if (this.selectedTable.HasPaginator && this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
 
       }
     )
@@ -341,13 +347,32 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngAfterViewInit() {
-    // Ensure sort and paginator are assigned if they exist
-    if (this.sort) {
-      this.dataSource.sort = this.sort
-    }
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator
-    }
+    // Wait for next tick to ensure all view children are available
+    setTimeout(() => {
+      if (this.sort && this.selectedTable?.HasColumnSorting) {
+        this.dataSource.sort = this.sort;
+
+        // Set up the sorting data accessor
+        this.dataSource.sortingDataAccessor = (row: table.Row, sortHeaderId: string): string | number => {
+          if (!row.Cells) return "";
+          const index = this.mapHeaderIdIndex.get(sortHeaderId)
+          if (index === undefined) return "";
+
+          const cell: table.Cell = row.Cells[index];
+          if (cell.CellInt) return cell.CellInt.Value;
+          if (cell.CellFloat64) return cell.CellFloat64.Value;
+          if (cell.CellString) return cell.CellString.Value;
+          if (cell.CellIcon) return cell.CellIcon.Icon || "";
+          if (cell.CellBool) return cell.CellBool.Value ? 1 : 0; // Use numbers for boolean sorting
+          return "";
+        };
+      }
+
+      if (this.paginator && this.selectedTable?.HasPaginator) {
+        this.dataSource.paginator = this.paginator;
+      }
+    })
+
   }
 
   applyFilter(event: Event) {
@@ -435,6 +460,11 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       // to the component that opened it.
       this.tableDialogData.AssociationStorage = newAssociationStorage
 
+      if (this.sort) {
+        this.sort.active = '';
+        this.sort.direction = '';
+      }
+
       console.log("Updated association order:", this.tableDialogData.AssociationStorage)
     }
     // [END] Completed Code
@@ -459,7 +489,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
         console.log("Row updated on click:", row.Name || 'Unnamed Row')
       }
     )
-    
+
     // Add the subscription to be cleaned up
     this.subscriptions.add(updateSubscription)
   }
@@ -486,7 +516,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '250px',
         data: { message: cellIcon.ConfirmationMessage }
-      });
+      })
 
       const dialogSubscription = dialogRef.afterClosed().subscribe(result => {
         if (!result) {
@@ -500,8 +530,8 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           // Add the subscription to be cleaned up
           this.subscriptions.add(updateSubscription)
         }
-      });
-      
+      })
+
       // Add the dialog subscription to be cleaned up
       this.subscriptions.add(dialogSubscription)
     } else {
@@ -510,9 +540,48 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           console.log("Cell icon updated:", cellIcon.Name || 'Unnamed Icon')
         }
       )
-      
+
       // Add the subscription to be cleaned up
       this.subscriptions.add(updateSubscription)
+    }
+  }
+
+  private setupSortingDataAccessor(): void {
+    this.dataSource.sortingDataAccessor = (row: table.Row, sortHeaderId: string): string | number => {
+      if (!row.Cells) return "";
+
+      const index = this.mapHeaderIdIndex.get(sortHeaderId)
+      if (index === undefined) {
+        console.warn(`Column index not found for: ${sortHeaderId}`)
+        return "";
+      }
+
+      const cell: table.Cell = row.Cells[index];
+      if (!cell) return "";
+
+      // Handle different cell types with proper type conversion
+      if (cell.CellInt) return Number(cell.CellInt.Value) || 0;
+      if (cell.CellFloat64) return Number(cell.CellFloat64.Value) || 0;
+      if (cell.CellString) return String(cell.CellString.Value || "").toLowerCase()
+      if (cell.CellIcon) return String(cell.CellIcon.Icon || "").toLowerCase()
+      if (cell.CellBool) return cell.CellBool.Value ? 1 : 0;
+
+      return "";
+    };
+  }
+
+  debugSortingState(): void {
+    console.log('=== Sorting Debug Info ===')
+    console.log('selectedTable.HasColumnSorting:', this.selectedTable?.HasColumnSorting)
+    console.log('sort ViewChild:', this.sort)
+    console.log('dataSource.sort:', this.dataSource.sort)
+    console.log('displayedColumns:', this.displayedColumns)
+    console.log('mapHeaderIdIndex:', this.mapHeaderIdIndex)
+    console.log('dataSource.data length:', this.dataSource.data.length)
+
+    if (this.sort) {
+      console.log('sort.active:', this.sort.active)
+      console.log('sort.direction:', this.sort.direction)
     }
   }
 }
