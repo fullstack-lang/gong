@@ -38,22 +38,6 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	// 2/ put a "generate sss" button
 	if !stager.embeddedDiagrams {
 
-		button := &tree.Button{
-			Name: "Class Diagramm Add Button",
-			Impl: &ButtonToggleShowNbInstancesProxy{
-				stager: stager,
-			},
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-		}
-		if stager.showNbInstances {
-			button.ToolTipText = "Hide nb of instances"
-			button.Icon = string(buttons.BUTTON_visibility_off)
-		} else {
-			button.ToolTipText = "Show nb of instances"
-			button.Icon = string(buttons.BUTTON_visibility)
-		}
-
 		root.Buttons = append(root.Buttons,
 			&tree.Button{
 				Name: "Class Diagramm Add Button",
@@ -75,9 +59,26 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				ToolTipText:     "Generates the documentation static web site",
 				ToolTipPosition: tree.Above,
 			},
-			button,
 		)
 	}
+
+	button := &tree.Button{
+		Name: "Show/Unshow number of instances",
+		Impl: &ButtonToggleShowNbInstancesProxy{
+			stager: stager,
+		},
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
+	}
+	if stager.hideNbInstances {
+		button.ToolTipText = "Show nb of instances"
+		button.Icon = string(buttons.BUTTON_visibility)
+	} else {
+		button.ToolTipText = "Hide nb of instances"
+		button.Icon = string(buttons.BUTTON_visibility_off)
+	}
+
+	root.Buttons = append(root.Buttons, button)
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
