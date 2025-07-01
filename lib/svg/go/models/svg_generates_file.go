@@ -280,8 +280,10 @@ func (svg *SVG) GenerateFile(pathToFile string) (err error, maxX, maxY float64) 
 
 	result := sb.String()
 
-	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX+extraMargin))
-	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY+extraMargin))
+	maxX += extraMargin
+	maxY += extraMargin
+	result = strings.ReplaceAll(result, maxX_string_to_be_replaced, fmt.Sprintf("%f", maxX))
+	result = strings.ReplaceAll(result, maxY_string_to_be_replaced, fmt.Sprintf("%f", maxY))
 
 	err = os.WriteFile(pathToFile, []byte(result), 0644)
 	if err != nil {
