@@ -71,6 +71,8 @@ func (rect *Rect) WriteSVG(sb *strings.Builder) (maxX, maxY float64) {
 
 	maxX = rect.X + rect.Width
 	maxY = rect.Y + rect.Height
+	maxX += rect.Presentation.StrokeWidth / 2
+	maxY += rect.Presentation.StrokeWidth / 2
 
 	rect.Presentation.WriteSVG(sb)
 	sb.WriteString(" />\n")
