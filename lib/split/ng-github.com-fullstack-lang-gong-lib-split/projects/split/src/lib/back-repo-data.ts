@@ -21,6 +21,8 @@ import { LogoOnTheLeftAPI } from './logoontheleft-api'
 
 import { LogoOnTheRightAPI } from './logoontheright-api'
 
+import { MarkdownAPI } from './markdown-api'
+
 import { SliderAPI } from './slider-api'
 
 import { SplitAPI } from './split-api'
@@ -61,6 +63,8 @@ export class BackRepoData {
 	LogoOnTheLeftAPIs = new Array<LogoOnTheLeftAPI>()
 
 	LogoOnTheRightAPIs = new Array<LogoOnTheRightAPI>()
+
+	MarkdownAPIs = new Array<MarkdownAPI>()
 
 	SliderAPIs = new Array<SliderAPI>()
 
@@ -105,6 +109,8 @@ export class BackRepoData {
 		this.LogoOnTheLeftAPIs = data?.LogoOnTheLeftAPIs || [];
 
 		this.LogoOnTheRightAPIs = data?.LogoOnTheRightAPIs || [];
+
+		this.MarkdownAPIs = data?.MarkdownAPIs || [];
 
 		this.SliderAPIs = data?.SliderAPIs || [];
 

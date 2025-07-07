@@ -60,6 +60,10 @@ type DBLite struct {
 
 	nextIDLogoOnTheRightDB uint
 
+	markdownDBs map[uint]*MarkdownDB
+
+	nextIDMarkdownDB uint
+
 	sliderDBs map[uint]*SliderDB
 
 	nextIDSliderDB uint
@@ -121,6 +125,8 @@ func NewDBLite() *DBLite {
 		logoontheleftDBs: make(map[uint]*LogoOnTheLeftDB),
 
 		logoontherightDBs: make(map[uint]*LogoOnTheRightDB),
+
+		markdownDBs: make(map[uint]*MarkdownDB),
 
 		sliderDBs: make(map[uint]*SliderDB),
 
@@ -193,6 +199,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDLogoOnTheRightDB++
 		v.ID = db.nextIDLogoOnTheRightDB
 		db.logoontherightDBs[v.ID] = v
+	case *MarkdownDB:
+		db.nextIDMarkdownDB++
+		v.ID = db.nextIDMarkdownDB
+		db.markdownDBs[v.ID] = v
 	case *SliderDB:
 		db.nextIDSliderDB++
 		v.ID = db.nextIDSliderDB
@@ -277,6 +287,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.logoontheleftDBs, v.ID)
 	case *LogoOnTheRightDB:
 		delete(db.logoontherightDBs, v.ID)
+	case *MarkdownDB:
+		delete(db.markdownDBs, v.ID)
 	case *SliderDB:
 		delete(db.sliderDBs, v.ID)
 	case *SplitDB:
@@ -342,6 +354,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *LogoOnTheRightDB:
 		db.logoontherightDBs[v.ID] = v
+		return db, nil
+	case *MarkdownDB:
+		db.markdownDBs[v.ID] = v
 		return db, nil
 	case *SliderDB:
 		db.sliderDBs[v.ID] = v
@@ -445,6 +460,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db LogoOnTheRight github.com/fullstack-lang/gong/lib/split/go, record not found")
+		}
+	case *MarkdownDB:
+		if existing, ok := db.markdownDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db Markdown github.com/fullstack-lang/gong/lib/split/go, record not found")
 		}
 	case *SliderDB:
 		if existing, ok := db.sliderDBs[v.ID]; ok {
@@ -571,6 +592,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]LogoOnTheRightDB:
 		*ptr = make([]LogoOnTheRightDB, 0, len(db.logoontherightDBs))
 		for _, v := range db.logoontherightDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]MarkdownDB:
+		*ptr = make([]MarkdownDB, 0, len(db.markdownDBs))
+		for _, v := range db.markdownDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -760,6 +787,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		logoontherightDB, _ := instanceDB.(*LogoOnTheRightDB)
 		*logoontherightDB = *tmp
+		
+	case *MarkdownDB:
+		tmp, ok := db.markdownDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First Markdown Unkown entry %d", i))
+		}
+
+		markdownDB, _ := instanceDB.(*MarkdownDB)
+		*markdownDB = *tmp
 		
 	case *SliderDB:
 		tmp, ok := db.sliderDBs[uint(i)]
