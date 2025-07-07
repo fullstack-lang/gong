@@ -158,6 +158,20 @@
       ]
     },
     {
+      "label": "01 - gongc markdown",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/lib/markdown"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-skipGoModCommands",
+        "-skipNpmWorkspaces",
+        "go/models"
+      ]
+    },
+    {
       "label": "01 - gongc probe",
       "type": "shell",
       "options": {
@@ -497,6 +511,19 @@
       ]
     },
     {
+      "label": "03 - ng serve markdown",
+      "type": "shell",
+      "options": {
+        "cwd": "lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
+      },
+      "command": "ng",
+      "group": "build",
+      "args": [
+        "serve",
+        ""
+      ]
+    },
+    {
       "label": "03 - ng serve probe",
       "type": "shell",
       "options": {
@@ -721,6 +748,21 @@
       "type": "shell",
       "options": {
         "cwd": "./lib/load/go/cmd/load"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode=data/stage.go",
+        "-marshallOnCommit=data/stage"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "04 - go run markdown",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/markdown/go/cmd/markdown"
       },
       "command": "go",
       "args": [

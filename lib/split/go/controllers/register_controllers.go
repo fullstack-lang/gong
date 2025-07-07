@@ -126,6 +126,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/logoontherights/:id", GetController().UpdateLogoOnTheRight)
 		v1.DELETE("/v1/logoontherights/:id", GetController().DeleteLogoOnTheRight)
 
+		v1.GET("/v1/markdowns", GetController().GetMarkdowns)
+		v1.GET("/v1/markdowns/:id", GetController().GetMarkdown)
+		v1.POST("/v1/markdowns", GetController().PostMarkdown)
+		v1.PATCH("/v1/markdowns/:id", GetController().UpdateMarkdown)
+		v1.PUT("/v1/markdowns/:id", GetController().UpdateMarkdown)
+		v1.DELETE("/v1/markdowns/:id", GetController().DeleteMarkdown)
+
 		v1.GET("/v1/sliders", GetController().GetSliders)
 		v1.GET("/v1/sliders/:id", GetController().GetSlider)
 		v1.POST("/v1/sliders", GetController().PostSlider)
