@@ -80,6 +80,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "LogoOnTheRight" {
 		updateAndCommitTable[models.LogoOnTheRight](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Markdown" {
+		updateAndCommitTable[models.Markdown](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Slider" {
 		updateAndCommitTable[models.Slider](nodeImplGongstruct.probe)
 	}

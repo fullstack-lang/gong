@@ -24,6 +24,8 @@ type BackRepoData struct {
 
 	LogoOnTheRightAPIs []*LogoOnTheRightAPI
 
+	MarkdownAPIs []*MarkdownAPI
+
 	SliderAPIs []*SliderAPI
 
 	SplitAPIs []*SplitAPI
@@ -151,6 +153,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		logoontherightDB.CopyBasicFieldsToLogoOnTheRight_WOP(&logoontherightAPI.LogoOnTheRight_WOP)
 
 		backRepoData.LogoOnTheRightAPIs = append(backRepoData.LogoOnTheRightAPIs, &logoontherightAPI)
+	}
+
+	for _, markdownDB := range backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownDB {
+
+		var markdownAPI MarkdownAPI
+		markdownAPI.ID = markdownDB.ID
+		markdownAPI.MarkdownPointersEncoding = markdownDB.MarkdownPointersEncoding
+		markdownDB.CopyBasicFieldsToMarkdown_WOP(&markdownAPI.Markdown_WOP)
+
+		backRepoData.MarkdownAPIs = append(backRepoData.MarkdownAPIs, &markdownAPI)
 	}
 
 	for _, sliderDB := range backRepo.BackRepoSlider.Map_SliderDBID_SliderDB {
