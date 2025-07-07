@@ -8,6 +8,7 @@ import (
 	_ "github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
 	_ "github.com/fullstack-lang/gong/lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt"
 	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
+	_ "github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
 	_ "github.com/fullstack-lang/gong/lib/sim/ng-github.com-fullstack-lang-gong-lib-sim"
 	_ "github.com/fullstack-lang/gong/lib/slider/ng-github.com-fullstack-lang-gong-lib-slider"
 	_ "github.com/fullstack-lang/gong/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg"
@@ -56,18 +57,19 @@ type AsSplitArea struct {
 
 	AsSplit *AsSplit
 
-	Button *Button
-	Cursor *Cursor
-	Doc    *Doc
-	Form   *Form
-	Load   *Load
-	Slider *Slider
-	Split  *Split
-	Svg    *Svg
-	Table  *Table
-	Tone   *Tone
-	Tree   *Tree
-	Xlsx   *Xlsx
+	Button   *Button
+	Cursor   *Cursor
+	Doc      *Doc
+	Form     *Form
+	Load     *Load
+	Markdown *Markdown
+	Slider   *Slider
+	Split    *Split
+	Svg      *Svg
+	Table    *Table
+	Tone     *Tone
+	Tree     *Tree
+	Xlsx     *Xlsx
 
 	HasDiv   bool
 	DivStyle string // in case of div, the div style
@@ -96,6 +98,11 @@ type Form struct {
 }
 
 type Load struct {
+	Name      string // name of the stack
+	StackName string
+}
+
+type Markdown struct {
 	Name      string // name of the stack
 	StackName string
 }

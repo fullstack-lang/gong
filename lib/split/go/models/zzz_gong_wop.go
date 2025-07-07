@@ -179,6 +179,20 @@ func (from *LogoOnTheRight) CopyBasicFields(to *LogoOnTheRight) {
 	to.SVG = from.SVG
 }
 
+type Markdown_WOP struct {
+	// insertion point
+
+	Name string
+
+	StackName string
+}
+
+func (from *Markdown) CopyBasicFields(to *Markdown) {
+	// insertion point
+	to.Name = from.Name
+	to.StackName = from.StackName
+}
+
 type Slider_WOP struct {
 	// insertion point
 

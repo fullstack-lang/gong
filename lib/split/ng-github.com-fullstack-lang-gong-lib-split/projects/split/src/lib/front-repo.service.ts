@@ -45,6 +45,10 @@ import { LogoOnTheRightAPI } from './logoontheright-api'
 import { LogoOnTheRight, CopyLogoOnTheRightAPIToLogoOnTheRight } from './logoontheright'
 import { LogoOnTheRightService } from './logoontheright.service'
 
+import { MarkdownAPI } from './markdown-api'
+import { Markdown, CopyMarkdownAPIToMarkdown } from './markdown'
+import { MarkdownService } from './markdown.service'
+
 import { SliderAPI } from './slider-api'
 import { Slider, CopySliderAPIToSlider } from './slider'
 import { SliderService } from './slider.service'
@@ -118,6 +122,9 @@ export class FrontRepo { // insertion point sub template
 	array_LogoOnTheRights = new Array<LogoOnTheRight>() // array of front instances
 	map_ID_LogoOnTheRight = new Map<number, LogoOnTheRight>() // map of front instances
 
+	array_Markdowns = new Array<Markdown>() // array of front instances
+	map_ID_Markdown = new Map<number, Markdown>() // map of front instances
+
 	array_Sliders = new Array<Slider>() // array of front instances
 	map_ID_Slider = new Map<number, Slider>() // map of front instances
 
@@ -174,6 +181,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_LogoOnTheLefts as unknown as Array<Type>
 			case 'LogoOnTheRight':
 				return this.array_LogoOnTheRights as unknown as Array<Type>
+			case 'Markdown':
+				return this.array_Markdowns as unknown as Array<Type>
 			case 'Slider':
 				return this.array_Sliders as unknown as Array<Type>
 			case 'Split':
@@ -220,6 +229,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_LogoOnTheLeft as unknown as Map<number, Type>
 			case 'LogoOnTheRight':
 				return this.map_ID_LogoOnTheRight as unknown as Map<number, Type>
+			case 'Markdown':
+				return this.map_ID_Markdown as unknown as Map<number, Type>
 			case 'Slider':
 				return this.map_ID_Slider as unknown as Map<number, Type>
 			case 'Split':
@@ -318,6 +329,7 @@ export class FrontRepoService {
 		private loadService: LoadService,
 		private logoontheleftService: LogoOnTheLeftService,
 		private logoontherightService: LogoOnTheRightService,
+		private markdownService: MarkdownService,
 		private sliderService: SliderService,
 		private splitService: SplitService,
 		private svgService: SvgService,
@@ -369,6 +381,7 @@ export class FrontRepoService {
 		Observable<LoadAPI[]>,
 		Observable<LogoOnTheLeftAPI[]>,
 		Observable<LogoOnTheRightAPI[]>,
+		Observable<MarkdownAPI[]>,
 		Observable<SliderAPI[]>,
 		Observable<SplitAPI[]>,
 		Observable<SvgAPI[]>,
@@ -403,6 +416,7 @@ export class FrontRepoService {
 			this.loadService.getLoads(this.Name, this.frontRepo),
 			this.logoontheleftService.getLogoOnTheLefts(this.Name, this.frontRepo),
 			this.logoontherightService.getLogoOnTheRights(this.Name, this.frontRepo),
+			this.markdownService.getMarkdowns(this.Name, this.frontRepo),
 			this.sliderService.getSliders(this.Name, this.frontRepo),
 			this.splitService.getSplits(this.Name, this.frontRepo),
 			this.svgService.getSvgs(this.Name, this.frontRepo),
@@ -432,6 +446,7 @@ export class FrontRepoService {
 						loads_,
 						logoonthelefts_,
 						logoontherights_,
+						markdowns_,
 						sliders_,
 						splits_,
 						svgs_,
@@ -465,6 +480,8 @@ export class FrontRepoService {
 						logoonthelefts = logoonthelefts_ as LogoOnTheLeftAPI[]
 						var logoontherights: LogoOnTheRightAPI[]
 						logoontherights = logoontherights_ as LogoOnTheRightAPI[]
+						var markdowns: MarkdownAPI[]
+						markdowns = markdowns_ as MarkdownAPI[]
 						var sliders: SliderAPI[]
 						sliders = sliders_ as SliderAPI[]
 						var splits: SplitAPI[]
@@ -604,6 +621,18 @@ export class FrontRepoService {
 								let logoontheright = new LogoOnTheRight
 								this.frontRepo.array_LogoOnTheRights.push(logoontheright)
 								this.frontRepo.map_ID_LogoOnTheRight.set(logoontherightAPI.ID, logoontheright)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_Markdowns = []
+						this.frontRepo.map_ID_Markdown.clear()
+
+						markdowns.forEach(
+							markdownAPI => {
+								let markdown = new Markdown
+								this.frontRepo.array_Markdowns.push(markdown)
+								this.frontRepo.map_ID_Markdown.set(markdownAPI.ID, markdown)
 							}
 						)
 
@@ -796,6 +825,14 @@ export class FrontRepoService {
 							logoontherightAPI => {
 								let logoontheright = this.frontRepo.map_ID_LogoOnTheRight.get(logoontherightAPI.ID)
 								CopyLogoOnTheRightAPIToLogoOnTheRight(logoontherightAPI, logoontheright!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						markdowns.forEach(
+							markdownAPI => {
+								let markdown = this.frontRepo.map_ID_Markdown.get(markdownAPI.ID)
+								CopyMarkdownAPIToMarkdown(markdownAPI, markdown!, this.frontRepo)
 							}
 						)
 
@@ -1039,6 +1076,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_Markdowns = []
+				frontRepo.map_ID_Markdown.clear()
+
+				backRepoData.MarkdownAPIs.forEach(
+					markdownAPI => {
+						let markdown = new Markdown
+						frontRepo.array_Markdowns.push(markdown)
+						frontRepo.map_ID_Markdown.set(markdownAPI.ID, markdown)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Sliders = []
 				frontRepo.map_ID_Slider.clear()
 
@@ -1233,6 +1282,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.MarkdownAPIs.forEach(
+					markdownAPI => {
+						let markdown = frontRepo.map_ID_Markdown.get(markdownAPI.ID)
+						CopyMarkdownAPIToMarkdown(markdownAPI, markdown!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.SliderAPIs.forEach(
 					sliderAPI => {
 						let slider = frontRepo.map_ID_Slider.get(sliderAPI.ID)
@@ -1362,30 +1419,33 @@ export function getLogoOnTheLeftUniqueID(id: number): number {
 export function getLogoOnTheRightUniqueID(id: number): number {
 	return 71 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getMarkdownUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 83 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 97 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 101 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 103 * id
 }
-export function getViewUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 107 * id
 }
-export function getXlsxUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 109 * id
+}
+export function getXlsxUniqueID(id: number): number {
+	return 113 * id
 }

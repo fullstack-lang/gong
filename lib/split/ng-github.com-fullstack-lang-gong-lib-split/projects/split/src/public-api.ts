@@ -53,6 +53,10 @@ export * from './lib/logoontheright-api'
 export * from './lib/logoontheright'
 export * from './lib/logoontheright.service'
 
+export * from './lib/markdown-api'
+export * from './lib/markdown'
+export * from './lib/markdown.service'
+
 export * from './lib/slider-api'
 export * from './lib/slider'
 export * from './lib/slider.service'

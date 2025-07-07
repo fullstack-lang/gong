@@ -72,6 +72,10 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	LoadID sql.NullInt64
 
+	// field Markdown is a pointer to another Struct (optional or 0..1)
+	// This field is generated into another field to enable AS ONE association
+	MarkdownID sql.NullInt64
+
 	// field Slider is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	SliderID sql.NullInt64
@@ -378,6 +382,18 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.LoadID.Int64 = 0
 			assplitareaDB.LoadID.Valid = true
+		}
+
+		// commit pointer value assplitarea.Markdown translates to updating the assplitarea.MarkdownID
+		assplitareaDB.MarkdownID.Valid = true // allow for a 0 value (nil association)
+		if assplitarea.Markdown != nil {
+			if MarkdownId, ok := backRepo.BackRepoMarkdown.Map_MarkdownPtr_MarkdownDBID[assplitarea.Markdown]; ok {
+				assplitareaDB.MarkdownID.Int64 = int64(MarkdownId)
+				assplitareaDB.MarkdownID.Valid = true
+			}
+		} else {
+			assplitareaDB.MarkdownID.Int64 = 0
+			assplitareaDB.MarkdownID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Slider translates to updating the assplitarea.SliderID
@@ -700,6 +716,27 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Load = nil
+		}
+	}
+	
+	// Markdown field	
+	{
+		id := assplitareaDB.MarkdownID.Int64
+		if id != 0 {
+			tmp, ok := backRepo.BackRepoMarkdown.Map_MarkdownDBID_MarkdownPtr[uint(id)]
+
+			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
+			if !ok {
+				log.Println("DecodePointers: assplitarea.Markdown, unknown pointer id", id)
+				assplitarea.Markdown = nil
+			} else {
+				// updates only if field has changed
+				if assplitarea.Markdown == nil || assplitarea.Markdown != tmp {
+					assplitarea.Markdown = tmp
+				}
+			}
+		} else {
+			assplitarea.Markdown = nil
 		}
 	}
 	
@@ -1172,6 +1209,12 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.LoadID.Int64 != 0 {
 			assplitareaDB.LoadID.Int64 = int64(BackRepoLoadid_atBckpTime_newID[uint(assplitareaDB.LoadID.Int64)])
 			assplitareaDB.LoadID.Valid = true
+		}
+
+		// reindexing Markdown field
+		if assplitareaDB.MarkdownID.Int64 != 0 {
+			assplitareaDB.MarkdownID.Int64 = int64(BackRepoMarkdownid_atBckpTime_newID[uint(assplitareaDB.MarkdownID.Int64)])
+			assplitareaDB.MarkdownID.Valid = true
 		}
 
 		// reindexing Slider field
