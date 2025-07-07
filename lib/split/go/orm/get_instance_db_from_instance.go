@@ -55,6 +55,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		logoontherightInstance := any(concreteInstance).(*models.LogoOnTheRight)
 		ret2 := backRepo.BackRepoLogoOnTheRight.GetLogoOnTheRightDBFromLogoOnTheRightPtr(logoontherightInstance)
 		ret = any(ret2).(*T2)
+	case *models.Markdown:
+		markdownInstance := any(concreteInstance).(*models.Markdown)
+		ret2 := backRepo.BackRepoMarkdown.GetMarkdownDBFromMarkdownPtr(markdownInstance)
+		ret = any(ret2).(*T2)
 	case *models.Slider:
 		sliderInstance := any(concreteInstance).(*models.Slider)
 		ret2 := backRepo.BackRepoSlider.GetSliderDBFromSliderPtr(sliderInstance)
@@ -151,6 +155,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.LogoOnTheRight:
 		tmp := GetInstanceDBFromInstance[models.LogoOnTheRight, LogoOnTheRightDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Markdown:
+		tmp := GetInstanceDBFromInstance[models.Markdown, MarkdownDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -259,6 +268,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.LogoOnTheRight:
 		tmp := GetInstanceDBFromInstance[models.LogoOnTheRight, LogoOnTheRightDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Markdown:
+		tmp := GetInstanceDBFromInstance[models.Markdown, MarkdownDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

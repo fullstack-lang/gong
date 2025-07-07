@@ -636,6 +636,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_Markdown_Identifiers := make(map[*Markdown]string)
+	_ = map_Markdown_Identifiers
+
+	markdownOrdered := []*Markdown{}
+	for markdown := range stage.Markdowns {
+		markdownOrdered = append(markdownOrdered, markdown)
+	}
+	sort.Slice(markdownOrdered[:], func(i, j int) bool {
+		markdowni := markdownOrdered[i]
+		markdownj := markdownOrdered[j]
+		markdowni_order, oki := stage.MarkdownMap_Staged_Order[markdowni]
+		markdownj_order, okj := stage.MarkdownMap_Staged_Order[markdownj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return markdowni_order < markdownj_order
+	})
+	if len(markdownOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, markdown := range markdownOrdered {
+
+		id = generatesIdentifier("Markdown", idx, markdown.Name)
+		map_Markdown_Identifiers[markdown] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Markdown")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", markdown.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(markdown.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackName")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(markdown.StackName))
+		initializerStatements += setValueField
+
+	}
+
 	map_Slider_Identifiers := make(map[*Slider]string)
 	_ = map_Slider_Identifiers
 
@@ -1158,6 +1205,14 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			pointersInitializesStatements += setPointerField
 		}
 
+		if assplitarea.Markdown != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Markdown")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Markdown_Identifiers[assplitarea.Markdown])
+			pointersInitializesStatements += setPointerField
+		}
+
 		if assplitarea.Slider != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -1316,6 +1371,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("LogoOnTheRight", idx, logoontheright.Name)
 		map_LogoOnTheRight_Identifiers[logoontheright] = id
+
+		// Initialisation of values
+	}
+
+	if len(markdownOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Markdown instances pointers"
+	}
+	for idx, markdown := range markdownOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Markdown", idx, markdown.Name)
+		map_Markdown_Identifiers[markdown] = id
 
 		// Initialisation of values
 	}
