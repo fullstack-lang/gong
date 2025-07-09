@@ -23,17 +23,19 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-21 12:16:48.311265 CEST"
-	const __write__utc_time__ = "2025-06-21 10:16:48.311265 UTC"
+	const __write__local_time = "2025-07-09 15:14:03.845075 CEST"
+	const __write__utc_time__ = "2025-07-09 13:14:03.845075 UTC"
 
-	const __commitId__ = "0000000086"
+	const __commitId__ = "0000000096"
 
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000001_Booleanfield_renamed_renamed := (&models.AttributeShape{}).Stage(stage)
 
-	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000000_1_First := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000001_2_Second_ := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000002_0_Zero := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z := (&models.DiagramPackage{}).Stage(stage)
 
@@ -66,17 +68,41 @@ func _(stage *models.Stage) {
 	__AttributeShape__000001_Booleanfield_renamed_renamed.Structname = `Astruct`
 	__AttributeShape__000001_Booleanfield_renamed_renamed.Fieldtypename = `bool`
 
-	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.Description = ``
-	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
-	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false]`
-	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
-	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false]`
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[true]`
+	__Classdiagram__000000_1_First.Name = `1. First`
+	__Classdiagram__000000_1_First.Description = ``
+	__Classdiagram__000000_1_First.IsIncludedInStaticWebSite = false
+	__Classdiagram__000000_1_First.IsInRenameMode = false
+	__Classdiagram__000000_1_First.IsExpanded = false
+	__Classdiagram__000000_1_First.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_1_First.NodeGongStructNodeExpansion = `[false]`
+	__Classdiagram__000000_1_First.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000000_1_First.NodeGongEnumNodeExpansion = `[false]`
+	__Classdiagram__000000_1_First.NodeGongNotesIsExpanded = true
+	__Classdiagram__000000_1_First.NodeGongNoteNodeExpansion = `[true]`
+
+	__Classdiagram__000001_2_Second_.Name = `2. Second.`
+	__Classdiagram__000001_2_Second_.Description = ``
+	__Classdiagram__000001_2_Second_.IsIncludedInStaticWebSite = false
+	__Classdiagram__000001_2_Second_.IsInRenameMode = false
+	__Classdiagram__000001_2_Second_.IsExpanded = false
+	__Classdiagram__000001_2_Second_.NodeGongStructsIsExpanded = false
+	__Classdiagram__000001_2_Second_.NodeGongStructNodeExpansion = ``
+	__Classdiagram__000001_2_Second_.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000001_2_Second_.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__000001_2_Second_.NodeGongNotesIsExpanded = false
+	__Classdiagram__000001_2_Second_.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__000002_0_Zero.Name = `0. Zero`
+	__Classdiagram__000002_0_Zero.Description = ``
+	__Classdiagram__000002_0_Zero.IsIncludedInStaticWebSite = false
+	__Classdiagram__000002_0_Zero.IsInRenameMode = false
+	__Classdiagram__000002_0_Zero.IsExpanded = false
+	__Classdiagram__000002_0_Zero.NodeGongStructsIsExpanded = false
+	__Classdiagram__000002_0_Zero.NodeGongStructNodeExpansion = ``
+	__Classdiagram__000002_0_Zero.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000002_0_Zero.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__000002_0_Zero.NodeGongNotesIsExpanded = false
+	__Classdiagram__000002_0_Zero.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Name = `Diagram Package created the 2025-06-04T05:37:56Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Path = ``
@@ -205,14 +231,16 @@ renaming
 	// Setup of pointers
 	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_Astruct)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Bstruct)
-	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
-	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000001_Default_BEnumType)
-	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnOrganisation)
+	__Classdiagram__000000_1_First.GongStructShapes = append(__Classdiagram__000000_1_First.GongStructShapes, __GongStructShape__000000_Default_Astruct)
+	__Classdiagram__000000_1_First.GongStructShapes = append(__Classdiagram__000000_1_First.GongStructShapes, __GongStructShape__000001_Default_Bstruct)
+	__Classdiagram__000000_1_First.GongEnumShapes = append(__Classdiagram__000000_1_First.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
+	__Classdiagram__000000_1_First.GongEnumShapes = append(__Classdiagram__000000_1_First.GongEnumShapes, __GongEnumShape__000001_Default_BEnumType)
+	__Classdiagram__000000_1_First.GongNoteShapes = append(__Classdiagram__000000_1_First.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnOrganisation)
 	// setup of DiagramPackage instances pointers
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_Default)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_1_First)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000001_2_Second_)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000002_0_Zero)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000001_2_Second_
 	// setup of GongEnumShape instances pointers
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL1_)
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL2)

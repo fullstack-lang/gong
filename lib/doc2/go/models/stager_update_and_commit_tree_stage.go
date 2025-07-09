@@ -82,7 +82,10 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
-	for _, classDiagram := range diagramPackage.Classdiagrams {
+
+	classDiagrams := GetGongstrucsSorted[*Classdiagram](stager.stage)
+
+	for _, classDiagram := range classDiagrams {
 		var selected bool
 		if diagramPackage.SelectedClassdiagram == classDiagram {
 			selected = true
