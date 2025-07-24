@@ -21,6 +21,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-07-24 09:17:32.705088 CEST"
+	const __write__utc_time__ = "2025-07-24 07:17:32.705088 UTC"
+
+	const __commitId__ = "0000000002"
+
 	// Declaration of instances to stage
 
 	__Cell__000000_Row_1_Cell_1 := (&models.Cell{}).Stage(stage)
@@ -200,6 +205,7 @@ func _(stage *models.Stage) {
 	__Table__000000_EmptyTable.HasPaginator = false
 	__Table__000000_EmptyTable.HasCheckableRows = false
 	__Table__000000_EmptyTable.HasSaveButton = false
+	__Table__000000_EmptyTable.SaveButtonLabel = ``
 	__Table__000000_EmptyTable.CanDragDropRows = false
 	__Table__000000_EmptyTable.HasCloseButton = false
 	__Table__000000_EmptyTable.SavingInProgress = false
@@ -211,6 +217,7 @@ func _(stage *models.Stage) {
 	__Table__000001_Table_2.HasPaginator = false
 	__Table__000001_Table_2.HasCheckableRows = false
 	__Table__000001_Table_2.HasSaveButton = true
+	__Table__000001_Table_2.SaveButtonLabel = ``
 	__Table__000001_Table_2.CanDragDropRows = true
 	__Table__000001_Table_2.HasCloseButton = true
 	__Table__000001_Table_2.SavingInProgress = false
@@ -222,6 +229,7 @@ func _(stage *models.Stage) {
 	__Table__000002_Table_with_5_types.HasPaginator = true
 	__Table__000002_Table_with_5_types.HasCheckableRows = true
 	__Table__000002_Table_with_5_types.HasSaveButton = true
+	__Table__000002_Table_with_5_types.SaveButtonLabel = ``
 	__Table__000002_Table_with_5_types.CanDragDropRows = false
 	__Table__000002_Table_with_5_types.HasCloseButton = false
 	__Table__000002_Table_with_5_types.SavingInProgress = false
@@ -281,3 +289,4 @@ func _(stage *models.Stage) {
 	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000000_Row_1)
 	__Table__000002_Table_with_5_types.Rows = append(__Table__000002_Table_with_5_types.Rows, __Row__000001_Row_2)
 }
+

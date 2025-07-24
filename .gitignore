@@ -35,6 +35,7 @@ test/test3/go/cmd/test3/test3
 lib/tone/go/cmd/tone/tone
 lib/sim/go/cmd/sim/sim
 lib/gantt/go/cmd/gantt/gantt
+lib/markdown/go/cmd/markdown/markdown
 lib/xlsx/go/cmd/xlsx/xlsx
 lib/cursor/go/cmd/cursor/cursor
 lib/load/go/cmd/load/load
