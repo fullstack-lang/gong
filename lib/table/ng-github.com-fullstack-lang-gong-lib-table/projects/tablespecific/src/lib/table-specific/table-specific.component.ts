@@ -27,6 +27,8 @@ import { MatInputModule } from '@angular/material/input'
 import { MatButtonModule } from '@angular/material/button'
 import { decodeStringToIntArray_json } from '../association-storage'
 import { ConfirmationDialogComponent } from '../dialog/dialog.component'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 
 @Component({
@@ -46,6 +48,8 @@ import { ConfirmationDialogComponent } from '../dialog/dialog.component'
     MatSortModule,
     CommonModule,
     DragDropModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   templateUrl: './table-specific.component.html',
   styleUrl: './table-specific.component.css'
@@ -98,6 +102,9 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   // SelectionModel to hold the selected rows
   selection: SelectionModel<table.Row> = new SelectionModel<table.Row>(allowMultiSelect, [])
   initialSelection = new Array<table.Row>()
+
+  // NEW: for toggling text truncation
+  public isTextTruncated = true
 
   constructor(
     private gongtableFrontRepoService: table.FrontRepoService,
@@ -164,6 +171,11 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
     if (this.commutNbFromBackSubscription) {
       this.commutNbFromBackSubscription.unsubscribe()
     }
+  }
+
+  // NEW: toggle function for the text wrap button
+  toggleTextTruncation(): void {
+    this.isTextTruncated = !this.isTextTruncated
   }
 
   refresh(): void {

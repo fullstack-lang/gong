@@ -142,3 +142,13 @@ mat-dialog-container .container {
         flex-wrap: wrap;
     }
 }
+
+/* NEW: Style for truncated text in table cells */
+.truncate-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word; /* Helps with long words or strings without spaces */
+}
