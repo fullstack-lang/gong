@@ -5,45 +5,71 @@
     height: 100%;
     width: 100%;
     max-width: 100%;
-    max-height: 70vh; /* ADD: Limit height to 70% of viewport */
+    max-height: 70vh;
+    /* Limit height to 70% of viewport */
     overflow: auto;
     display: flex;
-    flex-direction: column; /* ADD: Stack toolbar and table vertically */
+    flex-direction: column;
+    /* Stack toolbar and table vertically */
 }
 
 /* 2. FIX: Make table container scrollable while keeping toolbar fixed */
 .table-container {
-    flex: 1; /* Take remaining space after toolbar */
-    overflow: auto; /* Enable scrolling for table content */
-    min-height: 0; /* Important: Allow flexbox to shrink below content size */
+    flex: 1;
+    /* Take remaining space after toolbar */
+    overflow: auto;
+    /* Enable scrolling for table content */
+    min-height: 0;
+    /* Important: Allow flexbox to shrink below content size */
 }
 
-/* 3. FIX: Ensure toolbar stays at top */
+
+/* --- NEW: PROFESSIONAL TOOLBAR STYLES --- */
 .toolbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.5rem;
-    height: 50px;
-    flex-shrink: 0; /* Prevent toolbar from shrinking */
-    background-color: white; /* Ensure toolbar background */
-    border-bottom: 1px solid #e0e0e0; /* Visual separation */
-    position: sticky; /* Keep toolbar visible during scroll */
+    /* Vertically center all items */
+    justify-content: space-between;
+    padding: 0 8px 0 16px;
+    /* More padding on left, less on right for paginator */
+    height: 64px;
+    /* Standard Material Design toolbar height */
+    flex-shrink: 0;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    position: sticky;
     top: 0;
     z-index: 10;
 }
 
 .left-toolbar,
-.center-toolbar,
 .right-toolbar {
     display: flex;
     align-items: center;
+    gap: 8px;
+    /* Space between items within a section */
 }
 
-.center-toolbar {
-    justify-content: center;
-    flex-grow: 1;
+/* Style for the improved filter field */
+.toolbar mat-form-field {
+    width: 250px;
 }
+
+.toolbar .mat-mdc-form-field {
+    height: 56px;
+    /* Helps with alignment in the 64px toolbar */
+}
+
+/* Visual separator between button groups */
+.toolbar-separator {
+    width: 1px;
+    height: 32px;
+    background-color: #e0e0e0;
+    margin: 0 8px;
+}
+
+/* --- END NEW TOOLBAR STYLES --- */
+
 
 /* 4. FIX: Table styling for better scrolling */
 .table {
@@ -77,9 +103,11 @@
     0% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.2);
     }
+
     100% {
         transform: scale(1);
     }
@@ -96,8 +124,10 @@
 
 /* 8. DIALOG-SPECIFIC: When used in dialog, ensure proper sizing */
 mat-dialog-container .container {
-    max-height: 60vh; /* Slightly smaller in dialog */
-    min-height: 400px; /* Minimum height for usability */
+    max-height: 60vh;
+    /* Slightly smaller in dialog */
+    min-height: 400px;
+    /* Minimum height for usability */
 }
 
 /* 9. FIX: Ensure sticky columns work with scrolling */
@@ -121,7 +151,7 @@ mat-dialog-container .container {
     .container {
         max-height: 80vh;
     }
-    
+
     mat-dialog-container .container {
         max-height: 70vh;
         min-height: 300px;
@@ -131,24 +161,30 @@ mat-dialog-container .container {
 @media (max-width: 768px) {
     .toolbar {
         height: auto;
-        min-height: 50px;
+        min-height: 64px;
         flex-wrap: wrap;
         gap: 0.5rem;
+        padding: 8px;
     }
-    
+
     .left-toolbar,
-    .center-toolbar,
     .right-toolbar {
         flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .right-toolbar {
+        justify-content: center;
     }
 }
 
 /* NEW: Style for truncated text in table cells */
 .truncate-text {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-break: break-word; /* Helps with long words or strings without spaces */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    /* Helps with long words or strings without spaces */
 }
