@@ -8,6 +8,9 @@
                         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
                     </mat-form-field>
                 }
+                <button mat-icon-button (click)="toggleTextTruncation()" [matTooltip]="isTextTruncated ? 'Show full text' : 'Limit text to 3 lines'">
+                    <mat-icon>{{ isTextTruncated ? 'subject' : 'wrap_text' }}</mat-icon>
+                </button>
             </div>
 
             <div class="center-toolbar">
@@ -60,7 +63,9 @@
 
                     <td mat-cell *matCellDef="let element">
                         @if (element.Cells[i]?.CellString) {
-                            {{ element.Cells[i].CellString.Value }}
+                            <div [class.truncate-text]="isTextTruncated">
+                                {{ element.Cells[i].CellString.Value }}
+                            </div>
                         }
                         @if (element.Cells[i]?.CellInt) {
                             {{ element.Cells[i].CellInt.Value }}
