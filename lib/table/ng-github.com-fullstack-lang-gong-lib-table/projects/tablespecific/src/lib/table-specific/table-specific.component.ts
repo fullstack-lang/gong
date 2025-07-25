@@ -256,43 +256,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           this.selection = new SelectionModel<table.Row>(allowMultiSelect, this.initialSelection)
         }
 
-
-        if (this.selectedTable.HasFiltering) {
-          this.dataSource.filterPredicate = (row: table.Row, filter: string) => {
-            let mergedContent = ""
-            if (row.Cells) {
-              for (let cell of row.Cells) {
-                if (cell.CellInt) mergedContent += cell.CellInt.Value
-                if (cell.CellFloat64) mergedContent += cell.CellFloat64.Value
-                if (cell.CellString) mergedContent += cell.CellString.Value
-                // Add other cell types if necessary
-              }
-            }
-            mergedContent = mergedContent.toLowerCase()
-            return mergedContent.includes(filter.toLowerCase())
-          }
-        }
-
-        this.matSortDirective = ""
-        if (this.selectedTable.HasColumnSorting && this.sort) {
-          this.dataSource.sort = this.sort
-          this.matSortDirective = "mat-sort"
-
-          this.dataSource.sortingDataAccessor = (row: table.Row, sortHeaderId: string): string | number => {
-            if (!row.Cells) return ""
-            const index = this.mapHeaderIdIndex.get(sortHeaderId)
-            if (index === undefined) return ""
-
-            const cell: table.Cell = row.Cells[index]
-            if (cell.CellInt) return cell.CellInt.Value
-            if (cell.CellFloat64) return cell.CellFloat64.Value
-            if (cell.CellString) return cell.CellString.Value
-            if (cell.CellIcon) return cell.CellIcon.Icon || "" // Ensure string for sorting
-            if (cell.CellBool) return cell.CellBool.Value ? "true" : "false"
-            return ""
-          }
-        }
-
         // for sorting, we reorder the items according to the order in the association storage
         // and we remove the items that are not in the association storage
         if (this.selectedTable.CanDragDropRows && this.tableDialogData.AssociationStorage) {
@@ -337,7 +300,45 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           this.selectedTable.Rows = orderedRows
         }
 
+        // Create the new dataSource
         this.dataSource = new MatTableDataSource(this.selectedTable.Rows || [])
+
+        // NOW, set the filterPredicate on the new dataSource
+        if (this.selectedTable.HasFiltering) {
+          this.dataSource.filterPredicate = (row: table.Row, filter: string) => {
+            let mergedContent = ""
+            if (row.Cells) {
+              for (let cell of row.Cells) {
+                if (cell.CellInt) mergedContent += cell.CellInt.Value
+                if (cell.CellFloat64) mergedContent += cell.CellFloat64.Value
+                if (cell.CellString) mergedContent += cell.CellString.Value
+                // Add other cell types if necessary
+              }
+            }
+            mergedContent = mergedContent.toLowerCase()
+            return mergedContent.includes(filter.toLowerCase())
+          }
+        }
+
+        this.matSortDirective = ""
+        if (this.selectedTable.HasColumnSorting && this.sort) {
+          this.dataSource.sort = this.sort
+          this.matSortDirective = "mat-sort"
+
+          this.dataSource.sortingDataAccessor = (row: table.Row, sortHeaderId: string): string | number => {
+            if (!row.Cells) return ""
+            const index = this.mapHeaderIdIndex.get(sortHeaderId)
+            if (index === undefined) return ""
+
+            const cell: table.Cell = row.Cells[index]
+            if (cell.CellInt) return cell.CellInt.Value
+            if (cell.CellFloat64) return cell.CellFloat64.Value
+            if (cell.CellString) return cell.CellString.Value
+            if (cell.CellIcon) return cell.CellIcon.Icon || "" // Ensure string for sorting
+            if (cell.CellBool) return cell.CellBool.Value ? "true" : "false"
+            return ""
+          }
+        }
 
         // IMPORTANT: Re-apply sort and paginator after creating new data source
         if (this.selectedTable.HasColumnSorting && this.sort) {
