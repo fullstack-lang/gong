@@ -228,6 +228,12 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 			initializerStatements += setValueField
 		}
 
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "VersionInfo")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.VersionInfo))
+		initializerStatements += setValueField
+
 	}
 
 	map_Page_Identifiers := make(map[*Page]string)

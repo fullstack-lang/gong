@@ -225,3 +225,15 @@ body {
     background-color: #f8f9fa;
     /* Zebra striping for rows */
 }
+
+.version-info {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8em;
+    color: #aaa;
+    background-color: #f8f9fa;
+    padding: 2px 5px;
+    border-radius: 3px;
+    z-index: 1000;
+}

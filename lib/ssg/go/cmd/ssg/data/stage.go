@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-25 08:50:35.388495 CEST"
-	const __write__utc_time__ = "2025-07-25 06:50:35.388495 UTC"
+	const __write__local_time = "2025-07-25 09:03:54.607702 CEST"
+	const __write__utc_time__ = "2025-07-25 07:03:54.607702 UTC"
 
-	const __commitId__ = "0000000008"
+	const __commitId__ = "0000000010"
 
 	// Declaration of instances to stage
 
@@ -65,6 +65,7 @@ Site construction began on 14 April 2015 with the ceremonial laying of the first
 	__Content__000000_The_Vera_C_Rubin_Observatory.LayoutPath = `../../defaults/layouts`
 	__Content__000000_The_Vera_C_Rubin_Observatory.StaticPath = `../../defaults/static`
 	__Content__000000_The_Vera_C_Rubin_Observatory.Target = models.FILE
+	__Content__000000_The_Vera_C_Rubin_Observatory.VersionInfo = `1.9.8`
 
 	__Page__000000_First_Steps.Name = `First Steps`
 	__Page__000000_First_Steps.MardownContent = `Here is the detailed content for the first page within Chapter 1.
