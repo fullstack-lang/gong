@@ -39,6 +39,8 @@ type Content_WOP struct {
 	StaticPath string
 
 	Target Target
+
+	VersionInfo string
 }
 
 func (from *Content) CopyBasicFields(to *Content) {
@@ -50,6 +52,7 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.LayoutPath = from.LayoutPath
 	to.StaticPath = from.StaticPath
 	to.Target = from.Target
+	to.VersionInfo = from.VersionInfo
 }
 
 type Page_WOP struct {
