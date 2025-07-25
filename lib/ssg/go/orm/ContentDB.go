@@ -84,6 +84,9 @@ type ContentDB struct {
 	// Declation for basic field contentDB.Target
 	Target_Data sql.NullString
 
+	// Declation for basic field contentDB.VersionInfo
+	VersionInfo_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ContentPointersEncoding
@@ -119,6 +122,8 @@ type ContentWOP struct {
 	StaticPath string `xlsx:"6"`
 
 	Target models.Target `xlsx:"7"`
+
+	VersionInfo string `xlsx:"8"`
 	// insertion for WOP pointer fields
 }
 
@@ -132,6 +137,7 @@ var Content_Fields = []string{
 	"LayoutPath",
 	"StaticPath",
 	"Target",
+	"VersionInfo",
 }
 
 type BackRepoContentStruct struct {
@@ -456,6 +462,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
+
+	contentDB.VersionInfo_Data.String = content.VersionInfo
+	contentDB.VersionInfo_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContent_WOP
@@ -482,6 +491,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
+
+	contentDB.VersionInfo_Data.String = content.VersionInfo
+	contentDB.VersionInfo_Data.Valid = true
 }
 
 // CopyBasicFieldsFromContentWOP
@@ -508,6 +520,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
+
+	contentDB.VersionInfo_Data.String = content.VersionInfo
+	contentDB.VersionInfo_Data.Valid = true
 }
 
 // CopyBasicFieldsToContent
@@ -520,6 +535,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
+	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
 
 // CopyBasicFieldsToContent_WOP
@@ -532,6 +548,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
+	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
 
 // CopyBasicFieldsToContentWOP
@@ -545,6 +562,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
+	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
 
 // Backup generates a json file from a slice of all ContentDB instances in the backrepo

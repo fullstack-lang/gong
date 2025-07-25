@@ -1,5 +1,6 @@
 ---
 title: "The Vera C. Rubin Observatory"
+versioninfo: "1.9.8"
 ---
 The Vera C. Rubin Observatory, formerly known as the Large Synoptic Survey Telescope (LSST), is an astronomical observatory in Chile. Its main task is an astronomical survey of the entire available southern sky every few nights, creating a time-lapse record over ten years, the Legacy Survey of Space and Time (also abbreviated LSST).[2][3][4] The observatory is located on the El Peñón peak of Cerro Pachón, a 2,682-meter-high (8,799 ft) mountain in Coquimbo Region, in northern Chile, alongside the existing Gemini South and Southern Astrophysical Research Telescopes.[5] The Rubin Observatory base facility is located about 100 kilometres (62 miles) away from the observatory by road, in the city of La Serena. The observatory is named for Vera Rubin, an American astronomer who pioneered discoveries about galactic rotation rates.
 

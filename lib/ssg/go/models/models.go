@@ -22,6 +22,8 @@ type Content struct {
 	Target Target
 
 	Chapters []*Chapter
+
+	VersionInfo string // will appear on the top right
 }
 
 type Target string

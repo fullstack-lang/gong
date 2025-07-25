@@ -272,6 +272,8 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			}
 			content_.Chapters = instanceSlice
 
+		case "VersionInfo":
+			FormDivBasicFieldToField(&(content_.VersionInfo), formDiv)
 		}
 	}
 
