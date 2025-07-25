@@ -1,5 +1,5 @@
 ---
-title: "First_Steps"
+title: "First Steps"
 weight: 0
 ---
 Here is the detailed content for the first page within Chapter 1.
