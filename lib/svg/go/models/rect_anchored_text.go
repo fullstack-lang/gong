@@ -62,7 +62,7 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 
 	sb.WriteString(
 		fmt.Sprintf(
-			`  <text xml:space="preserve"
+			`  <text
 			x="%s" 
 			y="%s"
 			writing-mode="%s"
@@ -80,7 +80,7 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 		))
 
 	rectAnchoredText.Presentation.WriteSVG(sb)
-	sb.WriteString(" >\n")
+	sb.WriteString(" >")
 
 	lines := strings.Split(rectAnchoredText.Content, "\n")
 	for i, line := range lines {
@@ -91,9 +91,17 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 		}
 
 		if i == 0 {
-			sb.WriteString(fmt.Sprintf("    <tspan >%s</tspan>\n", line))
+			sb.WriteString(fmt.Sprintf("<tspan x=\"%s\" text-anchor=\"%s\">%s</tspan>",
+				formatFloat(x),
+				rectAnchoredText.TextAnchorType.ToString(),
+				line,
+			))
 		} else {
-			sb.WriteString(fmt.Sprintf("    <tspan x=\"%s\" dy=\"1.2em\">%s</tspan>\n", formatFloat(x), line))
+			sb.WriteString(fmt.Sprintf("<tspan x=\"%s\" dy=\"1.2em\" text-anchor=\"%s\">%s</tspan>",
+				formatFloat(x),
+				rectAnchoredText.TextAnchorType.ToString(),
+				line,
+			))
 		}
 	}
 	sb.WriteString("</text>\n")
