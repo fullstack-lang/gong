@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-25 05:06:40.038609 CEST"
-	const __write__utc_time__ = "2025-06-25 03:06:40.038609 UTC"
+	const __write__local_time = "2025-07-28 04:07:41.004105 EDT"
+	const __write__utc_time__ = "2025-07-28 08:07:41.004105 UTC"
 
-	const __commitId__ = "0000000051"
+	const __commitId__ = "0000000067"
 
 	// Declaration of instances to stage
 
@@ -150,8 +150,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.Width = 200.000000
 	__Rect__000000_Start.Height = 200.000000
 	__Rect__000000_Start.RX = 0.000000
-	__Rect__000000_Start.Color = `blue`
-	__Rect__000000_Start.FillOpacity = 0.000000
+	__Rect__000000_Start.Color = `red`
+	__Rect__000000_Start.FillOpacity = 0.500000
 	__Rect__000000_Start.Stroke = `black`
 	__Rect__000000_Start.StrokeOpacity = 0.500000
 	__Rect__000000_Start.StrokeWidth = 2.000000
@@ -173,7 +173,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.CanMoveVerticaly = false
 	__Rect__000000_Start.ChangeColorWhenHovered = true
 	__Rect__000000_Start.ColorWhenHovered = `red`
-	__Rect__000000_Start.OriginalColor = ``
+	__Rect__000000_Start.OriginalColor = `blue`
 	__Rect__000000_Start.FillOpacityWhenHovered = 0.500000
 	__Rect__000000_Start.OriginalFillOpacity = 0.000000
 	__Rect__000000_Start.HasToolTip = true
@@ -880,7 +880,10 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000010_Center.Transform = ``
 
 	__RectAnchoredText__000011_Oriented.Name = `Oriented`
-	__RectAnchoredText__000011_Oriented.Content = `Oriented`
+	__RectAnchoredText__000011_Oriented.Content = `Oriented
+
+Oriented line 2
+Oriented line 3`
 	__RectAnchoredText__000011_Oriented.FontWeight = ``
 	__RectAnchoredText__000011_Oriented.FontSize = ``
 	__RectAnchoredText__000011_Oriented.FontStyle = ``
@@ -889,7 +892,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000011_Oriented.Y_Offset = 0.000000
 	__RectAnchoredText__000011_Oriented.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredText__000011_Oriented.TextAnchorType = models.TEXT_ANCHOR_CENTER
-	__RectAnchoredText__000011_Oriented.WritingMode = models.WritingModeVerticalRL
+	__RectAnchoredText__000011_Oriented.WritingMode = models.WritingModeHorizontalTB
 	__RectAnchoredText__000011_Oriented.Color = `black`
 	__RectAnchoredText__000011_Oriented.FillOpacity = 1.000000
 	__RectAnchoredText__000011_Oriented.Stroke = `black`

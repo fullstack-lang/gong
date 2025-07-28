@@ -1,8 +1,8 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 1010.000000 451.000000">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-10 -10 1011.000000 451.000000">
 <style>text { font-family: Roboto, Arial, sans-serif !important; }</style>  <rect x="100" y="100" width="200" height="200" rx="0" ry="0"
-			fill="blue"
-            fill-opacity="0.000000"
+			fill="red"
+            fill-opacity="0.500000"
             stroke="black"
             stroke-opacity="0.500000"
             stroke-width="2.000000"
@@ -11,7 +11,7 @@
   <text xml:space="preserve"
 			x="200" 
 			y="200"
-			writing-mode="vertical-rl"
+			writing-mode="horizontal-tb"
 			text-anchor="middle"
 			font-weight=""
 			font-style=""
@@ -24,6 +24,9 @@
             stroke-dasharray=""
             transform="" >
     <tspan >Oriented</tspan>
+    <tspan x="200" dy="1.2em"> </tspan>
+    <tspan x="200" dy="1.2em">Oriented line 2</tspan>
+    <tspan x="200" dy="1.2em">Oriented line 3</tspan>
 </text>
   <rect x="700" y="100" width="300" height="300" rx="0" ry="0"
 			fill=""
