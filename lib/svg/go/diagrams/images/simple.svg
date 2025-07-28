@@ -8,7 +8,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-  <text xml:space="preserve"
+  <text
 			x="200" 
 			y="200"
 			writing-mode="horizontal-tb"
@@ -22,12 +22,7 @@
             stroke-opacity="0.500000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Oriented</tspan>
-    <tspan x="200" dy="1.2em"> </tspan>
-    <tspan x="200" dy="1.2em">Oriented line 2</tspan>
-    <tspan x="200" dy="1.2em">Oriented line 3</tspan>
-</text>
+            transform="" ><tspan x="200" text-anchor="middle">Oriented</tspan><tspan x="200" dy="1.2em" text-anchor="middle"> </tspan><tspan x="200" dy="1.2em" text-anchor="middle">Oriented line 2</tspan><tspan x="200" dy="1.2em" text-anchor="middle">Oriented line 3</tspan></text>
   <rect x="700" y="100" width="300" height="300" rx="0" ry="0"
 			fill=""
             fill-opacity="0.000000"
@@ -36,7 +31,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-  <text xml:space="preserve"
+  <text
 			x="700" 
 			y="100"
 			writing-mode=""
@@ -50,10 +45,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >TopLeft</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="700" text-anchor="middle">TopLeft</tspan></text>
+  <text
 			x="1000" 
 			y="100"
 			writing-mode=""
@@ -67,10 +60,8 @@
             stroke-opacity="0.500000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >TopRight</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="1000" text-anchor="middle">TopRight</tspan></text>
+  <text
 			x="850" 
 			y="400"
 			writing-mode=""
@@ -84,10 +75,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Test</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="850" text-anchor="middle">Test</tspan></text>
+  <text
 			x="700" 
 			y="400"
 			writing-mode=""
@@ -101,10 +90,8 @@
             stroke-opacity="0.200000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >BottomLeft</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="700" text-anchor="middle">BottomLeft</tspan></text>
+  <text
 			x="400" 
 			y="400"
 			writing-mode=""
@@ -118,10 +105,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >BottomLeftLeft</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="400" text-anchor="middle">BottomLeftLeft</tspan></text>
+  <text
 			x="700" 
 			y="700"
 			writing-mode=""
@@ -135,10 +120,8 @@
             stroke-opacity="0.500000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >BottomBottomLeft</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="700" text-anchor="middle">BottomBottomLeft</tspan></text>
+  <text
 			x="1000" 
 			y="400"
 			writing-mode=""
@@ -152,10 +135,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >BottomRight</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="1000" text-anchor="middle">BottomRight</tspan></text>
+  <text
 			x="900" 
 			y="330"
 			writing-mode=""
@@ -169,10 +150,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >BottomInsideRight</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="1000" text-anchor="middle">BottomInsideRight</tspan></text>
+  <text
 			x="700" 
 			y="250"
 			writing-mode=""
@@ -186,10 +165,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Left</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="700" text-anchor="middle">Left</tspan></text>
+  <text
 			x="1000" 
 			y="250"
 			writing-mode=""
@@ -203,10 +180,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Right</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="1000" text-anchor="middle">Right</tspan></text>
+  <text
 			x="850" 
 			y="250"
 			writing-mode=""
@@ -220,10 +195,8 @@
             stroke-opacity="0.500000"
             stroke-width="2.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Center</tspan>
-</text>
-  <text xml:space="preserve"
+            transform="" ><tspan x="850" text-anchor="middle">Center</tspan></text>
+  <text
 			x="850" 
 			y="100"
 			writing-mode=""
@@ -237,9 +210,7 @@
             stroke-opacity="1.000000"
             stroke-width="4.000000"
             stroke-dasharray=""
-            transform="" >
-    <tspan >Top</tspan>
-</text>
+            transform="" ><tspan x="850" text-anchor="middle">Top</tspan></text>
   <rect
 			x="700" 
 			y="100"
