@@ -105,13 +105,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/gongtimefields/:id", GetController().UpdateGongTimeField)
 		v1.DELETE("/v1/gongtimefields/:id", GetController().DeleteGongTimeField)
 
-		v1.GET("/v1/metas", GetController().GetMetas)
-		v1.GET("/v1/metas/:id", GetController().GetMeta)
-		v1.POST("/v1/metas", GetController().PostMeta)
-		v1.PATCH("/v1/metas/:id", GetController().UpdateMeta)
-		v1.PUT("/v1/metas/:id", GetController().UpdateMeta)
-		v1.DELETE("/v1/metas/:id", GetController().DeleteMeta)
-
 		v1.GET("/v1/metareferences", GetController().GetMetaReferences)
 		v1.GET("/v1/metareferences/:id", GetController().GetMetaReference)
 		v1.POST("/v1/metareferences", GetController().PostMetaReference)

@@ -43,10 +43,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		gongtimefieldInstance := any(concreteInstance).(*models.GongTimeField)
 		ret2 := backRepo.BackRepoGongTimeField.GetGongTimeFieldDBFromGongTimeFieldPtr(gongtimefieldInstance)
 		ret = any(ret2).(*T2)
-	case *models.Meta:
-		metaInstance := any(concreteInstance).(*models.Meta)
-		ret2 := backRepo.BackRepoMeta.GetMetaDBFromMetaPtr(metaInstance)
-		ret = any(ret2).(*T2)
 	case *models.MetaReference:
 		metareferenceInstance := any(concreteInstance).(*models.MetaReference)
 		ret2 := backRepo.BackRepoMetaReference.GetMetaReferenceDBFromMetaReferencePtr(metareferenceInstance)
@@ -108,11 +104,6 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.GongTimeField:
 		tmp := GetInstanceDBFromInstance[models.GongTimeField, GongTimeFieldDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Meta:
-		tmp := GetInstanceDBFromInstance[models.Meta, MetaDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -181,11 +172,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.GongTimeField:
 		tmp := GetInstanceDBFromInstance[models.GongTimeField, GongTimeFieldDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Meta:
-		tmp := GetInstanceDBFromInstance[models.Meta, MetaDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

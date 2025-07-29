@@ -33,8 +33,6 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.GongStruct](probe)
 	case *models.GongTimeField:
 		updateAndCommitTable[models.GongTimeField](probe)
-	case *models.Meta:
-		updateAndCommitTable[models.Meta](probe)
 	case *models.MetaReference:
 		updateAndCommitTable[models.MetaReference](probe)
 	case *models.ModelPkg:

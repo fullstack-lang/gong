@@ -511,53 +511,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
-	map_Meta_Identifiers := make(map[*Meta]string)
-	_ = map_Meta_Identifiers
-
-	metaOrdered := []*Meta{}
-	for meta := range stage.Metas {
-		metaOrdered = append(metaOrdered, meta)
-	}
-	sort.Slice(metaOrdered[:], func(i, j int) bool {
-		metai := metaOrdered[i]
-		metaj := metaOrdered[j]
-		metai_order, oki := stage.MetaMap_Staged_Order[metai]
-		metaj_order, okj := stage.MetaMap_Staged_Order[metaj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return metai_order < metaj_order
-	})
-	if len(metaOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, meta := range metaOrdered {
-
-		id = generatesIdentifier("Meta", idx, meta.Name)
-		map_Meta_Identifiers[meta] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Meta")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", meta.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(meta.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Text")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(meta.Text))
-		initializerStatements += setValueField
-
-	}
-
 	map_MetaReference_Identifiers := make(map[*MetaReference]string)
 	_ = map_MetaReference_Identifiers
 
@@ -994,27 +947,6 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 		map_GongTimeField_Identifiers[gongtimefield] = id
 
 		// Initialisation of values
-	}
-
-	if len(metaOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Meta instances pointers"
-	}
-	for idx, meta := range metaOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Meta", idx, meta.Name)
-		map_Meta_Identifiers[meta] = id
-
-		// Initialisation of values
-		for _, _metareference := range meta.MetaReferences {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "MetaReferences")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_MetaReference_Identifiers[_metareference])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(metareferenceOrdered) > 0 {

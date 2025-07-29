@@ -146,20 +146,6 @@ func (from *GongTimeField) CopyBasicFields(to *GongTimeField) {
 	to.BespokeTimeFormat = from.BespokeTimeFormat
 }
 
-type Meta_WOP struct {
-	// insertion point
-
-	Name string
-
-	Text string
-}
-
-func (from *Meta) CopyBasicFields(to *Meta) {
-	// insertion point
-	to.Name = from.Name
-	to.Text = from.Text
-}
-
 type MetaReference_WOP struct {
 	// insertion point
 

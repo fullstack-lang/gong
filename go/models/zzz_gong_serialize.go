@@ -23,7 +23,6 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*GongNote](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongStruct](stage, f)
 		SerializeExcelizePointerToGongstruct[*GongTimeField](stage, f)
-		SerializeExcelizePointerToGongstruct[*Meta](stage, f)
 		SerializeExcelizePointerToGongstruct[*MetaReference](stage, f)
 		SerializeExcelizePointerToGongstruct[*ModelPkg](stage, f)
 		SerializeExcelizePointerToGongstruct[*PointerToGongStructField](stage, f)

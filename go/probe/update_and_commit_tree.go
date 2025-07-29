@@ -154,16 +154,6 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Meta":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Meta](probe.stageOfInterest)
-			for _meta := range set {
-				nodeInstance := &tree.Node{Name: _meta.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_meta, "Meta", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
 		case "MetaReference":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSet[models.MetaReference](probe.stageOfInterest)

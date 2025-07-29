@@ -41,10 +41,6 @@ export * from './lib/gongtimefield-api'
 export * from './lib/gongtimefield'
 export * from './lib/gongtimefield.service'
 
-export * from './lib/meta-api'
-export * from './lib/meta'
-export * from './lib/meta.service'
-
 export * from './lib/metareference-api'
 export * from './lib/metareference'
 export * from './lib/metareference.service'
