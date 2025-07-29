@@ -74,17 +74,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct GongTimeField
 	// insertion point per field
 
-	// Compute reverse map for named struct Meta
-	// insertion point per field
-	clear(stage.Meta_MetaReferences_reverseMap)
-	stage.Meta_MetaReferences_reverseMap = make(map[*MetaReference]*Meta)
-	for meta := range stage.Metas {
-		_ = meta
-		for _, _metareference := range meta.MetaReferences {
-			stage.Meta_MetaReferences_reverseMap[_metareference] = meta
-		}
-	}
-
 	// Compute reverse map for named struct MetaReference
 	// insertion point per field
 

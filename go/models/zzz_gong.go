@@ -162,17 +162,6 @@ type Stage struct {
 	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
 	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
 
-	Metas           map[*Meta]any
-	Metas_mapString map[string]*Meta
-
-	// insertion point for slice of pointers maps
-	Meta_MetaReferences_reverseMap map[*MetaReference]*Meta
-
-	OnAfterMetaCreateCallback OnAfterCreateInterface[Meta]
-	OnAfterMetaUpdateCallback OnAfterUpdateInterface[Meta]
-	OnAfterMetaDeleteCallback OnAfterDeleteInterface[Meta]
-	OnAfterMetaReadCallback   OnAfterReadInterface[Meta]
-
 	MetaReferences           map[*MetaReference]any
 	MetaReferences_mapString map[string]*MetaReference
 
@@ -255,9 +244,6 @@ type Stage struct {
 
 	GongTimeFieldOrder            uint
 	GongTimeFieldMap_Staged_Order map[*GongTimeField]uint
-
-	MetaOrder            uint
-	MetaMap_Staged_Order map[*Meta]uint
 
 	MetaReferenceOrder            uint
 	MetaReferenceMap_Staged_Order map[*MetaReference]uint
@@ -424,20 +410,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Meta:
-		tmp := GetStructInstancesByOrder(stage.Metas, stage.MetaMap_Staged_Order)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Meta implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 	case *MetaReference:
 		tmp := GetStructInstancesByOrder(stage.MetaReferences, stage.MetaReferenceMap_Staged_Order)
 
@@ -541,8 +513,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.GongStructs, stage.GongStructMap_Staged_Order)
 	case "GongTimeField":
 		res = GetNamedStructInstances(stage.GongTimeFields, stage.GongTimeFieldMap_Staged_Order)
-	case "Meta":
-		res = GetNamedStructInstances(stage.Metas, stage.MetaMap_Staged_Order)
 	case "MetaReference":
 		res = GetNamedStructInstances(stage.MetaReferences, stage.MetaReferenceMap_Staged_Order)
 	case "ModelPkg":
@@ -634,8 +604,6 @@ type BackRepoInterface interface {
 	CheckoutGongStruct(gongstruct *GongStruct)
 	CommitGongTimeField(gongtimefield *GongTimeField)
 	CheckoutGongTimeField(gongtimefield *GongTimeField)
-	CommitMeta(meta *Meta)
-	CheckoutMeta(meta *Meta)
 	CommitMetaReference(metareference *MetaReference)
 	CheckoutMetaReference(metareference *MetaReference)
 	CommitModelPkg(modelpkg *ModelPkg)
@@ -671,9 +639,6 @@ func NewStage(name string) (stage *Stage) {
 
 		GongTimeFields:           make(map[*GongTimeField]any),
 		GongTimeFields_mapString: make(map[string]*GongTimeField),
-
-		Metas:           make(map[*Meta]any),
-		Metas_mapString: make(map[string]*Meta),
 
 		MetaReferences:           make(map[*MetaReference]any),
 		MetaReferences_mapString: make(map[string]*MetaReference),
@@ -711,8 +676,6 @@ func NewStage(name string) (stage *Stage) {
 
 		GongTimeFieldMap_Staged_Order: make(map[*GongTimeField]uint),
 
-		MetaMap_Staged_Order: make(map[*Meta]uint),
-
 		MetaReferenceMap_Staged_Order: make(map[*MetaReference]uint),
 
 		ModelPkgMap_Staged_Order: make(map[*ModelPkg]uint),
@@ -731,7 +694,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GongNote"},
 			{name: "GongStruct"},
 			{name: "GongTimeField"},
-			{name: "Meta"},
 			{name: "MetaReference"},
 			{name: "ModelPkg"},
 			{name: "PointerToGongStructField"},
@@ -760,8 +722,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.GongStructMap_Staged_Order[instance]
 	case *GongTimeField:
 		return stage.GongTimeFieldMap_Staged_Order[instance]
-	case *Meta:
-		return stage.MetaMap_Staged_Order[instance]
 	case *MetaReference:
 		return stage.MetaReferenceMap_Staged_Order[instance]
 	case *ModelPkg:
@@ -793,8 +753,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.GongStructMap_Staged_Order[instance]
 	case *GongTimeField:
 		return stage.GongTimeFieldMap_Staged_Order[instance]
-	case *Meta:
-		return stage.MetaMap_Staged_Order[instance]
 	case *MetaReference:
 		return stage.MetaReferenceMap_Staged_Order[instance]
 	case *ModelPkg:
@@ -837,7 +795,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["GongNote"] = len(stage.GongNotes)
 	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
 	stage.Map_GongStructName_InstancesNb["GongTimeField"] = len(stage.GongTimeFields)
-	stage.Map_GongStructName_InstancesNb["Meta"] = len(stage.Metas)
 	stage.Map_GongStructName_InstancesNb["MetaReference"] = len(stage.MetaReferences)
 	stage.Map_GongStructName_InstancesNb["ModelPkg"] = len(stage.ModelPkgs)
 	stage.Map_GongStructName_InstancesNb["PointerToGongStructField"] = len(stage.PointerToGongStructFields)
@@ -859,7 +816,6 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["GongNote"] = len(stage.GongNotes)
 	stage.Map_GongStructName_InstancesNb["GongStruct"] = len(stage.GongStructs)
 	stage.Map_GongStructName_InstancesNb["GongTimeField"] = len(stage.GongTimeFields)
-	stage.Map_GongStructName_InstancesNb["Meta"] = len(stage.Metas)
 	stage.Map_GongStructName_InstancesNb["MetaReference"] = len(stage.MetaReferences)
 	stage.Map_GongStructName_InstancesNb["ModelPkg"] = len(stage.ModelPkgs)
 	stage.Map_GongStructName_InstancesNb["PointerToGongStructField"] = len(stage.PointerToGongStructFields)
@@ -1281,61 +1237,6 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 	return gongtimefield.Name
 }
 
-// Stage puts meta to the model stage
-func (meta *Meta) Stage(stage *Stage) *Meta {
-
-	if _, ok := stage.Metas[meta]; !ok {
-		stage.Metas[meta] = __member
-		stage.MetaMap_Staged_Order[meta] = stage.MetaOrder
-		stage.MetaOrder++
-	}
-	stage.Metas_mapString[meta.Name] = meta
-
-	return meta
-}
-
-// Unstage removes meta off the model stage
-func (meta *Meta) Unstage(stage *Stage) *Meta {
-	delete(stage.Metas, meta)
-	delete(stage.Metas_mapString, meta.Name)
-	return meta
-}
-
-// UnstageVoid removes meta off the model stage
-func (meta *Meta) UnstageVoid(stage *Stage) {
-	delete(stage.Metas, meta)
-	delete(stage.Metas_mapString, meta.Name)
-}
-
-// commit meta to the back repo (if it is already staged)
-func (meta *Meta) Commit(stage *Stage) *Meta {
-	if _, ok := stage.Metas[meta]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitMeta(meta)
-		}
-	}
-	return meta
-}
-
-func (meta *Meta) CommitVoid(stage *Stage) {
-	meta.Commit(stage)
-}
-
-// Checkout meta to the back repo (if it is already staged)
-func (meta *Meta) Checkout(stage *Stage) *Meta {
-	if _, ok := stage.Metas[meta]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutMeta(meta)
-		}
-	}
-	return meta
-}
-
-// for satisfaction of GongStruct interface
-func (meta *Meta) GetName() (res string) {
-	return meta.Name
-}
-
 // Stage puts metareference to the model stage
 func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 
@@ -1565,7 +1466,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMGongNote(GongNote *GongNote)
 	CreateORMGongStruct(GongStruct *GongStruct)
 	CreateORMGongTimeField(GongTimeField *GongTimeField)
-	CreateORMMeta(Meta *Meta)
 	CreateORMMetaReference(MetaReference *MetaReference)
 	CreateORMModelPkg(ModelPkg *ModelPkg)
 	CreateORMPointerToGongStructField(PointerToGongStructField *PointerToGongStructField)
@@ -1580,7 +1480,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMGongNote(GongNote *GongNote)
 	DeleteORMGongStruct(GongStruct *GongStruct)
 	DeleteORMGongTimeField(GongTimeField *GongTimeField)
-	DeleteORMMeta(Meta *Meta)
 	DeleteORMMetaReference(MetaReference *MetaReference)
 	DeleteORMModelPkg(ModelPkg *ModelPkg)
 	DeleteORMPointerToGongStructField(PointerToGongStructField *PointerToGongStructField)
@@ -1622,11 +1521,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
 	stage.GongTimeFieldMap_Staged_Order = make(map[*GongTimeField]uint)
 	stage.GongTimeFieldOrder = 0
-
-	stage.Metas = make(map[*Meta]any)
-	stage.Metas_mapString = make(map[string]*Meta)
-	stage.MetaMap_Staged_Order = make(map[*Meta]uint)
-	stage.MetaOrder = 0
 
 	stage.MetaReferences = make(map[*MetaReference]any)
 	stage.MetaReferences_mapString = make(map[string]*MetaReference)
@@ -1672,9 +1566,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.GongTimeFields = nil
 	stage.GongTimeFields_mapString = nil
 
-	stage.Metas = nil
-	stage.Metas_mapString = nil
-
 	stage.MetaReferences = nil
 	stage.MetaReferences_mapString = nil
 
@@ -1716,10 +1607,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for gongtimefield := range stage.GongTimeFields {
 		gongtimefield.Unstage(stage)
-	}
-
-	for meta := range stage.Metas {
-		meta.Unstage(stage)
 	}
 
 	for metareference := range stage.MetaReferences {
@@ -1813,8 +1700,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.GongStructs).(*Type)
 	case map[*GongTimeField]any:
 		return any(&stage.GongTimeFields).(*Type)
-	case map[*Meta]any:
-		return any(&stage.Metas).(*Type)
 	case map[*MetaReference]any:
 		return any(&stage.MetaReferences).(*Type)
 	case map[*ModelPkg]any:
@@ -1849,8 +1734,6 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.GongStructs_mapString).(*Type)
 	case map[string]*GongTimeField:
 		return any(&stage.GongTimeFields_mapString).(*Type)
-	case map[string]*Meta:
-		return any(&stage.Metas_mapString).(*Type)
 	case map[string]*MetaReference:
 		return any(&stage.MetaReferences_mapString).(*Type)
 	case map[string]*ModelPkg:
@@ -1885,8 +1768,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.GongStructs).(*map[*Type]any)
 	case GongTimeField:
 		return any(&stage.GongTimeFields).(*map[*Type]any)
-	case Meta:
-		return any(&stage.Metas).(*map[*Type]any)
 	case MetaReference:
 		return any(&stage.MetaReferences).(*map[*Type]any)
 	case ModelPkg:
@@ -1921,8 +1802,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.GongStructs).(*map[Type]any)
 	case *GongTimeField:
 		return any(&stage.GongTimeFields).(*map[Type]any)
-	case *Meta:
-		return any(&stage.Metas).(*map[Type]any)
 	case *MetaReference:
 		return any(&stage.MetaReferences).(*map[Type]any)
 	case *ModelPkg:
@@ -1957,8 +1836,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.GongStructs_mapString).(*map[string]*Type)
 	case GongTimeField:
 		return any(&stage.GongTimeFields_mapString).(*map[string]*Type)
-	case Meta:
-		return any(&stage.Metas_mapString).(*map[string]*Type)
 	case MetaReference:
 		return any(&stage.MetaReferences_mapString).(*map[string]*Type)
 	case ModelPkg:
@@ -2022,12 +1899,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case GongTimeField:
 		return any(&GongTimeField{
 			// Initialisation of associations
-		}).(*Type)
-	case Meta:
-		return any(&Meta{
-			// Initialisation of associations
-			// field is initialized with an instance of MetaReference with the name of the field
-			MetaReferences: []*MetaReference{{Name: "MetaReferences"}},
 		}).(*Type)
 	case MetaReference:
 		return any(&MetaReference{
@@ -2116,11 +1987,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of GongTimeField
 	case GongTimeField:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Meta
-	case Meta:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2277,19 +2143,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Meta
-	case Meta:
-		switch fieldname {
-		// insertion point for per direct association field
-		case "MetaReferences":
-			res := make(map[*MetaReference][]*Meta)
-			for meta := range stage.Metas {
-				for _, metareference_ := range meta.MetaReferences {
-					res[metareference_] = append(res[metareference_], meta)
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		}
 	// reverse maps of direct associations of MetaReference
 	case MetaReference:
 		switch fieldname {
@@ -2336,8 +2189,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "GongStruct"
 	case GongTimeField:
 		res = "GongTimeField"
-	case Meta:
-		res = "Meta"
 	case MetaReference:
 		res = "MetaReference"
 	case ModelPkg:
@@ -2372,8 +2223,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "GongStruct"
 	case *GongTimeField:
 		res = "GongTimeField"
-	case *Meta:
-		res = "Meta"
 	case *MetaReference:
 		res = "MetaReference"
 	case *ModelPkg:
@@ -2407,8 +2256,6 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
 	case GongTimeField:
 		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
-	case Meta:
-		res = []string{"Name", "Text", "MetaReferences"}
 	case MetaReference:
 		res = []string{"Name"}
 	case ModelPkg:
@@ -2468,15 +2315,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "GongStruct"
 		rf.Fieldname = "GongTimeFields"
 		res = append(res, rf)
-	case Meta:
-		var rf ReverseField
-		_ = rf
 	case MetaReference:
 		var rf ReverseField
 		_ = rf
-		rf.GongstructName = "Meta"
-		rf.Fieldname = "MetaReferences"
-		res = append(res, rf)
 	case ModelPkg:
 		var rf ReverseField
 		_ = rf
@@ -2517,8 +2358,6 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
 	case *GongTimeField:
 		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
-	case *Meta:
-		res = []string{"Name", "Text", "MetaReferences"}
 	case *MetaReference:
 		res = []string{"Name"}
 	case *ModelPkg:
@@ -2714,21 +2553,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.CompositeStructName
 		case "BespokeTimeFormat":
 			res.valueString = inferedInstance.BespokeTimeFormat
-		}
-	case *Meta:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Text":
-			res.valueString = inferedInstance.Text
-		case "MetaReferences":
-			for idx, __instance__ := range inferedInstance.MetaReferences {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
-			}
 		}
 	case *MetaReference:
 		switch fieldName {
@@ -2966,21 +2790,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.CompositeStructName
 		case "BespokeTimeFormat":
 			res.valueString = inferedInstance.BespokeTimeFormat
-		}
-	case Meta:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Text":
-			res.valueString = inferedInstance.Text
-		case "MetaReferences":
-			for idx, __instance__ := range inferedInstance.MetaReferences {
-				if idx > 0 {
-					res.valueString += "\n"
-				}
-				res.valueString += __instance__.Name
-			}
 		}
 	case MetaReference:
 		switch fieldName {

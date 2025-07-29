@@ -15,8 +15,6 @@ import { GongStructAPI } from './gongstruct-api'
 
 import { GongTimeFieldAPI } from './gongtimefield-api'
 
-import { MetaAPI } from './meta-api'
-
 import { MetaReferenceAPI } from './metareference-api'
 
 import { ModelPkgAPI } from './modelpkg-api'
@@ -41,8 +39,6 @@ export class BackRepoData {
 	GongStructAPIs = new Array<GongStructAPI>()
 
 	GongTimeFieldAPIs = new Array<GongTimeFieldAPI>()
-
-	MetaAPIs = new Array<MetaAPI>()
 
 	MetaReferenceAPIs = new Array<MetaReferenceAPI>()
 
@@ -71,8 +67,6 @@ export class BackRepoData {
 		this.GongStructAPIs = data?.GongStructAPIs || [];
 
 		this.GongTimeFieldAPIs = data?.GongTimeFieldAPIs || [];
-
-		this.MetaAPIs = data?.MetaAPIs || [];
 
 		this.MetaReferenceAPIs = data?.MetaReferenceAPIs || [];
 

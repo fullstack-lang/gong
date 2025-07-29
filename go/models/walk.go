@@ -14,8 +14,6 @@ import (
 // Walk parses go files in the `models` directory pointed by relativePathToModel and
 // fills up modelPkg with its Gongstruct & Gongenum
 //
-// if useParse is used, Walk uses go/parser.Parser
-//
 // # Walk leverages go Parser capabilities to fetch identifiers in go files
 //
 // The algo is in several steps:
@@ -55,7 +53,4 @@ func Walk(relativePathToModel string, modelPkg *ModelPkg) {
 	}
 
 	WalkParser(pkgsParser, modelPkg, &goGitignoreEntries)
-
-	// fetch meta information
-	inspectMeta(modelPkg.GetStage(), pkgsParser["models"])
 }

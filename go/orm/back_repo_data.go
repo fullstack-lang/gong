@@ -18,8 +18,6 @@ type BackRepoData struct {
 
 	GongTimeFieldAPIs []*GongTimeFieldAPI
 
-	MetaAPIs []*MetaAPI
-
 	MetaReferenceAPIs []*MetaReferenceAPI
 
 	ModelPkgAPIs []*ModelPkgAPI
@@ -107,16 +105,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		gongtimefieldDB.CopyBasicFieldsToGongTimeField_WOP(&gongtimefieldAPI.GongTimeField_WOP)
 
 		backRepoData.GongTimeFieldAPIs = append(backRepoData.GongTimeFieldAPIs, &gongtimefieldAPI)
-	}
-
-	for _, metaDB := range backRepo.BackRepoMeta.Map_MetaDBID_MetaDB {
-
-		var metaAPI MetaAPI
-		metaAPI.ID = metaDB.ID
-		metaAPI.MetaPointersEncoding = metaDB.MetaPointersEncoding
-		metaDB.CopyBasicFieldsToMeta_WOP(&metaAPI.Meta_WOP)
-
-		backRepoData.MetaAPIs = append(backRepoData.MetaAPIs, &metaAPI)
 	}
 
 	for _, metareferenceDB := range backRepo.BackRepoMetaReference.Map_MetaReferenceDBID_MetaReferenceDB {

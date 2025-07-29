@@ -48,10 +48,6 @@ type DBLite struct {
 
 	nextIDGongTimeFieldDB uint
 
-	metaDBs map[uint]*MetaDB
-
-	nextIDMetaDB uint
-
 	metareferenceDBs map[uint]*MetaReferenceDB
 
 	nextIDMetaReferenceDB uint
@@ -87,8 +83,6 @@ func NewDBLite() *DBLite {
 		gongstructDBs: make(map[uint]*GongStructDB),
 
 		gongtimefieldDBs: make(map[uint]*GongTimeFieldDB),
-
-		metaDBs: make(map[uint]*MetaDB),
 
 		metareferenceDBs: make(map[uint]*MetaReferenceDB),
 
@@ -139,10 +133,6 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDGongTimeFieldDB++
 		v.ID = db.nextIDGongTimeFieldDB
 		db.gongtimefieldDBs[v.ID] = v
-	case *MetaDB:
-		db.nextIDMetaDB++
-		v.ID = db.nextIDMetaDB
-		db.metaDBs[v.ID] = v
 	case *MetaReferenceDB:
 		db.nextIDMetaReferenceDB++
 		v.ID = db.nextIDMetaReferenceDB
@@ -201,8 +191,6 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.gongstructDBs, v.ID)
 	case *GongTimeFieldDB:
 		delete(db.gongtimefieldDBs, v.ID)
-	case *MetaDB:
-		delete(db.metaDBs, v.ID)
 	case *MetaReferenceDB:
 		delete(db.metareferenceDBs, v.ID)
 	case *ModelPkgDB:
@@ -249,9 +237,6 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *GongTimeFieldDB:
 		db.gongtimefieldDBs[v.ID] = v
-		return db, nil
-	case *MetaDB:
-		db.metaDBs[v.ID] = v
 		return db, nil
 	case *MetaReferenceDB:
 		db.metareferenceDBs[v.ID] = v
@@ -322,12 +307,6 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db GongTimeField github.com/fullstack-lang/gong/go, record not found")
-		}
-	case *MetaDB:
-		if existing, ok := db.metaDBs[v.ID]; ok {
-			*existing = *v
-		} else {
-			return nil, errors.New("db Meta github.com/fullstack-lang/gong/go, record not found")
 		}
 	case *MetaReferenceDB:
 		if existing, ok := db.metareferenceDBs[v.ID]; ok {
@@ -406,12 +385,6 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]GongTimeFieldDB:
 		*ptr = make([]GongTimeFieldDB, 0, len(db.gongtimefieldDBs))
 		for _, v := range db.gongtimefieldDBs {
-			*ptr = append(*ptr, *v)
-		}
-		return db, nil
-	case *[]MetaDB:
-		*ptr = make([]MetaDB, 0, len(db.metaDBs))
-		for _, v := range db.metaDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -541,16 +514,6 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		gongtimefieldDB, _ := instanceDB.(*GongTimeFieldDB)
 		*gongtimefieldDB = *tmp
-		
-	case *MetaDB:
-		tmp, ok := db.metaDBs[uint(i)]
-
-		if !ok {
-			return nil, errors.New(fmt.Sprintf("db.First Meta Unkown entry %d", i))
-		}
-
-		metaDB, _ := instanceDB.(*MetaDB)
-		*metaDB = *tmp
 		
 	case *MetaReferenceDB:
 		tmp, ok := db.metareferenceDBs[uint(i)]

@@ -71,9 +71,6 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "GongTimeField" {
 		updateAndCommitTable[models.GongTimeField](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Meta" {
-		updateAndCommitTable[models.Meta](nodeImplGongstruct.probe)
-	}
 	if nodeImplGongstruct.gongStruct.GetName() == "MetaReference" {
 		updateAndCommitTable[models.MetaReference](nodeImplGongstruct.probe)
 	}

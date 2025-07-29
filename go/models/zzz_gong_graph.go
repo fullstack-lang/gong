@@ -26,9 +26,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *GongTimeField:
 		ok = stage.IsStagedGongTimeField(target)
 
-	case *Meta:
-		ok = stage.IsStagedMeta(target)
-
 	case *MetaReference:
 		ok = stage.IsStagedMetaReference(target)
 
@@ -97,13 +94,6 @@ func (stage *Stage) IsStagedGongTimeField(gongtimefield *GongTimeField) (ok bool
 	return
 }
 
-func (stage *Stage) IsStagedMeta(meta *Meta) (ok bool) {
-
-	_, ok = stage.Metas[meta]
-
-	return
-}
-
 func (stage *Stage) IsStagedMetaReference(metareference *MetaReference) (ok bool) {
 
 	_, ok = stage.MetaReferences[metareference]
@@ -160,9 +150,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *GongTimeField:
 		stage.StageBranchGongTimeField(target)
-
-	case *Meta:
-		stage.StageBranchMeta(target)
 
 	case *MetaReference:
 		stage.StageBranchMetaReference(target)
@@ -308,24 +295,6 @@ func (stage *Stage) StageBranchGongTimeField(gongtimefield *GongTimeField) {
 
 }
 
-func (stage *Stage) StageBranchMeta(meta *Meta) {
-
-	// check if instance is already staged
-	if IsStaged(stage, meta) {
-		return
-	}
-
-	meta.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _metareference := range meta.MetaReferences {
-		StageBranch(stage, _metareference)
-	}
-
-}
-
 func (stage *Stage) StageBranchMetaReference(metareference *MetaReference) {
 
 	// check if instance is already staged
@@ -429,10 +398,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *GongTimeField:
 		toT := CopyBranchGongTimeField(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *Meta:
-		toT := CopyBranchMeta(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *MetaReference:
@@ -612,28 +577,6 @@ func CopyBranchGongTimeField(mapOrigCopy map[any]any, gongtimefieldFrom *GongTim
 	return
 }
 
-func CopyBranchMeta(mapOrigCopy map[any]any, metaFrom *Meta) (metaTo *Meta) {
-
-	// metaFrom has already been copied
-	if _metaTo, ok := mapOrigCopy[metaFrom]; ok {
-		metaTo = _metaTo.(*Meta)
-		return
-	}
-
-	metaTo = new(Meta)
-	mapOrigCopy[metaFrom] = metaTo
-	metaFrom.CopyBasicFields(metaTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _metareference := range metaFrom.MetaReferences {
-		metaTo.MetaReferences = append(metaTo.MetaReferences, CopyBranchMetaReference(mapOrigCopy, _metareference))
-	}
-
-	return
-}
-
 func CopyBranchMetaReference(mapOrigCopy map[any]any, metareferenceFrom *MetaReference) (metareferenceTo *MetaReference) {
 
 	// metareferenceFrom has already been copied
@@ -744,9 +687,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *GongTimeField:
 		stage.UnstageBranchGongTimeField(target)
-
-	case *Meta:
-		stage.UnstageBranchMeta(target)
 
 	case *MetaReference:
 		stage.UnstageBranchMetaReference(target)
@@ -889,24 +829,6 @@ func (stage *Stage) UnstageBranchGongTimeField(gongtimefield *GongTimeField) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchMeta(meta *Meta) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, meta) {
-		return
-	}
-
-	meta.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _metareference := range meta.MetaReferences {
-		UnstageBranch(stage, _metareference)
-	}
 
 }
 

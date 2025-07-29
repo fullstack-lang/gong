@@ -109,8 +109,6 @@ func LoadEmbedded(stage *Stage, goModelsDir embed.FS) (modelPkg *ModelPkg, err e
 	pkgs := ParseEmbedModel(goModelsDir, "models")
 
 	WalkParser(pkgs, modelPkg, nil)
-	// fetch meta information
-	inspectMeta(stage, pkgs["models"])
 
 	modelPkg.SerializeToStage()
 	stage.Commit()
