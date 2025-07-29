@@ -38,8 +38,6 @@ type BackRepoStruct struct {
 
 	BackRepoGongTimeField BackRepoGongTimeFieldStruct
 
-	BackRepoMeta BackRepoMetaStruct
-
 	BackRepoMetaReference BackRepoMetaReferenceStruct
 
 	BackRepoModelPkg BackRepoModelPkgStruct
@@ -76,7 +74,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		&GongNoteDB{},
 		&GongStructDB{},
 		&GongTimeFieldDB{},
-		&MetaDB{},
 		&MetaReferenceDB{},
 		&ModelPkgDB{},
 		&PointerToGongStructFieldDB{},
@@ -139,14 +136,6 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_GongTimeFieldDBID_GongTimeFieldPtr: make(map[uint]*models.GongTimeField, 0),
 		Map_GongTimeFieldDBID_GongTimeFieldDB:  make(map[uint]*GongTimeFieldDB, 0),
 		Map_GongTimeFieldPtr_GongTimeFieldDBID: make(map[*models.GongTimeField]uint, 0),
-
-		db:    db,
-		stage: stage,
-	}
-	backRepo.BackRepoMeta = BackRepoMetaStruct{
-		Map_MetaDBID_MetaPtr: make(map[uint]*models.Meta, 0),
-		Map_MetaDBID_MetaDB:  make(map[uint]*MetaDB, 0),
-		Map_MetaPtr_MetaDBID: make(map[*models.Meta]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -242,7 +231,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoGongNote.CommitPhaseOne(stage)
 	backRepo.BackRepoGongStruct.CommitPhaseOne(stage)
 	backRepo.BackRepoGongTimeField.CommitPhaseOne(stage)
-	backRepo.BackRepoMeta.CommitPhaseOne(stage)
 	backRepo.BackRepoMetaReference.CommitPhaseOne(stage)
 	backRepo.BackRepoModelPkg.CommitPhaseOne(stage)
 	backRepo.BackRepoPointerToGongStructField.CommitPhaseOne(stage)
@@ -256,7 +244,6 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 	backRepo.BackRepoGongNote.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGongStruct.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGongTimeField.CommitPhaseTwo(backRepo)
-	backRepo.BackRepoMeta.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoMetaReference.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoModelPkg.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPointerToGongStructField.CommitPhaseTwo(backRepo)
@@ -282,7 +269,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoGongNote.CheckoutPhaseOne()
 	backRepo.BackRepoGongStruct.CheckoutPhaseOne()
 	backRepo.BackRepoGongTimeField.CheckoutPhaseOne()
-	backRepo.BackRepoMeta.CheckoutPhaseOne()
 	backRepo.BackRepoMetaReference.CheckoutPhaseOne()
 	backRepo.BackRepoModelPkg.CheckoutPhaseOne()
 	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseOne()
@@ -296,7 +282,6 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	backRepo.BackRepoGongNote.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGongStruct.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGongTimeField.CheckoutPhaseTwo(backRepo)
-	backRepo.BackRepoMeta.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoMetaReference.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoModelPkg.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPointerToGongStructField.CheckoutPhaseTwo(backRepo)
@@ -315,7 +300,6 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoGongNote.Backup(dirPath)
 	backRepo.BackRepoGongStruct.Backup(dirPath)
 	backRepo.BackRepoGongTimeField.Backup(dirPath)
-	backRepo.BackRepoMeta.Backup(dirPath)
 	backRepo.BackRepoMetaReference.Backup(dirPath)
 	backRepo.BackRepoModelPkg.Backup(dirPath)
 	backRepo.BackRepoPointerToGongStructField.Backup(dirPath)
@@ -337,7 +321,6 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoGongNote.BackupXL(file)
 	backRepo.BackRepoGongStruct.BackupXL(file)
 	backRepo.BackRepoGongTimeField.BackupXL(file)
-	backRepo.BackRepoMeta.BackupXL(file)
 	backRepo.BackRepoMetaReference.BackupXL(file)
 	backRepo.BackRepoModelPkg.BackupXL(file)
 	backRepo.BackRepoPointerToGongStructField.BackupXL(file)
@@ -373,7 +356,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoGongNote.RestorePhaseOne(dirPath)
 	backRepo.BackRepoGongStruct.RestorePhaseOne(dirPath)
 	backRepo.BackRepoGongTimeField.RestorePhaseOne(dirPath)
-	backRepo.BackRepoMeta.RestorePhaseOne(dirPath)
 	backRepo.BackRepoMetaReference.RestorePhaseOne(dirPath)
 	backRepo.BackRepoModelPkg.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPointerToGongStructField.RestorePhaseOne(dirPath)
@@ -391,7 +373,6 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoGongNote.RestorePhaseTwo()
 	backRepo.BackRepoGongStruct.RestorePhaseTwo()
 	backRepo.BackRepoGongTimeField.RestorePhaseTwo()
-	backRepo.BackRepoMeta.RestorePhaseTwo()
 	backRepo.BackRepoMetaReference.RestorePhaseTwo()
 	backRepo.BackRepoModelPkg.RestorePhaseTwo()
 	backRepo.BackRepoPointerToGongStructField.RestorePhaseTwo()
@@ -430,7 +411,6 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 	backRepo.BackRepoGongNote.RestoreXLPhaseOne(file)
 	backRepo.BackRepoGongStruct.RestoreXLPhaseOne(file)
 	backRepo.BackRepoGongTimeField.RestoreXLPhaseOne(file)
-	backRepo.BackRepoMeta.RestoreXLPhaseOne(file)
 	backRepo.BackRepoMetaReference.RestoreXLPhaseOne(file)
 	backRepo.BackRepoModelPkg.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPointerToGongStructField.RestoreXLPhaseOne(file)

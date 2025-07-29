@@ -49,7 +49,6 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdate[models.GongNote](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStruct](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongTimeField](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Meta](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MetaReference](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ModelPkg](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField](stage)

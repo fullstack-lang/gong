@@ -72,21 +72,9 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
-	case *Meta:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *MetaReference:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Meta":
-			switch reverseField.Fieldname {
-			case "MetaReferences":
-				if _meta, ok := stage.Meta_MetaReferences_reverseMap[inst]; ok {
-					res = _meta.Name
-				}
-			}
 		}
 
 	case *ModelPkg:
@@ -187,19 +175,9 @@ func GetReverseFieldOwner[T Gongstruct](
 			}
 		}
 
-	case *Meta:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *MetaReference:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Meta":
-			switch reverseField.Fieldname {
-			case "MetaReferences":
-				res = stage.Meta_MetaReferences_reverseMap[inst]
-			}
 		}
 
 	case *ModelPkg:

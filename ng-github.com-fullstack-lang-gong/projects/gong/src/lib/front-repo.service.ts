@@ -33,10 +33,6 @@ import { GongTimeFieldAPI } from './gongtimefield-api'
 import { GongTimeField, CopyGongTimeFieldAPIToGongTimeField } from './gongtimefield'
 import { GongTimeFieldService } from './gongtimefield.service'
 
-import { MetaAPI } from './meta-api'
-import { Meta, CopyMetaAPIToMeta } from './meta'
-import { MetaService } from './meta.service'
-
 import { MetaReferenceAPI } from './metareference-api'
 import { MetaReference, CopyMetaReferenceAPIToMetaReference } from './metareference'
 import { MetaReferenceService } from './metareference.service'
@@ -81,9 +77,6 @@ export class FrontRepo { // insertion point sub template
 	array_GongTimeFields = new Array<GongTimeField>() // array of front instances
 	map_ID_GongTimeField = new Map<number, GongTimeField>() // map of front instances
 
-	array_Metas = new Array<Meta>() // array of front instances
-	map_ID_Meta = new Map<number, Meta>() // map of front instances
-
 	array_MetaReferences = new Array<MetaReference>() // array of front instances
 	map_ID_MetaReference = new Map<number, MetaReference>() // map of front instances
 
@@ -119,8 +112,6 @@ export class FrontRepo { // insertion point sub template
 				return this.array_GongStructs as unknown as Array<Type>
 			case 'GongTimeField':
 				return this.array_GongTimeFields as unknown as Array<Type>
-			case 'Meta':
-				return this.array_Metas as unknown as Array<Type>
 			case 'MetaReference':
 				return this.array_MetaReferences as unknown as Array<Type>
 			case 'ModelPkg':
@@ -151,8 +142,6 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_GongStruct as unknown as Map<number, Type>
 			case 'GongTimeField':
 				return this.map_ID_GongTimeField as unknown as Map<number, Type>
-			case 'Meta':
-				return this.map_ID_Meta as unknown as Map<number, Type>
 			case 'MetaReference':
 				return this.map_ID_MetaReference as unknown as Map<number, Type>
 			case 'ModelPkg':
@@ -238,7 +227,6 @@ export class FrontRepoService {
 		private gongnoteService: GongNoteService,
 		private gongstructService: GongStructService,
 		private gongtimefieldService: GongTimeFieldService,
-		private metaService: MetaService,
 		private metareferenceService: MetaReferenceService,
 		private modelpkgService: ModelPkgService,
 		private pointertogongstructfieldService: PointerToGongStructFieldService,
@@ -282,7 +270,6 @@ export class FrontRepoService {
 		Observable<GongNoteAPI[]>,
 		Observable<GongStructAPI[]>,
 		Observable<GongTimeFieldAPI[]>,
-		Observable<MetaAPI[]>,
 		Observable<MetaReferenceAPI[]>,
 		Observable<ModelPkgAPI[]>,
 		Observable<PointerToGongStructFieldAPI[]>,
@@ -309,7 +296,6 @@ export class FrontRepoService {
 			this.gongnoteService.getGongNotes(this.Name, this.frontRepo),
 			this.gongstructService.getGongStructs(this.Name, this.frontRepo),
 			this.gongtimefieldService.getGongTimeFields(this.Name, this.frontRepo),
-			this.metaService.getMetas(this.Name, this.frontRepo),
 			this.metareferenceService.getMetaReferences(this.Name, this.frontRepo),
 			this.modelpkgService.getModelPkgs(this.Name, this.frontRepo),
 			this.pointertogongstructfieldService.getPointerToGongStructFields(this.Name, this.frontRepo),
@@ -331,7 +317,6 @@ export class FrontRepoService {
 						gongnotes_,
 						gongstructs_,
 						gongtimefields_,
-						metas_,
 						metareferences_,
 						modelpkgs_,
 						pointertogongstructfields_,
@@ -354,8 +339,6 @@ export class FrontRepoService {
 						gongstructs = gongstructs_ as GongStructAPI[]
 						var gongtimefields: GongTimeFieldAPI[]
 						gongtimefields = gongtimefields_ as GongTimeFieldAPI[]
-						var metas: MetaAPI[]
-						metas = metas_ as MetaAPI[]
 						var metareferences: MetaReferenceAPI[]
 						metareferences = metareferences_ as MetaReferenceAPI[]
 						var modelpkgs: ModelPkgAPI[]
@@ -449,18 +432,6 @@ export class FrontRepoService {
 								let gongtimefield = new GongTimeField
 								this.frontRepo.array_GongTimeFields.push(gongtimefield)
 								this.frontRepo.map_ID_GongTimeField.set(gongtimefieldAPI.ID, gongtimefield)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Metas = []
-						this.frontRepo.map_ID_Meta.clear()
-
-						metas.forEach(
-							metaAPI => {
-								let meta = new Meta
-								this.frontRepo.array_Metas.push(meta)
-								this.frontRepo.map_ID_Meta.set(metaAPI.ID, meta)
 							}
 						)
 
@@ -569,14 +540,6 @@ export class FrontRepoService {
 							gongtimefieldAPI => {
 								let gongtimefield = this.frontRepo.map_ID_GongTimeField.get(gongtimefieldAPI.ID)
 								CopyGongTimeFieldAPIToGongTimeField(gongtimefieldAPI, gongtimefield!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
-						metas.forEach(
-							metaAPI => {
-								let meta = this.frontRepo.map_ID_Meta.get(metaAPI.ID)
-								CopyMetaAPIToMeta(metaAPI, meta!, this.frontRepo)
 							}
 						)
 
@@ -744,18 +707,6 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
-				frontRepo.array_Metas = []
-				frontRepo.map_ID_Meta.clear()
-
-				backRepoData.MetaAPIs.forEach(
-					metaAPI => {
-						let meta = new Meta
-						frontRepo.array_Metas.push(meta)
-						frontRepo.map_ID_Meta.set(metaAPI.ID, meta)
-					}
-				)
-
-				// init the arrays
 				frontRepo.array_MetaReferences = []
 				frontRepo.map_ID_MetaReference.clear()
 
@@ -866,14 +817,6 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
-				backRepoData.MetaAPIs.forEach(
-					metaAPI => {
-						let meta = frontRepo.map_ID_Meta.get(metaAPI.ID)
-						CopyMetaAPIToMeta(metaAPI, meta!, frontRepo)
-					}
-				)
-
-				// fill up front objects
 				backRepoData.MetaReferenceAPIs.forEach(
 					metareferenceAPI => {
 						let metareference = frontRepo.map_ID_MetaReference.get(metareferenceAPI.ID)
@@ -954,18 +897,15 @@ export function getGongStructUniqueID(id: number): number {
 export function getGongTimeFieldUniqueID(id: number): number {
 	return 59 * id
 }
-export function getMetaUniqueID(id: number): number {
+export function getMetaReferenceUniqueID(id: number): number {
 	return 61 * id
 }
-export function getMetaReferenceUniqueID(id: number): number {
+export function getModelPkgUniqueID(id: number): number {
 	return 67 * id
 }
-export function getModelPkgUniqueID(id: number): number {
+export function getPointerToGongStructFieldUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPointerToGongStructFieldUniqueID(id: number): number {
-	return 73 * id
-}
 export function getSliceOfPointerToGongStructFieldUniqueID(id: number): number {
-	return 79 * id
+	return 73 * id
 }

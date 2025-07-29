@@ -116,19 +116,6 @@ func FillUpFormFromGongstructName(
 		gongtimefield := new(models.GongTimeField)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(gongtimefield, formGroup, probe)
-	case "Meta":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Meta Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__MetaFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		meta := new(models.Meta)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(meta, formGroup, probe)
 	case "MetaReference":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -400,7 +400,6 @@ var __gong__map_GongLink = make(map[string]*GongLink)
 var __gong__map_GongNote = make(map[string]*GongNote)
 var __gong__map_GongStruct = make(map[string]*GongStruct)
 var __gong__map_GongTimeField = make(map[string]*GongTimeField)
-var __gong__map_Meta = make(map[string]*Meta)
 var __gong__map_MetaReference = make(map[string]*MetaReference)
 var __gong__map_ModelPkg = make(map[string]*ModelPkg)
 var __gong__map_PointerToGongStructField = make(map[string]*PointerToGongStructField)
@@ -619,12 +618,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceGongTimeField.Stage(stage)
 										instance = any(instanceGongTimeField)
 										__gong__map_GongTimeField[identifier] = instanceGongTimeField
-									case "Meta":
-										instanceMeta := new(Meta)
-										instanceMeta.Name = instanceName
-										instanceMeta.Stage(stage)
-										instance = any(instanceMeta)
-										__gong__map_Meta[identifier] = instanceMeta
 									case "MetaReference":
 										instanceMetaReference := new(MetaReference)
 										instanceMetaReference.Name = instanceName
@@ -711,10 +704,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "GongTimeField":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Meta":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -878,20 +867,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "GongTimeField":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						}
-					case "Meta":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						case "MetaReferences":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_MetaReference[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Meta[identifier]
-								instanceWhoseFieldIsAppended.MetaReferences = append(instanceWhoseFieldIsAppended.MetaReferences, instanceToAppend)
-							}
 						}
 					case "MetaReference":
 						switch fieldName {
@@ -1092,18 +1067,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_GongTimeField[identifier].BespokeTimeFormat = fielValue
 				}
-			case "Meta":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Meta[identifier].Name = fielValue
-				case "Text":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Meta[identifier].Text = fielValue
-				}
 			case "MetaReference":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1303,10 +1266,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch fieldName {
 				// insertion point for field dependant code
 				}
-			case "Meta":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
 			case "MetaReference":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1426,10 +1385,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "GongTimeField":
-					switch fieldName {
-					// insertion point for selector expr assign code
-					}
-				case "Meta":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
