@@ -21,5 +21,44 @@
             {{ end }}
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Select all top-level list items in the sidebar, which represent chapters.
+            const chapters = document.querySelectorAll('.sidebar > ul > li');
+
+            chapters.forEach(function(chapter) {
+                // For each chapter, find its main link and its submenu (the list of pages).
+                const chapterLink = chapter.querySelector('a');
+                const submenu = chapter.querySelector('ul');
+
+                // If a chapter has both a link and a submenu, make it collapsible.
+                if (chapterLink && submenu) {
+                    
+                    // A chapter is considered "active" if any link within it (either the
+                    // chapter link itself or one of its page links) has an active class.
+                    const isActive = chapter.querySelector('.active-section, .active-page') !== null;
+
+                    // Add the click event listener to toggle the submenu.
+                    chapterLink.addEventListener('click', function(event) {
+                        // Prevent the default link navigation.
+                        event.preventDefault();
+
+                        // Toggle the display style of the submenu.
+                        if (submenu.style.display === 'none') {
+                            submenu.style.display = 'block';
+                        } else {
+                            submenu.style.display = 'none';
+                        }
+                    });
+
+                    // By default, only hide the submenus of inactive chapters.
+                    if (!isActive) {
+                        submenu.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
