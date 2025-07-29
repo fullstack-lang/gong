@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-29 08:07:07.966147 EDT"
-	const __write__utc_time__ = "2025-07-29 12:07:07.966147 UTC"
+	const __write__local_time = "2025-07-29 08:20:25.455519 EDT"
+	const __write__utc_time__ = "2025-07-29 12:20:25.455519 UTC"
 
-	const __commitId__ = "0000000034"
+	const __commitId__ = "0000000036"
 
 	// Declaration of instances to stage
 
@@ -44,7 +44,10 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Chapter__000000_The_Observatory.Name = `The Observatory`
-	__Chapter__000000_The_Observatory.MardownContent = `This chapter provides an overview of the Vera C. Rubin Observatory, its history, and its key components.`
+	__Chapter__000000_The_Observatory.MardownContent = `This chapter provides an overview of the Vera C. Rubin Observatory, its history, and its key components.
+
+<img src="../images/Large_Synoptic_Survey_Telescope_3_4_render_2013.png" alt="Large Synoptic Survey Telescope" style="width: 800px;">
+`
 
 	__Chapter__000001_The_Science.Name = `The Science`
 	__Chapter__000001_The_Science.MardownContent = `The Legacy Survey of Space and Time (LSST) will generate an unprecedented dataset, enabling a wide array of scientific discoveries.
