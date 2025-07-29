@@ -55,5 +55,44 @@
 
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const chapters = document.querySelectorAll('.sidebar > ul > li');
+
+            chapters.forEach(function(chapter) {
+                
+                const chapterLink = chapter.querySelector('a');
+                const submenu = chapter.querySelector('ul');
+
+                
+                if (chapterLink && submenu) {
+                    
+                    
+                    
+                    const isActive = chapter.querySelector('.active-section, .active-page') !== null;
+
+                    
+                    chapterLink.addEventListener('click', function(event) {
+                        
+                        event.preventDefault();
+
+                        
+                        if (submenu.style.display === 'none') {
+                            submenu.style.display = 'block';
+                        } else {
+                            submenu.style.display = 'none';
+                        }
+                    });
+
+                    
+                    if (!isActive) {
+                        submenu.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
