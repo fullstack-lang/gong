@@ -77,19 +77,6 @@ func FillUpFormFromGongstructName(
 		cursor := new(models.Cursor)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(cursor, formGroup, probe)
-	case "Doc":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Doc Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__DocFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		doc := new(models.Doc)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(doc, formGroup, probe)
 	case "FavIcon":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

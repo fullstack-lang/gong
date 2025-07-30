@@ -93,7 +93,6 @@ func NewStager(
 										Size:             66,
 										Tree: &split.Tree{
 											StackName: stager.treeStage.GetName(),
-											TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
 										},
 									},
 									{

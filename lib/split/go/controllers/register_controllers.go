@@ -84,13 +84,6 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/cursors/:id", GetController().UpdateCursor)
 		v1.DELETE("/v1/cursors/:id", GetController().DeleteCursor)
 
-		v1.GET("/v1/docs", GetController().GetDocs)
-		v1.GET("/v1/docs/:id", GetController().GetDoc)
-		v1.POST("/v1/docs", GetController().PostDoc)
-		v1.PATCH("/v1/docs/:id", GetController().UpdateDoc)
-		v1.PUT("/v1/docs/:id", GetController().UpdateDoc)
-		v1.DELETE("/v1/docs/:id", GetController().DeleteDoc)
-
 		v1.GET("/v1/favicons", GetController().GetFavIcons)
 		v1.GET("/v1/favicons/:id", GetController().GetFavIcon)
 		v1.POST("/v1/favicons", GetController().PostFavIcon)
