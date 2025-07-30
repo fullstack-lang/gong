@@ -14,7 +14,6 @@ export class TableAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	TableName: string = ""
 
 	// insertion point for other decls
 

@@ -113,7 +113,6 @@ func NewProbe(
 				Table: (&split.Table{
 					Name:      "Table",
 					StackName: probe.tableStage.GetName(),
-					TableName: TableName,
 				}),
 			}),
 			(&split.AsSplitArea{
@@ -122,7 +121,6 @@ func NewProbe(
 				Form: (&split.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
-					FormName:  FormName,
 				}),
 			}),
 		},

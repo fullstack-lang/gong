@@ -19,7 +19,6 @@ export class Table {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	TableName: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -33,7 +32,6 @@ export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {
 	// insertion point for basic fields copy operations
 	tableAPI.Name = table.Name
 	tableAPI.StackName = table.StackName
-	tableAPI.TableName = table.TableName
 
 	// insertion point for pointer fields encoding
 
@@ -53,7 +51,6 @@ export function CopyTableAPIToTable(tableAPI: TableAPI, table: Table, frontRepo:
 	// insertion point for basic fields copy operations
 	table.Name = tableAPI.Name
 	table.StackName = tableAPI.StackName
-	table.TableName = tableAPI.TableName
 
 	// insertion point for pointer fields encoding
 

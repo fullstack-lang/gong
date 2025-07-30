@@ -14,7 +14,6 @@ export class FormAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	FormName: string = ""
 
 	// insertion point for other decls
 

@@ -23,15 +23,17 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-30 04:30:55.601240 EDT"
-	const __write__utc_time__ = "2025-07-30 08:30:55.601240 UTC"
+	const __write__local_time = "2025-07-30 06:45:57.661641 EDT"
+	const __write__utc_time__ = "2025-07-30 10:45:57.661641 UTC"
 
-	const __commitId__ = "0000000102"
+	const __commitId__ = "0000000119"
 
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_Name := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000001_Booleanfield_renamed_renamed := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000002_Date := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000003_Date2 := (&models.AttributeShape{}).Stage(stage)
 
 	__Classdiagram__000000_1_First := (&models.Classdiagram{}).Stage(stage)
 	__Classdiagram__000001_2_Second_ := (&models.Classdiagram{}).Stage(stage)
@@ -50,9 +52,12 @@ func _(stage *models.Stage) {
 
 	__GongStructShape__000000_Default_Astruct := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_Bstruct := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000002_0_Zero_Astruct := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use := (&models.GongStructShape{}).Stage(stage)
 
 	__LinkShape__000000_Anarrayofb := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000001_Associationtob := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000002_Anarrayofb2Use := (&models.LinkShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -67,6 +72,18 @@ func _(stage *models.Stage) {
 	__AttributeShape__000001_Booleanfield_renamed_renamed.FieldTypeAsString = ``
 	__AttributeShape__000001_Booleanfield_renamed_renamed.Structname = `Astruct`
 	__AttributeShape__000001_Booleanfield_renamed_renamed.Fieldtypename = `bool`
+
+	__AttributeShape__000002_Date.Name = `Date`
+	__AttributeShape__000002_Date.IdentifierMeta = ref_models.Astruct{}.Date
+	__AttributeShape__000002_Date.FieldTypeAsString = ``
+	__AttributeShape__000002_Date.Structname = `Astruct`
+	__AttributeShape__000002_Date.Fieldtypename = `Time`
+
+	__AttributeShape__000003_Date2.Name = `Date2`
+	__AttributeShape__000003_Date2.IdentifierMeta = ref_models.Astruct{}.Date2
+	__AttributeShape__000003_Date2.FieldTypeAsString = ``
+	__AttributeShape__000003_Date2.Structname = `Astruct`
+	__AttributeShape__000003_Date2.Fieldtypename = `Time`
 
 	__Classdiagram__000000_1_First.Name = `1. First`
 	__Classdiagram__000000_1_First.Description = ``
@@ -96,9 +113,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000002_0_Zero.Description = ``
 	__Classdiagram__000002_0_Zero.IsIncludedInStaticWebSite = false
 	__Classdiagram__000002_0_Zero.IsInRenameMode = false
-	__Classdiagram__000002_0_Zero.IsExpanded = false
-	__Classdiagram__000002_0_Zero.NodeGongStructsIsExpanded = false
-	__Classdiagram__000002_0_Zero.NodeGongStructNodeExpansion = ``
+	__Classdiagram__000002_0_Zero.IsExpanded = true
+	__Classdiagram__000002_0_Zero.NodeGongStructsIsExpanded = true
+	__Classdiagram__000002_0_Zero.NodeGongStructNodeExpansion = `[true]`
 	__Classdiagram__000002_0_Zero.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000002_0_Zero.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000002_0_Zero.NodeGongNotesIsExpanded = false
@@ -190,6 +207,22 @@ renaming
 	__GongStructShape__000001_Default_Bstruct.Height = 227.000000
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
 
+	__GongStructShape__000002_0_Zero_Astruct.Name = `0. Zero-Astruct`
+	__GongStructShape__000002_0_Zero_Astruct.X = 31.000000
+	__GongStructShape__000002_0_Zero_Astruct.Y = 102.000000
+	__GongStructShape__000002_0_Zero_Astruct.IdentifierMeta = ref_models.Astruct{}
+	__GongStructShape__000002_0_Zero_Astruct.Width = 240.000000
+	__GongStructShape__000002_0_Zero_Astruct.Height = 103.000000
+	__GongStructShape__000002_0_Zero_Astruct.IsSelected = false
+
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.Name = `0. Zero-AstructBstruct2Use`
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.X = 607.000000
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.Y = 131.000000
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.IdentifierMeta = ref_models.AstructBstruct2Use{}
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.Width = 240.000000
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.Height = 63.000000
+	__GongStructShape__000003_0_Zero_AstructBstruct2Use.IsSelected = false
+
 	__LinkShape__000000_Anarrayofb.Name = `Anarrayofb`
 	__LinkShape__000000_Anarrayofb.IdentifierMeta = ref_models.Astruct{}.Anarrayofb
 	__LinkShape__000000_Anarrayofb.FieldTypeIdentifierMeta = ref_models.Bstruct{}
@@ -228,6 +261,25 @@ renaming
 	__LinkShape__000001_Associationtob.EndRatio = 0.500000
 	__LinkShape__000001_Associationtob.CornerOffsetRatio = 1.380000
 
+	__LinkShape__000002_Anarrayofb2Use.Name = `Anarrayofb2Use`
+	__LinkShape__000002_Anarrayofb2Use.IdentifierMeta = ref_models.Astruct{}.Anarrayofb2Use
+	__LinkShape__000002_Anarrayofb2Use.FieldTypeIdentifierMeta = ref_models.AstructBstruct2Use{}
+	__LinkShape__000002_Anarrayofb2Use.FieldOffsetX = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.FieldOffsetY = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.TargetMultiplicity = models.MANY
+	__LinkShape__000002_Anarrayofb2Use.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.SourceMultiplicity = models.MANY
+	__LinkShape__000002_Anarrayofb2Use.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000002_Anarrayofb2Use.X = 540.000000
+	__LinkShape__000002_Anarrayofb2Use.Y = 233.500000
+	__LinkShape__000002_Anarrayofb2Use.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000002_Anarrayofb2Use.StartRatio = 0.500000
+	__LinkShape__000002_Anarrayofb2Use.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000002_Anarrayofb2Use.EndRatio = 0.500000
+	__LinkShape__000002_Anarrayofb2Use.CornerOffsetRatio = 1.380000
+
 	// Setup of pointers
 	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
@@ -236,11 +288,13 @@ renaming
 	__Classdiagram__000000_1_First.GongEnumShapes = append(__Classdiagram__000000_1_First.GongEnumShapes, __GongEnumShape__000000_Default_AEnumType)
 	__Classdiagram__000000_1_First.GongEnumShapes = append(__Classdiagram__000000_1_First.GongEnumShapes, __GongEnumShape__000001_Default_BEnumType)
 	__Classdiagram__000000_1_First.GongNoteShapes = append(__Classdiagram__000000_1_First.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnOrganisation)
+	__Classdiagram__000002_0_Zero.GongStructShapes = append(__Classdiagram__000002_0_Zero.GongStructShapes, __GongStructShape__000002_0_Zero_Astruct)
+	__Classdiagram__000002_0_Zero.GongStructShapes = append(__Classdiagram__000002_0_Zero.GongStructShapes, __GongStructShape__000003_0_Zero_AstructBstruct2Use)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_1_First)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000001_2_Second_)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000002_0_Zero)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000000_1_First
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000002_0_Zero
 	// setup of GongEnumShape instances pointers
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL1_)
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL2)
@@ -251,6 +305,9 @@ renaming
 	__GongStructShape__000000_Default_Astruct.AttributeShapes = append(__GongStructShape__000000_Default_Astruct.AttributeShapes, __AttributeShape__000001_Booleanfield_renamed_renamed)
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000000_Anarrayofb)
 	__GongStructShape__000000_Default_Astruct.LinkShapes = append(__GongStructShape__000000_Default_Astruct.LinkShapes, __LinkShape__000001_Associationtob)
+	__GongStructShape__000002_0_Zero_Astruct.AttributeShapes = append(__GongStructShape__000002_0_Zero_Astruct.AttributeShapes, __AttributeShape__000002_Date)
+	__GongStructShape__000002_0_Zero_Astruct.AttributeShapes = append(__GongStructShape__000002_0_Zero_Astruct.AttributeShapes, __AttributeShape__000003_Date2)
+	__GongStructShape__000002_0_Zero_Astruct.LinkShapes = append(__GongStructShape__000002_0_Zero_Astruct.LinkShapes, __LinkShape__000002_Anarrayofb2Use)
 	// setup of LinkShape instances pointers
 }
 

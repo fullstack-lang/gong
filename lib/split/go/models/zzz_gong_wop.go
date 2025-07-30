@@ -100,15 +100,12 @@ type Form_WOP struct {
 	Name string
 
 	StackName string
-
-	FormName string
 }
 
 func (from *Form) CopyBasicFields(to *Form) {
 	// insertion point
 	to.Name = from.Name
 	to.StackName = from.StackName
-	to.FormName = from.FormName
 }
 
 type Load_WOP struct {
@@ -230,15 +227,12 @@ type Table_WOP struct {
 	Name string
 
 	StackName string
-
-	TableName string
 }
 
 func (from *Table) CopyBasicFields(to *Table) {
 	// insertion point
 	to.Name = from.Name
 	to.StackName = from.StackName
-	to.TableName = from.TableName
 }
 
 type Title_WOP struct {

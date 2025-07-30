@@ -87,7 +87,6 @@ type Cursor struct {
 type Form struct {
 	Name      string // name of the stack
 	StackName string
-	FormName  string
 }
 
 type Load struct {
@@ -119,7 +118,6 @@ type Svg struct {
 type Table struct {
 	Name      string // name of the stack
 	StackName string
-	TableName string
 }
 
 type Tone struct {

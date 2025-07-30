@@ -66,9 +66,6 @@ type FormDB struct {
 	// Declation for basic field formDB.StackName
 	StackName_Data sql.NullString
 
-	// Declation for basic field formDB.FormName
-	FormName_Data sql.NullString
-
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormPointersEncoding
@@ -94,8 +91,6 @@ type FormWOP struct {
 	Name string `xlsx:"1"`
 
 	StackName string `xlsx:"2"`
-
-	FormName string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -104,7 +99,6 @@ var Form_Fields = []string{
 	"ID",
 	"Name",
 	"StackName",
-	"FormName",
 }
 
 type BackRepoFormStruct struct {
@@ -387,9 +381,6 @@ func (formDB *FormDB) CopyBasicFieldsFromForm(form *models.Form) {
 
 	formDB.StackName_Data.String = form.StackName
 	formDB.StackName_Data.Valid = true
-
-	formDB.FormName_Data.String = form.FormName
-	formDB.FormName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromForm_WOP
@@ -401,9 +392,6 @@ func (formDB *FormDB) CopyBasicFieldsFromForm_WOP(form *models.Form_WOP) {
 
 	formDB.StackName_Data.String = form.StackName
 	formDB.StackName_Data.Valid = true
-
-	formDB.FormName_Data.String = form.FormName
-	formDB.FormName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormWOP
@@ -415,9 +403,6 @@ func (formDB *FormDB) CopyBasicFieldsFromFormWOP(form *FormWOP) {
 
 	formDB.StackName_Data.String = form.StackName
 	formDB.StackName_Data.Valid = true
-
-	formDB.FormName_Data.String = form.FormName
-	formDB.FormName_Data.Valid = true
 }
 
 // CopyBasicFieldsToForm
@@ -425,7 +410,6 @@ func (formDB *FormDB) CopyBasicFieldsToForm(form *models.Form) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	form.Name = formDB.Name_Data.String
 	form.StackName = formDB.StackName_Data.String
-	form.FormName = formDB.FormName_Data.String
 }
 
 // CopyBasicFieldsToForm_WOP
@@ -433,7 +417,6 @@ func (formDB *FormDB) CopyBasicFieldsToForm_WOP(form *models.Form_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	form.Name = formDB.Name_Data.String
 	form.StackName = formDB.StackName_Data.String
-	form.FormName = formDB.FormName_Data.String
 }
 
 // CopyBasicFieldsToFormWOP
@@ -442,7 +425,6 @@ func (formDB *FormDB) CopyBasicFieldsToFormWOP(form *FormWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	form.Name = formDB.Name_Data.String
 	form.StackName = formDB.StackName_Data.String
-	form.FormName = formDB.FormName_Data.String
 }
 
 // Backup generates a json file from a slice of all FormDB instances in the backrepo

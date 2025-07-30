@@ -204,7 +204,6 @@ func main() {
 							Table: (&split.Table{
 								Name:      "Table",
 								StackName: stageForManualyEditedTable.GetName(),
-								TableName: "Table with 5 types",
 							}),
 						}),
 						(&split.AsSplitArea{
@@ -213,7 +212,6 @@ func main() {
 							Table: (&split.Table{
 								Name:      "Table",
 								StackName: stageForManualyEditedTable.GetName(),
-								TableName: "EmptyTable",
 							}),
 						}),
 					},
@@ -243,7 +241,6 @@ func main() {
 							Form: (&split.Form{
 								Name:      "Form",
 								StackName: stageForManualyEditedForm.GetName(),
-								FormName:  "Form 1",
 							}),
 						}),
 					},
@@ -273,7 +270,6 @@ func main() {
 							Table: (&split.Table{
 								Name:      "Table",
 								StackName: stageForGeneratedTable.GetName(),
-								TableName: "Table",
 							}),
 						}),
 					},
