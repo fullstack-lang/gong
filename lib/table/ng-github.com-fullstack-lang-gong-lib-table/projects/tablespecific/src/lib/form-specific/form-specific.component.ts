@@ -50,9 +50,6 @@ import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../ass
 export class FormSpecificComponent {
   @Input() Name: string = ""
 
-  // within the same stack, there can be multiple form. This one is the form to display
-  @Input() FormName: string = ""
-
   // the component is refreshed when modification are performed in the back repo 
   // 
   // the checkCommitNbFromBackTimer polls the commit number of the back repo
@@ -109,9 +106,7 @@ export class FormSpecificComponent {
 
         // refactorable version
         for (let form of this.gongtableFrontRepo.getFrontArray<table.FormGroup>(table.FormGroup.GONGSTRUCT_NAME)) {
-          if (form.Name == this.FormName) {
-            this.selectedFormGroup = form
-          }
+          this.selectedFormGroup = form
         }
 
         this.angularFormGroup = undefined
@@ -407,7 +402,6 @@ export class FormSpecificComponent {
               this.dialogRef = this.dialog.open(TableSpecificComponent, {
                 data: {
                   Name: this.Name + table.TableExtraPathEnum.StackNamePostFixForTableForAssociation,
-                  TableName: table.TableExtraNameEnum.TableSelectExtraName,
                   AssociationStorage: this.currentFormEditAssocButton?.AssociationStorage
                 },
               });

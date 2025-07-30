@@ -100,7 +100,6 @@ func NewStager(
 										Size: 34,
 										Form: &split.Form{
 											StackName: stager.formStage.GetName(),
-											FormName:  stager.formStage.GetName(), // convention
 										},
 									},
 								},

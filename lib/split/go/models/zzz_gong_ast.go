@@ -1101,10 +1101,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Form[identifier].StackName = fielValue
-				case "FormName":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Form[identifier].FormName = fielValue
 				}
 			case "Load":
 				switch fieldName {
@@ -1233,10 +1229,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Table[identifier].StackName = fielValue
-				case "TableName":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Table[identifier].TableName = fielValue
 				}
 			case "Title":
 				switch fieldName {
