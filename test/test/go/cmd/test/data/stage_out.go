@@ -4,16 +4,14 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test/test/go/models"
-	// injection point for ident package import declaration
-	gongdoc_models "github.com/fullstack-lang/gong/lib/doc/go/models"
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
 
-// _ point for meta package dummy declaration
-var _ gongdoc_models.Stage
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -23,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-11 06:39:14.683154 CEST"
-	const __write__utc_time__ = "2025-06-11 04:39:14.683154 UTC"
+	const __write__local_time = "2025-07-30 06:45:16.339151 EDT"
+	const __write__utc_time__ = "2025-07-30 10:45:16.339151 UTC"
 
-	const __commitId__ = "0000000007"
+	const __commitId__ = "0000000091"
 
 	// Declaration of instances to stage
 
@@ -147,7 +145,6 @@ Second Line`
 	// setup of Astruct instances pointers
 	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
@@ -160,3 +157,4 @@ Second Line`
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
 	// setup of Gstruct instances pointers
 }
+

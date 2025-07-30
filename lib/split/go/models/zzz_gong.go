@@ -3507,7 +3507,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FavIcon:
 		res = []string{"Name", "SVG"}
 	case Form:
-		res = []string{"Name", "StackName", "FormName"}
+		res = []string{"Name", "StackName"}
 	case Load:
 		res = []string{"Name", "StackName"}
 	case LogoOnTheLeft:
@@ -3523,7 +3523,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Svg:
 		res = []string{"Name", "StackName", "Style"}
 	case Table:
-		res = []string{"Name", "StackName", "TableName"}
+		res = []string{"Name", "StackName"}
 	case Title:
 		res = []string{"Name"}
 	case Tone:
@@ -3637,7 +3637,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FavIcon:
 		res = []string{"Name", "SVG"}
 	case *Form:
-		res = []string{"Name", "StackName", "FormName"}
+		res = []string{"Name", "StackName"}
 	case *Load:
 		res = []string{"Name", "StackName"}
 	case *LogoOnTheLeft:
@@ -3653,7 +3653,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Svg:
 		res = []string{"Name", "StackName", "Style"}
 	case *Table:
-		res = []string{"Name", "StackName", "TableName"}
+		res = []string{"Name", "StackName"}
 	case *Title:
 		res = []string{"Name"}
 	case *Tone:
@@ -3830,8 +3830,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "FormName":
-			res.valueString = inferedInstance.FormName
 		}
 	case *Load:
 		switch fieldName {
@@ -3914,8 +3912,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "TableName":
-			res.valueString = inferedInstance.TableName
 		}
 	case *Title:
 		switch fieldName {
@@ -4103,8 +4099,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "FormName":
-			res.valueString = inferedInstance.FormName
 		}
 	case Load:
 		switch fieldName {
@@ -4187,8 +4181,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "TableName":
-			res.valueString = inferedInstance.TableName
 		}
 	case Title:
 		switch fieldName {

@@ -656,8 +656,6 @@ func (formFormCallback *FormFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(form_.Name), formDiv)
 		case "StackName":
 			FormDivBasicFieldToField(&(form_.StackName), formDiv)
-		case "FormName":
-			FormDivBasicFieldToField(&(form_.FormName), formDiv)
 		}
 	}
 
@@ -1300,8 +1298,6 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(table_.Name), formDiv)
 		case "StackName":
 			FormDivBasicFieldToField(&(table_.StackName), formDiv)
-		case "TableName":
-			FormDivBasicFieldToField(&(table_.TableName), formDiv)
 		}
 	}
 
