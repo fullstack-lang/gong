@@ -19,7 +19,6 @@ export class Form {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	FormName: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -33,7 +32,6 @@ export function CopyFormToFormAPI(form: Form, formAPI: FormAPI) {
 	// insertion point for basic fields copy operations
 	formAPI.Name = form.Name
 	formAPI.StackName = form.StackName
-	formAPI.FormName = form.FormName
 
 	// insertion point for pointer fields encoding
 
@@ -53,7 +51,6 @@ export function CopyFormAPIToForm(formAPI: FormAPI, form: Form, frontRepo: Front
 	// insertion point for basic fields copy operations
 	form.Name = formAPI.Name
 	form.StackName = formAPI.StackName
-	form.FormName = formAPI.FormName
 
 	// insertion point for pointer fields encoding
 

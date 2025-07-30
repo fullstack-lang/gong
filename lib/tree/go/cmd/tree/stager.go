@@ -34,7 +34,6 @@ func NewStager(r *gin.Engine, stage *tree_models.Stage) (stager *Stager) {
 				Size: 50,
 				Tree: (&split.Tree{
 					StackName: stage.GetName(),
-					TreeName:  "test",
 				}).Stage(stager.splitStage),
 			}).Stage(stager.splitStage),
 			(&split.AsSplitArea{
