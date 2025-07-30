@@ -14,7 +14,6 @@ export class TreeAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	TreeName: string = ""
 
 	// insertion point for other decls
 

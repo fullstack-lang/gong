@@ -66,9 +66,6 @@ type TableDB struct {
 	// Declation for basic field tableDB.StackName
 	StackName_Data sql.NullString
 
-	// Declation for basic field tableDB.TableName
-	TableName_Data sql.NullString
-
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TablePointersEncoding
@@ -94,8 +91,6 @@ type TableWOP struct {
 	Name string `xlsx:"1"`
 
 	StackName string `xlsx:"2"`
-
-	TableName string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -104,7 +99,6 @@ var Table_Fields = []string{
 	"ID",
 	"Name",
 	"StackName",
-	"TableName",
 }
 
 type BackRepoTableStruct struct {
@@ -387,9 +381,6 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable(table *models.Table) {
 
 	tableDB.StackName_Data.String = table.StackName
 	tableDB.StackName_Data.Valid = true
-
-	tableDB.TableName_Data.String = table.TableName
-	tableDB.TableName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTable_WOP
@@ -401,9 +392,6 @@ func (tableDB *TableDB) CopyBasicFieldsFromTable_WOP(table *models.Table_WOP) {
 
 	tableDB.StackName_Data.String = table.StackName
 	tableDB.StackName_Data.Valid = true
-
-	tableDB.TableName_Data.String = table.TableName
-	tableDB.TableName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTableWOP
@@ -415,9 +403,6 @@ func (tableDB *TableDB) CopyBasicFieldsFromTableWOP(table *TableWOP) {
 
 	tableDB.StackName_Data.String = table.StackName
 	tableDB.StackName_Data.Valid = true
-
-	tableDB.TableName_Data.String = table.TableName
-	tableDB.TableName_Data.Valid = true
 }
 
 // CopyBasicFieldsToTable
@@ -425,7 +410,6 @@ func (tableDB *TableDB) CopyBasicFieldsToTable(table *models.Table) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	table.Name = tableDB.Name_Data.String
 	table.StackName = tableDB.StackName_Data.String
-	table.TableName = tableDB.TableName_Data.String
 }
 
 // CopyBasicFieldsToTable_WOP
@@ -433,7 +417,6 @@ func (tableDB *TableDB) CopyBasicFieldsToTable_WOP(table *models.Table_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	table.Name = tableDB.Name_Data.String
 	table.StackName = tableDB.StackName_Data.String
-	table.TableName = tableDB.TableName_Data.String
 }
 
 // CopyBasicFieldsToTableWOP
@@ -442,7 +425,6 @@ func (tableDB *TableDB) CopyBasicFieldsToTableWOP(table *TableWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	table.Name = tableDB.Name_Data.String
 	table.StackName = tableDB.StackName_Data.String
-	table.TableName = tableDB.TableName_Data.String
 }
 
 // Backup generates a json file from a slice of all TableDB instances in the backrepo

@@ -5,7 +5,6 @@ package models
 import (
 	_ "github.com/fullstack-lang/gong/lib/button/ng-github.com-fullstack-lang-gong-lib-button"
 	_ "github.com/fullstack-lang/gong/lib/cursor/ng-github.com-fullstack-lang-gong-lib-cursor"
-	_ "github.com/fullstack-lang/gong/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
 	_ "github.com/fullstack-lang/gong/lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt"
 	_ "github.com/fullstack-lang/gong/lib/load/ng-github.com-fullstack-lang-gong-lib-load"
 	_ "github.com/fullstack-lang/gong/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown"
@@ -59,7 +58,6 @@ type AsSplitArea struct {
 
 	Button   *Button
 	Cursor   *Cursor
-	Doc      *Doc
 	Form     *Form
 	Load     *Load
 	Markdown *Markdown
@@ -86,15 +84,9 @@ type Cursor struct {
 	Style     string
 }
 
-type Doc struct {
-	Name      string // name of the stack
-	StackName string
-}
-
 type Form struct {
 	Name      string // name of the stack
 	StackName string
-	FormName  string
 }
 
 type Load struct {
@@ -126,7 +118,6 @@ type Svg struct {
 type Table struct {
 	Name      string // name of the stack
 	StackName string
-	TableName string
 }
 
 type Tone struct {
@@ -137,7 +128,6 @@ type Tone struct {
 type Tree struct {
 	Name      string // name of the stack
 	StackName string
-	TreeName  string
 }
 
 type Xlsx struct {

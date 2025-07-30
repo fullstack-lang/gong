@@ -31,10 +31,6 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		cursorInstance := any(concreteInstance).(*models.Cursor)
 		ret2 := backRepo.BackRepoCursor.GetCursorDBFromCursorPtr(cursorInstance)
 		ret = any(ret2).(*T2)
-	case *models.Doc:
-		docInstance := any(concreteInstance).(*models.Doc)
-		ret2 := backRepo.BackRepoDoc.GetDocDBFromDocPtr(docInstance)
-		ret = any(ret2).(*T2)
 	case *models.FavIcon:
 		faviconInstance := any(concreteInstance).(*models.FavIcon)
 		ret2 := backRepo.BackRepoFavIcon.GetFavIconDBFromFavIconPtr(faviconInstance)
@@ -125,11 +121,6 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Cursor:
 		tmp := GetInstanceDBFromInstance[models.Cursor, CursorDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Doc:
-		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -238,11 +229,6 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Cursor:
 		tmp := GetInstanceDBFromInstance[models.Cursor, CursorDB](
-			stage, backRepo, inst,
-		)
-		id = int(tmp.ID)
-	case *models.Doc:
-		tmp := GetInstanceDBFromInstance[models.Doc, DocDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
