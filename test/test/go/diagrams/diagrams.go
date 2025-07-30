@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-09 15:14:03.845075 CEST"
-	const __write__utc_time__ = "2025-07-09 13:14:03.845075 UTC"
+	const __write__local_time = "2025-07-30 04:30:55.601240 EDT"
+	const __write__utc_time__ = "2025-07-30 08:30:55.601240 UTC"
 
-	const __commitId__ = "0000000096"
+	const __commitId__ = "0000000102"
 
 	// Declaration of instances to stage
 
@@ -72,7 +72,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_1_First.Description = ``
 	__Classdiagram__000000_1_First.IsIncludedInStaticWebSite = false
 	__Classdiagram__000000_1_First.IsInRenameMode = false
-	__Classdiagram__000000_1_First.IsExpanded = false
+	__Classdiagram__000000_1_First.IsExpanded = true
 	__Classdiagram__000000_1_First.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_1_First.NodeGongStructNodeExpansion = `[false]`
 	__Classdiagram__000000_1_First.NodeGongEnumsIsExpanded = false
@@ -110,8 +110,8 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.AbsolutePathToDiagramPackage = ``
 
 	__GongEnumShape__000000_Default_AEnumType.Name = `Default-AEnumType`
-	__GongEnumShape__000000_Default_AEnumType.X = 597.000000
-	__GongEnumShape__000000_Default_AEnumType.Y = 28.000000
+	__GongEnumShape__000000_Default_AEnumType.X = 534.000000
+	__GongEnumShape__000000_Default_AEnumType.Y = 27.000000
 	__GongEnumShape__000000_Default_AEnumType.IdentifierMeta = new(ref_models.AEnumType)
 	__GongEnumShape__000000_Default_AEnumType.Width = 240.000000
 	__GongEnumShape__000000_Default_AEnumType.Height = 103.000000
@@ -183,8 +183,8 @@ renaming
 	__GongStructShape__000000_Default_Astruct.IsSelected = false
 
 	__GongStructShape__000001_Default_Bstruct.Name = `Default-Bstruct`
-	__GongStructShape__000001_Default_Bstruct.X = 964.000000
-	__GongStructShape__000001_Default_Bstruct.Y = 110.000000
+	__GongStructShape__000001_Default_Bstruct.X = 813.000000
+	__GongStructShape__000001_Default_Bstruct.Y = 97.000000
 	__GongStructShape__000001_Default_Bstruct.IdentifierMeta = ref_models.Bstruct{}
 	__GongStructShape__000001_Default_Bstruct.Width = 240.000000
 	__GongStructShape__000001_Default_Bstruct.Height = 227.000000
@@ -240,7 +240,7 @@ renaming
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000000_1_First)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000001_2_Second_)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.Classdiagrams, __Classdiagram__000002_0_Zero)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000001_2_Second_
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_04T05_37_56Z.SelectedClassdiagram = __Classdiagram__000000_1_First
 	// setup of GongEnumShape instances pointers
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000002_ENUM_VAL1_)
 	__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes = append(__GongEnumShape__000000_Default_AEnumType.GongEnumValueShapes, __GongEnumValueShape__000001_ENUM_VAL2)
