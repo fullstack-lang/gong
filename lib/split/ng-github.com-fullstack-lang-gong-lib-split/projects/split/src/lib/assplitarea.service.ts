@@ -20,7 +20,6 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 import { AsSplitAPI } from './assplit-api'
 import { ButtonAPI } from './button-api'
 import { CursorAPI } from './cursor-api'
-import { DocAPI } from './doc-api'
 import { FormAPI } from './form-api'
 import { LoadAPI } from './load-api'
 import { MarkdownAPI } from './markdown-api'

@@ -93,7 +93,6 @@ func NewStager(
 										Size:             66,
 										Tree: &split.Tree{
 											StackName: stager.treeStage.GetName(),
-											TreeName:  stager.stage.GetProbeTreeSidebarStageName(),
 										},
 									},
 									{
@@ -101,7 +100,6 @@ func NewStager(
 										Size: 34,
 										Form: &split.Form{
 											StackName: stager.formStage.GetName(),
-											FormName:  stager.formStage.GetName(), // convention
 										},
 									},
 								},

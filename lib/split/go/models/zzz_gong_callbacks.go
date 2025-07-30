@@ -22,10 +22,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCursorCreateCallback != nil {
 			stage.OnAfterCursorCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Doc:
-		if stage.OnAfterDocCreateCallback != nil {
-			stage.OnAfterDocCreateCallback.OnAfterCreate(stage, target)
-		}
 	case *FavIcon:
 		if stage.OnAfterFavIconCreateCallback != nil {
 			stage.OnAfterFavIconCreateCallback.OnAfterCreate(stage, target)
@@ -115,11 +111,6 @@ func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Cursor)
 		if stage.OnAfterCursorUpdateCallback != nil {
 			stage.OnAfterCursorUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *Doc:
-		newTarget := any(new).(*Doc)
-		if stage.OnAfterDocUpdateCallback != nil {
-			stage.OnAfterDocUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FavIcon:
 		newTarget := any(new).(*FavIcon)
@@ -226,11 +217,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Cursor)
 			stage.OnAfterCursorDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Doc:
-		if stage.OnAfterDocDeleteCallback != nil {
-			staged := any(staged).(*Doc)
-			stage.OnAfterDocDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	case *FavIcon:
 		if stage.OnAfterFavIconDeleteCallback != nil {
 			staged := any(staged).(*FavIcon)
@@ -332,10 +318,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCursorReadCallback != nil {
 			stage.OnAfterCursorReadCallback.OnAfterRead(stage, target)
 		}
-	case *Doc:
-		if stage.OnAfterDocReadCallback != nil {
-			stage.OnAfterDocReadCallback.OnAfterRead(stage, target)
-		}
 	case *FavIcon:
 		if stage.OnAfterFavIconReadCallback != nil {
 			stage.OnAfterFavIconReadCallback.OnAfterRead(stage, target)
@@ -419,9 +401,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Cursor:
 		stage.OnAfterCursorUpdateCallback = any(callback).(OnAfterUpdateInterface[Cursor])
 	
-	case *Doc:
-		stage.OnAfterDocUpdateCallback = any(callback).(OnAfterUpdateInterface[Doc])
-	
 	case *FavIcon:
 		stage.OnAfterFavIconUpdateCallback = any(callback).(OnAfterUpdateInterface[FavIcon])
 	
@@ -485,9 +464,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *Cursor:
 		stage.OnAfterCursorCreateCallback = any(callback).(OnAfterCreateInterface[Cursor])
-	
-	case *Doc:
-		stage.OnAfterDocCreateCallback = any(callback).(OnAfterCreateInterface[Doc])
 	
 	case *FavIcon:
 		stage.OnAfterFavIconCreateCallback = any(callback).(OnAfterCreateInterface[FavIcon])
@@ -553,9 +529,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Cursor:
 		stage.OnAfterCursorDeleteCallback = any(callback).(OnAfterDeleteInterface[Cursor])
 	
-	case *Doc:
-		stage.OnAfterDocDeleteCallback = any(callback).(OnAfterDeleteInterface[Doc])
-	
 	case *FavIcon:
 		stage.OnAfterFavIconDeleteCallback = any(callback).(OnAfterDeleteInterface[FavIcon])
 	
@@ -619,9 +592,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *Cursor:
 		stage.OnAfterCursorReadCallback = any(callback).(OnAfterReadInterface[Cursor])
-	
-	case *Doc:
-		stage.OnAfterDocReadCallback = any(callback).(OnAfterReadInterface[Doc])
 	
 	case *FavIcon:
 		stage.OnAfterFavIconReadCallback = any(callback).(OnAfterReadInterface[FavIcon])

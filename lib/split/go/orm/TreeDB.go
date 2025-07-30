@@ -66,9 +66,6 @@ type TreeDB struct {
 	// Declation for basic field treeDB.StackName
 	StackName_Data sql.NullString
 
-	// Declation for basic field treeDB.TreeName
-	TreeName_Data sql.NullString
-
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TreePointersEncoding
@@ -94,8 +91,6 @@ type TreeWOP struct {
 	Name string `xlsx:"1"`
 
 	StackName string `xlsx:"2"`
-
-	TreeName string `xlsx:"3"`
 	// insertion for WOP pointer fields
 }
 
@@ -104,7 +99,6 @@ var Tree_Fields = []string{
 	"ID",
 	"Name",
 	"StackName",
-	"TreeName",
 }
 
 type BackRepoTreeStruct struct {
@@ -387,9 +381,6 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTree(tree *models.Tree) {
 
 	treeDB.StackName_Data.String = tree.StackName
 	treeDB.StackName_Data.Valid = true
-
-	treeDB.TreeName_Data.String = tree.TreeName
-	treeDB.TreeName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTree_WOP
@@ -401,9 +392,6 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTree_WOP(tree *models.Tree_WOP) {
 
 	treeDB.StackName_Data.String = tree.StackName
 	treeDB.StackName_Data.Valid = true
-
-	treeDB.TreeName_Data.String = tree.TreeName
-	treeDB.TreeName_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTreeWOP
@@ -415,9 +403,6 @@ func (treeDB *TreeDB) CopyBasicFieldsFromTreeWOP(tree *TreeWOP) {
 
 	treeDB.StackName_Data.String = tree.StackName
 	treeDB.StackName_Data.Valid = true
-
-	treeDB.TreeName_Data.String = tree.TreeName
-	treeDB.TreeName_Data.Valid = true
 }
 
 // CopyBasicFieldsToTree
@@ -425,7 +410,6 @@ func (treeDB *TreeDB) CopyBasicFieldsToTree(tree *models.Tree) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
 	tree.StackName = treeDB.StackName_Data.String
-	tree.TreeName = treeDB.TreeName_Data.String
 }
 
 // CopyBasicFieldsToTree_WOP
@@ -433,7 +417,6 @@ func (treeDB *TreeDB) CopyBasicFieldsToTree_WOP(tree *models.Tree_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
 	tree.StackName = treeDB.StackName_Data.String
-	tree.TreeName = treeDB.TreeName_Data.String
 }
 
 // CopyBasicFieldsToTreeWOP
@@ -442,7 +425,6 @@ func (treeDB *TreeDB) CopyBasicFieldsToTreeWOP(tree *TreeWOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	tree.Name = treeDB.Name_Data.String
 	tree.StackName = treeDB.StackName_Data.String
-	tree.TreeName = treeDB.TreeName_Data.String
 }
 
 // Backup generates a json file from a slice of all TreeDB instances in the backrepo

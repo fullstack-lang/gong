@@ -14,8 +14,6 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 )
 
-const SideBarTreeName = "gong"
-
 func updateAndCommitTree(
 	probe *Probe,
 ) {
@@ -36,7 +34,7 @@ func updateAndCommitTree(
 	probe.treeStage.Reset()
 
 	// create tree
-	sidebar := &tree.Tree{Name: SideBarTreeName}
+	sidebar := &tree.Tree{Name: "Sidebar"}
 
 	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
 		probe.stageOfInterest.GetName(),

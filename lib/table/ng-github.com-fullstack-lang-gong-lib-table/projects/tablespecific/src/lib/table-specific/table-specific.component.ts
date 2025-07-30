@@ -72,7 +72,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   selectedTable: table.Table | undefined = undefined
 
   @Input() Name: string = ""
-  @Input() TableName: string = ""
 
   // for filtering
   filterControl = new FormControl()
@@ -137,7 +136,6 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   ngOnInit(): void {
     if (this.tableDialogData) {
       this.Name = this.tableDialogData.Name
-      this.TableName = this.tableDialogData.TableName
     }
 
     this.refresh()
@@ -197,14 +195,10 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
         let tableNames = new (Array<string>)
         for (let item of this.gongtableFrontRepo.getFrontArray<table.Table>(table.Table.GONGSTRUCT_NAME)) {
           tableNames.push(item.Name)
-          if (item.Name == this.TableName) {
-            this.selectedTable = item
-            break // Found the table, no need to continue loop
-          }
+          this.selectedTable = item
         }
 
         if (!this.selectedTable) {
-          console.error(this.selectedTable, "not found among table names", tableNames)
           return
         }
 
@@ -494,7 +488,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   onClick(row: table.Row): void {
-    console.log("Material Table: onClick: Stack: `" + this.Name + "`table:`" + this.TableName + "`row:" + (row.Name || 'Unnamed Row'))
+    console.log("Material Table: onClick: Stack: `" + this.Name + "`row:" + (row.Name || 'Unnamed Row'))
 
     const originalCells = row.Cells
     const updateSubscription = this.rowService.updateFront(row, this.Name).subscribe(

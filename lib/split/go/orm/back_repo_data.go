@@ -12,8 +12,6 @@ type BackRepoData struct {
 
 	CursorAPIs []*CursorAPI
 
-	DocAPIs []*DocAPI
-
 	FavIconAPIs []*FavIconAPI
 
 	FormAPIs []*FormAPI
@@ -93,16 +91,6 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		cursorDB.CopyBasicFieldsToCursor_WOP(&cursorAPI.Cursor_WOP)
 
 		backRepoData.CursorAPIs = append(backRepoData.CursorAPIs, &cursorAPI)
-	}
-
-	for _, docDB := range backRepo.BackRepoDoc.Map_DocDBID_DocDB {
-
-		var docAPI DocAPI
-		docAPI.ID = docDB.ID
-		docAPI.DocPointersEncoding = docDB.DocPointersEncoding
-		docDB.CopyBasicFieldsToDoc_WOP(&docAPI.Doc_WOP)
-
-		backRepoData.DocAPIs = append(backRepoData.DocAPIs, &docAPI)
 	}
 
 	for _, faviconDB := range backRepo.BackRepoFavIcon.Map_FavIconDBID_FavIconDB {

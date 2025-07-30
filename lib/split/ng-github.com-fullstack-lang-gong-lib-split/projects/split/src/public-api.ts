@@ -29,10 +29,6 @@ export * from './lib/cursor-api'
 export * from './lib/cursor'
 export * from './lib/cursor.service'
 
-export * from './lib/doc-api'
-export * from './lib/doc'
-export * from './lib/doc.service'
-
 export * from './lib/favicon-api'
 export * from './lib/favicon'
 export * from './lib/favicon.service'
