@@ -125,15 +125,6 @@ type Stage struct {
 	OnAfterCursorDeleteCallback OnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
-	Docs           map[*Doc]any
-	Docs_mapString map[string]*Doc
-
-	// insertion point for slice of pointers maps
-	OnAfterDocCreateCallback OnAfterCreateInterface[Doc]
-	OnAfterDocUpdateCallback OnAfterUpdateInterface[Doc]
-	OnAfterDocDeleteCallback OnAfterDeleteInterface[Doc]
-	OnAfterDocReadCallback   OnAfterReadInterface[Doc]
-
 	FavIcons           map[*FavIcon]any
 	FavIcons_mapString map[string]*FavIcon
 
@@ -309,9 +300,6 @@ type Stage struct {
 	CursorOrder            uint
 	CursorMap_Staged_Order map[*Cursor]uint
 
-	DocOrder            uint
-	DocMap_Staged_Order map[*Doc]uint
-
 	FavIconOrder            uint
 	FavIconMap_Staged_Order map[*FavIcon]uint
 
@@ -465,20 +453,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Cursor implements.
-			res = append(res, any(v).(T))
-		}
-		return res
-	case *Doc:
-		tmp := GetStructInstancesByOrder(stage.Docs, stage.DocMap_Staged_Order)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Doc implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -733,8 +707,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Buttons, stage.ButtonMap_Staged_Order)
 	case "Cursor":
 		res = GetNamedStructInstances(stage.Cursors, stage.CursorMap_Staged_Order)
-	case "Doc":
-		res = GetNamedStructInstances(stage.Docs, stage.DocMap_Staged_Order)
 	case "FavIcon":
 		res = GetNamedStructInstances(stage.FavIcons, stage.FavIconMap_Staged_Order)
 	case "Form":
@@ -842,8 +814,6 @@ type BackRepoInterface interface {
 	CheckoutButton(button *Button)
 	CommitCursor(cursor *Cursor)
 	CheckoutCursor(cursor *Cursor)
-	CommitDoc(doc *Doc)
-	CheckoutDoc(doc *Doc)
 	CommitFavIcon(favicon *FavIcon)
 	CheckoutFavIcon(favicon *FavIcon)
 	CommitForm(form *Form)
@@ -892,9 +862,6 @@ func NewStage(name string) (stage *Stage) {
 
 		Cursors:           make(map[*Cursor]any),
 		Cursors_mapString: make(map[string]*Cursor),
-
-		Docs:           make(map[*Doc]any),
-		Docs_mapString: make(map[string]*Doc),
 
 		FavIcons:           make(map[*FavIcon]any),
 		FavIcons_mapString: make(map[string]*FavIcon),
@@ -959,8 +926,6 @@ func NewStage(name string) (stage *Stage) {
 
 		CursorMap_Staged_Order: make(map[*Cursor]uint),
 
-		DocMap_Staged_Order: make(map[*Doc]uint),
-
 		FavIconMap_Staged_Order: make(map[*FavIcon]uint),
 
 		FormMap_Staged_Order: make(map[*Form]uint),
@@ -998,7 +963,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "AsSplitArea"},
 			{name: "Button"},
 			{name: "Cursor"},
-			{name: "Doc"},
 			{name: "FavIcon"},
 			{name: "Form"},
 			{name: "Load"},
@@ -1032,8 +996,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ButtonMap_Staged_Order[instance]
 	case *Cursor:
 		return stage.CursorMap_Staged_Order[instance]
-	case *Doc:
-		return stage.DocMap_Staged_Order[instance]
 	case *FavIcon:
 		return stage.FavIconMap_Staged_Order[instance]
 	case *Form:
@@ -1081,8 +1043,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ButtonMap_Staged_Order[instance]
 	case *Cursor:
 		return stage.CursorMap_Staged_Order[instance]
-	case *Doc:
-		return stage.DocMap_Staged_Order[instance]
 	case *FavIcon:
 		return stage.FavIconMap_Staged_Order[instance]
 	case *Form:
@@ -1144,7 +1104,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
 	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Cursor"] = len(stage.Cursors)
-	stage.Map_GongStructName_InstancesNb["Doc"] = len(stage.Docs)
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
@@ -1174,7 +1133,6 @@ func (stage *Stage) Checkout() {
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
 	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Cursor"] = len(stage.Cursors)
-	stage.Map_GongStructName_InstancesNb["Doc"] = len(stage.Docs)
 	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
 	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
 	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
@@ -1440,61 +1398,6 @@ func (cursor *Cursor) Checkout(stage *Stage) *Cursor {
 // for satisfaction of GongStruct interface
 func (cursor *Cursor) GetName() (res string) {
 	return cursor.Name
-}
-
-// Stage puts doc to the model stage
-func (doc *Doc) Stage(stage *Stage) *Doc {
-
-	if _, ok := stage.Docs[doc]; !ok {
-		stage.Docs[doc] = __member
-		stage.DocMap_Staged_Order[doc] = stage.DocOrder
-		stage.DocOrder++
-	}
-	stage.Docs_mapString[doc.Name] = doc
-
-	return doc
-}
-
-// Unstage removes doc off the model stage
-func (doc *Doc) Unstage(stage *Stage) *Doc {
-	delete(stage.Docs, doc)
-	delete(stage.Docs_mapString, doc.Name)
-	return doc
-}
-
-// UnstageVoid removes doc off the model stage
-func (doc *Doc) UnstageVoid(stage *Stage) {
-	delete(stage.Docs, doc)
-	delete(stage.Docs_mapString, doc.Name)
-}
-
-// commit doc to the back repo (if it is already staged)
-func (doc *Doc) Commit(stage *Stage) *Doc {
-	if _, ok := stage.Docs[doc]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitDoc(doc)
-		}
-	}
-	return doc
-}
-
-func (doc *Doc) CommitVoid(stage *Stage) {
-	doc.Commit(stage)
-}
-
-// Checkout doc to the back repo (if it is already staged)
-func (doc *Doc) Checkout(stage *Stage) *Doc {
-	if _, ok := stage.Docs[doc]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutDoc(doc)
-		}
-	}
-	return doc
-}
-
-// for satisfaction of GongStruct interface
-func (doc *Doc) GetName() (res string) {
-	return doc.Name
 }
 
 // Stage puts favicon to the model stage
@@ -2328,7 +2231,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMAsSplitArea(AsSplitArea *AsSplitArea)
 	CreateORMButton(Button *Button)
 	CreateORMCursor(Cursor *Cursor)
-	CreateORMDoc(Doc *Doc)
 	CreateORMFavIcon(FavIcon *FavIcon)
 	CreateORMForm(Form *Form)
 	CreateORMLoad(Load *Load)
@@ -2351,7 +2253,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMAsSplitArea(AsSplitArea *AsSplitArea)
 	DeleteORMButton(Button *Button)
 	DeleteORMCursor(Cursor *Cursor)
-	DeleteORMDoc(Doc *Doc)
 	DeleteORMFavIcon(FavIcon *FavIcon)
 	DeleteORMForm(Form *Form)
 	DeleteORMLoad(Load *Load)
@@ -2389,11 +2290,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Cursors_mapString = make(map[string]*Cursor)
 	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
 	stage.CursorOrder = 0
-
-	stage.Docs = make(map[*Doc]any)
-	stage.Docs_mapString = make(map[string]*Doc)
-	stage.DocMap_Staged_Order = make(map[*Doc]uint)
-	stage.DocOrder = 0
 
 	stage.FavIcons = make(map[*FavIcon]any)
 	stage.FavIcons_mapString = make(map[string]*FavIcon)
@@ -2485,9 +2381,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Cursors = nil
 	stage.Cursors_mapString = nil
 
-	stage.Docs = nil
-	stage.Docs_mapString = nil
-
 	stage.FavIcons = nil
 	stage.FavIcons_mapString = nil
 
@@ -2550,10 +2443,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for cursor := range stage.Cursors {
 		cursor.Unstage(stage)
-	}
-
-	for doc := range stage.Docs {
-		doc.Unstage(stage)
 	}
 
 	for favicon := range stage.FavIcons {
@@ -2685,8 +2574,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Buttons).(*Type)
 	case map[*Cursor]any:
 		return any(&stage.Cursors).(*Type)
-	case map[*Doc]any:
-		return any(&stage.Docs).(*Type)
 	case map[*FavIcon]any:
 		return any(&stage.FavIcons).(*Type)
 	case map[*Form]any:
@@ -2737,8 +2624,6 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Buttons_mapString).(*Type)
 	case map[string]*Cursor:
 		return any(&stage.Cursors_mapString).(*Type)
-	case map[string]*Doc:
-		return any(&stage.Docs_mapString).(*Type)
 	case map[string]*FavIcon:
 		return any(&stage.FavIcons_mapString).(*Type)
 	case map[string]*Form:
@@ -2789,8 +2674,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Buttons).(*map[*Type]any)
 	case Cursor:
 		return any(&stage.Cursors).(*map[*Type]any)
-	case Doc:
-		return any(&stage.Docs).(*map[*Type]any)
 	case FavIcon:
 		return any(&stage.FavIcons).(*map[*Type]any)
 	case Form:
@@ -2841,8 +2724,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Buttons).(*map[Type]any)
 	case *Cursor:
 		return any(&stage.Cursors).(*map[Type]any)
-	case *Doc:
-		return any(&stage.Docs).(*map[Type]any)
 	case *FavIcon:
 		return any(&stage.FavIcons).(*map[Type]any)
 	case *Form:
@@ -2893,8 +2774,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Buttons_mapString).(*map[string]*Type)
 	case Cursor:
 		return any(&stage.Cursors_mapString).(*map[string]*Type)
-	case Doc:
-		return any(&stage.Docs_mapString).(*map[string]*Type)
 	case FavIcon:
 		return any(&stage.FavIcons_mapString).(*map[string]*Type)
 	case Form:
@@ -2954,8 +2833,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Button: &Button{Name: "Button"},
 			// field is initialized with an instance of Cursor with the name of the field
 			Cursor: &Cursor{Name: "Cursor"},
-			// field is initialized with an instance of Doc with the name of the field
-			Doc: &Doc{Name: "Doc"},
 			// field is initialized with an instance of Form with the name of the field
 			Form: &Form{Name: "Form"},
 			// field is initialized with an instance of Load with the name of the field
@@ -2983,10 +2860,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		}).(*Type)
 	case Cursor:
 		return any(&Cursor{
-			// Initialisation of associations
-		}).(*Type)
-	case Doc:
-		return any(&Doc{
 			// Initialisation of associations
 		}).(*Type)
 	case FavIcon:
@@ -3126,23 +2999,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					assplitareas = append(assplitareas, assplitarea)
 					res[cursor_] = assplitareas
-				}
-			}
-			return any(res).(map[*End][]*Start)
-		case "Doc":
-			res := make(map[*Doc][]*AsSplitArea)
-			for assplitarea := range stage.AsSplitAreas {
-				if assplitarea.Doc != nil {
-					doc_ := assplitarea.Doc
-					var assplitareas []*AsSplitArea
-					_, ok := res[doc_]
-					if ok {
-						assplitareas = res[doc_]
-					} else {
-						assplitareas = make([]*AsSplitArea, 0)
-					}
-					assplitareas = append(assplitareas, assplitarea)
-					res[doc_] = assplitareas
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3327,11 +3183,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Doc
-	case Doc:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of FavIcon
 	case FavIcon:
 		switch fieldname {
@@ -3451,11 +3302,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
-	// reverse maps of direct associations of Doc
-	case Doc:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	// reverse maps of direct associations of FavIcon
 	case FavIcon:
 		switch fieldname {
@@ -3559,8 +3405,6 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Button"
 	case Cursor:
 		res = "Cursor"
-	case Doc:
-		res = "Doc"
 	case FavIcon:
 		res = "FavIcon"
 	case Form:
@@ -3611,8 +3455,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Button"
 	case *Cursor:
 		res = "Cursor"
-	case *Doc:
-		res = "Doc"
 	case *FavIcon:
 		res = "FavIcon"
 	case *Form:
@@ -3657,13 +3499,11 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
 	case Button:
 		res = []string{"Name", "StackName"}
 	case Cursor:
 		res = []string{"Name", "StackName", "Style"}
-	case Doc:
-		res = []string{"Name", "StackName"}
 	case FavIcon:
 		res = []string{"Name", "SVG"}
 	case Form:
@@ -3689,7 +3529,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Tone:
 		res = []string{"Name", "StackName"}
 	case Tree:
-		res = []string{"Name", "StackName", "TreeName"}
+		res = []string{"Name", "StackName"}
 	case View:
 		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
 	case Xlsx:
@@ -3728,9 +3568,6 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		var rf ReverseField
 		_ = rf
 	case Cursor:
-		var rf ReverseField
-		_ = rf
-	case Doc:
 		var rf ReverseField
 		_ = rf
 	case FavIcon:
@@ -3792,13 +3629,11 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AsSplit:
 		res = []string{"Name", "Direction", "AsSplitAreas"}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Doc", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
+		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
 	case *Button:
 		res = []string{"Name", "StackName"}
 	case *Cursor:
 		res = []string{"Name", "StackName", "Style"}
-	case *Doc:
-		res = []string{"Name", "StackName"}
 	case *FavIcon:
 		res = []string{"Name", "SVG"}
 	case *Form:
@@ -3824,7 +3659,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Tone:
 		res = []string{"Name", "StackName"}
 	case *Tree:
-		res = []string{"Name", "StackName", "TreeName"}
+		res = []string{"Name", "StackName"}
 	case *View:
 		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
 	case *Xlsx:
@@ -3915,10 +3750,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			if inferedInstance.Cursor != nil {
 				res.valueString = inferedInstance.Cursor.Name
 			}
-		case "Doc":
-			if inferedInstance.Doc != nil {
-				res.valueString = inferedInstance.Doc.Name
-			}
 		case "Form":
 			if inferedInstance.Form != nil {
 				res.valueString = inferedInstance.Form.Name
@@ -3983,14 +3814,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StackName
 		case "Style":
 			res.valueString = inferedInstance.Style
-		}
-	case *Doc:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "StackName":
-			res.valueString = inferedInstance.StackName
 		}
 	case *FavIcon:
 		switch fieldName {
@@ -4115,8 +3938,6 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "TreeName":
-			res.valueString = inferedInstance.TreeName
 		}
 	case *View:
 		switch fieldName {
@@ -4202,10 +4023,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			if inferedInstance.Cursor != nil {
 				res.valueString = inferedInstance.Cursor.Name
 			}
-		case "Doc":
-			if inferedInstance.Doc != nil {
-				res.valueString = inferedInstance.Doc.Name
-			}
 		case "Form":
 			if inferedInstance.Form != nil {
 				res.valueString = inferedInstance.Form.Name
@@ -4270,14 +4087,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StackName
 		case "Style":
 			res.valueString = inferedInstance.Style
-		}
-	case Doc:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "StackName":
-			res.valueString = inferedInstance.StackName
 		}
 	case FavIcon:
 		switch fieldName {
@@ -4402,8 +4211,6 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "StackName":
 			res.valueString = inferedInstance.StackName
-		case "TreeName":
-			res.valueString = inferedInstance.TreeName
 		}
 	case View:
 		switch fieldName {
