@@ -17,9 +17,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Cursor:
 		ok = stage.IsStagedCursor(target)
 
-	case *Doc:
-		ok = stage.IsStagedDoc(target)
-
 	case *FavIcon:
 		ok = stage.IsStagedFavIcon(target)
 
@@ -96,13 +93,6 @@ func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
 func (stage *Stage) IsStagedCursor(cursor *Cursor) (ok bool) {
 
 	_, ok = stage.Cursors[cursor]
-
-	return
-}
-
-func (stage *Stage) IsStagedDoc(doc *Doc) (ok bool) {
-
-	_, ok = stage.Docs[doc]
 
 	return
 }
@@ -232,9 +222,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Cursor:
 		stage.StageBranchCursor(target)
 
-	case *Doc:
-		stage.StageBranchDoc(target)
-
 	case *FavIcon:
 		stage.StageBranchFavIcon(target)
 
@@ -323,9 +310,6 @@ func (stage *Stage) StageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		StageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Doc != nil {
-		StageBranch(stage, assplitarea.Doc)
-	}
 	if assplitarea.Form != nil {
 		StageBranch(stage, assplitarea.Form)
 	}
@@ -384,21 +368,6 @@ func (stage *Stage) StageBranchCursor(cursor *Cursor) {
 	}
 
 	cursor.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchDoc(doc *Doc) {
-
-	// check if instance is already staged
-	if IsStaged(stage, doc) {
-		return
-	}
-
-	doc.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -661,10 +630,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCursor(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
-	case *Doc:
-		toT := CopyBranchDoc(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
 	case *FavIcon:
 		toT := CopyBranchFavIcon(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -776,9 +741,6 @@ func CopyBranchAsSplitArea(mapOrigCopy map[any]any, assplitareaFrom *AsSplitArea
 	if assplitareaFrom.Cursor != nil {
 		assplitareaTo.Cursor = CopyBranchCursor(mapOrigCopy, assplitareaFrom.Cursor)
 	}
-	if assplitareaFrom.Doc != nil {
-		assplitareaTo.Doc = CopyBranchDoc(mapOrigCopy, assplitareaFrom.Doc)
-	}
 	if assplitareaFrom.Form != nil {
 		assplitareaTo.Form = CopyBranchForm(mapOrigCopy, assplitareaFrom.Form)
 	}
@@ -845,25 +807,6 @@ func CopyBranchCursor(mapOrigCopy map[any]any, cursorFrom *Cursor) (cursorTo *Cu
 	cursorTo = new(Cursor)
 	mapOrigCopy[cursorFrom] = cursorTo
 	cursorFrom.CopyBasicFields(cursorTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func CopyBranchDoc(mapOrigCopy map[any]any, docFrom *Doc) (docTo *Doc) {
-
-	// docFrom has already been copied
-	if _docTo, ok := mapOrigCopy[docFrom]; ok {
-		docTo = _docTo.(*Doc)
-		return
-	}
-
-	docTo = new(Doc)
-	mapOrigCopy[docFrom] = docTo
-	docFrom.CopyBasicFields(docTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -1180,9 +1123,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Cursor:
 		stage.UnstageBranchCursor(target)
 
-	case *Doc:
-		stage.UnstageBranchDoc(target)
-
 	case *FavIcon:
 		stage.UnstageBranchFavIcon(target)
 
@@ -1271,9 +1211,6 @@ func (stage *Stage) UnstageBranchAsSplitArea(assplitarea *AsSplitArea) {
 	if assplitarea.Cursor != nil {
 		UnstageBranch(stage, assplitarea.Cursor)
 	}
-	if assplitarea.Doc != nil {
-		UnstageBranch(stage, assplitarea.Doc)
-	}
 	if assplitarea.Form != nil {
 		UnstageBranch(stage, assplitarea.Form)
 	}
@@ -1332,21 +1269,6 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 	}
 
 	cursor.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchDoc(doc *Doc) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, doc) {
-		return
-	}
-
-	doc.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

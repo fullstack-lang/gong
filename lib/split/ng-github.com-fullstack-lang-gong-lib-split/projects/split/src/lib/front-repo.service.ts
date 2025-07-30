@@ -21,10 +21,6 @@ import { CursorAPI } from './cursor-api'
 import { Cursor, CopyCursorAPIToCursor } from './cursor'
 import { CursorService } from './cursor.service'
 
-import { DocAPI } from './doc-api'
-import { Doc, CopyDocAPIToDoc } from './doc'
-import { DocService } from './doc.service'
-
 import { FavIconAPI } from './favicon-api'
 import { FavIcon, CopyFavIconAPIToFavIcon } from './favicon'
 import { FavIconService } from './favicon.service'
@@ -104,9 +100,6 @@ export class FrontRepo { // insertion point sub template
 	array_Cursors = new Array<Cursor>() // array of front instances
 	map_ID_Cursor = new Map<number, Cursor>() // map of front instances
 
-	array_Docs = new Array<Doc>() // array of front instances
-	map_ID_Doc = new Map<number, Doc>() // map of front instances
-
 	array_FavIcons = new Array<FavIcon>() // array of front instances
 	map_ID_FavIcon = new Map<number, FavIcon>() // map of front instances
 
@@ -169,8 +162,6 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Buttons as unknown as Array<Type>
 			case 'Cursor':
 				return this.array_Cursors as unknown as Array<Type>
-			case 'Doc':
-				return this.array_Docs as unknown as Array<Type>
 			case 'FavIcon':
 				return this.array_FavIcons as unknown as Array<Type>
 			case 'Form':
@@ -217,8 +208,6 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Button as unknown as Map<number, Type>
 			case 'Cursor':
 				return this.map_ID_Cursor as unknown as Map<number, Type>
-			case 'Doc':
-				return this.map_ID_Doc as unknown as Map<number, Type>
 			case 'FavIcon':
 				return this.map_ID_FavIcon as unknown as Map<number, Type>
 			case 'Form':
@@ -323,7 +312,6 @@ export class FrontRepoService {
 		private assplitareaService: AsSplitAreaService,
 		private buttonService: ButtonService,
 		private cursorService: CursorService,
-		private docService: DocService,
 		private faviconService: FavIconService,
 		private formService: FormService,
 		private loadService: LoadService,
@@ -375,7 +363,6 @@ export class FrontRepoService {
 		Observable<AsSplitAreaAPI[]>,
 		Observable<ButtonAPI[]>,
 		Observable<CursorAPI[]>,
-		Observable<DocAPI[]>,
 		Observable<FavIconAPI[]>,
 		Observable<FormAPI[]>,
 		Observable<LoadAPI[]>,
@@ -410,7 +397,6 @@ export class FrontRepoService {
 			this.assplitareaService.getAsSplitAreas(this.Name, this.frontRepo),
 			this.buttonService.getButtons(this.Name, this.frontRepo),
 			this.cursorService.getCursors(this.Name, this.frontRepo),
-			this.docService.getDocs(this.Name, this.frontRepo),
 			this.faviconService.getFavIcons(this.Name, this.frontRepo),
 			this.formService.getForms(this.Name, this.frontRepo),
 			this.loadService.getLoads(this.Name, this.frontRepo),
@@ -440,7 +426,6 @@ export class FrontRepoService {
 						assplitareas_,
 						buttons_,
 						cursors_,
-						docs_,
 						favicons_,
 						forms_,
 						loads_,
@@ -468,8 +453,6 @@ export class FrontRepoService {
 						buttons = buttons_ as ButtonAPI[]
 						var cursors: CursorAPI[]
 						cursors = cursors_ as CursorAPI[]
-						var docs: DocAPI[]
-						docs = docs_ as DocAPI[]
 						var favicons: FavIconAPI[]
 						favicons = favicons_ as FavIconAPI[]
 						var forms: FormAPI[]
@@ -549,18 +532,6 @@ export class FrontRepoService {
 								let cursor = new Cursor
 								this.frontRepo.array_Cursors.push(cursor)
 								this.frontRepo.map_ID_Cursor.set(cursorAPI.ID, cursor)
-							}
-						)
-
-						// init the arrays
-						this.frontRepo.array_Docs = []
-						this.frontRepo.map_ID_Doc.clear()
-
-						docs.forEach(
-							docAPI => {
-								let doc = new Doc
-								this.frontRepo.array_Docs.push(doc)
-								this.frontRepo.map_ID_Doc.set(docAPI.ID, doc)
 							}
 						)
 
@@ -781,14 +752,6 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
-						docs.forEach(
-							docAPI => {
-								let doc = this.frontRepo.map_ID_Doc.get(docAPI.ID)
-								CopyDocAPIToDoc(docAPI, doc!, this.frontRepo)
-							}
-						)
-
-						// fill up front objects
 						favicons.forEach(
 							faviconAPI => {
 								let favicon = this.frontRepo.map_ID_FavIcon.get(faviconAPI.ID)
@@ -1000,18 +963,6 @@ export class FrontRepoService {
 						let cursor = new Cursor
 						frontRepo.array_Cursors.push(cursor)
 						frontRepo.map_ID_Cursor.set(cursorAPI.ID, cursor)
-					}
-				)
-
-				// init the arrays
-				frontRepo.array_Docs = []
-				frontRepo.map_ID_Doc.clear()
-
-				backRepoData.DocAPIs.forEach(
-					docAPI => {
-						let doc = new Doc
-						frontRepo.array_Docs.push(doc)
-						frontRepo.map_ID_Doc.set(docAPI.ID, doc)
 					}
 				)
 
@@ -1234,14 +1185,6 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
-				backRepoData.DocAPIs.forEach(
-					docAPI => {
-						let doc = frontRepo.map_ID_Doc.get(docAPI.ID)
-						CopyDocAPIToDoc(docAPI, doc!, frontRepo)
-					}
-				)
-
-				// fill up front objects
 				backRepoData.FavIconAPIs.forEach(
 					faviconAPI => {
 						let favicon = frontRepo.map_ID_FavIcon.get(faviconAPI.ID)
@@ -1401,51 +1344,48 @@ export function getButtonUniqueID(id: number): number {
 export function getCursorUniqueID(id: number): number {
 	return 43 * id
 }
-export function getDocUniqueID(id: number): number {
+export function getFavIconUniqueID(id: number): number {
 	return 47 * id
 }
-export function getFavIconUniqueID(id: number): number {
+export function getFormUniqueID(id: number): number {
 	return 53 * id
 }
-export function getFormUniqueID(id: number): number {
+export function getLoadUniqueID(id: number): number {
 	return 59 * id
 }
-export function getLoadUniqueID(id: number): number {
+export function getLogoOnTheLeftUniqueID(id: number): number {
 	return 61 * id
 }
-export function getLogoOnTheLeftUniqueID(id: number): number {
+export function getLogoOnTheRightUniqueID(id: number): number {
 	return 67 * id
 }
-export function getLogoOnTheRightUniqueID(id: number): number {
+export function getMarkdownUniqueID(id: number): number {
 	return 71 * id
 }
-export function getMarkdownUniqueID(id: number): number {
+export function getSliderUniqueID(id: number): number {
 	return 73 * id
 }
-export function getSliderUniqueID(id: number): number {
+export function getSplitUniqueID(id: number): number {
 	return 79 * id
 }
-export function getSplitUniqueID(id: number): number {
+export function getSvgUniqueID(id: number): number {
 	return 83 * id
 }
-export function getSvgUniqueID(id: number): number {
+export function getTableUniqueID(id: number): number {
 	return 89 * id
 }
-export function getTableUniqueID(id: number): number {
+export function getTitleUniqueID(id: number): number {
 	return 97 * id
 }
-export function getTitleUniqueID(id: number): number {
+export function getToneUniqueID(id: number): number {
 	return 101 * id
 }
-export function getToneUniqueID(id: number): number {
+export function getTreeUniqueID(id: number): number {
 	return 103 * id
 }
-export function getTreeUniqueID(id: number): number {
+export function getViewUniqueID(id: number): number {
 	return 107 * id
 }
-export function getViewUniqueID(id: number): number {
-	return 109 * id
-}
 export function getXlsxUniqueID(id: number): number {
-	return 113 * id
+	return 109 * id
 }

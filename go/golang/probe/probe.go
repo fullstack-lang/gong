@@ -107,7 +107,6 @@ func NewProbe(
 				Tree: (&split.Tree{
 					Name:      "Sidebar",
 					StackName: probe.treeStage.GetName(),
-					TreeName:  SideBarTreeName,
 				}),
 			}),
 			(&split.AsSplitArea{

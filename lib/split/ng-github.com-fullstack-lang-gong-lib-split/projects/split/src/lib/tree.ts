@@ -19,7 +19,6 @@ export class Tree {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	StackName: string = ""
-	TreeName: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 }
@@ -33,7 +32,6 @@ export function CopyTreeToTreeAPI(tree: Tree, treeAPI: TreeAPI) {
 	// insertion point for basic fields copy operations
 	treeAPI.Name = tree.Name
 	treeAPI.StackName = tree.StackName
-	treeAPI.TreeName = tree.TreeName
 
 	// insertion point for pointer fields encoding
 
@@ -53,7 +51,6 @@ export function CopyTreeAPIToTree(treeAPI: TreeAPI, tree: Tree, frontRepo: Front
 	// insertion point for basic fields copy operations
 	tree.Name = treeAPI.Name
 	tree.StackName = treeAPI.StackName
-	tree.TreeName = treeAPI.TreeName
 
 	// insertion point for pointer fields encoding
 

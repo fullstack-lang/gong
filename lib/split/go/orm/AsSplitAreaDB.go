@@ -60,10 +60,6 @@ type AsSplitAreaPointersEncoding struct {
 	// This field is generated into another field to enable AS ONE association
 	CursorID sql.NullInt64
 
-	// field Doc is a pointer to another Struct (optional or 0..1)
-	// This field is generated into another field to enable AS ONE association
-	DocID sql.NullInt64
-
 	// field Form is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	FormID sql.NullInt64
@@ -346,18 +342,6 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		} else {
 			assplitareaDB.CursorID.Int64 = 0
 			assplitareaDB.CursorID.Valid = true
-		}
-
-		// commit pointer value assplitarea.Doc translates to updating the assplitarea.DocID
-		assplitareaDB.DocID.Valid = true // allow for a 0 value (nil association)
-		if assplitarea.Doc != nil {
-			if DocId, ok := backRepo.BackRepoDoc.Map_DocPtr_DocDBID[assplitarea.Doc]; ok {
-				assplitareaDB.DocID.Int64 = int64(DocId)
-				assplitareaDB.DocID.Valid = true
-			}
-		} else {
-			assplitareaDB.DocID.Int64 = 0
-			assplitareaDB.DocID.Valid = true
 		}
 
 		// commit pointer value assplitarea.Form translates to updating the assplitarea.FormID
@@ -653,27 +637,6 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 			}
 		} else {
 			assplitarea.Cursor = nil
-		}
-	}
-	
-	// Doc field	
-	{
-		id := assplitareaDB.DocID.Int64
-		if id != 0 {
-			tmp, ok := backRepo.BackRepoDoc.Map_DocDBID_DocPtr[uint(id)]
-
-			// if the pointer id is unknown, it is not a problem, maybe the target was removed from the front
-			if !ok {
-				log.Println("DecodePointers: assplitarea.Doc, unknown pointer id", id)
-				assplitarea.Doc = nil
-			} else {
-				// updates only if field has changed
-				if assplitarea.Doc == nil || assplitarea.Doc != tmp {
-					assplitarea.Doc = tmp
-				}
-			}
-		} else {
-			assplitarea.Doc = nil
 		}
 	}
 	
@@ -1191,12 +1154,6 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) RestorePhaseTwo() {
 		if assplitareaDB.CursorID.Int64 != 0 {
 			assplitareaDB.CursorID.Int64 = int64(BackRepoCursorid_atBckpTime_newID[uint(assplitareaDB.CursorID.Int64)])
 			assplitareaDB.CursorID.Valid = true
-		}
-
-		// reindexing Doc field
-		if assplitareaDB.DocID.Int64 != 0 {
-			assplitareaDB.DocID.Int64 = int64(BackRepoDocid_atBckpTime_newID[uint(assplitareaDB.DocID.Int64)])
-			assplitareaDB.DocID.Valid = true
 		}
 
 		// reindexing Form field

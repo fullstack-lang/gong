@@ -80,20 +80,6 @@ func (from *Cursor) CopyBasicFields(to *Cursor) {
 	to.Style = from.Style
 }
 
-type Doc_WOP struct {
-	// insertion point
-
-	Name string
-
-	StackName string
-}
-
-func (from *Doc) CopyBasicFields(to *Doc) {
-	// insertion point
-	to.Name = from.Name
-	to.StackName = from.StackName
-}
-
 type FavIcon_WOP struct {
 	// insertion point
 
@@ -286,15 +272,12 @@ type Tree_WOP struct {
 	Name string
 
 	StackName string
-
-	TreeName string
 }
 
 func (from *Tree) CopyBasicFields(to *Tree) {
 	// insertion point
 	to.Name = from.Name
 	to.StackName = from.StackName
-	to.TreeName = from.TreeName
 }
 
 type View_WOP struct {

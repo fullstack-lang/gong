@@ -43,11 +43,6 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
-	case *Doc:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
 	case *FavIcon:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -163,11 +158,6 @@ func GetReverseFieldOwner[T Gongstruct](
 		}
 
 	case *Cursor:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *Doc:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

@@ -397,7 +397,6 @@ var __gong__map_AsSplit = make(map[string]*AsSplit)
 var __gong__map_AsSplitArea = make(map[string]*AsSplitArea)
 var __gong__map_Button = make(map[string]*Button)
 var __gong__map_Cursor = make(map[string]*Cursor)
-var __gong__map_Doc = make(map[string]*Doc)
 var __gong__map_FavIcon = make(map[string]*FavIcon)
 var __gong__map_Form = make(map[string]*Form)
 var __gong__map_Load = make(map[string]*Load)
@@ -609,12 +608,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceCursor.Stage(stage)
 										instance = any(instanceCursor)
 										__gong__map_Cursor[identifier] = instanceCursor
-									case "Doc":
-										instanceDoc := new(Doc)
-										instanceDoc.Name = instanceName
-										instanceDoc.Stage(stage)
-										instance = any(instanceDoc)
-										__gong__map_Doc[identifier] = instanceDoc
 									case "FavIcon":
 										instanceFavIcon := new(FavIcon)
 										instanceFavIcon.Name = instanceName
@@ -758,10 +751,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "Doc":
-							switch fieldName {
-							// insertion point for date assign code
-							}
 						case "FavIcon":
 							switch fieldName {
 							// insertion point for date assign code
@@ -902,10 +891,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						// insertion point for slice of pointers assign code
 						}
 					case "Cursor":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
-					case "Doc":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1092,18 +1077,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Cursor[identifier].Style = fielValue
-				}
-			case "Doc":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Doc[identifier].Name = fielValue
-				case "StackName":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Doc[identifier].StackName = fielValue
 				}
 			case "FavIcon":
 				switch fieldName {
@@ -1296,10 +1269,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Tree[identifier].StackName = fielValue
-				case "TreeName":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Tree[identifier].TreeName = fielValue
 				}
 			case "View":
 				switch fieldName {
@@ -1366,9 +1335,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Cursor":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Cursor = __gong__map_Cursor[targetIdentifier]
-				case "Doc":
-					targetIdentifier := ident.Name
-					__gong__map_AsSplitArea[identifier].Doc = __gong__map_Doc[targetIdentifier]
 				case "Form":
 					targetIdentifier := ident.Name
 					__gong__map_AsSplitArea[identifier].Form = __gong__map_Form[targetIdentifier]
@@ -1412,10 +1378,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				// insertion point for field dependant code
 				}
 			case "Cursor":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
-			case "Doc":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -1571,10 +1533,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "Cursor":
-					switch fieldName {
-					// insertion point for selector expr assign code
-					}
-				case "Doc":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

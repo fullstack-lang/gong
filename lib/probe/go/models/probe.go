@@ -146,7 +146,6 @@ func NewProbe2(r *gin.Engine, stage *Stage, stageOfInterest ProbebStage, embedde
 							Tree: (&split.Tree{
 								Name:      "Sidebar",
 								StackName: probe.treeStage.GetName(),
-								TreeName:  SideBarTreeName,
 							}).Stage(probe.splitStage),
 						}).Stage(probe.splitStage),
 						(&split.AsSplitArea{

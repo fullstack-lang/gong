@@ -9,8 +9,6 @@ import { ButtonAPI } from './button-api'
 
 import { CursorAPI } from './cursor-api'
 
-import { DocAPI } from './doc-api'
-
 import { FavIconAPI } from './favicon-api'
 
 import { FormAPI } from './form-api'
@@ -51,8 +49,6 @@ export class BackRepoData {
 	ButtonAPIs = new Array<ButtonAPI>()
 
 	CursorAPIs = new Array<CursorAPI>()
-
-	DocAPIs = new Array<DocAPI>()
 
 	FavIconAPIs = new Array<FavIconAPI>()
 
@@ -97,8 +93,6 @@ export class BackRepoData {
 		this.ButtonAPIs = data?.ButtonAPIs || [];
 
 		this.CursorAPIs = data?.CursorAPIs || [];
-
-		this.DocAPIs = data?.DocAPIs || [];
 
 		this.FavIconAPIs = data?.FavIconAPIs || [];
 

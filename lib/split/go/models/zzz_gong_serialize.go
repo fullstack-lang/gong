@@ -20,7 +20,6 @@ func SerializeStage(stage *Stage, filename string) {
 		SerializeExcelizePointerToGongstruct[*AsSplitArea](stage, f)
 		SerializeExcelizePointerToGongstruct[*Button](stage, f)
 		SerializeExcelizePointerToGongstruct[*Cursor](stage, f)
-		SerializeExcelizePointerToGongstruct[*Doc](stage, f)
 		SerializeExcelizePointerToGongstruct[*FavIcon](stage, f)
 		SerializeExcelizePointerToGongstruct[*Form](stage, f)
 		SerializeExcelizePointerToGongstruct[*Load](stage, f)

@@ -72,12 +72,11 @@ interface FlatNode {
 })
 export class TreeSpecificComponent implements OnInit, AfterViewChecked {
 
-  @Input() name: string = ""
   @Input() Name: string = ""
-  
+
   // Reference to the input element for node editing
   @ViewChild('nodeNameInput') nodeNameInput?: ElementRef;
-  
+
   // Track which node is currently being edited
   private currentEditingNode?: FlatNode;
 
@@ -123,22 +122,12 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
       gongtreesFrontRepo => {
         this.gongtreeFrontRepo = gongtreesFrontRepo
 
-        console.log(this.Name, "tree name", "nb of trees",
-          this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME).length)
-
         var treeSingloton: tree.Tree = new (tree.Tree)
-        var selected: boolean = false
+
         for (let instance of this.gongtreeFrontRepo.getFrontArray<tree.Tree>(tree.Tree.GONGSTRUCT_NAME)) {
-          console.log(this.Name, "tree name", instance.Name)
-          if (instance.Name == this.name) {
-            treeSingloton = instance
-            selected = true
-          }
+          treeSingloton = instance
         }
-        if (!selected) {
-          console.log(this.Name, "no tree matching with name \"" + this.name + "\"")
-          return
-        }
+
 
         if (treeSingloton.RootNodes == undefined) {
           // console.log("no nodes on tree " + this.name)
@@ -166,7 +155,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
             if (node.gongNode && node.gongNode.IsInEditMode) {
               this.currentEditingNode = node;
             }
-            
+
             if (node.gongNode.IsExpanded) {
               this.treeControl.expand(node)
             }
@@ -175,7 +164,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
       }
     )
   }
-  
+
   // Focus on input field when a node enters edit mode
   ngAfterViewChecked() {
     if (this.nodeNameInput && this.currentEditingNode) {
@@ -194,16 +183,16 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
     visited.add(nodeDB);
 
     var matTreeNode: Node = { name: nodeDB.Name, gongNode: nodeDB, children: [] };
-    
+
     if (nodeDB.Children != undefined) {
-      matTreeNode.children = nodeDB.Children.map(child => 
+      matTreeNode.children = nodeDB.Children.map(child =>
         this.gongNodeToMatTreeNode(child, visited)
       );
     }
 
     // Remove from visited set after processing (allows same node in different branches)
     visited.delete(nodeDB);
-    
+
     return matTreeNode;
   }
 
@@ -226,7 +215,7 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
       }
     )
   }
-  
+
   // toggling behavior is controlled from the back
   toggleNodeSecondCheckbox(node: FlatNode): void {
     node.gongNode.IsSecondCheckboxChecked = !node.gongNode.IsSecondCheckboxChecked
@@ -251,11 +240,11 @@ export class TreeSpecificComponent implements OnInit, AfterViewChecked {
   update(node: FlatNode) {
     // Update node name from edit field
     node.name = node.gongNode.Name;
-    
+
     // Exit edit mode
     node.gongNode.IsInEditMode = false;
     this.currentEditingNode = undefined;
-    
+
     this.gongtreeNodeService.updateFront(node.gongNode, this.Name).subscribe(
       gongtreeNode => {
         console.log("updated")

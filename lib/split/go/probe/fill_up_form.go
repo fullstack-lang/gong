@@ -37,7 +37,6 @@ func FillUpForm(
 		AssociationFieldToForm("AsSplit", instanceWithInferedType.AsSplit, formGroup, probe)
 		AssociationFieldToForm("Button", instanceWithInferedType.Button, formGroup, probe)
 		AssociationFieldToForm("Cursor", instanceWithInferedType.Cursor, formGroup, probe)
-		AssociationFieldToForm("Doc", instanceWithInferedType.Doc, formGroup, probe)
 		AssociationFieldToForm("Form", instanceWithInferedType.Form, formGroup, probe)
 		AssociationFieldToForm("Load", instanceWithInferedType.Load, formGroup, probe)
 		AssociationFieldToForm("Markdown", instanceWithInferedType.Markdown, formGroup, probe)
@@ -111,13 +110,6 @@ func FillUpForm(
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Style", instanceWithInferedType.Style, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-
-	case *models.Doc:
-		// insertion point
-		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.FavIcon:
@@ -221,8 +213,6 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StackName", instanceWithInferedType.StackName, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("TreeName", instanceWithInferedType.TreeName, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 
 	case *models.View:

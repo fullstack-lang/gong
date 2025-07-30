@@ -27,8 +27,6 @@ func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
 		updateAndCommitTable[models.Button](probe)
 	case *models.Cursor:
 		updateAndCommitTable[models.Cursor](probe)
-	case *models.Doc:
-		updateAndCommitTable[models.Doc](probe)
 	case *models.FavIcon:
 		updateAndCommitTable[models.FavIcon](probe)
 	case *models.Form:
