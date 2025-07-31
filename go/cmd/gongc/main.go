@@ -389,6 +389,33 @@ func main() {
 		}
 	}
 
+	// go mod tidy
+	if true {
+		start := time.Now()
+		var cmd *exec.Cmd
+
+		cmd = exec.Command("go", "mod", "tidy")
+
+		cmd.Dir, _ = filepath.Abs(filepath.Join(pathToModelsDirectory, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pathToModelsDirectory))))
+		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)
+
+		// https://stackoverflow.com/questions/48253268/print-the-stdout-from-exec-command-in-real-time-in-go
+		var stdBuffer bytes.Buffer
+		mw := io.MultiWriter(os.Stdout, &stdBuffer)
+
+		cmd.Stdout = mw
+		cmd.Stderr = mw
+
+		log.Println(cmd.String())
+		log.Println(stdBuffer.String())
+
+		// Execute the command
+		if err := cmd.Run(); err != nil {
+			log.Panic(err)
+		}
+		log.Printf("go build over and took %s", time.Since(start))
+	}
+
 	// go build
 	if true {
 		start := time.Now()
