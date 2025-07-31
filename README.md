@@ -6,10 +6,13 @@
   - [2.3. A *gongenum* is a string/int enum](#23-a-gongenum-is-a-stringint-enum)
   - [2.4. *gongfield*s are fields within a gongstruct](#24-gongfields-are-fields-within-a-gongstruct)
   - [2.5. Gongnote](#25-gongnote)
-- [3. A "hello world" stack in 5 minutes](#3-a-hello-world-stack-in-5-minutes)
+- [3. A "hello world" level 1 web application](#3-a-hello-world-level-1-web-application)
   - [3.1. Prerequisite](#31-prerequisite)
-  - [3.2. Generating the code with the `gongc` command](#32-generating-the-code-with-the-gongc-command)
+  - [3.2. Generating \& running the code with the `gongc` command](#32-generating--running-the-code-with-the-gongc-command)
   - [3.3. Injecting Data via REST](#33-injecting-data-via-rest)
+  - [3.4. Persistance](#34-persistance)
+- [4. A "hello world" level 2 web application](#4-a-hello-world-level-2-web-application)
+  - [4.1. Prerequisite](#41-prerequisite)
 
 
 # 1. About Gong
@@ -143,30 +146,18 @@ const NoteOnOrganisation = ""
 ```
 
 
-# 3. A "hello world" stack in 5 minutes
+# 3. A "hello world" level 1 web application
 
 ## 3.1. Prerequisite
 
 - go 1.24 (see https://go.dev/doc/install)
-- npm version >= 10 (see https://nodejs.org)
-- angular version 19 (see https://angular.dev/)
-- vscode (recommanded)
 
-it is possible to generate a functionning stack in 5 minutes. 
 
-## 3.2. Generating the code with the `gongc` command
+## 3.2. Generating & running the code with the `gongc` command
 
 > go install github.com/fullstack-lang/gong/go/cmd/gongc/gongc@main
 
-In a terminal, below commands :
 
-- `mkdir` creates a `helloworld` directory
-- `mkdir` generates a sub directory `go/models`
-- `echo` commands generates 2 go structs in this subdirectory
-  - `Hello` which stores a way to say hello
-  - `Country` which stores a country and an association to the way to say hello in this country 
-- `gongc go/models` compiles the models
-- `./helloworld` run the server
 
 ```bash
 mkdir helloworld
@@ -190,12 +181,22 @@ const (
   Casual HelloType = \"Casual\"
   Formal HelloType = \"Formal\"
 )" > go/models/hello_type.go
-gongc -skipStager=false go/models
+gongc -skipStager=false -level1 go/models
 cd go/cmd/helloworld
 ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage
 cd ../../../..
 rm -rf helloworld
 ```
+
+In a terminal, below commands :
+
+- `mkdir` creates a `helloworld` directory
+- `mkdir` generates a sub directory `go/models`
+- `echo` commands generates 2 go structs in this subdirectory
+  - `Hello` which stores a way to say hello
+  - `Country` which stores a country and an association to the way to say hello in this country 
+- `gongc go/models` compiles the models
+- `./helloworld` run the server
 
 Then, browse to [localhost:8080](http://localhost:8080) and add data manualy.
 
@@ -227,3 +228,14 @@ curl --request POST \
   --data '{"Name": "Italy","HelloID":{"Int64":2,"Valid":true}}'
   ```
 
+## 3.4. Persistance
+
+# 4. A "hello world" level 2 web application
+
+## 4.1. Prerequisite
+
+- go 1.24 (see https://go.dev/doc/install)
+- npm version >= 10 (see https://nodejs.org)
+- angular version 19 (see https://angular.dev/)
+
+Remove the `-level1` arg to the gongc command.
