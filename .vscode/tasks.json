@@ -103,20 +103,6 @@
       ]
     },
     {
-      "label": "01 - gongc doc",
-      "type": "shell",
-      "options": {
-        "cwd": "${workspaceFolder}/lib/doc"
-      },
-      "command": "gongc",
-      "group": "build",
-      "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
-        "go/models"
-      ]
-    },
-    {
       "label": "01 - gongc doc2",
       "type": "shell",
       "options": {
@@ -126,9 +112,9 @@
       "group": "build",
       "args": [
         "-skipGoModCommands",
-        "-skipNpmWorkspaces",
         "-skipStager=false",
-        "go/models"
+        "-level1",
+        "go/models",
       ]
     },
     {

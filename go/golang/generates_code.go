@@ -65,7 +65,8 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 				modelPkg.Name,
 				modelPkg.PkgPath,
 				mainFilePath,
-				skipStager)
+				skipStager,
+				level1)
 		}
 	}
 
