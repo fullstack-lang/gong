@@ -25,7 +25,7 @@ import (
 )
 
 func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
-	pkgPath string, skipCoder bool, dbLite bool, skipSerialize bool, skipStager bool) {
+	pkgPath string, skipCoder bool, dbLite bool, skipSerialize bool, skipStager bool, level1 bool) {
 
 	// generate main.go if absent
 	{
@@ -171,11 +171,15 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "../../go/embed.go"),
 		EmebedGoDirTemplate)
 
+	template := fullstack.FullstackNewStackInstanceTemplate
+	if level1 {
+		template = fullstack.FullstackNewStackInstanceTemplateLevel1
+	}
 	gong_models.SimpleCodeGeneratorForGongStructWithNameField(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),
 		modelPkg.PkgPath, filepath.Join(pkgPath, "../fullstack/new_stack_instance.go"),
-		fullstack.FullstackNewStackInstanceTemplate,
+		template,
 		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
 
 	gong_models.VerySimpleCodeGenerator(
@@ -183,10 +187,14 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "../stack/stack.go"),
 		stack.StackInstanceTemplate)
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, "../static/serve_static_files.go"),
-		static.ServeStaticFilesTemplate)
+	// a level 1 application does not need the static files service since
+	// it uses the gong split static file
+	if !level1 {
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../static/serve_static_files.go"),
+			static.ServeStaticFilesTemplate)
+	}
 
 	models.CodeGeneratorModelGong(
 		modelPkg,
