@@ -331,6 +331,7 @@
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
+                "-skipStager=false",
                 "-level1"
             ]
         },
@@ -354,14 +355,6 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/cursor/go/cmd/cursor",
-            "args": []
-        },
-        {
-            "name": "go run doc",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": []
         },
         {

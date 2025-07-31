@@ -20,6 +20,8 @@ import (
 
 	// insertion point for models import{{modelsImportDirective}}
 	{{pkgname}}_stack "{{PkgPathRoot}}/stack"
+
+	// static
 	{{pkgname}}_static "{{PkgPathRoot}}/static"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -108,7 +110,8 @@ func CodeGeneratorPackageMain(
 	pkgName string,
 	pkgGoPath string,
 	mainFilePath string,
-	skipStager bool) {
+	skipStager bool,
+	level1 bool) {
 	{
 		codeGo := PackageMain
 
@@ -128,6 +131,25 @@ func CodeGeneratorPackageMain(
 			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
 		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
 			strings.ReplaceAll(pkgGoPath, "/go/models", ""))
+
+		if level1 {
+
+			// replace import of serve static
+			toBeReplaced := models.Replace2(
+				`{{pkgname}}_static "{{PkgPathRoot}}/static"`,
+				"{{pkgname}}", strings.ToLower(pkgName),
+				"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
+			codeGo = strings.ReplaceAll(codeGo, toBeReplaced,
+				`split_static "github.com/fullstack-lang/gong/lib/split/go/static"`)
+
+			// replace call to serve static
+			toBeReplaced = models.Replace1(
+				`r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)`,
+				"{{pkgname}}", strings.ToLower(pkgName),
+			)
+			codeGo = strings.ReplaceAll(codeGo, toBeReplaced,
+				`r := split_static.ServeStaticFiles(*logGINFlag)`)
+		}
 
 		file, err := os.Create(mainFilePath)
 		if err != nil {
