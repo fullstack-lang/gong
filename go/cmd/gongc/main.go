@@ -36,7 +36,7 @@ var (
 	skipNpmWorkspaces = flag.Bool("skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
 	skipStager        = flag.Bool("skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
 
-	level1 = flag.Bool("level1", true, "generates a level1 gong application (implies -skipNg)")
+	level1 = flag.Bool("level1", false, "generates a level1 gong application (implies -skipNg)")
 
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
