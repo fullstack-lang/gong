@@ -13,10 +13,10 @@ import (
 	// insertion point for models import
 	test3_models "github.com/fullstack-lang/gong/test/test3/go/models"
 	test3_stack "github.com/fullstack-lang/gong/test/test3/go/stack"
-	test3_static "github.com/fullstack-lang/gong/test/test3/go/static"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -41,7 +41,7 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := test3_static.ServeStaticFiles(*logGINFlag)
+	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
 	log.Println("Before new Stack")
