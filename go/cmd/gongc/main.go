@@ -36,6 +36,8 @@ var (
 	skipNpmWorkspaces = flag.Bool("skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
 	skipStager        = flag.Bool("skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
 
+	level1 = flag.Bool("level1", true, "generates a level1 gong application (implies -skipNg)")
+
 	clean = flag.Bool("clean", false, "let gongc remove files & dir that are generated. The program then exits.")
 
 	addr = flag.String("addr", "localhost:8080/api",
@@ -59,6 +61,11 @@ func main() {
 	flag.Parse()
 	if len(flag.Args()) > 1 {
 		log.Fatal("surplus arguments")
+	}
+
+	// -level1 means -skipNg
+	if *level1 {
+		*skipNg = true
 	}
 
 	pathToModelsDirectory := *pkgPath
@@ -268,7 +275,6 @@ func main() {
 	}
 
 	if !*skipNpmWorkspaces && !*skipNg && !*skipNpmInstall {
-		// we need to use npm package (because of angular 17/esbuild)
 		// check wether a package.json is present, otherwise generate it
 		packageJsonFilePath := filepath.Join(pathToModelsDirectory, "../../.gitignore")
 		_, errd := os.Stat(packageJsonFilePath)
@@ -338,7 +344,7 @@ func main() {
 	}
 
 	// generate directory for orm package
-	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager)
+	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager, *level1)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command

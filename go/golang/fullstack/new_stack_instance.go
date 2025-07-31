@@ -1,6 +1,16 @@
 package fullstack
 
-const FullstackNewStackInstanceTemplate = `// do not modify, generated file
+const FullstackNewStackInstanceTemplate = //
+FullstackNewStackInstanceTemplatePart1 +
+	FullstackNewStackInstanceTemplatePart2 +
+	FullstackNewStackInstanceTemplatePart3
+
+const FullstackNewStackInstanceTemplateLevel1 = //
+FullstackNewStackInstanceTemplatePart1 +
+	FullstackNewStackInstanceTemplatePart2Level1 +
+	FullstackNewStackInstanceTemplatePart3
+
+const FullstackNewStackInstanceTemplatePart1 = `// do not modify, generated file
 package fullstack
 
 import (
@@ -9,12 +19,21 @@ import (
 	"{{PkgPathRoot}}/orm"
 
 	"github.com/gin-gonic/gin"
-
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
-	// to include this stack front end code
+	// to include this stack front end code`
+
+const FullstackNewStackInstanceTemplatePart2 = `
 	_ "{{PkgPathAboveRoot}}/{{NgWorkspaceName}}"
-)
+)`
+
+const FullstackNewStackInstanceTemplatePart2Level1 = `
+	// This is a level 1 gong application, no need to import the angular code
+	// therefore, the following line that is necessary in level 2 applications, is commented
+	// _ "{{PkgPathAboveRoot}}/{{NgWorkspaceName}}"
+)`
+
+const FullstackNewStackInstanceTemplatePart3 = `
 
 // NewStackInstance creates a new stack instance from the Stack Model
 // and returns the backRepo of the stack instance (you can get the stage from backRepo.GetStage()
