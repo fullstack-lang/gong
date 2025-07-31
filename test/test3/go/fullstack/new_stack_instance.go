@@ -7,11 +7,11 @@ import (
 	"github.com/fullstack-lang/gong/test/test3/go/orm"
 
 	"github.com/gin-gonic/gin"
-
 	// this will import the angular front end source code directory (versionned with git) in the vendor directory
 	// this path will be included in the "tsconfig.json" front end compilation paths
 	// to include this stack front end code
-	_ "github.com/fullstack-lang/gong/test/test3/ng-github.com-fullstack-lang-gong-test-test3"
+	// This is a level 1 gong application, no need to import the angular code
+	// _ "github.com/fullstack-lang/gong/test/test3/ng-github.com-fullstack-lang-gong-test-test3"
 )
 
 // NewStackInstance creates a new stack instance from the Stack Model
