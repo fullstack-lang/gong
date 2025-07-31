@@ -1,9 +1,177 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        //
+        // "gongc" configurations
+        //
+        {
+            "name": "gongc /tmp/helloworld",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "/tmp/helloworld",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "go/models"
+            ]
+        },
+        {
+            "name": "gongc /tmp/helloworld/go/models",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "/tmp/helloworld/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": []
+        },
+        {
+            "name": "gongc doc2 -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/doc2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNg"
+            ]
+        },
+        {
+            "name": "gongc gong -skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands"
+            ]
+        },
+        {
+            "name": "gongc gong -skipNg -skipGoModCommands",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "-skipGoModCommands"
+            ]
+        },
+        {
+            "name": "gongc gongreqif",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongreqif/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "-skipGoModCommands"
+            ]
+        },
+        {
+            "name": "gongc gongxsd books",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongxsd/test/books/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": []
+        },
+        {
+            "name": "gongc musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../gongxsd/test/musicxml/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-compileForDebug"
+            ]
+        },
+        {
+            "name": "gongc phyllotaxymusic sliders -skipGoModCommands -skipNg -compileForDebug",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/sliders/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNg",
+                "-compileForDebug"
+            ]
+        },
+        {
+            "name": "gongc slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/slider/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
+            "name": "gongc svg -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNg"
+            ]
+        },
+        {
+            "name": "gongc svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNpmWorkspaces"
+            ]
+        },
+        {
+            "name": "gongc test -skipGoModCommands -skipNg -skipFlutter=false",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNg",
+                "-skipFlutter=false"
+            ]
+        },
+        {
+            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug whithout rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-compileForDebug",
+                "-skipGoModCommands",
+                "-skipNg",
+                "-skipNpmInstall"
+            ]
+        },
         {
             "name": "gongc test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
@@ -15,7 +183,7 @@
             "args": [
                 "-skipStager=false",
                 "-skipGoModCommands",
-                "-skipNpmInstall",
+                "-skipNpmInstall"
             ]
         },
         {
@@ -49,59 +217,6 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall without rm main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall"
-            ]
-        },
-        {
-            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug whithout rm main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-compileForDebug",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall",
-            ]
-        },
-        {
-            "name": "gongc test -skipNpmInstall -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNpmInstall",
-                "-skipGoModCommands",
-                "-skipNg"
-            ]
-        },
-        {
-            "name": "gongc slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/slider/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
-            ]
-        },
-        {
             "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
@@ -117,40 +232,15 @@
             ]
         },
         {
-            "name": "gongc svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "gongc test -skipGoModCommands -skipNpmInstall without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/svg/go/models",
+            "cwd": "${workspaceFolder}/test/test/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
                 "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
-            ]
-        },
-        {
-            "name": "gongc svg -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/svg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg"
-            ]
-        },
-        {
-            "name": "gongc doc2 -skipGoModCommands -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/doc2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg"
+                "-skipNpmInstall"
             ]
         },
         {
@@ -168,44 +258,6 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipFlutter=false",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipFlutter=false"
-            ]
-        },
-        {
-            "name": "gongc compareclaplannings -skipGoModCommands -skipNg -skipNpmInstall",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "../../../r/DEV_COHERENCE/compareclaplannings/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNg"
-            ]
-        },
-        {
-            "name": "gongc /tmp/helloworld",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "/tmp/helloworld",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "go/models",
-            ]
-        },
-        {
             "name": "gongc test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
@@ -220,6 +272,73 @@
             ]
         },
         {
+            "name": "gongc test -skipNpmInstall -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNpmInstall",
+                "-skipGoModCommands",
+                "-skipNg"
+            ]
+        },
+        {
+            "name": "gongc test2 -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipNg",
+                "-skipGoModCommands"
+            ]
+        },
+        {
+            "name": "gongc test2 -skipGoModCommands -skipNpmInstall",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall"
+            ]
+        },
+        {
+            "name": "gongc test2 -skipGoModCommands -skipNpmInstall -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test2/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipNpmInstall",
+                "-skipNg"
+            ]
+        },
+        {
+            "name": "gongc test3 -skipGoModCommands -level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test3/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-skipGoModCommands",
+                "-skipStager=false",
+                "-level1"
+            ]
+        },
+        //
+        // "go run" configurations
+        //
+        {
             "name": "go run button",
             "type": "go",
             "request": "launch",
@@ -228,7 +347,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run cursor",
@@ -236,15 +355,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/cursor/go/cmd/cursor",
-            "args": [],
-        },
-        {
-            "name": "go run doc",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
-            "args": [],
+            "args": []
         },
         {
             "name": "go run doc2",
@@ -255,7 +366,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run doc2 -embeddedDiagrams=true",
@@ -267,7 +378,7 @@
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage",
                 "-embeddedDiagrams=true"
-            ],
+            ]
         },
         {
             "name": "go run gong",
@@ -277,8 +388,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage",
-            ],
+                "-marshallOnCommit=data/stage"
+            ]
         },
         {
             "name": "go run load",
@@ -289,7 +400,7 @@
             "args": [
                 "-unmarshallFromCode=data/load.go",
                 "-marshallOnCommit=data/load"
-            ],
+            ]
         },
         {
             "name": "go run markdown",
@@ -300,7 +411,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage.go"
-            ],
+            ]
         },
         {
             "name": "go run probe",
@@ -311,7 +422,7 @@
             "args": [
                 "-unmarshallFromCode=data/probe.go",
                 "-marshallOnCommit=data/probe"
-            ],
+            ]
         },
         {
             "name": "go run gantt",
@@ -322,7 +433,7 @@
             "args": [
                 "-unmarshallFromCode=data/gantt1.go",
                 "-marshallOnCommit=data/gantt1"
-            ],
+            ]
         },
         {
             "name": "go run split",
@@ -333,7 +444,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage2.go",
                 "-marshallOnCommit=data/stage2"
-            ],
+            ]
         },
         {
             "name": "go run split issue564",
@@ -357,7 +468,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run sim",
@@ -368,7 +479,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run ssg",
@@ -379,7 +490,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run svg",
@@ -390,7 +501,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage_out"
-            ],
+            ]
         },
         {
             "name": "go run svg -unmarshallFromCode=rectangle.go -marshallOnCommit=rectangle_out",
@@ -401,7 +512,7 @@
             "args": [
                 "-unmarshallFromCode=data/rectangle.go",
                 "-marshallOnCommit=data/rectangle_out"
-            ],
+            ]
         },
         {
             "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go",
@@ -412,7 +523,7 @@
             "args": [
                 "-unmarshallFromCode=data/simple.go",
                 "-marshallOnCommit=data/simple.go"
-            ],
+            ]
         },
         {
             "name": "go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
@@ -423,7 +534,7 @@
             "args": [
                 "-unmarshallFromCode=data/path.go",
                 "-marshallOnCommit=data/path.go"
-            ],
+            ]
         },
         {
             "name": "go run svg -unmarshallFromCode=simple.go -marshallOnCommit=simple.go -port 8090",
@@ -436,7 +547,7 @@
                 "-marshallOnCommit=data/simple.go",
                 "-port",
                 "8090"
-            ],
+            ]
         },
         {
             "name": "go run table",
@@ -444,7 +555,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/lib/table/go/cmd/table",
-            "args": [],
+            "args": []
         },
         {
             "name": "go run tone",
@@ -455,7 +566,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=stage"
-            ],
+            ]
         },
         {
             "name": "go run tree",
@@ -466,7 +577,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
-            ],
+            ]
         },
         {
             "name": "go run xlsx",
@@ -476,8 +587,8 @@
             "program": "${workspaceFolder}/lib/xlsx/go/cmd/xlsx",
             "args": [
                 "data/samplefile.xlsx",
-                "data/samplefile2.xlsx",
-            ],
+                "data/samplefile2.xlsx"
+            ]
         },
         {
             "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage_out",
@@ -488,7 +599,7 @@
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage_out"
-            ],
+            ]
         },
         {
             "name": "go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=stage -logFile=app.log",
@@ -586,7 +697,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/test2/go/cmd/test2",
             "args": [
-                "-unmarshallFromCode=data/stage2.go",
+                "-unmarshallFromCode=data/stage2.go"
             ]
         },
         {
@@ -596,7 +707,7 @@
             "mode": "auto",
             "program": "${workspaceFolder}/test2/go/cmd/test2",
             "args": [
-                "-testPackageHierarchy",
+                "-testPackageHierarchy"
             ]
         },
         {
@@ -620,321 +731,6 @@
                 "-unmarshallFromCode=data/stage-large.go",
                 "-marshallOnCommit=data/stage-large.go"
             ]
-        },
-        {
-            "name": "go test BclassOrder",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests",
-            "args": [
-                "-test.run",
-                "BclassOrder"
-            ]
-        },
-        {
-            "name": "go test TestBackup",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests",
-            "args": [
-                "-test.run",
-                "TestBackup"
-            ]
-        },
-        {
-            "name": "go test Serialize",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests",
-            "args": [
-                "-test.run",
-                "Serialize"
-            ]
-        },
-        {
-            "name": "go test TestBackupXL",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests",
-            "args": [
-                "-test.run",
-                "TestXLBackup"
-            ]
-        },
-        {
-            "name": "go test TestRestore",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests",
-            "args": [
-                "-test.run",
-                "TestRestore"
-            ]
-        },
-        {
-            "name": "go test Parse",
-            "type": "go",
-            "request": "launch",
-            "mode": "test",
-            "program": "${workspaceFolder}/test/test/go/tests/parse_tests",
-            "args": [
-                "-test.run",
-                "TestParseTest"
-            ]
-        },
-        {
-            "name": "gongc test3",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test3/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-            ]
-        },
-        {
-            "name": "go run test3 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/test/test3/go/cmd/test3",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage.go"
-            ]
-        },
-        {
-            "name": "Launch Chrome (test) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test/ng-github.com-fullstack-lang-gong-test",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (doc) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (doc2) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (load) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/load/ng-github.com-fullstack-lang-gong-lib-load",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (markdown) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (split) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/split/ng-github.com-fullstack-lang-gong-lib-split",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (svg) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/svg/ng-github.com-fullstack-lang-gong-lib-svg",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (table) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/table/ng-github.com-fullstack-lang-gong-lib-table",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (tone) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/tone/ng-github.com-fullstack-lang-gong-lib-tone",
-            "sourceMaps": true,
-        },
-        {
-            "name": "Launch Chrome (tree) on 4200",
-            "request": "launch",
-            "type": "chrome",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/tree/ng-github.com-fullstack-lang-gong-lib-tree",
-            "sourceMaps": true,
-        },
-        {
-            "name": "gongc test2 -skipNg -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc test2 -skipGoModCommands -skipNpmInstall",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall"
-            ]
-        },
-        {
-            "name": "gongc test2 -skipGoModCommands -skipNpmInstall -skipNg",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNg"
-            ]
-        },
-        {
-            "name": "gongc gong -skipNg -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gong -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gongxsd books",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongreqif",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongreqif/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc phyllotaxymusic sliders -skipGoModCommands -skipNg -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/sliders/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongxsd/test/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc gongjointjs",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongjointjs/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongproject",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongproject/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
-        {
-            "name": "gongc gongmarkdown -skipNg -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../gongmarkdown/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc /tmp/helloworld/go/models",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
-        },
+        }
     ]
 }
