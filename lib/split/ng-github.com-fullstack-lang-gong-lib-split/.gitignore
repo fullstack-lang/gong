@@ -1,7 +1,11 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
-/dist
+
+# #824, gong: allow generation of level1 gong applications, will
+# split output, therefore, dist is not gitignored
+# /dist
+
 /tmp
 /out-tsc
 /bazel-out
