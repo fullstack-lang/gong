@@ -1,3 +1,4 @@
 <div class="markdown-container">
-    <markdown [data]="content"></markdown>
+    <button mat-raised-button color="primary" (click)="downloadHtml()">Download HTML</button>
+    <markdown #markdownWrapper [data]="content"></markdown>
 </div>
