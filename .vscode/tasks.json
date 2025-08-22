@@ -63,15 +63,15 @@
       "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
     },
     {
-      "label": "00 - Run all gongc -skipGoModCommands -skipNg",
+      "label": "01 - Run gongc skipNg conditionally (from script)",
       "type": "shell",
-      "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNg go/models); done",
+      "command": "./scripts/run_gongc_skip_ng_conditionally.sh",
       "group": "build"
     },
     {
-      "label": "00 - Run all gongc -skipGoModCommands -skipNpmWorkspaces",
+      "label": "01 - Run gongc conditionally (from script)",
       "type": "shell",
-      "command": "find . -type f -name \"embed_ng_dist_ng.go\" -exec dirname {} \\; | sort -u | while IFS= read -r dir; do (cd \"$dir\" && gongc -skipGoModCommands -skipNpmWorkspaces go/models); done",
+      "command": "./scripts/run_gongc_conditionally.sh",
       "group": "build"
     },
     {
