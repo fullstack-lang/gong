@@ -21,6 +21,7 @@ export class MarkdownSpecificComponent {
   frontRepo: markdown.FrontRepo | undefined
 
   content = ``
+  contentName = `` 
 
   constructor(
     private frontRepoService: markdown.FrontRepoService,
@@ -43,12 +44,18 @@ export class MarkdownSpecificComponent {
     if (this.frontRepo.getFrontArray(markdown.Content.GONGSTRUCT_NAME).length == 1) {
       let content = this.frontRepo.getFrontArray<markdown.Content>(markdown.Content.GONGSTRUCT_NAME)[0]
       this.content = content.Content
+      this.contentName = content.Name
     }
   }
 
   downloadHtml(): void {
-    if (!this.markdownWrapper?.nativeElement) {
+    if (!this.markdownWrapper?.nativeElement && this.content != undefined) {
       console.error('Markdown container not found.');
+      return;
+    }
+
+    if (this.content == undefined) {
+      console.error('No content to download.');
       return;
     }
 
@@ -60,7 +67,7 @@ export class MarkdownSpecificComponent {
       <html lang="en">
       <head>
         <meta charset="UTF-8">
-        <title>${this.Name || 'Markdown Content'}</title>
+        <title>${this.contentName || 'Markdown Content'}</title>
         <style>
           body { font-family: sans-serif; line-height: 1.6; padding: 20px; max-width: 800px; margin: 0 auto; }
           pre, code { background-color: #f4f4f4; padding: 2px 5px; border-radius: 4px; }
@@ -78,7 +85,7 @@ export class MarkdownSpecificComponent {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${this.Name || 'markdown'}.html`;
+    a.download = `${this.contentName || 'markdown'}.html`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
