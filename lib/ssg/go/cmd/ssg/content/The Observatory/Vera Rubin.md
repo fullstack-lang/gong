@@ -1,0 +1,25 @@
+---
+title: "Vera Rubin"
+weight: 3
+---
+The decision to name a major scientific facility is never taken lightly. It is an act of commemoration, a way to etch a name into the annals of science, ensuring a legacy that will inspire future generations. In December 2019, through an act of the United States Congress, the Large Synoptic Survey Telescope (LSST) was officially christened the Vera C. Rubin Observatory. This dedication was more than just an honor; it was a profound statement. For the first time, a major, publicly-funded national observatory in the United States was named after a woman, recognizing the monumental contributions of an astronomer who fundamentally altered our perception of the cosmos and tirelessly championed the cause of women in science.
+
+
+Vera Cooper Rubin (1928-2016) was a force of nature in the field of astronomy, a brilliant and tenacious scientist whose work provided the most compelling evidence for the existence of one of the universe's most profound mysteries: dark matter. Her journey in science was one of perseverance against the systemic gender biases of her time. From her early fascination with the stars as a young girl in Washington, D.C., she pursued her passion with unwavering determination. Despite being the sole astronomy graduate from Vassar College in 1948 and facing obstacles that barred women from certain academic programs—the graduate astronomy program at Princeton being a notable example—she carved out an extraordinary career.
+
+
+
+
+The work that cemented her legacy began in the 1960s and 70s. Collaborating with instrument-maker Kent Ford, Rubin undertook meticulous studies of the rotation of spiral galaxies, starting with the neighboring Andromeda Galaxy. At the time, the prevailing wisdom, based on Newtonian physics, was that the stars and gas in the outer regions of a galaxy should orbit its center more slowly than those closer in, much like the outer planets of our solar system move more slowly than the inner ones. This is because the visible matter—the luminous stars and glowing gas clouds—is concentrated towards the galactic center, and thus the gravitational pull should diminish with distance.
+
+
+Rubin and Ford, using Ford's highly sensitive spectrometer, made a startling discovery. They found that the orbital velocities of stars in the outskirts of galaxies did not decrease as expected. Instead, they remained surprisingly constant, or "flat," as far out as they could be measured. This meant the stars at the edges were moving just as fast as those near the center. The implications were revolutionary. For these high-velocity stars to remain in their orbits without being flung into intergalactic space, there had to be a tremendous amount of unseen mass exerting a powerful gravitational grip. The visible matter simply wasn't enough to hold the galaxies together.
+
+
+This "missing mass" problem had been postulated as early as the 1930s by Swiss astronomer Fritz Zwicky, but his observations of galaxy clusters were largely dismissed. It was Rubin's systematic and irrefutable observations of individual galaxies that brought the concept of dark matter from a fringe theory to a central pillar of modern cosmology. Her work provided the observational bedrock upon which our current understanding of galaxy formation and the large-scale structure of the universe is built. Today, the scientific consensus is that the universe is composed of only about 5% ordinary, visible matter—the stuff that makes up stars, planets, and people. Roughly 27% is dark matter, and the remaining 68% is the even more enigmatic dark energy.
+
+
+Naming the observatory after Vera Rubin is therefore exceptionally fitting. One of the primary scientific missions of the Rubin Observatory is to map the distribution of dark matter with unprecedented detail. Using a technique called weak gravitational lensing, the observatory will measure the subtle distortions in the light from distant galaxies as it passes through the gravitational fields of intervening dark matter. This will create a vast, three-dimensional map of the dark matter scaffolding of the universe, allowing scientists to test cosmological models and perhaps even glean clues about the nature of the dark matter particle itself, a quest that eluded Rubin in her lifetime.
+
+
+Furthermore, the naming honors Rubin's role as a passionate advocate for women in science. She was a mentor to countless aspiring astronomers and a vocal critic of the barriers that women faced. She fought for their inclusion in professional organizations and their access to observing facilities. Naming this next-generation observatory in her honor serves as a powerful symbol of progress and an inspiration for a new, more inclusive generation of scientists. The Vera C. Rubin Observatory is not just a testament to her groundbreaking discoveries; it is a continuation of her legacy of exploration, perseverance, and the relentless pursuit of cosmic truths
