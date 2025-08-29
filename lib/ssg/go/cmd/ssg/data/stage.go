@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-29 08:20:25.455519 EDT"
-	const __write__utc_time__ = "2025-07-29 12:20:25.455519 UTC"
+	const __write__local_time = "2025-08-29 13:52:07.315544 CEST"
+	const __write__utc_time__ = "2025-08-29 11:52:07.315544 UTC"
 
-	const __commitId__ = "0000000036"
+	const __commitId__ = "0000000041"
 
 	// Declaration of instances to stage
 
@@ -40,6 +40,8 @@ func _(stage *models.Stage) {
 	__Page__000004_Key_Science_Pillars := (&models.Page{}).Stage(stage)
 	__Page__000005_The_Data := (&models.Page{}).Stage(stage)
 	__Page__000006_Accessing_the_Data := (&models.Page{}).Stage(stage)
+	__Page__000007_Vera_Rubin := (&models.Page{}).Stage(stage)
+	__Page__000008_From_Concept_to_Concrete_Plans := (&models.Page{}).Stage(stage)
 
 	// Setup of values
 
@@ -128,11 +130,58 @@ The survey is expected to generate approximately 20 terabytes of data per night,
 Data will be released in annual data releases. After a proprietary period for scientists in the US and Chile, all data products will become fully public to the world.
 `
 
+	__Page__000007_Vera_Rubin.Name = `Vera Rubin`
+	__Page__000007_Vera_Rubin.MardownContent = `The decision to name a major scientific facility is never taken lightly. It is an act of commemoration, a way to etch a name into the annals of science, ensuring a legacy that will inspire future generations. In December 2019, through an act of the United States Congress, the Large Synoptic Survey Telescope (LSST) was officially christened the Vera C. Rubin Observatory. This dedication was more than just an honor; it was a profound statement. For the first time, a major, publicly-funded national observatory in the United States was named after a woman, recognizing the monumental contributions of an astronomer who fundamentally altered our perception of the cosmos and tirelessly championed the cause of women in science.
+
+
+Vera Cooper Rubin (1928-2016) was a force of nature in the field of astronomy, a brilliant and tenacious scientist whose work provided the most compelling evidence for the existence of one of the universe's most profound mysteries: dark matter. Her journey in science was one of perseverance against the systemic gender biases of her time. From her early fascination with the stars as a young girl in Washington, D.C., she pursued her passion with unwavering determination. Despite being the sole astronomy graduate from Vassar College in 1948 and facing obstacles that barred women from certain academic programs—the graduate astronomy program at Princeton being a notable example—she carved out an extraordinary career.
+
+
+
+
+The work that cemented her legacy began in the 1960s and 70s. Collaborating with instrument-maker Kent Ford, Rubin undertook meticulous studies of the rotation of spiral galaxies, starting with the neighboring Andromeda Galaxy. At the time, the prevailing wisdom, based on Newtonian physics, was that the stars and gas in the outer regions of a galaxy should orbit its center more slowly than those closer in, much like the outer planets of our solar system move more slowly than the inner ones. This is because the visible matter—the luminous stars and glowing gas clouds—is concentrated towards the galactic center, and thus the gravitational pull should diminish with distance.
+
+
+Rubin and Ford, using Ford's highly sensitive spectrometer, made a startling discovery. They found that the orbital velocities of stars in the outskirts of galaxies did not decrease as expected. Instead, they remained surprisingly constant, or "flat," as far out as they could be measured. This meant the stars at the edges were moving just as fast as those near the center. The implications were revolutionary. For these high-velocity stars to remain in their orbits without being flung into intergalactic space, there had to be a tremendous amount of unseen mass exerting a powerful gravitational grip. The visible matter simply wasn't enough to hold the galaxies together.
+
+
+This "missing mass" problem had been postulated as early as the 1930s by Swiss astronomer Fritz Zwicky, but his observations of galaxy clusters were largely dismissed. It was Rubin's systematic and irrefutable observations of individual galaxies that brought the concept of dark matter from a fringe theory to a central pillar of modern cosmology. Her work provided the observational bedrock upon which our current understanding of galaxy formation and the large-scale structure of the universe is built. Today, the scientific consensus is that the universe is composed of only about 5% ordinary, visible matter—the stuff that makes up stars, planets, and people. Roughly 27% is dark matter, and the remaining 68% is the even more enigmatic dark energy.
+
+
+Naming the observatory after Vera Rubin is therefore exceptionally fitting. One of the primary scientific missions of the Rubin Observatory is to map the distribution of dark matter with unprecedented detail. Using a technique called weak gravitational lensing, the observatory will measure the subtle distortions in the light from distant galaxies as it passes through the gravitational fields of intervening dark matter. This will create a vast, three-dimensional map of the dark matter scaffolding of the universe, allowing scientists to test cosmological models and perhaps even glean clues about the nature of the dark matter particle itself, a quest that eluded Rubin in her lifetime.
+
+
+Furthermore, the naming honors Rubin's role as a passionate advocate for women in science. She was a mentor to countless aspiring astronomers and a vocal critic of the barriers that women faced. She fought for their inclusion in professional organizations and their access to observing facilities. Naming this next-generation observatory in her honor serves as a powerful symbol of progress and an inspiration for a new, more inclusive generation of scientists. The Vera C. Rubin Observatory is not just a testament to her groundbreaking discoveries; it is a continuation of her legacy of exploration, perseverance, and the relentless pursuit of cosmic truths`
+
+	__Page__000008_From_Concept_to_Concrete_Plans.Name = `From Concept to Concrete Plans`
+	__Page__000008_From_Concept_to_Concrete_Plans.MardownContent = `Every great scientific instrument begins as an idea, a response to the fundamental questions that drive human curiosity. The Vera C. Rubin Observatory, in its modern form, is a product of decades of technological advancement and evolving scientific priorities, but its conceptual roots lie in the long-held astronomical ambition to create a comprehensive, dynamic map of the night sky. For centuries, astronomers have compiled star charts and catalogs, but these were static snapshots. The idea of a telescope that could repeatedly survey the entire sky, not just to catalog objects but to monitor their changes over time, was a revolutionary leap.
+
+The seeds for what would become the Rubin Observatory were sown in the 1990s, a period of fertile discussion within the astronomical community about the future of the field. Advances in computing, data storage, and detector technology—specifically the development of large-format charge-coupled devices (CCDs)—were making it possible to imagine a project of a scale that was previously pure science fiction. The core concept was to build a wide-field survey telescope that could achieve an unprecedented combination of depth, area, and cadence. It would need to see faint objects (depth), cover a huge swath of the sky (area), and do so repeatedly and rapidly (cadence).
+
+One of the earliest and most influential proponents of this idea was the astrophysicist J. Anthony "Tony" Tyson. In the late 1990s and early 2000s, Tyson was deeply engaged in the study of dark matter through weak gravitational lensing. He recognized that to truly map the distribution of dark matter across the cosmos, a survey of immense proportions was necessary. The subtle distortions caused by weak lensing are statistically tiny, requiring the observation of hundreds of millions or even billions of galaxies to create a meaningful signal. Existing telescopes could either see a small patch of sky deeply or a large patch shallowly, but none could do both.
+
+Tyson envisioned a new kind of facility, one designed specifically for this purpose. His initial concept, which he began sketching out, was for what he aptly named the "Dark Matter Telescope." This instrument would be an "etendue monster," a term of art in optics referring to the product of an optical system's collecting area and its field of view. A high etendue value is the key to a fast and efficient survey. The goal was to build a telescope that could survey the entire visible sky from its location every few nights, cataloging billions of objects and, crucially, noting any changes in their position or brightness.
+
+The scientific case for such a survey was compelling and extended far beyond the study of dark matter. Astronomers recognized that a deep, time-domain survey would be a veritable discovery engine. It would create a massive, publicly accessible database that could be used for a vast range of scientific investigations:
+
+A Solar System Census: By imaging the sky repeatedly, such a survey would be incredibly effective at finding moving objects. It could discover and track millions of asteroids and comets, providing an unprecedented inventory of our solar system and dramatically improving our ability to identify potentially hazardous near-Earth objects.
+
+Exploring the Transient Sky: The universe is filled with objects that change, blink, and explode. Supernovae, cataclysmic variable stars, gamma-ray burst afterglows, and other transient events are crucial for understanding stellar evolution and cosmology. A high-cadence survey would catch these events in the act, providing alerts to the astronomical community for immediate follow-up. It also held the promise of discovering entirely new types of celestial phenomena.
+
+
+Mapping the Milky Way: A deep survey of the entire sky would provide a stunningly detailed picture of our own galaxy. By cataloging the positions, brightnesses, and colors of billions of stars, it would reveal the Milky Way's structure, from its central bulge to its faint outer halo, providing invaluable data for understanding its formation and evolution.
+
+This powerful, multi-faceted scientific potential began to attract a growing coalition of supporters. The concept evolved from the "Dark Matter Telescope" to the more encompassing "Large-Aperture Synoptic Survey Telescope," which eventually became the Large Synoptic Survey Telescope (LSST). The word "synoptic" was key, emphasizing the goal of providing a comprehensive view of the whole sky at once. The idea was no longer just a thought experiment; it was becoming a concrete project proposal, a vision for the future of astronomy that promised to transform not just one, but nearly every subfield of the science. The seeds had been planted, and the next challenge was to convince the wider scientific community and the funding agencies that this ambitious vision should become a reality.
+
+`
+
 	// Setup of pointers
 	// setup of Chapter instances pointers
 	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000000_Overview_and_Mission)
 	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000001_The_Simonyi_Survey_Telescope)
 	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000002_The_Camera)
+	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000007_Vera_Rubin)
+	__Chapter__000000_The_Observatory.Pages = append(__Chapter__000000_The_Observatory.Pages, __Page__000008_From_Concept_to_Concrete_Plans)
 	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000003_Legacy_Survey_of_Space_and_Time_LSST_)
 	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000004_Key_Science_Pillars)
 	__Chapter__000001_The_Science.Pages = append(__Chapter__000001_The_Science.Pages, __Page__000005_The_Data)
