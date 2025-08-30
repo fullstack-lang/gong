@@ -140,6 +140,10 @@ func MultiCodeGeneratorNgClassAPI(modelPkg *models.ModelPkg) {
 				case types.Bool:
 					typeOfField = "boolean"
 					nullValue = "false"
+				case types.UntypedNil:
+					continue // skip this field
+				default:
+					log.Fatalln("Unkown field type")
 				}
 
 				TSinsertions[NgClassAPITsInsertionPerStructBasicFieldsDecl] += models.Replace3(
