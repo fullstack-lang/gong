@@ -4,7 +4,11 @@
     @if (frontRepo.array_Astructs) {
         @for (astruct of frontRepo.array_Astructs; track astruct) {
 
-            <button mat-button>{{astruct.Name}}</button>
+            <button 
+                mat-button
+                color="primary"
+                (click)="onClick($event, astruct)"
+              >{{astruct.Name}}</button>
         }
     }
 }
