@@ -98,7 +98,7 @@ export class AstructService {
       catchError(this.handleError<AstructAPI>('postAstruct'))
     );
   }
-  
+
   /** POST: add a new astruct to the server */
   post(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.postAstruct(astructdb, Name, frontRepo)
@@ -146,6 +146,26 @@ export class AstructService {
     const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("Name", Name)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructAPI>(url, astructAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructAPI>('updateAstruct'))
+    );
+  }
+
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(astruct: Astruct, Name: string, event: MouseEvent): Observable<AstructAPI> {
+    let astructAPI = new AstructAPI
+    CopyAstructToAstructAPI(astruct, astructAPI)
+    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
+    const url = `${this.astructsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("ctrlKey", event.ctrlKey)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
