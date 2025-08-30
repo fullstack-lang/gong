@@ -22,7 +22,6 @@ export class Astruct {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Field:  = 
 	Date: Date = new Date
 	Date2: Date = new Date
 	Booleanfield: boolean = false
@@ -76,7 +75,6 @@ export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI
 
 	// insertion point for basic fields copy operations
 	astructAPI.Name = astruct.Name
-	astructAPI.Field = astruct.Field
 	astructAPI.Date = astruct.Date
 	astructAPI.Date2 = astruct.Date2
 	astructAPI.Booleanfield = astruct.Booleanfield
@@ -203,7 +201,6 @@ export function CopyAstructAPIToAstruct(astructAPI: AstructAPI, astruct: Astruct
 
 	// insertion point for basic fields copy operations
 	astruct.Name = astructAPI.Name
-	astruct.Field = astructAPI.Field
 	astruct.Date = astructAPI.Date
 	astruct.Date2 = astructAPI.Date2
 	astruct.Booleanfield = astructAPI.Booleanfield
