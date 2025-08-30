@@ -40,7 +40,7 @@ export class TestSpecificComponent implements OnInit {
   }
 
   onClick(event: MouseEvent, astruct: test.Astruct) {
-    this.astructService.updateFront(astruct, this.Name).subscribe(
+    this.astructService.updateFrontWithMouseEvent(astruct, this.Name, event).subscribe(
       () => {
         console.log("astruct", astruct.Name, "updated");
       }

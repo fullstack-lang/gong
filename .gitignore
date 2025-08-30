@@ -46,3 +46,5 @@ test/test/go/cmd/test/~$foo.xlsx
 test/test/go/cmd/test/data/stage.go-*.diff
 test/test/go/cmd/test/data/stage.go-*.delta
 test/test/go/cmd/test/app.log
+test/test/go/cmd/test/data/stage_out.go-*
+

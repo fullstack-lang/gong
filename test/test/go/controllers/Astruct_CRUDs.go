@@ -260,7 +260,7 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(_values) == 1 {
+	if len(_values) >= 1 {
 		value := _values["Name"]
 		if len(value) == 1 {
 			stackPath = value[0]
