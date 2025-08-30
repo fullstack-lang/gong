@@ -4,11 +4,14 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/test/test/go/models"
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
 // generated in order to avoid error in the package import
 // if there are no elements in the stage to marshall
 var _ time.Time
+
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
 
 // When parsed, those maps will help with the renaming process
 var _ map[string]any = map[string]any{
@@ -18,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-25 05:34:51.790237 CEST"
-	const __write__utc_time__ = "2025-06-25 03:34:51.790237 UTC"
+	const __write__local_time = "2025-08-30 09:30:23.965339 CEST"
+	const __write__utc_time__ = "2025-08-30 07:30:23.965339 UTC"
 
-	const __commitId__ = "0000000089"
+	const __commitId__ = "0000000090"
 
 	// Declaration of instances to stage
 
@@ -154,3 +157,4 @@ Second Line`
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
 	// setup of Gstruct instances pointers
 }
+
