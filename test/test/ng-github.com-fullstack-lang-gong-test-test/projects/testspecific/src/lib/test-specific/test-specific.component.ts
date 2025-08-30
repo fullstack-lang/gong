@@ -14,12 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class TestSpecificComponent implements OnInit {
 
+
   @Input() Name: string = ""
 
   public frontRepo?: test.FrontRepo;
 
   constructor(
     private frontRepoService: test.FrontRepoService,
+    private astructService: test.AstructService,
   ) { }
 
   ngOnInit(): void {
@@ -37,4 +39,11 @@ export class TestSpecificComponent implements OnInit {
 
   }
 
+  onClick(event: MouseEvent, astruct: test.Astruct) {
+    this.astructService.updateFront(astruct, this.Name).subscribe(
+      () => {
+        console.log("astruct", astruct.Name, "updated");
+      }
+    )
+  }
 }
