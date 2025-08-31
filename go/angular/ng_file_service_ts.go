@@ -107,7 +107,7 @@ export class {{Structname}}Service {
       catchError(this.handleError<{{Structname}}API>('post{{Structname}}'))
     );
   }
-  
+
   /** POST: add a new {{structname}} to the server */
   post({{structname}}db: {{Structname}}API, Name: string, frontRepo: FrontRepo): Observable<{{Structname}}API> {
     return this.post{{Structname}}({{structname}}db, Name, frontRepo)
@@ -190,6 +190,27 @@ export class {{Structname}}Service {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent({{structname}}: {{Structname}}, Name: string, event: MouseEvent): Observable<{{Structname}}API> {
+    let {{structname}}API = new {{Structname}}API
+    Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
+    const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
+    const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", event.shiftKey)
+    params = params.append("altKey", event.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<{{Structname}}API>(url, {{structname}}API, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<{{Structname}}API>('update{{Structname}}'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -199,7 +220,7 @@ export class {{Structname}}Service {
   private handleError<T>(operation = 'operation in {{Structname}}Service', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("{{Structname}}Service" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

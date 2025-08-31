@@ -95,7 +95,7 @@ export class AstructBstructUseService {
       catchError(this.handleError<AstructBstructUseAPI>('postAstructBstructUse'))
     );
   }
-  
+
   /** POST: add a new astructbstructuse to the server */
   post(astructbstructusedb: AstructBstructUseAPI, Name: string, frontRepo: FrontRepo): Observable<AstructBstructUseAPI> {
     return this.postAstructBstructUse(astructbstructusedb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class AstructBstructUseService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(astructbstructuse: AstructBstructUse, Name: string, event: MouseEvent): Observable<AstructBstructUseAPI> {
+    let astructbstructuseAPI = new AstructBstructUseAPI
+    CopyAstructBstructUseToAstructBstructUseAPI(astructbstructuse, astructbstructuseAPI)
+    const id = typeof astructbstructuseAPI === 'number' ? astructbstructuseAPI : astructbstructuseAPI.ID
+    const url = `${this.astructbstructusesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", event.shiftKey)
+    params = params.append("altKey", event.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructBstructUseAPI>(url, astructbstructuseAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructBstructUseAPI>('updateAstructBstructUse'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class AstructBstructUseService {
   private handleError<T>(operation = 'operation in AstructBstructUseService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("AstructBstructUseService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

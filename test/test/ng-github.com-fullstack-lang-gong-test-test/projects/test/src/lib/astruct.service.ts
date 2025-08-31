@@ -158,27 +158,6 @@ export class AstructService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(astruct: Astruct, Name: string, event: MouseEvent): Observable<AstructAPI> {
-    let astructAPI = new AstructAPI
-    CopyAstructToAstructAPI(astruct, astructAPI)
-    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
-    const url = `${this.astructsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", event.shiftKey)
-    params = params.append("altKey", event.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<AstructAPI>(url, astructAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<AstructAPI>('updateAstruct'))
-    );
-  }
-
   /** PUT: update the astructdb on the server */
   update(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.updateAstruct(astructdb, Name, frontRepo)
@@ -202,6 +181,27 @@ export class AstructService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(astruct: Astruct, Name: string, event: MouseEvent): Observable<AstructAPI> {
+    let astructAPI = new AstructAPI
+    CopyAstructToAstructAPI(astruct, astructAPI)
+    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
+    const url = `${this.astructsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", event.shiftKey)
+    params = params.append("altKey", event.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructAPI>(url, astructAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructAPI>('updateAstruct'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -211,7 +211,7 @@ export class AstructService {
   private handleError<T>(operation = 'operation in AstructService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("AstructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
