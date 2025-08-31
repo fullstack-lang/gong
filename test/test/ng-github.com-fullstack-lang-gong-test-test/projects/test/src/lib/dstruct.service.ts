@@ -96,7 +96,7 @@ export class DstructService {
       catchError(this.handleError<DstructAPI>('postDstruct'))
     );
   }
-  
+
   /** POST: add a new dstruct to the server */
   post(dstructdb: DstructAPI, Name: string, frontRepo: FrontRepo): Observable<DstructAPI> {
     return this.postDstruct(dstructdb, Name, frontRepo)
@@ -179,6 +179,27 @@ export class DstructService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(dstruct: Dstruct, Name: string, event: MouseEvent): Observable<DstructAPI> {
+    let dstructAPI = new DstructAPI
+    CopyDstructToDstructAPI(dstruct, dstructAPI)
+    const id = typeof dstructAPI === 'number' ? dstructAPI : dstructAPI.ID
+    const url = `${this.dstructsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", event.shiftKey)
+    params = params.append("altKey", event.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<DstructAPI>(url, dstructAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DstructAPI>('updateDstruct'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -188,7 +209,7 @@ export class DstructService {
   private handleError<T>(operation = 'operation in DstructService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("DstructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
