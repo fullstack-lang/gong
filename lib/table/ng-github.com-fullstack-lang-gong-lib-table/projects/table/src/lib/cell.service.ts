@@ -99,7 +99,7 @@ export class CellService {
       catchError(this.handleError<CellAPI>('postCell'))
     );
   }
-  
+
   /** POST: add a new cell to the server */
   post(celldb: CellAPI, Name: string, frontRepo: FrontRepo): Observable<CellAPI> {
     return this.postCell(celldb, Name, frontRepo)
@@ -182,6 +182,27 @@ export class CellService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(cell: Cell, Name: string, gong__mouseEvent: MouseEvent): Observable<CellAPI> {
+    let cellAPI = new CellAPI
+    CopyCellToCellAPI(cell, cellAPI)
+    const id = typeof cellAPI === 'number' ? cellAPI : cellAPI.ID
+    const url = `${this.cellsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellAPI>(url, cellAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellAPI>('updateCell'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -191,7 +212,7 @@ export class CellService {
   private handleError<T>(operation = 'operation in CellService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CellService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -178,14 +178,14 @@ export class GstructService {
   }
 
   // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(gstruct: Gstruct, Name: string, event: MouseEvent): Observable<GstructAPI> {
+  updateFrontWithMouseEvent(gstruct: Gstruct, Name: string, gong__mouseEvent: MouseEvent): Observable<GstructAPI> {
     let gstructAPI = new GstructAPI
     CopyGstructToGstructAPI(gstruct, gstructAPI)
     const id = typeof gstructAPI === 'number' ? gstructAPI : gstructAPI.ID
     const url = `${this.gstructsUrl}/${id}`;
     let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", event.shiftKey)
-    params = params.append("altKey", event.altKey)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

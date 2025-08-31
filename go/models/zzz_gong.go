@@ -93,6 +93,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongBasicFieldCreateCallback OnAfterCreateInterface[GongBasicField]
 	OnAfterGongBasicFieldUpdateCallback OnAfterUpdateInterface[GongBasicField]
+	OnAfterGongBasicFieldUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongBasicField]
 	OnAfterGongBasicFieldDeleteCallback OnAfterDeleteInterface[GongBasicField]
 	OnAfterGongBasicFieldReadCallback   OnAfterReadInterface[GongBasicField]
 
@@ -104,6 +105,7 @@ type Stage struct {
 
 	OnAfterGongEnumCreateCallback OnAfterCreateInterface[GongEnum]
 	OnAfterGongEnumUpdateCallback OnAfterUpdateInterface[GongEnum]
+	OnAfterGongEnumUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongEnum]
 	OnAfterGongEnumDeleteCallback OnAfterDeleteInterface[GongEnum]
 	OnAfterGongEnumReadCallback   OnAfterReadInterface[GongEnum]
 
@@ -113,6 +115,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueCreateCallback OnAfterCreateInterface[GongEnumValue]
 	OnAfterGongEnumValueUpdateCallback OnAfterUpdateInterface[GongEnumValue]
+	OnAfterGongEnumValueUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongEnumValue]
 	OnAfterGongEnumValueDeleteCallback OnAfterDeleteInterface[GongEnumValue]
 	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
 
@@ -122,6 +125,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongLinkCreateCallback OnAfterCreateInterface[GongLink]
 	OnAfterGongLinkUpdateCallback OnAfterUpdateInterface[GongLink]
+	OnAfterGongLinkUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongLink]
 	OnAfterGongLinkDeleteCallback OnAfterDeleteInterface[GongLink]
 	OnAfterGongLinkReadCallback   OnAfterReadInterface[GongLink]
 
@@ -133,6 +137,7 @@ type Stage struct {
 
 	OnAfterGongNoteCreateCallback OnAfterCreateInterface[GongNote]
 	OnAfterGongNoteUpdateCallback OnAfterUpdateInterface[GongNote]
+	OnAfterGongNoteUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongNote]
 	OnAfterGongNoteDeleteCallback OnAfterDeleteInterface[GongNote]
 	OnAfterGongNoteReadCallback   OnAfterReadInterface[GongNote]
 
@@ -150,6 +155,7 @@ type Stage struct {
 
 	OnAfterGongStructCreateCallback OnAfterCreateInterface[GongStruct]
 	OnAfterGongStructUpdateCallback OnAfterUpdateInterface[GongStruct]
+	OnAfterGongStructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongStruct]
 	OnAfterGongStructDeleteCallback OnAfterDeleteInterface[GongStruct]
 	OnAfterGongStructReadCallback   OnAfterReadInterface[GongStruct]
 
@@ -159,6 +165,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongTimeFieldCreateCallback OnAfterCreateInterface[GongTimeField]
 	OnAfterGongTimeFieldUpdateCallback OnAfterUpdateInterface[GongTimeField]
+	OnAfterGongTimeFieldUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongTimeField]
 	OnAfterGongTimeFieldDeleteCallback OnAfterDeleteInterface[GongTimeField]
 	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
 
@@ -168,6 +175,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterMetaReferenceCreateCallback OnAfterCreateInterface[MetaReference]
 	OnAfterMetaReferenceUpdateCallback OnAfterUpdateInterface[MetaReference]
+	OnAfterMetaReferenceUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[MetaReference]
 	OnAfterMetaReferenceDeleteCallback OnAfterDeleteInterface[MetaReference]
 	OnAfterMetaReferenceReadCallback   OnAfterReadInterface[MetaReference]
 
@@ -177,6 +185,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterModelPkgCreateCallback OnAfterCreateInterface[ModelPkg]
 	OnAfterModelPkgUpdateCallback OnAfterUpdateInterface[ModelPkg]
+	OnAfterModelPkgUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[ModelPkg]
 	OnAfterModelPkgDeleteCallback OnAfterDeleteInterface[ModelPkg]
 	OnAfterModelPkgReadCallback   OnAfterReadInterface[ModelPkg]
 
@@ -186,6 +195,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterPointerToGongStructFieldCreateCallback OnAfterCreateInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[PointerToGongStructField]
+	OnAfterPointerToGongStructFieldUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[PointerToGongStructField]
 	OnAfterPointerToGongStructFieldReadCallback   OnAfterReadInterface[PointerToGongStructField]
 
@@ -195,6 +205,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSliceOfPointerToGongStructFieldCreateCallback OnAfterCreateInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldUpdateCallback OnAfterUpdateInterface[SliceOfPointerToGongStructField]
+	OnAfterSliceOfPointerToGongStructFieldUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldDeleteCallback OnAfterDeleteInterface[SliceOfPointerToGongStructField]
 	OnAfterSliceOfPointerToGongStructFieldReadCallback   OnAfterReadInterface[SliceOfPointerToGongStructField]
 
@@ -498,7 +509,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "GongBasicField":
 		res = GetNamedStructInstances(stage.GongBasicFields, stage.GongBasicFieldMap_Staged_Order)
 	case "GongEnum":
@@ -574,6 +585,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
@@ -2253,7 +2269,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case GongNote:
 		res = []string{"Name", "Body", "BodyHTML", "Links"}
 	case GongStruct:
-		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
+		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "HasOnAfterUpdateWithMouseEventSignature", "IsIgnoredForFront"}
 	case GongTimeField:
 		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
 	case MetaReference:
@@ -2355,7 +2371,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *GongNote:
 		res = []string{"Name", "Body", "BodyHTML", "Links"}
 	case *GongStruct:
-		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
+		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "HasOnAfterUpdateWithMouseEventSignature", "IsIgnoredForFront"}
 	case *GongTimeField:
 		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
 	case *MetaReference:
@@ -2534,6 +2550,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "HasOnAfterUpdateSignature":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
 			res.valueBool = inferedInstance.HasOnAfterUpdateSignature
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasOnAfterUpdateWithMouseEventSignature":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateWithMouseEventSignature)
+			res.valueBool = inferedInstance.HasOnAfterUpdateWithMouseEventSignature
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsIgnoredForFront":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)
@@ -2771,6 +2791,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "HasOnAfterUpdateSignature":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateSignature)
 			res.valueBool = inferedInstance.HasOnAfterUpdateSignature
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "HasOnAfterUpdateWithMouseEventSignature":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.HasOnAfterUpdateWithMouseEventSignature)
+			res.valueBool = inferedInstance.HasOnAfterUpdateWithMouseEventSignature
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsIgnoredForFront":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsIgnoredForFront)

@@ -182,14 +182,14 @@ export class AstructService {
   }
 
   // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(astruct: Astruct, Name: string, event: MouseEvent): Observable<AstructAPI> {
+  updateFrontWithMouseEvent(astruct: Astruct, Name: string, gong__mouseEvent: MouseEvent): Observable<AstructAPI> {
     let astructAPI = new AstructAPI
     CopyAstructToAstructAPI(astruct, astructAPI)
     const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", event.shiftKey)
-    params = params.append("altKey", event.altKey)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

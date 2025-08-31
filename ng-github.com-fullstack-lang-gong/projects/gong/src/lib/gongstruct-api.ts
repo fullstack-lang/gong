@@ -18,6 +18,7 @@ export class GongStructAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	HasOnAfterUpdateSignature: boolean = false
+	HasOnAfterUpdateWithMouseEventSignature: boolean = false
 	IsIgnoredForFront: boolean = false
 
 	// insertion point for other decls

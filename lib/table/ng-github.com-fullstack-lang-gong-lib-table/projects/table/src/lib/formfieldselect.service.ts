@@ -95,7 +95,7 @@ export class FormFieldSelectService {
       catchError(this.handleError<FormFieldSelectAPI>('postFormFieldSelect'))
     );
   }
-  
+
   /** POST: add a new formfieldselect to the server */
   post(formfieldselectdb: FormFieldSelectAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldSelectAPI> {
     return this.postFormFieldSelect(formfieldselectdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class FormFieldSelectService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formfieldselect: FormFieldSelect, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldSelectAPI> {
+    let formfieldselectAPI = new FormFieldSelectAPI
+    CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect, formfieldselectAPI)
+    const id = typeof formfieldselectAPI === 'number' ? formfieldselectAPI : formfieldselectAPI.ID
+    const url = `${this.formfieldselectsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldSelectAPI>(url, formfieldselectAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldSelectAPI>('updateFormFieldSelect'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class FormFieldSelectService {
   private handleError<T>(operation = 'operation in FormFieldSelectService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormFieldSelectService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

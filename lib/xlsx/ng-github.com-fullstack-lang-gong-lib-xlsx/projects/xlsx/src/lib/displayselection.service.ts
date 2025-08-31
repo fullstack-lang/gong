@@ -96,7 +96,7 @@ export class DisplaySelectionService {
       catchError(this.handleError<DisplaySelectionAPI>('postDisplaySelection'))
     );
   }
-  
+
   /** POST: add a new displayselection to the server */
   post(displayselectiondb: DisplaySelectionAPI, Name: string, frontRepo: FrontRepo): Observable<DisplaySelectionAPI> {
     return this.postDisplaySelection(displayselectiondb, Name, frontRepo)
@@ -179,6 +179,27 @@ export class DisplaySelectionService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(displayselection: DisplaySelection, Name: string, gong__mouseEvent: MouseEvent): Observable<DisplaySelectionAPI> {
+    let displayselectionAPI = new DisplaySelectionAPI
+    CopyDisplaySelectionToDisplaySelectionAPI(displayselection, displayselectionAPI)
+    const id = typeof displayselectionAPI === 'number' ? displayselectionAPI : displayselectionAPI.ID
+    const url = `${this.displayselectionsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<DisplaySelectionAPI>(url, displayselectionAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<DisplaySelectionAPI>('updateDisplaySelection'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -188,7 +209,7 @@ export class DisplaySelectionService {
   private handleError<T>(operation = 'operation in DisplaySelectionService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("DisplaySelectionService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

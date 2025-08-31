@@ -43,8 +43,11 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Freqency](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Freqency](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Note](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Player](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Player](stage)
 
 	return
 }

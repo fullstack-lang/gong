@@ -95,7 +95,7 @@ export class GongNoteService {
       catchError(this.handleError<GongNoteAPI>('postGongNote'))
     );
   }
-  
+
   /** POST: add a new gongnote to the server */
   post(gongnotedb: GongNoteAPI, Name: string, frontRepo: FrontRepo): Observable<GongNoteAPI> {
     return this.postGongNote(gongnotedb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class GongNoteService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(gongnote: GongNote, Name: string, gong__mouseEvent: MouseEvent): Observable<GongNoteAPI> {
+    let gongnoteAPI = new GongNoteAPI
+    CopyGongNoteToGongNoteAPI(gongnote, gongnoteAPI)
+    const id = typeof gongnoteAPI === 'number' ? gongnoteAPI : gongnoteAPI.ID
+    const url = `${this.gongnotesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongNoteAPI>(url, gongnoteAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongNoteAPI>('updateGongNote'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class GongNoteService {
   private handleError<T>(operation = 'operation in GongNoteService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("GongNoteService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

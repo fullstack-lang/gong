@@ -94,7 +94,7 @@ export class EventService {
       catchError(this.handleError<EventAPI>('postEvent'))
     );
   }
-  
+
   /** POST: add a new event to the server */
   post(eventdb: EventAPI, Name: string, frontRepo: FrontRepo): Observable<EventAPI> {
     return this.postEvent(eventdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class EventService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(event: Event, Name: string, gong__mouseEvent: MouseEvent): Observable<EventAPI> {
+    let eventAPI = new EventAPI
+    CopyEventToEventAPI(event, eventAPI)
+    const id = typeof eventAPI === 'number' ? eventAPI : eventAPI.ID
+    const url = `${this.eventsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<EventAPI>(url, eventAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<EventAPI>('updateEvent'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class EventService {
   private handleError<T>(operation = 'operation in EventService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("EventService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

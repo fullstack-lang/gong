@@ -96,7 +96,7 @@ export class NodeService {
       catchError(this.handleError<NodeAPI>('postNode'))
     );
   }
-  
+
   /** POST: add a new node to the server */
   post(nodedb: NodeAPI, Name: string, frontRepo: FrontRepo): Observable<NodeAPI> {
     return this.postNode(nodedb, Name, frontRepo)
@@ -179,6 +179,27 @@ export class NodeService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(node: Node, Name: string, gong__mouseEvent: MouseEvent): Observable<NodeAPI> {
+    let nodeAPI = new NodeAPI
+    CopyNodeToNodeAPI(node, nodeAPI)
+    const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
+    const url = `${this.nodesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<NodeAPI>(url, nodeAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<NodeAPI>('updateNode'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -188,7 +209,7 @@ export class NodeService {
   private handleError<T>(operation = 'operation in NodeService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("NodeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

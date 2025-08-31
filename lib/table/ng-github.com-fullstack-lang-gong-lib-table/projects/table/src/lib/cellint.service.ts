@@ -94,7 +94,7 @@ export class CellIntService {
       catchError(this.handleError<CellIntAPI>('postCellInt'))
     );
   }
-  
+
   /** POST: add a new cellint to the server */
   post(cellintdb: CellIntAPI, Name: string, frontRepo: FrontRepo): Observable<CellIntAPI> {
     return this.postCellInt(cellintdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class CellIntService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(cellint: CellInt, Name: string, gong__mouseEvent: MouseEvent): Observable<CellIntAPI> {
+    let cellintAPI = new CellIntAPI
+    CopyCellIntToCellIntAPI(cellint, cellintAPI)
+    const id = typeof cellintAPI === 'number' ? cellintAPI : cellintAPI.ID
+    const url = `${this.cellintsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellIntAPI>(url, cellintAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellIntAPI>('updateCellInt'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class CellIntService {
   private handleError<T>(operation = 'operation in CellIntService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CellIntService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

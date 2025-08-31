@@ -94,7 +94,7 @@ export class LogoOnTheLeftService {
       catchError(this.handleError<LogoOnTheLeftAPI>('postLogoOnTheLeft'))
     );
   }
-  
+
   /** POST: add a new logoontheleft to the server */
   post(logoontheleftdb: LogoOnTheLeftAPI, Name: string, frontRepo: FrontRepo): Observable<LogoOnTheLeftAPI> {
     return this.postLogoOnTheLeft(logoontheleftdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class LogoOnTheLeftService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(logoontheleft: LogoOnTheLeft, Name: string, gong__mouseEvent: MouseEvent): Observable<LogoOnTheLeftAPI> {
+    let logoontheleftAPI = new LogoOnTheLeftAPI
+    CopyLogoOnTheLeftToLogoOnTheLeftAPI(logoontheleft, logoontheleftAPI)
+    const id = typeof logoontheleftAPI === 'number' ? logoontheleftAPI : logoontheleftAPI.ID
+    const url = `${this.logoontheleftsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LogoOnTheLeftAPI>(url, logoontheleftAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LogoOnTheLeftAPI>('updateLogoOnTheLeft'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class LogoOnTheLeftService {
   private handleError<T>(operation = 'operation in LogoOnTheLeftService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("LogoOnTheLeftService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
