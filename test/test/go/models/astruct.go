@@ -102,7 +102,7 @@ func (astruct *Astruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstanc
 	//
 }
 
-func (astruct *Astruct) OnAfterUpdateWithMouseEvent(stage *Stage, frontInstance *Astruct, mouseEvent *MouseEvent) {
+func (astruct *Astruct) OnAfterUpdateWithMouseEvent(stage *Stage, frontInstance *Astruct, mouseEvent *Gong__MouseEvent) {
 
 	log.Println(astruct.Name, "Received a an update with a mouse event. Shift Key, ", mouseEvent.ShiftKey)
 }
