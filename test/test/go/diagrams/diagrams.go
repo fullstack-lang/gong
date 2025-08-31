@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-30 06:45:57.661641 EDT"
-	const __write__utc_time__ = "2025-07-30 10:45:57.661641 UTC"
+	const __write__local_time = "2025-08-31 10:26:36.005588 CEST"
+	const __write__utc_time__ = "2025-08-31 08:26:36.005588 UTC"
 
-	const __commitId__ = "0000000119"
+	const __commitId__ = "0000000124"
 
 	// Declaration of instances to stage
 
@@ -208,8 +208,8 @@ renaming
 	__GongStructShape__000001_Default_Bstruct.IsSelected = false
 
 	__GongStructShape__000002_0_Zero_Astruct.Name = `0. Zero-Astruct`
-	__GongStructShape__000002_0_Zero_Astruct.X = 31.000000
-	__GongStructShape__000002_0_Zero_Astruct.Y = 102.000000
+	__GongStructShape__000002_0_Zero_Astruct.X = 56.000000
+	__GongStructShape__000002_0_Zero_Astruct.Y = 105.000000
 	__GongStructShape__000002_0_Zero_Astruct.IdentifierMeta = ref_models.Astruct{}
 	__GongStructShape__000002_0_Zero_Astruct.Width = 240.000000
 	__GongStructShape__000002_0_Zero_Astruct.Height = 103.000000
