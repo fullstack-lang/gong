@@ -13,8 +13,12 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point{{` + string(rune(ModelGongCallbacksUpdate)) + `}}
@@ -97,8 +101,11 @@ map[string]string{
 	string(rune(ModelGongCallbacksUpdate)): `
 	case *{{Structname}}:
 		newTarget := any(new).(*{{Structname}})
-		if stage.OnAfter{{Structname}}UpdateCallback != nil {
+		if stage.OnAfter{{Structname}}UpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfter{{Structname}}UpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfter{{Structname}}UpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}`,
 	string(rune(ModelGongCallbacksRead)): `
 	case *{{Structname}}:
