@@ -267,7 +267,6 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 		_nameValues := _values["Name"]
 		if len(_nameValues) == 1 {
 			stackPath = _nameValues[0]
-			// log.Println("UpdateAstruct", "Name", stackPath)
 		}
 	}
 
@@ -276,9 +275,9 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 		_shiftKeyValues := _values["shiftKey"]
 		if len(_shiftKeyValues) == 1 {
 			shiftKey = _shiftKeyValues[0] == "true"
-			// log.Println("UpdateAstruct", "Name", stackPath)
 		}
 	}
+
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\"\n"
