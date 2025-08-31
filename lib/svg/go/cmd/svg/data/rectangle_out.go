@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-08-31 15:33:15.576504 CEST"
-	const __write__utc_time__ = "2025-08-31 13:33:15.576504 UTC"
+	const __write__local_time = "2025-08-31 16:02:33.344000 CEST"
+	const __write__utc_time__ = "2025-08-31 14:02:33.344000 UTC"
 
-	const __commitId__ = "0000000002"
+	const __commitId__ = "0000000003"
 
 	// Declaration of instances to stage
 
@@ -178,7 +178,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StartRatio = 0.421941
 	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.575000
-	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.255274
+	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.126591
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
@@ -557,8 +557,8 @@ Line 2`
 	__Rect__000001_Middle_Rect.ToolTipText = ``
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 442.999969
-	__Rect__000002_Top_Rect.Y = 39.000000
+	__Rect__000002_Top_Rect.X = 546.999969
+	__Rect__000002_Top_Rect.Y = 54.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -592,8 +592,8 @@ Line 2`
 	__Rect__000002_Top_Rect.ToolTipText = ``
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 1166.333333
-	__Rect__000003_Start.Y = 81.333332
+	__Rect__000003_Start.X = 1180.333333
+	__Rect__000003_Start.Y = 77.333332
 	__Rect__000003_Start.Width = 853.000000
 	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
@@ -880,7 +880,7 @@ line 3`
 
 	__SVG__000000_SVG.Name = `SVG`
 	__SVG__000000_SVG.DrawingState = models.NOT_DRAWING_LINK
-	__SVG__000000_SVG.IsEditable = true
+	__SVG__000000_SVG.IsEditable = false
 	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
 	__SVG__000000_SVG.IsSVGBackEndFileGenerated = false
 	__SVG__000000_SVG.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
