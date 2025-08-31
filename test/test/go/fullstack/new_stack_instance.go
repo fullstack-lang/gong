@@ -44,13 +44,18 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Astruct](stage)
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Astruct](stage)
-
 	models.SetOrchestratorOnAfterUpdate[models.AstructBstruct2Use](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.AstructBstruct2Use](stage)
 	models.SetOrchestratorOnAfterUpdate[models.AstructBstructUse](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.AstructBstructUse](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Bstruct](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Bstruct](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Dstruct](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Dstruct](stage)
 	models.SetOrchestratorOnAfterUpdate[models.F0123456789012345678901234567890](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.F0123456789012345678901234567890](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Gstruct](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Gstruct](stage)
 
 	return
 }
