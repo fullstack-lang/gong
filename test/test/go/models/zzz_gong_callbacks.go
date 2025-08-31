@@ -56,36 +56,53 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterAstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
 			stage.OnAfterAstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
-
 	case *AstructBstruct2Use:
 		newTarget := any(new).(*AstructBstruct2Use)
-		if stage.OnAfterAstructBstruct2UseUpdateCallback != nil {
+		if stage.OnAfterAstructBstruct2UseUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAstructBstruct2UseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterAstructBstruct2UseUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterAstructBstruct2UseUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *AstructBstructUse:
 		newTarget := any(new).(*AstructBstructUse)
-		if stage.OnAfterAstructBstructUseUpdateCallback != nil {
+		if stage.OnAfterAstructBstructUseUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAstructBstructUseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterAstructBstructUseUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterAstructBstructUseUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Bstruct:
 		newTarget := any(new).(*Bstruct)
-		if stage.OnAfterBstructUpdateCallback != nil {
+		if stage.OnAfterBstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterBstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterBstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterBstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Dstruct:
 		newTarget := any(new).(*Dstruct)
-		if stage.OnAfterDstructUpdateCallback != nil {
+		if stage.OnAfterDstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterDstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterDstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *F0123456789012345678901234567890:
 		newTarget := any(new).(*F0123456789012345678901234567890)
-		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil {
+		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterF0123456789012345678901234567890UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterF0123456789012345678901234567890UpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterF0123456789012345678901234567890UpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Gstruct:
 		newTarget := any(new).(*Gstruct)
-		if stage.OnAfterGstructUpdateCallback != nil {
+		if stage.OnAfterGstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget
@@ -180,111 +197,111 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
 	case *Astruct:
 		stage.OnAfterAstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Astruct])
-
+	
 	case *AstructBstruct2Use:
 		stage.OnAfterAstructBstruct2UseUpdateCallback = any(callback).(OnAfterUpdateInterface[AstructBstruct2Use])
-
+	
 	case *AstructBstructUse:
 		stage.OnAfterAstructBstructUseUpdateCallback = any(callback).(OnAfterUpdateInterface[AstructBstructUse])
-
+	
 	case *Bstruct:
 		stage.OnAfterBstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Bstruct])
-
+	
 	case *Dstruct:
 		stage.OnAfterDstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Dstruct])
-
+	
 	case *F0123456789012345678901234567890:
 		stage.OnAfterF0123456789012345678901234567890UpdateCallback = any(callback).(OnAfterUpdateInterface[F0123456789012345678901234567890])
-
+	
 	case *Gstruct:
 		stage.OnAfterGstructUpdateCallback = any(callback).(OnAfterUpdateInterface[Gstruct])
-
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
 	case *Astruct:
 		stage.OnAfterAstructCreateCallback = any(callback).(OnAfterCreateInterface[Astruct])
-
+	
 	case *AstructBstruct2Use:
 		stage.OnAfterAstructBstruct2UseCreateCallback = any(callback).(OnAfterCreateInterface[AstructBstruct2Use])
-
+	
 	case *AstructBstructUse:
 		stage.OnAfterAstructBstructUseCreateCallback = any(callback).(OnAfterCreateInterface[AstructBstructUse])
-
+	
 	case *Bstruct:
 		stage.OnAfterBstructCreateCallback = any(callback).(OnAfterCreateInterface[Bstruct])
-
+	
 	case *Dstruct:
 		stage.OnAfterDstructCreateCallback = any(callback).(OnAfterCreateInterface[Dstruct])
-
+	
 	case *F0123456789012345678901234567890:
 		stage.OnAfterF0123456789012345678901234567890CreateCallback = any(callback).(OnAfterCreateInterface[F0123456789012345678901234567890])
-
+	
 	case *Gstruct:
 		stage.OnAfterGstructCreateCallback = any(callback).(OnAfterCreateInterface[Gstruct])
-
+	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
 	case *Astruct:
 		stage.OnAfterAstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Astruct])
-
+	
 	case *AstructBstruct2Use:
 		stage.OnAfterAstructBstruct2UseDeleteCallback = any(callback).(OnAfterDeleteInterface[AstructBstruct2Use])
-
+	
 	case *AstructBstructUse:
 		stage.OnAfterAstructBstructUseDeleteCallback = any(callback).(OnAfterDeleteInterface[AstructBstructUse])
-
+	
 	case *Bstruct:
 		stage.OnAfterBstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Bstruct])
-
+	
 	case *Dstruct:
 		stage.OnAfterDstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Dstruct])
-
+	
 	case *F0123456789012345678901234567890:
 		stage.OnAfterF0123456789012345678901234567890DeleteCallback = any(callback).(OnAfterDeleteInterface[F0123456789012345678901234567890])
-
+	
 	case *Gstruct:
 		stage.OnAfterGstructDeleteCallback = any(callback).(OnAfterDeleteInterface[Gstruct])
-
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
 	case *Astruct:
 		stage.OnAfterAstructReadCallback = any(callback).(OnAfterReadInterface[Astruct])
-
+	
 	case *AstructBstruct2Use:
 		stage.OnAfterAstructBstruct2UseReadCallback = any(callback).(OnAfterReadInterface[AstructBstruct2Use])
-
+	
 	case *AstructBstructUse:
 		stage.OnAfterAstructBstructUseReadCallback = any(callback).(OnAfterReadInterface[AstructBstructUse])
-
+	
 	case *Bstruct:
 		stage.OnAfterBstructReadCallback = any(callback).(OnAfterReadInterface[Bstruct])
-
+	
 	case *Dstruct:
 		stage.OnAfterDstructReadCallback = any(callback).(OnAfterReadInterface[Dstruct])
-
+	
 	case *F0123456789012345678901234567890:
 		stage.OnAfterF0123456789012345678901234567890ReadCallback = any(callback).(OnAfterReadInterface[F0123456789012345678901234567890])
-
+	
 	case *Gstruct:
 		stage.OnAfterGstructReadCallback = any(callback).(OnAfterReadInterface[Gstruct])
-
+	
 	}
 }
