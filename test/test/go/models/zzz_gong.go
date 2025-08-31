@@ -477,7 +477,7 @@ type OnAfterUpdateInterface[Type Gongstruct] interface {
 
 // OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
 type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *MouseEvent)
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

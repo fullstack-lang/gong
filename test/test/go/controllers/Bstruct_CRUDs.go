@@ -342,7 +342,7 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 		if !hasMouseEvent {
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew, nil)
 		} else {
-			mouseEvent := &models.MouseEvent{
+			mouseEvent := &models.Gong__MouseEvent{
 				ShiftKey: shiftKey,
 			}
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew, mouseEvent)
