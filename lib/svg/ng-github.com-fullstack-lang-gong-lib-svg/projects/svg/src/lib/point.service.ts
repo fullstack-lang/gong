@@ -94,7 +94,7 @@ export class PointService {
       catchError(this.handleError<PointAPI>('postPoint'))
     );
   }
-  
+
   /** POST: add a new point to the server */
   post(pointdb: PointAPI, Name: string, frontRepo: FrontRepo): Observable<PointAPI> {
     return this.postPoint(pointdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class PointService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(point: Point, Name: string, gong__mouseEvent: MouseEvent): Observable<PointAPI> {
+    let pointAPI = new PointAPI
+    CopyPointToPointAPI(point, pointAPI)
+    const id = typeof pointAPI === 'number' ? pointAPI : pointAPI.ID
+    const url = `${this.pointsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PointAPI>(url, pointAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointAPI>('updatePoint'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class PointService {
   private handleError<T>(operation = 'operation in PointService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("PointService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -94,7 +94,7 @@ export class FormFieldFloat64Service {
       catchError(this.handleError<FormFieldFloat64API>('postFormFieldFloat64'))
     );
   }
-  
+
   /** POST: add a new formfieldfloat64 to the server */
   post(formfieldfloat64db: FormFieldFloat64API, Name: string, frontRepo: FrontRepo): Observable<FormFieldFloat64API> {
     return this.postFormFieldFloat64(formfieldfloat64db, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FormFieldFloat64Service {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formfieldfloat64: FormFieldFloat64, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldFloat64API> {
+    let formfieldfloat64API = new FormFieldFloat64API
+    CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64, formfieldfloat64API)
+    const id = typeof formfieldfloat64API === 'number' ? formfieldfloat64API : formfieldfloat64API.ID
+    const url = `${this.formfieldfloat64sUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldFloat64API>(url, formfieldfloat64API, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldFloat64API>('updateFormFieldFloat64'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FormFieldFloat64Service {
   private handleError<T>(operation = 'operation in FormFieldFloat64Service', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormFieldFloat64Service" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

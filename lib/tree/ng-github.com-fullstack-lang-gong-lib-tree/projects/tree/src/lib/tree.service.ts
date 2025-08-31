@@ -95,7 +95,7 @@ export class TreeService {
       catchError(this.handleError<TreeAPI>('postTree'))
     );
   }
-  
+
   /** POST: add a new tree to the server */
   post(treedb: TreeAPI, Name: string, frontRepo: FrontRepo): Observable<TreeAPI> {
     return this.postTree(treedb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class TreeService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(tree: Tree, Name: string, gong__mouseEvent: MouseEvent): Observable<TreeAPI> {
+    let treeAPI = new TreeAPI
+    CopyTreeToTreeAPI(tree, treeAPI)
+    const id = typeof treeAPI === 'number' ? treeAPI : treeAPI.ID
+    const url = `${this.treesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TreeAPI>(url, treeAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TreeAPI>('updateTree'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class TreeService {
   private handleError<T>(operation = 'operation in TreeService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("TreeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

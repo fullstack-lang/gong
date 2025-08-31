@@ -260,13 +260,24 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(_values) == 1 {
-		value := _values["Name"]
-		if len(value) == 1 {
-			stackPath = value[0]
-			// log.Println("UpdateBstruct", "Name", stackPath)
+	hasMouseEvent := false
+	shiftKey := false
+	_ = shiftKey
+	if len(_values) >= 1 {
+		_nameValues := _values["Name"]
+		if len(_nameValues) == 1 {
+			stackPath = _nameValues[0]
 		}
 	}
+
+	if len(_values) >= 2 {
+		hasMouseEvent = true
+		_shiftKeyValues := _values["shiftKey"]
+		if len(_shiftKeyValues) == 1 {
+			shiftKey = _shiftKeyValues[0] == "true"
+		}
+	}
+
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\"\n"
@@ -328,7 +339,15 @@ func (controller *Controller) UpdateBstruct(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	bstructOld := backRepo.BackRepoBstruct.Map_BstructDBID_BstructPtr[bstructDB.ID]
 	if bstructOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew)
+		if !hasMouseEvent {
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew, nil)
+		} else {
+			mouseEvent := &models.Gong__MouseEvent{
+				ShiftKey: shiftKey,
+			}
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), bstructOld, bstructNew, mouseEvent)
+
+		}
 	}
 
 	// an UPDATE generates a back repo commit increase

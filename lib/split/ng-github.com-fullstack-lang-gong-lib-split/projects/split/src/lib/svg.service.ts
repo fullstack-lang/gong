@@ -94,7 +94,7 @@ export class SvgService {
       catchError(this.handleError<SvgAPI>('postSvg'))
     );
   }
-  
+
   /** POST: add a new svg to the server */
   post(svgdb: SvgAPI, Name: string, frontRepo: FrontRepo): Observable<SvgAPI> {
     return this.postSvg(svgdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class SvgService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(svg: Svg, Name: string, gong__mouseEvent: MouseEvent): Observable<SvgAPI> {
+    let svgAPI = new SvgAPI
+    CopySvgToSvgAPI(svg, svgAPI)
+    const id = typeof svgAPI === 'number' ? svgAPI : svgAPI.ID
+    const url = `${this.svgsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SvgAPI>(url, svgAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SvgAPI>('updateSvg'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class SvgService {
   private handleError<T>(operation = 'operation in SvgService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("SvgService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

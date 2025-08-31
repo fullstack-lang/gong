@@ -94,7 +94,7 @@ export class SVGIconService {
       catchError(this.handleError<SVGIconAPI>('postSVGIcon'))
     );
   }
-  
+
   /** POST: add a new svgicon to the server */
   post(svgicondb: SVGIconAPI, Name: string, frontRepo: FrontRepo): Observable<SVGIconAPI> {
     return this.postSVGIcon(svgicondb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class SVGIconService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(svgicon: SVGIcon, Name: string, gong__mouseEvent: MouseEvent): Observable<SVGIconAPI> {
+    let svgiconAPI = new SVGIconAPI
+    CopySVGIconToSVGIconAPI(svgicon, svgiconAPI)
+    const id = typeof svgiconAPI === 'number' ? svgiconAPI : svgiconAPI.ID
+    const url = `${this.svgiconsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SVGIconAPI>(url, svgiconAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SVGIconAPI>('updateSVGIcon'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class SVGIconService {
   private handleError<T>(operation = 'operation in SVGIconService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("SVGIconService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

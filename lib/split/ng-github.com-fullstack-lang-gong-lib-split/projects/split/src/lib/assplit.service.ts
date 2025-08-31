@@ -95,7 +95,7 @@ export class AsSplitService {
       catchError(this.handleError<AsSplitAPI>('postAsSplit'))
     );
   }
-  
+
   /** POST: add a new assplit to the server */
   post(assplitdb: AsSplitAPI, Name: string, frontRepo: FrontRepo): Observable<AsSplitAPI> {
     return this.postAsSplit(assplitdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class AsSplitService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(assplit: AsSplit, Name: string, gong__mouseEvent: MouseEvent): Observable<AsSplitAPI> {
+    let assplitAPI = new AsSplitAPI
+    CopyAsSplitToAsSplitAPI(assplit, assplitAPI)
+    const id = typeof assplitAPI === 'number' ? assplitAPI : assplitAPI.ID
+    const url = `${this.assplitsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AsSplitAPI>(url, assplitAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AsSplitAPI>('updateAsSplit'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class AsSplitService {
   private handleError<T>(operation = 'operation in AsSplitService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("AsSplitService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

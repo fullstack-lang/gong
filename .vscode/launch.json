@@ -728,7 +728,7 @@
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/test/ng-github.com-fullstack-lang-gong-test",
+            "webRoot": "${workspaceFolder}/test/test/ng-github.com-fullstack-lang-gong-test-test",
             "sourceMaps": true,
         },
         {

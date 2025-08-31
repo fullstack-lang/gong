@@ -94,7 +94,7 @@ export class CellBooleanService {
       catchError(this.handleError<CellBooleanAPI>('postCellBoolean'))
     );
   }
-  
+
   /** POST: add a new cellboolean to the server */
   post(cellbooleandb: CellBooleanAPI, Name: string, frontRepo: FrontRepo): Observable<CellBooleanAPI> {
     return this.postCellBoolean(cellbooleandb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class CellBooleanService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(cellboolean: CellBoolean, Name: string, gong__mouseEvent: MouseEvent): Observable<CellBooleanAPI> {
+    let cellbooleanAPI = new CellBooleanAPI
+    CopyCellBooleanToCellBooleanAPI(cellboolean, cellbooleanAPI)
+    const id = typeof cellbooleanAPI === 'number' ? cellbooleanAPI : cellbooleanAPI.ID
+    const url = `${this.cellbooleansUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellBooleanAPI>(url, cellbooleanAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellBooleanAPI>('updateCellBoolean'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class CellBooleanService {
   private handleError<T>(operation = 'operation in CellBooleanService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CellBooleanService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

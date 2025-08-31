@@ -23,25 +23,38 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Freqency:
 		newTarget := any(new).(*Freqency)
-		if stage.OnAfterFreqencyUpdateCallback != nil {
+		if stage.OnAfterFreqencyUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFreqencyUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterFreqencyUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterFreqencyUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Note:
 		newTarget := any(new).(*Note)
-		if stage.OnAfterNoteUpdateCallback != nil {
+		if stage.OnAfterNoteUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterNoteUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterNoteUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Player:
 		newTarget := any(new).(*Player)
-		if stage.OnAfterPlayerUpdateCallback != nil {
+		if stage.OnAfterPlayerUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterPlayerUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterPlayerUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterPlayerUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

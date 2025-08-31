@@ -94,7 +94,7 @@ export class BService {
       catchError(this.handleError<BAPI>('postB'))
     );
   }
-  
+
   /** POST: add a new b to the server */
   post(bdb: BAPI, Name: string, frontRepo: FrontRepo): Observable<BAPI> {
     return this.postB(bdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class BService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(b: B, Name: string, gong__mouseEvent: MouseEvent): Observable<BAPI> {
+    let bAPI = new BAPI
+    CopyBToBAPI(b, bAPI)
+    const id = typeof bAPI === 'number' ? bAPI : bAPI.ID
+    const url = `${this.bsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<BAPI>(url, bAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<BAPI>('updateB'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class BService {
   private handleError<T>(operation = 'operation in BService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("BService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
