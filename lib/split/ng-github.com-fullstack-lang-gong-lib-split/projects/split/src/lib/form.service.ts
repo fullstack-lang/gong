@@ -94,7 +94,7 @@ export class FormService {
       catchError(this.handleError<FormAPI>('postForm'))
     );
   }
-  
+
   /** POST: add a new form to the server */
   post(formdb: FormAPI, Name: string, frontRepo: FrontRepo): Observable<FormAPI> {
     return this.postForm(formdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FormService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(form: Form, Name: string, gong__mouseEvent: MouseEvent): Observable<FormAPI> {
+    let formAPI = new FormAPI
+    CopyFormToFormAPI(form, formAPI)
+    const id = typeof formAPI === 'number' ? formAPI : formAPI.ID
+    const url = `${this.formsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormAPI>(url, formAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormAPI>('updateForm'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FormService {
   private handleError<T>(operation = 'operation in FormService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -15,15 +15,22 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Content:
 		newTarget := any(new).(*Content)
-		if stage.OnAfterContentUpdateCallback != nil {
+		if stage.OnAfterContentUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterContentUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterContentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterContentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

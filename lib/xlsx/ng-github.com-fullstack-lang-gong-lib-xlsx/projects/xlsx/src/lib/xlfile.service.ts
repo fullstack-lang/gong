@@ -95,7 +95,7 @@ export class XLFileService {
       catchError(this.handleError<XLFileAPI>('postXLFile'))
     );
   }
-  
+
   /** POST: add a new xlfile to the server */
   post(xlfiledb: XLFileAPI, Name: string, frontRepo: FrontRepo): Observable<XLFileAPI> {
     return this.postXLFile(xlfiledb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class XLFileService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(xlfile: XLFile, Name: string, gong__mouseEvent: MouseEvent): Observable<XLFileAPI> {
+    let xlfileAPI = new XLFileAPI
+    CopyXLFileToXLFileAPI(xlfile, xlfileAPI)
+    const id = typeof xlfileAPI === 'number' ? xlfileAPI : xlfileAPI.ID
+    const url = `${this.xlfilesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<XLFileAPI>(url, xlfileAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<XLFileAPI>('updateXLFile'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class XLFileService {
   private handleError<T>(operation = 'operation in XLFileService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("XLFileService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

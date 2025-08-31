@@ -95,7 +95,7 @@ export class RectAnchoredTextService {
       catchError(this.handleError<RectAnchoredTextAPI>('postRectAnchoredText'))
     );
   }
-  
+
   /** POST: add a new rectanchoredtext to the server */
   post(rectanchoredtextdb: RectAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredTextAPI> {
     return this.postRectAnchoredText(rectanchoredtextdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class RectAnchoredTextService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(rectanchoredtext: RectAnchoredText, Name: string, gong__mouseEvent: MouseEvent): Observable<RectAnchoredTextAPI> {
+    let rectanchoredtextAPI = new RectAnchoredTextAPI
+    CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext, rectanchoredtextAPI)
+    const id = typeof rectanchoredtextAPI === 'number' ? rectanchoredtextAPI : rectanchoredtextAPI.ID
+    const url = `${this.rectanchoredtextsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RectAnchoredTextAPI>(url, rectanchoredtextAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectAnchoredTextAPI>('updateRectAnchoredText'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class RectAnchoredTextService {
   private handleError<T>(operation = 'operation in RectAnchoredTextService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("RectAnchoredTextService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -55,65 +55,102 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *GongBasicField:
 		newTarget := any(new).(*GongBasicField)
-		if stage.OnAfterGongBasicFieldUpdateCallback != nil {
+		if stage.OnAfterGongBasicFieldUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongBasicFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongBasicFieldUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongBasicFieldUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongEnum:
 		newTarget := any(new).(*GongEnum)
-		if stage.OnAfterGongEnumUpdateCallback != nil {
+		if stage.OnAfterGongEnumUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongEnumUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongEnumUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongEnumUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongEnumValue:
 		newTarget := any(new).(*GongEnumValue)
-		if stage.OnAfterGongEnumValueUpdateCallback != nil {
+		if stage.OnAfterGongEnumValueUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongEnumValueUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongEnumValueUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongEnumValueUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongLink:
 		newTarget := any(new).(*GongLink)
-		if stage.OnAfterGongLinkUpdateCallback != nil {
+		if stage.OnAfterGongLinkUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongLinkUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongLinkUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongNote:
 		newTarget := any(new).(*GongNote)
-		if stage.OnAfterGongNoteUpdateCallback != nil {
+		if stage.OnAfterGongNoteUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongNoteUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongNoteUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongStruct:
 		newTarget := any(new).(*GongStruct)
-		if stage.OnAfterGongStructUpdateCallback != nil {
+		if stage.OnAfterGongStructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongStructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongStructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongStructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongTimeField:
 		newTarget := any(new).(*GongTimeField)
-		if stage.OnAfterGongTimeFieldUpdateCallback != nil {
+		if stage.OnAfterGongTimeFieldUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongTimeFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongTimeFieldUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongTimeFieldUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *MetaReference:
 		newTarget := any(new).(*MetaReference)
-		if stage.OnAfterMetaReferenceUpdateCallback != nil {
+		if stage.OnAfterMetaReferenceUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterMetaReferenceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterMetaReferenceUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterMetaReferenceUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *ModelPkg:
 		newTarget := any(new).(*ModelPkg)
-		if stage.OnAfterModelPkgUpdateCallback != nil {
+		if stage.OnAfterModelPkgUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterModelPkgUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterModelPkgUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterModelPkgUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *PointerToGongStructField:
 		newTarget := any(new).(*PointerToGongStructField)
-		if stage.OnAfterPointerToGongStructFieldUpdateCallback != nil {
+		if stage.OnAfterPointerToGongStructFieldUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterPointerToGongStructFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterPointerToGongStructFieldUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterPointerToGongStructFieldUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *SliceOfPointerToGongStructField:
 		newTarget := any(new).(*SliceOfPointerToGongStructField)
-		if stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback != nil {
+		if stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSliceOfPointerToGongStructFieldUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSliceOfPointerToGongStructFieldUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

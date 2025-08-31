@@ -94,7 +94,7 @@ export class FileToDownloadService {
       catchError(this.handleError<FileToDownloadAPI>('postFileToDownload'))
     );
   }
-  
+
   /** POST: add a new filetodownload to the server */
   post(filetodownloaddb: FileToDownloadAPI, Name: string, frontRepo: FrontRepo): Observable<FileToDownloadAPI> {
     return this.postFileToDownload(filetodownloaddb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FileToDownloadService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(filetodownload: FileToDownload, Name: string, gong__mouseEvent: MouseEvent): Observable<FileToDownloadAPI> {
+    let filetodownloadAPI = new FileToDownloadAPI
+    CopyFileToDownloadToFileToDownloadAPI(filetodownload, filetodownloadAPI)
+    const id = typeof filetodownloadAPI === 'number' ? filetodownloadAPI : filetodownloadAPI.ID
+    const url = `${this.filetodownloadsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FileToDownloadAPI>(url, filetodownloadAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FileToDownloadAPI>('updateFileToDownload'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FileToDownloadService {
   private handleError<T>(operation = 'operation in FileToDownloadService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FileToDownloadService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

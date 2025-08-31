@@ -94,7 +94,7 @@ export class CellIconService {
       catchError(this.handleError<CellIconAPI>('postCellIcon'))
     );
   }
-  
+
   /** POST: add a new cellicon to the server */
   post(cellicondb: CellIconAPI, Name: string, frontRepo: FrontRepo): Observable<CellIconAPI> {
     return this.postCellIcon(cellicondb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class CellIconService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(cellicon: CellIcon, Name: string, gong__mouseEvent: MouseEvent): Observable<CellIconAPI> {
+    let celliconAPI = new CellIconAPI
+    CopyCellIconToCellIconAPI(cellicon, celliconAPI)
+    const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
+    const url = `${this.celliconsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CellIconAPI>(url, celliconAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CellIconAPI>('updateCellIcon'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class CellIconService {
   private handleError<T>(operation = 'operation in CellIconService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CellIconService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

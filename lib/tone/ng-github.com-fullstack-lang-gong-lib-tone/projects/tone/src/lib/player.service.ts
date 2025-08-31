@@ -94,7 +94,7 @@ export class PlayerService {
       catchError(this.handleError<PlayerAPI>('postPlayer'))
     );
   }
-  
+
   /** POST: add a new player to the server */
   post(playerdb: PlayerAPI, Name: string, frontRepo: FrontRepo): Observable<PlayerAPI> {
     return this.postPlayer(playerdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class PlayerService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(player: Player, Name: string, gong__mouseEvent: MouseEvent): Observable<PlayerAPI> {
+    let playerAPI = new PlayerAPI
+    CopyPlayerToPlayerAPI(player, playerAPI)
+    const id = typeof playerAPI === 'number' ? playerAPI : playerAPI.ID
+    const url = `${this.playersUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PlayerAPI>(url, playerAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PlayerAPI>('updatePlayer'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class PlayerService {
   private handleError<T>(operation = 'operation in PlayerService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("PlayerService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

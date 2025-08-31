@@ -95,7 +95,7 @@ export class RowService {
       catchError(this.handleError<RowAPI>('postRow'))
     );
   }
-  
+
   /** POST: add a new row to the server */
   post(rowdb: RowAPI, Name: string, frontRepo: FrontRepo): Observable<RowAPI> {
     return this.postRow(rowdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class RowService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(row: Row, Name: string, gong__mouseEvent: MouseEvent): Observable<RowAPI> {
+    let rowAPI = new RowAPI
+    CopyRowToRowAPI(row, rowAPI)
+    const id = typeof rowAPI === 'number' ? rowAPI : rowAPI.ID
+    const url = `${this.rowsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RowAPI>(url, rowAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RowAPI>('updateRow'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class RowService {
   private handleError<T>(operation = 'operation in RowService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("RowService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

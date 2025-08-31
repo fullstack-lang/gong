@@ -94,7 +94,7 @@ export class StatusService {
       catchError(this.handleError<StatusAPI>('postStatus'))
     );
   }
-  
+
   /** POST: add a new status to the server */
   post(statusdb: StatusAPI, Name: string, frontRepo: FrontRepo): Observable<StatusAPI> {
     return this.postStatus(statusdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class StatusService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(status: Status, Name: string, gong__mouseEvent: MouseEvent): Observable<StatusAPI> {
+    let statusAPI = new StatusAPI
+    CopyStatusToStatusAPI(status, statusAPI)
+    const id = typeof statusAPI === 'number' ? statusAPI : statusAPI.ID
+    const url = `${this.statussUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<StatusAPI>(url, statusAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<StatusAPI>('updateStatus'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class StatusService {
   private handleError<T>(operation = 'operation in StatusService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("StatusService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

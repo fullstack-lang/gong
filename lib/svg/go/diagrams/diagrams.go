@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-24 08:39:46.583880 CEST"
-	const __write__utc_time__ = "2025-06-24 06:39:46.583880 UTC"
+	const __write__local_time = "2025-08-31 15:33:34.188275 CEST"
+	const __write__utc_time__ = "2025-08-31 13:33:34.188275 UTC"
 
-	const __commitId__ = "0000000001"
+	const __commitId__ = "0000000003"
 
 	// Declaration of instances to stage
 
@@ -188,8 +188,8 @@ func _(stage *models.Stage) {
 	__GongStructShape__000000_Default_LinkAnchoredText.IsSelected = false
 
 	__GongStructShape__000001_Default_Link.Name = `Default-Link`
-	__GongStructShape__000001_Default_Link.X = 75.000000
-	__GongStructShape__000001_Default_Link.Y = 77.000000
+	__GongStructShape__000001_Default_Link.X = 66.000000
+	__GongStructShape__000001_Default_Link.Y = 90.000000
 	__GongStructShape__000001_Default_Link.IdentifierMeta = ref_models.Link{}
 	__GongStructShape__000001_Default_Link.Width = 240.000000
 	__GongStructShape__000001_Default_Link.Height = 103.000000

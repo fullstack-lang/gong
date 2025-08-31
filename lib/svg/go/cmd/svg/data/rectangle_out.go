@@ -21,6 +21,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-08-31 15:33:15.576504 CEST"
+	const __write__utc_time__ = "2025-08-31 13:33:15.576504 UTC"
+
+	const __commitId__ = "0000000002"
+
 	// Declaration of instances to stage
 
 	__Animate__000000_ := (&models.Animate{}).Stage(stage)
@@ -173,7 +178,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StartRatio = 0.421941
 	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.575000
-	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.126591
+	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.255274
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
@@ -513,8 +518,8 @@ Line 2`
 	__Rect__000000_Bottom_Rect.OriginalColor = ``
 	__Rect__000000_Bottom_Rect.FillOpacityWhenHovered = 0.000000
 	__Rect__000000_Bottom_Rect.OriginalFillOpacity = 0.000000
-	__Rect__000000_Bottom_Rect.HasToolTip = true
-	__Rect__000000_Bottom_Rect.ToolTipText = `Bottom rect`
+	__Rect__000000_Bottom_Rect.HasToolTip = false
+	__Rect__000000_Bottom_Rect.ToolTipText = ``
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
 	__Rect__000001_Middle_Rect.X = 607.000000
@@ -548,12 +553,12 @@ Line 2`
 	__Rect__000001_Middle_Rect.OriginalColor = ``
 	__Rect__000001_Middle_Rect.FillOpacityWhenHovered = 0.000000
 	__Rect__000001_Middle_Rect.OriginalFillOpacity = 0.000000
-	__Rect__000001_Middle_Rect.HasToolTip = true
-	__Rect__000001_Middle_Rect.ToolTipText = `This is a tool tip on middle rect`
+	__Rect__000001_Middle_Rect.HasToolTip = false
+	__Rect__000001_Middle_Rect.ToolTipText = ``
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 522.999969
-	__Rect__000002_Top_Rect.Y = 44.000000
+	__Rect__000002_Top_Rect.X = 442.999969
+	__Rect__000002_Top_Rect.Y = 39.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -583,12 +588,12 @@ Line 2`
 	__Rect__000002_Top_Rect.OriginalColor = ``
 	__Rect__000002_Top_Rect.FillOpacityWhenHovered = 0.000000
 	__Rect__000002_Top_Rect.OriginalFillOpacity = 0.000000
-	__Rect__000002_Top_Rect.HasToolTip = true
-	__Rect__000002_Top_Rect.ToolTipText = `Top rect`
+	__Rect__000002_Top_Rect.HasToolTip = false
+	__Rect__000002_Top_Rect.ToolTipText = ``
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 1180.333333
-	__Rect__000003_Start.Y = 77.333332
+	__Rect__000003_Start.X = 1166.333333
+	__Rect__000003_Start.Y = 81.333332
 	__Rect__000003_Start.Width = 853.000000
 	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
@@ -699,6 +704,8 @@ Line 2`
 	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_TOP
 	__RectAnchoredRect__000000_Rect_within_top.WidthFollowRect = false
 	__RectAnchoredRect__000000_Rect_within_top.HeightFollowRect = false
+	__RectAnchoredRect__000000_Rect_within_top.HasToolTip = false
+	__RectAnchoredRect__000000_Rect_within_top.ToolTipText = ``
 	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
 	__RectAnchoredRect__000000_Rect_within_top.FillOpacity = 40.000000
 	__RectAnchoredRect__000000_Rect_within_top.Stroke = `bisque`
@@ -719,6 +726,8 @@ Line 2`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.WidthFollowRect = true
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HeightFollowRect = false
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HasToolTip = false
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.ToolTipText = ``
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Color = `lightblue`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.FillOpacity = 100.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Stroke = ``
@@ -875,6 +884,7 @@ line 3`
 	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
 	__SVG__000000_SVG.IsSVGBackEndFileGenerated = false
 	__SVG__000000_SVG.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
+	__SVG__000000_SVG.IsControlBannerHidden = false
 
 	__SvgText__000000_Essai.Name = `Essai`
 	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="2636.923" height="2636.923" viewBox="-10 -10 2636.923 2636.923"><style>text { font-family: Roboto, Arial, sans-serif !important; }</style>
@@ -1249,6 +1259,7 @@ line 3`
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom_Rect.RectAnchoredRects = append(__Rect__000000_Bottom_Rect.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
 	__Rect__000000_Bottom_Rect.RectAnchoredPaths = append(__Rect__000000_Bottom_Rect.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
+	__Rect__000000_Bottom_Rect.RectAnchoredPaths = append(__Rect__000000_Bottom_Rect.RectAnchoredPaths, __RectAnchoredPath__000001_second_log)
 	__Rect__000002_Top_Rect.RectAnchoredRects = append(__Rect__000002_Top_Rect.RectAnchoredRects, __RectAnchoredRect__000000_Rect_within_top)
 	__Rect__000002_Top_Rect.RectAnchoredPaths = append(__Rect__000002_Top_Rect.RectAnchoredPaths, __RectAnchoredPath__000000_Logo_to_add)
 	__Rect__000003_Start.RectAnchoredTexts = append(__Rect__000003_Start.RectAnchoredTexts, __RectAnchoredText__000004_Start)
@@ -1269,3 +1280,4 @@ line 3`
 	// setup of SvgText instances pointers
 	// setup of Text instances pointers
 }
+
