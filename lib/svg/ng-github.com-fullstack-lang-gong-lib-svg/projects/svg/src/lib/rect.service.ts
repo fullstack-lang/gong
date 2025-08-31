@@ -98,7 +98,7 @@ export class RectService {
       catchError(this.handleError<RectAPI>('postRect'))
     );
   }
-  
+
   /** POST: add a new rect to the server */
   post(rectdb: RectAPI, Name: string, frontRepo: FrontRepo): Observable<RectAPI> {
     return this.postRect(rectdb, Name, frontRepo)
@@ -181,6 +181,27 @@ export class RectService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(rect: Rect, Name: string, gong__mouseEvent: MouseEvent): Observable<RectAPI> {
+    let rectAPI = new RectAPI
+    CopyRectToRectAPI(rect, rectAPI)
+    const id = typeof rectAPI === 'number' ? rectAPI : rectAPI.ID
+    const url = `${this.rectsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RectAPI>(url, rectAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectAPI>('updateRect'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -190,7 +211,7 @@ export class RectService {
   private handleError<T>(operation = 'operation in RectService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("RectService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

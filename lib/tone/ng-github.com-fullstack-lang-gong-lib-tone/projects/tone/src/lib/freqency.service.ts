@@ -94,7 +94,7 @@ export class FreqencyService {
       catchError(this.handleError<FreqencyAPI>('postFreqency'))
     );
   }
-  
+
   /** POST: add a new freqency to the server */
   post(freqencydb: FreqencyAPI, Name: string, frontRepo: FrontRepo): Observable<FreqencyAPI> {
     return this.postFreqency(freqencydb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FreqencyService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(freqency: Freqency, Name: string, gong__mouseEvent: MouseEvent): Observable<FreqencyAPI> {
+    let freqencyAPI = new FreqencyAPI
+    CopyFreqencyToFreqencyAPI(freqency, freqencyAPI)
+    const id = typeof freqencyAPI === 'number' ? freqencyAPI : freqencyAPI.ID
+    const url = `${this.freqencysUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FreqencyAPI>(url, freqencyAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FreqencyAPI>('updateFreqency'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FreqencyService {
   private handleError<T>(operation = 'operation in FreqencyService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FreqencyService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

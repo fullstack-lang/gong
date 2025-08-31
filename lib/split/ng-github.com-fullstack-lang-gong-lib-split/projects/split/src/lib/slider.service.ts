@@ -94,7 +94,7 @@ export class SliderService {
       catchError(this.handleError<SliderAPI>('postSlider'))
     );
   }
-  
+
   /** POST: add a new slider to the server */
   post(sliderdb: SliderAPI, Name: string, frontRepo: FrontRepo): Observable<SliderAPI> {
     return this.postSlider(sliderdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class SliderService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(slider: Slider, Name: string, gong__mouseEvent: MouseEvent): Observable<SliderAPI> {
+    let sliderAPI = new SliderAPI
+    CopySliderToSliderAPI(slider, sliderAPI)
+    const id = typeof sliderAPI === 'number' ? sliderAPI : sliderAPI.ID
+    const url = `${this.slidersUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SliderAPI>(url, sliderAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SliderAPI>('updateSlider'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class SliderService {
   private handleError<T>(operation = 'operation in SliderService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("SliderService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

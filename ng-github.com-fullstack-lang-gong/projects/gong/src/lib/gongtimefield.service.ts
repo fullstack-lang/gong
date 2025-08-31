@@ -94,7 +94,7 @@ export class GongTimeFieldService {
       catchError(this.handleError<GongTimeFieldAPI>('postGongTimeField'))
     );
   }
-  
+
   /** POST: add a new gongtimefield to the server */
   post(gongtimefielddb: GongTimeFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongTimeFieldAPI> {
     return this.postGongTimeField(gongtimefielddb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class GongTimeFieldService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(gongtimefield: GongTimeField, Name: string, gong__mouseEvent: MouseEvent): Observable<GongTimeFieldAPI> {
+    let gongtimefieldAPI = new GongTimeFieldAPI
+    CopyGongTimeFieldToGongTimeFieldAPI(gongtimefield, gongtimefieldAPI)
+    const id = typeof gongtimefieldAPI === 'number' ? gongtimefieldAPI : gongtimefieldAPI.ID
+    const url = `${this.gongtimefieldsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongTimeFieldAPI>(url, gongtimefieldAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongTimeFieldAPI>('updateGongTimeField'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class GongTimeFieldService {
   private handleError<T>(operation = 'operation in GongTimeFieldService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("GongTimeFieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

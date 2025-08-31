@@ -87,105 +87,166 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *AsSplit:
 		newTarget := any(new).(*AsSplit)
-		if stage.OnAfterAsSplitUpdateCallback != nil {
+		if stage.OnAfterAsSplitUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAsSplitUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterAsSplitUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterAsSplitUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *AsSplitArea:
 		newTarget := any(new).(*AsSplitArea)
-		if stage.OnAfterAsSplitAreaUpdateCallback != nil {
+		if stage.OnAfterAsSplitAreaUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAsSplitAreaUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterAsSplitAreaUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterAsSplitAreaUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Button:
 		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
+		if stage.OnAfterButtonUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterButtonUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterButtonUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Cursor:
 		newTarget := any(new).(*Cursor)
-		if stage.OnAfterCursorUpdateCallback != nil {
+		if stage.OnAfterCursorUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterCursorUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterCursorUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterCursorUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *FavIcon:
 		newTarget := any(new).(*FavIcon)
-		if stage.OnAfterFavIconUpdateCallback != nil {
+		if stage.OnAfterFavIconUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFavIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterFavIconUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterFavIconUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Form:
 		newTarget := any(new).(*Form)
-		if stage.OnAfterFormUpdateCallback != nil {
+		if stage.OnAfterFormUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFormUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterFormUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterFormUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Load:
 		newTarget := any(new).(*Load)
-		if stage.OnAfterLoadUpdateCallback != nil {
+		if stage.OnAfterLoadUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLoadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLoadUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLoadUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *LogoOnTheLeft:
 		newTarget := any(new).(*LogoOnTheLeft)
-		if stage.OnAfterLogoOnTheLeftUpdateCallback != nil {
+		if stage.OnAfterLogoOnTheLeftUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLogoOnTheLeftUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLogoOnTheLeftUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLogoOnTheLeftUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *LogoOnTheRight:
 		newTarget := any(new).(*LogoOnTheRight)
-		if stage.OnAfterLogoOnTheRightUpdateCallback != nil {
+		if stage.OnAfterLogoOnTheRightUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLogoOnTheRightUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLogoOnTheRightUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLogoOnTheRightUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Markdown:
 		newTarget := any(new).(*Markdown)
-		if stage.OnAfterMarkdownUpdateCallback != nil {
+		if stage.OnAfterMarkdownUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterMarkdownUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterMarkdownUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterMarkdownUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Slider:
 		newTarget := any(new).(*Slider)
-		if stage.OnAfterSliderUpdateCallback != nil {
+		if stage.OnAfterSliderUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSliderUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSliderUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSliderUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Split:
 		newTarget := any(new).(*Split)
-		if stage.OnAfterSplitUpdateCallback != nil {
+		if stage.OnAfterSplitUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSplitUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSplitUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSplitUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Svg:
 		newTarget := any(new).(*Svg)
-		if stage.OnAfterSvgUpdateCallback != nil {
+		if stage.OnAfterSvgUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSvgUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSvgUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSvgUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Table:
 		newTarget := any(new).(*Table)
-		if stage.OnAfterTableUpdateCallback != nil {
+		if stage.OnAfterTableUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterTableUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterTableUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Title:
 		newTarget := any(new).(*Title)
-		if stage.OnAfterTitleUpdateCallback != nil {
+		if stage.OnAfterTitleUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterTitleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterTitleUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterTitleUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Tone:
 		newTarget := any(new).(*Tone)
-		if stage.OnAfterToneUpdateCallback != nil {
+		if stage.OnAfterToneUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterToneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterToneUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterToneUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Tree:
 		newTarget := any(new).(*Tree)
-		if stage.OnAfterTreeUpdateCallback != nil {
+		if stage.OnAfterTreeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterTreeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterTreeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterTreeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *View:
 		newTarget := any(new).(*View)
-		if stage.OnAfterViewUpdateCallback != nil {
+		if stage.OnAfterViewUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterViewUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterViewUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterViewUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Xlsx:
 		newTarget := any(new).(*Xlsx)
-		if stage.OnAfterXlsxUpdateCallback != nil {
+		if stage.OnAfterXlsxUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXlsxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterXlsxUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterXlsxUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

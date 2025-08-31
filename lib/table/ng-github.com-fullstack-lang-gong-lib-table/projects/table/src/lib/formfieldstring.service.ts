@@ -94,7 +94,7 @@ export class FormFieldStringService {
       catchError(this.handleError<FormFieldStringAPI>('postFormFieldString'))
     );
   }
-  
+
   /** POST: add a new formfieldstring to the server */
   post(formfieldstringdb: FormFieldStringAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldStringAPI> {
     return this.postFormFieldString(formfieldstringdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FormFieldStringService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formfieldstring: FormFieldString, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldStringAPI> {
+    let formfieldstringAPI = new FormFieldStringAPI
+    CopyFormFieldStringToFormFieldStringAPI(formfieldstring, formfieldstringAPI)
+    const id = typeof formfieldstringAPI === 'number' ? formfieldstringAPI : formfieldstringAPI.ID
+    const url = `${this.formfieldstringsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldStringAPI>(url, formfieldstringAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldStringAPI>('updateFormFieldString'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FormFieldStringService {
   private handleError<T>(operation = 'operation in FormFieldStringService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormFieldStringService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

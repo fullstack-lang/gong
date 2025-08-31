@@ -47,55 +47,86 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *AttributeShape:
 		newTarget := any(new).(*AttributeShape)
-		if stage.OnAfterAttributeShapeUpdateCallback != nil {
+		if stage.OnAfterAttributeShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAttributeShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterAttributeShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterAttributeShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Classdiagram:
 		newTarget := any(new).(*Classdiagram)
-		if stage.OnAfterClassdiagramUpdateCallback != nil {
+		if stage.OnAfterClassdiagramUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterClassdiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterClassdiagramUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterClassdiagramUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *DiagramPackage:
 		newTarget := any(new).(*DiagramPackage)
-		if stage.OnAfterDiagramPackageUpdateCallback != nil {
+		if stage.OnAfterDiagramPackageUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDiagramPackageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterDiagramPackageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterDiagramPackageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongEnumShape:
 		newTarget := any(new).(*GongEnumShape)
-		if stage.OnAfterGongEnumShapeUpdateCallback != nil {
+		if stage.OnAfterGongEnumShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongEnumShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongEnumShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongEnumShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongEnumValueShape:
 		newTarget := any(new).(*GongEnumValueShape)
-		if stage.OnAfterGongEnumValueShapeUpdateCallback != nil {
+		if stage.OnAfterGongEnumValueShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongEnumValueShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongEnumValueShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongEnumValueShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongNoteLinkShape:
 		newTarget := any(new).(*GongNoteLinkShape)
-		if stage.OnAfterGongNoteLinkShapeUpdateCallback != nil {
+		if stage.OnAfterGongNoteLinkShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongNoteLinkShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongNoteLinkShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongNoteLinkShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongNoteShape:
 		newTarget := any(new).(*GongNoteShape)
-		if stage.OnAfterGongNoteShapeUpdateCallback != nil {
+		if stage.OnAfterGongNoteShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongNoteShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongNoteShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongNoteShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *GongStructShape:
 		newTarget := any(new).(*GongStructShape)
-		if stage.OnAfterGongStructShapeUpdateCallback != nil {
+		if stage.OnAfterGongStructShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGongStructShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGongStructShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGongStructShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *LinkShape:
 		newTarget := any(new).(*LinkShape)
-		if stage.OnAfterLinkShapeUpdateCallback != nil {
+		if stage.OnAfterLinkShapeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLinkShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLinkShapeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLinkShapeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

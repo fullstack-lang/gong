@@ -93,6 +93,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCursorCreateCallback OnAfterCreateInterface[Cursor]
 	OnAfterCursorUpdateCallback OnAfterUpdateInterface[Cursor]
+	OnAfterCursorUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Cursor]
 	OnAfterCursorDeleteCallback OnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
@@ -226,7 +227,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "Cursor":
 		res = GetNamedStructInstances(stage.Cursors, stage.CursorMap_Staged_Order)
 	}
@@ -282,6 +283,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

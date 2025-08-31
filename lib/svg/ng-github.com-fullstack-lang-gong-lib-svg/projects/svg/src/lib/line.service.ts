@@ -95,7 +95,7 @@ export class LineService {
       catchError(this.handleError<LineAPI>('postLine'))
     );
   }
-  
+
   /** POST: add a new line to the server */
   post(linedb: LineAPI, Name: string, frontRepo: FrontRepo): Observable<LineAPI> {
     return this.postLine(linedb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class LineService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(line: Line, Name: string, gong__mouseEvent: MouseEvent): Observable<LineAPI> {
+    let lineAPI = new LineAPI
+    CopyLineToLineAPI(line, lineAPI)
+    const id = typeof lineAPI === 'number' ? lineAPI : lineAPI.ID
+    const url = `${this.linesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LineAPI>(url, lineAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LineAPI>('updateLine'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class LineService {
   private handleError<T>(operation = 'operation in LineService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("LineService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

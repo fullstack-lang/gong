@@ -94,7 +94,7 @@ export class FavIconService {
       catchError(this.handleError<FavIconAPI>('postFavIcon'))
     );
   }
-  
+
   /** POST: add a new favicon to the server */
   post(favicondb: FavIconAPI, Name: string, frontRepo: FrontRepo): Observable<FavIconAPI> {
     return this.postFavIcon(favicondb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FavIconService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(favicon: FavIcon, Name: string, gong__mouseEvent: MouseEvent): Observable<FavIconAPI> {
+    let faviconAPI = new FavIconAPI
+    CopyFavIconToFavIconAPI(favicon, faviconAPI)
+    const id = typeof faviconAPI === 'number' ? faviconAPI : faviconAPI.ID
+    const url = `${this.faviconsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FavIconAPI>(url, faviconAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FavIconAPI>('updateFavIcon'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FavIconService {
   private handleError<T>(operation = 'operation in FavIconService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FavIconService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

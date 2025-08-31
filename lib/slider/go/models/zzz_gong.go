@@ -93,6 +93,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCheckboxCreateCallback OnAfterCreateInterface[Checkbox]
 	OnAfterCheckboxUpdateCallback OnAfterUpdateInterface[Checkbox]
+	OnAfterCheckboxUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Checkbox]
 	OnAfterCheckboxDeleteCallback OnAfterDeleteInterface[Checkbox]
 	OnAfterCheckboxReadCallback   OnAfterReadInterface[Checkbox]
 
@@ -106,6 +107,7 @@ type Stage struct {
 
 	OnAfterGroupCreateCallback OnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback OnAfterUpdateInterface[Group]
+	OnAfterGroupUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Group]
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
@@ -117,6 +119,7 @@ type Stage struct {
 
 	OnAfterLayoutCreateCallback OnAfterCreateInterface[Layout]
 	OnAfterLayoutUpdateCallback OnAfterUpdateInterface[Layout]
+	OnAfterLayoutUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Layout]
 	OnAfterLayoutDeleteCallback OnAfterDeleteInterface[Layout]
 	OnAfterLayoutReadCallback   OnAfterReadInterface[Layout]
 
@@ -126,6 +129,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSliderCreateCallback OnAfterCreateInterface[Slider]
 	OnAfterSliderUpdateCallback OnAfterUpdateInterface[Slider]
+	OnAfterSliderUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Slider]
 	OnAfterSliderDeleteCallback OnAfterDeleteInterface[Slider]
 	OnAfterSliderReadCallback   OnAfterReadInterface[Slider]
 
@@ -310,7 +314,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "Checkbox":
 		res = GetNamedStructInstances(stage.Checkboxs, stage.CheckboxMap_Staged_Order)
 	case "Group":
@@ -372,6 +376,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

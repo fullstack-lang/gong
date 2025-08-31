@@ -94,7 +94,7 @@ export class MetaReferenceService {
       catchError(this.handleError<MetaReferenceAPI>('postMetaReference'))
     );
   }
-  
+
   /** POST: add a new metareference to the server */
   post(metareferencedb: MetaReferenceAPI, Name: string, frontRepo: FrontRepo): Observable<MetaReferenceAPI> {
     return this.postMetaReference(metareferencedb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class MetaReferenceService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(metareference: MetaReference, Name: string, gong__mouseEvent: MouseEvent): Observable<MetaReferenceAPI> {
+    let metareferenceAPI = new MetaReferenceAPI
+    CopyMetaReferenceToMetaReferenceAPI(metareference, metareferenceAPI)
+    const id = typeof metareferenceAPI === 'number' ? metareferenceAPI : metareferenceAPI.ID
+    const url = `${this.metareferencesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<MetaReferenceAPI>(url, metareferenceAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MetaReferenceAPI>('updateMetaReference'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class MetaReferenceService {
   private handleError<T>(operation = 'operation in MetaReferenceService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("MetaReferenceService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

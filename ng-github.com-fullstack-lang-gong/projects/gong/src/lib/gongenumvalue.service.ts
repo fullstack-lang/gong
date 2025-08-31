@@ -94,7 +94,7 @@ export class GongEnumValueService {
       catchError(this.handleError<GongEnumValueAPI>('postGongEnumValue'))
     );
   }
-  
+
   /** POST: add a new gongenumvalue to the server */
   post(gongenumvaluedb: GongEnumValueAPI, Name: string, frontRepo: FrontRepo): Observable<GongEnumValueAPI> {
     return this.postGongEnumValue(gongenumvaluedb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class GongEnumValueService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(gongenumvalue: GongEnumValue, Name: string, gong__mouseEvent: MouseEvent): Observable<GongEnumValueAPI> {
+    let gongenumvalueAPI = new GongEnumValueAPI
+    CopyGongEnumValueToGongEnumValueAPI(gongenumvalue, gongenumvalueAPI)
+    const id = typeof gongenumvalueAPI === 'number' ? gongenumvalueAPI : gongenumvalueAPI.ID
+    const url = `${this.gongenumvaluesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongEnumValueAPI>(url, gongenumvalueAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongEnumValueAPI>('updateGongEnumValue'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class GongEnumValueService {
   private handleError<T>(operation = 'operation in GongEnumValueService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("GongEnumValueService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

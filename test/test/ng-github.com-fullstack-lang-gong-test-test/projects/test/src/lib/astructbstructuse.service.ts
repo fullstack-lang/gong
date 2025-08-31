@@ -179,14 +179,14 @@ export class AstructBstructUseService {
   }
 
   // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(astructbstructuse: AstructBstructUse, Name: string, event: MouseEvent): Observable<AstructBstructUseAPI> {
+  updateFrontWithMouseEvent(astructbstructuse: AstructBstructUse, Name: string, gong__mouseEvent: MouseEvent): Observable<AstructBstructUseAPI> {
     let astructbstructuseAPI = new AstructBstructUseAPI
     CopyAstructBstructUseToAstructBstructUseAPI(astructbstructuse, astructbstructuseAPI)
     const id = typeof astructbstructuseAPI === 'number' ? astructbstructuseAPI : astructbstructuseAPI.ID
     const url = `${this.astructbstructusesUrl}/${id}`;
     let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", event.shiftKey)
-    params = params.append("altKey", event.altKey)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params

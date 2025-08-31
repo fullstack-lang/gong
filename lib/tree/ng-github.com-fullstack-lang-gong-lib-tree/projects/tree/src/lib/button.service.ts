@@ -95,7 +95,7 @@ export class ButtonService {
       catchError(this.handleError<ButtonAPI>('postButton'))
     );
   }
-  
+
   /** POST: add a new button to the server */
   post(buttondb: ButtonAPI, Name: string, frontRepo: FrontRepo): Observable<ButtonAPI> {
     return this.postButton(buttondb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class ButtonService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(button: Button, Name: string, gong__mouseEvent: MouseEvent): Observable<ButtonAPI> {
+    let buttonAPI = new ButtonAPI
+    CopyButtonToButtonAPI(button, buttonAPI)
+    const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
+    const url = `${this.buttonsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<ButtonAPI>(url, buttonAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ButtonAPI>('updateButton'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class ButtonService {
   private handleError<T>(operation = 'operation in ButtonService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("ButtonService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -95,6 +95,7 @@ type Stage struct {
 
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
+	OnAfterAUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
 	OnAfterAReadCallback   OnAfterReadInterface[A]
 
@@ -228,7 +229,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "A":
 		res = GetNamedStructInstances(stage.As, stage.AMap_Staged_Order)
 	}
@@ -284,6 +285,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
