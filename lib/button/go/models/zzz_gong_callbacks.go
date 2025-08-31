@@ -23,25 +23,38 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Button:
 		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
+		if stage.OnAfterButtonUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterButtonUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterButtonUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Group:
 		newTarget := any(new).(*Group)
-		if stage.OnAfterGroupUpdateCallback != nil {
+		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGroupUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGroupUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Layout:
 		newTarget := any(new).(*Layout)
-		if stage.OnAfterLayoutUpdateCallback != nil {
+		if stage.OnAfterLayoutUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLayoutUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLayoutUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

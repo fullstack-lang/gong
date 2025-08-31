@@ -94,7 +94,7 @@ export class TableService {
       catchError(this.handleError<TableAPI>('postTable'))
     );
   }
-  
+
   /** POST: add a new table to the server */
   post(tabledb: TableAPI, Name: string, frontRepo: FrontRepo): Observable<TableAPI> {
     return this.postTable(tabledb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class TableService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(table: Table, Name: string, gong__mouseEvent: MouseEvent): Observable<TableAPI> {
+    let tableAPI = new TableAPI
+    CopyTableToTableAPI(table, tableAPI)
+    const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
+    const url = `${this.tablesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TableAPI>(url, tableAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TableAPI>('updateTable'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class TableService {
   private handleError<T>(operation = 'operation in TableService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("TableService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -94,7 +94,7 @@ export class XLCellService {
       catchError(this.handleError<XLCellAPI>('postXLCell'))
     );
   }
-  
+
   /** POST: add a new xlcell to the server */
   post(xlcelldb: XLCellAPI, Name: string, frontRepo: FrontRepo): Observable<XLCellAPI> {
     return this.postXLCell(xlcelldb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class XLCellService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(xlcell: XLCell, Name: string, gong__mouseEvent: MouseEvent): Observable<XLCellAPI> {
+    let xlcellAPI = new XLCellAPI
+    CopyXLCellToXLCellAPI(xlcell, xlcellAPI)
+    const id = typeof xlcellAPI === 'number' ? xlcellAPI : xlcellAPI.ID
+    const url = `${this.xlcellsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<XLCellAPI>(url, xlcellAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<XLCellAPI>('updateXLCell'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class XLCellService {
   private handleError<T>(operation = 'operation in XLCellService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("XLCellService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

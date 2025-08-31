@@ -98,7 +98,7 @@ export class AstructService {
       catchError(this.handleError<AstructAPI>('postAstruct'))
     );
   }
-  
+
   /** POST: add a new astruct to the server */
   post(astructdb: AstructAPI, Name: string, frontRepo: FrontRepo): Observable<AstructAPI> {
     return this.postAstruct(astructdb, Name, frontRepo)
@@ -181,6 +181,27 @@ export class AstructService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(astruct: Astruct, Name: string, gong__mouseEvent: MouseEvent): Observable<AstructAPI> {
+    let astructAPI = new AstructAPI
+    CopyAstructToAstructAPI(astruct, astructAPI)
+    const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
+    const url = `${this.astructsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AstructAPI>(url, astructAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AstructAPI>('updateAstruct'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -190,7 +211,7 @@ export class AstructService {
   private handleError<T>(operation = 'operation in AstructService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("AstructService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

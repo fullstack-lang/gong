@@ -95,7 +95,7 @@ export class AService {
       catchError(this.handleError<AAPI>('postA'))
     );
   }
-  
+
   /** POST: add a new a to the server */
   post(adb: AAPI, Name: string, frontRepo: FrontRepo): Observable<AAPI> {
     return this.postA(adb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class AService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(a: A, Name: string, gong__mouseEvent: MouseEvent): Observable<AAPI> {
+    let aAPI = new AAPI
+    CopyAToAAPI(a, aAPI)
+    const id = typeof aAPI === 'number' ? aAPI : aAPI.ID
+    const url = `${this.asUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<AAPI>(url, aAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<AAPI>('updateA'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class AService {
   private handleError<T>(operation = 'operation in AService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("AService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

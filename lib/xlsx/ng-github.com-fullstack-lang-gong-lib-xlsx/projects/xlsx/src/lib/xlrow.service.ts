@@ -95,7 +95,7 @@ export class XLRowService {
       catchError(this.handleError<XLRowAPI>('postXLRow'))
     );
   }
-  
+
   /** POST: add a new xlrow to the server */
   post(xlrowdb: XLRowAPI, Name: string, frontRepo: FrontRepo): Observable<XLRowAPI> {
     return this.postXLRow(xlrowdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class XLRowService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(xlrow: XLRow, Name: string, gong__mouseEvent: MouseEvent): Observable<XLRowAPI> {
+    let xlrowAPI = new XLRowAPI
+    CopyXLRowToXLRowAPI(xlrow, xlrowAPI)
+    const id = typeof xlrowAPI === 'number' ? xlrowAPI : xlrowAPI.ID
+    const url = `${this.xlrowsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<XLRowAPI>(url, xlrowAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<XLRowAPI>('updateXLRow'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class XLRowService {
   private handleError<T>(operation = 'operation in XLRowService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("XLRowService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -98,7 +98,7 @@ export class FormDivService {
       catchError(this.handleError<FormDivAPI>('postFormDiv'))
     );
   }
-  
+
   /** POST: add a new formdiv to the server */
   post(formdivdb: FormDivAPI, Name: string, frontRepo: FrontRepo): Observable<FormDivAPI> {
     return this.postFormDiv(formdivdb, Name, frontRepo)
@@ -181,6 +181,27 @@ export class FormDivService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formdiv: FormDiv, Name: string, gong__mouseEvent: MouseEvent): Observable<FormDivAPI> {
+    let formdivAPI = new FormDivAPI
+    CopyFormDivToFormDivAPI(formdiv, formdivAPI)
+    const id = typeof formdivAPI === 'number' ? formdivAPI : formdivAPI.ID
+    const url = `${this.formdivsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormDivAPI>(url, formdivAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormDivAPI>('updateFormDiv'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -190,7 +211,7 @@ export class FormDivService {
   private handleError<T>(operation = 'operation in FormDivService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormDivService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

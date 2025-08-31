@@ -95,7 +95,7 @@ export class PathService {
       catchError(this.handleError<PathAPI>('postPath'))
     );
   }
-  
+
   /** POST: add a new path to the server */
   post(pathdb: PathAPI, Name: string, frontRepo: FrontRepo): Observable<PathAPI> {
     return this.postPath(pathdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class PathService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(path: Path, Name: string, gong__mouseEvent: MouseEvent): Observable<PathAPI> {
+    let pathAPI = new PathAPI
+    CopyPathToPathAPI(path, pathAPI)
+    const id = typeof pathAPI === 'number' ? pathAPI : pathAPI.ID
+    const url = `${this.pathsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PathAPI>(url, pathAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PathAPI>('updatePath'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class PathService {
   private handleError<T>(operation = 'operation in PathService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("PathService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

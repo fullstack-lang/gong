@@ -94,7 +94,7 @@ export class CursorService {
       catchError(this.handleError<CursorAPI>('postCursor'))
     );
   }
-  
+
   /** POST: add a new cursor to the server */
   post(cursordb: CursorAPI, Name: string, frontRepo: FrontRepo): Observable<CursorAPI> {
     return this.postCursor(cursordb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class CursorService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(cursor: Cursor, Name: string, gong__mouseEvent: MouseEvent): Observable<CursorAPI> {
+    let cursorAPI = new CursorAPI
+    CopyCursorToCursorAPI(cursor, cursorAPI)
+    const id = typeof cursorAPI === 'number' ? cursorAPI : cursorAPI.ID
+    const url = `${this.cursorsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CursorAPI>(url, cursorAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CursorAPI>('updateCursor'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class CursorService {
   private handleError<T>(operation = 'operation in CursorService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CursorService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

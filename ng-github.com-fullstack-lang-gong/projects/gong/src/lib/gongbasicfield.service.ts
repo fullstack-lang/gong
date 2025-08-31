@@ -95,7 +95,7 @@ export class GongBasicFieldService {
       catchError(this.handleError<GongBasicFieldAPI>('postGongBasicField'))
     );
   }
-  
+
   /** POST: add a new gongbasicfield to the server */
   post(gongbasicfielddb: GongBasicFieldAPI, Name: string, frontRepo: FrontRepo): Observable<GongBasicFieldAPI> {
     return this.postGongBasicField(gongbasicfielddb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class GongBasicFieldService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(gongbasicfield: GongBasicField, Name: string, gong__mouseEvent: MouseEvent): Observable<GongBasicFieldAPI> {
+    let gongbasicfieldAPI = new GongBasicFieldAPI
+    CopyGongBasicFieldToGongBasicFieldAPI(gongbasicfield, gongbasicfieldAPI)
+    const id = typeof gongbasicfieldAPI === 'number' ? gongbasicfieldAPI : gongbasicfieldAPI.ID
+    const url = `${this.gongbasicfieldsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GongBasicFieldAPI>(url, gongbasicfieldAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GongBasicFieldAPI>('updateGongBasicField'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class GongBasicFieldService {
   private handleError<T>(operation = 'operation in GongBasicFieldService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("GongBasicFieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

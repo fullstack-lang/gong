@@ -319,6 +319,19 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		models.ModelGongOrchestratorStructSubTemplateCode,
 		map[string]string{}, map[string]string{},
 		true,
+		true,
+		false)
+
+	gong_models.CodeGenerator(
+		modelPkg,
+		modelPkg.Name,
+		modelPkg.PkgPath,
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongOrchestratorWMEGoFilePath)),
+		models.ModelGongOrchestratorMouseEventFileTemplate,
+		models.ModelGongOrchestratorStructWithMouseEventSubTemplateCode,
+		map[string]string{}, map[string]string{},
+		true,
+		false,
 		true)
 
 	if !skipSerialize {

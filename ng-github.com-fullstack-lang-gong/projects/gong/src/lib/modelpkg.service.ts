@@ -94,7 +94,7 @@ export class ModelPkgService {
       catchError(this.handleError<ModelPkgAPI>('postModelPkg'))
     );
   }
-  
+
   /** POST: add a new modelpkg to the server */
   post(modelpkgdb: ModelPkgAPI, Name: string, frontRepo: FrontRepo): Observable<ModelPkgAPI> {
     return this.postModelPkg(modelpkgdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class ModelPkgService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(modelpkg: ModelPkg, Name: string, gong__mouseEvent: MouseEvent): Observable<ModelPkgAPI> {
+    let modelpkgAPI = new ModelPkgAPI
+    CopyModelPkgToModelPkgAPI(modelpkg, modelpkgAPI)
+    const id = typeof modelpkgAPI === 'number' ? modelpkgAPI : modelpkgAPI.ID
+    const url = `${this.modelpkgsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<ModelPkgAPI>(url, modelpkgAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ModelPkgAPI>('updateModelPkg'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class ModelPkgService {
   private handleError<T>(operation = 'operation in ModelPkgService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("ModelPkgService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

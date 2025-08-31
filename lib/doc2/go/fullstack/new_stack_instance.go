@@ -43,14 +43,23 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.AttributeShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.AttributeShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Classdiagram](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Classdiagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.DiagramPackage](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.DiagramPackage](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongEnumShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumValueShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongEnumValueShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongNoteLinkShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongNoteLinkShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongNoteShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongNoteShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStructShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongStructShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LinkShape](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.LinkShape](stage)
 
 	return
 }

@@ -94,7 +94,7 @@ export class SplitService {
       catchError(this.handleError<SplitAPI>('postSplit'))
     );
   }
-  
+
   /** POST: add a new split to the server */
   post(splitdb: SplitAPI, Name: string, frontRepo: FrontRepo): Observable<SplitAPI> {
     return this.postSplit(splitdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class SplitService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(split: Split, Name: string, gong__mouseEvent: MouseEvent): Observable<SplitAPI> {
+    let splitAPI = new SplitAPI
+    CopySplitToSplitAPI(split, splitAPI)
+    const id = typeof splitAPI === 'number' ? splitAPI : splitAPI.ID
+    const url = `${this.splitsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SplitAPI>(url, splitAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SplitAPI>('updateSplit'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class SplitService {
   private handleError<T>(operation = 'operation in SplitService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("SplitService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
