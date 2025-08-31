@@ -12,6 +12,17 @@ func (orchestrator *AstructOrchestrator) OnAfterUpdate(
 
 	stagedAstruct.OnAfterUpdate(gongsvgStage, stagedAstruct, backRepoAstruct)
 }
+
+type AstructOrchestratorWithMouseEvent struct {
+}
+
+func (orchestrator *AstructOrchestratorWithMouseEvent) OnAfterUpdateWithMouseEvent(
+	gongsvgStage *Stage,
+	stagedAstruct, backRepoAstruct *Astruct, mouseEvent *MouseEvent) {
+
+	stagedAstruct.OnAfterUpdateWithMouseEvent(gongsvgStage, backRepoAstruct, mouseEvent)
+}
+
 // BstructOrchestrator
 type BstructOrchestrator struct {
 }
@@ -33,6 +44,19 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 		stage.OnAfterAstructUpdateCallback = new(AstructOrchestrator)
 	case Bstruct:
 		stage.OnAfterBstructUpdateCallback = new(BstructOrchestrator)
+
+	}
+
+}
+
+func SetOrchestratorOnAfterUpdateWithMouseEvent[Type Gongstruct](stage *Stage) {
+
+	var ret Type
+
+	switch any(ret).(type) {
+	// insertion point
+	case Astruct:
+		stage.OnAfterAstructUpdateWithMouseEventCallback = new(AstructOrchestratorWithMouseEvent)
 
 	}
 

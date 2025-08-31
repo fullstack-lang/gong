@@ -328,7 +328,7 @@ func (controller *Controller) UpdateDstruct(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	dstructOld := backRepo.BackRepoDstruct.Map_DstructDBID_DstructPtr[dstructDB.ID]
 	if dstructOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), dstructOld, dstructNew)
+		models.OnAfterUpdateFromFront(backRepo.GetStage(), dstructOld, dstructNew, nil)
 	}
 
 	// an UPDATE generates a back repo commit increase

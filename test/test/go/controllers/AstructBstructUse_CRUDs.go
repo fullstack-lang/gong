@@ -328,7 +328,7 @@ func (controller *Controller) UpdateAstructBstructUse(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	astructbstructuseOld := backRepo.BackRepoAstructBstructUse.Map_AstructBstructUseDBID_AstructBstructUsePtr[astructbstructuseDB.ID]
 	if astructbstructuseOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), astructbstructuseOld, astructbstructuseNew)
+		models.OnAfterUpdateFromFront(backRepo.GetStage(), astructbstructuseOld, astructbstructuseNew, nil)
 	}
 
 	// an UPDATE generates a back repo commit increase

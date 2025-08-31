@@ -260,10 +260,22 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
+	hasMouseEvent := false
+	shiftKey := false
+	_ = shiftKey
 	if len(_values) >= 1 {
-		value := _values["Name"]
-		if len(value) == 1 {
-			stackPath = value[0]
+		_nameValues := _values["Name"]
+		if len(_nameValues) == 1 {
+			stackPath = _nameValues[0]
+			// log.Println("UpdateAstruct", "Name", stackPath)
+		}
+	}
+
+	if len(_values) >= 2 {
+		hasMouseEvent = true
+		_shiftKeyValues := _values["shiftKey"]
+		if len(_shiftKeyValues) == 1 {
+			shiftKey = _shiftKeyValues[0] == "true"
 			// log.Println("UpdateAstruct", "Name", stackPath)
 		}
 	}
@@ -328,7 +340,15 @@ func (controller *Controller) UpdateAstruct(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	astructOld := backRepo.BackRepoAstruct.Map_AstructDBID_AstructPtr[astructDB.ID]
 	if astructOld != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), astructOld, astructNew)
+		if !hasMouseEvent {
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), astructOld, astructNew, nil)
+		} else {
+			mouseEvent := &models.MouseEvent{
+				ShiftKey: shiftKey,
+			}
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), astructOld, astructNew, mouseEvent)
+
+		}
 	}
 
 	// an UPDATE generates a back repo commit increase

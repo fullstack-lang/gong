@@ -103,10 +103,11 @@ type Stage struct {
 
 	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
-	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
-	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
-	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
-	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
+	OnAfterAstructCreateCallback               OnAfterCreateInterface[Astruct]
+	OnAfterAstructUpdateCallback               OnAfterUpdateInterface[Astruct]
+	OnAfterAstructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Astruct]
+	OnAfterAstructDeleteCallback               OnAfterDeleteInterface[Astruct]
+	OnAfterAstructReadCallback                 OnAfterReadInterface[Astruct]
 
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
@@ -267,7 +268,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *Astruct:
 		tmp := GetStructInstancesByOrder(stage.Astructs, stage.AstructMap_Staged_Order)
 
@@ -466,6 +467,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
