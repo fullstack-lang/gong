@@ -467,7 +467,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (distanceMoved < this.dragThreshold && this.State == StateEnumType.NOT_EDITABLE) {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
-      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
+      this.rectService.updateFrontWithMouseEvent(this.draggedRect!, this.Name, event).subscribe(
         _ => {
         }
       )
