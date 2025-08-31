@@ -94,7 +94,7 @@ export class FormFieldDateTimeService {
       catchError(this.handleError<FormFieldDateTimeAPI>('postFormFieldDateTime'))
     );
   }
-  
+
   /** POST: add a new formfielddatetime to the server */
   post(formfielddatetimedb: FormFieldDateTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldDateTimeAPI> {
     return this.postFormFieldDateTime(formfielddatetimedb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FormFieldDateTimeService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formfielddatetime: FormFieldDateTime, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldDateTimeAPI> {
+    let formfielddatetimeAPI = new FormFieldDateTimeAPI
+    CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime, formfielddatetimeAPI)
+    const id = typeof formfielddatetimeAPI === 'number' ? formfielddatetimeAPI : formfielddatetimeAPI.ID
+    const url = `${this.formfielddatetimesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldDateTimeAPI>(url, formfielddatetimeAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldDateTimeAPI>('updateFormFieldDateTime'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FormFieldDateTimeService {
   private handleError<T>(operation = 'operation in FormFieldDateTimeService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormFieldDateTimeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

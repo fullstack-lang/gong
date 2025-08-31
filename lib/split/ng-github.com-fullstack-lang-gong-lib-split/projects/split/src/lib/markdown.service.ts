@@ -94,7 +94,7 @@ export class MarkdownService {
       catchError(this.handleError<MarkdownAPI>('postMarkdown'))
     );
   }
-  
+
   /** POST: add a new markdown to the server */
   post(markdowndb: MarkdownAPI, Name: string, frontRepo: FrontRepo): Observable<MarkdownAPI> {
     return this.postMarkdown(markdowndb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class MarkdownService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(markdown: Markdown, Name: string, gong__mouseEvent: MouseEvent): Observable<MarkdownAPI> {
+    let markdownAPI = new MarkdownAPI
+    CopyMarkdownToMarkdownAPI(markdown, markdownAPI)
+    const id = typeof markdownAPI === 'number' ? markdownAPI : markdownAPI.ID
+    const url = `${this.markdownsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<MarkdownAPI>(url, markdownAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<MarkdownAPI>('updateMarkdown'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class MarkdownService {
   private handleError<T>(operation = 'operation in MarkdownService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("MarkdownService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

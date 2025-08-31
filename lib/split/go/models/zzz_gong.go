@@ -95,6 +95,7 @@ type Stage struct {
 
 	OnAfterAsSplitCreateCallback OnAfterCreateInterface[AsSplit]
 	OnAfterAsSplitUpdateCallback OnAfterUpdateInterface[AsSplit]
+	OnAfterAsSplitUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[AsSplit]
 	OnAfterAsSplitDeleteCallback OnAfterDeleteInterface[AsSplit]
 	OnAfterAsSplitReadCallback   OnAfterReadInterface[AsSplit]
 
@@ -104,6 +105,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterAsSplitAreaCreateCallback OnAfterCreateInterface[AsSplitArea]
 	OnAfterAsSplitAreaUpdateCallback OnAfterUpdateInterface[AsSplitArea]
+	OnAfterAsSplitAreaUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[AsSplitArea]
 	OnAfterAsSplitAreaDeleteCallback OnAfterDeleteInterface[AsSplitArea]
 	OnAfterAsSplitAreaReadCallback   OnAfterReadInterface[AsSplitArea]
 
@@ -113,6 +115,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
+	OnAfterButtonUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Button]
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
@@ -122,6 +125,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCursorCreateCallback OnAfterCreateInterface[Cursor]
 	OnAfterCursorUpdateCallback OnAfterUpdateInterface[Cursor]
+	OnAfterCursorUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Cursor]
 	OnAfterCursorDeleteCallback OnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
@@ -131,6 +135,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFavIconCreateCallback OnAfterCreateInterface[FavIcon]
 	OnAfterFavIconUpdateCallback OnAfterUpdateInterface[FavIcon]
+	OnAfterFavIconUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FavIcon]
 	OnAfterFavIconDeleteCallback OnAfterDeleteInterface[FavIcon]
 	OnAfterFavIconReadCallback   OnAfterReadInterface[FavIcon]
 
@@ -140,6 +145,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormCreateCallback OnAfterCreateInterface[Form]
 	OnAfterFormUpdateCallback OnAfterUpdateInterface[Form]
+	OnAfterFormUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Form]
 	OnAfterFormDeleteCallback OnAfterDeleteInterface[Form]
 	OnAfterFormReadCallback   OnAfterReadInterface[Form]
 
@@ -149,6 +155,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterLoadCreateCallback OnAfterCreateInterface[Load]
 	OnAfterLoadUpdateCallback OnAfterUpdateInterface[Load]
+	OnAfterLoadUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Load]
 	OnAfterLoadDeleteCallback OnAfterDeleteInterface[Load]
 	OnAfterLoadReadCallback   OnAfterReadInterface[Load]
 
@@ -158,6 +165,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterLogoOnTheLeftCreateCallback OnAfterCreateInterface[LogoOnTheLeft]
 	OnAfterLogoOnTheLeftUpdateCallback OnAfterUpdateInterface[LogoOnTheLeft]
+	OnAfterLogoOnTheLeftUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[LogoOnTheLeft]
 	OnAfterLogoOnTheLeftDeleteCallback OnAfterDeleteInterface[LogoOnTheLeft]
 	OnAfterLogoOnTheLeftReadCallback   OnAfterReadInterface[LogoOnTheLeft]
 
@@ -167,6 +175,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterLogoOnTheRightCreateCallback OnAfterCreateInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightUpdateCallback OnAfterUpdateInterface[LogoOnTheRight]
+	OnAfterLogoOnTheRightUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightDeleteCallback OnAfterDeleteInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightReadCallback   OnAfterReadInterface[LogoOnTheRight]
 
@@ -176,6 +185,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterMarkdownCreateCallback OnAfterCreateInterface[Markdown]
 	OnAfterMarkdownUpdateCallback OnAfterUpdateInterface[Markdown]
+	OnAfterMarkdownUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Markdown]
 	OnAfterMarkdownDeleteCallback OnAfterDeleteInterface[Markdown]
 	OnAfterMarkdownReadCallback   OnAfterReadInterface[Markdown]
 
@@ -185,6 +195,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSliderCreateCallback OnAfterCreateInterface[Slider]
 	OnAfterSliderUpdateCallback OnAfterUpdateInterface[Slider]
+	OnAfterSliderUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Slider]
 	OnAfterSliderDeleteCallback OnAfterDeleteInterface[Slider]
 	OnAfterSliderReadCallback   OnAfterReadInterface[Slider]
 
@@ -194,6 +205,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSplitCreateCallback OnAfterCreateInterface[Split]
 	OnAfterSplitUpdateCallback OnAfterUpdateInterface[Split]
+	OnAfterSplitUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Split]
 	OnAfterSplitDeleteCallback OnAfterDeleteInterface[Split]
 	OnAfterSplitReadCallback   OnAfterReadInterface[Split]
 
@@ -203,6 +215,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSvgCreateCallback OnAfterCreateInterface[Svg]
 	OnAfterSvgUpdateCallback OnAfterUpdateInterface[Svg]
+	OnAfterSvgUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Svg]
 	OnAfterSvgDeleteCallback OnAfterDeleteInterface[Svg]
 	OnAfterSvgReadCallback   OnAfterReadInterface[Svg]
 
@@ -212,6 +225,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
 	OnAfterTableUpdateCallback OnAfterUpdateInterface[Table]
+	OnAfterTableUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Table]
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
@@ -221,6 +235,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterTitleCreateCallback OnAfterCreateInterface[Title]
 	OnAfterTitleUpdateCallback OnAfterUpdateInterface[Title]
+	OnAfterTitleUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Title]
 	OnAfterTitleDeleteCallback OnAfterDeleteInterface[Title]
 	OnAfterTitleReadCallback   OnAfterReadInterface[Title]
 
@@ -230,6 +245,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterToneCreateCallback OnAfterCreateInterface[Tone]
 	OnAfterToneUpdateCallback OnAfterUpdateInterface[Tone]
+	OnAfterToneUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Tone]
 	OnAfterToneDeleteCallback OnAfterDeleteInterface[Tone]
 	OnAfterToneReadCallback   OnAfterReadInterface[Tone]
 
@@ -239,6 +255,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterTreeCreateCallback OnAfterCreateInterface[Tree]
 	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
+	OnAfterTreeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Tree]
 	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
@@ -250,6 +267,7 @@ type Stage struct {
 
 	OnAfterViewCreateCallback OnAfterCreateInterface[View]
 	OnAfterViewUpdateCallback OnAfterUpdateInterface[View]
+	OnAfterViewUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[View]
 	OnAfterViewDeleteCallback OnAfterDeleteInterface[View]
 	OnAfterViewReadCallback   OnAfterReadInterface[View]
 
@@ -259,6 +277,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterXlsxCreateCallback OnAfterCreateInterface[Xlsx]
 	OnAfterXlsxUpdateCallback OnAfterUpdateInterface[Xlsx]
+	OnAfterXlsxUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Xlsx]
 	OnAfterXlsxDeleteCallback OnAfterDeleteInterface[Xlsx]
 	OnAfterXlsxReadCallback   OnAfterReadInterface[Xlsx]
 
@@ -698,7 +717,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "AsSplit":
 		res = GetNamedStructInstances(stage.AsSplits, stage.AsSplitMap_Staged_Order)
 	case "AsSplitArea":
@@ -790,6 +809,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

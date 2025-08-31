@@ -94,7 +94,7 @@ export class ToneService {
       catchError(this.handleError<ToneAPI>('postTone'))
     );
   }
-  
+
   /** POST: add a new tone to the server */
   post(tonedb: ToneAPI, Name: string, frontRepo: FrontRepo): Observable<ToneAPI> {
     return this.postTone(tonedb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class ToneService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(tone: Tone, Name: string, gong__mouseEvent: MouseEvent): Observable<ToneAPI> {
+    let toneAPI = new ToneAPI
+    CopyToneToToneAPI(tone, toneAPI)
+    const id = typeof toneAPI === 'number' ? toneAPI : toneAPI.ID
+    const url = `${this.tonesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<ToneAPI>(url, toneAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<ToneAPI>('updateTone'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class ToneService {
   private handleError<T>(operation = 'operation in ToneService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("ToneService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

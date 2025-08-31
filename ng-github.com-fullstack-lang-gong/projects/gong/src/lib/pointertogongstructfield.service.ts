@@ -95,7 +95,7 @@ export class PointerToGongStructFieldService {
       catchError(this.handleError<PointerToGongStructFieldAPI>('postPointerToGongStructField'))
     );
   }
-  
+
   /** POST: add a new pointertogongstructfield to the server */
   post(pointertogongstructfielddb: PointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<PointerToGongStructFieldAPI> {
     return this.postPointerToGongStructField(pointertogongstructfielddb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class PointerToGongStructFieldService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(pointertogongstructfield: PointerToGongStructField, Name: string, gong__mouseEvent: MouseEvent): Observable<PointerToGongStructFieldAPI> {
+    let pointertogongstructfieldAPI = new PointerToGongStructFieldAPI
+    CopyPointerToGongStructFieldToPointerToGongStructFieldAPI(pointertogongstructfield, pointertogongstructfieldAPI)
+    const id = typeof pointertogongstructfieldAPI === 'number' ? pointertogongstructfieldAPI : pointertogongstructfieldAPI.ID
+    const url = `${this.pointertogongstructfieldsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<PointerToGongStructFieldAPI>(url, pointertogongstructfieldAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<PointerToGongStructFieldAPI>('updatePointerToGongStructField'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class PointerToGongStructFieldService {
   private handleError<T>(operation = 'operation in PointerToGongStructFieldService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("PointerToGongStructFieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -27,30 +27,46 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Button:
 		newTarget := any(new).(*Button)
-		if stage.OnAfterButtonUpdateCallback != nil {
+		if stage.OnAfterButtonUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterButtonUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterButtonUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Node:
 		newTarget := any(new).(*Node)
-		if stage.OnAfterNodeUpdateCallback != nil {
+		if stage.OnAfterNodeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterNodeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterNodeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterNodeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *SVGIcon:
 		newTarget := any(new).(*SVGIcon)
-		if stage.OnAfterSVGIconUpdateCallback != nil {
+		if stage.OnAfterSVGIconUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSVGIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSVGIconUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSVGIconUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Tree:
 		newTarget := any(new).(*Tree)
-		if stage.OnAfterTreeUpdateCallback != nil {
+		if stage.OnAfterTreeUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterTreeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterTreeUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterTreeUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

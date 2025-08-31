@@ -47,6 +47,8 @@ type Rect struct {
 	ToolTipText string
 
 	Impl RectImplInterface
+
+	ImplWithMouseEvent RectImplWithMouseEventInterface
 }
 
 // OnAfterUpdate, notice that rect == stagedRect
@@ -54,6 +56,13 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
+	}
+}
+
+func (rect *Rect) OnAfterUpdateWithMouseEvent(stage *Stage, frontRect *Rect, mouseEvent *Gong__MouseEvent) {
+
+	if rect.ImplWithMouseEvent != nil {
+		rect.ImplWithMouseEvent.RectUpdatedWithMouseEvent(frontRect, mouseEvent)
 	}
 }
 

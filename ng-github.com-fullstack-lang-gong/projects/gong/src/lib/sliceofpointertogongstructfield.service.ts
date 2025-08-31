@@ -95,7 +95,7 @@ export class SliceOfPointerToGongStructFieldService {
       catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('postSliceOfPointerToGongStructField'))
     );
   }
-  
+
   /** POST: add a new sliceofpointertogongstructfield to the server */
   post(sliceofpointertogongstructfielddb: SliceOfPointerToGongStructFieldAPI, Name: string, frontRepo: FrontRepo): Observable<SliceOfPointerToGongStructFieldAPI> {
     return this.postSliceOfPointerToGongStructField(sliceofpointertogongstructfielddb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class SliceOfPointerToGongStructFieldService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(sliceofpointertogongstructfield: SliceOfPointerToGongStructField, Name: string, gong__mouseEvent: MouseEvent): Observable<SliceOfPointerToGongStructFieldAPI> {
+    let sliceofpointertogongstructfieldAPI = new SliceOfPointerToGongStructFieldAPI
+    CopySliceOfPointerToGongStructFieldToSliceOfPointerToGongStructFieldAPI(sliceofpointertogongstructfield, sliceofpointertogongstructfieldAPI)
+    const id = typeof sliceofpointertogongstructfieldAPI === 'number' ? sliceofpointertogongstructfieldAPI : sliceofpointertogongstructfieldAPI.ID
+    const url = `${this.sliceofpointertogongstructfieldsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<SliceOfPointerToGongStructFieldAPI>(url, sliceofpointertogongstructfieldAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<SliceOfPointerToGongStructFieldAPI>('updateSliceOfPointerToGongStructField'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class SliceOfPointerToGongStructFieldService {
   private handleError<T>(operation = 'operation in SliceOfPointerToGongStructFieldService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("SliceOfPointerToGongStructFieldService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

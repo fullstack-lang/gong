@@ -27,30 +27,46 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Checkbox:
 		newTarget := any(new).(*Checkbox)
-		if stage.OnAfterCheckboxUpdateCallback != nil {
+		if stage.OnAfterCheckboxUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterCheckboxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterCheckboxUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterCheckboxUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Group:
 		newTarget := any(new).(*Group)
-		if stage.OnAfterGroupUpdateCallback != nil {
+		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterGroupUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterGroupUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Layout:
 		newTarget := any(new).(*Layout)
-		if stage.OnAfterLayoutUpdateCallback != nil {
+		if stage.OnAfterLayoutUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterLayoutUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterLayoutUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Slider:
 		newTarget := any(new).(*Slider)
-		if stage.OnAfterSliderUpdateCallback != nil {
+		if stage.OnAfterSliderUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSliderUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSliderUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSliderUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

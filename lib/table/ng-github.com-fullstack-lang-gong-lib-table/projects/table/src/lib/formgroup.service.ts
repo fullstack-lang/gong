@@ -95,7 +95,7 @@ export class FormGroupService {
       catchError(this.handleError<FormGroupAPI>('postFormGroup'))
     );
   }
-  
+
   /** POST: add a new formgroup to the server */
   post(formgroupdb: FormGroupAPI, Name: string, frontRepo: FrontRepo): Observable<FormGroupAPI> {
     return this.postFormGroup(formgroupdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class FormGroupService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formgroup: FormGroup, Name: string, gong__mouseEvent: MouseEvent): Observable<FormGroupAPI> {
+    let formgroupAPI = new FormGroupAPI
+    CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
+    const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
+    const url = `${this.formgroupsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormGroupAPI>(url, formgroupAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormGroupAPI>('updateFormGroup'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class FormGroupService {
   private handleError<T>(operation = 'operation in FormGroupService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormGroupService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

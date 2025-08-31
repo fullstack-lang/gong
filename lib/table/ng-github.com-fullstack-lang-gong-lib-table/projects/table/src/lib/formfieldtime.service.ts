@@ -94,7 +94,7 @@ export class FormFieldTimeService {
       catchError(this.handleError<FormFieldTimeAPI>('postFormFieldTime'))
     );
   }
-  
+
   /** POST: add a new formfieldtime to the server */
   post(formfieldtimedb: FormFieldTimeAPI, Name: string, frontRepo: FrontRepo): Observable<FormFieldTimeAPI> {
     return this.postFormFieldTime(formfieldtimedb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class FormFieldTimeService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(formfieldtime: FormFieldTime, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldTimeAPI> {
+    let formfieldtimeAPI = new FormFieldTimeAPI
+    CopyFormFieldTimeToFormFieldTimeAPI(formfieldtime, formfieldtimeAPI)
+    const id = typeof formfieldtimeAPI === 'number' ? formfieldtimeAPI : formfieldtimeAPI.ID
+    const url = `${this.formfieldtimesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<FormFieldTimeAPI>(url, formfieldtimeAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<FormFieldTimeAPI>('updateFormFieldTime'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class FormFieldTimeService {
   private handleError<T>(operation = 'operation in FormFieldTimeService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("FormFieldTimeService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

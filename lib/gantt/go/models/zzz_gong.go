@@ -93,6 +93,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterArrowCreateCallback OnAfterCreateInterface[Arrow]
 	OnAfterArrowUpdateCallback OnAfterUpdateInterface[Arrow]
+	OnAfterArrowUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Arrow]
 	OnAfterArrowDeleteCallback OnAfterDeleteInterface[Arrow]
 	OnAfterArrowReadCallback   OnAfterReadInterface[Arrow]
 
@@ -102,6 +103,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterBarCreateCallback OnAfterCreateInterface[Bar]
 	OnAfterBarUpdateCallback OnAfterUpdateInterface[Bar]
+	OnAfterBarUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Bar]
 	OnAfterBarDeleteCallback OnAfterDeleteInterface[Bar]
 	OnAfterBarReadCallback   OnAfterReadInterface[Bar]
 
@@ -119,6 +121,7 @@ type Stage struct {
 
 	OnAfterGanttCreateCallback OnAfterCreateInterface[Gantt]
 	OnAfterGanttUpdateCallback OnAfterUpdateInterface[Gantt]
+	OnAfterGanttUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Gantt]
 	OnAfterGanttDeleteCallback OnAfterDeleteInterface[Gantt]
 	OnAfterGanttReadCallback   OnAfterReadInterface[Gantt]
 
@@ -130,6 +133,7 @@ type Stage struct {
 
 	OnAfterGroupCreateCallback OnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback OnAfterUpdateInterface[Group]
+	OnAfterGroupUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Group]
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
@@ -141,6 +145,7 @@ type Stage struct {
 
 	OnAfterLaneCreateCallback OnAfterCreateInterface[Lane]
 	OnAfterLaneUpdateCallback OnAfterUpdateInterface[Lane]
+	OnAfterLaneUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Lane]
 	OnAfterLaneDeleteCallback OnAfterDeleteInterface[Lane]
 	OnAfterLaneReadCallback   OnAfterReadInterface[Lane]
 
@@ -150,6 +155,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterLaneUseCreateCallback OnAfterCreateInterface[LaneUse]
 	OnAfterLaneUseUpdateCallback OnAfterUpdateInterface[LaneUse]
+	OnAfterLaneUseUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[LaneUse]
 	OnAfterLaneUseDeleteCallback OnAfterDeleteInterface[LaneUse]
 	OnAfterLaneUseReadCallback   OnAfterReadInterface[LaneUse]
 
@@ -161,6 +167,7 @@ type Stage struct {
 
 	OnAfterMilestoneCreateCallback OnAfterCreateInterface[Milestone]
 	OnAfterMilestoneUpdateCallback OnAfterUpdateInterface[Milestone]
+	OnAfterMilestoneUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Milestone]
 	OnAfterMilestoneDeleteCallback OnAfterDeleteInterface[Milestone]
 	OnAfterMilestoneReadCallback   OnAfterReadInterface[Milestone]
 
@@ -396,7 +403,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "Arrow":
 		res = GetNamedStructInstances(stage.Arrows, stage.ArrowMap_Staged_Order)
 	case "Bar":
@@ -464,6 +471,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

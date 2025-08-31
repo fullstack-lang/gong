@@ -260,13 +260,24 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
-	if len(_values) == 1 {
-		value := _values["Name"]
-		if len(value) == 1 {
-			stackPath = value[0]
-			// log.Println("UpdateF0123456789012345678901234567890", "Name", stackPath)
+	hasMouseEvent := false
+	shiftKey := false
+	_ = shiftKey
+	if len(_values) >= 1 {
+		_nameValues := _values["Name"]
+		if len(_nameValues) == 1 {
+			stackPath = _nameValues[0]
 		}
 	}
+
+	if len(_values) >= 2 {
+		hasMouseEvent = true
+		_shiftKeyValues := _values["shiftKey"]
+		if len(_shiftKeyValues) == 1 {
+			shiftKey = _shiftKeyValues[0] == "true"
+		}
+	}
+
 	backRepo := controller.Map_BackRepos[stackPath]
 	if backRepo == nil {
 		message := "PATCH Stack github.com/fullstack-lang/gong/test/test/go, Unkown stack: \"" + stackPath + "\"\n"
@@ -328,7 +339,15 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 	// get stage instance from DB instance, and call callback function
 	f0123456789012345678901234567890Old := backRepo.BackRepoF0123456789012345678901234567890.Map_F0123456789012345678901234567890DBID_F0123456789012345678901234567890Ptr[f0123456789012345678901234567890DB.ID]
 	if f0123456789012345678901234567890Old != nil {
-		models.AfterUpdateFromFront(backRepo.GetStage(), f0123456789012345678901234567890Old, f0123456789012345678901234567890New)
+		if !hasMouseEvent {
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), f0123456789012345678901234567890Old, f0123456789012345678901234567890New, nil)
+		} else {
+			mouseEvent := &models.Gong__MouseEvent{
+				ShiftKey: shiftKey,
+			}
+			models.OnAfterUpdateFromFront(backRepo.GetStage(), f0123456789012345678901234567890Old, f0123456789012345678901234567890New, mouseEvent)
+
+		}
 	}
 
 	// an UPDATE generates a back repo commit increase

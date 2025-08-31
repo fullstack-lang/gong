@@ -23,6 +23,7 @@ export class GongStruct {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	HasOnAfterUpdateSignature: boolean = false
+	HasOnAfterUpdateWithMouseEventSignature: boolean = false
 	IsIgnoredForFront: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
@@ -41,6 +42,7 @@ export function CopyGongStructToGongStructAPI(gongstruct: GongStruct, gongstruct
 	// insertion point for basic fields copy operations
 	gongstructAPI.Name = gongstruct.Name
 	gongstructAPI.HasOnAfterUpdateSignature = gongstruct.HasOnAfterUpdateSignature
+	gongstructAPI.HasOnAfterUpdateWithMouseEventSignature = gongstruct.HasOnAfterUpdateWithMouseEventSignature
 	gongstructAPI.IsIgnoredForFront = gongstruct.IsIgnoredForFront
 
 	// insertion point for pointer fields encoding
@@ -81,6 +83,7 @@ export function CopyGongStructAPIToGongStruct(gongstructAPI: GongStructAPI, gong
 	// insertion point for basic fields copy operations
 	gongstruct.Name = gongstructAPI.Name
 	gongstruct.HasOnAfterUpdateSignature = gongstructAPI.HasOnAfterUpdateSignature
+	gongstruct.HasOnAfterUpdateWithMouseEventSignature = gongstructAPI.HasOnAfterUpdateWithMouseEventSignature
 	gongstruct.IsIgnoredForFront = gongstructAPI.IsIgnoredForFront
 
 	// insertion point for pointer fields encoding

@@ -95,7 +95,7 @@ export class CommandService {
       catchError(this.handleError<CommandAPI>('postCommand'))
     );
   }
-  
+
   /** POST: add a new command to the server */
   post(commanddb: CommandAPI, Name: string, frontRepo: FrontRepo): Observable<CommandAPI> {
     return this.postCommand(commanddb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class CommandService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(command: Command, Name: string, gong__mouseEvent: MouseEvent): Observable<CommandAPI> {
+    let commandAPI = new CommandAPI
+    CopyCommandToCommandAPI(command, commandAPI)
+    const id = typeof commandAPI === 'number' ? commandAPI : commandAPI.ID
+    const url = `${this.commandsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CommandAPI>(url, commandAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CommandAPI>('updateCommand'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class CommandService {
   private handleError<T>(operation = 'operation in CommandService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CommandService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

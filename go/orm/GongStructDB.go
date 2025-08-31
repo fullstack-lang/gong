@@ -79,6 +79,10 @@ type GongStructDB struct {
 	// provide the sql storage for the boolan
 	HasOnAfterUpdateSignature_Data sql.NullBool
 
+	// Declation for basic field gongstructDB.HasOnAfterUpdateWithMouseEventSignature
+	// provide the sql storage for the boolan
+	HasOnAfterUpdateWithMouseEventSignature_Data sql.NullBool
+
 	// Declation for basic field gongstructDB.IsIgnoredForFront
 	// provide the sql storage for the boolan
 	IsIgnoredForFront_Data sql.NullBool
@@ -109,7 +113,9 @@ type GongStructWOP struct {
 
 	HasOnAfterUpdateSignature bool `xlsx:"2"`
 
-	IsIgnoredForFront bool `xlsx:"3"`
+	HasOnAfterUpdateWithMouseEventSignature bool `xlsx:"3"`
+
+	IsIgnoredForFront bool `xlsx:"4"`
 	// insertion for WOP pointer fields
 }
 
@@ -118,6 +124,7 @@ var GongStruct_Fields = []string{
 	"ID",
 	"Name",
 	"HasOnAfterUpdateSignature",
+	"HasOnAfterUpdateWithMouseEventSignature",
 	"IsIgnoredForFront",
 }
 
@@ -510,6 +517,9 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct(gongstruct *mode
 	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
 	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
 
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool = gongstruct.HasOnAfterUpdateWithMouseEventSignature
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Valid = true
+
 	gongstructDB.IsIgnoredForFront_Data.Bool = gongstruct.IsIgnoredForFront
 	gongstructDB.IsIgnoredForFront_Data.Valid = true
 }
@@ -523,6 +533,9 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStruct_WOP(gongstruct *
 
 	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
 	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
+
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool = gongstruct.HasOnAfterUpdateWithMouseEventSignature
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Valid = true
 
 	gongstructDB.IsIgnoredForFront_Data.Bool = gongstruct.IsIgnoredForFront
 	gongstructDB.IsIgnoredForFront_Data.Valid = true
@@ -538,6 +551,9 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsFromGongStructWOP(gongstruct *G
 	gongstructDB.HasOnAfterUpdateSignature_Data.Bool = gongstruct.HasOnAfterUpdateSignature
 	gongstructDB.HasOnAfterUpdateSignature_Data.Valid = true
 
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool = gongstruct.HasOnAfterUpdateWithMouseEventSignature
+	gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Valid = true
+
 	gongstructDB.IsIgnoredForFront_Data.Bool = gongstruct.IsIgnoredForFront
 	gongstructDB.IsIgnoredForFront_Data.Valid = true
 }
@@ -547,6 +563,7 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct(gongstruct *models
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstruct.Name = gongstructDB.Name_Data.String
 	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
+	gongstruct.HasOnAfterUpdateWithMouseEventSignature = gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool
 	gongstruct.IsIgnoredForFront = gongstructDB.IsIgnoredForFront_Data.Bool
 }
 
@@ -555,6 +572,7 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStruct_WOP(gongstruct *mo
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstruct.Name = gongstructDB.Name_Data.String
 	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
+	gongstruct.HasOnAfterUpdateWithMouseEventSignature = gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool
 	gongstruct.IsIgnoredForFront = gongstructDB.IsIgnoredForFront_Data.Bool
 }
 
@@ -564,6 +582,7 @@ func (gongstructDB *GongStructDB) CopyBasicFieldsToGongStructWOP(gongstruct *Gon
 	// insertion point for checkout of basic fields (back repo to stage)
 	gongstruct.Name = gongstructDB.Name_Data.String
 	gongstruct.HasOnAfterUpdateSignature = gongstructDB.HasOnAfterUpdateSignature_Data.Bool
+	gongstruct.HasOnAfterUpdateWithMouseEventSignature = gongstructDB.HasOnAfterUpdateWithMouseEventSignature_Data.Bool
 	gongstruct.IsIgnoredForFront = gongstructDB.IsIgnoredForFront_Data.Bool
 }
 

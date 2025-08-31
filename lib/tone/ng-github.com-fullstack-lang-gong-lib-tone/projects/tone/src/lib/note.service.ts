@@ -95,7 +95,7 @@ export class NoteService {
       catchError(this.handleError<NoteAPI>('postNote'))
     );
   }
-  
+
   /** POST: add a new note to the server */
   post(notedb: NoteAPI, Name: string, frontRepo: FrontRepo): Observable<NoteAPI> {
     return this.postNote(notedb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class NoteService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(note: Note, Name: string, gong__mouseEvent: MouseEvent): Observable<NoteAPI> {
+    let noteAPI = new NoteAPI
+    CopyNoteToNoteAPI(note, noteAPI)
+    const id = typeof noteAPI === 'number' ? noteAPI : noteAPI.ID
+    const url = `${this.notesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<NoteAPI>(url, noteAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<NoteAPI>('updateNote'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class NoteService {
   private handleError<T>(operation = 'operation in NoteService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("NoteService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

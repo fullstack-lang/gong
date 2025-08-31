@@ -116,6 +116,8 @@ type GongStruct_WOP struct {
 
 	HasOnAfterUpdateSignature bool
 
+	HasOnAfterUpdateWithMouseEventSignature bool
+
 	IsIgnoredForFront bool
 }
 
@@ -123,6 +125,7 @@ func (from *GongStruct) CopyBasicFields(to *GongStruct) {
 	// insertion point
 	to.Name = from.Name
 	to.HasOnAfterUpdateSignature = from.HasOnAfterUpdateSignature
+	to.HasOnAfterUpdateWithMouseEventSignature = from.HasOnAfterUpdateWithMouseEventSignature
 	to.IsIgnoredForFront = from.IsIgnoredForFront
 }
 

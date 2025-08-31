@@ -714,7 +714,7 @@
       "group": "build"
     },
     {
-      "label": "04 - go run main.go -unmarshallFromCode stage.go -diagrams",
+      "label": "04 - go run main.go -unmarshallFromCode stage.go",
       "type": "shell",
       "options": {
         "cwd": "./test/test/go/cmd/test"
@@ -725,7 +725,6 @@
         "main.go",
         "-unmarshallFromCode",
         "stage.go",
-        "-diagrams"
       ],
       "group": "build"
     },

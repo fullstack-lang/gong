@@ -96,7 +96,7 @@ export class GroupService {
       catchError(this.handleError<GroupAPI>('postGroup'))
     );
   }
-  
+
   /** POST: add a new group to the server */
   post(groupdb: GroupAPI, Name: string, frontRepo: FrontRepo): Observable<GroupAPI> {
     return this.postGroup(groupdb, Name, frontRepo)
@@ -179,6 +179,27 @@ export class GroupService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(group: Group, Name: string, gong__mouseEvent: MouseEvent): Observable<GroupAPI> {
+    let groupAPI = new GroupAPI
+    CopyGroupToGroupAPI(group, groupAPI)
+    const id = typeof groupAPI === 'number' ? groupAPI : groupAPI.ID
+    const url = `${this.groupsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<GroupAPI>(url, groupAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<GroupAPI>('updateGroup'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -188,7 +209,7 @@ export class GroupService {
   private handleError<T>(operation = 'operation in GroupService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("GroupService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

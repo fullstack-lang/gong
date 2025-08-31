@@ -94,7 +94,7 @@ export class CheckboxService {
       catchError(this.handleError<CheckboxAPI>('postCheckbox'))
     );
   }
-  
+
   /** POST: add a new checkbox to the server */
   post(checkboxdb: CheckboxAPI, Name: string, frontRepo: FrontRepo): Observable<CheckboxAPI> {
     return this.postCheckbox(checkboxdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class CheckboxService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(checkbox: Checkbox, Name: string, gong__mouseEvent: MouseEvent): Observable<CheckboxAPI> {
+    let checkboxAPI = new CheckboxAPI
+    CopyCheckboxToCheckboxAPI(checkbox, checkboxAPI)
+    const id = typeof checkboxAPI === 'number' ? checkboxAPI : checkboxAPI.ID
+    const url = `${this.checkboxsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<CheckboxAPI>(url, checkboxAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<CheckboxAPI>('updateCheckbox'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class CheckboxService {
   private handleError<T>(operation = 'operation in CheckboxService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("CheckboxService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

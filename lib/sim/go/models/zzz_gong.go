@@ -93,6 +93,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCommandCreateCallback OnAfterCreateInterface[Command]
 	OnAfterCommandUpdateCallback OnAfterUpdateInterface[Command]
+	OnAfterCommandUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Command]
 	OnAfterCommandDeleteCallback OnAfterDeleteInterface[Command]
 	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
 
@@ -102,6 +103,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterDummyAgentCreateCallback OnAfterCreateInterface[DummyAgent]
 	OnAfterDummyAgentUpdateCallback OnAfterUpdateInterface[DummyAgent]
+	OnAfterDummyAgentUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[DummyAgent]
 	OnAfterDummyAgentDeleteCallback OnAfterDeleteInterface[DummyAgent]
 	OnAfterDummyAgentReadCallback   OnAfterReadInterface[DummyAgent]
 
@@ -111,6 +113,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterEngineCreateCallback OnAfterCreateInterface[Engine]
 	OnAfterEngineUpdateCallback OnAfterUpdateInterface[Engine]
+	OnAfterEngineUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Engine]
 	OnAfterEngineDeleteCallback OnAfterDeleteInterface[Engine]
 	OnAfterEngineReadCallback   OnAfterReadInterface[Engine]
 
@@ -120,6 +123,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterEventCreateCallback OnAfterCreateInterface[Event]
 	OnAfterEventUpdateCallback OnAfterUpdateInterface[Event]
+	OnAfterEventUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Event]
 	OnAfterEventDeleteCallback OnAfterDeleteInterface[Event]
 	OnAfterEventReadCallback   OnAfterReadInterface[Event]
 
@@ -129,6 +133,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterStatusCreateCallback OnAfterCreateInterface[Status]
 	OnAfterStatusUpdateCallback OnAfterUpdateInterface[Status]
+	OnAfterStatusUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Status]
 	OnAfterStatusDeleteCallback OnAfterDeleteInterface[Status]
 	OnAfterStatusReadCallback   OnAfterReadInterface[Status]
 
@@ -138,6 +143,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterUpdateStateCreateCallback OnAfterCreateInterface[UpdateState]
 	OnAfterUpdateStateUpdateCallback OnAfterUpdateInterface[UpdateState]
+	OnAfterUpdateStateUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[UpdateState]
 	OnAfterUpdateStateDeleteCallback OnAfterDeleteInterface[UpdateState]
 	OnAfterUpdateStateReadCallback   OnAfterReadInterface[UpdateState]
 
@@ -356,7 +362,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "Command":
 		res = GetNamedStructInstances(stage.Commands, stage.CommandMap_Staged_Order)
 	case "DummyAgent":
@@ -422,6 +428,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

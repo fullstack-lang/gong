@@ -94,7 +94,7 @@ export class TitleService {
       catchError(this.handleError<TitleAPI>('postTitle'))
     );
   }
-  
+
   /** POST: add a new title to the server */
   post(titledb: TitleAPI, Name: string, frontRepo: FrontRepo): Observable<TitleAPI> {
     return this.postTitle(titledb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class TitleService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(title: Title, Name: string, gong__mouseEvent: MouseEvent): Observable<TitleAPI> {
+    let titleAPI = new TitleAPI
+    CopyTitleToTitleAPI(title, titleAPI)
+    const id = typeof titleAPI === 'number' ? titleAPI : titleAPI.ID
+    const url = `${this.titlesUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<TitleAPI>(url, titleAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<TitleAPI>('updateTitle'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class TitleService {
   private handleError<T>(operation = 'operation in TitleService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("TitleService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

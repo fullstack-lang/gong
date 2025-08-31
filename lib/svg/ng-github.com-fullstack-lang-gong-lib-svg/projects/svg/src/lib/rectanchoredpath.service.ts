@@ -94,7 +94,7 @@ export class RectAnchoredPathService {
       catchError(this.handleError<RectAnchoredPathAPI>('postRectAnchoredPath'))
     );
   }
-  
+
   /** POST: add a new rectanchoredpath to the server */
   post(rectanchoredpathdb: RectAnchoredPathAPI, Name: string, frontRepo: FrontRepo): Observable<RectAnchoredPathAPI> {
     return this.postRectAnchoredPath(rectanchoredpathdb, Name, frontRepo)
@@ -177,6 +177,27 @@ export class RectAnchoredPathService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(rectanchoredpath: RectAnchoredPath, Name: string, gong__mouseEvent: MouseEvent): Observable<RectAnchoredPathAPI> {
+    let rectanchoredpathAPI = new RectAnchoredPathAPI
+    CopyRectAnchoredPathToRectAnchoredPathAPI(rectanchoredpath, rectanchoredpathAPI)
+    const id = typeof rectanchoredpathAPI === 'number' ? rectanchoredpathAPI : rectanchoredpathAPI.ID
+    const url = `${this.rectanchoredpathsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<RectAnchoredPathAPI>(url, rectanchoredpathAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<RectAnchoredPathAPI>('updateRectAnchoredPath'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -186,7 +207,7 @@ export class RectAnchoredPathService {
   private handleError<T>(operation = 'operation in RectAnchoredPathService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("RectAnchoredPathService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

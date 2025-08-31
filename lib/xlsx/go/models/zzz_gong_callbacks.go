@@ -31,35 +31,54 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// AfterUpdateFromFront is called after a update from front
-func AfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
+type Gong__MouseEvent struct {
+	ShiftKey bool
+}
+
+// OnAfterUpdateFromFront is called after a update from front
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *DisplaySelection:
 		newTarget := any(new).(*DisplaySelection)
-		if stage.OnAfterDisplaySelectionUpdateCallback != nil {
+		if stage.OnAfterDisplaySelectionUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDisplaySelectionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterDisplaySelectionUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterDisplaySelectionUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *XLCell:
 		newTarget := any(new).(*XLCell)
-		if stage.OnAfterXLCellUpdateCallback != nil {
+		if stage.OnAfterXLCellUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLCellUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterXLCellUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterXLCellUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *XLFile:
 		newTarget := any(new).(*XLFile)
-		if stage.OnAfterXLFileUpdateCallback != nil {
+		if stage.OnAfterXLFileUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLFileUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterXLFileUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterXLFileUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *XLRow:
 		newTarget := any(new).(*XLRow)
-		if stage.OnAfterXLRowUpdateCallback != nil {
+		if stage.OnAfterXLRowUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterXLRowUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterXLRowUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *XLSheet:
 		newTarget := any(new).(*XLSheet)
-		if stage.OnAfterXLSheetUpdateCallback != nil {
+		if stage.OnAfterXLSheetUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLSheetUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterXLSheetUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterXLSheetUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

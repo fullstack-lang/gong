@@ -95,7 +95,7 @@ export class LinkAnchoredTextService {
       catchError(this.handleError<LinkAnchoredTextAPI>('postLinkAnchoredText'))
     );
   }
-  
+
   /** POST: add a new linkanchoredtext to the server */
   post(linkanchoredtextdb: LinkAnchoredTextAPI, Name: string, frontRepo: FrontRepo): Observable<LinkAnchoredTextAPI> {
     return this.postLinkAnchoredText(linkanchoredtextdb, Name, frontRepo)
@@ -178,6 +178,27 @@ export class LinkAnchoredTextService {
     );
   }
 
+  // updateFrontWithMouseEvent
+  updateFrontWithMouseEvent(linkanchoredtext: LinkAnchoredText, Name: string, gong__mouseEvent: MouseEvent): Observable<LinkAnchoredTextAPI> {
+    let linkanchoredtextAPI = new LinkAnchoredTextAPI
+    CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext, linkanchoredtextAPI)
+    const id = typeof linkanchoredtextAPI === 'number' ? linkanchoredtextAPI : linkanchoredtextAPI.ID
+    const url = `${this.linkanchoredtextsUrl}/${id}`;
+    let params = new HttpParams().set("Name", Name)
+    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
+    params = params.append("altKey", gong__mouseEvent.altKey)
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      params: params
+    }
+
+    return this.http.put<LinkAnchoredTextAPI>(url, linkanchoredtextAPI, httpOptions).pipe(
+      tap(_ => {
+      }),
+      catchError(this.handleError<LinkAnchoredTextAPI>('updateLinkAnchoredText'))
+    );
+  }
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.
@@ -187,7 +208,7 @@ export class LinkAnchoredTextService {
   private handleError<T>(operation = 'operation in LinkAnchoredTextService', result?: T) {
     return (error: any): Observable<T> => {
 
-      // TODO: send the error to remote logging infrastructure
+      // TODO: send the error to remote logging
       console.error("LinkAnchoredTextService" + error); // log to console instead
 
       // TODO: better job of transforming error for user consumption

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"log"
 	"time"
 )
 
@@ -99,4 +100,9 @@ type Astruct struct {
 func (astruct *Astruct) OnAfterUpdate(stage *Stage, stagedInstance, frontInstance *Astruct) {
 
 	//
+}
+
+func (astruct *Astruct) OnAfterUpdateWithMouseEvent(stage *Stage, frontInstance *Astruct, mouseEvent *Gong__MouseEvent) {
+
+	log.Println(astruct.Name, "Received a an update with a mouse event. Shift Key, ", mouseEvent.ShiftKey)
 }
