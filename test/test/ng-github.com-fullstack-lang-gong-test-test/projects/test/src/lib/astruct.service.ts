@@ -165,7 +165,8 @@ export class AstructService {
     const id = typeof astructAPI === 'number' ? astructAPI : astructAPI.ID
     const url = `${this.astructsUrl}/${id}`;
     let params = new HttpParams().set("Name", Name)
-    params = params.append("ctrlKey", event.ctrlKey)
+    params = params.append("shiftKey", event.shiftKey)
+    params = params.append("altKey", event.altKey)
     let httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       params: params
