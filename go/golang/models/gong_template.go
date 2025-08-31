@@ -202,7 +202,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case{{` + string(rune(ModelGongNamedStructsInstancesNames)) + `}}
+		// insertion point for case{{` + string(rune(ModelGongNamedStructsInstancesNames)) + `}}
 	}
 
 	return
@@ -256,6 +256,11 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
+}
+
+// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
+type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
+	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

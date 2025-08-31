@@ -103,11 +103,11 @@ type Stage struct {
 
 	Astruct_Anarrayofb2Use_reverseMap map[*AstructBstruct2Use]*Astruct
 
-	OnAfterAstructCreateCallback               OnAfterCreateInterface[Astruct]
-	OnAfterAstructUpdateCallback               OnAfterUpdateInterface[Astruct]
+	OnAfterAstructCreateCallback OnAfterCreateInterface[Astruct]
+	OnAfterAstructUpdateCallback OnAfterUpdateInterface[Astruct]
 	OnAfterAstructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Astruct]
-	OnAfterAstructDeleteCallback               OnAfterDeleteInterface[Astruct]
-	OnAfterAstructReadCallback                 OnAfterReadInterface[Astruct]
+	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
+	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
 	AstructBstruct2Uses           map[*AstructBstruct2Use]any
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
@@ -115,6 +115,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstruct2UseCreateCallback OnAfterCreateInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseUpdateCallback OnAfterUpdateInterface[AstructBstruct2Use]
+	OnAfterAstructBstruct2UseUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
 
@@ -124,6 +125,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterAstructBstructUseCreateCallback OnAfterCreateInterface[AstructBstructUse]
 	OnAfterAstructBstructUseUpdateCallback OnAfterUpdateInterface[AstructBstructUse]
+	OnAfterAstructBstructUseUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[AstructBstructUse]
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
@@ -133,6 +135,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterBstructCreateCallback OnAfterCreateInterface[Bstruct]
 	OnAfterBstructUpdateCallback OnAfterUpdateInterface[Bstruct]
+	OnAfterBstructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Bstruct]
 	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
@@ -146,6 +149,7 @@ type Stage struct {
 
 	OnAfterDstructCreateCallback OnAfterCreateInterface[Dstruct]
 	OnAfterDstructUpdateCallback OnAfterUpdateInterface[Dstruct]
+	OnAfterDstructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Dstruct]
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
@@ -155,6 +159,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterF0123456789012345678901234567890CreateCallback OnAfterCreateInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890UpdateCallback OnAfterUpdateInterface[F0123456789012345678901234567890]
+	OnAfterF0123456789012345678901234567890UpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890DeleteCallback OnAfterDeleteInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
@@ -164,6 +169,7 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGstructCreateCallback OnAfterCreateInterface[Gstruct]
 	OnAfterGstructUpdateCallback OnAfterUpdateInterface[Gstruct]
+	OnAfterGstructUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Gstruct]
 	OnAfterGstructDeleteCallback OnAfterDeleteInterface[Gstruct]
 	OnAfterGstructReadCallback   OnAfterReadInterface[Gstruct]
 
@@ -268,7 +274,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-	// insertion point for case
+		// insertion point for case
 	case *Astruct:
 		tmp := GetStructInstancesByOrder(stage.Astructs, stage.AstructMap_Staged_Order)
 
@@ -399,7 +405,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-	// insertion point for case
+		// insertion point for case
 	case "Astruct":
 		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
 	case "AstructBstruct2Use":
