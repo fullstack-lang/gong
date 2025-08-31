@@ -56,7 +56,7 @@ func checkFunctionSignature(file *ast.File, modelPkg *ModelPkg) {
 					continue
 				}
 				param3 := params[2].Type.(*ast.StarExpr)
-				if param3.X.(*ast.Ident).Name == "MouseEvent" {
+				if param3.X.(*ast.Ident).Name == "Gong__MouseEvent" {
 					gongstruct.HasOnAfterUpdateWithMouseEventSignature = true
 				}
 			}

@@ -358,7 +358,7 @@ func (controller *Controller) Update{{Structname}}(c *gin.Context) {
 		if !hasMouseEvent {
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), {{structname}}Old, {{structname}}New, nil)
 		} else {
-			mouseEvent := &models.MouseEvent{
+			mouseEvent := &models.Gong__MouseEvent{
 				ShiftKey: shiftKey,
 			}
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), {{structname}}Old, {{structname}}New, mouseEvent)

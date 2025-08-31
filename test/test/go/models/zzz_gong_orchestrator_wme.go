@@ -8,7 +8,7 @@ type AstructOrchestratorWithMouseEvent struct {
 
 func (orchestrator *AstructOrchestratorWithMouseEvent) OnAfterUpdateWithMouseEvent(
 	gongsvgStage *Stage,
-	stagedAstruct, backRepoAstruct *Astruct, mouseEvent *MouseEvent) {
+	stagedAstruct, backRepoAstruct *Astruct, mouseEvent *Gong__MouseEvent) {
 
 	stagedAstruct.OnAfterUpdateWithMouseEvent(gongsvgStage, backRepoAstruct, mouseEvent)
 }

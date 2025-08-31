@@ -342,7 +342,7 @@ func (controller *Controller) UpdateF0123456789012345678901234567890(c *gin.Cont
 		if !hasMouseEvent {
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), f0123456789012345678901234567890Old, f0123456789012345678901234567890New, nil)
 		} else {
-			mouseEvent := &models.MouseEvent{
+			mouseEvent := &models.Gong__MouseEvent{
 				ShiftKey: shiftKey,
 			}
 			models.OnAfterUpdateFromFront(backRepo.GetStage(), f0123456789012345678901234567890Old, f0123456789012345678901234567890New, mouseEvent)

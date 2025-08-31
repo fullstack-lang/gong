@@ -33,7 +33,7 @@ type {{Structname}}OrchestratorWithMouseEvent struct {
 
 func (orchestrator *{{Structname}}OrchestratorWithMouseEvent) OnAfterUpdateWithMouseEvent(
 	gongsvgStage *Stage,
-	staged{{Structname}}, backRepo{{Structname}} *{{Structname}}, mouseEvent *MouseEvent) {
+	staged{{Structname}}, backRepo{{Structname}} *{{Structname}}, mouseEvent *Gong__MouseEvent) {
 
 	staged{{Structname}}.OnAfterUpdateWithMouseEvent(gongsvgStage, backRepo{{Structname}}, mouseEvent)
 }`,
