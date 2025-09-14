@@ -21,11 +21,16 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-09-14 06:20:08.268040 CEST"
+	const __write__utc_time__ = "2025-09-14 04:20:08.268040 UTC"
+
+	const __commitId__ = "0000000003"
+
 	// Declaration of instances to stage
 
 	__FileToUpload__000000_DOORS_export_sample_1_reqif := (&models.FileToUpload{}).Stage(stage)
 
-	__Message__000000__Messsage_Messsage := (&models.Message{}).Stage(stage)
+	__Message__000000__Drop_your_put_your_name_here_file := (&models.Message{}).Stage(stage)
 
 	// Setup of values
 
@@ -208,11 +213,11 @@ func _(stage *models.Stage) {
 </REQ-IF>
 `
 
-	__Message__000000__Messsage_Messsage.Name = `
-Messsage
-Messsage`
+	__Message__000000__Drop_your_put_your_name_here_file.Name = `
+Drop your <put your name here> file`
 
 	// Setup of pointers
 	// setup of FileToUpload instances pointers
 	// setup of Message instances pointers
 }
+
