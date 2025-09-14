@@ -348,7 +348,7 @@ func main() {
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command
-	if !*skipNg || !*level1 {
+	if !*skipNg && !*level1 {
 		angular.GeneratesAngularCode(modelPkg, pathToModelsDirectory, *skipNpmInstall, *skipGoModCommands, *addr)
 	}
 
