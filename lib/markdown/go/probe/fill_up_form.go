@@ -24,6 +24,13 @@ func FillUpForm(
 		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
 			true, false, 0, false, 0)
 
+	case *models.SvgImage:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Content", instanceWithInferedType.Content, instanceWithInferedType, probe.formStage, formGroup,
+			true, true, 600, true, 400)
+
 	default:
 		_ = instanceWithInferedType
 	}

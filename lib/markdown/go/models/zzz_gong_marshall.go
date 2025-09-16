@@ -79,7 +79,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	name := file.Name()
 
 	if !strings.HasSuffix(name, ".go") {
-		log.Println(name + " is not a go filename")
+		log.Fatalln(name + " is not a go filename")
 	}
 
 	log.Printf("Marshalling %s", name)
@@ -151,6 +151,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_SvgImage_Identifiers := make(map[*SvgImage]string)
+	_ = map_SvgImage_Identifiers
+
+	svgimageOrdered := []*SvgImage{}
+	for svgimage := range stage.SvgImages {
+		svgimageOrdered = append(svgimageOrdered, svgimage)
+	}
+	sort.Slice(svgimageOrdered[:], func(i, j int) bool {
+		svgimagei := svgimageOrdered[i]
+		svgimagej := svgimageOrdered[j]
+		svgimagei_order, oki := stage.SvgImageMap_Staged_Order[svgimagei]
+		svgimagej_order, okj := stage.SvgImageMap_Staged_Order[svgimagej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return svgimagei_order < svgimagej_order
+	})
+	if len(svgimageOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, svgimage := range svgimageOrdered {
+
+		id = generatesIdentifier("SvgImage", idx, svgimage.Name)
+		map_SvgImage_Identifiers[svgimage] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgimage.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	if len(contentOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Content instances pointers"
@@ -161,6 +208,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("Content", idx, content.Name)
 		map_Content_Identifiers[content] = id
+
+		// Initialisation of values
+	}
+
+	if len(svgimageOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of SvgImage instances pointers"
+	}
+	for idx, svgimage := range svgimageOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("SvgImage", idx, svgimage.Name)
+		map_SvgImage_Identifiers[svgimage] = id
 
 		// Initialisation of values
 	}

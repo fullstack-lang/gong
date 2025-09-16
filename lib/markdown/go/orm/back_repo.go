@@ -26,6 +26,8 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoContent BackRepoContentStruct
 
+	BackRepoSvgImage BackRepoSvgImageStruct
+
 	CommitFromBackNb uint // records commit increments when performed by the back
 
 	PushFromFrontNb uint // records commit increments when performed by the front
@@ -48,6 +50,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_markdown_go",
 		&ContentDB{},
+		&SvgImageDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
 
@@ -58,6 +61,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_ContentDBID_ContentPtr: make(map[uint]*models.Content, 0),
 		Map_ContentDBID_ContentDB:  make(map[uint]*ContentDB, 0),
 		Map_ContentPtr_ContentDBID: make(map[*models.Content]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoSvgImage = BackRepoSvgImageStruct{
+		Map_SvgImageDBID_SvgImagePtr: make(map[uint]*models.SvgImage, 0),
+		Map_SvgImageDBID_SvgImageDB:  make(map[uint]*SvgImageDB, 0),
+		Map_SvgImagePtr_SvgImageDBID: make(map[*models.SvgImage]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -115,9 +126,11 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CommitPhaseOne(stage)
+	backRepo.BackRepoSvgImage.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoSvgImage.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
 	// because it will block otherwise
@@ -133,9 +146,11 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CheckoutPhaseOne()
+	backRepo.BackRepoSvgImage.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoSvgImage.CheckoutPhaseTwo(backRepo)
 }
 
 // Backup the BackRepoStruct
@@ -144,6 +159,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.Backup(dirPath)
+	backRepo.BackRepoSvgImage.Backup(dirPath)
 }
 
 // Backup in XL the BackRepoStruct
@@ -155,6 +171,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.BackupXL(file)
+	backRepo.BackRepoSvgImage.BackupXL(file)
 
 	var b bytes.Buffer
 	writer := bufio.NewWriter(&b)
@@ -180,6 +197,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseOne(dirPath)
+	backRepo.BackRepoSvgImage.RestorePhaseOne(dirPath)
 
 	//
 	// restauration second phase (reindex pointers with the new ID)
@@ -187,6 +205,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseTwo()
+	backRepo.BackRepoSvgImage.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
 }
@@ -215,6 +234,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestoreXLPhaseOne(file)
+	backRepo.BackRepoSvgImage.RestoreXLPhaseOne(file)
 
 	// commit the restored stage
 	backRepo.stage.Commit()

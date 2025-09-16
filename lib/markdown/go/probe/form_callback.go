@@ -98,3 +98,82 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 
 	updateAndCommitTree(contentFormCallback.probe)
 }
+func __gong__New__SvgImageFormCallback(
+	svgimage *models.SvgImage,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (svgimageFormCallback *SvgImageFormCallback) {
+	svgimageFormCallback = new(SvgImageFormCallback)
+	svgimageFormCallback.probe = probe
+	svgimageFormCallback.svgimage = svgimage
+	svgimageFormCallback.formGroup = formGroup
+
+	svgimageFormCallback.CreationMode = (svgimage == nil)
+
+	return
+}
+
+type SvgImageFormCallback struct {
+	svgimage *models.SvgImage
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
+
+	// log.Println("SvgImageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	svgimageFormCallback.probe.formStage.Checkout()
+
+	if svgimageFormCallback.svgimage == nil {
+		svgimageFormCallback.svgimage = new(models.SvgImage).Stage(svgimageFormCallback.probe.stageOfInterest)
+	}
+	svgimage_ := svgimageFormCallback.svgimage
+	_ = svgimage_
+
+	for _, formDiv := range svgimageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(svgimage_.Name), formDiv)
+		case "Content":
+			FormDivBasicFieldToField(&(svgimage_.Content), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if svgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		svgimage_.Unstage(svgimageFormCallback.probe.stageOfInterest)
+	}
+
+	svgimageFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.SvgImage](
+		svgimageFormCallback.probe,
+	)
+	svgimageFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if svgimageFormCallback.CreationMode || svgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		svgimageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(svgimageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__SvgImageFormCallback(
+			nil,
+			svgimageFormCallback.probe,
+			newFormGroup,
+		)
+		svgimage := new(models.SvgImage)
+		FillUpForm(svgimage, newFormGroup, svgimageFormCallback.probe)
+		svgimageFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(svgimageFormCallback.probe)
+}

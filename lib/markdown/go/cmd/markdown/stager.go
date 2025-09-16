@@ -31,13 +31,13 @@ func NewStager(r *gin.Engine, stage *markdown_models.Stage) (stager *Stager) {
 		Name: "Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
-				Size: 30,
+				Size: 40,
 				Markdown: (&split.Markdown{
 					StackName: stage.GetName(),
 				}).Stage(stager.splitStage),
 			}).Stage(stager.splitStage),
 			(&split.AsSplitArea{
-				Size: 70,
+				Size: 60,
 				Split: (&split.Split{
 					StackName: stage.GetProbeSplitStageName(),
 				}).Stage(stager.splitStage),
