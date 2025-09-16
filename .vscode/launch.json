@@ -748,6 +748,14 @@
             "sourceMaps": true,
         },
         {
+            "name": "Launch Chrome (markdown) on 4200",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}/lib/markdown/ng-github.com-fullstack-lang-gong-lib-markdown",
+            "sourceMaps": true,
+        },
+        {
             "name": "Launch Chrome (split) on 4200",
             "request": "launch",
             "type": "chrome",
