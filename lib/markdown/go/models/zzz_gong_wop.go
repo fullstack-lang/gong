@@ -23,3 +23,17 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.Content = from.Content
 }
 
+type SvgImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	Content string
+}
+
+func (from *SvgImage) CopyBasicFields(to *SvgImage) {
+	// insertion point
+	to.Name = from.Name
+	to.Content = from.Content
+}
+

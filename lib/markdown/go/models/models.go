@@ -7,3 +7,10 @@ type Content struct {
 	// gong:text
 	Content string
 }
+
+type SvgImage struct {
+	Name string // path to the image
+
+	// gong:text gong:width 600 gong:height 400
+	Content string // the svg
+}

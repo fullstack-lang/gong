@@ -9,6 +9,10 @@ import { ContentAPI } from './content-api'
 import { Content, CopyContentAPIToContent } from './content'
 import { ContentService } from './content.service'
 
+import { SvgImageAPI } from './svgimage-api'
+import { SvgImage, CopySvgImageAPIToSvgImage } from './svgimage'
+import { SvgImageService } from './svgimage.service'
+
 
 import { BackRepoData } from './back-repo-data'
 
@@ -18,6 +22,9 @@ export const StackType = "github.com/fullstack-lang/gong/lib/markdown/go/models"
 export class FrontRepo { // insertion point sub template
 	array_Contents = new Array<Content>() // array of front instances
 	map_ID_Content = new Map<number, Content>() // map of front instances
+
+	array_SvgImages = new Array<SvgImage>() // array of front instances
+	map_ID_SvgImage = new Map<number, SvgImage>() // map of front instances
 
 
 	public GONG__Index = -1
@@ -30,6 +37,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Content':
 				return this.array_Contents as unknown as Array<Type>
+			case 'SvgImage':
+				return this.array_SvgImages as unknown as Array<Type>
 			default:
 				throw new Error("Type not recognized")
 		}
@@ -40,6 +49,8 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Content':
 				return this.map_ID_Content as unknown as Map<number, Type>
+			case 'SvgImage':
+				return this.map_ID_SvgImage as unknown as Map<number, Type>
 			default:
 				throw new Error("Type not recognized")
 		}
@@ -111,6 +122,7 @@ export class FrontRepoService {
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private contentService: ContentService,
+		private svgimageService: SvgImageService,
 	) { }
 
 	// postService provides a post function for each struct name
@@ -144,6 +156,7 @@ export class FrontRepoService {
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<ContentAPI[]>,
+		Observable<SvgImageAPI[]>,
 	]
 
 	//
@@ -160,6 +173,7 @@ export class FrontRepoService {
 			of(null), // see above for justification
 			// insertion point sub template
 			this.contentService.getContents(this.Name, this.frontRepo),
+			this.svgimageService.getSvgImages(this.Name, this.frontRepo),
 		]
 
 		return new Observable<FrontRepo>(
@@ -171,12 +185,15 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
 						contents_,
+						svgimages_,
 					]) => {
 						let _this = this
 						// Typing can be messy with many items. Therefore, type casting is necessary here
 						// insertion point sub template for type casting 
 						var contents: ContentAPI[]
 						contents = contents_ as ContentAPI[]
+						var svgimages: SvgImageAPI[]
+						svgimages = svgimages_ as SvgImageAPI[]
 
 						// 
 						// First Step: init map of instances
@@ -193,6 +210,18 @@ export class FrontRepoService {
 							}
 						)
 
+						// init the arrays
+						this.frontRepo.array_SvgImages = []
+						this.frontRepo.map_ID_SvgImage.clear()
+
+						svgimages.forEach(
+							svgimageAPI => {
+								let svgimage = new SvgImage
+								this.frontRepo.array_SvgImages.push(svgimage)
+								this.frontRepo.map_ID_SvgImage.set(svgimageAPI.ID, svgimage)
+							}
+						)
+
 
 						// 
 						// Second Step: reddeem front objects
@@ -202,6 +231,14 @@ export class FrontRepoService {
 							contentAPI => {
 								let content = this.frontRepo.map_ID_Content.get(contentAPI.ID)
 								CopyContentAPIToContent(contentAPI, content!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						svgimages.forEach(
+							svgimageAPI => {
+								let svgimage = this.frontRepo.map_ID_SvgImage.get(svgimageAPI.ID)
+								CopySvgImageAPIToSvgImage(svgimageAPI, svgimage!, this.frontRepo)
 							}
 						)
 
@@ -264,6 +301,18 @@ export class FrontRepoService {
 					}
 				)
 
+				// init the arrays
+				frontRepo.array_SvgImages = []
+				frontRepo.map_ID_SvgImage.clear()
+
+				backRepoData.SvgImageAPIs.forEach(
+					svgimageAPI => {
+						let svgimage = new SvgImage
+						frontRepo.array_SvgImages.push(svgimage)
+						frontRepo.map_ID_SvgImage.set(svgimageAPI.ID, svgimage)
+					}
+				)
+
 
 				// 
 				// Second Step: reddeem front objects
@@ -275,6 +324,14 @@ export class FrontRepoService {
 					contentAPI => {
 						let content = frontRepo.map_ID_Content.get(contentAPI.ID)
 						CopyContentAPIToContent(contentAPI, content!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.SvgImageAPIs.forEach(
+					svgimageAPI => {
+						let svgimage = frontRepo.map_ID_SvgImage.get(svgimageAPI.ID)
+						CopySvgImageAPIToSvgImage(svgimageAPI, svgimage!, frontRepo)
 					}
 				)
 
@@ -308,4 +365,7 @@ export class FrontRepoService {
 // insertion point for get unique ID per struct 
 export function getContentUniqueID(id: number): number {
 	return 31 * id
+}
+export function getSvgImageUniqueID(id: number): number {
+	return 37 * id
 }
