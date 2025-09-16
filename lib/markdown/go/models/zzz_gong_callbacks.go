@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentCreateCallback != nil {
 			stage.OnAfterContentCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageCreateCallback != nil {
+			stage.OnAfterSvgImageCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -32,6 +36,14 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterContentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
 			stage.OnAfterContentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
+	case *SvgImage:
+		newTarget := any(new).(*SvgImage)
+		if stage.OnAfterSvgImageUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterSvgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSvgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSvgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -47,6 +59,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Content)
 			stage.OnAfterContentDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageDeleteCallback != nil {
+			staged := any(staged).(*SvgImage)
+			stage.OnAfterSvgImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -60,6 +77,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		if stage.OnAfterContentReadCallback != nil {
 			stage.OnAfterContentReadCallback.OnAfterRead(stage, target)
+		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageReadCallback != nil {
+			stage.OnAfterSvgImageReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -75,6 +96,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
 	
+	case *SvgImage:
+		stage.OnAfterSvgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[SvgImage])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -84,6 +108,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Content:
 		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageCreateCallback = any(callback).(OnAfterCreateInterface[SvgImage])
 	
 	}
 }
@@ -95,6 +122,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
 	
+	case *SvgImage:
+		stage.OnAfterSvgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[SvgImage])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -104,6 +134,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Content:
 		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageReadCallback = any(callback).(OnAfterReadInterface[SvgImage])
 	
 	}
 }
