@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import * as markdown from '../../../../markdown/src/public-api';
 
-// 1. IMPORT provideMarkdown again
 import { MarkdownModule, provideMarkdown } from 'ngx-markdown';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,13 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'lib-markdown-specific',
   imports: [CommonModule, MarkdownModule, MatButtonModule],
-  // 2. ADD the providers array back with the default provider
   providers: [provideMarkdown()],
   templateUrl: './markdown-specific.component.html',
   styleUrl: './markdown-specific.component.css'
 })
 export class MarkdownSpecificComponent {
-  // ... the rest of your component code remains the same as the previous step
   @Input() Name: string = ""
   @ViewChild('markdownWrapper', { read: ElementRef }) markdownWrapper!: ElementRef;
 
@@ -44,21 +41,21 @@ export class MarkdownSpecificComponent {
     if (this.frontRepo.getFrontArray(markdown.Content.GONGSTRUCT_NAME).length == 1) {
       const contentInstance = this.frontRepo.getFrontArray<markdown.Content>(markdown.Content.GONGSTRUCT_NAME)[0];
       this.contentName = contentInstance.Name;
-      this.processSvgImages(contentInstance.Content);
+      this.processImages(contentInstance.Content);
     }
   }
 
-  private processSvgImages(markdownContent: string): void {
+  private processImages(markdownContent: string): void {
     if (!this.frontRepo) {
         return;
     }
 
+    // Process SVGs
     const svgImages = this.frontRepo.getFrontArray<markdown.SvgImage>(markdown.SvgImage.GONGSTRUCT_NAME);
     const svgImageMap = new Map(svgImages.map(img => [img.Name, img.Content]));
-
     const svgRegex = /!\[(.*?)\]\(svg:([^?)]+?)(?:\?(.*?))?\)/g;
 
-    this.content = markdownContent.replace(svgRegex, (match, altText, svgName, queryParams) => {
+    let processedContent = markdownContent.replace(svgRegex, (match, altText, svgName, queryParams) => {
         const trimmedSvgName = svgName.trim();
         let svgContent = svgImageMap.get(trimmedSvgName);
 
@@ -71,24 +68,41 @@ export class MarkdownSpecificComponent {
 
             if (widthValue) {
                 const svgTagRegex = /<svg([^>]*?)>/;
-                const tagMatch = svgContent.match(svgTagRegex);
-
-                if (tagMatch) {
-                    let attributes = tagMatch[1] || '';
-                    attributes = attributes.replace(/width="[^"]*"/g, '').trim();
-                    const newAttributes = `width="${widthValue}" ${attributes}`;
-                    const newSvgTag = `<svg ${newAttributes}>`;
-                    svgContent = svgContent.replace(svgTagRegex, newSvgTag);
+                if (svgTagRegex.test(svgContent)) {
+                    svgContent = svgContent.replace(svgTagRegex, (tagMatch, attributes) => {
+                        let newAttributes = attributes.replace(/width="[^"]*"/g, '').trim();
+                        return `<svg width="${widthValue}" ${newAttributes}>`;
+                    });
                 }
             }
-
+            
             const encodedSvg = btoa(svgContent);
             const dataUri = `data:image/svg+xml;base64,${encodedSvg}`;
-            
             return `![${altText}](${dataUri})`;
         }
         return match;
     });
+
+    // Process PNGs
+    const pngImages = this.frontRepo.getFrontArray<markdown.PngImage>(markdown.PngImage.GONGSTRUCT_NAME);
+    const pngImageMap = new Map(pngImages.map(img => [img.Name, img.Base64Content]));
+    const pngRegex = /!\[(.*?)\]\(png:([^?)]+?)(?:\?(.*?))?\)/g;
+
+    processedContent = processedContent.replace(pngRegex, (match, altText, pngName, queryParams) => {
+      const trimmedPngName = pngName.trim();
+      const base64Content = pngImageMap.get(trimmedPngName);
+
+      if (base64Content) {
+        const dataUri = `data:image/png;base64,${base64Content}`;
+        
+        // For PNGs, width cannot be injected. We return a standard markdown image.
+        // For more control, you would need to generate an <img /> tag and disable sanitization.
+        return `![${altText}](${dataUri})`;
+      }
+      return match;
+    });
+
+    this.content = processedContent;
   }
 
 

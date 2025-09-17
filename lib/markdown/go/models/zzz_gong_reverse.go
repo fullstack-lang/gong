@@ -14,6 +14,11 @@ func GetReverseFieldOwnerName(
 		// insertion point
 		}
 
+	case *PngImage:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
 	case *SvgImage:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -34,6 +39,11 @@ func GetReverseFieldOwner[T Gongstruct](
 	switch inst := any(instance).(type) {
 	// insertion point
 	case *Content:
+		switch reverseField.GongstructName {
+		// insertion point
+		}
+
+	case *PngImage:
 		switch reverseField.GongstructName {
 		// insertion point
 		}

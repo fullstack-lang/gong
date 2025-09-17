@@ -17,6 +17,7 @@ func SerializeStage(stage *Stage, filename string) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct[*Content](stage, f)
+		SerializeExcelizePointerToGongstruct[*PngImage](stage, f)
 		SerializeExcelizePointerToGongstruct[*SvgImage](stage, f)
 	}
 

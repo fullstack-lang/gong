@@ -6,6 +6,8 @@ type BackRepoData struct {
 
 	ContentAPIs []*ContentAPI
 
+	PngImageAPIs []*PngImageAPI
+
 	SvgImageAPIs []*SvgImageAPI
 
 	// index of the web socket for this stack type (unique among all stack instances)
@@ -27,6 +29,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		contentDB.CopyBasicFieldsToContent_WOP(&contentAPI.Content_WOP)
 
 		backRepoData.ContentAPIs = append(backRepoData.ContentAPIs, &contentAPI)
+	}
+
+	for _, pngimageDB := range backRepo.BackRepoPngImage.Map_PngImageDBID_PngImageDB {
+
+		var pngimageAPI PngImageAPI
+		pngimageAPI.ID = pngimageDB.ID
+		pngimageAPI.PngImagePointersEncoding = pngimageDB.PngImagePointersEncoding
+		pngimageDB.CopyBasicFieldsToPngImage_WOP(&pngimageAPI.PngImage_WOP)
+
+		backRepoData.PngImageAPIs = append(backRepoData.PngImageAPIs, &pngimageAPI)
 	}
 
 	for _, svgimageDB := range backRepo.BackRepoSvgImage.Map_SvgImageDBID_SvgImageDB {
