@@ -23,6 +23,18 @@ type DBLite struct {
 	contentDBs map[uint]*ContentDB
 
 	nextIDContentDB uint
+
+	jpgimageDBs map[uint]*JpgImageDB
+
+	nextIDJpgImageDB uint
+
+	pngimageDBs map[uint]*PngImageDB
+
+	nextIDPngImageDB uint
+
+	svgimageDBs map[uint]*SvgImageDB
+
+	nextIDSvgImageDB uint
 }
 
 // NewDBLite creates a new instance of DBLite
@@ -31,6 +43,12 @@ func NewDBLite() *DBLite {
 		// insertion point maps init
 
 		contentDBs: make(map[uint]*ContentDB),
+
+		jpgimageDBs: make(map[uint]*JpgImageDB),
+
+		pngimageDBs: make(map[uint]*PngImageDB),
+
+		svgimageDBs: make(map[uint]*SvgImageDB),
 	}
 }
 
@@ -49,6 +67,18 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDContentDB++
 		v.ID = db.nextIDContentDB
 		db.contentDBs[v.ID] = v
+	case *JpgImageDB:
+		db.nextIDJpgImageDB++
+		v.ID = db.nextIDJpgImageDB
+		db.jpgimageDBs[v.ID] = v
+	case *PngImageDB:
+		db.nextIDPngImageDB++
+		v.ID = db.nextIDPngImageDB
+		db.pngimageDBs[v.ID] = v
+	case *SvgImageDB:
+		db.nextIDSvgImageDB++
+		v.ID = db.nextIDSvgImageDB
+		db.svgimageDBs[v.ID] = v
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, unsupported type in Create")
 	}
@@ -79,6 +109,12 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ContentDB:
 		delete(db.contentDBs, v.ID)
+	case *JpgImageDB:
+		delete(db.jpgimageDBs, v.ID)
+	case *PngImageDB:
+		delete(db.pngimageDBs, v.ID)
+	case *SvgImageDB:
+		delete(db.svgimageDBs, v.ID)
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, unsupported type in Delete")
 	}
@@ -99,6 +135,15 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ContentDB:
 		db.contentDBs[v.ID] = v
+		return db, nil
+	case *JpgImageDB:
+		db.jpgimageDBs[v.ID] = v
+		return db, nil
+	case *PngImageDB:
+		db.pngimageDBs[v.ID] = v
+		return db, nil
+	case *SvgImageDB:
+		db.svgimageDBs[v.ID] = v
 		return db, nil
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, Save: unsupported type")
@@ -122,6 +167,24 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Content github.com/fullstack-lang/gong/lib/markdown/go, record not found")
 		}
+	case *JpgImageDB:
+		if existing, ok := db.jpgimageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db JpgImage github.com/fullstack-lang/gong/lib/markdown/go, record not found")
+		}
+	case *PngImageDB:
+		if existing, ok := db.pngimageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db PngImage github.com/fullstack-lang/gong/lib/markdown/go, record not found")
+		}
+	case *SvgImageDB:
+		if existing, ok := db.svgimageDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db SvgImage github.com/fullstack-lang/gong/lib/markdown/go, record not found")
+		}
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, unsupported type in Updates")
 	}
@@ -139,6 +202,24 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ContentDB:
 		*ptr = make([]ContentDB, 0, len(db.contentDBs))
 		for _, v := range db.contentDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]JpgImageDB:
+		*ptr = make([]JpgImageDB, 0, len(db.jpgimageDBs))
+		for _, v := range db.jpgimageDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]PngImageDB:
+		*ptr = make([]PngImageDB, 0, len(db.pngimageDBs))
+		for _, v := range db.pngimageDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]SvgImageDB:
+		*ptr = make([]SvgImageDB, 0, len(db.svgimageDBs))
+		for _, v := range db.svgimageDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -184,6 +265,36 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		contentDB, _ := instanceDB.(*ContentDB)
 		*contentDB = *tmp
+		
+	case *JpgImageDB:
+		tmp, ok := db.jpgimageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First JpgImage Unkown entry %d", i))
+		}
+
+		jpgimageDB, _ := instanceDB.(*JpgImageDB)
+		*jpgimageDB = *tmp
+		
+	case *PngImageDB:
+		tmp, ok := db.pngimageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First PngImage Unkown entry %d", i))
+		}
+
+		pngimageDB, _ := instanceDB.(*PngImageDB)
+		*pngimageDB = *tmp
+		
+	case *SvgImageDB:
+		tmp, ok := db.svgimageDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First SvgImage Unkown entry %d", i))
+		}
+
+		svgimageDB, _ := instanceDB.(*SvgImageDB)
+		*svgimageDB = *tmp
 		
 	default:
 		return nil, errors.New("github.com/fullstack-lang/gong/lib/markdown/go, Unkown type")
