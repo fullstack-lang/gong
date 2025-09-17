@@ -79,7 +79,7 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 	name := file.Name()
 
 	if !strings.HasSuffix(name, ".go") {
-		log.Println(name + " is not a go filename")
+		log.Fatalln(name + " is not a go filename")
 	}
 
 	log.Printf("Marshalling %s", name)
