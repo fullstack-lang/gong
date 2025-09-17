@@ -151,6 +151,53 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 	}
 
+	map_PngImage_Identifiers := make(map[*PngImage]string)
+	_ = map_PngImage_Identifiers
+
+	pngimageOrdered := []*PngImage{}
+	for pngimage := range stage.PngImages {
+		pngimageOrdered = append(pngimageOrdered, pngimage)
+	}
+	sort.Slice(pngimageOrdered[:], func(i, j int) bool {
+		pngimagei := pngimageOrdered[i]
+		pngimagej := pngimageOrdered[j]
+		pngimagei_order, oki := stage.PngImageMap_Staged_Order[pngimagei]
+		pngimagej_order, okj := stage.PngImageMap_Staged_Order[pngimagej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return pngimagei_order < pngimagej_order
+	})
+	if len(pngimageOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, pngimage := range pngimageOrdered {
+
+		id = generatesIdentifier("PngImage", idx, pngimage.Name)
+		map_PngImage_Identifiers[pngimage] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pngimage.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
+		initializerStatements += setValueField
+
+	}
+
 	map_SvgImage_Identifiers := make(map[*SvgImage]string)
 	_ = map_SvgImage_Identifiers
 
@@ -208,6 +255,19 @@ func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName strin
 
 		id = generatesIdentifier("Content", idx, content.Name)
 		map_Content_Identifiers[content] = id
+
+		// Initialisation of values
+	}
+
+	if len(pngimageOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of PngImage instances pointers"
+	}
+	for idx, pngimage := range pngimageOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("PngImage", idx, pngimage.Name)
+		map_PngImage_Identifiers[pngimage] = id
 
 		// Initialisation of values
 	}

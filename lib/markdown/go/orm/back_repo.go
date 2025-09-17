@@ -26,6 +26,8 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoContent BackRepoContentStruct
 
+	BackRepoPngImage BackRepoPngImageStruct
+
 	BackRepoSvgImage BackRepoSvgImageStruct
 
 	CommitFromBackNb uint // records commit increments when performed by the back
@@ -50,6 +52,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_markdown_go",
 		&ContentDB{},
+		&PngImageDB{},
 		&SvgImageDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
@@ -61,6 +64,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_ContentDBID_ContentPtr: make(map[uint]*models.Content, 0),
 		Map_ContentDBID_ContentDB:  make(map[uint]*ContentDB, 0),
 		Map_ContentPtr_ContentDBID: make(map[*models.Content]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoPngImage = BackRepoPngImageStruct{
+		Map_PngImageDBID_PngImagePtr: make(map[uint]*models.PngImage, 0),
+		Map_PngImageDBID_PngImageDB:  make(map[uint]*PngImageDB, 0),
+		Map_PngImagePtr_PngImageDBID: make(map[*models.PngImage]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -126,10 +137,12 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CommitPhaseOne(stage)
+	backRepo.BackRepoPngImage.CommitPhaseOne(stage)
 	backRepo.BackRepoSvgImage.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoPngImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSvgImage.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
@@ -146,10 +159,12 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CheckoutPhaseOne()
+	backRepo.BackRepoPngImage.CheckoutPhaseOne()
 	backRepo.BackRepoSvgImage.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoPngImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSvgImage.CheckoutPhaseTwo(backRepo)
 }
 
@@ -159,6 +174,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.Backup(dirPath)
+	backRepo.BackRepoPngImage.Backup(dirPath)
 	backRepo.BackRepoSvgImage.Backup(dirPath)
 }
 
@@ -171,6 +187,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.BackupXL(file)
+	backRepo.BackRepoPngImage.BackupXL(file)
 	backRepo.BackRepoSvgImage.BackupXL(file)
 
 	var b bytes.Buffer
@@ -197,6 +214,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseOne(dirPath)
+	backRepo.BackRepoPngImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSvgImage.RestorePhaseOne(dirPath)
 
 	//
@@ -205,6 +223,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseTwo()
+	backRepo.BackRepoPngImage.RestorePhaseTwo()
 	backRepo.BackRepoSvgImage.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
@@ -234,6 +253,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestoreXLPhaseOne(file)
+	backRepo.BackRepoPngImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSvgImage.RestoreXLPhaseOne(file)
 
 	// commit the restored stage

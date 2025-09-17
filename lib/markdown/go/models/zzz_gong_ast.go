@@ -394,6 +394,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
 var __gong__map_Content = make(map[string]*Content)
+var __gong__map_PngImage = make(map[string]*PngImage)
 var __gong__map_SvgImage = make(map[string]*SvgImage)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
@@ -573,6 +574,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceContent.Stage(stage)
 										instance = any(instanceContent)
 										__gong__map_Content[identifier] = instanceContent
+									case "PngImage":
+										instancePngImage := new(PngImage)
+										instancePngImage.Name = instanceName
+										instancePngImage.Stage(stage)
+										instance = any(instancePngImage)
+										__gong__map_PngImage[identifier] = instancePngImage
 									case "SvgImage":
 										instanceSvgImage := new(SvgImage)
 										instanceSvgImage.Name = instanceName
@@ -617,6 +624,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch gongstructName {
 						// insertion point for basic lit assignments
 						case "Content":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "PngImage":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -682,6 +693,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
 					case "Content":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "PngImage":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -760,6 +775,18 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Content[identifier].Content = fielValue
 				}
+			case "PngImage":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_PngImage[identifier].Name = fielValue
+				case "Base64Content":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_PngImage[identifier].Base64Content = fielValue
+				}
 			case "SvgImage":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -788,6 +815,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
 			case "Content":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "PngImage":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -854,6 +885,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch gongstructName {
 				// insertion point for selector expr assignments
 				case "Content":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "PngImage":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

@@ -23,6 +23,20 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.Content = from.Content
 }
 
+type PngImage_WOP struct {
+	// insertion point
+
+	Name string
+
+	Base64Content string
+}
+
+func (from *PngImage) CopyBasicFields(to *PngImage) {
+	// insertion point
+	to.Name = from.Name
+	to.Base64Content = from.Base64Content
+}
+
 type SvgImage_WOP struct {
 	// insertion point
 

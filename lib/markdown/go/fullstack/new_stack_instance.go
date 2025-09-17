@@ -44,6 +44,8 @@ func NewStackInstance(
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Content](stage)
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Content](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PngImage](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.PngImage](stage)
 	models.SetOrchestratorOnAfterUpdate[models.SvgImage](stage)
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.SvgImage](stage)
 
