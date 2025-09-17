@@ -53,6 +53,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Content" {
 		updateAndCommitTable[models.Content](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "JpgImage" {
+		updateAndCommitTable[models.JpgImage](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "PngImage" {
 		updateAndCommitTable[models.PngImage](nodeImplGongstruct.probe)
 	}

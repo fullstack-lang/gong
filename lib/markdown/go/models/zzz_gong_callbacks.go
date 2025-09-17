@@ -10,6 +10,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentCreateCallback != nil {
 			stage.OnAfterContentCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageCreateCallback != nil {
+			stage.OnAfterJpgImageCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *PngImage:
 		if stage.OnAfterPngImageCreateCallback != nil {
 			stage.OnAfterPngImageCreateCallback.OnAfterCreate(stage, target)
@@ -39,6 +43,14 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		}
 		if stage.OnAfterContentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
 			stage.OnAfterContentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
+	case *JpgImage:
+		newTarget := any(new).(*JpgImage)
+		if stage.OnAfterJpgImageUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterJpgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterJpgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterJpgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *PngImage:
 		newTarget := any(new).(*PngImage)
@@ -71,6 +83,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Content)
 			stage.OnAfterContentDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageDeleteCallback != nil {
+			staged := any(staged).(*JpgImage)
+			stage.OnAfterJpgImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *PngImage:
 		if stage.OnAfterPngImageDeleteCallback != nil {
 			staged := any(staged).(*PngImage)
@@ -95,6 +112,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentReadCallback != nil {
 			stage.OnAfterContentReadCallback.OnAfterRead(stage, target)
 		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageReadCallback != nil {
+			stage.OnAfterJpgImageReadCallback.OnAfterRead(stage, target)
+		}
 	case *PngImage:
 		if stage.OnAfterPngImageReadCallback != nil {
 			stage.OnAfterPngImageReadCallback.OnAfterRead(stage, target)
@@ -117,6 +138,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
 	
+	case *JpgImage:
+		stage.OnAfterJpgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[JpgImage])
+	
 	case *PngImage:
 		stage.OnAfterPngImageUpdateCallback = any(callback).(OnAfterUpdateInterface[PngImage])
 	
@@ -132,6 +156,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Content:
 		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
+	
+	case *JpgImage:
+		stage.OnAfterJpgImageCreateCallback = any(callback).(OnAfterCreateInterface[JpgImage])
 	
 	case *PngImage:
 		stage.OnAfterPngImageCreateCallback = any(callback).(OnAfterCreateInterface[PngImage])
@@ -149,6 +176,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
 	
+	case *JpgImage:
+		stage.OnAfterJpgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[JpgImage])
+	
 	case *PngImage:
 		stage.OnAfterPngImageDeleteCallback = any(callback).(OnAfterDeleteInterface[PngImage])
 	
@@ -164,6 +194,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Content:
 		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
+	
+	case *JpgImage:
+		stage.OnAfterJpgImageReadCallback = any(callback).(OnAfterReadInterface[JpgImage])
 	
 	case *PngImage:
 		stage.OnAfterPngImageReadCallback = any(callback).(OnAfterReadInterface[PngImage])

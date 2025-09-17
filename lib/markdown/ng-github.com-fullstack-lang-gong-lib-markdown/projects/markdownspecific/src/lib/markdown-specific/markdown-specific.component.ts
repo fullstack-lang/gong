@@ -50,12 +50,14 @@ export class MarkdownSpecificComponent {
         return;
     }
 
+    let processedContent = markdownContent;
+
     // Process SVGs
     const svgImages = this.frontRepo.getFrontArray<markdown.SvgImage>(markdown.SvgImage.GONGSTRUCT_NAME);
     const svgImageMap = new Map(svgImages.map(img => [img.Name, img.Content]));
     const svgRegex = /!\[(.*?)\]\(svg:([^?)]+?)(?:\?(.*?))?\)/g;
 
-    let processedContent = markdownContent.replace(svgRegex, (match, altText, svgName, queryParams) => {
+    processedContent = processedContent.replace(svgRegex, (match, altText, svgName, queryParams) => {
         const trimmedSvgName = svgName.trim();
         let svgContent = svgImageMap.get(trimmedSvgName);
 
@@ -94,9 +96,22 @@ export class MarkdownSpecificComponent {
 
       if (base64Content) {
         const dataUri = `data:image/png;base64,${base64Content}`;
-        
-        // For PNGs, width cannot be injected. We return a standard markdown image.
-        // For more control, you would need to generate an <img /> tag and disable sanitization.
+        return `![${altText}](${dataUri})`;
+      }
+      return match;
+    });
+
+    // Process JPGs
+    const jpgImages = this.frontRepo.getFrontArray<markdown.JpgImage>(markdown.JpgImage.GONGSTRUCT_NAME);
+    const jpgImageMap = new Map(jpgImages.map(img => [img.Name, img.Base64Content]));
+    const jpgRegex = /!\[(.*?)\]\(jpg:([^?)]+?)(?:\?(.*?))?\)/g;
+
+    processedContent = processedContent.replace(jpgRegex, (match, altText, jpgName, queryParams) => {
+      const trimmedJpgName = jpgName.trim();
+      const base64Content = jpgImageMap.get(trimmedJpgName);
+
+      if (base64Content) {
+        const dataUri = `data:image/jpeg;base64,${base64Content}`;
         return `![${altText}](${dataUri})`;
       }
       return match;

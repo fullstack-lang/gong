@@ -97,6 +97,16 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
+	JpgImages           map[*JpgImage]any
+	JpgImages_mapString map[string]*JpgImage
+
+	// insertion point for slice of pointers maps
+	OnAfterJpgImageCreateCallback OnAfterCreateInterface[JpgImage]
+	OnAfterJpgImageUpdateCallback OnAfterUpdateInterface[JpgImage]
+	OnAfterJpgImageUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[JpgImage]
+	OnAfterJpgImageDeleteCallback OnAfterDeleteInterface[JpgImage]
+	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
+
 	PngImages           map[*PngImage]any
 	PngImages_mapString map[string]*PngImage
 
@@ -145,6 +155,9 @@ type Stage struct {
 	// insertion point for order fields declaration
 	ContentOrder            uint
 	ContentMap_Staged_Order map[*Content]uint
+
+	JpgImageOrder            uint
+	JpgImageMap_Staged_Order map[*JpgImage]uint
 
 	PngImageOrder            uint
 	PngImageMap_Staged_Order map[*PngImage]uint
@@ -221,6 +234,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *JpgImage:
+		tmp := GetStructInstancesByOrder(stage.JpgImages, stage.JpgImageMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *JpgImage implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *PngImage:
 		tmp := GetStructInstancesByOrder(stage.PngImages, stage.PngImageMap_Staged_Order)
 
@@ -284,6 +311,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		// insertion point for case
 	case "Content":
 		res = GetNamedStructInstances(stage.Contents, stage.ContentMap_Staged_Order)
+	case "JpgImage":
+		res = GetNamedStructInstances(stage.JpgImages, stage.JpgImageMap_Staged_Order)
 	case "PngImage":
 		res = GetNamedStructInstances(stage.PngImages, stage.PngImageMap_Staged_Order)
 	case "SvgImage":
@@ -364,6 +393,8 @@ type BackRepoInterface interface {
 	// insertion point for Commit and Checkout signatures
 	CommitContent(content *Content)
 	CheckoutContent(content *Content)
+	CommitJpgImage(jpgimage *JpgImage)
+	CheckoutJpgImage(jpgimage *JpgImage)
 	CommitPngImage(pngimage *PngImage)
 	CheckoutPngImage(pngimage *PngImage)
 	CommitSvgImage(svgimage *SvgImage)
@@ -377,6 +408,9 @@ func NewStage(name string) (stage *Stage) {
 	stage = &Stage{ // insertion point for array initiatialisation
 		Contents:           make(map[*Content]any),
 		Contents_mapString: make(map[string]*Content),
+
+		JpgImages:           make(map[*JpgImage]any),
+		JpgImages_mapString: make(map[string]*JpgImage),
 
 		PngImages:           make(map[*PngImage]any),
 		PngImages_mapString: make(map[string]*PngImage),
@@ -396,6 +430,8 @@ func NewStage(name string) (stage *Stage) {
 		// insertion point for order map initialisations
 		ContentMap_Staged_Order: make(map[*Content]uint),
 
+		JpgImageMap_Staged_Order: make(map[*JpgImage]uint),
+
 		PngImageMap_Staged_Order: make(map[*PngImage]uint),
 
 		SvgImageMap_Staged_Order: make(map[*SvgImage]uint),
@@ -404,6 +440,7 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Content"},
+			{name: "JpgImage"},
 			{name: "PngImage"},
 			{name: "SvgImage"},
 		}, // end of insertion point
@@ -418,6 +455,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 	// insertion point for order map initialisations
 	case *Content:
 		return stage.ContentMap_Staged_Order[instance]
+	case *JpgImage:
+		return stage.JpgImageMap_Staged_Order[instance]
 	case *PngImage:
 		return stage.PngImageMap_Staged_Order[instance]
 	case *SvgImage:
@@ -433,6 +472,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	// insertion point for order map initialisations
 	case *Content:
 		return stage.ContentMap_Staged_Order[instance]
+	case *JpgImage:
+		return stage.JpgImageMap_Staged_Order[instance]
 	case *PngImage:
 		return stage.PngImageMap_Staged_Order[instance]
 	case *SvgImage:
@@ -465,6 +506,7 @@ func (stage *Stage) Commit() {
 
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Content"] = len(stage.Contents)
+	stage.Map_GongStructName_InstancesNb["JpgImage"] = len(stage.JpgImages)
 	stage.Map_GongStructName_InstancesNb["PngImage"] = len(stage.PngImages)
 	stage.Map_GongStructName_InstancesNb["SvgImage"] = len(stage.SvgImages)
 
@@ -478,6 +520,7 @@ func (stage *Stage) Checkout() {
 	stage.ComputeReverseMaps()
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Content"] = len(stage.Contents)
+	stage.Map_GongStructName_InstancesNb["JpgImage"] = len(stage.JpgImages)
 	stage.Map_GongStructName_InstancesNb["PngImage"] = len(stage.PngImages)
 	stage.Map_GongStructName_InstancesNb["SvgImage"] = len(stage.SvgImages)
 
@@ -565,6 +608,61 @@ func (content *Content) Checkout(stage *Stage) *Content {
 // for satisfaction of GongStruct interface
 func (content *Content) GetName() (res string) {
 	return content.Name
+}
+
+// Stage puts jpgimage to the model stage
+func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
+
+	if _, ok := stage.JpgImages[jpgimage]; !ok {
+		stage.JpgImages[jpgimage] = __member
+		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
+		stage.JpgImageOrder++
+	}
+	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
+
+	return jpgimage
+}
+
+// Unstage removes jpgimage off the model stage
+func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
+	delete(stage.JpgImages, jpgimage)
+	delete(stage.JpgImages_mapString, jpgimage.Name)
+	return jpgimage
+}
+
+// UnstageVoid removes jpgimage off the model stage
+func (jpgimage *JpgImage) UnstageVoid(stage *Stage) {
+	delete(stage.JpgImages, jpgimage)
+	delete(stage.JpgImages_mapString, jpgimage.Name)
+}
+
+// commit jpgimage to the back repo (if it is already staged)
+func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
+	if _, ok := stage.JpgImages[jpgimage]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitJpgImage(jpgimage)
+		}
+	}
+	return jpgimage
+}
+
+func (jpgimage *JpgImage) CommitVoid(stage *Stage) {
+	jpgimage.Commit(stage)
+}
+
+// Checkout jpgimage to the back repo (if it is already staged)
+func (jpgimage *JpgImage) Checkout(stage *Stage) *JpgImage {
+	if _, ok := stage.JpgImages[jpgimage]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutJpgImage(jpgimage)
+		}
+	}
+	return jpgimage
+}
+
+// for satisfaction of GongStruct interface
+func (jpgimage *JpgImage) GetName() (res string) {
+	return jpgimage.Name
 }
 
 // Stage puts pngimage to the model stage
@@ -680,12 +778,14 @@ func (svgimage *SvgImage) GetName() (res string) {
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMContent(Content *Content)
+	CreateORMJpgImage(JpgImage *JpgImage)
 	CreateORMPngImage(PngImage *PngImage)
 	CreateORMSvgImage(SvgImage *SvgImage)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMContent(Content *Content)
+	DeleteORMJpgImage(JpgImage *JpgImage)
 	DeleteORMPngImage(PngImage *PngImage)
 	DeleteORMSvgImage(SvgImage *SvgImage)
 }
@@ -695,6 +795,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Contents_mapString = make(map[string]*Content)
 	stage.ContentMap_Staged_Order = make(map[*Content]uint)
 	stage.ContentOrder = 0
+
+	stage.JpgImages = make(map[*JpgImage]any)
+	stage.JpgImages_mapString = make(map[string]*JpgImage)
+	stage.JpgImageMap_Staged_Order = make(map[*JpgImage]uint)
+	stage.JpgImageOrder = 0
 
 	stage.PngImages = make(map[*PngImage]any)
 	stage.PngImages_mapString = make(map[string]*PngImage)
@@ -712,6 +817,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Contents = nil
 	stage.Contents_mapString = nil
 
+	stage.JpgImages = nil
+	stage.JpgImages_mapString = nil
+
 	stage.PngImages = nil
 	stage.PngImages_mapString = nil
 
@@ -723,6 +831,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 func (stage *Stage) Unstage() { // insertion point for array nil
 	for content := range stage.Contents {
 		content.Unstage(stage)
+	}
+
+	for jpgimage := range stage.JpgImages {
+		jpgimage.Unstage(stage)
 	}
 
 	for pngimage := range stage.PngImages {
@@ -796,6 +908,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[*Content]any:
 		return any(&stage.Contents).(*Type)
+	case map[*JpgImage]any:
+		return any(&stage.JpgImages).(*Type)
 	case map[*PngImage]any:
 		return any(&stage.PngImages).(*Type)
 	case map[*SvgImage]any:
@@ -814,6 +928,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 	// insertion point for generic get functions
 	case map[string]*Content:
 		return any(&stage.Contents_mapString).(*Type)
+	case map[string]*JpgImage:
+		return any(&stage.JpgImages_mapString).(*Type)
 	case map[string]*PngImage:
 		return any(&stage.PngImages_mapString).(*Type)
 	case map[string]*SvgImage:
@@ -832,6 +948,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 	// insertion point for generic get functions
 	case Content:
 		return any(&stage.Contents).(*map[*Type]any)
+	case JpgImage:
+		return any(&stage.JpgImages).(*map[*Type]any)
 	case PngImage:
 		return any(&stage.PngImages).(*map[*Type]any)
 	case SvgImage:
@@ -850,6 +968,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 	// insertion point for generic get functions
 	case *Content:
 		return any(&stage.Contents).(*map[Type]any)
+	case *JpgImage:
+		return any(&stage.JpgImages).(*map[Type]any)
 	case *PngImage:
 		return any(&stage.PngImages).(*map[Type]any)
 	case *SvgImage:
@@ -868,6 +988,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 	// insertion point for generic get functions
 	case Content:
 		return any(&stage.Contents_mapString).(*map[string]*Type)
+	case JpgImage:
+		return any(&stage.JpgImages_mapString).(*map[string]*Type)
 	case PngImage:
 		return any(&stage.PngImages_mapString).(*map[string]*Type)
 	case SvgImage:
@@ -888,6 +1010,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	// insertion point for instance with special fields
 	case Content:
 		return any(&Content{
+			// Initialisation of associations
+		}).(*Type)
+	case JpgImage:
+		return any(&JpgImage{
 			// Initialisation of associations
 		}).(*Type)
 	case PngImage:
@@ -918,6 +1044,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	// insertion point of functions that provide maps for reverse associations
 	// reverse maps of direct associations of Content
 	case Content:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of JpgImage
+	case JpgImage:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -952,6 +1083,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of JpgImage
+	case JpgImage:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of PngImage
 	case PngImage:
 		switch fieldname {
@@ -976,6 +1112,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case Content:
 		res = "Content"
+	case JpgImage:
+		res = "JpgImage"
 	case PngImage:
 		res = "PngImage"
 	case SvgImage:
@@ -994,6 +1132,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 	// insertion point for generic get gongstruct name
 	case *Content:
 		res = "Content"
+	case *JpgImage:
+		res = "JpgImage"
 	case *PngImage:
 		res = "PngImage"
 	case *SvgImage:
@@ -1011,6 +1151,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 	// insertion point for generic get gongstruct name
 	case Content:
 		res = []string{"Name", "Content"}
+	case JpgImage:
+		res = []string{"Name", "Base64Content"}
 	case PngImage:
 		res = []string{"Name", "Base64Content"}
 	case SvgImage:
@@ -1036,6 +1178,9 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	case Content:
 		var rf ReverseField
 		_ = rf
+	case JpgImage:
+		var rf ReverseField
+		_ = rf
 	case PngImage:
 		var rf ReverseField
 		_ = rf
@@ -1055,6 +1200,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	// insertion point for generic get gongstruct name
 	case *Content:
 		res = []string{"Name", "Content"}
+	case *JpgImage:
+		res = []string{"Name", "Base64Content"}
 	case *PngImage:
 		res = []string{"Name", "Base64Content"}
 	case *SvgImage:
@@ -1108,6 +1255,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Content":
 			res.valueString = inferedInstance.Content
 		}
+	case *JpgImage:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Base64Content":
+			res.valueString = inferedInstance.Base64Content
+		}
 	case *PngImage:
 		switch fieldName {
 		// string value of fields
@@ -1141,6 +1296,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.Name
 		case "Content":
 			res.valueString = inferedInstance.Content
+		}
+	case JpgImage:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		case "Base64Content":
+			res.valueString = inferedInstance.Base64Content
 		}
 	case PngImage:
 		switch fieldName {

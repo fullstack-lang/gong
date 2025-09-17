@@ -31,6 +31,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.JpgImage:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "JpgImage Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__JpgImageFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.PngImage:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
