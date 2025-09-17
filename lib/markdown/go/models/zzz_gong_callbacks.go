@@ -10,6 +10,18 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterContentCreateCallback != nil {
 			stage.OnAfterContentCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageCreateCallback != nil {
+			stage.OnAfterJpgImageCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *PngImage:
+		if stage.OnAfterPngImageCreateCallback != nil {
+			stage.OnAfterPngImageCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageCreateCallback != nil {
+			stage.OnAfterSvgImageCreateCallback.OnAfterCreate(stage, target)
+		}
 	default:
 		_ = target
 	}
@@ -32,6 +44,30 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterContentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
 			stage.OnAfterContentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
+	case *JpgImage:
+		newTarget := any(new).(*JpgImage)
+		if stage.OnAfterJpgImageUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterJpgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterJpgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterJpgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
+	case *PngImage:
+		newTarget := any(new).(*PngImage)
+		if stage.OnAfterPngImageUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterPngImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterPngImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterPngImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
+	case *SvgImage:
+		newTarget := any(new).(*SvgImage)
+		if stage.OnAfterSvgImageUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterSvgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterSvgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterSvgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
 	default:
 		_ = oldTarget
 	}
@@ -47,6 +83,21 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Content)
 			stage.OnAfterContentDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageDeleteCallback != nil {
+			staged := any(staged).(*JpgImage)
+			stage.OnAfterJpgImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *PngImage:
+		if stage.OnAfterPngImageDeleteCallback != nil {
+			staged := any(staged).(*PngImage)
+			stage.OnAfterPngImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageDeleteCallback != nil {
+			staged := any(staged).(*SvgImage)
+			stage.OnAfterSvgImageDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	default:
 		_ = front
 	}
@@ -60,6 +111,18 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		if stage.OnAfterContentReadCallback != nil {
 			stage.OnAfterContentReadCallback.OnAfterRead(stage, target)
+		}
+	case *JpgImage:
+		if stage.OnAfterJpgImageReadCallback != nil {
+			stage.OnAfterJpgImageReadCallback.OnAfterRead(stage, target)
+		}
+	case *PngImage:
+		if stage.OnAfterPngImageReadCallback != nil {
+			stage.OnAfterPngImageReadCallback.OnAfterRead(stage, target)
+		}
+	case *SvgImage:
+		if stage.OnAfterSvgImageReadCallback != nil {
+			stage.OnAfterSvgImageReadCallback.OnAfterRead(stage, target)
 		}
 	default:
 		_ = target
@@ -75,6 +138,15 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
 	
+	case *JpgImage:
+		stage.OnAfterJpgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[JpgImage])
+	
+	case *PngImage:
+		stage.OnAfterPngImageUpdateCallback = any(callback).(OnAfterUpdateInterface[PngImage])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageUpdateCallback = any(callback).(OnAfterUpdateInterface[SvgImage])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -84,6 +156,15 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Content:
 		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
+	
+	case *JpgImage:
+		stage.OnAfterJpgImageCreateCallback = any(callback).(OnAfterCreateInterface[JpgImage])
+	
+	case *PngImage:
+		stage.OnAfterPngImageCreateCallback = any(callback).(OnAfterCreateInterface[PngImage])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageCreateCallback = any(callback).(OnAfterCreateInterface[SvgImage])
 	
 	}
 }
@@ -95,6 +176,15 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Content:
 		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
 	
+	case *JpgImage:
+		stage.OnAfterJpgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[JpgImage])
+	
+	case *PngImage:
+		stage.OnAfterPngImageDeleteCallback = any(callback).(OnAfterDeleteInterface[PngImage])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageDeleteCallback = any(callback).(OnAfterDeleteInterface[SvgImage])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -104,6 +194,15 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Content:
 		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
+	
+	case *JpgImage:
+		stage.OnAfterJpgImageReadCallback = any(callback).(OnAfterReadInterface[JpgImage])
+	
+	case *PngImage:
+		stage.OnAfterPngImageReadCallback = any(callback).(OnAfterReadInterface[PngImage])
+	
+	case *SvgImage:
+		stage.OnAfterSvgImageReadCallback = any(callback).(OnAfterReadInterface[SvgImage])
 	
 	}
 }
