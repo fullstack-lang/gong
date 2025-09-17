@@ -8,4 +8,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Content
 	// insertion point per field
 
+	// Compute reverse map for named struct JpgImage
+	// insertion point per field
+
+	// Compute reverse map for named struct PngImage
+	// insertion point per field
+
+	// Compute reverse map for named struct SvgImage
+	// insertion point per field
+
 }

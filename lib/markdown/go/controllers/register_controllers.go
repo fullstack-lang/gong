@@ -63,6 +63,27 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/contents/:id", GetController().UpdateContent)
 		v1.DELETE("/v1/contents/:id", GetController().DeleteContent)
 
+		v1.GET("/v1/jpgimages", GetController().GetJpgImages)
+		v1.GET("/v1/jpgimages/:id", GetController().GetJpgImage)
+		v1.POST("/v1/jpgimages", GetController().PostJpgImage)
+		v1.PATCH("/v1/jpgimages/:id", GetController().UpdateJpgImage)
+		v1.PUT("/v1/jpgimages/:id", GetController().UpdateJpgImage)
+		v1.DELETE("/v1/jpgimages/:id", GetController().DeleteJpgImage)
+
+		v1.GET("/v1/pngimages", GetController().GetPngImages)
+		v1.GET("/v1/pngimages/:id", GetController().GetPngImage)
+		v1.POST("/v1/pngimages", GetController().PostPngImage)
+		v1.PATCH("/v1/pngimages/:id", GetController().UpdatePngImage)
+		v1.PUT("/v1/pngimages/:id", GetController().UpdatePngImage)
+		v1.DELETE("/v1/pngimages/:id", GetController().DeletePngImage)
+
+		v1.GET("/v1/svgimages", GetController().GetSvgImages)
+		v1.GET("/v1/svgimages/:id", GetController().GetSvgImage)
+		v1.POST("/v1/svgimages", GetController().PostSvgImage)
+		v1.PATCH("/v1/svgimages/:id", GetController().UpdateSvgImage)
+		v1.PUT("/v1/svgimages/:id", GetController().UpdateSvgImage)
+		v1.DELETE("/v1/svgimages/:id", GetController().DeleteSvgImage)
+
 		v1.GET("/v1/commitfrombacknb", GetController().GetLastCommitFromBackNb)
 		v1.GET("/v1/pushfromfrontnb", GetController().GetLastPushFromFrontNb)
 

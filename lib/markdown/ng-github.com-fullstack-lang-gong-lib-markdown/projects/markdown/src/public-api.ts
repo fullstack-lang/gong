@@ -17,4 +17,16 @@ export * from './lib/content-api'
 export * from './lib/content'
 export * from './lib/content.service'
 
+export * from './lib/jpgimage-api'
+export * from './lib/jpgimage'
+export * from './lib/jpgimage.service'
+
+export * from './lib/pngimage-api'
+export * from './lib/pngimage'
+export * from './lib/pngimage.service'
+
+export * from './lib/svgimage-api'
+export * from './lib/svgimage'
+export * from './lib/svgimage.service'
+
 
