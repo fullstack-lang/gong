@@ -31,6 +31,8 @@ func (cellDeleteIconImpl *CellDeleteIconImpl[T]) CellIconUpdated(stage *gongtabl
 	// insertion point
 	case *models.Content:
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
+	case *models.JpgImage:
+		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.PngImage:
 		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
 	case *models.SvgImage:

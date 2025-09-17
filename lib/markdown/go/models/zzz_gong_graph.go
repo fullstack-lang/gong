@@ -8,6 +8,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Content:
 		ok = stage.IsStagedContent(target)
 
+	case *JpgImage:
+		ok = stage.IsStagedJpgImage(target)
+
 	case *PngImage:
 		ok = stage.IsStagedPngImage(target)
 
@@ -24,6 +27,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedContent(content *Content) (ok bool) {
 
 	_, ok = stage.Contents[content]
+
+	return
+}
+
+func (stage *Stage) IsStagedJpgImage(jpgimage *JpgImage) (ok bool) {
+
+	_, ok = stage.JpgImages[jpgimage]
 
 	return
 }
@@ -53,6 +63,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		stage.StageBranchContent(target)
 
+	case *JpgImage:
+		stage.StageBranchJpgImage(target)
+
 	case *PngImage:
 		stage.StageBranchPngImage(target)
 
@@ -73,6 +86,21 @@ func (stage *Stage) StageBranchContent(content *Content) {
 	}
 
 	content.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchJpgImage(jpgimage *JpgImage) {
+
+	// check if instance is already staged
+	if IsStaged(stage, jpgimage) {
+		return
+	}
+
+	jpgimage.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -125,6 +153,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchContent(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *JpgImage:
+		toT := CopyBranchJpgImage(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *PngImage:
 		toT := CopyBranchPngImage(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -151,6 +183,25 @@ func CopyBranchContent(mapOrigCopy map[any]any, contentFrom *Content) (contentTo
 	contentTo = new(Content)
 	mapOrigCopy[contentFrom] = contentTo
 	contentFrom.CopyBasicFields(contentTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchJpgImage(mapOrigCopy map[any]any, jpgimageFrom *JpgImage) (jpgimageTo *JpgImage) {
+
+	// jpgimageFrom has already been copied
+	if _jpgimageTo, ok := mapOrigCopy[jpgimageFrom]; ok {
+		jpgimageTo = _jpgimageTo.(*JpgImage)
+		return
+	}
+
+	jpgimageTo = new(JpgImage)
+	mapOrigCopy[jpgimageFrom] = jpgimageTo
+	jpgimageFrom.CopyBasicFields(jpgimageTo)
 
 	//insertion point for the staging of instances referenced by pointers
 
@@ -208,6 +259,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Content:
 		stage.UnstageBranchContent(target)
 
+	case *JpgImage:
+		stage.UnstageBranchJpgImage(target)
+
 	case *PngImage:
 		stage.UnstageBranchPngImage(target)
 
@@ -228,6 +282,21 @@ func (stage *Stage) UnstageBranchContent(content *Content) {
 	}
 
 	content.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchJpgImage(jpgimage *JpgImage) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, jpgimage) {
+		return
+	}
+
+	jpgimage.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
 

@@ -98,6 +98,85 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 
 	updateAndCommitTree(contentFormCallback.probe)
 }
+func __gong__New__JpgImageFormCallback(
+	jpgimage *models.JpgImage,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (jpgimageFormCallback *JpgImageFormCallback) {
+	jpgimageFormCallback = new(JpgImageFormCallback)
+	jpgimageFormCallback.probe = probe
+	jpgimageFormCallback.jpgimage = jpgimage
+	jpgimageFormCallback.formGroup = formGroup
+
+	jpgimageFormCallback.CreationMode = (jpgimage == nil)
+
+	return
+}
+
+type JpgImageFormCallback struct {
+	jpgimage *models.JpgImage
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
+
+	// log.Println("JpgImageFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	jpgimageFormCallback.probe.formStage.Checkout()
+
+	if jpgimageFormCallback.jpgimage == nil {
+		jpgimageFormCallback.jpgimage = new(models.JpgImage).Stage(jpgimageFormCallback.probe.stageOfInterest)
+	}
+	jpgimage_ := jpgimageFormCallback.jpgimage
+	_ = jpgimage_
+
+	for _, formDiv := range jpgimageFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(jpgimage_.Name), formDiv)
+		case "Base64Content":
+			FormDivBasicFieldToField(&(jpgimage_.Base64Content), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if jpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		jpgimage_.Unstage(jpgimageFormCallback.probe.stageOfInterest)
+	}
+
+	jpgimageFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.JpgImage](
+		jpgimageFormCallback.probe,
+	)
+	jpgimageFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if jpgimageFormCallback.CreationMode || jpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		jpgimageFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(jpgimageFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__JpgImageFormCallback(
+			nil,
+			jpgimageFormCallback.probe,
+			newFormGroup,
+		)
+		jpgimage := new(models.JpgImage)
+		FillUpForm(jpgimage, newFormGroup, jpgimageFormCallback.probe)
+		jpgimageFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(jpgimageFormCallback.probe)
+}
 func __gong__New__PngImageFormCallback(
 	pngimage *models.PngImage,
 	probe *Probe,
