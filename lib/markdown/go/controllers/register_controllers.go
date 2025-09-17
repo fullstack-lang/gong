@@ -63,6 +63,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/contents/:id", GetController().UpdateContent)
 		v1.DELETE("/v1/contents/:id", GetController().DeleteContent)
 
+		v1.GET("/v1/jpgimages", GetController().GetJpgImages)
+		v1.GET("/v1/jpgimages/:id", GetController().GetJpgImage)
+		v1.POST("/v1/jpgimages", GetController().PostJpgImage)
+		v1.PATCH("/v1/jpgimages/:id", GetController().UpdateJpgImage)
+		v1.PUT("/v1/jpgimages/:id", GetController().UpdateJpgImage)
+		v1.DELETE("/v1/jpgimages/:id", GetController().DeleteJpgImage)
+
 		v1.GET("/v1/pngimages", GetController().GetPngImages)
 		v1.GET("/v1/pngimages/:id", GetController().GetPngImage)
 		v1.POST("/v1/pngimages", GetController().PostPngImage)

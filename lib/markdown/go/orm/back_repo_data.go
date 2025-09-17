@@ -6,6 +6,8 @@ type BackRepoData struct {
 
 	ContentAPIs []*ContentAPI
 
+	JpgImageAPIs []*JpgImageAPI
+
 	PngImageAPIs []*PngImageAPI
 
 	SvgImageAPIs []*SvgImageAPI
@@ -29,6 +31,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		contentDB.CopyBasicFieldsToContent_WOP(&contentAPI.Content_WOP)
 
 		backRepoData.ContentAPIs = append(backRepoData.ContentAPIs, &contentAPI)
+	}
+
+	for _, jpgimageDB := range backRepo.BackRepoJpgImage.Map_JpgImageDBID_JpgImageDB {
+
+		var jpgimageAPI JpgImageAPI
+		jpgimageAPI.ID = jpgimageDB.ID
+		jpgimageAPI.JpgImagePointersEncoding = jpgimageDB.JpgImagePointersEncoding
+		jpgimageDB.CopyBasicFieldsToJpgImage_WOP(&jpgimageAPI.JpgImage_WOP)
+
+		backRepoData.JpgImageAPIs = append(backRepoData.JpgImageAPIs, &jpgimageAPI)
 	}
 
 	for _, pngimageDB := range backRepo.BackRepoPngImage.Map_PngImageDBID_PngImageDB {

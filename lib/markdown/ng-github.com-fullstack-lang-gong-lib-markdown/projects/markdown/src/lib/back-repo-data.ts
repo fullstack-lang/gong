@@ -3,6 +3,8 @@
 //insertion point for imports
 import { ContentAPI } from './content-api'
 
+import { JpgImageAPI } from './jpgimage-api'
+
 import { PngImageAPI } from './pngimage-api'
 
 import { SvgImageAPI } from './svgimage-api'
@@ -11,6 +13,8 @@ import { SvgImageAPI } from './svgimage-api'
 export class BackRepoData {
 	// insertion point for declarations
 	ContentAPIs = new Array<ContentAPI>()
+
+	JpgImageAPIs = new Array<JpgImageAPI>()
 
 	PngImageAPIs = new Array<PngImageAPI>()
 
@@ -23,6 +27,8 @@ export class BackRepoData {
 	constructor(data?: Partial<BackRepoData>) {
 		// insertion point for copies
 		this.ContentAPIs = data?.ContentAPIs || [];
+
+		this.JpgImageAPIs = data?.JpgImageAPIs || [];
 
 		this.PngImageAPIs = data?.PngImageAPIs || [];
 

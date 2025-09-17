@@ -26,6 +26,8 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoContent BackRepoContentStruct
 
+	BackRepoJpgImage BackRepoJpgImageStruct
+
 	BackRepoPngImage BackRepoPngImageStruct
 
 	BackRepoSvgImage BackRepoSvgImageStruct
@@ -52,6 +54,7 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_markdown_go",
 		&ContentDB{},
+		&JpgImageDB{},
 		&PngImageDB{},
 		&SvgImageDB{},
 	)
@@ -64,6 +67,14 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		Map_ContentDBID_ContentPtr: make(map[uint]*models.Content, 0),
 		Map_ContentDBID_ContentDB:  make(map[uint]*ContentDB, 0),
 		Map_ContentPtr_ContentDBID: make(map[*models.Content]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoJpgImage = BackRepoJpgImageStruct{
+		Map_JpgImageDBID_JpgImagePtr: make(map[uint]*models.JpgImage, 0),
+		Map_JpgImageDBID_JpgImageDB:  make(map[uint]*JpgImageDB, 0),
+		Map_JpgImagePtr_JpgImageDBID: make(map[*models.JpgImage]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -137,11 +148,13 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CommitPhaseOne(stage)
+	backRepo.BackRepoJpgImage.CommitPhaseOne(stage)
 	backRepo.BackRepoPngImage.CommitPhaseOne(stage)
 	backRepo.BackRepoSvgImage.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoJpgImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoPngImage.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoSvgImage.CommitPhaseTwo(backRepo)
 
@@ -159,11 +172,13 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoContent.CheckoutPhaseOne()
+	backRepo.BackRepoJpgImage.CheckoutPhaseOne()
 	backRepo.BackRepoPngImage.CheckoutPhaseOne()
 	backRepo.BackRepoSvgImage.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoContent.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoJpgImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoPngImage.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoSvgImage.CheckoutPhaseTwo(backRepo)
 }
@@ -174,6 +189,7 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.Backup(dirPath)
+	backRepo.BackRepoJpgImage.Backup(dirPath)
 	backRepo.BackRepoPngImage.Backup(dirPath)
 	backRepo.BackRepoSvgImage.Backup(dirPath)
 }
@@ -187,6 +203,7 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.BackupXL(file)
+	backRepo.BackRepoJpgImage.BackupXL(file)
 	backRepo.BackRepoPngImage.BackupXL(file)
 	backRepo.BackRepoSvgImage.BackupXL(file)
 
@@ -214,6 +231,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseOne(dirPath)
+	backRepo.BackRepoJpgImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoPngImage.RestorePhaseOne(dirPath)
 	backRepo.BackRepoSvgImage.RestorePhaseOne(dirPath)
 
@@ -223,6 +241,7 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestorePhaseTwo()
+	backRepo.BackRepoJpgImage.RestorePhaseTwo()
 	backRepo.BackRepoPngImage.RestorePhaseTwo()
 	backRepo.BackRepoSvgImage.RestorePhaseTwo()
 
@@ -253,6 +272,7 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoContent.RestoreXLPhaseOne(file)
+	backRepo.BackRepoJpgImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoPngImage.RestoreXLPhaseOne(file)
 	backRepo.BackRepoSvgImage.RestoreXLPhaseOne(file)
 
