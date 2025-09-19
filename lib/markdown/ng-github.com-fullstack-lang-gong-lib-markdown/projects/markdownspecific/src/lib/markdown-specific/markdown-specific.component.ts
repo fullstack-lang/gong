@@ -96,6 +96,18 @@ export class MarkdownSpecificComponent {
 
       if (base64Content) {
         const dataUri = `data:image/png;base64,${base64Content}`;
+        let widthAttribute = '';
+        if (queryParams) {
+            const params = new URLSearchParams(queryParams);
+            const widthValue = params.get('width');
+            if (widthValue) {
+                widthAttribute = ` width="${widthValue}"`;
+            }
+        }
+        
+        if (widthAttribute) {
+            return `<img alt="${altText}" src="${dataUri}"${widthAttribute}>`;
+        }
         return `![${altText}](${dataUri})`;
       }
       return match;
@@ -112,6 +124,18 @@ export class MarkdownSpecificComponent {
 
       if (base64Content) {
         const dataUri = `data:image/jpeg;base64,${base64Content}`;
+        let widthAttribute = '';
+        if (queryParams) {
+            const params = new URLSearchParams(queryParams);
+            const widthValue = params.get('width');
+            if (widthValue) {
+                widthAttribute = ` width="${widthValue}"`;
+            }
+        }
+
+        if (widthAttribute) {
+            return `<img alt="${altText}" src="${dataUri}"${widthAttribute}>`;
+        }
         return `![${altText}](${dataUri})`;
       }
       return match;

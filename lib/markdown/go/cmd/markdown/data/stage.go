@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-09-17 02:31:14.657269 CEST"
-	const __write__utc_time__ = "2025-09-17 00:31:14.657269 UTC"
+	const __write__local_time = "2025-09-19 08:07:54.070573 CEST"
+	const __write__utc_time__ = "2025-09-19 06:07:54.070573 UTC"
 
-	const __commitId__ = "0000000032"
+	const __commitId__ = "0000000039"
 
 	// Declaration of instances to stage
 
@@ -55,6 +55,8 @@ This is a **standalone** Angular component using "ngx-markdown"
 ![A chess board](png:chessboard?width=250px)
 
 ![My vera rubin telescope](svg:vera rubin logo?width=250px)
+
+![Circular](jpg:circular?width=250px)
 
 # This is H1
 This is plain text
@@ -94,7 +96,8 @@ Text formatting, such as **bold** and *italic*, code styles.
 | John  |  30 | UK      |
 | Bob   |  25 | Canada  |
 
-![Circular](jpg:circular?width=250px)
+
+
 `
 
 	__JpgImage__000000_circular.Name = `circular`
