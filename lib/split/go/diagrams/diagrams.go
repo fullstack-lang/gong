@@ -23,33 +23,28 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-09-27 10:31:29.571553 CEST"
-	const __write__utc_time__ = "2025-09-27 08:31:29.571553 UTC"
+	const __write__local_time = "2025-09-27 11:14:10.557646 CEST"
+	const __write__utc_time__ = "2025-09-27 09:14:10.557646 UTC"
 
-	const __commitId__ = "0000000176"
+	const __commitId__ = "0000000209"
 
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_StackName := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000001_IsSelectedView := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000002_ShowViewName := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000003_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000004_SVG := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000005_Height := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000003_SVG := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000004_Height := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000005_Width := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000006_Width := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000007_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000008_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000009_Width := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000010_Height := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000011_SVG := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000012_Name := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000013_ShowNameInHeader := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000014_Size := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000015_IsAny := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000016_HasDiv := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000017_DivStyle := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000018_Direction := (&models.AttributeShape{}).Stage(stage)
-	__AttributeShape__000019_Name := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000007_Height := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000008_SVG := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000009_ShowNameInHeader := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000010_Size := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000011_IsAny := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000012_HasDiv := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000013_DivStyle := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000014_NoName_yet := (&models.AttributeShape{}).Stage(stage)
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
 
@@ -78,9 +73,10 @@ func _(stage *models.Stage) {
 	__GongStructShape__000015_Default_Cursor := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000016_Default_Button := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000017_Default_AsSplitArea := (&models.GongStructShape{}).Stage(stage)
-	__GongStructShape__000018_Default_AsSplit := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000018_NoName_yet := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000019_Default_AsSplit := (&models.GongStructShape{}).Stage(stage)
 
-	__LinkShape__000000_RootAsSplitAreas := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000000_NoName_yet := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000001_AsSplit := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000002_Button := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000003_Cursor := (&models.LinkShape{}).Stage(stage)
@@ -94,7 +90,9 @@ func _(stage *models.Stage) {
 	__LinkShape__000011_Tone := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000012_Tree := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000013_Xlsx := (&models.LinkShape{}).Stage(stage)
-	__LinkShape__000014_AsSplitAreas := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000014_NoName_yet := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000015_AsSplitAreas := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000016_RootAsSplitAreas := (&models.LinkShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -116,101 +114,76 @@ func _(stage *models.Stage) {
 	__AttributeShape__000002_ShowViewName.Structname = `View`
 	__AttributeShape__000002_ShowViewName.Fieldtypename = `bool`
 
-	__AttributeShape__000003_Name.Name = `Name`
-	__AttributeShape__000003_Name.IdentifierMeta = ref_models.View{}.Name
-	__AttributeShape__000003_Name.FieldTypeAsString = ``
-	__AttributeShape__000003_Name.Structname = `View`
-	__AttributeShape__000003_Name.Fieldtypename = `string`
+	__AttributeShape__000003_SVG.Name = `SVG`
+	__AttributeShape__000003_SVG.IdentifierMeta = ref_models.LogoOnTheRight{}.SVG
+	__AttributeShape__000003_SVG.FieldTypeAsString = ``
+	__AttributeShape__000003_SVG.Structname = `LogoOnTheRight`
+	__AttributeShape__000003_SVG.Fieldtypename = `string`
 
-	__AttributeShape__000004_SVG.Name = `SVG`
-	__AttributeShape__000004_SVG.IdentifierMeta = ref_models.LogoOnTheRight{}.SVG
-	__AttributeShape__000004_SVG.FieldTypeAsString = ``
-	__AttributeShape__000004_SVG.Structname = `LogoOnTheRight`
-	__AttributeShape__000004_SVG.Fieldtypename = `string`
+	__AttributeShape__000004_Height.Name = `Height`
+	__AttributeShape__000004_Height.IdentifierMeta = ref_models.LogoOnTheRight{}.Height
+	__AttributeShape__000004_Height.FieldTypeAsString = ``
+	__AttributeShape__000004_Height.Structname = `LogoOnTheRight`
+	__AttributeShape__000004_Height.Fieldtypename = `int`
 
-	__AttributeShape__000005_Height.Name = `Height`
-	__AttributeShape__000005_Height.IdentifierMeta = ref_models.LogoOnTheRight{}.Height
-	__AttributeShape__000005_Height.FieldTypeAsString = ``
-	__AttributeShape__000005_Height.Structname = `LogoOnTheRight`
-	__AttributeShape__000005_Height.Fieldtypename = `int`
+	__AttributeShape__000005_Width.Name = `Width`
+	__AttributeShape__000005_Width.IdentifierMeta = ref_models.LogoOnTheRight{}.Width
+	__AttributeShape__000005_Width.FieldTypeAsString = ``
+	__AttributeShape__000005_Width.Structname = `LogoOnTheRight`
+	__AttributeShape__000005_Width.Fieldtypename = `int`
 
 	__AttributeShape__000006_Width.Name = `Width`
-	__AttributeShape__000006_Width.IdentifierMeta = ref_models.LogoOnTheRight{}.Width
+	__AttributeShape__000006_Width.IdentifierMeta = ref_models.LogoOnTheLeft{}.Width
 	__AttributeShape__000006_Width.FieldTypeAsString = ``
-	__AttributeShape__000006_Width.Structname = `LogoOnTheRight`
+	__AttributeShape__000006_Width.Structname = `LogoOnTheLeft`
 	__AttributeShape__000006_Width.Fieldtypename = `int`
 
-	__AttributeShape__000007_Name.Name = `Name`
-	__AttributeShape__000007_Name.IdentifierMeta = ref_models.LogoOnTheRight{}.Name
-	__AttributeShape__000007_Name.FieldTypeAsString = ``
-	__AttributeShape__000007_Name.Structname = `LogoOnTheRight`
-	__AttributeShape__000007_Name.Fieldtypename = `string`
+	__AttributeShape__000007_Height.Name = `Height`
+	__AttributeShape__000007_Height.IdentifierMeta = ref_models.LogoOnTheLeft{}.Height
+	__AttributeShape__000007_Height.FieldTypeAsString = ``
+	__AttributeShape__000007_Height.Structname = `LogoOnTheLeft`
+	__AttributeShape__000007_Height.Fieldtypename = `int`
 
-	__AttributeShape__000008_Name.Name = `Name`
-	__AttributeShape__000008_Name.IdentifierMeta = ref_models.LogoOnTheLeft{}.Name
-	__AttributeShape__000008_Name.FieldTypeAsString = ``
-	__AttributeShape__000008_Name.Structname = `LogoOnTheLeft`
-	__AttributeShape__000008_Name.Fieldtypename = `string`
+	__AttributeShape__000008_SVG.Name = `SVG`
+	__AttributeShape__000008_SVG.IdentifierMeta = ref_models.LogoOnTheLeft{}.SVG
+	__AttributeShape__000008_SVG.FieldTypeAsString = ``
+	__AttributeShape__000008_SVG.Structname = `LogoOnTheLeft`
+	__AttributeShape__000008_SVG.Fieldtypename = `string`
 
-	__AttributeShape__000009_Width.Name = `Width`
-	__AttributeShape__000009_Width.IdentifierMeta = ref_models.LogoOnTheLeft{}.Width
-	__AttributeShape__000009_Width.FieldTypeAsString = ``
-	__AttributeShape__000009_Width.Structname = `LogoOnTheLeft`
-	__AttributeShape__000009_Width.Fieldtypename = `int`
+	__AttributeShape__000009_ShowNameInHeader.Name = `ShowNameInHeader`
+	__AttributeShape__000009_ShowNameInHeader.IdentifierMeta = ref_models.AsSplitArea{}.ShowNameInHeader
+	__AttributeShape__000009_ShowNameInHeader.FieldTypeAsString = ``
+	__AttributeShape__000009_ShowNameInHeader.Structname = `AsSplitArea`
+	__AttributeShape__000009_ShowNameInHeader.Fieldtypename = `bool`
 
-	__AttributeShape__000010_Height.Name = `Height`
-	__AttributeShape__000010_Height.IdentifierMeta = ref_models.LogoOnTheLeft{}.Height
-	__AttributeShape__000010_Height.FieldTypeAsString = ``
-	__AttributeShape__000010_Height.Structname = `LogoOnTheLeft`
-	__AttributeShape__000010_Height.Fieldtypename = `int`
+	__AttributeShape__000010_Size.Name = `Size`
+	__AttributeShape__000010_Size.IdentifierMeta = ref_models.AsSplitArea{}.Size
+	__AttributeShape__000010_Size.FieldTypeAsString = ``
+	__AttributeShape__000010_Size.Structname = `AsSplitArea`
+	__AttributeShape__000010_Size.Fieldtypename = `float64`
 
-	__AttributeShape__000011_SVG.Name = `SVG`
-	__AttributeShape__000011_SVG.IdentifierMeta = ref_models.LogoOnTheLeft{}.SVG
-	__AttributeShape__000011_SVG.FieldTypeAsString = ``
-	__AttributeShape__000011_SVG.Structname = `LogoOnTheLeft`
-	__AttributeShape__000011_SVG.Fieldtypename = `string`
+	__AttributeShape__000011_IsAny.Name = `IsAny`
+	__AttributeShape__000011_IsAny.IdentifierMeta = ref_models.AsSplitArea{}.IsAny
+	__AttributeShape__000011_IsAny.FieldTypeAsString = ``
+	__AttributeShape__000011_IsAny.Structname = `AsSplitArea`
+	__AttributeShape__000011_IsAny.Fieldtypename = `bool`
 
-	__AttributeShape__000012_Name.Name = `Name`
-	__AttributeShape__000012_Name.IdentifierMeta = ref_models.AsSplitArea{}.Name
-	__AttributeShape__000012_Name.FieldTypeAsString = ``
-	__AttributeShape__000012_Name.Structname = `AsSplitArea`
-	__AttributeShape__000012_Name.Fieldtypename = `string`
+	__AttributeShape__000012_HasDiv.Name = `HasDiv`
+	__AttributeShape__000012_HasDiv.IdentifierMeta = ref_models.AsSplitArea{}.HasDiv
+	__AttributeShape__000012_HasDiv.FieldTypeAsString = ``
+	__AttributeShape__000012_HasDiv.Structname = `AsSplitArea`
+	__AttributeShape__000012_HasDiv.Fieldtypename = `bool`
 
-	__AttributeShape__000013_ShowNameInHeader.Name = `ShowNameInHeader`
-	__AttributeShape__000013_ShowNameInHeader.IdentifierMeta = ref_models.AsSplitArea{}.ShowNameInHeader
-	__AttributeShape__000013_ShowNameInHeader.FieldTypeAsString = ``
-	__AttributeShape__000013_ShowNameInHeader.Structname = `AsSplitArea`
-	__AttributeShape__000013_ShowNameInHeader.Fieldtypename = `bool`
+	__AttributeShape__000013_DivStyle.Name = `DivStyle`
+	__AttributeShape__000013_DivStyle.IdentifierMeta = ref_models.AsSplitArea{}.DivStyle
+	__AttributeShape__000013_DivStyle.FieldTypeAsString = ``
+	__AttributeShape__000013_DivStyle.Structname = `AsSplitArea`
+	__AttributeShape__000013_DivStyle.Fieldtypename = `string`
 
-	__AttributeShape__000014_Size.Name = `Size`
-	__AttributeShape__000014_Size.IdentifierMeta = ref_models.AsSplitArea{}.Size
-	__AttributeShape__000014_Size.FieldTypeAsString = ``
-	__AttributeShape__000014_Size.Structname = `AsSplitArea`
-	__AttributeShape__000014_Size.Fieldtypename = `float64`
-
-	__AttributeShape__000015_IsAny.Name = `IsAny`
-	__AttributeShape__000015_IsAny.IdentifierMeta = ref_models.AsSplitArea{}.IsAny
-	__AttributeShape__000015_IsAny.FieldTypeAsString = ``
-	__AttributeShape__000015_IsAny.Structname = `AsSplitArea`
-	__AttributeShape__000015_IsAny.Fieldtypename = `bool`
-
-	__AttributeShape__000016_HasDiv.Name = `HasDiv`
-	__AttributeShape__000016_HasDiv.IdentifierMeta = ref_models.AsSplitArea{}.HasDiv
-	__AttributeShape__000016_HasDiv.FieldTypeAsString = ``
-	__AttributeShape__000016_HasDiv.Structname = `AsSplitArea`
-	__AttributeShape__000016_HasDiv.Fieldtypename = `bool`
-
-	__AttributeShape__000017_DivStyle.Name = `DivStyle`
-	__AttributeShape__000017_DivStyle.IdentifierMeta = ref_models.AsSplitArea{}.DivStyle
-	__AttributeShape__000017_DivStyle.FieldTypeAsString = ``
-	__AttributeShape__000017_DivStyle.Structname = `AsSplitArea`
-	__AttributeShape__000017_DivStyle.Fieldtypename = `string`
-
-	__AttributeShape__000019_Name.Name = `Name`
-	__AttributeShape__000019_Name.IdentifierMeta = ref_models.AsSplit{}.Name
-	__AttributeShape__000019_Name.FieldTypeAsString = ``
-	__AttributeShape__000019_Name.Structname = `AsSplit`
-	__AttributeShape__000019_Name.Fieldtypename = `string`
+	__AttributeShape__000014_NoName_yet.Name = `NoName yet`
+	__AttributeShape__000014_NoName_yet.FieldTypeAsString = ``
+	__AttributeShape__000014_NoName_yet.Structname = ``
+	__AttributeShape__000014_NoName_yet.Fieldtypename = ``
 
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = ``
@@ -218,7 +191,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false]`
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[false]`
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
@@ -387,24 +360,33 @@ func _(stage *models.Stage) {
 	__GongStructShape__000017_Default_AsSplitArea.Height = 183.000000
 	__GongStructShape__000017_Default_AsSplitArea.IsSelected = false
 
-	__LinkShape__000000_RootAsSplitAreas.Name = `RootAsSplitAreas`
-	__LinkShape__000000_RootAsSplitAreas.IdentifierMeta = ref_models.View{}.RootAsSplitAreas
-	__LinkShape__000000_RootAsSplitAreas.FieldTypeIdentifierMeta = ref_models.AsSplitArea{}
-	__LinkShape__000000_RootAsSplitAreas.FieldOffsetX = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.FieldOffsetY = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.TargetMultiplicity = models.MANY
-	__LinkShape__000000_RootAsSplitAreas.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.SourceMultiplicity = models.MANY
-	__LinkShape__000000_RootAsSplitAreas.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__000000_RootAsSplitAreas.X = 724.000000
-	__LinkShape__000000_RootAsSplitAreas.Y = 382.000000
-	__LinkShape__000000_RootAsSplitAreas.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__000000_RootAsSplitAreas.StartRatio = 0.589616
-	__LinkShape__000000_RootAsSplitAreas.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__000000_RootAsSplitAreas.EndRatio = 0.677116
-	__LinkShape__000000_RootAsSplitAreas.CornerOffsetRatio = 2.069185
+	__GongStructShape__000018_NoName_yet.Name = `NoName yet`
+	__GongStructShape__000018_NoName_yet.X = 0.000000
+	__GongStructShape__000018_NoName_yet.Y = 0.000000
+	__GongStructShape__000018_NoName_yet.Width = 0.000000
+	__GongStructShape__000018_NoName_yet.Height = 0.000000
+	__GongStructShape__000018_NoName_yet.IsSelected = false
+
+	__GongStructShape__000019_Default_AsSplit.Name = `Default-AsSplit`
+	__GongStructShape__000019_Default_AsSplit.X = 38.000000
+	__GongStructShape__000019_Default_AsSplit.Y = 830.000000
+	__GongStructShape__000019_Default_AsSplit.IdentifierMeta = ref_models.AsSplit{}
+	__GongStructShape__000019_Default_AsSplit.Width = 240.000000
+	__GongStructShape__000019_Default_AsSplit.Height = 83.000000
+	__GongStructShape__000019_Default_AsSplit.IsSelected = false
+
+	__LinkShape__000000_NoName_yet.Name = `NoName yet`
+	__LinkShape__000000_NoName_yet.FieldOffsetX = 0.000000
+	__LinkShape__000000_NoName_yet.FieldOffsetY = 0.000000
+	__LinkShape__000000_NoName_yet.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000000_NoName_yet.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000000_NoName_yet.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000000_NoName_yet.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000000_NoName_yet.X = 0.000000
+	__LinkShape__000000_NoName_yet.Y = 0.000000
+	__LinkShape__000000_NoName_yet.StartRatio = 0.000000
+	__LinkShape__000000_NoName_yet.EndRatio = 0.000000
+	__LinkShape__000000_NoName_yet.CornerOffsetRatio = 0.000000
 
 	__LinkShape__000001_AsSplit.Name = `AsSplit`
 	__LinkShape__000001_AsSplit.IdentifierMeta = ref_models.AsSplitArea{}.AsSplit
@@ -648,29 +630,61 @@ func _(stage *models.Stage) {
 	__LinkShape__000013_Xlsx.X = 848.500000
 	__LinkShape__000013_Xlsx.Y = 656.000000
 	__LinkShape__000013_Xlsx.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000013_Xlsx.StartRatio = 0.500000
+	__LinkShape__000013_Xlsx.StartRatio = 0.498709
 	__LinkShape__000013_Xlsx.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__000013_Xlsx.EndRatio = 0.500000
-	__LinkShape__000013_Xlsx.CornerOffsetRatio = 1.380000
+	__LinkShape__000013_Xlsx.CornerOffsetRatio = 1.382324
 
-	__LinkShape__000014_AsSplitAreas.Name = `AsSplitAreas`
-	__LinkShape__000014_AsSplitAreas.IdentifierMeta = ref_models.AsSplit{}.AsSplitAreas
-	__LinkShape__000014_AsSplitAreas.FieldTypeIdentifierMeta = ref_models.AsSplitArea{}
-	__LinkShape__000014_AsSplitAreas.FieldOffsetX = 0.000000
-	__LinkShape__000014_AsSplitAreas.FieldOffsetY = 0.000000
-	__LinkShape__000014_AsSplitAreas.TargetMultiplicity = models.MANY
-	__LinkShape__000014_AsSplitAreas.TargetMultiplicityOffsetX = 0.000000
-	__LinkShape__000014_AsSplitAreas.TargetMultiplicityOffsetY = 0.000000
-	__LinkShape__000014_AsSplitAreas.SourceMultiplicity = models.MANY
-	__LinkShape__000014_AsSplitAreas.SourceMultiplicityOffsetX = 0.000000
-	__LinkShape__000014_AsSplitAreas.SourceMultiplicityOffsetY = 0.000000
-	__LinkShape__000014_AsSplitAreas.X = 393.000000
-	__LinkShape__000014_AsSplitAreas.Y = 706.125000
-	__LinkShape__000014_AsSplitAreas.StartOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__000014_AsSplitAreas.StartRatio = 0.706283
-	__LinkShape__000014_AsSplitAreas.EndOrientation = models.ORIENTATION_VERTICAL
-	__LinkShape__000014_AsSplitAreas.EndRatio = 0.689616
-	__LinkShape__000014_AsSplitAreas.CornerOffsetRatio = -0.589711
+	__LinkShape__000014_NoName_yet.Name = `NoName yet`
+	__LinkShape__000014_NoName_yet.FieldOffsetX = 0.000000
+	__LinkShape__000014_NoName_yet.FieldOffsetY = 0.000000
+	__LinkShape__000014_NoName_yet.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000014_NoName_yet.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000014_NoName_yet.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000014_NoName_yet.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000014_NoName_yet.X = 0.000000
+	__LinkShape__000014_NoName_yet.Y = 0.000000
+	__LinkShape__000014_NoName_yet.StartRatio = 0.000000
+	__LinkShape__000014_NoName_yet.EndRatio = 0.000000
+	__LinkShape__000014_NoName_yet.CornerOffsetRatio = 0.000000
+
+	__LinkShape__000015_AsSplitAreas.Name = `AsSplitAreas`
+	__LinkShape__000015_AsSplitAreas.IdentifierMeta = ref_models.AsSplit{}.AsSplitAreas
+	__LinkShape__000015_AsSplitAreas.FieldTypeIdentifierMeta = ref_models.AsSplitArea{}
+	__LinkShape__000015_AsSplitAreas.FieldOffsetX = 0.000000
+	__LinkShape__000015_AsSplitAreas.FieldOffsetY = 0.000000
+	__LinkShape__000015_AsSplitAreas.TargetMultiplicity = models.MANY
+	__LinkShape__000015_AsSplitAreas.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000015_AsSplitAreas.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000015_AsSplitAreas.SourceMultiplicity = models.MANY
+	__LinkShape__000015_AsSplitAreas.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000015_AsSplitAreas.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000015_AsSplitAreas.X = 396.500000
+	__LinkShape__000015_AsSplitAreas.Y = 712.500000
+	__LinkShape__000015_AsSplitAreas.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000015_AsSplitAreas.StartRatio = 0.786491
+	__LinkShape__000015_AsSplitAreas.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000015_AsSplitAreas.EndRatio = 0.798991
+	__LinkShape__000015_AsSplitAreas.CornerOffsetRatio = -0.623329
+
+	__LinkShape__000016_RootAsSplitAreas.Name = `RootAsSplitAreas`
+	__LinkShape__000016_RootAsSplitAreas.IdentifierMeta = ref_models.View{}.RootAsSplitAreas
+	__LinkShape__000016_RootAsSplitAreas.FieldTypeIdentifierMeta = ref_models.AsSplitArea{}
+	__LinkShape__000016_RootAsSplitAreas.FieldOffsetX = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.FieldOffsetY = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.TargetMultiplicity = models.MANY
+	__LinkShape__000016_RootAsSplitAreas.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.SourceMultiplicity = models.MANY
+	__LinkShape__000016_RootAsSplitAreas.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000016_RootAsSplitAreas.X = 402.000000
+	__LinkShape__000016_RootAsSplitAreas.Y = 395.000000
+	__LinkShape__000016_RootAsSplitAreas.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000016_RootAsSplitAreas.StartRatio = 0.757324
+	__LinkShape__000016_RootAsSplitAreas.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000016_RootAsSplitAreas.EndRatio = 0.844824
+	__LinkShape__000016_RootAsSplitAreas.CornerOffsetRatio = 2.026534
 
 	// Setup of pointers
 	// setup of AttributeShape instances pointers
@@ -693,7 +707,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000015_Default_Cursor)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000016_Default_Button)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000017_Default_AsSplitArea)
-	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000018_Default_AsSplit)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000018_NoName_yet)
+	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000019_Default_AsSplit)
 	__Classdiagram__000000_Default.GongEnumShapes = append(__Classdiagram__000000_Default.GongEnumShapes, __GongEnumShape__000000_Default_Direction)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_06_12T00_16_22Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_06_12T00_16_22Z.Classdiagrams, __Classdiagram__000000_Default)
@@ -704,24 +719,21 @@ func _(stage *models.Stage) {
 	// setup of GongEnumValueShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Split.AttributeShapes = append(__GongStructShape__000000_Default_Split.AttributeShapes, __AttributeShape__000000_StackName)
-	__GongStructShape__000002_Default_View.AttributeShapes = append(__GongStructShape__000002_Default_View.AttributeShapes, __AttributeShape__000003_Name)
 	__GongStructShape__000002_Default_View.AttributeShapes = append(__GongStructShape__000002_Default_View.AttributeShapes, __AttributeShape__000002_ShowViewName)
 	__GongStructShape__000002_Default_View.AttributeShapes = append(__GongStructShape__000002_Default_View.AttributeShapes, __AttributeShape__000001_IsSelectedView)
-	__GongStructShape__000002_Default_View.LinkShapes = append(__GongStructShape__000002_Default_View.LinkShapes, __LinkShape__000000_RootAsSplitAreas)
-	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000007_Name)
-	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000006_Width)
-	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000005_Height)
-	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000004_SVG)
-	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000008_Name)
-	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000009_Width)
-	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000010_Height)
-	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000011_SVG)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000012_Name)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000013_ShowNameInHeader)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000014_Size)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000015_IsAny)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000016_HasDiv)
-	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000017_DivStyle)
+	__GongStructShape__000002_Default_View.LinkShapes = append(__GongStructShape__000002_Default_View.LinkShapes, __LinkShape__000000_NoName_yet)
+	__GongStructShape__000002_Default_View.LinkShapes = append(__GongStructShape__000002_Default_View.LinkShapes, __LinkShape__000016_RootAsSplitAreas)
+	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000005_Width)
+	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000004_Height)
+	__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes = append(__GongStructShape__000010_Default_LogoOnTheRight.AttributeShapes, __AttributeShape__000003_SVG)
+	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000006_Width)
+	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000007_Height)
+	__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes = append(__GongStructShape__000011_Default_LogoOnTheLeft.AttributeShapes, __AttributeShape__000008_SVG)
+	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000009_ShowNameInHeader)
+	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000010_Size)
+	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000011_IsAny)
+	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000012_HasDiv)
+	__GongStructShape__000017_Default_AsSplitArea.AttributeShapes = append(__GongStructShape__000017_Default_AsSplitArea.AttributeShapes, __AttributeShape__000013_DivStyle)
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000001_AsSplit)
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000002_Button)
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000003_Cursor)
@@ -735,8 +747,9 @@ func _(stage *models.Stage) {
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000011_Tone)
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000012_Tree)
 	__GongStructShape__000017_Default_AsSplitArea.LinkShapes = append(__GongStructShape__000017_Default_AsSplitArea.LinkShapes, __LinkShape__000013_Xlsx)
-	__GongStructShape__000018_Default_AsSplit.AttributeShapes = append(__GongStructShape__000018_Default_AsSplit.AttributeShapes, __AttributeShape__000019_Name)
-	__GongStructShape__000018_Default_AsSplit.AttributeShapes = append(__GongStructShape__000018_Default_AsSplit.AttributeShapes, __AttributeShape__000018_Direction)
-	__GongStructShape__000018_Default_AsSplit.LinkShapes = append(__GongStructShape__000018_Default_AsSplit.LinkShapes, __LinkShape__000014_AsSplitAreas)
+	__GongStructShape__000018_NoName_yet.AttributeShapes = append(__GongStructShape__000018_NoName_yet.AttributeShapes, __AttributeShape__000014_NoName_yet)
+	__GongStructShape__000018_NoName_yet.LinkShapes = append(__GongStructShape__000018_NoName_yet.LinkShapes, __LinkShape__000014_NoName_yet)
+	__GongStructShape__000019_Default_AsSplit.LinkShapes = append(__GongStructShape__000019_Default_AsSplit.LinkShapes, __LinkShape__000015_AsSplitAreas)
 	// setup of LinkShape instances pointers
 }
+
