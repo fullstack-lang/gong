@@ -43,7 +43,7 @@ func (stager *Stager) compute_map_modelElement_shape(
 				}
 			}
 			if !fieldFound {
-				log.Panicln("Diagram", classdiagram.GetName(), "has a shape named", fieldShapeName, "but no gongstruct exists")
+				log.Println("Diagram", classdiagram.GetName(), "has a shape named", fieldShapeName, "but no gongstruct exists")
 			}
 		}
 
@@ -70,7 +70,8 @@ func (stager *Stager) compute_map_modelElement_shape(
 		gongEnumName := GongEnumIdentifierMetaToGongEnumName(gongEnumShape.IdentifierMeta)
 		gongEnum, ok := gongEnumSet[gongEnumName]
 		if !ok {
-			log.Fatalln("unkown element", gongEnumName)
+			log.Println("unkown element", gongEnumName)
+			continue
 		}
 
 		map_ModelElement_Shape[gongEnum] = gongEnumShape
@@ -92,7 +93,8 @@ func (stager *Stager) compute_map_modelElement_shape(
 		gongNoteName := IdentifierToGongStructName(gongNoteShape.Identifier)
 		gongNote, ok := gongNoteSet[gongNoteName]
 		if !ok {
-			log.Fatalln("unkown element", gongNoteShape.Identifier)
+			log.Println("unkown element", gongNoteShape.Identifier)
+			continue
 		}
 
 		map_ModelElement_Shape[gongNote] = gongNoteShape
