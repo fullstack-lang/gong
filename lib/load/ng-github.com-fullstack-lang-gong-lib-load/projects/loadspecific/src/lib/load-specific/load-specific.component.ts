@@ -43,6 +43,8 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
           console.log("WebSocket message received.");
 
           this.frontRepo = frontRepo;
+          this.fileToDownload = undefined
+          this.fileToUpload = undefined
 
           for (let message_ of this.frontRepo.getFrontArray<load.Message>(load.Message.GONGSTRUCT_NAME)) {
             this.message = message_;
