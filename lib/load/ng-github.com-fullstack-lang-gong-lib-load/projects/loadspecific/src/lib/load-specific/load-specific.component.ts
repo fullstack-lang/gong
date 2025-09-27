@@ -1,7 +1,8 @@
-import { Component, Input, OnInit, EventEmitter, Output, signal  } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, EventEmitter, Output, signal } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import * as load from '../../../../load/src/public-api'
-
+import * as load from '../../../../load/src/public-api';
 
 @Component({
   selector: 'lib-load-specific',
@@ -9,21 +10,19 @@ import * as load from '../../../../load/src/public-api'
   templateUrl: './load-specific.component.html',
   styleUrl: './load-specific.component.css'
 })
-export class LoadSpecificComponent implements OnInit {
+export class LoadSpecificComponent implements OnInit, OnDestroy {
   @Output() fileDropped = new EventEmitter<File>();
   isDragging = false;
 
-  @Input() Name: string = ""
+  @Input() Name: string = "";
 
   public frontRepo?: load.FrontRepo;
+  public fileToDownload?: load.FileToDownload;
+  public fileToUpload?: load.FileToUpload;
+  public message?: load.Message;
 
-  public fileToDownload?: load.FileToDownload
-
-  // to upload a file, the back must instance a fileToUpload
-  // the front will update its name and content
-  public fileToUpload?: load.FileToUpload
-
-  public message?: load.Message
+  // 1. Create a subject to notify when the component is destroyed.
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
     private frontRepoService: load.FrontRepoService,
@@ -33,60 +32,62 @@ export class LoadSpecificComponent implements OnInit {
   ngOnInit(): void {
     console.log("ngOnInit");
 
-    this.frontRepoService.connectToWebSocket(this.Name).subscribe({
-      next: (frontRepo) => {
-        this.frontRepo = frontRepo;
+    this.frontRepoService.connectToWebSocket(this.Name)
+      .pipe(
+        // 2. Use takeUntil to automatically complete the subscription on destroy.
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (frontRepo) => {
+          // This block will now only be executed by this component instance's subscription.
+          console.log("WebSocket message received.");
 
-        for (let message_ of this.frontRepo.getFrontArray<load.Message>(load.Message.GONGSTRUCT_NAME)) 
-        {
-          this.message = message_
-        }
+          this.frontRepo = frontRepo;
 
-        for (let file_ of this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME)) 
-        {
-          this.fileToDownload = file_
-        }
+          for (let message_ of this.frontRepo.getFrontArray<load.Message>(load.Message.GONGSTRUCT_NAME)) {
+            this.message = message_;
+          }
 
-        for (let file_ of this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME)) 
-        {
-          this.fileToUpload = file_
-        }
+          for (let file_ of this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME)) {
+            this.fileToDownload = file_;
+          }
 
-        if (this.fileToDownload == undefined && this.fileToUpload == undefined) {
-          return
-        }
+          for (let file_ of this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME)) {
+            this.fileToUpload = file_;
+          }
 
-        if (this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME).length > 1) {
-          return
-        }
+          if (this.fileToDownload == undefined && this.fileToUpload == undefined) {
+            return;
+          }
+
+          if (this.frontRepo.getFrontArray<load.FileToDownload>(load.FileToDownload.GONGSTRUCT_NAME).length > 1) {
+            return;
+          }
 
           if (this.frontRepo.getFrontArray<load.FileToUpload>(load.FileToUpload.GONGSTRUCT_NAME).length > 1) {
-          return
+            return;
+          }
+
+          if (this.fileToDownload) {
+            const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = this.fileToDownload.Name;
+            link.click();
+            URL.revokeObjectURL(url);
+          }
         }
-
-        // Create a Blob from the file string
-        if (this.fileToDownload) {
-          const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
-
-          // Generate a temporary URL for the Blob
-          const url = URL.createObjectURL(blob);
-
-          // Create a link element, set its href to the Blob URL, and initiate download
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = this.fileToDownload.Name;  // The name of the file to be downloaded
-          link.click();
-
-          // Clean up the URL object once finished
-          URL.revokeObjectURL(url);
-        }
-
-      }
-    }
-    )
+      });
   }
 
- isDragOver = signal(false);
+  ngOnDestroy(): void {
+    // 3. Emit a value and complete the subject to trigger takeUntil.
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  isDragOver = signal(false);
   isUploading = signal(false);
   uploadStatus = signal<string>('');
 
@@ -113,7 +114,7 @@ export class LoadSpecificComponent implements OnInit {
     }
   }
 
-   onFileSelected(event: Event): void {
+  onFileSelected(event: Event): void {
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
     if (fileList && fileList.length > 0) {
@@ -131,14 +132,11 @@ export class LoadSpecificComponent implements OnInit {
     this.uploadStatus.set(`Preparing to upload ${file.name}...`);
 
     const reader = new FileReader();
-
-    // This is crucial: Read the file as ArrayBuffer
     reader.readAsArrayBuffer(file);
 
     reader.onload = (e: ProgressEvent<FileReader>) => {
       if (e.target?.result) {
-        const fileContent = e.target.result as ArrayBuffer; // Content is ArrayBuffer
-        // Now call your uploadFile method, which expects string or ArrayBuffer
+        const fileContent = e.target.result as ArrayBuffer;
         this.uploadFileInternal(file.name, fileContent);
       } else {
         this.isUploading.set(false);
@@ -154,9 +152,6 @@ export class LoadSpecificComponent implements OnInit {
     };
   }
 
-  // Renamed your original uploadFile to uploadFileInternal to avoid conflict
-  // if you have other methods named uploadFile.
-  // This is the method you provided earlier, adapted.
   private uploadFileInternal(fileName: string, fileContent: string | ArrayBuffer): void {
     if (this.fileToUpload == undefined) {
       this.isUploading.set(false);
@@ -170,8 +165,6 @@ export class LoadSpecificComponent implements OnInit {
 
     try {
       if (typeof fileContent === 'string') {
-        // This branch should ideally not be hit for binary files if readAsArrayBuffer is used.
-        // It's kept for flexibility if some textual data is directly passed.
         const encoder = new TextEncoder();
         const utf8Bytes = encoder.encode(fileContent);
         let binaryString = '';
