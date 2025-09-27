@@ -206,12 +206,6 @@ func _(stage *models.Stage) {
 	__AttributeShape__000017_DivStyle.Structname = `AsSplitArea`
 	__AttributeShape__000017_DivStyle.Fieldtypename = `string`
 
-	__AttributeShape__000018_Direction.Name = `Direction`
-	__AttributeShape__000018_Direction.IdentifierMeta = ref_models.AsSplit{}.Direction
-	__AttributeShape__000018_Direction.FieldTypeAsString = ``
-	__AttributeShape__000018_Direction.Structname = `AsSplit`
-	__AttributeShape__000018_Direction.Fieldtypename = `Direction`
-
 	__AttributeShape__000019_Name.Name = `Name`
 	__AttributeShape__000019_Name.IdentifierMeta = ref_models.AsSplit{}.Name
 	__AttributeShape__000019_Name.FieldTypeAsString = ``
@@ -392,14 +386,6 @@ func _(stage *models.Stage) {
 	__GongStructShape__000017_Default_AsSplitArea.Width = 240.000000
 	__GongStructShape__000017_Default_AsSplitArea.Height = 183.000000
 	__GongStructShape__000017_Default_AsSplitArea.IsSelected = false
-
-	__GongStructShape__000018_Default_AsSplit.Name = `Default-AsSplit`
-	__GongStructShape__000018_Default_AsSplit.X = 31.000000
-	__GongStructShape__000018_Default_AsSplit.Y = 817.250000
-	__GongStructShape__000018_Default_AsSplit.IdentifierMeta = ref_models.AsSplit{}
-	__GongStructShape__000018_Default_AsSplit.Width = 240.000000
-	__GongStructShape__000018_Default_AsSplit.Height = 103.000000
-	__GongStructShape__000018_Default_AsSplit.IsSelected = false
 
 	__LinkShape__000000_RootAsSplitAreas.Name = `RootAsSplitAreas`
 	__LinkShape__000000_RootAsSplitAreas.IdentifierMeta = ref_models.View{}.RootAsSplitAreas
@@ -754,4 +740,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000018_Default_AsSplit.LinkShapes = append(__GongStructShape__000018_Default_AsSplit.LinkShapes, __LinkShape__000014_AsSplitAreas)
 	// setup of LinkShape instances pointers
 }
-
