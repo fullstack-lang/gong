@@ -100,9 +100,6 @@
     @if (area.Tree) {
         <lib-tree-specific [Name]="area.Tree.StackName"></lib-tree-specific>
     }
-    @if (area.Xlsx) {
-        <lib-xlsx-specific [Name]="area.Xlsx.StackName"></lib-xlsx-specific>
-    }
     @if (area.AsSplit) {
         <as-split [direction]="area.AsSplit.Direction">
             @for (asSplitArea of area.AsSplit.AsSplitAreas; track asSplitArea) {

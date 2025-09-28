@@ -19,7 +19,6 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
 import { TableSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-fullstack-lang-gong-lib-tone/projects/tonespecific/src/lib/tone-specific/tone-specific.component'
 import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
-import { XlsxSpecificComponent } from '../../../../../../../xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx/projects/xlsxspecific/src/lib/xlsx-specific/xlsx-specific.component'
 
 // to set the title of the application
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
@@ -43,7 +42,6 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     TableSpecificComponent,
     ToneSpecificComponent,
     TreeSpecificComponent,
-    XlsxSpecificComponent,
 
   ],
   templateUrl: './split-specific.component.html',
