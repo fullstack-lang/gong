@@ -48,3 +48,4 @@ test/test/go/cmd/test/data/stage.go-*.delta
 test/test/go/cmd/test/app.log
 test/test/go/cmd/test/data/stage_out.go-*
 
+ng-github.com-fullstack-lang-gong
