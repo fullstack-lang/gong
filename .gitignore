@@ -50,3 +50,5 @@ test/test/go/cmd/test/data/stage_out.go-*
 
 ng-github.com-fullstack-lang-gong
 lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2
+lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt
+lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx

@@ -181,7 +181,7 @@
       "group": "build",
       "args": [
         "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "-level1",
         "-skipStager=false",
         "go/models"
       ]
@@ -400,7 +400,7 @@
       "group": "build",
       "args": [
         "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "-level1",
         "go/models"
       ]
     },
@@ -471,7 +471,7 @@
       ]
     },
     {
-      "label": "03 - ng serve doc2 ",
+      "label": "03 - ng serve doc2",
       "type": "shell",
       "options": {
         "cwd": "lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2"
