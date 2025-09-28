@@ -7,7 +7,8 @@ import (
 
 	xlsx_models "github.com/fullstack-lang/gong/lib/xlsx/go/models"
 	xlsx_stack "github.com/fullstack-lang/gong/lib/xlsx/go/stack"
-	xlsx_static "github.com/fullstack-lang/gong/lib/xlsx/go/static"
+
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -32,7 +33,7 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := xlsx_static.ServeStaticFiles(*logGINFlag)
+	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
 	stack := xlsx_stack.NewStack(r, "xlsx", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)

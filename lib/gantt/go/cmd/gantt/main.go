@@ -8,10 +8,10 @@ import (
 	// insertion point for models import
 	gantt_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
 	gantt_stack "github.com/fullstack-lang/gong/lib/gantt/go/stack"
-	gantt_static "github.com/fullstack-lang/gong/lib/gantt/go/static"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -34,7 +34,7 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := gantt_static.ServeStaticFiles(*logGINFlag)
+	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
 	stack := gantt_stack.NewStack(r, "gantt", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
