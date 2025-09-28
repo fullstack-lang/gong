@@ -8,10 +8,10 @@ import (
 	// insertion point for models import
 
 	doc2_stack "github.com/fullstack-lang/gong/lib/doc2/go/stack"
-	doc2_static "github.com/fullstack-lang/gong/lib/doc2/go/static"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -34,7 +34,7 @@ func main() {
 	flag.Parse()
 
 	// setup the static file server and get the controller
-	r := doc2_static.ServeStaticFiles(*logGINFlag)
+	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
 	stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
