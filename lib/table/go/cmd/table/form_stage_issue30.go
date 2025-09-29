@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-09-30 01:16:37.610086 CEST"
-	const __write__utc_time__ = "2025-09-29 23:16:37.610086 UTC"
+	const __write__local_time = "2025-09-30 01:28:36.939320 CEST"
+	const __write__utc_time__ = "2025-09-29 23:28:36.939320 UTC"
 
-	const __commitId__ = "0000000004"
+	const __commitId__ = "0000000009"
 
 	// Declaration of instances to stage
 
@@ -73,6 +73,7 @@ func _(stage *models.Stage) {
 	__FormFieldString__000002_Text_Area := (&models.FormFieldString{}).Stage(stage)
 
 	__FormFieldTime__000000_Time := (&models.FormFieldTime{}).Stage(stage)
+	__FormFieldTime__000001_Time_2 := (&models.FormFieldTime{}).Stage(stage)
 
 	__FormGroup__000000_Form_1 := (&models.FormGroup{}).Stage(stage)
 
@@ -258,6 +259,10 @@ second line`
 	__FormFieldTime__000000_Time.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1970-01-01 09:12:10 +0000 UTC")
 	__FormFieldTime__000000_Time.Step = 1.000000
 
+	__FormFieldTime__000001_Time_2.Name = `Time 2`
+	__FormFieldTime__000001_Time_2.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1970-01-01 13:24:33 +0000 UTC")
+	__FormFieldTime__000001_Time_2.Step = 1.000000
+
 	__FormGroup__000000_Form_1.Name = `Form 1`
 	__FormGroup__000000_Form_1.Label = `<FormGroup.Label>`
 	__FormGroup__000000_Form_1.HasSuppressButton = true
@@ -310,6 +315,7 @@ second line`
 	__FormField__000007_Select_cannot_be_set_empty_.FormFieldSelect = __FormFieldSelect__000001_Select_cannot_be_set_empty_
 	__FormField__000008_Text_Area.FormFieldString = __FormFieldString__000002_Text_Area
 	__FormField__000009_Time.FormFieldTime = __FormFieldTime__000000_Time
+	__FormField__000010_Time_2.FormFieldTime = __FormFieldTime__000001_Time_2
 	// setup of FormFieldDate instances pointers
 	// setup of FormFieldDateTime instances pointers
 	// setup of FormFieldFloat64 instances pointers
