@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-12 01:06:54.864466 CEST"
-	const __write__utc_time__ = "2025-06-11 23:06:54.864466 UTC"
+	const __write__local_time = "2025-09-30 01:16:37.610086 CEST"
+	const __write__utc_time__ = "2025-09-29 23:16:37.610086 UTC"
 
-	const __commitId__ = "0000000003"
+	const __commitId__ = "0000000004"
 
 	// Declaration of instances to stage
 
@@ -55,6 +55,7 @@ func _(stage *models.Stage) {
 	__FormField__000007_Select_cannot_be_set_empty_ := (&models.FormField{}).Stage(stage)
 	__FormField__000008_Text_Area := (&models.FormField{}).Stage(stage)
 	__FormField__000009_Time := (&models.FormField{}).Stage(stage)
+	__FormField__000010_Time_2 := (&models.FormField{}).Stage(stage)
 
 	__FormFieldDate__000000_Time := (&models.FormFieldDate{}).Stage(stage)
 
@@ -117,8 +118,8 @@ func _(stage *models.Stage) {
 	__FormEditAssocButton__000000_Edit_Assoc.AssociationStorage = ``
 	__FormEditAssocButton__000000_Edit_Assoc.HasChanged = false
 	__FormEditAssocButton__000000_Edit_Assoc.IsForSavePurpose = false
-	__FormEditAssocButton__000000_Edit_Assoc.HasToolTip = true
-	__FormEditAssocButton__000000_Edit_Assoc.ToolTipText = `Tool tip for assoc button`
+	__FormEditAssocButton__000000_Edit_Assoc.HasToolTip = false
+	__FormEditAssocButton__000000_Edit_Assoc.ToolTipText = ``
 
 	__FormField__000000_Age.Name = `Age`
 	__FormField__000000_Age.InputTypeEnum = models.Number
@@ -205,6 +206,15 @@ func _(stage *models.Stage) {
 	__FormField__000009_Time.HasBespokeHeight = false
 	__FormField__000009_Time.BespokeHeightPx = 0
 
+	__FormField__000010_Time_2.Name = `Time 2`
+	__FormField__000010_Time_2.InputTypeEnum = models.Time
+	__FormField__000010_Time_2.Label = `Time 2`
+	__FormField__000010_Time_2.Placeholder = `Time 2`
+	__FormField__000010_Time_2.HasBespokeWidth = false
+	__FormField__000010_Time_2.BespokeWidthPx = 0
+	__FormField__000010_Time_2.HasBespokeHeight = false
+	__FormField__000010_Time_2.BespokeHeightPx = 0
+
 	__FormFieldDate__000000_Time.Name = `Time`
 	__FormFieldDate__000000_Time.Value, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2022-03-02 00:00:00 +0000 UTC")
 
@@ -255,6 +265,8 @@ second line`
 
 	__FormSortAssocButton__000000_Sort_Button.Name = `Sort Button`
 	__FormSortAssocButton__000000_Sort_Button.Label = `Sort Button`
+	__FormSortAssocButton__000000_Sort_Button.HasToolTip = false
+	__FormSortAssocButton__000000_Sort_Button.ToolTipText = ``
 
 	__Option__000000_A_Select_cannot_be_set_empty_.Name = `A - Select (cannot be set empty)`
 
@@ -275,6 +287,7 @@ second line`
 	__FormDiv__000000_CheckBoxs.CheckBoxs = append(__FormDiv__000000_CheckBoxs.CheckBoxs, __CheckBox__000000_Boolean)
 	__FormDiv__000001_Date_Time.FormFields = append(__FormDiv__000001_Date_Time.FormFields, __FormField__000001_Date)
 	__FormDiv__000001_Date_Time.FormFields = append(__FormDiv__000001_Date_Time.FormFields, __FormField__000009_Time)
+	__FormDiv__000001_Date_Time.FormFields = append(__FormDiv__000001_Date_Time.FormFields, __FormField__000010_Time_2)
 	__FormDiv__000002_DateTime.FormFields = append(__FormDiv__000002_DateTime.FormFields, __FormField__000002_DateTime)
 	__FormDiv__000003_Edit_Assoc.FormEditAssocButton = __FormEditAssocButton__000000_Edit_Assoc
 	__FormDiv__000003_Edit_Assoc.FormSortAssocButton = __FormSortAssocButton__000000_Sort_Button

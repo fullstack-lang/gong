@@ -5,10 +5,10 @@
         <p class="custom-text">{{selectedFormGroup.Label}}</p>
         <button class="table__save custom-button" mat-raised-button type="submit">Submit</button>
         @if (selectedFormGroup.HasSuppressButton) {
-          <button 
-            class="table__save custom-button" 
-            color="warn" 
-            mat-raised-button 
+          <button
+            class="table__save custom-button"
+            color="warn"
+            mat-raised-button
             type="button"
             (click)="openDialog()"
           >
@@ -17,77 +17,79 @@
         }
       </div>
     }
-    
+
     @for (div of selectedFormGroup?.FormDivs; track div) {
       <div class="form-div-container">
         @for (formField of div.FormFields; track formField) {
-          <mat-form-field [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
-            <mat-label>{{formField.Label}}</mat-label>
-            
-            @if (formField.FormFieldInt) {
-              @if (angularFormGroup.controls[formField.Name].hasError('min')) {
-                <mat-error>
-                  The number must be at least {{formField.FormFieldInt.MinValue}}
-                </mat-error>
-              }
-              @if (angularFormGroup.controls[formField.Name].hasError('max')) {
-                <mat-error>
-                  The number must be at most {{formField.FormFieldInt.MaxValue}}
-                </mat-error>
-              }
-              @if (angularFormGroup.controls[formField.Name].hasError('integer')) {
-                <mat-error>
-                  Input must be an integer
-                </mat-error>
-              }
-              <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
-            }
-            
-            @if (formField.FormFieldFloat64) {
-              @if (angularFormGroup.controls[formField.Name].hasError('min')) {
-                <mat-error>
-                  The number must be at least {{formField.FormFieldFloat64.MinValue}}
-                </mat-error>
-              }
-              @if (angularFormGroup.controls[formField.Name].hasError('max')) {
-                <mat-error>
-                  The number must be at most {{formField.FormFieldFloat64.MaxValue}}
-                </mat-error>
-              }
-              <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
-            }
-            
-            @if (formField.FormFieldString && !formField.FormFieldString.IsTextArea) {
-              <input matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
-            }
-            
-            @if (formField.FormFieldString && formField.FormFieldString.IsTextArea) {
-              <textarea matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder"></textarea>
-            }
-            
-            @if (formField.FormFieldDate) {
-              <input type="date" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
-            }
-            
-            @if (formField.FormFieldTime) {
-              <input type="time" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
-            }
-            
-            @if (formField.FormFieldDateTime) {
-              <input matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
-            }
-            
-            @if (formField.FormFieldSelect) {
-              <mat-select [formControlName]="formField.Name">
-                @if (formField.FormFieldSelect.CanBeEmpty) {
-                  <mat-option>Empty</mat-option>
+          @if (formField.FormFieldInt || formField.FormFieldFloat64 || formField.FormFieldString || formField.FormFieldDate || formField.FormFieldTime || formField.FormFieldDateTime || formField.FormFieldSelect) {
+            <mat-form-field [ngStyle]="getDynamicStyles(formField)" class="custom-form-field">
+              <mat-label>{{formField.Label}}</mat-label>
+
+              @if (formField.FormFieldInt) {
+                @if (angularFormGroup.controls[formField.Name].hasError('min')) {
+                  <mat-error>
+                    The number must be at least {{formField.FormFieldInt.MinValue}}
+                  </mat-error>
                 }
-                @for (option of formField.FormFieldSelect.Options; track option) {
-                  <mat-option [value]="option.Name">{{ option.Name }}</mat-option>
+                @if (angularFormGroup.controls[formField.Name].hasError('max')) {
+                  <mat-error>
+                    The number must be at most {{formField.FormFieldInt.MaxValue}}
+                  </mat-error>
                 }
-              </mat-select>
-            }
-          </mat-form-field>
+                @if (angularFormGroup.controls[formField.Name].hasError('integer')) {
+                  <mat-error>
+                    Input must be an integer
+                  </mat-error>
+                }
+                <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+              }
+
+              @if (formField.FormFieldFloat64) {
+                @if (angularFormGroup.controls[formField.Name].hasError('min')) {
+                  <mat-error>
+                    The number must be at least {{formField.FormFieldFloat64.MinValue}}
+                  </mat-error>
+                }
+                @if (angularFormGroup.controls[formField.Name].hasError('max')) {
+                  <mat-error>
+                    The number must be at most {{formField.FormFieldFloat64.MaxValue}}
+                  </mat-error>
+                }
+                <input matInput type="number" [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+              }
+
+              @if (formField.FormFieldString && !formField.FormFieldString.IsTextArea) {
+                <input matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+              }
+
+              @if (formField.FormFieldString && formField.FormFieldString.IsTextArea) {
+                <textarea matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder"></textarea>
+              }
+
+              @if (formField.FormFieldDate) {
+                <input type="date" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+              }
+
+              @if (formField.FormFieldTime) {
+                <input type="time" matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder" [step]="formField.FormFieldTime.Step">
+              }
+
+              @if (formField.FormFieldDateTime) {
+                <input matInput [formControlName]="formField.Name" [placeholder]="formField.Placeholder">
+              }
+
+              @if (formField.FormFieldSelect) {
+                <mat-select [formControlName]="formField.Name">
+                  @if (formField.FormFieldSelect.CanBeEmpty) {
+                    <mat-option>Empty</mat-option>
+                  }
+                  @for (option of formField.FormFieldSelect.Options; track option) {
+                    <mat-option [value]="option.Name">{{ option.Name }}</mat-option>
+                  }
+                </mat-select>
+              }
+            </mat-form-field>
+          }
         }
 
         @for (checkBox of div.CheckBoxs; track checkBox) {
@@ -99,16 +101,16 @@
             @if (div.FormEditAssocButton) {
               <p class="custom-text">{{div.FormEditAssocButton.Label}}</p>
               @if (!div.FormEditAssocButton.HasToolTip) {
-                <button type="button" 
-                  (click)="openTableAssociation(div.FormEditAssocButton.Name)" 
+                <button type="button"
+                  (click)="openTableAssociation(div.FormEditAssocButton.Name)"
                   mat-raised-button class="custom-button"
 
                   >
                   <mat-icon>list</mat-icon>
                 </button>
               } @else {
-                <button type="button" 
-                  (click)="openTableAssociation(div.FormEditAssocButton.Name)" 
+                <button type="button"
+                  (click)="openTableAssociation(div.FormEditAssocButton.Name)"
                   mat-raised-button class="custom-button"
 
                   [matTooltip]="div.FormEditAssocButton.ToolTipText"
@@ -122,16 +124,16 @@
             }
             @if (div.FormSortAssocButton) {
               @if (!div.FormSortAssocButton.HasToolTip) {
-                <button type="button" 
-                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                <button type="button"
+                  (click)="openTableSort(div.FormSortAssocButton.Name)"
                   mat-raised-button class="custom-button">
                   <mat-icon>shuffle</mat-icon>
                 </button>
               } @else {
-                                <button type="button" 
-                  (click)="openTableSort(div.FormSortAssocButton.Name)" 
+                                <button type="button"
+                  (click)="openTableSort(div.FormSortAssocButton.Name)"
                   mat-raised-button class="custom-button"
-                  
+
                   [matTooltip]="div.FormSortAssocButton.ToolTipText"
                   matTooltipPosition="above"
                   [matTooltipDisabled]="!div.FormSortAssocButton.HasToolTip"
