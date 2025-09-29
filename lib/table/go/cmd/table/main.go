@@ -59,7 +59,7 @@ type BeforeCommitImplForManualyEditedFormStage struct {
 }
 
 func (impl *BeforeCommitImplForManualyEditedFormStage) BeforeCommit(stage *gongtable_models.Stage) {
-	file, err := os.Create("./form_stage_issue30.go")
+	file, err := os.Create("./form_stage.go")
 	if err != nil {
 		log.Fatal(err.Error())
 	}

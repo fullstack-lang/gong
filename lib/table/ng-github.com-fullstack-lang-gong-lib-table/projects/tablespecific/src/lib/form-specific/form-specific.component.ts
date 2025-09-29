@@ -50,8 +50,8 @@ import { decodeStringToIntArray_json, encodeIntArrayToString_json } from '../ass
 export class FormSpecificComponent {
   @Input() Name: string = ""
 
-  // the component is refreshed when modification are performed in the back repo 
-  // 
+  // the component is refreshed when modification are performed in the back repo
+  //
   // the checkCommitNbFromBackTimer polls the commit number of the back repo
   // if the commit number has increased, it pulls the front repo and redraw the diagram
   private commutNbFromBackSubscription: Subscription = new Subscription
@@ -123,9 +123,11 @@ export class FormSpecificComponent {
         for (let formDiv of this.selectedFormGroup.FormDivs) {
           if (formDiv.FormFields) {
 
-            for (let formField of formDiv.FormFields) {
+            formDiv.FormFields.forEach((formField, index) => {
+              const uniqueFormControlName = `${formField.Name}_${index}`;
+
               if (formField.FormFieldString) {
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldString.Value, Validators.required]
+                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldString.Value, Validators.required]
               }
               if (formField.FormFieldInt) {
                 let validators = [Validators.required]
@@ -137,7 +139,7 @@ export class FormSpecificComponent {
                   validators.push(Validators.max(formField.FormFieldInt.MaxValue))
                 }
                 validators.push(integerValidator)
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldInt.Value.toString(), validators]
+                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldInt.Value.toString(), validators]
               }
               if (formField.FormFieldFloat64) {
                 let validators = [Validators.required]
@@ -148,16 +150,16 @@ export class FormSpecificComponent {
                 if (formField.FormFieldFloat64.HasMaxValidator) {
                   validators.push(Validators.max(formField.FormFieldFloat64.MaxValue))
                 }
-                generatedFormGroupConfig[formField.Name] = [formField.FormFieldFloat64.Value.toString(), validators]
+                generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldFloat64.Value.toString(), validators]
               }
 
               if (formField.FormFieldDate) {
                 let displayedString = formField.FormFieldDate.Value.toString().substring(0, 10)
-                generatedFormGroupConfig[formField.Name] = [displayedString, Validators.required]
+                generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
               }
               if (formField.FormFieldDateTime) {
                 let displayedString = formField.FormFieldDateTime.Value.toString()
-                generatedFormGroupConfig[formField.Name] = [displayedString, Validators.required]
+                generatedFormGroupConfig[uniqueFormControlName] = [displayedString, Validators.required]
               }
               if (formField.FormFieldTime) {
                 let timeValue = new Date(formField.FormFieldTime.Value)
@@ -171,23 +173,24 @@ export class FormSpecificComponent {
 
                 const timeStr = `${hoursStr}:${minutesStr}:${secondsStr}`
 
-                generatedFormGroupConfig[formField.Name] = [timeStr, Validators.required]
+                generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
                 formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
                 if (formField.FormFieldSelect.CanBeEmpty) {
-                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, []]
+                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
                 } else {
-                  generatedFormGroupConfig[formField.Name] = [formField.FormFieldSelect.Value?.Name, Validators.required]
+                  generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, Validators.required]
                 }
               }
-            }
+            })
           }
 
           if (formDiv.CheckBoxs) {
-            for (let checkBox of formDiv.CheckBoxs) {
-              generatedFormGroupConfig[checkBox.Name] = [checkBox.Value, Validators.required]
-            }
+            formDiv.CheckBoxs.forEach((checkBox, index) => {
+              const uniqueFormControlName = `${checkBox.Name}_${index}`;
+              generatedFormGroupConfig[uniqueFormControlName] = [checkBox.Value, Validators.required]
+            });
           }
 
         }
@@ -217,20 +220,21 @@ export class FormSpecificComponent {
 
     for (let formDiv of this.selectedFormGroup.FormDivs) {
       if (formDiv.FormFields) {
-        for (let formField of formDiv.FormFields) {
+        formDiv.FormFields.forEach((formField, index) => {
+          const uniqueFormControlName = `${formField.Name}_${index}`;
+          const newValueFromForm = this.angularFormGroup!.value[uniqueFormControlName];
+
           if (formField.FormFieldString) {
             let formFieldString = formField.FormFieldString
-            let newValue = this.angularFormGroup.value[formField.Name]
+            if (newValueFromForm != formFieldString.Value) {
 
-            if (newValue != formFieldString.Value) {
-
-              formFieldString.Value = newValue
+              formFieldString.Value = newValueFromForm
               promises.push(this.formFieldStringService.updateFront(formFieldString, this.Name))
             }
           }
           if (formField.FormFieldInt) {
             let formFieldInt = formField.FormFieldInt
-            let newValue: number = +this.angularFormGroup.value[formField.Name]
+            let newValue: number = +newValueFromForm
 
             if (newValue != formFieldInt.Value) {
 
@@ -240,7 +244,7 @@ export class FormSpecificComponent {
           }
           if (formField.FormFieldFloat64) {
             let formFieldFlFormFieldFloat64 = formField.FormFieldFloat64
-            let newValue: number = +this.angularFormGroup.value[formField.Name]
+            let newValue: number = +newValueFromForm
 
             if (newValue != formFieldFlFormFieldFloat64.Value) {
 
@@ -252,7 +256,7 @@ export class FormSpecificComponent {
             // Assume formField is already defined
             let formFieldDate = formField.FormFieldDate
 
-            let formFieldValue = this.angularFormGroup.value[formField.Name];
+            let formFieldValue = newValueFromForm;
 
             // 1. Convert to a UTC formatted string and then to a Date object
             let dateObj = new Date(formFieldValue);
@@ -283,11 +287,9 @@ export class FormSpecificComponent {
           if (formField.FormFieldTime) {
             let formFieldTime = formField.FormFieldTime
 
-            const [hours, minutes, seconds] = this.angularFormGroup.value[formField.Name].split(':').map(Number);
+            const [hours, minutes, seconds] = newValueFromForm.split(':').map(Number);
             const date = new Date("1970-01-01")
             date.setUTCHours(hours, minutes, seconds);
-            // console.log("date for time", date.toUTCString())
-            // console.log("date for backend time", new Date(formFieldTime.Value).toUTCString())
 
             if (date.getTime() != new Date(formFieldTime.Value).getTime()) {
               formFieldTime.Value = date
@@ -297,19 +299,16 @@ export class FormSpecificComponent {
           if (formField.FormFieldDateTime) {
             let formFieldDateTime = formField.FormFieldDateTime
 
-            let newValue = this.angularFormGroup.value[formField.Name]
-
-            if (newValue != formFieldDateTime.Value) {
-              formFieldDateTime.Value = newValue
+            if (newValueFromForm != formFieldDateTime.Value) {
+              formFieldDateTime.Value = newValueFromForm
               promises.push(this.formFieldDateTimeService.updateFront(formFieldDateTime, this.Name))
             }
           }
           if (formField.FormFieldSelect) {
-            let newValue = this.angularFormGroup.value[formField.Name]
             let formFieldSelect = formField.FormFieldSelect
 
-            if (newValue != formFieldSelect.Value?.Name) {
-              formFieldSelect.Value = newValue
+            if (newValueFromForm != formFieldSelect.Value?.Name) {
+              formFieldSelect.Value = newValueFromForm
 
               if (!formFieldSelect.CanBeEmpty && formFieldSelect.Options == undefined) {
                 return
@@ -317,7 +316,7 @@ export class FormSpecificComponent {
 
               if (formFieldSelect.Options) {
                 for (let option of formFieldSelect.Options) {
-                  if (option.Name == newValue) {
+                  if (option.Name == newValueFromForm) {
                     formFieldSelect.Value = option
                   }
                 }
@@ -325,16 +324,17 @@ export class FormSpecificComponent {
               promises.push(this.formFieldSelectService.updateFront(formFieldSelect, this.Name))
             }
           }
-        }
+        })
       }
       if (formDiv.CheckBoxs) {
-        for (let checkBox of formDiv.CheckBoxs) {
-          let newValue = this.angularFormGroup.value[checkBox.Name] as boolean
+        formDiv.CheckBoxs.forEach((checkBox, index) => {
+          const uniqueFormControlName = `${checkBox.Name}_${index}`;
+          const newValue = this.angularFormGroup!.value[uniqueFormControlName] as boolean;
           if (newValue != checkBox.Value) {
             checkBox.Value = newValue
             promises.push(this.checkBoxService.updateFront(checkBox, this.Name))
           }
-        }
+        });
       }
       if (formDiv.FormEditAssocButton && formDiv.FormEditAssocButton.HasChanged) {
         formDiv.FormEditAssocButton.IsForSavePurpose = true
@@ -538,7 +538,7 @@ export class FormSpecificComponent {
   }
 
   getDynamicStyles(formField: table.FormField): { [key: string]: any } {
-    const styles: { [key: string]: any } = {} // Explicitly define the type here   
+    const styles: { [key: string]: any } = {} // Explicitly define the type here
     if (formField) {
       if (formField.HasBespokeWidth) {
         styles['width.px'] = formField.BespokeWidthPx
