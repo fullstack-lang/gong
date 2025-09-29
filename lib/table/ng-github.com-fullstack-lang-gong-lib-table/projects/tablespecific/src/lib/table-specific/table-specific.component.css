@@ -113,6 +113,10 @@
     }
 }
 
+.mat-mdc-header-cell {
+    font-weight: bold;
+}
+
 .mat-mdc-row {
     background-color: white;
 }
