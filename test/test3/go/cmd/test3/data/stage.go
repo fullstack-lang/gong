@@ -21,15 +21,16 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-06-14 01:39:30.312921 CEST"
-	const __write__utc_time__ = "2025-06-13 23:39:30.312921 UTC"
+	const __write__local_time = "2025-09-30 02:18:42.698189 CEST"
+	const __write__utc_time__ = "2025-09-30 00:18:42.698189 UTC"
 
-	const __commitId__ = "0000000005"
+	const __commitId__ = "0000000007"
 
 	// Declaration of instances to stage
 
 	__A__000000_A1 := (&models.A{}).Stage(stage)
 	__A__000001_A2 := (&models.A{}).Stage(stage)
+	__A__000002_A3 := (&models.A{}).Stage(stage)
 
 	// Setup of values
 
@@ -37,8 +38,11 @@ func _(stage *models.Stage) {
 
 	__A__000001_A2.Name = `A2`
 
+	__A__000002_A3.Name = `A3`
+
 	// Setup of pointers
 	// setup of A instances pointers
 	__A__000000_A1.As = append(__A__000000_A1.As, __A__000001_A2)
+	__A__000002_A3.As = append(__A__000002_A3.As, __A__000001_A2)
 }
 
