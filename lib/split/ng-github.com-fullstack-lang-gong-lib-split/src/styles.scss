@@ -1,0 +1,135 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+@import 'material-icons/iconfont/material-icons.css';
+
+// Define your light theme
+$light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+));
+
+// Define your dark theme
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+));
+
+// Apply base, typography, and density styles once
+html {
+  @include mat.all-component-bases($light-theme);
+  @include mat.all-component-typographies($light-theme);
+  @include mat.all-component-densities($light-theme);
+}
+
+// Apply light theme colors by default
+html {
+  @include mat.all-component-colors($light-theme);
+}
+
+// Apply dark theme colors when body has dark-theme class
+body.dark-theme {
+  background-color: #303030;
+  color: rgba(255, 255, 255, 0.87);
+  
+  @include mat.all-component-colors($dark-theme);
+
+  // 1. Fix for black icons in dark mode
+  .mat-icon {
+    color: rgba(255, 255, 255, 0.87) !important; 
+  }
+
+  // 2. Fix for the white toolbar background above the table
+  // This targets the specific toolbar from your component's template.
+  .toolbar,
+  .mat-mdc-button-touch-target,
+  .mat-focus-indicator,
+  .mat-mdc-paginator,
+  .mat-mdc-paginator-page-size-label,
+  .mat-mdc-paginator-outer-container,
+  .sticky-container,
+  .my-button,
+  .custom-text,
+  .as-split-gutter,
+  .as-split-gutter-icon
+  {
+    background: transparent !important;
+    color: rgba(255, 255, 255, 0.87) !important;
+  }
+
+    .custom-tree-node .mdc-icon-button {
+    background-color: transparent !important;
+  }
+}
+
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Global Material component overrides */
+mat-tree,
+.mat-tree {
+  background: transparent !important;
+}
+
+.mat-tree-node {
+  background: transparent !important;
+}
+
+table,
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-row,
+.mat-mdc-header-row {
+  background: transparent !important;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+body.dark-theme .mat-mdc-row:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none !important;
+}
+
+/* Form field overrides */
+mat-card,
+.mat-mdc-card {
+  background: transparent !important;
+}
+
+/* Dark mode form field improvements */
+body.dark-theme {
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: rgba(255, 255, 255, 0.09) !important;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: rgba(255, 255, 255, 0.38) !important;
+  }
+
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+  .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+    border-color: mat.get-theme-color($dark-theme, primary) !important;
+  }
+}

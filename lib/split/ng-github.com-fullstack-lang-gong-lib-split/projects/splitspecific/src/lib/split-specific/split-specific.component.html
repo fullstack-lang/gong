@@ -20,6 +20,13 @@
             </mat-radio-group>
         </div>
 
+        <mat-slide-toggle 
+            [checked]="isDarkMode()"
+            (change)="toggleTheme()"
+            color="accent">
+            {{ isDarkMode() ? 'Dark' : 'Light' }} Mode
+        </mat-slide-toggle>
+
         <!-- SVG Logo section -->
         @for (logo_ of frontRepo?.array_LogoOnTheRights; track logo_) {
         <div 

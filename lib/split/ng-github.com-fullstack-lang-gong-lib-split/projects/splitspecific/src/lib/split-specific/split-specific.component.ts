@@ -1,4 +1,4 @@
-import { Component, Renderer2, Input, OnInit, Inject } from '@angular/core';
+import { Component, Renderer2, Input, OnInit, Inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import * as split from '../../../../split/src/public-api'
@@ -19,6 +19,9 @@ import { SvgSpecificComponent } from '../../../../../../../svg/ng-github.com-ful
 import { TableSpecificComponent } from '../../../../../../../table/ng-github.com-fullstack-lang-gong-lib-table/projects/tablespecific/src/lib/table-specific/table-specific.component'
 import { ToneSpecificComponent } from '../../../../../../../tone/ng-github.com-fullstack-lang-gong-lib-tone/projects/tonespecific/src/lib/tone-specific/tone-specific.component'
 import { TreeSpecificComponent } from '../../../../../../../tree/ng-github.com-fullstack-lang-gong-lib-tree/projects/treespecific/src/lib/tree-specific/tree-specific.component'
+
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 // to set the title of the application
 import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
@@ -43,12 +46,16 @@ import { DomSanitizer, SafeHtml, Title } from '@angular/platform-browser';
     ToneSpecificComponent,
     TreeSpecificComponent,
 
+    MatSlideToggleModule,
+
   ],
   templateUrl: './split-specific.component.html',
   styleUrl: './split-specific.component.css'
 })
 export class SplitSpecificComponent implements OnInit {
   @Input() Name: string = ""
+
+  isDarkMode = signal(false);
 
   public frontRepo?: split.FrontRepo;
 
@@ -163,4 +170,13 @@ export class SplitSpecificComponent implements OnInit {
     return this.frontRepo?.array_Views.find(v => v === this.view);
   }
 
+  toggleTheme() {
+    this.isDarkMode.update(value => !value);
+    const body = document.body;
+    if (this.isDarkMode()) {
+      body.classList.add('dark-theme');
+    } else {
+      body.classList.remove('dark-theme');
+    }
+  }
 }
