@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider'
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 
 
 import { manageHandles } from '../manage.handles';
@@ -1345,4 +1345,15 @@ getContextForAnchoredText(text: svg.RectAnchoredText, rect: svg.Rect) {
         anchorY: anchorY,
     };
 }
+
+  getTooltipPosition(rect: svg.Rect): TooltipPosition {
+   // Check if ToolTipPosition is a valid, non-empty string
+    if (rect.ToolTipPosition) {
+        // If it exists, cast it to the TooltipPosition type
+        return rect.ToolTipPosition as TooltipPosition;
+    } else {
+        // Otherwise, provide a default position
+        return 'above'; // You can change this default to 'below', 'left', 'right', etc.
+    }
+  }
 }

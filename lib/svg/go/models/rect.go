@@ -43,8 +43,9 @@ type Rect struct {
 	FillOpacityWhenHovered float64
 	OriginalFillOpacity    float64
 
-	HasToolTip  bool
-	ToolTipText string
+	HasToolTip      bool
+	ToolTipText     string
+	ToolTipPosition ToolTipPositionEnum
 
 	Impl RectImplInterface
 
