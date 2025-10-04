@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-09-30 01:36:26.494939 CEST"
-	const __write__utc_time__ = "2025-09-29 23:36:26.494939 UTC"
+	const __write__local_time = "2025-10-04 03:45:16.159826 CEST"
+	const __write__utc_time__ = "2025-10-04 01:45:16.159826 UTC"
 
-	const __commitId__ = "0000000011"
+	const __commitId__ = "0000000013"
 
 	// Declaration of instances to stage
 
@@ -238,9 +238,11 @@ func _(stage *models.Stage) {
 
 	__FormFieldSelect__000000_Select_can_be_set_empty_.Name = `Select (can be set empty)`
 	__FormFieldSelect__000000_Select_can_be_set_empty_.CanBeEmpty = true
+	__FormFieldSelect__000000_Select_can_be_set_empty_.PreserveInitialOrder = true
 
 	__FormFieldSelect__000001_Select_cannot_be_set_empty_.Name = `Select (cannot be set empty)`
 	__FormFieldSelect__000001_Select_cannot_be_set_empty_.CanBeEmpty = false
+	__FormFieldSelect__000001_Select_cannot_be_set_empty_.PreserveInitialOrder = false
 
 	__FormFieldString__000000_FirstName.Name = `FirstName`
 	__FormFieldString__000000_FirstName.Value = `charles`
