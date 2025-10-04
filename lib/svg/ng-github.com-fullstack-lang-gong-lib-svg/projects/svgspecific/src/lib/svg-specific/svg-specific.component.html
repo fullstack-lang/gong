@@ -51,8 +51,7 @@
 }
 
 <svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight">
-  <g [attr.transform]="'translate(' + (-shiftX) + ' ' + (-shiftY) + ') scale(' + zoom + ')'">
-    <rect
+  <g [attr.transform]="'translate(' + (-shiftX) + ' ' + (-shiftY) + ') scale(' + zoom + ')'">    <rect
       [attr.x]="0"
       [attr.y]="0"
       [attr.width]="svgWidth"
@@ -63,9 +62,9 @@
       (mouseup)="backgroundOnMouseUp($event)">
     </rect>
 
-    @for(layer of svg.Layers; track layer) {
+    @for(layer of svg.Layers; track layer.ID) {
       <ng-container class="noevents-area">
-        @for(circle of layer.Circles; track circle) {
+        @for(circle of layer.Circles; track circle.ID) {
           <circle
             class="click-through"
             [attr.cx]="circle.CX" 
@@ -78,7 +77,7 @@
             [attr.stroke-width]="circle.StrokeWidth" 
             [attr.stroke-dasharray]="circle.StrokeDashArray"
             [attr.transform]="circle.Transform">
-            @for(animate of circle.Animations; track animate) {
+            @for(animate of circle.Animations; track $index) {
               <animate 
                 [attr.attributeName]="animate.AttributeName" 
                 [attr.values]="animate.Values" 
@@ -88,7 +87,7 @@
           </circle>
         }
 
-        @for(ellipse of layer.Ellipses; track ellipse) {
+        @for(ellipse of layer.Ellipses; track ellipse.ID) {
           <ellipse
             class="click-through"
             [attr.rx]="ellipse.RX"
@@ -101,7 +100,7 @@
             [attr.stroke-opacity]="ellipse.StrokeOpacity"
             [attr.stroke-width]="ellipse.StrokeWidth"
             [attr.stroke-dasharray]="ellipse.StrokeDashArray" />
-          @for(animate of ellipse.Animates; track animate) {
+          @for(animate of ellipse.Animates; track $index) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -110,7 +109,7 @@
           }
         }
 
-        @for(line of layer.Lines; track line) {
+        @for(line of layer.Lines; track line.ID) {
           <line
             class="click-through"
             [attr.x1]="line.X1"
@@ -124,7 +123,7 @@
             [attr.stroke-width]="line.StrokeWidth"
             [attr.stroke-dasharray]="line.StrokeDashArray"
             [attr.transform]="line.Transform">
-            @for(animate of line.Animates; track animate) {
+            @for(animate of line.Animates; track $index) {
               @if(animate.Values != "") {
                 <animate 
                   [attr.attributeName]="animate.AttributeName" 
@@ -145,7 +144,7 @@
           </line>
         }
 
-        @for(text of layer.Texts; track text) {
+        @for(text of layer.Texts; track text.ID) {
           <text
             class="click-through"
             [attr.x]="text.X" 
@@ -159,7 +158,7 @@
             [attr.transform]="text.Transform">{{text.Content}}</text>
         }
 
-        @for(path of layer.Paths; track path) {
+        @for(path of layer.Paths; track path.ID) {
           <path [attr.d]="path.Definition"
             class="click-through"
             [attr.fill]="path.Color"
@@ -169,7 +168,7 @@
             [attr.stroke-width]="path.StrokeWidth"
             [attr.stroke-dasharray]="path.StrokeDashArray"
             [attr.transform]="path.Transform" />
-          @for(animate of path.Animates; track animate) {
+          @for(animate of path.Animates; track $index) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -178,7 +177,7 @@
           }
         }
 
-        @for(polygone of layer.Polygones; track polygone) {
+        @for(polygone of layer.Polygones; track polygone.ID) {
           <polygon 
             class="click-through"
             [attr.points]="polygone.Points"
@@ -188,7 +187,7 @@
             [attr.stroke-opacity]="polygone.StrokeOpacity"
             [attr.stroke-width]="polygone.StrokeWidth"
             [attr.stroke-dasharray]="polygone.StrokeDashArray" />
-          @for(animate of polygone.Animates; track animate) {
+          @for(animate of polygone.Animates; track $index) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -197,7 +196,7 @@
           }
         }
 
-        @for(polyline of layer.Polylines; track polyline) {
+        @for(polyline of layer.Polylines; track polyline.ID) {
           <polyline 
             class="click-through"
             [attr.points]="polyline.Points"
@@ -208,7 +207,7 @@
             [attr.stroke-width]="polyline.StrokeWidth"
             [attr.stroke-dasharray]="polyline.StrokeDashArray"
           />
-          @for(animate of polyline.Animates; track animate) {
+          @for(animate of polyline.Animates; track $index) {
             <animate 
               [attr.attributeName]="animate.AttributeName" 
               [attr.values]="animate.Values" 
@@ -217,7 +216,7 @@
           }
         }
 
-        @for(rect of layer.Rects; track rect) {
+        @for(rect of layer.Rects; track rect.ID) {
           <rect
             [attr.x]="rect.X"
             [attr.y]="rect.Y"
@@ -243,7 +242,7 @@
             [matTooltipDisabled]="!rect.HasToolTip">
             
             >
-            @for(animate of rect.Animations; track animate) {
+            @for(animate of rect.Animations; track $index) {
               <animate
                 [attr.attributeName]="animate.AttributeName"
                 [attr.values]="animate.Values"
@@ -251,19 +250,19 @@
                 [attr.repeatCount]="animate.RepeatCount" />
             }
           </rect>
-          @for (rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect) {
+          @for (rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect.ID) {
             <ng-container 
               [ngTemplateOutlet]="anchoredRect" 
               [ngTemplateOutletContext]="getContextForAnchoredRect(rectAnchoredRect, rect)">
             </ng-container>
           }
-          @for (rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath) {
+          @for (rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath.ID) {
             <ng-container
               [ngTemplateOutlet]="anchoredPath"
               [ngTemplateOutletContext]="getContextForAnchoredPath(rectAnchoredPath, rect)">
             </ng-container>
           }
-          @for(rectAnchoredText of rect.RectAnchoredTexts!; track rectAnchoredText) {
+          @for(rectAnchoredText of rect.RectAnchoredTexts!; track rectAnchoredText.ID) {
             <ng-container 
               [ngTemplateOutlet]="anchoredText" 
               [ngTemplateOutletContext]="getContextForAnchoredText(rectAnchoredText, rect)">
@@ -313,7 +312,7 @@
           </ng-container>
         }
 
-        @for(link of layer.Links; track link) {
+        @for(link of layer.Links; track link.ID) {
           @if(link.Type == LinkType.LINK_TYPE_FLOATING_ORTHOGONAL) {
             @if(link.IsBezierCurve) {
               <path
@@ -329,7 +328,7 @@
             @if(segments) {
               @if(!link.IsBezierCurve || svg.IsEditable) {
                 <g>
-                  @for(segment of segments; track segment) {
+                  @for(segment of segments; track segment.Number) {
                     <line class="moveable-line" 
                       [attr.x1]="segment.StartPoint.X" 
                       [attr.y1]="segment.StartPoint.Y" 
@@ -357,7 +356,7 @@
                   }
                 </g>
               }
-              @for(segment of segments; track segment) {
+              @for(segment of segments; track segment.Number) {
                 @if(!link.IsBezierCurve) {
                 
                     @let nextSegment = segments[segments.indexOf(segment) + 1];
@@ -392,7 +391,7 @@
                     [attr.stroke-dasharray]="link.StrokeDashArray" />
                 }
                 @if(segments.indexOf(segment) == (segments.length - 1)) {
-                  @for(text of link.TextAtArrowEnd!; track text; let k = $index) {
+                  @for(text of link.TextAtArrowEnd!; track text.ID; let k = $index) {
                     @let lines = splitTextIntoLines(text.Content);
                     @if(!text.AutomaticLayout) {
                         <text class="click-through"
@@ -456,7 +455,7 @@
                   }
                 }
                 @if(segments.indexOf(segment) == 0) {
-                  @for(text of link.TextAtArrowStart!; track text; let k = $index) {
+                  @for(text of link.TextAtArrowStart!; track text.ID; let k = $index) {
                     @let lines = splitTextIntoLines(text.Content);
                     @if(!text.AutomaticLayout) {
                       <text class="click-through"
@@ -540,7 +539,7 @@
           }
         }
 
-        @for(rectLinkLink of layer.RectLinkLinks; track rectLinkLink) {
+        @for(rectLinkLink of layer.RectLinkLinks; track rectLinkLink.ID) {
           @if(rectLinkLink.Start && rectLinkLink.End) {
             <line class="rect-link-link" 
               [attr.x1]="getStartPosition(rectLinkLink)[0]" 
