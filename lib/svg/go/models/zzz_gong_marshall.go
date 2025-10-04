@@ -1487,6 +1487,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(rect.ToolTipText))
 		initializerStatements += setValueField
 
+		if rect.ToolTipPosition != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipPosition")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+rect.ToolTipPosition.ToCodeString())
+			initializerStatements += setValueField
+		}
+
 	}
 
 	map_RectAnchoredPath_Identifiers := make(map[*RectAnchoredPath]string)

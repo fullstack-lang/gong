@@ -240,6 +240,7 @@
             (mouseleave)="onRectHover(rect, false)"
             
             [matTooltip]="rect.ToolTipText"
+            [matTooltipPosition]="getTooltipPosition(rect)"
             [matTooltipDisabled]="!rect.HasToolTip">
             
             >

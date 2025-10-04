@@ -2883,6 +2883,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Rect":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "ToolTipPosition":
+						var val ToolTipPositionEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Rect[identifier].ToolTipPosition = ToolTipPositionEnum(val)
 					}
 				case "RectAnchoredPath":
 					switch fieldName {
