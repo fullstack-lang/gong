@@ -21,8 +21,8 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-04 04:15:18.055249 CEST"
-	const __write__utc_time__ = "2025-10-04 02:15:18.055249 UTC"
+	const __write__local_time = "2025-10-04 05:06:16.206177 CEST"
+	const __write__utc_time__ = "2025-10-04 03:06:16.206177 UTC"
 
 	const __commitId__ = "0000000002"
 
@@ -199,8 +199,8 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.StartOrientation = models.ORIENTATION_VERTICAL
 	__Link__000003_Auto_1.StartRatio = 0.388824
 	__Link__000003_Auto_1.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000003_Auto_1.EndRatio = 0.445883
-	__Link__000003_Auto_1.CornerOffsetRatio = 1.805097
+	__Link__000003_Auto_1.EndRatio = 0.626972
+	__Link__000003_Auto_1.CornerOffsetRatio = 1.956431
 	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
 	__Link__000003_Auto_1.EndArrowSize = 15.000000
@@ -221,7 +221,7 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000004_Auto_2.StartRatio = 0.647783
 	__Link__000004_Auto_2.EndOrientation = models.ORIENTATION_VERTICAL
-	__Link__000004_Auto_2.EndRatio = 1.000000
+	__Link__000004_Auto_2.EndRatio = 0.909340
 	__Link__000004_Auto_2.CornerOffsetRatio = 1.030819
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
@@ -241,10 +241,10 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000005_Auto_3.IsBezierCurve = false
 	__Link__000005_Auto_3.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000005_Auto_3.StartRatio = 0.403504
+	__Link__000005_Auto_3.StartRatio = 0.244232
 	__Link__000005_Auto_3.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000005_Auto_3.EndRatio = 0.408200
-	__Link__000005_Auto_3.CornerOffsetRatio = -0.298163
+	__Link__000005_Auto_3.EndRatio = 0.259754
+	__Link__000005_Auto_3.CornerOffsetRatio = -0.361469
 	__Link__000005_Auto_3.CornerRadius = 30.000000
 	__Link__000005_Auto_3.HasEndArrow = true
 	__Link__000005_Auto_3.EndArrowSize = 15.000000
@@ -606,16 +606,16 @@ Line 2`
 	__Rect__000003_Start.StrokeDashArrayWhenSelected = ``
 	__Rect__000003_Start.Transform = ``
 	__Rect__000003_Start.IsSelectable = true
-	__Rect__000003_Start.IsSelected = true
+	__Rect__000003_Start.IsSelected = false
 	__Rect__000003_Start.CanHaveLeftHandle = true
-	__Rect__000003_Start.HasLeftHandle = true
+	__Rect__000003_Start.HasLeftHandle = false
 	__Rect__000003_Start.CanHaveRightHandle = true
-	__Rect__000003_Start.HasRightHandle = true
+	__Rect__000003_Start.HasRightHandle = false
 	__Rect__000003_Start.CanHaveTopHandle = true
-	__Rect__000003_Start.HasTopHandle = true
+	__Rect__000003_Start.HasTopHandle = false
 	__Rect__000003_Start.IsScalingProportionally = false
 	__Rect__000003_Start.CanHaveBottomHandle = true
-	__Rect__000003_Start.HasBottomHandle = true
+	__Rect__000003_Start.HasBottomHandle = false
 	__Rect__000003_Start.CanMoveHorizontaly = true
 	__Rect__000003_Start.CanMoveVerticaly = true
 	__Rect__000003_Start.ChangeColorWhenHovered = false
@@ -627,8 +627,8 @@ Line 2`
 	__Rect__000003_Start.ToolTipText = ``
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1081.769231
-	__Rect__000004_End.Y = 385.256327
+	__Rect__000004_End.X = 1271.769231
+	__Rect__000004_End.Y = 354.256327
 	__Rect__000004_End.Width = 624.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
