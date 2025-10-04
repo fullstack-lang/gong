@@ -4228,7 +4228,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormFieldInt:
 		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
 	case FormFieldSelect:
-		res = []string{"Name", "Value", "Options", "CanBeEmpty"}
+		res = []string{"Name", "Value", "Options", "CanBeEmpty", "PreserveInitialOrder"}
 	case FormFieldString:
 		res = []string{"Name", "Value", "IsTextArea"}
 	case FormFieldTime:
@@ -4393,7 +4393,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormFieldInt:
 		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
 	case *FormFieldSelect:
-		res = []string{"Name", "Value", "Options", "CanBeEmpty"}
+		res = []string{"Name", "Value", "Options", "CanBeEmpty", "PreserveInitialOrder"}
 	case *FormFieldString:
 		res = []string{"Name", "Value", "IsTextArea"}
 	case *FormFieldTime:
@@ -4739,6 +4739,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "CanBeEmpty":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
 			res.valueBool = inferedInstance.CanBeEmpty
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "PreserveInitialOrder":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.PreserveInitialOrder)
+			res.valueBool = inferedInstance.PreserveInitialOrder
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case *FormFieldString:
@@ -5187,6 +5191,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "CanBeEmpty":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
 			res.valueBool = inferedInstance.CanBeEmpty
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "PreserveInitialOrder":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.PreserveInitialOrder)
+			res.valueBool = inferedInstance.PreserveInitialOrder
 			res.GongFieldValueType = GongFieldValueTypeBool
 		}
 	case FormFieldString:

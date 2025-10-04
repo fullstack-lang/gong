@@ -1727,6 +1727,8 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 
 		case "CanBeEmpty":
 			FormDivBasicFieldToField(&(formfieldselect_.CanBeEmpty), formDiv)
+		case "PreserveInitialOrder":
+			FormDivBasicFieldToField(&(formfieldselect_.PreserveInitialOrder), formDiv)
 		}
 	}
 

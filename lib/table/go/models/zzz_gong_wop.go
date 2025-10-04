@@ -279,12 +279,15 @@ type FormFieldSelect_WOP struct {
 	Name string
 
 	CanBeEmpty bool
+
+	PreserveInitialOrder bool
 }
 
 func (from *FormFieldSelect) CopyBasicFields(to *FormFieldSelect) {
 	// insertion point
 	to.Name = from.Name
 	to.CanBeEmpty = from.CanBeEmpty
+	to.PreserveInitialOrder = from.PreserveInitialOrder
 }
 
 type FormFieldString_WOP struct {

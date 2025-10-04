@@ -15,6 +15,7 @@ export class FormFieldSelectAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	CanBeEmpty: boolean = false
+	PreserveInitialOrder: boolean = false
 
 	// insertion point for other decls
 

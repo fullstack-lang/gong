@@ -176,7 +176,11 @@ export class FormSpecificComponent {
                 generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
-                formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
+                
+                if (formField.FormFieldSelect.PreserveInitialOrder == false) {
+                  formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
+                }
+                
                 if (formField.FormFieldSelect.CanBeEmpty) {
                   generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
                 } else {
