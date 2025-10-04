@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-28 05:05:42.737322 EDT"
-	const __write__utc_time__ = "2025-07-28 09:05:42.737322 UTC"
+	const __write__local_time = "2025-10-04 04:57:05.275241 CEST"
+	const __write__utc_time__ = "2025-10-04 02:57:05.275241 UTC"
 
-	const __commitId__ = "0000000087"
+	const __commitId__ = "0000000089"
 
 	// Declaration of instances to stage
 
@@ -178,6 +178,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.OriginalFillOpacity = 0.000000
 	__Rect__000000_Start.HasToolTip = true
 	__Rect__000000_Start.ToolTipText = `Start`
+	__Rect__000000_Start.ToolTipPosition = models.Left
 
 	__Rect__000001_End.Name = `End`
 	__Rect__000001_End.X = 700.000000

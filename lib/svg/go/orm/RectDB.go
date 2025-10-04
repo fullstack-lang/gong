@@ -189,6 +189,9 @@ type RectDB struct {
 	// Declation for basic field rectDB.ToolTipText
 	ToolTipText_Data sql.NullString
 
+	// Declation for basic field rectDB.ToolTipPosition
+	ToolTipPosition_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	RectPointersEncoding
@@ -278,6 +281,8 @@ type RectWOP struct {
 	HasToolTip bool `xlsx:"33"`
 
 	ToolTipText string `xlsx:"34"`
+
+	ToolTipPosition models.ToolTipPositionEnum `xlsx:"35"`
 	// insertion for WOP pointer fields
 }
 
@@ -318,6 +323,7 @@ var Rect_Fields = []string{
 	"OriginalFillOpacity",
 	"HasToolTip",
 	"ToolTipText",
+	"ToolTipPosition",
 }
 
 type BackRepoRectStruct struct {
@@ -804,6 +810,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect(rect *models.Rect) {
 
 	rectDB.ToolTipText_Data.String = rect.ToolTipText
 	rectDB.ToolTipText_Data.Valid = true
+
+	rectDB.ToolTipPosition_Data.String = rect.ToolTipPosition.ToString()
+	rectDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRect_WOP
@@ -911,6 +920,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRect_WOP(rect *models.Rect_WOP) {
 
 	rectDB.ToolTipText_Data.String = rect.ToolTipText
 	rectDB.ToolTipText_Data.Valid = true
+
+	rectDB.ToolTipPosition_Data.String = rect.ToolTipPosition.ToString()
+	rectDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsFromRectWOP
@@ -1018,6 +1030,9 @@ func (rectDB *RectDB) CopyBasicFieldsFromRectWOP(rect *RectWOP) {
 
 	rectDB.ToolTipText_Data.String = rect.ToolTipText
 	rectDB.ToolTipText_Data.Valid = true
+
+	rectDB.ToolTipPosition_Data.String = rect.ToolTipPosition.ToString()
+	rectDB.ToolTipPosition_Data.Valid = true
 }
 
 // CopyBasicFieldsToRect
@@ -1057,6 +1072,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect(rect *models.Rect) {
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
 	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
 	rect.ToolTipText = rectDB.ToolTipText_Data.String
+	rect.ToolTipPosition.FromString(rectDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToRect_WOP
@@ -1096,6 +1112,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRect_WOP(rect *models.Rect_WOP) {
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
 	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
 	rect.ToolTipText = rectDB.ToolTipText_Data.String
+	rect.ToolTipPosition.FromString(rectDB.ToolTipPosition_Data.String)
 }
 
 // CopyBasicFieldsToRectWOP
@@ -1136,6 +1153,7 @@ func (rectDB *RectDB) CopyBasicFieldsToRectWOP(rect *RectWOP) {
 	rect.OriginalFillOpacity = rectDB.OriginalFillOpacity_Data.Float64
 	rect.HasToolTip = rectDB.HasToolTip_Data.Bool
 	rect.ToolTipText = rectDB.ToolTipText_Data.String
+	rect.ToolTipPosition.FromString(rectDB.ToolTipPosition_Data.String)
 }
 
 // Backup generates a json file from a slice of all RectDB instances in the backrepo

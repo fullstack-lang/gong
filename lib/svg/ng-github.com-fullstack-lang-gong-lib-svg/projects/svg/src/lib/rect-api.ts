@@ -50,6 +50,7 @@ export class RectAPI {
 	OriginalFillOpacity: number = 0
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for other decls
 

@@ -846,6 +846,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ToolTipText", instanceWithInferedType.ToolTipText, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeStringToForm("ToolTipPosition", instanceWithInferedType.ToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
 		{
 			var rf models.ReverseField
 			_ = rf

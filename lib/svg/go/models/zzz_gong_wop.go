@@ -533,6 +533,8 @@ type Rect_WOP struct {
 	HasToolTip bool
 
 	ToolTipText string
+
+	ToolTipPosition ToolTipPositionEnum
 }
 
 func (from *Rect) CopyBasicFields(to *Rect) {
@@ -571,6 +573,7 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.OriginalFillOpacity = from.OriginalFillOpacity
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
+	to.ToolTipPosition = from.ToolTipPosition
 }
 
 type RectAnchoredPath_WOP struct {

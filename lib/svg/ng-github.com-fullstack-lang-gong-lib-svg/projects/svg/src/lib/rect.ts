@@ -55,6 +55,7 @@ export class Rect {
 	OriginalFillOpacity: number = 0
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
+	ToolTipPosition: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Animations: Array<Animate> = []
@@ -104,6 +105,7 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.OriginalFillOpacity = rect.OriginalFillOpacity
 	rectAPI.HasToolTip = rect.HasToolTip
 	rectAPI.ToolTipText = rect.ToolTipText
+	rectAPI.ToolTipPosition = rect.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 
@@ -175,6 +177,7 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.OriginalFillOpacity = rectAPI.OriginalFillOpacity
 	rect.HasToolTip = rectAPI.HasToolTip
 	rect.ToolTipText = rectAPI.ToolTipText
+	rect.ToolTipPosition = rectAPI.ToolTipPosition
 
 	// insertion point for pointer fields encoding
 

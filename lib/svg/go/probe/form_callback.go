@@ -3210,6 +3210,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.HasToolTip), formDiv)
 		case "ToolTipText":
 			FormDivBasicFieldToField(&(rect_.ToolTipText), formDiv)
+		case "ToolTipPosition":
+			FormDivEnumStringFieldToField(&(rect_.ToolTipPosition), formDiv)
 		case "Layer:Rects":
 			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
