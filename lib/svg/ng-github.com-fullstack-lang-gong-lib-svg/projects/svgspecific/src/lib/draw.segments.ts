@@ -97,28 +97,25 @@ export function drawSegments(params: SegmentsParams): Segment[] {
 
         const c1_X = StartRect.X + CornerOffsetRatio * StartRect.Width
         const c1_Y = StartRect.Y + StartRatio * StartRect.Height
-
         const c1 = createPoint(c1_X, c1_Y)
 
         const c2_X = c1_X
         const c2_Y = EndRect.Y + EndRatio * EndRect.Height
-
         let c2 = createPoint(c2_X, c2_Y)
-
-        let firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
-        let secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_VERTICAL, CornerRadius, 1)
-        let thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
 
         // reduce second segment if start and end are aligned
         if (Math.abs(c1_Y - c2_Y) <= 2 * CornerRadius) {
             c2 = createPoint(c2_X, c1_Y)
-            firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, 0, 0)
-            secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, 0, 1)
-            thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, 0, 2)
+            const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, 0, 0)
+            const secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, 0, 1)
+            const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, 0, 2)
+            segments.push(firstSegment, secondSegment, thirdSegment)
+        } else {
+            const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
+            const secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_VERTICAL, CornerRadius, 1)
+            const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
+            segments.push(firstSegment, secondSegment, thirdSegment)
         }
-
-
-        segments.push(firstSegment, secondSegment, thirdSegment)
     }
 
     if (StartDirection === svg.OrientationType.ORIENTATION_VERTICAL &&
@@ -126,31 +123,25 @@ export function drawSegments(params: SegmentsParams): Segment[] {
 
         const c1_X = StartRect.X + StartRatio * StartRect.Width
         const c1_Y = StartRect.Y + CornerOffsetRatio * StartRect.Height
-
         const c1 = createPoint(c1_X, c1_Y)
 
         const c2_X = EndRect.X + EndRatio * EndRect.Width
         const c2_Y = c1_Y
-
         let c2 = createPoint(c2_X, c2_Y)
-
-        if (Math.abs(c1_X - c2_Y) <= CornerRadius) {
-
-        }
-
-        let firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
-        let secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, CornerRadius, 1)
-        let thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
 
         // reduce second segment if start and end are aligned
         if (Math.abs(c1_X - c2_X) <= 2 * CornerRadius) {
             c2 = createPoint(c1_X, c2_Y)
-            firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, 0, 0)
-            secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, 0, 1)
-            thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, 0, 2)
+            const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, 0, 0)
+            const secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, 0, 1)
+            const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, 0, 2)
+            segments.push(firstSegment, secondSegment, thirdSegment)
+        } else {
+            const firstSegment = drawPointRectSegment(c1, StartRect, StartDirection, CornerRadius, 0)
+            const secondSegment = drawPointPointSegment(c1, c2, svg.OrientationType.ORIENTATION_HORIZONTAL, CornerRadius, 1)
+            const thirdSegment = drawPointRectSegment(c2, EndRect, EndDirection, CornerRadius, 2)
+            segments.push(firstSegment, secondSegment, thirdSegment)
         }
-
-        segments.push(firstSegment, secondSegment, thirdSegment)
     }
 
     return segments;

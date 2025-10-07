@@ -21,19 +21,16 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-07 04:12:27.736422 CEST"
-	const __write__utc_time__ = "2025-10-07 02:12:27.736422 UTC"
+	const __write__local_time = "2025-10-07 04:37:07.835841 CEST"
+	const __write__utc_time__ = "2025-10-07 02:37:07.835841 UTC"
 
-	const __commitId__ = "0000000034"
+	const __commitId__ = "0000000038"
 
 	// Declaration of instances to stage
 
 	__Layer__000000_ngc := (&models.Layer{}).Stage(stage)
 
 	__Link__000000_ngc := (&models.Link{}).Stage(stage)
-
-	__LinkAnchoredText__000000_LAT_1 := (&models.LinkAnchoredText{}).Stage(stage)
-	__LinkAnchoredText__000001_LAT_2 := (&models.LinkAnchoredText{}).Stage(stage)
 
 	__Rect__000000_ngc_1 := (&models.Rect{}).Stage(stage)
 	__Rect__000001_ngc_2 := (&models.Rect{}).Stage(stage)
@@ -50,8 +47,8 @@ func _(stage *models.Stage) {
 	__Link__000000_ngc.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000000_ngc.StartRatio = 0.102233
 	__Link__000000_ngc.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000000_ngc.EndRatio = 0.735337
-	__Link__000000_ngc.CornerOffsetRatio = 1.805147
+	__Link__000000_ngc.EndRatio = 0.683852
+	__Link__000000_ngc.CornerOffsetRatio = 2.136029
 	__Link__000000_ngc.CornerRadius = 0.000000
 	__Link__000000_ngc.HasEndArrow = true
 	__Link__000000_ngc.EndArrowSize = 20.000000
@@ -66,46 +63,8 @@ func _(stage *models.Stage) {
 	__Link__000000_ngc.StrokeDashArrayWhenSelected = ``
 	__Link__000000_ngc.Transform = ``
 
-	__LinkAnchoredText__000000_LAT_1.Name = `LAT 1`
-	__LinkAnchoredText__000000_LAT_1.Content = `LAT 1`
-	__LinkAnchoredText__000000_LAT_1.AutomaticLayout = true
-	__LinkAnchoredText__000000_LAT_1.LinkAnchorType = models.LINK_RIGHT_OR_BOTTOM
-	__LinkAnchoredText__000000_LAT_1.X_Offset = 0.000000
-	__LinkAnchoredText__000000_LAT_1.Y_Offset = 0.000000
-	__LinkAnchoredText__000000_LAT_1.FontWeight = ``
-	__LinkAnchoredText__000000_LAT_1.FontSize = ``
-	__LinkAnchoredText__000000_LAT_1.FontStyle = ``
-	__LinkAnchoredText__000000_LAT_1.LetterSpacing = ``
-	__LinkAnchoredText__000000_LAT_1.Color = `blue`
-	__LinkAnchoredText__000000_LAT_1.FillOpacity = 1.000000
-	__LinkAnchoredText__000000_LAT_1.Stroke = `blue`
-	__LinkAnchoredText__000000_LAT_1.StrokeOpacity = 1.000000
-	__LinkAnchoredText__000000_LAT_1.StrokeWidth = 1.000000
-	__LinkAnchoredText__000000_LAT_1.StrokeDashArray = ``
-	__LinkAnchoredText__000000_LAT_1.StrokeDashArrayWhenSelected = ``
-	__LinkAnchoredText__000000_LAT_1.Transform = ``
-
-	__LinkAnchoredText__000001_LAT_2.Name = `LAT 2`
-	__LinkAnchoredText__000001_LAT_2.Content = `LAT 2`
-	__LinkAnchoredText__000001_LAT_2.AutomaticLayout = true
-	__LinkAnchoredText__000001_LAT_2.LinkAnchorType = models.LINK_LEFT_OR_TOP
-	__LinkAnchoredText__000001_LAT_2.X_Offset = -40.000000
-	__LinkAnchoredText__000001_LAT_2.Y_Offset = 0.000000
-	__LinkAnchoredText__000001_LAT_2.FontWeight = ``
-	__LinkAnchoredText__000001_LAT_2.FontSize = ``
-	__LinkAnchoredText__000001_LAT_2.FontStyle = ``
-	__LinkAnchoredText__000001_LAT_2.LetterSpacing = ``
-	__LinkAnchoredText__000001_LAT_2.Color = `red`
-	__LinkAnchoredText__000001_LAT_2.FillOpacity = 1.000000
-	__LinkAnchoredText__000001_LAT_2.Stroke = `red`
-	__LinkAnchoredText__000001_LAT_2.StrokeOpacity = 1.000000
-	__LinkAnchoredText__000001_LAT_2.StrokeWidth = 1.000000
-	__LinkAnchoredText__000001_LAT_2.StrokeDashArray = ``
-	__LinkAnchoredText__000001_LAT_2.StrokeDashArrayWhenSelected = ``
-	__LinkAnchoredText__000001_LAT_2.Transform = ``
-
 	__Rect__000000_ngc_1.Name = `ngc 1`
-	__Rect__000000_ngc_1.X = 334.000000
+	__Rect__000000_ngc_1.X = 132.000000
 	__Rect__000000_ngc_1.Y = 100.000000
 	__Rect__000000_ngc_1.Width = 272.000000
 	__Rect__000000_ngc_1.Height = 137.000000
@@ -140,8 +99,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_ngc_1.ToolTipText = ``
 
 	__Rect__000001_ngc_2.Name = `ngc 2`
-	__Rect__000001_ngc_2.X = 979.000000
-	__Rect__000001_ngc_2.Y = 82.000000
+	__Rect__000001_ngc_2.X = 204.000000
+	__Rect__000001_ngc_2.Y = 269.000000
 	__Rect__000001_ngc_2.Width = 202.000000
 	__Rect__000001_ngc_2.Height = 136.000000
 	__Rect__000001_ngc_2.RX = 10.000000
@@ -189,9 +148,6 @@ func _(stage *models.Stage) {
 	// setup of Link instances pointers
 	__Link__000000_ngc.Start = __Rect__000000_ngc_1
 	__Link__000000_ngc.End = __Rect__000001_ngc_2
-	__Link__000000_ngc.TextAtArrowEnd = append(__Link__000000_ngc.TextAtArrowEnd, __LinkAnchoredText__000000_LAT_1)
-	__Link__000000_ngc.TextAtArrowEnd = append(__Link__000000_ngc.TextAtArrowEnd, __LinkAnchoredText__000001_LAT_2)
-	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
 	// setup of SVG instances pointers
 	__SVG__000000_ngc.Layers = append(__SVG__000000_ngc.Layers, __Layer__000000_ngc)
