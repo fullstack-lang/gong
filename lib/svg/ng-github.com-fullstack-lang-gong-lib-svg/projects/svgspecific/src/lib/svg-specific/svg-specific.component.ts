@@ -295,6 +295,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         this.gongsvgFrontRepo = gongsvgsFrontRepo
         //   "in promise to front repose servive pull", "gongsvgFrontRepo not good")
 
+        // console.log("INSPECT THIS REPO DATA:", this.gongsvgFrontRepo)
+
         if (this.gongsvgFrontRepo.getFrontArray(svg.SVG.GONGSTRUCT_NAME).length == 1) {
           this.svg = this.gongsvgFrontRepo.getFrontArray<svg.SVG>(svg.SVG.GONGSTRUCT_NAME)[0]
 
@@ -742,6 +744,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
     }
+
     this.changeDetectorRef.detectChanges()
   }
 

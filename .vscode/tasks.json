@@ -803,6 +803,21 @@
       ],
       "group": "build"
     },
+        {
+      "label": "04 - go run svg on issue_ngc",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/svg/go/cmd/svg"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode=data/issue_ngc.go",
+        "-marshallOnCommit=data/issue_ngc.go"
+      ],
+      "group": "build"
+    },
     {
       "label": "04 - go run svg on simple port 8090",
       "type": "shell",
