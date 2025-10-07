@@ -328,7 +328,7 @@
             @if(segments) {
               @if(!link.IsBezierCurve || svg.IsEditable) {
                 <g>
-                  @for(segment of segments; track segment; let i = $index) {
+                  @for(segment of segments; track segment.Number; let i = $index) {
                     <line class="moveable-line" 
                       [attr.x1]="segment.StartPoint.X" 
                       [attr.y1]="segment.StartPoint.Y" 
