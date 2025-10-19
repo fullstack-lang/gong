@@ -106,7 +106,7 @@ func (astruct *Astruct) OnAfterUpdateWithMouseEvent(stage *Stage, frontInstance 
 	log.Println(astruct.Name, "Received a an update with a mouse event. Shift Key, ", mouseEvent.ShiftKey)
 }
 
-func ExampleOfReverseMapAccess() {
+func ExampleOfReverseMapAccess(stage *Stage) {
 
 	// getting the reverse map of the association [Astruct.Anarrayofb]
 	// it returns a map of Bstruct instances to slices of Astruct instances
