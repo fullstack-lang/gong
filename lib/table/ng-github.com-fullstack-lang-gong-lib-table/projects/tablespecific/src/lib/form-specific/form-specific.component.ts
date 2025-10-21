@@ -212,7 +212,7 @@ export class FormSpecificComponent {
     if (this.angularFormGroup == undefined) {
       return
     }
-    console.log(this.angularFormGroup.valueChanges)
+    // console.log(this.angularFormGroup.valueChanges)
 
     if (this.selectedFormGroup == undefined) {
       return
@@ -267,8 +267,8 @@ export class FormSpecificComponent {
             let formattedDate = dateObj.toISOString();
             let dateObject = new Date(formattedDate);
 
-            console.log("input date", dateObject);
-            console.log("date before", formFieldDate.Value);
+            // console.log("input date", dateObject);
+            // console.log("date before", formFieldDate.Value);
 
             // 2. Check if two dates are on the same day
             let inputDate = new Date(formFieldValue);
@@ -280,7 +280,7 @@ export class FormSpecificComponent {
                 date1.getUTCDate() === date2.getUTCDate();
             }
 
-            console.log(isSameDay(inputDate, comparisonDate));
+            // console.log(isSameDay(inputDate, comparisonDate));
 
             if (!isSameDay(inputDate, comparisonDate)) {
               formFieldDate.Value = dateObject;
@@ -351,7 +351,7 @@ export class FormSpecificComponent {
       () => {
         this.formGroupService.updateFront(this.selectedFormGroup!, this.Name).subscribe(
           () => {
-            console.log("Form refreshed", promises.length)
+            // console.log("Form refreshed", promises.length)
             // a refresh is necessary to redeem all associations
             // this.refresh()
           }
@@ -417,7 +417,7 @@ export class FormSpecificComponent {
                   // Extract selected IDs from result
                   let selectedIDs = new Array<number>();
                   for (let row of result) {
-                    selectedIDs.push(row.Cells[0].CellInt.Value);
+                    selectedIDs.push(row.ID-1);
                   }
 
                   if (this.currentFormEditAssocButton) {
