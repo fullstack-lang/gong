@@ -52,6 +52,9 @@ var (
 
 	dbLite = flag.Bool("dbLite", true, "If true, the database in all stack instances are purely in memory."+
 		"If false, it is sqlite and can be persisted to a sqlite file")
+
+	debouncedMarshall = flag.Bool("debouncedMarshall", false, "If false, each marshall call is blocking."+
+		"If true, the marshalling is non blocking and debounced")
 )
 
 func main() {
@@ -344,7 +347,7 @@ func main() {
 	}
 
 	// generate directory for orm package
-	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager, *level1)
+	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager, *level1, *debouncedMarshall)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
 	// the go mod vendor command has to be issued before the ng build command

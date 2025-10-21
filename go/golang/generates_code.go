@@ -25,7 +25,13 @@ import (
 )
 
 func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
-	pkgPath string, skipCoder bool, dbLite bool, skipSerialize bool, skipStager bool, level1 bool) {
+	pkgPath string,
+	skipCoder bool,
+	dbLite bool,
+	skipSerialize bool,
+	skipStager bool,
+	level1 bool,
+	debouncedMarshall bool) {
 
 	// generate main.go if absent
 	{
@@ -183,10 +189,17 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		template,
 		fullstack.ModelGongNewStackInstanceStructSubTemplateCode)
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, "../stack/stack.go"),
-		stack.StackInstanceTemplate)
+	if debouncedMarshall {
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../stack/stack.go"),
+			stack.DebouncedMarshallingStackInstanceTemplate)
+	} else {
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, "../stack/stack.go"),
+			stack.BlockingMarshallingStackInstanceTemplate)
+	}
 
 	// a level 1 application does not need the static files service since
 	// it uses the gong split static file

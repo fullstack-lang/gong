@@ -1,6 +1,58 @@
 package stack
 
-const StackInstanceTemplate = `// do not modify, generated file
+const DebouncedMarshallingStackInstanceTemplate = `// do not modify, generated file
+package stack
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"strings"
+	"sync"
+	"time"
+
+	"{{PkgPathRoot}}/fullstack"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
+	"{{PkgPathRoot}}/probe"
+
+	{{pkgname}}_go "{{PkgPathRoot}}"
+
+	"github.com/gin-gonic/gin"
+)
+
+// hook marhalling to stage
+type BeforeCommitImplementation struct {
+	marshallOnCommit string
+
+	packageName string
+
+	mu    sync.Mutex
+	timer *time.Timer
+}
+
+const debounceDuration = 2 * time.Second
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+	impl.mu.Lock()
+	defer impl.mu.Unlock()
+
+	// If a timer is already running, stop it.
+	if impl.timer != nil {
+		impl.timer.Stop()
+	}
+
+	// Start a new timer. When it fires, it will execute performMarshalling
+	// in a new goroutine.
+	impl.timer = time.AfterFunc(debounceDuration, func() {
+		go impl.performMarshalling(stage)
+	})
+}
+
+func (impl *BeforeCommitImplementation) performMarshalling(stage *models.Stage) {
+` + stackInstanceTemplateEpilogue
+
+const BlockingMarshallingStackInstanceTemplate = `// do not modify, generated file
 package stack
 
 import (
@@ -27,7 +79,9 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+` + stackInstanceTemplateEpilogue
 
+const stackInstanceTemplateEpilogue = `
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
