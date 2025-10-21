@@ -150,7 +150,7 @@
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug whithout rm main.go",
+            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -161,6 +161,21 @@
                 "-skipGoModCommands",
                 "-skipNg",
                 "-skipNpmInstall"
+            ]
+        },
+        {
+            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-compileForDebug",
+                "-skipGoModCommands",
+                "-skipNg",
+                "-skipNpmInstall",
+                "-debouncedMarshall"
             ]
         },
         {
