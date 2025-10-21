@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-08-30 10:03:25.474923 CEST"
-	const __write__utc_time__ = "2025-08-30 08:03:25.474923 UTC"
+	const __write__local_time = "2025-10-21 06:06:44.788294 CEST"
+	const __write__utc_time__ = "2025-10-21 04:06:44.788294 UTC"
 
-	const __commitId__ = "0000000091"
+	const __commitId__ = "0000000121"
 
 	// Declaration of instances to stage
 
@@ -54,7 +54,7 @@ func _(stage *models.Stage) {
 	__Astruct__000000_A1.Aenum = models.ENUM_VAL1
 	__Astruct__000000_A1.Aenum_2 = models.ENUM_VAL2
 	__Astruct__000000_A1.Benum = models.BENUM_VAL2
-	__Astruct__000000_A1.CEnum = models.CENUM_VAL2
+	__Astruct__000000_A1.CEnum = models.CENUM_VAL1
 	__Astruct__000000_A1.CName = `CName1
 
 	\n"""" fdfsqjfhdqksfhqksf
@@ -65,7 +65,20 @@ Second Line`
 	__Astruct__000000_A1.Anotherbooleanfield = false
 	__Astruct__000000_A1.Duration1 = -79653000000000
 	__Astruct__000000_A1.TextFieldBespokeSize = ``
-	__Astruct__000000_A1.TextArea = ``
+	__Astruct__000000_A1.TextArea = `dsqdqd
+dqsdqsd
+
+dsq
+dq
+dsq
+SQD
+sqd
+sqd
+sqd
+dsq
+sqd
+sqd
+`
 
 	__Astruct__000001_A2.Name = `A2`
 	__Astruct__000001_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 09:59:06 +0000 UTC")
@@ -143,8 +156,8 @@ Second Line`
 
 	// Setup of pointers
 	// setup of Astruct instances pointers
-	__Astruct__000000_A1.Associationtob = __Bstruct__000001_B2_
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)

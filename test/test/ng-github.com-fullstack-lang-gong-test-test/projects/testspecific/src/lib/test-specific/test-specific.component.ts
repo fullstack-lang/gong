@@ -32,7 +32,7 @@ export class TestSpecificComponent implements OnInit {
         this.frontRepo = frontRepo;
 
         for (let astruct of this.frontRepo.array_Astructs) {
-          console.log("astruct:", astruct.Name)
+          // console.log("astruct:", astruct.Name)
         }
       }
     })
