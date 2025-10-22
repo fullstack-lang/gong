@@ -1,6 +1,7 @@
 // insertion point for imports
 import { RectAPI } from './rect-api'
 import { LinkAPI } from './link-api'
+import { ConditionAPI } from './condition-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -36,4 +37,6 @@ export class RectLinkLinkPointersEncoding {
 
 	EndID: NullInt64 = new NullInt64 // if pointer is null, End.ID = 0
 
+	HoveringTrigger: number[] = []
+	DisplayConditions: number[] = []
 }

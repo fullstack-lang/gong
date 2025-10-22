@@ -48,6 +48,12 @@ type PolygoneAPI struct {
 type PolygonePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
+	HoveringTrigger IntSlice `gorm:"type:TEXT"`
+
+	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
+	DisplayConditions IntSlice `gorm:"type:TEXT"`
+
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
 }
@@ -281,6 +287,42 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
+		polygoneDB.PolygonePointersEncoding.HoveringTrigger = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range polygone.HoveringTrigger {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			polygoneDB.PolygonePointersEncoding.HoveringTrigger =
+				append(polygoneDB.PolygonePointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		polygoneDB.PolygonePointersEncoding.DisplayConditions = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range polygone.DisplayConditions {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			polygoneDB.PolygonePointersEncoding.DisplayConditions =
+				append(polygoneDB.PolygonePointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		polygoneDB.PolygonePointersEncoding.Animates = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range polygone.Animates {
@@ -411,6 +453,24 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CheckoutPhaseTwoInstance(backRep
 func (polygoneDB *PolygoneDB) DecodePointers(backRepo *BackRepoStruct, polygone *models.Polygone) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem polygone.HoveringTrigger in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	polygone.HoveringTrigger = polygone.HoveringTrigger[:0]
+	for _, _Conditionid := range polygoneDB.PolygonePointersEncoding.HoveringTrigger {
+		polygone.HoveringTrigger = append(polygone.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
+	// This loop redeem polygone.DisplayConditions in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	polygone.DisplayConditions = polygone.DisplayConditions[:0]
+	for _, _Conditionid := range polygoneDB.PolygonePointersEncoding.DisplayConditions {
+		polygone.DisplayConditions = append(polygone.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
 	// This loop redeem polygone.Animates in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

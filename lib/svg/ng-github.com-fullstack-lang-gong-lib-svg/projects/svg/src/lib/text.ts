@@ -4,6 +4,7 @@ import { TextAPI } from './text-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -36,6 +37,8 @@ export class Text {
 	LetterSpacing: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -66,6 +69,16 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	textAPI.TextPointersEncoding.HoveringTrigger = []
+	for (let _condition of text.HoveringTrigger) {
+		textAPI.TextPointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	textAPI.TextPointersEncoding.DisplayConditions = []
+	for (let _condition of text.DisplayConditions) {
+		textAPI.TextPointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	textAPI.TextPointersEncoding.Animates = []
 	for (let _animate of text.Animates) {
 		textAPI.TextPointersEncoding.Animates.push(_animate.ID)
@@ -104,6 +117,30 @@ export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(textAPI.TextPointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', textAPI.TextPointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	text.HoveringTrigger = new Array<Condition>()
+	for (let _id of textAPI.TextPointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			text.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(textAPI.TextPointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', textAPI.TextPointersEncoding.DisplayConditions);
+		return;
+	}
+
+	text.DisplayConditions = new Array<Condition>()
+	for (let _id of textAPI.TextPointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			text.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(textAPI.TextPointersEncoding.Animates)) {
 		console.error('Rects is not an array:', textAPI.TextPointersEncoding.Animates);
 		return;

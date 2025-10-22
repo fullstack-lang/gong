@@ -17,6 +17,7 @@ import { Rect, CopyRectToRectAPI } from './rect'
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
+import { ConditionAPI } from './condition-api'
 import { AnimateAPI } from './animate-api'
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'

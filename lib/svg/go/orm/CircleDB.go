@@ -48,6 +48,12 @@ type CircleAPI struct {
 type CirclePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
+	HoveringTrigger IntSlice `gorm:"type:TEXT"`
+
+	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
+	DisplayConditions IntSlice `gorm:"type:TEXT"`
+
 	// field Animations is a slice of pointers to another Struct (optional or 0..1)
 	Animations IntSlice `gorm:"type:TEXT"`
 }
@@ -293,6 +299,42 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
+		circleDB.CirclePointersEncoding.HoveringTrigger = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range circle.HoveringTrigger {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			circleDB.CirclePointersEncoding.HoveringTrigger =
+				append(circleDB.CirclePointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		circleDB.CirclePointersEncoding.DisplayConditions = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range circle.DisplayConditions {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			circleDB.CirclePointersEncoding.DisplayConditions =
+				append(circleDB.CirclePointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		circleDB.CirclePointersEncoding.Animations = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range circle.Animations {
@@ -423,6 +465,24 @@ func (backRepoCircle *BackRepoCircleStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (circleDB *CircleDB) DecodePointers(backRepo *BackRepoStruct, circle *models.Circle) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem circle.HoveringTrigger in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	circle.HoveringTrigger = circle.HoveringTrigger[:0]
+	for _, _Conditionid := range circleDB.CirclePointersEncoding.HoveringTrigger {
+		circle.HoveringTrigger = append(circle.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
+	// This loop redeem circle.DisplayConditions in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	circle.DisplayConditions = circle.DisplayConditions[:0]
+	for _, _Conditionid := range circleDB.CirclePointersEncoding.DisplayConditions {
+		circle.DisplayConditions = append(circle.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
 	// This loop redeem circle.Animations in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

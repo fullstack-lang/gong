@@ -53,6 +53,7 @@ type Link struct {
 	ControlPoints []*Point
 
 	Presentation
+	ShapeConditions
 
 	Impl LinkImplInterface
 }

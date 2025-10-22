@@ -5,6 +5,7 @@ type Circle struct {
 	CX, CY, Radius float64
 
 	Presentation
+	ShapeConditions
 
 	Animations []*Animate
 }

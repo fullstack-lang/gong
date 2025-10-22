@@ -4,6 +4,7 @@ import { RectAnchoredRectAPI } from './rectanchoredrect-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -40,6 +41,8 @@ export class RectAnchoredRect {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 }
 
 export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: RectAnchoredRect, rectanchoredrectAPI: RectAnchoredRectAPI) {
@@ -74,6 +77,16 @@ export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: Rect
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	rectanchoredrectAPI.RectAnchoredRectPointersEncoding.HoveringTrigger = []
+	for (let _condition of rectanchoredrect.HoveringTrigger) {
+		rectanchoredrectAPI.RectAnchoredRectPointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	rectanchoredrectAPI.RectAnchoredRectPointersEncoding.DisplayConditions = []
+	for (let _condition of rectanchoredrect.DisplayConditions) {
+		rectanchoredrectAPI.RectAnchoredRectPointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 }
 
 // CopyRectAnchoredRectAPIToRectAnchoredRect update basic, pointers and slice of pointers fields of rectanchoredrect
@@ -112,4 +125,28 @@ export function CopyRectAnchoredRectAPIToRectAnchoredRect(rectanchoredrectAPI: R
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(rectanchoredrectAPI.RectAnchoredRectPointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', rectanchoredrectAPI.RectAnchoredRectPointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	rectanchoredrect.HoveringTrigger = new Array<Condition>()
+	for (let _id of rectanchoredrectAPI.RectAnchoredRectPointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			rectanchoredrect.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(rectanchoredrectAPI.RectAnchoredRectPointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', rectanchoredrectAPI.RectAnchoredRectPointersEncoding.DisplayConditions);
+		return;
+	}
+
+	rectanchoredrect.DisplayConditions = new Array<Condition>()
+	for (let _id of rectanchoredrectAPI.RectAnchoredRectPointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			rectanchoredrect.DisplayConditions.push(_condition!)
+		}
+	}
 }

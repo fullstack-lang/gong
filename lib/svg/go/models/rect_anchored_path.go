@@ -28,6 +28,7 @@ type RectAnchoredPath struct {
 	AppliedScaling float64
 
 	Presentation
+	ShapeConditions
 }
 
 func (rectAnchoredPath *RectAnchoredPath) WriteSVG(sb *strings.Builder, x, y float64) (maxX, maxY float64) {

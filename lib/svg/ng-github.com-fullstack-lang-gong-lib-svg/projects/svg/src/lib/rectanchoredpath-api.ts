@@ -1,4 +1,5 @@
 // insertion point for imports
+import { ConditionAPI } from './condition-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -35,4 +36,6 @@ export class RectAnchoredPathAPI {
 
 export class RectAnchoredPathPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
+	HoveringTrigger: number[] = []
+	DisplayConditions: number[] = []
 }

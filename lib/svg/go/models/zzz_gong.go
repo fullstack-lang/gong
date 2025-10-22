@@ -101,6 +101,10 @@ type Stage struct {
 	Circles_mapString map[string]*Circle
 
 	// insertion point for slice of pointers maps
+	Circle_HoveringTrigger_reverseMap map[*Condition]*Circle
+
+	Circle_DisplayConditions_reverseMap map[*Condition]*Circle
+
 	Circle_Animations_reverseMap map[*Animate]*Circle
 
 	OnAfterCircleCreateCallback OnAfterCreateInterface[Circle]
@@ -109,10 +113,24 @@ type Stage struct {
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
+	Conditions           map[*Condition]any
+	Conditions_mapString map[string]*Condition
+
+	// insertion point for slice of pointers maps
+	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
+	OnAfterConditionUpdateCallback OnAfterUpdateInterface[Condition]
+	OnAfterConditionUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Condition]
+	OnAfterConditionDeleteCallback OnAfterDeleteInterface[Condition]
+	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
+
 	Ellipses           map[*Ellipse]any
 	Ellipses_mapString map[string]*Ellipse
 
 	// insertion point for slice of pointers maps
+	Ellipse_HoveringTrigger_reverseMap map[*Condition]*Ellipse
+
+	Ellipse_DisplayConditions_reverseMap map[*Condition]*Ellipse
+
 	Ellipse_Animates_reverseMap map[*Animate]*Ellipse
 
 	OnAfterEllipseCreateCallback OnAfterCreateInterface[Ellipse]
@@ -155,6 +173,10 @@ type Stage struct {
 	Lines_mapString map[string]*Line
 
 	// insertion point for slice of pointers maps
+	Line_HoveringTrigger_reverseMap map[*Condition]*Line
+
+	Line_DisplayConditions_reverseMap map[*Condition]*Line
+
 	Line_Animates_reverseMap map[*Animate]*Line
 
 	OnAfterLineCreateCallback OnAfterCreateInterface[Line]
@@ -173,6 +195,10 @@ type Stage struct {
 
 	Link_ControlPoints_reverseMap map[*Point]*Link
 
+	Link_HoveringTrigger_reverseMap map[*Condition]*Link
+
+	Link_DisplayConditions_reverseMap map[*Condition]*Link
+
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
 	OnAfterLinkUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Link]
@@ -183,6 +209,10 @@ type Stage struct {
 	LinkAnchoredTexts_mapString map[string]*LinkAnchoredText
 
 	// insertion point for slice of pointers maps
+	LinkAnchoredText_HoveringTrigger_reverseMap map[*Condition]*LinkAnchoredText
+
+	LinkAnchoredText_DisplayConditions_reverseMap map[*Condition]*LinkAnchoredText
+
 	LinkAnchoredText_Animates_reverseMap map[*Animate]*LinkAnchoredText
 
 	OnAfterLinkAnchoredTextCreateCallback OnAfterCreateInterface[LinkAnchoredText]
@@ -195,6 +225,10 @@ type Stage struct {
 	Paths_mapString map[string]*Path
 
 	// insertion point for slice of pointers maps
+	Path_HoveringTrigger_reverseMap map[*Condition]*Path
+
+	Path_DisplayConditions_reverseMap map[*Condition]*Path
+
 	Path_Animates_reverseMap map[*Animate]*Path
 
 	OnAfterPathCreateCallback OnAfterCreateInterface[Path]
@@ -217,6 +251,10 @@ type Stage struct {
 	Polygones_mapString map[string]*Polygone
 
 	// insertion point for slice of pointers maps
+	Polygone_HoveringTrigger_reverseMap map[*Condition]*Polygone
+
+	Polygone_DisplayConditions_reverseMap map[*Condition]*Polygone
+
 	Polygone_Animates_reverseMap map[*Animate]*Polygone
 
 	OnAfterPolygoneCreateCallback OnAfterCreateInterface[Polygone]
@@ -229,6 +267,10 @@ type Stage struct {
 	Polylines_mapString map[string]*Polyline
 
 	// insertion point for slice of pointers maps
+	Polyline_HoveringTrigger_reverseMap map[*Condition]*Polyline
+
+	Polyline_DisplayConditions_reverseMap map[*Condition]*Polyline
+
 	Polyline_Animates_reverseMap map[*Animate]*Polyline
 
 	OnAfterPolylineCreateCallback OnAfterCreateInterface[Polyline]
@@ -241,6 +283,10 @@ type Stage struct {
 	Rects_mapString map[string]*Rect
 
 	// insertion point for slice of pointers maps
+	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
+
+	Rect_DisplayConditions_reverseMap map[*Condition]*Rect
+
 	Rect_Animations_reverseMap map[*Animate]*Rect
 
 	Rect_RectAnchoredTexts_reverseMap map[*RectAnchoredText]*Rect
@@ -259,6 +305,10 @@ type Stage struct {
 	RectAnchoredPaths_mapString map[string]*RectAnchoredPath
 
 	// insertion point for slice of pointers maps
+	RectAnchoredPath_HoveringTrigger_reverseMap map[*Condition]*RectAnchoredPath
+
+	RectAnchoredPath_DisplayConditions_reverseMap map[*Condition]*RectAnchoredPath
+
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectAnchoredPath]
@@ -269,6 +319,10 @@ type Stage struct {
 	RectAnchoredRects_mapString map[string]*RectAnchoredRect
 
 	// insertion point for slice of pointers maps
+	RectAnchoredRect_HoveringTrigger_reverseMap map[*Condition]*RectAnchoredRect
+
+	RectAnchoredRect_DisplayConditions_reverseMap map[*Condition]*RectAnchoredRect
+
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectAnchoredRect]
@@ -279,6 +333,10 @@ type Stage struct {
 	RectAnchoredTexts_mapString map[string]*RectAnchoredText
 
 	// insertion point for slice of pointers maps
+	RectAnchoredText_HoveringTrigger_reverseMap map[*Condition]*RectAnchoredText
+
+	RectAnchoredText_DisplayConditions_reverseMap map[*Condition]*RectAnchoredText
+
 	RectAnchoredText_Animates_reverseMap map[*Animate]*RectAnchoredText
 
 	OnAfterRectAnchoredTextCreateCallback OnAfterCreateInterface[RectAnchoredText]
@@ -291,6 +349,10 @@ type Stage struct {
 	RectLinkLinks_mapString map[string]*RectLinkLink
 
 	// insertion point for slice of pointers maps
+	RectLinkLink_HoveringTrigger_reverseMap map[*Condition]*RectLinkLink
+
+	RectLinkLink_DisplayConditions_reverseMap map[*Condition]*RectLinkLink
+
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectLinkLink]
@@ -323,6 +385,10 @@ type Stage struct {
 	Texts_mapString map[string]*Text
 
 	// insertion point for slice of pointers maps
+	Text_HoveringTrigger_reverseMap map[*Condition]*Text
+
+	Text_DisplayConditions_reverseMap map[*Condition]*Text
+
 	Text_Animates_reverseMap map[*Animate]*Text
 
 	OnAfterTextCreateCallback OnAfterCreateInterface[Text]
@@ -362,6 +428,9 @@ type Stage struct {
 
 	CircleOrder            uint
 	CircleMap_Staged_Order map[*Circle]uint
+
+	ConditionOrder            uint
+	ConditionMap_Staged_Order map[*Condition]uint
 
 	EllipseOrder            uint
 	EllipseMap_Staged_Order map[*Ellipse]uint
@@ -494,6 +563,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Circle implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Condition:
+		tmp := GetStructInstancesByOrder(stage.Conditions, stage.ConditionMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Condition implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -772,6 +855,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
 	case "Circle":
 		res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+	case "Condition":
+		res = GetNamedStructInstances(stage.Conditions, stage.ConditionMap_Staged_Order)
 	case "Ellipse":
 		res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
 	case "Layer":
@@ -884,6 +969,8 @@ type BackRepoInterface interface {
 	CheckoutAnimate(animate *Animate)
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
+	CommitCondition(condition *Condition)
+	CheckoutCondition(condition *Condition)
 	CommitEllipse(ellipse *Ellipse)
 	CheckoutEllipse(ellipse *Ellipse)
 	CommitLayer(layer *Layer)
@@ -930,6 +1017,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Circles:           make(map[*Circle]any),
 		Circles_mapString: make(map[string]*Circle),
+
+		Conditions:           make(map[*Condition]any),
+		Conditions_mapString: make(map[string]*Condition),
 
 		Ellipses:           make(map[*Ellipse]any),
 		Ellipses_mapString: make(map[string]*Ellipse),
@@ -996,6 +1086,8 @@ func NewStage(name string) (stage *Stage) {
 
 		CircleMap_Staged_Order: make(map[*Circle]uint),
 
+		ConditionMap_Staged_Order: make(map[*Condition]uint),
+
 		EllipseMap_Staged_Order: make(map[*Ellipse]uint),
 
 		LayerMap_Staged_Order: make(map[*Layer]uint),
@@ -1035,6 +1127,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Animate"},
 			{name: "Circle"},
+			{name: "Condition"},
 			{name: "Ellipse"},
 			{name: "Layer"},
 			{name: "Line"},
@@ -1066,6 +1159,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AnimateMap_Staged_Order[instance]
 	case *Circle:
 		return stage.CircleMap_Staged_Order[instance]
+	case *Condition:
+		return stage.ConditionMap_Staged_Order[instance]
 	case *Ellipse:
 		return stage.EllipseMap_Staged_Order[instance]
 	case *Layer:
@@ -1113,6 +1208,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AnimateMap_Staged_Order[instance]
 	case *Circle:
 		return stage.CircleMap_Staged_Order[instance]
+	case *Condition:
+		return stage.ConditionMap_Staged_Order[instance]
 	case *Ellipse:
 		return stage.EllipseMap_Staged_Order[instance]
 	case *Layer:
@@ -1176,6 +1273,7 @@ func (stage *Stage) Commit() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -1205,6 +1303,7 @@ func (stage *Stage) Checkout() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -1362,6 +1461,61 @@ func (circle *Circle) Checkout(stage *Stage) *Circle {
 // for satisfaction of GongStruct interface
 func (circle *Circle) GetName() (res string) {
 	return circle.Name
+}
+
+// Stage puts condition to the model stage
+func (condition *Condition) Stage(stage *Stage) *Condition {
+
+	if _, ok := stage.Conditions[condition]; !ok {
+		stage.Conditions[condition] = __member
+		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
+		stage.ConditionOrder++
+	}
+	stage.Conditions_mapString[condition.Name] = condition
+
+	return condition
+}
+
+// Unstage removes condition off the model stage
+func (condition *Condition) Unstage(stage *Stage) *Condition {
+	delete(stage.Conditions, condition)
+	delete(stage.Conditions_mapString, condition.Name)
+	return condition
+}
+
+// UnstageVoid removes condition off the model stage
+func (condition *Condition) UnstageVoid(stage *Stage) {
+	delete(stage.Conditions, condition)
+	delete(stage.Conditions_mapString, condition.Name)
+}
+
+// commit condition to the back repo (if it is already staged)
+func (condition *Condition) Commit(stage *Stage) *Condition {
+	if _, ok := stage.Conditions[condition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCondition(condition)
+		}
+	}
+	return condition
+}
+
+func (condition *Condition) CommitVoid(stage *Stage) {
+	condition.Commit(stage)
+}
+
+// Checkout condition to the back repo (if it is already staged)
+func (condition *Condition) Checkout(stage *Stage) *Condition {
+	if _, ok := stage.Conditions[condition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCondition(condition)
+		}
+	}
+	return condition
+}
+
+// for satisfaction of GongStruct interface
+func (condition *Condition) GetName() (res string) {
+	return condition.Name
 }
 
 // Stage puts ellipse to the model stage
@@ -2303,6 +2457,7 @@ func (text *Text) GetName() (res string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAnimate(Animate *Animate)
 	CreateORMCircle(Circle *Circle)
+	CreateORMCondition(Condition *Condition)
 	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLayer(Layer *Layer)
 	CreateORMLine(Line *Line)
@@ -2325,6 +2480,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAnimate(Animate *Animate)
 	DeleteORMCircle(Circle *Circle)
+	DeleteORMCondition(Condition *Condition)
 	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLayer(Layer *Layer)
 	DeleteORMLine(Line *Line)
@@ -2354,6 +2510,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Circles_mapString = make(map[string]*Circle)
 	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
 	stage.CircleOrder = 0
+
+	stage.Conditions = make(map[*Condition]any)
+	stage.Conditions_mapString = make(map[string]*Condition)
+	stage.ConditionMap_Staged_Order = make(map[*Condition]uint)
+	stage.ConditionOrder = 0
 
 	stage.Ellipses = make(map[*Ellipse]any)
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
@@ -2449,6 +2610,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Circles = nil
 	stage.Circles_mapString = nil
 
+	stage.Conditions = nil
+	stage.Conditions_mapString = nil
+
 	stage.Ellipses = nil
 	stage.Ellipses_mapString = nil
 
@@ -2509,6 +2673,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for circle := range stage.Circles {
 		circle.Unstage(stage)
+	}
+
+	for condition := range stage.Conditions {
+		condition.Unstage(stage)
 	}
 
 	for ellipse := range stage.Ellipses {
@@ -2644,6 +2812,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Animates).(*Type)
 	case map[*Circle]any:
 		return any(&stage.Circles).(*Type)
+	case map[*Condition]any:
+		return any(&stage.Conditions).(*Type)
 	case map[*Ellipse]any:
 		return any(&stage.Ellipses).(*Type)
 	case map[*Layer]any:
@@ -2694,6 +2864,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Animates_mapString).(*Type)
 	case map[string]*Circle:
 		return any(&stage.Circles_mapString).(*Type)
+	case map[string]*Condition:
+		return any(&stage.Conditions_mapString).(*Type)
 	case map[string]*Ellipse:
 		return any(&stage.Ellipses_mapString).(*Type)
 	case map[string]*Layer:
@@ -2744,6 +2916,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Animates).(*map[*Type]any)
 	case Circle:
 		return any(&stage.Circles).(*map[*Type]any)
+	case Condition:
+		return any(&stage.Conditions).(*map[*Type]any)
 	case Ellipse:
 		return any(&stage.Ellipses).(*map[*Type]any)
 	case Layer:
@@ -2794,6 +2968,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Animates).(*map[Type]any)
 	case *Circle:
 		return any(&stage.Circles).(*map[Type]any)
+	case *Condition:
+		return any(&stage.Conditions).(*map[Type]any)
 	case *Ellipse:
 		return any(&stage.Ellipses).(*map[Type]any)
 	case *Layer:
@@ -2844,6 +3020,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Animates_mapString).(*map[string]*Type)
 	case Circle:
 		return any(&stage.Circles_mapString).(*map[string]*Type)
+	case Condition:
+		return any(&stage.Conditions_mapString).(*map[string]*Type)
 	case Ellipse:
 		return any(&stage.Ellipses_mapString).(*map[string]*Type)
 	case Layer:
@@ -2901,6 +3079,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
+		}).(*Type)
+	case Condition:
+		return any(&Condition{
+			// Initialisation of associations
 		}).(*Type)
 	case Ellipse:
 		return any(&Ellipse{
@@ -3059,6 +3241,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Circle
 	case Circle:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Condition
+	case Condition:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3274,6 +3461,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Circle:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Circle)
+			for circle := range stage.Circles {
+				for _, condition_ := range circle.HoveringTrigger {
+					res[condition_] = append(res[condition_], circle)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Circle)
+			for circle := range stage.Circles {
+				for _, condition_ := range circle.DisplayConditions {
+					res[condition_] = append(res[condition_], circle)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animations":
 			res := make(map[*Animate][]*Circle)
 			for circle := range stage.Circles {
@@ -3283,10 +3486,31 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Condition
+	case Condition:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Ellipse
 	case Ellipse:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Ellipse)
+			for ellipse := range stage.Ellipses {
+				for _, condition_ := range ellipse.HoveringTrigger {
+					res[condition_] = append(res[condition_], ellipse)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Ellipse)
+			for ellipse := range stage.Ellipses {
+				for _, condition_ := range ellipse.DisplayConditions {
+					res[condition_] = append(res[condition_], ellipse)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Ellipse)
 			for ellipse := range stage.Ellipses {
@@ -3385,6 +3609,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Line:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Line)
+			for line := range stage.Lines {
+				for _, condition_ := range line.HoveringTrigger {
+					res[condition_] = append(res[condition_], line)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Line)
+			for line := range stage.Lines {
+				for _, condition_ := range line.DisplayConditions {
+					res[condition_] = append(res[condition_], line)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Line)
 			for line := range stage.Lines {
@@ -3422,11 +3662,43 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Link)
+			for link := range stage.Links {
+				for _, condition_ := range link.HoveringTrigger {
+					res[condition_] = append(res[condition_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Link)
+			for link := range stage.Links {
+				for _, condition_ := range link.DisplayConditions {
+					res[condition_] = append(res[condition_], link)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of LinkAnchoredText
 	case LinkAnchoredText:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*LinkAnchoredText)
+			for linkanchoredtext := range stage.LinkAnchoredTexts {
+				for _, condition_ := range linkanchoredtext.HoveringTrigger {
+					res[condition_] = append(res[condition_], linkanchoredtext)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*LinkAnchoredText)
+			for linkanchoredtext := range stage.LinkAnchoredTexts {
+				for _, condition_ := range linkanchoredtext.DisplayConditions {
+					res[condition_] = append(res[condition_], linkanchoredtext)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*LinkAnchoredText)
 			for linkanchoredtext := range stage.LinkAnchoredTexts {
@@ -3440,6 +3712,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Path:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Path)
+			for path := range stage.Paths {
+				for _, condition_ := range path.HoveringTrigger {
+					res[condition_] = append(res[condition_], path)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Path)
+			for path := range stage.Paths {
+				for _, condition_ := range path.DisplayConditions {
+					res[condition_] = append(res[condition_], path)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Path)
 			for path := range stage.Paths {
@@ -3458,6 +3746,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Polygone:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Polygone)
+			for polygone := range stage.Polygones {
+				for _, condition_ := range polygone.HoveringTrigger {
+					res[condition_] = append(res[condition_], polygone)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Polygone)
+			for polygone := range stage.Polygones {
+				for _, condition_ := range polygone.DisplayConditions {
+					res[condition_] = append(res[condition_], polygone)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Polygone)
 			for polygone := range stage.Polygones {
@@ -3471,6 +3775,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Polyline:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Polyline)
+			for polyline := range stage.Polylines {
+				for _, condition_ := range polyline.HoveringTrigger {
+					res[condition_] = append(res[condition_], polyline)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Polyline)
+			for polyline := range stage.Polylines {
+				for _, condition_ := range polyline.DisplayConditions {
+					res[condition_] = append(res[condition_], polyline)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Polyline)
 			for polyline := range stage.Polylines {
@@ -3484,6 +3804,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Rect:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Rect)
+			for rect := range stage.Rects {
+				for _, condition_ := range rect.HoveringTrigger {
+					res[condition_] = append(res[condition_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Rect)
+			for rect := range stage.Rects {
+				for _, condition_ := range rect.DisplayConditions {
+					res[condition_] = append(res[condition_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animations":
 			res := make(map[*Animate][]*Rect)
 			for rect := range stage.Rects {
@@ -3521,16 +3857,64 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case RectAnchoredPath:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*RectAnchoredPath)
+			for rectanchoredpath := range stage.RectAnchoredPaths {
+				for _, condition_ := range rectanchoredpath.HoveringTrigger {
+					res[condition_] = append(res[condition_], rectanchoredpath)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*RectAnchoredPath)
+			for rectanchoredpath := range stage.RectAnchoredPaths {
+				for _, condition_ := range rectanchoredpath.DisplayConditions {
+					res[condition_] = append(res[condition_], rectanchoredpath)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectAnchoredRect
 	case RectAnchoredRect:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*RectAnchoredRect)
+			for rectanchoredrect := range stage.RectAnchoredRects {
+				for _, condition_ := range rectanchoredrect.HoveringTrigger {
+					res[condition_] = append(res[condition_], rectanchoredrect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*RectAnchoredRect)
+			for rectanchoredrect := range stage.RectAnchoredRects {
+				for _, condition_ := range rectanchoredrect.DisplayConditions {
+					res[condition_] = append(res[condition_], rectanchoredrect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of RectAnchoredText
 	case RectAnchoredText:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*RectAnchoredText)
+			for rectanchoredtext := range stage.RectAnchoredTexts {
+				for _, condition_ := range rectanchoredtext.HoveringTrigger {
+					res[condition_] = append(res[condition_], rectanchoredtext)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*RectAnchoredText)
+			for rectanchoredtext := range stage.RectAnchoredTexts {
+				for _, condition_ := range rectanchoredtext.DisplayConditions {
+					res[condition_] = append(res[condition_], rectanchoredtext)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*RectAnchoredText)
 			for rectanchoredtext := range stage.RectAnchoredTexts {
@@ -3544,6 +3928,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case RectLinkLink:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*RectLinkLink)
+			for rectlinklink := range stage.RectLinkLinks {
+				for _, condition_ := range rectlinklink.HoveringTrigger {
+					res[condition_] = append(res[condition_], rectlinklink)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*RectLinkLink)
+			for rectlinklink := range stage.RectLinkLinks {
+				for _, condition_ := range rectlinklink.DisplayConditions {
+					res[condition_] = append(res[condition_], rectlinklink)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of SVG
 	case SVG:
@@ -3567,6 +3967,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Text:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Text)
+			for text := range stage.Texts {
+				for _, condition_ := range text.HoveringTrigger {
+					res[condition_] = append(res[condition_], text)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Text)
+			for text := range stage.Texts {
+				for _, condition_ := range text.DisplayConditions {
+					res[condition_] = append(res[condition_], text)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animates":
 			res := make(map[*Animate][]*Text)
 			for text := range stage.Texts {
@@ -3592,6 +4008,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Animate"
 	case Circle:
 		res = "Circle"
+	case Condition:
+		res = "Condition"
 	case Ellipse:
 		res = "Ellipse"
 	case Layer:
@@ -3642,6 +4060,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Animate"
 	case *Circle:
 		res = "Circle"
+	case *Condition:
+		res = "Condition"
 	case *Ellipse:
 		res = "Ellipse"
 	case *Layer:
@@ -3690,41 +4110,43 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Animate:
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case Circle:
-		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations"}
+	case Condition:
+		res = []string{"Name"}
 	case Ellipse:
-		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case Layer:
 		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case Line:
-		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
+		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case LinkAnchoredText:
-		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case Path:
-		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case Point:
 		res = []string{"Name", "X", "Y"}
 	case Polygone:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case Polyline:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case RectAnchoredPath:
-		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case RectAnchoredRect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case RectLinkLink:
-		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages", "IsControlBannerHidden"}
 	case SvgText:
 		res = []string{"Name", "Text"}
 	case Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -3781,6 +4203,93 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Circles"
+		res = append(res, rf)
+	case Condition:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Circle"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Circle"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Ellipse"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Ellipse"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Line"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Line"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Link"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "LinkAnchoredText"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "LinkAnchoredText"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Path"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Path"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Polygone"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Polygone"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Polyline"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Polyline"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredPath"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredPath"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredRect"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredRect"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredText"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "RectAnchoredText"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "RectLinkLink"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "RectLinkLink"
+		rf.Fieldname = "DisplayConditions"
+		res = append(res, rf)
+		rf.GongstructName = "Text"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Text"
+		rf.Fieldname = "DisplayConditions"
 		res = append(res, rf)
 	case Ellipse:
 		var rf ReverseField
@@ -3895,41 +4404,43 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Animate:
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case *Circle:
-		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations"}
+	case *Condition:
+		res = []string{"Name"}
 	case *Ellipse:
-		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *Layer:
 		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
 	case *Line:
-		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
+		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case *LinkAnchoredText:
-		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *Path:
-		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *Point:
 		res = []string{"Name", "X", "Y"}
 	case *Polygone:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *Polyline:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *RectAnchoredPath:
-		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case *RectAnchoredRect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case *RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animates"}
 	case *RectLinkLink:
-		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions"}
 	case *SVG:
 		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages", "IsControlBannerHidden"}
 	case *SvgText:
 		res = []string{"Name", "Text"}
 	case *Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
+		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "Animates"}
 	}
 	return
 }
@@ -4028,6 +4539,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
@@ -4035,6 +4560,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case *Condition:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
 		}
 	case *Ellipse:
 		switch fieldName {
@@ -4079,6 +4610,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4206,6 +4751,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4329,6 +4888,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case *LinkAnchoredText:
 		switch fieldName {
@@ -4382,6 +4955,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4419,6 +5006,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4470,6 +5071,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4507,6 +5122,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4562,6 +5191,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
@@ -4716,6 +5359,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case *RectAnchoredRect:
 		switch fieldName {
@@ -4789,6 +5446,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case *RectAnchoredText:
 		switch fieldName {
@@ -4844,6 +5515,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -4891,6 +5576,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case *SVG:
 		switch fieldName {
@@ -4979,6 +5678,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "FontWeight":
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":
@@ -5062,6 +5775,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
@@ -5069,6 +5796,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case Condition:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
 		}
 	case Ellipse:
 		switch fieldName {
@@ -5113,6 +5846,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5240,6 +5987,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5363,6 +6124,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case LinkAnchoredText:
 		switch fieldName {
@@ -5416,6 +6191,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5453,6 +6242,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5504,6 +6307,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5541,6 +6358,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5596,6 +6427,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
@@ -5750,6 +6595,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case RectAnchoredRect:
 		switch fieldName {
@@ -5823,6 +6682,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case RectAnchoredText:
 		switch fieldName {
@@ -5878,6 +6751,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animates":
 			for idx, __instance__ := range inferedInstance.Animates {
 				if idx > 0 {
@@ -5925,6 +6812,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		}
 	case SVG:
 		switch fieldName {
@@ -6013,6 +6914,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "FontWeight":
 			res.valueString = inferedInstance.FontWeight
 		case "FontSize":

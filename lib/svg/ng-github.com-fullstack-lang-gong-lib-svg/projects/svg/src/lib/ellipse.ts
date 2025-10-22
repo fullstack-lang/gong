@@ -4,6 +4,7 @@ import { EllipseAPI } from './ellipse-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -33,6 +34,8 @@ export class Ellipse {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -60,6 +63,16 @@ export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	ellipseAPI.EllipsePointersEncoding.HoveringTrigger = []
+	for (let _condition of ellipse.HoveringTrigger) {
+		ellipseAPI.EllipsePointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	ellipseAPI.EllipsePointersEncoding.DisplayConditions = []
+	for (let _condition of ellipse.DisplayConditions) {
+		ellipseAPI.EllipsePointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	ellipseAPI.EllipsePointersEncoding.Animates = []
 	for (let _animate of ellipse.Animates) {
 		ellipseAPI.EllipsePointersEncoding.Animates.push(_animate.ID)
@@ -95,6 +108,30 @@ export function CopyEllipseAPIToEllipse(ellipseAPI: EllipseAPI, ellipse: Ellipse
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	ellipse.HoveringTrigger = new Array<Condition>()
+	for (let _id of ellipseAPI.EllipsePointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			ellipse.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.DisplayConditions);
+		return;
+	}
+
+	ellipse.DisplayConditions = new Array<Condition>()
+	for (let _id of ellipseAPI.EllipsePointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			ellipse.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(ellipseAPI.EllipsePointersEncoding.Animates)) {
 		console.error('Rects is not an array:', ellipseAPI.EllipsePointersEncoding.Animates);
 		return;
