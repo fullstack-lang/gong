@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-04 04:57:05.275241 CEST"
-	const __write__utc_time__ = "2025-10-04 02:57:05.275241 UTC"
+	const __write__local_time = "2025-10-22 06:56:48.964052 CEST"
+	const __write__utc_time__ = "2025-10-22 04:56:48.964052 UTC"
 
-	const __commitId__ = "0000000089"
+	const __commitId__ = "0000000092"
 
 	// Declaration of instances to stage
 
@@ -172,7 +172,7 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.CanMoveHorizontaly = false
 	__Rect__000000_Start.CanMoveVerticaly = false
 	__Rect__000000_Start.ChangeColorWhenHovered = true
-	__Rect__000000_Start.ColorWhenHovered = `red`
+	__Rect__000000_Start.ColorWhenHovered = `yellow`
 	__Rect__000000_Start.OriginalColor = `blue`
 	__Rect__000000_Start.FillOpacityWhenHovered = 0.500000
 	__Rect__000000_Start.OriginalFillOpacity = 0.000000
