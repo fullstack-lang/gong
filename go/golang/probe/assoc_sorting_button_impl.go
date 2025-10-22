@@ -52,6 +52,11 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 	table.SaveButtonLabel = "Close form"
 	table.CanDragDropRows = true
 
+	// add a column for the ID
+	table.DisplayedColumns = append(table.DisplayedColumns, (&gongtable_models.DisplayedColumn{
+		Name: "ID",
+	}).Stage(tableStageForSelection))
+
 	for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
 		column := new(gongtable_models.DisplayedColumn).Stage(tableStageForSelection)
 		column.Name = fieldName
