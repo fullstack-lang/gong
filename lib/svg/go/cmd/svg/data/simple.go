@@ -21,12 +21,14 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-22 06:56:48.964052 CEST"
-	const __write__utc_time__ = "2025-10-22 04:56:48.964052 UTC"
+	const __write__local_time = "2025-10-22 07:31:20.880600 CEST"
+	const __write__utc_time__ = "2025-10-22 05:31:20.880600 UTC"
 
-	const __commitId__ = "0000000092"
+	const __commitId__ = "0000000097"
 
 	// Declaration of instances to stage
+
+	__Condition__000000_Start_Rect_is_Howered := (&models.Condition{}).Stage(stage)
 
 	__Layer__000000_Layer_1 := (&models.Layer{}).Stage(stage)
 
@@ -37,6 +39,7 @@ func _(stage *models.Stage) {
 
 	__Rect__000000_Start := (&models.Rect{}).Stage(stage)
 	__Rect__000001_End := (&models.Rect{}).Stage(stage)
+	__Rect__000002_Display_When_Start_is_Hovered := (&models.Rect{}).Stage(stage)
 
 	__RectAnchoredPath__000000_0_PathCenter := (&models.RectAnchoredPath{}).Stage(stage)
 	__RectAnchoredPath__000001_1_PathTop := (&models.RectAnchoredPath{}).Stage(stage)
@@ -81,6 +84,8 @@ func _(stage *models.Stage) {
 	__SVG__000000_simple := (&models.SVG{}).Stage(stage)
 
 	// Setup of values
+
+	__Condition__000000_Start_Rect_is_Howered.Name = `Start Rect is Howered`
 
 	__Layer__000000_Layer_1.Name = `Layer 1`
 
@@ -214,6 +219,41 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.OriginalFillOpacity = 0.000000
 	__Rect__000001_End.HasToolTip = false
 	__Rect__000001_End.ToolTipText = `End`
+
+	__Rect__000002_Display_When_Start_is_Hovered.Name = `Display When Start is Hovered`
+	__Rect__000002_Display_When_Start_is_Hovered.X = 100.000000
+	__Rect__000002_Display_When_Start_is_Hovered.Y = 300.000000
+	__Rect__000002_Display_When_Start_is_Hovered.Width = 50.000000
+	__Rect__000002_Display_When_Start_is_Hovered.Height = 50.000000
+	__Rect__000002_Display_When_Start_is_Hovered.RX = 5.000000
+	__Rect__000002_Display_When_Start_is_Hovered.Color = `gray`
+	__Rect__000002_Display_When_Start_is_Hovered.FillOpacity = 0.400000
+	__Rect__000002_Display_When_Start_is_Hovered.Stroke = ``
+	__Rect__000002_Display_When_Start_is_Hovered.StrokeOpacity = 0.000000
+	__Rect__000002_Display_When_Start_is_Hovered.StrokeWidth = 0.000000
+	__Rect__000002_Display_When_Start_is_Hovered.StrokeDashArray = ``
+	__Rect__000002_Display_When_Start_is_Hovered.StrokeDashArrayWhenSelected = ``
+	__Rect__000002_Display_When_Start_is_Hovered.Transform = ``
+	__Rect__000002_Display_When_Start_is_Hovered.IsSelectable = false
+	__Rect__000002_Display_When_Start_is_Hovered.IsSelected = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanHaveLeftHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.HasLeftHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanHaveRightHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.HasRightHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanHaveTopHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.HasTopHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.IsScalingProportionally = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanHaveBottomHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.HasBottomHandle = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanMoveHorizontaly = false
+	__Rect__000002_Display_When_Start_is_Hovered.CanMoveVerticaly = false
+	__Rect__000002_Display_When_Start_is_Hovered.ChangeColorWhenHovered = false
+	__Rect__000002_Display_When_Start_is_Hovered.ColorWhenHovered = ``
+	__Rect__000002_Display_When_Start_is_Hovered.OriginalColor = ``
+	__Rect__000002_Display_When_Start_is_Hovered.FillOpacityWhenHovered = 0.000000
+	__Rect__000002_Display_When_Start_is_Hovered.OriginalFillOpacity = 0.000000
+	__Rect__000002_Display_When_Start_is_Hovered.HasToolTip = false
+	__Rect__000002_Display_When_Start_is_Hovered.ToolTipText = ``
 
 	__RectAnchoredPath__000000_0_PathCenter.Name = `0. PathCenter`
 	__RectAnchoredPath__000000_0_PathCenter.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
@@ -930,9 +970,11 @@ Oriented line 3`
 	__SVG__000000_simple.IsControlBannerHidden = false
 
 	// Setup of pointers
+	// setup of Condition instances pointers
 	// setup of Layer instances pointers
 	__Layer__000000_Layer_1.Rects = append(__Layer__000000_Layer_1.Rects, __Rect__000000_Start)
 	__Layer__000000_Layer_1.Rects = append(__Layer__000000_Layer_1.Rects, __Rect__000001_End)
+	__Layer__000000_Layer_1.Rects = append(__Layer__000000_Layer_1.Rects, __Rect__000002_Display_When_Start_is_Hovered)
 	__Layer__000000_Layer_1.Links = append(__Layer__000000_Layer_1.Links, __Link__000000_Start_to_End)
 	// setup of Link instances pointers
 	__Link__000000_Start_to_End.Start = __Rect__000000_Start
@@ -943,6 +985,7 @@ Oriented line 3`
 	__Link__000000_Start_to_End.TextAtArrowEnd = append(__Link__000000_Start_to_End.TextAtArrowEnd, __LinkAnchoredText__000001_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
 	// setup of Rect instances pointers
+	__Rect__000000_Start.HoveringTrigger = append(__Rect__000000_Start.HoveringTrigger, __Condition__000000_Start_Rect_is_Howered)
 	__Rect__000000_Start.RectAnchoredTexts = append(__Rect__000000_Start.RectAnchoredTexts, __RectAnchoredText__000011_Oriented)
 	__Rect__000001_End.RectAnchoredTexts = append(__Rect__000001_End.RectAnchoredTexts, __RectAnchoredText__000000_TopLeft)
 	__Rect__000001_End.RectAnchoredTexts = append(__Rect__000001_End.RectAnchoredTexts, __RectAnchoredText__000001_TopRight)
@@ -972,6 +1015,7 @@ Oriented line 3`
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000001_1_PathTop)
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000004_4_PathBottom)
 	__Rect__000001_End.RectAnchoredPaths = append(__Rect__000001_End.RectAnchoredPaths, __RectAnchoredPath__000010_10_PathLeft)
+	__Rect__000002_Display_When_Start_is_Hovered.DisplayConditions = append(__Rect__000002_Display_When_Start_is_Hovered.DisplayConditions, __Condition__000000_Start_Rect_is_Howered)
 	// setup of RectAnchoredPath instances pointers
 	// setup of RectAnchoredRect instances pointers
 	// setup of RectAnchoredText instances pointers
