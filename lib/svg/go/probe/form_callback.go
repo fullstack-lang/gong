@@ -845,6 +845,56 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(circle_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(circle_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](circleFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					circleFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			circle_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](circleFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					circleFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			circle_.DisplayConditions = instanceSlice
+
 		case "Animations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](circleFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -969,6 +1019,1959 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 
 	updateAndCommitTree(circleFormCallback.probe)
 }
+func __gong__New__ConditionFormCallback(
+	condition *models.Condition,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (conditionFormCallback *ConditionFormCallback) {
+	conditionFormCallback = new(ConditionFormCallback)
+	conditionFormCallback.probe = probe
+	conditionFormCallback.condition = condition
+	conditionFormCallback.formGroup = formGroup
+
+	conditionFormCallback.CreationMode = (condition == nil)
+
+	return
+}
+
+type ConditionFormCallback struct {
+	condition *models.Condition
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (conditionFormCallback *ConditionFormCallback) OnSave() {
+
+	// log.Println("ConditionFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	conditionFormCallback.probe.formStage.Checkout()
+
+	if conditionFormCallback.condition == nil {
+		conditionFormCallback.condition = new(models.Condition).Stage(conditionFormCallback.probe.stageOfInterest)
+	}
+	condition_ := conditionFormCallback.condition
+	_ = condition_
+
+	for _, formDiv := range conditionFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(condition_.Name), formDiv)
+		case "Circle:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Circle.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Circle
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Circle"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Circle)
+					if !ok {
+						log.Fatalln("Source of Circle.HoveringTrigger []*Condition, is not an Circle instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Circle
+			for _circle := range *models.GetGongstructInstancesSet[models.Circle](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _circle.GetName() == newSourceName.GetName() {
+					newSource = _circle // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Circle.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Circle:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Circle.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Circle
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Circle"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Circle)
+					if !ok {
+						log.Fatalln("Source of Circle.DisplayConditions []*Condition, is not an Circle instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Circle
+			for _circle := range *models.GetGongstructInstancesSet[models.Circle](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _circle.GetName() == newSourceName.GetName() {
+					newSource = _circle // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Circle.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Ellipse:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Ellipse.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Ellipse
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Ellipse"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Ellipse)
+					if !ok {
+						log.Fatalln("Source of Ellipse.HoveringTrigger []*Condition, is not an Ellipse instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Ellipse
+			for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _ellipse.GetName() == newSourceName.GetName() {
+					newSource = _ellipse // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Ellipse.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Ellipse:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Ellipse.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Ellipse
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Ellipse"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Ellipse)
+					if !ok {
+						log.Fatalln("Source of Ellipse.DisplayConditions []*Condition, is not an Ellipse instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Ellipse
+			for _ellipse := range *models.GetGongstructInstancesSet[models.Ellipse](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _ellipse.GetName() == newSourceName.GetName() {
+					newSource = _ellipse // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Ellipse.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Line:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Line.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Line
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Line"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Line)
+					if !ok {
+						log.Fatalln("Source of Line.HoveringTrigger []*Condition, is not an Line instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Line
+			for _line := range *models.GetGongstructInstancesSet[models.Line](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _line.GetName() == newSourceName.GetName() {
+					newSource = _line // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Line.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Line:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Line.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Line
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Line"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Line)
+					if !ok {
+						log.Fatalln("Source of Line.DisplayConditions []*Condition, is not an Line instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Line
+			for _line := range *models.GetGongstructInstancesSet[models.Line](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _line.GetName() == newSourceName.GetName() {
+					newSource = _line // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Line.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Link:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Link.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.HoveringTrigger []*Condition, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Link:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Link.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.DisplayConditions []*Condition, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "LinkAnchoredText:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "LinkAnchoredText.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.LinkAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "LinkAnchoredText"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.LinkAnchoredText)
+					if !ok {
+						log.Fatalln("Source of LinkAnchoredText.HoveringTrigger []*Condition, is not an LinkAnchoredText instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.LinkAnchoredText
+			for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _linkanchoredtext.GetName() == newSourceName.GetName() {
+					newSource = _linkanchoredtext // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of LinkAnchoredText.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "LinkAnchoredText:DisplayConditions":
+			// WARNING : this form deals with the N-N association "LinkAnchoredText.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.LinkAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "LinkAnchoredText"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.LinkAnchoredText)
+					if !ok {
+						log.Fatalln("Source of LinkAnchoredText.DisplayConditions []*Condition, is not an LinkAnchoredText instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.LinkAnchoredText
+			for _linkanchoredtext := range *models.GetGongstructInstancesSet[models.LinkAnchoredText](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _linkanchoredtext.GetName() == newSourceName.GetName() {
+					newSource = _linkanchoredtext // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of LinkAnchoredText.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Path:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Path.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Path
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Path"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Path)
+					if !ok {
+						log.Fatalln("Source of Path.HoveringTrigger []*Condition, is not an Path instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Path
+			for _path := range *models.GetGongstructInstancesSet[models.Path](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _path.GetName() == newSourceName.GetName() {
+					newSource = _path // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Path.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Path:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Path.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Path
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Path"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Path)
+					if !ok {
+						log.Fatalln("Source of Path.DisplayConditions []*Condition, is not an Path instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Path
+			for _path := range *models.GetGongstructInstancesSet[models.Path](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _path.GetName() == newSourceName.GetName() {
+					newSource = _path // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Path.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Polygone:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Polygone.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polygone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polygone"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polygone)
+					if !ok {
+						log.Fatalln("Source of Polygone.HoveringTrigger []*Condition, is not an Polygone instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polygone
+			for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _polygone.GetName() == newSourceName.GetName() {
+					newSource = _polygone // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Polygone.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Polygone:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Polygone.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polygone
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polygone"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polygone)
+					if !ok {
+						log.Fatalln("Source of Polygone.DisplayConditions []*Condition, is not an Polygone instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polygone
+			for _polygone := range *models.GetGongstructInstancesSet[models.Polygone](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _polygone.GetName() == newSourceName.GetName() {
+					newSource = _polygone // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Polygone.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Polyline:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Polyline.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polyline
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polyline"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polyline)
+					if !ok {
+						log.Fatalln("Source of Polyline.HoveringTrigger []*Condition, is not an Polyline instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polyline
+			for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _polyline.GetName() == newSourceName.GetName() {
+					newSource = _polyline // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Polyline.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Polyline:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Polyline.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Polyline
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Polyline"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Polyline)
+					if !ok {
+						log.Fatalln("Source of Polyline.DisplayConditions []*Condition, is not an Polyline instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Polyline
+			for _polyline := range *models.GetGongstructInstancesSet[models.Polyline](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _polyline.GetName() == newSourceName.GetName() {
+					newSource = _polyline // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Polyline.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Rect:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Rect.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.HoveringTrigger []*Condition, is not an Rect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rect.GetName() == newSourceName.GetName() {
+					newSource = _rect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Rect.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Rect:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Rect.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Rect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Rect"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Rect)
+					if !ok {
+						log.Fatalln("Source of Rect.DisplayConditions []*Condition, is not an Rect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Rect
+			for _rect := range *models.GetGongstructInstancesSet[models.Rect](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rect.GetName() == newSourceName.GetName() {
+					newSource = _rect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Rect.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "RectAnchoredPath:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "RectAnchoredPath.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredPath
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredPath"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredPath)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredPath.HoveringTrigger []*Condition, is not an RectAnchoredPath instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredPath
+			for _rectanchoredpath := range *models.GetGongstructInstancesSet[models.RectAnchoredPath](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredpath.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredpath // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredPath.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "RectAnchoredPath:DisplayConditions":
+			// WARNING : this form deals with the N-N association "RectAnchoredPath.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredPath
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredPath"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredPath)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredPath.DisplayConditions []*Condition, is not an RectAnchoredPath instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredPath
+			for _rectanchoredpath := range *models.GetGongstructInstancesSet[models.RectAnchoredPath](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredpath.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredpath // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredPath.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "RectAnchoredRect:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "RectAnchoredRect.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredRect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredRect"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredRect)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredRect.HoveringTrigger []*Condition, is not an RectAnchoredRect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredRect
+			for _rectanchoredrect := range *models.GetGongstructInstancesSet[models.RectAnchoredRect](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredrect.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredrect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredRect.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "RectAnchoredRect:DisplayConditions":
+			// WARNING : this form deals with the N-N association "RectAnchoredRect.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredRect
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredRect"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredRect)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredRect.DisplayConditions []*Condition, is not an RectAnchoredRect instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredRect
+			for _rectanchoredrect := range *models.GetGongstructInstancesSet[models.RectAnchoredRect](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredrect.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredrect // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredRect.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "RectAnchoredText:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "RectAnchoredText.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredText"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredText)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredText.HoveringTrigger []*Condition, is not an RectAnchoredText instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredText
+			for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredtext.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredtext // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredText.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "RectAnchoredText:DisplayConditions":
+			// WARNING : this form deals with the N-N association "RectAnchoredText.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectAnchoredText
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectAnchoredText"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectAnchoredText)
+					if !ok {
+						log.Fatalln("Source of RectAnchoredText.DisplayConditions []*Condition, is not an RectAnchoredText instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectAnchoredText
+			for _rectanchoredtext := range *models.GetGongstructInstancesSet[models.RectAnchoredText](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectanchoredtext.GetName() == newSourceName.GetName() {
+					newSource = _rectanchoredtext // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectAnchoredText.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "RectLinkLink:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "RectLinkLink.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectLinkLink
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectLinkLink"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectLinkLink)
+					if !ok {
+						log.Fatalln("Source of RectLinkLink.HoveringTrigger []*Condition, is not an RectLinkLink instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectLinkLink
+			for _rectlinklink := range *models.GetGongstructInstancesSet[models.RectLinkLink](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectlinklink.GetName() == newSourceName.GetName() {
+					newSource = _rectlinklink // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectLinkLink.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "RectLinkLink:DisplayConditions":
+			// WARNING : this form deals with the N-N association "RectLinkLink.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.RectLinkLink
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "RectLinkLink"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.RectLinkLink)
+					if !ok {
+						log.Fatalln("Source of RectLinkLink.DisplayConditions []*Condition, is not an RectLinkLink instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.RectLinkLink
+			for _rectlinklink := range *models.GetGongstructInstancesSet[models.RectLinkLink](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _rectlinklink.GetName() == newSourceName.GetName() {
+					newSource = _rectlinklink // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of RectLinkLink.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		case "Text:HoveringTrigger":
+			// WARNING : this form deals with the N-N association "Text.HoveringTrigger []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Text
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Text"
+				rf.Fieldname = "HoveringTrigger"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Text)
+					if !ok {
+						log.Fatalln("Source of Text.HoveringTrigger []*Condition, is not an Text instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.HoveringTrigger, condition_)
+					formerSource.HoveringTrigger = slices.Delete(formerSource.HoveringTrigger, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Text
+			for _text := range *models.GetGongstructInstancesSet[models.Text](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _text.GetName() == newSourceName.GetName() {
+					newSource = _text // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Text.HoveringTrigger []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.HoveringTrigger = append(newSource.HoveringTrigger, condition_)
+		case "Text:DisplayConditions":
+			// WARNING : this form deals with the N-N association "Text.DisplayConditions []*Condition" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Condition). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Text
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Text"
+				rf.Fieldname = "DisplayConditions"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					conditionFormCallback.probe.stageOfInterest,
+					condition_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Text)
+					if !ok {
+						log.Fatalln("Source of Text.DisplayConditions []*Condition, is not an Text instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DisplayConditions, condition_)
+					formerSource.DisplayConditions = slices.Delete(formerSource.DisplayConditions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Text
+			for _text := range *models.GetGongstructInstancesSet[models.Text](conditionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _text.GetName() == newSourceName.GetName() {
+					newSource = _text // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Text.DisplayConditions []*Condition, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DisplayConditions = append(newSource.DisplayConditions, condition_)
+		}
+	}
+
+	// manage the suppress operation
+	if conditionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		condition_.Unstage(conditionFormCallback.probe.stageOfInterest)
+	}
+
+	conditionFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.Condition](
+		conditionFormCallback.probe,
+	)
+	conditionFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if conditionFormCallback.CreationMode || conditionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		conditionFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(conditionFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ConditionFormCallback(
+			nil,
+			conditionFormCallback.probe,
+			newFormGroup,
+		)
+		condition := new(models.Condition)
+		FillUpForm(condition, newFormGroup, conditionFormCallback.probe)
+		conditionFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(conditionFormCallback.probe)
+}
 func __gong__New__EllipseFormCallback(
 	ellipse *models.Ellipse,
 	probe *Probe,
@@ -1038,6 +3041,56 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(ellipse_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(ellipse_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](ellipseFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ellipseFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			ellipse_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](ellipseFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					ellipseFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			ellipse_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](ellipseFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -1625,6 +3678,56 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(line_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(line_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](lineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					lineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			line_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](lineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					lineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			line_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](lineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -1921,6 +4024,56 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(link_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			link_.DisplayConditions = instanceSlice
+
 		case "Layer:Links":
 			// WARNING : this form deals with the N-N association "Layer.Links []*Link" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2099,6 +4252,56 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](linkanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			linkanchoredtext_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](linkanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					linkanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			linkanchoredtext_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](linkanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -2353,6 +4556,56 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(path_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(path_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](pathFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					pathFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			path_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](pathFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					pathFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			path_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](pathFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -2688,6 +4941,56 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polygone_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polygone_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](polygoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polygoneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polygone_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](polygoneFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polygoneFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polygone_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polygoneFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -2875,6 +5178,56 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(polyline_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(polyline_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](polylineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polylineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polyline_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](polylineFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					polylineFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			polyline_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](polylineFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -3070,6 +5423,56 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rect_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rect_.DisplayConditions = instanceSlice
+
 		case "Animations":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -3384,6 +5787,56 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredpath_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredpath_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredpathFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredpathFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredpath_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredpathFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredpathFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredpath_.DisplayConditions = instanceSlice
+
 		case "Rect:RectAnchoredPaths":
 			// WARNING : this form deals with the N-N association "Rect.RectAnchoredPaths []*RectAnchoredPath" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3568,6 +6021,56 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredrect_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredrect_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredrectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredrectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredrect_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredrectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredrectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredrect_.DisplayConditions = instanceSlice
+
 		case "Rect:RectAnchoredRects":
 			// WARNING : this form deals with the N-N association "Rect.RectAnchoredRects []*RectAnchoredRect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3748,6 +6251,56 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectanchoredtext_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredtext_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectanchoredtextFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectanchoredtextFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectanchoredtext_.DisplayConditions = instanceSlice
+
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](rectanchoredtextFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)
@@ -3939,6 +6492,56 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectlinklink_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(rectlinklink_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectlinklinkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectlinklinkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectlinklink_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](rectlinklinkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rectlinklinkFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			rectlinklink_.DisplayConditions = instanceSlice
+
 		case "Layer:RectLinkLinks":
 			// WARNING : this form deals with the N-N association "Layer.RectLinkLinks []*RectLinkLink" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -4302,6 +6905,56 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(text_.Transform), formDiv)
+		case "HoveringTrigger":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](textFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					textFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			text_.HoveringTrigger = instanceSlice
+
+		case "DisplayConditions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Condition](textFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Condition, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Condition)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					textFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			text_.DisplayConditions = instanceSlice
+
 		case "FontWeight":
 			FormDivBasicFieldToField(&(text_.FontWeight), formDiv)
 		case "FontSize":

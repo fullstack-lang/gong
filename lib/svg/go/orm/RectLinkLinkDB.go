@@ -55,6 +55,12 @@ type RectLinkLinkPointersEncoding struct {
 	// field End is a pointer to another Struct (optional or 0..1)
 	// This field is generated into another field to enable AS ONE association
 	EndID sql.NullInt64
+
+	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
+	HoveringTrigger IntSlice `gorm:"type:TEXT"`
+
+	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
+	DisplayConditions IntSlice `gorm:"type:TEXT"`
 }
 
 // RectLinkLinkDB describes a rectlinklink in the database
@@ -309,6 +315,42 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 			rectlinklinkDB.EndID.Valid = true
 		}
 
+		// 1. reset
+		rectlinklinkDB.RectLinkLinkPointersEncoding.HoveringTrigger = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range rectlinklink.HoveringTrigger {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			rectlinklinkDB.RectLinkLinkPointersEncoding.HoveringTrigger =
+				append(rectlinklinkDB.RectLinkLinkPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		rectlinklinkDB.RectLinkLinkPointersEncoding.DisplayConditions = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range rectlinklink.DisplayConditions {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			rectlinklinkDB.RectLinkLinkPointersEncoding.DisplayConditions =
+				append(rectlinklinkDB.RectLinkLinkPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoRectLinkLink.db.Save(rectlinklinkDB)
 		if err != nil {
 			log.Fatal(err)
@@ -464,6 +506,24 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 		}
 	}
 	
+	// This loop redeem rectlinklink.HoveringTrigger in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rectlinklink.HoveringTrigger = rectlinklink.HoveringTrigger[:0]
+	for _, _Conditionid := range rectlinklinkDB.RectLinkLinkPointersEncoding.HoveringTrigger {
+		rectlinklink.HoveringTrigger = append(rectlinklink.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
+	// This loop redeem rectlinklink.DisplayConditions in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rectlinklink.DisplayConditions = rectlinklink.DisplayConditions[:0]
+	for _, _Conditionid := range rectlinklinkDB.RectLinkLinkPointersEncoding.DisplayConditions {
+		rectlinklink.DisplayConditions = append(rectlinklink.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
 	return
 }
 

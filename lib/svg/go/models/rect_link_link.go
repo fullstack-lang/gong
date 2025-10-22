@@ -12,4 +12,5 @@ type RectLinkLink struct {
 	TargetAnchorPosition float64
 
 	Presentation
+	ShapeConditions
 }

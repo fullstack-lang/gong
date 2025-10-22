@@ -4,6 +4,7 @@ import { LineAPI } from './line-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -35,6 +36,8 @@ export class Line {
 	MouseClickY: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -64,6 +67,16 @@ export function CopyLineToLineAPI(line: Line, lineAPI: LineAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	lineAPI.LinePointersEncoding.HoveringTrigger = []
+	for (let _condition of line.HoveringTrigger) {
+		lineAPI.LinePointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	lineAPI.LinePointersEncoding.DisplayConditions = []
+	for (let _condition of line.DisplayConditions) {
+		lineAPI.LinePointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	lineAPI.LinePointersEncoding.Animates = []
 	for (let _animate of line.Animates) {
 		lineAPI.LinePointersEncoding.Animates.push(_animate.ID)
@@ -101,6 +114,30 @@ export function CopyLineAPIToLine(lineAPI: LineAPI, line: Line, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(lineAPI.LinePointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', lineAPI.LinePointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	line.HoveringTrigger = new Array<Condition>()
+	for (let _id of lineAPI.LinePointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			line.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(lineAPI.LinePointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', lineAPI.LinePointersEncoding.DisplayConditions);
+		return;
+	}
+
+	line.DisplayConditions = new Array<Condition>()
+	for (let _id of lineAPI.LinePointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			line.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(lineAPI.LinePointersEncoding.Animates)) {
 		console.error('Rects is not an array:', lineAPI.LinePointersEncoding.Animates);
 		return;

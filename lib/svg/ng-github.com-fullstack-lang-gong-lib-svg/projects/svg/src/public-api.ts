@@ -21,6 +21,10 @@ export * from './lib/circle-api'
 export * from './lib/circle'
 export * from './lib/circle.service'
 
+export * from './lib/condition-api'
+export * from './lib/condition'
+export * from './lib/condition.service'
+
 export * from './lib/ellipse-api'
 export * from './lib/ellipse'
 export * from './lib/ellipse.service'

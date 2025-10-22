@@ -48,6 +48,12 @@ type PathAPI struct {
 type PathPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
+	HoveringTrigger IntSlice `gorm:"type:TEXT"`
+
+	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
+	DisplayConditions IntSlice `gorm:"type:TEXT"`
+
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
 }
@@ -281,6 +287,42 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
+		pathDB.PathPointersEncoding.HoveringTrigger = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range path.HoveringTrigger {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			pathDB.PathPointersEncoding.HoveringTrigger =
+				append(pathDB.PathPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		pathDB.PathPointersEncoding.DisplayConditions = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range path.DisplayConditions {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			pathDB.PathPointersEncoding.DisplayConditions =
+				append(pathDB.PathPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		pathDB.PathPointersEncoding.Animates = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range path.Animates {
@@ -411,6 +453,24 @@ func (backRepoPath *BackRepoPathStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (pathDB *PathDB) DecodePointers(backRepo *BackRepoStruct, path *models.Path) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem path.HoveringTrigger in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	path.HoveringTrigger = path.HoveringTrigger[:0]
+	for _, _Conditionid := range pathDB.PathPointersEncoding.HoveringTrigger {
+		path.HoveringTrigger = append(path.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
+	// This loop redeem path.DisplayConditions in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	path.DisplayConditions = path.DisplayConditions[:0]
+	for _, _Conditionid := range pathDB.PathPointersEncoding.DisplayConditions {
+		path.DisplayConditions = append(path.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
 	// This loop redeem path.Animates in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
