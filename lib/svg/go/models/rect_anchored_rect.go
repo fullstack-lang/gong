@@ -23,6 +23,7 @@ type RectAnchoredRect struct {
 	ToolTipText string
 
 	Presentation
+	ShapeConditions
 }
 
 func (rectAnchoredRect *RectAnchoredRect) WriteSVG(sb *strings.Builder, x, y float64) (maxX, maxY float64) {

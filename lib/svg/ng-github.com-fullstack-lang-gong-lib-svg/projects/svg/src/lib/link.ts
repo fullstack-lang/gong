@@ -7,6 +7,7 @@ import { FrontRepo } from './front-repo.service';
 import { Rect } from './rect'
 import { LinkAnchoredText } from './linkanchoredtext'
 import { Point } from './point'
+import { Condition } from './condition'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -52,6 +53,8 @@ export class Link {
 	TextAtArrowStart: Array<LinkAnchoredText> = []
 	TextAtArrowEnd: Array<LinkAnchoredText> = []
 	ControlPoints: Array<Point> = []
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 }
 
 export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
@@ -115,6 +118,16 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.LinkPointersEncoding.ControlPoints = []
 	for (let _point of link.ControlPoints) {
 		linkAPI.LinkPointersEncoding.ControlPoints.push(_point.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.HoveringTrigger = []
+	for (let _condition of link.HoveringTrigger) {
+		linkAPI.LinkPointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	linkAPI.LinkPointersEncoding.DisplayConditions = []
+	for (let _condition of link.DisplayConditions) {
+		linkAPI.LinkPointersEncoding.DisplayConditions.push(_condition.ID)
 	}
 
 }
@@ -193,6 +206,30 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 		let _point = frontRepo.map_ID_Point.get(_id)
 		if (_point != undefined) {
 			link.ControlPoints.push(_point!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	link.HoveringTrigger = new Array<Condition>()
+	for (let _id of linkAPI.LinkPointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			link.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(linkAPI.LinkPointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', linkAPI.LinkPointersEncoding.DisplayConditions);
+		return;
+	}
+
+	link.DisplayConditions = new Array<Condition>()
+	for (let _id of linkAPI.LinkPointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			link.DisplayConditions.push(_condition!)
 		}
 	}
 }

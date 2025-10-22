@@ -4,6 +4,7 @@ import { PathAPI } from './path-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,6 +31,8 @@ export class Path {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -54,6 +57,16 @@ export function CopyPathToPathAPI(path: Path, pathAPI: PathAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	pathAPI.PathPointersEncoding.HoveringTrigger = []
+	for (let _condition of path.HoveringTrigger) {
+		pathAPI.PathPointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	pathAPI.PathPointersEncoding.DisplayConditions = []
+	for (let _condition of path.DisplayConditions) {
+		pathAPI.PathPointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	pathAPI.PathPointersEncoding.Animates = []
 	for (let _animate of path.Animates) {
 		pathAPI.PathPointersEncoding.Animates.push(_animate.ID)
@@ -86,6 +99,30 @@ export function CopyPathAPIToPath(pathAPI: PathAPI, path: Path, frontRepo: Front
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(pathAPI.PathPointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	path.HoveringTrigger = new Array<Condition>()
+	for (let _id of pathAPI.PathPointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			path.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(pathAPI.PathPointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.DisplayConditions);
+		return;
+	}
+
+	path.DisplayConditions = new Array<Condition>()
+	for (let _id of pathAPI.PathPointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			path.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(pathAPI.PathPointersEncoding.Animates)) {
 		console.error('Rects is not an array:', pathAPI.PathPointersEncoding.Animates);
 		return;

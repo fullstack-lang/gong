@@ -19,6 +19,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 // insertion point for imports
 import { RectAPI } from './rect-api'
 import { LinkAPI } from './link-api'
+import { ConditionAPI } from './condition-api'
 
 @Injectable({
   providedIn: 'root'

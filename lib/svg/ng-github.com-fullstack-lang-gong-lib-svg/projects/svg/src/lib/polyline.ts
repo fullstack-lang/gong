@@ -4,6 +4,7 @@ import { PolylineAPI } from './polyline-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,6 +31,8 @@ export class Polyline {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -54,6 +57,16 @@ export function CopyPolylineToPolylineAPI(polyline: Polyline, polylineAPI: Polyl
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	polylineAPI.PolylinePointersEncoding.HoveringTrigger = []
+	for (let _condition of polyline.HoveringTrigger) {
+		polylineAPI.PolylinePointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	polylineAPI.PolylinePointersEncoding.DisplayConditions = []
+	for (let _condition of polyline.DisplayConditions) {
+		polylineAPI.PolylinePointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	polylineAPI.PolylinePointersEncoding.Animates = []
 	for (let _animate of polyline.Animates) {
 		polylineAPI.PolylinePointersEncoding.Animates.push(_animate.ID)
@@ -86,6 +99,30 @@ export function CopyPolylineAPIToPolyline(polylineAPI: PolylineAPI, polyline: Po
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(polylineAPI.PolylinePointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', polylineAPI.PolylinePointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	polyline.HoveringTrigger = new Array<Condition>()
+	for (let _id of polylineAPI.PolylinePointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			polyline.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(polylineAPI.PolylinePointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', polylineAPI.PolylinePointersEncoding.DisplayConditions);
+		return;
+	}
+
+	polyline.DisplayConditions = new Array<Condition>()
+	for (let _id of polylineAPI.PolylinePointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			polyline.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(polylineAPI.PolylinePointersEncoding.Animates)) {
 		console.error('Rects is not an array:', polylineAPI.PolylinePointersEncoding.Animates);
 		return;

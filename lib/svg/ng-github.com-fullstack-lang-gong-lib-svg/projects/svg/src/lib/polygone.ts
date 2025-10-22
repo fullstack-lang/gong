@@ -4,6 +4,7 @@ import { PolygoneAPI } from './polygone-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
+import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -30,6 +31,8 @@ export class Polygone {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+	HoveringTrigger: Array<Condition> = []
+	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -54,6 +57,16 @@ export function CopyPolygoneToPolygoneAPI(polygone: Polygone, polygoneAPI: Polyg
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	polygoneAPI.PolygonePointersEncoding.HoveringTrigger = []
+	for (let _condition of polygone.HoveringTrigger) {
+		polygoneAPI.PolygonePointersEncoding.HoveringTrigger.push(_condition.ID)
+	}
+
+	polygoneAPI.PolygonePointersEncoding.DisplayConditions = []
+	for (let _condition of polygone.DisplayConditions) {
+		polygoneAPI.PolygonePointersEncoding.DisplayConditions.push(_condition.ID)
+	}
+
 	polygoneAPI.PolygonePointersEncoding.Animates = []
 	for (let _animate of polygone.Animates) {
 		polygoneAPI.PolygonePointersEncoding.Animates.push(_animate.ID)
@@ -86,6 +99,30 @@ export function CopyPolygoneAPIToPolygone(polygoneAPI: PolygoneAPI, polygone: Po
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
+	if (!Array.isArray(polygoneAPI.PolygonePointersEncoding.HoveringTrigger)) {
+		console.error('Rects is not an array:', polygoneAPI.PolygonePointersEncoding.HoveringTrigger);
+		return;
+	}
+
+	polygone.HoveringTrigger = new Array<Condition>()
+	for (let _id of polygoneAPI.PolygonePointersEncoding.HoveringTrigger) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			polygone.HoveringTrigger.push(_condition!)
+		}
+	}
+	if (!Array.isArray(polygoneAPI.PolygonePointersEncoding.DisplayConditions)) {
+		console.error('Rects is not an array:', polygoneAPI.PolygonePointersEncoding.DisplayConditions);
+		return;
+	}
+
+	polygone.DisplayConditions = new Array<Condition>()
+	for (let _id of polygoneAPI.PolygonePointersEncoding.DisplayConditions) {
+		let _condition = frontRepo.map_ID_Condition.get(_id)
+		if (_condition != undefined) {
+			polygone.DisplayConditions.push(_condition!)
+		}
+	}
 	if (!Array.isArray(polygoneAPI.PolygonePointersEncoding.Animates)) {
 		console.error('Rects is not an array:', polygoneAPI.PolygonePointersEncoding.Animates);
 		return;

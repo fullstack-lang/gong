@@ -5,6 +5,7 @@ type Ellipse struct {
 	CX, CY, RX, RY float64
 
 	Presentation
+	ShapeConditions
 
 	Animates []*Animate
 }

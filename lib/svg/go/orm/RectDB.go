@@ -48,6 +48,12 @@ type RectAPI struct {
 type RectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
+	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
+	HoveringTrigger IntSlice `gorm:"type:TEXT"`
+
+	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
+	DisplayConditions IntSlice `gorm:"type:TEXT"`
+
 	// field Animations is a slice of pointers to another Struct (optional or 0..1)
 	Animations IntSlice `gorm:"type:TEXT"`
 
@@ -455,6 +461,42 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
+		rectDB.RectPointersEncoding.HoveringTrigger = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range rect.HoveringTrigger {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			rectDB.RectPointersEncoding.HoveringTrigger =
+				append(rectDB.RectPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
+		rectDB.RectPointersEncoding.DisplayConditions = make([]int, 0)
+		// 2. encode
+		for _, conditionAssocEnd := range rect.DisplayConditions {
+			conditionAssocEnd_DB :=
+				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if conditionAssocEnd_DB == nil {
+				continue
+			}
+			
+			rectDB.RectPointersEncoding.DisplayConditions =
+				append(rectDB.RectPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
+		}
+
+		// 1. reset
 		rectDB.RectPointersEncoding.Animations = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range rect.Animations {
@@ -639,6 +681,24 @@ func (backRepoRect *BackRepoRectStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect) {
 
 	// insertion point for checkout of pointer encoding
+	// This loop redeem rect.HoveringTrigger in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.HoveringTrigger = rect.HoveringTrigger[:0]
+	for _, _Conditionid := range rectDB.RectPointersEncoding.HoveringTrigger {
+		rect.HoveringTrigger = append(rect.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
+	// This loop redeem rect.DisplayConditions in the stage from the encode in the back repo
+	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	rect.DisplayConditions = rect.DisplayConditions[:0]
+	for _, _Conditionid := range rectDB.RectPointersEncoding.DisplayConditions {
+		rect.DisplayConditions = append(rect.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
+	}
+
 	// This loop redeem rect.Animations in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
