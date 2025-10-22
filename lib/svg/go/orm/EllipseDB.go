@@ -48,12 +48,6 @@ type EllipseAPI struct {
 type EllipsePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
-	HoveringTrigger IntSlice `gorm:"type:TEXT"`
-
-	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
-	DisplayConditions IntSlice `gorm:"type:TEXT"`
-
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
 }
@@ -305,42 +299,6 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
-		ellipseDB.EllipsePointersEncoding.HoveringTrigger = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range ellipse.HoveringTrigger {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			ellipseDB.EllipsePointersEncoding.HoveringTrigger =
-				append(ellipseDB.EllipsePointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
-		ellipseDB.EllipsePointersEncoding.DisplayConditions = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range ellipse.DisplayConditions {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			ellipseDB.EllipsePointersEncoding.DisplayConditions =
-				append(ellipseDB.EllipsePointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
 		ellipseDB.EllipsePointersEncoding.Animates = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range ellipse.Animates {
@@ -471,24 +429,6 @@ func (backRepoEllipse *BackRepoEllipseStruct) CheckoutPhaseTwoInstance(backRepo 
 func (ellipseDB *EllipseDB) DecodePointers(backRepo *BackRepoStruct, ellipse *models.Ellipse) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem ellipse.HoveringTrigger in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	ellipse.HoveringTrigger = ellipse.HoveringTrigger[:0]
-	for _, _Conditionid := range ellipseDB.EllipsePointersEncoding.HoveringTrigger {
-		ellipse.HoveringTrigger = append(ellipse.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
-	// This loop redeem ellipse.DisplayConditions in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	ellipse.DisplayConditions = ellipse.DisplayConditions[:0]
-	for _, _Conditionid := range ellipseDB.EllipsePointersEncoding.DisplayConditions {
-		ellipse.DisplayConditions = append(ellipse.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
 	// This loop redeem ellipse.Animates in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

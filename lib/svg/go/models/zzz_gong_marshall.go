@@ -2360,22 +2360,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Circle_Identifiers[circle] = id
 
 		// Initialisation of values
-		for _, _condition := range circle.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range circle.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range circle.Animations {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2410,22 +2394,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Ellipse_Identifiers[ellipse] = id
 
 		// Initialisation of values
-		for _, _condition := range ellipse.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range ellipse.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range ellipse.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2540,22 +2508,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Line_Identifiers[line] = id
 
 		// Initialisation of values
-		for _, _condition := range line.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range line.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range line.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2617,22 +2569,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _condition := range link.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range link.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(linkanchoredtextOrdered) > 0 {
@@ -2646,22 +2582,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_LinkAnchoredText_Identifiers[linkanchoredtext] = id
 
 		// Initialisation of values
-		for _, _condition := range linkanchoredtext.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range linkanchoredtext.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range linkanchoredtext.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2683,22 +2603,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Path_Identifiers[path] = id
 
 		// Initialisation of values
-		for _, _condition := range path.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range path.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range path.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2733,22 +2637,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Polygone_Identifiers[polygone] = id
 
 		// Initialisation of values
-		for _, _condition := range polygone.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range polygone.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range polygone.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2770,22 +2658,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Polyline_Identifiers[polyline] = id
 
 		// Initialisation of values
-		for _, _condition := range polyline.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range polyline.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range polyline.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2868,22 +2740,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_RectAnchoredPath_Identifiers[rectanchoredpath] = id
 
 		// Initialisation of values
-		for _, _condition := range rectanchoredpath.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range rectanchoredpath.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(rectanchoredrectOrdered) > 0 {
@@ -2897,22 +2753,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_RectAnchoredRect_Identifiers[rectanchoredrect] = id
 
 		// Initialisation of values
-		for _, _condition := range rectanchoredrect.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range rectanchoredrect.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(rectanchoredtextOrdered) > 0 {
@@ -2926,22 +2766,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_RectAnchoredText_Identifiers[rectanchoredtext] = id
 
 		// Initialisation of values
-		for _, _condition := range rectanchoredtext.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range rectanchoredtext.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range rectanchoredtext.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
@@ -2976,22 +2800,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "End")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Link_Identifiers[rectlinklink.End])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range rectlinklink.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range rectlinklink.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -3058,22 +2866,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Text_Identifiers[text] = id
 
 		// Initialisation of values
-		for _, _condition := range text.HoveringTrigger {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _condition := range text.DisplayConditions {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
-			pointersInitializesStatements += setPointerField
-		}
-
 		for _, _animate := range text.Animates {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)

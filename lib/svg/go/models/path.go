@@ -21,6 +21,5 @@ type Path struct {
 	// gong:text gong:width 600
 	Definition string
 	Presentation
-	ShapeConditions
 	Animates []*Animate
 }

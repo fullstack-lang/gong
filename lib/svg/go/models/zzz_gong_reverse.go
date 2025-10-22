@@ -99,94 +99,6 @@ func GetReverseFieldOwnerName(
 	case *Condition:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Circle":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _circle, ok := stage.Circle_HoveringTrigger_reverseMap[inst]; ok {
-					res = _circle.Name
-				}
-			case "DisplayConditions":
-				if _circle, ok := stage.Circle_DisplayConditions_reverseMap[inst]; ok {
-					res = _circle.Name
-				}
-			}
-		case "Ellipse":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _ellipse, ok := stage.Ellipse_HoveringTrigger_reverseMap[inst]; ok {
-					res = _ellipse.Name
-				}
-			case "DisplayConditions":
-				if _ellipse, ok := stage.Ellipse_DisplayConditions_reverseMap[inst]; ok {
-					res = _ellipse.Name
-				}
-			}
-		case "Line":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _line, ok := stage.Line_HoveringTrigger_reverseMap[inst]; ok {
-					res = _line.Name
-				}
-			case "DisplayConditions":
-				if _line, ok := stage.Line_DisplayConditions_reverseMap[inst]; ok {
-					res = _line.Name
-				}
-			}
-		case "Link":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _link, ok := stage.Link_HoveringTrigger_reverseMap[inst]; ok {
-					res = _link.Name
-				}
-			case "DisplayConditions":
-				if _link, ok := stage.Link_DisplayConditions_reverseMap[inst]; ok {
-					res = _link.Name
-				}
-			}
-		case "LinkAnchoredText":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _linkanchoredtext, ok := stage.LinkAnchoredText_HoveringTrigger_reverseMap[inst]; ok {
-					res = _linkanchoredtext.Name
-				}
-			case "DisplayConditions":
-				if _linkanchoredtext, ok := stage.LinkAnchoredText_DisplayConditions_reverseMap[inst]; ok {
-					res = _linkanchoredtext.Name
-				}
-			}
-		case "Path":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _path, ok := stage.Path_HoveringTrigger_reverseMap[inst]; ok {
-					res = _path.Name
-				}
-			case "DisplayConditions":
-				if _path, ok := stage.Path_DisplayConditions_reverseMap[inst]; ok {
-					res = _path.Name
-				}
-			}
-		case "Polygone":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _polygone, ok := stage.Polygone_HoveringTrigger_reverseMap[inst]; ok {
-					res = _polygone.Name
-				}
-			case "DisplayConditions":
-				if _polygone, ok := stage.Polygone_DisplayConditions_reverseMap[inst]; ok {
-					res = _polygone.Name
-				}
-			}
-		case "Polyline":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _polyline, ok := stage.Polyline_HoveringTrigger_reverseMap[inst]; ok {
-					res = _polyline.Name
-				}
-			case "DisplayConditions":
-				if _polyline, ok := stage.Polyline_DisplayConditions_reverseMap[inst]; ok {
-					res = _polyline.Name
-				}
-			}
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "HoveringTrigger":
@@ -196,61 +108,6 @@ func GetReverseFieldOwnerName(
 			case "DisplayConditions":
 				if _rect, ok := stage.Rect_DisplayConditions_reverseMap[inst]; ok {
 					res = _rect.Name
-				}
-			}
-		case "RectAnchoredPath":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _rectanchoredpath, ok := stage.RectAnchoredPath_HoveringTrigger_reverseMap[inst]; ok {
-					res = _rectanchoredpath.Name
-				}
-			case "DisplayConditions":
-				if _rectanchoredpath, ok := stage.RectAnchoredPath_DisplayConditions_reverseMap[inst]; ok {
-					res = _rectanchoredpath.Name
-				}
-			}
-		case "RectAnchoredRect":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _rectanchoredrect, ok := stage.RectAnchoredRect_HoveringTrigger_reverseMap[inst]; ok {
-					res = _rectanchoredrect.Name
-				}
-			case "DisplayConditions":
-				if _rectanchoredrect, ok := stage.RectAnchoredRect_DisplayConditions_reverseMap[inst]; ok {
-					res = _rectanchoredrect.Name
-				}
-			}
-		case "RectAnchoredText":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _rectanchoredtext, ok := stage.RectAnchoredText_HoveringTrigger_reverseMap[inst]; ok {
-					res = _rectanchoredtext.Name
-				}
-			case "DisplayConditions":
-				if _rectanchoredtext, ok := stage.RectAnchoredText_DisplayConditions_reverseMap[inst]; ok {
-					res = _rectanchoredtext.Name
-				}
-			}
-		case "RectLinkLink":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _rectlinklink, ok := stage.RectLinkLink_HoveringTrigger_reverseMap[inst]; ok {
-					res = _rectlinklink.Name
-				}
-			case "DisplayConditions":
-				if _rectlinklink, ok := stage.RectLinkLink_DisplayConditions_reverseMap[inst]; ok {
-					res = _rectlinklink.Name
-				}
-			}
-		case "Text":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				if _text, ok := stage.Text_HoveringTrigger_reverseMap[inst]; ok {
-					res = _text.Name
-				}
-			case "DisplayConditions":
-				if _text, ok := stage.Text_DisplayConditions_reverseMap[inst]; ok {
-					res = _text.Name
 				}
 			}
 		}
@@ -531,103 +388,12 @@ func GetReverseFieldOwner[T Gongstruct](
 	case *Condition:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Circle":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Circle_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Circle_DisplayConditions_reverseMap[inst]
-			}
-		case "Ellipse":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Ellipse_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Ellipse_DisplayConditions_reverseMap[inst]
-			}
-		case "Line":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Line_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Line_DisplayConditions_reverseMap[inst]
-			}
-		case "Link":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Link_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Link_DisplayConditions_reverseMap[inst]
-			}
-		case "LinkAnchoredText":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.LinkAnchoredText_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.LinkAnchoredText_DisplayConditions_reverseMap[inst]
-			}
-		case "Path":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Path_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Path_DisplayConditions_reverseMap[inst]
-			}
-		case "Polygone":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Polygone_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Polygone_DisplayConditions_reverseMap[inst]
-			}
-		case "Polyline":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Polyline_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Polyline_DisplayConditions_reverseMap[inst]
-			}
 		case "Rect":
 			switch reverseField.Fieldname {
 			case "HoveringTrigger":
 				res = stage.Rect_HoveringTrigger_reverseMap[inst]
 			case "DisplayConditions":
 				res = stage.Rect_DisplayConditions_reverseMap[inst]
-			}
-		case "RectAnchoredPath":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.RectAnchoredPath_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.RectAnchoredPath_DisplayConditions_reverseMap[inst]
-			}
-		case "RectAnchoredRect":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.RectAnchoredRect_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.RectAnchoredRect_DisplayConditions_reverseMap[inst]
-			}
-		case "RectAnchoredText":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.RectAnchoredText_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.RectAnchoredText_DisplayConditions_reverseMap[inst]
-			}
-		case "RectLinkLink":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.RectLinkLink_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.RectLinkLink_DisplayConditions_reverseMap[inst]
-			}
-		case "Text":
-			switch reverseField.Fieldname {
-			case "HoveringTrigger":
-				res = stage.Text_HoveringTrigger_reverseMap[inst]
-			case "DisplayConditions":
-				res = stage.Text_DisplayConditions_reverseMap[inst]
 			}
 		}
 

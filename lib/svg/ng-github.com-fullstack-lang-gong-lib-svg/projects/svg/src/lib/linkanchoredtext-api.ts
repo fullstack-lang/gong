@@ -1,5 +1,4 @@
 // insertion point for imports
-import { ConditionAPI } from './condition-api'
 import { AnimateAPI } from './animate-api'
 
 // usefull for managing pointer ID values that can be nullable
@@ -40,7 +39,5 @@ export class LinkAnchoredTextAPI {
 
 export class LinkAnchoredTextPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	HoveringTrigger: number[] = []
-	DisplayConditions: number[] = []
 	Animates: number[] = []
 }

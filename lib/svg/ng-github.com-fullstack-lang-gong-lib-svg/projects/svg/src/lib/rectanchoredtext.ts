@@ -4,7 +4,6 @@ import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
-import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -40,8 +39,6 @@ export class RectAnchoredText {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	HoveringTrigger: Array<Condition> = []
-	DisplayConditions: Array<Condition> = []
 	Animates: Array<Animate> = []
 }
 
@@ -75,16 +72,6 @@ export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: Rect
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	rectanchoredtextAPI.RectAnchoredTextPointersEncoding.HoveringTrigger = []
-	for (let _condition of rectanchoredtext.HoveringTrigger) {
-		rectanchoredtextAPI.RectAnchoredTextPointersEncoding.HoveringTrigger.push(_condition.ID)
-	}
-
-	rectanchoredtextAPI.RectAnchoredTextPointersEncoding.DisplayConditions = []
-	for (let _condition of rectanchoredtext.DisplayConditions) {
-		rectanchoredtextAPI.RectAnchoredTextPointersEncoding.DisplayConditions.push(_condition.ID)
-	}
-
 	rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates = []
 	for (let _animate of rectanchoredtext.Animates) {
 		rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates.push(_animate.ID)
@@ -126,30 +113,6 @@ export function CopyRectAnchoredTextAPIToRectAnchoredText(rectanchoredtextAPI: R
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(rectanchoredtextAPI.RectAnchoredTextPointersEncoding.HoveringTrigger)) {
-		console.error('Rects is not an array:', rectanchoredtextAPI.RectAnchoredTextPointersEncoding.HoveringTrigger);
-		return;
-	}
-
-	rectanchoredtext.HoveringTrigger = new Array<Condition>()
-	for (let _id of rectanchoredtextAPI.RectAnchoredTextPointersEncoding.HoveringTrigger) {
-		let _condition = frontRepo.map_ID_Condition.get(_id)
-		if (_condition != undefined) {
-			rectanchoredtext.HoveringTrigger.push(_condition!)
-		}
-	}
-	if (!Array.isArray(rectanchoredtextAPI.RectAnchoredTextPointersEncoding.DisplayConditions)) {
-		console.error('Rects is not an array:', rectanchoredtextAPI.RectAnchoredTextPointersEncoding.DisplayConditions);
-		return;
-	}
-
-	rectanchoredtext.DisplayConditions = new Array<Condition>()
-	for (let _id of rectanchoredtextAPI.RectAnchoredTextPointersEncoding.DisplayConditions) {
-		let _condition = frontRepo.map_ID_Condition.get(_id)
-		if (_condition != undefined) {
-			rectanchoredtext.DisplayConditions.push(_condition!)
-		}
-	}
 	if (!Array.isArray(rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates)) {
 		console.error('Rects is not an array:', rectanchoredtextAPI.RectAnchoredTextPointersEncoding.Animates);
 		return;

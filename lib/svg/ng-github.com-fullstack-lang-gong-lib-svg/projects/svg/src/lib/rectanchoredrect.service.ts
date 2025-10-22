@@ -17,7 +17,6 @@ import { RectAnchoredRect, CopyRectAnchoredRectToRectAnchoredRectAPI } from './r
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { ConditionAPI } from './condition-api'
 
 @Injectable({
   providedIn: 'root'

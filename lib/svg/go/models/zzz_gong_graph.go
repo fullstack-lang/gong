@@ -313,12 +313,6 @@ func (stage *Stage) StageBranchCircle(circle *Circle) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range circle.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range circle.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range circle.Animations {
 		StageBranch(stage, _animate)
 	}
@@ -352,12 +346,6 @@ func (stage *Stage) StageBranchEllipse(ellipse *Ellipse) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range ellipse.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range ellipse.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range ellipse.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -421,12 +409,6 @@ func (stage *Stage) StageBranchLine(line *Line) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range line.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range line.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range line.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -460,12 +442,6 @@ func (stage *Stage) StageBranchLink(link *Link) {
 	for _, _point := range link.ControlPoints {
 		StageBranch(stage, _point)
 	}
-	for _, _condition := range link.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range link.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 
 }
 
@@ -481,12 +457,6 @@ func (stage *Stage) StageBranchLinkAnchoredText(linkanchoredtext *LinkAnchoredTe
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range linkanchoredtext.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range linkanchoredtext.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range linkanchoredtext.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -505,12 +475,6 @@ func (stage *Stage) StageBranchPath(path *Path) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range path.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range path.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range path.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -544,12 +508,6 @@ func (stage *Stage) StageBranchPolygone(polygone *Polygone) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polygone.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range polygone.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range polygone.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -568,12 +526,6 @@ func (stage *Stage) StageBranchPolyline(polyline *Polyline) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polyline.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range polyline.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range polyline.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -625,12 +577,6 @@ func (stage *Stage) StageBranchRectAnchoredPath(rectanchoredpath *RectAnchoredPa
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredpath.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredpath.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 
 }
 
@@ -646,12 +592,6 @@ func (stage *Stage) StageBranchRectAnchoredRect(rectanchoredrect *RectAnchoredRe
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredrect.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredrect.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 
 }
 
@@ -667,12 +607,6 @@ func (stage *Stage) StageBranchRectAnchoredText(rectanchoredtext *RectAnchoredTe
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredtext.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredtext.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range rectanchoredtext.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -697,12 +631,6 @@ func (stage *Stage) StageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectlinklink.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range rectlinklink.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 
 }
 
@@ -757,12 +685,6 @@ func (stage *Stage) StageBranchText(text *Text) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range text.HoveringTrigger {
-		StageBranch(stage, _condition)
-	}
-	for _, _condition := range text.DisplayConditions {
-		StageBranch(stage, _condition)
-	}
 	for _, _animate := range text.Animates {
 		StageBranch(stage, _animate)
 	}
@@ -901,12 +823,6 @@ func CopyBranchCircle(mapOrigCopy map[any]any, circleFrom *Circle) (circleTo *Ci
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range circleFrom.HoveringTrigger {
-		circleTo.HoveringTrigger = append(circleTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range circleFrom.DisplayConditions {
-		circleTo.DisplayConditions = append(circleTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range circleFrom.Animations {
 		circleTo.Animations = append(circleTo.Animations, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -948,12 +864,6 @@ func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range ellipseFrom.HoveringTrigger {
-		ellipseTo.HoveringTrigger = append(ellipseTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range ellipseFrom.DisplayConditions {
-		ellipseTo.DisplayConditions = append(ellipseTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range ellipseFrom.Animates {
 		ellipseTo.Animates = append(ellipseTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1025,12 +935,6 @@ func CopyBranchLine(mapOrigCopy map[any]any, lineFrom *Line) (lineTo *Line) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range lineFrom.HoveringTrigger {
-		lineTo.HoveringTrigger = append(lineTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range lineFrom.DisplayConditions {
-		lineTo.DisplayConditions = append(lineTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range lineFrom.Animates {
 		lineTo.Animates = append(lineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1068,12 +972,6 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	for _, _point := range linkFrom.ControlPoints {
 		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchPoint(mapOrigCopy, _point))
 	}
-	for _, _condition := range linkFrom.HoveringTrigger {
-		linkTo.HoveringTrigger = append(linkTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range linkFrom.DisplayConditions {
-		linkTo.DisplayConditions = append(linkTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 
 	return
 }
@@ -1093,12 +991,6 @@ func CopyBranchLinkAnchoredText(mapOrigCopy map[any]any, linkanchoredtextFrom *L
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range linkanchoredtextFrom.HoveringTrigger {
-		linkanchoredtextTo.HoveringTrigger = append(linkanchoredtextTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range linkanchoredtextFrom.DisplayConditions {
-		linkanchoredtextTo.DisplayConditions = append(linkanchoredtextTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range linkanchoredtextFrom.Animates {
 		linkanchoredtextTo.Animates = append(linkanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1121,12 +1013,6 @@ func CopyBranchPath(mapOrigCopy map[any]any, pathFrom *Path) (pathTo *Path) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range pathFrom.HoveringTrigger {
-		pathTo.HoveringTrigger = append(pathTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range pathFrom.DisplayConditions {
-		pathTo.DisplayConditions = append(pathTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range pathFrom.Animates {
 		pathTo.Animates = append(pathTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1168,12 +1054,6 @@ func CopyBranchPolygone(mapOrigCopy map[any]any, polygoneFrom *Polygone) (polygo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polygoneFrom.HoveringTrigger {
-		polygoneTo.HoveringTrigger = append(polygoneTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range polygoneFrom.DisplayConditions {
-		polygoneTo.DisplayConditions = append(polygoneTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range polygoneFrom.Animates {
 		polygoneTo.Animates = append(polygoneTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1196,12 +1076,6 @@ func CopyBranchPolyline(mapOrigCopy map[any]any, polylineFrom *Polyline) (polyli
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polylineFrom.HoveringTrigger {
-		polylineTo.HoveringTrigger = append(polylineTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range polylineFrom.DisplayConditions {
-		polylineTo.DisplayConditions = append(polylineTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range polylineFrom.Animates {
 		polylineTo.Animates = append(polylineTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1261,12 +1135,6 @@ func CopyBranchRectAnchoredPath(mapOrigCopy map[any]any, rectanchoredpathFrom *R
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredpathFrom.HoveringTrigger {
-		rectanchoredpathTo.HoveringTrigger = append(rectanchoredpathTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range rectanchoredpathFrom.DisplayConditions {
-		rectanchoredpathTo.DisplayConditions = append(rectanchoredpathTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 
 	return
 }
@@ -1286,12 +1154,6 @@ func CopyBranchRectAnchoredRect(mapOrigCopy map[any]any, rectanchoredrectFrom *R
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredrectFrom.HoveringTrigger {
-		rectanchoredrectTo.HoveringTrigger = append(rectanchoredrectTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range rectanchoredrectFrom.DisplayConditions {
-		rectanchoredrectTo.DisplayConditions = append(rectanchoredrectTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 
 	return
 }
@@ -1311,12 +1173,6 @@ func CopyBranchRectAnchoredText(mapOrigCopy map[any]any, rectanchoredtextFrom *R
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredtextFrom.HoveringTrigger {
-		rectanchoredtextTo.HoveringTrigger = append(rectanchoredtextTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range rectanchoredtextFrom.DisplayConditions {
-		rectanchoredtextTo.DisplayConditions = append(rectanchoredtextTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range rectanchoredtextFrom.Animates {
 		rectanchoredtextTo.Animates = append(rectanchoredtextTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1345,12 +1201,6 @@ func CopyBranchRectLinkLink(mapOrigCopy map[any]any, rectlinklinkFrom *RectLinkL
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectlinklinkFrom.HoveringTrigger {
-		rectlinklinkTo.HoveringTrigger = append(rectlinklinkTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range rectlinklinkFrom.DisplayConditions {
-		rectlinklinkTo.DisplayConditions = append(rectlinklinkTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 
 	return
 }
@@ -1417,12 +1267,6 @@ func CopyBranchText(mapOrigCopy map[any]any, textFrom *Text) (textTo *Text) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range textFrom.HoveringTrigger {
-		textTo.HoveringTrigger = append(textTo.HoveringTrigger, CopyBranchCondition(mapOrigCopy, _condition))
-	}
-	for _, _condition := range textFrom.DisplayConditions {
-		textTo.DisplayConditions = append(textTo.DisplayConditions, CopyBranchCondition(mapOrigCopy, _condition))
-	}
 	for _, _animate := range textFrom.Animates {
 		textTo.Animates = append(textTo.Animates, CopyBranchAnimate(mapOrigCopy, _animate))
 	}
@@ -1531,12 +1375,6 @@ func (stage *Stage) UnstageBranchCircle(circle *Circle) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range circle.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range circle.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range circle.Animations {
 		UnstageBranch(stage, _animate)
 	}
@@ -1570,12 +1408,6 @@ func (stage *Stage) UnstageBranchEllipse(ellipse *Ellipse) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range ellipse.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range ellipse.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range ellipse.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1639,12 +1471,6 @@ func (stage *Stage) UnstageBranchLine(line *Line) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range line.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range line.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range line.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1678,12 +1504,6 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 	for _, _point := range link.ControlPoints {
 		UnstageBranch(stage, _point)
 	}
-	for _, _condition := range link.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range link.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 
 }
 
@@ -1699,12 +1519,6 @@ func (stage *Stage) UnstageBranchLinkAnchoredText(linkanchoredtext *LinkAnchored
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range linkanchoredtext.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range linkanchoredtext.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range linkanchoredtext.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1723,12 +1537,6 @@ func (stage *Stage) UnstageBranchPath(path *Path) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range path.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range path.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range path.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1762,12 +1570,6 @@ func (stage *Stage) UnstageBranchPolygone(polygone *Polygone) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polygone.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range polygone.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range polygone.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1786,12 +1588,6 @@ func (stage *Stage) UnstageBranchPolyline(polyline *Polyline) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range polyline.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range polyline.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range polyline.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1843,12 +1639,6 @@ func (stage *Stage) UnstageBranchRectAnchoredPath(rectanchoredpath *RectAnchored
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredpath.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredpath.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 
 }
 
@@ -1864,12 +1654,6 @@ func (stage *Stage) UnstageBranchRectAnchoredRect(rectanchoredrect *RectAnchored
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredrect.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredrect.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 
 }
 
@@ -1885,12 +1669,6 @@ func (stage *Stage) UnstageBranchRectAnchoredText(rectanchoredtext *RectAnchored
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectanchoredtext.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range rectanchoredtext.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range rectanchoredtext.Animates {
 		UnstageBranch(stage, _animate)
 	}
@@ -1915,12 +1693,6 @@ func (stage *Stage) UnstageBranchRectLinkLink(rectlinklink *RectLinkLink) {
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range rectlinklink.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range rectlinklink.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 
 }
 
@@ -1975,12 +1747,6 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _condition := range text.HoveringTrigger {
-		UnstageBranch(stage, _condition)
-	}
-	for _, _condition := range text.DisplayConditions {
-		UnstageBranch(stage, _condition)
-	}
 	for _, _animate := range text.Animates {
 		UnstageBranch(stage, _animate)
 	}

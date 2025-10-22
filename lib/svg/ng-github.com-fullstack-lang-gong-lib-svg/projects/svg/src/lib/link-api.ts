@@ -2,7 +2,6 @@
 import { RectAPI } from './rect-api'
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 import { PointAPI } from './point-api'
-import { ConditionAPI } from './condition-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -54,6 +53,4 @@ export class LinkPointersEncoding {
 	TextAtArrowStart: number[] = []
 	TextAtArrowEnd: number[] = []
 	ControlPoints: number[] = []
-	HoveringTrigger: number[] = []
-	DisplayConditions: number[] = []
 }

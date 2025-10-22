@@ -20,7 +20,6 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 import { RectAPI } from './rect-api'
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
 import { PointAPI } from './point-api'
-import { ConditionAPI } from './condition-api'
 
 @Injectable({
   providedIn: 'root'

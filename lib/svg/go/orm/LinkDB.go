@@ -64,12 +64,6 @@ type LinkPointersEncoding struct {
 
 	// field ControlPoints is a slice of pointers to another Struct (optional or 0..1)
 	ControlPoints IntSlice `gorm:"type:TEXT"`
-
-	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
-	HoveringTrigger IntSlice `gorm:"type:TEXT"`
-
-	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
-	DisplayConditions IntSlice `gorm:"type:TEXT"`
 }
 
 // LinkDB describes a link in the database
@@ -459,42 +453,6 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 				append(linkDB.LinkPointersEncoding.ControlPoints, int(pointAssocEnd_DB.ID))
 		}
 
-		// 1. reset
-		linkDB.LinkPointersEncoding.HoveringTrigger = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range link.HoveringTrigger {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			linkDB.LinkPointersEncoding.HoveringTrigger =
-				append(linkDB.LinkPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
-		linkDB.LinkPointersEncoding.DisplayConditions = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range link.DisplayConditions {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			linkDB.LinkPointersEncoding.DisplayConditions =
-				append(linkDB.LinkPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
-		}
-
 		_, err := backRepoLink.db.Save(linkDB)
 		if err != nil {
 			log.Fatal(err)
@@ -675,24 +633,6 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 	link.ControlPoints = link.ControlPoints[:0]
 	for _, _Pointid := range linkDB.LinkPointersEncoding.ControlPoints {
 		link.ControlPoints = append(link.ControlPoints, backRepo.BackRepoPoint.Map_PointDBID_PointPtr[uint(_Pointid)])
-	}
-
-	// This loop redeem link.HoveringTrigger in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	link.HoveringTrigger = link.HoveringTrigger[:0]
-	for _, _Conditionid := range linkDB.LinkPointersEncoding.HoveringTrigger {
-		link.HoveringTrigger = append(link.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
-	// This loop redeem link.DisplayConditions in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	link.DisplayConditions = link.DisplayConditions[:0]
-	for _, _Conditionid := range linkDB.LinkPointersEncoding.DisplayConditions {
-		link.DisplayConditions = append(link.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
 	}
 
 	return
