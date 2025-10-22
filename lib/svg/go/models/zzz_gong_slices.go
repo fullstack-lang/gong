@@ -19,6 +19,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Condition
+	// insertion point per field
+
 	// Compute reverse map for named struct Ellipse
 	// insertion point per field
 	clear(stage.Ellipse_Animates_reverseMap)
@@ -200,6 +203,22 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Rect
 	// insertion point per field
+	clear(stage.Rect_HoveringTrigger_reverseMap)
+	stage.Rect_HoveringTrigger_reverseMap = make(map[*Condition]*Rect)
+	for rect := range stage.Rects {
+		_ = rect
+		for _, _condition := range rect.HoveringTrigger {
+			stage.Rect_HoveringTrigger_reverseMap[_condition] = rect
+		}
+	}
+	clear(stage.Rect_DisplayConditions_reverseMap)
+	stage.Rect_DisplayConditions_reverseMap = make(map[*Condition]*Rect)
+	for rect := range stage.Rects {
+		_ = rect
+		for _, _condition := range rect.DisplayConditions {
+			stage.Rect_DisplayConditions_reverseMap[_condition] = rect
+		}
+	}
 	clear(stage.Rect_Animations_reverseMap)
 	stage.Rect_Animations_reverseMap = make(map[*Animate]*Rect)
 	for rect := range stage.Rects {

@@ -23,6 +23,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		circleInstance := any(concreteInstance).(*models.Circle)
 		ret2 := backRepo.BackRepoCircle.GetCircleDBFromCirclePtr(circleInstance)
 		ret = any(ret2).(*T2)
+	case *models.Condition:
+		conditionInstance := any(concreteInstance).(*models.Condition)
+		ret2 := backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionInstance)
+		ret = any(ret2).(*T2)
 	case *models.Ellipse:
 		ellipseInstance := any(concreteInstance).(*models.Ellipse)
 		ret2 := backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseInstance)
@@ -111,6 +115,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Circle:
 		tmp := GetInstanceDBFromInstance[models.Circle, CircleDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Condition:
+		tmp := GetInstanceDBFromInstance[models.Condition, ConditionDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -219,6 +228,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Circle:
 		tmp := GetInstanceDBFromInstance[models.Circle, CircleDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.Condition:
+		tmp := GetInstanceDBFromInstance[models.Condition, ConditionDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

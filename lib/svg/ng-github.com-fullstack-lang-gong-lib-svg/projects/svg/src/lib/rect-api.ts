@@ -1,4 +1,5 @@
 // insertion point for imports
+import { ConditionAPI } from './condition-api'
 import { AnimateAPI } from './animate-api'
 import { RectAnchoredTextAPI } from './rectanchoredtext-api'
 import { RectAnchoredRectAPI } from './rectanchoredrect-api'
@@ -59,6 +60,8 @@ export class RectAPI {
 
 export class RectPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
+	HoveringTrigger: number[] = []
+	DisplayConditions: number[] = []
 	Animations: number[] = []
 	RectAnchoredTexts: number[] = []
 	RectAnchoredRects: number[] = []

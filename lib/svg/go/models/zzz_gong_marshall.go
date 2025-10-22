@@ -305,6 +305,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_Condition_Identifiers := make(map[*Condition]string)
+	_ = map_Condition_Identifiers
+
+	conditionOrdered := []*Condition{}
+	for condition := range stage.Conditions {
+		conditionOrdered = append(conditionOrdered, condition)
+	}
+	sort.Slice(conditionOrdered[:], func(i, j int) bool {
+		conditioni := conditionOrdered[i]
+		conditionj := conditionOrdered[j]
+		conditioni_order, oki := stage.ConditionMap_Staged_Order[conditioni]
+		conditionj_order, okj := stage.ConditionMap_Staged_Order[conditionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return conditioni_order < conditionj_order
+	})
+	if len(conditionOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, condition := range conditionOrdered {
+
+		id = generatesIdentifier("Condition", idx, condition.Name)
+		map_Condition_Identifiers[condition] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Condition")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", condition.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(condition.Name))
+		initializerStatements += setValueField
+
+	}
+
 	map_Ellipse_Identifiers := make(map[*Ellipse]string)
 	_ = map_Ellipse_Identifiers
 
@@ -2329,6 +2370,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	if len(conditionOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Condition instances pointers"
+	}
+	for idx, condition := range conditionOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Condition", idx, condition.Name)
+		map_Condition_Identifiers[condition] = id
+
+		// Initialisation of values
+	}
+
 	if len(ellipseOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Ellipse instances pointers"
 	}
@@ -2625,6 +2679,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Rect_Identifiers[rect] = id
 
 		// Initialisation of values
+		for _, _condition := range rect.HoveringTrigger {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "HoveringTrigger")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _condition := range rect.DisplayConditions {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayConditions")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Condition_Identifiers[_condition])
+			pointersInitializesStatements += setPointerField
+		}
+
 		for _, _animate := range rect.Animations {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)

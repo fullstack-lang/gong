@@ -217,99 +217,101 @@
         }
 
         @for(rect of layer.Rects; track rect.ID) {
-          <rect
-            [attr.x]="rect.X"
-            [attr.y]="rect.Y"
-            [attr.width]="rect.Width"
-            [attr.height]="rect.Height"
-            [attr.rx]="rect.RX"
-            [attr.fill]="rect.Color"
-            [attr.fill-opacity]="rect.FillOpacity"
-            [attr.stroke]="rect.Stroke"
-            [attr.stroke-opacity]="rect.StrokeOpacity"
-            [attr.stroke-width]="rect.StrokeWidth"
-            [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
-            [attr.transform]="rect.Transform"
+          @if (shouldDisplayRect(rect)) {
+            <rect
+              [attr.x]="rect.X"
+              [attr.y]="rect.Y"
+              [attr.width]="rect.Width"
+              [attr.height]="rect.Height"
+              [attr.rx]="rect.RX"
+              [attr.fill]="rect.Color"
+              [attr.fill-opacity]="rect.FillOpacity"
+              [attr.stroke]="rect.Stroke"
+              [attr.stroke-opacity]="rect.StrokeOpacity"
+              [attr.stroke-width]="rect.StrokeWidth"
+              [attr.stroke-dasharray]="rect.IsSelected ? rect.StrokeDashArrayWhenSelected : rect.StrokeDashArray"
+              [attr.transform]="rect.Transform"
 
-            (mousedown)="rectMouseDown($event, rect)"
-            (mousemove)="onmousemove($event)"
-            (mouseup)="rectMouseUp($event, rect)"
-            (mouseenter)="onRectHover(rect, true)"
-            (mouseleave)="onRectHover(rect, false)"
-            
-            [matTooltip]="rect.ToolTipText"
-            [matTooltipPosition]="getTooltipPosition(rect)"
-            [matTooltipDisabled]="!rect.HasToolTip">
-            
-            >
-            @for(animate of rect.Animations; track $index) {
-              <animate
-                [attr.attributeName]="animate.AttributeName"
-                [attr.values]="animate.Values"
-                [attr.dur]="animate.Dur"
-                [attr.repeatCount]="animate.RepeatCount" />
+              (mousedown)="rectMouseDown($event, rect)"
+              (mousemove)="onmousemove($event)"
+              (mouseup)="rectMouseUp($event, rect)"
+              (mouseenter)="onRectHover(rect, true)"
+              (mouseleave)="onRectHover(rect, false)"
+              
+              [matTooltip]="rect.ToolTipText"
+              [matTooltipPosition]="getTooltipPosition(rect)"
+              [matTooltipDisabled]="!rect.HasToolTip">
+              
+              >
+              @for(animate of rect.Animations; track $index) {
+                <animate
+                  [attr.attributeName]="animate.AttributeName"
+                  [attr.values]="animate.Values"
+                  [attr.dur]="animate.Dur"
+                  [attr.repeatCount]="animate.RepeatCount" />
+              }
+            </rect>
+            @for (rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect.ID) {
+              <ng-container 
+                [ngTemplateOutlet]="anchoredRect" 
+                [ngTemplateOutletContext]="getContextForAnchoredRect(rectAnchoredRect, rect)">
+              </ng-container>
             }
-          </rect>
-          @for (rectAnchoredRect of rect.RectAnchoredRects!; track rectAnchoredRect.ID) {
-            <ng-container 
-              [ngTemplateOutlet]="anchoredRect" 
-              [ngTemplateOutletContext]="getContextForAnchoredRect(rectAnchoredRect, rect)">
+            @for (rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath.ID) {
+              <ng-container
+                [ngTemplateOutlet]="anchoredPath"
+                [ngTemplateOutletContext]="getContextForAnchoredPath(rectAnchoredPath, rect)">
+              </ng-container>
+            }
+            @for(rectAnchoredText of rect.RectAnchoredTexts!; track rectAnchoredText.ID) {
+              <ng-container 
+                [ngTemplateOutlet]="anchoredText" 
+                [ngTemplateOutletContext]="getContextForAnchoredText(rectAnchoredText, rect)">
+              </ng-container>
+            }
+            <ng-container>
+              @if(rect.HasLeftHandle) {
+                <circle class="overlay"
+                  [attr.cx]="rect.X"
+                  [attr.cy]="rect.Y + rect.Height / 2"
+                  [attr.r]="anchorRadius"
+                  [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
+                  (mousedown)="anchorMouseDown($event, 'left', rect)"
+                  (mousemove)="onmousemove($event)"
+                  (mouseup)="anchorMouseUp($event, rect)"/>
+              }
+              @if(rect.HasRightHandle) {
+                <circle class="overlay"
+                  [attr.cx]="rect.X + rect.Width"
+                  [attr.cy]="rect.Y + rect.Height/2"
+                  [attr.r]="anchorRadius"
+                  [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
+                  (mousedown)="anchorMouseDown($event, 'right', rect)"
+                  (mousemove)="onmousemove($event)"
+                  (mouseup)="anchorMouseUp($event, rect)"/>
+              }
+              @if(rect.HasTopHandle) {
+                <circle class="overlay"
+                  [attr.cx]="rect.X + rect.Width/2"
+                  [attr.cy]="rect.Y"
+                  [attr.r]="anchorRadius"
+                  [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
+                  (mousedown)="anchorMouseDown($event, 'top', rect)"
+                  (mousemove)="onmousemove($event)"
+                  (mouseup)="anchorMouseUp($event, rect)"/>
+              }
+              @if(rect.HasBottomHandle) {
+                <circle class="overlay"
+                  [attr.cx]="rect.X + rect.Width/2"
+                  [attr.cy]="rect.Y + rect.Height"
+                  [attr.r]="anchorRadius"
+                  [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
+                  (mousedown)="anchorMouseDown($event, 'bottom', rect)"
+                  (mousemove)="onmousemove($event)"
+                  (mouseup)="anchorMouseUp($event, rect)"/>
+              }
             </ng-container>
           }
-          @for (rectAnchoredPath of rect.RectAnchoredPaths!; track rectAnchoredPath.ID) {
-            <ng-container
-              [ngTemplateOutlet]="anchoredPath"
-              [ngTemplateOutletContext]="getContextForAnchoredPath(rectAnchoredPath, rect)">
-            </ng-container>
-          }
-          @for(rectAnchoredText of rect.RectAnchoredTexts!; track rectAnchoredText.ID) {
-            <ng-container 
-              [ngTemplateOutlet]="anchoredText" 
-              [ngTemplateOutletContext]="getContextForAnchoredText(rectAnchoredText, rect)">
-            </ng-container>
-          }
-          <ng-container>
-            @if(rect.HasLeftHandle) {
-              <circle class="overlay"
-                [attr.cx]="rect.X"
-                [attr.cy]="rect.Y + rect.Height / 2"
-                [attr.r]="anchorRadius"
-                [attr.fill]="(anchorDragging && activeAnchor === 'left') ? draggingAnchorFillColor : anchorFillColor"
-                (mousedown)="anchorMouseDown($event, 'left', rect)"
-                (mousemove)="onmousemove($event)"
-                (mouseup)="anchorMouseUp($event, rect)"/>
-            }
-            @if(rect.HasRightHandle) {
-              <circle class="overlay"
-                [attr.cx]="rect.X + rect.Width"
-                [attr.cy]="rect.Y + rect.Height/2"
-                [attr.r]="anchorRadius"
-                [attr.fill]="(anchorDragging && activeAnchor === 'right') ? draggingAnchorFillColor : anchorFillColor"
-                (mousedown)="anchorMouseDown($event, 'right', rect)"
-                (mousemove)="onmousemove($event)"
-                (mouseup)="anchorMouseUp($event, rect)"/>
-            }
-            @if(rect.HasTopHandle) {
-              <circle class="overlay"
-                [attr.cx]="rect.X + rect.Width/2"
-                [attr.cy]="rect.Y"
-                [attr.r]="anchorRadius"
-                [attr.fill]="(anchorDragging && activeAnchor === 'top') ? draggingAnchorFillColor : anchorFillColor"
-                (mousedown)="anchorMouseDown($event, 'top', rect)"
-                (mousemove)="onmousemove($event)"
-                (mouseup)="anchorMouseUp($event, rect)"/>
-            }
-            @if(rect.HasBottomHandle) {
-              <circle class="overlay"
-                [attr.cx]="rect.X + rect.Width/2"
-                [attr.cy]="rect.Y + rect.Height"
-                [attr.r]="anchorRadius"
-                [attr.fill]="(anchorDragging && activeAnchor === 'bottom') ? draggingAnchorFillColor : anchorFillColor"
-                (mousedown)="anchorMouseDown($event, 'bottom', rect)"
-                (mousemove)="onmousemove($event)"
-                (mouseup)="anchorMouseUp($event, rect)"/>
-            }
-          </ng-container>
         }
 
         @for(link of layer.Links; track link.ID) {

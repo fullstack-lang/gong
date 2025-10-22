@@ -96,6 +96,22 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
+	case *Condition:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Rect":
+			switch reverseField.Fieldname {
+			case "HoveringTrigger":
+				if _rect, ok := stage.Rect_HoveringTrigger_reverseMap[inst]; ok {
+					res = _rect.Name
+				}
+			case "DisplayConditions":
+				if _rect, ok := stage.Rect_DisplayConditions_reverseMap[inst]; ok {
+					res = _rect.Name
+				}
+			}
+		}
+
 	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -366,6 +382,18 @@ func GetReverseFieldOwner[T Gongstruct](
 			switch reverseField.Fieldname {
 			case "Circles":
 				res = stage.Layer_Circles_reverseMap[inst]
+			}
+		}
+
+	case *Condition:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Rect":
+			switch reverseField.Fieldname {
+			case "HoveringTrigger":
+				res = stage.Rect_HoveringTrigger_reverseMap[inst]
+			case "DisplayConditions":
+				res = stage.Rect_DisplayConditions_reverseMap[inst]
 			}
 		}
 

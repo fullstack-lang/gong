@@ -82,6 +82,17 @@ func (from *Circle) CopyBasicFields(to *Circle) {
 	to.Transform = from.Transform
 }
 
+type Condition_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Condition) CopyBasicFields(to *Condition) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Ellipse_WOP struct {
 	// insertion point
 

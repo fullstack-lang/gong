@@ -5,6 +5,8 @@ import { AnimateAPI } from './animate-api'
 
 import { CircleAPI } from './circle-api'
 
+import { ConditionAPI } from './condition-api'
+
 import { EllipseAPI } from './ellipse-api'
 
 import { LayerAPI } from './layer-api'
@@ -45,6 +47,8 @@ export class BackRepoData {
 	AnimateAPIs = new Array<AnimateAPI>()
 
 	CircleAPIs = new Array<CircleAPI>()
+
+	ConditionAPIs = new Array<ConditionAPI>()
 
 	EllipseAPIs = new Array<EllipseAPI>()
 
@@ -89,6 +93,8 @@ export class BackRepoData {
 		this.AnimateAPIs = data?.AnimateAPIs || [];
 
 		this.CircleAPIs = data?.CircleAPIs || [];
+
+		this.ConditionAPIs = data?.ConditionAPIs || [];
 
 		this.EllipseAPIs = data?.EllipseAPIs || [];
 
