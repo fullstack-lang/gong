@@ -46,6 +46,8 @@ func NewStackInstance(
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Animate](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Circle](stage)
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Circle](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Condition](stage)
+	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Condition](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Ellipse](stage)
 	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Ellipse](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Layer](stage)

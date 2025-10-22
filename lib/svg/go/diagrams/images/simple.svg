@@ -407,6 +407,14 @@
             stroke-dasharray=""
             transform="translate(700 250) scale(1 1)" >
 </path>
+  <rect x="100" y="300" width="50" height="50" rx="5" ry="5"
+			fill="gray"
+            fill-opacity="0.400000"
+            stroke=""
+            stroke-opacity="0.000000"
+            stroke-width="0.000000"
+            stroke-dasharray=""
+            transform="" />
 	<line x1="300" y1="100" x2="500" y2="100"
 			fill=""
             fill-opacity="0.000000"

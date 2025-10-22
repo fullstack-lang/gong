@@ -304,6 +304,55 @@ func FillUpForm(
 			}
 		}
 
+	case *models.Condition:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "HoveringTrigger"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"HoveringTrigger",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"HoveringTrigger",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Rect"
+			rf.Fieldname = "DisplayConditions"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Rect),
+					"DisplayConditions",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Rect](
+					nil,
+					"DisplayConditions",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
 	case *models.Ellipse:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -802,6 +851,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		AssociationSliceToForm("HoveringTrigger", instanceWithInferedType, &instanceWithInferedType.HoveringTrigger, formGroup, probe)
+		AssociationSliceToForm("DisplayConditions", instanceWithInferedType, &instanceWithInferedType.DisplayConditions, formGroup, probe)
 		AssociationSliceToForm("Animations", instanceWithInferedType, &instanceWithInferedType.Animations, formGroup, probe)
 		BasicFieldtoForm("IsSelectable", instanceWithInferedType.IsSelectable, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)

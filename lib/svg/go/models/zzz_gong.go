@@ -109,6 +109,16 @@ type Stage struct {
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
+	Conditions           map[*Condition]any
+	Conditions_mapString map[string]*Condition
+
+	// insertion point for slice of pointers maps
+	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
+	OnAfterConditionUpdateCallback OnAfterUpdateInterface[Condition]
+	OnAfterConditionUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Condition]
+	OnAfterConditionDeleteCallback OnAfterDeleteInterface[Condition]
+	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
+
 	Ellipses           map[*Ellipse]any
 	Ellipses_mapString map[string]*Ellipse
 
@@ -241,6 +251,10 @@ type Stage struct {
 	Rects_mapString map[string]*Rect
 
 	// insertion point for slice of pointers maps
+	Rect_HoveringTrigger_reverseMap map[*Condition]*Rect
+
+	Rect_DisplayConditions_reverseMap map[*Condition]*Rect
+
 	Rect_Animations_reverseMap map[*Animate]*Rect
 
 	Rect_RectAnchoredTexts_reverseMap map[*RectAnchoredText]*Rect
@@ -362,6 +376,9 @@ type Stage struct {
 
 	CircleOrder            uint
 	CircleMap_Staged_Order map[*Circle]uint
+
+	ConditionOrder            uint
+	ConditionMap_Staged_Order map[*Condition]uint
 
 	EllipseOrder            uint
 	EllipseMap_Staged_Order map[*Ellipse]uint
@@ -494,6 +511,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Circle implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Condition:
+		tmp := GetStructInstancesByOrder(stage.Conditions, stage.ConditionMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Condition implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -772,6 +803,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Animates, stage.AnimateMap_Staged_Order)
 	case "Circle":
 		res = GetNamedStructInstances(stage.Circles, stage.CircleMap_Staged_Order)
+	case "Condition":
+		res = GetNamedStructInstances(stage.Conditions, stage.ConditionMap_Staged_Order)
 	case "Ellipse":
 		res = GetNamedStructInstances(stage.Ellipses, stage.EllipseMap_Staged_Order)
 	case "Layer":
@@ -884,6 +917,8 @@ type BackRepoInterface interface {
 	CheckoutAnimate(animate *Animate)
 	CommitCircle(circle *Circle)
 	CheckoutCircle(circle *Circle)
+	CommitCondition(condition *Condition)
+	CheckoutCondition(condition *Condition)
 	CommitEllipse(ellipse *Ellipse)
 	CheckoutEllipse(ellipse *Ellipse)
 	CommitLayer(layer *Layer)
@@ -930,6 +965,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Circles:           make(map[*Circle]any),
 		Circles_mapString: make(map[string]*Circle),
+
+		Conditions:           make(map[*Condition]any),
+		Conditions_mapString: make(map[string]*Condition),
 
 		Ellipses:           make(map[*Ellipse]any),
 		Ellipses_mapString: make(map[string]*Ellipse),
@@ -996,6 +1034,8 @@ func NewStage(name string) (stage *Stage) {
 
 		CircleMap_Staged_Order: make(map[*Circle]uint),
 
+		ConditionMap_Staged_Order: make(map[*Condition]uint),
+
 		EllipseMap_Staged_Order: make(map[*Ellipse]uint),
 
 		LayerMap_Staged_Order: make(map[*Layer]uint),
@@ -1035,6 +1075,7 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Animate"},
 			{name: "Circle"},
+			{name: "Condition"},
 			{name: "Ellipse"},
 			{name: "Layer"},
 			{name: "Line"},
@@ -1066,6 +1107,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.AnimateMap_Staged_Order[instance]
 	case *Circle:
 		return stage.CircleMap_Staged_Order[instance]
+	case *Condition:
+		return stage.ConditionMap_Staged_Order[instance]
 	case *Ellipse:
 		return stage.EllipseMap_Staged_Order[instance]
 	case *Layer:
@@ -1113,6 +1156,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.AnimateMap_Staged_Order[instance]
 	case *Circle:
 		return stage.CircleMap_Staged_Order[instance]
+	case *Condition:
+		return stage.ConditionMap_Staged_Order[instance]
 	case *Ellipse:
 		return stage.EllipseMap_Staged_Order[instance]
 	case *Layer:
@@ -1176,6 +1221,7 @@ func (stage *Stage) Commit() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -1205,6 +1251,7 @@ func (stage *Stage) Checkout() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
+	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
 	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
 	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
 	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
@@ -1362,6 +1409,61 @@ func (circle *Circle) Checkout(stage *Stage) *Circle {
 // for satisfaction of GongStruct interface
 func (circle *Circle) GetName() (res string) {
 	return circle.Name
+}
+
+// Stage puts condition to the model stage
+func (condition *Condition) Stage(stage *Stage) *Condition {
+
+	if _, ok := stage.Conditions[condition]; !ok {
+		stage.Conditions[condition] = __member
+		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
+		stage.ConditionOrder++
+	}
+	stage.Conditions_mapString[condition.Name] = condition
+
+	return condition
+}
+
+// Unstage removes condition off the model stage
+func (condition *Condition) Unstage(stage *Stage) *Condition {
+	delete(stage.Conditions, condition)
+	delete(stage.Conditions_mapString, condition.Name)
+	return condition
+}
+
+// UnstageVoid removes condition off the model stage
+func (condition *Condition) UnstageVoid(stage *Stage) {
+	delete(stage.Conditions, condition)
+	delete(stage.Conditions_mapString, condition.Name)
+}
+
+// commit condition to the back repo (if it is already staged)
+func (condition *Condition) Commit(stage *Stage) *Condition {
+	if _, ok := stage.Conditions[condition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCondition(condition)
+		}
+	}
+	return condition
+}
+
+func (condition *Condition) CommitVoid(stage *Stage) {
+	condition.Commit(stage)
+}
+
+// Checkout condition to the back repo (if it is already staged)
+func (condition *Condition) Checkout(stage *Stage) *Condition {
+	if _, ok := stage.Conditions[condition]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCondition(condition)
+		}
+	}
+	return condition
+}
+
+// for satisfaction of GongStruct interface
+func (condition *Condition) GetName() (res string) {
+	return condition.Name
 }
 
 // Stage puts ellipse to the model stage
@@ -2303,6 +2405,7 @@ func (text *Text) GetName() (res string) {
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMAnimate(Animate *Animate)
 	CreateORMCircle(Circle *Circle)
+	CreateORMCondition(Condition *Condition)
 	CreateORMEllipse(Ellipse *Ellipse)
 	CreateORMLayer(Layer *Layer)
 	CreateORMLine(Line *Line)
@@ -2325,6 +2428,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMAnimate(Animate *Animate)
 	DeleteORMCircle(Circle *Circle)
+	DeleteORMCondition(Condition *Condition)
 	DeleteORMEllipse(Ellipse *Ellipse)
 	DeleteORMLayer(Layer *Layer)
 	DeleteORMLine(Line *Line)
@@ -2354,6 +2458,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Circles_mapString = make(map[string]*Circle)
 	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
 	stage.CircleOrder = 0
+
+	stage.Conditions = make(map[*Condition]any)
+	stage.Conditions_mapString = make(map[string]*Condition)
+	stage.ConditionMap_Staged_Order = make(map[*Condition]uint)
+	stage.ConditionOrder = 0
 
 	stage.Ellipses = make(map[*Ellipse]any)
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
@@ -2449,6 +2558,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Circles = nil
 	stage.Circles_mapString = nil
 
+	stage.Conditions = nil
+	stage.Conditions_mapString = nil
+
 	stage.Ellipses = nil
 	stage.Ellipses_mapString = nil
 
@@ -2509,6 +2621,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for circle := range stage.Circles {
 		circle.Unstage(stage)
+	}
+
+	for condition := range stage.Conditions {
+		condition.Unstage(stage)
 	}
 
 	for ellipse := range stage.Ellipses {
@@ -2644,6 +2760,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Animates).(*Type)
 	case map[*Circle]any:
 		return any(&stage.Circles).(*Type)
+	case map[*Condition]any:
+		return any(&stage.Conditions).(*Type)
 	case map[*Ellipse]any:
 		return any(&stage.Ellipses).(*Type)
 	case map[*Layer]any:
@@ -2694,6 +2812,8 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 		return any(&stage.Animates_mapString).(*Type)
 	case map[string]*Circle:
 		return any(&stage.Circles_mapString).(*Type)
+	case map[string]*Condition:
+		return any(&stage.Conditions_mapString).(*Type)
 	case map[string]*Ellipse:
 		return any(&stage.Ellipses_mapString).(*Type)
 	case map[string]*Layer:
@@ -2744,6 +2864,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 		return any(&stage.Animates).(*map[*Type]any)
 	case Circle:
 		return any(&stage.Circles).(*map[*Type]any)
+	case Condition:
+		return any(&stage.Conditions).(*map[*Type]any)
 	case Ellipse:
 		return any(&stage.Ellipses).(*map[*Type]any)
 	case Layer:
@@ -2794,6 +2916,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Animates).(*map[Type]any)
 	case *Circle:
 		return any(&stage.Circles).(*map[Type]any)
+	case *Condition:
+		return any(&stage.Conditions).(*map[Type]any)
 	case *Ellipse:
 		return any(&stage.Ellipses).(*map[Type]any)
 	case *Layer:
@@ -2844,6 +2968,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Animates_mapString).(*map[string]*Type)
 	case Circle:
 		return any(&stage.Circles_mapString).(*map[string]*Type)
+	case Condition:
+		return any(&stage.Conditions_mapString).(*map[string]*Type)
 	case Ellipse:
 		return any(&stage.Ellipses_mapString).(*map[string]*Type)
 	case Layer:
@@ -2901,6 +3027,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Animate with the name of the field
 			Animations: []*Animate{{Name: "Animations"}},
+		}).(*Type)
+	case Condition:
+		return any(&Condition{
+			// Initialisation of associations
 		}).(*Type)
 	case Ellipse:
 		return any(&Ellipse{
@@ -3059,6 +3189,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Circle
 	case Circle:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Condition
+	case Condition:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3283,6 +3418,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of Condition
+	case Condition:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Ellipse
 	case Ellipse:
 		switch fieldname {
@@ -3484,6 +3624,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Rect:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "HoveringTrigger":
+			res := make(map[*Condition][]*Rect)
+			for rect := range stage.Rects {
+				for _, condition_ := range rect.HoveringTrigger {
+					res[condition_] = append(res[condition_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "DisplayConditions":
+			res := make(map[*Condition][]*Rect)
+			for rect := range stage.Rects {
+				for _, condition_ := range rect.DisplayConditions {
+					res[condition_] = append(res[condition_], rect)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "Animations":
 			res := make(map[*Animate][]*Rect)
 			for rect := range stage.Rects {
@@ -3592,6 +3748,8 @@ func GetGongstructName[Type Gongstruct]() (res string) {
 		res = "Animate"
 	case Circle:
 		res = "Circle"
+	case Condition:
+		res = "Condition"
 	case Ellipse:
 		res = "Ellipse"
 	case Layer:
@@ -3642,6 +3800,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Animate"
 	case *Circle:
 		res = "Circle"
+	case *Condition:
+		res = "Condition"
 	case *Ellipse:
 		res = "Ellipse"
 	case *Layer:
@@ -3691,6 +3851,8 @@ func GetFields[Type Gongstruct]() (res []string) {
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+	case Condition:
+		res = []string{"Name"}
 	case Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Layer:
@@ -3710,7 +3872,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredRect:
@@ -3781,6 +3943,15 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Circles"
+		res = append(res, rf)
+	case Condition:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "HoveringTrigger"
+		res = append(res, rf)
+		rf.GongstructName = "Rect"
+		rf.Fieldname = "DisplayConditions"
 		res = append(res, rf)
 	case Ellipse:
 		var rf ReverseField
@@ -3896,6 +4067,8 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
 	case *Circle:
 		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+	case *Condition:
+		res = []string{"Name"}
 	case *Ellipse:
 		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Layer:
@@ -3915,7 +4088,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
 	case *RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredRect:
@@ -4035,6 +4208,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		}
+	case *Condition:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
 		}
 	case *Ellipse:
 		switch fieldName {
@@ -4562,6 +4741,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
@@ -5070,6 +5263,12 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				res.valueString += __instance__.Name
 			}
 		}
+	case Condition:
+		switch fieldName {
+		// string value of fields
+		case "Name":
+			res.valueString = inferedInstance.Name
+		}
 	case Ellipse:
 		switch fieldName {
 		// string value of fields
@@ -5596,6 +5795,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "HoveringTrigger":
+			for idx, __instance__ := range inferedInstance.HoveringTrigger {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
+		case "DisplayConditions":
+			for idx, __instance__ := range inferedInstance.DisplayConditions {
+				if idx > 0 {
+					res.valueString += "\n"
+				}
+				res.valueString += __instance__.Name
+			}
 		case "Animations":
 			for idx, __instance__ := range inferedInstance.Animations {
 				if idx > 0 {
