@@ -14,6 +14,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleCreateCallback != nil {
 			stage.OnAfterCircleCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Condition:
+		if stage.OnAfterConditionCreateCallback != nil {
+			stage.OnAfterConditionCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Ellipse:
 		if stage.OnAfterEllipseCreateCallback != nil {
 			stage.OnAfterEllipseCreateCallback.OnAfterCreate(stage, target)
@@ -111,6 +115,14 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		}
 		if stage.OnAfterCircleUpdateWithMouseEventCallback != nil && mouseEvent != nil {
 			stage.OnAfterCircleUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
+		}
+	case *Condition:
+		newTarget := any(new).(*Condition)
+		if stage.OnAfterConditionUpdateCallback != nil && mouseEvent == nil {
+			stage.OnAfterConditionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+		if stage.OnAfterConditionUpdateWithMouseEventCallback != nil && mouseEvent != nil {
+			stage.OnAfterConditionUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Ellipse:
 		newTarget := any(new).(*Ellipse)
@@ -268,6 +280,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Circle)
 			stage.OnAfterCircleDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Condition:
+		if stage.OnAfterConditionDeleteCallback != nil {
+			staged := any(staged).(*Condition)
+			stage.OnAfterConditionDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Ellipse:
 		if stage.OnAfterEllipseDeleteCallback != nil {
 			staged := any(staged).(*Ellipse)
@@ -371,6 +388,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterCircleReadCallback != nil {
 			stage.OnAfterCircleReadCallback.OnAfterRead(stage, target)
 		}
+	case *Condition:
+		if stage.OnAfterConditionReadCallback != nil {
+			stage.OnAfterConditionReadCallback.OnAfterRead(stage, target)
+		}
 	case *Ellipse:
 		if stage.OnAfterEllipseReadCallback != nil {
 			stage.OnAfterEllipseReadCallback.OnAfterRead(stage, target)
@@ -456,6 +477,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Circle:
 		stage.OnAfterCircleUpdateCallback = any(callback).(OnAfterUpdateInterface[Circle])
 	
+	case *Condition:
+		stage.OnAfterConditionUpdateCallback = any(callback).(OnAfterUpdateInterface[Condition])
+	
 	case *Ellipse:
 		stage.OnAfterEllipseUpdateCallback = any(callback).(OnAfterUpdateInterface[Ellipse])
 	
@@ -519,6 +543,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *Circle:
 		stage.OnAfterCircleCreateCallback = any(callback).(OnAfterCreateInterface[Circle])
+	
+	case *Condition:
+		stage.OnAfterConditionCreateCallback = any(callback).(OnAfterCreateInterface[Condition])
 	
 	case *Ellipse:
 		stage.OnAfterEllipseCreateCallback = any(callback).(OnAfterCreateInterface[Ellipse])
@@ -584,6 +611,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Circle:
 		stage.OnAfterCircleDeleteCallback = any(callback).(OnAfterDeleteInterface[Circle])
 	
+	case *Condition:
+		stage.OnAfterConditionDeleteCallback = any(callback).(OnAfterDeleteInterface[Condition])
+	
 	case *Ellipse:
 		stage.OnAfterEllipseDeleteCallback = any(callback).(OnAfterDeleteInterface[Ellipse])
 	
@@ -647,6 +677,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *Circle:
 		stage.OnAfterCircleReadCallback = any(callback).(OnAfterReadInterface[Circle])
+	
+	case *Condition:
+		stage.OnAfterConditionReadCallback = any(callback).(OnAfterReadInterface[Condition])
 	
 	case *Ellipse:
 		stage.OnAfterEllipseReadCallback = any(callback).(OnAfterReadInterface[Ellipse])
