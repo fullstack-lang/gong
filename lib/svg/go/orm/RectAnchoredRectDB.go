@@ -47,12 +47,6 @@ type RectAnchoredRectAPI struct {
 // reverse pointers of slice of poitners to Struct
 type RectAnchoredRectPointersEncoding struct {
 	// insertion for pointer fields encoding declaration
-
-	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
-	HoveringTrigger IntSlice `gorm:"type:TEXT"`
-
-	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
-	DisplayConditions IntSlice `gorm:"type:TEXT"`
 }
 
 // RectAnchoredRectDB describes a rectanchoredrect in the database
@@ -352,42 +346,6 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseTwoIn
 		rectanchoredrectDB.CopyBasicFieldsFromRectAnchoredRect(rectanchoredrect)
 
 		// insertion point for translating pointers encodings into actual pointers
-		// 1. reset
-		rectanchoredrectDB.RectAnchoredRectPointersEncoding.HoveringTrigger = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range rectanchoredrect.HoveringTrigger {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			rectanchoredrectDB.RectAnchoredRectPointersEncoding.HoveringTrigger =
-				append(rectanchoredrectDB.RectAnchoredRectPointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
-		rectanchoredrectDB.RectAnchoredRectPointersEncoding.DisplayConditions = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range rectanchoredrect.DisplayConditions {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			rectanchoredrectDB.RectAnchoredRectPointersEncoding.DisplayConditions =
-				append(rectanchoredrectDB.RectAnchoredRectPointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
-		}
-
 		_, err := backRepoRectAnchoredRect.db.Save(rectanchoredrectDB)
 		if err != nil {
 			log.Fatal(err)
@@ -501,24 +459,6 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CheckoutPhaseTwo
 func (rectanchoredrectDB *RectAnchoredRectDB) DecodePointers(backRepo *BackRepoStruct, rectanchoredrect *models.RectAnchoredRect) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem rectanchoredrect.HoveringTrigger in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	rectanchoredrect.HoveringTrigger = rectanchoredrect.HoveringTrigger[:0]
-	for _, _Conditionid := range rectanchoredrectDB.RectAnchoredRectPointersEncoding.HoveringTrigger {
-		rectanchoredrect.HoveringTrigger = append(rectanchoredrect.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
-	// This loop redeem rectanchoredrect.DisplayConditions in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	rectanchoredrect.DisplayConditions = rectanchoredrect.DisplayConditions[:0]
-	for _, _Conditionid := range rectanchoredrectDB.RectAnchoredRectPointersEncoding.DisplayConditions {
-		rectanchoredrect.DisplayConditions = append(rectanchoredrect.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
 	return
 }
 

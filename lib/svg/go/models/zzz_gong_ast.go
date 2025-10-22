@@ -886,26 +886,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Circle":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Circle[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Circle[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animations":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -924,26 +904,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Ellipse":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Ellipse[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Ellipse[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1062,26 +1022,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Line":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Line[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Line[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1126,50 +1066,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
 								instanceWhoseFieldIsAppended.ControlPoints = append(instanceWhoseFieldIsAppended.ControlPoints, instanceToAppend)
 							}
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						}
 					case "LinkAnchoredText":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_LinkAnchoredText[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_LinkAnchoredText[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1184,26 +1084,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Path":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Path[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Path[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1222,26 +1102,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Polygone":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Polygone[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Polygone[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1256,26 +1116,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Polyline":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Polyline[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Polyline[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1354,74 +1194,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "RectAnchoredPath":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredPath[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredPath[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						}
 					case "RectAnchoredRect":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredRect[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredRect[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						}
 					case "RectAnchoredText":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredText[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectAnchoredText[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -1436,26 +1216,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "RectLinkLink":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectLinkLink[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_RectLinkLink[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						}
 					case "SVG":
 						switch fieldName {
@@ -1478,26 +1238,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Text":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "HoveringTrigger":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Text[identifier]
-								instanceWhoseFieldIsAppended.HoveringTrigger = append(instanceWhoseFieldIsAppended.HoveringTrigger, instanceToAppend)
-							}
-						case "DisplayConditions":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Condition[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Text[identifier]
-								instanceWhoseFieldIsAppended.DisplayConditions = append(instanceWhoseFieldIsAppended.DisplayConditions, instanceToAppend)
-							}
 						case "Animates":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {

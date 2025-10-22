@@ -22,7 +22,6 @@ type RectAnchoredText struct {
 	WritingMode WritingMode
 
 	Presentation
-	ShapeConditions
 	Animates []*Animate
 }
 

@@ -17,7 +17,6 @@ import { Path, CopyPathToPathAPI } from './path'
 import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
-import { ConditionAPI } from './condition-api'
 import { AnimateAPI } from './animate-api'
 
 @Injectable({

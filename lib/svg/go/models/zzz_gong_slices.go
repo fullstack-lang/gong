@@ -10,22 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Circle
 	// insertion point per field
-	clear(stage.Circle_HoveringTrigger_reverseMap)
-	stage.Circle_HoveringTrigger_reverseMap = make(map[*Condition]*Circle)
-	for circle := range stage.Circles {
-		_ = circle
-		for _, _condition := range circle.HoveringTrigger {
-			stage.Circle_HoveringTrigger_reverseMap[_condition] = circle
-		}
-	}
-	clear(stage.Circle_DisplayConditions_reverseMap)
-	stage.Circle_DisplayConditions_reverseMap = make(map[*Condition]*Circle)
-	for circle := range stage.Circles {
-		_ = circle
-		for _, _condition := range circle.DisplayConditions {
-			stage.Circle_DisplayConditions_reverseMap[_condition] = circle
-		}
-	}
 	clear(stage.Circle_Animations_reverseMap)
 	stage.Circle_Animations_reverseMap = make(map[*Animate]*Circle)
 	for circle := range stage.Circles {
@@ -40,22 +24,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Ellipse
 	// insertion point per field
-	clear(stage.Ellipse_HoveringTrigger_reverseMap)
-	stage.Ellipse_HoveringTrigger_reverseMap = make(map[*Condition]*Ellipse)
-	for ellipse := range stage.Ellipses {
-		_ = ellipse
-		for _, _condition := range ellipse.HoveringTrigger {
-			stage.Ellipse_HoveringTrigger_reverseMap[_condition] = ellipse
-		}
-	}
-	clear(stage.Ellipse_DisplayConditions_reverseMap)
-	stage.Ellipse_DisplayConditions_reverseMap = make(map[*Condition]*Ellipse)
-	for ellipse := range stage.Ellipses {
-		_ = ellipse
-		for _, _condition := range ellipse.DisplayConditions {
-			stage.Ellipse_DisplayConditions_reverseMap[_condition] = ellipse
-		}
-	}
 	clear(stage.Ellipse_Animates_reverseMap)
 	stage.Ellipse_Animates_reverseMap = make(map[*Animate]*Ellipse)
 	for ellipse := range stage.Ellipses {
@@ -150,22 +118,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Line
 	// insertion point per field
-	clear(stage.Line_HoveringTrigger_reverseMap)
-	stage.Line_HoveringTrigger_reverseMap = make(map[*Condition]*Line)
-	for line := range stage.Lines {
-		_ = line
-		for _, _condition := range line.HoveringTrigger {
-			stage.Line_HoveringTrigger_reverseMap[_condition] = line
-		}
-	}
-	clear(stage.Line_DisplayConditions_reverseMap)
-	stage.Line_DisplayConditions_reverseMap = make(map[*Condition]*Line)
-	for line := range stage.Lines {
-		_ = line
-		for _, _condition := range line.DisplayConditions {
-			stage.Line_DisplayConditions_reverseMap[_condition] = line
-		}
-	}
 	clear(stage.Line_Animates_reverseMap)
 	stage.Line_Animates_reverseMap = make(map[*Animate]*Line)
 	for line := range stage.Lines {
@@ -201,41 +153,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_ControlPoints_reverseMap[_point] = link
 		}
 	}
-	clear(stage.Link_HoveringTrigger_reverseMap)
-	stage.Link_HoveringTrigger_reverseMap = make(map[*Condition]*Link)
-	for link := range stage.Links {
-		_ = link
-		for _, _condition := range link.HoveringTrigger {
-			stage.Link_HoveringTrigger_reverseMap[_condition] = link
-		}
-	}
-	clear(stage.Link_DisplayConditions_reverseMap)
-	stage.Link_DisplayConditions_reverseMap = make(map[*Condition]*Link)
-	for link := range stage.Links {
-		_ = link
-		for _, _condition := range link.DisplayConditions {
-			stage.Link_DisplayConditions_reverseMap[_condition] = link
-		}
-	}
 
 	// Compute reverse map for named struct LinkAnchoredText
 	// insertion point per field
-	clear(stage.LinkAnchoredText_HoveringTrigger_reverseMap)
-	stage.LinkAnchoredText_HoveringTrigger_reverseMap = make(map[*Condition]*LinkAnchoredText)
-	for linkanchoredtext := range stage.LinkAnchoredTexts {
-		_ = linkanchoredtext
-		for _, _condition := range linkanchoredtext.HoveringTrigger {
-			stage.LinkAnchoredText_HoveringTrigger_reverseMap[_condition] = linkanchoredtext
-		}
-	}
-	clear(stage.LinkAnchoredText_DisplayConditions_reverseMap)
-	stage.LinkAnchoredText_DisplayConditions_reverseMap = make(map[*Condition]*LinkAnchoredText)
-	for linkanchoredtext := range stage.LinkAnchoredTexts {
-		_ = linkanchoredtext
-		for _, _condition := range linkanchoredtext.DisplayConditions {
-			stage.LinkAnchoredText_DisplayConditions_reverseMap[_condition] = linkanchoredtext
-		}
-	}
 	clear(stage.LinkAnchoredText_Animates_reverseMap)
 	stage.LinkAnchoredText_Animates_reverseMap = make(map[*Animate]*LinkAnchoredText)
 	for linkanchoredtext := range stage.LinkAnchoredTexts {
@@ -247,22 +167,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Path
 	// insertion point per field
-	clear(stage.Path_HoveringTrigger_reverseMap)
-	stage.Path_HoveringTrigger_reverseMap = make(map[*Condition]*Path)
-	for path := range stage.Paths {
-		_ = path
-		for _, _condition := range path.HoveringTrigger {
-			stage.Path_HoveringTrigger_reverseMap[_condition] = path
-		}
-	}
-	clear(stage.Path_DisplayConditions_reverseMap)
-	stage.Path_DisplayConditions_reverseMap = make(map[*Condition]*Path)
-	for path := range stage.Paths {
-		_ = path
-		for _, _condition := range path.DisplayConditions {
-			stage.Path_DisplayConditions_reverseMap[_condition] = path
-		}
-	}
 	clear(stage.Path_Animates_reverseMap)
 	stage.Path_Animates_reverseMap = make(map[*Animate]*Path)
 	for path := range stage.Paths {
@@ -277,22 +181,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Polygone
 	// insertion point per field
-	clear(stage.Polygone_HoveringTrigger_reverseMap)
-	stage.Polygone_HoveringTrigger_reverseMap = make(map[*Condition]*Polygone)
-	for polygone := range stage.Polygones {
-		_ = polygone
-		for _, _condition := range polygone.HoveringTrigger {
-			stage.Polygone_HoveringTrigger_reverseMap[_condition] = polygone
-		}
-	}
-	clear(stage.Polygone_DisplayConditions_reverseMap)
-	stage.Polygone_DisplayConditions_reverseMap = make(map[*Condition]*Polygone)
-	for polygone := range stage.Polygones {
-		_ = polygone
-		for _, _condition := range polygone.DisplayConditions {
-			stage.Polygone_DisplayConditions_reverseMap[_condition] = polygone
-		}
-	}
 	clear(stage.Polygone_Animates_reverseMap)
 	stage.Polygone_Animates_reverseMap = make(map[*Animate]*Polygone)
 	for polygone := range stage.Polygones {
@@ -304,22 +192,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Polyline
 	// insertion point per field
-	clear(stage.Polyline_HoveringTrigger_reverseMap)
-	stage.Polyline_HoveringTrigger_reverseMap = make(map[*Condition]*Polyline)
-	for polyline := range stage.Polylines {
-		_ = polyline
-		for _, _condition := range polyline.HoveringTrigger {
-			stage.Polyline_HoveringTrigger_reverseMap[_condition] = polyline
-		}
-	}
-	clear(stage.Polyline_DisplayConditions_reverseMap)
-	stage.Polyline_DisplayConditions_reverseMap = make(map[*Condition]*Polyline)
-	for polyline := range stage.Polylines {
-		_ = polyline
-		for _, _condition := range polyline.DisplayConditions {
-			stage.Polyline_DisplayConditions_reverseMap[_condition] = polyline
-		}
-	}
 	clear(stage.Polyline_Animates_reverseMap)
 	stage.Polyline_Animates_reverseMap = make(map[*Animate]*Polyline)
 	for polyline := range stage.Polylines {
@@ -382,60 +254,12 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct RectAnchoredPath
 	// insertion point per field
-	clear(stage.RectAnchoredPath_HoveringTrigger_reverseMap)
-	stage.RectAnchoredPath_HoveringTrigger_reverseMap = make(map[*Condition]*RectAnchoredPath)
-	for rectanchoredpath := range stage.RectAnchoredPaths {
-		_ = rectanchoredpath
-		for _, _condition := range rectanchoredpath.HoveringTrigger {
-			stage.RectAnchoredPath_HoveringTrigger_reverseMap[_condition] = rectanchoredpath
-		}
-	}
-	clear(stage.RectAnchoredPath_DisplayConditions_reverseMap)
-	stage.RectAnchoredPath_DisplayConditions_reverseMap = make(map[*Condition]*RectAnchoredPath)
-	for rectanchoredpath := range stage.RectAnchoredPaths {
-		_ = rectanchoredpath
-		for _, _condition := range rectanchoredpath.DisplayConditions {
-			stage.RectAnchoredPath_DisplayConditions_reverseMap[_condition] = rectanchoredpath
-		}
-	}
 
 	// Compute reverse map for named struct RectAnchoredRect
 	// insertion point per field
-	clear(stage.RectAnchoredRect_HoveringTrigger_reverseMap)
-	stage.RectAnchoredRect_HoveringTrigger_reverseMap = make(map[*Condition]*RectAnchoredRect)
-	for rectanchoredrect := range stage.RectAnchoredRects {
-		_ = rectanchoredrect
-		for _, _condition := range rectanchoredrect.HoveringTrigger {
-			stage.RectAnchoredRect_HoveringTrigger_reverseMap[_condition] = rectanchoredrect
-		}
-	}
-	clear(stage.RectAnchoredRect_DisplayConditions_reverseMap)
-	stage.RectAnchoredRect_DisplayConditions_reverseMap = make(map[*Condition]*RectAnchoredRect)
-	for rectanchoredrect := range stage.RectAnchoredRects {
-		_ = rectanchoredrect
-		for _, _condition := range rectanchoredrect.DisplayConditions {
-			stage.RectAnchoredRect_DisplayConditions_reverseMap[_condition] = rectanchoredrect
-		}
-	}
 
 	// Compute reverse map for named struct RectAnchoredText
 	// insertion point per field
-	clear(stage.RectAnchoredText_HoveringTrigger_reverseMap)
-	stage.RectAnchoredText_HoveringTrigger_reverseMap = make(map[*Condition]*RectAnchoredText)
-	for rectanchoredtext := range stage.RectAnchoredTexts {
-		_ = rectanchoredtext
-		for _, _condition := range rectanchoredtext.HoveringTrigger {
-			stage.RectAnchoredText_HoveringTrigger_reverseMap[_condition] = rectanchoredtext
-		}
-	}
-	clear(stage.RectAnchoredText_DisplayConditions_reverseMap)
-	stage.RectAnchoredText_DisplayConditions_reverseMap = make(map[*Condition]*RectAnchoredText)
-	for rectanchoredtext := range stage.RectAnchoredTexts {
-		_ = rectanchoredtext
-		for _, _condition := range rectanchoredtext.DisplayConditions {
-			stage.RectAnchoredText_DisplayConditions_reverseMap[_condition] = rectanchoredtext
-		}
-	}
 	clear(stage.RectAnchoredText_Animates_reverseMap)
 	stage.RectAnchoredText_Animates_reverseMap = make(map[*Animate]*RectAnchoredText)
 	for rectanchoredtext := range stage.RectAnchoredTexts {
@@ -447,22 +271,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct RectLinkLink
 	// insertion point per field
-	clear(stage.RectLinkLink_HoveringTrigger_reverseMap)
-	stage.RectLinkLink_HoveringTrigger_reverseMap = make(map[*Condition]*RectLinkLink)
-	for rectlinklink := range stage.RectLinkLinks {
-		_ = rectlinklink
-		for _, _condition := range rectlinklink.HoveringTrigger {
-			stage.RectLinkLink_HoveringTrigger_reverseMap[_condition] = rectlinklink
-		}
-	}
-	clear(stage.RectLinkLink_DisplayConditions_reverseMap)
-	stage.RectLinkLink_DisplayConditions_reverseMap = make(map[*Condition]*RectLinkLink)
-	for rectlinklink := range stage.RectLinkLinks {
-		_ = rectlinklink
-		for _, _condition := range rectlinklink.DisplayConditions {
-			stage.RectLinkLink_DisplayConditions_reverseMap[_condition] = rectlinklink
-		}
-	}
 
 	// Compute reverse map for named struct SVG
 	// insertion point per field
@@ -480,22 +288,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Text
 	// insertion point per field
-	clear(stage.Text_HoveringTrigger_reverseMap)
-	stage.Text_HoveringTrigger_reverseMap = make(map[*Condition]*Text)
-	for text := range stage.Texts {
-		_ = text
-		for _, _condition := range text.HoveringTrigger {
-			stage.Text_HoveringTrigger_reverseMap[_condition] = text
-		}
-	}
-	clear(stage.Text_DisplayConditions_reverseMap)
-	stage.Text_DisplayConditions_reverseMap = make(map[*Condition]*Text)
-	for text := range stage.Texts {
-		_ = text
-		for _, _condition := range text.DisplayConditions {
-			stage.Text_DisplayConditions_reverseMap[_condition] = text
-		}
-	}
 	clear(stage.Text_Animates_reverseMap)
 	stage.Text_Animates_reverseMap = make(map[*Animate]*Text)
 	for text := range stage.Texts {
