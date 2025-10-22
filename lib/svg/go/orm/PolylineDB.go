@@ -48,12 +48,6 @@ type PolylineAPI struct {
 type PolylinePointersEncoding struct {
 	// insertion for pointer fields encoding declaration
 
-	// field HoveringTrigger is a slice of pointers to another Struct (optional or 0..1)
-	HoveringTrigger IntSlice `gorm:"type:TEXT"`
-
-	// field DisplayConditions is a slice of pointers to another Struct (optional or 0..1)
-	DisplayConditions IntSlice `gorm:"type:TEXT"`
-
 	// field Animates is a slice of pointers to another Struct (optional or 0..1)
 	Animates IntSlice `gorm:"type:TEXT"`
 }
@@ -287,42 +281,6 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 
 		// insertion point for translating pointers encodings into actual pointers
 		// 1. reset
-		polylineDB.PolylinePointersEncoding.HoveringTrigger = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range polyline.HoveringTrigger {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			polylineDB.PolylinePointersEncoding.HoveringTrigger =
-				append(polylineDB.PolylinePointersEncoding.HoveringTrigger, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
-		polylineDB.PolylinePointersEncoding.DisplayConditions = make([]int, 0)
-		// 2. encode
-		for _, conditionAssocEnd := range polyline.DisplayConditions {
-			conditionAssocEnd_DB :=
-				backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionAssocEnd)
-			
-			// the stage might be inconsistant, meaning that the conditionAssocEnd_DB might
-			// be missing from the stage. In this case, the commit operation is robust
-			// An alternative would be to crash here to reveal the missing element.
-			if conditionAssocEnd_DB == nil {
-				continue
-			}
-			
-			polylineDB.PolylinePointersEncoding.DisplayConditions =
-				append(polylineDB.PolylinePointersEncoding.DisplayConditions, int(conditionAssocEnd_DB.ID))
-		}
-
-		// 1. reset
 		polylineDB.PolylinePointersEncoding.Animates = make([]int, 0)
 		// 2. encode
 		for _, animateAssocEnd := range polyline.Animates {
@@ -453,24 +411,6 @@ func (backRepoPolyline *BackRepoPolylineStruct) CheckoutPhaseTwoInstance(backRep
 func (polylineDB *PolylineDB) DecodePointers(backRepo *BackRepoStruct, polyline *models.Polyline) {
 
 	// insertion point for checkout of pointer encoding
-	// This loop redeem polyline.HoveringTrigger in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	polyline.HoveringTrigger = polyline.HoveringTrigger[:0]
-	for _, _Conditionid := range polylineDB.PolylinePointersEncoding.HoveringTrigger {
-		polyline.HoveringTrigger = append(polyline.HoveringTrigger, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
-	// This loop redeem polyline.DisplayConditions in the stage from the encode in the back repo
-	// It parses all ConditionDB in the back repo and if the reverse pointer encoding matches the back repo ID
-	// it appends the stage instance
-	// 1. reset the slice
-	polyline.DisplayConditions = polyline.DisplayConditions[:0]
-	for _, _Conditionid := range polylineDB.PolylinePointersEncoding.DisplayConditions {
-		polyline.DisplayConditions = append(polyline.DisplayConditions, backRepo.BackRepoCondition.Map_ConditionDBID_ConditionPtr[uint(_Conditionid)])
-	}
-
 	// This loop redeem polyline.Animates in the stage from the encode in the back repo
 	// It parses all AnimateDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance

@@ -23,7 +23,6 @@ type LinkAnchoredText struct {
 	TextAttributes
 
 	Presentation
-	ShapeConditions
 	Animates []*Animate
 
 	Impl LinkAnchoredTextImplInterface

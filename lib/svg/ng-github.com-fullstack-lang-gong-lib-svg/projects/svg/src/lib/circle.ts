@@ -4,7 +4,6 @@ import { CircleAPI } from './circle-api'
 import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
-import { Condition } from './condition'
 import { Animate } from './animate'
 
 // usefull for managing pointer ID values that can be nullable
@@ -33,8 +32,6 @@ export class Circle {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
-	HoveringTrigger: Array<Condition> = []
-	DisplayConditions: Array<Condition> = []
 	Animations: Array<Animate> = []
 }
 
@@ -61,16 +58,6 @@ export function CopyCircleToCircleAPI(circle: Circle, circleAPI: CircleAPI) {
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	circleAPI.CirclePointersEncoding.HoveringTrigger = []
-	for (let _condition of circle.HoveringTrigger) {
-		circleAPI.CirclePointersEncoding.HoveringTrigger.push(_condition.ID)
-	}
-
-	circleAPI.CirclePointersEncoding.DisplayConditions = []
-	for (let _condition of circle.DisplayConditions) {
-		circleAPI.CirclePointersEncoding.DisplayConditions.push(_condition.ID)
-	}
-
 	circleAPI.CirclePointersEncoding.Animations = []
 	for (let _animate of circle.Animations) {
 		circleAPI.CirclePointersEncoding.Animations.push(_animate.ID)
@@ -105,30 +92,6 @@ export function CopyCircleAPIToCircle(circleAPI: CircleAPI, circle: Circle, fron
 	// insertion point for pointer fields encoding
 
 	// insertion point for slice of pointers fields encoding
-	if (!Array.isArray(circleAPI.CirclePointersEncoding.HoveringTrigger)) {
-		console.error('Rects is not an array:', circleAPI.CirclePointersEncoding.HoveringTrigger);
-		return;
-	}
-
-	circle.HoveringTrigger = new Array<Condition>()
-	for (let _id of circleAPI.CirclePointersEncoding.HoveringTrigger) {
-		let _condition = frontRepo.map_ID_Condition.get(_id)
-		if (_condition != undefined) {
-			circle.HoveringTrigger.push(_condition!)
-		}
-	}
-	if (!Array.isArray(circleAPI.CirclePointersEncoding.DisplayConditions)) {
-		console.error('Rects is not an array:', circleAPI.CirclePointersEncoding.DisplayConditions);
-		return;
-	}
-
-	circle.DisplayConditions = new Array<Condition>()
-	for (let _id of circleAPI.CirclePointersEncoding.DisplayConditions) {
-		let _condition = frontRepo.map_ID_Condition.get(_id)
-		if (_condition != undefined) {
-			circle.DisplayConditions.push(_condition!)
-		}
-	}
 	if (!Array.isArray(circleAPI.CirclePointersEncoding.Animations)) {
 		console.error('Rects is not an array:', circleAPI.CirclePointersEncoding.Animations);
 		return;
