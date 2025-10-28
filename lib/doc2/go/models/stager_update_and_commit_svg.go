@@ -259,25 +259,27 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 				targetMulitplicity.LetterSpacing = "0.1em"
 			}
 
-			fieldName := new(svg_models.LinkAnchoredText)
-			fieldName.AutomaticLayout = true
-			fieldName.LinkAnchorType = svg_models.LINK_LEFT_OR_TOP
+			if !stager.hideLinkNames {
+				fieldName := new(svg_models.LinkAnchoredText)
+				fieldName.AutomaticLayout = true
+				fieldName.LinkAnchorType = svg_models.LINK_LEFT_OR_TOP
 
-			fieldName.Impl = NewAnchoredTextImplLinkFieldName(linkShape, stager.stage)
+				fieldName.Impl = NewAnchoredTextImplLinkFieldName(linkShape, stager.stage)
 
-			link.TextAtArrowEnd = append(link.TextAtArrowEnd, fieldName)
-			fieldName.Name = linkShape.GetName()
-			fieldName.Content = fieldName.Name
-			fieldName.Y_Offset = linkShape.FieldOffsetY
-			fieldName.X_Offset = linkShape.FieldOffsetX
-			fieldName.Stroke = svg_models.Black.ToString()
-			fieldName.StrokeOpacity = 1
-			fieldName.StrokeWidth = 1
-			fieldName.Color = svg_models.Black.ToString()
-			fieldName.FillOpacity = 100
-			fieldName.FontWeight = "300"
-			fieldName.FontSize = "15"
-			fieldName.LetterSpacing = "0.1em"
+				link.TextAtArrowEnd = append(link.TextAtArrowEnd, fieldName)
+				fieldName.Name = linkShape.GetName()
+				fieldName.Content = fieldName.Name
+				fieldName.Y_Offset = linkShape.FieldOffsetY
+				fieldName.X_Offset = linkShape.FieldOffsetX
+				fieldName.Stroke = svg_models.Black.ToString()
+				fieldName.StrokeOpacity = 1
+				fieldName.StrokeWidth = 1
+				fieldName.Color = svg_models.Black.ToString()
+				fieldName.FillOpacity = 100
+				fieldName.FontWeight = "300"
+				fieldName.FontSize = "15"
+				fieldName.LetterSpacing = "0.1em"
+			}
 
 			// add the callback
 			if !stager.hideMultiplicity {
