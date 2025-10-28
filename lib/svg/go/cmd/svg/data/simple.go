@@ -499,7 +499,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredRect__000002_TopRight.RX = 5.000000
 	__RectAnchoredRect__000002_TopRight.X_Offset = 0.000000
 	__RectAnchoredRect__000002_TopRight.Y_Offset = 0.000000
-	// __RectAnchoredRect__000002_TopRight.RectAnchorType = models.RECT_TOP_RIGHT
+	__RectAnchoredRect__000002_TopRight.RectAnchorType = models.RECT_TOP_RIGHT
 	__RectAnchoredRect__000002_TopRight.WidthFollowRect = false
 	__RectAnchoredRect__000002_TopRight.HeightFollowRect = false
 	__RectAnchoredRect__000002_TopRight.HasToolTip = false
