@@ -62,23 +62,68 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		)
 	}
 
-	button := &tree.Button{
-		Name: "Show/Unshow number of instances",
-		Impl: &ButtonToggleShowNbInstancesProxy{
-			stager: stager,
-		},
-		HasToolTip:      true,
-		ToolTipPosition: tree.Right,
-	}
-	if stager.hideNbInstances {
-		button.ToolTipText = "Show nb of instances"
-		button.Icon = string(buttons.BUTTON_visibility)
-	} else {
-		button.ToolTipText = "Hide nb of instances"
-		button.Icon = string(buttons.BUTTON_visibility_off)
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow number of instances",
+			Impl: &ButtonToggleShowNbInstancesProxy{
+				stager: stager,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if stager.hideNbInstances {
+			button.ToolTipText = "Show nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		root.Buttons = append(root.Buttons, button)
 	}
 
-	root.Buttons = append(root.Buttons, button)
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow multiplicity",
+			Impl: &ButtonToggleShowMultiplicityProxy{
+				stager: stager,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if stager.hideNbInstances {
+			button.ToolTipText = "Show multiplicity"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide multiplicity"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		root.Buttons = append(root.Buttons, button)
+	}
+
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow Link Names",
+			Impl: &ButtonToggleShowLinkNamesProxy{
+				stager: stager,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if stager.hideNbInstances {
+			button.ToolTipText = "Show Link Names"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide Link Names"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		root.Buttons = append(root.Buttons, button)
+	}
 
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
