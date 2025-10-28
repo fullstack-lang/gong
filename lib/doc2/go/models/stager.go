@@ -39,6 +39,7 @@ type Stager struct {
 	// this map is managed by callee stage struct
 	map_GongStructName_InstancesNb map[string]int
 	hideNbInstances                bool
+	hideMultiplicity               bool
 }
 
 func NewStager(
