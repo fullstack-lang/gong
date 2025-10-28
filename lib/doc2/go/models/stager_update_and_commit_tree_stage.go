@@ -104,6 +104,27 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		root.Buttons = append(root.Buttons, button)
 	}
 
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow Link Names",
+			Impl: &ButtonToggleShowLinkNamesProxy{
+				stager: stager,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if stager.hideNbInstances {
+			button.ToolTipText = "Show Link Names"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide Link Names"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		root.Buttons = append(root.Buttons, button)
+	}
+
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
 

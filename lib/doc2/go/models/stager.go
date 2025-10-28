@@ -40,6 +40,7 @@ type Stager struct {
 	map_GongStructName_InstancesNb map[string]int
 	hideNbInstances                bool
 	hideMultiplicity               bool
+	hideLinkNames                  bool
 }
 
 func NewStager(
