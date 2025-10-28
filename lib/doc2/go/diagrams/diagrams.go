@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-13 05:53:05.251489 CEST"
-	const __write__utc_time__ = "2025-10-13 03:53:05.251489 UTC"
+	const __write__local_time = "2025-10-28 15:28:01.968146 CET"
+	const __write__utc_time__ = "2025-10-28 14:28:01.968146 UTC"
 
-	const __commitId__ = "0000000036"
+	const __commitId__ = "0000000056"
 
 	// Declaration of instances to stage
 
@@ -49,7 +49,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.IsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
@@ -75,7 +75,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000002_NoteShape.IsInRenameMode = false
 	__Classdiagram__000002_NoteShape.IsExpanded = true
 	__Classdiagram__000002_NoteShape.NodeGongStructsIsExpanded = true
-	__Classdiagram__000002_NoteShape.NodeGongStructNodeExpansion = `[false,false,false,false,false,true,true]`
+	__Classdiagram__000002_NoteShape.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,true]`
 	__Classdiagram__000002_NoteShape.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000002_NoteShape.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000002_NoteShape.NodeGongNotesIsExpanded = false
