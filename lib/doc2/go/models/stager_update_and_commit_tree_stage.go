@@ -435,11 +435,11 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 
 			for _, gongLink := range gongNote.Links {
 
-				_, isGongLinkShapeInDiagram := map_modelElement_shape[gongLink] // Corrected variable name from original
-				// gongNoteLinkShape, ok := shape.(*GongNoteLinkShape) // 'shape' not defined in this scope for link
-				// if isGongLinkShapeInDiagram && !ok {
-				// 	log.Fatalln("a gongnote link should be associated to a gongnote link shape")
-				// }
+				shape, isGongLinkShapeInDiagram := map_modelElement_shape[gongLink] // Corrected variable name from original
+				gongNoteLinkShape, ok := shape.(*GongNoteLinkShape)                 // 'shape' not defined in this scope for link
+				if isGongLinkShapeInDiagram && !ok {
+					log.Fatalln("a gongnote link should be associated to a gongnote link shape")
+				}
 				// _ = gongNoteLinkShape
 
 				docLinkNode := &tree.Node{
@@ -447,6 +447,15 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 					HasCheckboxButton: true,
 					IsChecked:         isGongLinkShapeInDiagram,
 					IsExpanded:        noteIsExpanded, // Links inherit expansion from parent note
+				}
+				docLinkNode.Impl = &GongNoteLinkNodeProxy{
+					node:              docLinkNode,
+					stager:            stager,
+					classDiagram:      classDiagram,
+					gongNote:          gongNote,
+					gongNoteShape:     gongNoteShape,
+					gongNoteLink:      gongLink,
+					gongNoteLinkShape: gongNoteLinkShape,
 				}
 				gongNoteNode.Children = append(gongNoteNode.Children, docLinkNode)
 			}

@@ -510,14 +510,14 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		startRect := stager.map_NoteShape_Rect[noteShape]
 		_ = startRect
 
-		for _, noteLink := range noteShape.GongNoteLinkShapes {
+		for _, gongNoteLinkShape := range noteShape.GongNoteLinkShapes {
 
-			if noteLink.Type == NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE {
+			if gongNoteLinkShape.Type == NOTE_SHAPE_LINK_TO_GONG_STRUCT_OR_ENUM_SHAPE {
 
 				var endRect *svg_models.Rect
 				var ok bool
 				// find the endRect
-				endRect, ok = stager.map_Structname_Rect[noteLink.Identifier]
+				endRect, ok = stager.map_Structname_Rect[gongNoteLinkShape.Identifier]
 				if ok {
 					// create the link
 					link := new(svg_models.Link)
@@ -554,13 +554,13 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 				}
 
 			}
-			if noteLink.Type == NOTE_SHAPE_LINK_TO_GONG_FIELD {
+			if gongNoteLinkShape.Type == NOTE_SHAPE_LINK_TO_GONG_FIELD {
 
 				var endLink *svg_models.Link
 				_ = endLink
 				var ok bool
 				// find the endLink
-				endLink, ok = stager.map_Fieldname_Link[noteLink.Identifier]
+				endLink, ok = stager.map_Fieldname_Link[gongNoteLinkShape.Identifier]
 				if ok {
 					rectLinkLink := new(svg_models.RectLinkLink)
 					rectLinkLink.Name = startRect.Name + " - to - " + endLink.Name
