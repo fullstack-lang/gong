@@ -1223,7 +1223,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         anchorX = parentRect.X + parentRect.Width + anchoredRect.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
-      case svg.RectAnchorType.RECT_CENTER, "":
+      case svg.RectAnchorType.RECT_CENTER:
         anchorX = parentRect.X + parentRect.Width / 2 + anchoredRect.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + anchoredRect.Y_Offset;
         break;
@@ -1288,7 +1288,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         anchorX = parentRect.X + parentRect.Width + path.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
-      case svg.RectAnchorType.RECT_CENTER, "":
+      case svg.RectAnchorType.RECT_CENTER:
         anchorX = parentRect.X + parentRect.Width / 2 + path.X_Offset;
         anchorY = parentRect.Y + parentRect.Height / 2 + path.Y_Offset;
         break;
@@ -1352,7 +1352,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
         anchorX = rect.X + rect.Width + text.X_Offset;
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         break;
-      case svg.RectAnchorType.RECT_CENTER, "":
+      case svg.RectAnchorType.RECT_CENTER:
         anchorX = rect.X + rect.Width / 2 + text.X_Offset;
         anchorY = rect.Y + rect.Height / 2 + text.Y_Offset;
         break;
