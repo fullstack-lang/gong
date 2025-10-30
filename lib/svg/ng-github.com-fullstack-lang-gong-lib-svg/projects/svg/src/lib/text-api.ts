@@ -29,6 +29,7 @@ export class TextAPI {
 	FontSize: string = ""
 	FontStyle: string = ""
 	LetterSpacing: string = ""
+	FontFamily: string = ""
 
 	// insertion point for other decls
 

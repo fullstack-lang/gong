@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-22 07:31:20.880600 CEST"
-	const __write__utc_time__ = "2025-10-22 05:31:20.880600 UTC"
+	const __write__local_time = "2025-10-30 16:40:50.354301 CET"
+	const __write__utc_time__ = "2025-10-30 15:40:50.354301 UTC"
 
-	const __commitId__ = "0000000097"
+	const __commitId__ = "0000000102"
 
 	// Declaration of instances to stage
 
@@ -121,6 +121,7 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000000_LEFT_OR_TOP.FontSize = ``
 	__LinkAnchoredText__000000_LEFT_OR_TOP.FontStyle = ``
 	__LinkAnchoredText__000000_LEFT_OR_TOP.LetterSpacing = ``
+	__LinkAnchoredText__000000_LEFT_OR_TOP.FontFamily = ``
 	__LinkAnchoredText__000000_LEFT_OR_TOP.Color = `black`
 	__LinkAnchoredText__000000_LEFT_OR_TOP.FillOpacity = 1.000000
 	__LinkAnchoredText__000000_LEFT_OR_TOP.Stroke = `black`
@@ -140,6 +141,7 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontSize = ``
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontStyle = ``
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.LetterSpacing = ``
+	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FontFamily = ``
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Color = `black`
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.FillOpacity = 1.000000
 	__LinkAnchoredText__000001_RIGHT_OR_BOTTOM.Stroke = `black`
@@ -717,6 +719,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000000_TopLeft.FontSize = ``
 	__RectAnchoredText__000000_TopLeft.FontStyle = ``
 	__RectAnchoredText__000000_TopLeft.LetterSpacing = ``
+	__RectAnchoredText__000000_TopLeft.FontFamily = ``
 	__RectAnchoredText__000000_TopLeft.X_Offset = 0.000000
 	__RectAnchoredText__000000_TopLeft.Y_Offset = 0.000000
 	__RectAnchoredText__000000_TopLeft.RectAnchorType = models.RECT_TOP_LEFT
@@ -736,6 +739,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000001_TopRight.FontSize = ``
 	__RectAnchoredText__000001_TopRight.FontStyle = ``
 	__RectAnchoredText__000001_TopRight.LetterSpacing = ``
+	__RectAnchoredText__000001_TopRight.FontFamily = ``
 	__RectAnchoredText__000001_TopRight.X_Offset = 0.000000
 	__RectAnchoredText__000001_TopRight.Y_Offset = 0.000000
 	__RectAnchoredText__000001_TopRight.RectAnchorType = models.RECT_TOP_RIGHT
@@ -755,6 +759,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000002_Test.FontSize = ``
 	__RectAnchoredText__000002_Test.FontStyle = ``
 	__RectAnchoredText__000002_Test.LetterSpacing = ``
+	__RectAnchoredText__000002_Test.FontFamily = ``
 	__RectAnchoredText__000002_Test.X_Offset = 0.000000
 	__RectAnchoredText__000002_Test.Y_Offset = 0.000000
 	__RectAnchoredText__000002_Test.RectAnchorType = models.RECT_BOTTOM
@@ -774,6 +779,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000003_BottomLeft.FontSize = ``
 	__RectAnchoredText__000003_BottomLeft.FontStyle = ``
 	__RectAnchoredText__000003_BottomLeft.LetterSpacing = ``
+	__RectAnchoredText__000003_BottomLeft.FontFamily = ``
 	__RectAnchoredText__000003_BottomLeft.X_Offset = 0.000000
 	__RectAnchoredText__000003_BottomLeft.Y_Offset = 0.000000
 	__RectAnchoredText__000003_BottomLeft.RectAnchorType = models.RECT_BOTTOM_LEFT
@@ -793,6 +799,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000004_BottomLeftLeft.FontSize = ``
 	__RectAnchoredText__000004_BottomLeftLeft.FontStyle = ``
 	__RectAnchoredText__000004_BottomLeftLeft.LetterSpacing = ``
+	__RectAnchoredText__000004_BottomLeftLeft.FontFamily = ``
 	__RectAnchoredText__000004_BottomLeftLeft.X_Offset = 0.000000
 	__RectAnchoredText__000004_BottomLeftLeft.Y_Offset = 0.000000
 	__RectAnchoredText__000004_BottomLeftLeft.RectAnchorType = models.RECT_BOTTOM_LEFT_LEFT
@@ -812,6 +819,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000005_BottomBottomLeft.FontSize = ``
 	__RectAnchoredText__000005_BottomBottomLeft.FontStyle = ``
 	__RectAnchoredText__000005_BottomBottomLeft.LetterSpacing = ``
+	__RectAnchoredText__000005_BottomBottomLeft.FontFamily = ``
 	__RectAnchoredText__000005_BottomBottomLeft.X_Offset = 0.000000
 	__RectAnchoredText__000005_BottomBottomLeft.Y_Offset = 0.000000
 	__RectAnchoredText__000005_BottomBottomLeft.RectAnchorType = models.RECT_BOTTOM_BOTTOM_LEFT
@@ -831,6 +839,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000006_BottomRight.FontSize = ``
 	__RectAnchoredText__000006_BottomRight.FontStyle = ``
 	__RectAnchoredText__000006_BottomRight.LetterSpacing = ``
+	__RectAnchoredText__000006_BottomRight.FontFamily = ``
 	__RectAnchoredText__000006_BottomRight.X_Offset = 0.000000
 	__RectAnchoredText__000006_BottomRight.Y_Offset = 0.000000
 	__RectAnchoredText__000006_BottomRight.RectAnchorType = models.RECT_BOTTOM_RIGHT
@@ -850,6 +859,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000007_BottomInsideRight.FontSize = ``
 	__RectAnchoredText__000007_BottomInsideRight.FontStyle = ``
 	__RectAnchoredText__000007_BottomInsideRight.LetterSpacing = ``
+	__RectAnchoredText__000007_BottomInsideRight.FontFamily = ``
 	__RectAnchoredText__000007_BottomInsideRight.X_Offset = -100.000000
 	__RectAnchoredText__000007_BottomInsideRight.Y_Offset = -70.000000
 	__RectAnchoredText__000007_BottomInsideRight.RectAnchorType = models.RECT_BOTTOM_INSIDE_RIGHT
@@ -869,6 +879,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000008_Left.FontSize = ``
 	__RectAnchoredText__000008_Left.FontStyle = ``
 	__RectAnchoredText__000008_Left.LetterSpacing = ``
+	__RectAnchoredText__000008_Left.FontFamily = ``
 	__RectAnchoredText__000008_Left.X_Offset = 0.000000
 	__RectAnchoredText__000008_Left.Y_Offset = 0.000000
 	__RectAnchoredText__000008_Left.RectAnchorType = models.RECT_LEFT
@@ -888,6 +899,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000009_Right.FontSize = ``
 	__RectAnchoredText__000009_Right.FontStyle = ``
 	__RectAnchoredText__000009_Right.LetterSpacing = ``
+	__RectAnchoredText__000009_Right.FontFamily = ``
 	__RectAnchoredText__000009_Right.X_Offset = 0.000000
 	__RectAnchoredText__000009_Right.Y_Offset = 0.000000
 	__RectAnchoredText__000009_Right.RectAnchorType = models.RECT_RIGHT
@@ -907,6 +919,7 @@ func _(stage *models.Stage) {
 	__RectAnchoredText__000010_Center.FontSize = ``
 	__RectAnchoredText__000010_Center.FontStyle = ``
 	__RectAnchoredText__000010_Center.LetterSpacing = ``
+	__RectAnchoredText__000010_Center.FontFamily = ``
 	__RectAnchoredText__000010_Center.X_Offset = 0.000000
 	__RectAnchoredText__000010_Center.Y_Offset = 0.000000
 	__RectAnchoredText__000010_Center.RectAnchorType = models.RECT_CENTER
@@ -926,9 +939,10 @@ func _(stage *models.Stage) {
 Oriented line 2
 Oriented line 3`
 	__RectAnchoredText__000011_Oriented.FontWeight = ``
-	__RectAnchoredText__000011_Oriented.FontSize = ``
-	__RectAnchoredText__000011_Oriented.FontStyle = ``
-	__RectAnchoredText__000011_Oriented.LetterSpacing = ``
+	__RectAnchoredText__000011_Oriented.FontSize = `16`
+	__RectAnchoredText__000011_Oriented.FontStyle = `Bold`
+	__RectAnchoredText__000011_Oriented.LetterSpacing = `2`
+	__RectAnchoredText__000011_Oriented.FontFamily = `Futura, sans-serif`
 	__RectAnchoredText__000011_Oriented.X_Offset = 0.000000
 	__RectAnchoredText__000011_Oriented.Y_Offset = 0.000000
 	__RectAnchoredText__000011_Oriented.RectAnchorType = models.RECT_CENTER
@@ -949,6 +963,7 @@ Oriented line 3`
 	__RectAnchoredText__000012_Top.FontSize = ``
 	__RectAnchoredText__000012_Top.FontStyle = ``
 	__RectAnchoredText__000012_Top.LetterSpacing = ``
+	__RectAnchoredText__000012_Top.FontFamily = ``
 	__RectAnchoredText__000012_Top.X_Offset = 0.000000
 	__RectAnchoredText__000012_Top.Y_Offset = 0.000000
 	__RectAnchoredText__000012_Top.RectAnchorType = models.RECT_TOP
@@ -1022,3 +1037,4 @@ Oriented line 3`
 	// setup of SVG instances pointers
 	__SVG__000000_simple.Layers = append(__SVG__000000_simple.Layers, __Layer__000000_Layer_1)
 }
+

@@ -34,6 +34,7 @@ export class Text {
 	FontSize: string = ""
 	FontStyle: string = ""
 	LetterSpacing: string = ""
+	FontFamily: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
@@ -62,6 +63,7 @@ export function CopyTextToTextAPI(text: Text, textAPI: TextAPI) {
 	textAPI.FontSize = text.FontSize
 	textAPI.FontStyle = text.FontStyle
 	textAPI.LetterSpacing = text.LetterSpacing
+	textAPI.FontFamily = text.FontFamily
 
 	// insertion point for pointer fields encoding
 
@@ -100,6 +102,7 @@ export function CopyTextAPIToText(textAPI: TextAPI, text: Text, frontRepo: Front
 	text.FontSize = textAPI.FontSize
 	text.FontStyle = textAPI.FontStyle
 	text.LetterSpacing = textAPI.LetterSpacing
+	text.FontFamily = textAPI.FontFamily
 
 	// insertion point for pointer fields encoding
 

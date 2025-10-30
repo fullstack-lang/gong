@@ -2294,6 +2294,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(linkanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(linkanchoredtext_.LetterSpacing), formDiv)
+		case "FontFamily":
+			FormDivBasicFieldToField(&(linkanchoredtext_.FontFamily), formDiv)
 		case "Color":
 			FormDivBasicFieldToField(&(linkanchoredtext_.Color), formDiv)
 		case "FillOpacity":
@@ -3983,6 +3985,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rectanchoredtext_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(rectanchoredtext_.LetterSpacing), formDiv)
+		case "FontFamily":
+			FormDivBasicFieldToField(&(rectanchoredtext_.FontFamily), formDiv)
 		case "X_Offset":
 			FormDivBasicFieldToField(&(rectanchoredtext_.X_Offset), formDiv)
 		case "Y_Offset":
@@ -4571,6 +4575,8 @@ func (textFormCallback *TextFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(text_.FontStyle), formDiv)
 		case "LetterSpacing":
 			FormDivBasicFieldToField(&(text_.LetterSpacing), formDiv)
+		case "FontFamily":
+			FormDivBasicFieldToField(&(text_.FontFamily), formDiv)
 		case "Animates":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Animate](textFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Animate, 0)

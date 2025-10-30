@@ -78,4 +78,9 @@ type TextAttributes struct {
 		    Normal: This is the default value, meaning the default spacing as determined by the font itself.
 	*/
 	LetterSpacing string
+
+	/*
+	 exemple "Futura, sans-serif"
+	*/
+	FontFamily string
 }
