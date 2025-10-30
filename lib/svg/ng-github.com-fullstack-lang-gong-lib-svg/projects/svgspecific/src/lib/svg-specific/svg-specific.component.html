@@ -400,6 +400,7 @@
                         [attr.x]="segment.EndPoint.X + text.X_Offset" 
                         [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
                         [attr.font-weight]="text.FontWeight"
+                        [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
                         [attr.letter-spacing]="text.LetterSpacing"
                         [attr.fill]="text.Color"    
@@ -422,6 +423,7 @@
                         [attr.x]="segment.EndPoint.X" 
                         [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                         [attr.font-weight]="text.FontWeight"
+                        [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
                         [attr.letter-spacing]="text.LetterSpacing"
                         [attr.fill]="text.Color"    
@@ -464,6 +466,7 @@
                         [attr.x]="segment.StartPoint.X + text.X_Offset" 
                         [attr.y]="segment.StartPoint.Y + text.Y_Offset" 
                         [attr.font-weight]="text.FontWeight"
+                        [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
                         [attr.letter-spacing]="text.LetterSpacing"
                         [attr.fill]="text.Color"    
@@ -486,6 +489,7 @@
                         [attr.x]="segment.StartPoint.X" 
                         [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
                         [attr.font-weight]="text.FontWeight"
+                        [attr.font-family]="text.FontFamily"
                         [attr.font-size]="text.FontSize"
                         [attr.letter-spacing]="text.LetterSpacing"
                         [attr.fill]="text.Color"    
@@ -594,7 +598,9 @@
       [attr.text-anchor]="text.TextAnchorType"
       [attr.font-weight]="text.FontWeight"
       [attr.font-style]="text.FontStyle"
-      [attr.font-size]="text.FontSize !== 0 ? text.FontSize : null">
+      [attr.font-size]="text.FontSize !== 0 ? text.FontSize : null"
+      [attr.font-family]="text.FontFamily"
+      >
       @for(line of lines; track i; let i = $index) {
         <tspan [attr.x]="anchorX"
                [attr.dy]="(i > 0) ? '1em' : '0'"

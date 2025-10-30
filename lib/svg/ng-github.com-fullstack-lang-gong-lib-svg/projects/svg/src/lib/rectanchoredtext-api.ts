@@ -19,6 +19,7 @@ export class RectAnchoredTextAPI {
 	FontSize: string = ""
 	FontStyle: string = ""
 	LetterSpacing: string = ""
+	FontFamily: string = ""
 	X_Offset: number = 0
 	Y_Offset: number = 0
 	RectAnchorType: string = ""
