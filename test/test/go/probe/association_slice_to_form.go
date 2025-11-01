@@ -127,7 +127,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
 	}
-
+		
 	// we supposed that the table is ordered by ID
 	sort.Slice(instanceSlice, func(i, j int) bool {
 		idI := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[i])
