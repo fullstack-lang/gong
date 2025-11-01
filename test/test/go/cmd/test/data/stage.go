@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-21 05:00:20.207263 CEST"
-	const __write__utc_time__ = "2025-10-21 03:00:20.207263 UTC"
+	const __write__local_time = "2025-11-01 13:42:27.479792 CET"
+	const __write__utc_time__ = "2025-11-01 12:42:27.479792 UTC"
 
-	const __commitId__ = "0000000110"
+	const __commitId__ = "0000000122"
 
 	// Declaration of instances to stage
 
@@ -36,9 +36,9 @@ func _(stage *models.Stage) {
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
 	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
 
-	__Bstruct__000000_B1 := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000000_B3 := (&models.Bstruct{}).Stage(stage)
 	__Bstruct__000001_B2_ := (&models.Bstruct{}).Stage(stage)
-	__Bstruct__000002_B3 := (&models.Bstruct{}).Stage(stage)
+	__Bstruct__000002_B1 := (&models.Bstruct{}).Stage(stage)
 
 	__Dstruct__000000_D1 := (&models.Dstruct{}).Stage(stage)
 
@@ -127,20 +127,20 @@ sqd
 
 	__AstructBstruct2Use__000001_.Name = ``
 
-	__Bstruct__000000_B1.Name = `B1`
-	__Bstruct__000000_B1.Floatfield = 0.000000
-	__Bstruct__000000_B1.Floatfield2 = 0.000000
-	__Bstruct__000000_B1.Intfield = 0
+	__Bstruct__000000_B3.Name = `B3`
+	__Bstruct__000000_B3.Floatfield = 0.000000
+	__Bstruct__000000_B3.Floatfield2 = 0.000000
+	__Bstruct__000000_B3.Intfield = 0
 
 	__Bstruct__000001_B2_.Name = `B2 *`
 	__Bstruct__000001_B2_.Floatfield = 0.000000
 	__Bstruct__000001_B2_.Floatfield2 = 0.000000
 	__Bstruct__000001_B2_.Intfield = 0
 
-	__Bstruct__000002_B3.Name = `B3`
-	__Bstruct__000002_B3.Floatfield = 0.000000
-	__Bstruct__000002_B3.Floatfield2 = 0.000000
-	__Bstruct__000002_B3.Intfield = 0
+	__Bstruct__000002_B1.Name = `B1`
+	__Bstruct__000002_B1.Floatfield = 0.000000
+	__Bstruct__000002_B1.Floatfield2 = 0.000000
+	__Bstruct__000002_B1.Intfield = 0
 
 	__Dstruct__000000_D1.Name = `D1`
 
@@ -156,17 +156,17 @@ sqd
 
 	// Setup of pointers
 	// setup of Astruct instances pointers
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B1)
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	// setup of AstructBstruct2Use instances pointers
-	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B1
-	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B1
+	__AstructBstruct2Use__000000_.Bstrcut2 = __Bstruct__000000_B3
+	__AstructBstruct2Use__000001_.Bstrcut2 = __Bstruct__000000_B3
 	// setup of Bstruct instances pointers
 	// setup of Dstruct instances pointers
 	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000001_B2_)
-	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B3)
+	__Dstruct__000000_D1.Anarrayofb = append(__Dstruct__000000_D1.Anarrayofb, __Bstruct__000002_B1)
 	// setup of Gstruct instances pointers
 }
 
