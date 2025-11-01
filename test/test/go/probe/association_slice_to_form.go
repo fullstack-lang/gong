@@ -56,6 +56,8 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
+	// here,  it is supposed that the table presented to the user for choosing
+	// associations  of all instances is ordered by IDs
 	instanceSliceID := make([]uint, 0)
 	for _, instance := range *field {
 		id := uint(models.GetOrderPointerGongstruct(
@@ -94,9 +96,9 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 }
 
 type OnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct] struct {
-	instance  InstanceType
-	field     *[]FieldType
-	probe     *Probe
+	instance InstanceType
+	field    *[]FieldType
+	probe    *Probe
 }
 
 func NewOnAssocEditon[InstanceType models.PointerToGongstruct, FieldType models.PointerToGongstruct](
@@ -125,8 +127,13 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
 	}
+
+	// we supposed that the table is ordered by ID
 	sort.Slice(instanceSlice, func(i, j int) bool {
-		return instanceSlice[i].GetName() < instanceSlice[j].GetName()
+		idI := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[i])
+		idJ := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[j])
+
+		return idI < idJ
 	})
 
 	table := new(gongtable_models.Table).Stage(tableStageForSelection)
