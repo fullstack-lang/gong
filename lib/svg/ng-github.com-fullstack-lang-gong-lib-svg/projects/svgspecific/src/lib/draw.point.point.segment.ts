@@ -1,5 +1,6 @@
 import * as svg from '../../../svg/src/public-api'; // Replace 'gongsvg' with the correct module name
 import { Segment, createPoint } from './draw.segments';
+import { SvgOrientationType } from './svg-orientation-type';
 
 export function drawPointPointSegment(
     start: svg.Point,
@@ -36,7 +37,7 @@ export function drawPointPointSegment(
         EndPoint: newEnd,
         StartPointWithoutRadius: start,
         EndPointWithoutRadius: end,
-        Orientation: orientation,
+        Orientation: orientation as unknown as SvgOrientationType,
         Number: number,
         ArrowEndAnchoredText: [],
     }

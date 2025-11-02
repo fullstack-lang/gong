@@ -1,6 +1,7 @@
 import * as svg from '../../../svg/src/public-api'
 import { Segment } from './draw.segments'
 import { ShapeMouseEvent } from './shape.mouse.event'
+import { SvgOrientationType } from './svg-orientation-type'
 
 export interface LinkConf {
     drawSegments(link: svg.Link, linkUpdating: boolean, map_Link_Segment: Map<svg.Link, Segment[]>): boolean
@@ -48,7 +49,7 @@ export function computeLinkFromMouseEvent(linkConf: LinkConf, shapeMouseEvent: S
         return
     }
 
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_HORIZONTAL) {
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_HORIZONTAL) {
 
         // set up the cursor style
         document.body.style.cursor = 'ns-resize'
@@ -146,7 +147,7 @@ export function computeLinkFromMouseEvent(linkConf: LinkConf, shapeMouseEvent: S
             link.CornerOffsetRatio = newCornerOffsetRatio
         }
     }
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_VERTICAL) {
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_VERTICAL) {
 
         // set up the cursor style
         document.body.style.cursor = 'ew-resize'

@@ -21,6 +21,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-11-02 23:59:28.292900 CET"
+	const __write__utc_time__ = "2025-11-02 22:59:28.292900 UTC"
+
+	const __commitId__ = "0000000004"
+
 	// Declaration of instances to stage
 
 	__Animate__000000_ := (&models.Animate{}).Stage(stage)
@@ -165,7 +170,7 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.Transform = ``
 
 	__Link__000002_Top_to_Middle_issue_645_.Name = `Top to Middle (issue #645)`
-	__Link__000002_Top_to_Middle_issue_645_.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
+	__Link__000002_Top_to_Middle_issue_645_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
 	__Link__000002_Top_to_Middle_issue_645_.IsBezierCurve = false
 	__Link__000002_Top_to_Middle_issue_645_.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000002_Top_to_Middle_issue_645_.EndAnchorType = models.ANCHOR_CENTER
@@ -177,7 +182,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
-	__Link__000002_Top_to_Middle_issue_645_.HasStartArrow = false
+	__Link__000002_Top_to_Middle_issue_645_.HasStartArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.StartArrowSize = 6.000000
 	__Link__000002_Top_to_Middle_issue_645_.Color = ``
 	__Link__000002_Top_to_Middle_issue_645_.FillOpacity = 0.000000
@@ -264,6 +269,7 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000000_End_Left_Top.FontSize = ``
 	__LinkAnchoredText__000000_End_Left_Top.FontStyle = ``
 	__LinkAnchoredText__000000_End_Left_Top.LetterSpacing = ``
+	__LinkAnchoredText__000000_End_Left_Top.FontFamily = ``
 	__LinkAnchoredText__000000_End_Left_Top.Color = `blue`
 	__LinkAnchoredText__000000_End_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000000_End_Left_Top.Stroke = `blue`
@@ -283,6 +289,7 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000001_End_Right_Bottom.FontSize = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.FontStyle = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.LetterSpacing = ``
+	__LinkAnchoredText__000001_End_Right_Bottom.FontFamily = ``
 	__LinkAnchoredText__000001_End_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000001_End_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000001_End_Right_Bottom.Stroke = `black`
@@ -302,6 +309,7 @@ Line 2`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FontSize = `16`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FontStyle = ``
 	__LinkAnchoredText__000002_Liine_1_Line_2.LetterSpacing = `0.1em`
+	__LinkAnchoredText__000002_Liine_1_Line_2.FontFamily = ``
 	__LinkAnchoredText__000002_Liine_1_Line_2.Color = `black`
 	__LinkAnchoredText__000002_Liine_1_Line_2.FillOpacity = 100.000000
 	__LinkAnchoredText__000002_Liine_1_Line_2.Stroke = `black`
@@ -320,6 +328,7 @@ Line 2`
 	__LinkAnchoredText__000003_Start_Anchored_1.FontSize = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.FontStyle = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.LetterSpacing = ``
+	__LinkAnchoredText__000003_Start_Anchored_1.FontFamily = ``
 	__LinkAnchoredText__000003_Start_Anchored_1.Color = `cyan`
 	__LinkAnchoredText__000003_Start_Anchored_1.FillOpacity = 100.000000
 	__LinkAnchoredText__000003_Start_Anchored_1.Stroke = `cyan`
@@ -339,6 +348,7 @@ Line 2`
 	__LinkAnchoredText__000004_Start_Left_Top.FontSize = ``
 	__LinkAnchoredText__000004_Start_Left_Top.FontStyle = ``
 	__LinkAnchoredText__000004_Start_Left_Top.LetterSpacing = ``
+	__LinkAnchoredText__000004_Start_Left_Top.FontFamily = ``
 	__LinkAnchoredText__000004_Start_Left_Top.Color = `black`
 	__LinkAnchoredText__000004_Start_Left_Top.FillOpacity = 0.000000
 	__LinkAnchoredText__000004_Start_Left_Top.Stroke = `black`
@@ -358,6 +368,7 @@ Line 2`
 	__LinkAnchoredText__000005_Start_Right_Bottom.FontSize = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.FontStyle = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.LetterSpacing = ``
+	__LinkAnchoredText__000005_Start_Right_Bottom.FontFamily = ``
 	__LinkAnchoredText__000005_Start_Right_Bottom.Color = `black`
 	__LinkAnchoredText__000005_Start_Right_Bottom.FillOpacity = 1.000000
 	__LinkAnchoredText__000005_Start_Right_Bottom.Stroke = `black`
@@ -377,6 +388,7 @@ Line 2`
 	__LinkAnchoredText__000006_Issue_645.FontSize = ``
 	__LinkAnchoredText__000006_Issue_645.FontStyle = ``
 	__LinkAnchoredText__000006_Issue_645.LetterSpacing = ``
+	__LinkAnchoredText__000006_Issue_645.FontFamily = ``
 	__LinkAnchoredText__000006_Issue_645.Color = `blue`
 	__LinkAnchoredText__000006_Issue_645.FillOpacity = 1.000000
 	__LinkAnchoredText__000006_Issue_645.Stroke = `blue`
@@ -396,6 +408,7 @@ Line 2`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FontSize = ``
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FontStyle = ``
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.LetterSpacing = ``
+	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FontFamily = ``
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Color = `blue`
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.FillOpacity = 1.000000
 	__LinkAnchoredText__000007_Right_to_the_end_anchored_text.Stroke = `blue`
@@ -415,6 +428,7 @@ Line 2`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontSize = `16`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontStyle = ``
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.LetterSpacing = ``
+	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FontFamily = ``
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Color = `black`
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.FillOpacity = 1.000000
 	__LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM.Stroke = `black`
@@ -434,6 +448,7 @@ Line 2`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FontSize = ``
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FontStyle = ``
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.LetterSpacing = ``
+	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FontFamily = ``
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Color = `black`
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.FillOpacity = 1.000000
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP.Stroke = `black`
@@ -453,6 +468,7 @@ Line 2`
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.FontSize = ``
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.FontStyle = ``
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.LetterSpacing = ``
+	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.FontFamily = ``
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.Color = `red`
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.FillOpacity = 1.000000
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW.Stroke = `red`
@@ -472,6 +488,7 @@ Line 2`
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.FontSize = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.FontStyle = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.LetterSpacing = ``
+	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.FontFamily = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.Color = `blue`
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.FillOpacity = 1.000000
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.Stroke = `blue`
@@ -508,10 +525,17 @@ Line 2`
 	__Rect__000000_Bottom_Rect.HasBottomHandle = false
 	__Rect__000000_Bottom_Rect.CanMoveHorizontaly = true
 	__Rect__000000_Bottom_Rect.CanMoveVerticaly = true
+	__Rect__000000_Bottom_Rect.ChangeColorWhenHovered = false
+	__Rect__000000_Bottom_Rect.ColorWhenHovered = ``
+	__Rect__000000_Bottom_Rect.OriginalColor = ``
+	__Rect__000000_Bottom_Rect.FillOpacityWhenHovered = 0.000000
+	__Rect__000000_Bottom_Rect.OriginalFillOpacity = 0.000000
+	__Rect__000000_Bottom_Rect.HasToolTip = false
+	__Rect__000000_Bottom_Rect.ToolTipText = ``
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 607.000000
-	__Rect__000001_Middle_Rect.Y = 413.000000
+	__Rect__000001_Middle_Rect.X = 554.000000
+	__Rect__000001_Middle_Rect.Y = 404.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -536,6 +560,13 @@ Line 2`
 	__Rect__000001_Middle_Rect.HasBottomHandle = false
 	__Rect__000001_Middle_Rect.CanMoveHorizontaly = true
 	__Rect__000001_Middle_Rect.CanMoveVerticaly = true
+	__Rect__000001_Middle_Rect.ChangeColorWhenHovered = false
+	__Rect__000001_Middle_Rect.ColorWhenHovered = ``
+	__Rect__000001_Middle_Rect.OriginalColor = ``
+	__Rect__000001_Middle_Rect.FillOpacityWhenHovered = 0.000000
+	__Rect__000001_Middle_Rect.OriginalFillOpacity = 0.000000
+	__Rect__000001_Middle_Rect.HasToolTip = false
+	__Rect__000001_Middle_Rect.ToolTipText = ``
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
 	__Rect__000002_Top_Rect.X = 522.999969
@@ -564,6 +595,13 @@ Line 2`
 	__Rect__000002_Top_Rect.HasBottomHandle = false
 	__Rect__000002_Top_Rect.CanMoveHorizontaly = true
 	__Rect__000002_Top_Rect.CanMoveVerticaly = true
+	__Rect__000002_Top_Rect.ChangeColorWhenHovered = false
+	__Rect__000002_Top_Rect.ColorWhenHovered = ``
+	__Rect__000002_Top_Rect.OriginalColor = ``
+	__Rect__000002_Top_Rect.FillOpacityWhenHovered = 0.000000
+	__Rect__000002_Top_Rect.OriginalFillOpacity = 0.000000
+	__Rect__000002_Top_Rect.HasToolTip = false
+	__Rect__000002_Top_Rect.ToolTipText = ``
 
 	__Rect__000003_Start.Name = `Start`
 	__Rect__000003_Start.X = 1180.333333
@@ -592,6 +630,13 @@ Line 2`
 	__Rect__000003_Start.HasBottomHandle = false
 	__Rect__000003_Start.CanMoveHorizontaly = true
 	__Rect__000003_Start.CanMoveVerticaly = true
+	__Rect__000003_Start.ChangeColorWhenHovered = false
+	__Rect__000003_Start.ColorWhenHovered = ``
+	__Rect__000003_Start.OriginalColor = ``
+	__Rect__000003_Start.FillOpacityWhenHovered = 0.000000
+	__Rect__000003_Start.OriginalFillOpacity = 0.000000
+	__Rect__000003_Start.HasToolTip = false
+	__Rect__000003_Start.ToolTipText = ``
 
 	__Rect__000004_End.Name = `End`
 	__Rect__000004_End.X = 1081.769231
@@ -620,6 +665,13 @@ Line 2`
 	__Rect__000004_End.HasBottomHandle = false
 	__Rect__000004_End.CanMoveHorizontaly = true
 	__Rect__000004_End.CanMoveVerticaly = true
+	__Rect__000004_End.ChangeColorWhenHovered = false
+	__Rect__000004_End.ColorWhenHovered = ``
+	__Rect__000004_End.OriginalColor = ``
+	__Rect__000004_End.FillOpacityWhenHovered = 0.000000
+	__Rect__000004_End.OriginalFillOpacity = 0.000000
+	__Rect__000004_End.HasToolTip = false
+	__Rect__000004_End.ToolTipText = ``
 
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
@@ -664,6 +716,8 @@ Line 2`
 	__RectAnchoredRect__000000_Rect_within_top.RectAnchorType = models.RECT_TOP
 	__RectAnchoredRect__000000_Rect_within_top.WidthFollowRect = false
 	__RectAnchoredRect__000000_Rect_within_top.HeightFollowRect = false
+	__RectAnchoredRect__000000_Rect_within_top.HasToolTip = false
+	__RectAnchoredRect__000000_Rect_within_top.ToolTipText = ``
 	__RectAnchoredRect__000000_Rect_within_top.Color = `lightgrey`
 	__RectAnchoredRect__000000_Rect_within_top.FillOpacity = 40.000000
 	__RectAnchoredRect__000000_Rect_within_top.Stroke = `bisque`
@@ -684,6 +738,8 @@ Line 2`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.RectAnchorType = models.RECT_TOP_LEFT
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.WidthFollowRect = true
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HeightFollowRect = false
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.HasToolTip = false
+	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.ToolTipText = ``
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Color = `lightblue`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.FillOpacity = 100.000000
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Stroke = ``
@@ -708,6 +764,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.FontSize = ``
 	__RectAnchoredText__000000_Bottom_Text.FontStyle = ``
 	__RectAnchoredText__000000_Bottom_Text.LetterSpacing = ``
+	__RectAnchoredText__000000_Bottom_Text.FontFamily = ``
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
 	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
@@ -727,6 +784,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000001_Top_Left.FontSize = ``
 	__RectAnchoredText__000001_Top_Left.FontStyle = ``
 	__RectAnchoredText__000001_Top_Left.LetterSpacing = ``
+	__RectAnchoredText__000001_Top_Left.FontFamily = ``
 	__RectAnchoredText__000001_Top_Left.X_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.Y_Offset = 0.000000
 	__RectAnchoredText__000001_Top_Left.RectAnchorType = models.RECT_TOP_LEFT
@@ -745,6 +803,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontSize = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontStyle = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.LetterSpacing = ``
+	__RectAnchoredText__000002_Top_anchored_bottom_middle.FontFamily = ``
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.X_Offset = 0.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000002_Top_anchored_bottom_middle.RectAnchorType = models.RECT_BOTTOM
@@ -766,6 +825,7 @@ line 3`
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontSize = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.FontStyle = `italic`
 	__RectAnchoredText__000003_Top_anchored_top_middle.LetterSpacing = ``
+	__RectAnchoredText__000003_Top_anchored_top_middle.FontFamily = ``
 	__RectAnchoredText__000003_Top_anchored_top_middle.X_Offset = 0.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.Y_Offset = 20.000000
 	__RectAnchoredText__000003_Top_anchored_top_middle.RectAnchorType = models.RECT_TOP
@@ -785,6 +845,7 @@ line 3`
 	__RectAnchoredText__000004_Start.FontSize = `27px`
 	__RectAnchoredText__000004_Start.FontStyle = ``
 	__RectAnchoredText__000004_Start.LetterSpacing = ``
+	__RectAnchoredText__000004_Start.FontFamily = ``
 	__RectAnchoredText__000004_Start.X_Offset = 0.000000
 	__RectAnchoredText__000004_Start.Y_Offset = 0.000000
 	__RectAnchoredText__000004_Start.RectAnchorType = models.RECT_CENTER
@@ -804,6 +865,7 @@ line 3`
 	__RectAnchoredText__000005_End.FontSize = `27px`
 	__RectAnchoredText__000005_End.FontStyle = ``
 	__RectAnchoredText__000005_End.LetterSpacing = ``
+	__RectAnchoredText__000005_End.FontFamily = ``
 	__RectAnchoredText__000005_End.X_Offset = 0.000000
 	__RectAnchoredText__000005_End.Y_Offset = 0.000000
 	__RectAnchoredText__000005_End.RectAnchorType = models.RECT_CENTER
@@ -823,6 +885,7 @@ line 3`
 	__RectAnchoredText__000006_.FontSize = `27px`
 	__RectAnchoredText__000006_.FontStyle = ``
 	__RectAnchoredText__000006_.LetterSpacing = ``
+	__RectAnchoredText__000006_.FontFamily = ``
 	__RectAnchoredText__000006_.X_Offset = 0.000000
 	__RectAnchoredText__000006_.Y_Offset = 0.000000
 	__RectAnchoredText__000006_.Color = ``
@@ -840,6 +903,7 @@ line 3`
 	__SVG__000000_SVG.IsSVGFrontEndFileGenerated = false
 	__SVG__000000_SVG.IsSVGBackEndFileGenerated = false
 	__SVG__000000_SVG.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
+	__SVG__000000_SVG.IsControlBannerHidden = false
 
 	__SvgText__000000_Essai.Name = `Essai`
 	__SvgText__000000_Essai.Text = `<svg xmlns="http://www.w3.org/2000/svg" width="2636.923" height="2636.923" viewBox="-10 -10 2636.923 2636.923"><style>text { font-family: Roboto, Arial, sans-serif !important; }</style>
@@ -1159,6 +1223,7 @@ line 3`
 	__Text__000000_Essai.FontSize = ``
 	__Text__000000_Essai.FontStyle = ``
 	__Text__000000_Essai.LetterSpacing = ``
+	__Text__000000_Essai.FontFamily = ``
 
 	// Setup of pointers
 	// setup of Animate instances pointers

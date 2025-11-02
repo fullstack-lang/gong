@@ -1,5 +1,6 @@
 import * as svg from '../../../svg/src/public-api'
 import { Segment } from './draw.segments';
+import { SvgOrientationType } from './svg-orientation-type';
 
 export function getArcPath(link: svg.Link, segment: Segment, nextSegment: Segment): string {
 
@@ -16,7 +17,7 @@ export function getArcPath(link: svg.Link, segment: Segment, nextSegment: Segmen
     // 1 is positive angle direction
     // 0 otherwise
     let sweepFlag = 0
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_HORIZONTAL) {
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_HORIZONTAL) {
 
         let segmentDirection = 0
         if (segment.EndPoint.X > segment.StartPoint.X) {
@@ -39,7 +40,7 @@ export function getArcPath(link: svg.Link, segment: Segment, nextSegment: Segmen
         }
 
     }
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_VERTICAL) {
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_VERTICAL) {
         let segmentDirection = 0
         if (segment.EndPoint.Y > segment.StartPoint.Y) {
             segmentDirection = 1
