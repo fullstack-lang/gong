@@ -1,6 +1,7 @@
 import * as svg from '../../../svg/src/public-api'
 import { Segment } from './draw.segments'
 import { getFunctionName } from './get.function.name'
+import { SvgOrientationType } from './svg-orientation-type'
 
 
 
@@ -42,7 +43,7 @@ export function updateLinkFromCursor(
         return
     }
 
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_HORIZONTAL) {
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_HORIZONTAL) {
 
         // set up the cursor style
         document.body.style.cursor = 'ns-resize'
@@ -135,9 +136,7 @@ export function updateLinkFromCursor(
             link.CornerOffsetRatio = newCornerOffsetRatio
         }
     }
-    if (segment.Orientation == svg.OrientationType.ORIENTATION_VERTICAL) {
-
-
+    if (segment.Orientation == SvgOrientationType.ORIENTATION_VERTICAL) {
 
         // set up the cursor style
         document.body.style.cursor = 'ew-resize'

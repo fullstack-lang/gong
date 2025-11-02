@@ -1,6 +1,9 @@
 import * as svg from '../../../svg/src/public-api'; // Replace 'gongsvg' with the correct module name
 import { drawPointRectSegment } from './draw.point.rect.segment'
 import { drawPointPointSegment } from './draw.point.point.segment';
+import { SvgOrientationType } from './svg-orientation-type';
+import { getPosition } from './get-position';
+import { getLineOrientation } from './gete-line-orientation';
 
 export type SegmentsParams = {
     StartRect: svg.Rect
@@ -23,7 +26,7 @@ export type Segment = {
     EndPoint: svg.Point
     StartPointWithoutRadius: svg.Point,
     EndPointWithoutRadius: svg.Point
-    Orientation: svg.OrientationType
+    Orientation: SvgOrientationType
     Number: number
     ArrowEndAnchoredText: Array<Offset>
 }
@@ -38,18 +41,44 @@ export function createPoint(x: number, y: number): svg.Point {
 
 export function drawSegmentsFromLink(link: svg.Link): Segment[] {
 
-    let segmentsParams = {
-        StartRect: link.Start!,
-        EndRect: link.End!,
-        StartDirection: link.StartOrientation! as svg.OrientationType,
-        EndDirection: link.EndOrientation! as svg.OrientationType,
-        StartRatio: link.StartRatio,
-        EndRatio: link.EndRatio,
-        CornerOffsetRatio: link.CornerOffsetRatio,
-        CornerRadius: link.CornerRadius,
+    if (link.Type === svg.LinkType.LINK_TYPE_FLOATING_ORTHOGONAL) {
+        let segmentsParams = {
+            StartRect: link.Start!,
+            EndRect: link.End!,
+            StartDirection: link.StartOrientation! as svg.OrientationType,
+            EndDirection: link.EndOrientation! as svg.OrientationType,
+            StartRatio: link.StartRatio,
+            EndRatio: link.EndRatio,
+            CornerOffsetRatio: link.CornerOffsetRatio,
+            CornerRadius: link.CornerRadius,
+        }
+
+        return drawSegments(segmentsParams)
     }
 
-    return drawSegments(segmentsParams)
+    if (link.Type === svg.LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS && link.ControlPoints.length == 0) {
+
+        const startPos = getPosition(link.Start, link.StartAnchorType, link.End);
+        const endPos = getPosition(link.End, link.EndAnchorType, link.Start);
+
+        const startPoint = createPoint(startPos[0], startPos[1])
+        const endPoint = createPoint(endPos[0], endPos[1])
+
+        const orientation = getLineOrientation(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y)
+
+        let segment: Segment = {
+            StartPoint: startPoint,
+            EndPoint: endPoint,
+            StartPointWithoutRadius: startPoint,
+            EndPointWithoutRadius: endPoint,
+            Orientation: orientation,
+            Number: 0,
+            ArrowEndAnchoredText: []
+        }
+        return [segment]
+    }
+
+    return []
 }
 
 export function drawSegments(params: SegmentsParams): Segment[] {
