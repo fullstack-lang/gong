@@ -761,16 +761,17 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					var ident *ast.Ident
 					var ok bool
 					_ = ok
-					if ident, ok = arg.(*ast.Ident); !ok {
-						// log.Println("we are in the case of new(....)")
-					}
+					_ = arg
+					// if ident, ok = arg.(*ast.Ident); !ok {
+					// log.Println("we are in the case of new(....)")
+					// }
 
-					var se *ast.SelectorExpr
-					if se, ok = arg.(*ast.SelectorExpr); ok {
-						if ident, ok = se.X.(*ast.Ident); !ok {
-							// log.Println("we are in the case of append(....)")
-						}
-					}
+					// var se *ast.SelectorExpr
+					// if se, ok = arg.(*ast.SelectorExpr); ok {
+					// 	// if ident, ok = se.X.(*ast.Ident); !ok {
+					// 	// log.Println("we are in the case of append(....)")
+					// 	// }
+					// }
 					_ = ident
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
