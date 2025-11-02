@@ -17,7 +17,7 @@ func ComputeDiff(a, b string) string {
 
 	// Simple LCS-based diff algorithm
 	diff := computeLCS(linesA, linesB)
-	return formatUnifiedDiff(diff, linesA, linesB)
+	return formatUnifiedDiff(diff)
 }
 
 // ApplyDiff applies a git-style unified diff c to string b to reconstruct string a
@@ -107,7 +107,7 @@ func computeLCS(a, b []string) []DiffOp {
 	return result
 }
 
-func formatUnifiedDiff(ops []DiffOp, linesA, linesB []string) string {
+func formatUnifiedDiff(ops []DiffOp) string {
 	if len(ops) == 0 {
 		return ""
 	}
@@ -190,11 +190,12 @@ func groupIntoHunks(ops []DiffOp) []DiffHunk {
 				}
 			}
 
-			if op.Type == "delete" {
+			switch op.Type {
+			case "delete":
 				currentHunk.Lines = append(currentHunk.Lines, "-"+op.Text)
 				currentHunk.OldLines++
 				oldLine++
-			} else if op.Type == "add" {
+			case "add":
 				currentHunk.Lines = append(currentHunk.Lines, "+"+op.Text)
 				currentHunk.NewLines++
 				newLine++

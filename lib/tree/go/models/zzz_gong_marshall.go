@@ -632,25 +632,25 @@ func computeDiff(a, b string) string {
 }
 
 // computePrettyDiff calculates the git-style unified diff between two strings.
-func computePrettyDiff(a, b string) string {
-	dmp := diffmatchpatch.New()
-	diffs := dmp.DiffMain(a, b, false)
-	return dmp.DiffPrettyHtml(diffs)
-}
+// func computePrettyDiff(a, b string) string {
+// 	dmp := diffmatchpatch.New()
+// 	diffs := dmp.DiffMain(a, b, false)
+// 	return dmp.DiffPrettyHtml(diffs)
+// }
 
 // applyDiff reconstructs the original string 'a' from the new string 'b' and the diff string 'c'.
-func applyDiff(b, c string) (string, error) {
-	dmp := diffmatchpatch.New()
-	diffs, err := dmp.DiffFromDelta(b, c)
-	if err != nil {
-		return "", err
-	}
-	patches := dmp.PatchMake(b, diffs)
-	// We are applying the patch in reverse to get from 'b' to 'a'.
-	// The library's PatchApply function returns the new string and a slice of booleans indicating the success of each patch application.
-	result, _ := dmp.PatchApply(patches, b)
-	return result, nil
-}
+// func applyDiff(b, c string) (string, error) {
+// 	dmp := diffmatchpatch.New()
+// 	diffs, err := dmp.DiffFromDelta(b, c)
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	patches := dmp.PatchMake(b, diffs)
+// 	// We are applying the patch in reverse to get from 'b' to 'a'.
+// 	// The library's PatchApply function returns the new string and a slice of booleans indicating the success of each patch application.
+// 	result, _ := dmp.PatchApply(patches, b)
+// 	return result, nil
+// }
 
 // unique identifier per struct
 func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
