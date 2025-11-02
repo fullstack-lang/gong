@@ -674,16 +674,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					var ok bool
 					_ = ok
 					_ = arg
-					// if ident, ok = arg.(*ast.Ident); !ok {
-					// log.Println("we are in the case of new(....)")
-					// }
+					if ident, ok = arg.(*ast.Ident); !ok {
+						// log.Println("we are in the case of new(....)")
+					}
 
-					// var se *ast.SelectorExpr
-					// if se, ok = arg.(*ast.SelectorExpr); ok {
-					// 	// if ident, ok = se.X.(*ast.Ident); !ok {
-					// 	// log.Println("we are in the case of append(....)")
-					// 	// }
-					// }
+					var se *ast.SelectorExpr
+					if se, ok = arg.(*ast.SelectorExpr); ok {
+						if ident, ok = se.X.(*ast.Ident); !ok {
+							// log.Println("we are in the case of append(....)")
+						}
+					}
 					_ = ident
 
 					gongstructName, ok = __gong__map_Indentifiers_gongstructName[identifier]
@@ -743,9 +743,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				if bl, ok := v.X.(*ast.BasicLit); ok {
 					basicLit = bl
 					// Check the operator to set the sign
-					if v.Op == token.SUB { // token.SUB is for '-'
+					switch v.Op {
+					case token.SUB: // token.SUB is for '-'
 						exprSign = -1
-					} else if v.Op == token.ADD { // token.ADD is for '+'
+					case token.ADD: // token.ADD is for '+'
 						exprSign = 1
 					}
 				}
