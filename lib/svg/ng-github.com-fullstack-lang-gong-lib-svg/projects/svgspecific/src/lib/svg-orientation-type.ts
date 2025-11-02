@@ -1,0 +1,7 @@
+// generated from ng_file_enum.ts.go
+export enum SvgOrientationType {
+	// insertion point	
+	ORIENTATION_HORIZONTAL = "ORIENTATION_HORIZONTAL",
+	ORIENTATION_VERTICAL = "ORIENTATION_VERTICAL",
+	ORIENTATION_DIAGONAL = "ORIENTATION_DIAGONAL",
+}
