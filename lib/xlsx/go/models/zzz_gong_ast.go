@@ -697,12 +697,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					_ = ok
 					_ = arg
 					if ident, ok = arg.(*ast.Ident); !ok {
+						_ = ident
+						_ = ok
 						// log.Println("we are in the case of new(....)")
 					}
 
 					var se *ast.SelectorExpr
 					if se, ok = arg.(*ast.SelectorExpr); ok {
 						if ident, ok = se.X.(*ast.Ident); !ok {
+							_ = ident
+							_ = ok
 							// log.Println("we are in the case of append(....)")
 						}
 					}
