@@ -22,7 +22,7 @@ export function getStartPosition(rectLinkLink: svg.RectLinkLink, map_Link_Segmen
     if (target == undefined) {
         return coordinate
     }
-    let source = drawLineFromRectToB(rectLinkLink.Start, target)
+    let source = drawLineFromRectToB(rectLinkLink.Start, target, 0)
 
     coordinate[0] = source.X
     coordinate[1] = source.Y
