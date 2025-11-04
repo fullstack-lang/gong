@@ -3858,7 +3858,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Path:
@@ -4074,7 +4074,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "HasStartArrow", "StartArrowSize", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Path:
@@ -4455,6 +4455,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = fmt.Sprintf("%f", inferedInstance.EndArrowSize)
 			res.valueFloat = inferedInstance.EndArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "EndArrowOffset":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.EndArrowOffset)
+			res.valueFloat = inferedInstance.EndArrowOffset
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "HasStartArrow":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasStartArrow)
 			res.valueBool = inferedInstance.HasStartArrow
@@ -4462,6 +4466,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "StartArrowSize":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "StartArrowOffset":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowOffset)
+			res.valueFloat = inferedInstance.StartArrowOffset
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TextAtArrowStart":
 			for idx, __instance__ := range inferedInstance.TextAtArrowStart {
@@ -5515,6 +5523,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = fmt.Sprintf("%f", inferedInstance.EndArrowSize)
 			res.valueFloat = inferedInstance.EndArrowSize
 			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "EndArrowOffset":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.EndArrowOffset)
+			res.valueFloat = inferedInstance.EndArrowOffset
+			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "HasStartArrow":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasStartArrow)
 			res.valueBool = inferedInstance.HasStartArrow
@@ -5522,6 +5534,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "StartArrowSize":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowSize)
 			res.valueFloat = inferedInstance.StartArrowSize
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "StartArrowOffset":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.StartArrowOffset)
+			res.valueFloat = inferedInstance.StartArrowOffset
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "TextAtArrowStart":
 			for idx, __instance__ := range inferedInstance.TextAtArrowStart {

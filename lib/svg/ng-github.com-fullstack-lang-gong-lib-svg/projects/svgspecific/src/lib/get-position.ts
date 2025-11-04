@@ -6,7 +6,8 @@ import { drawLineFromRectToB } from './draw.line.from.rect.to.point';
 export function getPosition(
     startRect: svg.Rect | undefined,
     position: string | undefined,
-    endRect?: svg.Rect | undefined
+    endRect: svg.Rect | undefined,
+    offset: number
 ): Coordinate {
 
     let coordinate: Coordinate = [0, 0]
@@ -33,7 +34,7 @@ export function getPosition(
                 coordinate = [startRect.X + startRect.Width / 2, startRect.Y + startRect.Height / 2]
             } else {
                 let endRectCenter = createPoint(endRect.X + endRect.Width / 2, endRect.Y + endRect.Height / 2)
-                let borderPoint = drawLineFromRectToB(startRect, endRectCenter)
+                let borderPoint = drawLineFromRectToB(startRect, endRectCenter, offset)
                 coordinate = [borderPoint.X, borderPoint.Y]
             }
             break;

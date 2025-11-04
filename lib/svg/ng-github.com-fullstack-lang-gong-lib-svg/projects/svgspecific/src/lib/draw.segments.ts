@@ -61,8 +61,8 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
         // Get all points in the polyline: Start Anchor, Control Points, End Anchor
         const allPoints: svg.Point[] = []
 
-        const startPos = getPosition(link.Start, link.StartAnchorType, link.End);
-        const endPos = getPosition(link.End, link.EndAnchorType, link.Start);
+        const startPos = getPosition(link.Start, link.StartAnchorType, link.End, link.StartArrowOffset);
+        const endPos = getPosition(link.End, link.EndAnchorType, link.Start, link.EndArrowOffset);
 
         allPoints.push(createPoint(startPos[0], startPos[1]))
         allPoints.push(...link.ControlPoints)

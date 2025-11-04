@@ -1,4 +1,3 @@
-
 import * as svg from '../../../svg/src/public-api'
 import { createPoint } from './draw.segments';
 
@@ -11,7 +10,12 @@ function getRectCenter(rect: svg.Rect): svg.Point {
 }
 
 // Function to draw a line from the border of the rectangle to the point B
-export function drawLineFromRectToB(rect: svg.Rect, B: svg.Point): svg.Point {
+// the line is shorten by offset on the rectangle border side
+export function drawLineFromRectToB(
+    rect: svg.Rect, 
+    B: svg.Point, 
+    offset: number
+): svg.Point {
     const center = getRectCenter(rect);
 
     // Calculate vector from center to point B
@@ -20,6 +24,14 @@ export function drawLineFromRectToB(rect: svg.Rect, B: svg.Point): svg.Point {
 
     // Normalize the vector
     const magnitude = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
+
+    // Handle edge case where B is at the center
+    if (magnitude === 0) {
+        // Cannot determine direction. Return a default border point (e.g., top-left).
+        // Applying offset is not possible.
+        return createPoint(rect.X, rect.Y);
+    }
+
     const unitVectorX = vectorX / magnitude;
     const unitVectorY = vectorY / magnitude;
 
@@ -68,5 +80,10 @@ export function drawLineFromRectToB(rect: svg.Rect, B: svg.Point): svg.Point {
         }
     }
 
-    return createPoint(borderX, borderY)
+    // Apply the offset
+    // Move the border point *along* the unit vector (towards B) by the offset distance
+    const startPointX = borderX + unitVectorX * offset;
+    const startPointY = borderY + unitVectorY * offset;
+
+    return createPoint(startPointX, startPointY);
 }

@@ -28,8 +28,10 @@ export class LinkAPI {
 	CornerRadius: number = 0
 	HasEndArrow: boolean = false
 	EndArrowSize: number = 0
+	EndArrowOffset: number = 0
 	HasStartArrow: boolean = false
 	StartArrowSize: number = 0
+	StartArrowOffset: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

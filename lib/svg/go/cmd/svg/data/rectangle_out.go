@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-04 07:04:08.097734 CET"
-	const __write__utc_time__ = "2025-11-04 06:04:08.097734 UTC"
+	const __write__local_time = "2025-11-04 07:50:15.593110 CET"
+	const __write__utc_time__ = "2025-11-04 06:50:15.593110 UTC"
 
-	const __commitId__ = "0000000011"
+	const __commitId__ = "0000000014"
 
 	// Declaration of instances to stage
 
@@ -138,8 +138,10 @@ func _(stage *models.Stage) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.CornerRadius = 8.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasEndArrow = true
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowSize = 10.000000
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.EndArrowOffset = 0.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.HasStartArrow = false
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartArrowSize = 0.000000
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StartArrowOffset = 0.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Color = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.FillOpacity = 0.000000
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Stroke = `green`
@@ -160,8 +162,10 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
+	__Link__000001_Start_Middle.EndArrowOffset = 0.000000
 	__Link__000001_Start_Middle.HasStartArrow = true
 	__Link__000001_Start_Middle.StartArrowSize = 10.000000
+	__Link__000001_Start_Middle.StartArrowOffset = 0.000000
 	__Link__000001_Start_Middle.Color = ``
 	__Link__000001_Start_Middle.FillOpacity = 0.000000
 	__Link__000001_Start_Middle.Stroke = `red`
@@ -184,8 +188,10 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
+	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 20.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasStartArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.StartArrowSize = 6.000000
+	__Link__000002_Top_to_Middle_issue_645_.StartArrowOffset = 10.000000
 	__Link__000002_Top_to_Middle_issue_645_.Color = ``
 	__Link__000002_Top_to_Middle_issue_645_.FillOpacity = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.Stroke = `black`
@@ -206,8 +212,10 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.CornerRadius = 20.000000
 	__Link__000003_Auto_1.HasEndArrow = true
 	__Link__000003_Auto_1.EndArrowSize = 15.000000
+	__Link__000003_Auto_1.EndArrowOffset = 0.000000
 	__Link__000003_Auto_1.HasStartArrow = true
 	__Link__000003_Auto_1.StartArrowSize = 10.000000
+	__Link__000003_Auto_1.StartArrowOffset = 0.000000
 	__Link__000003_Auto_1.Color = ``
 	__Link__000003_Auto_1.FillOpacity = 0.000000
 	__Link__000003_Auto_1.Stroke = `black`
@@ -228,8 +236,10 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.CornerRadius = 40.000000
 	__Link__000004_Auto_2.HasEndArrow = true
 	__Link__000004_Auto_2.EndArrowSize = 15.000000
+	__Link__000004_Auto_2.EndArrowOffset = 0.000000
 	__Link__000004_Auto_2.HasStartArrow = true
 	__Link__000004_Auto_2.StartArrowSize = 10.000000
+	__Link__000004_Auto_2.StartArrowOffset = 0.000000
 	__Link__000004_Auto_2.Color = ``
 	__Link__000004_Auto_2.FillOpacity = 0.000000
 	__Link__000004_Auto_2.Stroke = `black`
@@ -250,8 +260,10 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.CornerRadius = 30.000000
 	__Link__000005_Auto_3.HasEndArrow = true
 	__Link__000005_Auto_3.EndArrowSize = 15.000000
+	__Link__000005_Auto_3.EndArrowOffset = 0.000000
 	__Link__000005_Auto_3.HasStartArrow = true
 	__Link__000005_Auto_3.StartArrowSize = 10.000000
+	__Link__000005_Auto_3.StartArrowOffset = 0.000000
 	__Link__000005_Auto_3.Color = ``
 	__Link__000005_Auto_3.FillOpacity = 0.000000
 	__Link__000005_Auto_3.Stroke = `black`

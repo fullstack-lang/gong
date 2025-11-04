@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-02 23:59:28.292900 CET"
-	const __write__utc_time__ = "2025-11-02 22:59:28.292900 UTC"
+	const __write__local_time = "2025-11-04 07:04:08.097734 CET"
+	const __write__utc_time__ = "2025-11-04 06:04:08.097734 UTC"
 
-	const __commitId__ = "0000000004"
+	const __commitId__ = "0000000011"
 
 	// Declaration of instances to stage
 
@@ -59,6 +59,8 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE := (&models.LinkAnchoredText{}).Stage(stage)
+
+	__Point__000000_middle_line_control_point := (&models.Point{}).Stage(stage)
 
 	__Rect__000000_Bottom_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
@@ -498,6 +500,10 @@ Line 2`
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.Transform = ``
 
+	__Point__000000_middle_line_control_point.Name = `middle line control point`
+	__Point__000000_middle_line_control_point.X = 630.000000
+	__Point__000000_middle_line_control_point.Y = 350.000000
+
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
 	__Rect__000000_Bottom_Rect.X = 400.000000
 	__Rect__000000_Bottom_Rect.Y = 581.000000
@@ -569,8 +575,8 @@ Line 2`
 	__Rect__000001_Middle_Rect.ToolTipText = ``
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 522.999969
-	__Rect__000002_Top_Rect.Y = 44.000000
+	__Rect__000002_Top_Rect.X = 530.999969
+	__Rect__000002_Top_Rect.Y = 69.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -1252,6 +1258,7 @@ line 3`
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000002_Top_to_Middle_issue_645_.Start = __Rect__000002_Top_Rect
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
+	__Link__000002_Top_to_Middle_issue_645_.ControlPoints = append(__Link__000002_Top_to_Middle_issue_645_.ControlPoints, __Point__000000_middle_line_control_point)
 	__Link__000003_Auto_1.Start = __Rect__000003_Start
 	__Link__000003_Auto_1.End = __Rect__000004_End
 	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
@@ -1275,6 +1282,7 @@ line 3`
 	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
 	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	// setup of LinkAnchoredText instances pointers
+	// setup of Point instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom_Rect.RectAnchoredRects = append(__Rect__000000_Bottom_Rect.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)
@@ -1300,3 +1308,4 @@ line 3`
 	// setup of SvgText instances pointers
 	// setup of Text instances pointers
 }
+

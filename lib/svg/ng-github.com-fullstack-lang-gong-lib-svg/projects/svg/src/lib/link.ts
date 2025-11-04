@@ -33,8 +33,10 @@ export class Link {
 	CornerRadius: number = 0
 	HasEndArrow: boolean = false
 	EndArrowSize: number = 0
+	EndArrowOffset: number = 0
 	HasStartArrow: boolean = false
 	StartArrowSize: number = 0
+	StartArrowOffset: number = 0
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""
@@ -74,8 +76,10 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.CornerRadius = link.CornerRadius
 	linkAPI.HasEndArrow = link.HasEndArrow
 	linkAPI.EndArrowSize = link.EndArrowSize
+	linkAPI.EndArrowOffset = link.EndArrowOffset
 	linkAPI.HasStartArrow = link.HasStartArrow
 	linkAPI.StartArrowSize = link.StartArrowSize
+	linkAPI.StartArrowOffset = link.StartArrowOffset
 	linkAPI.Color = link.Color
 	linkAPI.FillOpacity = link.FillOpacity
 	linkAPI.Stroke = link.Stroke
@@ -143,8 +147,10 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 	link.CornerRadius = linkAPI.CornerRadius
 	link.HasEndArrow = linkAPI.HasEndArrow
 	link.EndArrowSize = linkAPI.EndArrowSize
+	link.EndArrowOffset = linkAPI.EndArrowOffset
 	link.HasStartArrow = linkAPI.HasStartArrow
 	link.StartArrowSize = linkAPI.StartArrowSize
+	link.StartArrowOffset = linkAPI.StartArrowOffset
 	link.Color = linkAPI.Color
 	link.FillOpacity = linkAPI.FillOpacity
 	link.Stroke = linkAPI.Stroke

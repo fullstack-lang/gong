@@ -39,9 +39,17 @@ type Link struct {
 	HasEndArrow  bool
 	EndArrowSize float64
 
+	// for aesthetic reasons, it can be usefull to have the
+	// arrow tip to stop at an offset EndArrowOffset from the target
+	EndArrowOffset float64
+
 	// Start Arrows
 	HasStartArrow  bool
 	StartArrowSize float64
+
+	// for aesthetic reasons, it can be usefull to have the
+	// arrow tip to stop at an offset StartArrowOffset from the target
+	StartArrowOffset float64
 
 	// to be displayed at the start
 	TextAtArrowStart []*LinkAnchoredText

@@ -233,9 +233,13 @@ type Link_WOP struct {
 
 	EndArrowSize float64
 
+	EndArrowOffset float64
+
 	HasStartArrow bool
 
 	StartArrowSize float64
+
+	StartArrowOffset float64
 
 	Color string
 
@@ -269,8 +273,10 @@ func (from *Link) CopyBasicFields(to *Link) {
 	to.CornerRadius = from.CornerRadius
 	to.HasEndArrow = from.HasEndArrow
 	to.EndArrowSize = from.EndArrowSize
+	to.EndArrowOffset = from.EndArrowOffset
 	to.HasStartArrow = from.HasStartArrow
 	to.StartArrowSize = from.StartArrowSize
+	to.StartArrowOffset = from.StartArrowOffset
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
 	to.Stroke = from.Stroke
