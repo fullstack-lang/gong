@@ -531,21 +531,7 @@
             
             @let segments = link | linkSegments: map_Link_Segment;
 
-            @if(link.ControlPoints.length == 0) {
-              <line 
-                [attr.x1]="getPosition(link.Start, link.StartAnchorType, link.End, link.StartArrowOffset)[0]" 
-                [attr.y1]="getPosition(link.Start, link.StartAnchorType, link.End, link.StartArrowOffset)[1]" 
-                [attr.x2]="getPosition(link.End, link.EndAnchorType, link.Start, link.EndArrowOffset)[0]" 
-                [attr.y2]="getPosition(link.End, link.EndAnchorType, link.Start, link.EndArrowOffset)[1]"
-                [attr.fill]="link.Color"
-                [attr.fill-opacity]="link.FillOpacity" 
-                [attr.stroke]="link.Stroke" 
-                [attr.stroke-opacity]="link.StrokeOpacity"
-                [attr.stroke-width]="link.StrokeWidth"
-                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                [attr.transform]="link.Transform" />
-            } 
-            @else if (segments) {
+            @if (segments) {
               <polyline 
                 [attr.points]="getPolylinePoints(segments)"
                 [attr.fill]="'none'"
@@ -554,6 +540,15 @@
                 [attr.stroke-width]="link.StrokeWidth"
                 [attr.stroke-dasharray]="link.StrokeDashArray" 
                 [attr.transform]="link.Transform" />
+              <polyline class="hit-area"  
+                  [attr.points]="getPolylinePoints(segments)"
+                  [attr.stroke]="'transparent'"  
+                  [attr.fill]="'none'"
+                  [attr.stroke-width]="link.StrokeWidth + 10" 
+                  [attr.transform]="link.Transform"
+                  (mousedown)="linkMouseDown($event, 0, link)" 
+                  (mousemove)="onmousemove($event)" 
+                  (mouseup)="linkMouseUp($event, link)" />
             }
 
             @if(segments && segments.length > 0) {

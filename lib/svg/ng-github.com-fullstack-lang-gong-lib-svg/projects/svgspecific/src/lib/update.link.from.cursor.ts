@@ -79,7 +79,7 @@ export function updateLinkFromCursor(
                     draggedSegmentNumber = 1
 
                     newRatio = nextStartRatio
-                    link.StartOrientation = svg.OrientationType.ORIENTATION_VERTICAL
+                    link.StartOrientation = SvgOrientationType.ORIENTATION_VERTICAL
                     link.StartRatio = newRatio
                 } else {
                     document.body.style.cursor = 'not-allowed'
@@ -172,7 +172,7 @@ export function updateLinkFromCursor(
                     }
 
                     newStartRatio = newStartVerticalRatio
-                    link.StartOrientation = svg.OrientationType.ORIENTATION_HORIZONTAL
+                    link.StartOrientation = SvgOrientationType.ORIENTATION_HORIZONTAL
                     link.StartRatio = newStartVerticalRatio
                 } else {
                     document.body.style.cursor = 'not-allowed'
@@ -209,7 +209,7 @@ export function updateLinkFromCursor(
                     }
 
                     newEndRatio = newOrientationRatio
-                    link.EndOrientation = svg.OrientationType.ORIENTATION_HORIZONTAL
+                    link.EndOrientation = SvgOrientationType.ORIENTATION_HORIZONTAL
                     link.EndRatio = newEndRatio
                     // switch dragged element to previous segment
                     draggedSegmentNumber = segments!.length - 1
