@@ -531,7 +531,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.State == StateEnumType.LINK_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.linkService.updateFront(this.draggedLink!, this.Name).subscribe(
+      this.linkService.updateFrontWithMouseEvent(this.draggedLink!, this.Name, event).subscribe(
         () => {
         }
       )

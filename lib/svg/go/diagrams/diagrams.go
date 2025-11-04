@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-22 06:57:46.376438 CEST"
-	const __write__utc_time__ = "2025-10-22 04:57:46.376438 UTC"
+	const __write__local_time = "2025-11-04 23:47:28.047487 CET"
+	const __write__utc_time__ = "2025-11-04 22:47:28.047487 UTC"
 
-	const __commitId__ = "0000000004"
+	const __commitId__ = "0000000005"
 
 	// Declaration of instances to stage
 
@@ -238,7 +238,7 @@ func _(stage *models.Stage) {
 	__LinkShape__000001_Start.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__LinkShape__000001_Start.StartRatio = 0.513821
 	__LinkShape__000001_Start.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__LinkShape__000001_Start.EndRatio = 0.169910
+	__LinkShape__000001_Start.EndRatio = 0.098107
 	__LinkShape__000001_Start.CornerOffsetRatio = 1.381380
 
 	__LinkShape__000002_TextAtArrowStart.Name = `TextAtArrowStart`

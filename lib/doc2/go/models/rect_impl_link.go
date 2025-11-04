@@ -3,7 +3,7 @@ package models
 import (
 	"log"
 
-	gongsvg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
 // LinkImplLink
@@ -24,7 +24,10 @@ func NewLinkImplLink(
 	return
 }
 
-func (linkImplLink *LinkImplLink) LinkUpdated(updatedLink *gongsvg_models.Link) {
+func (linkImplLink *LinkImplLink) LinkUpdatedWithMouseEvent(updatedLink *svg.Link, mouseEvent *svg.Gong__MouseEvent) {
+	linkImplLink.LinkUpdated(updatedLink)
+}
+func (linkImplLink *LinkImplLink) LinkUpdated(updatedLink *svg.Link) {
 
 	log.Println("LinkImplLink:LinkUpdated")
 
