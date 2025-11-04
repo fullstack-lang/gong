@@ -2,6 +2,16 @@
 package models
 
 // insertion point
+// LinkOrchestratorWithMouseEvent
+type LinkOrchestratorWithMouseEvent struct {
+}
+
+func (orchestrator *LinkOrchestratorWithMouseEvent) OnAfterUpdateWithMouseEvent(
+	gongsvgStage *Stage,
+	stagedLink, backRepoLink *Link, mouseEvent *Gong__MouseEvent) {
+
+	stagedLink.OnAfterUpdateWithMouseEvent(gongsvgStage, backRepoLink, mouseEvent)
+}
 // RectOrchestratorWithMouseEvent
 type RectOrchestratorWithMouseEvent struct {
 }
@@ -19,6 +29,8 @@ func SetOrchestratorOnAfterUpdateWithMouseEvent[Type Gongstruct](stage *Stage) {
 
 	switch any(ret).(type) {
 	// insertion point
+	case Link:
+		stage.OnAfterLinkUpdateWithMouseEventCallback = new(LinkOrchestratorWithMouseEvent)
 	case Rect:
 		stage.OnAfterRectUpdateWithMouseEventCallback = new(RectOrchestratorWithMouseEvent)
 
