@@ -967,9 +967,10 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   public getPosition(
     startRect: svg.Rect | undefined,
     position: string | undefined,
-    endRect?: svg.Rect | undefined
+    endRect: svg.Rect | undefined,
+    offset: number
   ): Coordinate {
-    return getPosition(startRect, position, endRect)
+    return getPosition(startRect, position, endRect, offset)
   }
 
   generatesSVG(download: boolean) {
