@@ -528,6 +528,9 @@
             }
           }
           @if(link.Type == LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS) {
+            
+            @let segments = link | linkSegments: map_Link_Segment;
+
             @if(link.ControlPoints.length == 0) {
               <line 
                 [attr.x1]="getPosition(link.Start, link.StartAnchorType, link.End)[0]" 
@@ -541,36 +544,43 @@
                 [attr.stroke-width]="link.StrokeWidth"
                 [attr.stroke-dasharray]="link.StrokeDashArray" 
                 [attr.transform]="link.Transform" />
+            } 
+            @else if (segments) {
+              <polyline 
+                [attr.points]="getPolylinePoints(segments)"
+                [attr.fill]="'none'"
+                [attr.stroke]="link.Stroke" 
+                [attr.stroke-opacity]="link.StrokeOpacity"
+                [attr.stroke-width]="link.StrokeWidth"
+                [attr.stroke-dasharray]="link.StrokeDashArray" 
+                [attr.transform]="link.Transform" />
             }
 
-            @let segments = link | linkSegments: map_Link_Segment;
-              @if(segments && segments.length > 0) {
-                @let endSegment = segments[segments.length - 1];
-                @if(link.HasEndArrow) {
-                  <path
-                    [attr.d]="getEndArrowPath(link, endSegment, link.EndArrowSize)"
-                    [attr.fill]="link.Color"
-                    [attr.fill-opacity]="link.FillOpacity" 
-                    [attr.stroke]="link.Stroke" 
-                    [attr.stroke-opacity]="link.StrokeOpacity"
-                    [attr.stroke-width]="link.StrokeWidth"
-                    [attr.stroke-dasharray]="link.StrokeDashArray" />
-                }
-
-                @let startSegment = segments[0];
-                @if(link.HasStartArrow) {
-                  <path
-                    [attr.d]="getStartArrowPath(link, startSegment, link.StartArrowSize)"
-                    [attr.fill]="link.Color"
-                    [attr.fill-opacity]="link.FillOpacity" 
-                    [attr.stroke]="link.Stroke" 
-                    [attr.stroke-opacity]="link.StrokeOpacity"
-                    [attr.stroke-width]="link.StrokeWidth"
-                    [attr.stroke-dasharray]="link.StrokeDashArray" />
-                }
+            @if(segments && segments.length > 0) {
+              @let endSegment = segments[segments.length - 1];
+              @if(link.HasEndArrow) {
+                <path
+                  [attr.d]="getEndArrowPath(link, endSegment, link.EndArrowSize)"
+                  [attr.fill]="link.Color"
+                  [attr.fill-opacity]="link.FillOpacity" 
+                  [attr.stroke]="link.Stroke" 
+                  [attr.stroke-opacity]="link.StrokeOpacity"
+                  [attr.stroke-width]="link.StrokeWidth"
+                  [attr.stroke-dasharray]="link.StrokeDashArray" />
               }
-              
-            
+
+              @let startSegment = segments[0];
+              @if(link.HasStartArrow) {
+                <path
+                  [attr.d]="getStartArrowPath(link, startSegment, link.StartArrowSize)"
+                  [attr.fill]="link.Color"
+                  [attr.fill-opacity]="link.FillOpacity" 
+                  [attr.stroke]="link.Stroke" 
+                  [attr.stroke-opacity]="link.StrokeOpacity"
+                  [attr.stroke-width]="link.StrokeWidth"
+                  [attr.stroke-dasharray]="link.StrokeDashArray" />
+              }
+            }
           }
         }
 
