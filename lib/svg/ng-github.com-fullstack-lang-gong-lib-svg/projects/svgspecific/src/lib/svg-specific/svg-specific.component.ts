@@ -1379,4 +1379,18 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   isConditionHovered(conditionID: number): boolean {
     return this.conditionHoverStates.get(conditionID) ?? false;
   }
+
+  public getPolylinePoints(segments: Segment[]): string {
+    if (!segments || segments.length === 0) {
+      return "";
+    }
+    // Build the string: "x1,y1 x2,y2 x3,y3 ..."
+    // The first point
+    let points = `${segments[0].StartPoint.X},${segments[0].StartPoint.Y}`;
+    // All subsequent end points
+    for (const segment of segments) {
+      points += ` ${segment.EndPoint.X},${segment.EndPoint.Y}`;
+    }
+    return points;
+  }
 }
