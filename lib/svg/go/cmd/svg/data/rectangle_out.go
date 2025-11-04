@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-04 07:50:15.593110 CET"
-	const __write__utc_time__ = "2025-11-04 06:50:15.593110 UTC"
+	const __write__local_time = "2025-11-04 23:20:35.104844 CET"
+	const __write__utc_time__ = "2025-11-04 22:20:35.104844 UTC"
 
-	const __commitId__ = "0000000014"
+	const __commitId__ = "0000000017"
 
 	// Declaration of instances to stage
 
@@ -46,6 +46,7 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1 := (&models.Link{}).Stage(stage)
 	__Link__000004_Auto_2 := (&models.Link{}).Stage(stage)
 	__Link__000005_Auto_3 := (&models.Link{}).Stage(stage)
+	__Link__000006_middle_to_bottom := (&models.Link{}).Stage(stage)
 
 	__LinkAnchoredText__000000_End_Left_Top := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000001_End_Right_Bottom := (&models.LinkAnchoredText{}).Stage(stage)
@@ -157,7 +158,7 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.StartRatio = 0.218766
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.478101
+	__Link__000001_Start_Middle.EndRatio = 0.378803
 	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
@@ -188,10 +189,10 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
-	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 20.000000
+	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 6.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasStartArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.StartArrowSize = 6.000000
-	__Link__000002_Top_to_Middle_issue_645_.StartArrowOffset = 10.000000
+	__Link__000002_Top_to_Middle_issue_645_.StartArrowOffset = 3.000000
 	__Link__000002_Top_to_Middle_issue_645_.Color = ``
 	__Link__000002_Top_to_Middle_issue_645_.FillOpacity = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.Stroke = `black`
@@ -272,6 +273,30 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StrokeDashArray = ``
 	__Link__000005_Auto_3.StrokeDashArrayWhenSelected = ``
 	__Link__000005_Auto_3.Transform = ``
+
+	__Link__000006_middle_to_bottom.Name = `middle to bottom`
+	__Link__000006_middle_to_bottom.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+	__Link__000006_middle_to_bottom.IsBezierCurve = false
+	__Link__000006_middle_to_bottom.StartAnchorType = models.ANCHOR_BOTTOM
+	__Link__000006_middle_to_bottom.EndAnchorType = models.ANCHOR_TOP
+	__Link__000006_middle_to_bottom.StartRatio = 0.000000
+	__Link__000006_middle_to_bottom.EndRatio = 0.000000
+	__Link__000006_middle_to_bottom.CornerOffsetRatio = 0.000000
+	__Link__000006_middle_to_bottom.CornerRadius = 0.000000
+	__Link__000006_middle_to_bottom.HasEndArrow = true
+	__Link__000006_middle_to_bottom.EndArrowSize = 10.000000
+	__Link__000006_middle_to_bottom.EndArrowOffset = 3.000000
+	__Link__000006_middle_to_bottom.HasStartArrow = false
+	__Link__000006_middle_to_bottom.StartArrowSize = 0.000000
+	__Link__000006_middle_to_bottom.StartArrowOffset = 0.000000
+	__Link__000006_middle_to_bottom.Color = ``
+	__Link__000006_middle_to_bottom.FillOpacity = 0.000000
+	__Link__000006_middle_to_bottom.Stroke = `blue`
+	__Link__000006_middle_to_bottom.StrokeOpacity = 1.000000
+	__Link__000006_middle_to_bottom.StrokeWidth = 1.000000
+	__Link__000006_middle_to_bottom.StrokeDashArray = ``
+	__Link__000006_middle_to_bottom.StrokeDashArrayWhenSelected = ``
+	__Link__000006_middle_to_bottom.Transform = ``
 
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
@@ -552,8 +577,8 @@ Line 2`
 	__Rect__000000_Bottom_Rect.ToolTipText = ``
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 554.000000
-	__Rect__000001_Middle_Rect.Y = 404.000000
+	__Rect__000001_Middle_Rect.X = 555.000000
+	__Rect__000001_Middle_Rect.Y = 393.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -1252,6 +1277,7 @@ line 3`
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal)
 	__Layer__000003_Link_layer_vertical_to_horizontal.Links = append(__Layer__000003_Link_layer_vertical_to_horizontal.Links, __Link__000002_Top_to_Middle_issue_645_)
 	__Layer__000004_Middle_Rect_Layer.Rects = append(__Layer__000004_Middle_Rect_Layer.Rects, __Rect__000001_Middle_Rect)
+	__Layer__000004_Middle_Rect_Layer.Links = append(__Layer__000004_Middle_Rect_Layer.Links, __Link__000006_middle_to_bottom)
 	__Layer__000005_Top_Rectangle_layer.Rects = append(__Layer__000005_Top_Rectangle_layer.Rects, __Rect__000002_Top_Rect)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000003_Start)
 	__Layer__000006_Test_Automatic_Layout.Rects = append(__Layer__000006_Test_Automatic_Layout.Rects, __Rect__000004_End)
@@ -1293,6 +1319,8 @@ line 3`
 	__Link__000005_Auto_3.TextAtArrowStart = append(__Link__000005_Auto_3.TextAtArrowStart, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
 	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
 	__Link__000005_Auto_3.TextAtArrowEnd = append(__Link__000005_Auto_3.TextAtArrowEnd, __LinkAnchoredText__000008_AA_RIGHT_OR_BOTTOM)
+	__Link__000006_middle_to_bottom.Start = __Rect__000001_Middle_Rect
+	__Link__000006_middle_to_bottom.End = __Rect__000000_Bottom_Rect
 	// setup of LinkAnchoredText instances pointers
 	// setup of Point instances pointers
 	// setup of Rect instances pointers
