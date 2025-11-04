@@ -52,30 +52,40 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
             CornerOffsetRatio: link.CornerOffsetRatio,
             CornerRadius: link.CornerRadius,
         }
-
         return drawSegments(segmentsParams)
     }
 
-    if (link.Type === svg.LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS && link.ControlPoints.length == 0) {
+    if (link.Type === svg.LinkType.LINK_TYPE_LINE_WITH_CONTROL_POINTS) {
+        const segments: Segment[] = []
+
+        // Get all points in the polyline: Start Anchor, Control Points, End Anchor
+        const allPoints: svg.Point[] = []
 
         const startPos = getPosition(link.Start, link.StartAnchorType, link.End);
         const endPos = getPosition(link.End, link.EndAnchorType, link.Start);
 
-        const startPoint = createPoint(startPos[0], startPos[1])
-        const endPoint = createPoint(endPos[0], endPos[1])
+        allPoints.push(createPoint(startPos[0], startPos[1]))
+        allPoints.push(...link.ControlPoints)
+        allPoints.push(createPoint(endPos[0], endPos[1]))
 
-        const orientation = getLineOrientation(startPoint.X, startPoint.Y, endPoint.X, endPoint.Y)
+        // Create one segment for each pair of points
+        for (let i = 0; i < allPoints.length - 1; i++) {
+            const p1 = allPoints[i]
+            const p2 = allPoints[i + 1]
+            const orientation = getLineOrientation(p1.X, p1.Y, p2.X, p2.Y)
 
-        let segment: Segment = {
-            StartPoint: startPoint,
-            EndPoint: endPoint,
-            StartPointWithoutRadius: startPoint,
-            EndPointWithoutRadius: endPoint,
-            Orientation: orientation,
-            Number: 0,
-            ArrowEndAnchoredText: []
+            let segment: Segment = {
+                StartPoint: p1,
+                EndPoint: p2,
+                StartPointWithoutRadius: p1, // No radius for this link type
+                EndPointWithoutRadius: p2,   // No radius for this link type
+                Orientation: orientation,
+                Number: i,
+                ArrowEndAnchoredText: []
+            }
+            segments.push(segment)
         }
-        return [segment]
+        return segments
     }
 
     return []
