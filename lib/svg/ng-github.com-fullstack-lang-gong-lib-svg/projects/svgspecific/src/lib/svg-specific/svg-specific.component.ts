@@ -478,7 +478,18 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (distanceMoved < this.dragThreshold && this.State == StateEnumType.NOT_EDITABLE) {
       console.log(getFunctionName(), "distanceMoved below threshold in state", this.State)
 
-      this.rectService.updateFrontWithMouseEvent(this.draggedRect!, this.Name, event).subscribe(
+      this.draggedRect!.MouseX = this.PointAtMouseUp.X
+      this.draggedRect!.MouseY = this.PointAtMouseUp.Y
+      if (event.shiftKey) {
+        this.draggedRect!.MouseEventKey = svg.MouseEventKey.MouseEventKeyShift
+      }
+      if (event.altKey) {
+        this.draggedRect!.MouseEventKey = svg.MouseEventKey.MouseEventKeyAlt
+      }
+      if (event.metaKey) {
+        this.draggedRect!.MouseEventKey = svg.MouseEventKey.MouseEventKeyMeta
+      }
+      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
         _ => {
         }
       )
@@ -531,7 +542,19 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.State == StateEnumType.LINK_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.linkService.updateFrontWithMouseEvent(this.draggedLink!, this.Name, event).subscribe(
+      let point = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
+      this.draggedLink!.MouseX = point.X
+      this.draggedLink!.MouseY = point.Y
+      if (event.shiftKey) {
+        this.draggedLink!.MouseEventKey = svg.MouseEventKey.MouseEventKeyShift
+      }
+      if (event.altKey) {
+        this.draggedLink!.MouseEventKey = svg.MouseEventKey.MouseEventKeyAlt
+      }
+      if (event.metaKey) {
+        this.draggedLink!.MouseEventKey = svg.MouseEventKey.MouseEventKeyMeta
+      }
+      this.linkService.updateFront(this.draggedLink!, this.Name).subscribe(
         () => {
         }
       )

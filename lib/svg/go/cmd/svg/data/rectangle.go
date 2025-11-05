@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-04 23:32:15.617358 CET"
-	const __write__utc_time__ = "2025-11-04 22:32:15.617358 UTC"
+	const __write__local_time = "2025-11-05 08:28:44.128639 CET"
+	const __write__utc_time__ = "2025-11-05 07:28:44.128639 UTC"
 
-	const __commitId__ = "0000000017"
+	const __commitId__ = "0000000024"
 
 	// Declaration of instances to stage
 
@@ -151,6 +151,8 @@ func _(stage *models.Stage) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Transform = ``
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.MouseX = 0.000000
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.MouseY = 0.000000
 
 	__Link__000001_Start_Middle.Name = `Start - Middle`
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -175,6 +177,8 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StrokeDashArray = ``
 	__Link__000001_Start_Middle.StrokeDashArrayWhenSelected = ``
 	__Link__000001_Start_Middle.Transform = ``
+	__Link__000001_Start_Middle.MouseX = 0.000000
+	__Link__000001_Start_Middle.MouseY = 0.000000
 
 	__Link__000002_Top_to_Middle_issue_645_.Name = `Top to Middle (issue #645)`
 	__Link__000002_Top_to_Middle_issue_645_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -201,6 +205,9 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArray = ``
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArrayWhenSelected = ``
 	__Link__000002_Top_to_Middle_issue_645_.Transform = ``
+	__Link__000002_Top_to_Middle_issue_645_.MouseX = 638.000000
+	__Link__000002_Top_to_Middle_issue_645_.MouseY = 329.500000
+	__Link__000002_Top_to_Middle_issue_645_.MouseEventKey = models.MouseEventKeyMeta
 
 	__Link__000003_Auto_1.Name = `Auto 1`
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -225,6 +232,8 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.StrokeDashArray = ``
 	__Link__000003_Auto_1.StrokeDashArrayWhenSelected = ``
 	__Link__000003_Auto_1.Transform = ``
+	__Link__000003_Auto_1.MouseX = 0.000000
+	__Link__000003_Auto_1.MouseY = 0.000000
 
 	__Link__000004_Auto_2.Name = `Auto 2`
 	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -249,6 +258,8 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StrokeDashArray = ``
 	__Link__000004_Auto_2.StrokeDashArrayWhenSelected = ``
 	__Link__000004_Auto_2.Transform = ``
+	__Link__000004_Auto_2.MouseX = 0.000000
+	__Link__000004_Auto_2.MouseY = 0.000000
 
 	__Link__000005_Auto_3.Name = `Auto 3`
 	__Link__000005_Auto_3.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -273,6 +284,8 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StrokeDashArray = ``
 	__Link__000005_Auto_3.StrokeDashArrayWhenSelected = ``
 	__Link__000005_Auto_3.Transform = ``
+	__Link__000005_Auto_3.MouseX = 0.000000
+	__Link__000005_Auto_3.MouseY = 0.000000
 
 	__Link__000006_middle_to_bottom.Name = `middle to bottom`
 	__Link__000006_middle_to_bottom.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -297,6 +310,8 @@ func _(stage *models.Stage) {
 	__Link__000006_middle_to_bottom.StrokeDashArray = ``
 	__Link__000006_middle_to_bottom.StrokeDashArrayWhenSelected = ``
 	__Link__000006_middle_to_bottom.Transform = ``
+	__Link__000006_middle_to_bottom.MouseX = 0.000000
+	__Link__000006_middle_to_bottom.MouseY = 0.000000
 
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
@@ -575,6 +590,8 @@ Line 2`
 	__Rect__000000_Bottom_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000000_Bottom_Rect.HasToolTip = false
 	__Rect__000000_Bottom_Rect.ToolTipText = ``
+	__Rect__000000_Bottom_Rect.MouseX = 0.000000
+	__Rect__000000_Bottom_Rect.MouseY = 0.000000
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
 	__Rect__000001_Middle_Rect.X = 555.000000
@@ -610,6 +627,8 @@ Line 2`
 	__Rect__000001_Middle_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000001_Middle_Rect.HasToolTip = false
 	__Rect__000001_Middle_Rect.ToolTipText = ``
+	__Rect__000001_Middle_Rect.MouseX = 0.000000
+	__Rect__000001_Middle_Rect.MouseY = 0.000000
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
 	__Rect__000002_Top_Rect.X = 530.999969
@@ -645,6 +664,9 @@ Line 2`
 	__Rect__000002_Top_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000002_Top_Rect.HasToolTip = false
 	__Rect__000002_Top_Rect.ToolTipText = ``
+	__Rect__000002_Top_Rect.MouseX = 749.000000
+	__Rect__000002_Top_Rect.MouseY = 289.500000
+	__Rect__000002_Top_Rect.MouseEventKey = models.MouseEventKeyShift
 
 	__Rect__000003_Start.Name = `Start`
 	__Rect__000003_Start.X = 1180.333333
@@ -680,6 +702,8 @@ Line 2`
 	__Rect__000003_Start.OriginalFillOpacity = 0.000000
 	__Rect__000003_Start.HasToolTip = false
 	__Rect__000003_Start.ToolTipText = ``
+	__Rect__000003_Start.MouseX = 0.000000
+	__Rect__000003_Start.MouseY = 0.000000
 
 	__Rect__000004_End.Name = `End`
 	__Rect__000004_End.X = 1081.769231
@@ -715,6 +739,8 @@ Line 2`
 	__Rect__000004_End.OriginalFillOpacity = 0.000000
 	__Rect__000004_End.HasToolTip = false
 	__Rect__000004_End.ToolTipText = ``
+	__Rect__000004_End.MouseX = 0.000000
+	__Rect__000004_End.MouseY = 0.000000
 
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
