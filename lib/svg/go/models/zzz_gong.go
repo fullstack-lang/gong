@@ -3858,7 +3858,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "MouseX", "MouseY", "MouseEventKey"}
 	case LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Path:
@@ -3870,7 +3870,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition", "MouseX", "MouseY", "MouseEventKey"}
 	case RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case RectAnchoredRect:
@@ -4074,7 +4074,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Line:
 		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "MouseX", "MouseY", "MouseEventKey"}
 	case *LinkAnchoredText:
 		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Path:
@@ -4086,7 +4086,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Polyline:
 		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
 	case *Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition"}
+		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition", "MouseX", "MouseY", "MouseEventKey"}
 	case *RectAnchoredPath:
 		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
 	case *RectAnchoredRect:
@@ -4514,6 +4514,17 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "MouseX":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseX)
+			res.valueFloat = inferedInstance.MouseX
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseY":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseY)
+			res.valueFloat = inferedInstance.MouseY
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseEventKey":
+			enum := inferedInstance.MouseEventKey
+			res.valueString = enum.ToCodeString()
 		}
 	case *LinkAnchoredText:
 		switch fieldName {
@@ -4867,6 +4878,17 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueString = inferedInstance.ToolTipText
 		case "ToolTipPosition":
 			enum := inferedInstance.ToolTipPosition
+			res.valueString = enum.ToCodeString()
+		case "MouseX":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseX)
+			res.valueFloat = inferedInstance.MouseX
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseY":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseY)
+			res.valueFloat = inferedInstance.MouseY
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseEventKey":
+			enum := inferedInstance.MouseEventKey
 			res.valueString = enum.ToCodeString()
 		}
 	case *RectAnchoredPath:
@@ -5582,6 +5604,17 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
 		case "Transform":
 			res.valueString = inferedInstance.Transform
+		case "MouseX":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseX)
+			res.valueFloat = inferedInstance.MouseX
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseY":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseY)
+			res.valueFloat = inferedInstance.MouseY
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseEventKey":
+			enum := inferedInstance.MouseEventKey
+			res.valueString = enum.ToCodeString()
 		}
 	case LinkAnchoredText:
 		switch fieldName {
@@ -5935,6 +5968,17 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueString = inferedInstance.ToolTipText
 		case "ToolTipPosition":
 			enum := inferedInstance.ToolTipPosition
+			res.valueString = enum.ToCodeString()
+		case "MouseX":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseX)
+			res.valueFloat = inferedInstance.MouseX
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseY":
+			res.valueString = fmt.Sprintf("%f", inferedInstance.MouseY)
+			res.valueFloat = inferedInstance.MouseY
+			res.GongFieldValueType = GongFieldValueTypeFloat
+		case "MouseEventKey":
+			enum := inferedInstance.MouseEventKey
 			res.valueString = enum.ToCodeString()
 		}
 	case RectAnchoredPath:

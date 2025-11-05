@@ -51,6 +51,8 @@ type Rect struct {
 	Impl RectImplInterface
 
 	ImplWithMouseEvent RectImplWithMouseEventInterface
+
+	MouseEvent
 }
 
 // OnAfterUpdate, notice that rect == stagedRect

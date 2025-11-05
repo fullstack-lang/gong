@@ -550,6 +550,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Transform", instanceWithInferedType.Transform, instanceWithInferedType, probe.formStage, formGroup,
 			true, true, 600, true, 400)
+		BasicFieldtoForm("MouseX", instanceWithInferedType.MouseX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MouseY", instanceWithInferedType.MouseY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("MouseEventKey", instanceWithInferedType.MouseEventKey, instanceWithInferedType, probe.formStage, formGroup)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -904,6 +909,11 @@ func FillUpForm(
 		BasicFieldtoForm("ToolTipText", instanceWithInferedType.ToolTipText, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		EnumTypeStringToForm("ToolTipPosition", instanceWithInferedType.ToolTipPosition, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("MouseX", instanceWithInferedType.MouseX, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("MouseY", instanceWithInferedType.MouseY, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("MouseEventKey", instanceWithInferedType.MouseEventKey, instanceWithInferedType, probe.formStage, formGroup)
 		{
 			var rf models.ReverseField
 			_ = rf

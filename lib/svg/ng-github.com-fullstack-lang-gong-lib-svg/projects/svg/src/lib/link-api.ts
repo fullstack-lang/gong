@@ -40,6 +40,9 @@ export class LinkAPI {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	MouseX: number = 0
+	MouseY: number = 0
+	MouseEventKey: string = ""
 
 	// insertion point for other decls
 

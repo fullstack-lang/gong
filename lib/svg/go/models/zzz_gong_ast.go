@@ -1704,6 +1704,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Link[identifier].Transform = fielValue
+				case "MouseX":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Link[identifier].MouseX = exprSign * fielValue
+				case "MouseY":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Link[identifier].MouseY = exprSign * fielValue
 				}
 			case "LinkAnchoredText":
 				switch fieldName {
@@ -2082,6 +2096,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Rect[identifier].ToolTipText = fielValue
+				case "MouseX":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].MouseX = exprSign * fielValue
+				case "MouseY":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Rect[identifier].MouseY = exprSign * fielValue
 				}
 			case "RectAnchoredPath":
 				switch fieldName {
@@ -2935,6 +2963,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_Link[identifier].EndOrientation = OrientationType(val)
+					case "MouseEventKey":
+						var val MouseEventKey
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Link[identifier].MouseEventKey = MouseEventKey(val)
 					}
 				case "LinkAnchoredText":
 					switch fieldName {
@@ -2973,6 +3008,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_Rect[identifier].ToolTipPosition = ToolTipPositionEnum(val)
+					case "MouseEventKey":
+						var val MouseEventKey
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Rect[identifier].MouseEventKey = MouseEventKey(val)
 					}
 				case "RectAnchoredPath":
 					switch fieldName {

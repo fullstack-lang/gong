@@ -155,6 +155,15 @@ type LinkDB struct {
 	// Declation for basic field linkDB.Transform
 	Transform_Data sql.NullString
 
+	// Declation for basic field linkDB.MouseX
+	MouseX_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.MouseY
+	MouseY_Data sql.NullFloat64
+
+	// Declation for basic field linkDB.MouseEventKey
+	MouseEventKey_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	LinkPointersEncoding
@@ -226,6 +235,12 @@ type LinkWOP struct {
 	StrokeDashArrayWhenSelected string `xlsx:"24"`
 
 	Transform string `xlsx:"25"`
+
+	MouseX float64 `xlsx:"26"`
+
+	MouseY float64 `xlsx:"27"`
+
+	MouseEventKey models.MouseEventKey `xlsx:"28"`
 	// insertion for WOP pointer fields
 }
 
@@ -257,6 +272,9 @@ var Link_Fields = []string{
 	"StrokeDashArray",
 	"StrokeDashArrayWhenSelected",
 	"Transform",
+	"MouseX",
+	"MouseY",
+	"MouseEventKey",
 }
 
 type BackRepoLinkStruct struct {
@@ -755,6 +773,15 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink(link *models.Link) {
 
 	linkDB.Transform_Data.String = link.Transform
 	linkDB.Transform_Data.Valid = true
+
+	linkDB.MouseX_Data.Float64 = link.MouseX
+	linkDB.MouseX_Data.Valid = true
+
+	linkDB.MouseY_Data.Float64 = link.MouseY
+	linkDB.MouseY_Data.Valid = true
+
+	linkDB.MouseEventKey_Data.String = link.MouseEventKey.ToString()
+	linkDB.MouseEventKey_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLink_WOP
@@ -835,6 +862,15 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLink_WOP(link *models.Link_WOP) {
 
 	linkDB.Transform_Data.String = link.Transform
 	linkDB.Transform_Data.Valid = true
+
+	linkDB.MouseX_Data.Float64 = link.MouseX
+	linkDB.MouseX_Data.Valid = true
+
+	linkDB.MouseY_Data.Float64 = link.MouseY
+	linkDB.MouseY_Data.Valid = true
+
+	linkDB.MouseEventKey_Data.String = link.MouseEventKey.ToString()
+	linkDB.MouseEventKey_Data.Valid = true
 }
 
 // CopyBasicFieldsFromLinkWOP
@@ -915,6 +951,15 @@ func (linkDB *LinkDB) CopyBasicFieldsFromLinkWOP(link *LinkWOP) {
 
 	linkDB.Transform_Data.String = link.Transform
 	linkDB.Transform_Data.Valid = true
+
+	linkDB.MouseX_Data.Float64 = link.MouseX
+	linkDB.MouseX_Data.Valid = true
+
+	linkDB.MouseY_Data.Float64 = link.MouseY
+	linkDB.MouseY_Data.Valid = true
+
+	linkDB.MouseEventKey_Data.String = link.MouseEventKey.ToString()
+	linkDB.MouseEventKey_Data.Valid = true
 }
 
 // CopyBasicFieldsToLink
@@ -945,6 +990,9 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink(link *models.Link) {
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
 	link.Transform = linkDB.Transform_Data.String
+	link.MouseX = linkDB.MouseX_Data.Float64
+	link.MouseY = linkDB.MouseY_Data.Float64
+	link.MouseEventKey.FromString(linkDB.MouseEventKey_Data.String)
 }
 
 // CopyBasicFieldsToLink_WOP
@@ -975,6 +1023,9 @@ func (linkDB *LinkDB) CopyBasicFieldsToLink_WOP(link *models.Link_WOP) {
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
 	link.Transform = linkDB.Transform_Data.String
+	link.MouseX = linkDB.MouseX_Data.Float64
+	link.MouseY = linkDB.MouseY_Data.Float64
+	link.MouseEventKey.FromString(linkDB.MouseEventKey_Data.String)
 }
 
 // CopyBasicFieldsToLinkWOP
@@ -1006,6 +1057,9 @@ func (linkDB *LinkDB) CopyBasicFieldsToLinkWOP(link *LinkWOP) {
 	link.StrokeDashArray = linkDB.StrokeDashArray_Data.String
 	link.StrokeDashArrayWhenSelected = linkDB.StrokeDashArrayWhenSelected_Data.String
 	link.Transform = linkDB.Transform_Data.String
+	link.MouseX = linkDB.MouseX_Data.Float64
+	link.MouseY = linkDB.MouseY_Data.Float64
+	link.MouseEventKey.FromString(linkDB.MouseEventKey_Data.String)
 }
 
 // Backup generates a json file from a slice of all LinkDB instances in the backrepo

@@ -256,6 +256,12 @@ type Link_WOP struct {
 	StrokeDashArrayWhenSelected string
 
 	Transform string
+
+	MouseX float64
+
+	MouseY float64
+
+	MouseEventKey MouseEventKey
 }
 
 func (from *Link) CopyBasicFields(to *Link) {
@@ -285,6 +291,9 @@ func (from *Link) CopyBasicFields(to *Link) {
 	to.StrokeDashArray = from.StrokeDashArray
 	to.StrokeDashArrayWhenSelected = from.StrokeDashArrayWhenSelected
 	to.Transform = from.Transform
+	to.MouseX = from.MouseX
+	to.MouseY = from.MouseY
+	to.MouseEventKey = from.MouseEventKey
 }
 
 type LinkAnchoredText_WOP struct {
@@ -555,6 +564,12 @@ type Rect_WOP struct {
 	ToolTipText string
 
 	ToolTipPosition ToolTipPositionEnum
+
+	MouseX float64
+
+	MouseY float64
+
+	MouseEventKey MouseEventKey
 }
 
 func (from *Rect) CopyBasicFields(to *Rect) {
@@ -594,6 +609,9 @@ func (from *Rect) CopyBasicFields(to *Rect) {
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
 	to.ToolTipPosition = from.ToolTipPosition
+	to.MouseX = from.MouseX
+	to.MouseY = from.MouseY
+	to.MouseEventKey = from.MouseEventKey
 }
 
 type RectAnchoredPath_WOP struct {

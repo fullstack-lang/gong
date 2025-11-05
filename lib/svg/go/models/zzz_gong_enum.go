@@ -2025,6 +2025,96 @@ func (linktype LinkType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for MouseEventKey
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (mouseeventkey MouseEventKey) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch mouseeventkey {
+	// insertion code per enum code
+	case MouseEventKeyShift:
+		res = "Shift"
+	case MouseEventKeyAlt:
+		res = "Alt"
+	case MouseEventKeyMeta:
+		res = "Meta"
+	}
+	return
+}
+
+func (mouseeventkey *MouseEventKey) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Shift":
+		*mouseeventkey = MouseEventKeyShift
+		return
+	case "Alt":
+		*mouseeventkey = MouseEventKeyAlt
+		return
+	case "Meta":
+		*mouseeventkey = MouseEventKeyMeta
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (mouseeventkey *MouseEventKey) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "MouseEventKeyShift":
+		*mouseeventkey = MouseEventKeyShift
+	case "MouseEventKeyAlt":
+		*mouseeventkey = MouseEventKeyAlt
+	case "MouseEventKeyMeta":
+		*mouseeventkey = MouseEventKeyMeta
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (mouseeventkey *MouseEventKey) ToCodeString() (res string) {
+
+	switch *mouseeventkey {
+	// insertion code per enum code
+	case MouseEventKeyShift:
+		res = "MouseEventKeyShift"
+	case MouseEventKeyAlt:
+		res = "MouseEventKeyAlt"
+	case MouseEventKeyMeta:
+		res = "MouseEventKeyMeta"
+	}
+	return
+}
+
+func (mouseeventkey MouseEventKey) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "MouseEventKeyShift")
+	res = append(res, "MouseEventKeyAlt")
+	res = append(res, "MouseEventKeyMeta")
+
+	return
+}
+
+func (mouseeventkey MouseEventKey) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Shift")
+	res = append(res, "Alt")
+	res = append(res, "Meta")
+
+	return
+}
+
 // Utility function for OrientationType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

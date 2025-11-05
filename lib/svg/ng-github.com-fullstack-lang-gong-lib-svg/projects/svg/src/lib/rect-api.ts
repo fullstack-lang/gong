@@ -52,6 +52,9 @@ export class RectAPI {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	MouseX: number = 0
+	MouseY: number = 0
+	MouseEventKey: string = ""
 
 	// insertion point for other decls
 

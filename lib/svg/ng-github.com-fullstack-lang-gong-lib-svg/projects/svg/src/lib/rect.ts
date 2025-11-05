@@ -57,6 +57,9 @@ export class Rect {
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
 	ToolTipPosition: string = ""
+	MouseX: number = 0
+	MouseY: number = 0
+	MouseEventKey: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	HoveringTrigger: Array<Condition> = []
@@ -109,6 +112,9 @@ export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {
 	rectAPI.HasToolTip = rect.HasToolTip
 	rectAPI.ToolTipText = rect.ToolTipText
 	rectAPI.ToolTipPosition = rect.ToolTipPosition
+	rectAPI.MouseX = rect.MouseX
+	rectAPI.MouseY = rect.MouseY
+	rectAPI.MouseEventKey = rect.MouseEventKey
 
 	// insertion point for pointer fields encoding
 
@@ -191,6 +197,9 @@ export function CopyRectAPIToRect(rectAPI: RectAPI, rect: Rect, frontRepo: Front
 	rect.HasToolTip = rectAPI.HasToolTip
 	rect.ToolTipText = rectAPI.ToolTipText
 	rect.ToolTipPosition = rectAPI.ToolTipPosition
+	rect.MouseX = rectAPI.MouseX
+	rect.MouseY = rectAPI.MouseY
+	rect.MouseEventKey = rectAPI.MouseEventKey
 
 	// insertion point for pointer fields encoding
 
