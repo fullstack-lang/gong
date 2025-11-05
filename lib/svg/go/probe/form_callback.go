@@ -2136,6 +2136,12 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(link_.StrokeDashArrayWhenSelected), formDiv)
 		case "Transform":
 			FormDivBasicFieldToField(&(link_.Transform), formDiv)
+		case "MouseX":
+			FormDivBasicFieldToField(&(link_.MouseX), formDiv)
+		case "MouseY":
+			FormDivBasicFieldToField(&(link_.MouseY), formDiv)
+		case "MouseEventKey":
+			FormDivEnumStringFieldToField(&(link_.MouseEventKey), formDiv)
 		case "Layer:Links":
 			// WARNING : this form deals with the N-N association "Layer.Links []*Link" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -3479,6 +3485,12 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(rect_.ToolTipText), formDiv)
 		case "ToolTipPosition":
 			FormDivEnumStringFieldToField(&(rect_.ToolTipPosition), formDiv)
+		case "MouseX":
+			FormDivBasicFieldToField(&(rect_.MouseX), formDiv)
+		case "MouseY":
+			FormDivBasicFieldToField(&(rect_.MouseY), formDiv)
+		case "MouseEventKey":
+			FormDivEnumStringFieldToField(&(rect_.MouseEventKey), formDiv)
 		case "Layer:Rects":
 			// WARNING : this form deals with the N-N association "Layer.Rects []*Rect" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

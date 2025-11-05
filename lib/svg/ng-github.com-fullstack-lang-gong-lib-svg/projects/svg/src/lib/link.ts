@@ -45,6 +45,9 @@ export class Link {
 	StrokeDashArray: string = ""
 	StrokeDashArrayWhenSelected: string = ""
 	Transform: string = ""
+	MouseX: number = 0
+	MouseY: number = 0
+	MouseEventKey: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	Start?: Rect
@@ -88,6 +91,9 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	linkAPI.StrokeDashArray = link.StrokeDashArray
 	linkAPI.StrokeDashArrayWhenSelected = link.StrokeDashArrayWhenSelected
 	linkAPI.Transform = link.Transform
+	linkAPI.MouseX = link.MouseX
+	linkAPI.MouseY = link.MouseY
+	linkAPI.MouseEventKey = link.MouseEventKey
 
 	// insertion point for pointer fields encoding
 	linkAPI.LinkPointersEncoding.StartID.Valid = true
@@ -159,6 +165,9 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 	link.StrokeDashArray = linkAPI.StrokeDashArray
 	link.StrokeDashArrayWhenSelected = linkAPI.StrokeDashArrayWhenSelected
 	link.Transform = linkAPI.Transform
+	link.MouseX = linkAPI.MouseX
+	link.MouseY = linkAPI.MouseY
+	link.MouseEventKey = linkAPI.MouseEventKey
 
 	// insertion point for pointer fields encoding
 	link.Start = frontRepo.map_ID_Rect.get(linkAPI.LinkPointersEncoding.StartID.Int64)

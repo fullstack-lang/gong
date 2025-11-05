@@ -65,6 +65,8 @@ type Link struct {
 	Impl LinkImplInterface
 
 	ImplWithMouseEvent LinkImplWithMouseEventInterface
+
+	MouseEvent
 }
 
 func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
