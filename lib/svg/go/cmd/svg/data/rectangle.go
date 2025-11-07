@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-05 08:28:44.128639 CET"
-	const __write__utc_time__ = "2025-11-05 07:28:44.128639 UTC"
+	const __write__local_time = "2025-11-05 17:03:07.287708 CET"
+	const __write__utc_time__ = "2025-11-05 16:03:07.287708 UTC"
 
-	const __commitId__ = "0000000024"
+	const __commitId__ = "0000000026"
 
 	// Declaration of instances to stage
 
@@ -158,10 +158,10 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.StartRatio = 0.218766
+	__Link__000001_Start_Middle.StartRatio = 0.242616
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Link__000001_Start_Middle.EndRatio = 0.378803
-	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
+	__Link__000001_Start_Middle.CornerOffsetRatio = -1.223629
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -177,8 +177,8 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StrokeDashArray = ``
 	__Link__000001_Start_Middle.StrokeDashArrayWhenSelected = ``
 	__Link__000001_Start_Middle.Transform = ``
-	__Link__000001_Start_Middle.MouseX = 0.000000
-	__Link__000001_Start_Middle.MouseY = 0.000000
+	__Link__000001_Start_Middle.MouseX = 242.000000
+	__Link__000001_Start_Middle.MouseY = 386.000000
 
 	__Link__000002_Top_to_Middle_issue_645_.Name = `Top to Middle (issue #645)`
 	__Link__000002_Top_to_Middle_issue_645_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -190,7 +190,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.575000
 	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.126591
-	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
+	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 10.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 6.000000
@@ -594,8 +594,8 @@ Line 2`
 	__Rect__000000_Bottom_Rect.MouseY = 0.000000
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 555.000000
-	__Rect__000001_Middle_Rect.Y = 393.000000
+	__Rect__000001_Middle_Rect.X = 547.000000
+	__Rect__000001_Middle_Rect.Y = 417.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -631,8 +631,8 @@ Line 2`
 	__Rect__000001_Middle_Rect.MouseY = 0.000000
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 530.999969
-	__Rect__000002_Top_Rect.Y = 69.000000
+	__Rect__000002_Top_Rect.X = 531.999969
+	__Rect__000002_Top_Rect.Y = 79.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -669,8 +669,8 @@ Line 2`
 	__Rect__000002_Top_Rect.MouseEventKey = models.MouseEventKeyShift
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 1180.333333
-	__Rect__000003_Start.Y = 77.333332
+	__Rect__000003_Start.X = 1125.333333
+	__Rect__000003_Start.Y = 62.333332
 	__Rect__000003_Start.Width = 853.000000
 	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
