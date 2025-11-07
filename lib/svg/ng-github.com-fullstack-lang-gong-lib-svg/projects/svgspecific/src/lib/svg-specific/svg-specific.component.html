@@ -531,24 +531,72 @@
             
             @let segments = link | linkSegments: map_Link_Segment;
 
-            @if (segments) {
-              <polyline 
-                [attr.points]="getPolylinePoints(segments)"
-                [attr.fill]="'none'"
-                [attr.stroke]="link.Stroke" 
-                [attr.stroke-opacity]="link.StrokeOpacity"
-                [attr.stroke-width]="link.StrokeWidth"
-                [attr.stroke-dasharray]="link.StrokeDashArray" 
-                [attr.transform]="link.Transform" />
-              <polyline class="hit-area"  
-                  [attr.points]="getPolylinePoints(segments)"
-                  [attr.stroke]="'transparent'"  
-                  [attr.fill]="'none'"
-                  [attr.stroke-width]="link.StrokeWidth + 10" 
-                  [attr.transform]="link.Transform"
-                  (mousedown)="linkMouseDown($event, 0, link)" 
-                  (mousemove)="onmousemove($event)" 
-                  (mouseup)="linkMouseUp($event, link)" />
+            @if(segments) {
+                
+              <g>
+                @for(segment of segments; track segment.Number; let i = $index) {
+                  <line class="moveable-line" 
+                    [attr.x1]="segment.StartPoint.X" 
+                    [attr.y1]="segment.StartPoint.Y" 
+                    [attr.x2]="segment.EndPoint.X" 
+                    [attr.y2]="segment.EndPoint.Y"
+                    [attr.fill]="link.Color"
+                    [attr.fill-opacity]="link.FillOpacity" 
+                    [attr.stroke]="link.Stroke" 
+                    [attr.stroke-opacity]="link.StrokeOpacity"
+                    [attr.stroke-width]="link.StrokeWidth"
+                    [attr.stroke-dasharray]="link.StrokeDashArray" 
+                    [attr.segment-orientation]="getOrientation(segment)"
+                    [attr.segment-number]="segment.Number" />
+                  <line class="hit-area"  
+                    [attr.x1]="segment.StartPoint.X" 
+                    [attr.y1]="segment.StartPoint.Y" 
+                    [attr.x2]="segment.EndPoint.X" 
+                    [attr.y2]="segment.EndPoint.Y"
+                    [attr.stroke]="'transparent'"  
+                    [attr.stroke-width]="link.StrokeWidth + 10" 
+                    [attr.segment-orientation]="getOrientation(segment)"
+                    (mousedown)="linkMouseDown($event, i, link)" 
+                    (mousemove)="onmousemove($event)" 
+                    (mouseup)="linkMouseUp($event, link)" />
+                }
+              </g>
+
+              @for(segment of segments; track segment.Number) {
+            
+                @let nextSegment = segments[segments.indexOf(segment) + 1];
+                @if(nextSegment) {                    <path
+                  [attr.d]="getArcPath(link, segment, nextSegment)" 
+                  [attr.fill]="link.Color"
+                  [attr.fill-opacity]="link.FillOpacity" 
+                  [attr.stroke]="link.Stroke" 
+                  [attr.stroke-opacity]="link.StrokeOpacity"
+                  [attr.stroke-width]="link.StrokeWidth"
+                  [attr.stroke-dasharray]="link.StrokeDashArray" />
+              }
+              
+              @if((segments.indexOf(segment) == (segments.length - 1)) && link.HasEndArrow) {
+                <path
+                  [attr.d]="getEndArrowPath(link, segment, link.EndArrowSize)"
+                  [attr.fill]="link.Color"
+                  [attr.fill-opacity]="link.FillOpacity" 
+                  [attr.stroke]="link.Stroke" 
+                  [attr.stroke-opacity]="link.StrokeOpacity"
+                  [attr.stroke-width]="link.StrokeWidth"
+                  [attr.stroke-dasharray]="link.StrokeDashArray" />
+              }
+              @if((segments.indexOf(segment) == 0) && link.HasStartArrow) {
+                <path
+                  [attr.d]="getStartArrowPath(link, segment, link.StartArrowSize)"
+                  [attr.fill]="link.Color"
+                  [attr.fill-opacity]="link.FillOpacity" 
+                  [attr.stroke]="link.Stroke" 
+                  [attr.stroke-opacity]="link.StrokeOpacity"
+                  [attr.stroke-width]="link.StrokeWidth"
+                  [attr.stroke-dasharray]="link.StrokeDashArray" />
+              }
+              
+              }
             }
 
             @if(segments && segments.length > 0) {

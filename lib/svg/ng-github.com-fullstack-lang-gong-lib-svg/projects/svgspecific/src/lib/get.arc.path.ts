@@ -4,62 +4,34 @@ import { SvgOrientationType } from './svg-orientation-type';
 
 export function getArcPath(link: svg.Link, segment: Segment, nextSegment: Segment): string {
 
-    const startDegree = 180
-    const endDegree = 270
-    const startRadians = (startDegree * Math.PI) / 180;
-    const endRadians = (endDegree * Math.PI) / 180;
-    const startX = segment.EndPoint.X
-    const startY = segment.EndPoint.Y
-    const endX = nextSegment.StartPoint.X
-    const endY = nextSegment.StartPoint.Y
-    const largeArcFlag = endDegree - startDegree <= 180 ? 0 : 1;
-
-    // 1 is positive angle direction
-    // 0 otherwise
-    let sweepFlag = 0
-    if (segment.Orientation == SvgOrientationType.ORIENTATION_HORIZONTAL) {
-
-        let segmentDirection = 0
-        if (segment.EndPoint.X > segment.StartPoint.X) {
-            segmentDirection = 1
-        } else {
-            segmentDirection = -1
-        }
-
-        let cornerDirection = 0
-        if (segment.EndPoint.Y < nextSegment.StartPoint.Y) {
-            cornerDirection = 1
-        } else {
-            cornerDirection = -1
-        }
-
-        if (segmentDirection * cornerDirection == 1) {
-            sweepFlag = 1
-        } else {
-            sweepFlag = 0
-        }
-
+    const r = link.CornerRadius
+    if (r === 0 || !nextSegment) {
+        return ""
     }
-    if (segment.Orientation == SvgOrientationType.ORIENTATION_VERTICAL) {
-        let segmentDirection = 0
-        if (segment.EndPoint.Y > segment.StartPoint.Y) {
-            segmentDirection = 1
-        } else {
-            segmentDirection = -1
-        }
 
-        let cornerDirection = 0
-        if (segment.EndPoint.X < nextSegment.StartPoint.X) {
-            cornerDirection = 1
-        } else {
-            cornerDirection = -1
-        }
+    const P1 = segment.EndPoint                // Start of the arc
+    const P2 = nextSegment.StartPoint          // End of the arc
+    const P_corner = segment.EndPointWithoutRadius // The "true" corner
 
-        if (segmentDirection * cornerDirection == 1) {
-            sweepFlag = 0
-        } else {
-            sweepFlag = 1
-        }
-    }
-    return `M ${startX} ${startY} A ${link.CornerRadius} ${link.CornerRadius} 0 ${largeArcFlag} ${sweepFlag} ${endX} ${endY}`;
+    // We need to determine the "sweep-flag" (i.e., which way the arc bends)
+    // We can use a 2D cross-product of the vectors from the corner
+
+    // Vector from arc-start TO corner
+    const v1 = { X: P_corner.X - P1.X, Y: P_corner.Y - P1.Y }
+    // Vector from corner TO arc-end
+    const v2 = { X: P2.X - P_corner.X, Y: P2.Y - P_corner.Y }
+
+    // Z-component of the cross product
+    const cross_z = v1.X * v2.Y - v1.Y * v2.X
+
+    // If cross_z > 0, it's a "left" turn (sweep-flag 1)
+    // If cross_z < 0, it's a "right" turn (sweep-flag 0)
+    const sweepFlag = (cross_z > 0) ? 1 : 0
+
+    // For a convex polyline, the angle is always < 180, so large-arc-flag is 0
+    const largeArcFlag = 0
+
+    // M = MoveTo, A = Arc
+    // A [rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+    return `M ${P1.X},${P1.Y} A ${r},${r} 0 ${largeArcFlag},${sweepFlag} ${P2.X},${P2.Y}`
 }

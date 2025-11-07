@@ -68,23 +68,97 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
         allPoints.push(...link.ControlPoints)
         allPoints.push(createPoint(endPos[0], endPos[1]))
 
-        // Create one segment for each pair of points
-        for (let i = 0; i < allPoints.length - 1; i++) {
-            const p1 = allPoints[i]
-            const p2 = allPoints[i + 1]
-            const orientation = getLineOrientation(p1.X, p1.Y, p2.X, p2.Y)
+        const cornerRadius = link.CornerRadius
 
-            let segment: Segment = {
-                StartPoint: p1,
-                EndPoint: p2,
-                StartPointWithoutRadius: p1, // No radius for this link type
-                EndPointWithoutRadius: p2,   // No radius for this link type
-                Orientation: orientation,
-                Number: i,
-                ArrowEndAnchoredText: []
+        // If no radius or not enough points for a corner, use the simple logic
+        if (cornerRadius === 0 || allPoints.length < 3) {
+            for (let i = 0; i < allPoints.length - 1; i++) {
+                const p1 = allPoints[i]
+                const p2 = allPoints[i + 1]
+                const orientation = getLineOrientation(p1.X, p1.Y, p2.X, p2.Y)
+
+                let segment: Segment = {
+                    StartPoint: p1,
+                    EndPoint: p2,
+                    StartPointWithoutRadius: p1,
+                    EndPointWithoutRadius: p2,
+                    Orientation: orientation,
+                    Number: i,
+                    ArrowEndAnchoredText: []
+                }
+                segments.push(segment)
             }
-            segments.push(segment)
+            return segments
         }
+
+        // --- NEW LOGIC for CornerRadius > 0 ---
+
+        let segmentStartPoint = allPoints[0] // Start of the *current* line segment
+
+        // Loop over all corners (all points except the very first and very last)
+        for (let i = 1; i < allPoints.length - 1; i++) {
+            const P_prev = allPoints[i - 1]
+            const P_curr = allPoints[i] // This is the vertex
+            const P_next = allPoints[i + 1]
+
+            // Calculate vectors *from* the corner
+            const v1 = { X: P_prev.X - P_curr.X, Y: P_prev.Y - P_curr.Y }
+            const v2 = { X: P_next.X - P_curr.X, Y: P_next.Y - P_curr.Y }
+
+            const lenV1 = Math.sqrt(v1.X * v1.X + v1.Y * v1.Y)
+            const lenV2 = Math.sqrt(v2.X * v2.X + v2.Y * v2.Y)
+
+            if (lenV1 === 0 || lenV2 === 0) {
+                continue // Points are coincident, skip
+            }
+
+            const v1_unit = { X: v1.X / lenV1, Y: v1.Y / lenV1 }
+            const v2_unit = { X: v2.X / lenV2, Y: v2.Y / lenV2 }
+
+            const dot = v1_unit.X * v2_unit.X + v1_unit.Y * v2_unit.Y
+            const theta = Math.acos(Math.max(-1, Math.min(1, dot))) // Angle at vertex
+
+            // Calculate cutback distance 'd'
+            let d = cornerRadius / Math.tan(theta / 2)
+
+            // Safety check: Don't cut back more than half the segment length
+            d = Math.min(d, lenV1 / 2, lenV2 / 2)
+            if (isNaN(d)) {
+                d = 0 // Handle collinear points
+            }
+
+            // Calculate the end of the first line (start of arc)
+            const arcStartPoint = createPoint(P_curr.X + v1_unit.X * d, P_curr.Y + v1_unit.Y * d)
+            // Calculate the start of the next line (end of arc)
+            const arcEndPoint = createPoint(P_curr.X + v2_unit.X * d, P_curr.Y + v2_unit.Y * d)
+
+            // Create the segment leading *up to* the corner
+            segments.push({
+                StartPoint: segmentStartPoint,
+                EndPoint: arcStartPoint,
+                StartPointWithoutRadius: allPoints[i - 1],
+                EndPointWithoutRadius: P_curr,
+                Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, arcStartPoint.X, arcStartPoint.Y),
+                Number: i - 1,
+                ArrowEndAnchoredText: []
+            })
+
+            // The start of the *next* segment is the end of this arc
+            segmentStartPoint = arcEndPoint
+        }
+
+        // Add the final segment (from the last corner's arc-end to the final point)
+        const lastPoint = allPoints[allPoints.length - 1]
+        segments.push({
+            StartPoint: segmentStartPoint,
+            EndPoint: lastPoint,
+            StartPointWithoutRadius: allPoints[allPoints.length - 2],
+            EndPointWithoutRadius: lastPoint,
+            Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, lastPoint.X, lastPoint.Y),
+            Number: segments.length,
+            ArrowEndAnchoredText: []
+        })
+
         return segments
     }
 
