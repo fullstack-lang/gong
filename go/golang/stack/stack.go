@@ -99,7 +99,6 @@ const stackInstanceTemplateEpilogue = `
 		packageName = "main"
 	}
 
-	stage.Checkout()
 	stage.Marshall(file, "{{PkgPathRoot}}/models", packageName)
 }
 
