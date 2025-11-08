@@ -45,19 +45,12 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.Arrow](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Arrow](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Bar](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Bar](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Gantt](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Gantt](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Group](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Group](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Lane](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Lane](stage)
 	models.SetOrchestratorOnAfterUpdate[models.LaneUse](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.LaneUse](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Milestone](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.Milestone](stage)
 
 	return
 }

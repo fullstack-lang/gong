@@ -37,24 +37,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterButtonUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterButtonUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterButtonUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Group:
 		newTarget := any(new).(*Group)
 		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterGroupUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterGroupUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Layout:
 		newTarget := any(new).(*Layout)
 		if stage.OnAfterLayoutUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterLayoutUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterLayoutUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

@@ -177,27 +177,6 @@ export class FavIconService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(favicon: FavIcon, Name: string, gong__mouseEvent: MouseEvent): Observable<FavIconAPI> {
-    let faviconAPI = new FavIconAPI
-    CopyFavIconToFavIconAPI(favicon, faviconAPI)
-    const id = typeof faviconAPI === 'number' ? faviconAPI : faviconAPI.ID
-    const url = `${this.faviconsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FavIconAPI>(url, faviconAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FavIconAPI>('updateFavIcon'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

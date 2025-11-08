@@ -37,24 +37,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterFileToDownloadUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterFileToDownloadUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterFileToDownloadUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *FileToUpload:
 		newTarget := any(new).(*FileToUpload)
 		if stage.OnAfterFileToUploadUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFileToUploadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterFileToUploadUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterFileToUploadUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Message:
 		newTarget := any(new).(*Message)
 		if stage.OnAfterMessageUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterMessageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterMessageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterMessageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

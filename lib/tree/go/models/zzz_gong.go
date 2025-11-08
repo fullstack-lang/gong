@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
-	OnAfterButtonUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Button]
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
@@ -107,7 +106,6 @@ type Stage struct {
 
 	OnAfterNodeCreateCallback OnAfterCreateInterface[Node]
 	OnAfterNodeUpdateCallback OnAfterUpdateInterface[Node]
-	OnAfterNodeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Node]
 	OnAfterNodeDeleteCallback OnAfterDeleteInterface[Node]
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
@@ -117,7 +115,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSVGIconCreateCallback OnAfterCreateInterface[SVGIcon]
 	OnAfterSVGIconUpdateCallback OnAfterUpdateInterface[SVGIcon]
-	OnAfterSVGIconUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[SVGIcon]
 	OnAfterSVGIconDeleteCallback OnAfterDeleteInterface[SVGIcon]
 	OnAfterSVGIconReadCallback   OnAfterReadInterface[SVGIcon]
 
@@ -129,7 +126,6 @@ type Stage struct {
 
 	OnAfterTreeCreateCallback OnAfterCreateInterface[Tree]
 	OnAfterTreeUpdateCallback OnAfterUpdateInterface[Tree]
-	OnAfterTreeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Tree]
 	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
@@ -374,11 +370,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

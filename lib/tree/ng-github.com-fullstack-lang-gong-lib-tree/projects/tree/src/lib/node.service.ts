@@ -179,27 +179,6 @@ export class NodeService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(node: Node, Name: string, gong__mouseEvent: MouseEvent): Observable<NodeAPI> {
-    let nodeAPI = new NodeAPI
-    CopyNodeToNodeAPI(node, nodeAPI)
-    const id = typeof nodeAPI === 'number' ? nodeAPI : nodeAPI.ID
-    const url = `${this.nodesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<NodeAPI>(url, nodeAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<NodeAPI>('updateNode'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

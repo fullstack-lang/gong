@@ -178,27 +178,6 @@ export class LineService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(line: Line, Name: string, gong__mouseEvent: MouseEvent): Observable<LineAPI> {
-    let lineAPI = new LineAPI
-    CopyLineToLineAPI(line, lineAPI)
-    const id = typeof lineAPI === 'number' ? lineAPI : lineAPI.ID
-    const url = `${this.linesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<LineAPI>(url, lineAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<LineAPI>('updateLine'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -64,8 +64,6 @@ type Link struct {
 
 	Impl LinkImplInterface
 
-	ImplWithMouseEvent LinkImplWithMouseEventInterface
-
 	MouseEvent
 }
 
@@ -73,13 +71,6 @@ func (link *Link) OnAfterUpdate(stage *Stage, _, frontLink *Link) {
 
 	if link.Impl != nil {
 		link.Impl.LinkUpdated(frontLink)
-	}
-}
-
-func (link *Link) OnAfterUpdateWithMouseEvent(stage *Stage, frontLink *Link, mouseEvent *Gong__MouseEvent) {
-
-	if link.ImplWithMouseEvent != nil {
-		link.ImplWithMouseEvent.LinkUpdatedWithMouseEvent(frontLink, mouseEvent)
 	}
 }
 

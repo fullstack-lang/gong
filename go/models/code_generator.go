@@ -46,7 +46,6 @@ func SimpleCodeGenerator(
 	CodeGenerator(mdlPkg, pkgName, pkgGoPath, generatedFilePath, templateCode, subTemplateCode,
 		map[string]string{}, map[string]string{},
 		false,
-		false,
 		false)
 }
 
@@ -62,7 +61,6 @@ func SimpleCodeGeneratorForGongStructWithNameField(
 	CodeGenerator(mdlPkg, pkgName, pkgGoPath, generatedFilePath, templateCode, subTemplateCode,
 		map[string]string{}, map[string]string{},
 		true,
-		false,
 		false)
 }
 
@@ -81,7 +79,6 @@ func CodeGenerator(
 	subSubToSubMap map[string]string,
 	forGongStructWithNameFieldOnly bool,
 	forGongStructWithHasOnUpdateSignatureOnly bool,
-	forGongStructWithHasOnUpdateWithMouseEventSignatureOnly bool,
 ) {
 
 	file, err := os.Create(generatedFilePath)
@@ -112,11 +109,6 @@ func CodeGenerator(
 		// where the set of gong struct is restricted
 		if forGongStructWithHasOnUpdateSignatureOnly &&
 			!_struct.HasOnAfterUpdateSignature {
-			continue
-		}
-
-		if forGongStructWithHasOnUpdateWithMouseEventSignatureOnly &&
-			!_struct.HasOnAfterUpdateWithMouseEventSignature {
 			continue
 		}
 

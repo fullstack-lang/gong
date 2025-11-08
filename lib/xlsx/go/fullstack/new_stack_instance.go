@@ -45,15 +45,10 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.DisplaySelection](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.DisplaySelection](stage)
 	models.SetOrchestratorOnAfterUpdate[models.XLCell](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.XLCell](stage)
 	models.SetOrchestratorOnAfterUpdate[models.XLFile](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.XLFile](stage)
 	models.SetOrchestratorOnAfterUpdate[models.XLRow](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.XLRow](stage)
 	models.SetOrchestratorOnAfterUpdate[models.XLSheet](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.XLSheet](stage)
 
 	return
 }

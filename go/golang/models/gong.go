@@ -162,7 +162,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
 	OnAfter{{Structname}}CreateCallback OnAfterCreateInterface[{{Structname}}]
 	OnAfter{{Structname}}UpdateCallback OnAfterUpdateInterface[{{Structname}}]
-	OnAfter{{Structname}}UpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[{{Structname}}]
 	OnAfter{{Structname}}DeleteCallback OnAfterDeleteInterface[{{Structname}}]
 	OnAfter{{Structname}}ReadCallback   OnAfterReadInterface[{{Structname}}]
 `,

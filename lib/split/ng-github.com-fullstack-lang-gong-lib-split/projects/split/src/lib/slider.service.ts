@@ -177,27 +177,6 @@ export class SliderService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(slider: Slider, Name: string, gong__mouseEvent: MouseEvent): Observable<SliderAPI> {
-    let sliderAPI = new SliderAPI
-    CopySliderToSliderAPI(slider, sliderAPI)
-    const id = typeof sliderAPI === 'number' ? sliderAPI : sliderAPI.ID
-    const url = `${this.slidersUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<SliderAPI>(url, sliderAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<SliderAPI>('updateSlider'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

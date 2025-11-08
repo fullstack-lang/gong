@@ -178,27 +178,6 @@ export class FormGroupService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(formgroup: FormGroup, Name: string, gong__mouseEvent: MouseEvent): Observable<FormGroupAPI> {
-    let formgroupAPI = new FormGroupAPI
-    CopyFormGroupToFormGroupAPI(formgroup, formgroupAPI)
-    const id = typeof formgroupAPI === 'number' ? formgroupAPI : formgroupAPI.ID
-    const url = `${this.formgroupsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FormGroupAPI>(url, formgroupAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FormGroupAPI>('updateFormGroup'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -4,7 +4,6 @@ import "go/ast"
 
 func checkFunctionSignature(file *ast.File, modelPkg *ModelPkg) {
 	targetFuncNameOnAfterUpdate := "OnAfterUpdate"
-	targetFuncNameOnAfterUpdateWithMouseEvent := "OnAfterUpdateWithMouseEvent"
 
 	for i, decl := range file.Decls {
 		_ = i
@@ -13,7 +12,7 @@ func checkFunctionSignature(file *ast.File, modelPkg *ModelPkg) {
 			continue
 		}
 
-		if funcDecl.Name.Name == targetFuncNameOnAfterUpdate || funcDecl.Name.Name == targetFuncNameOnAfterUpdateWithMouseEvent {
+		if funcDecl.Name.Name == targetFuncNameOnAfterUpdate {
 			recv := funcDecl.Recv.List[0]
 			ptrType, ok := recv.Type.(*ast.StarExpr)
 			if !ok {
@@ -46,19 +45,6 @@ func checkFunctionSignature(file *ast.File, modelPkg *ModelPkg) {
 				param2.X.(*ast.Ident).Name == gongstruct.Name {
 
 				gongstruct.HasOnAfterUpdateSignature = true
-			}
-
-			if funcDecl.Name.Name == targetFuncNameOnAfterUpdateWithMouseEvent &&
-				param1.X.(*ast.Ident).Name == "Stage" &&
-				param2.X.(*ast.Ident).Name == gongstruct.Name {
-
-				if len(params) < 3 {
-					continue
-				}
-				param3 := params[2].Type.(*ast.StarExpr)
-				if param3.X.(*ast.Ident).Name == "Gong__MouseEvent" {
-					gongstruct.HasOnAfterUpdateWithMouseEventSignature = true
-				}
 			}
 		}
 	}

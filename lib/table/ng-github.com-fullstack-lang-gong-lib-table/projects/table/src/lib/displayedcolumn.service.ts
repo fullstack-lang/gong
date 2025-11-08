@@ -177,27 +177,6 @@ export class DisplayedColumnService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(displayedcolumn: DisplayedColumn, Name: string, gong__mouseEvent: MouseEvent): Observable<DisplayedColumnAPI> {
-    let displayedcolumnAPI = new DisplayedColumnAPI
-    CopyDisplayedColumnToDisplayedColumnAPI(displayedcolumn, displayedcolumnAPI)
-    const id = typeof displayedcolumnAPI === 'number' ? displayedcolumnAPI : displayedcolumnAPI.ID
-    const url = `${this.displayedcolumnsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<DisplayedColumnAPI>(url, displayedcolumnAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<DisplayedColumnAPI>('updateDisplayedColumn'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

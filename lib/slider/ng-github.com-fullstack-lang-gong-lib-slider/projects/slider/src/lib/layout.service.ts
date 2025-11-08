@@ -178,27 +178,6 @@ export class LayoutService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(layout: Layout, Name: string, gong__mouseEvent: MouseEvent): Observable<LayoutAPI> {
-    let layoutAPI = new LayoutAPI
-    CopyLayoutToLayoutAPI(layout, layoutAPI)
-    const id = typeof layoutAPI === 'number' ? layoutAPI : layoutAPI.ID
-    const url = `${this.layoutsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<LayoutAPI>(url, layoutAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<LayoutAPI>('updateLayout'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

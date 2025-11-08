@@ -177,27 +177,6 @@ export class BstructService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(bstruct: Bstruct, Name: string, gong__mouseEvent: MouseEvent): Observable<BstructAPI> {
-    let bstructAPI = new BstructAPI
-    CopyBstructToBstructAPI(bstruct, bstructAPI)
-    const id = typeof bstructAPI === 'number' ? bstructAPI : bstructAPI.ID
-    const url = `${this.bstructsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<BstructAPI>(url, bstructAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<BstructAPI>('updateBstruct'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

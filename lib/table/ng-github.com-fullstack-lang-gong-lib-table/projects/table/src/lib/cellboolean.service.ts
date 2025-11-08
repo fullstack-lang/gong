@@ -177,27 +177,6 @@ export class CellBooleanService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(cellboolean: CellBoolean, Name: string, gong__mouseEvent: MouseEvent): Observable<CellBooleanAPI> {
-    let cellbooleanAPI = new CellBooleanAPI
-    CopyCellBooleanToCellBooleanAPI(cellboolean, cellbooleanAPI)
-    const id = typeof cellbooleanAPI === 'number' ? cellbooleanAPI : cellbooleanAPI.ID
-    const url = `${this.cellbooleansUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<CellBooleanAPI>(url, cellbooleanAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<CellBooleanAPI>('updateCellBoolean'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

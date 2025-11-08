@@ -53,56 +53,35 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterArrowUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterArrowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterArrowUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterArrowUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Bar:
 		newTarget := any(new).(*Bar)
 		if stage.OnAfterBarUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterBarUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterBarUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterBarUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Gantt:
 		newTarget := any(new).(*Gantt)
 		if stage.OnAfterGanttUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGanttUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterGanttUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterGanttUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Group:
 		newTarget := any(new).(*Group)
 		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterGroupUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterGroupUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Lane:
 		newTarget := any(new).(*Lane)
 		if stage.OnAfterLaneUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLaneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterLaneUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterLaneUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *LaneUse:
 		newTarget := any(new).(*LaneUse)
 		if stage.OnAfterLaneUseUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLaneUseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterLaneUseUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterLaneUseUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Milestone:
 		newTarget := any(new).(*Milestone)
 		if stage.OnAfterMilestoneUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterMilestoneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterMilestoneUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterMilestoneUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

@@ -41,32 +41,20 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterContentUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterContentUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterContentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterContentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *JpgImage:
 		newTarget := any(new).(*JpgImage)
 		if stage.OnAfterJpgImageUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterJpgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterJpgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterJpgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *PngImage:
 		newTarget := any(new).(*PngImage)
 		if stage.OnAfterPngImageUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterPngImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterPngImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterPngImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *SvgImage:
 		newTarget := any(new).(*SvgImage)
 		if stage.OnAfterSvgImageUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSvgImageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterSvgImageUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterSvgImageUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

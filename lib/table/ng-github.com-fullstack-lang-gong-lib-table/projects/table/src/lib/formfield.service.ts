@@ -184,27 +184,6 @@ export class FormFieldService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(formfield: FormField, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldAPI> {
-    let formfieldAPI = new FormFieldAPI
-    CopyFormFieldToFormFieldAPI(formfield, formfieldAPI)
-    const id = typeof formfieldAPI === 'number' ? formfieldAPI : formfieldAPI.ID
-    const url = `${this.formfieldsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FormFieldAPI>(url, formfieldAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FormFieldAPI>('updateFormField'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.
