@@ -763,6 +763,8 @@ type RectAnchoredText_WOP struct {
 
 	TextAnchorType TextAnchorType
 
+	DominantBaseline DominantBaselineType
+
 	WritingMode WritingMode
 
 	Color string
@@ -795,6 +797,7 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.Y_Offset = from.Y_Offset
 	to.RectAnchorType = from.RectAnchorType
 	to.TextAnchorType = from.TextAnchorType
+	to.DominantBaseline = from.DominantBaseline
 	to.WritingMode = from.WritingMode
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
