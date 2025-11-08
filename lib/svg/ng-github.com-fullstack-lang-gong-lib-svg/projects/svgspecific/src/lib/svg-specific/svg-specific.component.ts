@@ -235,6 +235,12 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   public conditionHoverStates: Map<number, boolean> = new Map<number, boolean>()
 
 
+// for control point dragging
+  controlPointDragging: boolean = false
+  activeControlPointLink: svg.Link | undefined
+  activeControlPointIndex: number = 0
+  ControlPointAtMouseDown: svg.Point | undefined
+
   //
   // BACKEND MANAGEMENT
   //
@@ -585,6 +591,11 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       )
     }
 
+    if (this.State == StateEnumType.CONTROL_POINT_DRAGGING) {
+      this.State = StateEnumType.WAITING_FOR_USER_INPUT
+      console.log(getFunctionName(), "state at exit", this.State)
+    }
+
     this.computeShapeStates()
     this.changeDetectorRef.detectChanges()
   }
@@ -775,6 +786,23 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           this.map_Link_Segment.set(link, segments)
         }
       }
+    }
+
+    if (this.State == StateEnumType.CONTROL_POINT_DRAGGING) {
+      if (!this.activeControlPointLink || !this.ControlPointAtMouseDown) {
+        return
+      }
+
+      // Get the actual point object from the link
+      let draggedPoint = this.activeControlPointLink.ControlPoints[this.activeControlPointIndex]
+
+      // Update its coordinates based on the drag delta
+      draggedPoint.X = this.ControlPointAtMouseDown.X + deltaX
+      draggedPoint.Y = this.ControlPointAtMouseDown.Y + deltaY
+
+      // Recompute the link's segments so the line redraws live
+      let segments = drawSegmentsFromLink(this.activeControlPointLink!)
+      this.map_Link_Segment.set(this.activeControlPointLink!, segments)
     }
 
     this.changeDetectorRef.detectChanges()
@@ -1416,5 +1444,36 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       points += ` ${segment.EndPoint.X},${segment.EndPoint.Y}`;
     }
     return points;
+  }
+
+  controlPointMouseDown(event: MouseEvent, link: svg.Link, pointIndex: number): void {
+    this.PointAtMouseDown = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
+
+    if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
+      // Set the state to CONTROL_POINT_DRAGGING
+      // (This assumes you've added CONTROL_POINT_DRAGGING to your StateEnumType)
+      this.State = StateEnumType.CONTROL_POINT_DRAGGING 
+      console.log(getFunctionName(), "state at exit", this.State)
+
+      // Set tracking properties
+      this.controlPointDragging = true
+      this.activeControlPointLink = link
+      this.activeControlPointIndex = pointIndex
+      
+      // Store a clone of the point's original position
+      this.ControlPointAtMouseDown = structuredClone(link.ControlPoints[pointIndex])
+
+      // Stop the event from bubbling up to the background rect
+      event.stopPropagation()
+    }
+  }
+
+  controlPointMouseUp(event: MouseEvent, link: svg.Link): void {
+    this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
+    console.log(getFunctionName(), "state at entry", this.State)
+
+    // The generic processMouseUp function will handle
+    // the state change and backend update.
+    this.processMouseUp(event)
   }
 }
