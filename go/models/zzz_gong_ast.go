@@ -1260,13 +1260,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_GongStruct[identifier].HasOnAfterUpdateSignature = fielValue
-				case "HasOnAfterUpdateWithMouseEventSignature":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_GongStruct[identifier].HasOnAfterUpdateWithMouseEventSignature = fielValue
 				case "IsIgnoredForFront":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

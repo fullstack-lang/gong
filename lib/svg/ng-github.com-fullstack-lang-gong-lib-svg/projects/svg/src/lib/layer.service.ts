@@ -187,27 +187,6 @@ export class LayerService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(layer: Layer, Name: string, gong__mouseEvent: MouseEvent): Observable<LayerAPI> {
-    let layerAPI = new LayerAPI
-    CopyLayerToLayerAPI(layer, layerAPI)
-    const id = typeof layerAPI === 'number' ? layerAPI : layerAPI.ID
-    const url = `${this.layersUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<LayerAPI>(url, layerAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<LayerAPI>('updateLayer'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

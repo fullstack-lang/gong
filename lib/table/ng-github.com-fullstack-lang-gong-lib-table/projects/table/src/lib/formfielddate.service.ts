@@ -177,27 +177,6 @@ export class FormFieldDateService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(formfielddate: FormFieldDate, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldDateAPI> {
-    let formfielddateAPI = new FormFieldDateAPI
-    CopyFormFieldDateToFormFieldDateAPI(formfielddate, formfielddateAPI)
-    const id = typeof formfielddateAPI === 'number' ? formfielddateAPI : formfielddateAPI.ID
-    const url = `${this.formfielddatesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FormFieldDateAPI>(url, formfielddateAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FormFieldDateAPI>('updateFormFieldDate'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -45,27 +45,16 @@ func NewStackInstance(
 	// add orchestration
 	// insertion point
 	models.SetOrchestratorOnAfterUpdate[models.GongBasicField](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongBasicField](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnum](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongEnum](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongEnumValue](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongEnumValue](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongLink](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongLink](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongNote](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongNote](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongStruct](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongStruct](stage)
 	models.SetOrchestratorOnAfterUpdate[models.GongTimeField](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.GongTimeField](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MetaReference](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.MetaReference](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ModelPkg](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.ModelPkg](stage)
 	models.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.PointerToGongStructField](stage)
 	models.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.SliceOfPointerToGongStructField](stage)
 
 	return
 }

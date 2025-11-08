@@ -177,27 +177,6 @@ export class GstructService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(gstruct: Gstruct, Name: string, gong__mouseEvent: MouseEvent): Observable<GstructAPI> {
-    let gstructAPI = new GstructAPI
-    CopyGstructToGstructAPI(gstruct, gstructAPI)
-    const id = typeof gstructAPI === 'number' ? gstructAPI : gstructAPI.ID
-    const url = `${this.gstructsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<GstructAPI>(url, gstructAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<GstructAPI>('updateGstruct'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

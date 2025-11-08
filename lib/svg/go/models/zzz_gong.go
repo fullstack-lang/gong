@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterAnimateCreateCallback OnAfterCreateInterface[Animate]
 	OnAfterAnimateUpdateCallback OnAfterUpdateInterface[Animate]
-	OnAfterAnimateUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Animate]
 	OnAfterAnimateDeleteCallback OnAfterDeleteInterface[Animate]
 	OnAfterAnimateReadCallback   OnAfterReadInterface[Animate]
 
@@ -105,7 +104,6 @@ type Stage struct {
 
 	OnAfterCircleCreateCallback OnAfterCreateInterface[Circle]
 	OnAfterCircleUpdateCallback OnAfterUpdateInterface[Circle]
-	OnAfterCircleUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Circle]
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
@@ -115,7 +113,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterConditionCreateCallback OnAfterCreateInterface[Condition]
 	OnAfterConditionUpdateCallback OnAfterUpdateInterface[Condition]
-	OnAfterConditionUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Condition]
 	OnAfterConditionDeleteCallback OnAfterDeleteInterface[Condition]
 	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
 
@@ -127,7 +124,6 @@ type Stage struct {
 
 	OnAfterEllipseCreateCallback OnAfterCreateInterface[Ellipse]
 	OnAfterEllipseUpdateCallback OnAfterUpdateInterface[Ellipse]
-	OnAfterEllipseUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Ellipse]
 	OnAfterEllipseDeleteCallback OnAfterDeleteInterface[Ellipse]
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
@@ -157,7 +153,6 @@ type Stage struct {
 
 	OnAfterLayerCreateCallback OnAfterCreateInterface[Layer]
 	OnAfterLayerUpdateCallback OnAfterUpdateInterface[Layer]
-	OnAfterLayerUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Layer]
 	OnAfterLayerDeleteCallback OnAfterDeleteInterface[Layer]
 	OnAfterLayerReadCallback   OnAfterReadInterface[Layer]
 
@@ -169,7 +164,6 @@ type Stage struct {
 
 	OnAfterLineCreateCallback OnAfterCreateInterface[Line]
 	OnAfterLineUpdateCallback OnAfterUpdateInterface[Line]
-	OnAfterLineUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Line]
 	OnAfterLineDeleteCallback OnAfterDeleteInterface[Line]
 	OnAfterLineReadCallback   OnAfterReadInterface[Line]
 
@@ -185,7 +179,6 @@ type Stage struct {
 
 	OnAfterLinkCreateCallback OnAfterCreateInterface[Link]
 	OnAfterLinkUpdateCallback OnAfterUpdateInterface[Link]
-	OnAfterLinkUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Link]
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
@@ -197,7 +190,6 @@ type Stage struct {
 
 	OnAfterLinkAnchoredTextCreateCallback OnAfterCreateInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextUpdateCallback OnAfterUpdateInterface[LinkAnchoredText]
-	OnAfterLinkAnchoredTextUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextDeleteCallback OnAfterDeleteInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextReadCallback   OnAfterReadInterface[LinkAnchoredText]
 
@@ -209,7 +201,6 @@ type Stage struct {
 
 	OnAfterPathCreateCallback OnAfterCreateInterface[Path]
 	OnAfterPathUpdateCallback OnAfterUpdateInterface[Path]
-	OnAfterPathUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Path]
 	OnAfterPathDeleteCallback OnAfterDeleteInterface[Path]
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
@@ -219,7 +210,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterPointCreateCallback OnAfterCreateInterface[Point]
 	OnAfterPointUpdateCallback OnAfterUpdateInterface[Point]
-	OnAfterPointUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Point]
 	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
 	OnAfterPointReadCallback   OnAfterReadInterface[Point]
 
@@ -231,7 +221,6 @@ type Stage struct {
 
 	OnAfterPolygoneCreateCallback OnAfterCreateInterface[Polygone]
 	OnAfterPolygoneUpdateCallback OnAfterUpdateInterface[Polygone]
-	OnAfterPolygoneUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Polygone]
 	OnAfterPolygoneDeleteCallback OnAfterDeleteInterface[Polygone]
 	OnAfterPolygoneReadCallback   OnAfterReadInterface[Polygone]
 
@@ -243,7 +232,6 @@ type Stage struct {
 
 	OnAfterPolylineCreateCallback OnAfterCreateInterface[Polyline]
 	OnAfterPolylineUpdateCallback OnAfterUpdateInterface[Polyline]
-	OnAfterPolylineUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Polyline]
 	OnAfterPolylineDeleteCallback OnAfterDeleteInterface[Polyline]
 	OnAfterPolylineReadCallback   OnAfterReadInterface[Polyline]
 
@@ -265,7 +253,6 @@ type Stage struct {
 
 	OnAfterRectCreateCallback OnAfterCreateInterface[Rect]
 	OnAfterRectUpdateCallback OnAfterUpdateInterface[Rect]
-	OnAfterRectUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Rect]
 	OnAfterRectDeleteCallback OnAfterDeleteInterface[Rect]
 	OnAfterRectReadCallback   OnAfterReadInterface[Rect]
 
@@ -275,7 +262,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredPathCreateCallback OnAfterCreateInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathUpdateCallback OnAfterUpdateInterface[RectAnchoredPath]
-	OnAfterRectAnchoredPathUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathDeleteCallback OnAfterDeleteInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
 
@@ -285,7 +271,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterRectAnchoredRectCreateCallback OnAfterCreateInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectUpdateCallback OnAfterUpdateInterface[RectAnchoredRect]
-	OnAfterRectAnchoredRectUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectDeleteCallback OnAfterDeleteInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectReadCallback   OnAfterReadInterface[RectAnchoredRect]
 
@@ -297,7 +282,6 @@ type Stage struct {
 
 	OnAfterRectAnchoredTextCreateCallback OnAfterCreateInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextUpdateCallback OnAfterUpdateInterface[RectAnchoredText]
-	OnAfterRectAnchoredTextUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextDeleteCallback OnAfterDeleteInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextReadCallback   OnAfterReadInterface[RectAnchoredText]
 
@@ -307,7 +291,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterRectLinkLinkCreateCallback OnAfterCreateInterface[RectLinkLink]
 	OnAfterRectLinkLinkUpdateCallback OnAfterUpdateInterface[RectLinkLink]
-	OnAfterRectLinkLinkUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[RectLinkLink]
 	OnAfterRectLinkLinkDeleteCallback OnAfterDeleteInterface[RectLinkLink]
 	OnAfterRectLinkLinkReadCallback   OnAfterReadInterface[RectLinkLink]
 
@@ -319,7 +302,6 @@ type Stage struct {
 
 	OnAfterSVGCreateCallback OnAfterCreateInterface[SVG]
 	OnAfterSVGUpdateCallback OnAfterUpdateInterface[SVG]
-	OnAfterSVGUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[SVG]
 	OnAfterSVGDeleteCallback OnAfterDeleteInterface[SVG]
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
@@ -329,7 +311,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSvgTextCreateCallback OnAfterCreateInterface[SvgText]
 	OnAfterSvgTextUpdateCallback OnAfterUpdateInterface[SvgText]
-	OnAfterSvgTextUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[SvgText]
 	OnAfterSvgTextDeleteCallback OnAfterDeleteInterface[SvgText]
 	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
 
@@ -341,7 +322,6 @@ type Stage struct {
 
 	OnAfterTextCreateCallback OnAfterCreateInterface[Text]
 	OnAfterTextUpdateCallback OnAfterUpdateInterface[Text]
-	OnAfterTextUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Text]
 	OnAfterTextDeleteCallback OnAfterDeleteInterface[Text]
 	OnAfterTextReadCallback   OnAfterReadInterface[Text]
 
@@ -890,11 +870,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

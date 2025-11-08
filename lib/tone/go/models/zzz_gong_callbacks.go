@@ -37,24 +37,15 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterFreqencyUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterFreqencyUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterFreqencyUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterFreqencyUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Note:
 		newTarget := any(new).(*Note)
 		if stage.OnAfterNoteUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterNoteUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterNoteUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Player:
 		newTarget := any(new).(*Player)
 		if stage.OnAfterPlayerUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterPlayerUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterPlayerUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterPlayerUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

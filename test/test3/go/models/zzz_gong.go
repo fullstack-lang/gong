@@ -95,7 +95,6 @@ type Stage struct {
 
 	OnAfterACreateCallback OnAfterCreateInterface[A]
 	OnAfterAUpdateCallback OnAfterUpdateInterface[A]
-	OnAfterAUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[A]
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
 	OnAfterAReadCallback   OnAfterReadInterface[A]
 
@@ -283,11 +282,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

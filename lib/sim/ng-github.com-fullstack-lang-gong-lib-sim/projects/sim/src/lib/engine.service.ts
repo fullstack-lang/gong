@@ -177,27 +177,6 @@ export class EngineService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(engine: Engine, Name: string, gong__mouseEvent: MouseEvent): Observable<EngineAPI> {
-    let engineAPI = new EngineAPI
-    CopyEngineToEngineAPI(engine, engineAPI)
-    const id = typeof engineAPI === 'number' ? engineAPI : engineAPI.ID
-    const url = `${this.enginesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<EngineAPI>(url, engineAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<EngineAPI>('updateEngine'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -41,32 +41,20 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterCheckboxUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterCheckboxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterCheckboxUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterCheckboxUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Group:
 		newTarget := any(new).(*Group)
 		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterGroupUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterGroupUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Layout:
 		newTarget := any(new).(*Layout)
 		if stage.OnAfterLayoutUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterLayoutUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterLayoutUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterLayoutUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Slider:
 		newTarget := any(new).(*Slider)
 		if stage.OnAfterSliderUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterSliderUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterSliderUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterSliderUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

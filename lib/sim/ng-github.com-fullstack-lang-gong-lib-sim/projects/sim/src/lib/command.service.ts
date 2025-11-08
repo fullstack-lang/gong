@@ -178,27 +178,6 @@ export class CommandService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(command: Command, Name: string, gong__mouseEvent: MouseEvent): Observable<CommandAPI> {
-    let commandAPI = new CommandAPI
-    CopyCommandToCommandAPI(command, commandAPI)
-    const id = typeof commandAPI === 'number' ? commandAPI : commandAPI.ID
-    const url = `${this.commandsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<CommandAPI>(url, commandAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<CommandAPI>('updateCommand'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.
