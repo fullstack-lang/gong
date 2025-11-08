@@ -16,14 +16,36 @@ type RectAnchoredText struct {
 	X_Offset float64
 	Y_Offset float64
 
-	RectAnchorType RectAnchorType
-	TextAnchorType TextAnchorType
+	RectAnchorType   RectAnchorType
+	TextAnchorType   TextAnchorType
+	DominantBaseline DominantBaselineType
 
 	WritingMode WritingMode
 
 	Presentation
 	Animates []*Animate
 }
+
+type DominantBaselineType string
+
+const (
+	//	These are the most frequently used values for precise text alignment.
+	//
+	// auto (Default): The browser determines the baseline automatically. For horizontal text, this is typically the same as alphabetic. For vertical text, it's typically central.
+	DominantBaselineAuto DominantBaselineType = "auto"
+
+	// middle: This aligns the vertical midpoint of the text to the y coordinate. This is the value you'd use to perfectly center text, as you asked in your previous question.
+	DominantBaselineMiddle DominantBaselineType = "middle"
+
+	// alphabetic: The standard baseline used by most Latin, Greek, and Cyrillic scripts (the line the bottom of letters like 'a', 'b', 'c' sit on). This is often the default behavior if auto is set.
+	DominantBaselineAlphabetic DominantBaselineType = "alphabetic"
+
+	// hanging: The baseline used by scripts like Devanagari (Hindi) and Tibetan, where the characters "hang" from the line.
+	DominantBaselineHanging DominantBaselineType = "hanging"
+
+	// ideographic: The baseline used for East Asian scripts (Chinese, Japanese, Korean) that aligns with the bottom of the ideographic characters.
+	DominantBaselineIdeographic DominantBaselineType = "ideographic"
+)
 
 /*
 The writing-mode property in SVG and CSS specifies how lines of text are laid out, determining whether text
