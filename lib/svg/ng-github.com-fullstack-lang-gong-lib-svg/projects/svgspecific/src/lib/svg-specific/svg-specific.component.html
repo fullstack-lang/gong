@@ -624,7 +624,22 @@
                   [attr.stroke-dasharray]="link.StrokeDashArray" />
               }
             }
-          }
+
+            @if(svg.IsEditable) {
+              <g>
+                @for(point of link.ControlPoints; track point.ID; let pointIndex = $index) {
+                  <circle class="overlay"
+                    [attr.cx]="point.X"
+                    [attr.cy]="point.Y"
+                    [attr.r]="anchorRadius"
+                    [attr.fill]="(controlPointDragging && activeControlPointLink === link && activeControlPointIndex === pointIndex) ? draggingAnchorFillColor : anchorFillColor"
+                    (mousedown)="controlPointMouseDown($event, link, pointIndex)"
+                    (mousemove)="onmousemove($event)"
+                    (mouseup)="controlPointMouseUp($event, link)"/>
+                }
+              </g>
+            }
+            }
         }
 
         @for(rectLinkLink of layer.RectLinkLinks; track rectLinkLink.ID) {
