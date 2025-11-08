@@ -177,27 +177,6 @@ export class SvgTextService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(svgtext: SvgText, Name: string, gong__mouseEvent: MouseEvent): Observable<SvgTextAPI> {
-    let svgtextAPI = new SvgTextAPI
-    CopySvgTextToSvgTextAPI(svgtext, svgtextAPI)
-    const id = typeof svgtextAPI === 'number' ? svgtextAPI : svgtextAPI.ID
-    const url = `${this.svgtextsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<SvgTextAPI>(url, svgtextAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<SvgTextAPI>('updateSvgText'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

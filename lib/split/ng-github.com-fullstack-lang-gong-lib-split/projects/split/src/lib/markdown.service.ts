@@ -177,27 +177,6 @@ export class MarkdownService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(markdown: Markdown, Name: string, gong__mouseEvent: MouseEvent): Observable<MarkdownAPI> {
-    let markdownAPI = new MarkdownAPI
-    CopyMarkdownToMarkdownAPI(markdown, markdownAPI)
-    const id = typeof markdownAPI === 'number' ? markdownAPI : markdownAPI.ID
-    const url = `${this.markdownsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<MarkdownAPI>(url, markdownAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<MarkdownAPI>('updateMarkdown'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

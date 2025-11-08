@@ -177,27 +177,6 @@ export class ConditionService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(condition: Condition, Name: string, gong__mouseEvent: MouseEvent): Observable<ConditionAPI> {
-    let conditionAPI = new ConditionAPI
-    CopyConditionToConditionAPI(condition, conditionAPI)
-    const id = typeof conditionAPI === 'number' ? conditionAPI : conditionAPI.ID
-    const url = `${this.conditionsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<ConditionAPI>(url, conditionAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<ConditionAPI>('updateCondition'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

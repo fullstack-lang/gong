@@ -78,6 +78,5 @@ const (
 var ModelGongNewStackInstanceStructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(ModelGongNewStackInstanceSet)): `
-	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)
-	models.SetOrchestratorOnAfterUpdateWithMouseEvent[models.{{Structname}}](stage)`,
+	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
 }

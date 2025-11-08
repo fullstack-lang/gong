@@ -177,27 +177,6 @@ export class SplitService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(split: Split, Name: string, gong__mouseEvent: MouseEvent): Observable<SplitAPI> {
-    let splitAPI = new SplitAPI
-    CopySplitToSplitAPI(split, splitAPI)
-    const id = typeof splitAPI === 'number' ? splitAPI : splitAPI.ID
-    const url = `${this.splitsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<SplitAPI>(url, splitAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<SplitAPI>('updateSplit'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

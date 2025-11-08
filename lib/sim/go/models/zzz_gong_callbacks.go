@@ -49,48 +49,30 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterCommandUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterCommandUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterCommandUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterCommandUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *DummyAgent:
 		newTarget := any(new).(*DummyAgent)
 		if stage.OnAfterDummyAgentUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDummyAgentUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterDummyAgentUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterDummyAgentUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Engine:
 		newTarget := any(new).(*Engine)
 		if stage.OnAfterEngineUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterEngineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterEngineUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterEngineUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Event:
 		newTarget := any(new).(*Event)
 		if stage.OnAfterEventUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterEventUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterEventUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterEventUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Status:
 		newTarget := any(new).(*Status)
 		if stage.OnAfterStatusUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterStatusUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterStatusUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterStatusUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *UpdateState:
 		newTarget := any(new).(*UpdateState)
 		if stage.OnAfterUpdateStateUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterUpdateStateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterUpdateStateUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterUpdateStateUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

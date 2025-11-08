@@ -177,27 +177,6 @@ export class TreeService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(tree: Tree, Name: string, gong__mouseEvent: MouseEvent): Observable<TreeAPI> {
-    let treeAPI = new TreeAPI
-    CopyTreeToTreeAPI(tree, treeAPI)
-    const id = typeof treeAPI === 'number' ? treeAPI : treeAPI.ID
-    const url = `${this.treesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<TreeAPI>(url, treeAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<TreeAPI>('updateTree'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.
