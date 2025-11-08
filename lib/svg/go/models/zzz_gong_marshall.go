@@ -1989,6 +1989,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			initializerStatements += setValueField
 		}
 
+		if rectanchoredtext.DominantBaseline != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DominantBaseline")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+rectanchoredtext.DominantBaseline.ToCodeString())
+			initializerStatements += setValueField
+		}
+
 		if rectanchoredtext.WritingMode != "" {
 			setValueField = StringEnumInitStatement
 			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)

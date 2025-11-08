@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-05 17:03:07.287708 CET"
-	const __write__utc_time__ = "2025-11-05 16:03:07.287708 UTC"
+	const __write__local_time = "2025-11-08 08:57:00.449656 CET"
+	const __write__utc_time__ = "2025-11-08 07:57:00.449656 UTC"
 
-	const __commitId__ = "0000000026"
+	const __commitId__ = "0000000030"
 
 	// Declaration of instances to stage
 
@@ -557,10 +557,10 @@ Line 2`
 	__Point__000000_middle_line_control_point.Y = 350.000000
 
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
-	__Rect__000000_Bottom_Rect.X = 400.000000
-	__Rect__000000_Bottom_Rect.Y = 581.000000
+	__Rect__000000_Bottom_Rect.X = 333.000000
+	__Rect__000000_Bottom_Rect.Y = 616.000000
 	__Rect__000000_Bottom_Rect.Width = 584.000000
-	__Rect__000000_Bottom_Rect.Height = 266.999985
+	__Rect__000000_Bottom_Rect.Height = 200.999985
 	__Rect__000000_Bottom_Rect.RX = 5.000000
 	__Rect__000000_Bottom_Rect.Color = `bisque`
 	__Rect__000000_Bottom_Rect.FillOpacity = 50.000000
@@ -594,8 +594,8 @@ Line 2`
 	__Rect__000000_Bottom_Rect.MouseY = 0.000000
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 547.000000
-	__Rect__000001_Middle_Rect.Y = 417.000000
+	__Rect__000001_Middle_Rect.X = 451.000000
+	__Rect__000001_Middle_Rect.Y = 423.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -706,9 +706,9 @@ Line 2`
 	__Rect__000003_Start.MouseY = 0.000000
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1081.769231
+	__Rect__000004_End.X = 1192.769231
 	__Rect__000004_End.Y = 385.256327
-	__Rect__000004_End.Width = 624.000000
+	__Rect__000004_End.Width = 430.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
 	__Rect__000004_End.Color = ``
@@ -919,6 +919,7 @@ line 3`
 	__RectAnchoredText__000004_Start.Y_Offset = 0.000000
 	__RectAnchoredText__000004_Start.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredText__000004_Start.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000004_Start.DominantBaseline = models.DominantBaselineMiddle
 	__RectAnchoredText__000004_Start.Color = `black`
 	__RectAnchoredText__000004_Start.FillOpacity = 1.000000
 	__RectAnchoredText__000004_Start.Stroke = `black`
