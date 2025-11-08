@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellCreateCallback OnAfterCreateInterface[Cell]
 	OnAfterCellUpdateCallback OnAfterUpdateInterface[Cell]
-	OnAfterCellUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Cell]
 	OnAfterCellDeleteCallback OnAfterDeleteInterface[Cell]
 	OnAfterCellReadCallback   OnAfterReadInterface[Cell]
 
@@ -103,7 +102,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellBooleanCreateCallback OnAfterCreateInterface[CellBoolean]
 	OnAfterCellBooleanUpdateCallback OnAfterUpdateInterface[CellBoolean]
-	OnAfterCellBooleanUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CellBoolean]
 	OnAfterCellBooleanDeleteCallback OnAfterDeleteInterface[CellBoolean]
 	OnAfterCellBooleanReadCallback   OnAfterReadInterface[CellBoolean]
 
@@ -113,7 +111,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellFloat64CreateCallback OnAfterCreateInterface[CellFloat64]
 	OnAfterCellFloat64UpdateCallback OnAfterUpdateInterface[CellFloat64]
-	OnAfterCellFloat64UpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CellFloat64]
 	OnAfterCellFloat64DeleteCallback OnAfterDeleteInterface[CellFloat64]
 	OnAfterCellFloat64ReadCallback   OnAfterReadInterface[CellFloat64]
 
@@ -123,7 +120,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellIconCreateCallback OnAfterCreateInterface[CellIcon]
 	OnAfterCellIconUpdateCallback OnAfterUpdateInterface[CellIcon]
-	OnAfterCellIconUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CellIcon]
 	OnAfterCellIconDeleteCallback OnAfterDeleteInterface[CellIcon]
 	OnAfterCellIconReadCallback   OnAfterReadInterface[CellIcon]
 
@@ -133,7 +129,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellIntCreateCallback OnAfterCreateInterface[CellInt]
 	OnAfterCellIntUpdateCallback OnAfterUpdateInterface[CellInt]
-	OnAfterCellIntUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CellInt]
 	OnAfterCellIntDeleteCallback OnAfterDeleteInterface[CellInt]
 	OnAfterCellIntReadCallback   OnAfterReadInterface[CellInt]
 
@@ -143,7 +138,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCellStringCreateCallback OnAfterCreateInterface[CellString]
 	OnAfterCellStringUpdateCallback OnAfterUpdateInterface[CellString]
-	OnAfterCellStringUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CellString]
 	OnAfterCellStringDeleteCallback OnAfterDeleteInterface[CellString]
 	OnAfterCellStringReadCallback   OnAfterReadInterface[CellString]
 
@@ -153,7 +147,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterCheckBoxCreateCallback OnAfterCreateInterface[CheckBox]
 	OnAfterCheckBoxUpdateCallback OnAfterUpdateInterface[CheckBox]
-	OnAfterCheckBoxUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[CheckBox]
 	OnAfterCheckBoxDeleteCallback OnAfterDeleteInterface[CheckBox]
 	OnAfterCheckBoxReadCallback   OnAfterReadInterface[CheckBox]
 
@@ -163,7 +156,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterDisplayedColumnCreateCallback OnAfterCreateInterface[DisplayedColumn]
 	OnAfterDisplayedColumnUpdateCallback OnAfterUpdateInterface[DisplayedColumn]
-	OnAfterDisplayedColumnUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[DisplayedColumn]
 	OnAfterDisplayedColumnDeleteCallback OnAfterDeleteInterface[DisplayedColumn]
 	OnAfterDisplayedColumnReadCallback   OnAfterReadInterface[DisplayedColumn]
 
@@ -177,7 +169,6 @@ type Stage struct {
 
 	OnAfterFormDivCreateCallback OnAfterCreateInterface[FormDiv]
 	OnAfterFormDivUpdateCallback OnAfterUpdateInterface[FormDiv]
-	OnAfterFormDivUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormDiv]
 	OnAfterFormDivDeleteCallback OnAfterDeleteInterface[FormDiv]
 	OnAfterFormDivReadCallback   OnAfterReadInterface[FormDiv]
 
@@ -187,7 +178,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormEditAssocButtonCreateCallback OnAfterCreateInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonUpdateCallback OnAfterUpdateInterface[FormEditAssocButton]
-	OnAfterFormEditAssocButtonUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonDeleteCallback OnAfterDeleteInterface[FormEditAssocButton]
 	OnAfterFormEditAssocButtonReadCallback   OnAfterReadInterface[FormEditAssocButton]
 
@@ -197,7 +187,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldCreateCallback OnAfterCreateInterface[FormField]
 	OnAfterFormFieldUpdateCallback OnAfterUpdateInterface[FormField]
-	OnAfterFormFieldUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormField]
 	OnAfterFormFieldDeleteCallback OnAfterDeleteInterface[FormField]
 	OnAfterFormFieldReadCallback   OnAfterReadInterface[FormField]
 
@@ -207,7 +196,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldDateCreateCallback OnAfterCreateInterface[FormFieldDate]
 	OnAfterFormFieldDateUpdateCallback OnAfterUpdateInterface[FormFieldDate]
-	OnAfterFormFieldDateUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldDate]
 	OnAfterFormFieldDateDeleteCallback OnAfterDeleteInterface[FormFieldDate]
 	OnAfterFormFieldDateReadCallback   OnAfterReadInterface[FormFieldDate]
 
@@ -217,7 +205,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldDateTimeCreateCallback OnAfterCreateInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeUpdateCallback OnAfterUpdateInterface[FormFieldDateTime]
-	OnAfterFormFieldDateTimeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeDeleteCallback OnAfterDeleteInterface[FormFieldDateTime]
 	OnAfterFormFieldDateTimeReadCallback   OnAfterReadInterface[FormFieldDateTime]
 
@@ -227,7 +214,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldFloat64CreateCallback OnAfterCreateInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64UpdateCallback OnAfterUpdateInterface[FormFieldFloat64]
-	OnAfterFormFieldFloat64UpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64DeleteCallback OnAfterDeleteInterface[FormFieldFloat64]
 	OnAfterFormFieldFloat64ReadCallback   OnAfterReadInterface[FormFieldFloat64]
 
@@ -237,7 +223,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldIntCreateCallback OnAfterCreateInterface[FormFieldInt]
 	OnAfterFormFieldIntUpdateCallback OnAfterUpdateInterface[FormFieldInt]
-	OnAfterFormFieldIntUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldInt]
 	OnAfterFormFieldIntDeleteCallback OnAfterDeleteInterface[FormFieldInt]
 	OnAfterFormFieldIntReadCallback   OnAfterReadInterface[FormFieldInt]
 
@@ -249,7 +234,6 @@ type Stage struct {
 
 	OnAfterFormFieldSelectCreateCallback OnAfterCreateInterface[FormFieldSelect]
 	OnAfterFormFieldSelectUpdateCallback OnAfterUpdateInterface[FormFieldSelect]
-	OnAfterFormFieldSelectUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldSelect]
 	OnAfterFormFieldSelectDeleteCallback OnAfterDeleteInterface[FormFieldSelect]
 	OnAfterFormFieldSelectReadCallback   OnAfterReadInterface[FormFieldSelect]
 
@@ -259,7 +243,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldStringCreateCallback OnAfterCreateInterface[FormFieldString]
 	OnAfterFormFieldStringUpdateCallback OnAfterUpdateInterface[FormFieldString]
-	OnAfterFormFieldStringUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldString]
 	OnAfterFormFieldStringDeleteCallback OnAfterDeleteInterface[FormFieldString]
 	OnAfterFormFieldStringReadCallback   OnAfterReadInterface[FormFieldString]
 
@@ -269,7 +252,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormFieldTimeCreateCallback OnAfterCreateInterface[FormFieldTime]
 	OnAfterFormFieldTimeUpdateCallback OnAfterUpdateInterface[FormFieldTime]
-	OnAfterFormFieldTimeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormFieldTime]
 	OnAfterFormFieldTimeDeleteCallback OnAfterDeleteInterface[FormFieldTime]
 	OnAfterFormFieldTimeReadCallback   OnAfterReadInterface[FormFieldTime]
 
@@ -281,7 +263,6 @@ type Stage struct {
 
 	OnAfterFormGroupCreateCallback OnAfterCreateInterface[FormGroup]
 	OnAfterFormGroupUpdateCallback OnAfterUpdateInterface[FormGroup]
-	OnAfterFormGroupUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormGroup]
 	OnAfterFormGroupDeleteCallback OnAfterDeleteInterface[FormGroup]
 	OnAfterFormGroupReadCallback   OnAfterReadInterface[FormGroup]
 
@@ -291,7 +272,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterFormSortAssocButtonCreateCallback OnAfterCreateInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonUpdateCallback OnAfterUpdateInterface[FormSortAssocButton]
-	OnAfterFormSortAssocButtonUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonDeleteCallback OnAfterDeleteInterface[FormSortAssocButton]
 	OnAfterFormSortAssocButtonReadCallback   OnAfterReadInterface[FormSortAssocButton]
 
@@ -301,7 +281,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterOptionCreateCallback OnAfterCreateInterface[Option]
 	OnAfterOptionUpdateCallback OnAfterUpdateInterface[Option]
-	OnAfterOptionUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Option]
 	OnAfterOptionDeleteCallback OnAfterDeleteInterface[Option]
 	OnAfterOptionReadCallback   OnAfterReadInterface[Option]
 
@@ -313,7 +292,6 @@ type Stage struct {
 
 	OnAfterRowCreateCallback OnAfterCreateInterface[Row]
 	OnAfterRowUpdateCallback OnAfterUpdateInterface[Row]
-	OnAfterRowUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Row]
 	OnAfterRowDeleteCallback OnAfterDeleteInterface[Row]
 	OnAfterRowReadCallback   OnAfterReadInterface[Row]
 
@@ -327,7 +305,6 @@ type Stage struct {
 
 	OnAfterTableCreateCallback OnAfterCreateInterface[Table]
 	OnAfterTableUpdateCallback OnAfterUpdateInterface[Table]
-	OnAfterTableUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Table]
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
@@ -933,11 +910,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

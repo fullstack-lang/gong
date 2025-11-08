@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterDisplaySelectionCreateCallback OnAfterCreateInterface[DisplaySelection]
 	OnAfterDisplaySelectionUpdateCallback OnAfterUpdateInterface[DisplaySelection]
-	OnAfterDisplaySelectionUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[DisplaySelection]
 	OnAfterDisplaySelectionDeleteCallback OnAfterDeleteInterface[DisplaySelection]
 	OnAfterDisplaySelectionReadCallback   OnAfterReadInterface[DisplaySelection]
 
@@ -103,7 +102,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterXLCellCreateCallback OnAfterCreateInterface[XLCell]
 	OnAfterXLCellUpdateCallback OnAfterUpdateInterface[XLCell]
-	OnAfterXLCellUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[XLCell]
 	OnAfterXLCellDeleteCallback OnAfterDeleteInterface[XLCell]
 	OnAfterXLCellReadCallback   OnAfterReadInterface[XLCell]
 
@@ -115,7 +113,6 @@ type Stage struct {
 
 	OnAfterXLFileCreateCallback OnAfterCreateInterface[XLFile]
 	OnAfterXLFileUpdateCallback OnAfterUpdateInterface[XLFile]
-	OnAfterXLFileUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[XLFile]
 	OnAfterXLFileDeleteCallback OnAfterDeleteInterface[XLFile]
 	OnAfterXLFileReadCallback   OnAfterReadInterface[XLFile]
 
@@ -127,7 +124,6 @@ type Stage struct {
 
 	OnAfterXLRowCreateCallback OnAfterCreateInterface[XLRow]
 	OnAfterXLRowUpdateCallback OnAfterUpdateInterface[XLRow]
-	OnAfterXLRowUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[XLRow]
 	OnAfterXLRowDeleteCallback OnAfterDeleteInterface[XLRow]
 	OnAfterXLRowReadCallback   OnAfterReadInterface[XLRow]
 
@@ -141,7 +137,6 @@ type Stage struct {
 
 	OnAfterXLSheetCreateCallback OnAfterCreateInterface[XLSheet]
 	OnAfterXLSheetUpdateCallback OnAfterUpdateInterface[XLSheet]
-	OnAfterXLSheetUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[XLSheet]
 	OnAfterXLSheetDeleteCallback OnAfterDeleteInterface[XLSheet]
 	OnAfterXLSheetReadCallback   OnAfterReadInterface[XLSheet]
 
@@ -405,11 +400,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

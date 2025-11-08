@@ -178,27 +178,6 @@ export class AstructBstruct2UseService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(astructbstruct2use: AstructBstruct2Use, Name: string, gong__mouseEvent: MouseEvent): Observable<AstructBstruct2UseAPI> {
-    let astructbstruct2useAPI = new AstructBstruct2UseAPI
-    CopyAstructBstruct2UseToAstructBstruct2UseAPI(astructbstruct2use, astructbstruct2useAPI)
-    const id = typeof astructbstruct2useAPI === 'number' ? astructbstruct2useAPI : astructbstruct2useAPI.ID
-    const url = `${this.astructbstruct2usesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<AstructBstruct2UseAPI>(url, astructbstruct2useAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<AstructBstruct2UseAPI>('updateAstructBstruct2Use'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

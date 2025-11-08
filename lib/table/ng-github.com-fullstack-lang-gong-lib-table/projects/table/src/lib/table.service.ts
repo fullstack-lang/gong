@@ -179,27 +179,6 @@ export class TableService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(table: Table, Name: string, gong__mouseEvent: MouseEvent): Observable<TableAPI> {
-    let tableAPI = new TableAPI
-    CopyTableToTableAPI(table, tableAPI)
-    const id = typeof tableAPI === 'number' ? tableAPI : tableAPI.ID
-    const url = `${this.tablesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<TableAPI>(url, tableAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<TableAPI>('updateTable'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

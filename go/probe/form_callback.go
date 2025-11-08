@@ -834,8 +834,6 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 
 		case "HasOnAfterUpdateSignature":
 			FormDivBasicFieldToField(&(gongstruct_.HasOnAfterUpdateSignature), formDiv)
-		case "HasOnAfterUpdateWithMouseEventSignature":
-			FormDivBasicFieldToField(&(gongstruct_.HasOnAfterUpdateWithMouseEventSignature), formDiv)
 		case "IsIgnoredForFront":
 			FormDivBasicFieldToField(&(gongstruct_.IsIgnoredForFront), formDiv)
 		}

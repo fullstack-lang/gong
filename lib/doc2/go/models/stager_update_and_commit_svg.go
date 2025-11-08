@@ -198,7 +198,6 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 			link.Name = startRect.Name + " - to - " + endRect.Name
 
 			link.Impl = NewLinkImplLink(linkShape, stager.stage)
-			link.ImplWithMouseEvent = NewLinkImplLink(linkShape, stager.stage)
 
 			linkLayer := new(svg_models.Layer)
 
