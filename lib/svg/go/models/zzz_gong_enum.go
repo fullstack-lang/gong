@@ -1798,14 +1798,30 @@ func (dominantbaselinetype DominantBaselineType) ToString() (res string) {
 	// insertion code per enum code
 	case DominantBaselineAuto:
 		res = "auto"
-	case DominantBaselineMiddle:
-		res = "middle"
 	case DominantBaselineAlphabetic:
 		res = "alphabetic"
-	case DominantBaselineHanging:
-		res = "hanging"
 	case DominantBaselineIdeographic:
 		res = "ideographic"
+	case DominantBaselineHanging:
+		res = "hanging"
+	case DominantBaselineMathematical:
+		res = "mathematical"
+	case DominantBaselineCentral:
+		res = "central"
+	case DominantBaselineMiddle:
+		res = "middle"
+	case DominantBaselineTextAfterEdge:
+		res = "text-after-edge"
+	case DominantBaselineTextBeforeEdge:
+		res = "text-before-edge"
+	case DominantBaselineTextTop:
+		res = "text-top"
+	case DominantBaselineUseScript:
+		res = "use-script"
+	case DominantBaselineNoChange:
+		res = "no-change"
+	case DominantBaselineResetSize:
+		res = "reset-size"
 	}
 	return
 }
@@ -1817,17 +1833,41 @@ func (dominantbaselinetype *DominantBaselineType) FromString(input string) (err 
 	case "auto":
 		*dominantbaselinetype = DominantBaselineAuto
 		return
-	case "middle":
-		*dominantbaselinetype = DominantBaselineMiddle
-		return
 	case "alphabetic":
 		*dominantbaselinetype = DominantBaselineAlphabetic
+		return
+	case "ideographic":
+		*dominantbaselinetype = DominantBaselineIdeographic
 		return
 	case "hanging":
 		*dominantbaselinetype = DominantBaselineHanging
 		return
-	case "ideographic":
-		*dominantbaselinetype = DominantBaselineIdeographic
+	case "mathematical":
+		*dominantbaselinetype = DominantBaselineMathematical
+		return
+	case "central":
+		*dominantbaselinetype = DominantBaselineCentral
+		return
+	case "middle":
+		*dominantbaselinetype = DominantBaselineMiddle
+		return
+	case "text-after-edge":
+		*dominantbaselinetype = DominantBaselineTextAfterEdge
+		return
+	case "text-before-edge":
+		*dominantbaselinetype = DominantBaselineTextBeforeEdge
+		return
+	case "text-top":
+		*dominantbaselinetype = DominantBaselineTextTop
+		return
+	case "use-script":
+		*dominantbaselinetype = DominantBaselineUseScript
+		return
+	case "no-change":
+		*dominantbaselinetype = DominantBaselineNoChange
+		return
+	case "reset-size":
+		*dominantbaselinetype = DominantBaselineResetSize
 		return
 	default:
 		return errUnkownEnum
@@ -1840,14 +1880,30 @@ func (dominantbaselinetype *DominantBaselineType) FromCodeString(input string) (
 	// insertion code per enum code
 	case "DominantBaselineAuto":
 		*dominantbaselinetype = DominantBaselineAuto
-	case "DominantBaselineMiddle":
-		*dominantbaselinetype = DominantBaselineMiddle
 	case "DominantBaselineAlphabetic":
 		*dominantbaselinetype = DominantBaselineAlphabetic
-	case "DominantBaselineHanging":
-		*dominantbaselinetype = DominantBaselineHanging
 	case "DominantBaselineIdeographic":
 		*dominantbaselinetype = DominantBaselineIdeographic
+	case "DominantBaselineHanging":
+		*dominantbaselinetype = DominantBaselineHanging
+	case "DominantBaselineMathematical":
+		*dominantbaselinetype = DominantBaselineMathematical
+	case "DominantBaselineCentral":
+		*dominantbaselinetype = DominantBaselineCentral
+	case "DominantBaselineMiddle":
+		*dominantbaselinetype = DominantBaselineMiddle
+	case "DominantBaselineTextAfterEdge":
+		*dominantbaselinetype = DominantBaselineTextAfterEdge
+	case "DominantBaselineTextBeforeEdge":
+		*dominantbaselinetype = DominantBaselineTextBeforeEdge
+	case "DominantBaselineTextTop":
+		*dominantbaselinetype = DominantBaselineTextTop
+	case "DominantBaselineUseScript":
+		*dominantbaselinetype = DominantBaselineUseScript
+	case "DominantBaselineNoChange":
+		*dominantbaselinetype = DominantBaselineNoChange
+	case "DominantBaselineResetSize":
+		*dominantbaselinetype = DominantBaselineResetSize
 	default:
 		err = errUnkownEnum
 	}
@@ -1860,14 +1916,30 @@ func (dominantbaselinetype *DominantBaselineType) ToCodeString() (res string) {
 	// insertion code per enum code
 	case DominantBaselineAuto:
 		res = "DominantBaselineAuto"
-	case DominantBaselineMiddle:
-		res = "DominantBaselineMiddle"
 	case DominantBaselineAlphabetic:
 		res = "DominantBaselineAlphabetic"
-	case DominantBaselineHanging:
-		res = "DominantBaselineHanging"
 	case DominantBaselineIdeographic:
 		res = "DominantBaselineIdeographic"
+	case DominantBaselineHanging:
+		res = "DominantBaselineHanging"
+	case DominantBaselineMathematical:
+		res = "DominantBaselineMathematical"
+	case DominantBaselineCentral:
+		res = "DominantBaselineCentral"
+	case DominantBaselineMiddle:
+		res = "DominantBaselineMiddle"
+	case DominantBaselineTextAfterEdge:
+		res = "DominantBaselineTextAfterEdge"
+	case DominantBaselineTextBeforeEdge:
+		res = "DominantBaselineTextBeforeEdge"
+	case DominantBaselineTextTop:
+		res = "DominantBaselineTextTop"
+	case DominantBaselineUseScript:
+		res = "DominantBaselineUseScript"
+	case DominantBaselineNoChange:
+		res = "DominantBaselineNoChange"
+	case DominantBaselineResetSize:
+		res = "DominantBaselineResetSize"
 	}
 	return
 }
@@ -1878,10 +1950,18 @@ func (dominantbaselinetype DominantBaselineType) Codes() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "DominantBaselineAuto")
-	res = append(res, "DominantBaselineMiddle")
 	res = append(res, "DominantBaselineAlphabetic")
-	res = append(res, "DominantBaselineHanging")
 	res = append(res, "DominantBaselineIdeographic")
+	res = append(res, "DominantBaselineHanging")
+	res = append(res, "DominantBaselineMathematical")
+	res = append(res, "DominantBaselineCentral")
+	res = append(res, "DominantBaselineMiddle")
+	res = append(res, "DominantBaselineTextAfterEdge")
+	res = append(res, "DominantBaselineTextBeforeEdge")
+	res = append(res, "DominantBaselineTextTop")
+	res = append(res, "DominantBaselineUseScript")
+	res = append(res, "DominantBaselineNoChange")
+	res = append(res, "DominantBaselineResetSize")
 
 	return
 }
@@ -1892,10 +1972,18 @@ func (dominantbaselinetype DominantBaselineType) CodeValues() (res []string) {
 
 	// insertion code per enum code
 	res = append(res, "auto")
-	res = append(res, "middle")
 	res = append(res, "alphabetic")
-	res = append(res, "hanging")
 	res = append(res, "ideographic")
+	res = append(res, "hanging")
+	res = append(res, "mathematical")
+	res = append(res, "central")
+	res = append(res, "middle")
+	res = append(res, "text-after-edge")
+	res = append(res, "text-before-edge")
+	res = append(res, "text-top")
+	res = append(res, "use-script")
+	res = append(res, "no-change")
+	res = append(res, "reset-size")
 
 	return
 }
