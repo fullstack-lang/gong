@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-08 08:57:00.449656 CET"
-	const __write__utc_time__ = "2025-11-08 07:57:00.449656 UTC"
+	const __write__local_time = "2025-11-08 09:29:26.327243 CET"
+	const __write__utc_time__ = "2025-11-08 08:29:26.327243 UTC"
 
-	const __commitId__ = "0000000030"
+	const __commitId__ = "0000000038"
 
 	// Declaration of instances to stage
 
@@ -838,6 +838,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
 	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
 	__RectAnchoredText__000000_Bottom_Text.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000000_Bottom_Text.DominantBaseline = models.DominantBaselineCentral
 	__RectAnchoredText__000000_Bottom_Text.Color = `black`
 	__RectAnchoredText__000000_Bottom_Text.FillOpacity = 100.000000
 	__RectAnchoredText__000000_Bottom_Text.Stroke = `black`
@@ -919,7 +920,7 @@ line 3`
 	__RectAnchoredText__000004_Start.Y_Offset = 0.000000
 	__RectAnchoredText__000004_Start.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredText__000004_Start.TextAnchorType = models.TEXT_ANCHOR_CENTER
-	__RectAnchoredText__000004_Start.DominantBaseline = models.DominantBaselineMiddle
+	__RectAnchoredText__000004_Start.DominantBaseline = models.DominantBaselineCentral
 	__RectAnchoredText__000004_Start.Color = `black`
 	__RectAnchoredText__000004_Start.FillOpacity = 1.000000
 	__RectAnchoredText__000004_Start.Stroke = `black`
