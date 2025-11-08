@@ -1788,6 +1788,118 @@ func (colortype ColorType) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for DominantBaselineType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (dominantbaselinetype DominantBaselineType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch dominantbaselinetype {
+	// insertion code per enum code
+	case DominantBaselineAuto:
+		res = "auto"
+	case DominantBaselineMiddle:
+		res = "middle"
+	case DominantBaselineAlphabetic:
+		res = "alphabetic"
+	case DominantBaselineHanging:
+		res = "hanging"
+	case DominantBaselineIdeographic:
+		res = "ideographic"
+	}
+	return
+}
+
+func (dominantbaselinetype *DominantBaselineType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "auto":
+		*dominantbaselinetype = DominantBaselineAuto
+		return
+	case "middle":
+		*dominantbaselinetype = DominantBaselineMiddle
+		return
+	case "alphabetic":
+		*dominantbaselinetype = DominantBaselineAlphabetic
+		return
+	case "hanging":
+		*dominantbaselinetype = DominantBaselineHanging
+		return
+	case "ideographic":
+		*dominantbaselinetype = DominantBaselineIdeographic
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (dominantbaselinetype *DominantBaselineType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DominantBaselineAuto":
+		*dominantbaselinetype = DominantBaselineAuto
+	case "DominantBaselineMiddle":
+		*dominantbaselinetype = DominantBaselineMiddle
+	case "DominantBaselineAlphabetic":
+		*dominantbaselinetype = DominantBaselineAlphabetic
+	case "DominantBaselineHanging":
+		*dominantbaselinetype = DominantBaselineHanging
+	case "DominantBaselineIdeographic":
+		*dominantbaselinetype = DominantBaselineIdeographic
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (dominantbaselinetype *DominantBaselineType) ToCodeString() (res string) {
+
+	switch *dominantbaselinetype {
+	// insertion code per enum code
+	case DominantBaselineAuto:
+		res = "DominantBaselineAuto"
+	case DominantBaselineMiddle:
+		res = "DominantBaselineMiddle"
+	case DominantBaselineAlphabetic:
+		res = "DominantBaselineAlphabetic"
+	case DominantBaselineHanging:
+		res = "DominantBaselineHanging"
+	case DominantBaselineIdeographic:
+		res = "DominantBaselineIdeographic"
+	}
+	return
+}
+
+func (dominantbaselinetype DominantBaselineType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "DominantBaselineAuto")
+	res = append(res, "DominantBaselineMiddle")
+	res = append(res, "DominantBaselineAlphabetic")
+	res = append(res, "DominantBaselineHanging")
+	res = append(res, "DominantBaselineIdeographic")
+
+	return
+}
+
+func (dominantbaselinetype DominantBaselineType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "auto")
+	res = append(res, "middle")
+	res = append(res, "alphabetic")
+	res = append(res, "hanging")
+	res = append(res, "ideographic")
+
+	return
+}
+
 // Utility function for DrawingState
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

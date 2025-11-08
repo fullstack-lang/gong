@@ -96,6 +96,7 @@ export * from './lib/text.service'
 
 export * from './lib/AnchorType'
 export * from './lib/ColorType'
+export * from './lib/DominantBaselineType'
 export * from './lib/DrawingState'
 export * from './lib/LinkAnchorType'
 export * from './lib/LinkType'
