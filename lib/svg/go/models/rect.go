@@ -50,8 +50,6 @@ type Rect struct {
 
 	Impl RectImplInterface
 
-	ImplWithMouseEvent RectImplWithMouseEventInterface
-
 	MouseEvent
 }
 
@@ -60,13 +58,6 @@ func (rect *Rect) OnAfterUpdate(stage *Stage, _, frontRect *Rect) {
 
 	if rect.Impl != nil {
 		rect.Impl.RectUpdated(frontRect)
-	}
-}
-
-func (rect *Rect) OnAfterUpdateWithMouseEvent(stage *Stage, frontRect *Rect, mouseEvent *Gong__MouseEvent) {
-
-	if rect.ImplWithMouseEvent != nil {
-		rect.ImplWithMouseEvent.RectUpdatedWithMouseEvent(frontRect, mouseEvent)
 	}
 }
 

@@ -177,27 +177,6 @@ export class FormFieldTimeService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(formfieldtime: FormFieldTime, Name: string, gong__mouseEvent: MouseEvent): Observable<FormFieldTimeAPI> {
-    let formfieldtimeAPI = new FormFieldTimeAPI
-    CopyFormFieldTimeToFormFieldTimeAPI(formfieldtime, formfieldtimeAPI)
-    const id = typeof formfieldtimeAPI === 'number' ? formfieldtimeAPI : formfieldtimeAPI.ID
-    const url = `${this.formfieldtimesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FormFieldTimeAPI>(url, formfieldtimeAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FormFieldTimeAPI>('updateFormFieldTime'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

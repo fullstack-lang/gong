@@ -177,27 +177,6 @@ export class MessageService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(message: Message, Name: string, gong__mouseEvent: MouseEvent): Observable<MessageAPI> {
-    let messageAPI = new MessageAPI
-    CopyMessageToMessageAPI(message, messageAPI)
-    const id = typeof messageAPI === 'number' ? messageAPI : messageAPI.ID
-    const url = `${this.messagesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<MessageAPI>(url, messageAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<MessageAPI>('updateMessage'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

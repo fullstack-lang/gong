@@ -177,27 +177,6 @@ export class CellFloat64Service {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(cellfloat64: CellFloat64, Name: string, gong__mouseEvent: MouseEvent): Observable<CellFloat64API> {
-    let cellfloat64API = new CellFloat64API
-    CopyCellFloat64ToCellFloat64API(cellfloat64, cellfloat64API)
-    const id = typeof cellfloat64API === 'number' ? cellfloat64API : cellfloat64API.ID
-    const url = `${this.cellfloat64sUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<CellFloat64API>(url, cellfloat64API, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<CellFloat64API>('updateCellFloat64'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

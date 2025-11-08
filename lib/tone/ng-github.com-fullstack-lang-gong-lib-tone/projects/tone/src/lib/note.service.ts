@@ -178,27 +178,6 @@ export class NoteService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(note: Note, Name: string, gong__mouseEvent: MouseEvent): Observable<NoteAPI> {
-    let noteAPI = new NoteAPI
-    CopyNoteToNoteAPI(note, noteAPI)
-    const id = typeof noteAPI === 'number' ? noteAPI : noteAPI.ID
-    const url = `${this.notesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<NoteAPI>(url, noteAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<NoteAPI>('updateNote'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterContentCreateCallback OnAfterCreateInterface[Content]
 	OnAfterContentUpdateCallback OnAfterUpdateInterface[Content]
-	OnAfterContentUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Content]
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
@@ -103,7 +102,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterJpgImageCreateCallback OnAfterCreateInterface[JpgImage]
 	OnAfterJpgImageUpdateCallback OnAfterUpdateInterface[JpgImage]
-	OnAfterJpgImageUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[JpgImage]
 	OnAfterJpgImageDeleteCallback OnAfterDeleteInterface[JpgImage]
 	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
 
@@ -113,7 +111,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterPngImageCreateCallback OnAfterCreateInterface[PngImage]
 	OnAfterPngImageUpdateCallback OnAfterUpdateInterface[PngImage]
-	OnAfterPngImageUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[PngImage]
 	OnAfterPngImageDeleteCallback OnAfterDeleteInterface[PngImage]
 	OnAfterPngImageReadCallback   OnAfterReadInterface[PngImage]
 
@@ -123,7 +120,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterSvgImageCreateCallback OnAfterCreateInterface[SvgImage]
 	OnAfterSvgImageUpdateCallback OnAfterUpdateInterface[SvgImage]
-	OnAfterSvgImageUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[SvgImage]
 	OnAfterSvgImageDeleteCallback OnAfterDeleteInterface[SvgImage]
 	OnAfterSvgImageReadCallback   OnAfterReadInterface[SvgImage]
 
@@ -368,11 +364,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

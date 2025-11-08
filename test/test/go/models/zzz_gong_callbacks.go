@@ -53,56 +53,35 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterAstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterAstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterAstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *AstructBstruct2Use:
 		newTarget := any(new).(*AstructBstruct2Use)
 		if stage.OnAfterAstructBstruct2UseUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAstructBstruct2UseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterAstructBstruct2UseUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterAstructBstruct2UseUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *AstructBstructUse:
 		newTarget := any(new).(*AstructBstructUse)
 		if stage.OnAfterAstructBstructUseUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAstructBstructUseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterAstructBstructUseUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterAstructBstructUseUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Bstruct:
 		newTarget := any(new).(*Bstruct)
 		if stage.OnAfterBstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterBstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterBstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterBstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *Dstruct:
 		newTarget := any(new).(*Dstruct)
 		if stage.OnAfterDstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterDstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterDstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *F0123456789012345678901234567890:
 		newTarget := any(new).(*F0123456789012345678901234567890)
 		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterF0123456789012345678901234567890UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterF0123456789012345678901234567890UpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterF0123456789012345678901234567890UpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *Gstruct:
 		newTarget := any(new).(*Gstruct)
 		if stage.OnAfterGstructUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterGstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterGstructUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterGstructUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

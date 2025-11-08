@@ -177,27 +177,6 @@ export class CellIconService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(cellicon: CellIcon, Name: string, gong__mouseEvent: MouseEvent): Observable<CellIconAPI> {
-    let celliconAPI = new CellIconAPI
-    CopyCellIconToCellIconAPI(cellicon, celliconAPI)
-    const id = typeof celliconAPI === 'number' ? celliconAPI : celliconAPI.ID
-    const url = `${this.celliconsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<CellIconAPI>(url, celliconAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<CellIconAPI>('updateCellIcon'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

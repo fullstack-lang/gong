@@ -45,40 +45,25 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterDisplaySelectionUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterDisplaySelectionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterDisplaySelectionUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterDisplaySelectionUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *XLCell:
 		newTarget := any(new).(*XLCell)
 		if stage.OnAfterXLCellUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLCellUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterXLCellUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterXLCellUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	case *XLFile:
 		newTarget := any(new).(*XLFile)
 		if stage.OnAfterXLFileUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLFileUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterXLFileUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterXLFileUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *XLRow:
 		newTarget := any(new).(*XLRow)
 		if stage.OnAfterXLRowUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterXLRowUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterXLRowUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	case *XLSheet:
 		newTarget := any(new).(*XLSheet)
 		if stage.OnAfterXLSheetUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterXLSheetUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfterXLSheetUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterXLSheetUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}
 	default:
 		_ = oldTarget

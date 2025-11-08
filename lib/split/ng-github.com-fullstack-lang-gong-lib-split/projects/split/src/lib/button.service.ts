@@ -177,27 +177,6 @@ export class ButtonService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(button: Button, Name: string, gong__mouseEvent: MouseEvent): Observable<ButtonAPI> {
-    let buttonAPI = new ButtonAPI
-    CopyButtonToButtonAPI(button, buttonAPI)
-    const id = typeof buttonAPI === 'number' ? buttonAPI : buttonAPI.ID
-    const url = `${this.buttonsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<ButtonAPI>(url, buttonAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<ButtonAPI>('updateButton'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

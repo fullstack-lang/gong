@@ -177,27 +177,6 @@ export class PlayerService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(player: Player, Name: string, gong__mouseEvent: MouseEvent): Observable<PlayerAPI> {
-    let playerAPI = new PlayerAPI
-    CopyPlayerToPlayerAPI(player, playerAPI)
-    const id = typeof playerAPI === 'number' ? playerAPI : playerAPI.ID
-    const url = `${this.playersUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<PlayerAPI>(url, playerAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<PlayerAPI>('updatePlayer'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

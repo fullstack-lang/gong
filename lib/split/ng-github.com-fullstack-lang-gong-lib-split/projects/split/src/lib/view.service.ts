@@ -178,27 +178,6 @@ export class ViewService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(view: View, Name: string, gong__mouseEvent: MouseEvent): Observable<ViewAPI> {
-    let viewAPI = new ViewAPI
-    CopyViewToViewAPI(view, viewAPI)
-    const id = typeof viewAPI === 'number' ? viewAPI : viewAPI.ID
-    const url = `${this.viewsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<ViewAPI>(url, viewAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<ViewAPI>('updateView'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

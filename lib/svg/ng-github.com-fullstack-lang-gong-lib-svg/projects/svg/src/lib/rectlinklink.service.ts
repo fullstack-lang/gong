@@ -179,27 +179,6 @@ export class RectLinkLinkService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(rectlinklink: RectLinkLink, Name: string, gong__mouseEvent: MouseEvent): Observable<RectLinkLinkAPI> {
-    let rectlinklinkAPI = new RectLinkLinkAPI
-    CopyRectLinkLinkToRectLinkLinkAPI(rectlinklink, rectlinklinkAPI)
-    const id = typeof rectlinklinkAPI === 'number' ? rectlinklinkAPI : rectlinklinkAPI.ID
-    const url = `${this.rectlinklinksUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<RectLinkLinkAPI>(url, rectlinklinkAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<RectLinkLinkAPI>('updateRectLinkLink'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

@@ -177,27 +177,6 @@ export class FormService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(form: Form, Name: string, gong__mouseEvent: MouseEvent): Observable<FormAPI> {
-    let formAPI = new FormAPI
-    CopyFormToFormAPI(form, formAPI)
-    const id = typeof formAPI === 'number' ? formAPI : formAPI.ID
-    const url = `${this.formsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FormAPI>(url, formAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FormAPI>('updateForm'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

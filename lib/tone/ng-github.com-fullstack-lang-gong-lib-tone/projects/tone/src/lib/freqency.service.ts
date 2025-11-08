@@ -177,27 +177,6 @@ export class FreqencyService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(freqency: Freqency, Name: string, gong__mouseEvent: MouseEvent): Observable<FreqencyAPI> {
-    let freqencyAPI = new FreqencyAPI
-    CopyFreqencyToFreqencyAPI(freqency, freqencyAPI)
-    const id = typeof freqencyAPI === 'number' ? freqencyAPI : freqencyAPI.ID
-    const url = `${this.freqencysUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<FreqencyAPI>(url, freqencyAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<FreqencyAPI>('updateFreqency'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

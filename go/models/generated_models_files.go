@@ -17,6 +17,7 @@ var GeneratedModelFiles = []string{
 	string(GeneratedGongCallbacksGoFilePath),
 	string(GeneratedGongReverseGoFilePath),
 	string(GeneratedGongOrchestratorGoFilePath),
+	string(GeneratedGongOrchestratorWMEGoFilePath),
 	string(GeneratedGongWopGoFilePath),
 
 	string(LegacyGeneratedGongGoFilePath),

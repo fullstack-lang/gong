@@ -29,9 +29,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouse
 		if stage.OnAfterAUpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfterAUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-		if stage.OnAfterAUpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfterAUpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
-		}
 	default:
 		_ = oldTarget
 	}

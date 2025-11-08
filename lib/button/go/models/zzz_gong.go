@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterButtonCreateCallback OnAfterCreateInterface[Button]
 	OnAfterButtonUpdateCallback OnAfterUpdateInterface[Button]
-	OnAfterButtonUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Button]
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
@@ -105,7 +104,6 @@ type Stage struct {
 
 	OnAfterGroupCreateCallback OnAfterCreateInterface[Group]
 	OnAfterGroupUpdateCallback OnAfterUpdateInterface[Group]
-	OnAfterGroupUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Group]
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
@@ -117,7 +115,6 @@ type Stage struct {
 
 	OnAfterLayoutCreateCallback OnAfterCreateInterface[Layout]
 	OnAfterLayoutUpdateCallback OnAfterUpdateInterface[Layout]
-	OnAfterLayoutUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Layout]
 	OnAfterLayoutDeleteCallback OnAfterDeleteInterface[Layout]
 	OnAfterLayoutReadCallback   OnAfterReadInterface[Layout]
 
@@ -343,11 +340,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front
