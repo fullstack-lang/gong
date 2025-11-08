@@ -93,7 +93,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterAttributeShapeCreateCallback OnAfterCreateInterface[AttributeShape]
 	OnAfterAttributeShapeUpdateCallback OnAfterUpdateInterface[AttributeShape]
-	OnAfterAttributeShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[AttributeShape]
 	OnAfterAttributeShapeDeleteCallback OnAfterDeleteInterface[AttributeShape]
 	OnAfterAttributeShapeReadCallback   OnAfterReadInterface[AttributeShape]
 
@@ -109,7 +108,6 @@ type Stage struct {
 
 	OnAfterClassdiagramCreateCallback OnAfterCreateInterface[Classdiagram]
 	OnAfterClassdiagramUpdateCallback OnAfterUpdateInterface[Classdiagram]
-	OnAfterClassdiagramUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[Classdiagram]
 	OnAfterClassdiagramDeleteCallback OnAfterDeleteInterface[Classdiagram]
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
@@ -121,7 +119,6 @@ type Stage struct {
 
 	OnAfterDiagramPackageCreateCallback OnAfterCreateInterface[DiagramPackage]
 	OnAfterDiagramPackageUpdateCallback OnAfterUpdateInterface[DiagramPackage]
-	OnAfterDiagramPackageUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[DiagramPackage]
 	OnAfterDiagramPackageDeleteCallback OnAfterDeleteInterface[DiagramPackage]
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
@@ -133,7 +130,6 @@ type Stage struct {
 
 	OnAfterGongEnumShapeCreateCallback OnAfterCreateInterface[GongEnumShape]
 	OnAfterGongEnumShapeUpdateCallback OnAfterUpdateInterface[GongEnumShape]
-	OnAfterGongEnumShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongEnumShape]
 	OnAfterGongEnumShapeDeleteCallback OnAfterDeleteInterface[GongEnumShape]
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
@@ -143,7 +139,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongEnumValueShapeCreateCallback OnAfterCreateInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeUpdateCallback OnAfterUpdateInterface[GongEnumValueShape]
-	OnAfterGongEnumValueShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeDeleteCallback OnAfterDeleteInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
@@ -153,7 +148,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterGongNoteLinkShapeCreateCallback OnAfterCreateInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeUpdateCallback OnAfterUpdateInterface[GongNoteLinkShape]
-	OnAfterGongNoteLinkShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeDeleteCallback OnAfterDeleteInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeReadCallback   OnAfterReadInterface[GongNoteLinkShape]
 
@@ -165,7 +159,6 @@ type Stage struct {
 
 	OnAfterGongNoteShapeCreateCallback OnAfterCreateInterface[GongNoteShape]
 	OnAfterGongNoteShapeUpdateCallback OnAfterUpdateInterface[GongNoteShape]
-	OnAfterGongNoteShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongNoteShape]
 	OnAfterGongNoteShapeDeleteCallback OnAfterDeleteInterface[GongNoteShape]
 	OnAfterGongNoteShapeReadCallback   OnAfterReadInterface[GongNoteShape]
 
@@ -179,7 +172,6 @@ type Stage struct {
 
 	OnAfterGongStructShapeCreateCallback OnAfterCreateInterface[GongStructShape]
 	OnAfterGongStructShapeUpdateCallback OnAfterUpdateInterface[GongStructShape]
-	OnAfterGongStructShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[GongStructShape]
 	OnAfterGongStructShapeDeleteCallback OnAfterDeleteInterface[GongStructShape]
 	OnAfterGongStructShapeReadCallback   OnAfterReadInterface[GongStructShape]
 
@@ -189,7 +181,6 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	OnAfterLinkShapeCreateCallback OnAfterCreateInterface[LinkShape]
 	OnAfterLinkShapeUpdateCallback OnAfterUpdateInterface[LinkShape]
-	OnAfterLinkShapeUpdateWithMouseEventCallback OnAfterUpdateWithMouseEventInterface[LinkShape]
 	OnAfterLinkShapeDeleteCallback OnAfterDeleteInterface[LinkShape]
 	OnAfterLinkShapeReadCallback   OnAfterReadInterface[LinkShape]
 
@@ -529,11 +520,6 @@ type OnAfterReadInterface[Type Gongstruct] interface {
 // OnAfterUpdateInterface callback when an instance is updated from the front
 type OnAfterUpdateInterface[Type Gongstruct] interface {
 	OnAfterUpdate(stage *Stage, old, new *Type)
-}
-
-// OnAfterUpdateWithMouseEventInterface callback when an instance is updated from the front
-type OnAfterUpdateWithMouseEventInterface[Type Gongstruct] interface {
-	OnAfterUpdateWithMouseEvent(stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent)
 }
 
 // OnAfterDeleteInterface callback when an instance is updated from the front

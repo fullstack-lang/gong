@@ -177,27 +177,6 @@ export class PngImageService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(pngimage: PngImage, Name: string, gong__mouseEvent: MouseEvent): Observable<PngImageAPI> {
-    let pngimageAPI = new PngImageAPI
-    CopyPngImageToPngImageAPI(pngimage, pngimageAPI)
-    const id = typeof pngimageAPI === 'number' ? pngimageAPI : pngimageAPI.ID
-    const url = `${this.pngimagesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<PngImageAPI>(url, pngimageAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<PngImageAPI>('updatePngImage'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

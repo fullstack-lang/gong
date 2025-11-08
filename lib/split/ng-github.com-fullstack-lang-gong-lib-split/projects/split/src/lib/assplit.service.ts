@@ -178,27 +178,6 @@ export class AsSplitService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(assplit: AsSplit, Name: string, gong__mouseEvent: MouseEvent): Observable<AsSplitAPI> {
-    let assplitAPI = new AsSplitAPI
-    CopyAsSplitToAsSplitAPI(assplit, assplitAPI)
-    const id = typeof assplitAPI === 'number' ? assplitAPI : assplitAPI.ID
-    const url = `${this.assplitsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<AsSplitAPI>(url, assplitAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<AsSplitAPI>('updateAsSplit'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

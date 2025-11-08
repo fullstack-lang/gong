@@ -190,27 +190,6 @@ export class {{Structname}}Service {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent({{structname}}: {{Structname}}, Name: string, gong__mouseEvent: MouseEvent): Observable<{{Structname}}API> {
-    let {{structname}}API = new {{Structname}}API
-    Copy{{Structname}}To{{Structname}}API({{structname}}, {{structname}}API)
-    const id = typeof {{structname}}API === 'number' ? {{structname}}API : {{structname}}API.ID
-    const url = ` + "`" + `${this.{{structname}}sUrl}/${id}` + "`" + `;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<{{Structname}}API>(url, {{structname}}API, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<{{Structname}}API>('update{{Structname}}'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

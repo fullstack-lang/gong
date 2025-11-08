@@ -103,9 +103,6 @@ map[string]string{
 		newTarget := any(new).(*{{Structname}})
 		if stage.OnAfter{{Structname}}UpdateCallback != nil && mouseEvent == nil {
 			stage.OnAfter{{Structname}}UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-		if stage.OnAfter{{Structname}}UpdateWithMouseEventCallback != nil && mouseEvent != nil {
-			stage.OnAfter{{Structname}}UpdateWithMouseEventCallback.OnAfterUpdateWithMouseEvent(stage, oldTarget, newTarget, mouseEvent)
 		}`,
 	string(rune(ModelGongCallbacksRead)): `
 	case *{{Structname}}:

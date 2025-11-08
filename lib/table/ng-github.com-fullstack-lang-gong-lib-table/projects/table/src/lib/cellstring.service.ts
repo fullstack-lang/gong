@@ -177,27 +177,6 @@ export class CellStringService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(cellstring: CellString, Name: string, gong__mouseEvent: MouseEvent): Observable<CellStringAPI> {
-    let cellstringAPI = new CellStringAPI
-    CopyCellStringToCellStringAPI(cellstring, cellstringAPI)
-    const id = typeof cellstringAPI === 'number' ? cellstringAPI : cellstringAPI.ID
-    const url = `${this.cellstringsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<CellStringAPI>(url, cellstringAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<CellStringAPI>('updateCellString'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

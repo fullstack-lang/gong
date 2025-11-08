@@ -177,27 +177,6 @@ export class JpgImageService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(jpgimage: JpgImage, Name: string, gong__mouseEvent: MouseEvent): Observable<JpgImageAPI> {
-    let jpgimageAPI = new JpgImageAPI
-    CopyJpgImageToJpgImageAPI(jpgimage, jpgimageAPI)
-    const id = typeof jpgimageAPI === 'number' ? jpgimageAPI : jpgimageAPI.ID
-    const url = `${this.jpgimagesUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<JpgImageAPI>(url, jpgimageAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<JpgImageAPI>('updateJpgImage'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

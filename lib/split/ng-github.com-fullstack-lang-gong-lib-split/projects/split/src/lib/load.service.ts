@@ -177,27 +177,6 @@ export class LoadService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(load: Load, Name: string, gong__mouseEvent: MouseEvent): Observable<LoadAPI> {
-    let loadAPI = new LoadAPI
-    CopyLoadToLoadAPI(load, loadAPI)
-    const id = typeof loadAPI === 'number' ? loadAPI : loadAPI.ID
-    const url = `${this.loadsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<LoadAPI>(url, loadAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<LoadAPI>('updateLoad'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.
