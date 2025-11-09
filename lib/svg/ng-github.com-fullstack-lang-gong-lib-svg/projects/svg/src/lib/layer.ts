@@ -22,8 +22,6 @@ export class Layer {
 
 	static GONGSTRUCT_NAME = "Layer"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -40,6 +38,9 @@ export class Layer {
 	Paths: Array<Path> = []
 	Links: Array<Link> = []
 	RectLinkLinks: Array<RectLinkLink> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyLayerToLayerAPI(layer: Layer, layerAPI: LayerAPI) {

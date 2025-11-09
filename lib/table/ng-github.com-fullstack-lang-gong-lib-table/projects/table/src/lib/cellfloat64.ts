@@ -12,8 +12,6 @@ export class CellFloat64 {
 
 	static GONGSTRUCT_NAME = "CellFloat64"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class CellFloat64 {
 	Value: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCellFloat64ToCellFloat64API(cellfloat64: CellFloat64, cellfloat64API: CellFloat64API) {

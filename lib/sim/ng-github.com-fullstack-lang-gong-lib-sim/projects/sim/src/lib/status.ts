@@ -12,8 +12,6 @@ export class Status {
 
 	static GONGSTRUCT_NAME = "Status"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -24,6 +22,9 @@ export class Status {
 	SpeedCommandCompletionDate: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyStatusToStatusAPI(status: Status, statusAPI: StatusAPI) {

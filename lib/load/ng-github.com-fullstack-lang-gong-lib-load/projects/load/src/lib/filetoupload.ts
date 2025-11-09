@@ -12,8 +12,6 @@ export class FileToUpload {
 
 	static GONGSTRUCT_NAME = "FileToUpload"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class FileToUpload {
 	Base64EncodedContent: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFileToUploadToFileToUploadAPI(filetoupload: FileToUpload, filetouploadAPI: FileToUploadAPI) {

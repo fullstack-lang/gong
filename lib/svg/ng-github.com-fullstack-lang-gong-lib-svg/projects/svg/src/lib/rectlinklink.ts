@@ -14,8 +14,6 @@ export class RectLinkLink {
 
 	static GONGSTRUCT_NAME = "RectLinkLink"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -35,6 +33,9 @@ export class RectLinkLink {
 
 	End?: Link
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyRectLinkLinkToRectLinkLinkAPI(rectlinklink: RectLinkLink, rectlinklinkAPI: RectLinkLinkAPI) {

@@ -12,8 +12,6 @@ export class Point {
 
 	static GONGSTRUCT_NAME = "Point"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class Point {
 	Y: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyPointToPointAPI(point: Point, pointAPI: PointAPI) {

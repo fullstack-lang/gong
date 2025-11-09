@@ -17,8 +17,6 @@ export class Cell {
 
 	static GONGSTRUCT_NAME = "Cell"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -35,6 +33,9 @@ export class Cell {
 
 	CellIcon?: CellIcon
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCellToCellAPI(cell: Cell, cellAPI: CellAPI) {

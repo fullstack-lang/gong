@@ -12,8 +12,6 @@ export class SvgImage {
 
 	static GONGSTRUCT_NAME = "SvgImage"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class SvgImage {
 	Content: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopySvgImageToSvgImageAPI(svgimage: SvgImage, svgimageAPI: SvgImageAPI) {

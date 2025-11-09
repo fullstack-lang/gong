@@ -12,8 +12,6 @@ export class FormFieldFloat64 {
 
 	static GONGSTRUCT_NAME = "FormFieldFloat64"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class FormFieldFloat64 {
 	MaxValue: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldFloat64ToFormFieldFloat64API(formfieldfloat64: FormFieldFloat64, formfieldfloat64API: FormFieldFloat64API) {
