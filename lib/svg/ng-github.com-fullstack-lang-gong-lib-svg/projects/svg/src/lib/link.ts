@@ -6,7 +6,7 @@ import { FrontRepo } from './front-repo.service';
 // insertion point for imports
 import { Rect } from './rect'
 import { LinkAnchoredText } from './linkanchoredtext'
-import { Point } from './point'
+import { ControlPoint } from './controlpoint'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -56,7 +56,7 @@ export class Link {
 
 	TextAtArrowStart: Array<LinkAnchoredText> = []
 	TextAtArrowEnd: Array<LinkAnchoredText> = []
-	ControlPoints: Array<Point> = []
+	ControlPoints: Array<ControlPoint> = []
 }
 
 export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
@@ -123,8 +123,8 @@ export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {
 	}
 
 	linkAPI.LinkPointersEncoding.ControlPoints = []
-	for (let _point of link.ControlPoints) {
-		linkAPI.LinkPointersEncoding.ControlPoints.push(_point.ID)
+	for (let _controlpoint of link.ControlPoints) {
+		linkAPI.LinkPointersEncoding.ControlPoints.push(_controlpoint.ID)
 	}
 
 }
@@ -203,11 +203,11 @@ export function CopyLinkAPIToLink(linkAPI: LinkAPI, link: Link, frontRepo: Front
 		return;
 	}
 
-	link.ControlPoints = new Array<Point>()
+	link.ControlPoints = new Array<ControlPoint>()
 	for (let _id of linkAPI.LinkPointersEncoding.ControlPoints) {
-		let _point = frontRepo.map_ID_Point.get(_id)
-		if (_point != undefined) {
-			link.ControlPoints.push(_point!)
+		let _controlpoint = frontRepo.map_ID_ControlPoint.get(_id)
+		if (_controlpoint != undefined) {
+			link.ControlPoints.push(_controlpoint!)
 		}
 	}
 }

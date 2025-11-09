@@ -55,6 +55,18 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ControlPoint:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "ControlPoint Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ControlPointFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Ellipse:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
