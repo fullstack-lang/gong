@@ -7,8 +7,6 @@ export class StatusAPI {
 
 	static GONGSTRUCT_NAME = "Status"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class StatusAPI {
 	// insertion point for other decls
 
 	StatusPointersEncoding: StatusPointersEncoding = new StatusPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class StatusPointersEncoding {

@@ -7,8 +7,6 @@ export class LoadAPI {
 
 	static GONGSTRUCT_NAME = "Load"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class LoadAPI {
 	// insertion point for other decls
 
 	LoadPointersEncoding: LoadPointersEncoding = new LoadPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LoadPointersEncoding {

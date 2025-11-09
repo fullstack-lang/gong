@@ -7,8 +7,6 @@ export class DummyAgentAPI {
 
 	static GONGSTRUCT_NAME = "DummyAgent"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class DummyAgentAPI {
 	// insertion point for other decls
 
 	DummyAgentPointersEncoding: DummyAgentPointersEncoding = new DummyAgentPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class DummyAgentPointersEncoding {

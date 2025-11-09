@@ -8,8 +8,6 @@ export class ButtonAPI {
 
 	static GONGSTRUCT_NAME = "Button"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -23,6 +21,9 @@ export class ButtonAPI {
 	// insertion point for other decls
 
 	ButtonPointersEncoding: ButtonPointersEncoding = new ButtonPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class ButtonPointersEncoding {

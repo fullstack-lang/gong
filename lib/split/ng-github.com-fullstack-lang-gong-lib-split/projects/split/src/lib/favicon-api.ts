@@ -7,8 +7,6 @@ export class FavIconAPI {
 
 	static GONGSTRUCT_NAME = "FavIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class FavIconAPI {
 	// insertion point for other decls
 
 	FavIconPointersEncoding: FavIconPointersEncoding = new FavIconPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FavIconPointersEncoding {

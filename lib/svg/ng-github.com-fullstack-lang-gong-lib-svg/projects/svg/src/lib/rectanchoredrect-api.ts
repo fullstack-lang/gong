@@ -7,8 +7,6 @@ export class RectAnchoredRectAPI {
 
 	static GONGSTRUCT_NAME = "RectAnchoredRect"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -37,6 +35,9 @@ export class RectAnchoredRectAPI {
 	// insertion point for other decls
 
 	RectAnchoredRectPointersEncoding: RectAnchoredRectPointersEncoding = new RectAnchoredRectPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class RectAnchoredRectPointersEncoding {

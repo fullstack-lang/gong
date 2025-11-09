@@ -7,8 +7,6 @@ export class CellFloat64API {
 
 	static GONGSTRUCT_NAME = "CellFloat64"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class CellFloat64API {
 	// insertion point for other decls
 
 	CellFloat64PointersEncoding: CellFloat64PointersEncoding = new CellFloat64PointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CellFloat64PointersEncoding {

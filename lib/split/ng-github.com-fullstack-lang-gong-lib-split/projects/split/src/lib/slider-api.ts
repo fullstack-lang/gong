@@ -7,8 +7,6 @@ export class SliderAPI {
 
 	static GONGSTRUCT_NAME = "Slider"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class SliderAPI {
 	// insertion point for other decls
 
 	SliderPointersEncoding: SliderPointersEncoding = new SliderPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class SliderPointersEncoding {

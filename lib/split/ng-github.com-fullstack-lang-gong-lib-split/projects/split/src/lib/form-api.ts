@@ -7,8 +7,6 @@ export class FormAPI {
 
 	static GONGSTRUCT_NAME = "Form"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class FormAPI {
 	// insertion point for other decls
 
 	FormPointersEncoding: FormPointersEncoding = new FormPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FormPointersEncoding {

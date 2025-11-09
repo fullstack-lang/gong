@@ -8,8 +8,6 @@ export class LinkAnchoredTextAPI {
 
 	static GONGSTRUCT_NAME = "LinkAnchoredText"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -36,6 +34,9 @@ export class LinkAnchoredTextAPI {
 	// insertion point for other decls
 
 	LinkAnchoredTextPointersEncoding: LinkAnchoredTextPointersEncoding = new LinkAnchoredTextPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LinkAnchoredTextPointersEncoding {

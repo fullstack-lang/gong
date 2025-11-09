@@ -7,8 +7,6 @@ export class XlsxAPI {
 
 	static GONGSTRUCT_NAME = "Xlsx"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class XlsxAPI {
 	// insertion point for other decls
 
 	XlsxPointersEncoding: XlsxPointersEncoding = new XlsxPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class XlsxPointersEncoding {

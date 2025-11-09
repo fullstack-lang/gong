@@ -7,8 +7,6 @@ export class SplitAPI {
 
 	static GONGSTRUCT_NAME = "Split"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class SplitAPI {
 	// insertion point for other decls
 
 	SplitPointersEncoding: SplitPointersEncoding = new SplitPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class SplitPointersEncoding {

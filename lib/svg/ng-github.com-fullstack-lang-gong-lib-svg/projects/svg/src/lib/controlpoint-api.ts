@@ -8,8 +8,6 @@ export class ControlPointAPI {
 
 	static GONGSTRUCT_NAME = "ControlPoint"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class ControlPointAPI {
 	// insertion point for other decls
 
 	ControlPointPointersEncoding: ControlPointPointersEncoding = new ControlPointPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class ControlPointPointersEncoding {

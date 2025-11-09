@@ -7,8 +7,6 @@ export class PngImageAPI {
 
 	static GONGSTRUCT_NAME = "PngImage"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class PngImageAPI {
 	// insertion point for other decls
 
 	PngImagePointersEncoding: PngImagePointersEncoding = new PngImagePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PngImagePointersEncoding {

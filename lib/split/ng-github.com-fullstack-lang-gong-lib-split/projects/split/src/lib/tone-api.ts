@@ -7,8 +7,6 @@ export class ToneAPI {
 
 	static GONGSTRUCT_NAME = "Tone"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class ToneAPI {
 	// insertion point for other decls
 
 	TonePointersEncoding: TonePointersEncoding = new TonePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class TonePointersEncoding {

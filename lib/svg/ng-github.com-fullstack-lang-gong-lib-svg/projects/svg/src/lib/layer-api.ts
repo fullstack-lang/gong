@@ -17,8 +17,6 @@ export class LayerAPI {
 
 	static GONGSTRUCT_NAME = "Layer"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -27,6 +25,9 @@ export class LayerAPI {
 	// insertion point for other decls
 
 	LayerPointersEncoding: LayerPointersEncoding = new LayerPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LayerPointersEncoding {

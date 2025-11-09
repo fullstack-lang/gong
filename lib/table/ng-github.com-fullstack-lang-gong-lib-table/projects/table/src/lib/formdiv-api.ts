@@ -11,8 +11,6 @@ export class FormDivAPI {
 
 	static GONGSTRUCT_NAME = "FormDiv"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class FormDivAPI {
 	// insertion point for other decls
 
 	FormDivPointersEncoding: FormDivPointersEncoding = new FormDivPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FormDivPointersEncoding {

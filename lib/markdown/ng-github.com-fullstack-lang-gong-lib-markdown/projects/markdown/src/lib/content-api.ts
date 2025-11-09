@@ -7,8 +7,6 @@ export class ContentAPI {
 
 	static GONGSTRUCT_NAME = "Content"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class ContentAPI {
 	// insertion point for other decls
 
 	ContentPointersEncoding: ContentPointersEncoding = new ContentPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class ContentPointersEncoding {
