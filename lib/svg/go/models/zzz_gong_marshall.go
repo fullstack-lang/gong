@@ -346,6 +346,59 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_ControlPoint_Identifiers := make(map[*ControlPoint]string)
+	_ = map_ControlPoint_Identifiers
+
+	controlpointOrdered := []*ControlPoint{}
+	for controlpoint := range stage.ControlPoints {
+		controlpointOrdered = append(controlpointOrdered, controlpoint)
+	}
+	sort.Slice(controlpointOrdered[:], func(i, j int) bool {
+		controlpointi := controlpointOrdered[i]
+		controlpointj := controlpointOrdered[j]
+		controlpointi_order, oki := stage.ControlPointMap_Staged_Order[controlpointi]
+		controlpointj_order, okj := stage.ControlPointMap_Staged_Order[controlpointj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return controlpointi_order < controlpointj_order
+	})
+	if len(controlpointOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, controlpoint := range controlpointOrdered {
+
+		id = generatesIdentifier("ControlPoint", idx, controlpoint.Name)
+		map_ControlPoint_Identifiers[controlpoint] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlPoint")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", controlpoint.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(controlpoint.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X_Relative")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpoint.X_Relative))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y_Relative")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", controlpoint.Y_Relative))
+		initializerStatements += setValueField
+
+	}
+
 	map_Ellipse_Identifiers := make(map[*Ellipse]string)
 	_ = map_Ellipse_Identifiers
 
@@ -2461,6 +2514,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Initialisation of values
 	}
 
+	if len(controlpointOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of ControlPoint instances pointers"
+	}
+	for idx, controlpoint := range controlpointOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("ControlPoint", idx, controlpoint.Name)
+		map_ControlPoint_Identifiers[controlpoint] = id
+
+		// Initialisation of values
+		if controlpoint.ClosestRect != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ClosestRect")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Rect_Identifiers[controlpoint.ClosestRect])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
 	if len(ellipseOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Ellipse instances pointers"
 	}
@@ -2639,11 +2713,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _point := range link.ControlPoints {
+		for _, _controlpoint := range link.ControlPoints {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ControlPoints")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Point_Identifiers[_point])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ControlPoint_Identifiers[_controlpoint])
 			pointersInitializesStatements += setPointerField
 		}
 

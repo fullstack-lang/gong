@@ -59,6 +59,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Condition" {
 		updateAndCommitTable[models.Condition](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ControlPoint" {
+		updateAndCommitTable[models.ControlPoint](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Ellipse" {
 		updateAndCommitTable[models.Ellipse](nodeImplGongstruct.probe)
 	}

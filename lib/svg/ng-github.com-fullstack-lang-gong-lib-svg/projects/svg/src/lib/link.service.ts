@@ -19,7 +19,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 // insertion point for imports
 import { RectAPI } from './rect-api'
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
-import { PointAPI } from './point-api'
+import { ControlPointAPI } from './controlpoint-api'
 
 @Injectable({
   providedIn: 'root'
