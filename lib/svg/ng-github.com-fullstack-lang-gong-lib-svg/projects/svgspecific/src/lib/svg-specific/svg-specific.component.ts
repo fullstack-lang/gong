@@ -1482,6 +1482,8 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
+    // let draggedPoint = this.activeControlPointLink!.ControlPoints[this.activeControlPointIndex]
+
     this.controlPointService.updateFront(controlPoint, this.Name).subscribe(
       () => {
       }

@@ -260,21 +260,10 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 
 	_values := c.Request.URL.Query()
 	stackPath := ""
-	hasMouseEvent := false
-	shiftKey := false
-	_ = shiftKey
 	if len(_values) >= 1 {
 		_nameValues := _values["Name"]
 		if len(_nameValues) == 1 {
 			stackPath = _nameValues[0]
-		}
-	}
-
-	if len(_values) >= 2 {
-		hasMouseEvent = true
-		_shiftKeyValues := _values["shiftKey"]
-		if len(_shiftKeyValues) == 1 {
-			shiftKey = _shiftKeyValues[0] == "true"
 		}
 	}
 
@@ -339,15 +328,7 @@ func (controller *Controller) UpdateAstructBstruct2Use(c *gin.Context) {
 	// get stage instance from DB instance, and call callback function
 	astructbstruct2useOld := backRepo.BackRepoAstructBstruct2Use.Map_AstructBstruct2UseDBID_AstructBstruct2UsePtr[astructbstruct2useDB.ID]
 	if astructbstruct2useOld != nil {
-		if !hasMouseEvent {
-			models.OnAfterUpdateFromFront(backRepo.GetStage(), astructbstruct2useOld, astructbstruct2useNew, nil)
-		} else {
-			mouseEvent := &models.Gong__MouseEvent{
-				ShiftKey: shiftKey,
-			}
-			models.OnAfterUpdateFromFront(backRepo.GetStage(), astructbstruct2useOld, astructbstruct2useNew, mouseEvent)
-
-		}
+		models.OnAfterUpdateFromFront(backRepo.GetStage(), astructbstruct2useOld, astructbstruct2useNew)
 	}
 
 	// an UPDATE generates a back repo commit increase
