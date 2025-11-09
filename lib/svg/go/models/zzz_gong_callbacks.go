@@ -100,113 +100,113 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Animate:
 		newTarget := any(new).(*Animate)
-		if stage.OnAfterAnimateUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterAnimateUpdateCallback != nil {
 			stage.OnAfterAnimateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Circle:
 		newTarget := any(new).(*Circle)
-		if stage.OnAfterCircleUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCircleUpdateCallback != nil {
 			stage.OnAfterCircleUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Condition:
 		newTarget := any(new).(*Condition)
-		if stage.OnAfterConditionUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterConditionUpdateCallback != nil {
 			stage.OnAfterConditionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ControlPoint:
 		newTarget := any(new).(*ControlPoint)
-		if stage.OnAfterControlPointUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterControlPointUpdateCallback != nil {
 			stage.OnAfterControlPointUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Ellipse:
 		newTarget := any(new).(*Ellipse)
-		if stage.OnAfterEllipseUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterEllipseUpdateCallback != nil {
 			stage.OnAfterEllipseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Layer:
 		newTarget := any(new).(*Layer)
-		if stage.OnAfterLayerUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLayerUpdateCallback != nil {
 			stage.OnAfterLayerUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Line:
 		newTarget := any(new).(*Line)
-		if stage.OnAfterLineUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLineUpdateCallback != nil {
 			stage.OnAfterLineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Link:
 		newTarget := any(new).(*Link)
-		if stage.OnAfterLinkUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLinkUpdateCallback != nil {
 			stage.OnAfterLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *LinkAnchoredText:
 		newTarget := any(new).(*LinkAnchoredText)
-		if stage.OnAfterLinkAnchoredTextUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLinkAnchoredTextUpdateCallback != nil {
 			stage.OnAfterLinkAnchoredTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Path:
 		newTarget := any(new).(*Path)
-		if stage.OnAfterPathUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterPathUpdateCallback != nil {
 			stage.OnAfterPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Point:
 		newTarget := any(new).(*Point)
-		if stage.OnAfterPointUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterPointUpdateCallback != nil {
 			stage.OnAfterPointUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Polygone:
 		newTarget := any(new).(*Polygone)
-		if stage.OnAfterPolygoneUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterPolygoneUpdateCallback != nil {
 			stage.OnAfterPolygoneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Polyline:
 		newTarget := any(new).(*Polyline)
-		if stage.OnAfterPolylineUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterPolylineUpdateCallback != nil {
 			stage.OnAfterPolylineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Rect:
 		newTarget := any(new).(*Rect)
-		if stage.OnAfterRectUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRectUpdateCallback != nil {
 			stage.OnAfterRectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RectAnchoredPath:
 		newTarget := any(new).(*RectAnchoredPath)
-		if stage.OnAfterRectAnchoredPathUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRectAnchoredPathUpdateCallback != nil {
 			stage.OnAfterRectAnchoredPathUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RectAnchoredRect:
 		newTarget := any(new).(*RectAnchoredRect)
-		if stage.OnAfterRectAnchoredRectUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRectAnchoredRectUpdateCallback != nil {
 			stage.OnAfterRectAnchoredRectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RectAnchoredText:
 		newTarget := any(new).(*RectAnchoredText)
-		if stage.OnAfterRectAnchoredTextUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRectAnchoredTextUpdateCallback != nil {
 			stage.OnAfterRectAnchoredTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *RectLinkLink:
 		newTarget := any(new).(*RectLinkLink)
-		if stage.OnAfterRectLinkLinkUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRectLinkLinkUpdateCallback != nil {
 			stage.OnAfterRectLinkLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SVG:
 		newTarget := any(new).(*SVG)
-		if stage.OnAfterSVGUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterSVGUpdateCallback != nil {
 			stage.OnAfterSVGUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SvgText:
 		newTarget := any(new).(*SvgText)
-		if stage.OnAfterSvgTextUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterSvgTextUpdateCallback != nil {
 			stage.OnAfterSvgTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Text:
 		newTarget := any(new).(*Text)
-		if stage.OnAfterTextUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterTextUpdateCallback != nil {
 			stage.OnAfterTextUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

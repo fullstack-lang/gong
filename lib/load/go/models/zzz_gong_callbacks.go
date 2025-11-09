@@ -28,23 +28,23 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *FileToDownload:
 		newTarget := any(new).(*FileToDownload)
-		if stage.OnAfterFileToDownloadUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFileToDownloadUpdateCallback != nil {
 			stage.OnAfterFileToDownloadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FileToUpload:
 		newTarget := any(new).(*FileToUpload)
-		if stage.OnAfterFileToUploadUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFileToUploadUpdateCallback != nil {
 			stage.OnAfterFileToUploadUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Message:
 		newTarget := any(new).(*Message)
-		if stage.OnAfterMessageUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterMessageUpdateCallback != nil {
 			stage.OnAfterMessageUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

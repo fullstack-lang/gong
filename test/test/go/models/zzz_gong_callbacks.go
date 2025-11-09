@@ -44,43 +44,43 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Astruct:
 		newTarget := any(new).(*Astruct)
-		if stage.OnAfterAstructUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterAstructUpdateCallback != nil {
 			stage.OnAfterAstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *AstructBstruct2Use:
 		newTarget := any(new).(*AstructBstruct2Use)
-		if stage.OnAfterAstructBstruct2UseUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterAstructBstruct2UseUpdateCallback != nil {
 			stage.OnAfterAstructBstruct2UseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *AstructBstructUse:
 		newTarget := any(new).(*AstructBstructUse)
-		if stage.OnAfterAstructBstructUseUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterAstructBstructUseUpdateCallback != nil {
 			stage.OnAfterAstructBstructUseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Bstruct:
 		newTarget := any(new).(*Bstruct)
-		if stage.OnAfterBstructUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterBstructUpdateCallback != nil {
 			stage.OnAfterBstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Dstruct:
 		newTarget := any(new).(*Dstruct)
-		if stage.OnAfterDstructUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterDstructUpdateCallback != nil {
 			stage.OnAfterDstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *F0123456789012345678901234567890:
 		newTarget := any(new).(*F0123456789012345678901234567890)
-		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterF0123456789012345678901234567890UpdateCallback != nil {
 			stage.OnAfterF0123456789012345678901234567890UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Gstruct:
 		newTarget := any(new).(*Gstruct)
-		if stage.OnAfterGstructUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGstructUpdateCallback != nil {
 			stage.OnAfterGstructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

@@ -21,16 +21,18 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-04 23:29:15.125513 CET"
-	const __write__utc_time__ = "2025-11-04 22:29:15.125513 UTC"
+	const __write__local_time = "2025-11-09 18:47:59.420455 CET"
+	const __write__utc_time__ = "2025-11-09 17:47:59.420455 UTC"
 
-	const __commitId__ = "0000000017"
+	const __commitId__ = "0000000054"
 
 	// Declaration of instances to stage
 
 	__Animate__000000_ := (&models.Animate{}).Stage(stage)
 
 	__Circle__000000_Test := (&models.Circle{}).Stage(stage)
+
+	__ControlPoint__000000_Middle_Link_Control_Point := (&models.ControlPoint{}).Stage(stage)
 
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{}).Stage(stage)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{}).Stage(stage)
@@ -60,8 +62,6 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE := (&models.LinkAnchoredText{}).Stage(stage)
-
-	__Point__000000_middle_line_control_point := (&models.Point{}).Stage(stage)
 
 	__Rect__000000_Bottom_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
@@ -112,6 +112,10 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
 
+	__ControlPoint__000000_Middle_Link_Control_Point.Name = `Middle Link Control Point`
+	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 1.000000
+	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = 2.000000
+
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Name = `Layer RectLinkLink Medium to Top-Bottom`
@@ -151,15 +155,17 @@ func _(stage *models.Stage) {
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArray = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.Transform = ``
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.MouseX = 0.000000
+	__Link__000000_Arrow_Top_to_Bottom_vertical_to_horizontal.MouseY = 0.000000
 
 	__Link__000001_Start_Middle.Name = `Start - Middle`
 	__Link__000001_Start_Middle.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
 	__Link__000001_Start_Middle.IsBezierCurve = false
 	__Link__000001_Start_Middle.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.StartRatio = 0.218766
+	__Link__000001_Start_Middle.StartRatio = 0.242616
 	__Link__000001_Start_Middle.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Link__000001_Start_Middle.EndRatio = 0.378803
-	__Link__000001_Start_Middle.CornerOffsetRatio = -1.105485
+	__Link__000001_Start_Middle.EndRatio = 0.000000
+	__Link__000001_Start_Middle.CornerOffsetRatio = -1.257384
 	__Link__000001_Start_Middle.CornerRadius = 20.000000
 	__Link__000001_Start_Middle.HasEndArrow = true
 	__Link__000001_Start_Middle.EndArrowSize = 10.000000
@@ -175,6 +181,8 @@ func _(stage *models.Stage) {
 	__Link__000001_Start_Middle.StrokeDashArray = ``
 	__Link__000001_Start_Middle.StrokeDashArrayWhenSelected = ``
 	__Link__000001_Start_Middle.Transform = ``
+	__Link__000001_Start_Middle.MouseX = 697.000000
+	__Link__000001_Start_Middle.MouseY = 200.001953
 
 	__Link__000002_Top_to_Middle_issue_645_.Name = `Top to Middle (issue #645)`
 	__Link__000002_Top_to_Middle_issue_645_.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -186,7 +194,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.EndOrientation = models.ORIENTATION_VERTICAL
 	__Link__000002_Top_to_Middle_issue_645_.EndRatio = 0.575000
 	__Link__000002_Top_to_Middle_issue_645_.CornerOffsetRatio = 1.126591
-	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 0.000000
+	__Link__000002_Top_to_Middle_issue_645_.CornerRadius = 10.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasEndArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowSize = 11.000000
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 6.000000
@@ -201,6 +209,9 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArray = ``
 	__Link__000002_Top_to_Middle_issue_645_.StrokeDashArrayWhenSelected = ``
 	__Link__000002_Top_to_Middle_issue_645_.Transform = ``
+	__Link__000002_Top_to_Middle_issue_645_.MouseX = 638.000000
+	__Link__000002_Top_to_Middle_issue_645_.MouseY = 384.001953
+	__Link__000002_Top_to_Middle_issue_645_.MouseEventKey = models.MouseEventKeyMeta
 
 	__Link__000003_Auto_1.Name = `Auto 1`
 	__Link__000003_Auto_1.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -225,6 +236,8 @@ func _(stage *models.Stage) {
 	__Link__000003_Auto_1.StrokeDashArray = ``
 	__Link__000003_Auto_1.StrokeDashArrayWhenSelected = ``
 	__Link__000003_Auto_1.Transform = ``
+	__Link__000003_Auto_1.MouseX = 0.000000
+	__Link__000003_Auto_1.MouseY = 0.000000
 
 	__Link__000004_Auto_2.Name = `Auto 2`
 	__Link__000004_Auto_2.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -249,6 +262,8 @@ func _(stage *models.Stage) {
 	__Link__000004_Auto_2.StrokeDashArray = ``
 	__Link__000004_Auto_2.StrokeDashArrayWhenSelected = ``
 	__Link__000004_Auto_2.Transform = ``
+	__Link__000004_Auto_2.MouseX = 0.000000
+	__Link__000004_Auto_2.MouseY = 0.000000
 
 	__Link__000005_Auto_3.Name = `Auto 3`
 	__Link__000005_Auto_3.Type = models.LINK_TYPE_FLOATING_ORTHOGONAL
@@ -273,6 +288,8 @@ func _(stage *models.Stage) {
 	__Link__000005_Auto_3.StrokeDashArray = ``
 	__Link__000005_Auto_3.StrokeDashArrayWhenSelected = ``
 	__Link__000005_Auto_3.Transform = ``
+	__Link__000005_Auto_3.MouseX = 0.000000
+	__Link__000005_Auto_3.MouseY = 0.000000
 
 	__Link__000006_middle_to_bottom.Name = `middle to bottom`
 	__Link__000006_middle_to_bottom.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
@@ -297,6 +314,8 @@ func _(stage *models.Stage) {
 	__Link__000006_middle_to_bottom.StrokeDashArray = ``
 	__Link__000006_middle_to_bottom.StrokeDashArrayWhenSelected = ``
 	__Link__000006_middle_to_bottom.Transform = ``
+	__Link__000006_middle_to_bottom.MouseX = 0.000000
+	__Link__000006_middle_to_bottom.MouseY = 0.000000
 
 	__LinkAnchoredText__000000_End_Left_Top.Name = `End Left/Top`
 	__LinkAnchoredText__000000_End_Left_Top.Content = `End Left/Top`
@@ -537,15 +556,11 @@ Line 2`
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.Transform = ``
 
-	__Point__000000_middle_line_control_point.Name = `middle line control point`
-	__Point__000000_middle_line_control_point.X = 630.000000
-	__Point__000000_middle_line_control_point.Y = 350.000000
-
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
-	__Rect__000000_Bottom_Rect.X = 400.000000
-	__Rect__000000_Bottom_Rect.Y = 581.000000
+	__Rect__000000_Bottom_Rect.X = 333.000000
+	__Rect__000000_Bottom_Rect.Y = 616.000000
 	__Rect__000000_Bottom_Rect.Width = 584.000000
-	__Rect__000000_Bottom_Rect.Height = 266.999985
+	__Rect__000000_Bottom_Rect.Height = 200.999985
 	__Rect__000000_Bottom_Rect.RX = 5.000000
 	__Rect__000000_Bottom_Rect.Color = `bisque`
 	__Rect__000000_Bottom_Rect.FillOpacity = 50.000000
@@ -575,10 +590,12 @@ Line 2`
 	__Rect__000000_Bottom_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000000_Bottom_Rect.HasToolTip = false
 	__Rect__000000_Bottom_Rect.ToolTipText = ``
+	__Rect__000000_Bottom_Rect.MouseX = 0.000000
+	__Rect__000000_Bottom_Rect.MouseY = 0.000000
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 555.000000
-	__Rect__000001_Middle_Rect.Y = 393.000000
+	__Rect__000001_Middle_Rect.X = 432.000000
+	__Rect__000001_Middle_Rect.Y = 425.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
@@ -610,10 +627,12 @@ Line 2`
 	__Rect__000001_Middle_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000001_Middle_Rect.HasToolTip = false
 	__Rect__000001_Middle_Rect.ToolTipText = ``
+	__Rect__000001_Middle_Rect.MouseX = 0.000000
+	__Rect__000001_Middle_Rect.MouseY = 0.000000
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
 	__Rect__000002_Top_Rect.X = 530.999969
-	__Rect__000002_Top_Rect.Y = 69.000000
+	__Rect__000002_Top_Rect.Y = 34.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
@@ -645,10 +664,13 @@ Line 2`
 	__Rect__000002_Top_Rect.OriginalFillOpacity = 0.000000
 	__Rect__000002_Top_Rect.HasToolTip = false
 	__Rect__000002_Top_Rect.ToolTipText = ``
+	__Rect__000002_Top_Rect.MouseX = 749.000000
+	__Rect__000002_Top_Rect.MouseY = 289.500000
+	__Rect__000002_Top_Rect.MouseEventKey = models.MouseEventKeyShift
 
 	__Rect__000003_Start.Name = `Start`
-	__Rect__000003_Start.X = 1180.333333
-	__Rect__000003_Start.Y = 77.333332
+	__Rect__000003_Start.X = 1125.333333
+	__Rect__000003_Start.Y = 62.333332
 	__Rect__000003_Start.Width = 853.000000
 	__Rect__000003_Start.Height = 125.571444
 	__Rect__000003_Start.RX = 20.000000
@@ -680,11 +702,13 @@ Line 2`
 	__Rect__000003_Start.OriginalFillOpacity = 0.000000
 	__Rect__000003_Start.HasToolTip = false
 	__Rect__000003_Start.ToolTipText = ``
+	__Rect__000003_Start.MouseX = 0.000000
+	__Rect__000003_Start.MouseY = 0.000000
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1081.769231
+	__Rect__000004_End.X = 1192.769231
 	__Rect__000004_End.Y = 385.256327
-	__Rect__000004_End.Width = 624.000000
+	__Rect__000004_End.Width = 430.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
 	__Rect__000004_End.Color = ``
@@ -715,6 +739,8 @@ Line 2`
 	__Rect__000004_End.OriginalFillOpacity = 0.000000
 	__Rect__000004_End.HasToolTip = false
 	__Rect__000004_End.ToolTipText = ``
+	__Rect__000004_End.MouseX = 0.000000
+	__Rect__000004_End.MouseY = 0.000000
 
 	__RectAnchoredPath__000000_Logo_to_add.Name = `Logo to add`
 	__RectAnchoredPath__000000_Logo_to_add.Definition = `M532-131q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-90T395-320q0-37 11-78t38-106q23-57 32-87.5t9-56.5q0-34-15-63.5T423-771q-6-6-9.5-14t-3.5-16q0-8 3-14.5t8-12.5q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T518-474q-25 60-34 92t-9 61q0 35 14.5 67.5T534-188q5 6 8 13t3 15q0 8-3 15.5T532-131Zm195 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T590-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T618-771q-6-6-9-13.5t-3-15.5q0-8 2.5-14.5T616-827q6-6 14-9.5t16-3.5q8 0 14.5 3t12.5 8q44 41 65.5 86t21.5 95q0 35-10.5 73.5T713-473q-25 60-34 92t-9 60q0 35 15 68.5t45 65.5q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Zm-390 0q-6 5-12.5 8t-14.5 3q-8 0-16-3.5t-14-9.5q-41-44-60.5-89.5T200-319q0-37 11-79t38-106q23-57 32-87t9-56q0-34-15-64.5T228-771q-7-6-10-13.5t-3-15.5q0-8 3-15t8-13q6-6 13.5-9t15.5-3q8 0 15 3t13 8q44 41 65.5 85.5T370-648q0 35-10 73.5T324-474q-25 60-34 92t-9 61q0 35 14.5 68.5T340-187q5 6 7.5 13t2.5 14q0 8-3 16t-10 13Z`
@@ -812,6 +838,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
 	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
 	__RectAnchoredText__000000_Bottom_Text.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000000_Bottom_Text.DominantBaseline = models.DominantBaselineCentral
 	__RectAnchoredText__000000_Bottom_Text.Color = `black`
 	__RectAnchoredText__000000_Bottom_Text.FillOpacity = 100.000000
 	__RectAnchoredText__000000_Bottom_Text.Stroke = `black`
@@ -893,6 +920,7 @@ line 3`
 	__RectAnchoredText__000004_Start.Y_Offset = 0.000000
 	__RectAnchoredText__000004_Start.RectAnchorType = models.RECT_CENTER
 	__RectAnchoredText__000004_Start.TextAnchorType = models.TEXT_ANCHOR_CENTER
+	__RectAnchoredText__000004_Start.DominantBaseline = models.DominantBaselineCentral
 	__RectAnchoredText__000004_Start.Color = `black`
 	__RectAnchoredText__000004_Start.FillOpacity = 1.000000
 	__RectAnchoredText__000004_Start.Stroke = `black`
@@ -1271,6 +1299,8 @@ line 3`
 	// Setup of pointers
 	// setup of Animate instances pointers
 	// setup of Circle instances pointers
+	// setup of ControlPoint instances pointers
+	__ControlPoint__000000_Middle_Link_Control_Point.ClosestRect = __Rect__000002_Top_Rect
 	// setup of Layer instances pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom_Rect)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links, __Link__000001_Start_Middle)
@@ -1296,7 +1326,7 @@ line 3`
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000002_Top_to_Middle_issue_645_.Start = __Rect__000002_Top_Rect
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
-	__Link__000002_Top_to_Middle_issue_645_.ControlPoints = append(__Link__000002_Top_to_Middle_issue_645_.ControlPoints, __Point__000000_middle_line_control_point)
+	__Link__000002_Top_to_Middle_issue_645_.ControlPoints = append(__Link__000002_Top_to_Middle_issue_645_.ControlPoints, __ControlPoint__000000_Middle_Link_Control_Point)
 	__Link__000003_Auto_1.Start = __Rect__000003_Start
 	__Link__000003_Auto_1.End = __Rect__000004_End
 	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
@@ -1322,7 +1352,6 @@ line 3`
 	__Link__000006_middle_to_bottom.Start = __Rect__000001_Middle_Rect
 	__Link__000006_middle_to_bottom.End = __Rect__000000_Bottom_Rect
 	// setup of LinkAnchoredText instances pointers
-	// setup of Point instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom_Rect.RectAnchoredRects = append(__Rect__000000_Bottom_Rect.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)

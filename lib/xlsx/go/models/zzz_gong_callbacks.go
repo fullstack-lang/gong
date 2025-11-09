@@ -36,33 +36,33 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *DisplaySelection:
 		newTarget := any(new).(*DisplaySelection)
-		if stage.OnAfterDisplaySelectionUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterDisplaySelectionUpdateCallback != nil {
 			stage.OnAfterDisplaySelectionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *XLCell:
 		newTarget := any(new).(*XLCell)
-		if stage.OnAfterXLCellUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterXLCellUpdateCallback != nil {
 			stage.OnAfterXLCellUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *XLFile:
 		newTarget := any(new).(*XLFile)
-		if stage.OnAfterXLFileUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterXLFileUpdateCallback != nil {
 			stage.OnAfterXLFileUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *XLRow:
 		newTarget := any(new).(*XLRow)
-		if stage.OnAfterXLRowUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterXLRowUpdateCallback != nil {
 			stage.OnAfterXLRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *XLSheet:
 		newTarget := any(new).(*XLSheet)
-		if stage.OnAfterXLSheetUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterXLSheetUpdateCallback != nil {
 			stage.OnAfterXLSheetUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
