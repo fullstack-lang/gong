@@ -7,8 +7,6 @@ export class FileToUploadAPI {
 
 	static GONGSTRUCT_NAME = "FileToUpload"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class FileToUploadAPI {
 	// insertion point for other decls
 
 	FileToUploadPointersEncoding: FileToUploadPointersEncoding = new FileToUploadPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FileToUploadPointersEncoding {

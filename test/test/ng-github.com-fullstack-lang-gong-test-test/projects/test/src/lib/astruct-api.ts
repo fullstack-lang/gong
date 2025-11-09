@@ -11,8 +11,6 @@ export class AstructAPI {
 
 	static GONGSTRUCT_NAME = "Astruct"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -38,6 +36,9 @@ export class AstructAPI {
 	Duration1_string?: string
 
 	AstructPointersEncoding: AstructPointersEncoding = new AstructPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class AstructPointersEncoding {

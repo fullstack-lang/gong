@@ -7,8 +7,6 @@ export class FreqencyAPI {
 
 	static GONGSTRUCT_NAME = "Freqency"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class FreqencyAPI {
 	// insertion point for other decls
 
 	FreqencyPointersEncoding: FreqencyPointersEncoding = new FreqencyPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FreqencyPointersEncoding {

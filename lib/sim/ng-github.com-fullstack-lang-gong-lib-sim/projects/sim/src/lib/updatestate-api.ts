@@ -7,8 +7,6 @@ export class UpdateStateAPI {
 
 	static GONGSTRUCT_NAME = "UpdateState"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class UpdateStateAPI {
 	Period_string?: string
 
 	UpdateStatePointersEncoding: UpdateStatePointersEncoding = new UpdateStatePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class UpdateStatePointersEncoding {

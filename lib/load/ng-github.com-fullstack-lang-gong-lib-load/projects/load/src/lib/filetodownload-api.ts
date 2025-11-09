@@ -7,8 +7,6 @@ export class FileToDownloadAPI {
 
 	static GONGSTRUCT_NAME = "FileToDownload"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class FileToDownloadAPI {
 	// insertion point for other decls
 
 	FileToDownloadPointersEncoding: FileToDownloadPointersEncoding = new FileToDownloadPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FileToDownloadPointersEncoding {
