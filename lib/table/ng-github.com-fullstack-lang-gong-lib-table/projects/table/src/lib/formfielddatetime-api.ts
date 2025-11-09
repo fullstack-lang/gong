@@ -7,8 +7,6 @@ export class FormFieldDateTimeAPI {
 
 	static GONGSTRUCT_NAME = "FormFieldDateTime"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class FormFieldDateTimeAPI {
 	// insertion point for other decls
 
 	FormFieldDateTimePointersEncoding: FormFieldDateTimePointersEncoding = new FormFieldDateTimePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FormFieldDateTimePointersEncoding {

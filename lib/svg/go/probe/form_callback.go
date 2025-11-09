@@ -1180,6 +1180,156 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 
 	updateAndCommitTree(conditionFormCallback.probe)
 }
+func __gong__New__ControlPointFormCallback(
+	controlpoint *models.ControlPoint,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (controlpointFormCallback *ControlPointFormCallback) {
+	controlpointFormCallback = new(ControlPointFormCallback)
+	controlpointFormCallback.probe = probe
+	controlpointFormCallback.controlpoint = controlpoint
+	controlpointFormCallback.formGroup = formGroup
+
+	controlpointFormCallback.CreationMode = (controlpoint == nil)
+
+	return
+}
+
+type ControlPointFormCallback struct {
+	controlpoint *models.ControlPoint
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
+
+	// log.Println("ControlPointFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	controlpointFormCallback.probe.formStage.Checkout()
+
+	if controlpointFormCallback.controlpoint == nil {
+		controlpointFormCallback.controlpoint = new(models.ControlPoint).Stage(controlpointFormCallback.probe.stageOfInterest)
+	}
+	controlpoint_ := controlpointFormCallback.controlpoint
+	_ = controlpoint_
+
+	for _, formDiv := range controlpointFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(controlpoint_.Name), formDiv)
+		case "X_Relative":
+			FormDivBasicFieldToField(&(controlpoint_.X_Relative), formDiv)
+		case "Y_Relative":
+			FormDivBasicFieldToField(&(controlpoint_.Y_Relative), formDiv)
+		case "ClosestRect":
+			FormDivSelectFieldToField(&(controlpoint_.ClosestRect), controlpointFormCallback.probe.stageOfInterest, formDiv)
+		case "Link:ControlPoints":
+			// WARNING : this form deals with the N-N association "Link.ControlPoints []*ControlPoint" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of ControlPoint). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Link
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Link"
+				rf.Fieldname = "ControlPoints"
+				formerAssociationSource := models.GetReverseFieldOwner(
+					controlpointFormCallback.probe.stageOfInterest,
+					controlpoint_,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Link)
+					if !ok {
+						log.Fatalln("Source of Link.ControlPoints []*ControlPoint, is not an Link instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ControlPoints, controlpoint_)
+					formerSource.ControlPoints = slices.Delete(formerSource.ControlPoints, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Link
+			for _link := range *models.GetGongstructInstancesSet[models.Link](controlpointFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _link.GetName() == newSourceName.GetName() {
+					newSource = _link // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Link.ControlPoints []*ControlPoint, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.ControlPoints = append(newSource.ControlPoints, controlpoint_)
+		}
+	}
+
+	// manage the suppress operation
+	if controlpointFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlpoint_.Unstage(controlpointFormCallback.probe.stageOfInterest)
+	}
+
+	controlpointFormCallback.probe.stageOfInterest.Commit()
+	updateAndCommitTable[models.ControlPoint](
+		controlpointFormCallback.probe,
+	)
+	controlpointFormCallback.probe.tableStage.Commit()
+
+	// display a new form by reset the form stage
+	if controlpointFormCallback.CreationMode || controlpointFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		controlpointFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(controlpointFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ControlPointFormCallback(
+			nil,
+			controlpointFormCallback.probe,
+			newFormGroup,
+		)
+		controlpoint := new(models.ControlPoint)
+		FillUpForm(controlpoint, newFormGroup, controlpointFormCallback.probe)
+		controlpointFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(controlpointFormCallback.probe)
+}
 func __gong__New__EllipseFormCallback(
 	ellipse *models.Ellipse,
 	probe *Probe,
@@ -2096,11 +2246,11 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 			link_.TextAtArrowEnd = instanceSlice
 
 		case "ControlPoints":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Point](linkFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Point, 0)
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ControlPoint](linkFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ControlPoint, 0)
 
 			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Point)
+			map_id_instances := make(map[uint]*models.ControlPoint)
 
 			for instance := range instanceSet {
 				id := models.GetOrderPointerGongstruct(
@@ -2749,73 +2899,6 @@ func (pointFormCallback *PointFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(point_.X), formDiv)
 		case "Y":
 			FormDivBasicFieldToField(&(point_.Y), formDiv)
-		case "Link:ControlPoints":
-			// WARNING : this form deals with the N-N association "Link.ControlPoints []*Point" but
-			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
-			//
-			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
-			// association. For those use cases, it is handy to set the source of the assocation with
-			// the form of the target source (when editing an instance of Point). Setting up a value
-			// will discard the former value is there is one.
-			//
-			// Therefore, the forms works only in ONE particular case:
-			// - there was no association to this target
-			var formerSource *models.Link
-			{
-				var rf models.ReverseField
-				_ = rf
-				rf.GongstructName = "Link"
-				rf.Fieldname = "ControlPoints"
-				formerAssociationSource := models.GetReverseFieldOwner(
-					pointFormCallback.probe.stageOfInterest,
-					point_,
-					&rf)
-
-				var ok bool
-				if formerAssociationSource != nil {
-					formerSource, ok = formerAssociationSource.(*models.Link)
-					if !ok {
-						log.Fatalln("Source of Link.ControlPoints []*Point, is not an Link instance")
-					}
-				}
-			}
-
-			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
-
-			// case when the user set empty for the source value
-			if newSourceName == nil {
-				// That could mean we clear the assocation for all source instances
-				if formerSource != nil {
-					idx := slices.Index(formerSource.ControlPoints, point_)
-					formerSource.ControlPoints = slices.Delete(formerSource.ControlPoints, idx, idx+1)
-				}
-				break // nothing else to do for this field
-			}
-
-			// the former source is not empty. the new value could
-			// be different but there mught more that one source thet
-			// points to this target
-			if formerSource != nil {
-				break // nothing else to do for this field
-			}
-
-			// (2) find the source
-			var newSource *models.Link
-			for _link := range *models.GetGongstructInstancesSet[models.Link](pointFormCallback.probe.stageOfInterest) {
-
-				// the match is base on the name
-				if _link.GetName() == newSourceName.GetName() {
-					newSource = _link // we have a match
-					break
-				}
-			}
-			if newSource == nil {
-				log.Println("Source of Link.ControlPoints []*Point, with name", newSourceName, ", does not exist")
-				break
-			}
-
-			// (3) append the new value to the new source field
-			newSource.ControlPoints = append(newSource.ControlPoints, point_)
 		}
 	}
 

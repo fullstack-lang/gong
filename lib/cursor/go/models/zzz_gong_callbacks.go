@@ -20,13 +20,13 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Cursor:
 		newTarget := any(new).(*Cursor)
-		if stage.OnAfterCursorUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCursorUpdateCallback != nil {
 			stage.OnAfterCursorUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

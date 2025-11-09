@@ -7,8 +7,6 @@ export class FormFieldIntAPI {
 
 	static GONGSTRUCT_NAME = "FormFieldInt"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class FormFieldIntAPI {
 	// insertion point for other decls
 
 	FormFieldIntPointersEncoding: FormFieldIntPointersEncoding = new FormFieldIntPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FormFieldIntPointersEncoding {

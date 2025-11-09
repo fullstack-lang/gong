@@ -60,63 +60,63 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *GongBasicField:
 		newTarget := any(new).(*GongBasicField)
-		if stage.OnAfterGongBasicFieldUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongBasicFieldUpdateCallback != nil {
 			stage.OnAfterGongBasicFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongEnum:
 		newTarget := any(new).(*GongEnum)
-		if stage.OnAfterGongEnumUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongEnumUpdateCallback != nil {
 			stage.OnAfterGongEnumUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongEnumValue:
 		newTarget := any(new).(*GongEnumValue)
-		if stage.OnAfterGongEnumValueUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongEnumValueUpdateCallback != nil {
 			stage.OnAfterGongEnumValueUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongLink:
 		newTarget := any(new).(*GongLink)
-		if stage.OnAfterGongLinkUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongLinkUpdateCallback != nil {
 			stage.OnAfterGongLinkUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongNote:
 		newTarget := any(new).(*GongNote)
-		if stage.OnAfterGongNoteUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongNoteUpdateCallback != nil {
 			stage.OnAfterGongNoteUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongStruct:
 		newTarget := any(new).(*GongStruct)
-		if stage.OnAfterGongStructUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongStructUpdateCallback != nil {
 			stage.OnAfterGongStructUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *GongTimeField:
 		newTarget := any(new).(*GongTimeField)
-		if stage.OnAfterGongTimeFieldUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGongTimeFieldUpdateCallback != nil {
 			stage.OnAfterGongTimeFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *MetaReference:
 		newTarget := any(new).(*MetaReference)
-		if stage.OnAfterMetaReferenceUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterMetaReferenceUpdateCallback != nil {
 			stage.OnAfterMetaReferenceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ModelPkg:
 		newTarget := any(new).(*ModelPkg)
-		if stage.OnAfterModelPkgUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterModelPkgUpdateCallback != nil {
 			stage.OnAfterModelPkgUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *PointerToGongStructField:
 		newTarget := any(new).(*PointerToGongStructField)
-		if stage.OnAfterPointerToGongStructFieldUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterPointerToGongStructFieldUpdateCallback != nil {
 			stage.OnAfterPointerToGongStructFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *SliceOfPointerToGongStructField:
 		newTarget := any(new).(*SliceOfPointerToGongStructField)
-		if stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback != nil {
 			stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

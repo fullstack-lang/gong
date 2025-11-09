@@ -396,6 +396,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 var __gong__map_Animate = make(map[string]*Animate)
 var __gong__map_Circle = make(map[string]*Circle)
 var __gong__map_Condition = make(map[string]*Condition)
+var __gong__map_ControlPoint = make(map[string]*ControlPoint)
 var __gong__map_Ellipse = make(map[string]*Ellipse)
 var __gong__map_Layer = make(map[string]*Layer)
 var __gong__map_Line = make(map[string]*Line)
@@ -603,6 +604,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceCondition.Stage(stage)
 										instance = any(instanceCondition)
 										__gong__map_Condition[identifier] = instanceCondition
+									case "ControlPoint":
+										instanceControlPoint := new(ControlPoint)
+										instanceControlPoint.Name = instanceName
+										instanceControlPoint.Stage(stage)
+										instance = any(instanceControlPoint)
+										__gong__map_ControlPoint[identifier] = instanceControlPoint
 									case "Ellipse":
 										instanceEllipse := new(Ellipse)
 										instanceEllipse.Name = instanceName
@@ -751,6 +758,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "Condition":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "ControlPoint":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -903,6 +914,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							}
 						}
 					case "Condition":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "ControlPoint":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1067,7 +1082,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								break
 							}
 							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Point[identifierOfInstanceToAppend]; ok {
+							if instanceToAppend, ok := __gong__map_ControlPoint[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Link[identifier]
 								instanceWhoseFieldIsAppended.ControlPoints = append(instanceWhoseFieldIsAppended.ControlPoints, instanceToAppend)
 							}
@@ -1423,6 +1438,28 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Condition[identifier].Name = fielValue
+				}
+			case "ControlPoint":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ControlPoint[identifier].Name = fielValue
+				case "X_Relative":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_ControlPoint[identifier].X_Relative = exprSign * fielValue
+				case "Y_Relative":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_ControlPoint[identifier].Y_Relative = exprSign * fielValue
 				}
 			case "Ellipse":
 				switch fieldName {
@@ -2568,6 +2605,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch fieldName {
 				// insertion point for field dependant code
 				}
+			case "ControlPoint":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "ClosestRect":
+					targetIdentifier := ident.Name
+					__gong__map_ControlPoint[identifier].ClosestRect = __gong__map_Rect[targetIdentifier]
+				}
 			case "Ellipse":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -2910,6 +2954,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "Condition":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "ControlPoint":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

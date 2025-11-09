@@ -14,8 +14,6 @@ export class Node {
 
 	static GONGSTRUCT_NAME = "Node"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -49,6 +47,9 @@ export class Node {
 
 	Children: Array<Node> = []
 	Buttons: Array<Button> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyNodeToNodeAPI(node: Node, nodeAPI: NodeAPI) {

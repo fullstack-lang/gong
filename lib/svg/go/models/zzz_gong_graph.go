@@ -14,6 +14,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Condition:
 		ok = stage.IsStagedCondition(target)
 
+	case *ControlPoint:
+		ok = stage.IsStagedControlPoint(target)
+
 	case *Ellipse:
 		ok = stage.IsStagedEllipse(target)
 
@@ -89,6 +92,13 @@ func (stage *Stage) IsStagedCircle(circle *Circle) (ok bool) {
 func (stage *Stage) IsStagedCondition(condition *Condition) (ok bool) {
 
 	_, ok = stage.Conditions[condition]
+
+	return
+}
+
+func (stage *Stage) IsStagedControlPoint(controlpoint *ControlPoint) (ok bool) {
+
+	_, ok = stage.ControlPoints[controlpoint]
 
 	return
 }
@@ -229,6 +239,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Condition:
 		stage.StageBranchCondition(target)
 
+	case *ControlPoint:
+		stage.StageBranchControlPoint(target)
+
 	case *Ellipse:
 		stage.StageBranchEllipse(target)
 
@@ -329,6 +342,24 @@ func (stage *Stage) StageBranchCondition(condition *Condition) {
 	condition.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchControlPoint(controlpoint *ControlPoint) {
+
+	// check if instance is already staged
+	if IsStaged(stage, controlpoint) {
+		return
+	}
+
+	controlpoint.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlpoint.ClosestRect != nil {
+		StageBranch(stage, controlpoint.ClosestRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -439,8 +470,8 @@ func (stage *Stage) StageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		StageBranch(stage, _linkanchoredtext)
 	}
-	for _, _point := range link.ControlPoints {
-		StageBranch(stage, _point)
+	for _, _controlpoint := range link.ControlPoints {
+		StageBranch(stage, _controlpoint)
 	}
 
 }
@@ -714,6 +745,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchCondition(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ControlPoint:
+		toT := CopyBranchControlPoint(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Ellipse:
 		toT := CopyBranchEllipse(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -849,6 +884,28 @@ func CopyBranchCondition(mapOrigCopy map[any]any, conditionFrom *Condition) (con
 	return
 }
 
+func CopyBranchControlPoint(mapOrigCopy map[any]any, controlpointFrom *ControlPoint) (controlpointTo *ControlPoint) {
+
+	// controlpointFrom has already been copied
+	if _controlpointTo, ok := mapOrigCopy[controlpointFrom]; ok {
+		controlpointTo = _controlpointTo.(*ControlPoint)
+		return
+	}
+
+	controlpointTo = new(ControlPoint)
+	mapOrigCopy[controlpointFrom] = controlpointTo
+	controlpointFrom.CopyBasicFields(controlpointTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlpointFrom.ClosestRect != nil {
+		controlpointTo.ClosestRect = CopyBranchRect(mapOrigCopy, controlpointFrom.ClosestRect)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchEllipse(mapOrigCopy map[any]any, ellipseFrom *Ellipse) (ellipseTo *Ellipse) {
 
 	// ellipseFrom has already been copied
@@ -969,8 +1026,8 @@ func CopyBranchLink(mapOrigCopy map[any]any, linkFrom *Link) (linkTo *Link) {
 	for _, _linkanchoredtext := range linkFrom.TextAtArrowEnd {
 		linkTo.TextAtArrowEnd = append(linkTo.TextAtArrowEnd, CopyBranchLinkAnchoredText(mapOrigCopy, _linkanchoredtext))
 	}
-	for _, _point := range linkFrom.ControlPoints {
-		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchPoint(mapOrigCopy, _point))
+	for _, _controlpoint := range linkFrom.ControlPoints {
+		linkTo.ControlPoints = append(linkTo.ControlPoints, CopyBranchControlPoint(mapOrigCopy, _controlpoint))
 	}
 
 	return
@@ -1291,6 +1348,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Condition:
 		stage.UnstageBranchCondition(target)
 
+	case *ControlPoint:
+		stage.UnstageBranchControlPoint(target)
+
 	case *Ellipse:
 		stage.UnstageBranchEllipse(target)
 
@@ -1391,6 +1451,24 @@ func (stage *Stage) UnstageBranchCondition(condition *Condition) {
 	condition.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchControlPoint(controlpoint *ControlPoint) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, controlpoint) {
+		return
+	}
+
+	controlpoint.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if controlpoint.ClosestRect != nil {
+		UnstageBranch(stage, controlpoint.ClosestRect)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1501,8 +1579,8 @@ func (stage *Stage) UnstageBranchLink(link *Link) {
 	for _, _linkanchoredtext := range link.TextAtArrowEnd {
 		UnstageBranch(stage, _linkanchoredtext)
 	}
-	for _, _point := range link.ControlPoints {
-		UnstageBranch(stage, _point)
+	for _, _controlpoint := range link.ControlPoints {
+		UnstageBranch(stage, _controlpoint)
 	}
 
 }

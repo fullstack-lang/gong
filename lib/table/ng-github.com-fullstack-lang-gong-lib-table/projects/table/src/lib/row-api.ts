@@ -8,8 +8,6 @@ export class RowAPI {
 
 	static GONGSTRUCT_NAME = "Row"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class RowAPI {
 	// insertion point for other decls
 
 	RowPointersEncoding: RowPointersEncoding = new RowPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class RowPointersEncoding {

@@ -8,8 +8,6 @@ export class AAPI {
 
 	static GONGSTRUCT_NAME = "A"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class AAPI {
 	// insertion point for other decls
 
 	APointersEncoding: APointersEncoding = new APointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class APointersEncoding {

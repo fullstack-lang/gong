@@ -9,8 +9,6 @@ export class RectLinkLinkAPI {
 
 	static GONGSTRUCT_NAME = "RectLinkLink"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -28,6 +26,9 @@ export class RectLinkLinkAPI {
 	// insertion point for other decls
 
 	RectLinkLinkPointersEncoding: RectLinkLinkPointersEncoding = new RectLinkLinkPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class RectLinkLinkPointersEncoding {

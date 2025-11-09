@@ -108,123 +108,123 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Cell:
 		newTarget := any(new).(*Cell)
-		if stage.OnAfterCellUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellUpdateCallback != nil {
 			stage.OnAfterCellUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CellBoolean:
 		newTarget := any(new).(*CellBoolean)
-		if stage.OnAfterCellBooleanUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellBooleanUpdateCallback != nil {
 			stage.OnAfterCellBooleanUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CellFloat64:
 		newTarget := any(new).(*CellFloat64)
-		if stage.OnAfterCellFloat64UpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellFloat64UpdateCallback != nil {
 			stage.OnAfterCellFloat64UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CellIcon:
 		newTarget := any(new).(*CellIcon)
-		if stage.OnAfterCellIconUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellIconUpdateCallback != nil {
 			stage.OnAfterCellIconUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CellInt:
 		newTarget := any(new).(*CellInt)
-		if stage.OnAfterCellIntUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellIntUpdateCallback != nil {
 			stage.OnAfterCellIntUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CellString:
 		newTarget := any(new).(*CellString)
-		if stage.OnAfterCellStringUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCellStringUpdateCallback != nil {
 			stage.OnAfterCellStringUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *CheckBox:
 		newTarget := any(new).(*CheckBox)
-		if stage.OnAfterCheckBoxUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCheckBoxUpdateCallback != nil {
 			stage.OnAfterCheckBoxUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *DisplayedColumn:
 		newTarget := any(new).(*DisplayedColumn)
-		if stage.OnAfterDisplayedColumnUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterDisplayedColumnUpdateCallback != nil {
 			stage.OnAfterDisplayedColumnUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormDiv:
 		newTarget := any(new).(*FormDiv)
-		if stage.OnAfterFormDivUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormDivUpdateCallback != nil {
 			stage.OnAfterFormDivUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormEditAssocButton:
 		newTarget := any(new).(*FormEditAssocButton)
-		if stage.OnAfterFormEditAssocButtonUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormEditAssocButtonUpdateCallback != nil {
 			stage.OnAfterFormEditAssocButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormField:
 		newTarget := any(new).(*FormField)
-		if stage.OnAfterFormFieldUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldUpdateCallback != nil {
 			stage.OnAfterFormFieldUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldDate:
 		newTarget := any(new).(*FormFieldDate)
-		if stage.OnAfterFormFieldDateUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldDateUpdateCallback != nil {
 			stage.OnAfterFormFieldDateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldDateTime:
 		newTarget := any(new).(*FormFieldDateTime)
-		if stage.OnAfterFormFieldDateTimeUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldDateTimeUpdateCallback != nil {
 			stage.OnAfterFormFieldDateTimeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldFloat64:
 		newTarget := any(new).(*FormFieldFloat64)
-		if stage.OnAfterFormFieldFloat64UpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldFloat64UpdateCallback != nil {
 			stage.OnAfterFormFieldFloat64UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldInt:
 		newTarget := any(new).(*FormFieldInt)
-		if stage.OnAfterFormFieldIntUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldIntUpdateCallback != nil {
 			stage.OnAfterFormFieldIntUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldSelect:
 		newTarget := any(new).(*FormFieldSelect)
-		if stage.OnAfterFormFieldSelectUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldSelectUpdateCallback != nil {
 			stage.OnAfterFormFieldSelectUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldString:
 		newTarget := any(new).(*FormFieldString)
-		if stage.OnAfterFormFieldStringUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldStringUpdateCallback != nil {
 			stage.OnAfterFormFieldStringUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormFieldTime:
 		newTarget := any(new).(*FormFieldTime)
-		if stage.OnAfterFormFieldTimeUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormFieldTimeUpdateCallback != nil {
 			stage.OnAfterFormFieldTimeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormGroup:
 		newTarget := any(new).(*FormGroup)
-		if stage.OnAfterFormGroupUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormGroupUpdateCallback != nil {
 			stage.OnAfterFormGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *FormSortAssocButton:
 		newTarget := any(new).(*FormSortAssocButton)
-		if stage.OnAfterFormSortAssocButtonUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterFormSortAssocButtonUpdateCallback != nil {
 			stage.OnAfterFormSortAssocButtonUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Option:
 		newTarget := any(new).(*Option)
-		if stage.OnAfterOptionUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterOptionUpdateCallback != nil {
 			stage.OnAfterOptionUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Row:
 		newTarget := any(new).(*Row)
-		if stage.OnAfterRowUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterRowUpdateCallback != nil {
 			stage.OnAfterRowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Table:
 		newTarget := any(new).(*Table)
-		if stage.OnAfterTableUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterTableUpdateCallback != nil {
 			stage.OnAfterTableUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

@@ -12,8 +12,6 @@ export class Animate {
 
 	static GONGSTRUCT_NAME = "Animate"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class Animate {
 	RepeatCount: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyAnimateToAnimateAPI(animate: Animate, animateAPI: AnimateAPI) {

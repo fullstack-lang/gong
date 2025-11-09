@@ -7,8 +7,6 @@ export class TreeAPI {
 
 	static GONGSTRUCT_NAME = "Tree"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class TreeAPI {
 	// insertion point for other decls
 
 	TreePointersEncoding: TreePointersEncoding = new TreePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class TreePointersEncoding {

@@ -468,19 +468,19 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		// 1. reset
 		linkDB.LinkPointersEncoding.ControlPoints = make([]int, 0)
 		// 2. encode
-		for _, pointAssocEnd := range link.ControlPoints {
-			pointAssocEnd_DB :=
-				backRepo.BackRepoPoint.GetPointDBFromPointPtr(pointAssocEnd)
+		for _, controlpointAssocEnd := range link.ControlPoints {
+			controlpointAssocEnd_DB :=
+				backRepo.BackRepoControlPoint.GetControlPointDBFromControlPointPtr(controlpointAssocEnd)
 			
-			// the stage might be inconsistant, meaning that the pointAssocEnd_DB might
+			// the stage might be inconsistant, meaning that the controlpointAssocEnd_DB might
 			// be missing from the stage. In this case, the commit operation is robust
 			// An alternative would be to crash here to reveal the missing element.
-			if pointAssocEnd_DB == nil {
+			if controlpointAssocEnd_DB == nil {
 				continue
 			}
 			
 			linkDB.LinkPointersEncoding.ControlPoints =
-				append(linkDB.LinkPointersEncoding.ControlPoints, int(pointAssocEnd_DB.ID))
+				append(linkDB.LinkPointersEncoding.ControlPoints, int(controlpointAssocEnd_DB.ID))
 		}
 
 		_, err := backRepoLink.db.Save(linkDB)
@@ -657,12 +657,12 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 	}
 
 	// This loop redeem link.ControlPoints in the stage from the encode in the back repo
-	// It parses all PointDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// It parses all ControlPointDB in the back repo and if the reverse pointer encoding matches the back repo ID
 	// it appends the stage instance
 	// 1. reset the slice
 	link.ControlPoints = link.ControlPoints[:0]
-	for _, _Pointid := range linkDB.LinkPointersEncoding.ControlPoints {
-		link.ControlPoints = append(link.ControlPoints, backRepo.BackRepoPoint.Map_PointDBID_PointPtr[uint(_Pointid)])
+	for _, _ControlPointid := range linkDB.LinkPointersEncoding.ControlPoints {
+		link.ControlPoints = append(link.ControlPoints, backRepo.BackRepoControlPoint.Map_ControlPointDBID_ControlPointPtr[uint(_ControlPointid)])
 	}
 
 	return

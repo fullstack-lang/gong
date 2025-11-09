@@ -13,8 +13,6 @@ export class Layout {
 
 	static GONGSTRUCT_NAME = "Layout"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class Layout {
 
 	// insertion point for pointers and slices of pointers declarations
 	Groups: Array<Group> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyLayoutToLayoutAPI(layout: Layout, layoutAPI: LayoutAPI) {

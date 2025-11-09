@@ -4,6 +4,7 @@ import { drawPointPointSegment } from './draw.point.point.segment';
 import { SvgOrientationType } from './svg-orientation-type';
 import { getPosition } from './get-position';
 import { getLineOrientation } from './gete-line-orientation';
+import { controlPointToPoint } from './control-points';
 
 export type SegmentsParams = {
     StartRect: svg.Rect
@@ -65,7 +66,9 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
         const endPos = getPosition(link.End, link.EndAnchorType, link.Start, link.EndArrowOffset);
 
         allPoints.push(createPoint(startPos[0], startPos[1]))
-        allPoints.push(...link.ControlPoints)
+        for (let controlPoint of link.ControlPoints) {
+            allPoints.push( controlPointToPoint(controlPoint))
+        }
         allPoints.push(createPoint(endPos[0], endPos[1]))
 
         const cornerRadius = link.CornerRadius
