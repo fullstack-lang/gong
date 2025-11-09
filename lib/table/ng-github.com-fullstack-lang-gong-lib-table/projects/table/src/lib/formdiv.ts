@@ -16,8 +16,6 @@ export class FormDiv {
 
 	static GONGSTRUCT_NAME = "FormDiv"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -30,6 +28,9 @@ export class FormDiv {
 
 	FormSortAssocButton?: FormSortAssocButton
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormDivToFormDivAPI(formdiv: FormDiv, formdivAPI: FormDivAPI) {

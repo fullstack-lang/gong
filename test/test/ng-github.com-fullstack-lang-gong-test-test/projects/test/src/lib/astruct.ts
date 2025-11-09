@@ -16,8 +16,6 @@ export class Astruct {
 
 	static GONGSTRUCT_NAME = "Astruct"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -65,6 +63,9 @@ export class Astruct {
 	Anarrayofb2Use: Array<AstructBstruct2Use> = []
 	AnAstruct?: Astruct
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyAstructToAstructAPI(astruct: Astruct, astructAPI: AstructAPI) {

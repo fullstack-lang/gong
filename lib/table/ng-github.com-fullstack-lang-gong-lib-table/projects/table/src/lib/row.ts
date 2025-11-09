@@ -13,8 +13,6 @@ export class Row {
 
 	static GONGSTRUCT_NAME = "Row"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -23,6 +21,9 @@ export class Row {
 
 	// insertion point for pointers and slices of pointers declarations
 	Cells: Array<Cell> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyRowToRowAPI(row: Row, rowAPI: RowAPI) {

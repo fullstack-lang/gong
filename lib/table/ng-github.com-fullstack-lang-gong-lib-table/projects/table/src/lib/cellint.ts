@@ -12,8 +12,6 @@ export class CellInt {
 
 	static GONGSTRUCT_NAME = "CellInt"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class CellInt {
 	Value: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCellIntToCellIntAPI(cellint: CellInt, cellintAPI: CellIntAPI) {

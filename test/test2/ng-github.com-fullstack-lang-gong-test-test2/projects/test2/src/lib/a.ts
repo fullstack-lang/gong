@@ -13,8 +13,6 @@ export class A {
 
 	static GONGSTRUCT_NAME = "A"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class A {
 	B?: B
 
 	Bs: Array<B> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyAToAAPI(a: A, aAPI: AAPI) {

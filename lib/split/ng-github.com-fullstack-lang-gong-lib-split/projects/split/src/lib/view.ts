@@ -13,8 +13,6 @@ export class View {
 
 	static GONGSTRUCT_NAME = "View"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -24,6 +22,9 @@ export class View {
 
 	// insertion point for pointers and slices of pointers declarations
 	RootAsSplitAreas: Array<AsSplitArea> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyViewToViewAPI(view: View, viewAPI: ViewAPI) {

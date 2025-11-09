@@ -14,8 +14,6 @@ export class Table {
 
 	static GONGSTRUCT_NAME = "Table"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -34,6 +32,9 @@ export class Table {
 	// insertion point for pointers and slices of pointers declarations
 	DisplayedColumns: Array<DisplayedColumn> = []
 	Rows: Array<Row> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyTableToTableAPI(table: Table, tableAPI: TableAPI) {

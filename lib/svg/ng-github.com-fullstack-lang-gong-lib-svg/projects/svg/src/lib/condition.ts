@@ -12,14 +12,15 @@ export class Condition {
 
 	static GONGSTRUCT_NAME = "Condition"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
 	Name: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyConditionToConditionAPI(condition: Condition, conditionAPI: ConditionAPI) {

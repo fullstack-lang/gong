@@ -13,8 +13,6 @@ export class FormGroup {
 
 	static GONGSTRUCT_NAME = "FormGroup"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class FormGroup {
 
 	// insertion point for pointers and slices of pointers declarations
 	FormDivs: Array<FormDiv> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormGroupToFormGroupAPI(formgroup: FormGroup, formgroupAPI: FormGroupAPI) {

@@ -13,8 +13,6 @@ export class Polyline {
 
 	static GONGSTRUCT_NAME = "Polyline"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -31,6 +29,9 @@ export class Polyline {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyPolylineToPolylineAPI(polyline: Polyline, polylineAPI: PolylineAPI) {

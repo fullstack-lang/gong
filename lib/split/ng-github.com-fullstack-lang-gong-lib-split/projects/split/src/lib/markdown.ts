@@ -12,8 +12,6 @@ export class Markdown {
 
 	static GONGSTRUCT_NAME = "Markdown"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class Markdown {
 	StackName: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyMarkdownToMarkdownAPI(markdown: Markdown, markdownAPI: MarkdownAPI) {
