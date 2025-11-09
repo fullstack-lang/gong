@@ -44,43 +44,43 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Arrow:
 		newTarget := any(new).(*Arrow)
-		if stage.OnAfterArrowUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterArrowUpdateCallback != nil {
 			stage.OnAfterArrowUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Bar:
 		newTarget := any(new).(*Bar)
-		if stage.OnAfterBarUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterBarUpdateCallback != nil {
 			stage.OnAfterBarUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Gantt:
 		newTarget := any(new).(*Gantt)
-		if stage.OnAfterGanttUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGanttUpdateCallback != nil {
 			stage.OnAfterGanttUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Group:
 		newTarget := any(new).(*Group)
-		if stage.OnAfterGroupUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterGroupUpdateCallback != nil {
 			stage.OnAfterGroupUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Lane:
 		newTarget := any(new).(*Lane)
-		if stage.OnAfterLaneUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLaneUpdateCallback != nil {
 			stage.OnAfterLaneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *LaneUse:
 		newTarget := any(new).(*LaneUse)
-		if stage.OnAfterLaneUseUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterLaneUseUpdateCallback != nil {
 			stage.OnAfterLaneUseUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Milestone:
 		newTarget := any(new).(*Milestone)
-		if stage.OnAfterMilestoneUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterMilestoneUpdateCallback != nil {
 			stage.OnAfterMilestoneUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:

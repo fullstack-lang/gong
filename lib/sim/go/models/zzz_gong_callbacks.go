@@ -40,38 +40,38 @@ type Gong__MouseEvent struct {
 }
 
 // OnAfterUpdateFromFront is called after a update from front
-func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type, mouseEvent *Gong__MouseEvent) {
+func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
 	case *Command:
 		newTarget := any(new).(*Command)
-		if stage.OnAfterCommandUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterCommandUpdateCallback != nil {
 			stage.OnAfterCommandUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *DummyAgent:
 		newTarget := any(new).(*DummyAgent)
-		if stage.OnAfterDummyAgentUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterDummyAgentUpdateCallback != nil {
 			stage.OnAfterDummyAgentUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Engine:
 		newTarget := any(new).(*Engine)
-		if stage.OnAfterEngineUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterEngineUpdateCallback != nil {
 			stage.OnAfterEngineUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Event:
 		newTarget := any(new).(*Event)
-		if stage.OnAfterEventUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterEventUpdateCallback != nil {
 			stage.OnAfterEventUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Status:
 		newTarget := any(new).(*Status)
-		if stage.OnAfterStatusUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterStatusUpdateCallback != nil {
 			stage.OnAfterStatusUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *UpdateState:
 		newTarget := any(new).(*UpdateState)
-		if stage.OnAfterUpdateStateUpdateCallback != nil && mouseEvent == nil {
+		if stage.OnAfterUpdateStateUpdateCallback != nil {
 			stage.OnAfterUpdateStateUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	default:
