@@ -112,6 +112,18 @@ func GetReverseFieldOwnerName(
 			}
 		}
 
+	case *ControlPoint:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Link":
+			switch reverseField.Fieldname {
+			case "ControlPoints":
+				if _link, ok := stage.Link_ControlPoints_reverseMap[inst]; ok {
+					res = _link.Name
+				}
+			}
+		}
+
 	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -191,13 +203,6 @@ func GetReverseFieldOwnerName(
 	case *Point:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Link":
-			switch reverseField.Fieldname {
-			case "ControlPoints":
-				if _link, ok := stage.Link_ControlPoints_reverseMap[inst]; ok {
-					res = _link.Name
-				}
-			}
 		}
 
 	case *Polygone:
@@ -397,6 +402,16 @@ func GetReverseFieldOwner[T Gongstruct](
 			}
 		}
 
+	case *ControlPoint:
+		switch reverseField.GongstructName {
+		// insertion point
+		case "Link":
+			switch reverseField.Fieldname {
+			case "ControlPoints":
+				res = stage.Link_ControlPoints_reverseMap[inst]
+			}
+		}
+
 	case *Ellipse:
 		switch reverseField.GongstructName {
 		// insertion point
@@ -462,11 +477,6 @@ func GetReverseFieldOwner[T Gongstruct](
 	case *Point:
 		switch reverseField.GongstructName {
 		// insertion point
-		case "Link":
-			switch reverseField.Fieldname {
-			case "ControlPoints":
-				res = stage.Link_ControlPoints_reverseMap[inst]
-			}
 		}
 
 	case *Polygone:

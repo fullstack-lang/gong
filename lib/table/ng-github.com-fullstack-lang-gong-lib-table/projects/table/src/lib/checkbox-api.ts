@@ -7,8 +7,6 @@ export class CheckBoxAPI {
 
 	static GONGSTRUCT_NAME = "CheckBox"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class CheckBoxAPI {
 	// insertion point for other decls
 
 	CheckBoxPointersEncoding: CheckBoxPointersEncoding = new CheckBoxPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CheckBoxPointersEncoding {

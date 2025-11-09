@@ -7,8 +7,6 @@ export class BstructAPI {
 
 	static GONGSTRUCT_NAME = "Bstruct"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class BstructAPI {
 	// insertion point for other decls
 
 	BstructPointersEncoding: BstructPointersEncoding = new BstructPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class BstructPointersEncoding {

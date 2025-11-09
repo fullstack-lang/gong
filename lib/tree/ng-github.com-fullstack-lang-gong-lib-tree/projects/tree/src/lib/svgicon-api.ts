@@ -7,8 +7,6 @@ export class SVGIconAPI {
 
 	static GONGSTRUCT_NAME = "SVGIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class SVGIconAPI {
 	// insertion point for other decls
 
 	SVGIconPointersEncoding: SVGIconPointersEncoding = new SVGIconPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class SVGIconPointersEncoding {

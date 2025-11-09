@@ -7,8 +7,6 @@ export class EventAPI {
 
 	static GONGSTRUCT_NAME = "Event"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class EventAPI {
 	Duration_string?: string
 
 	EventPointersEncoding: EventPointersEncoding = new EventPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class EventPointersEncoding {

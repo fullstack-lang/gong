@@ -26,13 +26,14 @@ export class {{Structname}} {
 
 	static GONGSTRUCT_NAME = "{{Structname}}"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassTsInsertionPerStructBasicFieldsDecl)) + `}}
 
 	// insertion point for pointers and slices of pointers declarations{{` + string(rune(NgClassTsInsertionPerStructOtherDecls)) + `}}
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function Copy{{Structname}}To{{Structname}}API({{structname}}: {{Structname}}, {{structname}}API: {{Structname}}API) {

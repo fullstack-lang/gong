@@ -13,8 +13,6 @@ export class Ellipse {
 
 	static GONGSTRUCT_NAME = "Ellipse"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -34,6 +32,9 @@ export class Ellipse {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyEllipseToEllipseAPI(ellipse: Ellipse, ellipseAPI: EllipseAPI) {

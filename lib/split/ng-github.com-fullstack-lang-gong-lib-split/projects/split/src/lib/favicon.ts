@@ -12,8 +12,6 @@ export class FavIcon {
 
 	static GONGSTRUCT_NAME = "FavIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class FavIcon {
 	SVG: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFavIconToFavIconAPI(favicon: FavIcon, faviconAPI: FavIconAPI) {

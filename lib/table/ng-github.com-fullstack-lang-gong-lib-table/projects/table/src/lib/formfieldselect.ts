@@ -13,8 +13,6 @@ export class FormFieldSelect {
 
 	static GONGSTRUCT_NAME = "FormFieldSelect"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class FormFieldSelect {
 	Value?: Option
 
 	Options: Array<Option> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldSelectToFormFieldSelectAPI(formfieldselect: FormFieldSelect, formfieldselectAPI: FormFieldSelectAPI) {

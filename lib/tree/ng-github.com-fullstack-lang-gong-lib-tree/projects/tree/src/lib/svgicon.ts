@@ -12,8 +12,6 @@ export class SVGIcon {
 
 	static GONGSTRUCT_NAME = "SVGIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class SVGIcon {
 	SVG: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopySVGIconToSVGIconAPI(svgicon: SVGIcon, svgiconAPI: SVGIconAPI) {

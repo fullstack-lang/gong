@@ -12,8 +12,6 @@ export class UpdateState {
 
 	static GONGSTRUCT_NAME = "UpdateState"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -24,6 +22,9 @@ export class UpdateState {
 	// insertion point for pointers and slices of pointers declarations
 	Duration_string?: string
 	Period_string?: string
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyUpdateStateToUpdateStateAPI(updatestate: UpdateState, updatestateAPI: UpdateStateAPI) {

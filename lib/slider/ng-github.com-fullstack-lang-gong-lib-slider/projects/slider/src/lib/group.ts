@@ -14,8 +14,6 @@ export class Group {
 
 	static GONGSTRUCT_NAME = "Group"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class Group {
 	// insertion point for pointers and slices of pointers declarations
 	Sliders: Array<Slider> = []
 	Checkboxes: Array<Checkbox> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyGroupToGroupAPI(group: Group, groupAPI: GroupAPI) {

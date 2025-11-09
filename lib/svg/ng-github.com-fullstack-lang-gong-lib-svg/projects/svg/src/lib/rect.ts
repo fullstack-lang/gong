@@ -17,8 +17,6 @@ export class Rect {
 
 	static GONGSTRUCT_NAME = "Rect"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -68,6 +66,9 @@ export class Rect {
 	RectAnchoredTexts: Array<RectAnchoredText> = []
 	RectAnchoredRects: Array<RectAnchoredRect> = []
 	RectAnchoredPaths: Array<RectAnchoredPath> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyRectToRectAPI(rect: Rect, rectAPI: RectAPI) {

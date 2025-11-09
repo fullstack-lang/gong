@@ -12,8 +12,6 @@ export class FormFieldDateTime {
 
 	static GONGSTRUCT_NAME = "FormFieldDateTime"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class FormFieldDateTime {
 	Value: Date = new Date
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldDateTimeToFormFieldDateTimeAPI(formfielddatetime: FormFieldDateTime, formfielddatetimeAPI: FormFieldDateTimeAPI) {

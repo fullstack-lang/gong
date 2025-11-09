@@ -12,8 +12,6 @@ export class RectAPI {
 
 	static GONGSTRUCT_NAME = "Rect"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -59,6 +57,9 @@ export class RectAPI {
 	// insertion point for other decls
 
 	RectPointersEncoding: RectPointersEncoding = new RectPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class RectPointersEncoding {

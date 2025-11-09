@@ -13,8 +13,6 @@ export class AstructBstruct2Use {
 
 	static GONGSTRUCT_NAME = "AstructBstruct2Use"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -23,6 +21,9 @@ export class AstructBstruct2Use {
 	// insertion point for pointers and slices of pointers declarations
 	Bstrcut2?: Bstruct
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyAstructBstruct2UseToAstructBstruct2UseAPI(astructbstruct2use: AstructBstruct2Use, astructbstruct2useAPI: AstructBstruct2UseAPI) {

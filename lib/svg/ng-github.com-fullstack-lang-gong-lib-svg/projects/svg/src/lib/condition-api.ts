@@ -7,8 +7,6 @@ export class ConditionAPI {
 
 	static GONGSTRUCT_NAME = "Condition"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class ConditionAPI {
 	// insertion point for other decls
 
 	ConditionPointersEncoding: ConditionPointersEncoding = new ConditionPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class ConditionPointersEncoding {

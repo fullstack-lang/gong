@@ -12,8 +12,6 @@ export class SvgText {
 
 	static GONGSTRUCT_NAME = "SvgText"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class SvgText {
 	Text: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopySvgTextToSvgTextAPI(svgtext: SvgText, svgtextAPI: SvgTextAPI) {
