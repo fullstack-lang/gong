@@ -12,8 +12,6 @@ export class DummyAgent {
 
 	static GONGSTRUCT_NAME = "DummyAgent"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class DummyAgent {
 	Name: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyDummyAgentToDummyAgentAPI(dummyagent: DummyAgent, dummyagentAPI: DummyAgentAPI) {

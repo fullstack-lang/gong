@@ -17,6 +17,10 @@ import { ConditionAPI } from './condition-api'
 import { Condition, CopyConditionAPIToCondition } from './condition'
 import { ConditionService } from './condition.service'
 
+import { ControlPointAPI } from './controlpoint-api'
+import { ControlPoint, CopyControlPointAPIToControlPoint } from './controlpoint'
+import { ControlPointService } from './controlpoint.service'
+
 import { EllipseAPI } from './ellipse-api'
 import { Ellipse, CopyEllipseAPIToEllipse } from './ellipse'
 import { EllipseService } from './ellipse.service'
@@ -101,6 +105,9 @@ export class FrontRepo { // insertion point sub template
 	array_Conditions = new Array<Condition>() // array of front instances
 	map_ID_Condition = new Map<number, Condition>() // map of front instances
 
+	array_ControlPoints = new Array<ControlPoint>() // array of front instances
+	map_ID_ControlPoint = new Map<number, ControlPoint>() // map of front instances
+
 	array_Ellipses = new Array<Ellipse>() // array of front instances
 	map_ID_Ellipse = new Map<number, Ellipse>() // map of front instances
 
@@ -167,6 +174,8 @@ export class FrontRepo { // insertion point sub template
 				return this.array_Circles as unknown as Array<Type>
 			case 'Condition':
 				return this.array_Conditions as unknown as Array<Type>
+			case 'ControlPoint':
+				return this.array_ControlPoints as unknown as Array<Type>
 			case 'Ellipse':
 				return this.array_Ellipses as unknown as Array<Type>
 			case 'Layer':
@@ -215,6 +224,8 @@ export class FrontRepo { // insertion point sub template
 				return this.map_ID_Circle as unknown as Map<number, Type>
 			case 'Condition':
 				return this.map_ID_Condition as unknown as Map<number, Type>
+			case 'ControlPoint':
+				return this.map_ID_ControlPoint as unknown as Map<number, Type>
 			case 'Ellipse':
 				return this.map_ID_Ellipse as unknown as Map<number, Type>
 			case 'Layer':
@@ -322,6 +333,7 @@ export class FrontRepoService {
 		private animateService: AnimateService,
 		private circleService: CircleService,
 		private conditionService: ConditionService,
+		private controlpointService: ControlPointService,
 		private ellipseService: EllipseService,
 		private layerService: LayerService,
 		private lineService: LineService,
@@ -374,6 +386,7 @@ export class FrontRepoService {
 		Observable<AnimateAPI[]>,
 		Observable<CircleAPI[]>,
 		Observable<ConditionAPI[]>,
+		Observable<ControlPointAPI[]>,
 		Observable<EllipseAPI[]>,
 		Observable<LayerAPI[]>,
 		Observable<LineAPI[]>,
@@ -409,6 +422,7 @@ export class FrontRepoService {
 			this.animateService.getAnimates(this.Name, this.frontRepo),
 			this.circleService.getCircles(this.Name, this.frontRepo),
 			this.conditionService.getConditions(this.Name, this.frontRepo),
+			this.controlpointService.getControlPoints(this.Name, this.frontRepo),
 			this.ellipseService.getEllipses(this.Name, this.frontRepo),
 			this.layerService.getLayers(this.Name, this.frontRepo),
 			this.lineService.getLines(this.Name, this.frontRepo),
@@ -439,6 +453,7 @@ export class FrontRepoService {
 						animates_,
 						circles_,
 						conditions_,
+						controlpoints_,
 						ellipses_,
 						layers_,
 						lines_,
@@ -466,6 +481,8 @@ export class FrontRepoService {
 						circles = circles_ as CircleAPI[]
 						var conditions: ConditionAPI[]
 						conditions = conditions_ as ConditionAPI[]
+						var controlpoints: ControlPointAPI[]
+						controlpoints = controlpoints_ as ControlPointAPI[]
 						var ellipses: EllipseAPI[]
 						ellipses = ellipses_ as EllipseAPI[]
 						var layers: LayerAPI[]
@@ -537,6 +554,18 @@ export class FrontRepoService {
 								let condition = new Condition
 								this.frontRepo.array_Conditions.push(condition)
 								this.frontRepo.map_ID_Condition.set(conditionAPI.ID, condition)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_ControlPoints = []
+						this.frontRepo.map_ID_ControlPoint.clear()
+
+						controlpoints.forEach(
+							controlpointAPI => {
+								let controlpoint = new ControlPoint
+								this.frontRepo.array_ControlPoints.push(controlpoint)
+								this.frontRepo.map_ID_ControlPoint.set(controlpointAPI.ID, controlpoint)
 							}
 						)
 
@@ -773,6 +802,14 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						controlpoints.forEach(
+							controlpointAPI => {
+								let controlpoint = this.frontRepo.map_ID_ControlPoint.get(controlpointAPI.ID)
+								CopyControlPointAPIToControlPoint(controlpointAPI, controlpoint!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						ellipses.forEach(
 							ellipseAPI => {
 								let ellipse = this.frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
@@ -988,6 +1025,18 @@ export class FrontRepoService {
 						let condition = new Condition
 						frontRepo.array_Conditions.push(condition)
 						frontRepo.map_ID_Condition.set(conditionAPI.ID, condition)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_ControlPoints = []
+				frontRepo.map_ID_ControlPoint.clear()
+
+				backRepoData.ControlPointAPIs.forEach(
+					controlpointAPI => {
+						let controlpoint = new ControlPoint
+						frontRepo.array_ControlPoints.push(controlpoint)
+						frontRepo.map_ID_ControlPoint.set(controlpointAPI.ID, controlpoint)
 					}
 				)
 
@@ -1226,6 +1275,14 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.ControlPointAPIs.forEach(
+					controlpointAPI => {
+						let controlpoint = frontRepo.map_ID_ControlPoint.get(controlpointAPI.ID)
+						CopyControlPointAPIToControlPoint(controlpointAPI, controlpoint!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.EllipseAPIs.forEach(
 					ellipseAPI => {
 						let ellipse = frontRepo.map_ID_Ellipse.get(ellipseAPI.ID)
@@ -1398,54 +1455,57 @@ export function getCircleUniqueID(id: number): number {
 export function getConditionUniqueID(id: number): number {
 	return 41 * id
 }
-export function getEllipseUniqueID(id: number): number {
+export function getControlPointUniqueID(id: number): number {
 	return 43 * id
 }
-export function getLayerUniqueID(id: number): number {
+export function getEllipseUniqueID(id: number): number {
 	return 47 * id
 }
-export function getLineUniqueID(id: number): number {
+export function getLayerUniqueID(id: number): number {
 	return 53 * id
 }
-export function getLinkUniqueID(id: number): number {
+export function getLineUniqueID(id: number): number {
 	return 59 * id
 }
-export function getLinkAnchoredTextUniqueID(id: number): number {
+export function getLinkUniqueID(id: number): number {
 	return 61 * id
 }
-export function getPathUniqueID(id: number): number {
+export function getLinkAnchoredTextUniqueID(id: number): number {
 	return 67 * id
 }
-export function getPointUniqueID(id: number): number {
+export function getPathUniqueID(id: number): number {
 	return 71 * id
 }
-export function getPolygoneUniqueID(id: number): number {
+export function getPointUniqueID(id: number): number {
 	return 73 * id
 }
-export function getPolylineUniqueID(id: number): number {
+export function getPolygoneUniqueID(id: number): number {
 	return 79 * id
 }
-export function getRectUniqueID(id: number): number {
+export function getPolylineUniqueID(id: number): number {
 	return 83 * id
 }
-export function getRectAnchoredPathUniqueID(id: number): number {
+export function getRectUniqueID(id: number): number {
 	return 89 * id
 }
-export function getRectAnchoredRectUniqueID(id: number): number {
+export function getRectAnchoredPathUniqueID(id: number): number {
 	return 97 * id
 }
-export function getRectAnchoredTextUniqueID(id: number): number {
+export function getRectAnchoredRectUniqueID(id: number): number {
 	return 101 * id
 }
-export function getRectLinkLinkUniqueID(id: number): number {
+export function getRectAnchoredTextUniqueID(id: number): number {
 	return 103 * id
 }
-export function getSVGUniqueID(id: number): number {
+export function getRectLinkLinkUniqueID(id: number): number {
 	return 107 * id
 }
-export function getSvgTextUniqueID(id: number): number {
+export function getSVGUniqueID(id: number): number {
 	return 109 * id
 }
-export function getTextUniqueID(id: number): number {
+export function getSvgTextUniqueID(id: number): number {
 	return 113 * id
+}
+export function getTextUniqueID(id: number): number {
+	return 127 * id
 }

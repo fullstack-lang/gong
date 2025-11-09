@@ -13,8 +13,6 @@ export class Circle {
 
 	static GONGSTRUCT_NAME = "Circle"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -33,6 +31,9 @@ export class Circle {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animations: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCircleToCircleAPI(circle: Circle, circleAPI: CircleAPI) {

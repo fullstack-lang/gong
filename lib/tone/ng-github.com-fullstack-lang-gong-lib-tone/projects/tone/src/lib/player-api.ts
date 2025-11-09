@@ -7,8 +7,6 @@ export class PlayerAPI {
 
 	static GONGSTRUCT_NAME = "Player"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class PlayerAPI {
 	// insertion point for other decls
 
 	PlayerPointersEncoding: PlayerPointersEncoding = new PlayerPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PlayerPointersEncoding {

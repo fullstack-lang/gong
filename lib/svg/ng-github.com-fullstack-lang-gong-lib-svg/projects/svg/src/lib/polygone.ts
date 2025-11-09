@@ -13,8 +13,6 @@ export class Polygone {
 
 	static GONGSTRUCT_NAME = "Polygone"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -31,6 +29,9 @@ export class Polygone {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyPolygoneToPolygoneAPI(polygone: Polygone, polygoneAPI: PolygoneAPI) {

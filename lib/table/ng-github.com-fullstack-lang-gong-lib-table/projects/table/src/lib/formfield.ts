@@ -19,8 +19,6 @@ export class FormField {
 
 	static GONGSTRUCT_NAME = "FormField"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -48,6 +46,9 @@ export class FormField {
 
 	FormFieldSelect?: FormFieldSelect
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldToFormFieldAPI(formfield: FormField, formfieldAPI: FormFieldAPI) {

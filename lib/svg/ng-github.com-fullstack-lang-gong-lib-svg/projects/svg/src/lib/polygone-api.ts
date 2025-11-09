@@ -8,8 +8,6 @@ export class PolygoneAPI {
 
 	static GONGSTRUCT_NAME = "Polygone"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -27,6 +25,9 @@ export class PolygoneAPI {
 	// insertion point for other decls
 
 	PolygonePointersEncoding: PolygonePointersEncoding = new PolygonePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PolygonePointersEncoding {

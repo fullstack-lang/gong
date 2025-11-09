@@ -7,8 +7,6 @@ export class TableAPI {
 
 	static GONGSTRUCT_NAME = "Table"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class TableAPI {
 	// insertion point for other decls
 
 	TablePointersEncoding: TablePointersEncoding = new TablePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class TablePointersEncoding {

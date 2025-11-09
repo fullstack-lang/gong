@@ -13,8 +13,6 @@ export class Button {
 
 	static GONGSTRUCT_NAME = "Button"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -28,6 +26,9 @@ export class Button {
 	// insertion point for pointers and slices of pointers declarations
 	SVGIcon?: SVGIcon
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {

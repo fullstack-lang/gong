@@ -7,8 +7,6 @@ export class CellBooleanAPI {
 
 	static GONGSTRUCT_NAME = "CellBoolean"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class CellBooleanAPI {
 	// insertion point for other decls
 
 	CellBooleanPointersEncoding: CellBooleanPointersEncoding = new CellBooleanPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CellBooleanPointersEncoding {

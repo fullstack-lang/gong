@@ -25,8 +25,6 @@ export class AsSplitArea {
 
 	static GONGSTRUCT_NAME = "AsSplitArea"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -64,6 +62,9 @@ export class AsSplitArea {
 
 	Xlsx?: Xlsx
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyAsSplitAreaToAsSplitAreaAPI(assplitarea: AsSplitArea, assplitareaAPI: AsSplitAreaAPI) {

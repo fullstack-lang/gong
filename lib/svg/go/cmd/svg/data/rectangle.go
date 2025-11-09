@@ -21,16 +21,18 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-08 09:49:24.013929 CET"
-	const __write__utc_time__ = "2025-11-08 08:49:24.013929 UTC"
+	const __write__local_time = "2025-11-09 18:32:54.716206 CET"
+	const __write__utc_time__ = "2025-11-09 17:32:54.716206 UTC"
 
-	const __commitId__ = "0000000039"
+	const __commitId__ = "0000000053"
 
 	// Declaration of instances to stage
 
 	__Animate__000000_ := (&models.Animate{}).Stage(stage)
 
 	__Circle__000000_Test := (&models.Circle{}).Stage(stage)
+
+	__ControlPoint__000000_Middle_Link_Control_Point := (&models.ControlPoint{}).Stage(stage)
 
 	__Layer__000000_Bottom_Rectangle_Layer := (&models.Layer{}).Stage(stage)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom := (&models.Layer{}).Stage(stage)
@@ -60,8 +62,6 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000009_AA_LEFT_OR_TOP := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000010_AA_RIGHT_OR_BOTTOM_BELOW := (&models.LinkAnchoredText{}).Stage(stage)
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE := (&models.LinkAnchoredText{}).Stage(stage)
-
-	__Point__000000_middle_line_control_point := (&models.Point{}).Stage(stage)
 
 	__Rect__000000_Bottom_Rect := (&models.Rect{}).Stage(stage)
 	__Rect__000001_Middle_Rect := (&models.Rect{}).Stage(stage)
@@ -111,6 +111,10 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.StrokeDashArray = ``
 	__Circle__000000_Test.StrokeDashArrayWhenSelected = ``
 	__Circle__000000_Test.Transform = ``
+
+	__ControlPoint__000000_Middle_Link_Control_Point.Name = `Middle Link Control Point`
+	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 1.000000
+	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = 2.000000
 
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
@@ -551,10 +555,6 @@ Line 2`
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.StrokeDashArray = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.StrokeDashArrayWhenSelected = ``
 	__LinkAnchoredText__000011_LEFT_OR_TOP_ABOVE.Transform = ``
-
-	__Point__000000_middle_line_control_point.Name = `middle line control point`
-	__Point__000000_middle_line_control_point.X = 630.000000
-	__Point__000000_middle_line_control_point.Y = 350.000000
 
 	__Rect__000000_Bottom_Rect.Name = `Bottom Rect`
 	__Rect__000000_Bottom_Rect.X = 333.000000
@@ -1299,6 +1299,8 @@ line 3`
 	// Setup of pointers
 	// setup of Animate instances pointers
 	// setup of Circle instances pointers
+	// setup of ControlPoint instances pointers
+	__ControlPoint__000000_Middle_Link_Control_Point.ClosestRect = __Rect__000002_Top_Rect
 	// setup of Layer instances pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom_Rect)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links, __Link__000001_Start_Middle)
@@ -1324,7 +1326,7 @@ line 3`
 	__Link__000001_Start_Middle.TextAtArrowEnd = append(__Link__000001_Start_Middle.TextAtArrowEnd, __LinkAnchoredText__000000_End_Left_Top)
 	__Link__000002_Top_to_Middle_issue_645_.Start = __Rect__000002_Top_Rect
 	__Link__000002_Top_to_Middle_issue_645_.End = __Rect__000001_Middle_Rect
-	__Link__000002_Top_to_Middle_issue_645_.ControlPoints = append(__Link__000002_Top_to_Middle_issue_645_.ControlPoints, __Point__000000_middle_line_control_point)
+	__Link__000002_Top_to_Middle_issue_645_.ControlPoints = append(__Link__000002_Top_to_Middle_issue_645_.ControlPoints, __ControlPoint__000000_Middle_Link_Control_Point)
 	__Link__000003_Auto_1.Start = __Rect__000003_Start
 	__Link__000003_Auto_1.End = __Rect__000004_End
 	__Link__000003_Auto_1.TextAtArrowStart = append(__Link__000003_Auto_1.TextAtArrowStart, __LinkAnchoredText__000009_AA_LEFT_OR_TOP)
@@ -1350,7 +1352,6 @@ line 3`
 	__Link__000006_middle_to_bottom.Start = __Rect__000001_Middle_Rect
 	__Link__000006_middle_to_bottom.End = __Rect__000000_Bottom_Rect
 	// setup of LinkAnchoredText instances pointers
-	// setup of Point instances pointers
 	// setup of Rect instances pointers
 	__Rect__000000_Bottom_Rect.RectAnchoredTexts = append(__Rect__000000_Bottom_Rect.RectAnchoredTexts, __RectAnchoredText__000000_Bottom_Text)
 	__Rect__000000_Bottom_Rect.RectAnchoredRects = append(__Rect__000000_Bottom_Rect.RectAnchoredRects, __RectAnchoredRect__000001_Top_on_Bottom_with_same_width)

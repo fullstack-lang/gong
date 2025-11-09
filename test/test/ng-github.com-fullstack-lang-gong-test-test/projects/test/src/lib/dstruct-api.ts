@@ -9,8 +9,6 @@ export class DstructAPI {
 
 	static GONGSTRUCT_NAME = "Dstruct"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class DstructAPI {
 	// insertion point for other decls
 
 	DstructPointersEncoding: DstructPointersEncoding = new DstructPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class DstructPointersEncoding {

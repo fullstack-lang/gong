@@ -12,8 +12,6 @@ export class Engine {
 
 	static GONGSTRUCT_NAME = "Engine"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -28,6 +26,9 @@ export class Engine {
 	Speed: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyEngineToEngineAPI(engine: Engine, engineAPI: EngineAPI) {

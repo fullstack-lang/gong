@@ -14,8 +14,6 @@ export class SVG {
 
 	static GONGSTRUCT_NAME = "SVG"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -33,6 +31,9 @@ export class SVG {
 
 	EndRect?: Rect
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {

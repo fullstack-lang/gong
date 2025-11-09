@@ -7,8 +7,6 @@ export class MarkdownAPI {
 
 	static GONGSTRUCT_NAME = "Markdown"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class MarkdownAPI {
 	// insertion point for other decls
 
 	MarkdownPointersEncoding: MarkdownPointersEncoding = new MarkdownPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class MarkdownPointersEncoding {

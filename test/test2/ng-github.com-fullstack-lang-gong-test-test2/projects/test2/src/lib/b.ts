@@ -12,14 +12,15 @@ export class B {
 
 	static GONGSTRUCT_NAME = "B"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
 	Name: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyBToBAPI(b: B, bAPI: BAPI) {

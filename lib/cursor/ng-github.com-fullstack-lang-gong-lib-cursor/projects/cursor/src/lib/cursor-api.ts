@@ -7,8 +7,6 @@ export class CursorAPI {
 
 	static GONGSTRUCT_NAME = "Cursor"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -31,6 +29,9 @@ export class CursorAPI {
 	// insertion point for other decls
 
 	CursorPointersEncoding: CursorPointersEncoding = new CursorPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CursorPointersEncoding {

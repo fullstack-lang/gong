@@ -8,8 +8,6 @@ export class PathAPI {
 
 	static GONGSTRUCT_NAME = "Path"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -27,6 +25,9 @@ export class PathAPI {
 	// insertion point for other decls
 
 	PathPointersEncoding: PathPointersEncoding = new PathPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PathPointersEncoding {

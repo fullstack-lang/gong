@@ -9,8 +9,6 @@ export class GroupAPI {
 
 	static GONGSTRUCT_NAME = "Group"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class GroupAPI {
 	// insertion point for other decls
 
 	GroupPointersEncoding: GroupPointersEncoding = new GroupPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class GroupPointersEncoding {

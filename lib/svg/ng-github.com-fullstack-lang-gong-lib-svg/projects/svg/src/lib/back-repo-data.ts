@@ -7,6 +7,8 @@ import { CircleAPI } from './circle-api'
 
 import { ConditionAPI } from './condition-api'
 
+import { ControlPointAPI } from './controlpoint-api'
+
 import { EllipseAPI } from './ellipse-api'
 
 import { LayerAPI } from './layer-api'
@@ -49,6 +51,8 @@ export class BackRepoData {
 	CircleAPIs = new Array<CircleAPI>()
 
 	ConditionAPIs = new Array<ConditionAPI>()
+
+	ControlPointAPIs = new Array<ControlPointAPI>()
 
 	EllipseAPIs = new Array<EllipseAPI>()
 
@@ -95,6 +99,8 @@ export class BackRepoData {
 		this.CircleAPIs = data?.CircleAPIs || [];
 
 		this.ConditionAPIs = data?.ConditionAPIs || [];
+
+		this.ControlPointAPIs = data?.ControlPointAPIs || [];
 
 		this.EllipseAPIs = data?.EllipseAPIs || [];
 

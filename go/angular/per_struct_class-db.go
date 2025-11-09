@@ -21,8 +21,6 @@ export class {{Structname}}API {
 
 	static GONGSTRUCT_NAME = "{{Structname}}"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations{{` + string(rune(NgClassAPITsInsertionPerStructBasicFieldsDecl)) + `}}
@@ -30,6 +28,9 @@ export class {{Structname}}API {
 	// insertion point for other decls{{` + string(rune(NgClassAPITsInsertionPerStructOtherDecls)) + `}}
 
 	{{Structname}}PointersEncoding: {{Structname}}PointersEncoding = new {{Structname}}PointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class {{Structname}}PointersEncoding {

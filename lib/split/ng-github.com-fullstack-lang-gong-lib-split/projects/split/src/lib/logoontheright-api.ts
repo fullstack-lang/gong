@@ -7,8 +7,6 @@ export class LogoOnTheRightAPI {
 
 	static GONGSTRUCT_NAME = "LogoOnTheRight"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class LogoOnTheRightAPI {
 	// insertion point for other decls
 
 	LogoOnTheRightPointersEncoding: LogoOnTheRightPointersEncoding = new LogoOnTheRightPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LogoOnTheRightPointersEncoding {

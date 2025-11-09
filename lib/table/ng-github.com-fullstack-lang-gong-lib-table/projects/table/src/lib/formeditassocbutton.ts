@@ -12,8 +12,6 @@ export class FormEditAssocButton {
 
 	static GONGSTRUCT_NAME = "FormEditAssocButton"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class FormEditAssocButton {
 	ToolTipText: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbutton: FormEditAssocButton, formeditassocbuttonAPI: FormEditAssocButtonAPI) {

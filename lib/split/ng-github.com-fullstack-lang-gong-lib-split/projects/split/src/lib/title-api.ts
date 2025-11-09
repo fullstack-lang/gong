@@ -7,8 +7,6 @@ export class TitleAPI {
 
 	static GONGSTRUCT_NAME = "Title"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class TitleAPI {
 	// insertion point for other decls
 
 	TitlePointersEncoding: TitlePointersEncoding = new TitlePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class TitlePointersEncoding {

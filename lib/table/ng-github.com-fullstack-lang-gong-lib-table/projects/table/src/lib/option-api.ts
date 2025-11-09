@@ -7,8 +7,6 @@ export class OptionAPI {
 
 	static GONGSTRUCT_NAME = "Option"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class OptionAPI {
 	// insertion point for other decls
 
 	OptionPointersEncoding: OptionPointersEncoding = new OptionPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class OptionPointersEncoding {

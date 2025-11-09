@@ -7,8 +7,6 @@ export class FormFieldFloat64API {
 
 	static GONGSTRUCT_NAME = "FormFieldFloat64"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class FormFieldFloat64API {
 	// insertion point for other decls
 
 	FormFieldFloat64PointersEncoding: FormFieldFloat64PointersEncoding = new FormFieldFloat64PointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class FormFieldFloat64PointersEncoding {

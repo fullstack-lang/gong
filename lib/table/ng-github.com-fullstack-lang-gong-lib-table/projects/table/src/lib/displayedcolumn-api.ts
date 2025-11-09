@@ -7,8 +7,6 @@ export class DisplayedColumnAPI {
 
 	static GONGSTRUCT_NAME = "DisplayedColumn"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class DisplayedColumnAPI {
 	// insertion point for other decls
 
 	DisplayedColumnPointersEncoding: DisplayedColumnPointersEncoding = new DisplayedColumnPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class DisplayedColumnPointersEncoding {

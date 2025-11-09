@@ -13,8 +13,6 @@ export class LinkAnchoredText {
 
 	static GONGSTRUCT_NAME = "LinkAnchoredText"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -40,6 +38,9 @@ export class LinkAnchoredText {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyLinkAnchoredTextToLinkAnchoredTextAPI(linkanchoredtext: LinkAnchoredText, linkanchoredtextAPI: LinkAnchoredTextAPI) {

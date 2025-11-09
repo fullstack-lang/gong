@@ -13,8 +13,6 @@ export class FormSortAssocButton {
 
 	static GONGSTRUCT_NAME = "FormSortAssocButton"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class FormSortAssocButton {
 	// insertion point for pointers and slices of pointers declarations
 	FormEditAssocButton?: FormEditAssocButton
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormSortAssocButtonToFormSortAssocButtonAPI(formsortassocbutton: FormSortAssocButton, formsortassocbuttonAPI: FormSortAssocButtonAPI) {

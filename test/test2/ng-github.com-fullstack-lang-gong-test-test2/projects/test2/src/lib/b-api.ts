@@ -7,8 +7,6 @@ export class BAPI {
 
 	static GONGSTRUCT_NAME = "B"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class BAPI {
 	// insertion point for other decls
 
 	BPointersEncoding: BPointersEncoding = new BPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class BPointersEncoding {

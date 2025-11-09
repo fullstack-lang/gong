@@ -8,8 +8,6 @@ export class EllipseAPI {
 
 	static GONGSTRUCT_NAME = "Ellipse"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -30,6 +28,9 @@ export class EllipseAPI {
 	// insertion point for other decls
 
 	EllipsePointersEncoding: EllipsePointersEncoding = new EllipsePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class EllipsePointersEncoding {

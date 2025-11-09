@@ -8,8 +8,6 @@ export class NoteAPI {
 
 	static GONGSTRUCT_NAME = "Note"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class NoteAPI {
 	// insertion point for other decls
 
 	NotePointersEncoding: NotePointersEncoding = new NotePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class NotePointersEncoding {

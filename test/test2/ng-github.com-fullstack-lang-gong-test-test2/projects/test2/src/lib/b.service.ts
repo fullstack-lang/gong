@@ -177,27 +177,6 @@ export class BService {
     );
   }
 
-  // updateFrontWithMouseEvent
-  updateFrontWithMouseEvent(b: B, Name: string, gong__mouseEvent: MouseEvent): Observable<BAPI> {
-    let bAPI = new BAPI
-    CopyBToBAPI(b, bAPI)
-    const id = typeof bAPI === 'number' ? bAPI : bAPI.ID
-    const url = `${this.bsUrl}/${id}`;
-    let params = new HttpParams().set("Name", Name)
-    params = params.append("shiftKey", gong__mouseEvent.shiftKey)
-    params = params.append("altKey", gong__mouseEvent.altKey)
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      params: params
-    }
-
-    return this.http.put<BAPI>(url, bAPI, httpOptions).pipe(
-      tap(_ => {
-      }),
-      catchError(this.handleError<BAPI>('updateB'))
-    );
-  }
-
   /**
    * Handle Http operation that failed.
    * Let the app continue.

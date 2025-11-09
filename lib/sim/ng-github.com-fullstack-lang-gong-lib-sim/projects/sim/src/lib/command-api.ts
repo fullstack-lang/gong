@@ -8,8 +8,6 @@ export class CommandAPI {
 
 	static GONGSTRUCT_NAME = "Command"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class CommandAPI {
 	// insertion point for other decls
 
 	CommandPointersEncoding: CommandPointersEncoding = new CommandPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CommandPointersEncoding {

@@ -8,8 +8,6 @@ export class AstructBstructUseAPI {
 
 	static GONGSTRUCT_NAME = "AstructBstructUse"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class AstructBstructUseAPI {
 	// insertion point for other decls
 
 	AstructBstructUsePointersEncoding: AstructBstructUsePointersEncoding = new AstructBstructUsePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class AstructBstructUsePointersEncoding {

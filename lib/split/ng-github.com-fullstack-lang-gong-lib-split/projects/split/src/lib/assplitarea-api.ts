@@ -20,8 +20,6 @@ export class AsSplitAreaAPI {
 
 	static GONGSTRUCT_NAME = "AsSplitArea"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -35,6 +33,9 @@ export class AsSplitAreaAPI {
 	// insertion point for other decls
 
 	AsSplitAreaPointersEncoding: AsSplitAreaPointersEncoding = new AsSplitAreaPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class AsSplitAreaPointersEncoding {

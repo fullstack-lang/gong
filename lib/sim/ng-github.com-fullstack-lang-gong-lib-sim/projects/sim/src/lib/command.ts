@@ -13,8 +13,6 @@ export class Command {
 
 	static GONGSTRUCT_NAME = "Command"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class Command {
 	// insertion point for pointers and slices of pointers declarations
 	Engine?: Engine
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCommandToCommandAPI(command: Command, commandAPI: CommandAPI) {

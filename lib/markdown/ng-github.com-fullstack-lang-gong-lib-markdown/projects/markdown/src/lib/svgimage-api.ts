@@ -7,8 +7,6 @@ export class SvgImageAPI {
 
 	static GONGSTRUCT_NAME = "SvgImage"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class SvgImageAPI {
 	// insertion point for other decls
 
 	SvgImagePointersEncoding: SvgImagePointersEncoding = new SvgImagePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class SvgImagePointersEncoding {
