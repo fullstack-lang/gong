@@ -13,8 +13,6 @@ export class Line {
 
 	static GONGSTRUCT_NAME = "Line"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -36,6 +34,9 @@ export class Line {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyLineToLineAPI(line: Line, lineAPI: LineAPI) {

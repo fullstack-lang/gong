@@ -13,8 +13,6 @@ export class ControlPoint {
 
 	static GONGSTRUCT_NAME = "ControlPoint"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class ControlPoint {
 	// insertion point for pointers and slices of pointers declarations
 	ClosestRect?: Rect
 
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyControlPointToControlPointAPI(controlpoint: ControlPoint, controlpointAPI: ControlPointAPI) {

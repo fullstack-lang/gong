@@ -13,8 +13,6 @@ export class RectAnchoredText {
 
 	static GONGSTRUCT_NAME = "RectAnchoredText"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -42,6 +40,9 @@ export class RectAnchoredText {
 
 	// insertion point for pointers and slices of pointers declarations
 	Animates: Array<Animate> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyRectAnchoredTextToRectAnchoredTextAPI(rectanchoredtext: RectAnchoredText, rectanchoredtextAPI: RectAnchoredTextAPI) {

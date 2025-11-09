@@ -15,8 +15,6 @@ export class Link {
 
 	static GONGSTRUCT_NAME = "Link"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -57,6 +55,9 @@ export class Link {
 	TextAtArrowStart: Array<LinkAnchoredText> = []
 	TextAtArrowEnd: Array<LinkAnchoredText> = []
 	ControlPoints: Array<ControlPoint> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyLinkToLinkAPI(link: Link, linkAPI: LinkAPI) {

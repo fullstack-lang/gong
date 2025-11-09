@@ -12,8 +12,6 @@ export class JpgImage {
 
 	static GONGSTRUCT_NAME = "JpgImage"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class JpgImage {
 	Base64Content: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyJpgImageToJpgImageAPI(jpgimage: JpgImage, jpgimageAPI: JpgImageAPI) {

@@ -12,8 +12,6 @@ export class CellIcon {
 
 	static GONGSTRUCT_NAME = "CellIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -23,6 +21,9 @@ export class CellIcon {
 	ConfirmationMessage: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCellIconToCellIconAPI(cellicon: CellIcon, celliconAPI: CellIconAPI) {

@@ -14,8 +14,6 @@ export class Dstruct {
 
 	static GONGSTRUCT_NAME = "Dstruct"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class Dstruct {
 	Gstruct?: Gstruct
 
 	Gstructs: Array<Gstruct> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyDstructToDstructAPI(dstruct: Dstruct, dstructAPI: DstructAPI) {

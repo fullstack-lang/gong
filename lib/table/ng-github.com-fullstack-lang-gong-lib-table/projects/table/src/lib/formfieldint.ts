@@ -12,8 +12,6 @@ export class FormFieldInt {
 
 	static GONGSTRUCT_NAME = "FormFieldInt"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -25,6 +23,9 @@ export class FormFieldInt {
 	MaxValue: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldIntToFormFieldIntAPI(formfieldint: FormFieldInt, formfieldintAPI: FormFieldIntAPI) {

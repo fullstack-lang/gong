@@ -12,8 +12,6 @@ export class CellBoolean {
 
 	static GONGSTRUCT_NAME = "CellBoolean"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -21,6 +19,9 @@ export class CellBoolean {
 	Value: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyCellBooleanToCellBooleanAPI(cellboolean: CellBoolean, cellbooleanAPI: CellBooleanAPI) {

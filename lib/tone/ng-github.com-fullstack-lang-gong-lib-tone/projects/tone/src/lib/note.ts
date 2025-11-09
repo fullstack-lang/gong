@@ -13,8 +13,6 @@ export class Note {
 
 	static GONGSTRUCT_NAME = "Note"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -26,6 +24,9 @@ export class Note {
 
 	// insertion point for pointers and slices of pointers declarations
 	Frequencies: Array<Freqency> = []
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyNoteToNoteAPI(note: Note, noteAPI: NoteAPI) {

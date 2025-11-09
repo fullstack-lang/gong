@@ -12,8 +12,6 @@ export class FormFieldString {
 
 	static GONGSTRUCT_NAME = "FormFieldString"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -22,6 +20,9 @@ export class FormFieldString {
 	IsTextArea: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyFormFieldStringToFormFieldStringAPI(formfieldstring: FormFieldString, formfieldstringAPI: FormFieldStringAPI) {

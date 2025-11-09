@@ -12,8 +12,6 @@ export class RectAnchoredRect {
 
 	static GONGSTRUCT_NAME = "RectAnchoredRect"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -40,6 +38,9 @@ export class RectAnchoredRect {
 	Transform: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export function CopyRectAnchoredRectToRectAnchoredRectAPI(rectanchoredrect: RectAnchoredRect, rectanchoredrectAPI: RectAnchoredRectAPI) {
