@@ -58,7 +58,7 @@ type Link struct {
 	TextAtArrowEnd []*LinkAnchoredText
 
 	// for non floating orthogonal anchors
-	ControlPoints []*Point
+	ControlPoints []*ControlPoint
 
 	Presentation
 

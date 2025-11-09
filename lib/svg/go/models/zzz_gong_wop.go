@@ -93,6 +93,23 @@ func (from *Condition) CopyBasicFields(to *Condition) {
 	to.Name = from.Name
 }
 
+type ControlPoint_WOP struct {
+	// insertion point
+
+	Name string
+
+	X_Relative float64
+
+	Y_Relative float64
+}
+
+func (from *ControlPoint) CopyBasicFields(to *ControlPoint) {
+	// insertion point
+	to.Name = from.Name
+	to.X_Relative = from.X_Relative
+	to.Y_Relative = from.Y_Relative
+}
+
 type Ellipse_WOP struct {
 	// insertion point
 

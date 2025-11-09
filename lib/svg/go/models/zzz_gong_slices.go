@@ -22,6 +22,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Condition
 	// insertion point per field
 
+	// Compute reverse map for named struct ControlPoint
+	// insertion point per field
+
 	// Compute reverse map for named struct Ellipse
 	// insertion point per field
 	clear(stage.Ellipse_Animates_reverseMap)
@@ -146,11 +149,11 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 	clear(stage.Link_ControlPoints_reverseMap)
-	stage.Link_ControlPoints_reverseMap = make(map[*Point]*Link)
+	stage.Link_ControlPoints_reverseMap = make(map[*ControlPoint]*Link)
 	for link := range stage.Links {
 		_ = link
-		for _, _point := range link.ControlPoints {
-			stage.Link_ControlPoints_reverseMap[_point] = link
+		for _, _controlpoint := range link.ControlPoints {
+			stage.Link_ControlPoints_reverseMap[_controlpoint] = link
 		}
 	}
 

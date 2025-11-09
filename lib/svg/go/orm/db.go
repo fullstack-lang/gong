@@ -32,6 +32,10 @@ type DBLite struct {
 
 	nextIDConditionDB uint
 
+	controlpointDBs map[uint]*ControlPointDB
+
+	nextIDControlPointDB uint
+
 	ellipseDBs map[uint]*EllipseDB
 
 	nextIDEllipseDB uint
@@ -112,6 +116,8 @@ func NewDBLite() *DBLite {
 
 		conditionDBs: make(map[uint]*ConditionDB),
 
+		controlpointDBs: make(map[uint]*ControlPointDB),
+
 		ellipseDBs: make(map[uint]*EllipseDB),
 
 		layerDBs: make(map[uint]*LayerDB),
@@ -171,6 +177,10 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDConditionDB++
 		v.ID = db.nextIDConditionDB
 		db.conditionDBs[v.ID] = v
+	case *ControlPointDB:
+		db.nextIDControlPointDB++
+		v.ID = db.nextIDControlPointDB
+		db.controlpointDBs[v.ID] = v
 	case *EllipseDB:
 		db.nextIDEllipseDB++
 		v.ID = db.nextIDEllipseDB
@@ -273,6 +283,8 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 		delete(db.circleDBs, v.ID)
 	case *ConditionDB:
 		delete(db.conditionDBs, v.ID)
+	case *ControlPointDB:
+		delete(db.controlpointDBs, v.ID)
 	case *EllipseDB:
 		delete(db.ellipseDBs, v.ID)
 	case *LayerDB:
@@ -333,6 +345,9 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 		return db, nil
 	case *ConditionDB:
 		db.conditionDBs[v.ID] = v
+		return db, nil
+	case *ControlPointDB:
+		db.controlpointDBs[v.ID] = v
 		return db, nil
 	case *EllipseDB:
 		db.ellipseDBs[v.ID] = v
@@ -418,6 +433,12 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Condition github.com/fullstack-lang/gong/lib/svg/go, record not found")
+		}
+	case *ControlPointDB:
+		if existing, ok := db.controlpointDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db ControlPoint github.com/fullstack-lang/gong/lib/svg/go, record not found")
 		}
 	case *EllipseDB:
 		if existing, ok := db.ellipseDBs[v.ID]; ok {
@@ -550,6 +571,12 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 	case *[]ConditionDB:
 		*ptr = make([]ConditionDB, 0, len(db.conditionDBs))
 		for _, v := range db.conditionDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]ControlPointDB:
+		*ptr = make([]ControlPointDB, 0, len(db.controlpointDBs))
+		for _, v := range db.controlpointDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -717,6 +744,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		conditionDB, _ := instanceDB.(*ConditionDB)
 		*conditionDB = *tmp
+		
+	case *ControlPointDB:
+		tmp, ok := db.controlpointDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First ControlPoint Unkown entry %d", i))
+		}
+
+		controlpointDB, _ := instanceDB.(*ControlPointDB)
+		*controlpointDB = *tmp
 		
 	case *EllipseDB:
 		tmp, ok := db.ellipseDBs[uint(i)]

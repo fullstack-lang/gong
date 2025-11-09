@@ -27,6 +27,10 @@ func GetInstanceDBFromInstance[T models.Gongstruct, T2 GongstructDB](
 		conditionInstance := any(concreteInstance).(*models.Condition)
 		ret2 := backRepo.BackRepoCondition.GetConditionDBFromConditionPtr(conditionInstance)
 		ret = any(ret2).(*T2)
+	case *models.ControlPoint:
+		controlpointInstance := any(concreteInstance).(*models.ControlPoint)
+		ret2 := backRepo.BackRepoControlPoint.GetControlPointDBFromControlPointPtr(controlpointInstance)
+		ret = any(ret2).(*T2)
 	case *models.Ellipse:
 		ellipseInstance := any(concreteInstance).(*models.Ellipse)
 		ret2 := backRepo.BackRepoEllipse.GetEllipseDBFromEllipsePtr(ellipseInstance)
@@ -120,6 +124,11 @@ func GetID[T models.Gongstruct](
 		id = int(tmp.ID)
 	case *models.Condition:
 		tmp := GetInstanceDBFromInstance[models.Condition, ConditionDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.ControlPoint:
+		tmp := GetInstanceDBFromInstance[models.ControlPoint, ControlPointDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)
@@ -233,6 +242,11 @@ func GetIDPointer[T models.PointerToGongstruct](
 		id = int(tmp.ID)
 	case *models.Condition:
 		tmp := GetInstanceDBFromInstance[models.Condition, ConditionDB](
+			stage, backRepo, inst,
+		)
+		id = int(tmp.ID)
+	case *models.ControlPoint:
+		tmp := GetInstanceDBFromInstance[models.ControlPoint, ControlPointDB](
 			stage, backRepo, inst,
 		)
 		id = int(tmp.ID)

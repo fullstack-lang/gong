@@ -77,6 +77,13 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/conditions/:id", GetController().UpdateCondition)
 		v1.DELETE("/v1/conditions/:id", GetController().DeleteCondition)
 
+		v1.GET("/v1/controlpoints", GetController().GetControlPoints)
+		v1.GET("/v1/controlpoints/:id", GetController().GetControlPoint)
+		v1.POST("/v1/controlpoints", GetController().PostControlPoint)
+		v1.PATCH("/v1/controlpoints/:id", GetController().UpdateControlPoint)
+		v1.PUT("/v1/controlpoints/:id", GetController().UpdateControlPoint)
+		v1.DELETE("/v1/controlpoints/:id", GetController().DeleteControlPoint)
+
 		v1.GET("/v1/ellipses", GetController().GetEllipses)
 		v1.GET("/v1/ellipses/:id", GetController().GetEllipse)
 		v1.POST("/v1/ellipses", GetController().PostEllipse)

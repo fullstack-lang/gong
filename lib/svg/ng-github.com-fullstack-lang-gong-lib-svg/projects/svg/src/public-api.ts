@@ -25,6 +25,10 @@ export * from './lib/condition-api'
 export * from './lib/condition'
 export * from './lib/condition.service'
 
+export * from './lib/controlpoint-api'
+export * from './lib/controlpoint'
+export * from './lib/controlpoint.service'
+
 export * from './lib/ellipse-api'
 export * from './lib/ellipse'
 export * from './lib/ellipse.service'

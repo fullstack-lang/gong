@@ -1,7 +1,7 @@
 // insertion point for imports
 import { RectAPI } from './rect-api'
 import { LinkAnchoredTextAPI } from './linkanchoredtext-api'
-import { PointAPI } from './point-api'
+import { ControlPointAPI } from './controlpoint-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'

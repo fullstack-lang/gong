@@ -42,6 +42,7 @@ import { LinkSegmentsPipe } from '../link-segments.pipe'
 import { formatSVG, processSVG } from '../cleanandresizesvg'
 import { LayoutService } from '../layout.service';
 import { getPosition } from '../get-position';
+import { controlPointToPoint, pointToControlPoint } from '../control-points';
 
 @Component({
   selector: 'lib-svg-specific',
@@ -239,7 +240,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   controlPointDragging: boolean = false
   activeControlPointLink: svg.Link | undefined
   activeControlPointIndex: number = 0
-  ControlPointAtMouseDown: svg.Point | undefined
+  ControlPointAtMouseDown: svg.ControlPoint | undefined
 
   //
   // BACKEND MANAGEMENT
@@ -262,7 +263,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public rectService: svg.RectService,
     private linkService: svg.LinkService,
-    private pointService: svg.PointService,
+    private controlPointService: svg.ControlPointService,
     private anchoredTextService: svg.LinkAnchoredTextService,
     private rectAnchoredPathService: svg.RectAnchoredPathService,
     private svgTextService: svg.SvgTextService,
@@ -798,8 +799,16 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
       let draggedPoint = this.activeControlPointLink.ControlPoints[this.activeControlPointIndex]
 
       // Update its coordinates based on the drag delta
-      draggedPoint.X = this.ControlPointAtMouseDown.X + deltaX
-      draggedPoint.Y = this.ControlPointAtMouseDown.Y + deltaY
+      let point = new (svg.Point)
+      point = controlPointToPoint(this.ControlPointAtMouseDown)
+
+      point.X = point.X + deltaX
+      point.Y = point.Y + deltaY
+
+      let draggedPointTmp = pointToControlPoint(point, this.activeControlPointLink)
+      draggedPoint.X_Relative = draggedPointTmp.X_Relative
+      draggedPoint.Y_Relative = draggedPointTmp.Y_Relative
+      draggedPoint.ClosestRect = draggedPointTmp.ClosestRect
 
       // Recompute the link's segments so the line redraws live
       let segments = drawSegmentsFromLink(this.activeControlPointLink!)
@@ -1469,14 +1478,22 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  controlPointMouseUp(event: MouseEvent, point: svg.Point): void {
+  controlPointMouseUp(event: MouseEvent, controlPoint: svg.ControlPoint): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    this.pointService.updateFront(point, this.Name).subscribe(
+    this.controlPointService.updateFront(controlPoint, this.Name).subscribe(
       () => {
       }
     )
     this.processMouseUp(event)
+  }
+
+  pointToControlPoint(point: svg.Point, link: svg.Link): svg.ControlPoint {
+    return pointToControlPoint(point, link)
+  }
+
+  controlPointToPoint(controlPoint: svg.ControlPoint): svg.Point {
+    return controlPointToPoint(controlPoint)
   }
 }
