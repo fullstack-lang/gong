@@ -7,8 +7,6 @@ export class MessageAPI {
 
 	static GONGSTRUCT_NAME = "Message"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -17,6 +15,9 @@ export class MessageAPI {
 	// insertion point for other decls
 
 	MessagePointersEncoding: MessagePointersEncoding = new MessagePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class MessagePointersEncoding {

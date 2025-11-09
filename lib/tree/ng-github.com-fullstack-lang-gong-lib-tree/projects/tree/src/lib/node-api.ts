@@ -9,8 +9,6 @@ export class NodeAPI {
 
 	static GONGSTRUCT_NAME = "Node"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -42,6 +40,9 @@ export class NodeAPI {
 	// insertion point for other decls
 
 	NodePointersEncoding: NodePointersEncoding = new NodePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class NodePointersEncoding {

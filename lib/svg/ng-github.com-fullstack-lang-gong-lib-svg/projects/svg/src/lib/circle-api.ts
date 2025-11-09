@@ -8,8 +8,6 @@ export class CircleAPI {
 
 	static GONGSTRUCT_NAME = "Circle"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -29,6 +27,9 @@ export class CircleAPI {
 	// insertion point for other decls
 
 	CirclePointersEncoding: CirclePointersEncoding = new CirclePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CirclePointersEncoding {

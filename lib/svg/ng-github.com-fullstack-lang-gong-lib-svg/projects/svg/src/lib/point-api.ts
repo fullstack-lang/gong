@@ -7,8 +7,6 @@ export class PointAPI {
 
 	static GONGSTRUCT_NAME = "Point"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class PointAPI {
 	// insertion point for other decls
 
 	PointPointersEncoding: PointPointersEncoding = new PointPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PointPointersEncoding {

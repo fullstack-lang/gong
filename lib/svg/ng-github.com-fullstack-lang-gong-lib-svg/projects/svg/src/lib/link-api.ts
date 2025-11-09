@@ -10,8 +10,6 @@ export class LinkAPI {
 
 	static GONGSTRUCT_NAME = "Link"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -47,6 +45,9 @@ export class LinkAPI {
 	// insertion point for other decls
 
 	LinkPointersEncoding: LinkPointersEncoding = new LinkPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LinkPointersEncoding {

@@ -7,8 +7,6 @@ export class CellStringAPI {
 
 	static GONGSTRUCT_NAME = "CellString"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class CellStringAPI {
 	// insertion point for other decls
 
 	CellStringPointersEncoding: CellStringPointersEncoding = new CellStringPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CellStringPointersEncoding {

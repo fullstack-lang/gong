@@ -7,8 +7,6 @@ export class SvgAPI {
 
 	static GONGSTRUCT_NAME = "Svg"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -19,6 +17,9 @@ export class SvgAPI {
 	// insertion point for other decls
 
 	SvgPointersEncoding: SvgPointersEncoding = new SvgPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class SvgPointersEncoding {

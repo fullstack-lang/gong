@@ -8,8 +8,6 @@ export class LayoutAPI {
 
 	static GONGSTRUCT_NAME = "Layout"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -18,6 +16,9 @@ export class LayoutAPI {
 	// insertion point for other decls
 
 	LayoutPointersEncoding: LayoutPointersEncoding = new LayoutPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class LayoutPointersEncoding {

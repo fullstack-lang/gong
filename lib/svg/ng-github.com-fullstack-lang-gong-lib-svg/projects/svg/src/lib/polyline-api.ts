@@ -8,8 +8,6 @@ export class PolylineAPI {
 
 	static GONGSTRUCT_NAME = "Polyline"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -27,6 +25,9 @@ export class PolylineAPI {
 	// insertion point for other decls
 
 	PolylinePointersEncoding: PolylinePointersEncoding = new PolylinePointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class PolylinePointersEncoding {

@@ -7,8 +7,6 @@ export class CellIconAPI {
 
 	static GONGSTRUCT_NAME = "CellIcon"
 
-	CreatedAt?: string
-	DeletedAt?: string
 	ID: number = 0
 
 	// insertion point for basic fields declarations
@@ -20,6 +18,9 @@ export class CellIconAPI {
 	// insertion point for other decls
 
 	CellIconPointersEncoding: CellIconPointersEncoding = new CellIconPointersEncoding
+
+	CreatedAt?: string
+	DeletedAt?: string
 }
 
 export class CellIconPointersEncoding {
