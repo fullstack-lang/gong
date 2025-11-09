@@ -235,7 +235,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   public conditionHoverStates: Map<number, boolean> = new Map<number, boolean>()
 
 
-// for control point dragging
+  // for control point dragging
   controlPointDragging: boolean = false
   activeControlPointLink: svg.Link | undefined
   activeControlPointIndex: number = 0
@@ -262,6 +262,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public rectService: svg.RectService,
     private linkService: svg.LinkService,
+    private pointService: svg.PointService,
     private anchoredTextService: svg.LinkAnchoredTextService,
     private rectAnchoredPathService: svg.RectAnchoredPathService,
     private svgTextService: svg.SvgTextService,
@@ -1452,14 +1453,14 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.State == StateEnumType.WAITING_FOR_USER_INPUT && !event.altKey && !event.shiftKey) {
       // Set the state to CONTROL_POINT_DRAGGING
       // (This assumes you've added CONTROL_POINT_DRAGGING to your StateEnumType)
-      this.State = StateEnumType.CONTROL_POINT_DRAGGING 
+      this.State = StateEnumType.CONTROL_POINT_DRAGGING
       console.log(getFunctionName(), "state at exit", this.State)
 
       // Set tracking properties
       this.controlPointDragging = true
       this.activeControlPointLink = link
       this.activeControlPointIndex = pointIndex
-      
+
       // Store a clone of the point's original position
       this.ControlPointAtMouseDown = structuredClone(link.ControlPoints[pointIndex])
 
@@ -1468,12 +1469,14 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  controlPointMouseUp(event: MouseEvent, link: svg.Link): void {
+  controlPointMouseUp(event: MouseEvent, point: svg.Point): void {
     this.PointAtMouseUp = mouseCoordInComponentRef(event, this.zoom, this.shiftX, this.shiftY)
     console.log(getFunctionName(), "state at entry", this.State)
 
-    // The generic processMouseUp function will handle
-    // the state change and backend update.
+    this.pointService.updateFront(point, this.Name).subscribe(
+      () => {
+      }
+    )
     this.processMouseUp(event)
   }
 }

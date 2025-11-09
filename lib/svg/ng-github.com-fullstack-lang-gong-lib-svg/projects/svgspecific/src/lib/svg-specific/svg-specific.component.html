@@ -632,7 +632,7 @@
                     [attr.cy]="point.Y"
                     [attr.r]="15" [attr.fill]="'transparent'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
                     (mousemove)="onmousemove($event)"
-                    (mouseup)="controlPointMouseUp($event, link)"/>
+                    (mouseup)="controlPointMouseUp($event, point)"/>
                 }
               }
             }
