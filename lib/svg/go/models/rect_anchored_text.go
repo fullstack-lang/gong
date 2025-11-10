@@ -152,6 +152,7 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 			x="%s" 
 			y="%s"
 			writing-mode="%s"
+			dominant-baseline="%s"
 			text-anchor="%s"
 			font-weight="%s"
 			font-style="%s"
@@ -159,6 +160,7 @@ func (rectAnchoredText *RectAnchoredText) WriteSVG(sb *strings.Builder, x, y flo
 			formatFloat(x+rectAnchoredText.X_Offset),
 			formatFloat(y+rectAnchoredText.Y_Offset),
 			rectAnchoredText.WritingMode.ToString(),
+			rectAnchoredText.DominantBaseline.ToString(),
 			rectAnchoredText.TextAnchorType.ToString(),
 			rectAnchoredText.FontWeight,
 			rectAnchoredText.FontStyle,
