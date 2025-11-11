@@ -84,6 +84,9 @@ type RectAnchoredTextDB struct {
 	// Declation for basic field rectanchoredtextDB.FontFamily
 	FontFamily_Data sql.NullString
 
+	// Declation for basic field rectanchoredtextDB.WhiteSpace
+	WhiteSpace_Data sql.NullString
+
 	// Declation for basic field rectanchoredtextDB.X_Offset
 	X_Offset_Data sql.NullFloat64
 
@@ -162,33 +165,35 @@ type RectAnchoredTextWOP struct {
 
 	FontFamily string `xlsx:"7"`
 
-	X_Offset float64 `xlsx:"8"`
+	WhiteSpace models.WhiteSpaceEnum `xlsx:"8"`
 
-	Y_Offset float64 `xlsx:"9"`
+	X_Offset float64 `xlsx:"9"`
 
-	RectAnchorType models.RectAnchorType `xlsx:"10"`
+	Y_Offset float64 `xlsx:"10"`
 
-	TextAnchorType models.TextAnchorType `xlsx:"11"`
+	RectAnchorType models.RectAnchorType `xlsx:"11"`
 
-	DominantBaseline models.DominantBaselineType `xlsx:"12"`
+	TextAnchorType models.TextAnchorType `xlsx:"12"`
 
-	WritingMode models.WritingMode `xlsx:"13"`
+	DominantBaseline models.DominantBaselineType `xlsx:"13"`
 
-	Color string `xlsx:"14"`
+	WritingMode models.WritingMode `xlsx:"14"`
 
-	FillOpacity float64 `xlsx:"15"`
+	Color string `xlsx:"15"`
 
-	Stroke string `xlsx:"16"`
+	FillOpacity float64 `xlsx:"16"`
 
-	StrokeOpacity float64 `xlsx:"17"`
+	Stroke string `xlsx:"17"`
 
-	StrokeWidth float64 `xlsx:"18"`
+	StrokeOpacity float64 `xlsx:"18"`
 
-	StrokeDashArray string `xlsx:"19"`
+	StrokeWidth float64 `xlsx:"19"`
 
-	StrokeDashArrayWhenSelected string `xlsx:"20"`
+	StrokeDashArray string `xlsx:"20"`
 
-	Transform string `xlsx:"21"`
+	StrokeDashArrayWhenSelected string `xlsx:"21"`
+
+	Transform string `xlsx:"22"`
 	// insertion for WOP pointer fields
 }
 
@@ -202,6 +207,7 @@ var RectAnchoredText_Fields = []string{
 	"FontStyle",
 	"LetterSpacing",
 	"FontFamily",
+	"WhiteSpace",
 	"X_Offset",
 	"Y_Offset",
 	"RectAnchorType",
@@ -541,6 +547,9 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.FontFamily_Data.String = rectanchoredtext.FontFamily
 	rectanchoredtextDB.FontFamily_Data.Valid = true
 
+	rectanchoredtextDB.WhiteSpace_Data.String = rectanchoredtext.WhiteSpace.ToString()
+	rectanchoredtextDB.WhiteSpace_Data.Valid = true
+
 	rectanchoredtextDB.X_Offset_Data.Float64 = rectanchoredtext.X_Offset
 	rectanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -608,6 +617,9 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 
 	rectanchoredtextDB.FontFamily_Data.String = rectanchoredtext.FontFamily
 	rectanchoredtextDB.FontFamily_Data.Valid = true
+
+	rectanchoredtextDB.WhiteSpace_Data.String = rectanchoredtext.WhiteSpace.ToString()
+	rectanchoredtextDB.WhiteSpace_Data.Valid = true
 
 	rectanchoredtextDB.X_Offset_Data.Float64 = rectanchoredtext.X_Offset
 	rectanchoredtextDB.X_Offset_Data.Valid = true
@@ -677,6 +689,9 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsFromRectAnchoredTex
 	rectanchoredtextDB.FontFamily_Data.String = rectanchoredtext.FontFamily
 	rectanchoredtextDB.FontFamily_Data.Valid = true
 
+	rectanchoredtextDB.WhiteSpace_Data.String = rectanchoredtext.WhiteSpace.ToString()
+	rectanchoredtextDB.WhiteSpace_Data.Valid = true
+
 	rectanchoredtextDB.X_Offset_Data.Float64 = rectanchoredtext.X_Offset
 	rectanchoredtextDB.X_Offset_Data.Valid = true
 
@@ -730,6 +745,7 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText(
 	rectanchoredtext.FontStyle = rectanchoredtextDB.FontStyle_Data.String
 	rectanchoredtext.LetterSpacing = rectanchoredtextDB.LetterSpacing_Data.String
 	rectanchoredtext.FontFamily = rectanchoredtextDB.FontFamily_Data.String
+	rectanchoredtext.WhiteSpace.FromString(rectanchoredtextDB.WhiteSpace_Data.String)
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)
@@ -756,6 +772,7 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredText_
 	rectanchoredtext.FontStyle = rectanchoredtextDB.FontStyle_Data.String
 	rectanchoredtext.LetterSpacing = rectanchoredtextDB.LetterSpacing_Data.String
 	rectanchoredtext.FontFamily = rectanchoredtextDB.FontFamily_Data.String
+	rectanchoredtext.WhiteSpace.FromString(rectanchoredtextDB.WhiteSpace_Data.String)
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)
@@ -783,6 +800,7 @@ func (rectanchoredtextDB *RectAnchoredTextDB) CopyBasicFieldsToRectAnchoredTextW
 	rectanchoredtext.FontStyle = rectanchoredtextDB.FontStyle_Data.String
 	rectanchoredtext.LetterSpacing = rectanchoredtextDB.LetterSpacing_Data.String
 	rectanchoredtext.FontFamily = rectanchoredtextDB.FontFamily_Data.String
+	rectanchoredtext.WhiteSpace.FromString(rectanchoredtextDB.WhiteSpace_Data.String)
 	rectanchoredtext.X_Offset = rectanchoredtextDB.X_Offset_Data.Float64
 	rectanchoredtext.Y_Offset = rectanchoredtextDB.Y_Offset_Data.Float64
 	rectanchoredtext.RectAnchorType.FromString(rectanchoredtextDB.RectAnchorType_Data.String)

@@ -22,6 +22,7 @@ export class LinkAnchoredTextAPI {
 	FontStyle: string = ""
 	LetterSpacing: string = ""
 	FontFamily: string = ""
+	WhiteSpace: string = ""
 	Color: string = ""
 	FillOpacity: number = 0
 	Stroke: string = ""

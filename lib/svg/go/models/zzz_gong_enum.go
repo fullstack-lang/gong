@@ -3112,6 +3112,107 @@ func (tooltippositionenum ToolTipPositionEnum) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for WhiteSpaceEnum
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (whitespaceenum WhiteSpaceEnum) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch whitespaceenum {
+	// insertion code per enum code
+	case WhiteSpaceEnumNormal:
+		res = "normal"
+	case WhiteSpaceEnumPre:
+		res = "pre"
+	case WhiteSpaceEnumPreWrap:
+		res = "pre-wrap"
+	case WhiteSpaceEnumPreLine:
+		res = "pre-line"
+	}
+	return
+}
+
+func (whitespaceenum *WhiteSpaceEnum) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "normal":
+		*whitespaceenum = WhiteSpaceEnumNormal
+		return
+	case "pre":
+		*whitespaceenum = WhiteSpaceEnumPre
+		return
+	case "pre-wrap":
+		*whitespaceenum = WhiteSpaceEnumPreWrap
+		return
+	case "pre-line":
+		*whitespaceenum = WhiteSpaceEnumPreLine
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (whitespaceenum *WhiteSpaceEnum) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "WhiteSpaceEnumNormal":
+		*whitespaceenum = WhiteSpaceEnumNormal
+	case "WhiteSpaceEnumPre":
+		*whitespaceenum = WhiteSpaceEnumPre
+	case "WhiteSpaceEnumPreWrap":
+		*whitespaceenum = WhiteSpaceEnumPreWrap
+	case "WhiteSpaceEnumPreLine":
+		*whitespaceenum = WhiteSpaceEnumPreLine
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (whitespaceenum *WhiteSpaceEnum) ToCodeString() (res string) {
+
+	switch *whitespaceenum {
+	// insertion code per enum code
+	case WhiteSpaceEnumNormal:
+		res = "WhiteSpaceEnumNormal"
+	case WhiteSpaceEnumPre:
+		res = "WhiteSpaceEnumPre"
+	case WhiteSpaceEnumPreWrap:
+		res = "WhiteSpaceEnumPreWrap"
+	case WhiteSpaceEnumPreLine:
+		res = "WhiteSpaceEnumPreLine"
+	}
+	return
+}
+
+func (whitespaceenum WhiteSpaceEnum) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "WhiteSpaceEnumNormal")
+	res = append(res, "WhiteSpaceEnumPre")
+	res = append(res, "WhiteSpaceEnumPreWrap")
+	res = append(res, "WhiteSpaceEnumPreLine")
+
+	return
+}
+
+func (whitespaceenum WhiteSpaceEnum) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "normal")
+	res = append(res, "pre")
+	res = append(res, "pre-wrap")
+	res = append(res, "pre-line")
+
+	return
+}
+
 // Utility function for WritingMode
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
