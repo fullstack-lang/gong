@@ -629,7 +629,7 @@
                   <circle class="overlay"
                     [attr.cx]="controlPointToPoint(controlPoint).X"
                     [attr.cy]="controlPointToPoint(controlPoint).Y"
-                    [attr.r]="15" [attr.fill]="'lightblue'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
+                    [attr.r]="5" [attr.fill]="'lightblue'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
                     (mousemove)="onmousemove($event)"
                     (mouseup)="controlPointMouseUp($event, controlPoint)"/>
                 }
