@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-09 18:32:54.716206 CET"
-	const __write__utc_time__ = "2025-11-09 17:32:54.716206 UTC"
+	const __write__local_time = "2025-11-11 09:18:47.192964 CET"
+	const __write__utc_time__ = "2025-11-11 08:18:47.192964 UTC"
 
-	const __commitId__ = "0000000053"
+	const __commitId__ = "0000000066"
 
 	// Declaration of instances to stage
 
@@ -113,8 +113,8 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.Transform = ``
 
 	__ControlPoint__000000_Middle_Link_Control_Point.Name = `Middle Link Control Point`
-	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 1.000000
-	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = 2.000000
+	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 0.949991
+	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = -0.643932
 
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
@@ -200,7 +200,7 @@ func _(stage *models.Stage) {
 	__Link__000002_Top_to_Middle_issue_645_.EndArrowOffset = 6.000000
 	__Link__000002_Top_to_Middle_issue_645_.HasStartArrow = true
 	__Link__000002_Top_to_Middle_issue_645_.StartArrowSize = 6.000000
-	__Link__000002_Top_to_Middle_issue_645_.StartArrowOffset = 3.000000
+	__Link__000002_Top_to_Middle_issue_645_.StartArrowOffset = 10.000000
 	__Link__000002_Top_to_Middle_issue_645_.Color = ``
 	__Link__000002_Top_to_Middle_issue_645_.FillOpacity = 0.000000
 	__Link__000002_Top_to_Middle_issue_645_.Stroke = `black`
@@ -594,13 +594,13 @@ Line 2`
 	__Rect__000000_Bottom_Rect.MouseY = 0.000000
 
 	__Rect__000001_Middle_Rect.Name = `Middle Rect`
-	__Rect__000001_Middle_Rect.X = 432.000000
-	__Rect__000001_Middle_Rect.Y = 425.000000
+	__Rect__000001_Middle_Rect.X = 461.000000
+	__Rect__000001_Middle_Rect.Y = 426.000000
 	__Rect__000001_Middle_Rect.Width = 200.000000
 	__Rect__000001_Middle_Rect.Height = 132.000000
 	__Rect__000001_Middle_Rect.RX = 3.000000
 	__Rect__000001_Middle_Rect.Color = `lavender`
-	__Rect__000001_Middle_Rect.FillOpacity = 50.000000
+	__Rect__000001_Middle_Rect.FillOpacity = 0.000000
 	__Rect__000001_Middle_Rect.Stroke = `turquoise`
 	__Rect__000001_Middle_Rect.StrokeOpacity = 1.000000
 	__Rect__000001_Middle_Rect.StrokeWidth = 1.000000
@@ -631,13 +631,13 @@ Line 2`
 	__Rect__000001_Middle_Rect.MouseY = 0.000000
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 530.999969
-	__Rect__000002_Top_Rect.Y = 34.000000
+	__Rect__000002_Top_Rect.X = 473.999969
+	__Rect__000002_Top_Rect.Y = 47.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000
 	__Rect__000002_Top_Rect.Color = `lightcyan`
-	__Rect__000002_Top_Rect.FillOpacity = 100.000000
+	__Rect__000002_Top_Rect.FillOpacity = 0.000000
 	__Rect__000002_Top_Rect.Stroke = `darkcyan`
 	__Rect__000002_Top_Rect.StrokeOpacity = 1.000000
 	__Rect__000002_Top_Rect.StrokeWidth = 2.000000
@@ -706,8 +706,8 @@ Line 2`
 	__Rect__000003_Start.MouseY = 0.000000
 
 	__Rect__000004_End.Name = `End`
-	__Rect__000004_End.X = 1192.769231
-	__Rect__000004_End.Y = 385.256327
+	__Rect__000004_End.X = 1174.769231
+	__Rect__000004_End.Y = 397.256327
 	__Rect__000004_End.Width = 430.000000
 	__Rect__000004_End.Height = 384.000000
 	__Rect__000004_End.RX = 20.000000
@@ -1300,7 +1300,7 @@ line 3`
 	// setup of Animate instances pointers
 	// setup of Circle instances pointers
 	// setup of ControlPoint instances pointers
-	__ControlPoint__000000_Middle_Link_Control_Point.ClosestRect = __Rect__000002_Top_Rect
+	__ControlPoint__000000_Middle_Link_Control_Point.ClosestRect = __Rect__000001_Middle_Rect
 	// setup of Layer instances pointers
 	__Layer__000000_Bottom_Rectangle_Layer.Rects = append(__Layer__000000_Bottom_Rectangle_Layer.Rects, __Rect__000000_Bottom_Rect)
 	__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links = append(__Layer__000001_Layer_RectLinkLink_Medium_to_Top_Bottom.Links, __Link__000001_Start_Middle)

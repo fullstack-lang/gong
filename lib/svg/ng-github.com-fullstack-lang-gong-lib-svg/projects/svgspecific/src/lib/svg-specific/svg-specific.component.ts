@@ -1498,4 +1498,17 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
   controlPointToPoint(controlPoint: svg.ControlPoint): svg.Point {
     return controlPointToPoint(controlPoint)
   }
+
+  /**
+   * Determines the cursor style for a rectangle, prioritizing
+   * the component's state (e.g., 'crosshair' during link drawing)
+   * over the rect's default 'move' cursor.
+   */
+  getRectCursor(rect: svg.Rect): string {
+    if (this.svg!.IsEditable) {
+      return 'move';
+    }
+
+    return 'default';
+  }
 }
