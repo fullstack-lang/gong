@@ -3029,6 +3029,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_LinkAnchoredText[identifier].LinkAnchorType = LinkAnchorType(val)
+					case "WhiteSpace":
+						var val WhiteSpaceEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_LinkAnchoredText[identifier].WhiteSpace = WhiteSpaceEnum(val)
 					}
 				case "Path":
 					switch fieldName {
@@ -3089,6 +3096,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "RectAnchoredText":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "WhiteSpace":
+						var val WhiteSpaceEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_RectAnchoredText[identifier].WhiteSpace = WhiteSpaceEnum(val)
 					case "RectAnchorType":
 						var val RectAnchorType
 						err := (&val).FromCodeString(enumValue)
@@ -3140,6 +3154,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Text":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "WhiteSpace":
+						var val WhiteSpaceEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Text[identifier].WhiteSpace = WhiteSpaceEnum(val)
 					}
 				}
 			}

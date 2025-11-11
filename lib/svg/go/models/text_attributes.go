@@ -83,4 +83,36 @@ type TextAttributes struct {
 	 exemple "Futura, sans-serif"
 	*/
 	FontFamily string
+
+	/*
+	   The white-space property values can be specified as one or two keywords
+	   representing the values for the white-space-collapse and text-wrap-mode properties, or the following special keywords:
+
+	   normal
+	   Sequences of white space are collapsed. Newline characters in the source
+	   are handled the same as other white spaces.
+	   Lines are broken as necessary to fill line boxes. Equivalent to collapse wrap.
+
+	   pre
+	   Sequences of white space are preserved. Lines are only broken at newline
+	   characters in the source and at <br> elements. Equivalent to preserve nowrap.
+
+	   pre-wrap
+	   Sequences of white space are preserved. Lines are broken at newline
+	   characters, at <br>, and as necessary to fill line boxes. Equivalent to preserve wrap.
+
+	   pre-line
+	   Sequences of white space are collapsed. Lines are broken at newline
+	   characters, at <br>, and as necessary to fill line boxes. Equivalent to preserve-breaks wrap.
+	*/
+	WhiteSpace WhiteSpaceEnum
 }
+
+type WhiteSpaceEnum string
+
+const (
+	WhiteSpaceEnumNormal  WhiteSpaceEnum = "normal"
+	WhiteSpaceEnumPre     WhiteSpaceEnum = "pre"
+	WhiteSpaceEnumPreWrap WhiteSpaceEnum = "pre-wrap"
+	WhiteSpaceEnumPreLine WhiteSpaceEnum = "pre-line"
+)

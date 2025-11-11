@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-11 09:43:42.462495 CET"
-	const __write__utc_time__ = "2025-11-11 08:43:42.462495 UTC"
+	const __write__local_time = "2025-11-11 20:04:57.880985 CET"
+	const __write__utc_time__ = "2025-11-11 19:04:57.880985 UTC"
 
-	const __commitId__ = "0000000072"
+	const __commitId__ = "0000000080"
 
 	// Declaration of instances to stage
 
@@ -571,16 +571,16 @@ Line 2`
 	__Rect__000000_Bottom_Rect.StrokeDashArrayWhenSelected = `5 5`
 	__Rect__000000_Bottom_Rect.Transform = ``
 	__Rect__000000_Bottom_Rect.IsSelectable = true
-	__Rect__000000_Bottom_Rect.IsSelected = false
+	__Rect__000000_Bottom_Rect.IsSelected = true
 	__Rect__000000_Bottom_Rect.CanHaveLeftHandle = true
-	__Rect__000000_Bottom_Rect.HasLeftHandle = false
+	__Rect__000000_Bottom_Rect.HasLeftHandle = true
 	__Rect__000000_Bottom_Rect.CanHaveRightHandle = true
-	__Rect__000000_Bottom_Rect.HasRightHandle = false
+	__Rect__000000_Bottom_Rect.HasRightHandle = true
 	__Rect__000000_Bottom_Rect.CanHaveTopHandle = true
-	__Rect__000000_Bottom_Rect.HasTopHandle = false
+	__Rect__000000_Bottom_Rect.HasTopHandle = true
 	__Rect__000000_Bottom_Rect.IsScalingProportionally = false
 	__Rect__000000_Bottom_Rect.CanHaveBottomHandle = true
-	__Rect__000000_Bottom_Rect.HasBottomHandle = false
+	__Rect__000000_Bottom_Rect.HasBottomHandle = true
 	__Rect__000000_Bottom_Rect.CanMoveHorizontaly = true
 	__Rect__000000_Bottom_Rect.CanMoveVerticaly = true
 	__Rect__000000_Bottom_Rect.ChangeColorWhenHovered = false
@@ -819,7 +819,7 @@ Line 2`
 	__RectAnchoredRect__000001_Top_on_Bottom_with_same_width.Transform = ``
 
 	__RectAnchoredText__000000_Bottom_Text.Name = `Bottom Text`
-	__RectAnchoredText__000000_Bottom_Text.Content = `This is an example of a note that
+	__RectAnchoredText__000000_Bottom_Text.Content = `This      is an example of a note that
 could be displayed on a diagram.
 
 It could explain one aspect of the model
@@ -834,6 +834,7 @@ for details in the go code of the models.
 	__RectAnchoredText__000000_Bottom_Text.FontStyle = ``
 	__RectAnchoredText__000000_Bottom_Text.LetterSpacing = ``
 	__RectAnchoredText__000000_Bottom_Text.FontFamily = ``
+	__RectAnchoredText__000000_Bottom_Text.WhiteSpace = models.WhiteSpaceEnumPre
 	__RectAnchoredText__000000_Bottom_Text.X_Offset = 0.000000
 	__RectAnchoredText__000000_Bottom_Text.Y_Offset = 20.000000
 	__RectAnchoredText__000000_Bottom_Text.RectAnchorType = models.RECT_TOP
