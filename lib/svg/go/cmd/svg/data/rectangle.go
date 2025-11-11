@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-11 09:18:47.192964 CET"
-	const __write__utc_time__ = "2025-11-11 08:18:47.192964 UTC"
+	const __write__local_time = "2025-11-11 09:32:27.643648 CET"
+	const __write__utc_time__ = "2025-11-11 08:32:27.643648 UTC"
 
-	const __commitId__ = "0000000066"
+	const __commitId__ = "0000000071"
 
 	// Declaration of instances to stage
 
@@ -113,8 +113,8 @@ func _(stage *models.Stage) {
 	__Circle__000000_Test.Transform = ``
 
 	__ControlPoint__000000_Middle_Link_Control_Point.Name = `Middle Link Control Point`
-	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 0.949991
-	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = -0.643932
+	__ControlPoint__000000_Middle_Link_Control_Point.X_Relative = 0.204991
+	__ControlPoint__000000_Middle_Link_Control_Point.Y_Relative = -0.545447
 
 	__Layer__000000_Bottom_Rectangle_Layer.Name = `Bottom Rectangle Layer`
 
@@ -631,8 +631,8 @@ Line 2`
 	__Rect__000001_Middle_Rect.MouseY = 0.000000
 
 	__Rect__000002_Top_Rect.Name = `Top Rect`
-	__Rect__000002_Top_Rect.X = 473.999969
-	__Rect__000002_Top_Rect.Y = 47.000000
+	__Rect__000002_Top_Rect.X = 425.999969
+	__Rect__000002_Top_Rect.Y = 68.000000
 	__Rect__000002_Top_Rect.Width = 237.000000
 	__Rect__000002_Top_Rect.Height = 237.000000
 	__Rect__000002_Top_Rect.RX = 3.000000

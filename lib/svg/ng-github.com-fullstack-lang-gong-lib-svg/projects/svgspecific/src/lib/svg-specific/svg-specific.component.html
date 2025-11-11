@@ -237,8 +237,6 @@
               (mouseup)="rectMouseUp($event, rect)"
               (mouseenter)="onRectHover(rect, true)"
               (mouseleave)="onRectHover(rect, false)"
-
-              [style.cursor]="getRectCursor(rect)"
               
               [matTooltip]="rect.ToolTipText"
               [matTooltipPosition]="getTooltipPosition(rect)"
@@ -631,7 +629,7 @@
                   <circle class="overlay"
                     [attr.cx]="controlPointToPoint(controlPoint).X"
                     [attr.cy]="controlPointToPoint(controlPoint).Y"
-                    [attr.r]="15" [attr.fill]="'transparent'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
+                    [attr.r]="15" [attr.fill]="'lightblue'" style="cursor: move;" (mousedown)="controlPointMouseDown($event, link, pointIndex)"
                     (mousemove)="onmousemove($event)"
                     (mouseup)="controlPointMouseUp($event, controlPoint)"/>
                 }
