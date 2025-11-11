@@ -338,6 +338,8 @@ type LinkAnchoredText_WOP struct {
 
 	FontFamily string
 
+	WhiteSpace WhiteSpaceEnum
+
 	Color string
 
 	FillOpacity float64
@@ -368,6 +370,7 @@ func (from *LinkAnchoredText) CopyBasicFields(to *LinkAnchoredText) {
 	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 	to.FontFamily = from.FontFamily
+	to.WhiteSpace = from.WhiteSpace
 	to.Color = from.Color
 	to.FillOpacity = from.FillOpacity
 	to.Stroke = from.Stroke
@@ -772,6 +775,8 @@ type RectAnchoredText_WOP struct {
 
 	FontFamily string
 
+	WhiteSpace WhiteSpaceEnum
+
 	X_Offset float64
 
 	Y_Offset float64
@@ -810,6 +815,7 @@ func (from *RectAnchoredText) CopyBasicFields(to *RectAnchoredText) {
 	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 	to.FontFamily = from.FontFamily
+	to.WhiteSpace = from.WhiteSpace
 	to.X_Offset = from.X_Offset
 	to.Y_Offset = from.Y_Offset
 	to.RectAnchorType = from.RectAnchorType
@@ -943,6 +949,8 @@ type Text_WOP struct {
 	LetterSpacing string
 
 	FontFamily string
+
+	WhiteSpace WhiteSpaceEnum
 }
 
 func (from *Text) CopyBasicFields(to *Text) {
@@ -964,5 +972,6 @@ func (from *Text) CopyBasicFields(to *Text) {
 	to.FontStyle = from.FontStyle
 	to.LetterSpacing = from.LetterSpacing
 	to.FontFamily = from.FontFamily
+	to.WhiteSpace = from.WhiteSpace
 }
 

@@ -114,6 +114,9 @@ type TextDB struct {
 	// Declation for basic field textDB.FontFamily
 	FontFamily_Data sql.NullString
 
+	// Declation for basic field textDB.WhiteSpace
+	WhiteSpace_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	TextPointersEncoding
@@ -169,6 +172,8 @@ type TextWOP struct {
 	LetterSpacing string `xlsx:"16"`
 
 	FontFamily string `xlsx:"17"`
+
+	WhiteSpace models.WhiteSpaceEnum `xlsx:"18"`
 	// insertion for WOP pointer fields
 }
 
@@ -192,6 +197,7 @@ var Text_Fields = []string{
 	"FontStyle",
 	"LetterSpacing",
 	"FontFamily",
+	"WhiteSpace",
 }
 
 type BackRepoTextStruct struct {
@@ -546,6 +552,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText(text *models.Text) {
 
 	textDB.FontFamily_Data.String = text.FontFamily
 	textDB.FontFamily_Data.Valid = true
+
+	textDB.WhiteSpace_Data.String = text.WhiteSpace.ToString()
+	textDB.WhiteSpace_Data.Valid = true
 }
 
 // CopyBasicFieldsFromText_WOP
@@ -602,6 +611,9 @@ func (textDB *TextDB) CopyBasicFieldsFromText_WOP(text *models.Text_WOP) {
 
 	textDB.FontFamily_Data.String = text.FontFamily
 	textDB.FontFamily_Data.Valid = true
+
+	textDB.WhiteSpace_Data.String = text.WhiteSpace.ToString()
+	textDB.WhiteSpace_Data.Valid = true
 }
 
 // CopyBasicFieldsFromTextWOP
@@ -658,6 +670,9 @@ func (textDB *TextDB) CopyBasicFieldsFromTextWOP(text *TextWOP) {
 
 	textDB.FontFamily_Data.String = text.FontFamily
 	textDB.FontFamily_Data.Valid = true
+
+	textDB.WhiteSpace_Data.String = text.WhiteSpace.ToString()
+	textDB.WhiteSpace_Data.Valid = true
 }
 
 // CopyBasicFieldsToText
@@ -680,6 +695,7 @@ func (textDB *TextDB) CopyBasicFieldsToText(text *models.Text) {
 	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 	text.FontFamily = textDB.FontFamily_Data.String
+	text.WhiteSpace.FromString(textDB.WhiteSpace_Data.String)
 }
 
 // CopyBasicFieldsToText_WOP
@@ -702,6 +718,7 @@ func (textDB *TextDB) CopyBasicFieldsToText_WOP(text *models.Text_WOP) {
 	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 	text.FontFamily = textDB.FontFamily_Data.String
+	text.WhiteSpace.FromString(textDB.WhiteSpace_Data.String)
 }
 
 // CopyBasicFieldsToTextWOP
@@ -725,6 +742,7 @@ func (textDB *TextDB) CopyBasicFieldsToTextWOP(text *TextWOP) {
 	text.FontStyle = textDB.FontStyle_Data.String
 	text.LetterSpacing = textDB.LetterSpacing_Data.String
 	text.FontFamily = textDB.FontFamily_Data.String
+	text.WhiteSpace.FromString(textDB.WhiteSpace_Data.String)
 }
 
 // Backup generates a json file from a slice of all TextDB instances in the backrepo
