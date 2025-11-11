@@ -12,7 +12,15 @@ export function controlPointToPoint(controlPoint: svg.ControlPoint): svg.Point {
 export function pointToControlPoint(point: svg.Point, link: svg.Link): svg.ControlPoint {
   let result = new (svg.ControlPoint)
 
-  if (calculateDistance(point.X, point.Y, link.Start!.X, link.Start!.Y) > calculateDistance(point.X, point.Y, link.End!.X, link.End!.Y)) {
+  let startRectCenterX = link.Start!.X + link.Start!.Width / 2.0
+  let startRectCenterY = link.Start!.Y + link.Start!.Height / 2.0
+  let endRectCenterX = link.End!.X + link.End!.Width / 2.0
+  let endRectCenterY = link.End!.Y + link.End!.Height / 2.0
+
+  let distanceToStartRect = calculateDistance(point.X, point.Y, startRectCenterX, startRectCenterY)
+  let distanceToEndRect = calculateDistance(point.X, point.Y, endRectCenterX, endRectCenterY)
+  // console.log("distance to start rect", distanceToStartRect, "distance to end rect", distanceToEndRect)
+  if (distanceToStartRect > distanceToEndRect) {
     result.ClosestRect = link.End!
   } else {
     result.ClosestRect = link.Start!
