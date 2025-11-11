@@ -237,12 +237,13 @@
               (mouseup)="rectMouseUp($event, rect)"
               (mouseenter)="onRectHover(rect, true)"
               (mouseleave)="onRectHover(rect, false)"
+
+              [style.cursor]="getRectCursor(rect)"
               
               [matTooltip]="rect.ToolTipText"
               [matTooltipPosition]="getTooltipPosition(rect)"
               [matTooltipDisabled]="!rect.HasToolTip">
               
-              >
               @for(animate of rect.Animations; track $index) {
                 <animate
                   [attr.attributeName]="animate.AttributeName"

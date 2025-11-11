@@ -40,6 +40,63 @@ export function createPoint(x: number, y: number): svg.Point {
     return point
 }
 
+/**
+ * Finds the intersection point of a ray (from p1 to p2) with a rectangle.
+ * Assumes p1 (control point) is INSIDE the rectangle.
+ * Returns the intersection point on the rect boundary.
+ */
+function getIntersectionPointFromInside(
+    p1: svg.Point, // Point inside rect (Control Point)
+    p2: svg.Point, // Point outside rect (Next Point)
+    rect: svg.Rect
+): svg.Point {
+    const dx = p2.X - p1.X;
+    const dy = p2.Y - p1.Y;
+
+    if (dx === 0 && dy === 0) {
+        return createPoint(p1.X, p1.Y); // Points are the same
+    }
+
+    let t = Infinity;
+
+    // Check intersection with each of the 4 edges
+    // Left edge (x = rect.X)
+    if (dx < 0) {
+        const tEdge = (rect.X - p1.X) / dx;
+        if (tEdge > 0) t = Math.min(t, tEdge);
+    }
+    // Right edge (x = rect.X + rect.Width)
+    if (dx > 0) {
+        const tEdge = (rect.X + rect.Width - p1.X) / dx;
+        if (tEdge > 0) t = Math.min(t, tEdge);
+    }
+    // Top edge (y = rect.Y)
+    if (dy < 0) {
+        const tEdge = (rect.Y - p1.Y) / dy;
+        if (tEdge > 0) t = Math.min(t, tEdge);
+    }
+    // Bottom edge (y = rect.Y + rect.Height)
+    if (dy > 0) {
+        const tEdge = (rect.Y + rect.Height - p1.Y) / dy;
+        if (tEdge > 0) t = Math.min(t, tEdge);
+    }
+
+    if (t === Infinity || t > 1) {
+        // This case *shouldn't* happen if p1 is inside and p2 is outside,
+        // but as a fallback, we return p2 if it's also inside, or p1 otherwise.
+        if (p2.X >= rect.X && p2.X <= rect.X + rect.Width &&
+            p2.Y >= rect.Y && p2.Y <= rect.Y + rect.Height) {
+            return createPoint(p2.X, p2.Y); // p2 is also inside, just use p2
+        }
+        // Failsafe, return the control point
+        return createPoint(p1.X, p1.Y);
+    }
+
+    // Calculate intersection point
+    return createPoint(p1.X + dx * t, p1.Y + dy * t);
+}
+
+
 export function drawSegmentsFromLink(link: svg.Link): Segment[] {
 
     if (link.Type === svg.LinkType.LINK_TYPE_FLOATING_ORTHOGONAL) {
@@ -62,31 +119,141 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
         // Get all points in the polyline: Start Anchor, Control Points, End Anchor
         const allPoints: svg.Point[] = []
 
-        const startPos = getPosition(link.Start, link.StartAnchorType, link.End, link.StartArrowOffset);
-        const endPos = getPosition(link.End, link.EndAnchorType, link.Start, link.EndArrowOffset);
+        // START: MODIFIED BLOCK (Added symmetrical logic for EndRect)
+        
+        // Convert CPs to absolute points first
+        const controlPointsAbs: svg.Point[] = []
+        for (let controlPoint of link.ControlPoints) {
+            controlPointsAbs.push(controlPointToPoint(controlPoint))
+        }
+
+        // --- Check START Point ---
+        let hideFirstSegment = false;
+        if (link.ControlPoints && link.ControlPoints.length > 0 && link.Start) {
+            
+            const firstCP = controlPointsAbs[0]
+            const startRect = link.Start
+            const isInside = (
+                firstCP.X > startRect.X &&
+                firstCP.X < startRect.X + startRect.Width &&
+                firstCP.Y > startRect.Y &&
+                firstCP.Y < startRect.Y + startRect.Height
+            )
+            const hasClosestRect = link.ControlPoints[0].ClosestRect &&
+                                 link.ControlPoints[0].ClosestRect.ID === startRect.ID;
+
+            // Also ensure there is a point *after* the CP to aim at
+            if (isInside && hasClosestRect && (controlPointsAbs.length > 1 || link.End)) {
+                hideFirstSegment = true;
+            }
+        }
+
+        // --- Check END Point ---
+        let hideLastSegment = false;
+        if (link.ControlPoints && link.ControlPoints.length > 0 && link.End) {
+
+            const lastCPIndex = controlPointsAbs.length - 1
+            const lastCP = controlPointsAbs[lastCPIndex]
+            const endRect = link.End
+            const isInside = (
+                lastCP.X > endRect.X &&
+                lastCP.X < endRect.X + endRect.Width &&
+                lastCP.Y > endRect.Y &&
+                lastCP.Y < endRect.Y + endRect.Height
+            )
+            const hasClosestRect = link.ControlPoints[lastCPIndex].ClosestRect &&
+                                 link.ControlPoints[lastCPIndex].ClosestRect.ID === endRect.ID;
+
+            // Also ensure there is a point *before* the CP to aim at
+            if (isInside && hasClosestRect && (controlPointsAbs.length > 1 || link.Start)) {
+                hideLastSegment = true;
+            }
+        }
+
+        // Anchor point *never* gets an offset if its segment is hidden
+        const startOffset = hideFirstSegment ? 0 : link.StartArrowOffset;
+        const endOffset = hideLastSegment ? 0 : link.EndArrowOffset;
+        // END: MODIFIED BLOCK
+        
+        const startPos = getPosition(link.Start, link.StartAnchorType, link.End, startOffset);
+        // START: MODIFIED BLOCK
+        const endPos = getPosition(link.End, link.EndAnchorType, link.Start, endOffset);
+        // END: MODIFIED BLOCK
 
         allPoints.push(createPoint(startPos[0], startPos[1]))
-        for (let controlPoint of link.ControlPoints) {
-            allPoints.push( controlPointToPoint(controlPoint))
-        }
+        // START: MODIFIED BLOCK
+        allPoints.push(...controlPointsAbs) // Add the pre-calculated absolute points
+        // END: MODIFIED BLOCK
         allPoints.push(createPoint(endPos[0], endPos[1]))
 
+
         const cornerRadius = link.CornerRadius
+        // START: MODIFIED BLOCK
+        const startSegmentIndex = hideFirstSegment ? 1 : 0; // Start from 0 or 1
+        // The loop will end *before* this index
+        const endSegmentIndex = allPoints.length - (hideLastSegment ? 2 : 1);
+        // END: MODIFIED BLOCK
+
 
         // If no radius or not enough points for a corner, use the simple logic
         if (cornerRadius === 0 || allPoints.length < 3) {
-            for (let i = 0; i < allPoints.length - 1; i++) {
+            
+            // START: MODIFIED BLOCK
+            // Loop from the first visible segment up to the last visible segment
+            for (let i = startSegmentIndex; i < endSegmentIndex; i++) {
+            // END: MODIFIED BLOCK
                 const p1 = allPoints[i]
                 const p2 = allPoints[i + 1]
                 const orientation = getLineOrientation(p1.X, p1.Y, p2.X, p2.Y)
 
+                // --- Handle Start Point Offset ---
+                let segmentStartPoint = p1;
+                let startPointWithoutRadius = p1; // The original point (CP or anchor)
+                if (hideFirstSegment && i === startSegmentIndex) { 
+                    startPointWithoutRadius = allPoints[1] // The original CP
+                    const nextPoint = allPoints[2]
+                    const boundaryPoint = getIntersectionPointFromInside(startPointWithoutRadius, nextPoint, link.Start!)
+                    const offset = link.StartArrowOffset;
+                    const dx = nextPoint.X - startPointWithoutRadius.X;
+                    const dy = nextPoint.Y - startPointWithoutRadius.Y;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    if (len > 0) {
+                        const ratio = offset / len;
+                        segmentStartPoint = createPoint(boundaryPoint.X + dx * ratio, boundaryPoint.Y + dy * ratio);
+                    } else {
+                        segmentStartPoint = boundaryPoint // 0-length, just use boundary
+                    }
+                }
+
+                // --- Handle End Point Offset ---
+                let segmentEndPoint = p2;
+                let endPointWithoutRadius = p2;
+                if (hideLastSegment && i === endSegmentIndex - 1) { // If this is the new last segment
+                    endPointWithoutRadius = allPoints[allPoints.length - 2]; // The Last CP
+                    const prevPoint = allPoints[allPoints.length - 3]; // Point before Last CP
+                    const boundaryPoint = getIntersectionPointFromInside(endPointWithoutRadius, prevPoint, link.End!)
+                    const offset = link.EndArrowOffset;
+                    // Vector from CP *towards* previous point
+                    const dx = prevPoint.X - endPointWithoutRadius.X;
+                    const dy = prevPoint.Y - endPointWithoutRadius.Y;
+                    const len = Math.sqrt(dx * dx + dy * dy);
+                    if (len > 0) {
+                        const ratio = offset / len;
+                        // Apply offset from the BOUNDARY point
+                        segmentEndPoint = createPoint(boundaryPoint.X + dx * ratio, boundaryPoint.Y + dy * ratio);
+                    } else {
+                        segmentEndPoint = boundaryPoint;
+                    }
+                }
+                // END: NEW MODIFICATION
+
                 let segment: Segment = {
-                    StartPoint: p1,
-                    EndPoint: p2,
-                    StartPointWithoutRadius: p1,
-                    EndPointWithoutRadius: p2,
+                    StartPoint: segmentStartPoint,
+                    EndPoint: segmentEndPoint,
+                    StartPointWithoutRadius: startPointWithoutRadius,
+                    EndPointWithoutRadius: endPointWithoutRadius,
                     Orientation: orientation,
-                    Number: i,
+                    Number: i - startSegmentIndex, // Adjust segment number
                     ArrowEndAnchoredText: []
                 }
                 segments.push(segment)
@@ -96,10 +263,42 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
 
         // --- NEW LOGIC for CornerRadius > 0 ---
 
-        let segmentStartPoint = allPoints[0] // Start of the *current* line segment
+        // START: NEW MODIFIED BLOCK
+        // Calculate the *actual* start point for the first segment
+        let segmentStartPoint: svg.Point;
+        let startPointWithoutRadius: svg.Point;
+        // The corner loop starts at the 2nd point (if visible) or 3rd (if 1st CP is hidden)
+        const startLoopIndex = hideFirstSegment ? 2 : 1;
+        // The corner loop ends before the 2nd-to-last (if visible) or 3rd-to-last (if last CP is hidden)
+        const endLoopIndex = allPoints.length - (hideLastSegment ? 2 : 1);
 
-        // Loop over all corners (all points except the very first and very last)
-        for (let i = 1; i < allPoints.length - 1; i++) {
+
+        if (hideFirstSegment) {
+            startPointWithoutRadius = allPoints[1]; // The original CP
+            const nextPoint = allPoints[2] // The next point
+            const boundaryPoint = getIntersectionPointFromInside(startPointWithoutRadius, nextPoint, link.Start!)
+            const offset = link.StartArrowOffset;
+            const dx = nextPoint.X - startPointWithoutRadius.X;
+            const dy = nextPoint.Y - startPointWithoutRadius.Y;
+            const len = Math.sqrt(dx * dx + dy * dy);
+            if (len > 0) {
+                const ratio = offset / len;
+                segmentStartPoint = createPoint(boundaryPoint.X + dx * ratio, boundaryPoint.Y + dy * ratio);
+            } else {
+                segmentStartPoint = boundaryPoint; 
+            }
+        } else {
+            // Start from anchor (allPoints[0])
+            segmentStartPoint = allPoints[0];
+            startPointWithoutRadius = allPoints[0];
+        }
+        // END: NEW MODIFIED BLOCK
+
+
+        // Loop over all corners
+        // START: MODIFIED BLOCK
+        for (let i = startLoopIndex; i < endLoopIndex; i++) {
+        // END: MODIFIED BLOCK
             const P_prev = allPoints[i - 1]
             const P_curr = allPoints[i] // This is the vertex
             const P_next = allPoints[i + 1]
@@ -112,7 +311,23 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
             const lenV2 = Math.sqrt(v2.X * v2.X + v2.Y * v2.Y)
 
             if (lenV1 === 0 || lenV2 === 0) {
-                continue // Points are coincident, skip
+                 // START: MODIFIED BLOCK
+                // Handle 0-length segments, especially at the start
+                if (i === startLoopIndex && (segmentStartPoint.X !== P_curr.X || segmentStartPoint.Y !== P_curr.Y)) {
+                     segments.push({
+                        StartPoint: segmentStartPoint,
+                        EndPoint: P_curr,
+                        StartPointWithoutRadius: startPointWithoutRadius,
+                        EndPointWithoutRadius: P_curr,
+                        Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, P_curr.X, P_curr.Y),
+                        Number: segments.length,
+                        ArrowEndAnchoredText: []
+                    })
+                }
+                segmentStartPoint = P_curr
+                startPointWithoutRadius = P_curr
+                // END: MODIFIED BLOCK
+                continue // Points are coincident, skip corner logic
             }
 
             const v1_unit = { X: v1.X / lenV1, Y: v1.Y / lenV1 }
@@ -124,43 +339,72 @@ export function drawSegmentsFromLink(link: svg.Link): Segment[] {
             // Calculate cutback distance 'd'
             let d = cornerRadius / Math.tan(theta / 2)
 
-            // Safety check: Don't cut back more than half the segment length
-            d = Math.min(d, lenV1 / 2, lenV2 / 2)
-            if (isNaN(d)) {
-                d = 0 // Handle collinear points
+            // START: MODIFIED BLOCK
+            let firstSegmentLen = Math.sqrt(Math.pow(P_curr.X - segmentStartPoint.X, 2) + Math.pow(P_curr.Y - segmentStartPoint.Y, 2));
+            let d_safe = d;
+            if (i === startLoopIndex) {
+                // For the first visible segment, check against its actual calculated start
+                d_safe = Math.min(d, firstSegmentLen / 2, lenV2 / 2)
+            } else {
+                 d_safe = Math.min(d, lenV1 / 2, lenV2 / 2)
             }
+            
+            if (isNaN(d_safe) || d_safe < 0) {
+                d_safe = 0 // Handle collinear points
+            }
+            // END: MODIFIED BLOCK
 
-            // Calculate the end of the first line (start of arc)
-            const arcStartPoint = createPoint(P_curr.X + v1_unit.X * d, P_curr.Y + v1_unit.Y * d)
-            // Calculate the start of the next line (end of arc)
-            const arcEndPoint = createPoint(P_curr.X + v2_unit.X * d, P_curr.Y + v2_unit.Y * d)
+            const arcStartPoint = createPoint(P_curr.X + v1_unit.X * d_safe, P_curr.Y + v1_unit.Y * d_safe)
+            const arcEndPoint = createPoint(P_curr.X + v2_unit.X * d_safe, P_curr.Y + v2_unit.Y * d_safe)
 
-            // Create the segment leading *up to* the corner
             segments.push({
                 StartPoint: segmentStartPoint,
                 EndPoint: arcStartPoint,
-                StartPointWithoutRadius: allPoints[i - 1],
+                StartPointWithoutRadius: startPointWithoutRadius,
                 EndPointWithoutRadius: P_curr,
                 Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, arcStartPoint.X, arcStartPoint.Y),
-                Number: i - 1,
+                Number: segments.length,
                 ArrowEndAnchoredText: []
             })
-
-            // The start of the *next* segment is the end of this arc
             segmentStartPoint = arcEndPoint
+            startPointWithoutRadius = P_curr // The "withoutRadius" start is the corner itself
         }
 
-        // Add the final segment (from the last corner's arc-end to the final point)
-        const lastPoint = allPoints[allPoints.length - 1]
+        // --- Add the final segment ---
+        // START: MODIFIED BLOCK
+        // Calculate the *actual* end point for the last segment
+        const lastVisiblePoint = allPoints[endLoopIndex];
+        let segmentEndPoint = lastVisiblePoint;
+        let endPointWithoutRadius = lastVisiblePoint;
+
+        if (hideLastSegment) {
+            endPointWithoutRadius = allPoints[allPoints.length - 2]; // The Last CP
+            const prevPoint = allPoints[allPoints.length - 3]; // Point before Last CP
+            const boundaryPoint = getIntersectionPointFromInside(endPointWithoutRadius, prevPoint, link.End!)
+            const offset = link.EndArrowOffset;
+            // Vector from CP *towards* previous point
+            const dx = prevPoint.X - endPointWithoutRadius.X;
+            const dy = prevPoint.Y - endPointWithoutRadius.Y;
+            const len = Math.sqrt(dx * dx + dy * dy);
+            if (len > 0) {
+                const ratio = offset / len;
+                // Apply offset from the BOUNDARY point
+                segmentEndPoint = createPoint(boundaryPoint.X + dx * ratio, boundaryPoint.Y + dy * ratio);
+            } else {
+                segmentEndPoint = boundaryPoint;
+            }
+        }
+        
         segments.push({
             StartPoint: segmentStartPoint,
-            EndPoint: lastPoint,
-            StartPointWithoutRadius: allPoints[allPoints.length - 2],
-            EndPointWithoutRadius: lastPoint,
-            Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, lastPoint.X, lastPoint.Y),
+            EndPoint: segmentEndPoint,
+            StartPointWithoutRadius: startPointWithoutRadius,
+            EndPointWithoutRadius: endPointWithoutRadius,
+            Orientation: getLineOrientation(segmentStartPoint.X, segmentStartPoint.Y, segmentEndPoint.X, segmentEndPoint.Y),
             Number: segments.length,
             ArrowEndAnchoredText: []
         })
+        // END: MODIFIED BLOCK
 
         return segments
     }

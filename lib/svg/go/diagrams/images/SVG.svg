@@ -12,6 +12,7 @@
 			x="625" 
 			y="636"
 			writing-mode=""
+			dominant-baseline="central"
 			text-anchor="middle"
 			font-weight="100"
 			font-style=""
@@ -56,7 +57,7 @@
             stroke-dasharray=""
             transform="translate(333 816.999985) scale(0.2 0.2)" >
 </path>
-	<line x1="530.999969" y1="91.499992" x2="252.99996099999996" y2="91.499992"
+	<line x1="500.999969" y1="90.499992" x2="222.999961" y2="90.499992"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -64,7 +65,7 @@
             stroke-width="5.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 532.767736 93.267759 L 520.999969 81.499992 M 532.767736 89.732225 L 520.999969 101.499992"
+	<path d="M 502.767736 92.267759 L 490.999969 80.499992 M 502.767736 88.732225 L 490.999969 100.499992"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -72,7 +73,7 @@
             stroke-width="5.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 252.999961 91.499992 A 20.000000 20.000000 0 0 0 232.999961 111.499992"
+	<path d="M 222.999961 90.499992 A 20.000000 20.000000 0 0 0 202.999961 110.499992"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -81,8 +82,8 @@
             stroke-dasharray=""
             transform="" />
 	<text xml:space="preserve"
-			x="530.999969" 
-			y="73.899992" 
+			x="500.999969" 
+			y="72.899992" 
 			text-anchor="end"
 			font-weight="normal"
 			font-style=""
@@ -97,8 +98,8 @@
 		<tspan xml:space="preserve"> Start Left/Top </tspan>
 	</text>
 	<text xml:space="preserve"
-			x="530.999969" 
-			y="120.499992" 
+			x="500.999969" 
+			y="119.499992" 
 			text-anchor="end"
 			font-weight="normal"
 			font-style=""
@@ -112,7 +113,7 @@
             transform="">
 		<tspan xml:space="preserve"> Start Right/Bottom </tspan>
 	</text>
-	<line x1="232.99996099999996" y1="111.499992" x2="232.99996099999996" y2="405"
+	<line x1="202.999961" y1="110.499992" x2="202.999961" y2="405"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -120,7 +121,7 @@
             stroke-width="5.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 232.999961 405.000000 A 20.000000 20.000000 0 0 0 252.999961 425.000000"
+	<path d="M 202.999961 405.000000 A 20.000000 20.000000 0 0 0 222.999961 425.000000"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -128,7 +129,7 @@
             stroke-width="5.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="252.99996099999996" y1="425" x2="432" y2="425"
+	<line x1="222.999961" y1="425" x2="432" y2="425"
 			fill=""
             fill-opacity="0.000000"
             stroke="red"
@@ -176,7 +177,7 @@
             transform="">
 		<tspan xml:space="preserve"> End Left/Top </tspan>
 	</text>
-	<line x1="530.999969" y1="209.431192" x2="169.99997499999998" y2="209.431192"
+	<line x1="500.999969" y1="208.431192" x2="139.99997500000003" y2="208.431192"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -184,7 +185,7 @@
             stroke-width="4.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 169.999975 209.431192 A 8.000000 8.000000 0 0 0 161.999975 217.431192"
+	<path d="M 139.999975 208.431192 A 8.000000 8.000000 0 0 0 131.999975 216.431192"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -193,8 +194,8 @@
             stroke-dasharray=""
             transform="" />
 	<text xml:space="preserve"
-			x="401.99993799999993" 
-			y="246.44370400000003" 
+			x="371.99993800000004" 
+			y="245.44370400000003" 
 			text-anchor="end"
 			font-weight="light"
 			font-style=""
@@ -208,7 +209,7 @@
             transform="">
 		<tspan xml:space="preserve"> Start Anchored 1 </tspan>
 	</text>
-	<line x1="161.99997499999998" y1="217.431192" x2="161.99997499999998" y2="740.589439105265"
+	<line x1="131.99997500000003" y1="216.431192" x2="131.99997500000003" y2="740.589439105265"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -216,7 +217,7 @@
             stroke-width="4.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 161.999975 740.589439 A 8.000000 8.000000 0 0 0 169.999975 748.589439"
+	<path d="M 131.999975 740.589439 A 8.000000 8.000000 0 0 0 139.999975 748.589439"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -224,7 +225,7 @@
             stroke-width="4.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="169.99997499999998" y1="748.589439105265" x2="333" y2="748.589439105265"
+	<line x1="139.99997500000003" y1="748.589439105265" x2="333" y2="748.589439105265"
 			fill=""
             fill-opacity="0.000000"
             stroke="green"
@@ -240,7 +241,7 @@
             stroke-width="4.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="630.9999859999999" y1="271" x2="630.9999859999999" y2="291.00206699999995"
+	<line x1="600.999986" y1="270" x2="600.999986" y2="290.00206699999995"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -248,7 +249,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 630.292879 270.292893 L 641.999986 282.000000 M 631.707093 270.292893 L 619.999986 282.000000"
+	<path d="M 600.292879 269.292893 L 611.999986 281.000000 M 601.707093 269.292893 L 589.999986 281.000000"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -256,7 +257,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 630.999986 291.002067 A 10.000000 10.000000 0 0 1 620.999986 301.002067"
+	<path d="M 600.999986 290.002067 A 10.000000 10.000000 0 0 1 590.999986 300.002067"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -264,7 +265,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="620.9999859999999" y1="301.00206699999995" x2="557" y2="301.00206699999995"
+	<line x1="590.999986" y1="300.00206699999995" x2="557" y2="300.00206699999995"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -272,7 +273,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-	<path d="M 557.000000 301.002067 A 10.000000 10.000000 0 0 0 547.000000 311.002067"
+	<path d="M 557.000000 300.002067 A 10.000000 10.000000 0 0 0 547.000000 310.002067"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -280,7 +281,7 @@
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
-	<line x1="547" y1="311.00206699999995" x2="547" y2="425"
+	<line x1="547" y1="310.00206699999995" x2="547" y2="425"
 			fill=""
             fill-opacity="0.000000"
             stroke="black"
@@ -316,6 +317,7 @@
 			x="1551.833333" 
 			y="125.119054"
 			writing-mode=""
+			dominant-baseline="central"
 			text-anchor="middle"
 			font-weight=""
 			font-style=""
@@ -339,6 +341,7 @@
 			x="1407.769231" 
 			y="577.256327"
 			writing-mode=""
+			dominant-baseline=""
 			text-anchor="middle"
 			font-weight=""
 			font-style=""
@@ -758,17 +761,17 @@
             transform="">
 		<tspan xml:space="preserve"> RIGHT_OR_BOTTOM </tspan>
 	</text>
-  <rect x="530.999969" y="34" width="237" height="237" rx="3" ry="3"
+  <rect x="500.999969" y="33" width="237" height="237" rx="3" ry="3"
 			fill="lightcyan"
-            fill-opacity="100.000000"
+            fill-opacity="50.000000"
             stroke="darkcyan"
             stroke-opacity="1.000000"
             stroke-width="2.000000"
             stroke-dasharray=""
             transform="" />
   <rect
-			x="649.499969" 
-			y="74"
+			x="619.499969" 
+			y="73"
 			width="100"
 			height="30"
 			fill="lightgrey"
@@ -787,6 +790,6 @@
             stroke-opacity="1.000000"
             stroke-width="1.000000"
             stroke-dasharray=""
-            transform="translate(530.999969 271) scale(0.246875 0.246875)" >
+            transform="translate(500.999969 270) scale(0.246875 0.246875)" >
 </path>
 </svg>
