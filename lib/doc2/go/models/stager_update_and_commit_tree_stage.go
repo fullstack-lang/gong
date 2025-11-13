@@ -65,8 +65,9 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow number of instances",
-			Impl: &ButtonToggleShowNbInstancesProxy{
-				stager: stager,
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &stager.hideNbInstances,
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
@@ -86,14 +87,15 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow multiplicity",
-			Impl: &ButtonToggleShowMultiplicityProxy{
-				stager: stager,
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &stager.hideMultiplicity,
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 		}
 
-		if stager.hideNbInstances {
+		if stager.hideMultiplicity {
 			button.ToolTipText = "Show multiplicity"
 			button.Icon = string(buttons.BUTTON_visibility)
 		} else {
@@ -107,14 +109,15 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	{
 		button := &tree.Button{
 			Name: "Show/Unshow Link Names",
-			Impl: &ButtonToggleShowLinkNamesProxy{
-				stager: stager,
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &stager.hideLinkNames,
 			},
 			HasToolTip:      true,
 			ToolTipPosition: tree.Right,
 		}
 
-		if stager.hideNbInstances {
+		if stager.hideLinkNames {
 			button.ToolTipText = "Show Link Names"
 			button.Icon = string(buttons.BUTTON_visibility)
 		} else {
