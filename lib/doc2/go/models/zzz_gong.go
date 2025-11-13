@@ -1951,7 +1951,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case AttributeShape:
 		res = []string{"Name", "IdentifierMeta", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case Classdiagram:
-		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
+		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "ShowNbInstances", "ShowMultiplicity", "ShowLinkNames", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
 	case DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case GongEnumShape:
@@ -2049,7 +2049,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *AttributeShape:
 		res = []string{"Name", "IdentifierMeta", "FieldTypeAsString", "Structname", "Fieldtypename"}
 	case *Classdiagram:
-		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
+		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "ShowNbInstances", "ShowMultiplicity", "ShowLinkNames", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
 	case *DiagramPackage:
 		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
 	case *GongEnumShape:
@@ -2149,6 +2149,18 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		case "ShowNbInstances":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueBool = inferedInstance.ShowNbInstances
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ShowMultiplicity":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowMultiplicity)
+			res.valueBool = inferedInstance.ShowMultiplicity
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ShowLinkNames":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowLinkNames)
+			res.valueBool = inferedInstance.ShowLinkNames
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsInRenameMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInRenameMode)
 			res.valueBool = inferedInstance.IsInRenameMode
@@ -2448,6 +2460,18 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		case "ShowNbInstances":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
+			res.valueBool = inferedInstance.ShowNbInstances
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ShowMultiplicity":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowMultiplicity)
+			res.valueBool = inferedInstance.ShowMultiplicity
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "ShowLinkNames":
+			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowLinkNames)
+			res.valueBool = inferedInstance.ShowLinkNames
+			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsInRenameMode":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsInRenameMode)
 			res.valueBool = inferedInstance.IsInRenameMode

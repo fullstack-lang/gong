@@ -62,72 +62,6 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		)
 	}
 
-	{
-		button := &tree.Button{
-			Name: "Show/Unshow number of instances",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &stager.hideNbInstances,
-			},
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-		}
-
-		if stager.hideNbInstances {
-			button.ToolTipText = "Show nb of instances"
-			button.Icon = string(buttons.BUTTON_visibility)
-		} else {
-			button.ToolTipText = "Hide nb of instances"
-			button.Icon = string(buttons.BUTTON_visibility_off)
-		}
-
-		root.Buttons = append(root.Buttons, button)
-	}
-
-	{
-		button := &tree.Button{
-			Name: "Show/Unshow multiplicity",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &stager.hideMultiplicity,
-			},
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-		}
-
-		if stager.hideMultiplicity {
-			button.ToolTipText = "Show multiplicity"
-			button.Icon = string(buttons.BUTTON_visibility)
-		} else {
-			button.ToolTipText = "Hide multiplicity"
-			button.Icon = string(buttons.BUTTON_visibility_off)
-		}
-
-		root.Buttons = append(root.Buttons, button)
-	}
-
-	{
-		button := &tree.Button{
-			Name: "Show/Unshow Link Names",
-			Impl: &toggleButtonProxy{
-				stager:      stager,
-				toggleValue: &stager.hideLinkNames,
-			},
-			HasToolTip:      true,
-			ToolTipPosition: tree.Right,
-		}
-
-		if stager.hideLinkNames {
-			button.ToolTipText = "Show Link Names"
-			button.Icon = string(buttons.BUTTON_visibility)
-		} else {
-			button.ToolTipText = "Hide Link Names"
-			button.Icon = string(buttons.BUTTON_visibility_off)
-		}
-
-		root.Buttons = append(root.Buttons, button)
-	}
-
 	// append a node below for each diagram
 	diagramPackage := getTheDiagramPackage(stager.stage)
 
@@ -174,7 +108,8 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 		}
 
 		if !stager.embeddedDiagrams {
-			stager.addButtonsToClassdiagramNode(nodeClassdiagram, classDiagram)
+			stager.addDeleteRenameCopyButtons(nodeClassdiagram, classDiagram)
+			stager.addDisplayModeButtons(classDiagram, nodeClassdiagram)
 		}
 
 		// if the classdiagram appear as sub node of the classdiagram node
@@ -462,7 +397,75 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 	stager.treeStage.Commit()
 }
 
-func (stager *Stager) addButtonsToClassdiagramNode(nodeClassdiagram *tree.Node, classDiagram *Classdiagram) {
+func (stager *Stager) addDisplayModeButtons(classDiagram *Classdiagram, nodeClassdiagram *tree.Node) {
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow number of instances",
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &classDiagram.ShowNbInstances,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if !classDiagram.ShowNbInstances {
+			button.ToolTipText = "Show nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide nb of instances"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons, button)
+	}
+
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow multiplicity",
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &classDiagram.ShowMultiplicity,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if !classDiagram.ShowMultiplicity {
+			button.ToolTipText = "Show multiplicity"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide multiplicity"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons, button)
+	}
+
+	{
+		button := &tree.Button{
+			Name: "Show/Unshow Link Names",
+			Impl: &toggleButtonProxy{
+				stager:      stager,
+				toggleValue: &classDiagram.ShowLinkNames,
+			},
+			HasToolTip:      true,
+			ToolTipPosition: tree.Right,
+		}
+
+		if !classDiagram.ShowLinkNames {
+			button.ToolTipText = "Show Link Names"
+			button.Icon = string(buttons.BUTTON_visibility)
+		} else {
+			button.ToolTipText = "Hide Link Names"
+			button.Icon = string(buttons.BUTTON_visibility_off)
+		}
+
+		nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons, button)
+	}
+}
+
+func (stager *Stager) addDeleteRenameCopyButtons(nodeClassdiagram *tree.Node, classDiagram *Classdiagram) {
 
 	nodeClassdiagram.Buttons = append(nodeClassdiagram.Buttons,
 		&tree.Button{
