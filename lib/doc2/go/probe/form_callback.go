@@ -293,6 +293,12 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 			}
 			classdiagram_.GongNoteShapes = instanceSlice
 
+		case "ShowNbInstances":
+			FormDivBasicFieldToField(&(classdiagram_.ShowNbInstances), formDiv)
+		case "ShowMultiplicity":
+			FormDivBasicFieldToField(&(classdiagram_.ShowMultiplicity), formDiv)
+		case "ShowLinkNames":
+			FormDivBasicFieldToField(&(classdiagram_.ShowLinkNames), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(classdiagram_.IsInRenameMode), formDiv)
 		case "IsExpanded":

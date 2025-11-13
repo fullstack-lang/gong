@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-13 04:26:03.618659 CET"
-	const __write__utc_time__ = "2025-11-13 03:26:03.618659 UTC"
+	const __write__local_time = "2025-11-13 04:41:28.725591 CET"
+	const __write__utc_time__ = "2025-11-13 03:41:28.725591 UTC"
 
-	const __commitId__ = "0000000071"
+	const __commitId__ = "0000000085"
 
 	// Declaration of instances to stage
 
@@ -48,6 +48,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
+	__Classdiagram__000000_Default.ShowNbInstances = false
+	__Classdiagram__000000_Default.ShowMultiplicity = false
+	__Classdiagram__000000_Default.ShowLinkNames = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = false
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
@@ -60,6 +63,9 @@ func _(stage *models.Stage) {
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
 	__Classdiagram__000001_spoil_diagram.Description = `Spoil diagram`
 	__Classdiagram__000001_spoil_diagram.IsIncludedInStaticWebSite = false
+	__Classdiagram__000001_spoil_diagram.ShowNbInstances = false
+	__Classdiagram__000001_spoil_diagram.ShowMultiplicity = false
+	__Classdiagram__000001_spoil_diagram.ShowLinkNames = false
 	__Classdiagram__000001_spoil_diagram.IsInRenameMode = false
 	__Classdiagram__000001_spoil_diagram.IsExpanded = false
 	__Classdiagram__000001_spoil_diagram.NodeGongStructsIsExpanded = false
@@ -72,8 +78,11 @@ func _(stage *models.Stage) {
 	__Classdiagram__000002_NoteShape.Name = `NoteShape`
 	__Classdiagram__000002_NoteShape.Description = ``
 	__Classdiagram__000002_NoteShape.IsIncludedInStaticWebSite = false
+	__Classdiagram__000002_NoteShape.ShowNbInstances = true
+	__Classdiagram__000002_NoteShape.ShowMultiplicity = true
+	__Classdiagram__000002_NoteShape.ShowLinkNames = true
 	__Classdiagram__000002_NoteShape.IsInRenameMode = false
-	__Classdiagram__000002_NoteShape.IsExpanded = true
+	__Classdiagram__000002_NoteShape.IsExpanded = false
 	__Classdiagram__000002_NoteShape.NodeGongStructsIsExpanded = true
 	__Classdiagram__000002_NoteShape.NodeGongStructNodeExpansion = `[false,false,false,false,false,false,true]`
 	__Classdiagram__000002_NoteShape.NodeGongEnumsIsExpanded = false
@@ -147,7 +156,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000000_Default)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000002_NoteShape)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000002_NoteShape
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000001_spoil_diagram
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000002_NoteShape_GongNoteShape.LinkShapes = append(__GongStructShape__000002_NoteShape_GongNoteShape.LinkShapes, __LinkShape__000000_GongNoteLinkShapes)
 	// setup of LinkShape instances pointers
