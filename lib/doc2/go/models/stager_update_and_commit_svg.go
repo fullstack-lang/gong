@@ -268,7 +268,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 
 				link.TextAtArrowEnd = append(link.TextAtArrowEnd, fieldName)
 				fieldName.Name = linkShape.GetName()
-				fieldName.Content = fieldName.Name
+				fieldName.Content = IdentifierMetaToFieldName(linkShape.IdentifierMeta)
 				fieldName.Y_Offset = linkShape.FieldOffsetY
 				fieldName.X_Offset = linkShape.FieldOffsetX
 				fieldName.Stroke = svg_models.Black.ToString()
