@@ -41,6 +41,12 @@ type Classdiagram_WOP struct {
 
 	IsIncludedInStaticWebSite bool
 
+	ShowNbInstances bool
+
+	ShowMultiplicity bool
+
+	ShowLinkNames bool
+
 	IsInRenameMode bool
 
 	IsExpanded bool
@@ -63,6 +69,9 @@ func (from *Classdiagram) CopyBasicFields(to *Classdiagram) {
 	to.Name = from.Name
 	to.Description = from.Description
 	to.IsIncludedInStaticWebSite = from.IsIncludedInStaticWebSite
+	to.ShowNbInstances = from.ShowNbInstances
+	to.ShowMultiplicity = from.ShowMultiplicity
+	to.ShowLinkNames = from.ShowLinkNames
 	to.IsInRenameMode = from.IsInRenameMode
 	to.IsExpanded = from.IsExpanded
 	to.NodeGongStructsIsExpanded = from.NodeGongStructsIsExpanded

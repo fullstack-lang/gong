@@ -27,16 +27,16 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 
 	stager.svgStage.Reset()
 
-	var selectedDiagram *Classdiagram
+	var classdiagram *Classdiagram
 
 	var diagramPackage *DiagramPackage
 	for diagramPackage = range *GetGongstructInstancesSet[DiagramPackage](stager.stage) {
 
-		selectedDiagram = diagramPackage.SelectedClassdiagram
+		classdiagram = diagramPackage.SelectedClassdiagram
 
 		// if no class diagram is selected generate a blank diagram
-		if selectedDiagram == nil {
-			selectedDiagram = new(Classdiagram)
+		if classdiagram == nil {
+			classdiagram = new(Classdiagram)
 		}
 	}
 	if diagramPackage == nil {
@@ -44,10 +44,10 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 	}
 
 	svg := new(svg_models.SVG)
-	svg.Name = selectedDiagram.Name
+	svg.Name = classdiagram.Name
 	svg.IsEditable = !stager.embeddedDiagrams
 
-	for _, gongstructShape := range selectedDiagram.GongStructShapes {
+	for _, gongstructShape := range classdiagram.GongStructShapes {
 
 		rectLayer := new(svg_models.Layer)
 
@@ -151,7 +151,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		//
 		// number of instance (x%d)
 		//
-		if !stager.hideNbInstances {
+		if classdiagram.ShowNbInstances {
 
 			if nbInstance, ok := stager.map_GongStructName_InstancesNb[gongStructIdentifier]; ok {
 
@@ -173,7 +173,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 	}
 
 	// display links between gongstruct shapes
-	for _, gongstructShape := range selectedDiagram.GongStructShapes {
+	for _, gongstructShape := range classdiagram.GongStructShapes {
 
 		startRect := stager.map_GongstructShape_Rect[gongstructShape]
 		for _, linkShape := range gongstructShape.LinkShapes {
@@ -238,7 +238,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 			link.End = endRect
 
 			// add text to the arrow
-			if !stager.hideMultiplicity {
+			if classdiagram.ShowMultiplicity {
 				targetMulitplicity := new(svg_models.LinkAnchoredText)
 				targetMulitplicity.AutomaticLayout = true
 				targetMulitplicity.LinkAnchorType = svg_models.LINK_RIGHT_OR_BOTTOM
@@ -259,7 +259,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 				targetMulitplicity.LetterSpacing = "0.1em"
 			}
 
-			if !stager.hideLinkNames {
+			if classdiagram.ShowLinkNames {
 				fieldName := new(svg_models.LinkAnchoredText)
 				fieldName.AutomaticLayout = true
 				fieldName.LinkAnchorType = svg_models.LINK_LEFT_OR_TOP
@@ -282,7 +282,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 			}
 
 			// add the callback
-			if !stager.hideMultiplicity {
+			if classdiagram.ShowMultiplicity {
 				sourceMultiplicity := new(svg_models.LinkAnchoredText)
 				sourceMultiplicity.AutomaticLayout = true
 				sourceMultiplicity.LinkAnchorType = svg_models.LINK_RIGHT_OR_BOTTOM
@@ -307,7 +307,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 	//
 	// GongEnumShapes
 	//
-	for _, gongenumShape := range selectedDiagram.GongEnumShapes {
+	for _, gongenumShape := range classdiagram.GongEnumShapes {
 
 		rectLayer := new(svg_models.Layer)
 		rectLayer.Name = "Layer" + GongEnumIdentifierMetaToGongEnumName(gongenumShape.IdentifierMeta)
@@ -400,7 +400,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 	//
 	// Notes
 	//
-	for _, noteShape := range selectedDiagram.GongNoteShapes {
+	for _, noteShape := range classdiagram.GongNoteShapes {
 
 		rectLayer := new(svg_models.Layer)
 		rectLayer.Name = "Layer" + noteShape.Identifier
@@ -505,7 +505,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 	//
 	// Links between notes and othe shapes
 	//
-	for _, noteShape := range selectedDiagram.GongNoteShapes {
+	for _, noteShape := range classdiagram.GongNoteShapes {
 
 		startRect := stager.map_NoteShape_Rect[noteShape]
 		_ = startRect
