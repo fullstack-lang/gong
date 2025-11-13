@@ -79,6 +79,18 @@ type ClassdiagramDB struct {
 	// provide the sql storage for the boolan
 	IsIncludedInStaticWebSite_Data sql.NullBool
 
+	// Declation for basic field classdiagramDB.ShowNbInstances
+	// provide the sql storage for the boolan
+	ShowNbInstances_Data sql.NullBool
+
+	// Declation for basic field classdiagramDB.ShowMultiplicity
+	// provide the sql storage for the boolan
+	ShowMultiplicity_Data sql.NullBool
+
+	// Declation for basic field classdiagramDB.ShowLinkNames
+	// provide the sql storage for the boolan
+	ShowLinkNames_Data sql.NullBool
+
 	// Declation for basic field classdiagramDB.IsInRenameMode
 	// provide the sql storage for the boolan
 	IsInRenameMode_Data sql.NullBool
@@ -136,21 +148,27 @@ type ClassdiagramWOP struct {
 
 	IsIncludedInStaticWebSite bool `xlsx:"3"`
 
-	IsInRenameMode bool `xlsx:"4"`
+	ShowNbInstances bool `xlsx:"4"`
 
-	IsExpanded bool `xlsx:"5"`
+	ShowMultiplicity bool `xlsx:"5"`
 
-	NodeGongStructsIsExpanded bool `xlsx:"6"`
+	ShowLinkNames bool `xlsx:"6"`
 
-	NodeGongStructNodeExpansion string `xlsx:"7"`
+	IsInRenameMode bool `xlsx:"7"`
 
-	NodeGongEnumsIsExpanded bool `xlsx:"8"`
+	IsExpanded bool `xlsx:"8"`
 
-	NodeGongEnumNodeExpansion string `xlsx:"9"`
+	NodeGongStructsIsExpanded bool `xlsx:"9"`
 
-	NodeGongNotesIsExpanded bool `xlsx:"10"`
+	NodeGongStructNodeExpansion string `xlsx:"10"`
 
-	NodeGongNoteNodeExpansion string `xlsx:"11"`
+	NodeGongEnumsIsExpanded bool `xlsx:"11"`
+
+	NodeGongEnumNodeExpansion string `xlsx:"12"`
+
+	NodeGongNotesIsExpanded bool `xlsx:"13"`
+
+	NodeGongNoteNodeExpansion string `xlsx:"14"`
 	// insertion for WOP pointer fields
 }
 
@@ -160,6 +178,9 @@ var Classdiagram_Fields = []string{
 	"Name",
 	"Description",
 	"IsIncludedInStaticWebSite",
+	"ShowNbInstances",
+	"ShowMultiplicity",
+	"ShowLinkNames",
 	"IsInRenameMode",
 	"IsExpanded",
 	"NodeGongStructsIsExpanded",
@@ -535,6 +556,15 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram(classdiagr
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Bool = classdiagram.IsIncludedInStaticWebSite
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Valid = true
 
+	classdiagramDB.ShowNbInstances_Data.Bool = classdiagram.ShowNbInstances
+	classdiagramDB.ShowNbInstances_Data.Valid = true
+
+	classdiagramDB.ShowMultiplicity_Data.Bool = classdiagram.ShowMultiplicity
+	classdiagramDB.ShowMultiplicity_Data.Valid = true
+
+	classdiagramDB.ShowLinkNames_Data.Bool = classdiagram.ShowLinkNames
+	classdiagramDB.ShowLinkNames_Data.Valid = true
+
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
 
@@ -572,6 +602,15 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagram_WOP(classd
 
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Bool = classdiagram.IsIncludedInStaticWebSite
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Valid = true
+
+	classdiagramDB.ShowNbInstances_Data.Bool = classdiagram.ShowNbInstances
+	classdiagramDB.ShowNbInstances_Data.Valid = true
+
+	classdiagramDB.ShowMultiplicity_Data.Bool = classdiagram.ShowMultiplicity
+	classdiagramDB.ShowMultiplicity_Data.Valid = true
+
+	classdiagramDB.ShowLinkNames_Data.Bool = classdiagram.ShowLinkNames
+	classdiagramDB.ShowLinkNames_Data.Valid = true
 
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
@@ -611,6 +650,15 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsFromClassdiagramWOP(classdi
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Bool = classdiagram.IsIncludedInStaticWebSite
 	classdiagramDB.IsIncludedInStaticWebSite_Data.Valid = true
 
+	classdiagramDB.ShowNbInstances_Data.Bool = classdiagram.ShowNbInstances
+	classdiagramDB.ShowNbInstances_Data.Valid = true
+
+	classdiagramDB.ShowMultiplicity_Data.Bool = classdiagram.ShowMultiplicity
+	classdiagramDB.ShowMultiplicity_Data.Valid = true
+
+	classdiagramDB.ShowLinkNames_Data.Bool = classdiagram.ShowLinkNames
+	classdiagramDB.ShowLinkNames_Data.Valid = true
+
 	classdiagramDB.IsInRenameMode_Data.Bool = classdiagram.IsInRenameMode
 	classdiagramDB.IsInRenameMode_Data.Valid = true
 
@@ -642,6 +690,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram(classdiagram
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.Description = classdiagramDB.Description_Data.String
 	classdiagram.IsIncludedInStaticWebSite = classdiagramDB.IsIncludedInStaticWebSite_Data.Bool
+	classdiagram.ShowNbInstances = classdiagramDB.ShowNbInstances_Data.Bool
+	classdiagram.ShowMultiplicity = classdiagramDB.ShowMultiplicity_Data.Bool
+	classdiagram.ShowLinkNames = classdiagramDB.ShowLinkNames_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool
@@ -658,6 +709,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagram_WOP(classdia
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.Description = classdiagramDB.Description_Data.String
 	classdiagram.IsIncludedInStaticWebSite = classdiagramDB.IsIncludedInStaticWebSite_Data.Bool
+	classdiagram.ShowNbInstances = classdiagramDB.ShowNbInstances_Data.Bool
+	classdiagram.ShowMultiplicity = classdiagramDB.ShowMultiplicity_Data.Bool
+	classdiagram.ShowLinkNames = classdiagramDB.ShowLinkNames_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool
@@ -675,6 +729,9 @@ func (classdiagramDB *ClassdiagramDB) CopyBasicFieldsToClassdiagramWOP(classdiag
 	classdiagram.Name = classdiagramDB.Name_Data.String
 	classdiagram.Description = classdiagramDB.Description_Data.String
 	classdiagram.IsIncludedInStaticWebSite = classdiagramDB.IsIncludedInStaticWebSite_Data.Bool
+	classdiagram.ShowNbInstances = classdiagramDB.ShowNbInstances_Data.Bool
+	classdiagram.ShowMultiplicity = classdiagramDB.ShowMultiplicity_Data.Bool
+	classdiagram.ShowLinkNames = classdiagramDB.ShowLinkNames_Data.Bool
 	classdiagram.IsInRenameMode = classdiagramDB.IsInRenameMode_Data.Bool
 	classdiagram.IsExpanded = classdiagramDB.IsExpanded_Data.Bool
 	classdiagram.NodeGongStructsIsExpanded = classdiagramDB.NodeGongStructsIsExpanded_Data.Bool

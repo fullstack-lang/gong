@@ -21,6 +21,10 @@ type Classdiagram struct {
 	// list of notes in the diagram
 	GongNoteShapes []*GongNoteShape
 
+	ShowNbInstances  bool
+	ShowMultiplicity bool
+	ShowLinkNames    bool
+
 	// IsInRenameMode means the user can edit the node
 	IsInRenameMode bool
 
@@ -32,21 +36,21 @@ type Classdiagram struct {
 
 	// NodeGongStructNodeExpansion stores the expanded status per individual named struct node
 	// within the "GongStructs" category, as a JSON string (e.g., "[true, false, true]").
-	NodeGongStructNodeExpansion string // Refactored from NodeGongStructNodeExpansionBinaryEncoding int
+	NodeGongStructNodeExpansion string
 
 	// NodeGongEnumsIsExpanded stores the expansion state of the "GongEnums" category node.
 	NodeGongEnumsIsExpanded bool
 
 	// NodeGongEnumNodeExpansion stores the expanded status per individual enum node
 	// within the "GongEnums" category, as a JSON string.
-	NodeGongEnumNodeExpansion string // Refactored from NodeGongEnumNodeExpansionBinaryEncoding int
+	NodeGongEnumNodeExpansion string
 
 	// NodeGongNotesIsExpanded stores the expansion state of the "GongNotes" category node.
 	NodeGongNotesIsExpanded bool
 
 	// NodeGongNoteNodeExpansion stores the expanded status per individual note node
 	// within the "GongNotes" category, as a JSON string.
-	NodeGongNoteNodeExpansion string // Refactored from NodeGongNoteNodeExpansionBinaryEncoding int
+	NodeGongNoteNodeExpansion string
 }
 
 // DuplicateDiagram generates a new diagram with duplicated shapes
