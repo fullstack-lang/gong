@@ -3,6 +3,7 @@ package probe
 
 import (
 	"fmt"
+	"sort"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
@@ -62,12 +63,19 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 	}
 
 	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onSortingEditon.probe.stageOfInterest)
-	instanceSlice := make([]FieldType, 0)
+	instances := make([]FieldType, 0)
 	for instance := range instanceSet {
-		instanceSlice = append(instanceSlice, instance)
+		instances = append(instances, instance)
 	}
+	sort.Slice(instances[:], func(i, j int) bool {
+		instancei := instances[i]
+		instancej := instances[j]
+		instancei_order := models.GetOrderPointerGongstruct(onSortingEditon.probe.stageOfInterest, instancei)
+		instnacej_order := models.GetOrderPointerGongstruct(onSortingEditon.probe.stageOfInterest, instancej)
+		return instancei_order < instnacej_order
+	})
 	map_RowID_instance := make(map[*gongtable_models.Row]FieldType)
-	for instance := range instanceSet {
+	for _, instance := range instances {
 		row := new(gongtable_models.Row).Stage(tableStageForSelection)
 		row.Name = instance.GetName()
 		map_RowID_instance[row] = instance
