@@ -280,9 +280,16 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
           // --- DEBUGGING END ---
 
           // Build the new `Rows` array by iterating through the ordered IDs.
-          const orderedRows: table.Row[] = sliceOfIDs
-            .map(id => rowMapByID.get(id)) // Look up the row for each ID (as a number)
-            .filter((row): row is table.Row => row !== undefined) // Filter out any IDs that didn't have a matching row
+          const orderedRows: table.Row[] = [] // 1. Create an empty array
+
+          for (const id of sliceOfIDs) { // 2. Loop through each ID
+            const row = rowMapByID.get(id) // 3. Look up the row in the map
+
+            // 4. If the row exists, add it to our new array
+            if (row !== undefined) {
+              orderedRows.push(row)
+            }
+          }
 
           // --- DEBUGGING START ---
           // Step 3: Check the final result.
@@ -449,7 +456,7 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
       // which is assumed to be in the first cell as an integer (CellInt).
       const newOrderedIDs: number[] = this.selectedTable.Rows
         .map(row => {
-            return row.ID - 1
+          return row.ID - 1
         })
         .filter((id): id is number => id !== null) // Filter out any nulls to get a clean number array
 
