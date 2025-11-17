@@ -20,19 +20,21 @@ func TestStageCount(t *testing.T) {
 	stack := test_stack.NewStack(r, "test", "", "", "", true, true)
 	stage := stack.Stage
 
-	bclass1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
+	b1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
+	b2 := (&models.Bstruct{Name: "B2"}).Stage(stage)
 
-	aclass1 := (&models.Astruct{
+	a1 := (&models.Astruct{
 		Name:                "A1",
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
-		Associationtob:      bclass1,
+		Associationtob:      b1,
 		Anarrayofb: []*models.Bstruct{
-			bclass1,
+			b1,
+			b2,
 		},
 	})
-	_ = aclass1
+	_ = a1
 
 	// empty stage
 	want := 0
@@ -42,36 +44,40 @@ func TestStageCount(t *testing.T) {
 	}
 
 	// stage one instance
-	aclass1.Stage(stage)
+	a1.Stage(stage)
+	a2 := (&models.Astruct{
+		Name: "A2",
+	}).Stage(stage)
+	_ = a2
 
-	want = 1
+	want = 2
 	got = len(stage.Astructs)
 	if got != want {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
 	// stage it again
-	aclass1.Stage(stage)
+	a1.Stage(stage)
 
-	want = 1
+	want = 2
 	got = len(stage.Astructs)
 	if got != want {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
 	// unstage it
-	aclass1.Unstage(stage)
+	a1.Unstage(stage)
 
-	want = 0
+	want = 1
 	got = len(stage.Astructs)
 	if got != want {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
 	// stage it again
-	aclass1.Stage(stage)
+	a1.Stage(stage)
 
-	want = 1
+	want = 2
 	got = len(stage.Astructs)
 	if got != want {
 		t.Fatal("Wanted ", want, "got", got)
