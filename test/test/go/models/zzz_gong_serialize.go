@@ -226,18 +226,31 @@ func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage
 
 	line := 1
 
+	// 1. Add the "ID" header at the first column (A)
+	f.SetCellStr(sheetName, "A1", "ID")
+
 	for index, fieldName := range GetFieldsFromPointer[Type]() {
-		f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
+		// 2. Shift existing field headers to start from column B (index+2)
+		f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldName)
 	}
+
+	// AutoFilter starting from A1
 	f.AutoFilter(sheetName,
 		fmt.Sprintf("%s%d", IntToLetters(int32(1)), line),
 		[]excelize.AutoFilterOptions{})
 
 	for _, instance := range sortedSlice {
 		line = line + 1
+
+		// 3. Add the ID value in column A
+		// We use type assertion to check if the instance implements GetID()
+		id := GetOrderPointerGongstruct[Type](stage, instance)
+		f.SetCellInt(sheetName, fmt.Sprintf("A%d", line), int64(id))
+
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
 			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName)
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
+			// 4. Shift the data fields to start from column B (index+2)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldStringValue.GetValueString())
 		}
 	}
 
