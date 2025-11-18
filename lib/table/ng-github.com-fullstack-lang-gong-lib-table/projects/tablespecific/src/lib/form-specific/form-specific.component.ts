@@ -176,11 +176,11 @@ export class FormSpecificComponent {
                 generatedFormGroupConfig[uniqueFormControlName] = [timeStr, Validators.required]
               }
               if (formField.FormFieldSelect) {
-                
+
                 if (formField.FormFieldSelect.PreserveInitialOrder == false) {
                   formField.FormFieldSelect.Options.sort((a, b) => a.Name.localeCompare(b.Name))
                 }
-                
+
                 if (formField.FormFieldSelect.CanBeEmpty) {
                   generatedFormGroupConfig[uniqueFormControlName] = [formField.FormFieldSelect.Value?.Name, []]
                 } else {
@@ -417,7 +417,7 @@ export class FormSpecificComponent {
                   // Extract selected IDs from result
                   let selectedIDs = new Array<number>();
                   for (let row of result) {
-                    selectedIDs.push(row.ID-1);
+                    selectedIDs.push(row.ID - 1);
                   }
 
                   if (this.currentFormEditAssocButton) {
@@ -530,13 +530,12 @@ export class FormSpecificComponent {
           return
         }
         this.selectedFormGroup.HasSuppressButtonBeenPressed = true
-        // #651 do not generate an update of the group !
-        // this.formGroupService.updateFront(
-        //   this.selectedFormGroup, this.Name).subscribe(
-        //     () => {
+        this.formGroupService.updateFront(
+          this.selectedFormGroup, this.Name).subscribe(
+            () => {
 
-        //     }
-        //   )
+            }
+          )
       }
     });
   }
