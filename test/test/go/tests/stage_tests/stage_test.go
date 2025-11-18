@@ -1,13 +1,11 @@
 package stage_test
 
 import (
-	"log"
 	"testing"
 
 	models "github.com/fullstack-lang/gong/test/test/go/models"
 	test_stack "github.com/fullstack-lang/gong/test/test/go/stack"
 	test_static "github.com/fullstack-lang/gong/test/test/go/static"
-	"github.com/xuri/excelize/v2"
 )
 
 // TestStageCount
@@ -83,16 +81,5 @@ func TestStageCount(t *testing.T) {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
-	f := excelize.NewFile()
-	defer func() {
-		if err := f.Close(); err != nil {
-			log.Println(err)
-		}
-	}()
-
-	models.SerializeExcelizePointerToGongstruct[*models.Astruct](stage, f)
-
-	if err := f.SaveAs("Astructs.xlsx"); err != nil {
-		log.Fatal(err)
-	}
+	models.SerializeStage(stage, "test.xlsx")
 }

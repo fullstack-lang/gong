@@ -244,7 +244,7 @@ func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage
 
 		// 3. Add the ID value in column A
 		// We use type assertion to check if the instance implements GetID()
-		id := GetOrderPointerGongstruct[Type](stage, instance)
+		id := GetOrderPointerGongstruct(stage, instance)
 		f.SetCellInt(sheetName, fmt.Sprintf("A%d", line), int64(id))
 
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
