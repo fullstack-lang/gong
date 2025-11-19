@@ -22,6 +22,7 @@ export class FormEditAssocButton {
 	IsForSavePurpose: boolean = false
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
+	MatTooltipShowDelay: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -43,6 +44,7 @@ export function CopyFormEditAssocButtonToFormEditAssocButtonAPI(formeditassocbut
 	formeditassocbuttonAPI.IsForSavePurpose = formeditassocbutton.IsForSavePurpose
 	formeditassocbuttonAPI.HasToolTip = formeditassocbutton.HasToolTip
 	formeditassocbuttonAPI.ToolTipText = formeditassocbutton.ToolTipText
+	formeditassocbuttonAPI.MatTooltipShowDelay = formeditassocbutton.MatTooltipShowDelay
 
 	// insertion point for pointer fields encoding
 
@@ -67,6 +69,7 @@ export function CopyFormEditAssocButtonAPIToFormEditAssocButton(formeditassocbut
 	formeditassocbutton.IsForSavePurpose = formeditassocbuttonAPI.IsForSavePurpose
 	formeditassocbutton.HasToolTip = formeditassocbuttonAPI.HasToolTip
 	formeditassocbutton.ToolTipText = formeditassocbuttonAPI.ToolTipText
+	formeditassocbutton.MatTooltipShowDelay = formeditassocbuttonAPI.MatTooltipShowDelay
 
 	// insertion point for pointer fields encoding
 

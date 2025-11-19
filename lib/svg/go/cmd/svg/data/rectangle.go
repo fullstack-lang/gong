@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-11 20:04:57.880985 CET"
-	const __write__utc_time__ = "2025-11-11 19:04:57.880985 UTC"
+	const __write__local_time = "2025-11-19 22:42:02.877193 CET"
+	const __write__utc_time__ = "2025-11-19 21:42:02.877193 UTC"
 
-	const __commitId__ = "0000000080"
+	const __commitId__ = "0000000081"
 
 	// Declaration of instances to stage
 

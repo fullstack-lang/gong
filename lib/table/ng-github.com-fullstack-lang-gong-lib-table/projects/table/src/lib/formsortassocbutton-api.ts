@@ -15,6 +15,7 @@ export class FormSortAssocButtonAPI {
 	Label: string = ""
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
+	MatTooltipShowDelay: string = ""
 
 	// insertion point for other decls
 
