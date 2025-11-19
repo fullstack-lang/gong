@@ -327,6 +327,7 @@
             }
             @let segments = link | linkSegments: map_Link_Segment;
             @if(segments) {
+              <!-- draw segments -->
               @if(!link.IsBezierCurve || svg.IsEditable) {
                 <g>
                   @for(segment of segments; track segment.Number; let i = $index) {
@@ -357,6 +358,7 @@
                   }
                 </g>
               }
+              <!-- draw link anchored links, text, arrows path  -->
               @for(segment of segments; track segment.Number) {
                 @if(!link.IsBezierCurve) {
                 
@@ -419,7 +421,7 @@
                         }
                       </text>
                     } @else {
-                      <text class="noevents-area"
+                      <text class="click-through"
                         [attr.x]="segment.EndPoint.X" 
                         [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
                         [attr.font-weight]="text.FontWeight"
@@ -487,7 +489,7 @@
                         }
                       </text>
                     } @else {
-                      <text class="noevents-area"
+                      <text class="click-through"
                         [attr.x]="segment.StartPoint.X" 
                         [attr.y]="segment.StartPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_START)" 
                         [attr.font-weight]="text.FontWeight"
@@ -680,7 +682,7 @@
 
 <ng-template #anchoredText let-text="text" let-anchorX="anchorX" let-anchorY="anchorY">
     @let lines = splitTextIntoLines(text.Content);
-    <svg:text class="anchored-text click-through"
+    <svg:text class="click-through"
       [attr.x]="anchorX" 
       [attr.y]="anchorY" 
       [attr.fill]="text.Color"    
