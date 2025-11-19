@@ -1,15 +1,16 @@
 <as-split direction="vertical">
     @for (group of layout?.Groups; track group) {
-        <as-split-area [size]="group.Percentage">
-            <p>{{group.Name}}</p>
+    <as-split-area [size]="group.Percentage">
+        <p>{{group.Name}}</p>
+        
+        <div class="button-grid">
             @for (button of group.Buttons; track button) {
-              <button
-              color="primary"
-              (click)="onClick(button)"
-              >
-              <mat-icon>{{button.Icon}}</mat-icon>{{button.Label}}
-      </button>
+            <button color="primary" (click)="onClick(button)">
+                <mat-icon>{{button.Icon}}</mat-icon>{{button.Label}}
+            </button>
             }
-        </as-split-area>
-      }
-  </as-split>
+        </div>
+
+    </as-split-area>
+    }
+</as-split>

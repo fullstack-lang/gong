@@ -21,9 +21,18 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-11-19 23:26:26.281905 CET"
+	const __write__utc_time__ = "2025-11-19 22:26:26.281905 UTC"
+
+	const __commitId__ = "0000000011"
+
 	// Declaration of instances to stage
 
 	__Button__000000_One := (&models.Button{}).Stage(stage)
+	__Button__000001_Two := (&models.Button{}).Stage(stage)
+	__Button__000002_Three := (&models.Button{}).Stage(stage)
+	__Button__000003_Four := (&models.Button{}).Stage(stage)
+	__Button__000004_Five := (&models.Button{}).Stage(stage)
 
 	__Group__000000_group := (&models.Group{}).Stage(stage)
 
@@ -35,6 +44,22 @@ func _(stage *models.Stage) {
 	__Button__000000_One.Label = `One`
 	__Button__000000_One.Icon = `draw`
 
+	__Button__000001_Two.Name = `Two`
+	__Button__000001_Two.Label = `Two`
+	__Button__000001_Two.Icon = `add`
+
+	__Button__000002_Three.Name = `Three`
+	__Button__000002_Three.Label = `Three`
+	__Button__000002_Three.Icon = `add_box`
+
+	__Button__000003_Four.Name = `Four`
+	__Button__000003_Four.Label = `Four`
+	__Button__000003_Four.Icon = ``
+
+	__Button__000004_Five.Name = `Five`
+	__Button__000004_Five.Label = `Five`
+	__Button__000004_Five.Icon = `sub`
+
 	__Group__000000_group.Name = `group`
 	__Group__000000_group.Percentage = 100.000000
 
@@ -44,6 +69,11 @@ func _(stage *models.Stage) {
 	// setup of Button instances pointers
 	// setup of Group instances pointers
 	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000000_One)
+	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000001_Two)
+	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000002_Three)
+	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000003_Four)
+	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000004_Five)
 	// setup of Layout instances pointers
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_group)
 }
+
