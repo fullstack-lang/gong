@@ -1268,6 +1268,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FormEditAssocButton[identifier].ToolTipText = fielValue
+				case "MatTooltipShowDelay":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FormEditAssocButton[identifier].MatTooltipShowDelay = fielValue
 				}
 			case "FormField":
 				switch fieldName {
@@ -1435,6 +1439,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FormSortAssocButton[identifier].ToolTipText = fielValue
+				case "MatTooltipShowDelay":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_FormSortAssocButton[identifier].MatTooltipShowDelay = fielValue
 				}
 			case "Option":
 				switch fieldName {

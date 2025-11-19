@@ -23,8 +23,9 @@ type FormEditAssocButton struct {
 	// swagger:ignore
 	OnAssocEditon FormEditAssocButtonInterface
 
-	HasToolTip  bool
-	ToolTipText string
+	HasToolTip          bool
+	ToolTipText         string
+	MatTooltipShowDelay string // "500" for 500 ms
 }
 
 // OnAfterUpdate is called when the button is pressed

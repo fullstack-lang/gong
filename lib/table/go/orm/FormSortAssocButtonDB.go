@@ -77,6 +77,9 @@ type FormSortAssocButtonDB struct {
 	// Declation for basic field formsortassocbuttonDB.ToolTipText
 	ToolTipText_Data sql.NullString
 
+	// Declation for basic field formsortassocbuttonDB.MatTooltipShowDelay
+	MatTooltipShowDelay_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	FormSortAssocButtonPointersEncoding
@@ -106,6 +109,8 @@ type FormSortAssocButtonWOP struct {
 	HasToolTip bool `xlsx:"3"`
 
 	ToolTipText string `xlsx:"4"`
+
+	MatTooltipShowDelay string `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -116,6 +121,7 @@ var FormSortAssocButton_Fields = []string{
 	"Label",
 	"HasToolTip",
 	"ToolTipText",
+	"MatTooltipShowDelay",
 }
 
 type BackRepoFormSortAssocButtonStruct struct {
@@ -437,6 +443,9 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
 	formsortassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.String = formsortassocbutton.MatTooltipShowDelay
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormSortAssocButton_WOP
@@ -454,6 +463,9 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
 	formsortassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.String = formsortassocbutton.MatTooltipShowDelay
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFormSortAssocButtonWOP
@@ -471,6 +483,9 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsFromFormSortA
 
 	formsortassocbuttonDB.ToolTipText_Data.String = formsortassocbutton.ToolTipText
 	formsortassocbuttonDB.ToolTipText_Data.Valid = true
+
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.String = formsortassocbutton.MatTooltipShowDelay
+	formsortassocbuttonDB.MatTooltipShowDelay_Data.Valid = true
 }
 
 // CopyBasicFieldsToFormSortAssocButton
@@ -480,6 +495,7 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
 	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
 	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
+	formsortassocbutton.MatTooltipShowDelay = formsortassocbuttonDB.MatTooltipShowDelay_Data.String
 }
 
 // CopyBasicFieldsToFormSortAssocButton_WOP
@@ -489,6 +505,7 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
 	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
 	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
+	formsortassocbutton.MatTooltipShowDelay = formsortassocbuttonDB.MatTooltipShowDelay_Data.String
 }
 
 // CopyBasicFieldsToFormSortAssocButtonWOP
@@ -499,6 +516,7 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) CopyBasicFieldsToFormSortAss
 	formsortassocbutton.Label = formsortassocbuttonDB.Label_Data.String
 	formsortassocbutton.HasToolTip = formsortassocbuttonDB.HasToolTip_Data.Bool
 	formsortassocbutton.ToolTipText = formsortassocbuttonDB.ToolTipText_Data.String
+	formsortassocbutton.MatTooltipShowDelay = formsortassocbuttonDB.MatTooltipShowDelay_Data.String
 }
 
 // Backup generates a json file from a slice of all FormSortAssocButtonDB instances in the backrepo
