@@ -1117,6 +1117,8 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formeditassocbutton_.HasToolTip), formDiv)
 		case "ToolTipText":
 			FormDivBasicFieldToField(&(formeditassocbutton_.ToolTipText), formDiv)
+		case "MatTooltipShowDelay":
+			FormDivBasicFieldToField(&(formeditassocbutton_.MatTooltipShowDelay), formDiv)
 		}
 	}
 
@@ -2082,6 +2084,8 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 			FormDivBasicFieldToField(&(formsortassocbutton_.HasToolTip), formDiv)
 		case "ToolTipText":
 			FormDivBasicFieldToField(&(formsortassocbutton_.ToolTipText), formDiv)
+		case "MatTooltipShowDelay":
+			FormDivBasicFieldToField(&(formsortassocbutton_.MatTooltipShowDelay), formDiv)
 		case "FormEditAssocButton":
 			FormDivSelectFieldToField(&(formsortassocbutton_.FormEditAssocButton), formsortassocbuttonFormCallback.probe.stageOfInterest, formDiv)
 		}

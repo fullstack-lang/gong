@@ -17,6 +17,7 @@ export class FormEditAssocButtonAPI {
 	IsForSavePurpose: boolean = false
 	HasToolTip: boolean = false
 	ToolTipText: string = ""
+	MatTooltipShowDelay: string = ""
 
 	// insertion point for other decls
 

@@ -74,11 +74,12 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	}
 
 	formEditAssocButton := (&form.FormEditAssocButton{
-		Name:               fieldName,
-		Label:              fieldName,
-		AssociationStorage: storage,
-		HasToolTip:         true,
-		ToolTipText:        "Edit list of the instances of " + models.GetPointerToGongstructName[FieldType]() + " associated to this field",
+		Name:                fieldName,
+		Label:               fieldName,
+		AssociationStorage:  storage,
+		HasToolTip:          true,
+		MatTooltipShowDelay: "1500",
+		ToolTipText:         "Edit list of the instances of " + models.GetPointerToGongstructName[FieldType]() + " associated to this field",
 	}).Stage(probe.formStage)
 	formDiv.FormEditAssocButton = formEditAssocButton
 	onAssocEditon := NewOnAssocEditon(instance, field, probe)
@@ -88,6 +89,7 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 		Name:                fieldName,
 		Label:               fieldName,
 		HasToolTip:          true,
+		MatTooltipShowDelay: "1500",
 		ToolTipText:         "Edit order within the list instances of " + models.GetPointerToGongstructName[FieldType]() + " associated to this field",
 		FormEditAssocButton: formEditAssocButton,
 	}).Stage(probe.formStage)

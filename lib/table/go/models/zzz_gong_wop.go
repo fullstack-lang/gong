@@ -148,6 +148,8 @@ type FormEditAssocButton_WOP struct {
 	HasToolTip bool
 
 	ToolTipText string
+
+	MatTooltipShowDelay string
 }
 
 func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
@@ -159,6 +161,7 @@ func (from *FormEditAssocButton) CopyBasicFields(to *FormEditAssocButton) {
 	to.IsForSavePurpose = from.IsForSavePurpose
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
+	to.MatTooltipShowDelay = from.MatTooltipShowDelay
 }
 
 type FormField_WOP struct {
@@ -354,6 +357,8 @@ type FormSortAssocButton_WOP struct {
 	HasToolTip bool
 
 	ToolTipText string
+
+	MatTooltipShowDelay string
 }
 
 func (from *FormSortAssocButton) CopyBasicFields(to *FormSortAssocButton) {
@@ -362,6 +367,7 @@ func (from *FormSortAssocButton) CopyBasicFields(to *FormSortAssocButton) {
 	to.Label = from.Label
 	to.HasToolTip = from.HasToolTip
 	to.ToolTipText = from.ToolTipText
+	to.MatTooltipShowDelay = from.MatTooltipShowDelay
 }
 
 type Option_WOP struct {

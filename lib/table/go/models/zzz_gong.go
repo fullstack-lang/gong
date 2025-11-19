@@ -4186,7 +4186,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "MatTooltipShowDelay"}
 	case FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case FormFieldDate:
@@ -4206,7 +4206,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "FormEditAssocButton"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "MatTooltipShowDelay", "FormEditAssocButton"}
 	case Option:
 		res = []string{"Name"}
 	case Row:
@@ -4351,7 +4351,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormDiv:
 		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText"}
+		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "MatTooltipShowDelay"}
 	case *FormField:
 		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
 	case *FormFieldDate:
@@ -4371,7 +4371,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *FormGroup:
 		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
 	case *FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "FormEditAssocButton"}
+		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "MatTooltipShowDelay", "FormEditAssocButton"}
 	case *Option:
 		res = []string{"Name"}
 	case *Row:
@@ -4564,6 +4564,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "MatTooltipShowDelay":
+			res.valueString = inferedInstance.MatTooltipShowDelay
 		}
 	case *FormField:
 		switch fieldName {
@@ -4775,6 +4777,8 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "MatTooltipShowDelay":
+			res.valueString = inferedInstance.MatTooltipShowDelay
 		case "FormEditAssocButton":
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
@@ -5016,6 +5020,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "MatTooltipShowDelay":
+			res.valueString = inferedInstance.MatTooltipShowDelay
 		}
 	case FormField:
 		switch fieldName {
@@ -5227,6 +5233,8 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
+		case "MatTooltipShowDelay":
+			res.valueString = inferedInstance.MatTooltipShowDelay
 		case "FormEditAssocButton":
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
