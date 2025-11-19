@@ -11,8 +11,9 @@ type FormSortAssocButton struct {
 	// swagger:ignore
 	OnSortEdition FormSortAssocButtonInterface
 
-	HasToolTip  bool
-	ToolTipText string
+	HasToolTip          bool
+	ToolTipText         string
+	MatTooltipShowDelay string // "500" for 500 ms
 
 	// The link is to allows for the access to the
 	// association storage
