@@ -1,12 +1,30 @@
+/* projects/buttonspecific/src/lib/button-specific/button-specific.component.css */
+
 /* New Grid Container Class */
 .button-grid {
     display: grid;
-    /* This creates 4 equal-width columns */
-    grid-template-columns: repeat(4, 1fr); 
+    /* grid-template-columns is now handled in HTML for dynamic values */
+    
     /* Optional: Define a fixed row height if you want strictly uniform rows */
     grid-auto-rows: minmax(50px, auto); 
     gap: 10px; /* Space between buttons */
+    
+    /* Requirement 2: Adjusted padding. 
+       Top padding is 10px. combined with header margin-bottom of 0, 
+       the space between text and button is 10px (same as gap). */
     padding: 10px;
+}
+
+/* Requirement 3: Aesthetic/Sober Group Name */
+.group-header {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #606060;       /* Sober dark grey */
+    margin: 0;            /* Reset browser defaults */
+    padding: 10px 10px 0 10px; /* Align left/right with grid, provide top space */
+    text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
+    letter-spacing: 0.5px;
 }
 
 /* Updated Button Styles */

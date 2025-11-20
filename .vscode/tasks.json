@@ -457,11 +457,11 @@
       "group": "build",
       "problemMatcher": []
     },
-    {
-      "label": "03 - ng serve doc ",
+        {
+      "label": "03 - ng serve button",
       "type": "shell",
       "options": {
-        "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
+        "cwd": "lib/button/ng-github.com-fullstack-lang-gong-lib-button"
       },
       "command": "ng",
       "group": "build",
@@ -725,6 +725,21 @@
         "main.go",
         "-unmarshallFromCode",
         "stage.go",
+      ],
+      "group": "build"
+    },
+        {
+      "label": "04 - go run button",
+      "type": "shell",
+      "options": {
+        "cwd": "./lib/button/go/cmd/button"
+      },
+      "command": "go",
+      "args": [
+        "run",
+        ".",
+        "-unmarshallFromCode=data/stage.go",
+        "-marshallOnCommit=data/stage"
       ],
       "group": "build"
     },

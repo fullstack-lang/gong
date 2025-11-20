@@ -32,12 +32,15 @@ type Group_WOP struct {
 	Name string
 
 	Percentage float64
+
+	NbColumns int
 }
 
 func (from *Group) CopyBasicFields(to *Group) {
 	// insertion point
 	to.Name = from.Name
 	to.Percentage = from.Percentage
+	to.NbColumns = from.NbColumns
 }
 
 type Layout_WOP struct {
