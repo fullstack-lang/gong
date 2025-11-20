@@ -291,7 +291,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *AttributeShape:
 		tmp := GetStructInstancesByOrder(stage.AttributeShapes, stage.AttributeShapeMap_Staged_Order)
 
@@ -448,7 +448,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-		// insertion point for case
+	// insertion point for case
 	case "AttributeShape":
 		res = GetNamedStructInstances(stage.AttributeShapes, stage.AttributeShapeMap_Staged_Order)
 	case "Classdiagram":
@@ -2071,18 +2071,23 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
 
 type GongFieldValue struct {
-	valueString string
 	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -2101,7 +2106,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2129,25 +2134,34 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueBool = inferedInstance.IsIncludedInStaticWebSite
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "GongStructShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongStructShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "GongEnumShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongEnumShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "GongNoteShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongNoteShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "ShowNbInstances":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
@@ -2198,15 +2212,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "GongModelPath":
 			res.valueString = inferedInstance.GongModelPath
 		case "Classdiagrams":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Classdiagrams {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "SelectedClassdiagram":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.SelectedClassdiagram != nil {
 				res.valueString = inferedInstance.SelectedClassdiagram.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.SelectedClassdiagram))
 			}
 		case "AbsolutePathToDiagramPackage":
 			res.valueString = inferedInstance.AbsolutePathToDiagramPackage
@@ -2225,11 +2244,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "GongEnumValueShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Width":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
@@ -2293,11 +2315,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueBool = inferedInstance.Matched
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "GongNoteLinkShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongNoteLinkShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "IsExpanded":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
@@ -2318,18 +2343,24 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "AttributeShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.AttributeShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "LinkShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.LinkShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Width":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
@@ -2412,7 +2443,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2440,25 +2471,34 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueBool = inferedInstance.IsIncludedInStaticWebSite
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "GongStructShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongStructShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "GongEnumShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongEnumShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "GongNoteShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongNoteShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "ShowNbInstances":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.ShowNbInstances)
@@ -2509,15 +2549,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "GongModelPath":
 			res.valueString = inferedInstance.GongModelPath
 		case "Classdiagrams":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Classdiagrams {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "SelectedClassdiagram":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.SelectedClassdiagram != nil {
 				res.valueString = inferedInstance.SelectedClassdiagram.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.SelectedClassdiagram))
 			}
 		case "AbsolutePathToDiagramPackage":
 			res.valueString = inferedInstance.AbsolutePathToDiagramPackage
@@ -2536,11 +2581,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "GongEnumValueShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongEnumValueShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Width":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
@@ -2604,11 +2652,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueBool = inferedInstance.Matched
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "GongNoteLinkShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GongNoteLinkShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "IsExpanded":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsExpanded)
@@ -2629,18 +2680,24 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueFloat = inferedInstance.Y
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "AttributeShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.AttributeShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "LinkShapes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.LinkShapes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Width":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Width)
