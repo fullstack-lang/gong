@@ -1026,7 +1026,7 @@ func GetFields[Type Gongstruct]() (res []string) {
 	case Button:
 		res = []string{"Name", "Label", "Icon"}
 	case Group:
-		res = []string{"Name", "Percentage", "Buttons"}
+		res = []string{"Name", "Percentage", "Buttons", "NbColumns"}
 	case Layout:
 		res = []string{"Name", "Groups"}
 	}
@@ -1076,7 +1076,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 	case *Button:
 		res = []string{"Name", "Label", "Icon"}
 	case *Group:
-		res = []string{"Name", "Percentage", "Buttons"}
+		res = []string{"Name", "Percentage", "Buttons", "NbColumns"}
 	case *Layout:
 		res = []string{"Name", "Groups"}
 	}
@@ -1146,6 +1146,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 				}
 				res.valueString += __instance__.Name
 			}
+		case "NbColumns":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.NbColumns)
+			res.valueInt = inferedInstance.NbColumns
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case *Layout:
 		switch fieldName {
@@ -1196,6 +1200,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				}
 				res.valueString += __instance__.Name
 			}
+		case "NbColumns":
+			res.valueString = fmt.Sprintf("%d", inferedInstance.NbColumns)
+			res.valueInt = inferedInstance.NbColumns
+			res.GongFieldValueType = GongFieldValueTypeInt
 		}
 	case Layout:
 		switch fieldName {

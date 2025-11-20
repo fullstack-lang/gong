@@ -13,6 +13,7 @@ export class GroupAPI {
 	// insertion point for basic fields declarations
 	Name: string = ""
 	Percentage: number = 0
+	NbColumns: number = 0
 
 	// insertion point for other decls
 

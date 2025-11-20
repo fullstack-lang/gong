@@ -10,6 +10,7 @@ type Group struct {
 	Name       string
 	Percentage float64
 	Buttons    []*Button
+	NbColumns  int
 }
 
 // for instance is minor / is major
