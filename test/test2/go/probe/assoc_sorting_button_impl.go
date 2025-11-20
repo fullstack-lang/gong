@@ -99,7 +99,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
 			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
-			value := models.GetFieldStringValueFromPointer(instance, fieldName)
+			value := models.GetFieldStringValueFromPointer(instance, fieldName, onSortingEditon.probe.stageOfInterest)
 			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
 			cell.CellString = cellString

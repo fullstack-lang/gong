@@ -750,6 +750,17 @@
             ]
         },
         {
+            "name": "Debug TestStageCount",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/test/test/go/tests/stage_tests",
+            "args": [
+                "-test.run",
+                "^TestStageCount$"
+            ]
+        },
+        {
             "name": "Launch Chrome (test) on 4200",
             "request": "launch",
             "type": "chrome",
