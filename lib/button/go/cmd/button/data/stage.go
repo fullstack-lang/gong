@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-20 05:25:01.802601 CET"
-	const __write__utc_time__ = "2025-11-20 04:25:01.802601 UTC"
+	const __write__local_time = "2025-11-20 05:31:16.930636 CET"
+	const __write__utc_time__ = "2025-11-20 04:31:16.930636 UTC"
 
-	const __commitId__ = "0000000014"
+	const __commitId__ = "0000000023"
 
 	// Declaration of instances to stage
 
@@ -33,8 +33,10 @@ func _(stage *models.Stage) {
 	__Button__000002_Three := (&models.Button{}).Stage(stage)
 	__Button__000003_Four := (&models.Button{}).Stage(stage)
 	__Button__000004_Five := (&models.Button{}).Stage(stage)
+	__Button__000005_Un := (&models.Button{}).Stage(stage)
 
-	__Group__000000_group := (&models.Group{}).Stage(stage)
+	__Group__000000_Group_1 := (&models.Group{}).Stage(stage)
+	__Group__000001_ := (&models.Group{}).Stage(stage)
 
 	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
 
@@ -60,21 +62,31 @@ func _(stage *models.Stage) {
 	__Button__000004_Five.Label = `Five`
 	__Button__000004_Five.Icon = `sub`
 
-	__Group__000000_group.Name = `group`
-	__Group__000000_group.Percentage = 100.000000
-	__Group__000000_group.NbColumns = 6
+	__Button__000005_Un.Name = `Un`
+	__Button__000005_Un.Label = `Un`
+	__Button__000005_Un.Icon = `hour`
+
+	__Group__000000_Group_1.Name = `Group 1`
+	__Group__000000_Group_1.Percentage = 50.000000
+	__Group__000000_Group_1.NbColumns = 6
+
+	__Group__000001_.Name = ``
+	__Group__000001_.Percentage = 50.000000
+	__Group__000001_.NbColumns = 5
 
 	__Layout__000000_layout.Name = `layout`
 
 	// Setup of pointers
 	// setup of Button instances pointers
 	// setup of Group instances pointers
-	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000000_One)
-	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000001_Two)
-	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000002_Three)
-	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000003_Four)
-	__Group__000000_group.Buttons = append(__Group__000000_group.Buttons, __Button__000004_Five)
+	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000000_One)
+	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000001_Two)
+	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000002_Three)
+	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000003_Four)
+	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000004_Five)
+	__Group__000001_.Buttons = append(__Group__000001_.Buttons, __Button__000005_Un)
 	// setup of Layout instances pointers
-	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_group)
+	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
+	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_)
 }
 
