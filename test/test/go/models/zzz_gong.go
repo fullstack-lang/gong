@@ -596,7 +596,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	case *AstructBstructUse:
 		return stage.AstructBstructUseMap_Staged_Order[instance]
 	case *Bstruct:
-		log.Println("B", instance.Name, stage.BstructMap_Staged_Order[instance])
 		return stage.BstructMap_Staged_Order[instance]
 	case *Dstruct:
 		return stage.DstructMap_Staged_Order[instance]
@@ -2038,11 +2037,12 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				}
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-
 			}
 		case "Anotherassociationtob_2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Anotherassociationtob_2 != nil {
 				res.valueString = inferedInstance.Anotherassociationtob_2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Anotherassociationtob_2))
 			}
 		case "Date":
 			res.valueString = inferedInstance.Date.String()
@@ -2071,35 +2071,50 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 			res.valueFloat = inferedInstance.CFloatfield
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Bstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct != nil {
 				res.valueString = inferedInstance.Bstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct))
 			}
 		case "Bstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct2 != nil {
 				res.valueString = inferedInstance.Bstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct2))
 			}
 		case "Dstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct != nil {
 				res.valueString = inferedInstance.Dstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct))
 			}
 		case "Dstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct2 != nil {
 				res.valueString = inferedInstance.Dstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct2))
 			}
 		case "Dstruct3":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct3 != nil {
 				res.valueString = inferedInstance.Dstruct3.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct3))
 			}
 		case "Dstruct4":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct4 != nil {
 				res.valueString = inferedInstance.Dstruct4.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct4))
 			}
 		case "Dstruct4s":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Dstruct4s {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
@@ -2155,36 +2170,50 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString = fmt.Sprintf("%s\n", inferedInstance.Duration1.String())
 			}
 		case "Anarrayofa":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofa {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Anotherarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "AnarrayofbUse":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.AnarrayofbUse {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Anarrayofb2Use":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb2Use {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "AnAstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.AnAstruct != nil {
 				res.valueString = inferedInstance.AnAstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.AnAstruct))
 			}
 		case "TextFieldBespokeSize":
 			res.valueString = inferedInstance.TextFieldBespokeSize
@@ -2197,8 +2226,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Bstrcut2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstrcut2 != nil {
 				res.valueString = inferedInstance.Bstrcut2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstrcut2))
 			}
 		}
 	case *AstructBstructUse:
@@ -2207,8 +2238,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Bstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct2 != nil {
 				res.valueString = inferedInstance.Bstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct2))
 			}
 		}
 	case *Bstruct:
@@ -2235,22 +2268,30 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Anarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Gstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Gstruct != nil {
 				res.valueString = inferedInstance.Gstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Gstruct))
 			}
 		case "Gstructs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Gstructs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case *F0123456789012345678901234567890:
@@ -2285,7 +2326,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2295,19 +2336,26 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Associationtob":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Associationtob != nil {
 				res.valueString = inferedInstance.Associationtob.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Associationtob))
 			}
 		case "Anarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Anotherassociationtob_2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Anotherassociationtob_2 != nil {
 				res.valueString = inferedInstance.Anotherassociationtob_2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Anotherassociationtob_2))
 			}
 		case "Date":
 			res.valueString = inferedInstance.Date.String()
@@ -2336,35 +2384,50 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueFloat = inferedInstance.CFloatfield
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Bstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct != nil {
 				res.valueString = inferedInstance.Bstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct))
 			}
 		case "Bstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct2 != nil {
 				res.valueString = inferedInstance.Bstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct2))
 			}
 		case "Dstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct != nil {
 				res.valueString = inferedInstance.Dstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct))
 			}
 		case "Dstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct2 != nil {
 				res.valueString = inferedInstance.Dstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct2))
 			}
 		case "Dstruct3":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct3 != nil {
 				res.valueString = inferedInstance.Dstruct3.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct3))
 			}
 		case "Dstruct4":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Dstruct4 != nil {
 				res.valueString = inferedInstance.Dstruct4.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Dstruct4))
 			}
 		case "Dstruct4s":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Dstruct4s {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Floatfield":
 			res.valueString = fmt.Sprintf("%f", inferedInstance.Floatfield)
@@ -2420,36 +2483,50 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 				res.valueString = fmt.Sprintf("%s\n", inferedInstance.Duration1.String())
 			}
 		case "Anarrayofa":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofa {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Anotherarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anotherarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "AnarrayofbUse":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.AnarrayofbUse {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Anarrayofb2Use":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb2Use {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "AnAstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.AnAstruct != nil {
 				res.valueString = inferedInstance.AnAstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.AnAstruct))
 			}
 		case "TextFieldBespokeSize":
 			res.valueString = inferedInstance.TextFieldBespokeSize
@@ -2462,8 +2539,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Bstrcut2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstrcut2 != nil {
 				res.valueString = inferedInstance.Bstrcut2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstrcut2))
 			}
 		}
 	case AstructBstructUse:
@@ -2472,8 +2551,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Bstruct2":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Bstruct2 != nil {
 				res.valueString = inferedInstance.Bstruct2.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Bstruct2))
 			}
 		}
 	case Bstruct:
@@ -2500,22 +2581,30 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Anarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Gstruct":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Gstruct != nil {
 				res.valueString = inferedInstance.Gstruct.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Gstruct))
 			}
 		case "Gstructs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Gstructs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case F0123456789012345678901234567890:
