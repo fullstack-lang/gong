@@ -12,33 +12,36 @@ import (
 )
 
 func SerializeStage(stage *Stage, filename string) {
+	SerializeStage2(stage, filename, false)
+}
+func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct[*Cell](stage, f)
-		SerializeExcelizePointerToGongstruct[*CellBoolean](stage, f)
-		SerializeExcelizePointerToGongstruct[*CellFloat64](stage, f)
-		SerializeExcelizePointerToGongstruct[*CellIcon](stage, f)
-		SerializeExcelizePointerToGongstruct[*CellInt](stage, f)
-		SerializeExcelizePointerToGongstruct[*CellString](stage, f)
-		SerializeExcelizePointerToGongstruct[*CheckBox](stage, f)
-		SerializeExcelizePointerToGongstruct[*DisplayedColumn](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormDiv](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormEditAssocButton](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormField](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldDate](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldDateTime](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldFloat64](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldInt](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldSelect](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldString](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormFieldTime](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormGroup](stage, f)
-		SerializeExcelizePointerToGongstruct[*FormSortAssocButton](stage, f)
-		SerializeExcelizePointerToGongstruct[*Option](stage, f)
-		SerializeExcelizePointerToGongstruct[*Row](stage, f)
-		SerializeExcelizePointerToGongstruct[*Table](stage, f)
+		SerializeExcelizePointerToGongstruct2[*Cell](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CellBoolean](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CellFloat64](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CellIcon](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CellInt](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CellString](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*CheckBox](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*DisplayedColumn](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormDiv](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormEditAssocButton](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormField](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldDate](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldDateTime](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldFloat64](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldInt](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldSelect](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldString](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormFieldTime](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormGroup](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*FormSortAssocButton](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Option](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Row](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Table](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
@@ -195,7 +198,7 @@ func Serialize[Type Gongstruct](stage *Stage, tab Tabulator) {
 		line := tab.AddRow(sheetName)
 		for index, fieldName := range GetFields[Type]() {
 			tab.AddCell(sheetName, line, index, GetFieldStringValue(
-				any(*instance).(Type), fieldName).valueString)
+				any(*instance).(Type), fieldName, stage).valueString)
 			// f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), GetFieldStringValue(
 			// 	any(*instance).(Type), fieldName))
 		}
@@ -223,6 +226,10 @@ func (tab *ExcelizeTabulator) AddCell(sheetName string, rowId, columnIndex int, 
 }
 
 func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage, f *excelize.File) {
+	SerializeExcelizePointerToGongstruct2[Type](stage, f, false)
+}
+
+func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stage, f *excelize.File, addIDs bool) {
 	sheetName := GetPointerToGongstructName[Type]()
 
 	sheetName = shortenString(sheetName)
@@ -242,20 +249,48 @@ func SerializeExcelizePointerToGongstruct[Type PointerToGongstruct](stage *Stage
 
 	line := 1
 
+	// 1. Add the "ID" header at the first column (A)
+	f.SetCellStr(sheetName, "A1", "ID")
+
 	for index, fieldName := range GetFieldsFromPointer[Type]() {
-		f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
+		// 2. Shift existing field headers to start from column B (index+2)
+		if !addIDs {
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldName)
+		} else {
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+3)), line), fieldName+":ID")
+		}
 	}
+
+	// AutoFilter starting from A1
 	f.AutoFilter(sheetName,
 		fmt.Sprintf("%s%d", IntToLetters(int32(1)), line),
 		[]excelize.AutoFilterOptions{})
 
 	for _, instance := range sortedSlice {
 		line = line + 1
+
+		// 3. Add the ID value in column A
+		// We use type assertion to check if the instance implements GetID()
+		id := GetOrderPointerGongstruct(stage, instance)
+		f.SetCellInt(sheetName, fmt.Sprintf("A%d", line), int64(id))
+
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
-			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName)
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
+			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName, stage)
+			// 4. Shift the data fields to start from column B (index+2)
+			if !addIDs {
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldStringValue.GetValueString())
+			} else {
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldStringValue.GetValueString())
+				switch fieldStringValue.GongFieldValueType {
+				case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
+					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+3)), line), fieldStringValue.ids)
+				}
+
+			}
 		}
 	}
+
 
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
@@ -299,7 +334,7 @@ func SerializeExcelize[Type Gongstruct](stage *Stage, f *excelize.File) {
 	for instance := range set {
 		line = line + 1
 		for index, fieldName := range GetFields[Type]() {
-			fieldStringValue := GetFieldStringValue(any(*instance).(Type), fieldName)
+			fieldStringValue := GetFieldStringValue(any(*instance).(Type), fieldName, stage)
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
 		}
 	}
