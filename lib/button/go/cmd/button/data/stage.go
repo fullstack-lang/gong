@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-20 05:31:16.930636 CET"
-	const __write__utc_time__ = "2025-11-20 04:31:16.930636 UTC"
+	const __write__local_time = "2025-11-20 05:41:56.599777 CET"
+	const __write__utc_time__ = "2025-11-20 04:41:56.599777 UTC"
 
-	const __commitId__ = "0000000023"
+	const __commitId__ = "0000000027"
 
 	// Declaration of instances to stage
 
@@ -60,7 +60,7 @@ func _(stage *models.Stage) {
 
 	__Button__000004_Five.Name = `Five`
 	__Button__000004_Five.Label = `Five`
-	__Button__000004_Five.Icon = `sub`
+	__Button__000004_Five.Icon = ``
 
 	__Button__000005_Un.Name = `Un`
 	__Button__000005_Un.Label = `Un`
@@ -68,7 +68,7 @@ func _(stage *models.Stage) {
 
 	__Group__000000_Group_1.Name = `Group 1`
 	__Group__000000_Group_1.Percentage = 50.000000
-	__Group__000000_Group_1.NbColumns = 6
+	__Group__000000_Group_1.NbColumns = 15
 
 	__Group__000001_.Name = ``
 	__Group__000001_.Percentage = 50.000000
