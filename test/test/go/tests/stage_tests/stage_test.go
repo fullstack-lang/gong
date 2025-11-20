@@ -81,6 +81,6 @@ func TestStageCount(t *testing.T) {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
-	models.SerializeStage(stage, "test.xlsx")
+	// models.SerializeStage(stage, "test.xlsx")
 	models.SerializeStage2(stage, "test_withIDs.xlsx", true)
 }

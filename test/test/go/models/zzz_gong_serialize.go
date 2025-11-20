@@ -182,7 +182,7 @@ func Serialize[Type Gongstruct](stage *Stage, tab Tabulator) {
 		line := tab.AddRow(sheetName)
 		for index, fieldName := range GetFields[Type]() {
 			tab.AddCell(sheetName, line, index, GetFieldStringValue(
-				any(*instance).(Type), fieldName).valueString)
+				any(*instance).(Type), fieldName, stage).valueString)
 			// f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), GetFieldStringValue(
 			// 	any(*instance).(Type), fieldName))
 		}
@@ -275,6 +275,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 		}
 	}
 
+
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
 	if err != nil {
@@ -317,7 +318,7 @@ func SerializeExcelize[Type Gongstruct](stage *Stage, f *excelize.File) {
 	for instance := range set {
 		line = line + 1
 		for index, fieldName := range GetFields[Type]() {
-			fieldStringValue := GetFieldStringValue(any(*instance).(Type), fieldName)
+			fieldStringValue := GetFieldStringValue(any(*instance).(Type), fieldName, stage)
 			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
 		}
 	}
