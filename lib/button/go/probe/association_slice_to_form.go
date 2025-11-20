@@ -127,7 +127,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	for instance := range instanceSet {
 		instanceSlice = append(instanceSlice, instance)
 	}
-		
+
 	// we supposed that the table is ordered by ID
 	sort.Slice(instanceSlice, func(i, j int) bool {
 		idI := models.GetOrderPointerGongstruct(onAssocEditon.probe.stageOfInterest, instanceSlice[i])
@@ -182,7 +182,7 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
 			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
-			value := models.GetFieldStringValueFromPointer(instance, fieldName)
+			value := models.GetFieldStringValueFromPointer(instance, fieldName, onAssocEditon.probe.stageOfInterest)
 			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
 			cell.CellString = cellString

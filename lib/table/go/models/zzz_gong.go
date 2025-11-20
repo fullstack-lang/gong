@@ -457,7 +457,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *Cell:
 		tmp := GetStructInstancesByOrder(stage.Cells, stage.CellMap_Staged_Order)
 
@@ -810,7 +810,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-		// insertion point for case
+	// insertion point for case
 	case "Cell":
 		res = GetNamedStructInstances(stage.Cells, stage.CellMap_Staged_Order)
 	case "CellBoolean":
@@ -4385,18 +4385,23 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
 
 type GongFieldValue struct {
-	valueString string
 	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -4415,7 +4420,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -4425,24 +4430,34 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "CellString":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellString != nil {
 				res.valueString = inferedInstance.CellString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellString))
 			}
 		case "CellFloat64":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellFloat64 != nil {
 				res.valueString = inferedInstance.CellFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellFloat64))
 			}
 		case "CellInt":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellInt != nil {
 				res.valueString = inferedInstance.CellInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellInt))
 			}
 		case "CellBool":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellBool != nil {
 				res.valueString = inferedInstance.CellBool.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellBool))
 			}
 		case "CellIcon":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellIcon != nil {
 				res.valueString = inferedInstance.CellIcon.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellIcon))
 			}
 		}
 	case *CellBoolean:
@@ -4519,26 +4534,36 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "FormFields":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.FormFields {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "CheckBoxs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.CheckBoxs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "FormEditAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
 			}
 		case "FormSortAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormSortAssocButton != nil {
 				res.valueString = inferedInstance.FormSortAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormSortAssocButton))
 			}
 		}
 	case *FormEditAssocButton:
@@ -4578,32 +4603,46 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Placeholder":
 			res.valueString = inferedInstance.Placeholder
 		case "FormFieldString":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldString != nil {
 				res.valueString = inferedInstance.FormFieldString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldString))
 			}
 		case "FormFieldFloat64":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldFloat64 != nil {
 				res.valueString = inferedInstance.FormFieldFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldFloat64))
 			}
 		case "FormFieldInt":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldInt != nil {
 				res.valueString = inferedInstance.FormFieldInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldInt))
 			}
 		case "FormFieldDate":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldDate != nil {
 				res.valueString = inferedInstance.FormFieldDate.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDate))
 			}
 		case "FormFieldTime":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldTime != nil {
 				res.valueString = inferedInstance.FormFieldTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldTime))
 			}
 		case "FormFieldDateTime":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldDateTime != nil {
 				res.valueString = inferedInstance.FormFieldDateTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDateTime))
 			}
 		case "FormFieldSelect":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldSelect != nil {
 				res.valueString = inferedInstance.FormFieldSelect.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldSelect))
 			}
 		case "HasBespokeWidth":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
@@ -4696,15 +4735,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Value":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Value != nil {
 				res.valueString = inferedInstance.Value.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Value))
 			}
 		case "Options":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Options {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "CanBeEmpty":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
@@ -4747,11 +4791,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Label":
 			res.valueString = inferedInstance.Label
 		case "FormDivs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.FormDivs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasSuppressButton":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
@@ -4776,8 +4823,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
 		case "FormEditAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
 			}
 		}
 	case *Option:
@@ -4792,11 +4841,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Cells":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Cells {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "IsChecked":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
@@ -4809,18 +4861,24 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "DisplayedColumns":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.DisplayedColumns {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Rows":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Rows {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasFiltering":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasFiltering)
@@ -4867,7 +4925,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -4877,24 +4935,34 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "CellString":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellString != nil {
 				res.valueString = inferedInstance.CellString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellString))
 			}
 		case "CellFloat64":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellFloat64 != nil {
 				res.valueString = inferedInstance.CellFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellFloat64))
 			}
 		case "CellInt":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellInt != nil {
 				res.valueString = inferedInstance.CellInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellInt))
 			}
 		case "CellBool":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellBool != nil {
 				res.valueString = inferedInstance.CellBool.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellBool))
 			}
 		case "CellIcon":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.CellIcon != nil {
 				res.valueString = inferedInstance.CellIcon.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellIcon))
 			}
 		}
 	case CellBoolean:
@@ -4971,26 +5039,36 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "FormFields":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.FormFields {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "CheckBoxs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.CheckBoxs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "FormEditAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
 			}
 		case "FormSortAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormSortAssocButton != nil {
 				res.valueString = inferedInstance.FormSortAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormSortAssocButton))
 			}
 		}
 	case FormEditAssocButton:
@@ -5030,32 +5108,46 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Placeholder":
 			res.valueString = inferedInstance.Placeholder
 		case "FormFieldString":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldString != nil {
 				res.valueString = inferedInstance.FormFieldString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldString))
 			}
 		case "FormFieldFloat64":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldFloat64 != nil {
 				res.valueString = inferedInstance.FormFieldFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldFloat64))
 			}
 		case "FormFieldInt":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldInt != nil {
 				res.valueString = inferedInstance.FormFieldInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldInt))
 			}
 		case "FormFieldDate":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldDate != nil {
 				res.valueString = inferedInstance.FormFieldDate.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDate))
 			}
 		case "FormFieldTime":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldTime != nil {
 				res.valueString = inferedInstance.FormFieldTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldTime))
 			}
 		case "FormFieldDateTime":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldDateTime != nil {
 				res.valueString = inferedInstance.FormFieldDateTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDateTime))
 			}
 		case "FormFieldSelect":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormFieldSelect != nil {
 				res.valueString = inferedInstance.FormFieldSelect.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldSelect))
 			}
 		case "HasBespokeWidth":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
@@ -5148,15 +5240,20 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Value":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Value != nil {
 				res.valueString = inferedInstance.Value.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Value))
 			}
 		case "Options":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Options {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "CanBeEmpty":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
@@ -5199,11 +5296,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Label":
 			res.valueString = inferedInstance.Label
 		case "FormDivs":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.FormDivs {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasSuppressButton":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
@@ -5228,8 +5328,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "ToolTipText":
 			res.valueString = inferedInstance.ToolTipText
 		case "FormEditAssocButton":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.FormEditAssocButton != nil {
 				res.valueString = inferedInstance.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
 			}
 		}
 	case Option:
@@ -5244,11 +5346,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Cells":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Cells {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "IsChecked":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
@@ -5261,18 +5366,24 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "DisplayedColumns":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.DisplayedColumns {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Rows":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Rows {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasFiltering":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.HasFiltering)

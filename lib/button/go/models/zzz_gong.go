@@ -207,7 +207,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *Button:
 		tmp := GetStructInstancesByOrder(stage.Buttons, stage.ButtonMap_Staged_Order)
 
@@ -280,7 +280,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-		// insertion point for case
+	// insertion point for case
 	case "Button":
 		res = GetNamedStructInstances(stage.Buttons, stage.ButtonMap_Staged_Order)
 	case "Group":
@@ -1086,18 +1086,23 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
 
 type GongFieldValue struct {
-	valueString string
 	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -1116,7 +1121,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -1140,11 +1145,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueFloat = inferedInstance.Percentage
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Buttons":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Buttons {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case *Layout:
@@ -1153,11 +1161,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Groups":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Groups {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	default:
@@ -1166,7 +1177,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -1190,11 +1201,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueFloat = inferedInstance.Percentage
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Buttons":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Buttons {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case Layout:
@@ -1203,11 +1217,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Groups":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Groups {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	default:
