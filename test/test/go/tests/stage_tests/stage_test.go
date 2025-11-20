@@ -26,7 +26,7 @@ func TestStageCount(t *testing.T) {
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
-		Associationtob:      b1,
+		Associationtob:      b2,
 		Anarrayofb: []*models.Bstruct{
 			b1,
 			b2,
@@ -82,4 +82,5 @@ func TestStageCount(t *testing.T) {
 	}
 
 	models.SerializeStage(stage, "test.xlsx")
+	models.SerializeStage2(stage, "test_withIDs.xlsx", true)
 }

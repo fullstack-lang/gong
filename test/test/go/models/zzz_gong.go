@@ -267,7 +267,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *Astruct:
 		tmp := GetStructInstancesByOrder(stage.Astructs, stage.AstructMap_Staged_Order)
 
@@ -396,7 +396,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-		// insertion point for case
+	// insertion point for case
 	case "Astruct":
 		res = GetNamedStructInstances(stage.Astructs, stage.AstructMap_Staged_Order)
 	case "AstructBstruct2Use":
@@ -596,6 +596,7 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 	case *AstructBstructUse:
 		return stage.AstructBstructUseMap_Staged_Order[instance]
 	case *Bstruct:
+		log.Println("B", instance.Name, stage.BstructMap_Staged_Order[instance])
 		return stage.BstructMap_Staged_Order[instance]
 	case *Dstruct:
 		return stage.DstructMap_Staged_Order[instance]
@@ -1978,18 +1979,23 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
 
 type GongFieldValue struct {
-	valueString string
 	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -2008,7 +2014,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2018,15 +2024,21 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Associationtob":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Associationtob != nil {
 				res.valueString = inferedInstance.Associationtob.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Associationtob))
 			}
 		case "Anarrayofb":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Anarrayofb {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+
 			}
 		case "Anotherassociationtob_2":
 			if inferedInstance.Anotherassociationtob_2 != nil {
