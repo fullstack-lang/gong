@@ -120,7 +120,7 @@ func updateAndCommitTable[T models.Gongstruct](
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
 		row := new(gongtable.Row)
-		value := models.GetFieldStringValue(*structInstance, "Name")
+		value := models.GetFieldStringValue(*structInstance, "Name", probe.stageOfInterest)
 		row.Name = value.GetValueString()
 
 		updater := NewRowUpdate(structInstance, probe)
@@ -159,7 +159,7 @@ func updateAndCommitTable[T models.Gongstruct](
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
-			value := models.GetFieldStringValue(*structInstance, fieldName)
+			value := models.GetFieldStringValue(*structInstance, fieldName, probe.stageOfInterest)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
 			fieldIndex++
 			// log.Println(fieldName, value)

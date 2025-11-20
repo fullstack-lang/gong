@@ -432,16 +432,21 @@ map[GongFilePerStructSubTemplateId]string{
 			res.valueString = inferedInstance.{{FieldName}}.Format("{{TimeFormat}}")`,
 	GongFileFieldSubTmplStringValuePointerField: `
 		case "{{FieldName}}":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.{{FieldName}} != nil {
 				res.valueString = inferedInstance.{{FieldName}}.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.{{FieldName}}))
 			}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
 		case "{{FieldName}}":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.{{FieldName}} {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
