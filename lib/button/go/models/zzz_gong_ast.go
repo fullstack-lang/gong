@@ -819,6 +819,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Group[identifier].Percentage = exprSign * fielValue
+				case "NbColumns":
+					// convert string to int
+					fielValue, err := strconv.ParseInt(basicLit.Value, 10, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Group[identifier].NbColumns = int(exprSign) * int(fielValue)
 				}
 			case "Layout":
 				switch fieldName {

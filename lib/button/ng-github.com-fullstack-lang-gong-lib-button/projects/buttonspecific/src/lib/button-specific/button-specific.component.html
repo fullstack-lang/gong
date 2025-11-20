@@ -1,9 +1,11 @@
 <as-split direction="vertical">
     @for (group of layout?.Groups; track group) {
     <as-split-area [size]="group.Percentage">
-        <p>{{group.Name}}</p>
         
-        <div class="button-grid">
+        <div class="group-header">{{group.Name}}</div>
+        
+        <div class="button-grid" 
+             [style.grid-template-columns]="'repeat(' + (group.NbColumns || 4) + ', 1fr)'">
             @for (button of group.Buttons; track button) {
             <button color="primary" (click)="onClick(button)">
                 <mat-icon>{{button.Icon}}</mat-icon>{{button.Label}}

@@ -239,6 +239,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 			}
 			group_.Buttons = instanceSlice
 
+		case "NbColumns":
+			FormDivBasicFieldToField(&(group_.NbColumns), formDiv)
 		case "Layout:Groups":
 			// WARNING : this form deals with the N-N association "Layout.Groups []*Group" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
