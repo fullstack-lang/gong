@@ -56,3 +56,5 @@ test/test/go/tests/stage_tests/Astructs.xlsx
 test/test/go/tests/stage_tests/~$Astructs.xlsx
 test/test/go/tests/stage_tests/~$test.xlsx
 test/test/go/tests/stage_tests/test.xlsx
+test/test/go/tests/stage_tests/test_withIDs.xlsx
+test/test/go/tests/stage_tests/~$test_withIDs.xlsx
