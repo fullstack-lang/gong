@@ -265,7 +265,7 @@ func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]u
 func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T) {
 	var t T
 	switch any(t).(type) {
-		// insertion point for case
+	// insertion point for case
 	case *Arrow:
 		tmp := GetStructInstancesByOrder(stage.Arrows, stage.ArrowMap_Staged_Order)
 
@@ -394,7 +394,7 @@ func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T
 func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []string) {
 
 	switch namedStructName {
-		// insertion point for case
+	// insertion point for case
 	case "Arrow":
 		res = GetNamedStructInstances(stage.Arrows, stage.ArrowMap_Staged_Order)
 	case "Bar":
@@ -1802,18 +1802,23 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
 type GongFieldValueType string
 
 const (
-	GongFieldValueTypeInt    GongFieldValueType = "GongFieldValueTypeInt"
-	GongFieldValueTypeFloat  GongFieldValueType = "GongFieldValueTypeFloat"
-	GongFieldValueTypeBool   GongFieldValueType = "GongFieldValueTypeBool"
-	GongFieldValueTypeOthers GongFieldValueType = "GongFieldValueTypeOthers"
+	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
+	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
+	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
+	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
 
 type GongFieldValue struct {
-	valueString string
 	GongFieldValueType
-	valueInt   int
-	valueFloat float64
-	valueBool  bool
+	valueString string
+	valueInt    int
+	valueFloat  float64
+	valueBool   bool
+
+	// in case of a pointer, the ID of the pointed element
+	// in case of a slice of pointers, the IDs, separated by semi columbs
+	ids string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -1832,7 +1837,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -1842,12 +1847,16 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "From":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.From != nil {
 				res.valueString = inferedInstance.From.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.From))
 			}
 		case "To":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.To != nil {
 				res.valueString = inferedInstance.To.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.To))
 			}
 		case "OptionnalColor":
 			res.valueString = inferedInstance.OptionnalColor
@@ -2042,32 +2051,44 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueBool = inferedInstance.AlignOnStartEndOnYearStart
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Lanes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Lanes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Milestones":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Milestones {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Groups":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Groups {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Arrows":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Arrows {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case *Group:
@@ -2076,11 +2097,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "GroupLanes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GroupLanes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case *Lane:
@@ -2093,11 +2117,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueInt = inferedInstance.Order
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Bars":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Bars {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case *LaneUse:
@@ -2106,8 +2133,10 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Lane":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Lane != nil {
 				res.valueString = inferedInstance.Lane.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Lane))
 			}
 		}
 	case *Milestone:
@@ -2122,11 +2151,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 			res.valueBool = inferedInstance.DisplayVerticalBar
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "LanesToDisplay":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.LanesToDisplay {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	default:
@@ -2135,7 +2167,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string) (res GongFie
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
+func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	switch inferedInstance := any(instance).(type) {
 	// insertion point for generic get gongstruct field value
@@ -2145,12 +2177,16 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "From":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.From != nil {
 				res.valueString = inferedInstance.From.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.From))
 			}
 		case "To":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.To != nil {
 				res.valueString = inferedInstance.To.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.To))
 			}
 		case "OptionnalColor":
 			res.valueString = inferedInstance.OptionnalColor
@@ -2345,32 +2381,44 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueBool = inferedInstance.AlignOnStartEndOnYearStart
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "Lanes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Lanes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Milestones":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Milestones {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Groups":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Groups {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "Arrows":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Arrows {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case Group:
@@ -2379,11 +2427,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "GroupLanes":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.GroupLanes {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case Lane:
@@ -2396,11 +2447,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueInt = inferedInstance.Order
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Bars":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.Bars {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	case LaneUse:
@@ -2409,8 +2463,10 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 		case "Name":
 			res.valueString = inferedInstance.Name
 		case "Lane":
+			res.GongFieldValueType = GongFieldValueTypePointer
 			if inferedInstance.Lane != nil {
 				res.valueString = inferedInstance.Lane.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Lane))
 			}
 		}
 	case Milestone:
@@ -2425,11 +2481,14 @@ func GetFieldStringValue(instance any, fieldName string) (res GongFieldValue) {
 			res.valueBool = inferedInstance.DisplayVerticalBar
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "LanesToDisplay":
+			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 			for idx, __instance__ := range inferedInstance.LanesToDisplay {
 				if idx > 0 {
 					res.valueString += "\n"
+					res.ids += ";"
 				}
 				res.valueString += __instance__.Name
+				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		}
 	default:
