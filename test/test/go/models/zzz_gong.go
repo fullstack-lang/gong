@@ -1951,26 +1951,27 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "Field", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Date2", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Dstruct4s", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "TextFieldBespokeSize", "TextArea"}
-	case *AstructBstruct2Use:
-		res = []string{"Name", "Bstrcut2"}
-	case *AstructBstructUse:
-		res = []string{"Name", "Bstruct2"}
-	case *Bstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
-	case *Dstruct:
-		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
-	case *F0123456789012345678901234567890:
-		res = []string{"Name", "Date"}
-	case *Gstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
+		res = []GongFieldHeader{
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBool,
+			},
+			{
+				Name:               "Associationtob",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Anarrayofb",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	}
 	return
 }
@@ -1981,6 +1982,7 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -1995,6 +1997,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

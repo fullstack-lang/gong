@@ -235,13 +235,13 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 
 	for index, fieldName := range GetFieldsFromPointer[Type]() {
 		if !addIDs {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName.Name)
 		} else {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldName)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldName.Name)
 			if index == 0 {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), "ID")
 			} else {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName+":ID")
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName.Name+":ID")
 			}
 		}
 	}
@@ -259,7 +259,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 		id := GetOrderPointerGongstruct(stage, instance)
 
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
-			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName, stage)
+			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName.Name, stage)
 			if !addIDs {
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
 			} else {
@@ -276,7 +276,6 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			}
 		}
 	}
-
 
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
