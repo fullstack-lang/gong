@@ -228,16 +228,16 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 
 	line := 1
 
-	// 1. Add the "ID" header at the first column (A)
-	f.SetCellStr(sheetName, "A1", "ID")
-
 	for index, fieldName := range GetFieldsFromPointer[Type]() {
-		// 2. Shift existing field headers to start from column B (index+2)
 		if !addIDs {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldName)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName)
 		} else {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName)
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+3)), line), fieldName+":ID")
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldName)
+			if index == 0 {
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), "ID")
+			} else {
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName+":ID")
+			}
 		}
 	}
 
@@ -252,18 +252,20 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 		// 3. Add the ID value in column A
 		// We use type assertion to check if the instance implements GetID()
 		id := GetOrderPointerGongstruct(stage, instance)
-		f.SetCellInt(sheetName, fmt.Sprintf("A%d", line), int64(id))
 
 		for index, fieldName := range GetFieldsFromPointer[Type]() {
 			fieldStringValue := GetFieldStringValueFromPointer(instance, fieldName, stage)
-			// 4. Shift the data fields to start from column B (index+2)
 			if !addIDs {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+2)), line), fieldStringValue.GetValueString())
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldStringValue.GetValueString())
 			} else {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldStringValue.GetValueString())
-				switch fieldStringValue.GongFieldValueType {
-				case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
-					f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+3)), line), fieldStringValue.ids)
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldStringValue.GetValueString())
+				if index == 0 {
+					f.SetCellInt(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), int64(id))
+				} else {
+					switch fieldStringValue.GongFieldValueType {
+					case GongFieldValueTypePointer, GongFieldValueTypeSliceOfPointers:
+						f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldStringValue.ids)
+					}
 				}
 
 			}
