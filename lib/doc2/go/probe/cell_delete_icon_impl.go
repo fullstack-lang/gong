@@ -24,31 +24,8 @@ type CellDeleteIconImplPointerToGongstruct[T models.PointerToGongstruct] struct 
 
 func (cellDeleteIconImpl *CellDeleteIconImplPointerToGongstruct[T]) CellIconUpdated(stage *gongtable.Stage,
 	row, updatedCellIcon *gongtable.CellIcon) {
-	// log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
+	cellDeleteIconImpl.Instance.UnstageVoid(cellDeleteIconImpl.probe.stageOfInterest)
 
-	switch instancesTyped := any(cellDeleteIconImpl.Instance).(type) {
-	// insertion point
-	case *models.AttributeShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.Classdiagram:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.DiagramPackage:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.GongEnumShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.GongEnumValueShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.GongNoteLinkShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.GongNoteShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.GongStructShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	case *models.LinkShape:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)
-	default:
-		_ = instancesTyped
-	}
 	cellDeleteIconImpl.probe.stageOfInterest.Commit()
 
 	updateAndCommitTable[T](cellDeleteIconImpl.probe)
