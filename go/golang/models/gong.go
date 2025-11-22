@@ -78,7 +78,7 @@ map[ModelGongStructInsertionId]string{
 	case {{Structname}}:{{ListOfReverseFields}}`,
 
 	ModelGongStructInsertionGenericGetFieldsFromPointer: `
-	case *{{Structname}}:{{ListOfFieldsName}}`,
+	case *{{Structname}}:{{ListOfFieldHeaders}}`,
 
 	ModelGongStructInsertionGenericGetFieldValues: `
 	case {{Structname}}:
@@ -320,6 +320,10 @@ const (
 	GongFileFieldSubTmplStringFieldName GongFilePerStructSubTemplateId = iota
 	GongFileFieldSubTmplReverseField
 
+	GongFileFieldSubTmplStringHeaderBasicKindField
+	GongFileFieldSubTmplStringHeaderPointerField
+	GongFileFieldSubTmplStringHeaderSliceOfPointersField
+
 	GongFileFieldSubTmplStringValueBasicFieldBool
 	GongFileFieldSubTmplStringValueBasicFieldInt
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration
@@ -355,6 +359,22 @@ map[GongFilePerStructSubTemplateId]string{
 		rf.GongstructName = "{{AssocStructName}}"
 		rf.Fieldname = "{{FieldName}}"
 		res = append(res, rf)`,
+
+	GongFileFieldSubTmplStringHeaderBasicKindField: `
+			{
+				Name:               "{{FieldName}}",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},`,
+	GongFileFieldSubTmplStringHeaderPointerField: `
+			{
+				Name:               "{{FieldName}}",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},`,
+	GongFileFieldSubTmplStringHeaderSliceOfPointersField: `
+			{
+				Name:               "{{FieldName}}",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},`,
 
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 		case "{{FieldName}}":
@@ -544,6 +564,9 @@ func CodeGeneratorModelGong(
 			// replace {{ValuesInitialization}}
 			fieldNames := `
 		res = []string{`
+			fieldHeaders := `
+		res = []GongFieldHeader{
+		`
 			reverseFields := `
 		var rf ReverseField
 		_ = rf`
@@ -608,6 +631,9 @@ func CodeGeneratorModelGong(
 							"{{FieldName}}", field.Name)
 					default:
 					}
+					fieldHeaders += models.Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
+						"{{FieldName}}", field.GetName())
 				case *models.GongTimeField:
 					if field.BespokeTimeFormat == "" {
 						fieldStringValues += models.Replace1(
@@ -620,6 +646,9 @@ func CodeGeneratorModelGong(
 							"{{TimeFormat}}", field.BespokeTimeFormat,
 						)
 					}
+					fieldHeaders += models.Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderBasicKindField],
+						"{{FieldName}}", field.GetName())
 				case *models.PointerToGongStructField:
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValuePointerField],
@@ -665,6 +694,9 @@ func CodeGeneratorModelGong(
 							"{{CompositeAssocStructName}}", assocCompositeStrucName,
 						)
 					}
+					fieldHeaders += models.Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderPointerField],
+						"{{FieldName}}", field.GetName())
 				case *models.SliceOfPointerToGongStructField:
 					fieldStringValues += models.Replace1(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringValueSliceOfPointersField],
@@ -707,6 +739,9 @@ func CodeGeneratorModelGong(
 							"{{CompositeAssocStructName}}", assocCompositeStrucName,
 						)
 					}
+					fieldHeaders += models.Replace1(
+						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderSliceOfPointersField],
+						"{{FieldName}}", field.GetName())
 				default:
 				}
 
@@ -754,6 +789,8 @@ func CodeGeneratorModelGong(
 				"{{Structname}}", gongStruct.Name)
 
 			fieldNames += `}`
+			fieldHeaders += `
+	}`
 
 			// The generation has to be be reproductible, therefore the map
 			// associationFieldInitializationPerCompositeStruct has to be ordered
@@ -772,10 +809,11 @@ func CodeGeneratorModelGong(
 					"{{PerCompositeFieldInit}}", associationFieldInitializationPerCompositeStruct[compositeStructName])
 			}
 
-			generatedCodeFromSubTemplate := models.Replace9(ModelGongStructSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace10(ModelGongStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ListOfFieldsName}}", fieldNames,
+				"{{ListOfFieldHeaders}}", fieldHeaders,
 				"{{ListOfReverseFields}}", reverseFields,
 				"{{StringValueOfFields}}", fieldStringValues,
 				"{{fieldReversePointerAssociationMapCode}}", fieldReversePointerAssociationMapCode,

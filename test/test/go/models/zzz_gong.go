@@ -1951,26 +1951,240 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
-		res = []string{"Name", "Field", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Date2", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Dstruct4s", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "TextFieldBespokeSize", "TextArea"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Field",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Associationtob",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Anarrayofb",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Anotherassociationtob_2",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Date",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Date2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Booleanfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Aenum",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Aenum_2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Benum",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CEnum",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CFloatfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Bstruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Bstruct2",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Dstruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Dstruct2",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Dstruct3",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Dstruct4",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Dstruct4s",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Floatfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Intfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Anotherbooleanfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Duration1",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Anarrayofa",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Anotherarrayofb",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "AnarrayofbUse",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Anarrayofb2Use",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "AnAstruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "TextFieldBespokeSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TextArea",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+	}
 	case *AstructBstruct2Use:
-		res = []string{"Name", "Bstrcut2"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Bstrcut2",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+	}
 	case *AstructBstructUse:
-		res = []string{"Name", "Bstruct2"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Bstruct2",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+	}
 	case *Bstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Floatfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Floatfield2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Intfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+	}
 	case *Dstruct:
-		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Anarrayofb",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Gstruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Gstructs",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+	}
 	case *F0123456789012345678901234567890:
-		res = []string{"Name", "Date"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Date",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+	}
 	case *Gstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
+		res = []GongFieldHeader{
+		
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Floatfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Floatfield2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Intfield",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+	}
 	}
 	return
 }
@@ -1981,6 +2195,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -1996,6 +2212,12 @@ type GongFieldValue struct {
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
 }
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
+}
+
 
 func (gongValueField *GongFieldValue) GetValueString() string {
 	return gongValueField.valueString
