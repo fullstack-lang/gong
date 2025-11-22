@@ -33,7 +33,6 @@ const (
 	ModelGongStructInsertionUnmarshallPointersInitializations
 	ModelGongStructInsertionComputeNbInstances
 
-	ModelGongStructInsertionGenericGetFields
 	ModelGongStructInsertionGenericGetReverseFields
 	ModelGongStructInsertionGenericGetFieldsFromPointer
 	ModelGongStructInsertionGenericGetFieldValues
@@ -42,7 +41,6 @@ const (
 	ModelGongStructInsertionGenericReversePointerAssociationsMaps
 	ModelGongStructInsertionGenericReverseSliceOfPointersAssociationsMaps
 
-	ModelGongStructInsertionGenericGongstructName
 	ModelGongStructInsertionGenericPointerToGongstructName
 	ModelGongStructInsertionGenericGetSetFunctions
 	ModelGongStructInsertionGenericGetMapFunctions
@@ -70,9 +68,6 @@ map[ModelGongStructInsertionId]string{
 	ModelGongStructInsertionCommitCheckout: `
 	Commit{{Structname}}({{structname}} *{{Structname}})
 	Checkout{{Structname}}({{structname}} *{{Structname}})`,
-
-	ModelGongStructInsertionGenericGetFields: `
-	case {{Structname}}:{{ListOfFieldsName}}`,
 
 	ModelGongStructInsertionGenericGetReverseFields: `
 	case *{{Structname}}:{{ListOfReverseFields}}`,
@@ -241,10 +236,6 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 		switch fieldname {
 		// insertion point for per direct association field{{fieldReverseSliceOfPointersAssociationMapCode}}
 		}`,
-
-	ModelGongStructInsertionGenericGongstructName: `
-	case {{Structname}}:
-		res = "{{Structname}}"`,
 
 	ModelGongStructInsertionGenericPointerToGongstructName: `
 	case *{{Structname}}:
