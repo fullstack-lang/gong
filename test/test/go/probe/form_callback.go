@@ -338,7 +338,7 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	}
 
 	astructFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Astruct](
+	updateAndCommitTable[*models.Astruct](
 		astructFormCallback.probe,
 	)
 	astructFormCallback.probe.tableStage.Commit()
@@ -484,7 +484,7 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	}
 
 	astructbstruct2useFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.AstructBstruct2Use](
+	updateAndCommitTable[*models.AstructBstruct2Use](
 		astructbstruct2useFormCallback.probe,
 	)
 	astructbstruct2useFormCallback.probe.tableStage.Commit()
@@ -630,7 +630,7 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	}
 
 	astructbstructuseFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.AstructBstructUse](
+	updateAndCommitTable[*models.AstructBstructUse](
 		astructbstructuseFormCallback.probe,
 	)
 	astructbstructuseFormCallback.probe.tableStage.Commit()
@@ -914,7 +914,7 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	}
 
 	bstructFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Bstruct](
+	updateAndCommitTable[*models.Bstruct](
 		bstructFormCallback.probe,
 	)
 	bstructFormCallback.probe.tableStage.Commit()
@@ -1110,7 +1110,7 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	}
 
 	dstructFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Dstruct](
+	updateAndCommitTable[*models.Dstruct](
 		dstructFormCallback.probe,
 	)
 	dstructFormCallback.probe.tableStage.Commit()
@@ -1189,7 +1189,7 @@ func (f0123456789012345678901234567890FormCallback *F012345678901234567890123456
 	}
 
 	f0123456789012345678901234567890FormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.F0123456789012345678901234567890](
+	updateAndCommitTable[*models.F0123456789012345678901234567890](
 		f0123456789012345678901234567890FormCallback.probe,
 	)
 	f0123456789012345678901234567890FormCallback.probe.tableStage.Commit()
@@ -1339,7 +1339,7 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 	}
 
 	gstructFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Gstruct](
+	updateAndCommitTable[*models.Gstruct](
 		gstructFormCallback.probe,
 	)
 	gstructFormCallback.probe.tableStage.Commit()

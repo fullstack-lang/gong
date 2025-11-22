@@ -1892,7 +1892,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -1901,25 +1901,25 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Astruct:
+	case *Astruct:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "Anarrayofa"
 		res = append(res, rf)
-	case AstructBstruct2Use:
+	case *AstructBstruct2Use:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "Anarrayofb2Use"
 		res = append(res, rf)
-	case AstructBstructUse:
+	case *AstructBstructUse:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "AnarrayofbUse"
 		res = append(res, rf)
-	case Bstruct:
+	case *Bstruct:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Astruct"
@@ -1931,16 +1931,16 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Dstruct"
 		rf.Fieldname = "Anarrayofb"
 		res = append(res, rf)
-	case Dstruct:
+	case *Dstruct:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Astruct"
 		rf.Fieldname = "Dstruct4s"
 		res = append(res, rf)
-	case F0123456789012345678901234567890:
+	case *F0123456789012345678901234567890:
 		var rf ReverseField
 		_ = rf
-	case Gstruct:
+	case *Gstruct:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Dstruct"
@@ -1959,7 +1959,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 	// insertion point for generic get gongstruct name
 	case *Astruct:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2088,10 +2088,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "TextArea",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
 			},
-	}
+		}
 	case *AstructBstruct2Use:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2100,10 +2100,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Bstrcut2",
 				GongFieldValueType: GongFieldValueTypePointer,
 			},
-	}
+		}
 	case *AstructBstructUse:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2112,10 +2112,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Bstruct2",
 				GongFieldValueType: GongFieldValueTypePointer,
 			},
-	}
+		}
 	case *Bstruct:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2132,10 +2132,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Intfield",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
 			},
-	}
+		}
 	case *Dstruct:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2152,10 +2152,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Gstructs",
 				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
 			},
-	}
+		}
 	case *F0123456789012345678901234567890:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2164,10 +2164,10 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Date",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
 			},
-	}
+		}
 	case *Gstruct:
 		res = []GongFieldHeader{
-		
+
 			{
 				Name:               "Name",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
@@ -2184,7 +2184,7 @@ func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 				Name:               "Intfield",
 				GongFieldValueType: GongFieldValueTypeBasicKind,
 			},
-	}
+		}
 	}
 	return
 }
@@ -2217,7 +2217,6 @@ type GongFieldHeader struct {
 	GongFieldValueType
 	Name string
 }
-
 
 func (gongValueField *GongFieldValue) GetValueString() string {
 	return gongValueField.valueString
