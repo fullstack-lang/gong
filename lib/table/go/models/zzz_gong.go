@@ -4044,64 +4044,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Cell:
-		res = "Cell"
-	case CellBoolean:
-		res = "CellBoolean"
-	case CellFloat64:
-		res = "CellFloat64"
-	case CellIcon:
-		res = "CellIcon"
-	case CellInt:
-		res = "CellInt"
-	case CellString:
-		res = "CellString"
-	case CheckBox:
-		res = "CheckBox"
-	case DisplayedColumn:
-		res = "DisplayedColumn"
-	case FormDiv:
-		res = "FormDiv"
-	case FormEditAssocButton:
-		res = "FormEditAssocButton"
-	case FormField:
-		res = "FormField"
-	case FormFieldDate:
-		res = "FormFieldDate"
-	case FormFieldDateTime:
-		res = "FormFieldDateTime"
-	case FormFieldFloat64:
-		res = "FormFieldFloat64"
-	case FormFieldInt:
-		res = "FormFieldInt"
-	case FormFieldSelect:
-		res = "FormFieldSelect"
-	case FormFieldString:
-		res = "FormFieldString"
-	case FormFieldTime:
-		res = "FormFieldTime"
-	case FormGroup:
-		res = "FormGroup"
-	case FormSortAssocButton:
-		res = "FormSortAssocButton"
-	case Option:
-		res = "Option"
-	case Row:
-		res = "Row"
-	case Table:
-		res = "Table"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -4158,63 +4100,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Table"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Cell:
-		res = []string{"Name", "CellString", "CellFloat64", "CellInt", "CellBool", "CellIcon"}
-	case CellBoolean:
-		res = []string{"Name", "Value"}
-	case CellFloat64:
-		res = []string{"Name", "Value"}
-	case CellIcon:
-		res = []string{"Name", "Icon", "NeedsConfirmation", "ConfirmationMessage"}
-	case CellInt:
-		res = []string{"Name", "Value"}
-	case CellString:
-		res = []string{"Name", "Value"}
-	case CheckBox:
-		res = []string{"Name", "Value"}
-	case DisplayedColumn:
-		res = []string{"Name"}
-	case FormDiv:
-		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
-	case FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "MatTooltipShowDelay"}
-	case FormField:
-		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
-	case FormFieldDate:
-		res = []string{"Name", "Value"}
-	case FormFieldDateTime:
-		res = []string{"Name", "Value"}
-	case FormFieldFloat64:
-		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
-	case FormFieldInt:
-		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
-	case FormFieldSelect:
-		res = []string{"Name", "Value", "Options", "CanBeEmpty", "PreserveInitialOrder"}
-	case FormFieldString:
-		res = []string{"Name", "Value", "IsTextArea"}
-	case FormFieldTime:
-		res = []string{"Name", "Value", "Step"}
-	case FormGroup:
-		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
-	case FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "MatTooltipShowDelay", "FormEditAssocButton"}
-	case Option:
-		res = []string{"Name"}
-	case Row:
-		res = []string{"Name", "Cells", "IsChecked"}
-	case Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
-	}
-	return
 }
 
 type ReverseField struct {

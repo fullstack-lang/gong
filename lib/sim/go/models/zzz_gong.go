@@ -1380,30 +1380,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Command:
-		res = "Command"
-	case DummyAgent:
-		res = "DummyAgent"
-	case Engine:
-		res = "Engine"
-	case Event:
-		res = "Event"
-	case Status:
-		res = "Status"
-	case UpdateState:
-		res = "UpdateState"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1426,29 +1402,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "UpdateState"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Command:
-		res = []string{"Name", "Command", "CommandDate", "Engine"}
-	case DummyAgent:
-		res = []string{"TechName", "Name"}
-	case Engine:
-		res = []string{"Name", "EndTime", "CurrentTime", "DisplayFormat", "SecondsSinceStart", "Fired", "ControlMode", "State", "Speed"}
-	case Event:
-		res = []string{"Name", "Duration"}
-	case Status:
-		res = []string{"Name", "CurrentCommand", "CompletionDate", "CurrentSpeedCommand", "SpeedCommandCompletionDate"}
-	case UpdateState:
-		res = []string{"Name", "Duration", "Period"}
-	}
-	return
 }
 
 type ReverseField struct {
