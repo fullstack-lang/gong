@@ -75,7 +75,7 @@ map[ModelGongStructInsertionId]string{
 	case {{Structname}}:{{ListOfFieldsName}}`,
 
 	ModelGongStructInsertionGenericGetReverseFields: `
-	case {{Structname}}:{{ListOfReverseFields}}`,
+	case *{{Structname}}:{{ListOfReverseFields}}`,
 
 	ModelGongStructInsertionGenericGetFieldsFromPointer: `
 	case *{{Structname}}:{{ListOfFieldHeaders}}`,
@@ -566,7 +566,7 @@ func CodeGeneratorModelGong(
 		res = []string{`
 			fieldHeaders := `
 		res = []GongFieldHeader{
-		`
+`
 			reverseFields := `
 		var rf ReverseField
 		_ = rf`
@@ -790,7 +790,7 @@ func CodeGeneratorModelGong(
 
 			fieldNames += `}`
 			fieldHeaders += `
-	}`
+		}`
 
 			// The generation has to be be reproductible, therefore the map
 			// associationFieldInitializationPerCompositeStruct has to be ordered
