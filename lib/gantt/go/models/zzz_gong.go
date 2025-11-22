@@ -1637,32 +1637,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Arrow:
-		res = "Arrow"
-	case Bar:
-		res = "Bar"
-	case Gantt:
-		res = "Gantt"
-	case Group:
-		res = "Group"
-	case Lane:
-		res = "Lane"
-	case LaneUse:
-		res = "LaneUse"
-	case Milestone:
-		res = "Milestone"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1687,31 +1661,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Milestone"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Arrow:
-		res = []string{"Name", "From", "To", "OptionnalColor", "OptionnalStroke"}
-	case Bar:
-		res = []string{"Name", "Start", "End", "ComputedDuration", "OptionnalColor", "OptionnalStroke", "FillOpacity", "StrokeWidth", "StrokeDashArray"}
-	case Gantt:
-		res = []string{"Name", "ComputedStart", "ComputedEnd", "ComputedDuration", "UseManualStartAndEndDates", "ManualStart", "ManualEnd", "LaneHeight", "RatioBarToLaneHeight", "YTopMargin", "XLeftText", "TextHeight", "XLeftLanes", "XRightMargin", "ArrowLengthToTheRightOfStartBar", "ArrowTipLenght", "TimeLine_Color", "TimeLine_FillOpacity", "TimeLine_Stroke", "TimeLine_StrokeWidth", "Group_Stroke", "Group_StrokeWidth", "Group_StrokeDashArray", "DateYOffset", "AlignOnStartEndOnYearStart", "Lanes", "Milestones", "Groups", "Arrows"}
-	case Group:
-		res = []string{"Name", "GroupLanes"}
-	case Lane:
-		res = []string{"Name", "Order", "Bars"}
-	case LaneUse:
-		res = []string{"Name", "Lane"}
-	case Milestone:
-		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplay"}
-	}
-	return
 }
 
 type ReverseField struct {

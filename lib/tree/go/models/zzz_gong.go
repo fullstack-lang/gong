@@ -1165,26 +1165,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Button:
-		res = "Button"
-	case Node:
-		res = "Node"
-	case SVGIcon:
-		res = "SVGIcon"
-	case Tree:
-		res = "Tree"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1203,25 +1183,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Tree"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Button:
-		res = []string{"Name", "Icon", "SVGIcon", "IsDisabled", "HasToolTip", "ToolTipText", "ToolTipPosition"}
-	case Node:
-		res = []string{"Name", "FontStyle", "BackgroundColor", "IsExpanded", "HasCheckboxButton", "IsChecked", "IsCheckboxDisabled", "CheckboxHasToolTip", "CheckboxToolTipText", "CheckboxToolTipPosition", "HasSecondCheckboxButton", "IsSecondCheckboxChecked", "IsSecondCheckboxDisabled", "SecondCheckboxHasToolTip", "SecondCheckboxToolTipText", "SecondCheckboxToolTipPosition", "TextAfterSecondCheckbox", "HasToolTip", "ToolTipText", "ToolTipPosition", "IsInEditMode", "IsNodeClickable", "IsWithPreceedingIcon", "PreceedingIcon", "PreceedingSVGIcon", "Children", "Buttons"}
-	case SVGIcon:
-		res = []string{"Name", "SVG"}
-	case Tree:
-		res = []string{"Name", "RootNodes"}
-	}
-	return
 }
 
 type ReverseField struct {
