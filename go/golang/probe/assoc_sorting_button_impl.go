@@ -60,7 +60,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 
 	for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
 		column := new(gongtable_models.DisplayedColumn).Stage(tableStageForSelection)
-		column.Name = fieldName
+		column.Name = fieldName.Name
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 
@@ -101,7 +101,7 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
 			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
-			value := models.GetFieldStringValueFromPointer(instance, fieldName, onSortingEditon.probe.stageOfInterest)
+			value := models.GetFieldStringValueFromPointer(instance, fieldName.Name, onSortingEditon.probe.stageOfInterest)
 			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
 			cell.CellString = cellString
