@@ -165,7 +165,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 	}
 
 	aFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.A](
+	updateAndCommitTable[*models.A](
 		aFormCallback.probe,
 	)
 	aFormCallback.probe.tableStage.Commit()

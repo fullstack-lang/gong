@@ -53,7 +53,7 @@ func updateAndCommitTree(
 	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -84,7 +84,7 @@ func updateAndCommitTree(
 		// insertion point
 		case "Content":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Content](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Content](probe.stageOfInterest)
 			for _content := range set {
 				nodeInstance := &tree.Node{Name: _content.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -94,7 +94,7 @@ func updateAndCommitTree(
 			}
 		case "JpgImage":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.JpgImage](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.JpgImage](probe.stageOfInterest)
 			for _jpgimage := range set {
 				nodeInstance := &tree.Node{Name: _jpgimage.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -104,7 +104,7 @@ func updateAndCommitTree(
 			}
 		case "PngImage":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.PngImage](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.PngImage](probe.stageOfInterest)
 			for _pngimage := range set {
 				nodeInstance := &tree.Node{Name: _pngimage.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -114,7 +114,7 @@ func updateAndCommitTree(
 			}
 		case "SvgImage":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.SvgImage](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.SvgImage](probe.stageOfInterest)
 			for _svgimage := range set {
 				nodeInstance := &tree.Node{Name: _svgimage.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -150,14 +150,14 @@ func updateAndCommitTree(
 	probe.treeStage.Commit()
 }
 
-type InstanceNodeCallback[T models.Gongstruct] struct {
-	Instance       *T
+type InstanceNodeCallback[T models.PointerToGongstruct] struct {
+	Instance       T
 	gongstructName string
 	probe          *Probe
 }
 
-func NewInstanceNodeCallback[T models.Gongstruct](
-	instance *T,
+func NewInstanceNodeCallback[T models.PointerToGongstruct](
+	instance T,
 	gongstructName string,
 	probe *Probe) (
 	instanceNodeCallback *InstanceNodeCallback[T],

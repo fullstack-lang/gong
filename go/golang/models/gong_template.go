@@ -594,7 +594,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -646,7 +646,6 @@ type GongFieldHeader struct {
 	GongFieldValueType
 	Name string
 }
-
 
 func (gongValueField *GongFieldValue) GetValueString() string {
 	return gongValueField.valueString
