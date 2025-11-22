@@ -3387,56 +3387,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case AsSplit:
-		res = "AsSplit"
-	case AsSplitArea:
-		res = "AsSplitArea"
-	case Button:
-		res = "Button"
-	case Cursor:
-		res = "Cursor"
-	case FavIcon:
-		res = "FavIcon"
-	case Form:
-		res = "Form"
-	case Load:
-		res = "Load"
-	case LogoOnTheLeft:
-		res = "LogoOnTheLeft"
-	case LogoOnTheRight:
-		res = "LogoOnTheRight"
-	case Markdown:
-		res = "Markdown"
-	case Slider:
-		res = "Slider"
-	case Split:
-		res = "Split"
-	case Svg:
-		res = "Svg"
-	case Table:
-		res = "Table"
-	case Title:
-		res = "Title"
-	case Tone:
-		res = "Tone"
-	case Tree:
-		res = "Tree"
-	case View:
-		res = "View"
-	case Xlsx:
-		res = "Xlsx"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -3485,55 +3435,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Xlsx"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case AsSplit:
-		res = []string{"Name", "Direction", "AsSplitAreas"}
-	case AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
-	case Button:
-		res = []string{"Name", "StackName"}
-	case Cursor:
-		res = []string{"Name", "StackName", "Style"}
-	case FavIcon:
-		res = []string{"Name", "SVG"}
-	case Form:
-		res = []string{"Name", "StackName"}
-	case Load:
-		res = []string{"Name", "StackName"}
-	case LogoOnTheLeft:
-		res = []string{"Name", "Width", "Height", "SVG"}
-	case LogoOnTheRight:
-		res = []string{"Name", "Width", "Height", "SVG"}
-	case Markdown:
-		res = []string{"Name", "StackName"}
-	case Slider:
-		res = []string{"Name", "StackName"}
-	case Split:
-		res = []string{"Name", "StackName"}
-	case Svg:
-		res = []string{"Name", "StackName", "Style"}
-	case Table:
-		res = []string{"Name", "StackName"}
-	case Title:
-		res = []string{"Name"}
-	case Tone:
-		res = []string{"Name", "StackName"}
-	case Tree:
-		res = []string{"Name", "StackName"}
-	case View:
-		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
-	case Xlsx:
-		res = []string{"Name", "StackName"}
-	}
-	return
 }
 
 type ReverseField struct {

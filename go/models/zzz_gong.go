@@ -2165,40 +2165,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case GongBasicField:
-		res = "GongBasicField"
-	case GongEnum:
-		res = "GongEnum"
-	case GongEnumValue:
-		res = "GongEnumValue"
-	case GongLink:
-		res = "GongLink"
-	case GongNote:
-		res = "GongNote"
-	case GongStruct:
-		res = "GongStruct"
-	case GongTimeField:
-		res = "GongTimeField"
-	case MetaReference:
-		res = "MetaReference"
-	case ModelPkg:
-		res = "ModelPkg"
-	case PointerToGongStructField:
-		res = "PointerToGongStructField"
-	case SliceOfPointerToGongStructField:
-		res = "SliceOfPointerToGongStructField"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -2231,39 +2197,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "SliceOfPointerToGongStructField"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
-	case GongEnum:
-		res = []string{"Name", "Type", "GongEnumValues"}
-	case GongEnumValue:
-		res = []string{"Name", "Value"}
-	case GongLink:
-		res = []string{"Name", "Recv", "ImportPath"}
-	case GongNote:
-		res = []string{"Name", "Body", "BodyHTML", "Links"}
-	case GongStruct:
-		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
-	case GongTimeField:
-		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
-	case MetaReference:
-		res = []string{"Name"}
-	case ModelPkg:
-		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "DbOrmPkgGenPath", "DbLiteOrmPkgGenPath", "DbPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgWorkspaceName", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
-	case PointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName", "IsType"}
-	case SliceOfPointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
-	}
-	return
 }
 
 type ReverseField struct {

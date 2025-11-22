@@ -1810,32 +1810,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Astruct:
-		res = "Astruct"
-	case AstructBstruct2Use:
-		res = "AstructBstruct2Use"
-	case AstructBstructUse:
-		res = "AstructBstructUse"
-	case Bstruct:
-		res = "Bstruct"
-	case Dstruct:
-		res = "Dstruct"
-	case F0123456789012345678901234567890:
-		res = "F0123456789012345678901234567890"
-	case Gstruct:
-		res = "Gstruct"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1860,31 +1834,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Gstruct"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Astruct:
-		res = []string{"Name", "Field", "Associationtob", "Anarrayofb", "Anotherassociationtob_2", "Date", "Date2", "Booleanfield", "Aenum", "Aenum_2", "Benum", "CEnum", "CName", "CFloatfield", "Bstruct", "Bstruct2", "Dstruct", "Dstruct2", "Dstruct3", "Dstruct4", "Dstruct4s", "Floatfield", "Intfield", "Anotherbooleanfield", "Duration1", "Anarrayofa", "Anotherarrayofb", "AnarrayofbUse", "Anarrayofb2Use", "AnAstruct", "TextFieldBespokeSize", "TextArea"}
-	case AstructBstruct2Use:
-		res = []string{"Name", "Bstrcut2"}
-	case AstructBstructUse:
-		res = []string{"Name", "Bstruct2"}
-	case Bstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
-	case Dstruct:
-		res = []string{"Name", "Anarrayofb", "Gstruct", "Gstructs"}
-	case F0123456789012345678901234567890:
-		res = []string{"Name", "Date"}
-	case Gstruct:
-		res = []string{"Name", "Floatfield", "Floatfield2", "Intfield"}
-	}
-	return
 }
 
 type ReverseField struct {
