@@ -233,16 +233,20 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 
 	line := 1
 
-	for index, fieldName := range GetFieldsFromPointer[Type]() {
+	for index, fieldHeader := range GetFieldsFromPointer[Type]() {
 		if !addIDs {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldName.Name)
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(index+1)), line), fieldHeader.Name)
 		} else {
-			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldName.Name)
-			if index == 0 {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), "ID")
-			} else {
-				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldName.Name+":ID")
+			f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+1)), line), fieldHeader.Name)
+			switch fieldHeader.GongFieldValueType {
+			case GongFieldValueTypePointer:
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":ID")
+			case GongFieldValueTypeSliceOfPointers:
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":IDs")
+			default:
+				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":Basic")
 			}
+
 		}
 	}
 
@@ -276,7 +280,6 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			}
 		}
 	}
-
 
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
