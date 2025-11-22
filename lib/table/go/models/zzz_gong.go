@@ -4222,7 +4222,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -4231,94 +4231,94 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Cell:
+	case *Cell:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Row"
 		rf.Fieldname = "Cells"
 		res = append(res, rf)
-	case CellBoolean:
+	case *CellBoolean:
 		var rf ReverseField
 		_ = rf
-	case CellFloat64:
+	case *CellFloat64:
 		var rf ReverseField
 		_ = rf
-	case CellIcon:
+	case *CellIcon:
 		var rf ReverseField
 		_ = rf
-	case CellInt:
+	case *CellInt:
 		var rf ReverseField
 		_ = rf
-	case CellString:
+	case *CellString:
 		var rf ReverseField
 		_ = rf
-	case CheckBox:
+	case *CheckBox:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "FormDiv"
 		rf.Fieldname = "CheckBoxs"
 		res = append(res, rf)
-	case DisplayedColumn:
+	case *DisplayedColumn:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Table"
 		rf.Fieldname = "DisplayedColumns"
 		res = append(res, rf)
-	case FormDiv:
+	case *FormDiv:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "FormGroup"
 		rf.Fieldname = "FormDivs"
 		res = append(res, rf)
-	case FormEditAssocButton:
+	case *FormEditAssocButton:
 		var rf ReverseField
 		_ = rf
-	case FormField:
+	case *FormField:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "FormDiv"
 		rf.Fieldname = "FormFields"
 		res = append(res, rf)
-	case FormFieldDate:
+	case *FormFieldDate:
 		var rf ReverseField
 		_ = rf
-	case FormFieldDateTime:
+	case *FormFieldDateTime:
 		var rf ReverseField
 		_ = rf
-	case FormFieldFloat64:
+	case *FormFieldFloat64:
 		var rf ReverseField
 		_ = rf
-	case FormFieldInt:
+	case *FormFieldInt:
 		var rf ReverseField
 		_ = rf
-	case FormFieldSelect:
+	case *FormFieldSelect:
 		var rf ReverseField
 		_ = rf
-	case FormFieldString:
+	case *FormFieldString:
 		var rf ReverseField
 		_ = rf
-	case FormFieldTime:
+	case *FormFieldTime:
 		var rf ReverseField
 		_ = rf
-	case FormGroup:
+	case *FormGroup:
 		var rf ReverseField
 		_ = rf
-	case FormSortAssocButton:
+	case *FormSortAssocButton:
 		var rf ReverseField
 		_ = rf
-	case Option:
+	case *Option:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "FormFieldSelect"
 		rf.Fieldname = "Options"
 		res = append(res, rf)
-	case Row:
+	case *Row:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Table"
 		rf.Fieldname = "Rows"
 		res = append(res, rf)
-	case Table:
+	case *Table:
 		var rf ReverseField
 		_ = rf
 	}
@@ -4326,58 +4326,520 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Cell:
-		res = []string{"Name", "CellString", "CellFloat64", "CellInt", "CellBool", "CellIcon"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CellString",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "CellFloat64",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "CellInt",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "CellBool",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "CellIcon",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *CellBoolean:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *CellFloat64:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *CellIcon:
-		res = []string{"Name", "Icon", "NeedsConfirmation", "ConfirmationMessage"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Icon",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NeedsConfirmation",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ConfirmationMessage",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *CellInt:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *CellString:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *CheckBox:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *DisplayedColumn:
-		res = []string{"Name"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormDiv:
-		res = []string{"Name", "FormFields", "CheckBoxs", "FormEditAssocButton", "FormSortAssocButton"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FormFields",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "CheckBoxs",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "FormEditAssocButton",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormSortAssocButton",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *FormEditAssocButton:
-		res = []string{"Name", "Label", "AssociationStorage", "HasChanged", "IsForSavePurpose", "HasToolTip", "ToolTipText", "MatTooltipShowDelay"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Label",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AssociationStorage",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasChanged",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsForSavePurpose",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasToolTip",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ToolTipText",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MatTooltipShowDelay",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormField:
-		res = []string{"Name", "InputTypeEnum", "Label", "Placeholder", "FormFieldString", "FormFieldFloat64", "FormFieldInt", "FormFieldDate", "FormFieldTime", "FormFieldDateTime", "FormFieldSelect", "HasBespokeWidth", "BespokeWidthPx", "HasBespokeHeight", "BespokeHeightPx"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "InputTypeEnum",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Label",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Placeholder",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FormFieldString",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldFloat64",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldInt",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldDate",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldTime",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldDateTime",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "FormFieldSelect",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "HasBespokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BespokeWidthPx",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasBespokeHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BespokeHeightPx",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldDate:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldDateTime:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldFloat64:
-		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasMinValidator",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MinValue",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasMaxValidator",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MaxValue",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldInt:
-		res = []string{"Name", "Value", "HasMinValidator", "MinValue", "HasMaxValidator", "MaxValue"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasMinValidator",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MinValue",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasMaxValidator",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MaxValue",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldSelect:
-		res = []string{"Name", "Value", "Options", "CanBeEmpty", "PreserveInitialOrder"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Options",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "CanBeEmpty",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "PreserveInitialOrder",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldString:
-		res = []string{"Name", "Value", "IsTextArea"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsTextArea",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormFieldTime:
-		res = []string{"Name", "Value", "Step"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Step",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormGroup:
-		res = []string{"Name", "Label", "FormDivs", "HasSuppressButton", "HasSuppressButtonBeenPressed"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Label",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FormDivs",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "HasSuppressButton",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasSuppressButtonBeenPressed",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FormSortAssocButton:
-		res = []string{"Name", "Label", "HasToolTip", "ToolTipText", "MatTooltipShowDelay", "FormEditAssocButton"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Label",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasToolTip",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ToolTipText",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MatTooltipShowDelay",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FormEditAssocButton",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *Option:
-		res = []string{"Name"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Row:
-		res = []string{"Name", "Cells", "IsChecked"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Cells",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "IsChecked",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Table:
-		res = []string{"Name", "DisplayedColumns", "Rows", "HasFiltering", "HasColumnSorting", "HasPaginator", "HasCheckableRows", "HasSaveButton", "SaveButtonLabel", "CanDragDropRows", "HasCloseButton", "SavingInProgress", "NbOfStickyColumns"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DisplayedColumns",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Rows",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "HasFiltering",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasColumnSorting",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasPaginator",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasCheckableRows",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasSaveButton",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SaveButtonLabel",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanDragDropRows",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasCloseButton",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SavingInProgress",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NbOfStickyColumns",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	}
 	return
 }
@@ -4388,6 +4850,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -4402,6 +4866,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

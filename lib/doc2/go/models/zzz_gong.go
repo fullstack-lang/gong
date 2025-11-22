@@ -1975,7 +1975,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -1984,52 +1984,52 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case AttributeShape:
+	case *AttributeShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStructShape"
 		rf.Fieldname = "AttributeShapes"
 		res = append(res, rf)
-	case Classdiagram:
+	case *Classdiagram:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "DiagramPackage"
 		rf.Fieldname = "Classdiagrams"
 		res = append(res, rf)
-	case DiagramPackage:
+	case *DiagramPackage:
 		var rf ReverseField
 		_ = rf
-	case GongEnumShape:
+	case *GongEnumShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Classdiagram"
 		rf.Fieldname = "GongEnumShapes"
 		res = append(res, rf)
-	case GongEnumValueShape:
+	case *GongEnumValueShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongEnumShape"
 		rf.Fieldname = "GongEnumValueShapes"
 		res = append(res, rf)
-	case GongNoteLinkShape:
+	case *GongNoteLinkShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongNoteShape"
 		rf.Fieldname = "GongNoteLinkShapes"
 		res = append(res, rf)
-	case GongNoteShape:
+	case *GongNoteShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Classdiagram"
 		rf.Fieldname = "GongNoteShapes"
 		res = append(res, rf)
-	case GongStructShape:
+	case *GongStructShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Classdiagram"
 		rf.Fieldname = "GongStructShapes"
 		res = append(res, rf)
-	case LinkShape:
+	case *LinkShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStructShape"
@@ -2040,30 +2040,364 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *AttributeShape:
-		res = []string{"Name", "IdentifierMeta", "FieldTypeAsString", "Structname", "Fieldtypename"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FieldTypeAsString",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Structname",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Fieldtypename",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Classdiagram:
-		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "ShowNbInstances", "ShowMultiplicity", "ShowLinkNames", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Description",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsIncludedInStaticWebSite",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongStructShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "GongEnumShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "GongNoteShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "ShowNbInstances",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ShowMultiplicity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ShowLinkNames",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsInRenameMode",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongStructsIsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongStructNodeExpansion",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongEnumsIsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongEnumNodeExpansion",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongNotesIsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NodeGongNoteNodeExpansion",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Path",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongModelPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Classdiagrams",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "SelectedClassdiagram",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "AbsolutePathToDiagramPackage",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongEnumShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongEnumValueShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongEnumValueShape:
-		res = []string{"Name", "IdentifierMeta"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongNoteLinkShape:
-		res = []string{"Name", "Identifier", "Type"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Identifier",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Type",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongNoteShape:
-		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "GongNoteLinkShapes", "IsExpanded"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Identifier",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Body",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BodyHTML",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Matched",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongNoteLinkShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "IsExpanded",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongStructShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AttributeShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "LinkShapes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *LinkShape:
-		res = []string{"Name", "IdentifierMeta", "FieldTypeIdentifierMeta", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FieldTypeIdentifierMeta",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FieldOffsetX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FieldOffsetY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TargetMultiplicity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TargetMultiplicityOffsetX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TargetMultiplicityOffsetY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SourceMultiplicity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SourceMultiplicityOffsetX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SourceMultiplicityOffsetY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartOrientation",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndOrientation",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CornerOffsetRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	}
 	return
 }
@@ -2074,6 +2408,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -2088,6 +2424,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

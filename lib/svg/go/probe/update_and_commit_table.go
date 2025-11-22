@@ -3,7 +3,6 @@ package probe
 
 import (
 	"fmt"
-	"log"
 	"sort"
 
 	gongtable "github.com/fullstack-lang/gong/lib/table/go/models"
@@ -13,62 +12,9 @@ import (
 	"github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func updateAndCommitTablePointerToGongstruct[T models.PointerToGongstruct](
-	probe *Probe,
-) {
-	var typedInstance T
-	switch any(typedInstance).(type) {
-	// insertion point
-	case *models.Animate:
-		updateAndCommitTable[models.Animate](probe)
-	case *models.Circle:
-		updateAndCommitTable[models.Circle](probe)
-	case *models.Condition:
-		updateAndCommitTable[models.Condition](probe)
-	case *models.ControlPoint:
-		updateAndCommitTable[models.ControlPoint](probe)
-	case *models.Ellipse:
-		updateAndCommitTable[models.Ellipse](probe)
-	case *models.Layer:
-		updateAndCommitTable[models.Layer](probe)
-	case *models.Line:
-		updateAndCommitTable[models.Line](probe)
-	case *models.Link:
-		updateAndCommitTable[models.Link](probe)
-	case *models.LinkAnchoredText:
-		updateAndCommitTable[models.LinkAnchoredText](probe)
-	case *models.Path:
-		updateAndCommitTable[models.Path](probe)
-	case *models.Point:
-		updateAndCommitTable[models.Point](probe)
-	case *models.Polygone:
-		updateAndCommitTable[models.Polygone](probe)
-	case *models.Polyline:
-		updateAndCommitTable[models.Polyline](probe)
-	case *models.Rect:
-		updateAndCommitTable[models.Rect](probe)
-	case *models.RectAnchoredPath:
-		updateAndCommitTable[models.RectAnchoredPath](probe)
-	case *models.RectAnchoredRect:
-		updateAndCommitTable[models.RectAnchoredRect](probe)
-	case *models.RectAnchoredText:
-		updateAndCommitTable[models.RectAnchoredText](probe)
-	case *models.RectLinkLink:
-		updateAndCommitTable[models.RectLinkLink](probe)
-	case *models.SVG:
-		updateAndCommitTable[models.SVG](probe)
-	case *models.SvgText:
-		updateAndCommitTable[models.SvgText](probe)
-	case *models.Text:
-		updateAndCommitTable[models.Text](probe)
-	default:
-		log.Println("unknow type")
-	}
-}
-
 const TableName = "Table"
 
-func updateAndCommitTable[T models.Gongstruct](
+func updateAndCommitTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 
@@ -82,7 +28,7 @@ func updateAndCommitTable[T models.Gongstruct](
 	table.HasCheckableRows = false
 	table.HasSaveButton = false
 
-	fields := models.GetFields[T]()
+	fields := models.GetFieldsFromPointer[T]()
 	reverseFields := models.GetReverseFields[T]()
 
 	table.NbOfStickyColumns = 3
@@ -90,16 +36,16 @@ func updateAndCommitTable[T models.Gongstruct](
 	// refresh the stage of interest
 	probe.stageOfInterest.Checkout()
 
-	setOfStructs := (*models.GetGongstructInstancesSet[T](probe.stageOfInterest))
-	sliceOfGongStructsSorted := make([]*T, len(setOfStructs))
+	setOfStructs := (*models.GetGongstructInstancesSetFromPointerType[T](probe.stageOfInterest))
+	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
 	i := 0
 	for k := range setOfStructs {
 		sliceOfGongStructsSorted[i] = k
 		i++
 	}
 	sort.Slice(sliceOfGongStructsSorted, func(i, j int) bool {
-		return models.GetOrder(probe.stageOfInterest, sliceOfGongStructsSorted[i]) <
-			models.GetOrder(probe.stageOfInterest, sliceOfGongStructsSorted[j])
+		return models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[i]) <
+			models.GetOrderPointerGongstruct(probe.stageOfInterest, sliceOfGongStructsSorted[j])
 	})
 
 	column := new(gongtable.DisplayedColumn)
@@ -112,7 +58,7 @@ func updateAndCommitTable[T models.Gongstruct](
 
 	for _, fieldName := range fields {
 		column := new(gongtable.DisplayedColumn)
-		column.Name = fieldName
+		column.Name = fieldName.Name
 		table.DisplayedColumns = append(table.DisplayedColumns, column)
 	}
 	for _, reverseField := range reverseFields {
@@ -124,7 +70,7 @@ func updateAndCommitTable[T models.Gongstruct](
 	fieldIndex := 0
 	for _, structInstance := range sliceOfGongStructsSorted {
 		row := new(gongtable.Row)
-		value := models.GetFieldStringValue(*structInstance, "Name", probe.stageOfInterest)
+		value := models.GetFieldStringValueFromPointer(structInstance, "Name", probe.stageOfInterest)
 		row.Name = value.GetValueString()
 
 		updater := NewRowUpdate(structInstance, probe)
@@ -139,7 +85,7 @@ func updateAndCommitTable[T models.Gongstruct](
 		row.Cells = append(row.Cells, cell)
 		cellInt := &gongtable.CellInt{
 			Name: "ID",
-			Value: int(models.GetOrder(
+			Value: int(models.GetOrderPointerGongstruct(
 				probe.stageOfInterest,
 				structInstance,
 			)),
@@ -151,7 +97,7 @@ func updateAndCommitTable[T models.Gongstruct](
 		}
 		row.Cells = append(row.Cells, cell)
 		cellIcon := &gongtable.CellIcon{
-			Name: fmt.Sprintf("Delete Icon %d", models.GetOrder(
+			Name: fmt.Sprintf("Delete Icon %d", models.GetOrderPointerGongstruct(
 				probe.stageOfInterest,
 				structInstance,
 			)),
@@ -159,11 +105,11 @@ func updateAndCommitTable[T models.Gongstruct](
 			NeedsConfirmation:   true,
 			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
 		}
-		cellIcon.Impl = NewCellDeleteIconImpl(structInstance, probe)
+		cellIcon.Impl = NewCellDeleteIconImplPointerToGongstruct(structInstance, probe)
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
-			value := models.GetFieldStringValue(*structInstance, fieldName, probe.stageOfInterest)
+			value := models.GetFieldStringValueFromPointer(structInstance, fieldName.Name, probe.stageOfInterest)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value.GetValueString()
 			fieldIndex++
 			// log.Println(fieldName, value)
@@ -226,8 +172,8 @@ func updateAndCommitTable[T models.Gongstruct](
 
 }
 
-func NewRowUpdate[T models.Gongstruct](
-	Instance *T,
+func NewRowUpdate[T models.PointerToGongstruct](
+	Instance T,
 	probe *Probe,
 ) (rowUpdate *RowUpdate[T]) {
 	rowUpdate = new(RowUpdate[T])
@@ -236,8 +182,8 @@ func NewRowUpdate[T models.Gongstruct](
 	return
 }
 
-type RowUpdate[T models.Gongstruct] struct {
-	Instance *T
+type RowUpdate[T models.PointerToGongstruct] struct {
+	Instance T
 	probe    *Probe
 }
 

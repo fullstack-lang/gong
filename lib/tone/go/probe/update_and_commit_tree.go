@@ -53,7 +53,7 @@ func updateAndCommitTree(
 	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -84,7 +84,7 @@ func updateAndCommitTree(
 		// insertion point
 		case "Freqency":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Freqency](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Freqency](probe.stageOfInterest)
 			for _freqency := range set {
 				nodeInstance := &tree.Node{Name: _freqency.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -94,7 +94,7 @@ func updateAndCommitTree(
 			}
 		case "Note":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Note](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Note](probe.stageOfInterest)
 			for _note := range set {
 				nodeInstance := &tree.Node{Name: _note.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -104,7 +104,7 @@ func updateAndCommitTree(
 			}
 		case "Player":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.Player](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Player](probe.stageOfInterest)
 			for _player := range set {
 				nodeInstance := &tree.Node{Name: _player.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -140,14 +140,14 @@ func updateAndCommitTree(
 	probe.treeStage.Commit()
 }
 
-type InstanceNodeCallback[T models.Gongstruct] struct {
-	Instance       *T
+type InstanceNodeCallback[T models.PointerToGongstruct] struct {
+	Instance       T
 	gongstructName string
 	probe          *Probe
 }
 
-func NewInstanceNodeCallback[T models.Gongstruct](
-	instance *T,
+func NewInstanceNodeCallback[T models.PointerToGongstruct](
+	instance T,
 	gongstructName string,
 	probe *Probe) (
 	instanceNodeCallback *InstanceNodeCallback[T],

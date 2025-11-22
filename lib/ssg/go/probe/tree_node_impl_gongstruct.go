@@ -51,13 +51,13 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Chapter" {
-		updateAndCommitTable[models.Chapter](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Chapter](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Content" {
-		updateAndCommitTable[models.Content](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Content](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Page" {
-		updateAndCommitTable[models.Page](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Page](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

@@ -4029,7 +4029,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -4038,7 +4038,7 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Animate:
+	case *Animate:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Circle"
@@ -4071,13 +4071,13 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Text"
 		rf.Fieldname = "Animates"
 		res = append(res, rf)
-	case Circle:
+	case *Circle:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Circles"
 		res = append(res, rf)
-	case Condition:
+	case *Condition:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Rect"
@@ -4086,37 +4086,37 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "DisplayConditions"
 		res = append(res, rf)
-	case ControlPoint:
+	case *ControlPoint:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Link"
 		rf.Fieldname = "ControlPoints"
 		res = append(res, rf)
-	case Ellipse:
+	case *Ellipse:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Ellipses"
 		res = append(res, rf)
-	case Layer:
+	case *Layer:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "SVG"
 		rf.Fieldname = "Layers"
 		res = append(res, rf)
-	case Line:
+	case *Line:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Lines"
 		res = append(res, rf)
-	case Link:
+	case *Link:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Links"
 		res = append(res, rf)
-	case LinkAnchoredText:
+	case *LinkAnchoredText:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Link"
@@ -4125,64 +4125,64 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Link"
 		rf.Fieldname = "TextAtArrowEnd"
 		res = append(res, rf)
-	case Path:
+	case *Path:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Paths"
 		res = append(res, rf)
-	case Point:
+	case *Point:
 		var rf ReverseField
 		_ = rf
-	case Polygone:
+	case *Polygone:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Polygones"
 		res = append(res, rf)
-	case Polyline:
+	case *Polyline:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Polylines"
 		res = append(res, rf)
-	case Rect:
+	case *Rect:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "Rects"
 		res = append(res, rf)
-	case RectAnchoredPath:
+	case *RectAnchoredPath:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "RectAnchoredPaths"
 		res = append(res, rf)
-	case RectAnchoredRect:
+	case *RectAnchoredRect:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "RectAnchoredRects"
 		res = append(res, rf)
-	case RectAnchoredText:
+	case *RectAnchoredText:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Rect"
 		rf.Fieldname = "RectAnchoredTexts"
 		res = append(res, rf)
-	case RectLinkLink:
+	case *RectLinkLink:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
 		rf.Fieldname = "RectLinkLinks"
 		res = append(res, rf)
-	case SVG:
+	case *SVG:
 		var rf ReverseField
 		_ = rf
-	case SvgText:
+	case *SvgText:
 		var rf ReverseField
 		_ = rf
-	case Text:
+	case *Text:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layer"
@@ -4193,54 +4193,1304 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Animate:
-		res = []string{"Name", "AttributeName", "Values", "From", "To", "Dur", "RepeatCount"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AttributeName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Values",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "From",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "To",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Dur",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RepeatCount",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Circle:
-		res = []string{"Name", "CX", "CY", "Radius", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animations"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Radius",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animations",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Condition:
-		res = []string{"Name"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *ControlPoint:
-		res = []string{"Name", "X_Relative", "Y_Relative", "ClosestRect"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X_Relative",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y_Relative",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ClosestRect",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *Ellipse:
-		res = []string{"Name", "CX", "CY", "RX", "RY", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Layer:
-		res = []string{"Name", "Rects", "Texts", "Circles", "Lines", "Ellipses", "Polylines", "Polygones", "Paths", "Links", "RectLinkLinks"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Rects",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Texts",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Circles",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Lines",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Ellipses",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Polylines",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Polygones",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Paths",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Links",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "RectLinkLinks",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Line:
-		res = []string{"Name", "X1", "Y1", "X2", "Y2", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates", "MouseClickX", "MouseClickY"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X1",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y1",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "MouseClickX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseClickY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Link:
-		res = []string{"Name", "Type", "IsBezierCurve", "Start", "StartAnchorType", "End", "EndAnchorType", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio", "CornerRadius", "HasEndArrow", "EndArrowSize", "EndArrowOffset", "HasStartArrow", "StartArrowSize", "StartArrowOffset", "TextAtArrowStart", "TextAtArrowEnd", "ControlPoints", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "MouseX", "MouseY", "MouseEventKey"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Type",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsBezierCurve",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Start",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "StartAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "End",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "EndAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartOrientation",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndOrientation",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CornerOffsetRatio",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CornerRadius",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasEndArrow",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndArrowSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndArrowOffset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasStartArrow",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartArrowSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartArrowOffset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TextAtArrowStart",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "TextAtArrowEnd",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "ControlPoints",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseEventKey",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *LinkAnchoredText:
-		res = []string{"Name", "Content", "AutomaticLayout", "LinkAnchorType", "X_Offset", "Y_Offset", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "WhiteSpace", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Content",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AutomaticLayout",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LinkAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontWeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontStyle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LetterSpacing",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontFamily",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "WhiteSpace",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Path:
-		res = []string{"Name", "Definition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Definition",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Point:
-		res = []string{"Name", "X", "Y"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Polygone:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Points",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Polyline:
-		res = []string{"Name", "Points", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Points",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Rect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "HoveringTrigger", "DisplayConditions", "Animations", "IsSelectable", "IsSelected", "CanHaveLeftHandle", "HasLeftHandle", "CanHaveRightHandle", "HasRightHandle", "CanHaveTopHandle", "HasTopHandle", "IsScalingProportionally", "CanHaveBottomHandle", "HasBottomHandle", "CanMoveHorizontaly", "CanMoveVerticaly", "RectAnchoredTexts", "RectAnchoredRects", "RectAnchoredPaths", "ChangeColorWhenHovered", "ColorWhenHovered", "OriginalColor", "FillOpacityWhenHovered", "OriginalFillOpacity", "HasToolTip", "ToolTipText", "ToolTipPosition", "MouseX", "MouseY", "MouseEventKey"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HoveringTrigger",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "DisplayConditions",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Animations",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "IsSelectable",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanHaveLeftHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasLeftHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanHaveRightHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasRightHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanHaveTopHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasTopHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsScalingProportionally",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanHaveBottomHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasBottomHandle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanMoveHorizontaly",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CanMoveVerticaly",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RectAnchoredTexts",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "RectAnchoredRects",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "RectAnchoredPaths",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "ChangeColorWhenHovered",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ColorWhenHovered",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OriginalColor",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacityWhenHovered",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OriginalFillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasToolTip",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ToolTipText",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ToolTipPosition",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseY",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MouseEventKey",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *RectAnchoredPath:
-		res = []string{"Name", "Definition", "X_Offset", "Y_Offset", "RectAnchorType", "ScalePropotionnally", "AppliedScaling", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Definition",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RectAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ScalePropotionnally",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AppliedScaling",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *RectAnchoredRect:
-		res = []string{"Name", "X", "Y", "Width", "Height", "RX", "X_Offset", "Y_Offset", "RectAnchorType", "WidthFollowRect", "HeightFollowRect", "HasToolTip", "ToolTipText", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RectAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "WidthFollowRect",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HeightFollowRect",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "HasToolTip",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ToolTipText",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *RectAnchoredText:
-		res = []string{"Name", "Content", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "WhiteSpace", "X_Offset", "Y_Offset", "RectAnchorType", "TextAnchorType", "DominantBaseline", "WritingMode", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Content",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontWeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontStyle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LetterSpacing",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontFamily",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "WhiteSpace",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y_Offset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RectAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TextAnchorType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DominantBaseline",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "WritingMode",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *RectLinkLink:
-		res = []string{"Name", "Start", "End", "TargetAnchorPosition", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Start",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "End",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "TargetAnchorPosition",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *SVG:
-		res = []string{"Name", "Layers", "DrawingState", "StartRect", "EndRect", "IsEditable", "IsSVGFrontEndFileGenerated", "IsSVGBackEndFileGenerated", "DefaultDirectoryForGeneratedImages", "IsControlBannerHidden"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Layers",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "DrawingState",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartRect",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "EndRect",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "IsEditable",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsSVGFrontEndFileGenerated",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsSVGBackEndFileGenerated",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DefaultDirectoryForGeneratedImages",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsControlBannerHidden",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *SvgText:
-		res = []string{"Name", "Text"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Text",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Text:
-		res = []string{"Name", "X", "Y", "Content", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "FontWeight", "FontSize", "FontStyle", "LetterSpacing", "FontFamily", "WhiteSpace", "Animates"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Content",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontWeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontSize",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontStyle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LetterSpacing",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FontFamily",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "WhiteSpace",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Animates",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	}
 	return
 }
@@ -4251,6 +5501,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -4265,6 +5517,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
