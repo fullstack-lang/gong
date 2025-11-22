@@ -400,11 +400,10 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		filepath.Join(pkgPath, "../probe/button_impl_refresh.go"),
 		probe.ButtonImplRefreshFileTemplate)
 
-	gong_models.SimpleCodeGenerator(
+	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
-		caserEnglish.String(modelPkg.Name),
-		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/cell_delete_icon_impl.go"),
-		probe.CellDeleteIconImplTemplate, probe.CellDeleteIconImplSubTemplateCode)
+		filepath.Join(pkgPath, "../probe/cell_delete_icon_impl.go"),
+		probe.CellDeleteIconImplTemplate)
 
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
