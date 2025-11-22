@@ -24,9 +24,8 @@ type CellDeleteIconImplPointerToGongstruct[T models.PointerToGongstruct] struct 
 
 func (cellDeleteIconImpl *CellDeleteIconImplPointerToGongstruct[T]) CellIconUpdated(stage *gongtable.Stage,
 	row, updatedCellIcon *gongtable.CellIcon) {
-	// log.Println("CellIconUpdate: CellIconUpdated", updatedCellIcon.Name)
-
 	cellDeleteIconImpl.Instance.UnstageVoid(cellDeleteIconImpl.probe.stageOfInterest)
+
 	cellDeleteIconImpl.probe.stageOfInterest.Commit()
 
 	updateAndCommitTable[T](cellDeleteIconImpl.probe)
