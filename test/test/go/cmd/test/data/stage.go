@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-20 08:53:35.381852 CET"
-	const __write__utc_time__ = "2025-11-20 07:53:35.381852 UTC"
+	const __write__local_time = "2025-11-22 08:29:26.446472 CET"
+	const __write__utc_time__ = "2025-11-22 07:29:26.446472 UTC"
 
-	const __commitId__ = "0000000127"
+	const __commitId__ = "0000000136"
 
 	// Declaration of instances to stage
 
@@ -156,8 +156,8 @@ sqd
 
 	// Setup of pointers
 	// setup of Astruct instances pointers
-	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000001_B2_)
 	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000000_B3)
+	__Astruct__000000_A1.Anarrayofb = append(__Astruct__000000_A1.Anarrayofb, __Bstruct__000002_B1)
 	__Astruct__000000_A1.Anarrayofa = append(__Astruct__000000_A1.Anarrayofa, __Astruct__000000_A1)
 	__Astruct__000000_A1.Anarrayofb2Use = append(__Astruct__000000_A1.Anarrayofb2Use, __AstructBstruct2Use__000001_)
 	// setup of AstructBstruct2Use instances pointers

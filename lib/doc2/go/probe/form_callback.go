@@ -146,7 +146,7 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 	}
 
 	attributeshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.AttributeShape](
+	updateAndCommitTable[*models.AttributeShape](
 		attributeshapeFormCallback.probe,
 	)
 	attributeshapeFormCallback.probe.tableStage.Commit()
@@ -391,7 +391,7 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 	}
 
 	classdiagramFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Classdiagram](
+	updateAndCommitTable[*models.Classdiagram](
 		classdiagramFormCallback.probe,
 	)
 	classdiagramFormCallback.probe.tableStage.Commit()
@@ -501,7 +501,7 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 	}
 
 	diagrampackageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.DiagramPackage](
+	updateAndCommitTable[*models.DiagramPackage](
 		diagrampackageFormCallback.probe,
 	)
 	diagrampackageFormCallback.probe.tableStage.Commit()
@@ -680,7 +680,7 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 	}
 
 	gongenumshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.GongEnumShape](
+	updateAndCommitTable[*models.GongEnumShape](
 		gongenumshapeFormCallback.probe,
 	)
 	gongenumshapeFormCallback.probe.tableStage.Commit()
@@ -824,7 +824,7 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 	}
 
 	gongenumvalueshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.GongEnumValueShape](
+	updateAndCommitTable[*models.GongEnumValueShape](
 		gongenumvalueshapeFormCallback.probe,
 	)
 	gongenumvalueshapeFormCallback.probe.tableStage.Commit()
@@ -972,7 +972,7 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 	}
 
 	gongnotelinkshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.GongNoteLinkShape](
+	updateAndCommitTable[*models.GongNoteLinkShape](
 		gongnotelinkshapeFormCallback.probe,
 	)
 	gongnotelinkshapeFormCallback.probe.tableStage.Commit()
@@ -1159,7 +1159,7 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 	}
 
 	gongnoteshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.GongNoteShape](
+	updateAndCommitTable[*models.GongNoteShape](
 		gongnoteshapeFormCallback.probe,
 	)
 	gongnoteshapeFormCallback.probe.tableStage.Commit()
@@ -1363,7 +1363,7 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 	}
 
 	gongstructshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.GongStructShape](
+	updateAndCommitTable[*models.GongStructShape](
 		gongstructshapeFormCallback.probe,
 	)
 	gongstructshapeFormCallback.probe.tableStage.Commit()
@@ -1537,7 +1537,7 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 	}
 
 	linkshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.LinkShape](
+	updateAndCommitTable[*models.LinkShape](
 		linkshapeFormCallback.probe,
 	)
 	linkshapeFormCallback.probe.tableStage.Commit()

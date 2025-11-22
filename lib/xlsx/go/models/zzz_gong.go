@@ -1382,7 +1382,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -1391,10 +1391,10 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case DisplaySelection:
+	case *DisplaySelection:
 		var rf ReverseField
 		_ = rf
-	case XLCell:
+	case *XLCell:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "XLRow"
@@ -1403,16 +1403,16 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "XLSheet"
 		rf.Fieldname = "SheetCells"
 		res = append(res, rf)
-	case XLFile:
+	case *XLFile:
 		var rf ReverseField
 		_ = rf
-	case XLRow:
+	case *XLRow:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "XLSheet"
 		rf.Fieldname = "Rows"
 		res = append(res, rf)
-	case XLSheet:
+	case *XLSheet:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "XLFile"
@@ -1423,22 +1423,104 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *DisplaySelection:
-		res = []string{"Name", "XLFile", "XLSheet"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "XLFile",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "XLSheet",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *XLCell:
-		res = []string{"Name", "X", "Y"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "X",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *XLFile:
-		res = []string{"Name", "NbSheets", "Sheets"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NbSheets",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Sheets",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *XLRow:
-		res = []string{"Name", "RowIndex", "Cells"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RowIndex",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Cells",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *XLSheet:
-		res = []string{"Name", "MaxRow", "MaxCol", "NbRows", "Rows", "SheetCells"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MaxRow",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MaxCol",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NbRows",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Rows",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "SheetCells",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	}
 	return
 }
@@ -1449,6 +1531,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -1463,6 +1547,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

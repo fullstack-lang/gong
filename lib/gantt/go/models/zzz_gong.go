@@ -1719,7 +1719,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -1728,28 +1728,28 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Arrow:
+	case *Arrow:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Gantt"
 		rf.Fieldname = "Arrows"
 		res = append(res, rf)
-	case Bar:
+	case *Bar:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Lane"
 		rf.Fieldname = "Bars"
 		res = append(res, rf)
-	case Gantt:
+	case *Gantt:
 		var rf ReverseField
 		_ = rf
-	case Group:
+	case *Group:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Gantt"
 		rf.Fieldname = "Groups"
 		res = append(res, rf)
-	case Lane:
+	case *Lane:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Gantt"
@@ -1761,10 +1761,10 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Milestone"
 		rf.Fieldname = "LanesToDisplay"
 		res = append(res, rf)
-	case LaneUse:
+	case *LaneUse:
 		var rf ReverseField
 		_ = rf
-	case Milestone:
+	case *Milestone:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Gantt"
@@ -1775,26 +1775,256 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Arrow:
-		res = []string{"Name", "From", "To", "OptionnalColor", "OptionnalStroke"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "From",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "To",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "OptionnalColor",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OptionnalStroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Bar:
-		res = []string{"Name", "Start", "End", "ComputedDuration", "OptionnalColor", "OptionnalStroke", "FillOpacity", "StrokeWidth", "StrokeDashArray"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Start",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "End",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ComputedDuration",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OptionnalColor",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OptionnalStroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Gantt:
-		res = []string{"Name", "ComputedStart", "ComputedEnd", "ComputedDuration", "UseManualStartAndEndDates", "ManualStart", "ManualEnd", "LaneHeight", "RatioBarToLaneHeight", "YTopMargin", "XLeftText", "TextHeight", "XLeftLanes", "XRightMargin", "ArrowLengthToTheRightOfStartBar", "ArrowTipLenght", "TimeLine_Color", "TimeLine_FillOpacity", "TimeLine_Stroke", "TimeLine_StrokeWidth", "Group_Stroke", "Group_StrokeWidth", "Group_StrokeDashArray", "DateYOffset", "AlignOnStartEndOnYearStart", "Lanes", "Milestones", "Groups", "Arrows"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ComputedStart",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ComputedEnd",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ComputedDuration",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "UseManualStartAndEndDates",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ManualStart",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ManualEnd",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LaneHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RatioBarToLaneHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "YTopMargin",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "XLeftText",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TextHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "XLeftLanes",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "XRightMargin",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ArrowLengthToTheRightOfStartBar",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ArrowTipLenght",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TimeLine_Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TimeLine_FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TimeLine_Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "TimeLine_StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Group_Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Group_StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Group_StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DateYOffset",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AlignOnStartEndOnYearStart",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Lanes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Milestones",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Groups",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "Arrows",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Group:
-		res = []string{"Name", "GroupLanes"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GroupLanes",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *Lane:
-		res = []string{"Name", "Order", "Bars"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Order",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Bars",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *LaneUse:
-		res = []string{"Name", "Lane"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Lane",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+		}
 	case *Milestone:
-		res = []string{"Name", "Date", "DisplayVerticalBar", "LanesToDisplay"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Date",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DisplayVerticalBar",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "LanesToDisplay",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	}
 	return
 }
@@ -1805,6 +2035,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -1819,6 +2051,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
