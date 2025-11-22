@@ -51,16 +51,16 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Button" {
-		updateAndCommitTable[models.Button](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Button](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Node" {
-		updateAndCommitTable[models.Node](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Node](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "SVGIcon" {
-		updateAndCommitTable[models.SVGIcon](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.SVGIcon](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Tree" {
-		updateAndCommitTable[models.Tree](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Tree](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
