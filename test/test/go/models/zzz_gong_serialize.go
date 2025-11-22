@@ -277,6 +277,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 		}
 	}
 
+
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
 	if err != nil {
