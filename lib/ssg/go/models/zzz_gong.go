@@ -980,24 +980,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Chapter:
-		res = "Chapter"
-	case Content:
-		res = "Content"
-	case Page:
-		res = "Page"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1014,23 +996,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Page"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case Chapter:
-		res = []string{"Name", "MardownContent", "Pages"}
-	case Content:
-		res = []string{"Name", "MardownContent", "ContentPath", "OutputPath", "LayoutPath", "StaticPath", "Target", "Chapters", "VersionInfo"}
-	case Page:
-		res = []string{"Name", "MardownContent"}
-	}
-	return
 }
 
 type ReverseField struct {

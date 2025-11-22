@@ -1881,36 +1881,6 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	return nil
 }
 
-// GetGongstructName returns the name of the Gongstruct
-// this can be usefull if one want program robust to refactoring
-func GetGongstructName[Type Gongstruct]() (res string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case AttributeShape:
-		res = "AttributeShape"
-	case Classdiagram:
-		res = "Classdiagram"
-	case DiagramPackage:
-		res = "DiagramPackage"
-	case GongEnumShape:
-		res = "GongEnumShape"
-	case GongEnumValueShape:
-		res = "GongEnumValueShape"
-	case GongNoteLinkShape:
-		res = "GongNoteLinkShape"
-	case GongNoteShape:
-		res = "GongNoteShape"
-	case GongStructShape:
-		res = "GongStructShape"
-	case LinkShape:
-		res = "LinkShape"
-	}
-	return res
-}
-
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
 func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
@@ -1939,35 +1909,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "LinkShape"
 	}
 	return res
-}
-
-// GetFields return the array of the fields
-func GetFields[Type Gongstruct]() (res []string) {
-
-	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case AttributeShape:
-		res = []string{"Name", "IdentifierMeta", "FieldTypeAsString", "Structname", "Fieldtypename"}
-	case Classdiagram:
-		res = []string{"Name", "Description", "IsIncludedInStaticWebSite", "GongStructShapes", "GongEnumShapes", "GongNoteShapes", "ShowNbInstances", "ShowMultiplicity", "ShowLinkNames", "IsInRenameMode", "IsExpanded", "NodeGongStructsIsExpanded", "NodeGongStructNodeExpansion", "NodeGongEnumsIsExpanded", "NodeGongEnumNodeExpansion", "NodeGongNotesIsExpanded", "NodeGongNoteNodeExpansion"}
-	case DiagramPackage:
-		res = []string{"Name", "Path", "GongModelPath", "Classdiagrams", "SelectedClassdiagram", "AbsolutePathToDiagramPackage"}
-	case GongEnumShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "GongEnumValueShapes", "Width", "Height", "IsExpanded"}
-	case GongEnumValueShape:
-		res = []string{"Name", "IdentifierMeta"}
-	case GongNoteLinkShape:
-		res = []string{"Name", "Identifier", "Type"}
-	case GongNoteShape:
-		res = []string{"Name", "Identifier", "Body", "BodyHTML", "X", "Y", "Width", "Height", "Matched", "GongNoteLinkShapes", "IsExpanded"}
-	case GongStructShape:
-		res = []string{"Name", "X", "Y", "IdentifierMeta", "AttributeShapes", "LinkShapes", "Width", "Height", "IsSelected"}
-	case LinkShape:
-		res = []string{"Name", "IdentifierMeta", "FieldTypeIdentifierMeta", "FieldOffsetX", "FieldOffsetY", "TargetMultiplicity", "TargetMultiplicityOffsetX", "TargetMultiplicityOffsetY", "SourceMultiplicity", "SourceMultiplicityOffsetX", "SourceMultiplicityOffsetY", "X", "Y", "StartOrientation", "StartRatio", "EndOrientation", "EndRatio", "CornerOffsetRatio"}
-	}
-	return
 }
 
 type ReverseField struct {
