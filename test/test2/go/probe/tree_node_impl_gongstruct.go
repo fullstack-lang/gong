@@ -51,10 +51,10 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "A" {
-		updateAndCommitTable[models.A](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.A](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "B" {
-		updateAndCommitTable[models.B](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.B](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

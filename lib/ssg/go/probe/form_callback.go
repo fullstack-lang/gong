@@ -167,7 +167,7 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 	}
 
 	chapterFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Chapter](
+	updateAndCommitTable[*models.Chapter](
 		chapterFormCallback.probe,
 	)
 	chapterFormCallback.probe.tableStage.Commit()
@@ -283,7 +283,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 	}
 
 	contentFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Content](
+	updateAndCommitTable[*models.Content](
 		contentFormCallback.probe,
 	)
 	contentFormCallback.probe.tableStage.Commit()
@@ -429,7 +429,7 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 	}
 
 	pageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Page](
+	updateAndCommitTable[*models.Page](
 		pageFormCallback.probe,
 	)
 	pageFormCallback.probe.tableStage.Commit()

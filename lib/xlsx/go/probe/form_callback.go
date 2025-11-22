@@ -77,7 +77,7 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 	}
 
 	displayselectionFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.DisplaySelection](
+	updateAndCommitTable[*models.DisplaySelection](
 		displayselectionFormCallback.probe,
 	)
 	displayselectionFormCallback.probe.tableStage.Commit()
@@ -292,7 +292,7 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 	}
 
 	xlcellFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.XLCell](
+	updateAndCommitTable[*models.XLCell](
 		xlcellFormCallback.probe,
 	)
 	xlcellFormCallback.probe.tableStage.Commit()
@@ -396,7 +396,7 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 	}
 
 	xlfileFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.XLFile](
+	updateAndCommitTable[*models.XLFile](
 		xlfileFormCallback.probe,
 	)
 	xlfileFormCallback.probe.tableStage.Commit()
@@ -567,7 +567,7 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 	}
 
 	xlrowFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.XLRow](
+	updateAndCommitTable[*models.XLRow](
 		xlrowFormCallback.probe,
 	)
 	xlrowFormCallback.probe.tableStage.Commit()
@@ -767,7 +767,7 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 	}
 
 	xlsheetFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.XLSheet](
+	updateAndCommitTable[*models.XLSheet](
 		xlsheetFormCallback.probe,
 	)
 	xlsheetFormCallback.probe.tableStage.Commit()

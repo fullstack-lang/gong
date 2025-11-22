@@ -99,7 +99,7 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	}
 
 	{{structname}}FormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.{{Structname}}](
+	updateAndCommitTable[*models.{{Structname}}](
 		{{structname}}FormCallback.probe,
 	)
 	{{structname}}FormCallback.probe.tableStage.Commit()

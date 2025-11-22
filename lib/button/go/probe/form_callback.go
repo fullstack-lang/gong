@@ -144,7 +144,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Button](
+	updateAndCommitTable[*models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -317,7 +317,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Group](
+	updateAndCommitTable[*models.Group](
 		groupFormCallback.probe,
 	)
 	groupFormCallback.probe.tableStage.Commit()
@@ -419,7 +419,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Layout](
+	updateAndCommitTable[*models.Layout](
 		layoutFormCallback.probe,
 	)
 	layoutFormCallback.probe.tableStage.Commit()

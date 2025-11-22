@@ -51,16 +51,16 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Checkbox" {
-		updateAndCommitTable[models.Checkbox](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Checkbox](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Group" {
-		updateAndCommitTable[models.Group](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Group](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Layout" {
-		updateAndCommitTable[models.Layout](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Layout](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Slider" {
-		updateAndCommitTable[models.Slider](nodeImplGongstruct.probe)
+		updateAndCommitTable[*models.Slider](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
