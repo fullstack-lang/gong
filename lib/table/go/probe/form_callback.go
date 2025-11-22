@@ -150,7 +150,7 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 	}
 
 	cellFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Cell](
+	updateAndCommitTable[*models.Cell](
 		cellFormCallback.probe,
 	)
 	cellFormCallback.probe.tableStage.Commit()
@@ -229,7 +229,7 @@ func (cellbooleanFormCallback *CellBooleanFormCallback) OnSave() {
 	}
 
 	cellbooleanFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CellBoolean](
+	updateAndCommitTable[*models.CellBoolean](
 		cellbooleanFormCallback.probe,
 	)
 	cellbooleanFormCallback.probe.tableStage.Commit()
@@ -308,7 +308,7 @@ func (cellfloat64FormCallback *CellFloat64FormCallback) OnSave() {
 	}
 
 	cellfloat64FormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CellFloat64](
+	updateAndCommitTable[*models.CellFloat64](
 		cellfloat64FormCallback.probe,
 	)
 	cellfloat64FormCallback.probe.tableStage.Commit()
@@ -391,7 +391,7 @@ func (celliconFormCallback *CellIconFormCallback) OnSave() {
 	}
 
 	celliconFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CellIcon](
+	updateAndCommitTable[*models.CellIcon](
 		celliconFormCallback.probe,
 	)
 	celliconFormCallback.probe.tableStage.Commit()
@@ -470,7 +470,7 @@ func (cellintFormCallback *CellIntFormCallback) OnSave() {
 	}
 
 	cellintFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CellInt](
+	updateAndCommitTable[*models.CellInt](
 		cellintFormCallback.probe,
 	)
 	cellintFormCallback.probe.tableStage.Commit()
@@ -549,7 +549,7 @@ func (cellstringFormCallback *CellStringFormCallback) OnSave() {
 	}
 
 	cellstringFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CellString](
+	updateAndCommitTable[*models.CellString](
 		cellstringFormCallback.probe,
 	)
 	cellstringFormCallback.probe.tableStage.Commit()
@@ -695,7 +695,7 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 	}
 
 	checkboxFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.CheckBox](
+	updateAndCommitTable[*models.CheckBox](
 		checkboxFormCallback.probe,
 	)
 	checkboxFormCallback.probe.tableStage.Commit()
@@ -839,7 +839,7 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 	}
 
 	displayedcolumnFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.DisplayedColumn](
+	updateAndCommitTable[*models.DisplayedColumn](
 		displayedcolumnFormCallback.probe,
 	)
 	displayedcolumnFormCallback.probe.tableStage.Commit()
@@ -1037,7 +1037,7 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 	}
 
 	formdivFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormDiv](
+	updateAndCommitTable[*models.FormDiv](
 		formdivFormCallback.probe,
 	)
 	formdivFormCallback.probe.tableStage.Commit()
@@ -1128,7 +1128,7 @@ func (formeditassocbuttonFormCallback *FormEditAssocButtonFormCallback) OnSave()
 	}
 
 	formeditassocbuttonFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormEditAssocButton](
+	updateAndCommitTable[*models.FormEditAssocButton](
 		formeditassocbuttonFormCallback.probe,
 	)
 	formeditassocbuttonFormCallback.probe.tableStage.Commit()
@@ -1300,7 +1300,7 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 	}
 
 	formfieldFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormField](
+	updateAndCommitTable[*models.FormField](
 		formfieldFormCallback.probe,
 	)
 	formfieldFormCallback.probe.tableStage.Commit()
@@ -1379,7 +1379,7 @@ func (formfielddateFormCallback *FormFieldDateFormCallback) OnSave() {
 	}
 
 	formfielddateFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldDate](
+	updateAndCommitTable[*models.FormFieldDate](
 		formfielddateFormCallback.probe,
 	)
 	formfielddateFormCallback.probe.tableStage.Commit()
@@ -1458,7 +1458,7 @@ func (formfielddatetimeFormCallback *FormFieldDateTimeFormCallback) OnSave() {
 	}
 
 	formfielddatetimeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldDateTime](
+	updateAndCommitTable[*models.FormFieldDateTime](
 		formfielddatetimeFormCallback.probe,
 	)
 	formfielddatetimeFormCallback.probe.tableStage.Commit()
@@ -1545,7 +1545,7 @@ func (formfieldfloat64FormCallback *FormFieldFloat64FormCallback) OnSave() {
 	}
 
 	formfieldfloat64FormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldFloat64](
+	updateAndCommitTable[*models.FormFieldFloat64](
 		formfieldfloat64FormCallback.probe,
 	)
 	formfieldfloat64FormCallback.probe.tableStage.Commit()
@@ -1632,7 +1632,7 @@ func (formfieldintFormCallback *FormFieldIntFormCallback) OnSave() {
 	}
 
 	formfieldintFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldInt](
+	updateAndCommitTable[*models.FormFieldInt](
 		formfieldintFormCallback.probe,
 	)
 	formfieldintFormCallback.probe.tableStage.Commit()
@@ -1740,7 +1740,7 @@ func (formfieldselectFormCallback *FormFieldSelectFormCallback) OnSave() {
 	}
 
 	formfieldselectFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldSelect](
+	updateAndCommitTable[*models.FormFieldSelect](
 		formfieldselectFormCallback.probe,
 	)
 	formfieldselectFormCallback.probe.tableStage.Commit()
@@ -1821,7 +1821,7 @@ func (formfieldstringFormCallback *FormFieldStringFormCallback) OnSave() {
 	}
 
 	formfieldstringFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldString](
+	updateAndCommitTable[*models.FormFieldString](
 		formfieldstringFormCallback.probe,
 	)
 	formfieldstringFormCallback.probe.tableStage.Commit()
@@ -1902,7 +1902,7 @@ func (formfieldtimeFormCallback *FormFieldTimeFormCallback) OnSave() {
 	}
 
 	formfieldtimeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormFieldTime](
+	updateAndCommitTable[*models.FormFieldTime](
 		formfieldtimeFormCallback.probe,
 	)
 	formfieldtimeFormCallback.probe.tableStage.Commit()
@@ -2010,7 +2010,7 @@ func (formgroupFormCallback *FormGroupFormCallback) OnSave() {
 	}
 
 	formgroupFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormGroup](
+	updateAndCommitTable[*models.FormGroup](
 		formgroupFormCallback.probe,
 	)
 	formgroupFormCallback.probe.tableStage.Commit()
@@ -2097,7 +2097,7 @@ func (formsortassocbuttonFormCallback *FormSortAssocButtonFormCallback) OnSave()
 	}
 
 	formsortassocbuttonFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.FormSortAssocButton](
+	updateAndCommitTable[*models.FormSortAssocButton](
 		formsortassocbuttonFormCallback.probe,
 	)
 	formsortassocbuttonFormCallback.probe.tableStage.Commit()
@@ -2241,7 +2241,7 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 	}
 
 	optionFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Option](
+	updateAndCommitTable[*models.Option](
 		optionFormCallback.probe,
 	)
 	optionFormCallback.probe.tableStage.Commit()
@@ -2412,7 +2412,7 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 	}
 
 	rowFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Row](
+	updateAndCommitTable[*models.Row](
 		rowFormCallback.probe,
 	)
 	rowFormCallback.probe.tableStage.Commit()
@@ -2559,7 +2559,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	}
 
 	tableFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Table](
+	updateAndCommitTable[*models.Table](
 		tableFormCallback.probe,
 	)
 	tableFormCallback.probe.tableStage.Commit()

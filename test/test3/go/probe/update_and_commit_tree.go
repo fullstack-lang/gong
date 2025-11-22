@@ -53,7 +53,7 @@ func updateAndCommitTree(
 	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -84,7 +84,7 @@ func updateAndCommitTree(
 		// insertion point
 		case "A":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.A](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.A](probe.stageOfInterest)
 			for _a := range set {
 				nodeInstance := &tree.Node{Name: _a.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -120,14 +120,14 @@ func updateAndCommitTree(
 	probe.treeStage.Commit()
 }
 
-type InstanceNodeCallback[T models.Gongstruct] struct {
-	Instance       *T
+type InstanceNodeCallback[T models.PointerToGongstruct] struct {
+	Instance       T
 	gongstructName string
 	probe          *Probe
 }
 
-func NewInstanceNodeCallback[T models.Gongstruct](
-	instance *T,
+func NewInstanceNodeCallback[T models.PointerToGongstruct](
+	instance T,
 	gongstructName string,
 	probe *Probe) (
 	instanceNodeCallback *InstanceNodeCallback[T],

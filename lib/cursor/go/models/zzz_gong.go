@@ -732,7 +732,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -741,7 +741,7 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Cursor:
+	case *Cursor:
 		var rf ReverseField
 		_ = rf
 	}
@@ -749,14 +749,76 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Cursor:
-		res = []string{"Name", "StartX", "EndX", "Y1", "Y2", "DurationSeconds", "Color", "FillOpacity", "Stroke", "StrokeOpacity", "StrokeWidth", "StrokeDashArray", "StrokeDashArrayWhenSelected", "Transform", "IsPlaying"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StartX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "EndX",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y1",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Y2",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DurationSeconds",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Color",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FillOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Stroke",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeOpacity",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArray",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StrokeDashArrayWhenSelected",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Transform",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsPlaying",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	}
 	return
 }
@@ -767,6 +829,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -781,6 +845,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

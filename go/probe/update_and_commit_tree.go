@@ -53,7 +53,7 @@ func updateAndCommitTree(
 	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -84,7 +84,7 @@ func updateAndCommitTree(
 		// insertion point
 		case "GongBasicField":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongBasicField](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongBasicField](probe.stageOfInterest)
 			for _gongbasicfield := range set {
 				nodeInstance := &tree.Node{Name: _gongbasicfield.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -94,7 +94,7 @@ func updateAndCommitTree(
 			}
 		case "GongEnum":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongEnum](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnum](probe.stageOfInterest)
 			for _gongenum := range set {
 				nodeInstance := &tree.Node{Name: _gongenum.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -104,7 +104,7 @@ func updateAndCommitTree(
 			}
 		case "GongEnumValue":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongEnumValue](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongEnumValue](probe.stageOfInterest)
 			for _gongenumvalue := range set {
 				nodeInstance := &tree.Node{Name: _gongenumvalue.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -114,7 +114,7 @@ func updateAndCommitTree(
 			}
 		case "GongLink":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongLink](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongLink](probe.stageOfInterest)
 			for _gonglink := range set {
 				nodeInstance := &tree.Node{Name: _gonglink.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -124,7 +124,7 @@ func updateAndCommitTree(
 			}
 		case "GongNote":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongNote](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongNote](probe.stageOfInterest)
 			for _gongnote := range set {
 				nodeInstance := &tree.Node{Name: _gongnote.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -134,7 +134,7 @@ func updateAndCommitTree(
 			}
 		case "GongStruct":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongStruct](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongStruct](probe.stageOfInterest)
 			for _gongstruct := range set {
 				nodeInstance := &tree.Node{Name: _gongstruct.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -144,7 +144,7 @@ func updateAndCommitTree(
 			}
 		case "GongTimeField":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.GongTimeField](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GongTimeField](probe.stageOfInterest)
 			for _gongtimefield := range set {
 				nodeInstance := &tree.Node{Name: _gongtimefield.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -154,7 +154,7 @@ func updateAndCommitTree(
 			}
 		case "MetaReference":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.MetaReference](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.MetaReference](probe.stageOfInterest)
 			for _metareference := range set {
 				nodeInstance := &tree.Node{Name: _metareference.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -164,7 +164,7 @@ func updateAndCommitTree(
 			}
 		case "ModelPkg":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.ModelPkg](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ModelPkg](probe.stageOfInterest)
 			for _modelpkg := range set {
 				nodeInstance := &tree.Node{Name: _modelpkg.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -174,7 +174,7 @@ func updateAndCommitTree(
 			}
 		case "PointerToGongStructField":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.PointerToGongStructField](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.PointerToGongStructField](probe.stageOfInterest)
 			for _pointertogongstructfield := range set {
 				nodeInstance := &tree.Node{Name: _pointertogongstructfield.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -184,7 +184,7 @@ func updateAndCommitTree(
 			}
 		case "SliceOfPointerToGongStructField":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.SliceOfPointerToGongStructField](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.SliceOfPointerToGongStructField](probe.stageOfInterest)
 			for _sliceofpointertogongstructfield := range set {
 				nodeInstance := &tree.Node{Name: _sliceofpointertogongstructfield.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -220,14 +220,14 @@ func updateAndCommitTree(
 	probe.treeStage.Commit()
 }
 
-type InstanceNodeCallback[T models.Gongstruct] struct {
-	Instance       *T
+type InstanceNodeCallback[T models.PointerToGongstruct] struct {
+	Instance       T
 	gongstructName string
 	probe          *Probe
 }
 
-func NewInstanceNodeCallback[T models.Gongstruct](
-	instance *T,
+func NewInstanceNodeCallback[T models.PointerToGongstruct](
+	instance T,
 	gongstructName string,
 	probe *Probe) (
 	instanceNodeCallback *InstanceNodeCallback[T],

@@ -152,7 +152,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Button](
+	updateAndCommitTable[*models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -461,7 +461,7 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 	}
 
 	nodeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Node](
+	updateAndCommitTable[*models.Node](
 		nodeFormCallback.probe,
 	)
 	nodeFormCallback.probe.tableStage.Commit()
@@ -540,7 +540,7 @@ func (svgiconFormCallback *SVGIconFormCallback) OnSave() {
 	}
 
 	svgiconFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.SVGIcon](
+	updateAndCommitTable[*models.SVGIcon](
 		svgiconFormCallback.probe,
 	)
 	svgiconFormCallback.probe.tableStage.Commit()
@@ -642,7 +642,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	}
 
 	treeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Tree](
+	updateAndCommitTable[*models.Tree](
 		treeFormCallback.probe,
 	)
 	treeFormCallback.probe.tableStage.Commit()

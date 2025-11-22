@@ -75,7 +75,7 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 	}
 
 	contentFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.Content](
+	updateAndCommitTable[*models.Content](
 		contentFormCallback.probe,
 	)
 	contentFormCallback.probe.tableStage.Commit()
@@ -154,7 +154,7 @@ func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
 	}
 
 	jpgimageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.JpgImage](
+	updateAndCommitTable[*models.JpgImage](
 		jpgimageFormCallback.probe,
 	)
 	jpgimageFormCallback.probe.tableStage.Commit()
@@ -233,7 +233,7 @@ func (pngimageFormCallback *PngImageFormCallback) OnSave() {
 	}
 
 	pngimageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.PngImage](
+	updateAndCommitTable[*models.PngImage](
 		pngimageFormCallback.probe,
 	)
 	pngimageFormCallback.probe.tableStage.Commit()
@@ -312,7 +312,7 @@ func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
 	}
 
 	svgimageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[models.SvgImage](
+	updateAndCommitTable[*models.SvgImage](
 		svgimageFormCallback.probe,
 	)
 	svgimageFormCallback.probe.tableStage.Commit()

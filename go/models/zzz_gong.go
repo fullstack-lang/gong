@@ -2271,7 +2271,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -2280,52 +2280,52 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case GongBasicField:
+	case *GongBasicField:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStruct"
 		rf.Fieldname = "GongBasicFields"
 		res = append(res, rf)
-	case GongEnum:
+	case *GongEnum:
 		var rf ReverseField
 		_ = rf
-	case GongEnumValue:
+	case *GongEnumValue:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongEnum"
 		rf.Fieldname = "GongEnumValues"
 		res = append(res, rf)
-	case GongLink:
+	case *GongLink:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongNote"
 		rf.Fieldname = "Links"
 		res = append(res, rf)
-	case GongNote:
+	case *GongNote:
 		var rf ReverseField
 		_ = rf
-	case GongStruct:
+	case *GongStruct:
 		var rf ReverseField
 		_ = rf
-	case GongTimeField:
+	case *GongTimeField:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStruct"
 		rf.Fieldname = "GongTimeFields"
 		res = append(res, rf)
-	case MetaReference:
+	case *MetaReference:
 		var rf ReverseField
 		_ = rf
-	case ModelPkg:
+	case *ModelPkg:
 		var rf ReverseField
 		_ = rf
-	case PointerToGongStructField:
+	case *PointerToGongStructField:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStruct"
 		rf.Fieldname = "PointerToGongStructFields"
 		res = append(res, rf)
-	case SliceOfPointerToGongStructField:
+	case *SliceOfPointerToGongStructField:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "GongStruct"
@@ -2336,34 +2336,300 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *GongBasicField:
-		res = []string{"Name", "BasicKindName", "GongEnum", "DeclaredType", "CompositeStructName", "Index", "IsTextArea", "IsBespokeWidth", "BespokeWidth", "IsBespokeHeight", "BespokeHeight"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BasicKindName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongEnum",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "DeclaredType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CompositeStructName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Index",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsTextArea",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsBespokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BespokeWidth",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsBespokeHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BespokeHeight",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongEnum:
-		res = []string{"Name", "Type", "GongEnumValues"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Type",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongEnumValues",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *GongEnumValue:
-		res = []string{"Name", "Value"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Value",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongLink:
-		res = []string{"Name", "Recv", "ImportPath"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Recv",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ImportPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongNote:
-		res = []string{"Name", "Body", "BodyHTML", "Links"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Body",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BodyHTML",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Links",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *GongStruct:
-		res = []string{"Name", "GongBasicFields", "GongTimeFields", "PointerToGongStructFields", "SliceOfPointerToGongStructFields", "HasOnAfterUpdateSignature", "IsIgnoredForFront"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongBasicFields",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "GongTimeFields",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "PointerToGongStructFields",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "SliceOfPointerToGongStructFields",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "HasOnAfterUpdateSignature",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsIgnoredForFront",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *GongTimeField:
-		res = []string{"Name", "Index", "CompositeStructName", "BespokeTimeFormat"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Index",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CompositeStructName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "BespokeTimeFormat",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *MetaReference:
-		res = []string{"Name"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *ModelPkg:
-		res = []string{"Name", "PkgPath", "PathToGoSubDirectory", "OrmPkgGenPath", "DbOrmPkgGenPath", "DbLiteOrmPkgGenPath", "DbPkgGenPath", "ControllersPkgGenPath", "FullstackPkgGenPath", "StackPkgGenPath", "StaticPkgGenPath", "ProbePkgGenPath", "NgWorkspacePath", "NgWorkspaceName", "NgDataLibrarySourceCodeDirectory", "NgSpecificLibrarySourceCodeDirectory", "MaterialLibDatamodelTargetPath"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "PkgPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "PathToGoSubDirectory",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "OrmPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DbOrmPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DbLiteOrmPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DbPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ControllersPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "FullstackPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StaticPkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ProbePkgGenPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NgWorkspacePath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NgWorkspaceName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NgDataLibrarySourceCodeDirectory",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "NgSpecificLibrarySourceCodeDirectory",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "MaterialLibDatamodelTargetPath",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *PointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName", "IsType"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongStruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Index",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CompositeStructName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsType",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *SliceOfPointerToGongStructField:
-		res = []string{"Name", "GongStruct", "Index", "CompositeStructName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "GongStruct",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Index",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "CompositeStructName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	}
 	return
 }
@@ -2374,6 +2640,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -2388,6 +2656,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

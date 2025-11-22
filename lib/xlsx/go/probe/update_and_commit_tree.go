@@ -53,7 +53,7 @@ func updateAndCommitTree(
 	refreshButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
-	setOfGongStructs := *gong_models.GetGongstructInstancesSet[gong_models.GongStruct](probe.gongStage)
+	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
 
 	sliceOfGongStructsSorted := make([]*gong_models.GongStruct, len(setOfGongStructs))
 	i := 0
@@ -84,7 +84,7 @@ func updateAndCommitTree(
 		// insertion point
 		case "DisplaySelection":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.DisplaySelection](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.DisplaySelection](probe.stageOfInterest)
 			for _displayselection := range set {
 				nodeInstance := &tree.Node{Name: _displayselection.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -94,7 +94,7 @@ func updateAndCommitTree(
 			}
 		case "XLCell":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.XLCell](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.XLCell](probe.stageOfInterest)
 			for _xlcell := range set {
 				nodeInstance := &tree.Node{Name: _xlcell.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -104,7 +104,7 @@ func updateAndCommitTree(
 			}
 		case "XLFile":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.XLFile](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.XLFile](probe.stageOfInterest)
 			for _xlfile := range set {
 				nodeInstance := &tree.Node{Name: _xlfile.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -114,7 +114,7 @@ func updateAndCommitTree(
 			}
 		case "XLRow":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.XLRow](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.XLRow](probe.stageOfInterest)
 			for _xlrow := range set {
 				nodeInstance := &tree.Node{Name: _xlrow.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -124,7 +124,7 @@ func updateAndCommitTree(
 			}
 		case "XLSheet":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSet[models.XLSheet](probe.stageOfInterest)
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.XLSheet](probe.stageOfInterest)
 			for _xlsheet := range set {
 				nodeInstance := &tree.Node{Name: _xlsheet.GetName()}
 				nodeInstance.IsNodeClickable = true
@@ -160,14 +160,14 @@ func updateAndCommitTree(
 	probe.treeStage.Commit()
 }
 
-type InstanceNodeCallback[T models.Gongstruct] struct {
-	Instance       *T
+type InstanceNodeCallback[T models.PointerToGongstruct] struct {
+	Instance       T
 	gongstructName string
 	probe          *Probe
 }
 
-func NewInstanceNodeCallback[T models.Gongstruct](
-	instance *T,
+func NewInstanceNodeCallback[T models.PointerToGongstruct](
+	instance T,
 	gongstructName string,
 	probe *Probe) (
 	instanceNodeCallback *InstanceNodeCallback[T],

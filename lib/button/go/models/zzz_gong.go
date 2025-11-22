@@ -1038,7 +1038,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -1047,19 +1047,19 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case Button:
+	case *Button:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Group"
 		rf.Fieldname = "Buttons"
 		res = append(res, rf)
-	case Group:
+	case *Group:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Layout"
 		rf.Fieldname = "Groups"
 		res = append(res, rf)
-	case Layout:
+	case *Layout:
 		var rf ReverseField
 		_ = rf
 	}
@@ -1067,18 +1067,60 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *Button:
-		res = []string{"Name", "Label", "Icon"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Label",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Icon",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Group:
-		res = []string{"Name", "Percentage", "Buttons", "NbColumns"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Percentage",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Buttons",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "NbColumns",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Layout:
-		res = []string{"Name", "Groups"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Groups",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	}
 	return
 }
@@ -1089,6 +1131,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -1103,6 +1147,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

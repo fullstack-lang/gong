@@ -3541,7 +3541,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
+func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
@@ -3550,10 +3550,10 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
-	case AsSplit:
+	case *AsSplit:
 		var rf ReverseField
 		_ = rf
-	case AsSplitArea:
+	case *AsSplitArea:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "AsSplit"
@@ -3562,55 +3562,55 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 		rf.GongstructName = "View"
 		rf.Fieldname = "RootAsSplitAreas"
 		res = append(res, rf)
-	case Button:
+	case *Button:
 		var rf ReverseField
 		_ = rf
-	case Cursor:
+	case *Cursor:
 		var rf ReverseField
 		_ = rf
-	case FavIcon:
+	case *FavIcon:
 		var rf ReverseField
 		_ = rf
-	case Form:
+	case *Form:
 		var rf ReverseField
 		_ = rf
-	case Load:
+	case *Load:
 		var rf ReverseField
 		_ = rf
-	case LogoOnTheLeft:
+	case *LogoOnTheLeft:
 		var rf ReverseField
 		_ = rf
-	case LogoOnTheRight:
+	case *LogoOnTheRight:
 		var rf ReverseField
 		_ = rf
-	case Markdown:
+	case *Markdown:
 		var rf ReverseField
 		_ = rf
-	case Slider:
+	case *Slider:
 		var rf ReverseField
 		_ = rf
-	case Split:
+	case *Split:
 		var rf ReverseField
 		_ = rf
-	case Svg:
+	case *Svg:
 		var rf ReverseField
 		_ = rf
-	case Table:
+	case *Table:
 		var rf ReverseField
 		_ = rf
-	case Title:
+	case *Title:
 		var rf ReverseField
 		_ = rf
-	case Tone:
+	case *Tone:
 		var rf ReverseField
 		_ = rf
-	case Tree:
+	case *Tree:
 		var rf ReverseField
 		_ = rf
-	case View:
+	case *View:
 		var rf ReverseField
 		_ = rf
-	case Xlsx:
+	case *Xlsx:
 		var rf ReverseField
 		_ = rf
 	}
@@ -3618,50 +3618,340 @@ func GetReverseFields[Type Gongstruct]() (res []ReverseField) {
 }
 
 // GetFieldsFromPointer return the array of the fields
-func GetFieldsFromPointer[Type PointerToGongstruct]() (res []string) {
+func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
 	case *AsSplit:
-		res = []string{"Name", "Direction", "AsSplitAreas"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Direction",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AsSplitAreas",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+		}
 	case *AsSplitArea:
-		res = []string{"Name", "ShowNameInHeader", "Size", "IsAny", "AsSplit", "Button", "Cursor", "Form", "Load", "Markdown", "Slider", "Split", "Svg", "Table", "Tone", "Tree", "Xlsx", "HasDiv", "DivStyle"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ShowNameInHeader",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Size",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "IsAny",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "AsSplit",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Button",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Cursor",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Form",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Load",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Markdown",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Slider",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Split",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Svg",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Table",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Tone",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Tree",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "Xlsx",
+				GongFieldValueType: GongFieldValueTypePointer,
+			},
+			{
+				Name:               "HasDiv",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "DivStyle",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Button:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Cursor:
-		res = []string{"Name", "StackName", "Style"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Style",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *FavIcon:
-		res = []string{"Name", "SVG"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SVG",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Form:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Load:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *LogoOnTheLeft:
-		res = []string{"Name", "Width", "Height", "SVG"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SVG",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *LogoOnTheRight:
-		res = []string{"Name", "Width", "Height", "SVG"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Width",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Height",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "SVG",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Markdown:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Slider:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Split:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Svg:
-		res = []string{"Name", "StackName", "Style"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "Style",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Table:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Title:
-		res = []string{"Name"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Tone:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Tree:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *View:
-		res = []string{"Name", "ShowViewName", "RootAsSplitAreas", "IsSelectedView"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "ShowViewName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "RootAsSplitAreas",
+				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			},
+			{
+				Name:               "IsSelectedView",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	case *Xlsx:
-		res = []string{"Name", "StackName"}
+		res = []GongFieldHeader{
+
+			{
+				Name:               "Name",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+			{
+				Name:               "StackName",
+				GongFieldValueType: GongFieldValueTypeBasicKind,
+			},
+		}
 	}
 	return
 }
@@ -3672,6 +3962,8 @@ const (
 	GongFieldValueTypeInt             GongFieldValueType = "GongFieldValueTypeInt"
 	GongFieldValueTypeFloat           GongFieldValueType = "GongFieldValueTypeFloat"
 	GongFieldValueTypeBool            GongFieldValueType = "GongFieldValueTypeBool"
+	GongFieldValueTypeString          GongFieldValueType = "GongFieldValueTypeString"
+	GongFieldValueTypeBasicKind       GongFieldValueType = "GongFieldValueTypeBasicKind"
 	GongFieldValueTypePointer         GongFieldValueType = "GongFieldValueTypePointer"
 	GongFieldValueTypeSliceOfPointers GongFieldValueType = "GongFieldValueTypeSliceOfPointers"
 )
@@ -3686,6 +3978,11 @@ type GongFieldValue struct {
 	// in case of a pointer, the ID of the pointed element
 	// in case of a slice of pointers, the IDs, separated by semi columbs
 	ids string
+}
+
+type GongFieldHeader struct {
+	GongFieldValueType
+	Name string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
