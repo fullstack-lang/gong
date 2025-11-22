@@ -246,7 +246,6 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			default:
 				f.SetCellStr(sheetName, fmt.Sprintf("%s%d", IntToLetters(int32(2*index+2)), line), fieldHeader.Name+":Basic")
 			}
-
 		}
 	}
 
@@ -280,6 +279,7 @@ func SerializeExcelizePointerToGongstruct2[Type PointerToGongstruct](stage *Stag
 			}
 		}
 	}
+
 
 	// Autofit all columns according to their text content
 	cols, err := f.GetCols(sheetName)
