@@ -1223,13 +1223,6 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 }
 
 func (stage *Stage) Commit() {
-	if stage.OnInitCommitCallback != nil {
-		stage.OnInitCommitCallback.BeforeCommit(stage)
-	}
-	if stage.OnInitCommitFromBackCallback != nil {
-		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-	}
-
 	stage.ComputeReverseMaps()
 	stage.commitId++
 	stage.commitTimeStamp = time.Now()
