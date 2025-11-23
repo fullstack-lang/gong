@@ -1,42 +1,55 @@
 // generated code - do not edit
 package models
 
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+    
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
 // Clean computes the reverse map, for all intances, for all clean to pointers field
-// Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) Clean() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Button
+	// clean up Button
 	for button := range stage.Buttons {
 		_ = button
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Group
+	// clean up Group
 	for group := range stage.Groups {
 		_ = group
 		// insertion point per field
-		var _Buttons []*Button
-		for _, _button := range group.Buttons {
-			if IsStaged(stage, _button) {
-			 	_Buttons = append(_Buttons, _button)
-			}
-		}
-		group.Buttons = _Buttons
+		group.Buttons = GongCleanSlice(stage, group.Buttons)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Layout
+	// clean up Layout
 	for layout := range stage.Layouts {
 		_ = layout
 		// insertion point per field
-		var _Groups []*Group
-		for _, _group := range layout.Groups {
-			if IsStaged(stage, _group) {
-			 	_Groups = append(_Groups, _group)
-			}
-		}
-		layout.Groups = _Groups
+		layout.Groups = GongCleanSlice(stage, layout.Groups)
 		// insertion point per field
 	}
 

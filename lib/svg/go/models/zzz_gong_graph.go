@@ -1,6 +1,79 @@
 // generated code - do not edit
 package models
 
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
+	switch target := any(instance).(type) {
+	// insertion point for stage
+	case *Animate:
+		ok = stage.IsStagedAnimate(target)
+
+	case *Circle:
+		ok = stage.IsStagedCircle(target)
+
+	case *Condition:
+		ok = stage.IsStagedCondition(target)
+
+	case *ControlPoint:
+		ok = stage.IsStagedControlPoint(target)
+
+	case *Ellipse:
+		ok = stage.IsStagedEllipse(target)
+
+	case *Layer:
+		ok = stage.IsStagedLayer(target)
+
+	case *Line:
+		ok = stage.IsStagedLine(target)
+
+	case *Link:
+		ok = stage.IsStagedLink(target)
+
+	case *LinkAnchoredText:
+		ok = stage.IsStagedLinkAnchoredText(target)
+
+	case *Path:
+		ok = stage.IsStagedPath(target)
+
+	case *Point:
+		ok = stage.IsStagedPoint(target)
+
+	case *Polygone:
+		ok = stage.IsStagedPolygone(target)
+
+	case *Polyline:
+		ok = stage.IsStagedPolyline(target)
+
+	case *Rect:
+		ok = stage.IsStagedRect(target)
+
+	case *RectAnchoredPath:
+		ok = stage.IsStagedRectAnchoredPath(target)
+
+	case *RectAnchoredRect:
+		ok = stage.IsStagedRectAnchoredRect(target)
+
+	case *RectAnchoredText:
+		ok = stage.IsStagedRectAnchoredText(target)
+
+	case *RectLinkLink:
+		ok = stage.IsStagedRectLinkLink(target)
+
+	case *SVG:
+		ok = stage.IsStagedSVG(target)
+
+	case *SvgText:
+		ok = stage.IsStagedSvgText(target)
+
+	case *Text:
+		ok = stage.IsStagedText(target)
+
+	default:
+		_ = target
+	}
+	return
+}
+
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {

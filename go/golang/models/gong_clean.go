@@ -16,8 +16,33 @@ import (
 const GongCleanTemplate = `// generated code - do not edit
 package models
 
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+    
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
 // Clean computes the reverse map, for all intances, for all clean to pointers field
-// Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) Clean() {
 	// insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
 }
@@ -33,7 +58,7 @@ const (
 var GongCleanGongstructSubTemplateCode map[GongCleanGongstructInsertionId]string = // new line
 map[GongCleanGongstructInsertionId]string{
 	GongCleanRangeElements: `
-	// Compute reverse map for named struct {{Structname}}
+	// clean up {{Structname}}
 	for {{structname}} := range stage.{{Structname}}s {
 		_ = {{structname}}
 		// insertion point per field{{cleanOfSliceOfPointers}}
@@ -53,17 +78,9 @@ var GongCleanFileFieldFieldSubTemplateCode map[GongCleanSubTemplateId]string = /
 map[GongCleanSubTemplateId]string{
 
 	GongCleanSubTmplCleanPointer: `
-		if !IsStaged(stage, {{structname}}.{{FieldName}}) {
-			{{structname}}.{{FieldName}} = nil
-		}`,
+		{{structname}}.{{FieldName}} = GongCleanPointer(stage, {{structname}}.{{FieldName}})`,
 	GongCleanSubTmplCleanOfSlicePointers: `
-		var _{{FieldName}} []*{{AssociationStructName}}
-		for _, _{{associationStructName}} := range {{structname}}.{{FieldName}} {
-			if IsStaged(stage, _{{associationStructName}}) {
-			 	_{{FieldName}} = append(_{{FieldName}}, _{{associationStructName}})
-			}
-		}
-		{{structname}}.{{FieldName}} = _{{FieldName}}`,
+		{{structname}}.{{FieldName}} = GongCleanSlice(stage, {{structname}}.{{FieldName}})`,
 }
 
 func CodeGeneratorModelGongClean(

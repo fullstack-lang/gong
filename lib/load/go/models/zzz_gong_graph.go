@@ -1,6 +1,25 @@
 // generated code - do not edit
 package models
 
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
+	switch target := any(instance).(type) {
+	// insertion point for stage
+	case *FileToDownload:
+		ok = stage.IsStagedFileToDownload(target)
+
+	case *FileToUpload:
+		ok = stage.IsStagedFileToUpload(target)
+
+	case *Message:
+		ok = stage.IsStagedMessage(target)
+
+	default:
+		_ = target
+	}
+	return
+}
+
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
