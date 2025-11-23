@@ -21,12 +21,14 @@ func TestStageCount(t *testing.T) {
 	b1 := (&models.Bstruct{Name: "B1"}).Stage(stage)
 	b2 := (&models.Bstruct{Name: "B2"}).Stage(stage)
 
+	b3 := (&models.Bstruct{Name: "B3"})
+
 	a1 := (&models.Astruct{
 		Name:                "A1",
 		Floatfield:          10.2,
 		Booleanfield:        true,
 		Anotherbooleanfield: true,
-		Associationtob:      b2,
+		Associationtob:      b3,
 		Anarrayofb: []*models.Bstruct{
 			b1,
 			b2,
@@ -43,6 +45,8 @@ func TestStageCount(t *testing.T) {
 
 	// stage one instance
 	a1.Stage(stage)
+	stage.Clean()
+
 	a2 := (&models.Astruct{
 		Name: "A2",
 	}).Stage(stage)

@@ -1,126 +1,101 @@
 // generated code - do not edit
 package models
 
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+    
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
 // Clean computes the reverse map, for all intances, for all clean to pointers field
-// Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) Clean() {
 	// insertion point per named struct
-	// Compute reverse map for named struct AttributeShape
+	// clean up AttributeShape
 	for attributeshape := range stage.AttributeShapes {
 		_ = attributeshape
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Classdiagram
+	// clean up Classdiagram
 	for classdiagram := range stage.Classdiagrams {
 		_ = classdiagram
 		// insertion point per field
-		var _GongStructShapes []*GongStructShape
-		for _, _gongstructshape := range classdiagram.GongStructShapes {
-			if IsStaged(stage, _gongstructshape) {
-			 	_GongStructShapes = append(_GongStructShapes, _gongstructshape)
-			}
-		}
-		classdiagram.GongStructShapes = _GongStructShapes
-		var _GongEnumShapes []*GongEnumShape
-		for _, _gongenumshape := range classdiagram.GongEnumShapes {
-			if IsStaged(stage, _gongenumshape) {
-			 	_GongEnumShapes = append(_GongEnumShapes, _gongenumshape)
-			}
-		}
-		classdiagram.GongEnumShapes = _GongEnumShapes
-		var _GongNoteShapes []*GongNoteShape
-		for _, _gongnoteshape := range classdiagram.GongNoteShapes {
-			if IsStaged(stage, _gongnoteshape) {
-			 	_GongNoteShapes = append(_GongNoteShapes, _gongnoteshape)
-			}
-		}
-		classdiagram.GongNoteShapes = _GongNoteShapes
+		classdiagram.GongStructShapes = GongCleanSlice(stage, classdiagram.GongStructShapes)
+		classdiagram.GongEnumShapes = GongCleanSlice(stage, classdiagram.GongEnumShapes)
+		classdiagram.GongNoteShapes = GongCleanSlice(stage, classdiagram.GongNoteShapes)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct DiagramPackage
+	// clean up DiagramPackage
 	for diagrampackage := range stage.DiagramPackages {
 		_ = diagrampackage
 		// insertion point per field
-		var _Classdiagrams []*Classdiagram
-		for _, _classdiagram := range diagrampackage.Classdiagrams {
-			if IsStaged(stage, _classdiagram) {
-			 	_Classdiagrams = append(_Classdiagrams, _classdiagram)
-			}
-		}
-		diagrampackage.Classdiagrams = _Classdiagrams
+		diagrampackage.Classdiagrams = GongCleanSlice(stage, diagrampackage.Classdiagrams)
 		// insertion point per field
-		if !IsStaged(stage, diagrampackage.SelectedClassdiagram) {
-			diagrampackage.SelectedClassdiagram = nil
-		}
+		diagrampackage.SelectedClassdiagram = GongCleanPointer(stage, diagrampackage.SelectedClassdiagram)
 	}
 
-	// Compute reverse map for named struct GongEnumShape
+	// clean up GongEnumShape
 	for gongenumshape := range stage.GongEnumShapes {
 		_ = gongenumshape
 		// insertion point per field
-		var _GongEnumValueShapes []*GongEnumValueShape
-		for _, _gongenumvalueshape := range gongenumshape.GongEnumValueShapes {
-			if IsStaged(stage, _gongenumvalueshape) {
-			 	_GongEnumValueShapes = append(_GongEnumValueShapes, _gongenumvalueshape)
-			}
-		}
-		gongenumshape.GongEnumValueShapes = _GongEnumValueShapes
+		gongenumshape.GongEnumValueShapes = GongCleanSlice(stage, gongenumshape.GongEnumValueShapes)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct GongEnumValueShape
+	// clean up GongEnumValueShape
 	for gongenumvalueshape := range stage.GongEnumValueShapes {
 		_ = gongenumvalueshape
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct GongNoteLinkShape
+	// clean up GongNoteLinkShape
 	for gongnotelinkshape := range stage.GongNoteLinkShapes {
 		_ = gongnotelinkshape
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct GongNoteShape
+	// clean up GongNoteShape
 	for gongnoteshape := range stage.GongNoteShapes {
 		_ = gongnoteshape
 		// insertion point per field
-		var _GongNoteLinkShapes []*GongNoteLinkShape
-		for _, _gongnotelinkshape := range gongnoteshape.GongNoteLinkShapes {
-			if IsStaged(stage, _gongnotelinkshape) {
-			 	_GongNoteLinkShapes = append(_GongNoteLinkShapes, _gongnotelinkshape)
-			}
-		}
-		gongnoteshape.GongNoteLinkShapes = _GongNoteLinkShapes
+		gongnoteshape.GongNoteLinkShapes = GongCleanSlice(stage, gongnoteshape.GongNoteLinkShapes)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct GongStructShape
+	// clean up GongStructShape
 	for gongstructshape := range stage.GongStructShapes {
 		_ = gongstructshape
 		// insertion point per field
-		var _AttributeShapes []*AttributeShape
-		for _, _attributeshape := range gongstructshape.AttributeShapes {
-			if IsStaged(stage, _attributeshape) {
-			 	_AttributeShapes = append(_AttributeShapes, _attributeshape)
-			}
-		}
-		gongstructshape.AttributeShapes = _AttributeShapes
-		var _LinkShapes []*LinkShape
-		for _, _linkshape := range gongstructshape.LinkShapes {
-			if IsStaged(stage, _linkshape) {
-			 	_LinkShapes = append(_LinkShapes, _linkshape)
-			}
-		}
-		gongstructshape.LinkShapes = _LinkShapes
+		gongstructshape.AttributeShapes = GongCleanSlice(stage, gongstructshape.AttributeShapes)
+		gongstructshape.LinkShapes = GongCleanSlice(stage, gongstructshape.LinkShapes)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct LinkShape
+	// clean up LinkShape
 	for linkshape := range stage.LinkShapes {
 		_ = linkshape
 		// insertion point per field

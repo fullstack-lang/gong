@@ -1,6 +1,85 @@
 // generated code - do not edit
 package models
 
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
+	switch target := any(instance).(type) {
+	// insertion point for stage
+	case *Cell:
+		ok = stage.IsStagedCell(target)
+
+	case *CellBoolean:
+		ok = stage.IsStagedCellBoolean(target)
+
+	case *CellFloat64:
+		ok = stage.IsStagedCellFloat64(target)
+
+	case *CellIcon:
+		ok = stage.IsStagedCellIcon(target)
+
+	case *CellInt:
+		ok = stage.IsStagedCellInt(target)
+
+	case *CellString:
+		ok = stage.IsStagedCellString(target)
+
+	case *CheckBox:
+		ok = stage.IsStagedCheckBox(target)
+
+	case *DisplayedColumn:
+		ok = stage.IsStagedDisplayedColumn(target)
+
+	case *FormDiv:
+		ok = stage.IsStagedFormDiv(target)
+
+	case *FormEditAssocButton:
+		ok = stage.IsStagedFormEditAssocButton(target)
+
+	case *FormField:
+		ok = stage.IsStagedFormField(target)
+
+	case *FormFieldDate:
+		ok = stage.IsStagedFormFieldDate(target)
+
+	case *FormFieldDateTime:
+		ok = stage.IsStagedFormFieldDateTime(target)
+
+	case *FormFieldFloat64:
+		ok = stage.IsStagedFormFieldFloat64(target)
+
+	case *FormFieldInt:
+		ok = stage.IsStagedFormFieldInt(target)
+
+	case *FormFieldSelect:
+		ok = stage.IsStagedFormFieldSelect(target)
+
+	case *FormFieldString:
+		ok = stage.IsStagedFormFieldString(target)
+
+	case *FormFieldTime:
+		ok = stage.IsStagedFormFieldTime(target)
+
+	case *FormGroup:
+		ok = stage.IsStagedFormGroup(target)
+
+	case *FormSortAssocButton:
+		ok = stage.IsStagedFormSortAssocButton(target)
+
+	case *Option:
+		ok = stage.IsStagedOption(target)
+
+	case *Row:
+		ok = stage.IsStagedRow(target)
+
+	case *Table:
+		ok = stage.IsStagedTable(target)
+
+	default:
+		_ = target
+	}
+	return
+}
+
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
