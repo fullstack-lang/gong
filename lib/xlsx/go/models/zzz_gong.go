@@ -540,14 +540,16 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["DisplaySelection"] = len(stage.DisplaySelections)
 	stage.Map_GongStructName_InstancesNb["XLCell"] = len(stage.XLCells)
 	stage.Map_GongStructName_InstancesNb["XLFile"] = len(stage.XLFiles)
 	stage.Map_GongStructName_InstancesNb["XLRow"] = len(stage.XLRows)
 	stage.Map_GongStructName_InstancesNb["XLSheet"] = len(stage.XLSheets)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -556,13 +558,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["DisplaySelection"] = len(stage.DisplaySelections)
-	stage.Map_GongStructName_InstancesNb["XLCell"] = len(stage.XLCells)
-	stage.Map_GongStructName_InstancesNb["XLFile"] = len(stage.XLFiles)
-	stage.Map_GongStructName_InstancesNb["XLRow"] = len(stage.XLRows)
-	stage.Map_GongStructName_InstancesNb["XLSheet"] = len(stage.XLSheets)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath

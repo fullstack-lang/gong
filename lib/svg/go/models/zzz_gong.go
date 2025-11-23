@@ -1230,7 +1230,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
 	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
@@ -1253,7 +1256,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["SVG"] = len(stage.SVGs)
 	stage.Map_GongStructName_InstancesNb["SvgText"] = len(stage.SvgTexts)
 	stage.Map_GongStructName_InstancesNb["Text"] = len(stage.Texts)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -1262,29 +1264,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Animate"] = len(stage.Animates)
-	stage.Map_GongStructName_InstancesNb["Circle"] = len(stage.Circles)
-	stage.Map_GongStructName_InstancesNb["Condition"] = len(stage.Conditions)
-	stage.Map_GongStructName_InstancesNb["ControlPoint"] = len(stage.ControlPoints)
-	stage.Map_GongStructName_InstancesNb["Ellipse"] = len(stage.Ellipses)
-	stage.Map_GongStructName_InstancesNb["Layer"] = len(stage.Layers)
-	stage.Map_GongStructName_InstancesNb["Line"] = len(stage.Lines)
-	stage.Map_GongStructName_InstancesNb["Link"] = len(stage.Links)
-	stage.Map_GongStructName_InstancesNb["LinkAnchoredText"] = len(stage.LinkAnchoredTexts)
-	stage.Map_GongStructName_InstancesNb["Path"] = len(stage.Paths)
-	stage.Map_GongStructName_InstancesNb["Point"] = len(stage.Points)
-	stage.Map_GongStructName_InstancesNb["Polygone"] = len(stage.Polygones)
-	stage.Map_GongStructName_InstancesNb["Polyline"] = len(stage.Polylines)
-	stage.Map_GongStructName_InstancesNb["Rect"] = len(stage.Rects)
-	stage.Map_GongStructName_InstancesNb["RectAnchoredPath"] = len(stage.RectAnchoredPaths)
-	stage.Map_GongStructName_InstancesNb["RectAnchoredRect"] = len(stage.RectAnchoredRects)
-	stage.Map_GongStructName_InstancesNb["RectAnchoredText"] = len(stage.RectAnchoredTexts)
-	stage.Map_GongStructName_InstancesNb["RectLinkLink"] = len(stage.RectLinkLinks)
-	stage.Map_GongStructName_InstancesNb["SVG"] = len(stage.SVGs)
-	stage.Map_GongStructName_InstancesNb["SvgText"] = len(stage.SvgTexts)
-	stage.Map_GongStructName_InstancesNb["Text"] = len(stage.Texts)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath
