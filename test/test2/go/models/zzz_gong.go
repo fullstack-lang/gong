@@ -634,6 +634,7 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*Stage)
 	UnstageVoid(stage *Stage)
+	GongGetFieldHeaders() []GongFieldHeader
 	comparable
 }
 
@@ -894,43 +895,47 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 	return
 }
 
+// insertion point for get fields header method
+func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "NumberField",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "B",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Bs",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+	}
+	return
+}
+
+func (b *B) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *A:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "NumberField",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "B",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Bs",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-		}
-	case *B:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	}
-	return
+	return ret.GongGetFieldHeaders()
 }
 
 type GongFieldValueType string
