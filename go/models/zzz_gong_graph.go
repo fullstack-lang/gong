@@ -1,6 +1,49 @@
 // generated code - do not edit
 package models
 
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
+	switch target := any(instance).(type) {
+	// insertion point for stage
+	case *GongBasicField:
+		ok = stage.IsStagedGongBasicField(target)
+
+	case *GongEnum:
+		ok = stage.IsStagedGongEnum(target)
+
+	case *GongEnumValue:
+		ok = stage.IsStagedGongEnumValue(target)
+
+	case *GongLink:
+		ok = stage.IsStagedGongLink(target)
+
+	case *GongNote:
+		ok = stage.IsStagedGongNote(target)
+
+	case *GongStruct:
+		ok = stage.IsStagedGongStruct(target)
+
+	case *GongTimeField:
+		ok = stage.IsStagedGongTimeField(target)
+
+	case *MetaReference:
+		ok = stage.IsStagedMetaReference(target)
+
+	case *ModelPkg:
+		ok = stage.IsStagedModelPkg(target)
+
+	case *PointerToGongStructField:
+		ok = stage.IsStagedPointerToGongStructField(target)
+
+	case *SliceOfPointerToGongStructField:
+		ok = stage.IsStagedSliceOfPointerToGongStructField(target)
+
+	default:
+		_ = target
+	}
+	return
+}
+
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {

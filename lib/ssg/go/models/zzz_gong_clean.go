@@ -1,39 +1,52 @@
 // generated code - do not edit
 package models
 
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+    
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
 // Clean computes the reverse map, for all intances, for all clean to pointers field
-// Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) Clean() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Chapter
+	// clean up Chapter
 	for chapter := range stage.Chapters {
 		_ = chapter
 		// insertion point per field
-		var _Pages []*Page
-		for _, _page := range chapter.Pages {
-			if IsStaged(stage, _page) {
-			 	_Pages = append(_Pages, _page)
-			}
-		}
-		chapter.Pages = _Pages
+		chapter.Pages = GongCleanSlice(stage, chapter.Pages)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Content
+	// clean up Content
 	for content := range stage.Contents {
 		_ = content
 		// insertion point per field
-		var _Chapters []*Chapter
-		for _, _chapter := range content.Chapters {
-			if IsStaged(stage, _chapter) {
-			 	_Chapters = append(_Chapters, _chapter)
-			}
-		}
-		content.Chapters = _Chapters
+		content.Chapters = GongCleanSlice(stage, content.Chapters)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Page
+	// clean up Page
 	for page := range stage.Pages {
 		_ = page
 		// insertion point per field

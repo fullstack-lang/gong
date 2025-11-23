@@ -1,265 +1,216 @@
 // generated code - do not edit
 package models
 
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+    
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
 // Clean computes the reverse map, for all intances, for all clean to pointers field
-// Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) Clean() {
 	// insertion point per named struct
-	// Compute reverse map for named struct Cell
+	// clean up Cell
 	for cell := range stage.Cells {
 		_ = cell
 		// insertion point per field
 		// insertion point per field
-		if !IsStaged(stage, cell.CellString) {
-			cell.CellString = nil
-		}
-		if !IsStaged(stage, cell.CellFloat64) {
-			cell.CellFloat64 = nil
-		}
-		if !IsStaged(stage, cell.CellInt) {
-			cell.CellInt = nil
-		}
-		if !IsStaged(stage, cell.CellBool) {
-			cell.CellBool = nil
-		}
-		if !IsStaged(stage, cell.CellIcon) {
-			cell.CellIcon = nil
-		}
+		cell.CellString = GongCleanPointer(stage, cell.CellString)
+		cell.CellFloat64 = GongCleanPointer(stage, cell.CellFloat64)
+		cell.CellInt = GongCleanPointer(stage, cell.CellInt)
+		cell.CellBool = GongCleanPointer(stage, cell.CellBool)
+		cell.CellIcon = GongCleanPointer(stage, cell.CellIcon)
 	}
 
-	// Compute reverse map for named struct CellBoolean
+	// clean up CellBoolean
 	for cellboolean := range stage.CellBooleans {
 		_ = cellboolean
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct CellFloat64
+	// clean up CellFloat64
 	for cellfloat64 := range stage.CellFloat64s {
 		_ = cellfloat64
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct CellIcon
+	// clean up CellIcon
 	for cellicon := range stage.CellIcons {
 		_ = cellicon
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct CellInt
+	// clean up CellInt
 	for cellint := range stage.CellInts {
 		_ = cellint
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct CellString
+	// clean up CellString
 	for cellstring := range stage.CellStrings {
 		_ = cellstring
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct CheckBox
+	// clean up CheckBox
 	for checkbox := range stage.CheckBoxs {
 		_ = checkbox
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct DisplayedColumn
+	// clean up DisplayedColumn
 	for displayedcolumn := range stage.DisplayedColumns {
 		_ = displayedcolumn
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormDiv
+	// clean up FormDiv
 	for formdiv := range stage.FormDivs {
 		_ = formdiv
 		// insertion point per field
-		var _FormFields []*FormField
-		for _, _formfield := range formdiv.FormFields {
-			if IsStaged(stage, _formfield) {
-			 	_FormFields = append(_FormFields, _formfield)
-			}
-		}
-		formdiv.FormFields = _FormFields
-		var _CheckBoxs []*CheckBox
-		for _, _checkbox := range formdiv.CheckBoxs {
-			if IsStaged(stage, _checkbox) {
-			 	_CheckBoxs = append(_CheckBoxs, _checkbox)
-			}
-		}
-		formdiv.CheckBoxs = _CheckBoxs
+		formdiv.FormFields = GongCleanSlice(stage, formdiv.FormFields)
+		formdiv.CheckBoxs = GongCleanSlice(stage, formdiv.CheckBoxs)
 		// insertion point per field
-		if !IsStaged(stage, formdiv.FormEditAssocButton) {
-			formdiv.FormEditAssocButton = nil
-		}
-		if !IsStaged(stage, formdiv.FormSortAssocButton) {
-			formdiv.FormSortAssocButton = nil
-		}
+		formdiv.FormEditAssocButton = GongCleanPointer(stage, formdiv.FormEditAssocButton)
+		formdiv.FormSortAssocButton = GongCleanPointer(stage, formdiv.FormSortAssocButton)
 	}
 
-	// Compute reverse map for named struct FormEditAssocButton
+	// clean up FormEditAssocButton
 	for formeditassocbutton := range stage.FormEditAssocButtons {
 		_ = formeditassocbutton
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormField
+	// clean up FormField
 	for formfield := range stage.FormFields {
 		_ = formfield
 		// insertion point per field
 		// insertion point per field
-		if !IsStaged(stage, formfield.FormFieldString) {
-			formfield.FormFieldString = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldFloat64) {
-			formfield.FormFieldFloat64 = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldInt) {
-			formfield.FormFieldInt = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldDate) {
-			formfield.FormFieldDate = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldTime) {
-			formfield.FormFieldTime = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldDateTime) {
-			formfield.FormFieldDateTime = nil
-		}
-		if !IsStaged(stage, formfield.FormFieldSelect) {
-			formfield.FormFieldSelect = nil
-		}
+		formfield.FormFieldString = GongCleanPointer(stage, formfield.FormFieldString)
+		formfield.FormFieldFloat64 = GongCleanPointer(stage, formfield.FormFieldFloat64)
+		formfield.FormFieldInt = GongCleanPointer(stage, formfield.FormFieldInt)
+		formfield.FormFieldDate = GongCleanPointer(stage, formfield.FormFieldDate)
+		formfield.FormFieldTime = GongCleanPointer(stage, formfield.FormFieldTime)
+		formfield.FormFieldDateTime = GongCleanPointer(stage, formfield.FormFieldDateTime)
+		formfield.FormFieldSelect = GongCleanPointer(stage, formfield.FormFieldSelect)
 	}
 
-	// Compute reverse map for named struct FormFieldDate
+	// clean up FormFieldDate
 	for formfielddate := range stage.FormFieldDates {
 		_ = formfielddate
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormFieldDateTime
+	// clean up FormFieldDateTime
 	for formfielddatetime := range stage.FormFieldDateTimes {
 		_ = formfielddatetime
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormFieldFloat64
+	// clean up FormFieldFloat64
 	for formfieldfloat64 := range stage.FormFieldFloat64s {
 		_ = formfieldfloat64
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormFieldInt
+	// clean up FormFieldInt
 	for formfieldint := range stage.FormFieldInts {
 		_ = formfieldint
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormFieldSelect
+	// clean up FormFieldSelect
 	for formfieldselect := range stage.FormFieldSelects {
 		_ = formfieldselect
 		// insertion point per field
-		var _Options []*Option
-		for _, _option := range formfieldselect.Options {
-			if IsStaged(stage, _option) {
-			 	_Options = append(_Options, _option)
-			}
-		}
-		formfieldselect.Options = _Options
+		formfieldselect.Options = GongCleanSlice(stage, formfieldselect.Options)
 		// insertion point per field
-		if !IsStaged(stage, formfieldselect.Value) {
-			formfieldselect.Value = nil
-		}
+		formfieldselect.Value = GongCleanPointer(stage, formfieldselect.Value)
 	}
 
-	// Compute reverse map for named struct FormFieldString
+	// clean up FormFieldString
 	for formfieldstring := range stage.FormFieldStrings {
 		_ = formfieldstring
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormFieldTime
+	// clean up FormFieldTime
 	for formfieldtime := range stage.FormFieldTimes {
 		_ = formfieldtime
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormGroup
+	// clean up FormGroup
 	for formgroup := range stage.FormGroups {
 		_ = formgroup
 		// insertion point per field
-		var _FormDivs []*FormDiv
-		for _, _formdiv := range formgroup.FormDivs {
-			if IsStaged(stage, _formdiv) {
-			 	_FormDivs = append(_FormDivs, _formdiv)
-			}
-		}
-		formgroup.FormDivs = _FormDivs
+		formgroup.FormDivs = GongCleanSlice(stage, formgroup.FormDivs)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct FormSortAssocButton
+	// clean up FormSortAssocButton
 	for formsortassocbutton := range stage.FormSortAssocButtons {
 		_ = formsortassocbutton
 		// insertion point per field
 		// insertion point per field
-		if !IsStaged(stage, formsortassocbutton.FormEditAssocButton) {
-			formsortassocbutton.FormEditAssocButton = nil
-		}
+		formsortassocbutton.FormEditAssocButton = GongCleanPointer(stage, formsortassocbutton.FormEditAssocButton)
 	}
 
-	// Compute reverse map for named struct Option
+	// clean up Option
 	for option := range stage.Options {
 		_ = option
 		// insertion point per field
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Row
+	// clean up Row
 	for row := range stage.Rows {
 		_ = row
 		// insertion point per field
-		var _Cells []*Cell
-		for _, _cell := range row.Cells {
-			if IsStaged(stage, _cell) {
-			 	_Cells = append(_Cells, _cell)
-			}
-		}
-		row.Cells = _Cells
+		row.Cells = GongCleanSlice(stage, row.Cells)
 		// insertion point per field
 	}
 
-	// Compute reverse map for named struct Table
+	// clean up Table
 	for table := range stage.Tables {
 		_ = table
 		// insertion point per field
-		var _DisplayedColumns []*DisplayedColumn
-		for _, _displayedcolumn := range table.DisplayedColumns {
-			if IsStaged(stage, _displayedcolumn) {
-			 	_DisplayedColumns = append(_DisplayedColumns, _displayedcolumn)
-			}
-		}
-		table.DisplayedColumns = _DisplayedColumns
-		var _Rows []*Row
-		for _, _row := range table.Rows {
-			if IsStaged(stage, _row) {
-			 	_Rows = append(_Rows, _row)
-			}
-		}
-		table.Rows = _Rows
+		table.DisplayedColumns = GongCleanSlice(stage, table.DisplayedColumns)
+		table.Rows = GongCleanSlice(stage, table.Rows)
 		// insertion point per field
 	}
 

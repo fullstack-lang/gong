@@ -1,6 +1,73 @@
 // generated code - do not edit
 package models
 
+func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
+
+	switch target := any(instance).(type) {
+	// insertion point for stage
+	case *AsSplit:
+		ok = stage.IsStagedAsSplit(target)
+
+	case *AsSplitArea:
+		ok = stage.IsStagedAsSplitArea(target)
+
+	case *Button:
+		ok = stage.IsStagedButton(target)
+
+	case *Cursor:
+		ok = stage.IsStagedCursor(target)
+
+	case *FavIcon:
+		ok = stage.IsStagedFavIcon(target)
+
+	case *Form:
+		ok = stage.IsStagedForm(target)
+
+	case *Load:
+		ok = stage.IsStagedLoad(target)
+
+	case *LogoOnTheLeft:
+		ok = stage.IsStagedLogoOnTheLeft(target)
+
+	case *LogoOnTheRight:
+		ok = stage.IsStagedLogoOnTheRight(target)
+
+	case *Markdown:
+		ok = stage.IsStagedMarkdown(target)
+
+	case *Slider:
+		ok = stage.IsStagedSlider(target)
+
+	case *Split:
+		ok = stage.IsStagedSplit(target)
+
+	case *Svg:
+		ok = stage.IsStagedSvg(target)
+
+	case *Table:
+		ok = stage.IsStagedTable(target)
+
+	case *Title:
+		ok = stage.IsStagedTitle(target)
+
+	case *Tone:
+		ok = stage.IsStagedTone(target)
+
+	case *Tree:
+		ok = stage.IsStagedTree(target)
+
+	case *View:
+		ok = stage.IsStagedView(target)
+
+	case *Xlsx:
+		ok = stage.IsStagedXlsx(target)
+
+	default:
+		_ = target
+	}
+	return
+}
+
 func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
