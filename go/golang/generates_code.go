@@ -234,8 +234,13 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		modelPkg,
 		modelPkg.Name,
 		pkgPath,
-		modelPkg.PkgPath,
-	)
+		modelPkg.PkgPath)
+
+	models.CodeGeneratorModelGongClean(
+		modelPkg,
+		modelPkg.Name,
+		pkgPath,
+		modelPkg.PkgPath)
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
