@@ -456,12 +456,14 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
 	stage.Map_GongStructName_InstancesNb["Group"] = len(stage.Groups)
 	stage.Map_GongStructName_InstancesNb["Layout"] = len(stage.Layouts)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -470,11 +472,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
-	stage.Map_GongStructName_InstancesNb["Group"] = len(stage.Groups)
-	stage.Map_GongStructName_InstancesNb["Layout"] = len(stage.Layouts)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath
