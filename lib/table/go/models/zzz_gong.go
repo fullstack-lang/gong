@@ -1266,7 +1266,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Cell"] = len(stage.Cells)
 	stage.Map_GongStructName_InstancesNb["CellBoolean"] = len(stage.CellBooleans)
@@ -1291,7 +1294,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Option"] = len(stage.Options)
 	stage.Map_GongStructName_InstancesNb["Row"] = len(stage.Rows)
 	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -1300,31 +1302,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Cell"] = len(stage.Cells)
-	stage.Map_GongStructName_InstancesNb["CellBoolean"] = len(stage.CellBooleans)
-	stage.Map_GongStructName_InstancesNb["CellFloat64"] = len(stage.CellFloat64s)
-	stage.Map_GongStructName_InstancesNb["CellIcon"] = len(stage.CellIcons)
-	stage.Map_GongStructName_InstancesNb["CellInt"] = len(stage.CellInts)
-	stage.Map_GongStructName_InstancesNb["CellString"] = len(stage.CellStrings)
-	stage.Map_GongStructName_InstancesNb["CheckBox"] = len(stage.CheckBoxs)
-	stage.Map_GongStructName_InstancesNb["DisplayedColumn"] = len(stage.DisplayedColumns)
-	stage.Map_GongStructName_InstancesNb["FormDiv"] = len(stage.FormDivs)
-	stage.Map_GongStructName_InstancesNb["FormEditAssocButton"] = len(stage.FormEditAssocButtons)
-	stage.Map_GongStructName_InstancesNb["FormField"] = len(stage.FormFields)
-	stage.Map_GongStructName_InstancesNb["FormFieldDate"] = len(stage.FormFieldDates)
-	stage.Map_GongStructName_InstancesNb["FormFieldDateTime"] = len(stage.FormFieldDateTimes)
-	stage.Map_GongStructName_InstancesNb["FormFieldFloat64"] = len(stage.FormFieldFloat64s)
-	stage.Map_GongStructName_InstancesNb["FormFieldInt"] = len(stage.FormFieldInts)
-	stage.Map_GongStructName_InstancesNb["FormFieldSelect"] = len(stage.FormFieldSelects)
-	stage.Map_GongStructName_InstancesNb["FormFieldString"] = len(stage.FormFieldStrings)
-	stage.Map_GongStructName_InstancesNb["FormFieldTime"] = len(stage.FormFieldTimes)
-	stage.Map_GongStructName_InstancesNb["FormGroup"] = len(stage.FormGroups)
-	stage.Map_GongStructName_InstancesNb["FormSortAssocButton"] = len(stage.FormSortAssocButtons)
-	stage.Map_GongStructName_InstancesNb["Option"] = len(stage.Options)
-	stage.Map_GongStructName_InstancesNb["Row"] = len(stage.Rows)
-	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath

@@ -628,7 +628,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
 	stage.Map_GongStructName_InstancesNb["AstructBstruct2Use"] = len(stage.AstructBstruct2Uses)
@@ -637,7 +640,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
 	stage.Map_GongStructName_InstancesNb["F0123456789012345678901234567890"] = len(stage.F0123456789012345678901234567890s)
 	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -646,15 +648,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Astruct"] = len(stage.Astructs)
-	stage.Map_GongStructName_InstancesNb["AstructBstruct2Use"] = len(stage.AstructBstruct2Uses)
-	stage.Map_GongStructName_InstancesNb["AstructBstructUse"] = len(stage.AstructBstructUses)
-	stage.Map_GongStructName_InstancesNb["Bstruct"] = len(stage.Bstructs)
-	stage.Map_GongStructName_InstancesNb["Dstruct"] = len(stage.Dstructs)
-	stage.Map_GongStructName_InstancesNb["F0123456789012345678901234567890"] = len(stage.F0123456789012345678901234567890s)
-	stage.Map_GongStructName_InstancesNb["Gstruct"] = len(stage.Gstructs)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath

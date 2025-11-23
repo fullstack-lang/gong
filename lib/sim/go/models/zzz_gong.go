@@ -572,7 +572,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Command"] = len(stage.Commands)
 	stage.Map_GongStructName_InstancesNb["DummyAgent"] = len(stage.DummyAgents)
@@ -580,7 +583,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Event"] = len(stage.Events)
 	stage.Map_GongStructName_InstancesNb["Status"] = len(stage.Statuss)
 	stage.Map_GongStructName_InstancesNb["UpdateState"] = len(stage.UpdateStates)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -589,14 +591,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["Command"] = len(stage.Commands)
-	stage.Map_GongStructName_InstancesNb["DummyAgent"] = len(stage.DummyAgents)
-	stage.Map_GongStructName_InstancesNb["Engine"] = len(stage.Engines)
-	stage.Map_GongStructName_InstancesNb["Event"] = len(stage.Events)
-	stage.Map_GongStructName_InstancesNb["Status"] = len(stage.Statuss)
-	stage.Map_GongStructName_InstancesNb["UpdateState"] = len(stage.UpdateStates)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath

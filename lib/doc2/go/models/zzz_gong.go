@@ -708,7 +708,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AttributeShape"] = len(stage.AttributeShapes)
 	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
@@ -719,7 +722,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["GongNoteShape"] = len(stage.GongNoteShapes)
 	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
 	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -728,17 +730,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["AttributeShape"] = len(stage.AttributeShapes)
-	stage.Map_GongStructName_InstancesNb["Classdiagram"] = len(stage.Classdiagrams)
-	stage.Map_GongStructName_InstancesNb["DiagramPackage"] = len(stage.DiagramPackages)
-	stage.Map_GongStructName_InstancesNb["GongEnumShape"] = len(stage.GongEnumShapes)
-	stage.Map_GongStructName_InstancesNb["GongEnumValueShape"] = len(stage.GongEnumValueShapes)
-	stage.Map_GongStructName_InstancesNb["GongNoteLinkShape"] = len(stage.GongNoteLinkShapes)
-	stage.Map_GongStructName_InstancesNb["GongNoteShape"] = len(stage.GongNoteShapes)
-	stage.Map_GongStructName_InstancesNb["GongStructShape"] = len(stage.GongStructShapes)
-	stage.Map_GongStructName_InstancesNb["LinkShape"] = len(stage.LinkShapes)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath

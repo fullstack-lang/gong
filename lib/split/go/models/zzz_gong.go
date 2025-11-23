@@ -1096,7 +1096,10 @@ func (stage *Stage) Commit() {
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
+	stage.ComputeInstancesNb()
+}
 
+func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
 	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
@@ -1117,7 +1120,6 @@ func (stage *Stage) Commit() {
 	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
 	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
 	stage.Map_GongStructName_InstancesNb["Xlsx"] = len(stage.Xlsxs)
-
 }
 
 func (stage *Stage) Checkout() {
@@ -1126,27 +1128,7 @@ func (stage *Stage) Checkout() {
 	}
 
 	stage.ComputeReverseMaps()
-	// insertion point for computing the map of number of instances per gongstruct
-	stage.Map_GongStructName_InstancesNb["AsSplit"] = len(stage.AsSplits)
-	stage.Map_GongStructName_InstancesNb["AsSplitArea"] = len(stage.AsSplitAreas)
-	stage.Map_GongStructName_InstancesNb["Button"] = len(stage.Buttons)
-	stage.Map_GongStructName_InstancesNb["Cursor"] = len(stage.Cursors)
-	stage.Map_GongStructName_InstancesNb["FavIcon"] = len(stage.FavIcons)
-	stage.Map_GongStructName_InstancesNb["Form"] = len(stage.Forms)
-	stage.Map_GongStructName_InstancesNb["Load"] = len(stage.Loads)
-	stage.Map_GongStructName_InstancesNb["LogoOnTheLeft"] = len(stage.LogoOnTheLefts)
-	stage.Map_GongStructName_InstancesNb["LogoOnTheRight"] = len(stage.LogoOnTheRights)
-	stage.Map_GongStructName_InstancesNb["Markdown"] = len(stage.Markdowns)
-	stage.Map_GongStructName_InstancesNb["Slider"] = len(stage.Sliders)
-	stage.Map_GongStructName_InstancesNb["Split"] = len(stage.Splits)
-	stage.Map_GongStructName_InstancesNb["Svg"] = len(stage.Svgs)
-	stage.Map_GongStructName_InstancesNb["Table"] = len(stage.Tables)
-	stage.Map_GongStructName_InstancesNb["Title"] = len(stage.Titles)
-	stage.Map_GongStructName_InstancesNb["Tone"] = len(stage.Tones)
-	stage.Map_GongStructName_InstancesNb["Tree"] = len(stage.Trees)
-	stage.Map_GongStructName_InstancesNb["View"] = len(stage.Views)
-	stage.Map_GongStructName_InstancesNb["Xlsx"] = len(stage.Xlsxs)
-
+	stage.ComputeInstancesNb()
 }
 
 // backup generates backup files in the dirPath
