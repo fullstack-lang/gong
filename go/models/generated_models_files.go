@@ -56,6 +56,7 @@ const (
 	GeneratedGongMarshallGoFilePath        GeneratedGoFilePath = "zzz_gong_marshall.go"
 	GeneratedGongGraphGoFilePath           GeneratedGoFilePath = "zzz_gong_graph.go"
 	GeneratedGongSlicesGoFilePath          GeneratedGoFilePath = "zzz_gong_slices.go"
+	GeneratedGongCleanGoFilePath           GeneratedGoFilePath = "zzz_gong_clean.go"
 	GeneratedGongCoderGoFilePath           GeneratedGoFilePath = "zzz_gong_coder.go"
 	GeneratedGongAstGoFilePath             GeneratedGoFilePath = "zzz_gong_ast.go"
 	GeneratedGongCallbacksGoFilePath       GeneratedGoFilePath = "zzz_gong_callbacks.go"
