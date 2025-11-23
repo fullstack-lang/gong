@@ -2506,6 +2506,7 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*Stage)
 	UnstageVoid(stage *Stage)
+	GongGetFieldHeaders() []GongFieldHeader
 	comparable
 }
 
@@ -3500,343 +3501,398 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 	return
 }
 
+// insertion point for get fields header method
+func (assplit *AsSplit) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Direction",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "AsSplitAreas",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+	}
+	return
+}
+
+func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ShowNameInHeader",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Size",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsAny",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "AsSplit",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Button",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Cursor",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Form",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Load",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Markdown",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Slider",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Split",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Svg",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Table",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Tone",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Tree",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Xlsx",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "HasDiv",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "DivStyle",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (cursor *Cursor) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Style",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (favicon *FavIcon) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (form *Form) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (load *Load) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (logoontheleft *LogoOnTheLeft) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (logoontheright *LogoOnTheRight) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Width",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (markdown *Markdown) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (slider *Slider) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (split *Split) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (svg *Svg) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Style",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (title *Title) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (tone *Tone) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (tree *Tree) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ShowViewName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "RootAsSplitAreas",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "IsSelectedView",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (xlsx *Xlsx) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StackName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *AsSplit:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Direction",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "AsSplitAreas",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-		}
-	case *AsSplitArea:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ShowNameInHeader",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Size",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsAny",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "AsSplit",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Button",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Cursor",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Form",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Load",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Markdown",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Slider",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Split",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Svg",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Table",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Tone",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Tree",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Xlsx",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "HasDiv",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "DivStyle",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Button:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Cursor:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Style",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FavIcon:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SVG",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Form:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Load:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *LogoOnTheLeft:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Width",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Height",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SVG",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *LogoOnTheRight:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Width",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Height",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SVG",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Markdown:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Slider:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Split:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Svg:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Style",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Table:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Title:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Tone:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Tree:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *View:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ShowViewName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "RootAsSplitAreas",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "IsSelectedView",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Xlsx:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "StackName",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	}
-	return
+	return ret.GongGetFieldHeaders()
 }
 
 type GongFieldValueType string

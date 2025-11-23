@@ -858,6 +858,7 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*Stage)
 	UnstageVoid(stage *Stage)
+	GongGetFieldHeaders() []GongFieldHeader
 	comparable
 }
 
@@ -1221,183 +1222,193 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 	return
 }
 
+// insertion point for get fields header method
+func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Icon",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SVGIcon",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipPosition",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FontStyle",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "BackgroundColor",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasCheckboxButton",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsCheckboxDisabled",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CheckboxHasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CheckboxToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CheckboxToolTipPosition",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasSecondCheckboxButton",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsSecondCheckboxChecked",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsSecondCheckboxDisabled",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SecondCheckboxHasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SecondCheckboxToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SecondCheckboxToolTipPosition",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "TextAfterSecondCheckbox",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipPosition",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsInEditMode",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsNodeClickable",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsWithPreceedingIcon",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "PreceedingIcon",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "PreceedingSVGIcon",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Children",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "Buttons",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+	}
+	return
+}
+
+func (svgicon *SVGIcon) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SVG",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (tree *Tree) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "RootNodes",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+	}
+	return
+}
+
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Button:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Icon",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SVGIcon",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "IsDisabled",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipPosition",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Node:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "FontStyle",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "BackgroundColor",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsExpanded",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasCheckboxButton",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsChecked",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsCheckboxDisabled",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "CheckboxHasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "CheckboxToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "CheckboxToolTipPosition",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasSecondCheckboxButton",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsSecondCheckboxChecked",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsSecondCheckboxDisabled",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SecondCheckboxHasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SecondCheckboxToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SecondCheckboxToolTipPosition",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "TextAfterSecondCheckbox",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipPosition",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsInEditMode",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsNodeClickable",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsWithPreceedingIcon",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "PreceedingIcon",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "PreceedingSVGIcon",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Children",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "Buttons",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-		}
-	case *SVGIcon:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SVG",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Tree:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "RootNodes",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-		}
-	}
-	return
+	return ret.GongGetFieldHeaders()
 }
 
 type GongFieldValueType string

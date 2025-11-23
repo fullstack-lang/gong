@@ -2956,6 +2956,7 @@ type PointerToGongstruct interface {
 	GetName() string
 	CommitVoid(*Stage)
 	UnstageVoid(stage *Stage)
+	GongGetFieldHeaders() []GongFieldHeader
 	comparable
 }
 
@@ -4188,523 +4189,590 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 	return
 }
 
+// insertion point for get fields header method
+func (cell *Cell) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CellString",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "CellFloat64",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "CellInt",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "CellBool",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "CellIcon",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+	}
+	return
+}
+
+func (cellboolean *CellBoolean) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (cellfloat64 *CellFloat64) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (cellicon *CellIcon) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Icon",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "NeedsConfirmation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ConfirmationMessage",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (cellint *CellInt) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (cellstring *CellString) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (checkbox *CheckBox) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (displayedcolumn *DisplayedColumn) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formdiv *FormDiv) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FormFields",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "CheckBoxs",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "FormEditAssocButton",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormSortAssocButton",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+	}
+	return
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Label",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "AssociationStorage",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasChanged",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsForSavePurpose",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MatTooltipShowDelay",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfield *FormField) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "InputTypeEnum",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Label",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Placeholder",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FormFieldString",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldFloat64",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldInt",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldDate",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldTime",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldDateTime",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "FormFieldSelect",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "HasBespokeWidth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "BespokeWidthPx",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasBespokeHeight",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "BespokeHeightPx",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfielddate *FormFieldDate) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfielddatetime *FormFieldDateTime) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasMinValidator",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MinValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasMaxValidator",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MaxValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfieldint *FormFieldInt) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasMinValidator",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MinValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasMaxValidator",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MaxValue",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfieldselect *FormFieldSelect) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+		{
+			Name:               "Options",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "CanBeEmpty",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "PreserveInitialOrder",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfieldstring *FormFieldString) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsTextArea",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formfieldtime *FormFieldTime) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Value",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Step",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formgroup *FormGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Label",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FormDivs",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "HasSuppressButton",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasSuppressButtonBeenPressed",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Label",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasToolTip",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ToolTipText",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "MatTooltipShowDelay",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "FormEditAssocButton",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},
+	}
+	return
+}
+
+func (option *Option) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (row *Row) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Cells",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "DisplayedColumns",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "Rows",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},
+		{
+			Name:               "HasFiltering",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasColumnSorting",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasPaginator",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasCheckableRows",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasSaveButton",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SaveButtonLabel",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CanDragDropRows",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "HasCloseButton",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "SavingInProgress",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "NbOfStickyColumns",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {
 
 	var ret Type
-
-	switch any(ret).(type) {
-	// insertion point for generic get gongstruct name
-	case *Cell:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "CellString",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "CellFloat64",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "CellInt",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "CellBool",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "CellIcon",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-		}
-	case *CellBoolean:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *CellFloat64:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *CellIcon:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Icon",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "NeedsConfirmation",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ConfirmationMessage",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *CellInt:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *CellString:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *CheckBox:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *DisplayedColumn:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormDiv:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "FormFields",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "CheckBoxs",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "FormEditAssocButton",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormSortAssocButton",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-		}
-	case *FormEditAssocButton:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Label",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "AssociationStorage",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasChanged",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsForSavePurpose",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MatTooltipShowDelay",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormField:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "InputTypeEnum",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Label",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Placeholder",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "FormFieldString",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldFloat64",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldInt",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldDate",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldTime",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldDateTime",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "FormFieldSelect",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "HasBespokeWidth",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "BespokeWidthPx",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasBespokeHeight",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "BespokeHeightPx",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldDate:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldDateTime:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldFloat64:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasMinValidator",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MinValue",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasMaxValidator",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MaxValue",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldInt:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasMinValidator",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MinValue",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasMaxValidator",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MaxValue",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldSelect:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-			{
-				Name:               "Options",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "CanBeEmpty",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "PreserveInitialOrder",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldString:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "IsTextArea",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormFieldTime:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Value",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Step",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormGroup:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Label",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "FormDivs",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "HasSuppressButton",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasSuppressButtonBeenPressed",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *FormSortAssocButton:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Label",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasToolTip",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "ToolTipText",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "MatTooltipShowDelay",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "FormEditAssocButton",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},
-		}
-	case *Option:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Row:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "Cells",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "IsChecked",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	case *Table:
-		res = []GongFieldHeader{
-
-			{
-				Name:               "Name",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "DisplayedColumns",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "Rows",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},
-			{
-				Name:               "HasFiltering",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasColumnSorting",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasPaginator",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasCheckableRows",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasSaveButton",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SaveButtonLabel",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "CanDragDropRows",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "HasCloseButton",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "SavingInProgress",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-			{
-				Name:               "NbOfStickyColumns",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},
-		}
-	}
-	return
+	return ret.GongGetFieldHeaders()
 }
 
 type GongFieldValueType string
