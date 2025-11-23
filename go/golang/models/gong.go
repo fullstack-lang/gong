@@ -35,6 +35,7 @@ const (
 
 	ModelGongStructInsertionGenericGetReverseFields
 	ModelGongStructInsertionGenericGetFieldsFromPointer
+	ModelGongStructInsertionGenericGetFieldsHeadersMethod
 	ModelGongStructInsertionGenericGetFieldValues
 	ModelGongStructInsertionGenericGetFieldValuesFromPointer
 
@@ -71,6 +72,13 @@ map[ModelGongStructInsertionId]string{
 
 	ModelGongStructInsertionGenericGetReverseFields: `
 	case *{{Structname}}:{{ListOfReverseFields}}`,
+
+	ModelGongStructInsertionGenericGetFieldsHeadersMethod: `
+func ({{structname}} *{{Structname}}) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers{{ListOfFieldHeaders}}
+	return
+}
+`,
 
 	ModelGongStructInsertionGenericGetFieldsFromPointer: `
 	case *{{Structname}}:{{ListOfFieldHeaders}}`,
@@ -352,21 +360,20 @@ map[GongFilePerStructSubTemplateId]string{
 		res = append(res, rf)`,
 
 	GongFileFieldSubTmplStringHeaderBasicKindField: `
-			{
-				Name:               "{{FieldName}}",
-				GongFieldValueType: GongFieldValueTypeBasicKind,
-			},`,
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},`,
 	GongFileFieldSubTmplStringHeaderPointerField: `
-			{
-				Name:               "{{FieldName}}",
-				GongFieldValueType: GongFieldValueTypePointer,
-			},`,
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypePointer,
+		},`,
 	GongFileFieldSubTmplStringHeaderSliceOfPointersField: `
-			{
-				Name:               "{{FieldName}}",
-				GongFieldValueType: GongFieldValueTypeSliceOfPointers,
-			},`,
-
+		{
+			Name:               "{{FieldName}}",
+			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+		},`,
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 		case "{{FieldName}}":
 			res.valueString = fmt.Sprintf("%t", inferedInstance.{{FieldName}})
@@ -556,8 +563,7 @@ func CodeGeneratorModelGong(
 			fieldNames := `
 		res = []string{`
 			fieldHeaders := `
-		res = []GongFieldHeader{
-`
+	res = []GongFieldHeader{`
 			reverseFields := `
 		var rf ReverseField
 		_ = rf`
@@ -781,7 +787,7 @@ func CodeGeneratorModelGong(
 
 			fieldNames += `}`
 			fieldHeaders += `
-		}`
+	}`
 
 			// The generation has to be be reproductible, therefore the map
 			// associationFieldInitializationPerCompositeStruct has to be ordered
