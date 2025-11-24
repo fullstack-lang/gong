@@ -1589,6 +1589,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "View":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "Direction":
+						var val Direction
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_View[identifier].Direction = Direction(val)
 					}
 				case "Xlsx":
 					switch fieldName {

@@ -19,6 +19,7 @@ export class View {
 	Name: string = ""
 	ShowViewName: boolean = false
 	IsSelectedView: boolean = false
+	Direction: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 	RootAsSplitAreas: Array<AsSplitArea> = []
@@ -37,6 +38,7 @@ export function CopyViewToViewAPI(view: View, viewAPI: ViewAPI) {
 	viewAPI.Name = view.Name
 	viewAPI.ShowViewName = view.ShowViewName
 	viewAPI.IsSelectedView = view.IsSelectedView
+	viewAPI.Direction = view.Direction
 
 	// insertion point for pointer fields encoding
 
@@ -62,6 +64,7 @@ export function CopyViewAPIToView(viewAPI: ViewAPI, view: View, frontRepo: Front
 	view.Name = viewAPI.Name
 	view.ShowViewName = viewAPI.ShowViewName
 	view.IsSelectedView = viewAPI.IsSelectedView
+	view.Direction = viewAPI.Direction
 
 	// insertion point for pointer fields encoding
 

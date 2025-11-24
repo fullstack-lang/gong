@@ -163,4 +163,10 @@ export class SplitSpecificComponent implements OnInit {
     return this.frontRepo?.array_Views.find(v => v === this.view);
   }
 
+  public asSplitDirection(direction: string): 'horizontal' | 'vertical' {
+    if (direction === '' || direction === undefined || direction === null) {
+      return 'vertical';
+    }
+    return direction as 'horizontal' | 'vertical';
+  }
 }

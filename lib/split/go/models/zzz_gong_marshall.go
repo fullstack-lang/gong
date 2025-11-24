@@ -1027,6 +1027,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", view.IsSelectedView))
 		initializerStatements += setValueField
 
+		if view.Direction != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Direction")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+view.Direction.ToCodeString())
+			initializerStatements += setValueField
+		}
+
 	}
 
 	map_Xlsx_Identifiers := make(map[*Xlsx]string)

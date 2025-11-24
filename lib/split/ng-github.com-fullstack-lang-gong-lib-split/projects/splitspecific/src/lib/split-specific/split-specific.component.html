@@ -45,7 +45,7 @@
         </as-split-area>
     }
     <as-split-area [size]="$any('*')">
-        <as-split direction="vertical">
+        <as-split [direction]="asSplitDirection(view_.Direction)">
             @for (asSplitArea of view_.RootAsSplitAreas; track asSplitArea) {
             <as-split-area [size]="asSplitArea.IsAny ? $any('*') : asSplitArea.Size">
                 @if (asSplitArea.HasDiv) {
