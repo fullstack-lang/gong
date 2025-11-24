@@ -22,8 +22,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (cursor *Cursor) GongCopy() GongstructIF {
-	var newInstance Cursor
-	newInstance = *cursor
+	newInstance := *cursor
 	return &newInstance
 }
 

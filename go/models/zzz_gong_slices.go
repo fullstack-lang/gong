@@ -140,68 +140,57 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (gongbasicfield *GongBasicField) GongCopy() GongstructIF {
-	var newInstance GongBasicField
-	newInstance = *gongbasicfield
+	newInstance := *gongbasicfield
 	return &newInstance
 }
 
 func (gongenum *GongEnum) GongCopy() GongstructIF {
-	var newInstance GongEnum
-	newInstance = *gongenum
+	newInstance := *gongenum
 	return &newInstance
 }
 
 func (gongenumvalue *GongEnumValue) GongCopy() GongstructIF {
-	var newInstance GongEnumValue
-	newInstance = *gongenumvalue
+	newInstance := *gongenumvalue
 	return &newInstance
 }
 
 func (gonglink *GongLink) GongCopy() GongstructIF {
-	var newInstance GongLink
-	newInstance = *gonglink
+	newInstance := *gonglink
 	return &newInstance
 }
 
 func (gongnote *GongNote) GongCopy() GongstructIF {
-	var newInstance GongNote
-	newInstance = *gongnote
+	newInstance := *gongnote
 	return &newInstance
 }
 
 func (gongstruct *GongStruct) GongCopy() GongstructIF {
-	var newInstance GongStruct
-	newInstance = *gongstruct
+	newInstance := *gongstruct
 	return &newInstance
 }
 
 func (gongtimefield *GongTimeField) GongCopy() GongstructIF {
-	var newInstance GongTimeField
-	newInstance = *gongtimefield
+	newInstance := *gongtimefield
 	return &newInstance
 }
 
 func (metareference *MetaReference) GongCopy() GongstructIF {
-	var newInstance MetaReference
-	newInstance = *metareference
+	newInstance := *metareference
 	return &newInstance
 }
 
 func (modelpkg *ModelPkg) GongCopy() GongstructIF {
-	var newInstance ModelPkg
-	newInstance = *modelpkg
+	newInstance := *modelpkg
 	return &newInstance
 }
 
 func (pointertogongstructfield *PointerToGongStructField) GongCopy() GongstructIF {
-	var newInstance PointerToGongStructField
-	newInstance = *pointertogongstructfield
+	newInstance := *pointertogongstructfield
 	return &newInstance
 }
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy() GongstructIF {
-	var newInstance SliceOfPointerToGongStructField
-	newInstance = *sliceofpointertogongstructfield
+	newInstance := *sliceofpointertogongstructfield
 	return &newInstance
 }
 

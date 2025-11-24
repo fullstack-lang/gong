@@ -52,20 +52,17 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (chapter *Chapter) GongCopy() GongstructIF {
-	var newInstance Chapter
-	newInstance = *chapter
+	newInstance := *chapter
 	return &newInstance
 }
 
 func (content *Content) GongCopy() GongstructIF {
-	var newInstance Content
-	newInstance = *content
+	newInstance := *content
 	return &newInstance
 }
 
 func (page *Page) GongCopy() GongstructIF {
-	var newInstance Page
-	newInstance = *page
+	newInstance := *page
 	return &newInstance
 }
 

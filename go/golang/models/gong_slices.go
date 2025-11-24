@@ -68,8 +68,7 @@ map[GongSliceGongstructInsertionId]string{
 `,
 	GongSliceGongCopy: `
 func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
-	var newInstance {{Structname}}
-	newInstance = *{{structname}}
+	newInstance := *{{structname}}
 	return &newInstance
 }
 `,

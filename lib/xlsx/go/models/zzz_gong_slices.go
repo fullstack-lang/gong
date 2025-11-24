@@ -82,32 +82,27 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongCopy() GongstructIF {
-	var newInstance DisplaySelection
-	newInstance = *displayselection
+	newInstance := *displayselection
 	return &newInstance
 }
 
 func (xlcell *XLCell) GongCopy() GongstructIF {
-	var newInstance XLCell
-	newInstance = *xlcell
+	newInstance := *xlcell
 	return &newInstance
 }
 
 func (xlfile *XLFile) GongCopy() GongstructIF {
-	var newInstance XLFile
-	newInstance = *xlfile
+	newInstance := *xlfile
 	return &newInstance
 }
 
 func (xlrow *XLRow) GongCopy() GongstructIF {
-	var newInstance XLRow
-	newInstance = *xlrow
+	newInstance := *xlrow
 	return &newInstance
 }
 
 func (xlsheet *XLSheet) GongCopy() GongstructIF {
-	var newInstance XLSheet
-	newInstance = *xlsheet
+	newInstance := *xlsheet
 	return &newInstance
 }
 

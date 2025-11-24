@@ -394,128 +394,107 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (animate *Animate) GongCopy() GongstructIF {
-	var newInstance Animate
-	newInstance = *animate
+	newInstance := *animate
 	return &newInstance
 }
 
 func (circle *Circle) GongCopy() GongstructIF {
-	var newInstance Circle
-	newInstance = *circle
+	newInstance := *circle
 	return &newInstance
 }
 
 func (condition *Condition) GongCopy() GongstructIF {
-	var newInstance Condition
-	newInstance = *condition
+	newInstance := *condition
 	return &newInstance
 }
 
 func (controlpoint *ControlPoint) GongCopy() GongstructIF {
-	var newInstance ControlPoint
-	newInstance = *controlpoint
+	newInstance := *controlpoint
 	return &newInstance
 }
 
 func (ellipse *Ellipse) GongCopy() GongstructIF {
-	var newInstance Ellipse
-	newInstance = *ellipse
+	newInstance := *ellipse
 	return &newInstance
 }
 
 func (layer *Layer) GongCopy() GongstructIF {
-	var newInstance Layer
-	newInstance = *layer
+	newInstance := *layer
 	return &newInstance
 }
 
 func (line *Line) GongCopy() GongstructIF {
-	var newInstance Line
-	newInstance = *line
+	newInstance := *line
 	return &newInstance
 }
 
 func (link *Link) GongCopy() GongstructIF {
-	var newInstance Link
-	newInstance = *link
+	newInstance := *link
 	return &newInstance
 }
 
 func (linkanchoredtext *LinkAnchoredText) GongCopy() GongstructIF {
-	var newInstance LinkAnchoredText
-	newInstance = *linkanchoredtext
+	newInstance := *linkanchoredtext
 	return &newInstance
 }
 
 func (path *Path) GongCopy() GongstructIF {
-	var newInstance Path
-	newInstance = *path
+	newInstance := *path
 	return &newInstance
 }
 
 func (point *Point) GongCopy() GongstructIF {
-	var newInstance Point
-	newInstance = *point
+	newInstance := *point
 	return &newInstance
 }
 
 func (polygone *Polygone) GongCopy() GongstructIF {
-	var newInstance Polygone
-	newInstance = *polygone
+	newInstance := *polygone
 	return &newInstance
 }
 
 func (polyline *Polyline) GongCopy() GongstructIF {
-	var newInstance Polyline
-	newInstance = *polyline
+	newInstance := *polyline
 	return &newInstance
 }
 
 func (rect *Rect) GongCopy() GongstructIF {
-	var newInstance Rect
-	newInstance = *rect
+	newInstance := *rect
 	return &newInstance
 }
 
 func (rectanchoredpath *RectAnchoredPath) GongCopy() GongstructIF {
-	var newInstance RectAnchoredPath
-	newInstance = *rectanchoredpath
+	newInstance := *rectanchoredpath
 	return &newInstance
 }
 
 func (rectanchoredrect *RectAnchoredRect) GongCopy() GongstructIF {
-	var newInstance RectAnchoredRect
-	newInstance = *rectanchoredrect
+	newInstance := *rectanchoredrect
 	return &newInstance
 }
 
 func (rectanchoredtext *RectAnchoredText) GongCopy() GongstructIF {
-	var newInstance RectAnchoredText
-	newInstance = *rectanchoredtext
+	newInstance := *rectanchoredtext
 	return &newInstance
 }
 
 func (rectlinklink *RectLinkLink) GongCopy() GongstructIF {
-	var newInstance RectLinkLink
-	newInstance = *rectlinklink
+	newInstance := *rectlinklink
 	return &newInstance
 }
 
 func (svg *SVG) GongCopy() GongstructIF {
-	var newInstance SVG
-	newInstance = *svg
+	newInstance := *svg
 	return &newInstance
 }
 
 func (svgtext *SvgText) GongCopy() GongstructIF {
-	var newInstance SvgText
-	newInstance = *svgtext
+	newInstance := *svgtext
 	return &newInstance
 }
 
 func (text *Text) GongCopy() GongstructIF {
-	var newInstance Text
-	newInstance = *text
+	newInstance := *text
 	return &newInstance
 }
 
