@@ -218,8 +218,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -691,8 +693,11 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 		stage.Astructs[astruct] = __member
 		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
 		stage.AstructOrder++
+		stage.new[astruct] = struct{}{}
 	} else {
-
+		if _, ok := stage.modified[astruct]; !ok {
+			stage.modified[astruct] = struct{}{}
+		}
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
 
