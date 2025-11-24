@@ -520,11 +520,15 @@ type GongtructBasicField interface {
 // - access to staged instances
 // - navigation between staged instances by going backward association links between gongstruct
 // - full refactoring of Gongstruct identifiers / fields
-type PointerToGongstruct interface {
+type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
+	GongClean(stage *Stage)
+}
+type PointerToGongstruct interface {
+	GongstructIF
 	comparable
 }
 
@@ -752,7 +756,6 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 	}
 	return
 }
-
 
 // GetFieldsFromPointer return the array of the fields
 func GetFieldsFromPointer[Type PointerToGongstruct]() (res []GongFieldHeader) {

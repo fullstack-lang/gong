@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,79 +27,73 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by AttributeShape
+func (attributeshape *AttributeShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Classdiagram
+func (classdiagram *Classdiagram) GongClean(stage *Stage) {
+	// insertion point per field
+	classdiagram.GongStructShapes = GongCleanSlice(stage, classdiagram.GongStructShapes)
+	classdiagram.GongEnumShapes = GongCleanSlice(stage, classdiagram.GongEnumShapes)
+	classdiagram.GongNoteShapes = GongCleanSlice(stage, classdiagram.GongNoteShapes)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by DiagramPackage
+func (diagrampackage *DiagramPackage) GongClean(stage *Stage) {
+	// insertion point per field
+	diagrampackage.Classdiagrams = GongCleanSlice(stage, diagrampackage.Classdiagrams)
+	// insertion point per field
+	diagrampackage.SelectedClassdiagram = GongCleanPointer(stage, diagrampackage.SelectedClassdiagram)
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongEnumShape
+func (gongenumshape *GongEnumShape) GongClean(stage *Stage) {
+	// insertion point per field
+	gongenumshape.GongEnumValueShapes = GongCleanSlice(stage, gongenumshape.GongEnumValueShapes)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongEnumValueShape
+func (gongenumvalueshape *GongEnumValueShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongNoteLinkShape
+func (gongnotelinkshape *GongNoteLinkShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongNoteShape
+func (gongnoteshape *GongNoteShape) GongClean(stage *Stage) {
+	// insertion point per field
+	gongnoteshape.GongNoteLinkShapes = GongCleanSlice(stage, gongnoteshape.GongNoteLinkShapes)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongStructShape
+func (gongstructshape *GongStructShape) GongClean(stage *Stage) {
+	// insertion point per field
+	gongstructshape.AttributeShapes = GongCleanSlice(stage, gongstructshape.AttributeShapes)
+	gongstructshape.LinkShapes = GongCleanSlice(stage, gongstructshape.LinkShapes)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by LinkShape
+func (linkshape *LinkShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up AttributeShape
-	for attributeshape := range stage.AttributeShapes {
-		_ = attributeshape
-		// insertion point per field
-		// insertion point per field
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up Classdiagram
-	for classdiagram := range stage.Classdiagrams {
-		_ = classdiagram
-		// insertion point per field
-		classdiagram.GongStructShapes = GongCleanSlice(stage, classdiagram.GongStructShapes)
-		classdiagram.GongEnumShapes = GongCleanSlice(stage, classdiagram.GongEnumShapes)
-		classdiagram.GongNoteShapes = GongCleanSlice(stage, classdiagram.GongNoteShapes)
-		// insertion point per field
-	}
-
-	// clean up DiagramPackage
-	for diagrampackage := range stage.DiagramPackages {
-		_ = diagrampackage
-		// insertion point per field
-		diagrampackage.Classdiagrams = GongCleanSlice(stage, diagrampackage.Classdiagrams)
-		// insertion point per field
-		diagrampackage.SelectedClassdiagram = GongCleanPointer(stage, diagrampackage.SelectedClassdiagram)
-	}
-
-	// clean up GongEnumShape
-	for gongenumshape := range stage.GongEnumShapes {
-		_ = gongenumshape
-		// insertion point per field
-		gongenumshape.GongEnumValueShapes = GongCleanSlice(stage, gongenumshape.GongEnumValueShapes)
-		// insertion point per field
-	}
-
-	// clean up GongEnumValueShape
-	for gongenumvalueshape := range stage.GongEnumValueShapes {
-		_ = gongenumvalueshape
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up GongNoteLinkShape
-	for gongnotelinkshape := range stage.GongNoteLinkShapes {
-		_ = gongnotelinkshape
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up GongNoteShape
-	for gongnoteshape := range stage.GongNoteShapes {
-		_ = gongnoteshape
-		// insertion point per field
-		gongnoteshape.GongNoteLinkShapes = GongCleanSlice(stage, gongnoteshape.GongNoteLinkShapes)
-		// insertion point per field
-	}
-
-	// clean up GongStructShape
-	for gongstructshape := range stage.GongStructShapes {
-		_ = gongstructshape
-		// insertion point per field
-		gongstructshape.AttributeShapes = GongCleanSlice(stage, gongstructshape.AttributeShapes)
-		gongstructshape.LinkShapes = GongCleanSlice(stage, gongstructshape.LinkShapes)
-		// insertion point per field
-	}
-
-	// clean up LinkShape
-	for linkshape := range stage.LinkShapes {
-		_ = linkshape
-		// insertion point per field
-		// insertion point per field
-	}
-
 }

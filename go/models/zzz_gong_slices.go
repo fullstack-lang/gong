@@ -87,3 +87,54 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.GongBasicFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongEnums {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongEnumValues {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongLinks {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongNotes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongStructs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GongTimeFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.MetaReferences {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ModelPkgs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.PointerToGongStructFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SliceOfPointerToGongStructFields {
+		res = append(res, instance)
+	}
+
+
+	return
+}
