@@ -85,6 +85,43 @@ func TestStageCount(t *testing.T) {
 		t.Fatal("Wanted ", want, "got", got)
 	}
 
+	a4 := (&models.Astruct{
+		Name:                "A4",
+		Floatfield:          10.2,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      b3,
+		Anarrayofb: []*models.Bstruct{
+			b1,
+			b2,
+		},
+	})
+	_ = a4
+	a4.Stage(stage)
+
+	stage.Commit()
+
+	a5 := (&models.Astruct{
+		Name:                "A5",
+		Floatfield:          10.2,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      b3,
+		Anarrayofb: []*models.Bstruct{
+			b1,
+			b2,
+		},
+	})
+	_ = a5
+	a5.Stage(stage)
+
+	a4.Unstage(stage)
+
+	a2.Floatfield = 3.1415
+	a2.Stage(stage)
+
+	stage.Commit()
+
 	models.SerializeStage(stage, "test.xlsx")
 	models.SerializeStage2(stage, "test_withIDs.xlsx", true)
 }
