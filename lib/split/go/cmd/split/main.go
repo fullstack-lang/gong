@@ -280,6 +280,13 @@ func main() {
 		Name: "Slider 1",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			(&split.AsSplitArea{
+				Size: 50,
+				Slider: (&split.Slider{
+					StackName: sliderStage1.GetName(),
+				}).Stage(splitStage),
+			}).Stage(splitStage),
+			(&split.AsSplitArea{
+				Size: 50,
 				Slider: (&split.Slider{
 					StackName: sliderStage1.GetName(),
 				}).Stage(splitStage),

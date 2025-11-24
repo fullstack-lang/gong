@@ -4115,6 +4115,10 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsSelectedView",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "Direction",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -4503,6 +4507,9 @@ func (view *View) GongGetFieldValueString(fieldName string, stage *Stage) (res G
 			res.valueString = fmt.Sprintf("%t", view.IsSelectedView)
 			res.valueBool = view.IsSelectedView
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "Direction":
+			enum := view.Direction
+			res.valueString = enum.ToCodeString()
 	}
 	return
 }

@@ -69,6 +69,27 @@ func main() {
 		},
 	})
 
+	split.StageBranch(splitStage, &split.View{
+		Name: "Split 2 with Probe",
+		RootAsSplitAreas: []*split.AsSplitArea{
+			(&split.AsSplitArea{
+				Size: 50,
+				AsSplit: (&split.AsSplit{
+					Direction: split.Horizontal,
+					AsSplitAreas: []*split.AsSplitArea{
+						stager.GetAsSplitArea(),
+					},
+				}),
+			}),
+			(&split.AsSplitArea{
+				Size: 50,
+				Split: (&split.Split{
+					StackName: stack.Stage.GetProbeSplitStageName(),
+				}),
+			}),
+		},
+	})
+
 	// commit the split stage (this will initiate the front components)
 	splitStage.Commit()
 
