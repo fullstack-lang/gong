@@ -53,3 +53,30 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.DisplaySelections {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.XLCells {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.XLFiles {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.XLRows {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.XLSheets {
+		res = append(res, instance)
+	}
+
+
+	return
+}

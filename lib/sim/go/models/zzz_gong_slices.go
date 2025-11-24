@@ -24,3 +24,34 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Commands {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DummyAgents {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Engines {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Events {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Statuss {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.UpdateStates {
+		res = append(res, instance)
+	}
+
+
+	return
+}

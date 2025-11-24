@@ -31,3 +31,22 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Buttons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Groups {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Layouts {
+		res = append(res, instance)
+	}
+
+
+	return
+}
