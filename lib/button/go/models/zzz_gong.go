@@ -158,8 +158,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -405,6 +407,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Group"},
 			{name: "Layout"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -461,6 +468,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -515,6 +523,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 		stage.Buttons[button] = __member
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
+		stage.new[button] = struct{}{}
+		delete(stage.deleted, button)
+	} else {
+		if _, ok := stage.new[button]; !ok {
+			stage.modified[button] = struct{}{}
+		}
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -525,6 +539,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
 	delete(stage.Buttons_mapString, button.Name)
+
+	if _, ok := stage.reference[button]; ok {
+		stage.deleted[button] = struct{}{}
+	} else {
+		delete(stage.new, button)
+	}
 	return button
 }
 
@@ -570,6 +590,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 		stage.Groups[group] = __member
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
+		stage.new[group] = struct{}{}
+		delete(stage.deleted, group)
+	} else {
+		if _, ok := stage.new[group]; !ok {
+			stage.modified[group] = struct{}{}
+		}
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -580,6 +606,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
+
+	if _, ok := stage.reference[group]; ok {
+		stage.deleted[group] = struct{}{}
+	} else {
+		delete(stage.new, group)
+	}
 	return group
 }
 
@@ -625,6 +657,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 		stage.Layouts[layout] = __member
 		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
 		stage.LayoutOrder++
+		stage.new[layout] = struct{}{}
+		delete(stage.deleted, layout)
+	} else {
+		if _, ok := stage.new[layout]; !ok {
+			stage.modified[layout] = struct{}{}
+		}
 	}
 	stage.Layouts_mapString[layout.Name] = layout
 
@@ -635,6 +673,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
 	delete(stage.Layouts_mapString, layout.Name)
+
+	if _, ok := stage.reference[layout]; ok {
+		stage.deleted[layout] = struct{}{}
+	} else {
+		delete(stage.new, layout)
+	}
 	return layout
 }
 
@@ -702,6 +746,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.LayoutMap_Staged_Order = make(map[*Layout]uint)
 	stage.LayoutOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

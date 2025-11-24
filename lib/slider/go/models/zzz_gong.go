@@ -172,8 +172,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -443,6 +445,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Layout"},
 			{name: "Slider"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -503,6 +510,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -558,6 +566,12 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 		stage.Checkboxs[checkbox] = __member
 		stage.CheckboxMap_Staged_Order[checkbox] = stage.CheckboxOrder
 		stage.CheckboxOrder++
+		stage.new[checkbox] = struct{}{}
+		delete(stage.deleted, checkbox)
+	} else {
+		if _, ok := stage.new[checkbox]; !ok {
+			stage.modified[checkbox] = struct{}{}
+		}
 	}
 	stage.Checkboxs_mapString[checkbox.Name] = checkbox
 
@@ -568,6 +582,12 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
 	delete(stage.Checkboxs, checkbox)
 	delete(stage.Checkboxs_mapString, checkbox.Name)
+
+	if _, ok := stage.reference[checkbox]; ok {
+		stage.deleted[checkbox] = struct{}{}
+	} else {
+		delete(stage.new, checkbox)
+	}
 	return checkbox
 }
 
@@ -613,6 +633,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 		stage.Groups[group] = __member
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
+		stage.new[group] = struct{}{}
+		delete(stage.deleted, group)
+	} else {
+		if _, ok := stage.new[group]; !ok {
+			stage.modified[group] = struct{}{}
+		}
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -623,6 +649,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
+
+	if _, ok := stage.reference[group]; ok {
+		stage.deleted[group] = struct{}{}
+	} else {
+		delete(stage.new, group)
+	}
 	return group
 }
 
@@ -668,6 +700,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 		stage.Layouts[layout] = __member
 		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
 		stage.LayoutOrder++
+		stage.new[layout] = struct{}{}
+		delete(stage.deleted, layout)
+	} else {
+		if _, ok := stage.new[layout]; !ok {
+			stage.modified[layout] = struct{}{}
+		}
 	}
 	stage.Layouts_mapString[layout.Name] = layout
 
@@ -678,6 +716,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
 	delete(stage.Layouts_mapString, layout.Name)
+
+	if _, ok := stage.reference[layout]; ok {
+		stage.deleted[layout] = struct{}{}
+	} else {
+		delete(stage.new, layout)
+	}
 	return layout
 }
 
@@ -723,6 +767,12 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 		stage.Sliders[slider] = __member
 		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
 		stage.SliderOrder++
+		stage.new[slider] = struct{}{}
+		delete(stage.deleted, slider)
+	} else {
+		if _, ok := stage.new[slider]; !ok {
+			stage.modified[slider] = struct{}{}
+		}
 	}
 	stage.Sliders_mapString[slider.Name] = slider
 
@@ -733,6 +783,12 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 func (slider *Slider) Unstage(stage *Stage) *Slider {
 	delete(stage.Sliders, slider)
 	delete(stage.Sliders_mapString, slider.Name)
+
+	if _, ok := stage.reference[slider]; ok {
+		stage.deleted[slider] = struct{}{}
+	} else {
+		delete(stage.new, slider)
+	}
 	return slider
 }
 
@@ -807,6 +863,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SliderMap_Staged_Order = make(map[*Slider]uint)
 	stage.SliderOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

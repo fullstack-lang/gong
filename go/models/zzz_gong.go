@@ -262,8 +262,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -701,6 +703,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PointerToGongStructField"},
 			{name: "SliceOfPointerToGongStructField"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -789,6 +796,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -851,6 +859,12 @@ func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
 		stage.GongBasicFields[gongbasicfield] = __member
 		stage.GongBasicFieldMap_Staged_Order[gongbasicfield] = stage.GongBasicFieldOrder
 		stage.GongBasicFieldOrder++
+		stage.new[gongbasicfield] = struct{}{}
+		delete(stage.deleted, gongbasicfield)
+	} else {
+		if _, ok := stage.new[gongbasicfield]; !ok {
+			stage.modified[gongbasicfield] = struct{}{}
+		}
 	}
 	stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
 
@@ -861,6 +875,12 @@ func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
 func (gongbasicfield *GongBasicField) Unstage(stage *Stage) *GongBasicField {
 	delete(stage.GongBasicFields, gongbasicfield)
 	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
+
+	if _, ok := stage.reference[gongbasicfield]; ok {
+		stage.deleted[gongbasicfield] = struct{}{}
+	} else {
+		delete(stage.new, gongbasicfield)
+	}
 	return gongbasicfield
 }
 
@@ -906,6 +926,12 @@ func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 		stage.GongEnums[gongenum] = __member
 		stage.GongEnumMap_Staged_Order[gongenum] = stage.GongEnumOrder
 		stage.GongEnumOrder++
+		stage.new[gongenum] = struct{}{}
+		delete(stage.deleted, gongenum)
+	} else {
+		if _, ok := stage.new[gongenum]; !ok {
+			stage.modified[gongenum] = struct{}{}
+		}
 	}
 	stage.GongEnums_mapString[gongenum.Name] = gongenum
 
@@ -916,6 +942,12 @@ func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 func (gongenum *GongEnum) Unstage(stage *Stage) *GongEnum {
 	delete(stage.GongEnums, gongenum)
 	delete(stage.GongEnums_mapString, gongenum.Name)
+
+	if _, ok := stage.reference[gongenum]; ok {
+		stage.deleted[gongenum] = struct{}{}
+	} else {
+		delete(stage.new, gongenum)
+	}
 	return gongenum
 }
 
@@ -961,6 +993,12 @@ func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
 		stage.GongEnumValues[gongenumvalue] = __member
 		stage.GongEnumValueMap_Staged_Order[gongenumvalue] = stage.GongEnumValueOrder
 		stage.GongEnumValueOrder++
+		stage.new[gongenumvalue] = struct{}{}
+		delete(stage.deleted, gongenumvalue)
+	} else {
+		if _, ok := stage.new[gongenumvalue]; !ok {
+			stage.modified[gongenumvalue] = struct{}{}
+		}
 	}
 	stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
 
@@ -971,6 +1009,12 @@ func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
 func (gongenumvalue *GongEnumValue) Unstage(stage *Stage) *GongEnumValue {
 	delete(stage.GongEnumValues, gongenumvalue)
 	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
+
+	if _, ok := stage.reference[gongenumvalue]; ok {
+		stage.deleted[gongenumvalue] = struct{}{}
+	} else {
+		delete(stage.new, gongenumvalue)
+	}
 	return gongenumvalue
 }
 
@@ -1016,6 +1060,12 @@ func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 		stage.GongLinks[gonglink] = __member
 		stage.GongLinkMap_Staged_Order[gonglink] = stage.GongLinkOrder
 		stage.GongLinkOrder++
+		stage.new[gonglink] = struct{}{}
+		delete(stage.deleted, gonglink)
+	} else {
+		if _, ok := stage.new[gonglink]; !ok {
+			stage.modified[gonglink] = struct{}{}
+		}
 	}
 	stage.GongLinks_mapString[gonglink.Name] = gonglink
 
@@ -1026,6 +1076,12 @@ func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 func (gonglink *GongLink) Unstage(stage *Stage) *GongLink {
 	delete(stage.GongLinks, gonglink)
 	delete(stage.GongLinks_mapString, gonglink.Name)
+
+	if _, ok := stage.reference[gonglink]; ok {
+		stage.deleted[gonglink] = struct{}{}
+	} else {
+		delete(stage.new, gonglink)
+	}
 	return gonglink
 }
 
@@ -1071,6 +1127,12 @@ func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
 		stage.GongNotes[gongnote] = __member
 		stage.GongNoteMap_Staged_Order[gongnote] = stage.GongNoteOrder
 		stage.GongNoteOrder++
+		stage.new[gongnote] = struct{}{}
+		delete(stage.deleted, gongnote)
+	} else {
+		if _, ok := stage.new[gongnote]; !ok {
+			stage.modified[gongnote] = struct{}{}
+		}
 	}
 	stage.GongNotes_mapString[gongnote.Name] = gongnote
 
@@ -1081,6 +1143,12 @@ func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
 func (gongnote *GongNote) Unstage(stage *Stage) *GongNote {
 	delete(stage.GongNotes, gongnote)
 	delete(stage.GongNotes_mapString, gongnote.Name)
+
+	if _, ok := stage.reference[gongnote]; ok {
+		stage.deleted[gongnote] = struct{}{}
+	} else {
+		delete(stage.new, gongnote)
+	}
 	return gongnote
 }
 
@@ -1126,6 +1194,12 @@ func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 		stage.GongStructs[gongstruct] = __member
 		stage.GongStructMap_Staged_Order[gongstruct] = stage.GongStructOrder
 		stage.GongStructOrder++
+		stage.new[gongstruct] = struct{}{}
+		delete(stage.deleted, gongstruct)
+	} else {
+		if _, ok := stage.new[gongstruct]; !ok {
+			stage.modified[gongstruct] = struct{}{}
+		}
 	}
 	stage.GongStructs_mapString[gongstruct.Name] = gongstruct
 
@@ -1136,6 +1210,12 @@ func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 func (gongstruct *GongStruct) Unstage(stage *Stage) *GongStruct {
 	delete(stage.GongStructs, gongstruct)
 	delete(stage.GongStructs_mapString, gongstruct.Name)
+
+	if _, ok := stage.reference[gongstruct]; ok {
+		stage.deleted[gongstruct] = struct{}{}
+	} else {
+		delete(stage.new, gongstruct)
+	}
 	return gongstruct
 }
 
@@ -1181,6 +1261,12 @@ func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
 		stage.GongTimeFields[gongtimefield] = __member
 		stage.GongTimeFieldMap_Staged_Order[gongtimefield] = stage.GongTimeFieldOrder
 		stage.GongTimeFieldOrder++
+		stage.new[gongtimefield] = struct{}{}
+		delete(stage.deleted, gongtimefield)
+	} else {
+		if _, ok := stage.new[gongtimefield]; !ok {
+			stage.modified[gongtimefield] = struct{}{}
+		}
 	}
 	stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
 
@@ -1191,6 +1277,12 @@ func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
 func (gongtimefield *GongTimeField) Unstage(stage *Stage) *GongTimeField {
 	delete(stage.GongTimeFields, gongtimefield)
 	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
+
+	if _, ok := stage.reference[gongtimefield]; ok {
+		stage.deleted[gongtimefield] = struct{}{}
+	} else {
+		delete(stage.new, gongtimefield)
+	}
 	return gongtimefield
 }
 
@@ -1236,6 +1328,12 @@ func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 		stage.MetaReferences[metareference] = __member
 		stage.MetaReferenceMap_Staged_Order[metareference] = stage.MetaReferenceOrder
 		stage.MetaReferenceOrder++
+		stage.new[metareference] = struct{}{}
+		delete(stage.deleted, metareference)
+	} else {
+		if _, ok := stage.new[metareference]; !ok {
+			stage.modified[metareference] = struct{}{}
+		}
 	}
 	stage.MetaReferences_mapString[metareference.Name] = metareference
 
@@ -1246,6 +1344,12 @@ func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 func (metareference *MetaReference) Unstage(stage *Stage) *MetaReference {
 	delete(stage.MetaReferences, metareference)
 	delete(stage.MetaReferences_mapString, metareference.Name)
+
+	if _, ok := stage.reference[metareference]; ok {
+		stage.deleted[metareference] = struct{}{}
+	} else {
+		delete(stage.new, metareference)
+	}
 	return metareference
 }
 
@@ -1291,6 +1395,12 @@ func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
 		stage.ModelPkgs[modelpkg] = __member
 		stage.ModelPkgMap_Staged_Order[modelpkg] = stage.ModelPkgOrder
 		stage.ModelPkgOrder++
+		stage.new[modelpkg] = struct{}{}
+		delete(stage.deleted, modelpkg)
+	} else {
+		if _, ok := stage.new[modelpkg]; !ok {
+			stage.modified[modelpkg] = struct{}{}
+		}
 	}
 	stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
 
@@ -1301,6 +1411,12 @@ func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
 func (modelpkg *ModelPkg) Unstage(stage *Stage) *ModelPkg {
 	delete(stage.ModelPkgs, modelpkg)
 	delete(stage.ModelPkgs_mapString, modelpkg.Name)
+
+	if _, ok := stage.reference[modelpkg]; ok {
+		stage.deleted[modelpkg] = struct{}{}
+	} else {
+		delete(stage.new, modelpkg)
+	}
 	return modelpkg
 }
 
@@ -1346,6 +1462,12 @@ func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *P
 		stage.PointerToGongStructFields[pointertogongstructfield] = __member
 		stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield] = stage.PointerToGongStructFieldOrder
 		stage.PointerToGongStructFieldOrder++
+		stage.new[pointertogongstructfield] = struct{}{}
+		delete(stage.deleted, pointertogongstructfield)
+	} else {
+		if _, ok := stage.new[pointertogongstructfield]; !ok {
+			stage.modified[pointertogongstructfield] = struct{}{}
+		}
 	}
 	stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
 
@@ -1356,6 +1478,12 @@ func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *P
 func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *Stage) *PointerToGongStructField {
 	delete(stage.PointerToGongStructFields, pointertogongstructfield)
 	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
+
+	if _, ok := stage.reference[pointertogongstructfield]; ok {
+		stage.deleted[pointertogongstructfield] = struct{}{}
+	} else {
+		delete(stage.new, pointertogongstructfield)
+	}
 	return pointertogongstructfield
 }
 
@@ -1401,6 +1529,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(st
 		stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = __member
 		stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield] = stage.SliceOfPointerToGongStructFieldOrder
 		stage.SliceOfPointerToGongStructFieldOrder++
+		stage.new[sliceofpointertogongstructfield] = struct{}{}
+		delete(stage.deleted, sliceofpointertogongstructfield)
+	} else {
+		if _, ok := stage.new[sliceofpointertogongstructfield]; !ok {
+			stage.modified[sliceofpointertogongstructfield] = struct{}{}
+		}
 	}
 	stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
 
@@ -1411,6 +1545,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(st
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(stage *Stage) *SliceOfPointerToGongStructField {
 	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
 	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
+
+	if _, ok := stage.reference[sliceofpointertogongstructfield]; ok {
+		stage.deleted[sliceofpointertogongstructfield] = struct{}{}
+	} else {
+		delete(stage.new, sliceofpointertogongstructfield)
+	}
 	return sliceofpointertogongstructfield
 }
 
@@ -1534,6 +1674,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SliceOfPointerToGongStructFieldMap_Staged_Order = make(map[*SliceOfPointerToGongStructField]uint)
 	stage.SliceOfPointerToGongStructFieldOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
