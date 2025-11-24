@@ -131,3 +131,102 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Cells {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CellBooleans {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CellFloat64s {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CellIcons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CellInts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CellStrings {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.CheckBoxs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.DisplayedColumns {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormDivs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormEditAssocButtons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFields {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldDates {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldDateTimes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldFloat64s {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldInts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldSelects {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldStrings {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormFieldTimes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormGroups {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FormSortAssocButtons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Options {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Rows {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Tables {
+		res = append(res, instance)
+	}
+
+
+	return
+}

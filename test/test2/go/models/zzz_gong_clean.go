@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,23 +27,24 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by A
+func (a *A) GongClean(stage *Stage) {
+	// insertion point per field
+	a.Bs = GongCleanSlice(stage, a.Bs)
+	// insertion point per field
+	a.B = GongCleanPointer(stage, a.B)
+}
+
+// Clean garbage collect unstaged instances that are referenced by B
+func (b *B) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up A
-	for a := range stage.As {
-		_ = a
-		// insertion point per field
-		a.Bs = GongCleanSlice(stage, a.Bs)
-		// insertion point per field
-		a.B = GongCleanPointer(stage, a.B)
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up B
-	for b := range stage.Bs {
-		_ = b
-		// insertion point per field
-		// insertion point per field
-	}
-
 }

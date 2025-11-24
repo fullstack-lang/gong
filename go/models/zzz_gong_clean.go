@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,93 +27,85 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by GongBasicField
+func (gongbasicfield *GongBasicField) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	gongbasicfield.GongEnum = GongCleanPointer(stage, gongbasicfield.GongEnum)
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongEnum
+func (gongenum *GongEnum) GongClean(stage *Stage) {
+	// insertion point per field
+	gongenum.GongEnumValues = GongCleanSlice(stage, gongenum.GongEnumValues)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongEnumValue
+func (gongenumvalue *GongEnumValue) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongLink
+func (gonglink *GongLink) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongNote
+func (gongnote *GongNote) GongClean(stage *Stage) {
+	// insertion point per field
+	gongnote.Links = GongCleanSlice(stage, gongnote.Links)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongStruct
+func (gongstruct *GongStruct) GongClean(stage *Stage) {
+	// insertion point per field
+	gongstruct.GongBasicFields = GongCleanSlice(stage, gongstruct.GongBasicFields)
+	gongstruct.GongTimeFields = GongCleanSlice(stage, gongstruct.GongTimeFields)
+	gongstruct.PointerToGongStructFields = GongCleanSlice(stage, gongstruct.PointerToGongStructFields)
+	gongstruct.SliceOfPointerToGongStructFields = GongCleanSlice(stage, gongstruct.SliceOfPointerToGongStructFields)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by GongTimeField
+func (gongtimefield *GongTimeField) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by MetaReference
+func (metareference *MetaReference) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by ModelPkg
+func (modelpkg *ModelPkg) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by PointerToGongStructField
+func (pointertogongstructfield *PointerToGongStructField) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	pointertogongstructfield.GongStruct = GongCleanPointer(stage, pointertogongstructfield.GongStruct)
+}
+
+// Clean garbage collect unstaged instances that are referenced by SliceOfPointerToGongStructField
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	sliceofpointertogongstructfield.GongStruct = GongCleanPointer(stage, sliceofpointertogongstructfield.GongStruct)
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up GongBasicField
-	for gongbasicfield := range stage.GongBasicFields {
-		_ = gongbasicfield
-		// insertion point per field
-		// insertion point per field
-		gongbasicfield.GongEnum = GongCleanPointer(stage, gongbasicfield.GongEnum)
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up GongEnum
-	for gongenum := range stage.GongEnums {
-		_ = gongenum
-		// insertion point per field
-		gongenum.GongEnumValues = GongCleanSlice(stage, gongenum.GongEnumValues)
-		// insertion point per field
-	}
-
-	// clean up GongEnumValue
-	for gongenumvalue := range stage.GongEnumValues {
-		_ = gongenumvalue
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up GongLink
-	for gonglink := range stage.GongLinks {
-		_ = gonglink
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up GongNote
-	for gongnote := range stage.GongNotes {
-		_ = gongnote
-		// insertion point per field
-		gongnote.Links = GongCleanSlice(stage, gongnote.Links)
-		// insertion point per field
-	}
-
-	// clean up GongStruct
-	for gongstruct := range stage.GongStructs {
-		_ = gongstruct
-		// insertion point per field
-		gongstruct.GongBasicFields = GongCleanSlice(stage, gongstruct.GongBasicFields)
-		gongstruct.GongTimeFields = GongCleanSlice(stage, gongstruct.GongTimeFields)
-		gongstruct.PointerToGongStructFields = GongCleanSlice(stage, gongstruct.PointerToGongStructFields)
-		gongstruct.SliceOfPointerToGongStructFields = GongCleanSlice(stage, gongstruct.SliceOfPointerToGongStructFields)
-		// insertion point per field
-	}
-
-	// clean up GongTimeField
-	for gongtimefield := range stage.GongTimeFields {
-		_ = gongtimefield
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up MetaReference
-	for metareference := range stage.MetaReferences {
-		_ = metareference
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up ModelPkg
-	for modelpkg := range stage.ModelPkgs {
-		_ = modelpkg
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up PointerToGongStructField
-	for pointertogongstructfield := range stage.PointerToGongStructFields {
-		_ = pointertogongstructfield
-		// insertion point per field
-		// insertion point per field
-		pointertogongstructfield.GongStruct = GongCleanPointer(stage, pointertogongstructfield.GongStruct)
-	}
-
-	// clean up SliceOfPointerToGongStructField
-	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
-		_ = sliceofpointertogongstructfield
-		// insertion point per field
-		// insertion point per field
-		sliceofpointertogongstructfield.GongStruct = GongCleanPointer(stage, sliceofpointertogongstructfield.GongStruct)
-	}
-
 }

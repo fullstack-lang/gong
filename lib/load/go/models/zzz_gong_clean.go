@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,28 +27,28 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by FileToDownload
+func (filetodownload *FileToDownload) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FileToUpload
+func (filetoupload *FileToUpload) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Message
+func (message *Message) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up FileToDownload
-	for filetodownload := range stage.FileToDownloads {
-		_ = filetodownload
-		// insertion point per field
-		// insertion point per field
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up FileToUpload
-	for filetoupload := range stage.FileToUploads {
-		_ = filetoupload
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up Message
-	for message := range stage.Messages {
-		_ = message
-		// insertion point per field
-		// insertion point per field
-	}
-
 }

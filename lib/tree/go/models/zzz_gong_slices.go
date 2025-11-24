@@ -42,3 +42,26 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Buttons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Nodes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SVGIcons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Trees {
+		res = append(res, instance)
+	}
+
+
+	return
+}

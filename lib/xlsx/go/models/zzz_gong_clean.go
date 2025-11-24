@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,48 +27,46 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by DisplaySelection
+func (displayselection *DisplaySelection) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	displayselection.XLFile = GongCleanPointer(stage, displayselection.XLFile)
+	displayselection.XLSheet = GongCleanPointer(stage, displayselection.XLSheet)
+}
+
+// Clean garbage collect unstaged instances that are referenced by XLCell
+func (xlcell *XLCell) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by XLFile
+func (xlfile *XLFile) GongClean(stage *Stage) {
+	// insertion point per field
+	xlfile.Sheets = GongCleanSlice(stage, xlfile.Sheets)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by XLRow
+func (xlrow *XLRow) GongClean(stage *Stage) {
+	// insertion point per field
+	xlrow.Cells = GongCleanSlice(stage, xlrow.Cells)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by XLSheet
+func (xlsheet *XLSheet) GongClean(stage *Stage) {
+	// insertion point per field
+	xlsheet.Rows = GongCleanSlice(stage, xlsheet.Rows)
+	xlsheet.SheetCells = GongCleanSlice(stage, xlsheet.SheetCells)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up DisplaySelection
-	for displayselection := range stage.DisplaySelections {
-		_ = displayselection
-		// insertion point per field
-		// insertion point per field
-		displayselection.XLFile = GongCleanPointer(stage, displayselection.XLFile)
-		displayselection.XLSheet = GongCleanPointer(stage, displayselection.XLSheet)
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up XLCell
-	for xlcell := range stage.XLCells {
-		_ = xlcell
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up XLFile
-	for xlfile := range stage.XLFiles {
-		_ = xlfile
-		// insertion point per field
-		xlfile.Sheets = GongCleanSlice(stage, xlfile.Sheets)
-		// insertion point per field
-	}
-
-	// clean up XLRow
-	for xlrow := range stage.XLRows {
-		_ = xlrow
-		// insertion point per field
-		xlrow.Cells = GongCleanSlice(stage, xlrow.Cells)
-		// insertion point per field
-	}
-
-	// clean up XLSheet
-	for xlsheet := range stage.XLSheets {
-		_ = xlsheet
-		// insertion point per field
-		xlsheet.Rows = GongCleanSlice(stage, xlsheet.Rows)
-		xlsheet.SheetCells = GongCleanSlice(stage, xlsheet.SheetCells)
-		// insertion point per field
-	}
-
 }
