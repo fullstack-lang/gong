@@ -22,7 +22,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -43,9 +43,11 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
-// Clean garbage collect unstaged instances that are referenced by staged elements 
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
+	}
 }
 `
 
