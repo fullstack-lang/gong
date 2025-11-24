@@ -166,8 +166,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -437,6 +439,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PngImage"},
 			{name: "SvgImage"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -497,6 +504,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -552,6 +560,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 		stage.Contents[content] = __member
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
+		stage.new[content] = struct{}{}
+		delete(stage.deleted, content)
+	} else {
+		if _, ok := stage.new[content]; !ok {
+			stage.modified[content] = struct{}{}
+		}
 	}
 	stage.Contents_mapString[content.Name] = content
 
@@ -562,6 +576,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
 	delete(stage.Contents_mapString, content.Name)
+
+	if _, ok := stage.reference[content]; ok {
+		stage.deleted[content] = struct{}{}
+	} else {
+		delete(stage.new, content)
+	}
 	return content
 }
 
@@ -607,6 +627,12 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 		stage.JpgImages[jpgimage] = __member
 		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
 		stage.JpgImageOrder++
+		stage.new[jpgimage] = struct{}{}
+		delete(stage.deleted, jpgimage)
+	} else {
+		if _, ok := stage.new[jpgimage]; !ok {
+			stage.modified[jpgimage] = struct{}{}
+		}
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
 
@@ -617,6 +643,12 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 	delete(stage.JpgImages, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
+
+	if _, ok := stage.reference[jpgimage]; ok {
+		stage.deleted[jpgimage] = struct{}{}
+	} else {
+		delete(stage.new, jpgimage)
+	}
 	return jpgimage
 }
 
@@ -662,6 +694,12 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 		stage.PngImages[pngimage] = __member
 		stage.PngImageMap_Staged_Order[pngimage] = stage.PngImageOrder
 		stage.PngImageOrder++
+		stage.new[pngimage] = struct{}{}
+		delete(stage.deleted, pngimage)
+	} else {
+		if _, ok := stage.new[pngimage]; !ok {
+			stage.modified[pngimage] = struct{}{}
+		}
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
 
@@ -672,6 +710,12 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 	delete(stage.PngImages, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
+
+	if _, ok := stage.reference[pngimage]; ok {
+		stage.deleted[pngimage] = struct{}{}
+	} else {
+		delete(stage.new, pngimage)
+	}
 	return pngimage
 }
 
@@ -717,6 +761,12 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 		stage.SvgImages[svgimage] = __member
 		stage.SvgImageMap_Staged_Order[svgimage] = stage.SvgImageOrder
 		stage.SvgImageOrder++
+		stage.new[svgimage] = struct{}{}
+		delete(stage.deleted, svgimage)
+	} else {
+		if _, ok := stage.new[svgimage]; !ok {
+			stage.modified[svgimage] = struct{}{}
+		}
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
 
@@ -727,6 +777,12 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 	delete(stage.SvgImages, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
+
+	if _, ok := stage.reference[svgimage]; ok {
+		stage.deleted[svgimage] = struct{}{}
+	} else {
+		delete(stage.new, svgimage)
+	}
 	return svgimage
 }
 
@@ -801,6 +857,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.SvgImageMap_Staged_Order = make(map[*SvgImage]uint)
 	stage.SvgImageOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
