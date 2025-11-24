@@ -85,13 +85,26 @@ func updateAndCommitTree(
 		case "A":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.A](probe.stageOfInterest)
+			created := 0
+			updated := 0
+			deleted := 0
 			for _a := range set {
 				nodeInstance := &tree.Node{Name: _a.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_a, "A", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+				if _, ok := probe.stageOfInterest.GetNew()[_a]; ok {
+					created++
+				}
+				if _, ok := probe.stageOfInterest.GetModified()[_a]; ok {
+					updated++
+				}
+				if _, ok := probe.stageOfInterest.GetDeleted()[_a]; ok {
+					deleted++
+				}
 			}
+			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)
 		}
 
 		nodeGongstruct.IsNodeClickable = true
