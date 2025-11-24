@@ -42,6 +42,12 @@ func updateAndCommitTree(
 		probe.stageOfInterest.GetName(),
 		probe.stageOfInterest.GetCommitId(),
 		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
+	nodeRefreshButton.Name +=
+		fmt.Sprintf(" (C%d/U%d/D%d)", 
+			len(probe.stageOfInterest.GetNew()), 
+			len(probe.stageOfInterest.GetModified()), 
+			len(probe.stageOfInterest.GetDeleted()),
+		)
 	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
