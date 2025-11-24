@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,35 +27,34 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Content
+func (content *Content) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by JpgImage
+func (jpgimage *JpgImage) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by PngImage
+func (pngimage *PngImage) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by SvgImage
+func (svgimage *SvgImage) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up Content
-	for content := range stage.Contents {
-		_ = content
-		// insertion point per field
-		// insertion point per field
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up JpgImage
-	for jpgimage := range stage.JpgImages {
-		_ = jpgimage
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up PngImage
-	for pngimage := range stage.PngImages {
-		_ = pngimage
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up SvgImage
-	for svgimage := range stage.SvgImages {
-		_ = svgimage
-		// insertion point per field
-		// insertion point per field
-	}
-
 }
