@@ -748,6 +748,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1144,32 +1145,31 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *Button:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (button *Button) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = button.Name
 		case "Label":
-			res.valueString = inferedInstance.Label
+			res.valueString = button.Label
 		case "Icon":
-			res.valueString = inferedInstance.Icon
-		}
-	case *Group:
-		switch fieldName {
+			res.valueString = button.Icon
+	}
+	return
+}
+func (group *Group) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = group.Name
 		case "Percentage":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Percentage)
-			res.valueFloat = inferedInstance.Percentage
+			res.valueString = fmt.Sprintf("%f", group.Percentage)
+			res.valueFloat = group.Percentage
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Buttons":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Buttons {
+			for idx, __instance__ := range group.Buttons {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1178,18 +1178,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "NbColumns":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbColumns)
-			res.valueInt = inferedInstance.NbColumns
+			res.valueString = fmt.Sprintf("%d", group.NbColumns)
+			res.valueInt = group.NbColumns
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case *Layout:
-		switch fieldName {
+	}
+	return
+}
+func (layout *Layout) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = layout.Name
 		case "Groups":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Groups {
+			for idx, __instance__ := range layout.Groups {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1197,70 +1199,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	default:
-		_ = inferedInstance
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case Button:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Label":
-			res.valueString = inferedInstance.Label
-		case "Icon":
-			res.valueString = inferedInstance.Icon
-		}
-	case Group:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Percentage":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Percentage)
-			res.valueFloat = inferedInstance.Percentage
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Buttons":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Buttons {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "NbColumns":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbColumns)
-			res.valueInt = inferedInstance.NbColumns
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case Layout:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Groups":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Groups {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 

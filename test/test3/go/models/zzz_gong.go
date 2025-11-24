@@ -526,6 +526,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -809,18 +810,15 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *A:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (a *A) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = a.Name
 		case "As":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.As {
+			for idx, __instance__ := range a.As {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -828,36 +826,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	default:
-		_ = inferedInstance
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case A:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "As":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.As {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 

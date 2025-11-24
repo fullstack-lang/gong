@@ -2958,6 +2958,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -4823,122 +4824,135 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *Cell:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (cell *Cell) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cell.Name
 		case "CellString":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellString != nil {
-				res.valueString = inferedInstance.CellString.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellString))
+			if cell.CellString != nil {
+				res.valueString = cell.CellString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, cell.CellString))
 			}
 		case "CellFloat64":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellFloat64 != nil {
-				res.valueString = inferedInstance.CellFloat64.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellFloat64))
+			if cell.CellFloat64 != nil {
+				res.valueString = cell.CellFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, cell.CellFloat64))
 			}
 		case "CellInt":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellInt != nil {
-				res.valueString = inferedInstance.CellInt.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellInt))
+			if cell.CellInt != nil {
+				res.valueString = cell.CellInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, cell.CellInt))
 			}
 		case "CellBool":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellBool != nil {
-				res.valueString = inferedInstance.CellBool.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellBool))
+			if cell.CellBool != nil {
+				res.valueString = cell.CellBool.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, cell.CellBool))
 			}
 		case "CellIcon":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellIcon != nil {
-				res.valueString = inferedInstance.CellIcon.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellIcon))
+			if cell.CellIcon != nil {
+				res.valueString = cell.CellIcon.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, cell.CellIcon))
 			}
-		}
-	case *CellBoolean:
-		switch fieldName {
+	}
+	return
+}
+func (cellboolean *CellBoolean) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cellboolean.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Value)
-			res.valueBool = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%t", cellboolean.Value)
+			res.valueBool = cellboolean.Value
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *CellFloat64:
-		switch fieldName {
+	}
+	return
+}
+func (cellfloat64 *CellFloat64) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cellfloat64.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Value)
-			res.valueFloat = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%f", cellfloat64.Value)
+			res.valueFloat = cellfloat64.Value
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case *CellIcon:
-		switch fieldName {
+	}
+	return
+}
+func (cellicon *CellIcon) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cellicon.Name
 		case "Icon":
-			res.valueString = inferedInstance.Icon
+			res.valueString = cellicon.Icon
 		case "NeedsConfirmation":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.NeedsConfirmation)
-			res.valueBool = inferedInstance.NeedsConfirmation
+			res.valueString = fmt.Sprintf("%t", cellicon.NeedsConfirmation)
+			res.valueBool = cellicon.NeedsConfirmation
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ConfirmationMessage":
-			res.valueString = inferedInstance.ConfirmationMessage
-		}
-	case *CellInt:
-		switch fieldName {
+			res.valueString = cellicon.ConfirmationMessage
+	}
+	return
+}
+func (cellint *CellInt) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cellint.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Value)
-			res.valueInt = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%d", cellint.Value)
+			res.valueInt = cellint.Value
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case *CellString:
-		switch fieldName {
+	}
+	return
+}
+func (cellstring *CellString) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cellstring.Name
 		case "Value":
-			res.valueString = inferedInstance.Value
-		}
-	case *CheckBox:
-		switch fieldName {
+			res.valueString = cellstring.Value
+	}
+	return
+}
+func (checkbox *CheckBox) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = checkbox.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Value)
-			res.valueBool = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%t", checkbox.Value)
+			res.valueBool = checkbox.Value
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *DisplayedColumn:
-		switch fieldName {
+	}
+	return
+}
+func (displayedcolumn *DisplayedColumn) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	case *FormDiv:
-		switch fieldName {
+			res.valueString = displayedcolumn.Name
+	}
+	return
+}
+func (formdiv *FormDiv) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formdiv.Name
 		case "FormFields":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.FormFields {
+			for idx, __instance__ := range formdiv.FormFields {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -4948,7 +4962,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 			}
 		case "CheckBoxs":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.CheckBoxs {
+			for idx, __instance__ := range formdiv.CheckBoxs {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -4958,196 +4972,210 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 			}
 		case "FormEditAssocButton":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormEditAssocButton != nil {
-				res.valueString = inferedInstance.FormEditAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
+			if formdiv.FormEditAssocButton != nil {
+				res.valueString = formdiv.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formdiv.FormEditAssocButton))
 			}
 		case "FormSortAssocButton":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormSortAssocButton != nil {
-				res.valueString = inferedInstance.FormSortAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormSortAssocButton))
+			if formdiv.FormSortAssocButton != nil {
+				res.valueString = formdiv.FormSortAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formdiv.FormSortAssocButton))
 			}
-		}
-	case *FormEditAssocButton:
-		switch fieldName {
+	}
+	return
+}
+func (formeditassocbutton *FormEditAssocButton) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formeditassocbutton.Name
 		case "Label":
-			res.valueString = inferedInstance.Label
+			res.valueString = formeditassocbutton.Label
 		case "AssociationStorage":
-			res.valueString = inferedInstance.AssociationStorage
+			res.valueString = formeditassocbutton.AssociationStorage
 		case "HasChanged":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
-			res.valueBool = inferedInstance.HasChanged
+			res.valueString = fmt.Sprintf("%t", formeditassocbutton.HasChanged)
+			res.valueBool = formeditassocbutton.HasChanged
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "IsForSavePurpose":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
-			res.valueBool = inferedInstance.IsForSavePurpose
+			res.valueString = fmt.Sprintf("%t", formeditassocbutton.IsForSavePurpose)
+			res.valueBool = formeditassocbutton.IsForSavePurpose
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
-			res.valueBool = inferedInstance.HasToolTip
+			res.valueString = fmt.Sprintf("%t", formeditassocbutton.HasToolTip)
+			res.valueBool = formeditassocbutton.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
-			res.valueString = inferedInstance.ToolTipText
+			res.valueString = formeditassocbutton.ToolTipText
 		case "MatTooltipShowDelay":
-			res.valueString = inferedInstance.MatTooltipShowDelay
-		}
-	case *FormField:
-		switch fieldName {
+			res.valueString = formeditassocbutton.MatTooltipShowDelay
+	}
+	return
+}
+func (formfield *FormField) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfield.Name
 		case "InputTypeEnum":
-			enum := inferedInstance.InputTypeEnum
+			enum := formfield.InputTypeEnum
 			res.valueString = enum.ToCodeString()
 		case "Label":
-			res.valueString = inferedInstance.Label
+			res.valueString = formfield.Label
 		case "Placeholder":
-			res.valueString = inferedInstance.Placeholder
+			res.valueString = formfield.Placeholder
 		case "FormFieldString":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldString != nil {
-				res.valueString = inferedInstance.FormFieldString.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldString))
+			if formfield.FormFieldString != nil {
+				res.valueString = formfield.FormFieldString.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldString))
 			}
 		case "FormFieldFloat64":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldFloat64 != nil {
-				res.valueString = inferedInstance.FormFieldFloat64.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldFloat64))
+			if formfield.FormFieldFloat64 != nil {
+				res.valueString = formfield.FormFieldFloat64.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldFloat64))
 			}
 		case "FormFieldInt":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldInt != nil {
-				res.valueString = inferedInstance.FormFieldInt.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldInt))
+			if formfield.FormFieldInt != nil {
+				res.valueString = formfield.FormFieldInt.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldInt))
 			}
 		case "FormFieldDate":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldDate != nil {
-				res.valueString = inferedInstance.FormFieldDate.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDate))
+			if formfield.FormFieldDate != nil {
+				res.valueString = formfield.FormFieldDate.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldDate))
 			}
 		case "FormFieldTime":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldTime != nil {
-				res.valueString = inferedInstance.FormFieldTime.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldTime))
+			if formfield.FormFieldTime != nil {
+				res.valueString = formfield.FormFieldTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldTime))
 			}
 		case "FormFieldDateTime":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldDateTime != nil {
-				res.valueString = inferedInstance.FormFieldDateTime.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDateTime))
+			if formfield.FormFieldDateTime != nil {
+				res.valueString = formfield.FormFieldDateTime.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldDateTime))
 			}
 		case "FormFieldSelect":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldSelect != nil {
-				res.valueString = inferedInstance.FormFieldSelect.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldSelect))
+			if formfield.FormFieldSelect != nil {
+				res.valueString = formfield.FormFieldSelect.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfield.FormFieldSelect))
 			}
 		case "HasBespokeWidth":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
-			res.valueBool = inferedInstance.HasBespokeWidth
+			res.valueString = fmt.Sprintf("%t", formfield.HasBespokeWidth)
+			res.valueBool = formfield.HasBespokeWidth
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeWidthPx":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeWidthPx)
-			res.valueInt = inferedInstance.BespokeWidthPx
+			res.valueString = fmt.Sprintf("%d", formfield.BespokeWidthPx)
+			res.valueInt = formfield.BespokeWidthPx
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "HasBespokeHeight":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeHeight)
-			res.valueBool = inferedInstance.HasBespokeHeight
+			res.valueString = fmt.Sprintf("%t", formfield.HasBespokeHeight)
+			res.valueBool = formfield.HasBespokeHeight
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "BespokeHeightPx":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeHeightPx)
-			res.valueInt = inferedInstance.BespokeHeightPx
+			res.valueString = fmt.Sprintf("%d", formfield.BespokeHeightPx)
+			res.valueInt = formfield.BespokeHeightPx
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case *FormFieldDate:
-		switch fieldName {
+	}
+	return
+}
+func (formfielddate *FormFieldDate) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfielddate.Name
 		case "Value":
-			res.valueString = inferedInstance.Value.String()
-		}
-	case *FormFieldDateTime:
-		switch fieldName {
+			res.valueString = formfielddate.Value.String()
+	}
+	return
+}
+func (formfielddatetime *FormFieldDateTime) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfielddatetime.Name
 		case "Value":
-			res.valueString = inferedInstance.Value.String()
-		}
-	case *FormFieldFloat64:
-		switch fieldName {
+			res.valueString = formfielddatetime.Value.String()
+	}
+	return
+}
+func (formfieldfloat64 *FormFieldFloat64) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfieldfloat64.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Value)
-			res.valueFloat = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%f", formfieldfloat64.Value)
+			res.valueFloat = formfieldfloat64.Value
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "HasMinValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMinValidator)
-			res.valueBool = inferedInstance.HasMinValidator
+			res.valueString = fmt.Sprintf("%t", formfieldfloat64.HasMinValidator)
+			res.valueBool = formfieldfloat64.HasMinValidator
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "MinValue":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.MinValue)
-			res.valueFloat = inferedInstance.MinValue
+			res.valueString = fmt.Sprintf("%f", formfieldfloat64.MinValue)
+			res.valueFloat = formfieldfloat64.MinValue
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "HasMaxValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMaxValidator)
-			res.valueBool = inferedInstance.HasMaxValidator
+			res.valueString = fmt.Sprintf("%t", formfieldfloat64.HasMaxValidator)
+			res.valueBool = formfieldfloat64.HasMaxValidator
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "MaxValue":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.MaxValue)
-			res.valueFloat = inferedInstance.MaxValue
+			res.valueString = fmt.Sprintf("%f", formfieldfloat64.MaxValue)
+			res.valueFloat = formfieldfloat64.MaxValue
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case *FormFieldInt:
-		switch fieldName {
+	}
+	return
+}
+func (formfieldint *FormFieldInt) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfieldint.Name
 		case "Value":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Value)
-			res.valueInt = inferedInstance.Value
+			res.valueString = fmt.Sprintf("%d", formfieldint.Value)
+			res.valueInt = formfieldint.Value
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "HasMinValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMinValidator)
-			res.valueBool = inferedInstance.HasMinValidator
+			res.valueString = fmt.Sprintf("%t", formfieldint.HasMinValidator)
+			res.valueBool = formfieldint.HasMinValidator
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "MinValue":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MinValue)
-			res.valueInt = inferedInstance.MinValue
+			res.valueString = fmt.Sprintf("%d", formfieldint.MinValue)
+			res.valueInt = formfieldint.MinValue
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "HasMaxValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMaxValidator)
-			res.valueBool = inferedInstance.HasMaxValidator
+			res.valueString = fmt.Sprintf("%t", formfieldint.HasMaxValidator)
+			res.valueBool = formfieldint.HasMaxValidator
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "MaxValue":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxValue)
-			res.valueInt = inferedInstance.MaxValue
+			res.valueString = fmt.Sprintf("%d", formfieldint.MaxValue)
+			res.valueInt = formfieldint.MaxValue
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case *FormFieldSelect:
-		switch fieldName {
+	}
+	return
+}
+func (formfieldselect *FormFieldSelect) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfieldselect.Name
 		case "Value":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.Value != nil {
-				res.valueString = inferedInstance.Value.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Value))
+			if formfieldselect.Value != nil {
+				res.valueString = formfieldselect.Value.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formfieldselect.Value))
 			}
 		case "Options":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Options {
+			for idx, __instance__ := range formfieldselect.Options {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -5156,48 +5184,54 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "CanBeEmpty":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
-			res.valueBool = inferedInstance.CanBeEmpty
+			res.valueString = fmt.Sprintf("%t", formfieldselect.CanBeEmpty)
+			res.valueBool = formfieldselect.CanBeEmpty
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "PreserveInitialOrder":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.PreserveInitialOrder)
-			res.valueBool = inferedInstance.PreserveInitialOrder
+			res.valueString = fmt.Sprintf("%t", formfieldselect.PreserveInitialOrder)
+			res.valueBool = formfieldselect.PreserveInitialOrder
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *FormFieldString:
-		switch fieldName {
+	}
+	return
+}
+func (formfieldstring *FormFieldString) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfieldstring.Name
 		case "Value":
-			res.valueString = inferedInstance.Value
+			res.valueString = formfieldstring.Value
 		case "IsTextArea":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
-			res.valueBool = inferedInstance.IsTextArea
+			res.valueString = fmt.Sprintf("%t", formfieldstring.IsTextArea)
+			res.valueBool = formfieldstring.IsTextArea
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *FormFieldTime:
-		switch fieldName {
+	}
+	return
+}
+func (formfieldtime *FormFieldTime) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formfieldtime.Name
 		case "Value":
-			res.valueString = inferedInstance.Value.String()
+			res.valueString = formfieldtime.Value.String()
 		case "Step":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Step)
-			res.valueFloat = inferedInstance.Step
+			res.valueString = fmt.Sprintf("%f", formfieldtime.Step)
+			res.valueFloat = formfieldtime.Step
 			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case *FormGroup:
-		switch fieldName {
+	}
+	return
+}
+func (formgroup *FormGroup) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formgroup.Name
 		case "Label":
-			res.valueString = inferedInstance.Label
+			res.valueString = formgroup.Label
 		case "FormDivs":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.FormDivs {
+			for idx, __instance__ := range formgroup.FormDivs {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -5206,50 +5240,56 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasSuppressButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
-			res.valueBool = inferedInstance.HasSuppressButton
+			res.valueString = fmt.Sprintf("%t", formgroup.HasSuppressButton)
+			res.valueBool = formgroup.HasSuppressButton
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasSuppressButtonBeenPressed":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButtonBeenPressed)
-			res.valueBool = inferedInstance.HasSuppressButtonBeenPressed
+			res.valueString = fmt.Sprintf("%t", formgroup.HasSuppressButtonBeenPressed)
+			res.valueBool = formgroup.HasSuppressButtonBeenPressed
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *FormSortAssocButton:
-		switch fieldName {
+	}
+	return
+}
+func (formsortassocbutton *FormSortAssocButton) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = formsortassocbutton.Name
 		case "Label":
-			res.valueString = inferedInstance.Label
+			res.valueString = formsortassocbutton.Label
 		case "HasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
-			res.valueBool = inferedInstance.HasToolTip
+			res.valueString = fmt.Sprintf("%t", formsortassocbutton.HasToolTip)
+			res.valueBool = formsortassocbutton.HasToolTip
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "ToolTipText":
-			res.valueString = inferedInstance.ToolTipText
+			res.valueString = formsortassocbutton.ToolTipText
 		case "MatTooltipShowDelay":
-			res.valueString = inferedInstance.MatTooltipShowDelay
+			res.valueString = formsortassocbutton.MatTooltipShowDelay
 		case "FormEditAssocButton":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormEditAssocButton != nil {
-				res.valueString = inferedInstance.FormEditAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
+			if formsortassocbutton.FormEditAssocButton != nil {
+				res.valueString = formsortassocbutton.FormEditAssocButton.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, formsortassocbutton.FormEditAssocButton))
 			}
-		}
-	case *Option:
-		switch fieldName {
+	}
+	return
+}
+func (option *Option) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	case *Row:
-		switch fieldName {
+			res.valueString = option.Name
+	}
+	return
+}
+func (row *Row) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = row.Name
 		case "Cells":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Cells {
+			for idx, __instance__ := range row.Cells {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -5258,18 +5298,20 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "IsChecked":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
-			res.valueBool = inferedInstance.IsChecked
+			res.valueString = fmt.Sprintf("%t", row.IsChecked)
+			res.valueBool = row.IsChecked
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case *Table:
-		switch fieldName {
+	}
+	return
+}
+func (table *Table) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = table.Name
 		case "DisplayedColumns":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.DisplayedColumns {
+			for idx, __instance__ := range table.DisplayedColumns {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -5279,7 +5321,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 			}
 		case "Rows":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Rows {
+			for idx, __instance__ := range table.Rows {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -5288,556 +5330,51 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "HasFiltering":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasFiltering)
-			res.valueBool = inferedInstance.HasFiltering
+			res.valueString = fmt.Sprintf("%t", table.HasFiltering)
+			res.valueBool = table.HasFiltering
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasColumnSorting":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasColumnSorting)
-			res.valueBool = inferedInstance.HasColumnSorting
+			res.valueString = fmt.Sprintf("%t", table.HasColumnSorting)
+			res.valueBool = table.HasColumnSorting
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasPaginator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasPaginator)
-			res.valueBool = inferedInstance.HasPaginator
+			res.valueString = fmt.Sprintf("%t", table.HasPaginator)
+			res.valueBool = table.HasPaginator
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasCheckableRows":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCheckableRows)
-			res.valueBool = inferedInstance.HasCheckableRows
+			res.valueString = fmt.Sprintf("%t", table.HasCheckableRows)
+			res.valueBool = table.HasCheckableRows
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasSaveButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
-			res.valueBool = inferedInstance.HasSaveButton
+			res.valueString = fmt.Sprintf("%t", table.HasSaveButton)
+			res.valueBool = table.HasSaveButton
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "SaveButtonLabel":
-			res.valueString = inferedInstance.SaveButtonLabel
+			res.valueString = table.SaveButtonLabel
 		case "CanDragDropRows":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
-			res.valueBool = inferedInstance.CanDragDropRows
+			res.valueString = fmt.Sprintf("%t", table.CanDragDropRows)
+			res.valueBool = table.CanDragDropRows
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "HasCloseButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCloseButton)
-			res.valueBool = inferedInstance.HasCloseButton
+			res.valueString = fmt.Sprintf("%t", table.HasCloseButton)
+			res.valueBool = table.HasCloseButton
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "SavingInProgress":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.SavingInProgress)
-			res.valueBool = inferedInstance.SavingInProgress
+			res.valueString = fmt.Sprintf("%t", table.SavingInProgress)
+			res.valueBool = table.SavingInProgress
 			res.GongFieldValueType = GongFieldValueTypeBool
 		case "NbOfStickyColumns":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbOfStickyColumns)
-			res.valueInt = inferedInstance.NbOfStickyColumns
+			res.valueString = fmt.Sprintf("%d", table.NbOfStickyColumns)
+			res.valueInt = table.NbOfStickyColumns
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	default:
-		_ = inferedInstance
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case Cell:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "CellString":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellString != nil {
-				res.valueString = inferedInstance.CellString.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellString))
-			}
-		case "CellFloat64":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellFloat64 != nil {
-				res.valueString = inferedInstance.CellFloat64.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellFloat64))
-			}
-		case "CellInt":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellInt != nil {
-				res.valueString = inferedInstance.CellInt.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellInt))
-			}
-		case "CellBool":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellBool != nil {
-				res.valueString = inferedInstance.CellBool.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellBool))
-			}
-		case "CellIcon":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.CellIcon != nil {
-				res.valueString = inferedInstance.CellIcon.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.CellIcon))
-			}
-		}
-	case CellBoolean:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Value)
-			res.valueBool = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case CellFloat64:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Value)
-			res.valueFloat = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case CellIcon:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Icon":
-			res.valueString = inferedInstance.Icon
-		case "NeedsConfirmation":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.NeedsConfirmation)
-			res.valueBool = inferedInstance.NeedsConfirmation
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "ConfirmationMessage":
-			res.valueString = inferedInstance.ConfirmationMessage
-		}
-	case CellInt:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Value)
-			res.valueInt = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case CellString:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = inferedInstance.Value
-		}
-	case CheckBox:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.Value)
-			res.valueBool = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case DisplayedColumn:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	case FormDiv:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "FormFields":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.FormFields {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "CheckBoxs":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.CheckBoxs {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "FormEditAssocButton":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormEditAssocButton != nil {
-				res.valueString = inferedInstance.FormEditAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
-			}
-		case "FormSortAssocButton":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormSortAssocButton != nil {
-				res.valueString = inferedInstance.FormSortAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormSortAssocButton))
-			}
-		}
-	case FormEditAssocButton:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Label":
-			res.valueString = inferedInstance.Label
-		case "AssociationStorage":
-			res.valueString = inferedInstance.AssociationStorage
-		case "HasChanged":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasChanged)
-			res.valueBool = inferedInstance.HasChanged
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsForSavePurpose":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsForSavePurpose)
-			res.valueBool = inferedInstance.IsForSavePurpose
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
-			res.valueBool = inferedInstance.HasToolTip
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "ToolTipText":
-			res.valueString = inferedInstance.ToolTipText
-		case "MatTooltipShowDelay":
-			res.valueString = inferedInstance.MatTooltipShowDelay
-		}
-	case FormField:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "InputTypeEnum":
-			enum := inferedInstance.InputTypeEnum
-			res.valueString = enum.ToCodeString()
-		case "Label":
-			res.valueString = inferedInstance.Label
-		case "Placeholder":
-			res.valueString = inferedInstance.Placeholder
-		case "FormFieldString":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldString != nil {
-				res.valueString = inferedInstance.FormFieldString.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldString))
-			}
-		case "FormFieldFloat64":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldFloat64 != nil {
-				res.valueString = inferedInstance.FormFieldFloat64.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldFloat64))
-			}
-		case "FormFieldInt":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldInt != nil {
-				res.valueString = inferedInstance.FormFieldInt.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldInt))
-			}
-		case "FormFieldDate":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldDate != nil {
-				res.valueString = inferedInstance.FormFieldDate.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDate))
-			}
-		case "FormFieldTime":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldTime != nil {
-				res.valueString = inferedInstance.FormFieldTime.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldTime))
-			}
-		case "FormFieldDateTime":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldDateTime != nil {
-				res.valueString = inferedInstance.FormFieldDateTime.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldDateTime))
-			}
-		case "FormFieldSelect":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormFieldSelect != nil {
-				res.valueString = inferedInstance.FormFieldSelect.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormFieldSelect))
-			}
-		case "HasBespokeWidth":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeWidth)
-			res.valueBool = inferedInstance.HasBespokeWidth
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "BespokeWidthPx":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeWidthPx)
-			res.valueInt = inferedInstance.BespokeWidthPx
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "HasBespokeHeight":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasBespokeHeight)
-			res.valueBool = inferedInstance.HasBespokeHeight
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "BespokeHeightPx":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.BespokeHeightPx)
-			res.valueInt = inferedInstance.BespokeHeightPx
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case FormFieldDate:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = inferedInstance.Value.String()
-		}
-	case FormFieldDateTime:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = inferedInstance.Value.String()
-		}
-	case FormFieldFloat64:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Value)
-			res.valueFloat = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "HasMinValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMinValidator)
-			res.valueBool = inferedInstance.HasMinValidator
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "MinValue":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.MinValue)
-			res.valueFloat = inferedInstance.MinValue
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "HasMaxValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMaxValidator)
-			res.valueBool = inferedInstance.HasMaxValidator
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "MaxValue":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.MaxValue)
-			res.valueFloat = inferedInstance.MaxValue
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case FormFieldInt:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Value)
-			res.valueInt = inferedInstance.Value
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "HasMinValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMinValidator)
-			res.valueBool = inferedInstance.HasMinValidator
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "MinValue":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MinValue)
-			res.valueInt = inferedInstance.MinValue
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "HasMaxValidator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasMaxValidator)
-			res.valueBool = inferedInstance.HasMaxValidator
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "MaxValue":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxValue)
-			res.valueInt = inferedInstance.MaxValue
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case FormFieldSelect:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.Value != nil {
-				res.valueString = inferedInstance.Value.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.Value))
-			}
-		case "Options":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Options {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "CanBeEmpty":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CanBeEmpty)
-			res.valueBool = inferedInstance.CanBeEmpty
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "PreserveInitialOrder":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.PreserveInitialOrder)
-			res.valueBool = inferedInstance.PreserveInitialOrder
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case FormFieldString:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = inferedInstance.Value
-		case "IsTextArea":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsTextArea)
-			res.valueBool = inferedInstance.IsTextArea
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case FormFieldTime:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Value":
-			res.valueString = inferedInstance.Value.String()
-		case "Step":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Step)
-			res.valueFloat = inferedInstance.Step
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		}
-	case FormGroup:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Label":
-			res.valueString = inferedInstance.Label
-		case "FormDivs":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.FormDivs {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "HasSuppressButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButton)
-			res.valueBool = inferedInstance.HasSuppressButton
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasSuppressButtonBeenPressed":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSuppressButtonBeenPressed)
-			res.valueBool = inferedInstance.HasSuppressButtonBeenPressed
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case FormSortAssocButton:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Label":
-			res.valueString = inferedInstance.Label
-		case "HasToolTip":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasToolTip)
-			res.valueBool = inferedInstance.HasToolTip
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "ToolTipText":
-			res.valueString = inferedInstance.ToolTipText
-		case "MatTooltipShowDelay":
-			res.valueString = inferedInstance.MatTooltipShowDelay
-		case "FormEditAssocButton":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.FormEditAssocButton != nil {
-				res.valueString = inferedInstance.FormEditAssocButton.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.FormEditAssocButton))
-			}
-		}
-	case Option:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	case Row:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Cells":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Cells {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "IsChecked":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsChecked)
-			res.valueBool = inferedInstance.IsChecked
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	case Table:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "DisplayedColumns":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.DisplayedColumns {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "Rows":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Rows {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "HasFiltering":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasFiltering)
-			res.valueBool = inferedInstance.HasFiltering
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasColumnSorting":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasColumnSorting)
-			res.valueBool = inferedInstance.HasColumnSorting
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasPaginator":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasPaginator)
-			res.valueBool = inferedInstance.HasPaginator
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasCheckableRows":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCheckableRows)
-			res.valueBool = inferedInstance.HasCheckableRows
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasSaveButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasSaveButton)
-			res.valueBool = inferedInstance.HasSaveButton
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "SaveButtonLabel":
-			res.valueString = inferedInstance.SaveButtonLabel
-		case "CanDragDropRows":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.CanDragDropRows)
-			res.valueBool = inferedInstance.CanDragDropRows
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "HasCloseButton":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.HasCloseButton)
-			res.valueBool = inferedInstance.HasCloseButton
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "SavingInProgress":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.SavingInProgress)
-			res.valueBool = inferedInstance.SavingInProgress
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "NbOfStickyColumns":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbOfStickyColumns)
-			res.valueInt = inferedInstance.NbOfStickyColumns
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 
