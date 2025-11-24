@@ -621,6 +621,10 @@ func (content *Content) CommitVoid(stage *Stage) {
 	content.Commit(stage)
 }
 
+func (content *Content) StageVoid(stage *Stage) {
+	content.Stage(stage)
+}
+
 // Checkout content to the back repo (if it is already staged)
 func (content *Content) Checkout(stage *Stage) *Content {
 	if _, ok := stage.Contents[content]; ok {
@@ -686,6 +690,10 @@ func (jpgimage *JpgImage) Commit(stage *Stage) *JpgImage {
 
 func (jpgimage *JpgImage) CommitVoid(stage *Stage) {
 	jpgimage.Commit(stage)
+}
+
+func (jpgimage *JpgImage) StageVoid(stage *Stage) {
+	jpgimage.Stage(stage)
 }
 
 // Checkout jpgimage to the back repo (if it is already staged)
@@ -755,6 +763,10 @@ func (pngimage *PngImage) CommitVoid(stage *Stage) {
 	pngimage.Commit(stage)
 }
 
+func (pngimage *PngImage) StageVoid(stage *Stage) {
+	pngimage.Stage(stage)
+}
+
 // Checkout pngimage to the back repo (if it is already staged)
 func (pngimage *PngImage) Checkout(stage *Stage) *PngImage {
 	if _, ok := stage.PngImages[pngimage]; ok {
@@ -820,6 +832,10 @@ func (svgimage *SvgImage) Commit(stage *Stage) *SvgImage {
 
 func (svgimage *SvgImage) CommitVoid(stage *Stage) {
 	svgimage.Commit(stage)
+}
+
+func (svgimage *SvgImage) StageVoid(stage *Stage) {
+	svgimage.Stage(stage)
 }
 
 // Checkout svgimage to the back repo (if it is already staged)
@@ -928,6 +944,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

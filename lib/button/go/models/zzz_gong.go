@@ -584,6 +584,10 @@ func (button *Button) CommitVoid(stage *Stage) {
 	button.Commit(stage)
 }
 
+func (button *Button) StageVoid(stage *Stage) {
+	button.Stage(stage)
+}
+
 // Checkout button to the back repo (if it is already staged)
 func (button *Button) Checkout(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; ok {
@@ -651,6 +655,10 @@ func (group *Group) CommitVoid(stage *Stage) {
 	group.Commit(stage)
 }
 
+func (group *Group) StageVoid(stage *Stage) {
+	group.Stage(stage)
+}
+
 // Checkout group to the back repo (if it is already staged)
 func (group *Group) Checkout(stage *Stage) *Group {
 	if _, ok := stage.Groups[group]; ok {
@@ -716,6 +724,10 @@ func (layout *Layout) Commit(stage *Stage) *Layout {
 
 func (layout *Layout) CommitVoid(stage *Stage) {
 	layout.Commit(stage)
+}
+
+func (layout *Layout) StageVoid(stage *Stage) {
+	layout.Stage(stage)
 }
 
 // Checkout layout to the back repo (if it is already staged)
@@ -810,6 +822,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

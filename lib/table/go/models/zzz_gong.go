@@ -1414,6 +1414,10 @@ func (cell *Cell) CommitVoid(stage *Stage) {
 	cell.Commit(stage)
 }
 
+func (cell *Cell) StageVoid(stage *Stage) {
+	cell.Stage(stage)
+}
+
 // Checkout cell to the back repo (if it is already staged)
 func (cell *Cell) Checkout(stage *Stage) *Cell {
 	if _, ok := stage.Cells[cell]; ok {
@@ -1479,6 +1483,10 @@ func (cellboolean *CellBoolean) Commit(stage *Stage) *CellBoolean {
 
 func (cellboolean *CellBoolean) CommitVoid(stage *Stage) {
 	cellboolean.Commit(stage)
+}
+
+func (cellboolean *CellBoolean) StageVoid(stage *Stage) {
+	cellboolean.Stage(stage)
 }
 
 // Checkout cellboolean to the back repo (if it is already staged)
@@ -1548,6 +1556,10 @@ func (cellfloat64 *CellFloat64) CommitVoid(stage *Stage) {
 	cellfloat64.Commit(stage)
 }
 
+func (cellfloat64 *CellFloat64) StageVoid(stage *Stage) {
+	cellfloat64.Stage(stage)
+}
+
 // Checkout cellfloat64 to the back repo (if it is already staged)
 func (cellfloat64 *CellFloat64) Checkout(stage *Stage) *CellFloat64 {
 	if _, ok := stage.CellFloat64s[cellfloat64]; ok {
@@ -1613,6 +1625,10 @@ func (cellicon *CellIcon) Commit(stage *Stage) *CellIcon {
 
 func (cellicon *CellIcon) CommitVoid(stage *Stage) {
 	cellicon.Commit(stage)
+}
+
+func (cellicon *CellIcon) StageVoid(stage *Stage) {
+	cellicon.Stage(stage)
 }
 
 // Checkout cellicon to the back repo (if it is already staged)
@@ -1682,6 +1698,10 @@ func (cellint *CellInt) CommitVoid(stage *Stage) {
 	cellint.Commit(stage)
 }
 
+func (cellint *CellInt) StageVoid(stage *Stage) {
+	cellint.Stage(stage)
+}
+
 // Checkout cellint to the back repo (if it is already staged)
 func (cellint *CellInt) Checkout(stage *Stage) *CellInt {
 	if _, ok := stage.CellInts[cellint]; ok {
@@ -1747,6 +1767,10 @@ func (cellstring *CellString) Commit(stage *Stage) *CellString {
 
 func (cellstring *CellString) CommitVoid(stage *Stage) {
 	cellstring.Commit(stage)
+}
+
+func (cellstring *CellString) StageVoid(stage *Stage) {
+	cellstring.Stage(stage)
 }
 
 // Checkout cellstring to the back repo (if it is already staged)
@@ -1816,6 +1840,10 @@ func (checkbox *CheckBox) CommitVoid(stage *Stage) {
 	checkbox.Commit(stage)
 }
 
+func (checkbox *CheckBox) StageVoid(stage *Stage) {
+	checkbox.Stage(stage)
+}
+
 // Checkout checkbox to the back repo (if it is already staged)
 func (checkbox *CheckBox) Checkout(stage *Stage) *CheckBox {
 	if _, ok := stage.CheckBoxs[checkbox]; ok {
@@ -1881,6 +1909,10 @@ func (displayedcolumn *DisplayedColumn) Commit(stage *Stage) *DisplayedColumn {
 
 func (displayedcolumn *DisplayedColumn) CommitVoid(stage *Stage) {
 	displayedcolumn.Commit(stage)
+}
+
+func (displayedcolumn *DisplayedColumn) StageVoid(stage *Stage) {
+	displayedcolumn.Stage(stage)
 }
 
 // Checkout displayedcolumn to the back repo (if it is already staged)
@@ -1950,6 +1982,10 @@ func (formdiv *FormDiv) CommitVoid(stage *Stage) {
 	formdiv.Commit(stage)
 }
 
+func (formdiv *FormDiv) StageVoid(stage *Stage) {
+	formdiv.Stage(stage)
+}
+
 // Checkout formdiv to the back repo (if it is already staged)
 func (formdiv *FormDiv) Checkout(stage *Stage) *FormDiv {
 	if _, ok := stage.FormDivs[formdiv]; ok {
@@ -2015,6 +2051,10 @@ func (formeditassocbutton *FormEditAssocButton) Commit(stage *Stage) *FormEditAs
 
 func (formeditassocbutton *FormEditAssocButton) CommitVoid(stage *Stage) {
 	formeditassocbutton.Commit(stage)
+}
+
+func (formeditassocbutton *FormEditAssocButton) StageVoid(stage *Stage) {
+	formeditassocbutton.Stage(stage)
 }
 
 // Checkout formeditassocbutton to the back repo (if it is already staged)
@@ -2084,6 +2124,10 @@ func (formfield *FormField) CommitVoid(stage *Stage) {
 	formfield.Commit(stage)
 }
 
+func (formfield *FormField) StageVoid(stage *Stage) {
+	formfield.Stage(stage)
+}
+
 // Checkout formfield to the back repo (if it is already staged)
 func (formfield *FormField) Checkout(stage *Stage) *FormField {
 	if _, ok := stage.FormFields[formfield]; ok {
@@ -2149,6 +2193,10 @@ func (formfielddate *FormFieldDate) Commit(stage *Stage) *FormFieldDate {
 
 func (formfielddate *FormFieldDate) CommitVoid(stage *Stage) {
 	formfielddate.Commit(stage)
+}
+
+func (formfielddate *FormFieldDate) StageVoid(stage *Stage) {
+	formfielddate.Stage(stage)
 }
 
 // Checkout formfielddate to the back repo (if it is already staged)
@@ -2218,6 +2266,10 @@ func (formfielddatetime *FormFieldDateTime) CommitVoid(stage *Stage) {
 	formfielddatetime.Commit(stage)
 }
 
+func (formfielddatetime *FormFieldDateTime) StageVoid(stage *Stage) {
+	formfielddatetime.Stage(stage)
+}
+
 // Checkout formfielddatetime to the back repo (if it is already staged)
 func (formfielddatetime *FormFieldDateTime) Checkout(stage *Stage) *FormFieldDateTime {
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; ok {
@@ -2283,6 +2335,10 @@ func (formfieldfloat64 *FormFieldFloat64) Commit(stage *Stage) *FormFieldFloat64
 
 func (formfieldfloat64 *FormFieldFloat64) CommitVoid(stage *Stage) {
 	formfieldfloat64.Commit(stage)
+}
+
+func (formfieldfloat64 *FormFieldFloat64) StageVoid(stage *Stage) {
+	formfieldfloat64.Stage(stage)
 }
 
 // Checkout formfieldfloat64 to the back repo (if it is already staged)
@@ -2352,6 +2408,10 @@ func (formfieldint *FormFieldInt) CommitVoid(stage *Stage) {
 	formfieldint.Commit(stage)
 }
 
+func (formfieldint *FormFieldInt) StageVoid(stage *Stage) {
+	formfieldint.Stage(stage)
+}
+
 // Checkout formfieldint to the back repo (if it is already staged)
 func (formfieldint *FormFieldInt) Checkout(stage *Stage) *FormFieldInt {
 	if _, ok := stage.FormFieldInts[formfieldint]; ok {
@@ -2417,6 +2477,10 @@ func (formfieldselect *FormFieldSelect) Commit(stage *Stage) *FormFieldSelect {
 
 func (formfieldselect *FormFieldSelect) CommitVoid(stage *Stage) {
 	formfieldselect.Commit(stage)
+}
+
+func (formfieldselect *FormFieldSelect) StageVoid(stage *Stage) {
+	formfieldselect.Stage(stage)
 }
 
 // Checkout formfieldselect to the back repo (if it is already staged)
@@ -2486,6 +2550,10 @@ func (formfieldstring *FormFieldString) CommitVoid(stage *Stage) {
 	formfieldstring.Commit(stage)
 }
 
+func (formfieldstring *FormFieldString) StageVoid(stage *Stage) {
+	formfieldstring.Stage(stage)
+}
+
 // Checkout formfieldstring to the back repo (if it is already staged)
 func (formfieldstring *FormFieldString) Checkout(stage *Stage) *FormFieldString {
 	if _, ok := stage.FormFieldStrings[formfieldstring]; ok {
@@ -2551,6 +2619,10 @@ func (formfieldtime *FormFieldTime) Commit(stage *Stage) *FormFieldTime {
 
 func (formfieldtime *FormFieldTime) CommitVoid(stage *Stage) {
 	formfieldtime.Commit(stage)
+}
+
+func (formfieldtime *FormFieldTime) StageVoid(stage *Stage) {
+	formfieldtime.Stage(stage)
 }
 
 // Checkout formfieldtime to the back repo (if it is already staged)
@@ -2620,6 +2692,10 @@ func (formgroup *FormGroup) CommitVoid(stage *Stage) {
 	formgroup.Commit(stage)
 }
 
+func (formgroup *FormGroup) StageVoid(stage *Stage) {
+	formgroup.Stage(stage)
+}
+
 // Checkout formgroup to the back repo (if it is already staged)
 func (formgroup *FormGroup) Checkout(stage *Stage) *FormGroup {
 	if _, ok := stage.FormGroups[formgroup]; ok {
@@ -2685,6 +2761,10 @@ func (formsortassocbutton *FormSortAssocButton) Commit(stage *Stage) *FormSortAs
 
 func (formsortassocbutton *FormSortAssocButton) CommitVoid(stage *Stage) {
 	formsortassocbutton.Commit(stage)
+}
+
+func (formsortassocbutton *FormSortAssocButton) StageVoid(stage *Stage) {
+	formsortassocbutton.Stage(stage)
 }
 
 // Checkout formsortassocbutton to the back repo (if it is already staged)
@@ -2754,6 +2834,10 @@ func (option *Option) CommitVoid(stage *Stage) {
 	option.Commit(stage)
 }
 
+func (option *Option) StageVoid(stage *Stage) {
+	option.Stage(stage)
+}
+
 // Checkout option to the back repo (if it is already staged)
 func (option *Option) Checkout(stage *Stage) *Option {
 	if _, ok := stage.Options[option]; ok {
@@ -2821,6 +2905,10 @@ func (row *Row) CommitVoid(stage *Stage) {
 	row.Commit(stage)
 }
 
+func (row *Row) StageVoid(stage *Stage) {
+	row.Stage(stage)
+}
+
 // Checkout row to the back repo (if it is already staged)
 func (row *Row) Checkout(stage *Stage) *Row {
 	if _, ok := stage.Rows[row]; ok {
@@ -2886,6 +2974,10 @@ func (table *Table) Commit(stage *Stage) *Table {
 
 func (table *Table) CommitVoid(stage *Stage) {
 	table.Commit(stage)
+}
+
+func (table *Table) StageVoid(stage *Stage) {
+	table.Stage(stage)
 }
 
 // Checkout table to the back repo (if it is already staged)
@@ -3260,6 +3352,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

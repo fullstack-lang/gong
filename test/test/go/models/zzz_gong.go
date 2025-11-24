@@ -760,6 +760,10 @@ func (astruct *Astruct) CommitVoid(stage *Stage) {
 	astruct.Commit(stage)
 }
 
+func (astruct *Astruct) StageVoid(stage *Stage) {
+	astruct.Stage(stage)
+}
+
 // Checkout astruct to the back repo (if it is already staged)
 func (astruct *Astruct) Checkout(stage *Stage) *Astruct {
 	if _, ok := stage.Astructs[astruct]; ok {
@@ -825,6 +829,10 @@ func (astructbstruct2use *AstructBstruct2Use) Commit(stage *Stage) *AstructBstru
 
 func (astructbstruct2use *AstructBstruct2Use) CommitVoid(stage *Stage) {
 	astructbstruct2use.Commit(stage)
+}
+
+func (astructbstruct2use *AstructBstruct2Use) StageVoid(stage *Stage) {
+	astructbstruct2use.Stage(stage)
 }
 
 // Checkout astructbstruct2use to the back repo (if it is already staged)
@@ -894,6 +902,10 @@ func (astructbstructuse *AstructBstructUse) CommitVoid(stage *Stage) {
 	astructbstructuse.Commit(stage)
 }
 
+func (astructbstructuse *AstructBstructUse) StageVoid(stage *Stage) {
+	astructbstructuse.Stage(stage)
+}
+
 // Checkout astructbstructuse to the back repo (if it is already staged)
 func (astructbstructuse *AstructBstructUse) Checkout(stage *Stage) *AstructBstructUse {
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; ok {
@@ -959,6 +971,10 @@ func (bstruct *Bstruct) Commit(stage *Stage) *Bstruct {
 
 func (bstruct *Bstruct) CommitVoid(stage *Stage) {
 	bstruct.Commit(stage)
+}
+
+func (bstruct *Bstruct) StageVoid(stage *Stage) {
+	bstruct.Stage(stage)
 }
 
 // Checkout bstruct to the back repo (if it is already staged)
@@ -1028,6 +1044,10 @@ func (dstruct *Dstruct) CommitVoid(stage *Stage) {
 	dstruct.Commit(stage)
 }
 
+func (dstruct *Dstruct) StageVoid(stage *Stage) {
+	dstruct.Stage(stage)
+}
+
 // Checkout dstruct to the back repo (if it is already staged)
 func (dstruct *Dstruct) Checkout(stage *Stage) *Dstruct {
 	if _, ok := stage.Dstructs[dstruct]; ok {
@@ -1095,6 +1115,10 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Commit
 	f0123456789012345678901234567890.Commit(stage)
 }
 
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageVoid(stage *Stage) {
+	f0123456789012345678901234567890.Stage(stage)
+}
+
 // Checkout f0123456789012345678901234567890 to the back repo (if it is already staged)
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Checkout(stage *Stage) *F0123456789012345678901234567890 {
 	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; ok {
@@ -1160,6 +1184,10 @@ func (gstruct *Gstruct) Commit(stage *Stage) *Gstruct {
 
 func (gstruct *Gstruct) CommitVoid(stage *Stage) {
 	gstruct.Commit(stage)
+}
+
+func (gstruct *Gstruct) StageVoid(stage *Stage) {
+	gstruct.Stage(stage)
 }
 
 // Checkout gstruct to the back repo (if it is already staged)
@@ -1310,6 +1338,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
