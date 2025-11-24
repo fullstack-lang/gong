@@ -142,56 +142,47 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (attributeshape *AttributeShape) GongCopy() GongstructIF {
-	var newInstance AttributeShape
-	newInstance = *attributeshape
+	newInstance := *attributeshape
 	return &newInstance
 }
 
 func (classdiagram *Classdiagram) GongCopy() GongstructIF {
-	var newInstance Classdiagram
-	newInstance = *classdiagram
+	newInstance := *classdiagram
 	return &newInstance
 }
 
 func (diagrampackage *DiagramPackage) GongCopy() GongstructIF {
-	var newInstance DiagramPackage
-	newInstance = *diagrampackage
+	newInstance := *diagrampackage
 	return &newInstance
 }
 
 func (gongenumshape *GongEnumShape) GongCopy() GongstructIF {
-	var newInstance GongEnumShape
-	newInstance = *gongenumshape
+	newInstance := *gongenumshape
 	return &newInstance
 }
 
 func (gongenumvalueshape *GongEnumValueShape) GongCopy() GongstructIF {
-	var newInstance GongEnumValueShape
-	newInstance = *gongenumvalueshape
+	newInstance := *gongenumvalueshape
 	return &newInstance
 }
 
 func (gongnotelinkshape *GongNoteLinkShape) GongCopy() GongstructIF {
-	var newInstance GongNoteLinkShape
-	newInstance = *gongnotelinkshape
+	newInstance := *gongnotelinkshape
 	return &newInstance
 }
 
 func (gongnoteshape *GongNoteShape) GongCopy() GongstructIF {
-	var newInstance GongNoteShape
-	newInstance = *gongnoteshape
+	newInstance := *gongnoteshape
 	return &newInstance
 }
 
 func (gongstructshape *GongStructShape) GongCopy() GongstructIF {
-	var newInstance GongStructShape
-	newInstance = *gongstructshape
+	newInstance := *gongstructshape
 	return &newInstance
 }
 
 func (linkshape *LinkShape) GongCopy() GongstructIF {
-	var newInstance LinkShape
-	newInstance = *linkshape
+	newInstance := *linkshape
 	return &newInstance
 }
 

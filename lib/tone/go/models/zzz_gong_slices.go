@@ -44,20 +44,17 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (freqency *Freqency) GongCopy() GongstructIF {
-	var newInstance Freqency
-	newInstance = *freqency
+	newInstance := *freqency
 	return &newInstance
 }
 
 func (note *Note) GongCopy() GongstructIF {
-	var newInstance Note
-	newInstance = *note
+	newInstance := *note
 	return &newInstance
 }
 
 func (player *Player) GongCopy() GongstructIF {
-	var newInstance Player
-	newInstance = *player
+	newInstance := *player
 	return &newInstance
 }
 
