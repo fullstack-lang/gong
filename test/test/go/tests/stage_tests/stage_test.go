@@ -122,6 +122,20 @@ func TestStageCount(t *testing.T) {
 
 	stage.Commit()
 
+	a6 := (&models.Astruct{
+		Name:                "A6",
+		Floatfield:          10.2,
+		Booleanfield:        true,
+		Anotherbooleanfield: true,
+		Associationtob:      b3,
+		Anarrayofb: []*models.Bstruct{
+			b1,
+			b2,
+		},
+	})
+	_ = a6
+	a6.Stage(stage)
+
 	models.SerializeStage(stage, "test.xlsx")
 	models.SerializeStage2(stage, "test_withIDs.xlsx", true)
 }
