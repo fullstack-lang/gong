@@ -41,7 +41,7 @@ func updateAndCommitTree(
 		probe.stageOfInterest.GetCommitId(),
 		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
 	nodeRefreshButton.Name +=
-		fmt.Sprintf(" (C%d/U%d/D%d)", 
+		fmt.Sprintf(" (%d/%d/%d)", 
 			len(probe.stageOfInterest.GetNew()), 
 			len(probe.stageOfInterest.GetModified()), 
 			len(probe.stageOfInterest.GetDeleted()),
@@ -110,7 +110,7 @@ func updateAndCommitTree(
 					deleted++
 				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Group":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group](probe.stageOfInterest)
@@ -133,7 +133,7 @@ func updateAndCommitTree(
 					deleted++
 				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Layout":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Layout](probe.stageOfInterest)
@@ -156,7 +156,7 @@ func updateAndCommitTree(
 					deleted++
 				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Slider":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Slider](probe.stageOfInterest)
@@ -179,7 +179,7 @@ func updateAndCommitTree(
 					deleted++
 				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		}
 
 		nodeGongstruct.IsNodeClickable = true
