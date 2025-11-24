@@ -105,6 +105,9 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 		stage.{{Structname}}s[{{structname}}] = __member
 		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
 		stage.{{Structname}}Order++
+		stage.new[{{structname}}] = struct{}{}
+	} else {
+		stage.modified[{{structname}}] = struct{}{}
 	}
 	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
 
@@ -115,6 +118,9 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
+
+	stage.deleted[{{structname}}] = struct{}{}
+
 	return {{structname}}
 }
 
