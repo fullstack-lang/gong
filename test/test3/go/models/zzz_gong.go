@@ -500,6 +500,10 @@ func (a *A) CommitVoid(stage *Stage) {
 	a.Commit(stage)
 }
 
+func (a *A) StageVoid(stage *Stage) {
+	a.Stage(stage)
+}
+
 // Checkout a to the back repo (if it is already staged)
 func (a *A) Checkout(stage *Stage) *A {
 	if _, ok := stage.As[a]; ok {
@@ -564,6 +568,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

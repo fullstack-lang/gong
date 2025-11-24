@@ -703,6 +703,10 @@ func (command *Command) CommitVoid(stage *Stage) {
 	command.Commit(stage)
 }
 
+func (command *Command) StageVoid(stage *Stage) {
+	command.Stage(stage)
+}
+
 // Checkout command to the back repo (if it is already staged)
 func (command *Command) Checkout(stage *Stage) *Command {
 	if _, ok := stage.Commands[command]; ok {
@@ -768,6 +772,10 @@ func (dummyagent *DummyAgent) Commit(stage *Stage) *DummyAgent {
 
 func (dummyagent *DummyAgent) CommitVoid(stage *Stage) {
 	dummyagent.Commit(stage)
+}
+
+func (dummyagent *DummyAgent) StageVoid(stage *Stage) {
+	dummyagent.Stage(stage)
 }
 
 // Checkout dummyagent to the back repo (if it is already staged)
@@ -837,6 +845,10 @@ func (engine *Engine) CommitVoid(stage *Stage) {
 	engine.Commit(stage)
 }
 
+func (engine *Engine) StageVoid(stage *Stage) {
+	engine.Stage(stage)
+}
+
 // Checkout engine to the back repo (if it is already staged)
 func (engine *Engine) Checkout(stage *Stage) *Engine {
 	if _, ok := stage.Engines[engine]; ok {
@@ -902,6 +914,10 @@ func (event *Event) Commit(stage *Stage) *Event {
 
 func (event *Event) CommitVoid(stage *Stage) {
 	event.Commit(stage)
+}
+
+func (event *Event) StageVoid(stage *Stage) {
+	event.Stage(stage)
 }
 
 // Checkout event to the back repo (if it is already staged)
@@ -971,6 +987,10 @@ func (status *Status) CommitVoid(stage *Stage) {
 	status.Commit(stage)
 }
 
+func (status *Status) StageVoid(stage *Stage) {
+	status.Stage(stage)
+}
+
 // Checkout status to the back repo (if it is already staged)
 func (status *Status) Checkout(stage *Stage) *Status {
 	if _, ok := stage.Statuss[status]; ok {
@@ -1036,6 +1056,10 @@ func (updatestate *UpdateState) Commit(stage *Stage) *UpdateState {
 
 func (updatestate *UpdateState) CommitVoid(stage *Stage) {
 	updatestate.Commit(stage)
+}
+
+func (updatestate *UpdateState) StageVoid(stage *Stage) {
+	updatestate.Stage(stage)
 }
 
 // Checkout updatestate to the back repo (if it is already staged)
@@ -1172,6 +1196,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

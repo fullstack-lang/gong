@@ -580,6 +580,10 @@ func (filetodownload *FileToDownload) CommitVoid(stage *Stage) {
 	filetodownload.Commit(stage)
 }
 
+func (filetodownload *FileToDownload) StageVoid(stage *Stage) {
+	filetodownload.Stage(stage)
+}
+
 // Checkout filetodownload to the back repo (if it is already staged)
 func (filetodownload *FileToDownload) Checkout(stage *Stage) *FileToDownload {
 	if _, ok := stage.FileToDownloads[filetodownload]; ok {
@@ -647,6 +651,10 @@ func (filetoupload *FileToUpload) CommitVoid(stage *Stage) {
 	filetoupload.Commit(stage)
 }
 
+func (filetoupload *FileToUpload) StageVoid(stage *Stage) {
+	filetoupload.Stage(stage)
+}
+
 // Checkout filetoupload to the back repo (if it is already staged)
 func (filetoupload *FileToUpload) Checkout(stage *Stage) *FileToUpload {
 	if _, ok := stage.FileToUploads[filetoupload]; ok {
@@ -712,6 +720,10 @@ func (message *Message) Commit(stage *Stage) *Message {
 
 func (message *Message) CommitVoid(stage *Stage) {
 	message.Commit(stage)
+}
+
+func (message *Message) StageVoid(stage *Stage) {
+	message.Stage(stage)
 }
 
 // Checkout message to the back repo (if it is already staged)
@@ -806,6 +818,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

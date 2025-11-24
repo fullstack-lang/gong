@@ -920,6 +920,10 @@ func (gongbasicfield *GongBasicField) CommitVoid(stage *Stage) {
 	gongbasicfield.Commit(stage)
 }
 
+func (gongbasicfield *GongBasicField) StageVoid(stage *Stage) {
+	gongbasicfield.Stage(stage)
+}
+
 // Checkout gongbasicfield to the back repo (if it is already staged)
 func (gongbasicfield *GongBasicField) Checkout(stage *Stage) *GongBasicField {
 	if _, ok := stage.GongBasicFields[gongbasicfield]; ok {
@@ -985,6 +989,10 @@ func (gongenum *GongEnum) Commit(stage *Stage) *GongEnum {
 
 func (gongenum *GongEnum) CommitVoid(stage *Stage) {
 	gongenum.Commit(stage)
+}
+
+func (gongenum *GongEnum) StageVoid(stage *Stage) {
+	gongenum.Stage(stage)
 }
 
 // Checkout gongenum to the back repo (if it is already staged)
@@ -1054,6 +1062,10 @@ func (gongenumvalue *GongEnumValue) CommitVoid(stage *Stage) {
 	gongenumvalue.Commit(stage)
 }
 
+func (gongenumvalue *GongEnumValue) StageVoid(stage *Stage) {
+	gongenumvalue.Stage(stage)
+}
+
 // Checkout gongenumvalue to the back repo (if it is already staged)
 func (gongenumvalue *GongEnumValue) Checkout(stage *Stage) *GongEnumValue {
 	if _, ok := stage.GongEnumValues[gongenumvalue]; ok {
@@ -1119,6 +1131,10 @@ func (gonglink *GongLink) Commit(stage *Stage) *GongLink {
 
 func (gonglink *GongLink) CommitVoid(stage *Stage) {
 	gonglink.Commit(stage)
+}
+
+func (gonglink *GongLink) StageVoid(stage *Stage) {
+	gonglink.Stage(stage)
 }
 
 // Checkout gonglink to the back repo (if it is already staged)
@@ -1188,6 +1204,10 @@ func (gongnote *GongNote) CommitVoid(stage *Stage) {
 	gongnote.Commit(stage)
 }
 
+func (gongnote *GongNote) StageVoid(stage *Stage) {
+	gongnote.Stage(stage)
+}
+
 // Checkout gongnote to the back repo (if it is already staged)
 func (gongnote *GongNote) Checkout(stage *Stage) *GongNote {
 	if _, ok := stage.GongNotes[gongnote]; ok {
@@ -1253,6 +1273,10 @@ func (gongstruct *GongStruct) Commit(stage *Stage) *GongStruct {
 
 func (gongstruct *GongStruct) CommitVoid(stage *Stage) {
 	gongstruct.Commit(stage)
+}
+
+func (gongstruct *GongStruct) StageVoid(stage *Stage) {
+	gongstruct.Stage(stage)
 }
 
 // Checkout gongstruct to the back repo (if it is already staged)
@@ -1322,6 +1346,10 @@ func (gongtimefield *GongTimeField) CommitVoid(stage *Stage) {
 	gongtimefield.Commit(stage)
 }
 
+func (gongtimefield *GongTimeField) StageVoid(stage *Stage) {
+	gongtimefield.Stage(stage)
+}
+
 // Checkout gongtimefield to the back repo (if it is already staged)
 func (gongtimefield *GongTimeField) Checkout(stage *Stage) *GongTimeField {
 	if _, ok := stage.GongTimeFields[gongtimefield]; ok {
@@ -1387,6 +1415,10 @@ func (metareference *MetaReference) Commit(stage *Stage) *MetaReference {
 
 func (metareference *MetaReference) CommitVoid(stage *Stage) {
 	metareference.Commit(stage)
+}
+
+func (metareference *MetaReference) StageVoid(stage *Stage) {
+	metareference.Stage(stage)
 }
 
 // Checkout metareference to the back repo (if it is already staged)
@@ -1456,6 +1488,10 @@ func (modelpkg *ModelPkg) CommitVoid(stage *Stage) {
 	modelpkg.Commit(stage)
 }
 
+func (modelpkg *ModelPkg) StageVoid(stage *Stage) {
+	modelpkg.Stage(stage)
+}
+
 // Checkout modelpkg to the back repo (if it is already staged)
 func (modelpkg *ModelPkg) Checkout(stage *Stage) *ModelPkg {
 	if _, ok := stage.ModelPkgs[modelpkg]; ok {
@@ -1523,6 +1559,10 @@ func (pointertogongstructfield *PointerToGongStructField) CommitVoid(stage *Stag
 	pointertogongstructfield.Commit(stage)
 }
 
+func (pointertogongstructfield *PointerToGongStructField) StageVoid(stage *Stage) {
+	pointertogongstructfield.Stage(stage)
+}
+
 // Checkout pointertogongstructfield to the back repo (if it is already staged)
 func (pointertogongstructfield *PointerToGongStructField) Checkout(stage *Stage) *PointerToGongStructField {
 	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; ok {
@@ -1588,6 +1628,10 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Commit(s
 
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) CommitVoid(stage *Stage) {
 	sliceofpointertogongstructfield.Commit(stage)
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageVoid(stage *Stage) {
+	sliceofpointertogongstructfield.Stage(stage)
 }
 
 // Checkout sliceofpointertogongstructfield to the back repo (if it is already staged)
@@ -1794,6 +1838,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

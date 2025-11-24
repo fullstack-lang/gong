@@ -584,6 +584,10 @@ func (chapter *Chapter) CommitVoid(stage *Stage) {
 	chapter.Commit(stage)
 }
 
+func (chapter *Chapter) StageVoid(stage *Stage) {
+	chapter.Stage(stage)
+}
+
 // Checkout chapter to the back repo (if it is already staged)
 func (chapter *Chapter) Checkout(stage *Stage) *Chapter {
 	if _, ok := stage.Chapters[chapter]; ok {
@@ -651,6 +655,10 @@ func (content *Content) CommitVoid(stage *Stage) {
 	content.Commit(stage)
 }
 
+func (content *Content) StageVoid(stage *Stage) {
+	content.Stage(stage)
+}
+
 // Checkout content to the back repo (if it is already staged)
 func (content *Content) Checkout(stage *Stage) *Content {
 	if _, ok := stage.Contents[content]; ok {
@@ -716,6 +724,10 @@ func (page *Page) Commit(stage *Stage) *Page {
 
 func (page *Page) CommitVoid(stage *Stage) {
 	page.Commit(stage)
+}
+
+func (page *Page) StageVoid(stage *Stage) {
+	page.Stage(stage)
 }
 
 // Checkout page to the back repo (if it is already staged)
@@ -810,6 +822,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

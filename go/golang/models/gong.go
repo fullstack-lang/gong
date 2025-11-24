@@ -150,6 +150,10 @@ func ({{structname}} *{{Structname}}) CommitVoid(stage *Stage) {
 	{{structname}}.Commit(stage)
 }
 
+func ({{structname}} *{{Structname}}) StageVoid(stage *Stage) {
+	{{structname}}.Stage(stage)
+}
+
 // Checkout {{structname}} to the back repo (if it is already staged)
 func ({{structname}} *{{Structname}}) Checkout(stage *Stage) *{{Structname}} {
 	if _, ok := stage.{{Structname}}s[{{structname}}]; ok {
