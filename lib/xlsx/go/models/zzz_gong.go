@@ -972,6 +972,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1540,54 +1541,55 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *DisplaySelection:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (displayselection *DisplaySelection) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = displayselection.Name
 		case "XLFile":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.XLFile != nil {
-				res.valueString = inferedInstance.XLFile.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.XLFile))
+			if displayselection.XLFile != nil {
+				res.valueString = displayselection.XLFile.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, displayselection.XLFile))
 			}
 		case "XLSheet":
 			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.XLSheet != nil {
-				res.valueString = inferedInstance.XLSheet.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.XLSheet))
+			if displayselection.XLSheet != nil {
+				res.valueString = displayselection.XLSheet.Name
+				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, displayselection.XLSheet))
 			}
-		}
-	case *XLCell:
-		switch fieldName {
+	}
+	return
+}
+func (xlcell *XLCell) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = xlcell.Name
 		case "X":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.X)
-			res.valueInt = inferedInstance.X
+			res.valueString = fmt.Sprintf("%d", xlcell.X)
+			res.valueInt = xlcell.X
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Y":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Y)
-			res.valueInt = inferedInstance.Y
+			res.valueString = fmt.Sprintf("%d", xlcell.Y)
+			res.valueInt = xlcell.Y
 			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case *XLFile:
-		switch fieldName {
+	}
+	return
+}
+func (xlfile *XLFile) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = xlfile.Name
 		case "NbSheets":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbSheets)
-			res.valueInt = inferedInstance.NbSheets
+			res.valueString = fmt.Sprintf("%d", xlfile.NbSheets)
+			res.valueInt = xlfile.NbSheets
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Sheets":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Sheets {
+			for idx, __instance__ := range xlfile.Sheets {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1595,19 +1597,21 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	case *XLRow:
-		switch fieldName {
+	}
+	return
+}
+func (xlrow *XLRow) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = xlrow.Name
 		case "RowIndex":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.RowIndex)
-			res.valueInt = inferedInstance.RowIndex
+			res.valueString = fmt.Sprintf("%d", xlrow.RowIndex)
+			res.valueInt = xlrow.RowIndex
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Cells":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Cells {
+			for idx, __instance__ := range xlrow.Cells {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1615,27 +1619,29 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	case *XLSheet:
-		switch fieldName {
+	}
+	return
+}
+func (xlsheet *XLSheet) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = xlsheet.Name
 		case "MaxRow":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxRow)
-			res.valueInt = inferedInstance.MaxRow
+			res.valueString = fmt.Sprintf("%d", xlsheet.MaxRow)
+			res.valueInt = xlsheet.MaxRow
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "MaxCol":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxCol)
-			res.valueInt = inferedInstance.MaxCol
+			res.valueString = fmt.Sprintf("%d", xlsheet.MaxCol)
+			res.valueInt = xlsheet.MaxCol
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "NbRows":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbRows)
-			res.valueInt = inferedInstance.NbRows
+			res.valueString = fmt.Sprintf("%d", xlsheet.NbRows)
+			res.valueInt = xlsheet.NbRows
 			res.GongFieldValueType = GongFieldValueTypeInt
 		case "Rows":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Rows {
+			for idx, __instance__ := range xlsheet.Rows {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1645,7 +1651,7 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 			}
 		case "SheetCells":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.SheetCells {
+			for idx, __instance__ := range xlsheet.SheetCells {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1653,130 +1659,14 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	default:
-		_ = inferedInstance
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case DisplaySelection:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "XLFile":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.XLFile != nil {
-				res.valueString = inferedInstance.XLFile.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.XLFile))
-			}
-		case "XLSheet":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if inferedInstance.XLSheet != nil {
-				res.valueString = inferedInstance.XLSheet.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, inferedInstance.XLSheet))
-			}
-		}
-	case XLCell:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "X":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.X)
-			res.valueInt = inferedInstance.X
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Y":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.Y)
-			res.valueInt = inferedInstance.Y
-			res.GongFieldValueType = GongFieldValueTypeInt
-		}
-	case XLFile:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "NbSheets":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbSheets)
-			res.valueInt = inferedInstance.NbSheets
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Sheets":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Sheets {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	case XLRow:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "RowIndex":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.RowIndex)
-			res.valueInt = inferedInstance.RowIndex
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Cells":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Cells {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	case XLSheet:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "MaxRow":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxRow)
-			res.valueInt = inferedInstance.MaxRow
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "MaxCol":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.MaxCol)
-			res.valueInt = inferedInstance.MaxCol
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "NbRows":
-			res.valueString = fmt.Sprintf("%d", inferedInstance.NbRows)
-			res.valueInt = inferedInstance.NbRows
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Rows":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Rows {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "SheetCells":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.SheetCells {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 
