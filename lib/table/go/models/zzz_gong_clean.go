@@ -7,7 +7,7 @@ func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
 	if slice == nil {
 		return nil
 	}
-    
+
 	var cleanedSlice []T
 	for _, element := range slice {
 		if IsStagedPointerToGongstruct(stage, element) {
@@ -27,191 +27,171 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Cell
+func (cell *Cell) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	cell.CellString = GongCleanPointer(stage, cell.CellString)
+	cell.CellFloat64 = GongCleanPointer(stage, cell.CellFloat64)
+	cell.CellInt = GongCleanPointer(stage, cell.CellInt)
+	cell.CellBool = GongCleanPointer(stage, cell.CellBool)
+	cell.CellIcon = GongCleanPointer(stage, cell.CellIcon)
+}
+
+// Clean garbage collect unstaged instances that are referenced by CellBoolean
+func (cellboolean *CellBoolean) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by CellFloat64
+func (cellfloat64 *CellFloat64) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by CellIcon
+func (cellicon *CellIcon) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by CellInt
+func (cellint *CellInt) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by CellString
+func (cellstring *CellString) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by CheckBox
+func (checkbox *CheckBox) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by DisplayedColumn
+func (displayedcolumn *DisplayedColumn) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormDiv
+func (formdiv *FormDiv) GongClean(stage *Stage) {
+	// insertion point per field
+	formdiv.FormFields = GongCleanSlice(stage, formdiv.FormFields)
+	formdiv.CheckBoxs = GongCleanSlice(stage, formdiv.CheckBoxs)
+	// insertion point per field
+	formdiv.FormEditAssocButton = GongCleanPointer(stage, formdiv.FormEditAssocButton)
+	formdiv.FormSortAssocButton = GongCleanPointer(stage, formdiv.FormSortAssocButton)
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormEditAssocButton
+func (formeditassocbutton *FormEditAssocButton) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormField
+func (formfield *FormField) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	formfield.FormFieldString = GongCleanPointer(stage, formfield.FormFieldString)
+	formfield.FormFieldFloat64 = GongCleanPointer(stage, formfield.FormFieldFloat64)
+	formfield.FormFieldInt = GongCleanPointer(stage, formfield.FormFieldInt)
+	formfield.FormFieldDate = GongCleanPointer(stage, formfield.FormFieldDate)
+	formfield.FormFieldTime = GongCleanPointer(stage, formfield.FormFieldTime)
+	formfield.FormFieldDateTime = GongCleanPointer(stage, formfield.FormFieldDateTime)
+	formfield.FormFieldSelect = GongCleanPointer(stage, formfield.FormFieldSelect)
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldDate
+func (formfielddate *FormFieldDate) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldDateTime
+func (formfielddatetime *FormFieldDateTime) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldFloat64
+func (formfieldfloat64 *FormFieldFloat64) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldInt
+func (formfieldint *FormFieldInt) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldSelect
+func (formfieldselect *FormFieldSelect) GongClean(stage *Stage) {
+	// insertion point per field
+	formfieldselect.Options = GongCleanSlice(stage, formfieldselect.Options)
+	// insertion point per field
+	formfieldselect.Value = GongCleanPointer(stage, formfieldselect.Value)
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldString
+func (formfieldstring *FormFieldString) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormFieldTime
+func (formfieldtime *FormFieldTime) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormGroup
+func (formgroup *FormGroup) GongClean(stage *Stage) {
+	// insertion point per field
+	formgroup.FormDivs = GongCleanSlice(stage, formgroup.FormDivs)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by FormSortAssocButton
+func (formsortassocbutton *FormSortAssocButton) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	formsortassocbutton.FormEditAssocButton = GongCleanPointer(stage, formsortassocbutton.FormEditAssocButton)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Option
+func (option *Option) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Row
+func (row *Row) GongClean(stage *Stage) {
+	// insertion point per field
+	row.Cells = GongCleanSlice(stage, row.Cells)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Table
+func (table *Table) GongClean(stage *Stage) {
+	// insertion point per field
+	table.DisplayedColumns = GongCleanSlice(stage, table.DisplayedColumns)
+	table.Rows = GongCleanSlice(stage, table.Rows)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
 func (stage *Stage) Clean() {
-	// insertion point per named struct
-	// clean up Cell
-	for cell := range stage.Cells {
-		_ = cell
-		// insertion point per field
-		// insertion point per field
-		cell.CellString = GongCleanPointer(stage, cell.CellString)
-		cell.CellFloat64 = GongCleanPointer(stage, cell.CellFloat64)
-		cell.CellInt = GongCleanPointer(stage, cell.CellInt)
-		cell.CellBool = GongCleanPointer(stage, cell.CellBool)
-		cell.CellIcon = GongCleanPointer(stage, cell.CellIcon)
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
 	}
-
-	// clean up CellBoolean
-	for cellboolean := range stage.CellBooleans {
-		_ = cellboolean
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up CellFloat64
-	for cellfloat64 := range stage.CellFloat64s {
-		_ = cellfloat64
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up CellIcon
-	for cellicon := range stage.CellIcons {
-		_ = cellicon
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up CellInt
-	for cellint := range stage.CellInts {
-		_ = cellint
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up CellString
-	for cellstring := range stage.CellStrings {
-		_ = cellstring
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up CheckBox
-	for checkbox := range stage.CheckBoxs {
-		_ = checkbox
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up DisplayedColumn
-	for displayedcolumn := range stage.DisplayedColumns {
-		_ = displayedcolumn
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormDiv
-	for formdiv := range stage.FormDivs {
-		_ = formdiv
-		// insertion point per field
-		formdiv.FormFields = GongCleanSlice(stage, formdiv.FormFields)
-		formdiv.CheckBoxs = GongCleanSlice(stage, formdiv.CheckBoxs)
-		// insertion point per field
-		formdiv.FormEditAssocButton = GongCleanPointer(stage, formdiv.FormEditAssocButton)
-		formdiv.FormSortAssocButton = GongCleanPointer(stage, formdiv.FormSortAssocButton)
-	}
-
-	// clean up FormEditAssocButton
-	for formeditassocbutton := range stage.FormEditAssocButtons {
-		_ = formeditassocbutton
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormField
-	for formfield := range stage.FormFields {
-		_ = formfield
-		// insertion point per field
-		// insertion point per field
-		formfield.FormFieldString = GongCleanPointer(stage, formfield.FormFieldString)
-		formfield.FormFieldFloat64 = GongCleanPointer(stage, formfield.FormFieldFloat64)
-		formfield.FormFieldInt = GongCleanPointer(stage, formfield.FormFieldInt)
-		formfield.FormFieldDate = GongCleanPointer(stage, formfield.FormFieldDate)
-		formfield.FormFieldTime = GongCleanPointer(stage, formfield.FormFieldTime)
-		formfield.FormFieldDateTime = GongCleanPointer(stage, formfield.FormFieldDateTime)
-		formfield.FormFieldSelect = GongCleanPointer(stage, formfield.FormFieldSelect)
-	}
-
-	// clean up FormFieldDate
-	for formfielddate := range stage.FormFieldDates {
-		_ = formfielddate
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormFieldDateTime
-	for formfielddatetime := range stage.FormFieldDateTimes {
-		_ = formfielddatetime
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormFieldFloat64
-	for formfieldfloat64 := range stage.FormFieldFloat64s {
-		_ = formfieldfloat64
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormFieldInt
-	for formfieldint := range stage.FormFieldInts {
-		_ = formfieldint
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormFieldSelect
-	for formfieldselect := range stage.FormFieldSelects {
-		_ = formfieldselect
-		// insertion point per field
-		formfieldselect.Options = GongCleanSlice(stage, formfieldselect.Options)
-		// insertion point per field
-		formfieldselect.Value = GongCleanPointer(stage, formfieldselect.Value)
-	}
-
-	// clean up FormFieldString
-	for formfieldstring := range stage.FormFieldStrings {
-		_ = formfieldstring
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormFieldTime
-	for formfieldtime := range stage.FormFieldTimes {
-		_ = formfieldtime
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up FormGroup
-	for formgroup := range stage.FormGroups {
-		_ = formgroup
-		// insertion point per field
-		formgroup.FormDivs = GongCleanSlice(stage, formgroup.FormDivs)
-		// insertion point per field
-	}
-
-	// clean up FormSortAssocButton
-	for formsortassocbutton := range stage.FormSortAssocButtons {
-		_ = formsortassocbutton
-		// insertion point per field
-		// insertion point per field
-		formsortassocbutton.FormEditAssocButton = GongCleanPointer(stage, formsortassocbutton.FormEditAssocButton)
-	}
-
-	// clean up Option
-	for option := range stage.Options {
-		_ = option
-		// insertion point per field
-		// insertion point per field
-	}
-
-	// clean up Row
-	for row := range stage.Rows {
-		_ = row
-		// insertion point per field
-		row.Cells = GongCleanSlice(stage, row.Cells)
-		// insertion point per field
-	}
-
-	// clean up Table
-	for table := range stage.Tables {
-		_ = table
-		// insertion point per field
-		table.DisplayedColumns = GongCleanSlice(stage, table.DisplayedColumns)
-		table.Rows = GongCleanSlice(stage, table.Rows)
-		// insertion point per field
-	}
-
 }

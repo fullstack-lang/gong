@@ -83,3 +83,38 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Arrows {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Bars {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Gantts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Groups {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Lanes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LaneUses {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Milestones {
+		res = append(res, instance)
+	}
+
+
+	return
+}

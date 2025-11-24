@@ -301,3 +301,94 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Animates {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Circles {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Conditions {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ControlPoints {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Ellipses {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Layers {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Lines {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Links {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LinkAnchoredTexts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Paths {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Points {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Polygones {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Polylines {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Rects {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.RectAnchoredPaths {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.RectAnchoredRects {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.RectAnchoredTexts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.RectLinkLinks {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SVGs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.SvgTexts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Texts {
+		res = append(res, instance)
+	}
+
+
+	return
+}
