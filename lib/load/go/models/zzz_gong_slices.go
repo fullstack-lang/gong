@@ -36,20 +36,17 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongCopy() GongstructIF {
-	var newInstance FileToDownload
-	newInstance = *filetodownload
+	newInstance := *filetodownload
 	return &newInstance
 }
 
 func (filetoupload *FileToUpload) GongCopy() GongstructIF {
-	var newInstance FileToUpload
-	newInstance = *filetoupload
+	newInstance := *filetoupload
 	return &newInstance
 }
 
 func (message *Message) GongCopy() GongstructIF {
-	var newInstance Message
-	newInstance = *message
+	newInstance := *message
 	return &newInstance
 }
 

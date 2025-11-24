@@ -57,38 +57,32 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (command *Command) GongCopy() GongstructIF {
-	var newInstance Command
-	newInstance = *command
+	newInstance := *command
 	return &newInstance
 }
 
 func (dummyagent *DummyAgent) GongCopy() GongstructIF {
-	var newInstance DummyAgent
-	newInstance = *dummyagent
+	newInstance := *dummyagent
 	return &newInstance
 }
 
 func (engine *Engine) GongCopy() GongstructIF {
-	var newInstance Engine
-	newInstance = *engine
+	newInstance := *engine
 	return &newInstance
 }
 
 func (event *Event) GongCopy() GongstructIF {
-	var newInstance Event
-	newInstance = *event
+	newInstance := *event
 	return &newInstance
 }
 
 func (status *Status) GongCopy() GongstructIF {
-	var newInstance Status
-	newInstance = *status
+	newInstance := *status
 	return &newInstance
 }
 
 func (updatestate *UpdateState) GongCopy() GongstructIF {
-	var newInstance UpdateState
-	newInstance = *updatestate
+	newInstance := *updatestate
 	return &newInstance
 }
 

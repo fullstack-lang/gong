@@ -232,140 +232,117 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (cell *Cell) GongCopy() GongstructIF {
-	var newInstance Cell
-	newInstance = *cell
+	newInstance := *cell
 	return &newInstance
 }
 
 func (cellboolean *CellBoolean) GongCopy() GongstructIF {
-	var newInstance CellBoolean
-	newInstance = *cellboolean
+	newInstance := *cellboolean
 	return &newInstance
 }
 
 func (cellfloat64 *CellFloat64) GongCopy() GongstructIF {
-	var newInstance CellFloat64
-	newInstance = *cellfloat64
+	newInstance := *cellfloat64
 	return &newInstance
 }
 
 func (cellicon *CellIcon) GongCopy() GongstructIF {
-	var newInstance CellIcon
-	newInstance = *cellicon
+	newInstance := *cellicon
 	return &newInstance
 }
 
 func (cellint *CellInt) GongCopy() GongstructIF {
-	var newInstance CellInt
-	newInstance = *cellint
+	newInstance := *cellint
 	return &newInstance
 }
 
 func (cellstring *CellString) GongCopy() GongstructIF {
-	var newInstance CellString
-	newInstance = *cellstring
+	newInstance := *cellstring
 	return &newInstance
 }
 
 func (checkbox *CheckBox) GongCopy() GongstructIF {
-	var newInstance CheckBox
-	newInstance = *checkbox
+	newInstance := *checkbox
 	return &newInstance
 }
 
 func (displayedcolumn *DisplayedColumn) GongCopy() GongstructIF {
-	var newInstance DisplayedColumn
-	newInstance = *displayedcolumn
+	newInstance := *displayedcolumn
 	return &newInstance
 }
 
 func (formdiv *FormDiv) GongCopy() GongstructIF {
-	var newInstance FormDiv
-	newInstance = *formdiv
+	newInstance := *formdiv
 	return &newInstance
 }
 
 func (formeditassocbutton *FormEditAssocButton) GongCopy() GongstructIF {
-	var newInstance FormEditAssocButton
-	newInstance = *formeditassocbutton
+	newInstance := *formeditassocbutton
 	return &newInstance
 }
 
 func (formfield *FormField) GongCopy() GongstructIF {
-	var newInstance FormField
-	newInstance = *formfield
+	newInstance := *formfield
 	return &newInstance
 }
 
 func (formfielddate *FormFieldDate) GongCopy() GongstructIF {
-	var newInstance FormFieldDate
-	newInstance = *formfielddate
+	newInstance := *formfielddate
 	return &newInstance
 }
 
 func (formfielddatetime *FormFieldDateTime) GongCopy() GongstructIF {
-	var newInstance FormFieldDateTime
-	newInstance = *formfielddatetime
+	newInstance := *formfielddatetime
 	return &newInstance
 }
 
 func (formfieldfloat64 *FormFieldFloat64) GongCopy() GongstructIF {
-	var newInstance FormFieldFloat64
-	newInstance = *formfieldfloat64
+	newInstance := *formfieldfloat64
 	return &newInstance
 }
 
 func (formfieldint *FormFieldInt) GongCopy() GongstructIF {
-	var newInstance FormFieldInt
-	newInstance = *formfieldint
+	newInstance := *formfieldint
 	return &newInstance
 }
 
 func (formfieldselect *FormFieldSelect) GongCopy() GongstructIF {
-	var newInstance FormFieldSelect
-	newInstance = *formfieldselect
+	newInstance := *formfieldselect
 	return &newInstance
 }
 
 func (formfieldstring *FormFieldString) GongCopy() GongstructIF {
-	var newInstance FormFieldString
-	newInstance = *formfieldstring
+	newInstance := *formfieldstring
 	return &newInstance
 }
 
 func (formfieldtime *FormFieldTime) GongCopy() GongstructIF {
-	var newInstance FormFieldTime
-	newInstance = *formfieldtime
+	newInstance := *formfieldtime
 	return &newInstance
 }
 
 func (formgroup *FormGroup) GongCopy() GongstructIF {
-	var newInstance FormGroup
-	newInstance = *formgroup
+	newInstance := *formgroup
 	return &newInstance
 }
 
 func (formsortassocbutton *FormSortAssocButton) GongCopy() GongstructIF {
-	var newInstance FormSortAssocButton
-	newInstance = *formsortassocbutton
+	newInstance := *formsortassocbutton
 	return &newInstance
 }
 
 func (option *Option) GongCopy() GongstructIF {
-	var newInstance Option
-	newInstance = *option
+	newInstance := *option
 	return &newInstance
 }
 
 func (row *Row) GongCopy() GongstructIF {
-	var newInstance Row
-	newInstance = *row
+	newInstance := *row
 	return &newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
-	var newInstance Table
-	newInstance = *table
+	newInstance := *table
 	return &newInstance
 }
 

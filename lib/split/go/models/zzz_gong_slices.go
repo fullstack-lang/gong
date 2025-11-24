@@ -164,116 +164,97 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (assplit *AsSplit) GongCopy() GongstructIF {
-	var newInstance AsSplit
-	newInstance = *assplit
+	newInstance := *assplit
 	return &newInstance
 }
 
 func (assplitarea *AsSplitArea) GongCopy() GongstructIF {
-	var newInstance AsSplitArea
-	newInstance = *assplitarea
+	newInstance := *assplitarea
 	return &newInstance
 }
 
 func (button *Button) GongCopy() GongstructIF {
-	var newInstance Button
-	newInstance = *button
+	newInstance := *button
 	return &newInstance
 }
 
 func (cursor *Cursor) GongCopy() GongstructIF {
-	var newInstance Cursor
-	newInstance = *cursor
+	newInstance := *cursor
 	return &newInstance
 }
 
 func (favicon *FavIcon) GongCopy() GongstructIF {
-	var newInstance FavIcon
-	newInstance = *favicon
+	newInstance := *favicon
 	return &newInstance
 }
 
 func (form *Form) GongCopy() GongstructIF {
-	var newInstance Form
-	newInstance = *form
+	newInstance := *form
 	return &newInstance
 }
 
 func (load *Load) GongCopy() GongstructIF {
-	var newInstance Load
-	newInstance = *load
+	newInstance := *load
 	return &newInstance
 }
 
 func (logoontheleft *LogoOnTheLeft) GongCopy() GongstructIF {
-	var newInstance LogoOnTheLeft
-	newInstance = *logoontheleft
+	newInstance := *logoontheleft
 	return &newInstance
 }
 
 func (logoontheright *LogoOnTheRight) GongCopy() GongstructIF {
-	var newInstance LogoOnTheRight
-	newInstance = *logoontheright
+	newInstance := *logoontheright
 	return &newInstance
 }
 
 func (markdown *Markdown) GongCopy() GongstructIF {
-	var newInstance Markdown
-	newInstance = *markdown
+	newInstance := *markdown
 	return &newInstance
 }
 
 func (slider *Slider) GongCopy() GongstructIF {
-	var newInstance Slider
-	newInstance = *slider
+	newInstance := *slider
 	return &newInstance
 }
 
 func (split *Split) GongCopy() GongstructIF {
-	var newInstance Split
-	newInstance = *split
+	newInstance := *split
 	return &newInstance
 }
 
 func (svg *Svg) GongCopy() GongstructIF {
-	var newInstance Svg
-	newInstance = *svg
+	newInstance := *svg
 	return &newInstance
 }
 
 func (table *Table) GongCopy() GongstructIF {
-	var newInstance Table
-	newInstance = *table
+	newInstance := *table
 	return &newInstance
 }
 
 func (title *Title) GongCopy() GongstructIF {
-	var newInstance Title
-	newInstance = *title
+	newInstance := *title
 	return &newInstance
 }
 
 func (tone *Tone) GongCopy() GongstructIF {
-	var newInstance Tone
-	newInstance = *tone
+	newInstance := *tone
 	return &newInstance
 }
 
 func (tree *Tree) GongCopy() GongstructIF {
-	var newInstance Tree
-	newInstance = *tree
+	newInstance := *tree
 	return &newInstance
 }
 
 func (view *View) GongCopy() GongstructIF {
-	var newInstance View
-	newInstance = *view
+	newInstance := *view
 	return &newInstance
 }
 
 func (xlsx *Xlsx) GongCopy() GongstructIF {
-	var newInstance Xlsx
-	newInstance = *xlsx
+	newInstance := *xlsx
 	return &newInstance
 }
 

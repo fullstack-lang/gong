@@ -120,44 +120,37 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (arrow *Arrow) GongCopy() GongstructIF {
-	var newInstance Arrow
-	newInstance = *arrow
+	newInstance := *arrow
 	return &newInstance
 }
 
 func (bar *Bar) GongCopy() GongstructIF {
-	var newInstance Bar
-	newInstance = *bar
+	newInstance := *bar
 	return &newInstance
 }
 
 func (gantt *Gantt) GongCopy() GongstructIF {
-	var newInstance Gantt
-	newInstance = *gantt
+	newInstance := *gantt
 	return &newInstance
 }
 
 func (group *Group) GongCopy() GongstructIF {
-	var newInstance Group
-	newInstance = *group
+	newInstance := *group
 	return &newInstance
 }
 
 func (lane *Lane) GongCopy() GongstructIF {
-	var newInstance Lane
-	newInstance = *lane
+	newInstance := *lane
 	return &newInstance
 }
 
 func (laneuse *LaneUse) GongCopy() GongstructIF {
-	var newInstance LaneUse
-	newInstance = *laneuse
+	newInstance := *laneuse
 	return &newInstance
 }
 
 func (milestone *Milestone) GongCopy() GongstructIF {
-	var newInstance Milestone
-	newInstance = *milestone
+	newInstance := *milestone
 	return &newInstance
 }
 

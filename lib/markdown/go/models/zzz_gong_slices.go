@@ -43,26 +43,22 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 // insertion point per named struct
 func (content *Content) GongCopy() GongstructIF {
-	var newInstance Content
-	newInstance = *content
+	newInstance := *content
 	return &newInstance
 }
 
 func (jpgimage *JpgImage) GongCopy() GongstructIF {
-	var newInstance JpgImage
-	newInstance = *jpgimage
+	newInstance := *jpgimage
 	return &newInstance
 }
 
 func (pngimage *PngImage) GongCopy() GongstructIF {
-	var newInstance PngImage
-	newInstance = *pngimage
+	newInstance := *pngimage
 	return &newInstance
 }
 
 func (svgimage *SvgImage) GongCopy() GongstructIF {
-	var newInstance SvgImage
-	newInstance = *svgimage
+	newInstance := *svgimage
 	return &newInstance
 }
 
