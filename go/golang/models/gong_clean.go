@@ -42,9 +42,10 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 	return element
 }
 
-// Clean computes the reverse map, for all intances, for all clean to pointers field
+// insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
+// Clean garbage collect unstaged instances that are referenced by staged elements 
 func (stage *Stage) Clean() {
-	// insertion point per named struct{{` + string(rune(GongCleanRangeElements)) + `}}
+
 }
 `
 
@@ -58,12 +59,11 @@ const (
 var GongCleanGongstructSubTemplateCode map[GongCleanGongstructInsertionId]string = // new line
 map[GongCleanGongstructInsertionId]string{
 	GongCleanRangeElements: `
-	// clean up {{Structname}}
-	for {{structname}} := range stage.{{Structname}}s {
-		_ = {{structname}}
-		// insertion point per field{{cleanOfSliceOfPointers}}
-		// insertion point per field{{cleanOfPointer}}
-	}
+// Clean garbage collect unstaged instances that are referenced by {{Structname}}
+func ({{structname}} *{{Structname}}) GongClean(stage *Stage) {
+	// insertion point per field{{cleanOfSliceOfPointers}}
+	// insertion point per field{{cleanOfPointer}}
+}
 `,
 }
 
@@ -78,9 +78,9 @@ var GongCleanFileFieldFieldSubTemplateCode map[GongCleanSubTemplateId]string = /
 map[GongCleanSubTemplateId]string{
 
 	GongCleanSubTmplCleanPointer: `
-		{{structname}}.{{FieldName}} = GongCleanPointer(stage, {{structname}}.{{FieldName}})`,
+	{{structname}}.{{FieldName}} = GongCleanPointer(stage, {{structname}}.{{FieldName}})`,
 	GongCleanSubTmplCleanOfSlicePointers: `
-		{{structname}}.{{FieldName}} = GongCleanSlice(stage, {{structname}}.{{FieldName}})`,
+	{{structname}}.{{FieldName}} = GongCleanSlice(stage, {{structname}}.{{FieldName}})`,
 }
 
 func CodeGeneratorModelGongClean(

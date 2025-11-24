@@ -91,3 +91,12 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	for instance := range stage.Astructs {
+		res = append(res, instance)
+	}
+
+	return
+}
