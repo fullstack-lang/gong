@@ -1639,6 +1639,8 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 
 		case "IsSelectedView":
 			FormDivBasicFieldToField(&(view_.IsSelectedView), formDiv)
+		case "Direction":
+			FormDivEnumStringFieldToField(&(view_.Direction), formDiv)
 		}
 	}
 

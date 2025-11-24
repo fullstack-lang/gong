@@ -25,6 +25,9 @@ type View struct {
 	ShowViewName     bool // by default, a standalone views wont display the
 	RootAsSplitAreas []*AsSplitArea
 	IsSelectedView   bool
+
+	// Direction the initial direction for the split dividing of the view. Vertical if ""
+	Direction Direction
 }
 
 type Direction string
