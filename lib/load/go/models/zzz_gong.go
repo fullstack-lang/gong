@@ -744,6 +744,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1098,67 +1099,40 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *FileToDownload:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (filetodownload *FileToDownload) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = filetodownload.Name
 		case "Content":
-			res.valueString = inferedInstance.Content
-		}
-	case *FileToUpload:
-		switch fieldName {
+			res.valueString = filetodownload.Content
+	}
+	return
+}
+func (filetoupload *FileToUpload) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = filetoupload.Name
 		case "Base64EncodedContent":
-			res.valueString = inferedInstance.Base64EncodedContent
-		}
-	case *Message:
-		switch fieldName {
+			res.valueString = filetoupload.Base64EncodedContent
+	}
+	return
+}
+func (message *Message) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	default:
-		_ = inferedInstance
+			res.valueString = message.Name
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case FileToDownload:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Content":
-			res.valueString = inferedInstance.Content
-		}
-	case FileToUpload:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "Base64EncodedContent":
-			res.valueString = inferedInstance.Base64EncodedContent
-		}
-	case Message:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 

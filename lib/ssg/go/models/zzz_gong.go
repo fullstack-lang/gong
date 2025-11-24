@@ -748,6 +748,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1164,20 +1165,17 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *Chapter:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (chapter *Chapter) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = chapter.Name
 		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
+			res.valueString = chapter.MardownContent
 		case "Pages":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Pages {
+			for idx, __instance__ := range chapter.Pages {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1185,28 +1183,30 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.valueString += __instance__.Name
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
-		}
-	case *Content:
-		switch fieldName {
+	}
+	return
+}
+func (content *Content) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = content.Name
 		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
+			res.valueString = content.MardownContent
 		case "ContentPath":
-			res.valueString = inferedInstance.ContentPath
+			res.valueString = content.ContentPath
 		case "OutputPath":
-			res.valueString = inferedInstance.OutputPath
+			res.valueString = content.OutputPath
 		case "LayoutPath":
-			res.valueString = inferedInstance.LayoutPath
+			res.valueString = content.LayoutPath
 		case "StaticPath":
-			res.valueString = inferedInstance.StaticPath
+			res.valueString = content.StaticPath
 		case "Target":
-			enum := inferedInstance.Target
+			enum := content.Target
 			res.valueString = enum.ToCodeString()
 		case "Chapters":
 			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Chapters {
+			for idx, __instance__ := range content.Chapters {
 				if idx > 0 {
 					res.valueString += "\n"
 					res.ids += ";"
@@ -1215,86 +1215,25 @@ func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage
 				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 			}
 		case "VersionInfo":
-			res.valueString = inferedInstance.VersionInfo
-		}
-	case *Page:
-		switch fieldName {
+			res.valueString = content.VersionInfo
+	}
+	return
+}
+func (page *Page) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = page.Name
 		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
-		}
-	default:
-		_ = inferedInstance
+			res.valueString = page.MardownContent
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case Chapter:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
-		case "Pages":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Pages {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		}
-	case Content:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
-		case "ContentPath":
-			res.valueString = inferedInstance.ContentPath
-		case "OutputPath":
-			res.valueString = inferedInstance.OutputPath
-		case "LayoutPath":
-			res.valueString = inferedInstance.LayoutPath
-		case "StaticPath":
-			res.valueString = inferedInstance.StaticPath
-		case "Target":
-			enum := inferedInstance.Target
-			res.valueString = enum.ToCodeString()
-		case "Chapters":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range inferedInstance.Chapters {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "VersionInfo":
-			res.valueString = inferedInstance.VersionInfo
-		}
-	case Page:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "MardownContent":
-			res.valueString = inferedInstance.MardownContent
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 
