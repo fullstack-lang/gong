@@ -140,3 +140,67 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	return
 }
+
+// insertion point per named struct
+func (attributeshape *AttributeShape) GongCopy() GongstructIF {
+	var newInstance AttributeShape
+	newInstance = *attributeshape
+	return &newInstance
+}
+
+func (classdiagram *Classdiagram) GongCopy() GongstructIF {
+	var newInstance Classdiagram
+	newInstance = *classdiagram
+	return &newInstance
+}
+
+func (diagrampackage *DiagramPackage) GongCopy() GongstructIF {
+	var newInstance DiagramPackage
+	newInstance = *diagrampackage
+	return &newInstance
+}
+
+func (gongenumshape *GongEnumShape) GongCopy() GongstructIF {
+	var newInstance GongEnumShape
+	newInstance = *gongenumshape
+	return &newInstance
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongCopy() GongstructIF {
+	var newInstance GongEnumValueShape
+	newInstance = *gongenumvalueshape
+	return &newInstance
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongCopy() GongstructIF {
+	var newInstance GongNoteLinkShape
+	newInstance = *gongnotelinkshape
+	return &newInstance
+}
+
+func (gongnoteshape *GongNoteShape) GongCopy() GongstructIF {
+	var newInstance GongNoteShape
+	newInstance = *gongnoteshape
+	return &newInstance
+}
+
+func (gongstructshape *GongStructShape) GongCopy() GongstructIF {
+	var newInstance GongStructShape
+	newInstance = *gongstructshape
+	return &newInstance
+}
+
+func (linkshape *LinkShape) GongCopy() GongstructIF {
+	var newInstance LinkShape
+	newInstance = *linkshape
+	return &newInstance
+}
+
+
+// ComputeReference will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReference() {
+	stage.reference = make(map[GongstructIF]GongstructIF)
+	for _, instance := range stage.GetInstances() {
+		stage.reference[instance] = instance.GongCopy()
+	}
+}
