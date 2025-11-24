@@ -172,8 +172,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -443,6 +445,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "SVGIcon"},
 			{name: "Tree"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -503,6 +510,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -558,6 +566,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 		stage.Buttons[button] = __member
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
+		stage.new[button] = struct{}{}
+		delete(stage.deleted, button)
+	} else {
+		if _, ok := stage.new[button]; !ok {
+			stage.modified[button] = struct{}{}
+		}
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -568,6 +582,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
 	delete(stage.Buttons_mapString, button.Name)
+
+	if _, ok := stage.reference[button]; ok {
+		stage.deleted[button] = struct{}{}
+	} else {
+		delete(stage.new, button)
+	}
 	return button
 }
 
@@ -613,6 +633,12 @@ func (node *Node) Stage(stage *Stage) *Node {
 		stage.Nodes[node] = __member
 		stage.NodeMap_Staged_Order[node] = stage.NodeOrder
 		stage.NodeOrder++
+		stage.new[node] = struct{}{}
+		delete(stage.deleted, node)
+	} else {
+		if _, ok := stage.new[node]; !ok {
+			stage.modified[node] = struct{}{}
+		}
 	}
 	stage.Nodes_mapString[node.Name] = node
 
@@ -623,6 +649,12 @@ func (node *Node) Stage(stage *Stage) *Node {
 func (node *Node) Unstage(stage *Stage) *Node {
 	delete(stage.Nodes, node)
 	delete(stage.Nodes_mapString, node.Name)
+
+	if _, ok := stage.reference[node]; ok {
+		stage.deleted[node] = struct{}{}
+	} else {
+		delete(stage.new, node)
+	}
 	return node
 }
 
@@ -668,6 +700,12 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 		stage.SVGIcons[svgicon] = __member
 		stage.SVGIconMap_Staged_Order[svgicon] = stage.SVGIconOrder
 		stage.SVGIconOrder++
+		stage.new[svgicon] = struct{}{}
+		delete(stage.deleted, svgicon)
+	} else {
+		if _, ok := stage.new[svgicon]; !ok {
+			stage.modified[svgicon] = struct{}{}
+		}
 	}
 	stage.SVGIcons_mapString[svgicon.Name] = svgicon
 
@@ -678,6 +716,12 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 	delete(stage.SVGIcons, svgicon)
 	delete(stage.SVGIcons_mapString, svgicon.Name)
+
+	if _, ok := stage.reference[svgicon]; ok {
+		stage.deleted[svgicon] = struct{}{}
+	} else {
+		delete(stage.new, svgicon)
+	}
 	return svgicon
 }
 
@@ -723,6 +767,12 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 		stage.Trees[tree] = __member
 		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
 		stage.TreeOrder++
+		stage.new[tree] = struct{}{}
+		delete(stage.deleted, tree)
+	} else {
+		if _, ok := stage.new[tree]; !ok {
+			stage.modified[tree] = struct{}{}
+		}
 	}
 	stage.Trees_mapString[tree.Name] = tree
 
@@ -733,6 +783,12 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 func (tree *Tree) Unstage(stage *Stage) *Tree {
 	delete(stage.Trees, tree)
 	delete(stage.Trees_mapString, tree.Name)
+
+	if _, ok := stage.reference[tree]; ok {
+		stage.deleted[tree] = struct{}{}
+	} else {
+		delete(stage.new, tree)
+	}
 	return tree
 }
 
@@ -807,6 +863,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TreeMap_Staged_Order = make(map[*Tree]uint)
 	stage.TreeOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

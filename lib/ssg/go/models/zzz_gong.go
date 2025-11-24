@@ -158,8 +158,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -405,6 +407,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Content"},
 			{name: "Page"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -461,6 +468,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -515,6 +523,12 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 		stage.Chapters[chapter] = __member
 		stage.ChapterMap_Staged_Order[chapter] = stage.ChapterOrder
 		stage.ChapterOrder++
+		stage.new[chapter] = struct{}{}
+		delete(stage.deleted, chapter)
+	} else {
+		if _, ok := stage.new[chapter]; !ok {
+			stage.modified[chapter] = struct{}{}
+		}
 	}
 	stage.Chapters_mapString[chapter.Name] = chapter
 
@@ -525,6 +539,12 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 	delete(stage.Chapters, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
+
+	if _, ok := stage.reference[chapter]; ok {
+		stage.deleted[chapter] = struct{}{}
+	} else {
+		delete(stage.new, chapter)
+	}
 	return chapter
 }
 
@@ -570,6 +590,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 		stage.Contents[content] = __member
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
+		stage.new[content] = struct{}{}
+		delete(stage.deleted, content)
+	} else {
+		if _, ok := stage.new[content]; !ok {
+			stage.modified[content] = struct{}{}
+		}
 	}
 	stage.Contents_mapString[content.Name] = content
 
@@ -580,6 +606,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
 	delete(stage.Contents_mapString, content.Name)
+
+	if _, ok := stage.reference[content]; ok {
+		stage.deleted[content] = struct{}{}
+	} else {
+		delete(stage.new, content)
+	}
 	return content
 }
 
@@ -625,6 +657,12 @@ func (page *Page) Stage(stage *Stage) *Page {
 		stage.Pages[page] = __member
 		stage.PageMap_Staged_Order[page] = stage.PageOrder
 		stage.PageOrder++
+		stage.new[page] = struct{}{}
+		delete(stage.deleted, page)
+	} else {
+		if _, ok := stage.new[page]; !ok {
+			stage.modified[page] = struct{}{}
+		}
 	}
 	stage.Pages_mapString[page.Name] = page
 
@@ -635,6 +673,12 @@ func (page *Page) Stage(stage *Stage) *Page {
 func (page *Page) Unstage(stage *Stage) *Page {
 	delete(stage.Pages, page)
 	delete(stage.Pages_mapString, page.Name)
+
+	if _, ok := stage.reference[page]; ok {
+		stage.deleted[page] = struct{}{}
+	} else {
+		delete(stage.new, page)
+	}
 	return page
 }
 
@@ -702,6 +746,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.PageMap_Staged_Order = make(map[*Page]uint)
 	stage.PageOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

@@ -154,8 +154,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -401,6 +403,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "FileToUpload"},
 			{name: "Message"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -457,6 +464,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -511,6 +519,12 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 		stage.FileToDownloads[filetodownload] = __member
 		stage.FileToDownloadMap_Staged_Order[filetodownload] = stage.FileToDownloadOrder
 		stage.FileToDownloadOrder++
+		stage.new[filetodownload] = struct{}{}
+		delete(stage.deleted, filetodownload)
+	} else {
+		if _, ok := stage.new[filetodownload]; !ok {
+			stage.modified[filetodownload] = struct{}{}
+		}
 	}
 	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
 
@@ -521,6 +535,12 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 	delete(stage.FileToDownloads, filetodownload)
 	delete(stage.FileToDownloads_mapString, filetodownload.Name)
+
+	if _, ok := stage.reference[filetodownload]; ok {
+		stage.deleted[filetodownload] = struct{}{}
+	} else {
+		delete(stage.new, filetodownload)
+	}
 	return filetodownload
 }
 
@@ -566,6 +586,12 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 		stage.FileToUploads[filetoupload] = __member
 		stage.FileToUploadMap_Staged_Order[filetoupload] = stage.FileToUploadOrder
 		stage.FileToUploadOrder++
+		stage.new[filetoupload] = struct{}{}
+		delete(stage.deleted, filetoupload)
+	} else {
+		if _, ok := stage.new[filetoupload]; !ok {
+			stage.modified[filetoupload] = struct{}{}
+		}
 	}
 	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
 
@@ -576,6 +602,12 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 	delete(stage.FileToUploads, filetoupload)
 	delete(stage.FileToUploads_mapString, filetoupload.Name)
+
+	if _, ok := stage.reference[filetoupload]; ok {
+		stage.deleted[filetoupload] = struct{}{}
+	} else {
+		delete(stage.new, filetoupload)
+	}
 	return filetoupload
 }
 
@@ -621,6 +653,12 @@ func (message *Message) Stage(stage *Stage) *Message {
 		stage.Messages[message] = __member
 		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
 		stage.MessageOrder++
+		stage.new[message] = struct{}{}
+		delete(stage.deleted, message)
+	} else {
+		if _, ok := stage.new[message]; !ok {
+			stage.modified[message] = struct{}{}
+		}
 	}
 	stage.Messages_mapString[message.Name] = message
 
@@ -631,6 +669,12 @@ func (message *Message) Stage(stage *Stage) *Message {
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
 	delete(stage.Messages_mapString, message.Name)
+
+	if _, ok := stage.reference[message]; ok {
+		stage.deleted[message] = struct{}{}
+	} else {
+		delete(stage.new, message)
+	}
 	return message
 }
 
@@ -698,6 +742,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MessageMap_Staged_Order = make(map[*Message]uint)
 	stage.MessageOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

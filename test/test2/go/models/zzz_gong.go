@@ -144,8 +144,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -367,6 +369,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "A"},
 			{name: "B"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -419,6 +426,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -472,6 +480,12 @@ func (a *A) Stage(stage *Stage) *A {
 		stage.As[a] = __member
 		stage.AMap_Staged_Order[a] = stage.AOrder
 		stage.AOrder++
+		stage.new[a] = struct{}{}
+		delete(stage.deleted, a)
+	} else {
+		if _, ok := stage.new[a]; !ok {
+			stage.modified[a] = struct{}{}
+		}
 	}
 	stage.As_mapString[a.Name] = a
 
@@ -482,6 +496,12 @@ func (a *A) Stage(stage *Stage) *A {
 func (a *A) Unstage(stage *Stage) *A {
 	delete(stage.As, a)
 	delete(stage.As_mapString, a.Name)
+
+	if _, ok := stage.reference[a]; ok {
+		stage.deleted[a] = struct{}{}
+	} else {
+		delete(stage.new, a)
+	}
 	return a
 }
 
@@ -527,6 +547,12 @@ func (b *B) Stage(stage *Stage) *B {
 		stage.Bs[b] = __member
 		stage.BMap_Staged_Order[b] = stage.BOrder
 		stage.BOrder++
+		stage.new[b] = struct{}{}
+		delete(stage.deleted, b)
+	} else {
+		if _, ok := stage.new[b]; !ok {
+			stage.modified[b] = struct{}{}
+		}
 	}
 	stage.Bs_mapString[b.Name] = b
 
@@ -537,6 +563,12 @@ func (b *B) Stage(stage *Stage) *B {
 func (b *B) Unstage(stage *Stage) *B {
 	delete(stage.Bs, b)
 	delete(stage.Bs_mapString, b.Name)
+
+	if _, ok := stage.reference[b]; ok {
+		stage.deleted[b] = struct{}{}
+	} else {
+		delete(stage.new, b)
+	}
 	return b
 }
 
@@ -597,6 +629,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.BMap_Staged_Order = make(map[*B]uint)
 	stage.BOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
