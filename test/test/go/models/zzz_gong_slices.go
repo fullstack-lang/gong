@@ -91,3 +91,38 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Astructs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.AstructBstruct2Uses {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.AstructBstructUses {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Bstructs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Dstructs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.F0123456789012345678901234567890s {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Gstructs {
+		res = append(res, instance)
+	}
+
+
+	return
+}

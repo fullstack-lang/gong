@@ -17,3 +17,14 @@ func (stage *Stage) ComputeReverseMaps() {
 	}
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.As {
+		res = append(res, instance)
+	}
+
+
+	return
+}

@@ -9,3 +9,14 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.Cursors {
+		res = append(res, instance)
+	}
+
+
+	return
+}

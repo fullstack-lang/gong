@@ -79,3 +79,86 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per field
 
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct
+	for instance := range stage.AsSplits {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.AsSplitAreas {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Buttons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Cursors {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.FavIcons {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Forms {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Loads {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LogoOnTheLefts {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.LogoOnTheRights {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Markdowns {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Sliders {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Splits {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Svgs {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Tables {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Titles {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Tones {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Trees {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Views {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Xlsxs {
+		res = append(res, instance)
+	}
+
+
+	return
+}

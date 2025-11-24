@@ -21,6 +21,13 @@ package models
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct{{` + string(rune(GongSliceReverseMapCompute)) + `}}
 }
+
+func (stage *Stage) GetInstances() (res []GongstructIF) {
+
+	// insertion point per named struct{{` + string(rune(GongSliceGetInstances)) + `}}
+
+	return
+}
 `
 
 type GongSliceGongstructInsertionId int
@@ -28,6 +35,7 @@ type GongSliceGongstructInsertionId int
 const (
 	GongSliceCase GongSliceGongstructInsertionId = iota
 	GongSliceReverseMapCompute
+	GongSliceGetInstances
 	GongSliceGongstructInsertionNb
 )
 
@@ -40,6 +48,11 @@ map[GongSliceGongstructInsertionId]string{
 	GongSliceReverseMapCompute: `
 	// Compute reverse map for named struct {{Structname}}
 	// insertion point per field{{sliceOfPointerFieldReverseMapComputationCode}}
+`,
+	GongSliceGetInstances: `
+	for instance := range stage.{{Structname}}s {
+		res = append(res, instance)
+	}
 `,
 }
 
