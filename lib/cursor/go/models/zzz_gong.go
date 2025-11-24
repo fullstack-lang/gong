@@ -524,6 +524,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -846,127 +847,66 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
-
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case *Cursor:
-		switch fieldName {
+// insertion point for generic get gongstruct field value
+func (cursor *Cursor) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
 		// string value of fields
 		case "Name":
-			res.valueString = inferedInstance.Name
+			res.valueString = cursor.Name
 		case "StartX":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StartX)
-			res.valueFloat = inferedInstance.StartX
+			res.valueString = fmt.Sprintf("%f", cursor.StartX)
+			res.valueFloat = cursor.StartX
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "EndX":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.EndX)
-			res.valueFloat = inferedInstance.EndX
+			res.valueString = fmt.Sprintf("%f", cursor.EndX)
+			res.valueFloat = cursor.EndX
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y1":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y1)
-			res.valueFloat = inferedInstance.Y1
+			res.valueString = fmt.Sprintf("%f", cursor.Y1)
+			res.valueFloat = cursor.Y1
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Y2":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y2)
-			res.valueFloat = inferedInstance.Y2
+			res.valueString = fmt.Sprintf("%f", cursor.Y2)
+			res.valueFloat = cursor.Y2
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "DurationSeconds":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.DurationSeconds)
-			res.valueFloat = inferedInstance.DurationSeconds
+			res.valueString = fmt.Sprintf("%f", cursor.DurationSeconds)
+			res.valueFloat = cursor.DurationSeconds
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Color":
-			res.valueString = inferedInstance.Color
+			res.valueString = cursor.Color
 		case "FillOpacity":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.FillOpacity)
-			res.valueFloat = inferedInstance.FillOpacity
+			res.valueString = fmt.Sprintf("%f", cursor.FillOpacity)
+			res.valueFloat = cursor.FillOpacity
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "Stroke":
-			res.valueString = inferedInstance.Stroke
+			res.valueString = cursor.Stroke
 		case "StrokeOpacity":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StrokeOpacity)
-			res.valueFloat = inferedInstance.StrokeOpacity
+			res.valueString = fmt.Sprintf("%f", cursor.StrokeOpacity)
+			res.valueFloat = cursor.StrokeOpacity
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StrokeWidth)
-			res.valueFloat = inferedInstance.StrokeWidth
+			res.valueString = fmt.Sprintf("%f", cursor.StrokeWidth)
+			res.valueFloat = cursor.StrokeWidth
 			res.GongFieldValueType = GongFieldValueTypeFloat
 		case "StrokeDashArray":
-			res.valueString = inferedInstance.StrokeDashArray
+			res.valueString = cursor.StrokeDashArray
 		case "StrokeDashArrayWhenSelected":
-			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
+			res.valueString = cursor.StrokeDashArrayWhenSelected
 		case "Transform":
-			res.valueString = inferedInstance.Transform
+			res.valueString = cursor.Transform
 		case "IsPlaying":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsPlaying)
-			res.valueBool = inferedInstance.IsPlaying
+			res.valueString = fmt.Sprintf("%t", cursor.IsPlaying)
+			res.valueBool = cursor.IsPlaying
 			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	default:
-		_ = inferedInstance
 	}
 	return
 }
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value
-	case Cursor:
-		switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = inferedInstance.Name
-		case "StartX":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StartX)
-			res.valueFloat = inferedInstance.StartX
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "EndX":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.EndX)
-			res.valueFloat = inferedInstance.EndX
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y1":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y1)
-			res.valueFloat = inferedInstance.Y1
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y2":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.Y2)
-			res.valueFloat = inferedInstance.Y2
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "DurationSeconds":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.DurationSeconds)
-			res.valueFloat = inferedInstance.DurationSeconds
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Color":
-			res.valueString = inferedInstance.Color
-		case "FillOpacity":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.FillOpacity)
-			res.valueFloat = inferedInstance.FillOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Stroke":
-			res.valueString = inferedInstance.Stroke
-		case "StrokeOpacity":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StrokeOpacity)
-			res.valueFloat = inferedInstance.StrokeOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", inferedInstance.StrokeWidth)
-			res.valueFloat = inferedInstance.StrokeWidth
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeDashArray":
-			res.valueString = inferedInstance.StrokeDashArray
-		case "StrokeDashArrayWhenSelected":
-			res.valueString = inferedInstance.StrokeDashArrayWhenSelected
-		case "Transform":
-			res.valueString = inferedInstance.Transform
-		case "IsPlaying":
-			res.valueString = fmt.Sprintf("%t", inferedInstance.IsPlaying)
-			res.valueBool = inferedInstance.IsPlaying
-			res.GongFieldValueType = GongFieldValueTypeBool
-		}
-	default:
-		_ = inferedInstance
-	}
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
+
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 
