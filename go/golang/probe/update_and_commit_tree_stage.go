@@ -157,11 +157,24 @@ map[string]string{
 		case "{{Structname}}":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.{{Structname}}](probe.stageOfInterest)
+			created := 0
+			updated := 0
+			deleted := 0
 			for _{{structname}} := range set {
 				nodeInstance := &tree.Node{Name: _{{structname}}.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_{{structname}}, "{{Structname}}", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}`,
+				if _, ok := probe.stageOfInterest.GetNew()[_{{structname}}]; ok {
+					created++
+				}
+				if _, ok := probe.stageOfInterest.GetModified()[_{{structname}}]; ok {
+					updated++
+				}
+				if _, ok := probe.stageOfInterest.GetDeleted()[_{{structname}}]; ok {
+					deleted++
+				}
+			}
+			nodeGongstruct.Name += fmt.Sprintf(" (C%d/U%d/D%d)", created, updated, deleted)`,
 }
