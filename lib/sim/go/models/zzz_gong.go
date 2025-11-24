@@ -190,8 +190,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -509,6 +511,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Status"},
 			{name: "UpdateState"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -577,6 +584,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -634,6 +642,12 @@ func (command *Command) Stage(stage *Stage) *Command {
 		stage.Commands[command] = __member
 		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
 		stage.CommandOrder++
+		stage.new[command] = struct{}{}
+		delete(stage.deleted, command)
+	} else {
+		if _, ok := stage.new[command]; !ok {
+			stage.modified[command] = struct{}{}
+		}
 	}
 	stage.Commands_mapString[command.Name] = command
 
@@ -644,6 +658,12 @@ func (command *Command) Stage(stage *Stage) *Command {
 func (command *Command) Unstage(stage *Stage) *Command {
 	delete(stage.Commands, command)
 	delete(stage.Commands_mapString, command.Name)
+
+	if _, ok := stage.reference[command]; ok {
+		stage.deleted[command] = struct{}{}
+	} else {
+		delete(stage.new, command)
+	}
 	return command
 }
 
@@ -689,6 +709,12 @@ func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 		stage.DummyAgents[dummyagent] = __member
 		stage.DummyAgentMap_Staged_Order[dummyagent] = stage.DummyAgentOrder
 		stage.DummyAgentOrder++
+		stage.new[dummyagent] = struct{}{}
+		delete(stage.deleted, dummyagent)
+	} else {
+		if _, ok := stage.new[dummyagent]; !ok {
+			stage.modified[dummyagent] = struct{}{}
+		}
 	}
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
 
@@ -699,6 +725,12 @@ func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 func (dummyagent *DummyAgent) Unstage(stage *Stage) *DummyAgent {
 	delete(stage.DummyAgents, dummyagent)
 	delete(stage.DummyAgents_mapString, dummyagent.Name)
+
+	if _, ok := stage.reference[dummyagent]; ok {
+		stage.deleted[dummyagent] = struct{}{}
+	} else {
+		delete(stage.new, dummyagent)
+	}
 	return dummyagent
 }
 
@@ -744,6 +776,12 @@ func (engine *Engine) Stage(stage *Stage) *Engine {
 		stage.Engines[engine] = __member
 		stage.EngineMap_Staged_Order[engine] = stage.EngineOrder
 		stage.EngineOrder++
+		stage.new[engine] = struct{}{}
+		delete(stage.deleted, engine)
+	} else {
+		if _, ok := stage.new[engine]; !ok {
+			stage.modified[engine] = struct{}{}
+		}
 	}
 	stage.Engines_mapString[engine.Name] = engine
 
@@ -754,6 +792,12 @@ func (engine *Engine) Stage(stage *Stage) *Engine {
 func (engine *Engine) Unstage(stage *Stage) *Engine {
 	delete(stage.Engines, engine)
 	delete(stage.Engines_mapString, engine.Name)
+
+	if _, ok := stage.reference[engine]; ok {
+		stage.deleted[engine] = struct{}{}
+	} else {
+		delete(stage.new, engine)
+	}
 	return engine
 }
 
@@ -799,6 +843,12 @@ func (event *Event) Stage(stage *Stage) *Event {
 		stage.Events[event] = __member
 		stage.EventMap_Staged_Order[event] = stage.EventOrder
 		stage.EventOrder++
+		stage.new[event] = struct{}{}
+		delete(stage.deleted, event)
+	} else {
+		if _, ok := stage.new[event]; !ok {
+			stage.modified[event] = struct{}{}
+		}
 	}
 	stage.Events_mapString[event.Name] = event
 
@@ -809,6 +859,12 @@ func (event *Event) Stage(stage *Stage) *Event {
 func (event *Event) Unstage(stage *Stage) *Event {
 	delete(stage.Events, event)
 	delete(stage.Events_mapString, event.Name)
+
+	if _, ok := stage.reference[event]; ok {
+		stage.deleted[event] = struct{}{}
+	} else {
+		delete(stage.new, event)
+	}
 	return event
 }
 
@@ -854,6 +910,12 @@ func (status *Status) Stage(stage *Stage) *Status {
 		stage.Statuss[status] = __member
 		stage.StatusMap_Staged_Order[status] = stage.StatusOrder
 		stage.StatusOrder++
+		stage.new[status] = struct{}{}
+		delete(stage.deleted, status)
+	} else {
+		if _, ok := stage.new[status]; !ok {
+			stage.modified[status] = struct{}{}
+		}
 	}
 	stage.Statuss_mapString[status.Name] = status
 
@@ -864,6 +926,12 @@ func (status *Status) Stage(stage *Stage) *Status {
 func (status *Status) Unstage(stage *Stage) *Status {
 	delete(stage.Statuss, status)
 	delete(stage.Statuss_mapString, status.Name)
+
+	if _, ok := stage.reference[status]; ok {
+		stage.deleted[status] = struct{}{}
+	} else {
+		delete(stage.new, status)
+	}
 	return status
 }
 
@@ -909,6 +977,12 @@ func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 		stage.UpdateStates[updatestate] = __member
 		stage.UpdateStateMap_Staged_Order[updatestate] = stage.UpdateStateOrder
 		stage.UpdateStateOrder++
+		stage.new[updatestate] = struct{}{}
+		delete(stage.deleted, updatestate)
+	} else {
+		if _, ok := stage.new[updatestate]; !ok {
+			stage.modified[updatestate] = struct{}{}
+		}
 	}
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
 
@@ -919,6 +993,12 @@ func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 func (updatestate *UpdateState) Unstage(stage *Stage) *UpdateState {
 	delete(stage.UpdateStates, updatestate)
 	delete(stage.UpdateStates_mapString, updatestate.Name)
+
+	if _, ok := stage.reference[updatestate]; ok {
+		stage.deleted[updatestate] = struct{}{}
+	} else {
+		delete(stage.new, updatestate)
+	}
 	return updatestate
 }
 
@@ -1007,6 +1087,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.UpdateStateMap_Staged_Order = make(map[*UpdateState]uint)
 	stage.UpdateStateOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

@@ -242,8 +242,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -633,6 +635,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GongStructShape"},
 			{name: "LinkShape"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -713,6 +720,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -773,6 +781,12 @@ func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 		stage.AttributeShapes[attributeshape] = __member
 		stage.AttributeShapeMap_Staged_Order[attributeshape] = stage.AttributeShapeOrder
 		stage.AttributeShapeOrder++
+		stage.new[attributeshape] = struct{}{}
+		delete(stage.deleted, attributeshape)
+	} else {
+		if _, ok := stage.new[attributeshape]; !ok {
+			stage.modified[attributeshape] = struct{}{}
+		}
 	}
 	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
 
@@ -783,6 +797,12 @@ func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 	delete(stage.AttributeShapes, attributeshape)
 	delete(stage.AttributeShapes_mapString, attributeshape.Name)
+
+	if _, ok := stage.reference[attributeshape]; ok {
+		stage.deleted[attributeshape] = struct{}{}
+	} else {
+		delete(stage.new, attributeshape)
+	}
 	return attributeshape
 }
 
@@ -828,6 +848,12 @@ func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 		stage.Classdiagrams[classdiagram] = __member
 		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
 		stage.ClassdiagramOrder++
+		stage.new[classdiagram] = struct{}{}
+		delete(stage.deleted, classdiagram)
+	} else {
+		if _, ok := stage.new[classdiagram]; !ok {
+			stage.modified[classdiagram] = struct{}{}
+		}
 	}
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
 
@@ -838,6 +864,12 @@ func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 	delete(stage.Classdiagrams, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
+
+	if _, ok := stage.reference[classdiagram]; ok {
+		stage.deleted[classdiagram] = struct{}{}
+	} else {
+		delete(stage.new, classdiagram)
+	}
 	return classdiagram
 }
 
@@ -883,6 +915,12 @@ func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 		stage.DiagramPackages[diagrampackage] = __member
 		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
 		stage.DiagramPackageOrder++
+		stage.new[diagrampackage] = struct{}{}
+		delete(stage.deleted, diagrampackage)
+	} else {
+		if _, ok := stage.new[diagrampackage]; !ok {
+			stage.modified[diagrampackage] = struct{}{}
+		}
 	}
 	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
 
@@ -893,6 +931,12 @@ func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 	delete(stage.DiagramPackages, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
+
+	if _, ok := stage.reference[diagrampackage]; ok {
+		stage.deleted[diagrampackage] = struct{}{}
+	} else {
+		delete(stage.new, diagrampackage)
+	}
 	return diagrampackage
 }
 
@@ -938,6 +982,12 @@ func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 		stage.GongEnumShapes[gongenumshape] = __member
 		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
 		stage.GongEnumShapeOrder++
+		stage.new[gongenumshape] = struct{}{}
+		delete(stage.deleted, gongenumshape)
+	} else {
+		if _, ok := stage.new[gongenumshape]; !ok {
+			stage.modified[gongenumshape] = struct{}{}
+		}
 	}
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
 
@@ -948,6 +998,12 @@ func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 	delete(stage.GongEnumShapes, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
+
+	if _, ok := stage.reference[gongenumshape]; ok {
+		stage.deleted[gongenumshape] = struct{}{}
+	} else {
+		delete(stage.new, gongenumshape)
+	}
 	return gongenumshape
 }
 
@@ -993,6 +1049,12 @@ func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValue
 		stage.GongEnumValueShapes[gongenumvalueshape] = __member
 		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
 		stage.GongEnumValueShapeOrder++
+		stage.new[gongenumvalueshape] = struct{}{}
+		delete(stage.deleted, gongenumvalueshape)
+	} else {
+		if _, ok := stage.new[gongenumvalueshape]; !ok {
+			stage.modified[gongenumvalueshape] = struct{}{}
+		}
 	}
 	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
 
@@ -1003,6 +1065,12 @@ func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValue
 func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
 	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
+
+	if _, ok := stage.reference[gongenumvalueshape]; ok {
+		stage.deleted[gongenumvalueshape] = struct{}{}
+	} else {
+		delete(stage.new, gongenumvalueshape)
+	}
 	return gongenumvalueshape
 }
 
@@ -1048,6 +1116,12 @@ func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkSha
 		stage.GongNoteLinkShapes[gongnotelinkshape] = __member
 		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
 		stage.GongNoteLinkShapeOrder++
+		stage.new[gongnotelinkshape] = struct{}{}
+		delete(stage.deleted, gongnotelinkshape)
+	} else {
+		if _, ok := stage.new[gongnotelinkshape]; !ok {
+			stage.modified[gongnotelinkshape] = struct{}{}
+		}
 	}
 	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
 
@@ -1058,6 +1132,12 @@ func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkSha
 func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkShape {
 	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
 	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
+
+	if _, ok := stage.reference[gongnotelinkshape]; ok {
+		stage.deleted[gongnotelinkshape] = struct{}{}
+	} else {
+		delete(stage.new, gongnotelinkshape)
+	}
 	return gongnotelinkshape
 }
 
@@ -1103,6 +1183,12 @@ func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 		stage.GongNoteShapes[gongnoteshape] = __member
 		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = stage.GongNoteShapeOrder
 		stage.GongNoteShapeOrder++
+		stage.new[gongnoteshape] = struct{}{}
+		delete(stage.deleted, gongnoteshape)
+	} else {
+		if _, ok := stage.new[gongnoteshape]; !ok {
+			stage.modified[gongnoteshape] = struct{}{}
+		}
 	}
 	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
 
@@ -1113,6 +1199,12 @@ func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 	delete(stage.GongNoteShapes, gongnoteshape)
 	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
+
+	if _, ok := stage.reference[gongnoteshape]; ok {
+		stage.deleted[gongnoteshape] = struct{}{}
+	} else {
+		delete(stage.new, gongnoteshape)
+	}
 	return gongnoteshape
 }
 
@@ -1158,6 +1250,12 @@ func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 		stage.GongStructShapes[gongstructshape] = __member
 		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
 		stage.GongStructShapeOrder++
+		stage.new[gongstructshape] = struct{}{}
+		delete(stage.deleted, gongstructshape)
+	} else {
+		if _, ok := stage.new[gongstructshape]; !ok {
+			stage.modified[gongstructshape] = struct{}{}
+		}
 	}
 	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
 
@@ -1168,6 +1266,12 @@ func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 	delete(stage.GongStructShapes, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
+
+	if _, ok := stage.reference[gongstructshape]; ok {
+		stage.deleted[gongstructshape] = struct{}{}
+	} else {
+		delete(stage.new, gongstructshape)
+	}
 	return gongstructshape
 }
 
@@ -1213,6 +1317,12 @@ func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 		stage.LinkShapes[linkshape] = __member
 		stage.LinkShapeMap_Staged_Order[linkshape] = stage.LinkShapeOrder
 		stage.LinkShapeOrder++
+		stage.new[linkshape] = struct{}{}
+		delete(stage.deleted, linkshape)
+	} else {
+		if _, ok := stage.new[linkshape]; !ok {
+			stage.modified[linkshape] = struct{}{}
+		}
 	}
 	stage.LinkShapes_mapString[linkshape.Name] = linkshape
 
@@ -1223,6 +1333,12 @@ func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
 	delete(stage.LinkShapes, linkshape)
 	delete(stage.LinkShapes_mapString, linkshape.Name)
+
+	if _, ok := stage.reference[linkshape]; ok {
+		stage.deleted[linkshape] = struct{}{}
+	} else {
+		delete(stage.new, linkshape)
+	}
 	return linkshape
 }
 
@@ -1332,6 +1448,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.LinkShapeMap_Staged_Order = make(map[*LinkShape]uint)
 	stage.LinkShapeOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

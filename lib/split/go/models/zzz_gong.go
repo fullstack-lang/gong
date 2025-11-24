@@ -350,8 +350,10 @@ type Stage struct {
 	NamedStructs []*NamedStruct
 
 	// for the computation of the diff at each commit we need
-	// reference which is the
 	reference map[GongstructIF]GongstructIF
+	modified  map[GongstructIF]struct{}
+	new       map[GongstructIF]struct{}
+	deleted   map[GongstructIF]struct{}
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -981,6 +983,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "View"},
 			{name: "Xlsx"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -1101,6 +1108,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1171,6 +1179,12 @@ func (assplit *AsSplit) Stage(stage *Stage) *AsSplit {
 		stage.AsSplits[assplit] = __member
 		stage.AsSplitMap_Staged_Order[assplit] = stage.AsSplitOrder
 		stage.AsSplitOrder++
+		stage.new[assplit] = struct{}{}
+		delete(stage.deleted, assplit)
+	} else {
+		if _, ok := stage.new[assplit]; !ok {
+			stage.modified[assplit] = struct{}{}
+		}
 	}
 	stage.AsSplits_mapString[assplit.Name] = assplit
 
@@ -1181,6 +1195,12 @@ func (assplit *AsSplit) Stage(stage *Stage) *AsSplit {
 func (assplit *AsSplit) Unstage(stage *Stage) *AsSplit {
 	delete(stage.AsSplits, assplit)
 	delete(stage.AsSplits_mapString, assplit.Name)
+
+	if _, ok := stage.reference[assplit]; ok {
+		stage.deleted[assplit] = struct{}{}
+	} else {
+		delete(stage.new, assplit)
+	}
 	return assplit
 }
 
@@ -1226,6 +1246,12 @@ func (assplitarea *AsSplitArea) Stage(stage *Stage) *AsSplitArea {
 		stage.AsSplitAreas[assplitarea] = __member
 		stage.AsSplitAreaMap_Staged_Order[assplitarea] = stage.AsSplitAreaOrder
 		stage.AsSplitAreaOrder++
+		stage.new[assplitarea] = struct{}{}
+		delete(stage.deleted, assplitarea)
+	} else {
+		if _, ok := stage.new[assplitarea]; !ok {
+			stage.modified[assplitarea] = struct{}{}
+		}
 	}
 	stage.AsSplitAreas_mapString[assplitarea.Name] = assplitarea
 
@@ -1236,6 +1262,12 @@ func (assplitarea *AsSplitArea) Stage(stage *Stage) *AsSplitArea {
 func (assplitarea *AsSplitArea) Unstage(stage *Stage) *AsSplitArea {
 	delete(stage.AsSplitAreas, assplitarea)
 	delete(stage.AsSplitAreas_mapString, assplitarea.Name)
+
+	if _, ok := stage.reference[assplitarea]; ok {
+		stage.deleted[assplitarea] = struct{}{}
+	} else {
+		delete(stage.new, assplitarea)
+	}
 	return assplitarea
 }
 
@@ -1281,6 +1313,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 		stage.Buttons[button] = __member
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
+		stage.new[button] = struct{}{}
+		delete(stage.deleted, button)
+	} else {
+		if _, ok := stage.new[button]; !ok {
+			stage.modified[button] = struct{}{}
+		}
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -1291,6 +1329,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
 	delete(stage.Buttons_mapString, button.Name)
+
+	if _, ok := stage.reference[button]; ok {
+		stage.deleted[button] = struct{}{}
+	} else {
+		delete(stage.new, button)
+	}
 	return button
 }
 
@@ -1336,6 +1380,12 @@ func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 		stage.Cursors[cursor] = __member
 		stage.CursorMap_Staged_Order[cursor] = stage.CursorOrder
 		stage.CursorOrder++
+		stage.new[cursor] = struct{}{}
+		delete(stage.deleted, cursor)
+	} else {
+		if _, ok := stage.new[cursor]; !ok {
+			stage.modified[cursor] = struct{}{}
+		}
 	}
 	stage.Cursors_mapString[cursor.Name] = cursor
 
@@ -1346,6 +1396,12 @@ func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
 	delete(stage.Cursors, cursor)
 	delete(stage.Cursors_mapString, cursor.Name)
+
+	if _, ok := stage.reference[cursor]; ok {
+		stage.deleted[cursor] = struct{}{}
+	} else {
+		delete(stage.new, cursor)
+	}
 	return cursor
 }
 
@@ -1391,6 +1447,12 @@ func (favicon *FavIcon) Stage(stage *Stage) *FavIcon {
 		stage.FavIcons[favicon] = __member
 		stage.FavIconMap_Staged_Order[favicon] = stage.FavIconOrder
 		stage.FavIconOrder++
+		stage.new[favicon] = struct{}{}
+		delete(stage.deleted, favicon)
+	} else {
+		if _, ok := stage.new[favicon]; !ok {
+			stage.modified[favicon] = struct{}{}
+		}
 	}
 	stage.FavIcons_mapString[favicon.Name] = favicon
 
@@ -1401,6 +1463,12 @@ func (favicon *FavIcon) Stage(stage *Stage) *FavIcon {
 func (favicon *FavIcon) Unstage(stage *Stage) *FavIcon {
 	delete(stage.FavIcons, favicon)
 	delete(stage.FavIcons_mapString, favicon.Name)
+
+	if _, ok := stage.reference[favicon]; ok {
+		stage.deleted[favicon] = struct{}{}
+	} else {
+		delete(stage.new, favicon)
+	}
 	return favicon
 }
 
@@ -1446,6 +1514,12 @@ func (form *Form) Stage(stage *Stage) *Form {
 		stage.Forms[form] = __member
 		stage.FormMap_Staged_Order[form] = stage.FormOrder
 		stage.FormOrder++
+		stage.new[form] = struct{}{}
+		delete(stage.deleted, form)
+	} else {
+		if _, ok := stage.new[form]; !ok {
+			stage.modified[form] = struct{}{}
+		}
 	}
 	stage.Forms_mapString[form.Name] = form
 
@@ -1456,6 +1530,12 @@ func (form *Form) Stage(stage *Stage) *Form {
 func (form *Form) Unstage(stage *Stage) *Form {
 	delete(stage.Forms, form)
 	delete(stage.Forms_mapString, form.Name)
+
+	if _, ok := stage.reference[form]; ok {
+		stage.deleted[form] = struct{}{}
+	} else {
+		delete(stage.new, form)
+	}
 	return form
 }
 
@@ -1501,6 +1581,12 @@ func (load *Load) Stage(stage *Stage) *Load {
 		stage.Loads[load] = __member
 		stage.LoadMap_Staged_Order[load] = stage.LoadOrder
 		stage.LoadOrder++
+		stage.new[load] = struct{}{}
+		delete(stage.deleted, load)
+	} else {
+		if _, ok := stage.new[load]; !ok {
+			stage.modified[load] = struct{}{}
+		}
 	}
 	stage.Loads_mapString[load.Name] = load
 
@@ -1511,6 +1597,12 @@ func (load *Load) Stage(stage *Stage) *Load {
 func (load *Load) Unstage(stage *Stage) *Load {
 	delete(stage.Loads, load)
 	delete(stage.Loads_mapString, load.Name)
+
+	if _, ok := stage.reference[load]; ok {
+		stage.deleted[load] = struct{}{}
+	} else {
+		delete(stage.new, load)
+	}
 	return load
 }
 
@@ -1556,6 +1648,12 @@ func (logoontheleft *LogoOnTheLeft) Stage(stage *Stage) *LogoOnTheLeft {
 		stage.LogoOnTheLefts[logoontheleft] = __member
 		stage.LogoOnTheLeftMap_Staged_Order[logoontheleft] = stage.LogoOnTheLeftOrder
 		stage.LogoOnTheLeftOrder++
+		stage.new[logoontheleft] = struct{}{}
+		delete(stage.deleted, logoontheleft)
+	} else {
+		if _, ok := stage.new[logoontheleft]; !ok {
+			stage.modified[logoontheleft] = struct{}{}
+		}
 	}
 	stage.LogoOnTheLefts_mapString[logoontheleft.Name] = logoontheleft
 
@@ -1566,6 +1664,12 @@ func (logoontheleft *LogoOnTheLeft) Stage(stage *Stage) *LogoOnTheLeft {
 func (logoontheleft *LogoOnTheLeft) Unstage(stage *Stage) *LogoOnTheLeft {
 	delete(stage.LogoOnTheLefts, logoontheleft)
 	delete(stage.LogoOnTheLefts_mapString, logoontheleft.Name)
+
+	if _, ok := stage.reference[logoontheleft]; ok {
+		stage.deleted[logoontheleft] = struct{}{}
+	} else {
+		delete(stage.new, logoontheleft)
+	}
 	return logoontheleft
 }
 
@@ -1611,6 +1715,12 @@ func (logoontheright *LogoOnTheRight) Stage(stage *Stage) *LogoOnTheRight {
 		stage.LogoOnTheRights[logoontheright] = __member
 		stage.LogoOnTheRightMap_Staged_Order[logoontheright] = stage.LogoOnTheRightOrder
 		stage.LogoOnTheRightOrder++
+		stage.new[logoontheright] = struct{}{}
+		delete(stage.deleted, logoontheright)
+	} else {
+		if _, ok := stage.new[logoontheright]; !ok {
+			stage.modified[logoontheright] = struct{}{}
+		}
 	}
 	stage.LogoOnTheRights_mapString[logoontheright.Name] = logoontheright
 
@@ -1621,6 +1731,12 @@ func (logoontheright *LogoOnTheRight) Stage(stage *Stage) *LogoOnTheRight {
 func (logoontheright *LogoOnTheRight) Unstage(stage *Stage) *LogoOnTheRight {
 	delete(stage.LogoOnTheRights, logoontheright)
 	delete(stage.LogoOnTheRights_mapString, logoontheright.Name)
+
+	if _, ok := stage.reference[logoontheright]; ok {
+		stage.deleted[logoontheright] = struct{}{}
+	} else {
+		delete(stage.new, logoontheright)
+	}
 	return logoontheright
 }
 
@@ -1666,6 +1782,12 @@ func (markdown *Markdown) Stage(stage *Stage) *Markdown {
 		stage.Markdowns[markdown] = __member
 		stage.MarkdownMap_Staged_Order[markdown] = stage.MarkdownOrder
 		stage.MarkdownOrder++
+		stage.new[markdown] = struct{}{}
+		delete(stage.deleted, markdown)
+	} else {
+		if _, ok := stage.new[markdown]; !ok {
+			stage.modified[markdown] = struct{}{}
+		}
 	}
 	stage.Markdowns_mapString[markdown.Name] = markdown
 
@@ -1676,6 +1798,12 @@ func (markdown *Markdown) Stage(stage *Stage) *Markdown {
 func (markdown *Markdown) Unstage(stage *Stage) *Markdown {
 	delete(stage.Markdowns, markdown)
 	delete(stage.Markdowns_mapString, markdown.Name)
+
+	if _, ok := stage.reference[markdown]; ok {
+		stage.deleted[markdown] = struct{}{}
+	} else {
+		delete(stage.new, markdown)
+	}
 	return markdown
 }
 
@@ -1721,6 +1849,12 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 		stage.Sliders[slider] = __member
 		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
 		stage.SliderOrder++
+		stage.new[slider] = struct{}{}
+		delete(stage.deleted, slider)
+	} else {
+		if _, ok := stage.new[slider]; !ok {
+			stage.modified[slider] = struct{}{}
+		}
 	}
 	stage.Sliders_mapString[slider.Name] = slider
 
@@ -1731,6 +1865,12 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 func (slider *Slider) Unstage(stage *Stage) *Slider {
 	delete(stage.Sliders, slider)
 	delete(stage.Sliders_mapString, slider.Name)
+
+	if _, ok := stage.reference[slider]; ok {
+		stage.deleted[slider] = struct{}{}
+	} else {
+		delete(stage.new, slider)
+	}
 	return slider
 }
 
@@ -1776,6 +1916,12 @@ func (split *Split) Stage(stage *Stage) *Split {
 		stage.Splits[split] = __member
 		stage.SplitMap_Staged_Order[split] = stage.SplitOrder
 		stage.SplitOrder++
+		stage.new[split] = struct{}{}
+		delete(stage.deleted, split)
+	} else {
+		if _, ok := stage.new[split]; !ok {
+			stage.modified[split] = struct{}{}
+		}
 	}
 	stage.Splits_mapString[split.Name] = split
 
@@ -1786,6 +1932,12 @@ func (split *Split) Stage(stage *Stage) *Split {
 func (split *Split) Unstage(stage *Stage) *Split {
 	delete(stage.Splits, split)
 	delete(stage.Splits_mapString, split.Name)
+
+	if _, ok := stage.reference[split]; ok {
+		stage.deleted[split] = struct{}{}
+	} else {
+		delete(stage.new, split)
+	}
 	return split
 }
 
@@ -1831,6 +1983,12 @@ func (svg *Svg) Stage(stage *Stage) *Svg {
 		stage.Svgs[svg] = __member
 		stage.SvgMap_Staged_Order[svg] = stage.SvgOrder
 		stage.SvgOrder++
+		stage.new[svg] = struct{}{}
+		delete(stage.deleted, svg)
+	} else {
+		if _, ok := stage.new[svg]; !ok {
+			stage.modified[svg] = struct{}{}
+		}
 	}
 	stage.Svgs_mapString[svg.Name] = svg
 
@@ -1841,6 +1999,12 @@ func (svg *Svg) Stage(stage *Stage) *Svg {
 func (svg *Svg) Unstage(stage *Stage) *Svg {
 	delete(stage.Svgs, svg)
 	delete(stage.Svgs_mapString, svg.Name)
+
+	if _, ok := stage.reference[svg]; ok {
+		stage.deleted[svg] = struct{}{}
+	} else {
+		delete(stage.new, svg)
+	}
 	return svg
 }
 
@@ -1886,6 +2050,12 @@ func (table *Table) Stage(stage *Stage) *Table {
 		stage.Tables[table] = __member
 		stage.TableMap_Staged_Order[table] = stage.TableOrder
 		stage.TableOrder++
+		stage.new[table] = struct{}{}
+		delete(stage.deleted, table)
+	} else {
+		if _, ok := stage.new[table]; !ok {
+			stage.modified[table] = struct{}{}
+		}
 	}
 	stage.Tables_mapString[table.Name] = table
 
@@ -1896,6 +2066,12 @@ func (table *Table) Stage(stage *Stage) *Table {
 func (table *Table) Unstage(stage *Stage) *Table {
 	delete(stage.Tables, table)
 	delete(stage.Tables_mapString, table.Name)
+
+	if _, ok := stage.reference[table]; ok {
+		stage.deleted[table] = struct{}{}
+	} else {
+		delete(stage.new, table)
+	}
 	return table
 }
 
@@ -1941,6 +2117,12 @@ func (title *Title) Stage(stage *Stage) *Title {
 		stage.Titles[title] = __member
 		stage.TitleMap_Staged_Order[title] = stage.TitleOrder
 		stage.TitleOrder++
+		stage.new[title] = struct{}{}
+		delete(stage.deleted, title)
+	} else {
+		if _, ok := stage.new[title]; !ok {
+			stage.modified[title] = struct{}{}
+		}
 	}
 	stage.Titles_mapString[title.Name] = title
 
@@ -1951,6 +2133,12 @@ func (title *Title) Stage(stage *Stage) *Title {
 func (title *Title) Unstage(stage *Stage) *Title {
 	delete(stage.Titles, title)
 	delete(stage.Titles_mapString, title.Name)
+
+	if _, ok := stage.reference[title]; ok {
+		stage.deleted[title] = struct{}{}
+	} else {
+		delete(stage.new, title)
+	}
 	return title
 }
 
@@ -1996,6 +2184,12 @@ func (tone *Tone) Stage(stage *Stage) *Tone {
 		stage.Tones[tone] = __member
 		stage.ToneMap_Staged_Order[tone] = stage.ToneOrder
 		stage.ToneOrder++
+		stage.new[tone] = struct{}{}
+		delete(stage.deleted, tone)
+	} else {
+		if _, ok := stage.new[tone]; !ok {
+			stage.modified[tone] = struct{}{}
+		}
 	}
 	stage.Tones_mapString[tone.Name] = tone
 
@@ -2006,6 +2200,12 @@ func (tone *Tone) Stage(stage *Stage) *Tone {
 func (tone *Tone) Unstage(stage *Stage) *Tone {
 	delete(stage.Tones, tone)
 	delete(stage.Tones_mapString, tone.Name)
+
+	if _, ok := stage.reference[tone]; ok {
+		stage.deleted[tone] = struct{}{}
+	} else {
+		delete(stage.new, tone)
+	}
 	return tone
 }
 
@@ -2051,6 +2251,12 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 		stage.Trees[tree] = __member
 		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
 		stage.TreeOrder++
+		stage.new[tree] = struct{}{}
+		delete(stage.deleted, tree)
+	} else {
+		if _, ok := stage.new[tree]; !ok {
+			stage.modified[tree] = struct{}{}
+		}
 	}
 	stage.Trees_mapString[tree.Name] = tree
 
@@ -2061,6 +2267,12 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 func (tree *Tree) Unstage(stage *Stage) *Tree {
 	delete(stage.Trees, tree)
 	delete(stage.Trees_mapString, tree.Name)
+
+	if _, ok := stage.reference[tree]; ok {
+		stage.deleted[tree] = struct{}{}
+	} else {
+		delete(stage.new, tree)
+	}
 	return tree
 }
 
@@ -2106,6 +2318,12 @@ func (view *View) Stage(stage *Stage) *View {
 		stage.Views[view] = __member
 		stage.ViewMap_Staged_Order[view] = stage.ViewOrder
 		stage.ViewOrder++
+		stage.new[view] = struct{}{}
+		delete(stage.deleted, view)
+	} else {
+		if _, ok := stage.new[view]; !ok {
+			stage.modified[view] = struct{}{}
+		}
 	}
 	stage.Views_mapString[view.Name] = view
 
@@ -2116,6 +2334,12 @@ func (view *View) Stage(stage *Stage) *View {
 func (view *View) Unstage(stage *Stage) *View {
 	delete(stage.Views, view)
 	delete(stage.Views_mapString, view.Name)
+
+	if _, ok := stage.reference[view]; ok {
+		stage.deleted[view] = struct{}{}
+	} else {
+		delete(stage.new, view)
+	}
 	return view
 }
 
@@ -2161,6 +2385,12 @@ func (xlsx *Xlsx) Stage(stage *Stage) *Xlsx {
 		stage.Xlsxs[xlsx] = __member
 		stage.XlsxMap_Staged_Order[xlsx] = stage.XlsxOrder
 		stage.XlsxOrder++
+		stage.new[xlsx] = struct{}{}
+		delete(stage.deleted, xlsx)
+	} else {
+		if _, ok := stage.new[xlsx]; !ok {
+			stage.modified[xlsx] = struct{}{}
+		}
 	}
 	stage.Xlsxs_mapString[xlsx.Name] = xlsx
 
@@ -2171,6 +2401,12 @@ func (xlsx *Xlsx) Stage(stage *Stage) *Xlsx {
 func (xlsx *Xlsx) Unstage(stage *Stage) *Xlsx {
 	delete(stage.Xlsxs, xlsx)
 	delete(stage.Xlsxs_mapString, xlsx.Name)
+
+	if _, ok := stage.reference[xlsx]; ok {
+		stage.deleted[xlsx] = struct{}{}
+	} else {
+		delete(stage.new, xlsx)
+	}
 	return xlsx
 }
 
@@ -2350,6 +2586,7 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.XlsxMap_Staged_Order = make(map[*Xlsx]uint)
 	stage.XlsxOrder = 0
 
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil

@@ -227,7 +227,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-
 	return
 }
 
@@ -370,11 +369,13 @@ func (table *Table) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
 	stage.reference = make(map[GongstructIF]GongstructIF)
 	for _, instance := range stage.GetInstances() {
 		stage.reference[instance] = instance.GongCopy()
 	}
+	stage.new = make(map[GongstructIF]struct{})
+	stage.modified = make(map[GongstructIF]struct{})
+	stage.deleted = make(map[GongstructIF]struct{})
 }
