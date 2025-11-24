@@ -297,6 +297,11 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations{{` + string(rune(ModelGongNamedStructsSliceInit)) + `}}
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -341,6 +346,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -393,6 +399,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset{{` + string(rune(ModelGongStructInsertionArrayReset)) + `}}
+	stage.ComputeReference()
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil{{` + string(rune(ModelGongStructInsertionArrayNil)) + `}}
