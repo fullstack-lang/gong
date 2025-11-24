@@ -138,3 +138,79 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	return
 }
+
+// insertion point per named struct
+func (gongbasicfield *GongBasicField) GongCopy() GongstructIF {
+	var newInstance GongBasicField
+	newInstance = *gongbasicfield
+	return &newInstance
+}
+
+func (gongenum *GongEnum) GongCopy() GongstructIF {
+	var newInstance GongEnum
+	newInstance = *gongenum
+	return &newInstance
+}
+
+func (gongenumvalue *GongEnumValue) GongCopy() GongstructIF {
+	var newInstance GongEnumValue
+	newInstance = *gongenumvalue
+	return &newInstance
+}
+
+func (gonglink *GongLink) GongCopy() GongstructIF {
+	var newInstance GongLink
+	newInstance = *gonglink
+	return &newInstance
+}
+
+func (gongnote *GongNote) GongCopy() GongstructIF {
+	var newInstance GongNote
+	newInstance = *gongnote
+	return &newInstance
+}
+
+func (gongstruct *GongStruct) GongCopy() GongstructIF {
+	var newInstance GongStruct
+	newInstance = *gongstruct
+	return &newInstance
+}
+
+func (gongtimefield *GongTimeField) GongCopy() GongstructIF {
+	var newInstance GongTimeField
+	newInstance = *gongtimefield
+	return &newInstance
+}
+
+func (metareference *MetaReference) GongCopy() GongstructIF {
+	var newInstance MetaReference
+	newInstance = *metareference
+	return &newInstance
+}
+
+func (modelpkg *ModelPkg) GongCopy() GongstructIF {
+	var newInstance ModelPkg
+	newInstance = *modelpkg
+	return &newInstance
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongCopy() GongstructIF {
+	var newInstance PointerToGongStructField
+	newInstance = *pointertogongstructfield
+	return &newInstance
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy() GongstructIF {
+	var newInstance SliceOfPointerToGongStructField
+	newInstance = *sliceofpointertogongstructfield
+	return &newInstance
+}
+
+
+// ComputeReference will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReference() {
+	stage.reference = make(map[GongstructIF]GongstructIF)
+	for _, instance := range stage.GetInstances() {
+		stage.reference[instance] = instance.GongCopy()
+	}
+}
