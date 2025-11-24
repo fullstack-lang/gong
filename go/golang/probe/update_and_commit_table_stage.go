@@ -38,7 +38,7 @@ func updateAndCommitTable[T models.PointerToGongstruct](
 	// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
 	// reference the deleted instance. 
 	// therefore, it is mandatory to clean the stage of interest
-	probe.stageOfInterest.Checkout()
+	probe.stageOfInterest.Clean()
 
 	setOfStructs := (*models.GetGongstructInstancesSetFromPointerType[T](probe.stageOfInterest))
 	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
