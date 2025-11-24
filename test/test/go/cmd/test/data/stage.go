@@ -21,17 +21,17 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-22 08:29:26.446472 CET"
-	const __write__utc_time__ = "2025-11-22 07:29:26.446472 UTC"
+	const __write__local_time = "2025-11-24 23:31:33.869839 CET"
+	const __write__utc_time__ = "2025-11-24 22:31:33.869839 UTC"
 
-	const __commitId__ = "0000000136"
+	const __commitId__ = "0000000137"
 
 	// Declaration of instances to stage
 
 	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000001_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__000002_A3 := (&models.Astruct{}).Stage(stage)
-	__Astruct__000003_A3 := (&models.Astruct{}).Stage(stage)
+	__Astruct__000003_A4 := (&models.Astruct{}).Stage(stage)
 
 	__AstructBstruct2Use__000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
 	__AstructBstruct2Use__000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
@@ -109,19 +109,19 @@ sqd
 	__Astruct__000002_A3.TextFieldBespokeSize = ``
 	__Astruct__000002_A3.TextArea = ``
 
-	__Astruct__000003_A3.Name = `A3`
-	__Astruct__000003_A3.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A3.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__000003_A3.Booleanfield = false
-	__Astruct__000003_A3.CEnum = models.CENUM_VAL1
-	__Astruct__000003_A3.CName = ``
-	__Astruct__000003_A3.CFloatfield = 0.000000
-	__Astruct__000003_A3.Floatfield = 0.000000
-	__Astruct__000003_A3.Intfield = 0
-	__Astruct__000003_A3.Anotherbooleanfield = false
-	__Astruct__000003_A3.Duration1 = 0
-	__Astruct__000003_A3.TextFieldBespokeSize = ``
-	__Astruct__000003_A3.TextArea = ``
+	__Astruct__000003_A4.Name = `A4`
+	__Astruct__000003_A4.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__000003_A4.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__000003_A4.Booleanfield = false
+	__Astruct__000003_A4.CEnum = models.CENUM_VAL1
+	__Astruct__000003_A4.CName = ``
+	__Astruct__000003_A4.CFloatfield = 0.000000
+	__Astruct__000003_A4.Floatfield = 0.000000
+	__Astruct__000003_A4.Intfield = 0
+	__Astruct__000003_A4.Anotherbooleanfield = false
+	__Astruct__000003_A4.Duration1 = 0
+	__Astruct__000003_A4.TextFieldBespokeSize = ``
+	__Astruct__000003_A4.TextArea = ``
 
 	__AstructBstruct2Use__000000_.Name = ``
 
