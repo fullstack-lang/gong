@@ -28,6 +28,16 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	return
 }
+
+// insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
+
+// ComputeReference will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReference() {
+	stage.reference = make(map[GongstructIF]GongstructIF)
+	for _, instance := range stage.GetInstances() {
+		stage.reference[instance] = instance.GongCopy()
+	}
+}
 `
 
 type GongSliceGongstructInsertionId int
@@ -36,6 +46,7 @@ const (
 	GongSliceCase GongSliceGongstructInsertionId = iota
 	GongSliceReverseMapCompute
 	GongSliceGetInstances
+	GongSliceGongCopy
 	GongSliceGongstructInsertionNb
 )
 
@@ -53,6 +64,13 @@ map[GongSliceGongstructInsertionId]string{
 	for instance := range stage.{{Structname}}s {
 		res = append(res, instance)
 	}
+`,
+	GongSliceGongCopy: `
+func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
+	var newInstance {{Structname}}
+	newInstance = *{{structname}}
+	return &newInstance
+}
 `,
 }
 

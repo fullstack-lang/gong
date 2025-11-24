@@ -55,3 +55,49 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	return
 }
+
+// insertion point per named struct
+func (command *Command) GongCopy() GongstructIF {
+	var newInstance Command
+	newInstance = *command
+	return &newInstance
+}
+
+func (dummyagent *DummyAgent) GongCopy() GongstructIF {
+	var newInstance DummyAgent
+	newInstance = *dummyagent
+	return &newInstance
+}
+
+func (engine *Engine) GongCopy() GongstructIF {
+	var newInstance Engine
+	newInstance = *engine
+	return &newInstance
+}
+
+func (event *Event) GongCopy() GongstructIF {
+	var newInstance Event
+	newInstance = *event
+	return &newInstance
+}
+
+func (status *Status) GongCopy() GongstructIF {
+	var newInstance Status
+	newInstance = *status
+	return &newInstance
+}
+
+func (updatestate *UpdateState) GongCopy() GongstructIF {
+	var newInstance UpdateState
+	newInstance = *updatestate
+	return &newInstance
+}
+
+
+// ComputeReference will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeReference() {
+	stage.reference = make(map[GongstructIF]GongstructIF)
+	for _, instance := range stage.GetInstances() {
+		stage.reference[instance] = instance.GongCopy()
+	}
+}
