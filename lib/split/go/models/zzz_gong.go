@@ -348,6 +348,10 @@ type Stage struct {
 	// end of insertion point
 
 	NamedStructs []*NamedStruct
+
+	// for the computation of the diff at each commit we need
+	// reference which is the
+	reference map[GongstructIF]GongstructIF
 }
 
 func (stage *Stage) GetCommitId() uint {
@@ -2509,6 +2513,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
 	GongstructIF
