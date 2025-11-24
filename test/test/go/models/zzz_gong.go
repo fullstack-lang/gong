@@ -563,6 +563,11 @@ func NewStage(name string) (stage *Stage) {
 			{name: "F0123456789012345678901234567890"},
 			{name: "Gstruct"},
 		}, // end of insertion point
+
+		reference: make(map[GongstructIF]GongstructIF),
+		new:       make(map[GongstructIF]struct{}),
+		modified:  make(map[GongstructIF]struct{}),
+		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -635,6 +640,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeReference()
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -694,8 +700,9 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
 		stage.AstructOrder++
 		stage.new[astruct] = struct{}{}
+		delete(stage.deleted, astruct)
 	} else {
-		if _, ok := stage.modified[astruct]; !ok {
+		if _, ok := stage.new[astruct]; !ok {
 			stage.modified[astruct] = struct{}{}
 		}
 	}
@@ -708,6 +715,13 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 	delete(stage.Astructs, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
+
+	if _, ok := stage.reference[astruct]; ok {
+		stage.deleted[astruct] = struct{}{}
+	} else {
+		delete(stage.new, astruct)
+	}
+
 	return astruct
 }
 
@@ -753,6 +767,9 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 		stage.AstructBstruct2Uses[astructbstruct2use] = __member
 		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
 		stage.AstructBstruct2UseOrder++
+		stage.new[astructbstruct2use] = struct{}{}
+	} else {
+		stage.modified[astructbstruct2use] = struct{}{}
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
@@ -763,6 +780,9 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstruct2Use {
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
+
+	stage.deleted[astructbstruct2use] = struct{}{}
+
 	return astructbstruct2use
 }
 
@@ -808,6 +828,9 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 		stage.AstructBstructUses[astructbstructuse] = __member
 		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
 		stage.AstructBstructUseOrder++
+		stage.new[astructbstructuse] = struct{}{}
+	} else {
+		stage.modified[astructbstructuse] = struct{}{}
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
@@ -818,6 +841,9 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstructUse {
 	delete(stage.AstructBstructUses, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
+
+	stage.deleted[astructbstructuse] = struct{}{}
+
 	return astructbstructuse
 }
 
@@ -863,6 +889,9 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 		stage.Bstructs[bstruct] = __member
 		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
 		stage.BstructOrder++
+		stage.new[bstruct] = struct{}{}
+	} else {
+		stage.modified[bstruct] = struct{}{}
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
@@ -873,6 +902,9 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 	delete(stage.Bstructs, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
+
+	stage.deleted[bstruct] = struct{}{}
+
 	return bstruct
 }
 
@@ -918,6 +950,9 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 		stage.Dstructs[dstruct] = __member
 		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
 		stage.DstructOrder++
+		stage.new[dstruct] = struct{}{}
+	} else {
+		stage.modified[dstruct] = struct{}{}
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
@@ -928,6 +963,9 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 	delete(stage.Dstructs, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
+
+	stage.deleted[dstruct] = struct{}{}
+
 	return dstruct
 }
 
@@ -973,6 +1011,9 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = __member
 		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
 		stage.F0123456789012345678901234567890Order++
+		stage.new[f0123456789012345678901234567890] = struct{}{}
+	} else {
+		stage.modified[f0123456789012345678901234567890] = struct{}{}
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
 
@@ -983,6 +1024,9 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstage(stage *Stage) *F0123456789012345678901234567890 {
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
+
+	stage.deleted[f0123456789012345678901234567890] = struct{}{}
+
 	return f0123456789012345678901234567890
 }
 
@@ -1028,6 +1072,9 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 		stage.Gstructs[gstruct] = __member
 		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
 		stage.GstructOrder++
+		stage.new[gstruct] = struct{}{}
+	} else {
+		stage.modified[gstruct] = struct{}{}
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
 
@@ -1038,6 +1085,9 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 	delete(stage.Gstructs, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
+
+	stage.deleted[gstruct] = struct{}{}
+
 	return gstruct
 }
 
@@ -1133,6 +1183,10 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.GstructMap_Staged_Order = make(map[*Gstruct]uint)
 	stage.GstructOrder = 0
 
+	stage.reference = make(map[GongstructIF]GongstructIF)
+	stage.new = make(map[GongstructIF]struct{})
+	stage.modified = make(map[GongstructIF]struct{})
+	stage.deleted = make(map[GongstructIF]struct{})
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
