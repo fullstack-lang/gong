@@ -842,6 +842,10 @@ func (attributeshape *AttributeShape) CommitVoid(stage *Stage) {
 	attributeshape.Commit(stage)
 }
 
+func (attributeshape *AttributeShape) StageVoid(stage *Stage) {
+	attributeshape.Stage(stage)
+}
+
 // Checkout attributeshape to the back repo (if it is already staged)
 func (attributeshape *AttributeShape) Checkout(stage *Stage) *AttributeShape {
 	if _, ok := stage.AttributeShapes[attributeshape]; ok {
@@ -907,6 +911,10 @@ func (classdiagram *Classdiagram) Commit(stage *Stage) *Classdiagram {
 
 func (classdiagram *Classdiagram) CommitVoid(stage *Stage) {
 	classdiagram.Commit(stage)
+}
+
+func (classdiagram *Classdiagram) StageVoid(stage *Stage) {
+	classdiagram.Stage(stage)
 }
 
 // Checkout classdiagram to the back repo (if it is already staged)
@@ -976,6 +984,10 @@ func (diagrampackage *DiagramPackage) CommitVoid(stage *Stage) {
 	diagrampackage.Commit(stage)
 }
 
+func (diagrampackage *DiagramPackage) StageVoid(stage *Stage) {
+	diagrampackage.Stage(stage)
+}
+
 // Checkout diagrampackage to the back repo (if it is already staged)
 func (diagrampackage *DiagramPackage) Checkout(stage *Stage) *DiagramPackage {
 	if _, ok := stage.DiagramPackages[diagrampackage]; ok {
@@ -1041,6 +1053,10 @@ func (gongenumshape *GongEnumShape) Commit(stage *Stage) *GongEnumShape {
 
 func (gongenumshape *GongEnumShape) CommitVoid(stage *Stage) {
 	gongenumshape.Commit(stage)
+}
+
+func (gongenumshape *GongEnumShape) StageVoid(stage *Stage) {
+	gongenumshape.Stage(stage)
 }
 
 // Checkout gongenumshape to the back repo (if it is already staged)
@@ -1110,6 +1126,10 @@ func (gongenumvalueshape *GongEnumValueShape) CommitVoid(stage *Stage) {
 	gongenumvalueshape.Commit(stage)
 }
 
+func (gongenumvalueshape *GongEnumValueShape) StageVoid(stage *Stage) {
+	gongenumvalueshape.Stage(stage)
+}
+
 // Checkout gongenumvalueshape to the back repo (if it is already staged)
 func (gongenumvalueshape *GongEnumValueShape) Checkout(stage *Stage) *GongEnumValueShape {
 	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; ok {
@@ -1175,6 +1195,10 @@ func (gongnotelinkshape *GongNoteLinkShape) Commit(stage *Stage) *GongNoteLinkSh
 
 func (gongnotelinkshape *GongNoteLinkShape) CommitVoid(stage *Stage) {
 	gongnotelinkshape.Commit(stage)
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) StageVoid(stage *Stage) {
+	gongnotelinkshape.Stage(stage)
 }
 
 // Checkout gongnotelinkshape to the back repo (if it is already staged)
@@ -1244,6 +1268,10 @@ func (gongnoteshape *GongNoteShape) CommitVoid(stage *Stage) {
 	gongnoteshape.Commit(stage)
 }
 
+func (gongnoteshape *GongNoteShape) StageVoid(stage *Stage) {
+	gongnoteshape.Stage(stage)
+}
+
 // Checkout gongnoteshape to the back repo (if it is already staged)
 func (gongnoteshape *GongNoteShape) Checkout(stage *Stage) *GongNoteShape {
 	if _, ok := stage.GongNoteShapes[gongnoteshape]; ok {
@@ -1311,6 +1339,10 @@ func (gongstructshape *GongStructShape) CommitVoid(stage *Stage) {
 	gongstructshape.Commit(stage)
 }
 
+func (gongstructshape *GongStructShape) StageVoid(stage *Stage) {
+	gongstructshape.Stage(stage)
+}
+
 // Checkout gongstructshape to the back repo (if it is already staged)
 func (gongstructshape *GongStructShape) Checkout(stage *Stage) *GongStructShape {
 	if _, ok := stage.GongStructShapes[gongstructshape]; ok {
@@ -1376,6 +1408,10 @@ func (linkshape *LinkShape) Commit(stage *Stage) *LinkShape {
 
 func (linkshape *LinkShape) CommitVoid(stage *Stage) {
 	linkshape.Commit(stage)
+}
+
+func (linkshape *LinkShape) StageVoid(stage *Stage) {
+	linkshape.Stage(stage)
 }
 
 // Checkout linkshape to the back repo (if it is already staged)
@@ -1554,6 +1590,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

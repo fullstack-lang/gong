@@ -582,6 +582,10 @@ func (freqency *Freqency) CommitVoid(stage *Stage) {
 	freqency.Commit(stage)
 }
 
+func (freqency *Freqency) StageVoid(stage *Stage) {
+	freqency.Stage(stage)
+}
+
 // Checkout freqency to the back repo (if it is already staged)
 func (freqency *Freqency) Checkout(stage *Stage) *Freqency {
 	if _, ok := stage.Freqencys[freqency]; ok {
@@ -649,6 +653,10 @@ func (note *Note) CommitVoid(stage *Stage) {
 	note.Commit(stage)
 }
 
+func (note *Note) StageVoid(stage *Stage) {
+	note.Stage(stage)
+}
+
 // Checkout note to the back repo (if it is already staged)
 func (note *Note) Checkout(stage *Stage) *Note {
 	if _, ok := stage.Notes[note]; ok {
@@ -714,6 +722,10 @@ func (player *Player) Commit(stage *Stage) *Player {
 
 func (player *Player) CommitVoid(stage *Stage) {
 	player.Commit(stage)
+}
+
+func (player *Player) StageVoid(stage *Stage) {
+	player.Stage(stage)
 }
 
 // Checkout player to the back repo (if it is already staged)
@@ -808,6 +820,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

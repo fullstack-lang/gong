@@ -498,6 +498,10 @@ func (cursor *Cursor) CommitVoid(stage *Stage) {
 	cursor.Commit(stage)
 }
 
+func (cursor *Cursor) StageVoid(stage *Stage) {
+	cursor.Stage(stage)
+}
+
 // Checkout cursor to the back repo (if it is already staged)
 func (cursor *Cursor) Checkout(stage *Stage) *Cursor {
 	if _, ok := stage.Cursors[cursor]; ok {
@@ -562,6 +566,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

@@ -758,6 +758,10 @@ func (arrow *Arrow) CommitVoid(stage *Stage) {
 	arrow.Commit(stage)
 }
 
+func (arrow *Arrow) StageVoid(stage *Stage) {
+	arrow.Stage(stage)
+}
+
 // Checkout arrow to the back repo (if it is already staged)
 func (arrow *Arrow) Checkout(stage *Stage) *Arrow {
 	if _, ok := stage.Arrows[arrow]; ok {
@@ -823,6 +827,10 @@ func (bar *Bar) Commit(stage *Stage) *Bar {
 
 func (bar *Bar) CommitVoid(stage *Stage) {
 	bar.Commit(stage)
+}
+
+func (bar *Bar) StageVoid(stage *Stage) {
+	bar.Stage(stage)
 }
 
 // Checkout bar to the back repo (if it is already staged)
@@ -892,6 +900,10 @@ func (gantt *Gantt) CommitVoid(stage *Stage) {
 	gantt.Commit(stage)
 }
 
+func (gantt *Gantt) StageVoid(stage *Stage) {
+	gantt.Stage(stage)
+}
+
 // Checkout gantt to the back repo (if it is already staged)
 func (gantt *Gantt) Checkout(stage *Stage) *Gantt {
 	if _, ok := stage.Gantts[gantt]; ok {
@@ -957,6 +969,10 @@ func (group *Group) Commit(stage *Stage) *Group {
 
 func (group *Group) CommitVoid(stage *Stage) {
 	group.Commit(stage)
+}
+
+func (group *Group) StageVoid(stage *Stage) {
+	group.Stage(stage)
 }
 
 // Checkout group to the back repo (if it is already staged)
@@ -1026,6 +1042,10 @@ func (lane *Lane) CommitVoid(stage *Stage) {
 	lane.Commit(stage)
 }
 
+func (lane *Lane) StageVoid(stage *Stage) {
+	lane.Stage(stage)
+}
+
 // Checkout lane to the back repo (if it is already staged)
 func (lane *Lane) Checkout(stage *Stage) *Lane {
 	if _, ok := stage.Lanes[lane]; ok {
@@ -1093,6 +1113,10 @@ func (laneuse *LaneUse) CommitVoid(stage *Stage) {
 	laneuse.Commit(stage)
 }
 
+func (laneuse *LaneUse) StageVoid(stage *Stage) {
+	laneuse.Stage(stage)
+}
+
 // Checkout laneuse to the back repo (if it is already staged)
 func (laneuse *LaneUse) Checkout(stage *Stage) *LaneUse {
 	if _, ok := stage.LaneUses[laneuse]; ok {
@@ -1158,6 +1182,10 @@ func (milestone *Milestone) Commit(stage *Stage) *Milestone {
 
 func (milestone *Milestone) CommitVoid(stage *Stage) {
 	milestone.Commit(stage)
+}
+
+func (milestone *Milestone) StageVoid(stage *Stage) {
+	milestone.Stage(stage)
 }
 
 // Checkout milestone to the back repo (if it is already staged)
@@ -1308,6 +1336,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

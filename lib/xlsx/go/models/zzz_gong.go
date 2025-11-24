@@ -670,6 +670,10 @@ func (displayselection *DisplaySelection) CommitVoid(stage *Stage) {
 	displayselection.Commit(stage)
 }
 
+func (displayselection *DisplaySelection) StageVoid(stage *Stage) {
+	displayselection.Stage(stage)
+}
+
 // Checkout displayselection to the back repo (if it is already staged)
 func (displayselection *DisplaySelection) Checkout(stage *Stage) *DisplaySelection {
 	if _, ok := stage.DisplaySelections[displayselection]; ok {
@@ -735,6 +739,10 @@ func (xlcell *XLCell) Commit(stage *Stage) *XLCell {
 
 func (xlcell *XLCell) CommitVoid(stage *Stage) {
 	xlcell.Commit(stage)
+}
+
+func (xlcell *XLCell) StageVoid(stage *Stage) {
+	xlcell.Stage(stage)
 }
 
 // Checkout xlcell to the back repo (if it is already staged)
@@ -804,6 +812,10 @@ func (xlfile *XLFile) CommitVoid(stage *Stage) {
 	xlfile.Commit(stage)
 }
 
+func (xlfile *XLFile) StageVoid(stage *Stage) {
+	xlfile.Stage(stage)
+}
+
 // Checkout xlfile to the back repo (if it is already staged)
 func (xlfile *XLFile) Checkout(stage *Stage) *XLFile {
 	if _, ok := stage.XLFiles[xlfile]; ok {
@@ -871,6 +883,10 @@ func (xlrow *XLRow) CommitVoid(stage *Stage) {
 	xlrow.Commit(stage)
 }
 
+func (xlrow *XLRow) StageVoid(stage *Stage) {
+	xlrow.Stage(stage)
+}
+
 // Checkout xlrow to the back repo (if it is already staged)
 func (xlrow *XLRow) Checkout(stage *Stage) *XLRow {
 	if _, ok := stage.XLRows[xlrow]; ok {
@@ -936,6 +952,10 @@ func (xlsheet *XLSheet) Commit(stage *Stage) *XLSheet {
 
 func (xlsheet *XLSheet) CommitVoid(stage *Stage) {
 	xlsheet.Commit(stage)
+}
+
+func (xlsheet *XLSheet) StageVoid(stage *Stage) {
+	xlsheet.Stage(stage)
 }
 
 // Checkout xlsheet to the back repo (if it is already staged)
@@ -1058,6 +1078,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

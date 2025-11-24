@@ -627,6 +627,10 @@ func (checkbox *Checkbox) CommitVoid(stage *Stage) {
 	checkbox.Commit(stage)
 }
 
+func (checkbox *Checkbox) StageVoid(stage *Stage) {
+	checkbox.Stage(stage)
+}
+
 // Checkout checkbox to the back repo (if it is already staged)
 func (checkbox *Checkbox) Checkout(stage *Stage) *Checkbox {
 	if _, ok := stage.Checkboxs[checkbox]; ok {
@@ -692,6 +696,10 @@ func (group *Group) Commit(stage *Stage) *Group {
 
 func (group *Group) CommitVoid(stage *Stage) {
 	group.Commit(stage)
+}
+
+func (group *Group) StageVoid(stage *Stage) {
+	group.Stage(stage)
 }
 
 // Checkout group to the back repo (if it is already staged)
@@ -761,6 +769,10 @@ func (layout *Layout) CommitVoid(stage *Stage) {
 	layout.Commit(stage)
 }
 
+func (layout *Layout) StageVoid(stage *Stage) {
+	layout.Stage(stage)
+}
+
 // Checkout layout to the back repo (if it is already staged)
 func (layout *Layout) Checkout(stage *Stage) *Layout {
 	if _, ok := stage.Layouts[layout]; ok {
@@ -826,6 +838,10 @@ func (slider *Slider) Commit(stage *Stage) *Slider {
 
 func (slider *Slider) CommitVoid(stage *Stage) {
 	slider.Commit(stage)
+}
+
+func (slider *Slider) StageVoid(stage *Stage) {
+	slider.Stage(stage)
 }
 
 // Checkout slider to the back repo (if it is already staged)
@@ -934,6 +950,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

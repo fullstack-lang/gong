@@ -1240,6 +1240,10 @@ func (assplit *AsSplit) CommitVoid(stage *Stage) {
 	assplit.Commit(stage)
 }
 
+func (assplit *AsSplit) StageVoid(stage *Stage) {
+	assplit.Stage(stage)
+}
+
 // Checkout assplit to the back repo (if it is already staged)
 func (assplit *AsSplit) Checkout(stage *Stage) *AsSplit {
 	if _, ok := stage.AsSplits[assplit]; ok {
@@ -1305,6 +1309,10 @@ func (assplitarea *AsSplitArea) Commit(stage *Stage) *AsSplitArea {
 
 func (assplitarea *AsSplitArea) CommitVoid(stage *Stage) {
 	assplitarea.Commit(stage)
+}
+
+func (assplitarea *AsSplitArea) StageVoid(stage *Stage) {
+	assplitarea.Stage(stage)
 }
 
 // Checkout assplitarea to the back repo (if it is already staged)
@@ -1374,6 +1382,10 @@ func (button *Button) CommitVoid(stage *Stage) {
 	button.Commit(stage)
 }
 
+func (button *Button) StageVoid(stage *Stage) {
+	button.Stage(stage)
+}
+
 // Checkout button to the back repo (if it is already staged)
 func (button *Button) Checkout(stage *Stage) *Button {
 	if _, ok := stage.Buttons[button]; ok {
@@ -1439,6 +1451,10 @@ func (cursor *Cursor) Commit(stage *Stage) *Cursor {
 
 func (cursor *Cursor) CommitVoid(stage *Stage) {
 	cursor.Commit(stage)
+}
+
+func (cursor *Cursor) StageVoid(stage *Stage) {
+	cursor.Stage(stage)
 }
 
 // Checkout cursor to the back repo (if it is already staged)
@@ -1508,6 +1524,10 @@ func (favicon *FavIcon) CommitVoid(stage *Stage) {
 	favicon.Commit(stage)
 }
 
+func (favicon *FavIcon) StageVoid(stage *Stage) {
+	favicon.Stage(stage)
+}
+
 // Checkout favicon to the back repo (if it is already staged)
 func (favicon *FavIcon) Checkout(stage *Stage) *FavIcon {
 	if _, ok := stage.FavIcons[favicon]; ok {
@@ -1573,6 +1593,10 @@ func (form *Form) Commit(stage *Stage) *Form {
 
 func (form *Form) CommitVoid(stage *Stage) {
 	form.Commit(stage)
+}
+
+func (form *Form) StageVoid(stage *Stage) {
+	form.Stage(stage)
 }
 
 // Checkout form to the back repo (if it is already staged)
@@ -1642,6 +1666,10 @@ func (load *Load) CommitVoid(stage *Stage) {
 	load.Commit(stage)
 }
 
+func (load *Load) StageVoid(stage *Stage) {
+	load.Stage(stage)
+}
+
 // Checkout load to the back repo (if it is already staged)
 func (load *Load) Checkout(stage *Stage) *Load {
 	if _, ok := stage.Loads[load]; ok {
@@ -1707,6 +1735,10 @@ func (logoontheleft *LogoOnTheLeft) Commit(stage *Stage) *LogoOnTheLeft {
 
 func (logoontheleft *LogoOnTheLeft) CommitVoid(stage *Stage) {
 	logoontheleft.Commit(stage)
+}
+
+func (logoontheleft *LogoOnTheLeft) StageVoid(stage *Stage) {
+	logoontheleft.Stage(stage)
 }
 
 // Checkout logoontheleft to the back repo (if it is already staged)
@@ -1776,6 +1808,10 @@ func (logoontheright *LogoOnTheRight) CommitVoid(stage *Stage) {
 	logoontheright.Commit(stage)
 }
 
+func (logoontheright *LogoOnTheRight) StageVoid(stage *Stage) {
+	logoontheright.Stage(stage)
+}
+
 // Checkout logoontheright to the back repo (if it is already staged)
 func (logoontheright *LogoOnTheRight) Checkout(stage *Stage) *LogoOnTheRight {
 	if _, ok := stage.LogoOnTheRights[logoontheright]; ok {
@@ -1841,6 +1877,10 @@ func (markdown *Markdown) Commit(stage *Stage) *Markdown {
 
 func (markdown *Markdown) CommitVoid(stage *Stage) {
 	markdown.Commit(stage)
+}
+
+func (markdown *Markdown) StageVoid(stage *Stage) {
+	markdown.Stage(stage)
 }
 
 // Checkout markdown to the back repo (if it is already staged)
@@ -1910,6 +1950,10 @@ func (slider *Slider) CommitVoid(stage *Stage) {
 	slider.Commit(stage)
 }
 
+func (slider *Slider) StageVoid(stage *Stage) {
+	slider.Stage(stage)
+}
+
 // Checkout slider to the back repo (if it is already staged)
 func (slider *Slider) Checkout(stage *Stage) *Slider {
 	if _, ok := stage.Sliders[slider]; ok {
@@ -1975,6 +2019,10 @@ func (split *Split) Commit(stage *Stage) *Split {
 
 func (split *Split) CommitVoid(stage *Stage) {
 	split.Commit(stage)
+}
+
+func (split *Split) StageVoid(stage *Stage) {
+	split.Stage(stage)
 }
 
 // Checkout split to the back repo (if it is already staged)
@@ -2044,6 +2092,10 @@ func (svg *Svg) CommitVoid(stage *Stage) {
 	svg.Commit(stage)
 }
 
+func (svg *Svg) StageVoid(stage *Stage) {
+	svg.Stage(stage)
+}
+
 // Checkout svg to the back repo (if it is already staged)
 func (svg *Svg) Checkout(stage *Stage) *Svg {
 	if _, ok := stage.Svgs[svg]; ok {
@@ -2109,6 +2161,10 @@ func (table *Table) Commit(stage *Stage) *Table {
 
 func (table *Table) CommitVoid(stage *Stage) {
 	table.Commit(stage)
+}
+
+func (table *Table) StageVoid(stage *Stage) {
+	table.Stage(stage)
 }
 
 // Checkout table to the back repo (if it is already staged)
@@ -2178,6 +2234,10 @@ func (title *Title) CommitVoid(stage *Stage) {
 	title.Commit(stage)
 }
 
+func (title *Title) StageVoid(stage *Stage) {
+	title.Stage(stage)
+}
+
 // Checkout title to the back repo (if it is already staged)
 func (title *Title) Checkout(stage *Stage) *Title {
 	if _, ok := stage.Titles[title]; ok {
@@ -2243,6 +2303,10 @@ func (tone *Tone) Commit(stage *Stage) *Tone {
 
 func (tone *Tone) CommitVoid(stage *Stage) {
 	tone.Commit(stage)
+}
+
+func (tone *Tone) StageVoid(stage *Stage) {
+	tone.Stage(stage)
 }
 
 // Checkout tone to the back repo (if it is already staged)
@@ -2312,6 +2376,10 @@ func (tree *Tree) CommitVoid(stage *Stage) {
 	tree.Commit(stage)
 }
 
+func (tree *Tree) StageVoid(stage *Stage) {
+	tree.Stage(stage)
+}
+
 // Checkout tree to the back repo (if it is already staged)
 func (tree *Tree) Checkout(stage *Stage) *Tree {
 	if _, ok := stage.Trees[tree]; ok {
@@ -2379,6 +2447,10 @@ func (view *View) CommitVoid(stage *Stage) {
 	view.Commit(stage)
 }
 
+func (view *View) StageVoid(stage *Stage) {
+	view.Stage(stage)
+}
+
 // Checkout view to the back repo (if it is already staged)
 func (view *View) Checkout(stage *Stage) *View {
 	if _, ok := stage.Views[view]; ok {
@@ -2444,6 +2516,10 @@ func (xlsx *Xlsx) Commit(stage *Stage) *Xlsx {
 
 func (xlsx *Xlsx) CommitVoid(stage *Stage) {
 	xlsx.Commit(stage)
+}
+
+func (xlsx *Xlsx) StageVoid(stage *Stage) {
+	xlsx.Stage(stage)
 }
 
 // Checkout xlsx to the back repo (if it is already staged)
@@ -2762,6 +2838,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)

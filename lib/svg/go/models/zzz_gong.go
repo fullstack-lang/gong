@@ -1376,6 +1376,10 @@ func (animate *Animate) CommitVoid(stage *Stage) {
 	animate.Commit(stage)
 }
 
+func (animate *Animate) StageVoid(stage *Stage) {
+	animate.Stage(stage)
+}
+
 // Checkout animate to the back repo (if it is already staged)
 func (animate *Animate) Checkout(stage *Stage) *Animate {
 	if _, ok := stage.Animates[animate]; ok {
@@ -1441,6 +1445,10 @@ func (circle *Circle) Commit(stage *Stage) *Circle {
 
 func (circle *Circle) CommitVoid(stage *Stage) {
 	circle.Commit(stage)
+}
+
+func (circle *Circle) StageVoid(stage *Stage) {
+	circle.Stage(stage)
 }
 
 // Checkout circle to the back repo (if it is already staged)
@@ -1510,6 +1518,10 @@ func (condition *Condition) CommitVoid(stage *Stage) {
 	condition.Commit(stage)
 }
 
+func (condition *Condition) StageVoid(stage *Stage) {
+	condition.Stage(stage)
+}
+
 // Checkout condition to the back repo (if it is already staged)
 func (condition *Condition) Checkout(stage *Stage) *Condition {
 	if _, ok := stage.Conditions[condition]; ok {
@@ -1575,6 +1587,10 @@ func (controlpoint *ControlPoint) Commit(stage *Stage) *ControlPoint {
 
 func (controlpoint *ControlPoint) CommitVoid(stage *Stage) {
 	controlpoint.Commit(stage)
+}
+
+func (controlpoint *ControlPoint) StageVoid(stage *Stage) {
+	controlpoint.Stage(stage)
 }
 
 // Checkout controlpoint to the back repo (if it is already staged)
@@ -1644,6 +1660,10 @@ func (ellipse *Ellipse) CommitVoid(stage *Stage) {
 	ellipse.Commit(stage)
 }
 
+func (ellipse *Ellipse) StageVoid(stage *Stage) {
+	ellipse.Stage(stage)
+}
+
 // Checkout ellipse to the back repo (if it is already staged)
 func (ellipse *Ellipse) Checkout(stage *Stage) *Ellipse {
 	if _, ok := stage.Ellipses[ellipse]; ok {
@@ -1709,6 +1729,10 @@ func (layer *Layer) Commit(stage *Stage) *Layer {
 
 func (layer *Layer) CommitVoid(stage *Stage) {
 	layer.Commit(stage)
+}
+
+func (layer *Layer) StageVoid(stage *Stage) {
+	layer.Stage(stage)
 }
 
 // Checkout layer to the back repo (if it is already staged)
@@ -1778,6 +1802,10 @@ func (line *Line) CommitVoid(stage *Stage) {
 	line.Commit(stage)
 }
 
+func (line *Line) StageVoid(stage *Stage) {
+	line.Stage(stage)
+}
+
 // Checkout line to the back repo (if it is already staged)
 func (line *Line) Checkout(stage *Stage) *Line {
 	if _, ok := stage.Lines[line]; ok {
@@ -1843,6 +1871,10 @@ func (link *Link) Commit(stage *Stage) *Link {
 
 func (link *Link) CommitVoid(stage *Stage) {
 	link.Commit(stage)
+}
+
+func (link *Link) StageVoid(stage *Stage) {
+	link.Stage(stage)
 }
 
 // Checkout link to the back repo (if it is already staged)
@@ -1912,6 +1944,10 @@ func (linkanchoredtext *LinkAnchoredText) CommitVoid(stage *Stage) {
 	linkanchoredtext.Commit(stage)
 }
 
+func (linkanchoredtext *LinkAnchoredText) StageVoid(stage *Stage) {
+	linkanchoredtext.Stage(stage)
+}
+
 // Checkout linkanchoredtext to the back repo (if it is already staged)
 func (linkanchoredtext *LinkAnchoredText) Checkout(stage *Stage) *LinkAnchoredText {
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; ok {
@@ -1977,6 +2013,10 @@ func (path *Path) Commit(stage *Stage) *Path {
 
 func (path *Path) CommitVoid(stage *Stage) {
 	path.Commit(stage)
+}
+
+func (path *Path) StageVoid(stage *Stage) {
+	path.Stage(stage)
 }
 
 // Checkout path to the back repo (if it is already staged)
@@ -2046,6 +2086,10 @@ func (point *Point) CommitVoid(stage *Stage) {
 	point.Commit(stage)
 }
 
+func (point *Point) StageVoid(stage *Stage) {
+	point.Stage(stage)
+}
+
 // Checkout point to the back repo (if it is already staged)
 func (point *Point) Checkout(stage *Stage) *Point {
 	if _, ok := stage.Points[point]; ok {
@@ -2111,6 +2155,10 @@ func (polygone *Polygone) Commit(stage *Stage) *Polygone {
 
 func (polygone *Polygone) CommitVoid(stage *Stage) {
 	polygone.Commit(stage)
+}
+
+func (polygone *Polygone) StageVoid(stage *Stage) {
+	polygone.Stage(stage)
 }
 
 // Checkout polygone to the back repo (if it is already staged)
@@ -2180,6 +2228,10 @@ func (polyline *Polyline) CommitVoid(stage *Stage) {
 	polyline.Commit(stage)
 }
 
+func (polyline *Polyline) StageVoid(stage *Stage) {
+	polyline.Stage(stage)
+}
+
 // Checkout polyline to the back repo (if it is already staged)
 func (polyline *Polyline) Checkout(stage *Stage) *Polyline {
 	if _, ok := stage.Polylines[polyline]; ok {
@@ -2245,6 +2297,10 @@ func (rect *Rect) Commit(stage *Stage) *Rect {
 
 func (rect *Rect) CommitVoid(stage *Stage) {
 	rect.Commit(stage)
+}
+
+func (rect *Rect) StageVoid(stage *Stage) {
+	rect.Stage(stage)
 }
 
 // Checkout rect to the back repo (if it is already staged)
@@ -2314,6 +2370,10 @@ func (rectanchoredpath *RectAnchoredPath) CommitVoid(stage *Stage) {
 	rectanchoredpath.Commit(stage)
 }
 
+func (rectanchoredpath *RectAnchoredPath) StageVoid(stage *Stage) {
+	rectanchoredpath.Stage(stage)
+}
+
 // Checkout rectanchoredpath to the back repo (if it is already staged)
 func (rectanchoredpath *RectAnchoredPath) Checkout(stage *Stage) *RectAnchoredPath {
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; ok {
@@ -2379,6 +2439,10 @@ func (rectanchoredrect *RectAnchoredRect) Commit(stage *Stage) *RectAnchoredRect
 
 func (rectanchoredrect *RectAnchoredRect) CommitVoid(stage *Stage) {
 	rectanchoredrect.Commit(stage)
+}
+
+func (rectanchoredrect *RectAnchoredRect) StageVoid(stage *Stage) {
+	rectanchoredrect.Stage(stage)
 }
 
 // Checkout rectanchoredrect to the back repo (if it is already staged)
@@ -2448,6 +2512,10 @@ func (rectanchoredtext *RectAnchoredText) CommitVoid(stage *Stage) {
 	rectanchoredtext.Commit(stage)
 }
 
+func (rectanchoredtext *RectAnchoredText) StageVoid(stage *Stage) {
+	rectanchoredtext.Stage(stage)
+}
+
 // Checkout rectanchoredtext to the back repo (if it is already staged)
 func (rectanchoredtext *RectAnchoredText) Checkout(stage *Stage) *RectAnchoredText {
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; ok {
@@ -2513,6 +2581,10 @@ func (rectlinklink *RectLinkLink) Commit(stage *Stage) *RectLinkLink {
 
 func (rectlinklink *RectLinkLink) CommitVoid(stage *Stage) {
 	rectlinklink.Commit(stage)
+}
+
+func (rectlinklink *RectLinkLink) StageVoid(stage *Stage) {
+	rectlinklink.Stage(stage)
 }
 
 // Checkout rectlinklink to the back repo (if it is already staged)
@@ -2582,6 +2654,10 @@ func (svg *SVG) CommitVoid(stage *Stage) {
 	svg.Commit(stage)
 }
 
+func (svg *SVG) StageVoid(stage *Stage) {
+	svg.Stage(stage)
+}
+
 // Checkout svg to the back repo (if it is already staged)
 func (svg *SVG) Checkout(stage *Stage) *SVG {
 	if _, ok := stage.SVGs[svg]; ok {
@@ -2649,6 +2725,10 @@ func (svgtext *SvgText) CommitVoid(stage *Stage) {
 	svgtext.Commit(stage)
 }
 
+func (svgtext *SvgText) StageVoid(stage *Stage) {
+	svgtext.Stage(stage)
+}
+
 // Checkout svgtext to the back repo (if it is already staged)
 func (svgtext *SvgText) Checkout(stage *Stage) *SvgText {
 	if _, ok := stage.SvgTexts[svgtext]; ok {
@@ -2714,6 +2794,10 @@ func (text *Text) Commit(stage *Stage) *Text {
 
 func (text *Text) CommitVoid(stage *Stage) {
 	text.Commit(stage)
+}
+
+func (text *Text) StageVoid(stage *Stage) {
+	text.Stage(stage)
 }
 
 // Checkout text to the back repo (if it is already staged)
@@ -3060,6 +3144,7 @@ type GongtructBasicField interface {
 type GongstructIF interface {
 	GetName() string
 	CommitVoid(*Stage)
+	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
