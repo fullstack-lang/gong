@@ -416,6 +416,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
+	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -643,23 +644,12 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 	return gongValueField.valueBool
 }
 
-func GetFieldStringValueFromPointer(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
+// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
-	default:
-		_ = inferedInstance
-	}
-	return
-}
 
-func GetFieldStringValue(instance any, fieldName string, stage *Stage) (res GongFieldValue) {
+func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	switch inferedInstance := any(instance).(type) {
-	// insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValues)) + `}}
-	default:
-		_ = inferedInstance
-	}
+	res = instance.GongGetFieldValueString(fieldName, stage)
 	return
 }
 
