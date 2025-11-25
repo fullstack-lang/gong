@@ -361,6 +361,20 @@
         "-skipStager=false",
       ]
     },
+      {
+      "label": "01 - gongc statemachines",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/test/statemachines/go/models"
+      },
+      "command": "gongc",
+      "group": "build",
+      "args": [
+        "-skipGoModCommands",
+        "-level1",
+        "-skipStager=false",
+      ]
+    },
     {
       "label": "01 - gongc tone",
       "type": "shell",
