@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-25 00:42:34.471579 CET"
-	const __write__utc_time__ = "2025-11-24 23:42:34.471579 UTC"
+	const __write__local_time = "2025-11-25 08:38:29.486224 CET"
+	const __write__utc_time__ = "2025-11-25 07:38:29.486224 UTC"
 
-	const __commitId__ = "0000001120"
+	const __commitId__ = "0000001144"
 
 	// Declaration of instances to stage
 
@@ -33,7 +33,11 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Traffic_Light_FR_Diagram := (&models.Diagram{}).Stage(stage)
 	__Diagram__000001_Traffic_Light_UK_Diagram := (&models.Diagram{}).Stage(stage)
 
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413 := (&models.Object{}).Stage(stage)
+	__Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report := (&models.Message{}).Stage(stage)
+
+	__MessageType__000000_Repair_Report := (&models.MessageType{}).Stage(stage)
+
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652 := (&models.Object{}).Stage(stage)
 
 	__Role__000000_Technician := (&models.Role{}).Stage(stage)
 	__Role__000001_Timer := (&models.Role{}).Stage(stage)
@@ -77,7 +81,7 @@ func _(stage *models.Stage) {
 	__Transition__000007_Red_UK_to_Yellow_UK := (&models.Transition{}).Stage(stage)
 	__Transition__000008_Yellow_UK_to_Green_UK := (&models.Transition{}).Stage(stage)
 	__Transition__000009_On_UK_to_Off_UK := (&models.Transition{}).Stage(stage)
-	__Transition__000010_Off_UK_to_On_UK := (&models.Transition{}).Stage(stage)
+	__Transition__000010_Off_UK_to_Red_UK := (&models.Transition{}).Stage(stage)
 	__Transition__000011_Green_UK_to_Red_UK := (&models.Transition{}).Stage(stage)
 
 	__Transition_Shape__000000_Initial_State_FR_to_Red_FR := (&models.Transition_Shape{}).Stage(stage)
@@ -99,21 +103,27 @@ func _(stage *models.Stage) {
 	__Architecture__000000_Traffic_Lights_of_the_world.NbPixPerCharacter = 8.000000
 
 	__Diagram__000000_Traffic_Light_FR_Diagram.Name = `Traffic Light FR Diagram`
-	__Diagram__000000_Traffic_Light_FR_Diagram.IsChecked = true
+	__Diagram__000000_Traffic_Light_FR_Diagram.IsChecked = false
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsExpanded = true
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsEditable_ = true
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsInRenameMode = false
 
 	__Diagram__000001_Traffic_Light_UK_Diagram.Name = `Traffic Light UK Diagram`
-	__Diagram__000001_Traffic_Light_UK_Diagram.IsChecked = false
-	__Diagram__000001_Traffic_Light_UK_Diagram.IsExpanded = false
+	__Diagram__000001_Traffic_Light_UK_Diagram.IsChecked = true
+	__Diagram__000001_Traffic_Light_UK_Diagram.IsExpanded = true
 	__Diagram__000001_Traffic_Light_UK_Diagram.IsEditable_ = true
 	__Diagram__000001_Traffic_Light_UK_Diagram.IsInRenameMode = false
 
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413.Name = `03/MI DOF/ 2025-11-17 DEP/ 092413`
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413.IsSelected = true
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413.Rank = 0
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report.Name = `08:38:29 Off UK to Red UK -> Repair Report`
+	__Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report.IsSelected = true
+
+	__MessageType__000000_Repair_Report.Name = `Repair Report`
+	__MessageType__000000_Repair_Report.Description = ``
+
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Name = `02/MI DOF/ 2025-11-26 DEP/ 083652`
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.IsSelected = true
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Rank = 0
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-11-26 08:36:52.163215 +0100 CET m=+86453.154167293")
 
 	__Role__000000_Technician.Name = `Technician`
 	__Role__000000_Technician.Acronym = `Tech`
@@ -245,8 +255,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000008_Yellow_UK.Name = `Yellow UK`
 	__StateShape__000008_Yellow_UK.IsExpanded = false
-	__StateShape__000008_Yellow_UK.X = 349.000000
-	__StateShape__000008_Yellow_UK.Y = 420.000000
+	__StateShape__000008_Yellow_UK.X = 342.000000
+	__StateShape__000008_Yellow_UK.Y = 400.000000
 	__StateShape__000008_Yellow_UK.Width = 200.000000
 	__StateShape__000008_Yellow_UK.Height = 80.000000
 
@@ -266,8 +276,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000011_Off_UK.Name = `Off UK`
 	__StateShape__000011_Off_UK.IsExpanded = false
-	__StateShape__000011_Off_UK.X = 1141.000000
-	__StateShape__000011_Off_UK.Y = 372.000000
+	__StateShape__000011_Off_UK.X = 1133.000000
+	__StateShape__000011_Off_UK.Y = 373.000000
 	__StateShape__000011_Off_UK.Width = 94.000000
 	__StateShape__000011_Off_UK.Height = 36.000000
 
@@ -291,7 +301,7 @@ func _(stage *models.Stage) {
 
 	__Transition__000009_On_UK_to_Off_UK.Name = `On UK to Off UK`
 
-	__Transition__000010_Off_UK_to_On_UK.Name = `Off UK to On UK`
+	__Transition__000010_Off_UK_to_Red_UK.Name = `Off UK to Red UK`
 
 	__Transition__000011_Green_UK_to_Red_UK.Name = `Green UK to Red UK`
 
@@ -410,8 +420,13 @@ func _(stage *models.Stage) {
 	__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes = append(__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes, __Transition_Shape__000009_On_UK_to_Off_UK)
 	__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes = append(__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes, __Transition_Shape__000010_Off_UK_to_On_UK)
 	__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes = append(__Diagram__000001_Traffic_Light_UK_Diagram.Transition_Shapes, __Transition_Shape__000011_Green_UK_to_Red_UK)
+	// setup of Message instances pointers
+	__Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report.MessageType = __MessageType__000000_Repair_Report
+	__Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report.OriginTransition = __Transition__000010_Off_UK_to_Red_UK
+	// setup of MessageType instances pointers
 	// setup of Object instances pointers
-	__Object__000000_03_MI_DOF_2025_11_17_DEP_092413.State = __State__000002_Green_FR
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.State = __State__000007_Red_UK
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Messages = append(__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Messages, __Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report)
 	// setup of Role instances pointers
 	// setup of State instances pointers
 	__State__000000_Initial_State_FR.Diagrams = append(__State__000000_Initial_State_FR.Diagrams, __Diagram__000000_Traffic_Light_FR_Diagram)
@@ -503,10 +518,11 @@ func _(stage *models.Stage) {
 	__Transition__000009_On_UK_to_Off_UK.End = __State__000011_Off_UK
 	__Transition__000009_On_UK_to_Off_UK.RolesWithPermissions = append(__Transition__000009_On_UK_to_Off_UK.RolesWithPermissions, __Role__000000_Technician)
 	__Transition__000009_On_UK_to_Off_UK.Diagrams = append(__Transition__000009_On_UK_to_Off_UK.Diagrams, __Diagram__000001_Traffic_Light_UK_Diagram)
-	__Transition__000010_Off_UK_to_On_UK.Start = __State__000011_Off_UK
-	__Transition__000010_Off_UK_to_On_UK.End = __State__000007_Red_UK
-	__Transition__000010_Off_UK_to_On_UK.RolesWithPermissions = append(__Transition__000010_Off_UK_to_On_UK.RolesWithPermissions, __Role__000000_Technician)
-	__Transition__000010_Off_UK_to_On_UK.Diagrams = append(__Transition__000010_Off_UK_to_On_UK.Diagrams, __Diagram__000001_Traffic_Light_UK_Diagram)
+	__Transition__000010_Off_UK_to_Red_UK.Start = __State__000011_Off_UK
+	__Transition__000010_Off_UK_to_Red_UK.End = __State__000007_Red_UK
+	__Transition__000010_Off_UK_to_Red_UK.RolesWithPermissions = append(__Transition__000010_Off_UK_to_Red_UK.RolesWithPermissions, __Role__000000_Technician)
+	__Transition__000010_Off_UK_to_Red_UK.GeneratedMessages = append(__Transition__000010_Off_UK_to_Red_UK.GeneratedMessages, __MessageType__000000_Repair_Report)
+	__Transition__000010_Off_UK_to_Red_UK.Diagrams = append(__Transition__000010_Off_UK_to_Red_UK.Diagrams, __Diagram__000001_Traffic_Light_UK_Diagram)
 	__Transition__000011_Green_UK_to_Red_UK.Start = __State__000009_Green_UK
 	__Transition__000011_Green_UK_to_Red_UK.End = __State__000007_Red_UK
 	__Transition__000011_Green_UK_to_Red_UK.RolesWithPermissions = append(__Transition__000011_Green_UK_to_Red_UK.RolesWithPermissions, __Role__000001_Timer)
@@ -522,6 +538,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000007_Red_UK_to_Yellow_UK.Transition = __Transition__000007_Red_UK_to_Yellow_UK
 	__Transition_Shape__000008_Yellow_UK_to_Green_UK.Transition = __Transition__000008_Yellow_UK_to_Green_UK
 	__Transition_Shape__000009_On_UK_to_Off_UK.Transition = __Transition__000009_On_UK_to_Off_UK
-	__Transition_Shape__000010_Off_UK_to_On_UK.Transition = __Transition__000010_Off_UK_to_On_UK
+	__Transition_Shape__000010_Off_UK_to_On_UK.Transition = __Transition__000010_Off_UK_to_Red_UK
 	__Transition_Shape__000011_Green_UK_to_Red_UK.Transition = __Transition__000011_Green_UK_to_Red_UK
 }
+

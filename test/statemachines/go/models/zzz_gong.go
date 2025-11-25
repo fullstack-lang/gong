@@ -862,6 +862,13 @@ func (stage *Stage) Commit() {
 	stage.commitId++
 	stage.commitTimeStamp = time.Now()
 
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -3221,377 +3228,376 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 // insertion point for generic get gongstruct field value
 func (architecture *Architecture) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = architecture.Name
-		case "StateMachines":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range architecture.StateMachines {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = architecture.Name
+	case "StateMachines":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range architecture.StateMachines {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Roles":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range architecture.Roles {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Roles":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range architecture.Roles {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "NbPixPerCharacter":
-			res.valueString = fmt.Sprintf("%f", architecture.NbPixPerCharacter)
-			res.valueFloat = architecture.NbPixPerCharacter
-			res.GongFieldValueType = GongFieldValueTypeFloat
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", architecture.NbPixPerCharacter)
+		res.valueFloat = architecture.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
 func (diagram *Diagram) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = diagram.Name
-		case "IsChecked":
-			res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
-			res.valueBool = diagram.IsChecked
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsExpanded":
-			res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
-			res.valueBool = diagram.IsExpanded
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsEditable_":
-			res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
-			res.valueBool = diagram.IsEditable_
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsInRenameMode":
-			res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
-			res.valueBool = diagram.IsInRenameMode
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "State_Shapes":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range diagram.State_Shapes {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = diagram.Name
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
+		res.valueBool = diagram.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
+		res.valueBool = diagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEditable_":
+		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
+		res.valueBool = diagram.IsEditable_
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsInRenameMode":
+		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
+		res.valueBool = diagram.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "State_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.State_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Transition_Shapes":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range diagram.Transition_Shapes {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Transition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Transition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
 func (kill *Kill) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = kill.Name
+	// string value of fields
+	case "Name":
+		res.valueString = kill.Name
 	}
 	return
 }
 func (message *Message) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = message.Name
-		case "IsSelected":
-			res.valueString = fmt.Sprintf("%t", message.IsSelected)
-			res.valueBool = message.IsSelected
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "MessageType":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if message.MessageType != nil {
-				res.valueString = message.MessageType.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.MessageType))
-			}
-		case "OriginTransition":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if message.OriginTransition != nil {
-				res.valueString = message.OriginTransition.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.OriginTransition))
-			}
+	// string value of fields
+	case "Name":
+		res.valueString = message.Name
+	case "IsSelected":
+		res.valueString = fmt.Sprintf("%t", message.IsSelected)
+		res.valueBool = message.IsSelected
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "MessageType":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if message.MessageType != nil {
+			res.valueString = message.MessageType.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.MessageType))
+		}
+	case "OriginTransition":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if message.OriginTransition != nil {
+			res.valueString = message.OriginTransition.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, message.OriginTransition))
+		}
 	}
 	return
 }
 func (messagetype *MessageType) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = messagetype.Name
-		case "Description":
-			res.valueString = messagetype.Description
+	// string value of fields
+	case "Name":
+		res.valueString = messagetype.Name
+	case "Description":
+		res.valueString = messagetype.Description
 	}
 	return
 }
 func (object *Object) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = object.Name
-		case "State":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if object.State != nil {
-				res.valueString = object.State.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, object.State))
+	// string value of fields
+	case "Name":
+		res.valueString = object.Name
+	case "State":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if object.State != nil {
+			res.valueString = object.State.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, object.State))
+		}
+	case "IsSelected":
+		res.valueString = fmt.Sprintf("%t", object.IsSelected)
+		res.valueBool = object.IsSelected
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Rank":
+		res.valueString = fmt.Sprintf("%d", object.Rank)
+		res.valueInt = object.Rank
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "DOF":
+		res.valueString = object.DOF.String()
+	case "Messages":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range object.Messages {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "IsSelected":
-			res.valueString = fmt.Sprintf("%t", object.IsSelected)
-			res.valueBool = object.IsSelected
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "Rank":
-			res.valueString = fmt.Sprintf("%d", object.Rank)
-			res.valueInt = object.Rank
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "DOF":
-			res.valueString = object.DOF.String()
-		case "Messages":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range object.Messages {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
 func (role *Role) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = role.Name
-		case "Acronym":
-			res.valueString = role.Acronym
-		case "RolesWithSamePermissions":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range role.RolesWithSamePermissions {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = role.Name
+	case "Acronym":
+		res.valueString = role.Acronym
+	case "RolesWithSamePermissions":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range role.RolesWithSamePermissions {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
 func (state *State) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = state.Name
-		case "Parent":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if state.Parent != nil {
-				res.valueString = state.Parent.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, state.Parent))
+	// string value of fields
+	case "Name":
+		res.valueString = state.Name
+	case "Parent":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if state.Parent != nil {
+			res.valueString = state.Parent.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, state.Parent))
+		}
+	case "IsDecisionNode":
+		res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
+		res.valueBool = state.IsDecisionNode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsFictif":
+		res.valueString = fmt.Sprintf("%t", state.IsFictif)
+		res.valueBool = state.IsFictif
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsEndState":
+		res.valueString = fmt.Sprintf("%t", state.IsEndState)
+		res.valueBool = state.IsEndState
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "SubStates":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range state.SubStates {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "IsDecisionNode":
-			res.valueString = fmt.Sprintf("%t", state.IsDecisionNode)
-			res.valueBool = state.IsDecisionNode
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsFictif":
-			res.valueString = fmt.Sprintf("%t", state.IsFictif)
-			res.valueBool = state.IsFictif
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsEndState":
-			res.valueString = fmt.Sprintf("%t", state.IsEndState)
-			res.valueBool = state.IsEndState
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "SubStates":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range state.SubStates {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range state.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Diagrams":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range state.Diagrams {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
 func (statemachine *StateMachine) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = statemachine.Name
-		case "IsNodeExpanded":
-			res.valueString = fmt.Sprintf("%t", statemachine.IsNodeExpanded)
-			res.valueBool = statemachine.IsNodeExpanded
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "States":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range statemachine.States {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = statemachine.Name
+	case "IsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", statemachine.IsNodeExpanded)
+		res.valueBool = statemachine.IsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "States":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range statemachine.States {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Diagrams":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range statemachine.Diagrams {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range statemachine.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "InitialState":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if statemachine.InitialState != nil {
-				res.valueString = statemachine.InitialState.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, statemachine.InitialState))
-			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "InitialState":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if statemachine.InitialState != nil {
+			res.valueString = statemachine.InitialState.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, statemachine.InitialState))
+		}
 	}
 	return
 }
 func (stateshape *StateShape) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = stateshape.Name
-		case "State":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if stateshape.State != nil {
-				res.valueString = stateshape.State.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, stateshape.State))
-			}
-		case "IsExpanded":
-			res.valueString = fmt.Sprintf("%t", stateshape.IsExpanded)
-			res.valueBool = stateshape.IsExpanded
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "X":
-			res.valueString = fmt.Sprintf("%f", stateshape.X)
-			res.valueFloat = stateshape.X
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y":
-			res.valueString = fmt.Sprintf("%f", stateshape.Y)
-			res.valueFloat = stateshape.Y
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Width":
-			res.valueString = fmt.Sprintf("%f", stateshape.Width)
-			res.valueFloat = stateshape.Width
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Height":
-			res.valueString = fmt.Sprintf("%f", stateshape.Height)
-			res.valueFloat = stateshape.Height
-			res.GongFieldValueType = GongFieldValueTypeFloat
+	// string value of fields
+	case "Name":
+		res.valueString = stateshape.Name
+	case "State":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if stateshape.State != nil {
+			res.valueString = stateshape.State.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, stateshape.State))
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", stateshape.IsExpanded)
+		res.valueBool = stateshape.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "X":
+		res.valueString = fmt.Sprintf("%f", stateshape.X)
+		res.valueFloat = stateshape.X
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y":
+		res.valueString = fmt.Sprintf("%f", stateshape.Y)
+		res.valueFloat = stateshape.Y
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", stateshape.Width)
+		res.valueFloat = stateshape.Width
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Height":
+		res.valueString = fmt.Sprintf("%f", stateshape.Height)
+		res.valueFloat = stateshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
 func (transition *Transition) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = transition.Name
-		case "Start":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if transition.Start != nil {
-				res.valueString = transition.Start.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.Start))
+	// string value of fields
+	case "Name":
+		res.valueString = transition.Name
+	case "Start":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if transition.Start != nil {
+			res.valueString = transition.Start.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.Start))
+		}
+	case "End":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if transition.End != nil {
+			res.valueString = transition.End.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.End))
+		}
+	case "RolesWithPermissions":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range transition.RolesWithPermissions {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "End":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if transition.End != nil {
-				res.valueString = transition.End.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.End))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "GeneratedMessages":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range transition.GeneratedMessages {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "RolesWithPermissions":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range transition.RolesWithPermissions {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range transition.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "GeneratedMessages":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range transition.GeneratedMessages {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "Diagrams":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range transition.Diagrams {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
 func (transition_shape *Transition_Shape) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = transition_shape.Name
-		case "Transition":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if transition_shape.Transition != nil {
-				res.valueString = transition_shape.Transition.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition_shape.Transition))
-			}
-		case "StartRatio":
-			res.valueString = fmt.Sprintf("%f", transition_shape.StartRatio)
-			res.valueFloat = transition_shape.StartRatio
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "EndRatio":
-			res.valueString = fmt.Sprintf("%f", transition_shape.EndRatio)
-			res.valueFloat = transition_shape.EndRatio
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StartOrientation":
-			enum := transition_shape.StartOrientation
-			res.valueString = enum.ToCodeString()
-		case "EndOrientation":
-			enum := transition_shape.EndOrientation
-			res.valueString = enum.ToCodeString()
-		case "CornerOffsetRatio":
-			res.valueString = fmt.Sprintf("%f", transition_shape.CornerOffsetRatio)
-			res.valueFloat = transition_shape.CornerOffsetRatio
-			res.GongFieldValueType = GongFieldValueTypeFloat
+	// string value of fields
+	case "Name":
+		res.valueString = transition_shape.Name
+	case "Transition":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if transition_shape.Transition != nil {
+			res.valueString = transition_shape.Transition.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition_shape.Transition))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", transition_shape.StartRatio)
+		res.valueFloat = transition_shape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", transition_shape.EndRatio)
+		res.valueFloat = transition_shape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := transition_shape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := transition_shape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", transition_shape.CornerOffsetRatio)
+		res.valueFloat = transition_shape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
