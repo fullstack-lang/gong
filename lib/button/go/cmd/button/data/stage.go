@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-20 05:41:56.599777 CET"
-	const __write__utc_time__ = "2025-11-20 04:41:56.599777 UTC"
+	const __write__local_time = "2025-11-25 11:42:03.469727 CET"
+	const __write__utc_time__ = "2025-11-25 10:42:03.469727 UTC"
 
-	const __commitId__ = "0000000027"
+	const __commitId__ = "0000000028"
 
 	// Declaration of instances to stage
 
@@ -36,7 +36,7 @@ func _(stage *models.Stage) {
 	__Button__000005_Un := (&models.Button{}).Stage(stage)
 
 	__Group__000000_Group_1 := (&models.Group{}).Stage(stage)
-	__Group__000001_ := (&models.Group{}).Stage(stage)
+	__Group__000001_Groupe_2 := (&models.Group{}).Stage(stage)
 
 	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
 
@@ -70,9 +70,9 @@ func _(stage *models.Stage) {
 	__Group__000000_Group_1.Percentage = 50.000000
 	__Group__000000_Group_1.NbColumns = 15
 
-	__Group__000001_.Name = ``
-	__Group__000001_.Percentage = 50.000000
-	__Group__000001_.NbColumns = 5
+	__Group__000001_Groupe_2.Name = `Groupe 2`
+	__Group__000001_Groupe_2.Percentage = 50.000000
+	__Group__000001_Groupe_2.NbColumns = 5
 
 	__Layout__000000_layout.Name = `layout`
 
@@ -84,9 +84,9 @@ func _(stage *models.Stage) {
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000002_Three)
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000003_Four)
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000004_Five)
-	__Group__000001_.Buttons = append(__Group__000001_.Buttons, __Button__000005_Un)
+	__Group__000001_Groupe_2.Buttons = append(__Group__000001_Groupe_2.Buttons, __Button__000005_Un)
 	// setup of Layout instances pointers
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
-	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_)
+	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_Groupe_2)
 }
 
