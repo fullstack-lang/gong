@@ -2,7 +2,7 @@
   <form [formGroup]="angularFormGroup" (ngSubmit)="submitForm()">
     @if (selectedFormGroup) {
       <div class="sticky-container">
-        <p class="custom-text">{{selectedFormGroup.Label}}</p>
+        <div class="group-header">{{selectedFormGroup.Label}}</div>
         <button class="table__save custom-button" mat-raised-button type="submit">Submit</button>
         @if (selectedFormGroup.HasSuppressButton) {
           <button
