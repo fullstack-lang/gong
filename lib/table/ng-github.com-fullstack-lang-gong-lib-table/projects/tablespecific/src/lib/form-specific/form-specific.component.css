@@ -48,6 +48,16 @@ mat-form-field {
   margin-right: 5px;
   line-height: 1.5;
 }
+.group-header {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #606060;       /* Sober dark grey */
+  margin: 0;            /* Reset browser defaults */
+  padding: 10px 10px 0 10px; /* Align left/right with grid, provide top space */
+  text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
+  letter-spacing: 0.5px;
+}
 
 .sticky-container {
   position: sticky;
