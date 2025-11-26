@@ -1,23 +1,98 @@
 <as-split direction="vertical">
     @for (group of layout?.Groups; track group) {
     <as-split-area [size]="group.Percentage">
-        
+
         @if (group.Name) {
         <div class="group-header">{{group.Name}}</div>
         }
-        
-        <div class="button-grid" 
-             [style.grid-template-columns]="'repeat(' + (group.NbColumns || 4) + ', 1fr)'">
+
+        <div class="button-grid"
+            [style.grid-template-columns]="'repeat(' + (group.NbColumns || 4) + ', 1fr)'">
             @for (button of group.Buttons; track button) {
-            <button color="primary" (click)="onClick(button)">
-                @if (button.Icon) {
-                    <mat-icon>{{button.Icon}}</mat-icon>
+
+            @switch (button.MatButtonType) {
+
+                @case ('matButton') {
+                    @switch (button.MatButtonAppearance) {
+                        @case ('filled') {
+                            <button mat-flat-button color="primary" (click)="onClick(button)"
+                                [class.pressed]="button.IsLookingPressed">
+                                <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                            </button>
+                        }
+                        @case ('elevated') {
+                            <button mat-raised-button color="primary" (click)="onClick(button)"
+                                [class.pressed]="button.IsLookingPressed">
+                                <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                            </button>
+                        }
+                        @case ('outlined') {
+                            <button mat-stroked-button color="primary" (click)="onClick(button)"
+                                [class.pressed]="button.IsLookingPressed">
+                                <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                            </button>
+                        }
+                        @case ('tonal') {
+                            <button mat-flat-button class="mat-tonal-button" color="primary" (click)="onClick(button)"
+                                [class.pressed]="button.IsLookingPressed">
+                                <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                            </button>
+                        }
+                        @default {
+                            <button mat-button color="primary" (click)="onClick(button)"
+                                [class.pressed]="button.IsLookingPressed">
+                                <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                            </button>
+                        }
+                    }
                 }
-                {{button.Label}}
-            </button>
+
+                @case ('matIconButton') {
+                    <button mat-icon-button color="primary" (click)="onClick(button)"
+                        [class.pressed]="button.IsLookingPressed">
+                        <mat-icon>{{button.Icon}}</mat-icon>
+                    </button>
+                }
+
+                @case ('matFab') {
+                    <button mat-fab color="primary" (click)="onClick(button)"
+                        [class.pressed]="button.IsLookingPressed">
+                        <mat-icon>{{button.Icon}}</mat-icon>
+                    </button>
+                }
+
+                @case ('matMiniFab') {
+                    <button mat-mini-fab color="primary" (click)="onClick(button)"
+                        [class.pressed]="button.IsLookingPressed">
+                        <mat-icon>{{button.Icon}}</mat-icon>
+                    </button>
+                }
+
+                @case ('matFab extended') {
+                    <button mat-fab extended color="primary" (click)="onClick(button)"
+                        [class.pressed]="button.IsLookingPressed">
+                        <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                    </button>
+                }
+                
+                @default {
+                    <button mat-button color="primary" (click)="onClick(button)"
+                        [class.pressed]="button.IsLookingPressed">
+                        <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
+                    </button>
+                }
+            }
+
             }
         </div>
 
     </as-split-area>
     }
 </as-split>
+
+<ng-template #contentTpl let-btn>
+    @if (btn.Icon) {
+        <mat-icon>{{btn.Icon}}</mat-icon>
+    }
+    {{btn.Label}}
+</ng-template>

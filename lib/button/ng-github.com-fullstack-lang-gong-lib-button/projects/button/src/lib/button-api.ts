@@ -13,6 +13,9 @@ export class ButtonAPI {
 	Name: string = ""
 	Label: string = ""
 	Icon: string = ""
+	IsLookingPressed: boolean = false
+	MatButtonType: string = ""
+	MatButtonAppearance: string = ""
 
 	// insertion point for other decls
 

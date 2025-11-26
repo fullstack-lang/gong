@@ -69,6 +69,16 @@ type ButtonDB struct {
 	// Declation for basic field buttonDB.Icon
 	Icon_Data sql.NullString
 
+	// Declation for basic field buttonDB.IsLookingPressed
+	// provide the sql storage for the boolan
+	IsLookingPressed_Data sql.NullBool
+
+	// Declation for basic field buttonDB.MatButtonType
+	MatButtonType_Data sql.NullString
+
+	// Declation for basic field buttonDB.MatButtonAppearance
+	MatButtonAppearance_Data sql.NullString
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ButtonPointersEncoding
@@ -96,6 +106,12 @@ type ButtonWOP struct {
 	Label string `xlsx:"2"`
 
 	Icon string `xlsx:"3"`
+
+	IsLookingPressed bool `xlsx:"4"`
+
+	MatButtonType models.MatButtonType `xlsx:"5"`
+
+	MatButtonAppearance models.MatButtonAppearance `xlsx:"6"`
 	// insertion for WOP pointer fields
 }
 
@@ -105,6 +121,9 @@ var Button_Fields = []string{
 	"Name",
 	"Label",
 	"Icon",
+	"IsLookingPressed",
+	"MatButtonType",
+	"MatButtonAppearance",
 }
 
 type BackRepoButtonStruct struct {
@@ -390,6 +409,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton(button *models.Button) {
 
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
+
+	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
+	buttonDB.IsLookingPressed_Data.Valid = true
+
+	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
+	buttonDB.MatButtonType_Data.Valid = true
+
+	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
+	buttonDB.MatButtonAppearance_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButton_WOP
@@ -404,6 +432,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton_WOP(button *models.Button_WO
 
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
+
+	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
+	buttonDB.IsLookingPressed_Data.Valid = true
+
+	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
+	buttonDB.MatButtonType_Data.Valid = true
+
+	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
+	buttonDB.MatButtonAppearance_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButtonWOP
@@ -418,6 +455,15 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButtonWOP(button *ButtonWOP) {
 
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
+
+	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
+	buttonDB.IsLookingPressed_Data.Valid = true
+
+	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
+	buttonDB.MatButtonType_Data.Valid = true
+
+	buttonDB.MatButtonAppearance_Data.String = button.MatButtonAppearance.ToString()
+	buttonDB.MatButtonAppearance_Data.Valid = true
 }
 
 // CopyBasicFieldsToButton
@@ -426,6 +472,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton(button *models.Button) {
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
+	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }
 
 // CopyBasicFieldsToButton_WOP
@@ -434,6 +483,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton_WOP(button *models.Button_WOP)
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
+	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }
 
 // CopyBasicFieldsToButtonWOP
@@ -443,6 +495,9 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButtonWOP(button *ButtonWOP) {
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
+	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
+	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }
 
 // Backup generates a json file from a slice of all ButtonDB instances in the backrepo
