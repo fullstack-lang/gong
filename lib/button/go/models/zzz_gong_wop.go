@@ -17,6 +17,12 @@ type Button_WOP struct {
 	Label string
 
 	Icon string
+
+	IsLookingPressed bool
+
+	MatButtonType MatButtonType
+
+	MatButtonAppearance MatButtonAppearance
 }
 
 func (from *Button) CopyBasicFields(to *Button) {
@@ -24,6 +30,9 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.Name = from.Name
 	to.Label = from.Label
 	to.Icon = from.Icon
+	to.IsLookingPressed = from.IsLookingPressed
+	to.MatButtonType = from.MatButtonType
+	to.MatButtonAppearance = from.MatButtonAppearance
 }
 
 type Group_WOP struct {

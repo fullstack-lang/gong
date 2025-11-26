@@ -44,5 +44,8 @@ func NewStager(r *gin.Engine, stage *Stage) (stager *Stager) {
 
 	stager.splitStage.Commit()
 
+	// to send the button stage to the front
+	stage.Commit()
+
 	return
 }

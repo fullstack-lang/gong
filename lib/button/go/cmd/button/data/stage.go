@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-25 11:42:03.469727 CET"
-	const __write__utc_time__ = "2025-11-25 10:42:03.469727 UTC"
+	const __write__local_time = "2025-11-26 08:35:00.191232 CET"
+	const __write__utc_time__ = "2025-11-26 07:35:00.191232 UTC"
 
-	const __commitId__ = "0000000028"
+	const __commitId__ = "0000000053"
 
 	// Declaration of instances to stage
 
@@ -45,26 +45,39 @@ func _(stage *models.Stage) {
 	__Button__000000_One.Name = `One`
 	__Button__000000_One.Label = `One`
 	__Button__000000_One.Icon = `draw`
+	__Button__000000_One.IsLookingPressed = false
+	__Button__000000_One.MatButtonType = models.MatButtonTypeBasic
+	__Button__000000_One.MatButtonAppearance = models.MatButtonAppearanceElevated
 
 	__Button__000001_Two.Name = `Two`
 	__Button__000001_Two.Label = `Two`
 	__Button__000001_Two.Icon = `add`
+	__Button__000001_Two.IsLookingPressed = true
+	__Button__000001_Two.MatButtonType = models.MatButtonTypeBasic
+	__Button__000001_Two.MatButtonAppearance = models.MatButtonAppearanceFilled
 
 	__Button__000002_Three.Name = `Three`
 	__Button__000002_Three.Label = `Three`
 	__Button__000002_Three.Icon = `add_box`
+	__Button__000002_Three.IsLookingPressed = false
 
 	__Button__000003_Four.Name = `Four`
 	__Button__000003_Four.Label = `Four`
 	__Button__000003_Four.Icon = ``
+	__Button__000003_Four.IsLookingPressed = true
+	__Button__000003_Four.MatButtonType = models.MatButtonTypeBasic
+	__Button__000003_Four.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
 	__Button__000004_Five.Name = `Five`
 	__Button__000004_Five.Label = `Five`
 	__Button__000004_Five.Icon = ``
+	__Button__000004_Five.IsLookingPressed = false
 
 	__Button__000005_Un.Name = `Un`
 	__Button__000005_Un.Label = `Un`
 	__Button__000005_Un.Icon = `hour`
+	__Button__000005_Un.IsLookingPressed = false
+	__Button__000005_Un.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
 	__Group__000000_Group_1.Name = `Group 1`
 	__Group__000000_Group_1.Percentage = 50.000000

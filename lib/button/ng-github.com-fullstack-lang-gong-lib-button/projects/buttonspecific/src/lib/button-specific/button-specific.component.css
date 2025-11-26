@@ -1,50 +1,52 @@
 /* projects/buttonspecific/src/lib/button-specific/button-specific.component.css */
 
-/* New Grid Container Class */
 .button-grid {
     display: grid;
-    /* grid-template-columns is now handled in HTML for dynamic values */
-    
-    /* Optional: Define a fixed row height if you want strictly uniform rows */
     grid-auto-rows: minmax(50px, auto); 
-    gap: 10px; /* Space between buttons */
-    
-    /* Requirement 2: Adjusted padding. 
-       Top padding is 10px. combined with header margin-bottom of 0, 
-       the space between text and button is 10px (same as gap). */
+    gap: 10px;
     padding: 10px;
 }
 
-/* Requirement 3: Aesthetic/Sober Group Name */
 .group-header {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: #606060;       /* Sober dark grey */
-    margin: 0;            /* Reset browser defaults */
-    padding: 10px 10px 0 10px; /* Align left/right with grid, provide top space */
-    text-transform: uppercase; /* Optional: adds to the 'sober/structural' look */
+    color: #606060;
+    margin: 0;
+    padding: 10px 10px 0 10px;
+    text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-/* Updated Button Styles */
+/* Base style for buttons to ensure they fill grid cells */
 button {
-    width: 100%; /* Keeps the button filling the Grid Cell, not the screen */
-    height: 100%; /* Ensures button fills the height of the cell */
-    padding: 10px 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #95c3e2;
-    color: white;
+    width: 100%;
+    height: 100%;
+    /* Note: Material buttons manage their own padding/radius, 
+       but we keep these if you want to enforce grid filling */
+    border-radius: 5px; 
     font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    /* Flex alignment is handled by Material, but explicit doesn't hurt */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
 }
 
-button:hover {
-    background-color: #3e8e41;
+.pressed {
+    /* Slightly darker than the normal button */
+    background-color: #8bb6d3 !important;
+    
+    /* A dark top border simulates depth (looking into a hole) */
+    border-top: 2px solid rgba(0, 0, 0, 0.15) !important;
+    border-left: 2px solid rgba(0, 0, 0, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    
+    /* Remove external shadow */
+    box-shadow: none !important;
+    
+    /* Shift text slightly to mimic physical movement */
+    padding-top: 1px; 
+    padding-left: 1px;
 }

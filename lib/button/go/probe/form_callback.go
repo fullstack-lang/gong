@@ -68,6 +68,12 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Label), formDiv)
 		case "Icon":
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
+		case "IsLookingPressed":
+			FormDivBasicFieldToField(&(button_.IsLookingPressed), formDiv)
+		case "MatButtonType":
+			FormDivEnumStringFieldToField(&(button_.MatButtonType), formDiv)
+		case "MatButtonAppearance":
+			FormDivEnumStringFieldToField(&(button_.MatButtonAppearance), formDiv)
 		case "Group:Buttons":
 			// WARNING : this form deals with the N-N association "Group.Buttons []*Button" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
