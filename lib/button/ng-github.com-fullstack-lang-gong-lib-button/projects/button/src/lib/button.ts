@@ -18,6 +18,9 @@ export class Button {
 	Name: string = ""
 	Label: string = ""
 	Icon: string = ""
+	IsLookingPressed: boolean = false
+	MatButtonType: string = ""
+	MatButtonAppearance: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -35,6 +38,9 @@ export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {
 	buttonAPI.Name = button.Name
 	buttonAPI.Label = button.Label
 	buttonAPI.Icon = button.Icon
+	buttonAPI.IsLookingPressed = button.IsLookingPressed
+	buttonAPI.MatButtonType = button.MatButtonType
+	buttonAPI.MatButtonAppearance = button.MatButtonAppearance
 
 	// insertion point for pointer fields encoding
 
@@ -55,6 +61,9 @@ export function CopyButtonAPIToButton(buttonAPI: ButtonAPI, button: Button, fron
 	button.Name = buttonAPI.Name
 	button.Label = buttonAPI.Label
 	button.Icon = buttonAPI.Icon
+	button.IsLookingPressed = buttonAPI.IsLookingPressed
+	button.MatButtonType = buttonAPI.MatButtonType
+	button.MatButtonAppearance = buttonAPI.MatButtonAppearance
 
 	// insertion point for pointer fields encoding
 

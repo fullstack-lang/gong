@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common'
 
 import * as button from '../../../../button/src/public-api'
 
@@ -7,6 +8,7 @@ import { AngularSplitModule } from 'angular-split';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
 
+
 @Component({
   selector: 'lib-button-specific',
   imports: [
@@ -14,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon'
 
     MatButtonModule,
     MatIconModule,
+    NgTemplateOutlet,
   ],
   templateUrl: './button-specific.component.html',
   styleUrl: './button-specific.component.css'

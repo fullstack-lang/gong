@@ -853,6 +853,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Button":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsLookingPressed":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Button[identifier].IsLookingPressed = fielValue
 				}
 			case "Group":
 				switch fieldName {
@@ -923,6 +930,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Button":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "MatButtonType":
+						var val MatButtonType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Button[identifier].MatButtonType = MatButtonType(val)
+					case "MatButtonAppearance":
+						var val MatButtonAppearance
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Button[identifier].MatButtonAppearance = MatButtonAppearance(val)
 					}
 				case "Group":
 					switch fieldName {
