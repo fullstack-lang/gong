@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-13 05:03:17.258445 CET"
-	const __write__utc_time__ = "2025-11-13 04:03:17.258445 UTC"
+	const __write__local_time = "2025-11-27 05:15:35.374430 CET"
+	const __write__utc_time__ = "2025-11-27 04:15:35.374430 UTC"
 
-	const __commitId__ = "0000000102"
+	const __commitId__ = "0000000120"
 
 	// Declaration of instances to stage
 
@@ -35,6 +35,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__000002_NoteShape := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z := (&models.DiagramPackage{}).Stage(stage)
+
+	__GongNoteShape__000000_Default_NoteOnGongdoc := (&models.GongNoteShape{}).Stage(stage)
 
 	__GongStructShape__000000_Default_AttributeShape := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000001_Default_Classdiagram := (&models.GongStructShape{}).Stage(stage)
@@ -54,12 +56,12 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.ShowMultiplicity = true
 	__Classdiagram__000000_Default.ShowLinkNames = true
 	__Classdiagram__000000_Default.IsInRenameMode = false
-	__Classdiagram__000000_Default.IsExpanded = false
-	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,true,false,true,false,false,false,true]`
+	__Classdiagram__000000_Default.IsExpanded = true
+	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,false,true,false,false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
-	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
+	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongNoteNodeExpansion = `[true]`
 
 	__Classdiagram__000001_spoil_diagram.Name = `spoil diagram`
@@ -96,6 +98,26 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Path = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.GongModelPath = ``
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.AbsolutePathToDiagramPackage = ``
+
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Name = `Default-NoteOnGongdoc`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Identifier = `ref_models.NoteOnGongdoc`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Body = `Note Example
+
+This note can refers to [models.GongNoteShape]
+or to [models.Classdiagram.GongNoteShapes]
+or to [models.OrientationType]
+`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.BodyHTML = `<p>Note Example
+<p>This note can refers to <a href="/models#GongNoteShape">models.GongNoteShape</a>
+or to <a href="/models#Classdiagram.GongNoteShapes">models.Classdiagram.GongNoteShapes</a>
+or to <a href="/models#OrientationType">models.OrientationType</a>
+`
+	__GongNoteShape__000000_Default_NoteOnGongdoc.X = 882.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Y = 144.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Width = 406.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Height = 120.000000
+	__GongNoteShape__000000_Default_NoteOnGongdoc.Matched = false
+	__GongNoteShape__000000_Default_NoteOnGongdoc.IsExpanded = false
 
 	__GongStructShape__000000_Default_AttributeShape.Name = `Default-AttributeShape`
 	__GongStructShape__000000_Default_AttributeShape.X = 577.000000
@@ -180,6 +202,7 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000000_Default_AttributeShape)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000001_Default_Classdiagram)
 	__Classdiagram__000000_Default.GongStructShapes = append(__Classdiagram__000000_Default.GongStructShapes, __GongStructShape__000004_Default_GongEnumShape)
+	__Classdiagram__000000_Default.GongNoteShapes = append(__Classdiagram__000000_Default.GongNoteShapes, __GongNoteShape__000000_Default_NoteOnGongdoc)
 	__Classdiagram__000002_NoteShape.GongStructShapes = append(__Classdiagram__000002_NoteShape.GongStructShapes, __GongStructShape__000002_NoteShape_GongNoteShape)
 	__Classdiagram__000002_NoteShape.GongStructShapes = append(__Classdiagram__000002_NoteShape.GongStructShapes, __GongStructShape__000003_NoteShape_GongNoteLinkShape)
 	// setup of DiagramPackage instances pointers
@@ -187,6 +210,7 @@ func _(stage *models.Stage) {
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000001_spoil_diagram)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.Classdiagrams, __Classdiagram__000002_NoteShape)
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_05_04T22_53_27Z.SelectedClassdiagram = __Classdiagram__000000_Default
+	// setup of GongNoteShape instances pointers
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000001_Default_Classdiagram.LinkShapes = append(__GongStructShape__000001_Default_Classdiagram.LinkShapes, __LinkShape__000001_GongEnumShapes)
 	__GongStructShape__000002_NoteShape_GongNoteShape.LinkShapes = append(__GongStructShape__000002_NoteShape_GongNoteShape.LinkShapes, __LinkShape__000000_GongNoteLinkShapes)
