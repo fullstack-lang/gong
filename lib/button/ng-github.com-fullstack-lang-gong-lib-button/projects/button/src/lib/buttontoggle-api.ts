@@ -14,6 +14,7 @@ export class ButtonToggleAPI {
 	Label: string = ""
 	Icon: string = ""
 	IsDisabled: boolean = false
+	IsChecked: boolean = false
 
 	// insertion point for other decls
 

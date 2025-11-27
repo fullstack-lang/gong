@@ -7,7 +7,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggleModule, MatButtonToggleChange } from '@angular/material/button-toggle';
 
 
 @Component({
@@ -72,12 +72,21 @@ export class ButtonSpecificComponent implements OnInit {
     )
   }
 
-  onToggle(buttonToggle: button.ButtonToggle) {
-    this.buttonToggleService.updateFront(buttonToggle, this.Name).subscribe(
-      () => {
-        // console.log("toggle updated")
-      }
-    )
-  }
+  onGroupChange(groupToogle: button.GroupToogle, event: MatButtonToggleChange) {
+    const value = event.value
 
+    for (let buttonToggle of groupToogle.ButtonToggles) {
+      let isChecked = false
+      if (Array.isArray(value)) {
+        isChecked = value.includes(buttonToggle.ID)
+      } else {
+        isChecked = value === buttonToggle.ID
+      }
+
+      if (buttonToggle.IsChecked !== isChecked) {
+        buttonToggle.IsChecked = isChecked
+        this.buttonToggleService.updateFront(buttonToggle, this.Name).subscribe()
+      }
+    }
+  }
 }

@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-27 04:44:19.260774 CET"
-	const __write__utc_time__ = "2025-11-27 03:44:19.260774 UTC"
+	const __write__local_time = "2025-11-27 04:59:08.294075 CET"
+	const __write__utc_time__ = "2025-11-27 03:59:08.294075 UTC"
 
-	const __commitId__ = "0000000125"
+	const __commitId__ = "0000000139"
 
 	// Declaration of instances to stage
 
@@ -38,11 +38,15 @@ func _(stage *models.Stage) {
 	__ButtonToggle__000000_small := (&models.ButtonToggle{}).Stage(stage)
 	__ButtonToggle__000001_medium := (&models.ButtonToggle{}).Stage(stage)
 	__ButtonToggle__000002_large := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__000003_flour := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__000004_eggs := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__000005_sugar := (&models.ButtonToggle{}).Stage(stage)
 
 	__Group__000000_Group_1 := (&models.Group{}).Stage(stage)
 	__Group__000001_Groupe_2 := (&models.Group{}).Stage(stage)
 
-	__GroupToogle__000000_Group_toggle := (&models.GroupToogle{}).Stage(stage)
+	__GroupToogle__000000_Group_toggle_single_selector := (&models.GroupToogle{}).Stage(stage)
+	__GroupToogle__000001_Group_toggle_multi_selector := (&models.GroupToogle{}).Stage(stage)
 
 	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
 
@@ -94,18 +98,39 @@ func _(stage *models.Stage) {
 
 	__ButtonToggle__000000_small.Name = `small`
 	__ButtonToggle__000000_small.Label = `small`
-	__ButtonToggle__000000_small.Icon = `add`
+	__ButtonToggle__000000_small.Icon = ``
 	__ButtonToggle__000000_small.IsDisabled = false
+	__ButtonToggle__000000_small.IsChecked = false
 
 	__ButtonToggle__000001_medium.Name = `medium`
 	__ButtonToggle__000001_medium.Label = `medium`
 	__ButtonToggle__000001_medium.Icon = ``
 	__ButtonToggle__000001_medium.IsDisabled = false
+	__ButtonToggle__000001_medium.IsChecked = false
 
 	__ButtonToggle__000002_large.Name = `large`
 	__ButtonToggle__000002_large.Label = `large`
 	__ButtonToggle__000002_large.Icon = ``
 	__ButtonToggle__000002_large.IsDisabled = false
+	__ButtonToggle__000002_large.IsChecked = false
+
+	__ButtonToggle__000003_flour.Name = `flour`
+	__ButtonToggle__000003_flour.Label = `flour`
+	__ButtonToggle__000003_flour.Icon = ``
+	__ButtonToggle__000003_flour.IsDisabled = false
+	__ButtonToggle__000003_flour.IsChecked = false
+
+	__ButtonToggle__000004_eggs.Name = `eggs`
+	__ButtonToggle__000004_eggs.Label = `eggs`
+	__ButtonToggle__000004_eggs.Icon = ``
+	__ButtonToggle__000004_eggs.IsDisabled = false
+	__ButtonToggle__000004_eggs.IsChecked = false
+
+	__ButtonToggle__000005_sugar.Name = `sugar`
+	__ButtonToggle__000005_sugar.Label = `sugar`
+	__ButtonToggle__000005_sugar.Icon = ``
+	__ButtonToggle__000005_sugar.IsDisabled = false
+	__ButtonToggle__000005_sugar.IsChecked = false
 
 	__Group__000000_Group_1.Name = `Group 1`
 	__Group__000000_Group_1.Percentage = 50.000000
@@ -115,9 +140,13 @@ func _(stage *models.Stage) {
 	__Group__000001_Groupe_2.Percentage = 50.000000
 	__Group__000001_Groupe_2.NbColumns = 12
 
-	__GroupToogle__000000_Group_toggle.Name = `Group toggle`
-	__GroupToogle__000000_Group_toggle.Percentage = 40.000000
-	__GroupToogle__000000_Group_toggle.IsSingleSelector = true
+	__GroupToogle__000000_Group_toggle_single_selector.Name = `Group toggle single selector`
+	__GroupToogle__000000_Group_toggle_single_selector.Percentage = 40.000000
+	__GroupToogle__000000_Group_toggle_single_selector.IsSingleSelector = false
+
+	__GroupToogle__000001_Group_toggle_multi_selector.Name = `Group toggle multi selector`
+	__GroupToogle__000001_Group_toggle_multi_selector.Percentage = 50.000000
+	__GroupToogle__000001_Group_toggle_multi_selector.IsSingleSelector = false
 
 	__Layout__000000_layout.Name = `layout`
 
@@ -132,12 +161,16 @@ func _(stage *models.Stage) {
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000004_Five)
 	__Group__000001_Groupe_2.Buttons = append(__Group__000001_Groupe_2.Buttons, __Button__000005_Un)
 	// setup of GroupToogle instances pointers
-	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000000_small)
-	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000001_medium)
-	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000002_large)
+	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000000_small)
+	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000001_medium)
+	__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles = append(__GroupToogle__000000_Group_toggle_single_selector.ButtonToggles, __ButtonToggle__000002_large)
+	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000003_flour)
+	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000004_eggs)
+	__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles = append(__GroupToogle__000001_Group_toggle_multi_selector.ButtonToggles, __ButtonToggle__000005_sugar)
 	// setup of Layout instances pointers
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_Groupe_2)
-	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000000_Group_toggle)
+	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000000_Group_toggle_single_selector)
+	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000001_Group_toggle_multi_selector)
 }
 

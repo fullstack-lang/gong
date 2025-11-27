@@ -226,6 +226,8 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(buttontoggle_.Icon), formDiv)
 		case "IsDisabled":
 			FormDivBasicFieldToField(&(buttontoggle_.IsDisabled), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(buttontoggle_.IsChecked), formDiv)
 		case "GroupToogle:ButtonToggles":
 			// WARNING : this form deals with the N-N association "GroupToogle.ButtonToggles []*ButtonToggle" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
