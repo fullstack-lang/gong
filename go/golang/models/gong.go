@@ -90,9 +90,9 @@ func ({{structname}} *{{Structname}}) GongGetFieldHeaders() (res []GongFieldHead
 		}`,
 
 	ModelGongStructInsertionGenericGetFieldValuesFromPointer: `
-func ({{structname}} *{{Structname}}) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func ({{structname}} *{{Structname}}) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields{{StringValueOfFields}}
+	// string value of fields{{StringValueOfFields}}
 	}
 	return
 }`,
@@ -393,97 +393,97 @@ map[GongFilePerStructSubTemplateId]string{
 			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
 		},`,
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
-		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%t", {{structname}}.{{FieldName}})
-			res.valueBool = {{structname}}.{{FieldName}}
-			res.GongFieldValueType = GongFieldValueTypeBool`,
+	case "{{FieldName}}":
+		res.valueString = fmt.Sprintf("%t", {{structname}}.{{FieldName}})
+		res.valueBool = {{structname}}.{{FieldName}}
+		res.GongFieldValueType = GongFieldValueTypeBool`,
 	GongFileFieldSubTmplStringValueBasicFieldInt: `
-		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%d", {{structname}}.{{FieldName}})
-			res.valueInt = {{structname}}.{{FieldName}}
-			res.GongFieldValueType = GongFieldValueTypeInt`,
+	case "{{FieldName}}":
+		res.valueString = fmt.Sprintf("%d", {{structname}}.{{FieldName}})
+		res.valueInt = {{structname}}.{{FieldName}}
+		res.GongFieldValueType = GongFieldValueTypeInt`,
 	GongFileFieldSubTmplStringValueBasicFieldIntDuration: `
-		case "{{FieldName}}":
-			if math.Abs({{structname}}.{{FieldName}}.Hours()) >= 24 {
-				days := __Gong__Abs(int(int({{structname}}.{{FieldName}}.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
+	case "{{FieldName}}":
+		if math.Abs({{structname}}.{{FieldName}}.Hours()) >= 24 {
+			days := __Gong__Abs(int(int({{structname}}.{{FieldName}}.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
 
-				remainingHours := int({{structname}}.{{FieldName}}.Hours()) % 24
-				remainingMinutes := int({{structname}}.{{FieldName}}.Minutes()) % 60
-				remainingSeconds := int({{structname}}.{{FieldName}}.Seconds()) % 60
+			remainingHours := int({{structname}}.{{FieldName}}.Hours()) % 24
+			remainingMinutes := int({{structname}}.{{FieldName}}.Minutes()) % 60
+			remainingSeconds := int({{structname}}.{{FieldName}}.Seconds()) % 60
 
-				if {{structname}}.{{FieldName}}.Hours() < 0 {
-					res.valueString = "- "
+			if {{structname}}.{{FieldName}}.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
 				}
 
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
 				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", {{structname}}.{{FieldName}}.String())
-			}`,
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", {{structname}}.{{FieldName}}.String())
+		}`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumString: `
-		case "{{FieldName}}":
-			enum := {{structname}}.{{FieldName}}
-			res.valueString = enum.ToCodeString()`,
+	case "{{FieldName}}":
+		enum := {{structname}}.{{FieldName}}
+		res.valueString = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldEnumInt: `
-		case "{{FieldName}}":
-			enum := {{structname}}.{{FieldName}}
-			res.valueString = enum.ToCodeString()`,
+	case "{{FieldName}}":
+		enum := {{structname}}.{{FieldName}}
+		res.valueString = enum.ToCodeString()`,
 	GongFileFieldSubTmplStringValueBasicFieldFloat64: `
-		case "{{FieldName}}":
-			res.valueString = fmt.Sprintf("%f", {{structname}}.{{FieldName}})
-			res.valueFloat = {{structname}}.{{FieldName}}
-			res.GongFieldValueType = GongFieldValueTypeFloat`,
+	case "{{FieldName}}":
+		res.valueString = fmt.Sprintf("%f", {{structname}}.{{FieldName}})
+		res.valueFloat = {{structname}}.{{FieldName}}
+		res.GongFieldValueType = GongFieldValueTypeFloat`,
 	GongFileFieldSubTmplStringValueBasicFieldString: `
-		case "{{FieldName}}":
-			res.valueString = {{structname}}.{{FieldName}}`,
+	case "{{FieldName}}":
+		res.valueString = {{structname}}.{{FieldName}}`,
 	GongFileFieldSubTmplStringValueTimeField: `
-		case "{{FieldName}}":
-			res.valueString = {{structname}}.{{FieldName}}.String()`,
+	case "{{FieldName}}":
+		res.valueString = {{structname}}.{{FieldName}}.String()`,
 	GongFileFieldSubTmplStringValueTimeFieldBespokeFormat: `
-		case "{{FieldName}}":
-			res.valueString = {{structname}}.{{FieldName}}.Format("{{TimeFormat}}")`,
+	case "{{FieldName}}":
+		res.valueString = {{structname}}.{{FieldName}}.Format("{{TimeFormat}}")`,
 	GongFileFieldSubTmplStringValuePointerField: `
-		case "{{FieldName}}":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if {{structname}}.{{FieldName}} != nil {
-				res.valueString = {{structname}}.{{FieldName}}.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, {{structname}}.{{FieldName}}))
-			}`,
+	case "{{FieldName}}":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if {{structname}}.{{FieldName}} != nil {
+			res.valueString = {{structname}}.{{FieldName}}.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, {{structname}}.{{FieldName}}))
+		}`,
 	GongFileFieldSubTmplStringValueSliceOfPointersField: `
-		case "{{FieldName}}":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range {{structname}}.{{FieldName}} {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}`,
+	case "{{FieldName}}":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range {{structname}}.{{FieldName}} {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}`,
 
 	GongFileFieldSubTmplAssociationNamePointerField: `
 			// field is initialized with an instance of {{AssocStructName}} with the name of the field
