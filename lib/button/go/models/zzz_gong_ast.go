@@ -804,6 +804,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Button[identifier].Icon = fielValue
+				case "Colot":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Button[identifier].Colot = fielValue
 				}
 			case "Group":
 				switch fieldName {
@@ -853,13 +857,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Button":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "IsLookingPressed":
+				case "IsPressed":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Button[identifier].IsLookingPressed = fielValue
+					__gong__map_Button[identifier].IsPressed = fielValue
+				case "IsDisabled":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Button[identifier].IsDisabled = fielValue
 				}
 			case "Group":
 				switch fieldName {

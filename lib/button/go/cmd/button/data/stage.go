@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-26 08:35:00.191232 CET"
-	const __write__utc_time__ = "2025-11-26 07:35:00.191232 UTC"
+	const __write__local_time = "2025-11-27 03:40:01.413414 CET"
+	const __write__utc_time__ = "2025-11-27 02:40:01.413414 UTC"
 
-	const __commitId__ = "0000000053"
+	const __commitId__ = "0000000063"
 
 	// Declaration of instances to stage
 
@@ -45,38 +45,39 @@ func _(stage *models.Stage) {
 	__Button__000000_One.Name = `One`
 	__Button__000000_One.Label = `One`
 	__Button__000000_One.Icon = `draw`
-	__Button__000000_One.IsLookingPressed = false
+	__Button__000000_One.IsPressed = false
 	__Button__000000_One.MatButtonType = models.MatButtonTypeBasic
 	__Button__000000_One.MatButtonAppearance = models.MatButtonAppearanceElevated
 
 	__Button__000001_Two.Name = `Two`
 	__Button__000001_Two.Label = `Two`
 	__Button__000001_Two.Icon = `add`
-	__Button__000001_Two.IsLookingPressed = true
+	__Button__000001_Two.IsPressed = false
 	__Button__000001_Two.MatButtonType = models.MatButtonTypeBasic
 	__Button__000001_Two.MatButtonAppearance = models.MatButtonAppearanceFilled
 
 	__Button__000002_Three.Name = `Three`
 	__Button__000002_Three.Label = `Three`
 	__Button__000002_Three.Icon = `add_box`
-	__Button__000002_Three.IsLookingPressed = false
+	__Button__000002_Three.IsPressed = false
 
 	__Button__000003_Four.Name = `Four`
 	__Button__000003_Four.Label = `Four`
 	__Button__000003_Four.Icon = ``
-	__Button__000003_Four.IsLookingPressed = true
+	__Button__000003_Four.IsPressed = false
 	__Button__000003_Four.MatButtonType = models.MatButtonTypeBasic
 	__Button__000003_Four.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
 	__Button__000004_Five.Name = `Five`
 	__Button__000004_Five.Label = `Five`
 	__Button__000004_Five.Icon = ``
-	__Button__000004_Five.IsLookingPressed = false
+	__Button__000004_Five.IsPressed = false
 
 	__Button__000005_Un.Name = `Un`
 	__Button__000005_Un.Label = `Un`
-	__Button__000005_Un.Icon = `hour`
-	__Button__000005_Un.IsLookingPressed = false
+	__Button__000005_Un.Icon = `add`
+	__Button__000005_Un.IsPressed = false
+	__Button__000005_Un.MatButtonType = models.MatButtonTypeMiniFab
 	__Button__000005_Un.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
 	__Group__000000_Group_1.Name = `Group 1`
@@ -85,7 +86,7 @@ func _(stage *models.Stage) {
 
 	__Group__000001_Groupe_2.Name = `Groupe 2`
 	__Group__000001_Groupe_2.Percentage = 50.000000
-	__Group__000001_Groupe_2.NbColumns = 5
+	__Group__000001_Groupe_2.NbColumns = 12
 
 	__Layout__000000_layout.Name = `layout`
 
@@ -102,4 +103,3 @@ func _(stage *models.Stage) {
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_Groupe_2)
 }
-
