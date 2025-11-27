@@ -3,9 +3,9 @@
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class ButtonAPI {
+export class ButtonToggleAPI {
 
-	static GONGSTRUCT_NAME = "Button"
+	static GONGSTRUCT_NAME = "ButtonToggle"
 
 	ID: number = 0
 
@@ -14,18 +14,16 @@ export class ButtonAPI {
 	Label: string = ""
 	Icon: string = ""
 	IsDisabled: boolean = false
-	Color: string = ""
-	MatButtonType: string = ""
-	MatButtonAppearance: string = ""
+	IsChecked: boolean = false
 
 	// insertion point for other decls
 
-	ButtonPointersEncoding: ButtonPointersEncoding = new ButtonPointersEncoding
+	ButtonTogglePointersEncoding: ButtonTogglePointersEncoding = new ButtonTogglePointersEncoding
 
 	CreatedAt?: string
 	DeletedAt?: string
 }
 
-export class ButtonPointersEncoding {
+export class ButtonTogglePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 }

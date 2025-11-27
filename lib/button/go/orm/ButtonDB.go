@@ -69,9 +69,12 @@ type ButtonDB struct {
 	// Declation for basic field buttonDB.Icon
 	Icon_Data sql.NullString
 
-	// Declation for basic field buttonDB.IsLookingPressed
+	// Declation for basic field buttonDB.IsDisabled
 	// provide the sql storage for the boolan
-	IsLookingPressed_Data sql.NullBool
+	IsDisabled_Data sql.NullBool
+
+	// Declation for basic field buttonDB.Color
+	Color_Data sql.NullString
 
 	// Declation for basic field buttonDB.MatButtonType
 	MatButtonType_Data sql.NullString
@@ -107,11 +110,13 @@ type ButtonWOP struct {
 
 	Icon string `xlsx:"3"`
 
-	IsLookingPressed bool `xlsx:"4"`
+	IsDisabled bool `xlsx:"4"`
 
-	MatButtonType models.MatButtonType `xlsx:"5"`
+	Color models.MatButtonPaletteType `xlsx:"5"`
 
-	MatButtonAppearance models.MatButtonAppearance `xlsx:"6"`
+	MatButtonType models.MatButtonType `xlsx:"6"`
+
+	MatButtonAppearance models.MatButtonAppearance `xlsx:"7"`
 	// insertion for WOP pointer fields
 }
 
@@ -121,7 +126,8 @@ var Button_Fields = []string{
 	"Name",
 	"Label",
 	"Icon",
-	"IsLookingPressed",
+	"IsDisabled",
+	"Color",
 	"MatButtonType",
 	"MatButtonAppearance",
 }
@@ -410,8 +416,11 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton(button *models.Button) {
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
 
-	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
-	buttonDB.IsLookingPressed_Data.Valid = true
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
+
+	buttonDB.Color_Data.String = button.Color.ToString()
+	buttonDB.Color_Data.Valid = true
 
 	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
 	buttonDB.MatButtonType_Data.Valid = true
@@ -433,8 +442,11 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButton_WOP(button *models.Button_WO
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
 
-	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
-	buttonDB.IsLookingPressed_Data.Valid = true
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
+
+	buttonDB.Color_Data.String = button.Color.ToString()
+	buttonDB.Color_Data.Valid = true
 
 	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
 	buttonDB.MatButtonType_Data.Valid = true
@@ -456,8 +468,11 @@ func (buttonDB *ButtonDB) CopyBasicFieldsFromButtonWOP(button *ButtonWOP) {
 	buttonDB.Icon_Data.String = button.Icon
 	buttonDB.Icon_Data.Valid = true
 
-	buttonDB.IsLookingPressed_Data.Bool = button.IsLookingPressed
-	buttonDB.IsLookingPressed_Data.Valid = true
+	buttonDB.IsDisabled_Data.Bool = button.IsDisabled
+	buttonDB.IsDisabled_Data.Valid = true
+
+	buttonDB.Color_Data.String = button.Color.ToString()
+	buttonDB.Color_Data.Valid = true
 
 	buttonDB.MatButtonType_Data.String = button.MatButtonType.ToString()
 	buttonDB.MatButtonType_Data.Valid = true
@@ -472,7 +487,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton(button *models.Button) {
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
-	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
+	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }
@@ -483,7 +499,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButton_WOP(button *models.Button_WOP)
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
-	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
+	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }
@@ -495,7 +512,8 @@ func (buttonDB *ButtonDB) CopyBasicFieldsToButtonWOP(button *ButtonWOP) {
 	button.Name = buttonDB.Name_Data.String
 	button.Label = buttonDB.Label_Data.String
 	button.Icon = buttonDB.Icon_Data.String
-	button.IsLookingPressed = buttonDB.IsLookingPressed_Data.Bool
+	button.IsDisabled = buttonDB.IsDisabled_Data.Bool
+	button.Color.FromString(buttonDB.Color_Data.String)
 	button.MatButtonType.FromString(buttonDB.MatButtonType_Data.String)
 	button.MatButtonAppearance.FromString(buttonDB.MatButtonAppearance_Data.String)
 }

@@ -20,7 +20,9 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*Button](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*ButtonToggle](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Group](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*GroupToogle](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Layout](stage, f, addIDs)
 	}
 

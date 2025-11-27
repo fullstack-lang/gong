@@ -18,7 +18,9 @@ type Button_WOP struct {
 
 	Icon string
 
-	IsLookingPressed bool
+	IsDisabled bool
+
+	Color MatButtonPaletteType
 
 	MatButtonType MatButtonType
 
@@ -30,9 +32,33 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.Name = from.Name
 	to.Label = from.Label
 	to.Icon = from.Icon
-	to.IsLookingPressed = from.IsLookingPressed
+	to.IsDisabled = from.IsDisabled
+	to.Color = from.Color
 	to.MatButtonType = from.MatButtonType
 	to.MatButtonAppearance = from.MatButtonAppearance
+}
+
+type ButtonToggle_WOP struct {
+	// insertion point
+
+	Name string
+
+	Label string
+
+	Icon string
+
+	IsDisabled bool
+
+	IsChecked bool
+}
+
+func (from *ButtonToggle) CopyBasicFields(to *ButtonToggle) {
+	// insertion point
+	to.Name = from.Name
+	to.Label = from.Label
+	to.Icon = from.Icon
+	to.IsDisabled = from.IsDisabled
+	to.IsChecked = from.IsChecked
 }
 
 type Group_WOP struct {
@@ -50,6 +76,23 @@ func (from *Group) CopyBasicFields(to *Group) {
 	to.Name = from.Name
 	to.Percentage = from.Percentage
 	to.NbColumns = from.NbColumns
+}
+
+type GroupToogle_WOP struct {
+	// insertion point
+
+	Name string
+
+	Percentage float64
+
+	IsSingleSelector bool
+}
+
+func (from *GroupToogle) CopyBasicFields(to *GroupToogle) {
+	// insertion point
+	to.Name = from.Name
+	to.Percentage = from.Percentage
+	to.IsSingleSelector = from.IsSingleSelector
 }
 
 type Layout_WOP struct {

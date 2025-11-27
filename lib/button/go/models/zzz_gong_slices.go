@@ -8,6 +8,9 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct Button
 	// insertion point per field
 
+	// Compute reverse map for named struct ButtonToggle
+	// insertion point per field
+
 	// Compute reverse map for named struct Group
 	// insertion point per field
 	clear(stage.Group_Buttons_reverseMap)
@@ -16,6 +19,17 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = group
 		for _, _button := range group.Buttons {
 			stage.Group_Buttons_reverseMap[_button] = group
+		}
+	}
+
+	// Compute reverse map for named struct GroupToogle
+	// insertion point per field
+	clear(stage.GroupToogle_ButtonToggles_reverseMap)
+	stage.GroupToogle_ButtonToggles_reverseMap = make(map[*ButtonToggle]*GroupToogle)
+	for grouptoogle := range stage.GroupToogles {
+		_ = grouptoogle
+		for _, _buttontoggle := range grouptoogle.ButtonToggles {
+			stage.GroupToogle_ButtonToggles_reverseMap[_buttontoggle] = grouptoogle
 		}
 	}
 
@@ -29,6 +43,14 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layout_Groups_reverseMap[_group] = layout
 		}
 	}
+	clear(stage.Layout_GroupToogles_reverseMap)
+	stage.Layout_GroupToogles_reverseMap = make(map[*GroupToogle]*Layout)
+	for layout := range stage.Layouts {
+		_ = layout
+		for _, _grouptoogle := range layout.GroupToogles {
+			stage.Layout_GroupToogles_reverseMap[_grouptoogle] = layout
+		}
+	}
 
 }
 
@@ -39,7 +61,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.ButtonToggles {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Groups {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.GroupToogles {
 		res = append(res, instance)
 	}
 
@@ -56,8 +86,18 @@ func (button *Button) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+func (buttontoggle *ButtonToggle) GongCopy() GongstructIF {
+	newInstance := *buttontoggle
+	return &newInstance
+}
+
 func (group *Group) GongCopy() GongstructIF {
 	newInstance := *group
+	return &newInstance
+}
+
+func (grouptoogle *GroupToogle) GongCopy() GongstructIF {
+	newInstance := *grouptoogle
 	return &newInstance
 }
 

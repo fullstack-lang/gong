@@ -1,5 +1,5 @@
 <as-split direction="vertical">
-    @for (group of layout?.Groups; track group) {
+    @for (group of layout?.Groups; track group.ID) {
     <as-split-area [size]="group.Percentage">
 
         @if (group.Name) {
@@ -8,39 +8,44 @@
 
         <div class="button-grid"
             [style.grid-template-columns]="'repeat(' + (group.NbColumns || 4) + ', 1fr)'">
-            @for (button of group.Buttons; track button) {
+            @for (button of group.Buttons; track button.ID) {
 
             @switch (button.MatButtonType) {
 
                 @case ('matButton') {
                     @switch (button.MatButtonAppearance) {
                         @case ('filled') {
-                            <button mat-flat-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                            <button mat-flat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                                [disabled]="button.IsDisabled"
+                                >
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('elevated') {
-                            <button mat-raised-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                            <button mat-raised-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                                [disabled]="button.IsDisabled"
+                                >
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('outlined') {
-                            <button mat-stroked-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                            <button mat-stroked-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                                [disabled]="button.IsDisabled"
+                                >
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('tonal') {
-                            <button mat-flat-button class="mat-tonal-button" color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                            <button mat-flat-button class="mat-tonal-button" [color]="button.Color || 'primary'" (click)="onClick(button)"
+                                [disabled]="button.IsDisabled"
+                                >
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @default {
-                            <button mat-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                            <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                                [disabled]="button.IsDisabled"
+                                >
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
@@ -48,36 +53,41 @@
                 }
 
                 @case ('matIconButton') {
-                    <button mat-icon-button color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                    <button mat-icon-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                        [disabled]="button.IsDisabled"
+                        >
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matFab') {
-                    <button mat-fab color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                    <button mat-fab [color]="button.Color || 'primary'" (click)="onClick(button)"
+                        [disabled]="button.IsDisabled"
+                        >
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matMiniFab') {
-                    <button mat-mini-fab color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                    <button mat-mini-fab [color]="button.Color || 'primary'" (click)="onClick(button)"
+                        [disabled]="button.IsDisabled"
+                        >
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matFab extended') {
-                    <button mat-fab extended color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                    <button mat-fab extended [color]="button.Color || 'primary'" (click)="onClick(button)"
+                        [disabled]="button.IsDisabled"
+                        >
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }
                 
                 @default {
-                    <button mat-button color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                    <button mat-button [color]="button.Color || 'primary'" (click)="onClick(button)"
+                        [disabled]="button.IsDisabled"
+                        >
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }
@@ -85,9 +95,36 @@
 
             }
         </div>
-
     </as-split-area>
     }
+
+    @for (groupToogle of layout?.GroupToogles; track groupToogle.ID) {
+    <as-split-area [size]="groupToogle.Percentage">
+        
+        @if (groupToogle.Name) {
+            <div class="group-header">{{groupToogle.Name}}</div>
+        }
+
+        <div style="padding: 10px;">
+            <mat-button-toggle-group 
+                name="fontStyle" 
+                aria-label="Font Style" 
+                [multiple]="!groupToogle.IsSingleSelector"
+                (change)="onGroupChange(groupToogle, $event)">
+
+                @for (buttonToggle of groupToogle.ButtonToggles; track buttonToggle.ID) {
+                    <mat-button-toggle [value]="buttonToggle.ID" [checked]="buttonToggle.IsChecked">
+                        @if (buttonToggle.Icon) {
+                            <mat-icon>{{buttonToggle.Icon}}</mat-icon>
+                        }
+                        {{buttonToggle.Label}}
+                    </mat-button-toggle>
+                }
+            </mat-button-toggle-group>
+        </div>
+    </as-split-area>
+    }
+
 </as-split>
 
 <ng-template #contentTpl let-btn>

@@ -12,6 +12,16 @@ func (orchestrator *ButtonOrchestrator) OnAfterUpdate(
 
 	stagedButton.OnAfterUpdate(gongsvgStage, stagedButton, backRepoButton)
 }
+// ButtonToggleOrchestrator
+type ButtonToggleOrchestrator struct {
+}
+
+func (orchestrator *ButtonToggleOrchestrator) OnAfterUpdate(
+	gongsvgStage *Stage,
+	stagedButtonToggle, backRepoButtonToggle *ButtonToggle) {
+
+	stagedButtonToggle.OnAfterUpdate(gongsvgStage, stagedButtonToggle, backRepoButtonToggle)
+}
 
 func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 
@@ -21,6 +31,8 @@ func SetOrchestratorOnAfterUpdate[Type Gongstruct](stage *Stage) {
 	// insertion point
 	case Button:
 		stage.OnAfterButtonUpdateCallback = new(ButtonOrchestrator)
+	case ButtonToggle:
+		stage.OnAfterButtonToggleUpdateCallback = new(ButtonToggleOrchestrator)
 
 	}
 

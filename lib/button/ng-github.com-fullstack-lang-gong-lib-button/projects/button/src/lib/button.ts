@@ -18,7 +18,8 @@ export class Button {
 	Name: string = ""
 	Label: string = ""
 	Icon: string = ""
-	IsLookingPressed: boolean = false
+	IsDisabled: boolean = false
+	Color: string = ""
 	MatButtonType: string = ""
 	MatButtonAppearance: string = ""
 
@@ -38,7 +39,8 @@ export function CopyButtonToButtonAPI(button: Button, buttonAPI: ButtonAPI) {
 	buttonAPI.Name = button.Name
 	buttonAPI.Label = button.Label
 	buttonAPI.Icon = button.Icon
-	buttonAPI.IsLookingPressed = button.IsLookingPressed
+	buttonAPI.IsDisabled = button.IsDisabled
+	buttonAPI.Color = button.Color
 	buttonAPI.MatButtonType = button.MatButtonType
 	buttonAPI.MatButtonAppearance = button.MatButtonAppearance
 
@@ -61,7 +63,8 @@ export function CopyButtonAPIToButton(buttonAPI: ButtonAPI, button: Button, fron
 	button.Name = buttonAPI.Name
 	button.Label = buttonAPI.Label
 	button.Icon = buttonAPI.Icon
-	button.IsLookingPressed = buttonAPI.IsLookingPressed
+	button.IsDisabled = buttonAPI.IsDisabled
+	button.Color = buttonAPI.Color
 	button.MatButtonType = buttonAPI.MatButtonType
 	button.MatButtonAppearance = buttonAPI.MatButtonAppearance
 

@@ -9,9 +9,17 @@ import { ButtonAPI } from './button-api'
 import { Button, CopyButtonAPIToButton } from './button'
 import { ButtonService } from './button.service'
 
+import { ButtonToggleAPI } from './buttontoggle-api'
+import { ButtonToggle, CopyButtonToggleAPIToButtonToggle } from './buttontoggle'
+import { ButtonToggleService } from './buttontoggle.service'
+
 import { GroupAPI } from './group-api'
 import { Group, CopyGroupAPIToGroup } from './group'
 import { GroupService } from './group.service'
+
+import { GroupToogleAPI } from './grouptoogle-api'
+import { GroupToogle, CopyGroupToogleAPIToGroupToogle } from './grouptoogle'
+import { GroupToogleService } from './grouptoogle.service'
 
 import { LayoutAPI } from './layout-api'
 import { Layout, CopyLayoutAPIToLayout } from './layout'
@@ -27,8 +35,14 @@ export class FrontRepo { // insertion point sub template
 	array_Buttons = new Array<Button>() // array of front instances
 	map_ID_Button = new Map<number, Button>() // map of front instances
 
+	array_ButtonToggles = new Array<ButtonToggle>() // array of front instances
+	map_ID_ButtonToggle = new Map<number, ButtonToggle>() // map of front instances
+
 	array_Groups = new Array<Group>() // array of front instances
 	map_ID_Group = new Map<number, Group>() // map of front instances
+
+	array_GroupToogles = new Array<GroupToogle>() // array of front instances
+	map_ID_GroupToogle = new Map<number, GroupToogle>() // map of front instances
 
 	array_Layouts = new Array<Layout>() // array of front instances
 	map_ID_Layout = new Map<number, Layout>() // map of front instances
@@ -44,8 +58,12 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Button':
 				return this.array_Buttons as unknown as Array<Type>
+			case 'ButtonToggle':
+				return this.array_ButtonToggles as unknown as Array<Type>
 			case 'Group':
 				return this.array_Groups as unknown as Array<Type>
+			case 'GroupToogle':
+				return this.array_GroupToogles as unknown as Array<Type>
 			case 'Layout':
 				return this.array_Layouts as unknown as Array<Type>
 			default:
@@ -58,8 +76,12 @@ export class FrontRepo { // insertion point sub template
 			// insertion point
 			case 'Button':
 				return this.map_ID_Button as unknown as Map<number, Type>
+			case 'ButtonToggle':
+				return this.map_ID_ButtonToggle as unknown as Map<number, Type>
 			case 'Group':
 				return this.map_ID_Group as unknown as Map<number, Type>
+			case 'GroupToogle':
+				return this.map_ID_GroupToogle as unknown as Map<number, Type>
 			case 'Layout':
 				return this.map_ID_Layout as unknown as Map<number, Type>
 			default:
@@ -133,7 +155,9 @@ export class FrontRepoService {
 	constructor(
 		private http: HttpClient, // insertion point sub template 
 		private buttonService: ButtonService,
+		private buttontoggleService: ButtonToggleService,
 		private groupService: GroupService,
+		private grouptoogleService: GroupToogleService,
 		private layoutService: LayoutService,
 	) { }
 
@@ -168,7 +192,9 @@ export class FrontRepoService {
 		Observable<null>, // see below for the of(null) observable
 		// insertion point sub template 
 		Observable<ButtonAPI[]>,
+		Observable<ButtonToggleAPI[]>,
 		Observable<GroupAPI[]>,
+		Observable<GroupToogleAPI[]>,
 		Observable<LayoutAPI[]>,
 	]
 
@@ -186,7 +212,9 @@ export class FrontRepoService {
 			of(null), // see above for justification
 			// insertion point sub template
 			this.buttonService.getButtons(this.Name, this.frontRepo),
+			this.buttontoggleService.getButtonToggles(this.Name, this.frontRepo),
 			this.groupService.getGroups(this.Name, this.frontRepo),
+			this.grouptoogleService.getGroupToogles(this.Name, this.frontRepo),
 			this.layoutService.getLayouts(this.Name, this.frontRepo),
 		]
 
@@ -199,7 +227,9 @@ export class FrontRepoService {
 						___of_null, // see above for the explanation about of
 						// insertion point sub template for declarations 
 						buttons_,
+						buttontoggles_,
 						groups_,
+						grouptoogles_,
 						layouts_,
 					]) => {
 						let _this = this
@@ -207,8 +237,12 @@ export class FrontRepoService {
 						// insertion point sub template for type casting 
 						var buttons: ButtonAPI[]
 						buttons = buttons_ as ButtonAPI[]
+						var buttontoggles: ButtonToggleAPI[]
+						buttontoggles = buttontoggles_ as ButtonToggleAPI[]
 						var groups: GroupAPI[]
 						groups = groups_ as GroupAPI[]
+						var grouptoogles: GroupToogleAPI[]
+						grouptoogles = grouptoogles_ as GroupToogleAPI[]
 						var layouts: LayoutAPI[]
 						layouts = layouts_ as LayoutAPI[]
 
@@ -228,6 +262,18 @@ export class FrontRepoService {
 						)
 
 						// init the arrays
+						this.frontRepo.array_ButtonToggles = []
+						this.frontRepo.map_ID_ButtonToggle.clear()
+
+						buttontoggles.forEach(
+							buttontoggleAPI => {
+								let buttontoggle = new ButtonToggle
+								this.frontRepo.array_ButtonToggles.push(buttontoggle)
+								this.frontRepo.map_ID_ButtonToggle.set(buttontoggleAPI.ID, buttontoggle)
+							}
+						)
+
+						// init the arrays
 						this.frontRepo.array_Groups = []
 						this.frontRepo.map_ID_Group.clear()
 
@@ -236,6 +282,18 @@ export class FrontRepoService {
 								let group = new Group
 								this.frontRepo.array_Groups.push(group)
 								this.frontRepo.map_ID_Group.set(groupAPI.ID, group)
+							}
+						)
+
+						// init the arrays
+						this.frontRepo.array_GroupToogles = []
+						this.frontRepo.map_ID_GroupToogle.clear()
+
+						grouptoogles.forEach(
+							grouptoogleAPI => {
+								let grouptoogle = new GroupToogle
+								this.frontRepo.array_GroupToogles.push(grouptoogle)
+								this.frontRepo.map_ID_GroupToogle.set(grouptoogleAPI.ID, grouptoogle)
 							}
 						)
 
@@ -264,10 +322,26 @@ export class FrontRepoService {
 						)
 
 						// fill up front objects
+						buttontoggles.forEach(
+							buttontoggleAPI => {
+								let buttontoggle = this.frontRepo.map_ID_ButtonToggle.get(buttontoggleAPI.ID)
+								CopyButtonToggleAPIToButtonToggle(buttontoggleAPI, buttontoggle!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
 						groups.forEach(
 							groupAPI => {
 								let group = this.frontRepo.map_ID_Group.get(groupAPI.ID)
 								CopyGroupAPIToGroup(groupAPI, group!, this.frontRepo)
+							}
+						)
+
+						// fill up front objects
+						grouptoogles.forEach(
+							grouptoogleAPI => {
+								let grouptoogle = this.frontRepo.map_ID_GroupToogle.get(grouptoogleAPI.ID)
+								CopyGroupToogleAPIToGroupToogle(grouptoogleAPI, grouptoogle!, this.frontRepo)
 							}
 						)
 
@@ -339,6 +413,18 @@ export class FrontRepoService {
 				)
 
 				// init the arrays
+				frontRepo.array_ButtonToggles = []
+				frontRepo.map_ID_ButtonToggle.clear()
+
+				backRepoData.ButtonToggleAPIs.forEach(
+					buttontoggleAPI => {
+						let buttontoggle = new ButtonToggle
+						frontRepo.array_ButtonToggles.push(buttontoggle)
+						frontRepo.map_ID_ButtonToggle.set(buttontoggleAPI.ID, buttontoggle)
+					}
+				)
+
+				// init the arrays
 				frontRepo.array_Groups = []
 				frontRepo.map_ID_Group.clear()
 
@@ -347,6 +433,18 @@ export class FrontRepoService {
 						let group = new Group
 						frontRepo.array_Groups.push(group)
 						frontRepo.map_ID_Group.set(groupAPI.ID, group)
+					}
+				)
+
+				// init the arrays
+				frontRepo.array_GroupToogles = []
+				frontRepo.map_ID_GroupToogle.clear()
+
+				backRepoData.GroupToogleAPIs.forEach(
+					grouptoogleAPI => {
+						let grouptoogle = new GroupToogle
+						frontRepo.array_GroupToogles.push(grouptoogle)
+						frontRepo.map_ID_GroupToogle.set(grouptoogleAPI.ID, grouptoogle)
 					}
 				)
 
@@ -377,10 +475,26 @@ export class FrontRepoService {
 				)
 
 				// fill up front objects
+				backRepoData.ButtonToggleAPIs.forEach(
+					buttontoggleAPI => {
+						let buttontoggle = frontRepo.map_ID_ButtonToggle.get(buttontoggleAPI.ID)
+						CopyButtonToggleAPIToButtonToggle(buttontoggleAPI, buttontoggle!, frontRepo)
+					}
+				)
+
+				// fill up front objects
 				backRepoData.GroupAPIs.forEach(
 					groupAPI => {
 						let group = frontRepo.map_ID_Group.get(groupAPI.ID)
 						CopyGroupAPIToGroup(groupAPI, group!, frontRepo)
+					}
+				)
+
+				// fill up front objects
+				backRepoData.GroupToogleAPIs.forEach(
+					grouptoogleAPI => {
+						let grouptoogle = frontRepo.map_ID_GroupToogle.get(grouptoogleAPI.ID)
+						CopyGroupToogleAPIToGroupToogle(grouptoogleAPI, grouptoogle!, frontRepo)
 					}
 				)
 
@@ -423,9 +537,15 @@ export class FrontRepoService {
 export function getButtonUniqueID(id: number): number {
 	return 31 * id
 }
-export function getGroupUniqueID(id: number): number {
+export function getButtonToggleUniqueID(id: number): number {
 	return 37 * id
 }
-export function getLayoutUniqueID(id: number): number {
+export function getGroupUniqueID(id: number): number {
 	return 41 * id
+}
+export function getGroupToogleUniqueID(id: number): number {
+	return 43 * id
+}
+export function getLayoutUniqueID(id: number): number {
+	return 47 * id
 }
