@@ -822,7 +822,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1179,39 +1179,38 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (filetodownload *FileToDownload) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (filetodownload *FileToDownload) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = filetodownload.Name
-		case "Content":
-			res.valueString = filetodownload.Content
+	// string value of fields
+	case "Name":
+		res.valueString = filetodownload.Name
+	case "Content":
+		res.valueString = filetodownload.Content
 	}
 	return
 }
-func (filetoupload *FileToUpload) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (filetoupload *FileToUpload) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = filetoupload.Name
-		case "Base64EncodedContent":
-			res.valueString = filetoupload.Base64EncodedContent
+	// string value of fields
+	case "Name":
+		res.valueString = filetoupload.Name
+	case "Base64EncodedContent":
+		res.valueString = filetoupload.Base64EncodedContent
 	}
 	return
 }
-func (message *Message) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (message *Message) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = message.Name
+	// string value of fields
+	case "Name":
+		res.valueString = message.Name
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 

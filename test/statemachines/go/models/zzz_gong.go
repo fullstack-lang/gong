@@ -862,13 +862,6 @@ func (stage *Stage) Commit() {
 	stage.commitId++
 	stage.commitTimeStamp = time.Now()
 
-	if stage.OnInitCommitCallback != nil {
-		stage.OnInitCommitCallback.BeforeCommit(stage)
-	}
-	if stage.OnInitCommitFromBackCallback != nil {
-		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
-	}
-
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}
@@ -1989,7 +1982,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -3226,7 +3219,7 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (architecture *Architecture) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (architecture *Architecture) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3258,7 +3251,7 @@ func (architecture *Architecture) GongGetFieldValueString(fieldName string, stag
 	}
 	return
 }
-func (diagram *Diagram) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3302,7 +3295,7 @@ func (diagram *Diagram) GongGetFieldValueString(fieldName string, stage *Stage) 
 	}
 	return
 }
-func (kill *Kill) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (kill *Kill) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3310,7 +3303,7 @@ func (kill *Kill) GongGetFieldValueString(fieldName string, stage *Stage) (res G
 	}
 	return
 }
-func (message *Message) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (message *Message) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3334,7 +3327,7 @@ func (message *Message) GongGetFieldValueString(fieldName string, stage *Stage) 
 	}
 	return
 }
-func (messagetype *MessageType) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (messagetype *MessageType) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3344,7 +3337,7 @@ func (messagetype *MessageType) GongGetFieldValueString(fieldName string, stage 
 	}
 	return
 }
-func (object *Object) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (object *Object) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3378,7 +3371,7 @@ func (object *Object) GongGetFieldValueString(fieldName string, stage *Stage) (r
 	}
 	return
 }
-func (role *Role) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (role *Role) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3398,7 +3391,7 @@ func (role *Role) GongGetFieldValueString(fieldName string, stage *Stage) (res G
 	}
 	return
 }
-func (state *State) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (state *State) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3444,7 +3437,7 @@ func (state *State) GongGetFieldValueString(fieldName string, stage *Stage) (res
 	}
 	return
 }
-func (statemachine *StateMachine) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (statemachine *StateMachine) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3482,7 +3475,7 @@ func (statemachine *StateMachine) GongGetFieldValueString(fieldName string, stag
 	}
 	return
 }
-func (stateshape *StateShape) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (stateshape *StateShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3516,7 +3509,7 @@ func (stateshape *StateShape) GongGetFieldValueString(fieldName string, stage *S
 	}
 	return
 }
-func (transition *Transition) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3566,7 +3559,7 @@ func (transition *Transition) GongGetFieldValueString(fieldName string, stage *S
 	}
 	return
 }
-func (transition_shape *Transition_Shape) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (transition_shape *Transition_Shape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
 	case "Name":
@@ -3601,7 +3594,7 @@ func (transition_shape *Transition_Shape) GongGetFieldValueString(fieldName stri
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
