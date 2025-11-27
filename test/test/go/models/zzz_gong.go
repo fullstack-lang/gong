@@ -1342,7 +1342,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -2345,328 +2345,327 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (astruct *Astruct) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (astruct *Astruct) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = astruct.Name
-		case "Associationtob":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Associationtob != nil {
-				res.valueString = astruct.Associationtob.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Associationtob))
+	// string value of fields
+	case "Name":
+		res.valueString = astruct.Name
+	case "Associationtob":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Associationtob != nil {
+			res.valueString = astruct.Associationtob.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Associationtob))
+		}
+	case "Anarrayofb":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.Anarrayofb {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Anarrayofb":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.Anarrayofb {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Anotherassociationtob_2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Anotherassociationtob_2 != nil {
+			res.valueString = astruct.Anotherassociationtob_2.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Anotherassociationtob_2))
+		}
+	case "Date":
+		res.valueString = astruct.Date.String()
+	case "Date2":
+		res.valueString = astruct.Date2.Format("2006-01-02")
+	case "Booleanfield":
+		res.valueString = fmt.Sprintf("%t", astruct.Booleanfield)
+		res.valueBool = astruct.Booleanfield
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Aenum":
+		enum := astruct.Aenum
+		res.valueString = enum.ToCodeString()
+	case "Aenum_2":
+		enum := astruct.Aenum_2
+		res.valueString = enum.ToCodeString()
+	case "Benum":
+		enum := astruct.Benum
+		res.valueString = enum.ToCodeString()
+	case "CEnum":
+		enum := astruct.CEnum
+		res.valueString = enum.ToCodeString()
+	case "CName":
+		res.valueString = astruct.CName
+	case "CFloatfield":
+		res.valueString = fmt.Sprintf("%f", astruct.CFloatfield)
+		res.valueFloat = astruct.CFloatfield
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Bstruct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Bstruct != nil {
+			res.valueString = astruct.Bstruct.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Bstruct))
+		}
+	case "Bstruct2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Bstruct2 != nil {
+			res.valueString = astruct.Bstruct2.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Bstruct2))
+		}
+	case "Dstruct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Dstruct != nil {
+			res.valueString = astruct.Dstruct.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct))
+		}
+	case "Dstruct2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Dstruct2 != nil {
+			res.valueString = astruct.Dstruct2.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct2))
+		}
+	case "Dstruct3":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Dstruct3 != nil {
+			res.valueString = astruct.Dstruct3.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct3))
+		}
+	case "Dstruct4":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.Dstruct4 != nil {
+			res.valueString = astruct.Dstruct4.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct4))
+		}
+	case "Dstruct4s":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.Dstruct4s {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Anotherassociationtob_2":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Anotherassociationtob_2 != nil {
-				res.valueString = astruct.Anotherassociationtob_2.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Anotherassociationtob_2))
-			}
-		case "Date":
-			res.valueString = astruct.Date.String()
-		case "Date2":
-			res.valueString = astruct.Date2.Format("2006-01-02")
-		case "Booleanfield":
-			res.valueString = fmt.Sprintf("%t", astruct.Booleanfield)
-			res.valueBool = astruct.Booleanfield
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "Aenum":
-			enum := astruct.Aenum
-			res.valueString = enum.ToCodeString()
-		case "Aenum_2":
-			enum := astruct.Aenum_2
-			res.valueString = enum.ToCodeString()
-		case "Benum":
-			enum := astruct.Benum
-			res.valueString = enum.ToCodeString()
-		case "CEnum":
-			enum := astruct.CEnum
-			res.valueString = enum.ToCodeString()
-		case "CName":
-			res.valueString = astruct.CName
-		case "CFloatfield":
-			res.valueString = fmt.Sprintf("%f", astruct.CFloatfield)
-			res.valueFloat = astruct.CFloatfield
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Bstruct":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Bstruct != nil {
-				res.valueString = astruct.Bstruct.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Bstruct))
-			}
-		case "Bstruct2":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Bstruct2 != nil {
-				res.valueString = astruct.Bstruct2.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Bstruct2))
-			}
-		case "Dstruct":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Dstruct != nil {
-				res.valueString = astruct.Dstruct.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct))
-			}
-		case "Dstruct2":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Dstruct2 != nil {
-				res.valueString = astruct.Dstruct2.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct2))
-			}
-		case "Dstruct3":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Dstruct3 != nil {
-				res.valueString = astruct.Dstruct3.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct3))
-			}
-		case "Dstruct4":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.Dstruct4 != nil {
-				res.valueString = astruct.Dstruct4.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.Dstruct4))
-			}
-		case "Dstruct4s":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.Dstruct4s {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
-		case "Floatfield":
-			res.valueString = fmt.Sprintf("%f", astruct.Floatfield)
-			res.valueFloat = astruct.Floatfield
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Intfield":
-			res.valueString = fmt.Sprintf("%d", astruct.Intfield)
-			res.valueInt = astruct.Intfield
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Anotherbooleanfield":
-			res.valueString = fmt.Sprintf("%t", astruct.Anotherbooleanfield)
-			res.valueBool = astruct.Anotherbooleanfield
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "Duration1":
-			if math.Abs(astruct.Duration1.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(astruct.Duration1.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Floatfield":
+		res.valueString = fmt.Sprintf("%f", astruct.Floatfield)
+		res.valueFloat = astruct.Floatfield
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Intfield":
+		res.valueString = fmt.Sprintf("%d", astruct.Intfield)
+		res.valueInt = astruct.Intfield
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Anotherbooleanfield":
+		res.valueString = fmt.Sprintf("%t", astruct.Anotherbooleanfield)
+		res.valueBool = astruct.Anotherbooleanfield
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Duration1":
+		if math.Abs(astruct.Duration1.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(astruct.Duration1.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
 
-				remainingHours := int(astruct.Duration1.Hours()) % 24
-				remainingMinutes := int(astruct.Duration1.Minutes()) % 60
-				remainingSeconds := int(astruct.Duration1.Seconds()) % 60
+			remainingHours := int(astruct.Duration1.Hours()) % 24
+			remainingMinutes := int(astruct.Duration1.Minutes()) % 60
+			remainingSeconds := int(astruct.Duration1.Seconds()) % 60
 
-				if astruct.Duration1.Hours() < 0 {
-					res.valueString = "- "
+			if astruct.Duration1.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
 				}
 
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", astruct.Duration1.String())
 			}
-		case "Anarrayofa":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.Anarrayofa {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
 				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
 			}
-		case "Anotherarrayofb":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.Anotherarrayofb {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", astruct.Duration1.String())
+		}
+	case "Anarrayofa":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.Anarrayofa {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "AnarrayofbUse":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.AnarrayofbUse {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Anotherarrayofb":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.Anotherarrayofb {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Anarrayofb2Use":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range astruct.Anarrayofb2Use {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "AnarrayofbUse":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.AnarrayofbUse {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "AnAstruct":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astruct.AnAstruct != nil {
-				res.valueString = astruct.AnAstruct.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.AnAstruct))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Anarrayofb2Use":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range astruct.Anarrayofb2Use {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "TextFieldBespokeSize":
-			res.valueString = astruct.TextFieldBespokeSize
-		case "TextArea":
-			res.valueString = astruct.TextArea
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "AnAstruct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astruct.AnAstruct != nil {
+			res.valueString = astruct.AnAstruct.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astruct.AnAstruct))
+		}
+	case "TextFieldBespokeSize":
+		res.valueString = astruct.TextFieldBespokeSize
+	case "TextArea":
+		res.valueString = astruct.TextArea
 	}
 	return
 }
-func (astructbstruct2use *AstructBstruct2Use) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (astructbstruct2use *AstructBstruct2Use) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = astructbstruct2use.Name
-		case "Bstrcut2":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astructbstruct2use.Bstrcut2 != nil {
-				res.valueString = astructbstruct2use.Bstrcut2.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astructbstruct2use.Bstrcut2))
-			}
+	// string value of fields
+	case "Name":
+		res.valueString = astructbstruct2use.Name
+	case "Bstrcut2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astructbstruct2use.Bstrcut2 != nil {
+			res.valueString = astructbstruct2use.Bstrcut2.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astructbstruct2use.Bstrcut2))
+		}
 	}
 	return
 }
-func (astructbstructuse *AstructBstructUse) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (astructbstructuse *AstructBstructUse) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = astructbstructuse.Name
-		case "Bstruct2":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if astructbstructuse.Bstruct2 != nil {
-				res.valueString = astructbstructuse.Bstruct2.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astructbstructuse.Bstruct2))
-			}
+	// string value of fields
+	case "Name":
+		res.valueString = astructbstructuse.Name
+	case "Bstruct2":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if astructbstructuse.Bstruct2 != nil {
+			res.valueString = astructbstructuse.Bstruct2.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, astructbstructuse.Bstruct2))
+		}
 	}
 	return
 }
-func (bstruct *Bstruct) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (bstruct *Bstruct) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = bstruct.Name
-		case "Floatfield":
-			res.valueString = fmt.Sprintf("%f", bstruct.Floatfield)
-			res.valueFloat = bstruct.Floatfield
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Floatfield2":
-			res.valueString = fmt.Sprintf("%f", bstruct.Floatfield2)
-			res.valueFloat = bstruct.Floatfield2
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Intfield":
-			res.valueString = fmt.Sprintf("%d", bstruct.Intfield)
-			res.valueInt = bstruct.Intfield
-			res.GongFieldValueType = GongFieldValueTypeInt
+	// string value of fields
+	case "Name":
+		res.valueString = bstruct.Name
+	case "Floatfield":
+		res.valueString = fmt.Sprintf("%f", bstruct.Floatfield)
+		res.valueFloat = bstruct.Floatfield
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Floatfield2":
+		res.valueString = fmt.Sprintf("%f", bstruct.Floatfield2)
+		res.valueFloat = bstruct.Floatfield2
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Intfield":
+		res.valueString = fmt.Sprintf("%d", bstruct.Intfield)
+		res.valueInt = bstruct.Intfield
+		res.GongFieldValueType = GongFieldValueTypeInt
 	}
 	return
 }
-func (dstruct *Dstruct) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (dstruct *Dstruct) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = dstruct.Name
-		case "Anarrayofb":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range dstruct.Anarrayofb {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = dstruct.Name
+	case "Anarrayofb":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range dstruct.Anarrayofb {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Gstruct":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if dstruct.Gstruct != nil {
-				res.valueString = dstruct.Gstruct.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, dstruct.Gstruct))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Gstruct":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if dstruct.Gstruct != nil {
+			res.valueString = dstruct.Gstruct.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, dstruct.Gstruct))
+		}
+	case "Gstructs":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range dstruct.Gstructs {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Gstructs":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range dstruct.Gstructs {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = f0123456789012345678901234567890.Name
-		case "Date":
-			res.valueString = f0123456789012345678901234567890.Date.String()
+	// string value of fields
+	case "Name":
+		res.valueString = f0123456789012345678901234567890.Name
+	case "Date":
+		res.valueString = f0123456789012345678901234567890.Date.String()
 	}
 	return
 }
-func (gstruct *Gstruct) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (gstruct *Gstruct) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = gstruct.Name
-		case "Floatfield":
-			res.valueString = fmt.Sprintf("%f", gstruct.Floatfield)
-			res.valueFloat = gstruct.Floatfield
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Floatfield2":
-			res.valueString = fmt.Sprintf("%f", gstruct.Floatfield2)
-			res.valueFloat = gstruct.Floatfield2
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Intfield":
-			res.valueString = fmt.Sprintf("%d", gstruct.Intfield)
-			res.valueInt = gstruct.Intfield
-			res.GongFieldValueType = GongFieldValueTypeInt
+	// string value of fields
+	case "Name":
+		res.valueString = gstruct.Name
+	case "Floatfield":
+		res.valueString = fmt.Sprintf("%f", gstruct.Floatfield)
+		res.valueFloat = gstruct.Floatfield
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Floatfield2":
+		res.valueString = fmt.Sprintf("%f", gstruct.Floatfield2)
+		res.valueFloat = gstruct.Floatfield2
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Intfield":
+		res.valueString = fmt.Sprintf("%d", gstruct.Intfield)
+		res.valueInt = gstruct.Intfield
+		res.GongFieldValueType = GongFieldValueTypeInt
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
