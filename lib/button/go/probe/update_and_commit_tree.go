@@ -111,6 +111,29 @@ func updateAndCommitTree(
 				}
 			}
 			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
+		case "ButtonToggle":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ButtonToggle](probe.stageOfInterest)
+			created := 0
+			updated := 0
+			deleted := 0
+			for _buttontoggle := range set {
+				nodeInstance := &tree.Node{Name: _buttontoggle.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_buttontoggle, "ButtonToggle", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+				if _, ok := probe.stageOfInterest.GetNew()[_buttontoggle]; ok {
+					created++
+				}
+				if _, ok := probe.stageOfInterest.GetModified()[_buttontoggle]; ok {
+					updated++
+				}
+				if _, ok := probe.stageOfInterest.GetDeleted()[_buttontoggle]; ok {
+					deleted++
+				}
+			}
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Group":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Group](probe.stageOfInterest)
@@ -130,6 +153,29 @@ func updateAndCommitTree(
 					updated++
 				}
 				if _, ok := probe.stageOfInterest.GetDeleted()[_group]; ok {
+					deleted++
+				}
+			}
+			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
+		case "GroupToogle":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.GroupToogle](probe.stageOfInterest)
+			created := 0
+			updated := 0
+			deleted := 0
+			for _grouptoogle := range set {
+				nodeInstance := &tree.Node{Name: _grouptoogle.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_grouptoogle, "GroupToogle", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+				if _, ok := probe.stageOfInterest.GetNew()[_grouptoogle]; ok {
+					created++
+				}
+				if _, ok := probe.stageOfInterest.GetModified()[_grouptoogle]; ok {
+					updated++
+				}
+				if _, ok := probe.stageOfInterest.GetDeleted()[_grouptoogle]; ok {
 					deleted++
 				}
 			}

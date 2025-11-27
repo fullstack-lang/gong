@@ -38,6 +38,19 @@ func FillUpFormFromGongstructName(
 		button := new(models.Button)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(button, formGroup, probe)
+	case "ButtonToggle":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ButtonToggle Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ButtonToggleFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		buttontoggle := new(models.ButtonToggle)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(buttontoggle, formGroup, probe)
 	case "Group":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -51,6 +64,19 @@ func FillUpFormFromGongstructName(
 		group := new(models.Group)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(group, formGroup, probe)
+	case "GroupToogle":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "GroupToogle Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GroupToogleFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		grouptoogle := new(models.GroupToogle)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(grouptoogle, formGroup, probe)
 	case "Layout":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

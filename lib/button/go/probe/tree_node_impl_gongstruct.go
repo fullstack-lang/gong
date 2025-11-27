@@ -53,8 +53,14 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Button" {
 		updateAndCommitTable[*models.Button](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ButtonToggle" {
+		updateAndCommitTable[*models.ButtonToggle](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Group" {
 		updateAndCommitTable[*models.Group](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "GroupToogle" {
+		updateAndCommitTable[*models.GroupToogle](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Layout" {
 		updateAndCommitTable[*models.Layout](nodeImplGongstruct.probe)

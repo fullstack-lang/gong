@@ -204,6 +204,65 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_ButtonToggle_Identifiers := make(map[*ButtonToggle]string)
+	_ = map_ButtonToggle_Identifiers
+
+	buttontoggleOrdered := []*ButtonToggle{}
+	for buttontoggle := range stage.ButtonToggles {
+		buttontoggleOrdered = append(buttontoggleOrdered, buttontoggle)
+	}
+	sort.Slice(buttontoggleOrdered[:], func(i, j int) bool {
+		buttontogglei := buttontoggleOrdered[i]
+		buttontogglej := buttontoggleOrdered[j]
+		buttontogglei_order, oki := stage.ButtonToggleMap_Staged_Order[buttontogglei]
+		buttontogglej_order, okj := stage.ButtonToggleMap_Staged_Order[buttontogglej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return buttontogglei_order < buttontogglej_order
+	})
+	if len(buttontoggleOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, buttontoggle := range buttontoggleOrdered {
+
+		id = generatesIdentifier("ButtonToggle", idx, buttontoggle.Name)
+		map_ButtonToggle_Identifiers[buttontoggle] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ButtonToggle")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", buttontoggle.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(buttontoggle.Name))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Label")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(buttontoggle.Label))
+		initializerStatements += setValueField
+
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Icon")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(buttontoggle.Icon))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsDisabled")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", buttontoggle.IsDisabled))
+		initializerStatements += setValueField
+
+	}
+
 	map_Group_Identifiers := make(map[*Group]string)
 	_ = map_Group_Identifiers
 
@@ -253,6 +312,59 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbColumns")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", group.NbColumns))
+		initializerStatements += setValueField
+
+	}
+
+	map_GroupToogle_Identifiers := make(map[*GroupToogle]string)
+	_ = map_GroupToogle_Identifiers
+
+	grouptoogleOrdered := []*GroupToogle{}
+	for grouptoogle := range stage.GroupToogles {
+		grouptoogleOrdered = append(grouptoogleOrdered, grouptoogle)
+	}
+	sort.Slice(grouptoogleOrdered[:], func(i, j int) bool {
+		grouptooglei := grouptoogleOrdered[i]
+		grouptooglej := grouptoogleOrdered[j]
+		grouptooglei_order, oki := stage.GroupToogleMap_Staged_Order[grouptooglei]
+		grouptooglej_order, okj := stage.GroupToogleMap_Staged_Order[grouptooglej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return grouptooglei_order < grouptooglej_order
+	})
+	if len(grouptoogleOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, grouptoogle := range grouptoogleOrdered {
+
+		id = generatesIdentifier("GroupToogle", idx, grouptoogle.Name)
+		map_GroupToogle_Identifiers[grouptoogle] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GroupToogle")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", grouptoogle.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(grouptoogle.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Percentage")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", grouptoogle.Percentage))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSingleSelector")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", grouptoogle.IsSingleSelector))
 		initializerStatements += setValueField
 
 	}
@@ -312,6 +424,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		// Initialisation of values
 	}
 
+	if len(buttontoggleOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of ButtonToggle instances pointers"
+	}
+	for idx, buttontoggle := range buttontoggleOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("ButtonToggle", idx, buttontoggle.Name)
+		map_ButtonToggle_Identifiers[buttontoggle] = id
+
+		// Initialisation of values
+	}
+
 	if len(groupOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Group instances pointers"
 	}
@@ -333,6 +458,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	if len(grouptoogleOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of GroupToogle instances pointers"
+	}
+	for idx, grouptoogle := range grouptoogleOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("GroupToogle", idx, grouptoogle.Name)
+		map_GroupToogle_Identifiers[grouptoogle] = id
+
+		// Initialisation of values
+		for _, _buttontoggle := range grouptoogle.ButtonToggles {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ButtonToggles")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ButtonToggle_Identifiers[_buttontoggle])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
 	if len(layoutOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Layout instances pointers"
 	}
@@ -349,6 +495,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Groups")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Group_Identifiers[_group])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _grouptoogle := range layout.GroupToogles {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GroupToogles")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GroupToogle_Identifiers[_grouptoogle])
 			pointersInitializesStatements += setPointerField
 		}
 

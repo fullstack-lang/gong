@@ -24,9 +24,17 @@ type DBLite struct {
 
 	nextIDButtonDB uint
 
+	buttontoggleDBs map[uint]*ButtonToggleDB
+
+	nextIDButtonToggleDB uint
+
 	groupDBs map[uint]*GroupDB
 
 	nextIDGroupDB uint
+
+	grouptoogleDBs map[uint]*GroupToogleDB
+
+	nextIDGroupToogleDB uint
 
 	layoutDBs map[uint]*LayoutDB
 
@@ -40,7 +48,11 @@ func NewDBLite() *DBLite {
 
 		buttonDBs: make(map[uint]*ButtonDB),
 
+		buttontoggleDBs: make(map[uint]*ButtonToggleDB),
+
 		groupDBs: make(map[uint]*GroupDB),
+
+		grouptoogleDBs: make(map[uint]*GroupToogleDB),
 
 		layoutDBs: make(map[uint]*LayoutDB),
 	}
@@ -61,10 +73,18 @@ func (db *DBLite) Create(instanceDB any) (db.DBInterface, error) {
 		db.nextIDButtonDB++
 		v.ID = db.nextIDButtonDB
 		db.buttonDBs[v.ID] = v
+	case *ButtonToggleDB:
+		db.nextIDButtonToggleDB++
+		v.ID = db.nextIDButtonToggleDB
+		db.buttontoggleDBs[v.ID] = v
 	case *GroupDB:
 		db.nextIDGroupDB++
 		v.ID = db.nextIDGroupDB
 		db.groupDBs[v.ID] = v
+	case *GroupToogleDB:
+		db.nextIDGroupToogleDB++
+		v.ID = db.nextIDGroupToogleDB
+		db.grouptoogleDBs[v.ID] = v
 	case *LayoutDB:
 		db.nextIDLayoutDB++
 		v.ID = db.nextIDLayoutDB
@@ -99,8 +119,12 @@ func (db *DBLite) Delete(instanceDB any) (db.DBInterface, error) {
 	// insertion point delete
 	case *ButtonDB:
 		delete(db.buttonDBs, v.ID)
+	case *ButtonToggleDB:
+		delete(db.buttontoggleDBs, v.ID)
 	case *GroupDB:
 		delete(db.groupDBs, v.ID)
+	case *GroupToogleDB:
+		delete(db.grouptoogleDBs, v.ID)
 	case *LayoutDB:
 		delete(db.layoutDBs, v.ID)
 	default:
@@ -124,8 +148,14 @@ func (db *DBLite) Save(instanceDB any) (db.DBInterface, error) {
 	case *ButtonDB:
 		db.buttonDBs[v.ID] = v
 		return db, nil
+	case *ButtonToggleDB:
+		db.buttontoggleDBs[v.ID] = v
+		return db, nil
 	case *GroupDB:
 		db.groupDBs[v.ID] = v
+		return db, nil
+	case *GroupToogleDB:
+		db.grouptoogleDBs[v.ID] = v
 		return db, nil
 	case *LayoutDB:
 		db.layoutDBs[v.ID] = v
@@ -152,11 +182,23 @@ func (db *DBLite) Updates(instanceDB any) (db.DBInterface, error) {
 		} else {
 			return nil, errors.New("db Button github.com/fullstack-lang/gong/lib/button/go, record not found")
 		}
+	case *ButtonToggleDB:
+		if existing, ok := db.buttontoggleDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db ButtonToggle github.com/fullstack-lang/gong/lib/button/go, record not found")
+		}
 	case *GroupDB:
 		if existing, ok := db.groupDBs[v.ID]; ok {
 			*existing = *v
 		} else {
 			return nil, errors.New("db Group github.com/fullstack-lang/gong/lib/button/go, record not found")
+		}
+	case *GroupToogleDB:
+		if existing, ok := db.grouptoogleDBs[v.ID]; ok {
+			*existing = *v
+		} else {
+			return nil, errors.New("db GroupToogle github.com/fullstack-lang/gong/lib/button/go, record not found")
 		}
 	case *LayoutDB:
 		if existing, ok := db.layoutDBs[v.ID]; ok {
@@ -184,9 +226,21 @@ func (db *DBLite) Find(instanceDBs any) (db.DBInterface, error) {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
+	case *[]ButtonToggleDB:
+		*ptr = make([]ButtonToggleDB, 0, len(db.buttontoggleDBs))
+		for _, v := range db.buttontoggleDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
 	case *[]GroupDB:
 		*ptr = make([]GroupDB, 0, len(db.groupDBs))
 		for _, v := range db.groupDBs {
+			*ptr = append(*ptr, *v)
+		}
+		return db, nil
+	case *[]GroupToogleDB:
+		*ptr = make([]GroupToogleDB, 0, len(db.grouptoogleDBs))
+		for _, v := range db.grouptoogleDBs {
 			*ptr = append(*ptr, *v)
 		}
 		return db, nil
@@ -239,6 +293,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 		buttonDB, _ := instanceDB.(*ButtonDB)
 		*buttonDB = *tmp
 		
+	case *ButtonToggleDB:
+		tmp, ok := db.buttontoggleDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First ButtonToggle Unkown entry %d", i))
+		}
+
+		buttontoggleDB, _ := instanceDB.(*ButtonToggleDB)
+		*buttontoggleDB = *tmp
+		
 	case *GroupDB:
 		tmp, ok := db.groupDBs[uint(i)]
 
@@ -248,6 +312,16 @@ func (db *DBLite) First(instanceDB any, conds ...any) (db.DBInterface, error) {
 
 		groupDB, _ := instanceDB.(*GroupDB)
 		*groupDB = *tmp
+		
+	case *GroupToogleDB:
+		tmp, ok := db.grouptoogleDBs[uint(i)]
+
+		if !ok {
+			return nil, errors.New(fmt.Sprintf("db.First GroupToogle Unkown entry %d", i))
+		}
+
+		grouptoogleDB, _ := instanceDB.(*GroupToogleDB)
+		*grouptoogleDB = *tmp
 		
 	case *LayoutDB:
 		tmp, ok := db.layoutDBs[uint(i)]
