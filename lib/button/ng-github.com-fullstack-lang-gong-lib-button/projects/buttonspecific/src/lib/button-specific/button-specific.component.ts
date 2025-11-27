@@ -7,6 +7,7 @@ import { AngularSplitModule } from 'angular-split';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon'
 
     MatButtonModule,
     MatIconModule,
+    MatButtonToggleModule,
     NgTemplateOutlet,
   ],
   templateUrl: './button-specific.component.html',
@@ -62,7 +64,7 @@ export class ButtonSpecificComponent implements OnInit {
   }
 
   onClick(button: button.Button) {
-    this.buttonService.updateFront(button,this.Name).subscribe(
+    this.buttonService.updateFront(button, this.Name).subscribe(
       () => {
         // console.log("checkbox updated")
       }

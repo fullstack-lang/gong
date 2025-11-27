@@ -63,12 +63,26 @@ func registerControllers(r *gin.Engine) {
 		v1.PUT("/v1/buttons/:id", GetController().UpdateButton)
 		v1.DELETE("/v1/buttons/:id", GetController().DeleteButton)
 
+		v1.GET("/v1/buttontoggles", GetController().GetButtonToggles)
+		v1.GET("/v1/buttontoggles/:id", GetController().GetButtonToggle)
+		v1.POST("/v1/buttontoggles", GetController().PostButtonToggle)
+		v1.PATCH("/v1/buttontoggles/:id", GetController().UpdateButtonToggle)
+		v1.PUT("/v1/buttontoggles/:id", GetController().UpdateButtonToggle)
+		v1.DELETE("/v1/buttontoggles/:id", GetController().DeleteButtonToggle)
+
 		v1.GET("/v1/groups", GetController().GetGroups)
 		v1.GET("/v1/groups/:id", GetController().GetGroup)
 		v1.POST("/v1/groups", GetController().PostGroup)
 		v1.PATCH("/v1/groups/:id", GetController().UpdateGroup)
 		v1.PUT("/v1/groups/:id", GetController().UpdateGroup)
 		v1.DELETE("/v1/groups/:id", GetController().DeleteGroup)
+
+		v1.GET("/v1/grouptoogles", GetController().GetGroupToogles)
+		v1.GET("/v1/grouptoogles/:id", GetController().GetGroupToogle)
+		v1.POST("/v1/grouptoogles", GetController().PostGroupToogle)
+		v1.PATCH("/v1/grouptoogles/:id", GetController().UpdateGroupToogle)
+		v1.PUT("/v1/grouptoogles/:id", GetController().UpdateGroupToogle)
+		v1.DELETE("/v1/grouptoogles/:id", GetController().DeleteGroupToogle)
 
 		v1.GET("/v1/layouts", GetController().GetLayouts)
 		v1.GET("/v1/layouts/:id", GetController().GetLayout)

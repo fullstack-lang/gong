@@ -6,7 +6,11 @@ type BackRepoData struct {
 
 	ButtonAPIs []*ButtonAPI
 
+	ButtonToggleAPIs []*ButtonToggleAPI
+
 	GroupAPIs []*GroupAPI
+
+	GroupToogleAPIs []*GroupToogleAPI
 
 	LayoutAPIs []*LayoutAPI
 
@@ -31,6 +35,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		backRepoData.ButtonAPIs = append(backRepoData.ButtonAPIs, &buttonAPI)
 	}
 
+	for _, buttontoggleDB := range backRepo.BackRepoButtonToggle.Map_ButtonToggleDBID_ButtonToggleDB {
+
+		var buttontoggleAPI ButtonToggleAPI
+		buttontoggleAPI.ID = buttontoggleDB.ID
+		buttontoggleAPI.ButtonTogglePointersEncoding = buttontoggleDB.ButtonTogglePointersEncoding
+		buttontoggleDB.CopyBasicFieldsToButtonToggle_WOP(&buttontoggleAPI.ButtonToggle_WOP)
+
+		backRepoData.ButtonToggleAPIs = append(backRepoData.ButtonToggleAPIs, &buttontoggleAPI)
+	}
+
 	for _, groupDB := range backRepo.BackRepoGroup.Map_GroupDBID_GroupDB {
 
 		var groupAPI GroupAPI
@@ -39,6 +53,16 @@ func CopyBackRepoToBackRepoData(backRepo *BackRepoStruct, backRepoData *BackRepo
 		groupDB.CopyBasicFieldsToGroup_WOP(&groupAPI.Group_WOP)
 
 		backRepoData.GroupAPIs = append(backRepoData.GroupAPIs, &groupAPI)
+	}
+
+	for _, grouptoogleDB := range backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupToogleDB {
+
+		var grouptoogleAPI GroupToogleAPI
+		grouptoogleAPI.ID = grouptoogleDB.ID
+		grouptoogleAPI.GroupTooglePointersEncoding = grouptoogleDB.GroupTooglePointersEncoding
+		grouptoogleDB.CopyBasicFieldsToGroupToogle_WOP(&grouptoogleAPI.GroupToogle_WOP)
+
+		backRepoData.GroupToogleAPIs = append(backRepoData.GroupToogleAPIs, &grouptoogleAPI)
 	}
 
 	for _, layoutDB := range backRepo.BackRepoLayout.Map_LayoutDBID_LayoutDB {

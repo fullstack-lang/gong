@@ -8,8 +8,14 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Button:
 		ok = stage.IsStagedButton(target)
 
+	case *ButtonToggle:
+		ok = stage.IsStagedButtonToggle(target)
+
 	case *Group:
 		ok = stage.IsStagedGroup(target)
+
+	case *GroupToogle:
+		ok = stage.IsStagedGroupToogle(target)
 
 	case *Layout:
 		ok = stage.IsStagedLayout(target)
@@ -27,8 +33,14 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Button:
 		ok = stage.IsStagedButton(target)
 
+	case *ButtonToggle:
+		ok = stage.IsStagedButtonToggle(target)
+
 	case *Group:
 		ok = stage.IsStagedGroup(target)
+
+	case *GroupToogle:
+		ok = stage.IsStagedGroupToogle(target)
 
 	case *Layout:
 		ok = stage.IsStagedLayout(target)
@@ -47,9 +59,23 @@ func (stage *Stage) IsStagedButton(button *Button) (ok bool) {
 	return
 }
 
+func (stage *Stage) IsStagedButtonToggle(buttontoggle *ButtonToggle) (ok bool) {
+
+	_, ok = stage.ButtonToggles[buttontoggle]
+
+	return
+}
+
 func (stage *Stage) IsStagedGroup(group *Group) (ok bool) {
 
 	_, ok = stage.Groups[group]
+
+	return
+}
+
+func (stage *Stage) IsStagedGroupToogle(grouptoogle *GroupToogle) (ok bool) {
+
+	_, ok = stage.GroupToogles[grouptoogle]
 
 	return
 }
@@ -72,8 +98,14 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Button:
 		stage.StageBranchButton(target)
 
+	case *ButtonToggle:
+		stage.StageBranchButtonToggle(target)
+
 	case *Group:
 		stage.StageBranchGroup(target)
+
+	case *GroupToogle:
+		stage.StageBranchGroupToogle(target)
 
 	case *Layout:
 		stage.StageBranchLayout(target)
@@ -99,6 +131,21 @@ func (stage *Stage) StageBranchButton(button *Button) {
 
 }
 
+func (stage *Stage) StageBranchButtonToggle(buttontoggle *ButtonToggle) {
+
+	// check if instance is already staged
+	if IsStaged(stage, buttontoggle) {
+		return
+	}
+
+	buttontoggle.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -113,6 +160,24 @@ func (stage *Stage) StageBranchGroup(group *Group) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _button := range group.Buttons {
 		StageBranch(stage, _button)
+	}
+
+}
+
+func (stage *Stage) StageBranchGroupToogle(grouptoogle *GroupToogle) {
+
+	// check if instance is already staged
+	if IsStaged(stage, grouptoogle) {
+		return
+	}
+
+	grouptoogle.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _buttontoggle := range grouptoogle.ButtonToggles {
+		StageBranch(stage, _buttontoggle)
 	}
 
 }
@@ -132,6 +197,9 @@ func (stage *Stage) StageBranchLayout(layout *Layout) {
 	for _, _group := range layout.Groups {
 		StageBranch(stage, _group)
 	}
+	for _, _grouptoogle := range layout.GroupToogles {
+		StageBranch(stage, _grouptoogle)
+	}
 
 }
 
@@ -150,8 +218,16 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchButton(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *ButtonToggle:
+		toT := CopyBranchButtonToggle(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Group:
 		toT := CopyBranchGroup(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *GroupToogle:
+		toT := CopyBranchGroupToogle(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Layout:
@@ -184,6 +260,25 @@ func CopyBranchButton(mapOrigCopy map[any]any, buttonFrom *Button) (buttonTo *Bu
 	return
 }
 
+func CopyBranchButtonToggle(mapOrigCopy map[any]any, buttontoggleFrom *ButtonToggle) (buttontoggleTo *ButtonToggle) {
+
+	// buttontoggleFrom has already been copied
+	if _buttontoggleTo, ok := mapOrigCopy[buttontoggleFrom]; ok {
+		buttontoggleTo = _buttontoggleTo.(*ButtonToggle)
+		return
+	}
+
+	buttontoggleTo = new(ButtonToggle)
+	mapOrigCopy[buttontoggleFrom] = buttontoggleTo
+	buttontoggleFrom.CopyBasicFields(buttontoggleTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group) {
 
 	// groupFrom has already been copied
@@ -201,6 +296,28 @@ func CopyBranchGroup(mapOrigCopy map[any]any, groupFrom *Group) (groupTo *Group)
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _button := range groupFrom.Buttons {
 		groupTo.Buttons = append(groupTo.Buttons, CopyBranchButton(mapOrigCopy, _button))
+	}
+
+	return
+}
+
+func CopyBranchGroupToogle(mapOrigCopy map[any]any, grouptoogleFrom *GroupToogle) (grouptoogleTo *GroupToogle) {
+
+	// grouptoogleFrom has already been copied
+	if _grouptoogleTo, ok := mapOrigCopy[grouptoogleFrom]; ok {
+		grouptoogleTo = _grouptoogleTo.(*GroupToogle)
+		return
+	}
+
+	grouptoogleTo = new(GroupToogle)
+	mapOrigCopy[grouptoogleFrom] = grouptoogleTo
+	grouptoogleFrom.CopyBasicFields(grouptoogleTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _buttontoggle := range grouptoogleFrom.ButtonToggles {
+		grouptoogleTo.ButtonToggles = append(grouptoogleTo.ButtonToggles, CopyBranchButtonToggle(mapOrigCopy, _buttontoggle))
 	}
 
 	return
@@ -224,6 +341,9 @@ func CopyBranchLayout(mapOrigCopy map[any]any, layoutFrom *Layout) (layoutTo *La
 	for _, _group := range layoutFrom.Groups {
 		layoutTo.Groups = append(layoutTo.Groups, CopyBranchGroup(mapOrigCopy, _group))
 	}
+	for _, _grouptoogle := range layoutFrom.GroupToogles {
+		layoutTo.GroupToogles = append(layoutTo.GroupToogles, CopyBranchGroupToogle(mapOrigCopy, _grouptoogle))
+	}
 
 	return
 }
@@ -239,8 +359,14 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Button:
 		stage.UnstageBranchButton(target)
 
+	case *ButtonToggle:
+		stage.UnstageBranchButtonToggle(target)
+
 	case *Group:
 		stage.UnstageBranchGroup(target)
+
+	case *GroupToogle:
+		stage.UnstageBranchGroupToogle(target)
 
 	case *Layout:
 		stage.UnstageBranchLayout(target)
@@ -266,6 +392,21 @@ func (stage *Stage) UnstageBranchButton(button *Button) {
 
 }
 
+func (stage *Stage) UnstageBranchButtonToggle(buttontoggle *ButtonToggle) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, buttontoggle) {
+		return
+	}
+
+	buttontoggle.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 	// check if instance is already staged
@@ -284,6 +425,24 @@ func (stage *Stage) UnstageBranchGroup(group *Group) {
 
 }
 
+func (stage *Stage) UnstageBranchGroupToogle(grouptoogle *GroupToogle) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, grouptoogle) {
+		return
+	}
+
+	grouptoogle.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _buttontoggle := range grouptoogle.ButtonToggles {
+		UnstageBranch(stage, _buttontoggle)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 	// check if instance is already staged
@@ -298,6 +457,9 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _group := range layout.Groups {
 		UnstageBranch(stage, _group)
+	}
+	for _, _grouptoogle := range layout.GroupToogles {
+		UnstageBranch(stage, _grouptoogle)
 	}
 
 }

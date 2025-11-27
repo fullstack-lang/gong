@@ -1,29 +1,29 @@
 // insertion point for imports
-import { GroupAPI } from './group-api'
-import { GroupToogleAPI } from './grouptoogle-api'
+import { ButtonToggleAPI } from './buttontoggle-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
 
-export class LayoutAPI {
+export class GroupToogleAPI {
 
-	static GONGSTRUCT_NAME = "Layout"
+	static GONGSTRUCT_NAME = "GroupToogle"
 
 	ID: number = 0
 
 	// insertion point for basic fields declarations
 	Name: string = ""
+	Percentage: number = 0
+	IsSingleSelector: boolean = false
 
 	// insertion point for other decls
 
-	LayoutPointersEncoding: LayoutPointersEncoding = new LayoutPointersEncoding
+	GroupTooglePointersEncoding: GroupTooglePointersEncoding = new GroupTooglePointersEncoding
 
 	CreatedAt?: string
 	DeletedAt?: string
 }
 
-export class LayoutPointersEncoding {
+export class GroupTooglePointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
-	Groups: number[] = []
-	GroupToogles: number[] = []
+	ButtonToggles: number[] = []
 }
