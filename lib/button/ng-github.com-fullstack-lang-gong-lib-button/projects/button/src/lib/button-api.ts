@@ -13,7 +13,9 @@ export class ButtonAPI {
 	Name: string = ""
 	Label: string = ""
 	Icon: string = ""
-	IsLookingPressed: boolean = false
+	IsPressed: boolean = false
+	IsDisabled: boolean = false
+	Colot: string = ""
 	MatButtonType: string = ""
 	MatButtonAppearance: string = ""
 

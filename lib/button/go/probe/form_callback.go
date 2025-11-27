@@ -68,8 +68,12 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(button_.Label), formDiv)
 		case "Icon":
 			FormDivBasicFieldToField(&(button_.Icon), formDiv)
-		case "IsLookingPressed":
-			FormDivBasicFieldToField(&(button_.IsLookingPressed), formDiv)
+		case "IsPressed":
+			FormDivBasicFieldToField(&(button_.IsPressed), formDiv)
+		case "IsDisabled":
+			FormDivBasicFieldToField(&(button_.IsDisabled), formDiv)
+		case "Colot":
+			FormDivBasicFieldToField(&(button_.Colot), formDiv)
 		case "MatButtonType":
 			FormDivEnumStringFieldToField(&(button_.MatButtonType), formDiv)
 		case "MatButtonAppearance":

@@ -16,31 +16,31 @@
                     @switch (button.MatButtonAppearance) {
                         @case ('filled') {
                             <button mat-flat-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                                [class.pressed]="button.IsPressed">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('elevated') {
                             <button mat-raised-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                                [class.pressed]="button.IsPressed">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('outlined') {
                             <button mat-stroked-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                                [class.pressed]="button.IsPressed">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @case ('tonal') {
                             <button mat-flat-button class="mat-tonal-button" color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                                [class.pressed]="button.IsPressed">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
                         @default {
                             <button mat-button color="primary" (click)="onClick(button)"
-                                [class.pressed]="button.IsLookingPressed">
+                                [class.pressed]="button.IsPressed">
                                 <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                             </button>
                         }
@@ -49,35 +49,35 @@
 
                 @case ('matIconButton') {
                     <button mat-icon-button color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                        [class.pressed]="button.IsPressed">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matFab') {
                     <button mat-fab color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                        [class.pressed]="button.IsPressed">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matMiniFab') {
                     <button mat-mini-fab color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                        [class.pressed]="button.IsPressed">
                         <mat-icon>{{button.Icon}}</mat-icon>
                     </button>
                 }
 
                 @case ('matFab extended') {
                     <button mat-fab extended color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                        [class.pressed]="button.IsPressed">
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }
                 
                 @default {
                     <button mat-button color="primary" (click)="onClick(button)"
-                        [class.pressed]="button.IsLookingPressed">
+                        [class.pressed]="button.IsPressed">
                         <ng-container *ngTemplateOutlet="contentTpl; context: { $implicit: button }"></ng-container>
                     </button>
                 }

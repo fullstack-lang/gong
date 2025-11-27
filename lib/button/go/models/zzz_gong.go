@@ -1131,7 +1131,15 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "IsLookingPressed",
+			Name:               "IsPressed",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsDisabled",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Colot",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -1246,10 +1254,16 @@ func (button *Button) GongGetFieldValueString(fieldName string, stage *Stage) (r
 			res.valueString = button.Label
 		case "Icon":
 			res.valueString = button.Icon
-		case "IsLookingPressed":
-			res.valueString = fmt.Sprintf("%t", button.IsLookingPressed)
-			res.valueBool = button.IsLookingPressed
+		case "IsPressed":
+			res.valueString = fmt.Sprintf("%t", button.IsPressed)
+			res.valueBool = button.IsPressed
 			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsDisabled":
+			res.valueString = fmt.Sprintf("%t", button.IsDisabled)
+			res.valueBool = button.IsDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "Colot":
+			res.valueString = button.Colot
 		case "MatButtonType":
 			enum := button.MatButtonType
 			res.valueString = enum.ToCodeString()
