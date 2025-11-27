@@ -114,6 +114,96 @@ func (matbuttonappearance MatButtonAppearance) CodeValues() (res []string) {
 	return
 }
 
+// Utility function for MatButtonPaletteType
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (matbuttonpalettetype MatButtonPaletteType) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch matbuttonpalettetype {
+	// insertion code per enum code
+	case MatButtonPaletteTypePrimary:
+		res = "primary"
+	case MatButtonPaletteTypeWarn:
+		res = "warn"
+	case MatButtonPaletteTypeAccent:
+		res = "accent"
+	}
+	return
+}
+
+func (matbuttonpalettetype *MatButtonPaletteType) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "primary":
+		*matbuttonpalettetype = MatButtonPaletteTypePrimary
+		return
+	case "warn":
+		*matbuttonpalettetype = MatButtonPaletteTypeWarn
+		return
+	case "accent":
+		*matbuttonpalettetype = MatButtonPaletteTypeAccent
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (matbuttonpalettetype *MatButtonPaletteType) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "MatButtonPaletteTypePrimary":
+		*matbuttonpalettetype = MatButtonPaletteTypePrimary
+	case "MatButtonPaletteTypeWarn":
+		*matbuttonpalettetype = MatButtonPaletteTypeWarn
+	case "MatButtonPaletteTypeAccent":
+		*matbuttonpalettetype = MatButtonPaletteTypeAccent
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (matbuttonpalettetype *MatButtonPaletteType) ToCodeString() (res string) {
+
+	switch *matbuttonpalettetype {
+	// insertion code per enum code
+	case MatButtonPaletteTypePrimary:
+		res = "MatButtonPaletteTypePrimary"
+	case MatButtonPaletteTypeWarn:
+		res = "MatButtonPaletteTypeWarn"
+	case MatButtonPaletteTypeAccent:
+		res = "MatButtonPaletteTypeAccent"
+	}
+	return
+}
+
+func (matbuttonpalettetype MatButtonPaletteType) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "MatButtonPaletteTypePrimary")
+	res = append(res, "MatButtonPaletteTypeWarn")
+	res = append(res, "MatButtonPaletteTypeAccent")
+
+	return
+}
+
+func (matbuttonpalettetype MatButtonPaletteType) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "primary")
+	res = append(res, "warn")
+	res = append(res, "accent")
+
+	return
+}
+
 // Utility function for MatButtonType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value

@@ -13,9 +13,8 @@ export class ButtonAPI {
 	Name: string = ""
 	Label: string = ""
 	Icon: string = ""
-	IsPressed: boolean = false
 	IsDisabled: boolean = false
-	Colot: string = ""
+	Color: string = ""
 	MatButtonType: string = ""
 	MatButtonAppearance: string = ""
 

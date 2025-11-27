@@ -2,7 +2,7 @@
 
 .button-grid {
     display: grid;
-    grid-auto-rows: minmax(50px, auto); 
+    grid-auto-rows: minmax(50px, auto);
     gap: 10px;
     padding: 10px;
 }
@@ -24,29 +24,11 @@ button {
     height: 100%;
     /* Note: Material buttons manage their own padding/radius, 
        but we keep these if you want to enforce grid filling */
-    border-radius: 5px; 
+    border-radius: 5px;
     font-size: 16px;
     /* Flex alignment is handled by Material, but explicit doesn't hurt */
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-}
-
-.pressed {
-    /* Slightly darker than the normal button */
-    background-color: #8bb6d3 !important;
-    
-    /* A dark top border simulates depth (looking into a hole) */
-    border-top: 2px solid rgba(0, 0, 0, 0.15) !important;
-    border-left: 2px solid rgba(0, 0, 0, 0.1) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
-    
-    /* Remove external shadow */
-    box-shadow: none !important;
-    
-    /* Shift text slightly to mimic physical movement */
-    padding-top: 1px; 
-    padding-left: 1px;
 }

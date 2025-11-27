@@ -21,10 +21,9 @@ type Button struct {
 
 	Icon string
 
-	IsPressed  bool
 	IsDisabled bool
 
-	Colot string
+	Color MatButtonPaletteType
 
 	MatButtonType MatButtonType
 
@@ -64,6 +63,14 @@ const (
 	MatButtonTypeFab         MatButtonType = "matFab"
 	MatButtonTypeMiniFab     MatButtonType = "matMiniFab"
 	MatButtonTypeExtendedFab MatButtonType = "matFab extended"
+)
+
+type MatButtonPaletteType string
+
+const (
+	MatButtonPaletteTypePrimary MatButtonPaletteType = "primary"
+	MatButtonPaletteTypeWarn    MatButtonPaletteType = "warn"
+	MatButtonPaletteTypeAccent  MatButtonPaletteType = "accent"
 )
 
 type ButtonProxyInterface interface {
