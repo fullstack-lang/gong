@@ -7,7 +7,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct Astruct
 	// insertion point per field
-	clear(stage.Astruct_Anarrayofb_reverseMap)
 	stage.Astruct_Anarrayofb_reverseMap = make(map[*Bstruct]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -15,7 +14,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Astruct_Anarrayofb_reverseMap[_bstruct] = astruct
 		}
 	}
-	clear(stage.Astruct_Dstruct4s_reverseMap)
 	stage.Astruct_Dstruct4s_reverseMap = make(map[*Dstruct]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -23,7 +21,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Astruct_Dstruct4s_reverseMap[_dstruct] = astruct
 		}
 	}
-	clear(stage.Astruct_Anarrayofa_reverseMap)
 	stage.Astruct_Anarrayofa_reverseMap = make(map[*Astruct]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -31,7 +28,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Astruct_Anarrayofa_reverseMap[_astruct] = astruct
 		}
 	}
-	clear(stage.Astruct_Anotherarrayofb_reverseMap)
 	stage.Astruct_Anotherarrayofb_reverseMap = make(map[*Bstruct]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -39,7 +35,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Astruct_Anotherarrayofb_reverseMap[_bstruct] = astruct
 		}
 	}
-	clear(stage.Astruct_AnarrayofbUse_reverseMap)
 	stage.Astruct_AnarrayofbUse_reverseMap = make(map[*AstructBstructUse]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -47,7 +42,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Astruct_AnarrayofbUse_reverseMap[_astructbstructuse] = astruct
 		}
 	}
-	clear(stage.Astruct_Anarrayofb2Use_reverseMap)
 	stage.Astruct_Anarrayofb2Use_reverseMap = make(map[*AstructBstruct2Use]*Astruct)
 	for astruct := range stage.Astructs {
 		_ = astruct
@@ -67,7 +61,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Dstruct
 	// insertion point per field
-	clear(stage.Dstruct_Anarrayofb_reverseMap)
 	stage.Dstruct_Anarrayofb_reverseMap = make(map[*Bstruct]*Dstruct)
 	for dstruct := range stage.Dstructs {
 		_ = dstruct
@@ -75,7 +68,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Dstruct_Anarrayofb_reverseMap[_bstruct] = dstruct
 		}
 	}
-	clear(stage.Dstruct_Gstructs_reverseMap)
 	stage.Dstruct_Gstructs_reverseMap = make(map[*Gstruct]*Dstruct)
 	for dstruct := range stage.Dstructs {
 		_ = dstruct

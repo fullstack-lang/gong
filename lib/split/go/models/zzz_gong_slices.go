@@ -7,7 +7,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct AsSplit
 	// insertion point per field
-	clear(stage.AsSplit_AsSplitAreas_reverseMap)
 	stage.AsSplit_AsSplitAreas_reverseMap = make(map[*AsSplitArea]*AsSplit)
 	for assplit := range stage.AsSplits {
 		_ = assplit
@@ -66,7 +65,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct View
 	// insertion point per field
-	clear(stage.View_RootAsSplitAreas_reverseMap)
 	stage.View_RootAsSplitAreas_reverseMap = make(map[*AsSplitArea]*View)
 	for view := range stage.Views {
 		_ = view

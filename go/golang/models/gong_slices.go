@@ -105,7 +105,6 @@ map[GongSliceSubTemplateId]string{
 			}
 		}`,
 	GongSliceSubTmplSliceOfPointersReverseMapComputation: `
-	clear(stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap)
 	stage.{{Structname}}_{{FieldNameForReverseMapField}}_reverseMap = make(map[*{{AssociationStructName}}]*{{Structname}})
 	for {{structname}} := range stage.{{Structname}}s {
 		_ = {{structname}}

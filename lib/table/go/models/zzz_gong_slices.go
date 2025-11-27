@@ -31,7 +31,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct FormDiv
 	// insertion point per field
-	clear(stage.FormDiv_FormFields_reverseMap)
 	stage.FormDiv_FormFields_reverseMap = make(map[*FormField]*FormDiv)
 	for formdiv := range stage.FormDivs {
 		_ = formdiv
@@ -39,7 +38,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.FormDiv_FormFields_reverseMap[_formfield] = formdiv
 		}
 	}
-	clear(stage.FormDiv_CheckBoxs_reverseMap)
 	stage.FormDiv_CheckBoxs_reverseMap = make(map[*CheckBox]*FormDiv)
 	for formdiv := range stage.FormDivs {
 		_ = formdiv
@@ -68,7 +66,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct FormFieldSelect
 	// insertion point per field
-	clear(stage.FormFieldSelect_Options_reverseMap)
 	stage.FormFieldSelect_Options_reverseMap = make(map[*Option]*FormFieldSelect)
 	for formfieldselect := range stage.FormFieldSelects {
 		_ = formfieldselect
@@ -85,7 +82,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct FormGroup
 	// insertion point per field
-	clear(stage.FormGroup_FormDivs_reverseMap)
 	stage.FormGroup_FormDivs_reverseMap = make(map[*FormDiv]*FormGroup)
 	for formgroup := range stage.FormGroups {
 		_ = formgroup
@@ -102,7 +98,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Row
 	// insertion point per field
-	clear(stage.Row_Cells_reverseMap)
 	stage.Row_Cells_reverseMap = make(map[*Cell]*Row)
 	for row := range stage.Rows {
 		_ = row
@@ -113,7 +108,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Table
 	// insertion point per field
-	clear(stage.Table_DisplayedColumns_reverseMap)
 	stage.Table_DisplayedColumns_reverseMap = make(map[*DisplayedColumn]*Table)
 	for table := range stage.Tables {
 		_ = table
@@ -121,7 +115,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Table_DisplayedColumns_reverseMap[_displayedcolumn] = table
 		}
 	}
-	clear(stage.Table_Rows_reverseMap)
 	stage.Table_Rows_reverseMap = make(map[*Row]*Table)
 	for table := range stage.Tables {
 		_ = table

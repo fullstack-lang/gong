@@ -10,7 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
-	clear(stage.Note_Frequencies_reverseMap)
 	stage.Note_Frequencies_reverseMap = make(map[*Freqency]*Note)
 	for note := range stage.Notes {
 		_ = note
