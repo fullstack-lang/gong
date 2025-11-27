@@ -17,9 +17,17 @@ export * from './lib/button-api'
 export * from './lib/button'
 export * from './lib/button.service'
 
+export * from './lib/buttontoggle-api'
+export * from './lib/buttontoggle'
+export * from './lib/buttontoggle.service'
+
 export * from './lib/group-api'
 export * from './lib/group'
 export * from './lib/group.service'
+
+export * from './lib/grouptoogle-api'
+export * from './lib/grouptoogle'
+export * from './lib/grouptoogle.service'
 
 export * from './lib/layout-api'
 export * from './lib/layout'
