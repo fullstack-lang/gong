@@ -948,7 +948,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1353,51 +1353,50 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (content *Content) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = content.Name
-		case "Content":
-			res.valueString = content.Content
+	// string value of fields
+	case "Name":
+		res.valueString = content.Name
+	case "Content":
+		res.valueString = content.Content
 	}
 	return
 }
-func (jpgimage *JpgImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (jpgimage *JpgImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = jpgimage.Name
-		case "Base64Content":
-			res.valueString = jpgimage.Base64Content
+	// string value of fields
+	case "Name":
+		res.valueString = jpgimage.Name
+	case "Base64Content":
+		res.valueString = jpgimage.Base64Content
 	}
 	return
 }
-func (pngimage *PngImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (pngimage *PngImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = pngimage.Name
-		case "Base64Content":
-			res.valueString = pngimage.Base64Content
+	// string value of fields
+	case "Name":
+		res.valueString = pngimage.Name
+	case "Base64Content":
+		res.valueString = pngimage.Base64Content
 	}
 	return
 }
-func (svgimage *SvgImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (svgimage *SvgImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = svgimage.Name
-		case "Content":
-			res.valueString = svgimage.Content
+	// string value of fields
+	case "Name":
+		res.valueString = svgimage.Name
+	case "Content":
+		res.valueString = svgimage.Content
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 

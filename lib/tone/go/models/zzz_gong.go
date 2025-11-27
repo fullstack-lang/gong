@@ -824,7 +824,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1210,62 +1210,61 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (freqency *Freqency) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (freqency *Freqency) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = freqency.Name
+	// string value of fields
+	case "Name":
+		res.valueString = freqency.Name
 	}
 	return
 }
-func (note *Note) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = note.Name
-		case "Frequencies":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range note.Frequencies {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = note.Name
+	case "Frequencies":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range note.Frequencies {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Start":
-			res.valueString = fmt.Sprintf("%f", note.Start)
-			res.valueFloat = note.Start
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Duration":
-			res.valueString = fmt.Sprintf("%f", note.Duration)
-			res.valueFloat = note.Duration
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Velocity":
-			res.valueString = fmt.Sprintf("%f", note.Velocity)
-			res.valueFloat = note.Velocity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Info":
-			res.valueString = note.Info
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Start":
+		res.valueString = fmt.Sprintf("%f", note.Start)
+		res.valueFloat = note.Start
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Duration":
+		res.valueString = fmt.Sprintf("%f", note.Duration)
+		res.valueFloat = note.Duration
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Velocity":
+		res.valueString = fmt.Sprintf("%f", note.Velocity)
+		res.valueFloat = note.Velocity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Info":
+		res.valueString = note.Info
 	}
 	return
 }
-func (player *Player) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (player *Player) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = player.Name
-		case "Status":
-			enum := player.Status
-			res.valueString = enum.ToCodeString()
+	// string value of fields
+	case "Name":
+		res.valueString = player.Name
+	case "Status":
+		enum := player.Status
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 

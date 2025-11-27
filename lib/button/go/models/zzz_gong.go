@@ -1082,7 +1082,7 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1635,136 +1635,135 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (button *Button) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (button *Button) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = button.Name
-		case "Label":
-			res.valueString = button.Label
-		case "Icon":
-			res.valueString = button.Icon
-		case "IsDisabled":
-			res.valueString = fmt.Sprintf("%t", button.IsDisabled)
-			res.valueBool = button.IsDisabled
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "Color":
-			enum := button.Color
-			res.valueString = enum.ToCodeString()
-		case "MatButtonType":
-			enum := button.MatButtonType
-			res.valueString = enum.ToCodeString()
-		case "MatButtonAppearance":
-			enum := button.MatButtonAppearance
-			res.valueString = enum.ToCodeString()
+	// string value of fields
+	case "Name":
+		res.valueString = button.Name
+	case "Label":
+		res.valueString = button.Label
+	case "Icon":
+		res.valueString = button.Icon
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", button.IsDisabled)
+		res.valueBool = button.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Color":
+		enum := button.Color
+		res.valueString = enum.ToCodeString()
+	case "MatButtonType":
+		enum := button.MatButtonType
+		res.valueString = enum.ToCodeString()
+	case "MatButtonAppearance":
+		enum := button.MatButtonAppearance
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
-func (buttontoggle *ButtonToggle) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (buttontoggle *ButtonToggle) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = buttontoggle.Name
-		case "Label":
-			res.valueString = buttontoggle.Label
-		case "Icon":
-			res.valueString = buttontoggle.Icon
-		case "IsDisabled":
-			res.valueString = fmt.Sprintf("%t", buttontoggle.IsDisabled)
-			res.valueBool = buttontoggle.IsDisabled
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "IsChecked":
-			res.valueString = fmt.Sprintf("%t", buttontoggle.IsChecked)
-			res.valueBool = buttontoggle.IsChecked
-			res.GongFieldValueType = GongFieldValueTypeBool
+	// string value of fields
+	case "Name":
+		res.valueString = buttontoggle.Name
+	case "Label":
+		res.valueString = buttontoggle.Label
+	case "Icon":
+		res.valueString = buttontoggle.Icon
+	case "IsDisabled":
+		res.valueString = fmt.Sprintf("%t", buttontoggle.IsDisabled)
+		res.valueBool = buttontoggle.IsDisabled
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsChecked":
+		res.valueString = fmt.Sprintf("%t", buttontoggle.IsChecked)
+		res.valueBool = buttontoggle.IsChecked
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
-func (group *Group) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = group.Name
-		case "Percentage":
-			res.valueString = fmt.Sprintf("%f", group.Percentage)
-			res.valueFloat = group.Percentage
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Buttons":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range group.Buttons {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = group.Name
+	case "Percentage":
+		res.valueString = fmt.Sprintf("%f", group.Percentage)
+		res.valueFloat = group.Percentage
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Buttons":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range group.Buttons {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "NbColumns":
-			res.valueString = fmt.Sprintf("%d", group.NbColumns)
-			res.valueInt = group.NbColumns
-			res.GongFieldValueType = GongFieldValueTypeInt
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "NbColumns":
+		res.valueString = fmt.Sprintf("%d", group.NbColumns)
+		res.valueInt = group.NbColumns
+		res.GongFieldValueType = GongFieldValueTypeInt
 	}
 	return
 }
-func (grouptoogle *GroupToogle) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (grouptoogle *GroupToogle) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = grouptoogle.Name
-		case "Percentage":
-			res.valueString = fmt.Sprintf("%f", grouptoogle.Percentage)
-			res.valueFloat = grouptoogle.Percentage
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "ButtonToggles":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range grouptoogle.ButtonToggles {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = grouptoogle.Name
+	case "Percentage":
+		res.valueString = fmt.Sprintf("%f", grouptoogle.Percentage)
+		res.valueFloat = grouptoogle.Percentage
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ButtonToggles":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range grouptoogle.ButtonToggles {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "IsSingleSelector":
-			res.valueString = fmt.Sprintf("%t", grouptoogle.IsSingleSelector)
-			res.valueBool = grouptoogle.IsSingleSelector
-			res.GongFieldValueType = GongFieldValueTypeBool
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsSingleSelector":
+		res.valueString = fmt.Sprintf("%t", grouptoogle.IsSingleSelector)
+		res.valueBool = grouptoogle.IsSingleSelector
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
-func (layout *Layout) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (layout *Layout) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = layout.Name
-		case "Groups":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range layout.Groups {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = layout.Name
+	case "Groups":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range layout.Groups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "GroupToogles":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range layout.GroupToogles {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "GroupToogles":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range layout.GroupToogles {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
 	return
 }
 
