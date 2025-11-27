@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-27 04:13:58.166675 CET"
-	const __write__utc_time__ = "2025-11-27 03:13:58.166675 UTC"
+	const __write__local_time = "2025-11-27 04:44:19.260774 CET"
+	const __write__utc_time__ = "2025-11-27 03:44:19.260774 UTC"
 
-	const __commitId__ = "0000000114"
+	const __commitId__ = "0000000125"
 
 	// Declaration of instances to stage
 
@@ -35,8 +35,14 @@ func _(stage *models.Stage) {
 	__Button__000004_Five := (&models.Button{}).Stage(stage)
 	__Button__000005_Un := (&models.Button{}).Stage(stage)
 
+	__ButtonToggle__000000_small := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__000001_medium := (&models.ButtonToggle{}).Stage(stage)
+	__ButtonToggle__000002_large := (&models.ButtonToggle{}).Stage(stage)
+
 	__Group__000000_Group_1 := (&models.Group{}).Stage(stage)
 	__Group__000001_Groupe_2 := (&models.Group{}).Stage(stage)
+
+	__GroupToogle__000000_Group_toggle := (&models.GroupToogle{}).Stage(stage)
 
 	__Layout__000000_layout := (&models.Layout{}).Stage(stage)
 
@@ -86,6 +92,21 @@ func _(stage *models.Stage) {
 	__Button__000005_Un.MatButtonType = models.MatButtonTypeMiniFab
 	__Button__000005_Un.MatButtonAppearance = models.MatButtonAppearanceOutlined
 
+	__ButtonToggle__000000_small.Name = `small`
+	__ButtonToggle__000000_small.Label = `small`
+	__ButtonToggle__000000_small.Icon = `add`
+	__ButtonToggle__000000_small.IsDisabled = false
+
+	__ButtonToggle__000001_medium.Name = `medium`
+	__ButtonToggle__000001_medium.Label = `medium`
+	__ButtonToggle__000001_medium.Icon = ``
+	__ButtonToggle__000001_medium.IsDisabled = false
+
+	__ButtonToggle__000002_large.Name = `large`
+	__ButtonToggle__000002_large.Label = `large`
+	__ButtonToggle__000002_large.Icon = ``
+	__ButtonToggle__000002_large.IsDisabled = false
+
 	__Group__000000_Group_1.Name = `Group 1`
 	__Group__000000_Group_1.Percentage = 50.000000
 	__Group__000000_Group_1.NbColumns = 15
@@ -94,10 +115,15 @@ func _(stage *models.Stage) {
 	__Group__000001_Groupe_2.Percentage = 50.000000
 	__Group__000001_Groupe_2.NbColumns = 12
 
+	__GroupToogle__000000_Group_toggle.Name = `Group toggle`
+	__GroupToogle__000000_Group_toggle.Percentage = 40.000000
+	__GroupToogle__000000_Group_toggle.IsSingleSelector = true
+
 	__Layout__000000_layout.Name = `layout`
 
 	// Setup of pointers
 	// setup of Button instances pointers
+	// setup of ButtonToggle instances pointers
 	// setup of Group instances pointers
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000000_One)
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000001_Two)
@@ -105,8 +131,13 @@ func _(stage *models.Stage) {
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000003_Four)
 	__Group__000000_Group_1.Buttons = append(__Group__000000_Group_1.Buttons, __Button__000004_Five)
 	__Group__000001_Groupe_2.Buttons = append(__Group__000001_Groupe_2.Buttons, __Button__000005_Un)
+	// setup of GroupToogle instances pointers
+	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000000_small)
+	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000001_medium)
+	__GroupToogle__000000_Group_toggle.ButtonToggles = append(__GroupToogle__000000_Group_toggle.ButtonToggles, __ButtonToggle__000002_large)
 	// setup of Layout instances pointers
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_Group_1)
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000001_Groupe_2)
+	__Layout__000000_layout.GroupToogles = append(__Layout__000000_layout.GroupToogles, __GroupToogle__000000_Group_toggle)
 }
 

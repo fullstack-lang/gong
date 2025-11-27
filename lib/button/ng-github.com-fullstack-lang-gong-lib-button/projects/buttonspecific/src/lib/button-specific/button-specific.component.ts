@@ -36,6 +36,7 @@ export class ButtonSpecificComponent implements OnInit {
   constructor(
     private frontRepoService: button.FrontRepoService,
     private buttonService: button.ButtonService,
+    private buttonToggleService: button.ButtonToggleService,
   ) { }
 
   formatLabel(value: number): string {
@@ -66,7 +67,15 @@ export class ButtonSpecificComponent implements OnInit {
   onClick(button: button.Button) {
     this.buttonService.updateFront(button, this.Name).subscribe(
       () => {
-        // console.log("checkbox updated")
+        // console.log("button updated")
+      }
+    )
+  }
+
+  onToggle(buttonToggle: button.ButtonToggle) {
+    this.buttonToggleService.updateFront(buttonToggle, this.Name).subscribe(
+      () => {
+        // console.log("toggle updated")
       }
     )
   }
