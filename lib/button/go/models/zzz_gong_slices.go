@@ -13,7 +13,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Group
 	// insertion point per field
-	clear(stage.Group_Buttons_reverseMap)
 	stage.Group_Buttons_reverseMap = make(map[*Button]*Group)
 	for group := range stage.Groups {
 		_ = group
@@ -24,7 +23,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GroupToogle
 	// insertion point per field
-	clear(stage.GroupToogle_ButtonToggles_reverseMap)
 	stage.GroupToogle_ButtonToggles_reverseMap = make(map[*ButtonToggle]*GroupToogle)
 	for grouptoogle := range stage.GroupToogles {
 		_ = grouptoogle
@@ -35,7 +33,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Layout
 	// insertion point per field
-	clear(stage.Layout_Groups_reverseMap)
 	stage.Layout_Groups_reverseMap = make(map[*Group]*Layout)
 	for layout := range stage.Layouts {
 		_ = layout
@@ -43,7 +40,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layout_Groups_reverseMap[_group] = layout
 		}
 	}
-	clear(stage.Layout_GroupToogles_reverseMap)
 	stage.Layout_GroupToogles_reverseMap = make(map[*GroupToogle]*Layout)
 	for layout := range stage.Layouts {
 		_ = layout

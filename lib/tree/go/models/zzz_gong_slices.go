@@ -10,7 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Node
 	// insertion point per field
-	clear(stage.Node_Children_reverseMap)
 	stage.Node_Children_reverseMap = make(map[*Node]*Node)
 	for node := range stage.Nodes {
 		_ = node
@@ -18,7 +17,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Node_Children_reverseMap[_node] = node
 		}
 	}
-	clear(stage.Node_Buttons_reverseMap)
 	stage.Node_Buttons_reverseMap = make(map[*Button]*Node)
 	for node := range stage.Nodes {
 		_ = node
@@ -32,7 +30,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Tree
 	// insertion point per field
-	clear(stage.Tree_RootNodes_reverseMap)
 	stage.Tree_RootNodes_reverseMap = make(map[*Node]*Tree)
 	for tree := range stage.Trees {
 		_ = tree

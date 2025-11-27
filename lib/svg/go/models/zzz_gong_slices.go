@@ -10,7 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Circle
 	// insertion point per field
-	clear(stage.Circle_Animations_reverseMap)
 	stage.Circle_Animations_reverseMap = make(map[*Animate]*Circle)
 	for circle := range stage.Circles {
 		_ = circle
@@ -27,7 +26,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Ellipse
 	// insertion point per field
-	clear(stage.Ellipse_Animates_reverseMap)
 	stage.Ellipse_Animates_reverseMap = make(map[*Animate]*Ellipse)
 	for ellipse := range stage.Ellipses {
 		_ = ellipse
@@ -38,7 +36,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Layer
 	// insertion point per field
-	clear(stage.Layer_Rects_reverseMap)
 	stage.Layer_Rects_reverseMap = make(map[*Rect]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -46,7 +43,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Rects_reverseMap[_rect] = layer
 		}
 	}
-	clear(stage.Layer_Texts_reverseMap)
 	stage.Layer_Texts_reverseMap = make(map[*Text]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -54,7 +50,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Texts_reverseMap[_text] = layer
 		}
 	}
-	clear(stage.Layer_Circles_reverseMap)
 	stage.Layer_Circles_reverseMap = make(map[*Circle]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -62,7 +57,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Circles_reverseMap[_circle] = layer
 		}
 	}
-	clear(stage.Layer_Lines_reverseMap)
 	stage.Layer_Lines_reverseMap = make(map[*Line]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -70,7 +64,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Lines_reverseMap[_line] = layer
 		}
 	}
-	clear(stage.Layer_Ellipses_reverseMap)
 	stage.Layer_Ellipses_reverseMap = make(map[*Ellipse]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -78,7 +71,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Ellipses_reverseMap[_ellipse] = layer
 		}
 	}
-	clear(stage.Layer_Polylines_reverseMap)
 	stage.Layer_Polylines_reverseMap = make(map[*Polyline]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -86,7 +78,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Polylines_reverseMap[_polyline] = layer
 		}
 	}
-	clear(stage.Layer_Polygones_reverseMap)
 	stage.Layer_Polygones_reverseMap = make(map[*Polygone]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -94,7 +85,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Polygones_reverseMap[_polygone] = layer
 		}
 	}
-	clear(stage.Layer_Paths_reverseMap)
 	stage.Layer_Paths_reverseMap = make(map[*Path]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -102,7 +92,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Paths_reverseMap[_path] = layer
 		}
 	}
-	clear(stage.Layer_Links_reverseMap)
 	stage.Layer_Links_reverseMap = make(map[*Link]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -110,7 +99,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Layer_Links_reverseMap[_link] = layer
 		}
 	}
-	clear(stage.Layer_RectLinkLinks_reverseMap)
 	stage.Layer_RectLinkLinks_reverseMap = make(map[*RectLinkLink]*Layer)
 	for layer := range stage.Layers {
 		_ = layer
@@ -121,7 +109,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Line
 	// insertion point per field
-	clear(stage.Line_Animates_reverseMap)
 	stage.Line_Animates_reverseMap = make(map[*Animate]*Line)
 	for line := range stage.Lines {
 		_ = line
@@ -132,7 +119,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Link
 	// insertion point per field
-	clear(stage.Link_TextAtArrowStart_reverseMap)
 	stage.Link_TextAtArrowStart_reverseMap = make(map[*LinkAnchoredText]*Link)
 	for link := range stage.Links {
 		_ = link
@@ -140,7 +126,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_TextAtArrowStart_reverseMap[_linkanchoredtext] = link
 		}
 	}
-	clear(stage.Link_TextAtArrowEnd_reverseMap)
 	stage.Link_TextAtArrowEnd_reverseMap = make(map[*LinkAnchoredText]*Link)
 	for link := range stage.Links {
 		_ = link
@@ -148,7 +133,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Link_TextAtArrowEnd_reverseMap[_linkanchoredtext] = link
 		}
 	}
-	clear(stage.Link_ControlPoints_reverseMap)
 	stage.Link_ControlPoints_reverseMap = make(map[*ControlPoint]*Link)
 	for link := range stage.Links {
 		_ = link
@@ -159,7 +143,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct LinkAnchoredText
 	// insertion point per field
-	clear(stage.LinkAnchoredText_Animates_reverseMap)
 	stage.LinkAnchoredText_Animates_reverseMap = make(map[*Animate]*LinkAnchoredText)
 	for linkanchoredtext := range stage.LinkAnchoredTexts {
 		_ = linkanchoredtext
@@ -170,7 +153,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Path
 	// insertion point per field
-	clear(stage.Path_Animates_reverseMap)
 	stage.Path_Animates_reverseMap = make(map[*Animate]*Path)
 	for path := range stage.Paths {
 		_ = path
@@ -184,7 +166,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Polygone
 	// insertion point per field
-	clear(stage.Polygone_Animates_reverseMap)
 	stage.Polygone_Animates_reverseMap = make(map[*Animate]*Polygone)
 	for polygone := range stage.Polygones {
 		_ = polygone
@@ -195,7 +176,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Polyline
 	// insertion point per field
-	clear(stage.Polyline_Animates_reverseMap)
 	stage.Polyline_Animates_reverseMap = make(map[*Animate]*Polyline)
 	for polyline := range stage.Polylines {
 		_ = polyline
@@ -206,7 +186,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Rect
 	// insertion point per field
-	clear(stage.Rect_HoveringTrigger_reverseMap)
 	stage.Rect_HoveringTrigger_reverseMap = make(map[*Condition]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -214,7 +193,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_HoveringTrigger_reverseMap[_condition] = rect
 		}
 	}
-	clear(stage.Rect_DisplayConditions_reverseMap)
 	stage.Rect_DisplayConditions_reverseMap = make(map[*Condition]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -222,7 +200,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_DisplayConditions_reverseMap[_condition] = rect
 		}
 	}
-	clear(stage.Rect_Animations_reverseMap)
 	stage.Rect_Animations_reverseMap = make(map[*Animate]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -230,7 +207,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_Animations_reverseMap[_animate] = rect
 		}
 	}
-	clear(stage.Rect_RectAnchoredTexts_reverseMap)
 	stage.Rect_RectAnchoredTexts_reverseMap = make(map[*RectAnchoredText]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -238,7 +214,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_RectAnchoredTexts_reverseMap[_rectanchoredtext] = rect
 		}
 	}
-	clear(stage.Rect_RectAnchoredRects_reverseMap)
 	stage.Rect_RectAnchoredRects_reverseMap = make(map[*RectAnchoredRect]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -246,7 +221,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Rect_RectAnchoredRects_reverseMap[_rectanchoredrect] = rect
 		}
 	}
-	clear(stage.Rect_RectAnchoredPaths_reverseMap)
 	stage.Rect_RectAnchoredPaths_reverseMap = make(map[*RectAnchoredPath]*Rect)
 	for rect := range stage.Rects {
 		_ = rect
@@ -263,7 +237,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct RectAnchoredText
 	// insertion point per field
-	clear(stage.RectAnchoredText_Animates_reverseMap)
 	stage.RectAnchoredText_Animates_reverseMap = make(map[*Animate]*RectAnchoredText)
 	for rectanchoredtext := range stage.RectAnchoredTexts {
 		_ = rectanchoredtext
@@ -277,7 +250,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct SVG
 	// insertion point per field
-	clear(stage.SVG_Layers_reverseMap)
 	stage.SVG_Layers_reverseMap = make(map[*Layer]*SVG)
 	for svg := range stage.SVGs {
 		_ = svg
@@ -291,7 +263,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Text
 	// insertion point per field
-	clear(stage.Text_Animates_reverseMap)
 	stage.Text_Animates_reverseMap = make(map[*Animate]*Text)
 	for text := range stage.Texts {
 		_ = text
