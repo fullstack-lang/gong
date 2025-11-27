@@ -477,7 +477,15 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		//
 		content := new(svg_models.RectAnchoredText)
 		content.Name = noteContent
-		content.Content = content.Name
+
+		// Wrap the content string based on the rectangle width
+		// nbPixPerCharacter is an approximation for the width of a character in the SVG font
+		const nbPixPerCharacter = 8.0
+		if rect.Width > 0 {
+			content.Content = WrapString(noteContent, int(rect.Width/nbPixPerCharacter))
+		} else {
+			content.Content = noteContent
+		}
 		content.X_Offset = 0
 		content.Y_Offset = 40
 		content.RectAnchorType = svg_models.RECT_TOP
