@@ -95,17 +95,35 @@
 
             }
         </div>
-        <p>
-  Default appearance:
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle value="bold">Bold</mat-button-toggle>
-    <mat-button-toggle color="warn" value="italic">Italic</mat-button-toggle>
-    <mat-button-toggle disabled="true" value="underline">Underline</mat-button-toggle>
-  </mat-button-toggle-group>
-</p>
-
     </as-split-area>
     }
+
+    @for (groupToogle of layout?.GroupToogles; track groupToogle.ID) {
+    <as-split-area [size]="groupToogle.Percentage">
+        
+        @if (groupToogle.Name) {
+            <div class="group-header">{{groupToogle.Name}}</div>
+        }
+
+        <div style="padding: 10px;">
+            <mat-button-toggle-group 
+                name="fontStyle" 
+                aria-label="Font Style" 
+                [multiple]="!groupToogle.IsSingleSelector">
+
+                @for (buttonToggle of groupToogle.ButtonToggles; track buttonToggle.ID) {
+                    <mat-button-toggle [value]="buttonToggle.ID" (click)="onToggle(buttonToggle)">
+                        @if (buttonToggle.Icon) {
+                            <mat-icon>{{buttonToggle.Icon}}</mat-icon>
+                        }
+                        {{buttonToggle.Label}}
+                    </mat-button-toggle>
+                }
+            </mat-button-toggle-group>
+        </div>
+    </as-split-area>
+    }
+
 </as-split>
 
 <ng-template #contentTpl let-btn>
