@@ -27,5 +27,6 @@ export * from './lib/layout.service'
 
 
 export * from './lib/MatButtonAppearance'
+export * from './lib/MatButtonPaletteType'
 export * from './lib/MatButtonType'
 export * from './lib/StacksNames'
