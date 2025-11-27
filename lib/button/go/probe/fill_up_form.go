@@ -25,8 +25,9 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Icon", instanceWithInferedType.Icon, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("IsLookingPressed", instanceWithInferedType.IsLookingPressed, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("IsDisabled", instanceWithInferedType.IsDisabled, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		EnumTypeStringToForm("Color", instanceWithInferedType.Color, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeStringToForm("MatButtonType", instanceWithInferedType.MatButtonType, instanceWithInferedType, probe.formStage, formGroup)
 		EnumTypeStringToForm("MatButtonAppearance", instanceWithInferedType.MatButtonAppearance, instanceWithInferedType, probe.formStage, formGroup)
 		{
@@ -46,6 +47,41 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Group](
 					nil,
 					"Buttons",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
+	case *models.ButtonToggle:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Label", instanceWithInferedType.Label, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Icon", instanceWithInferedType.Icon, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsDisabled", instanceWithInferedType.IsDisabled, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsChecked", instanceWithInferedType.IsChecked, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "GroupToogle"
+			rf.Fieldname = "ButtonToggles"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.GroupToogle),
+					"ButtonToggles",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.GroupToogle](
+					nil,
+					"ButtonToggles",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -84,11 +120,44 @@ func FillUpForm(
 			}
 		}
 
+	case *models.GroupToogle:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("Percentage", instanceWithInferedType.Percentage, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		AssociationSliceToForm("ButtonToggles", instanceWithInferedType, &instanceWithInferedType.ButtonToggles, formGroup, probe)
+		BasicFieldtoForm("IsSingleSelector", instanceWithInferedType.IsSingleSelector, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Layout"
+			rf.Fieldname = "GroupToogles"
+			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Layout),
+					"GroupToogles",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Layout](
+					nil,
+					"GroupToogles",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
 	case *models.Layout:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Groups", instanceWithInferedType, &instanceWithInferedType.Groups, formGroup, probe)
+		AssociationSliceToForm("GroupToogles", instanceWithInferedType, &instanceWithInferedType.GroupToogles, formGroup, probe)
 
 	default:
 		_ = instanceWithInferedType

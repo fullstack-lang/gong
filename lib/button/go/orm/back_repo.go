@@ -26,7 +26,11 @@ type BackRepoStruct struct {
 	// insertion point for per struct back repo declarations
 	BackRepoButton BackRepoButtonStruct
 
+	BackRepoButtonToggle BackRepoButtonToggleStruct
+
 	BackRepoGroup BackRepoGroupStruct
+
+	BackRepoGroupToogle BackRepoGroupToogleStruct
 
 	BackRepoLayout BackRepoLayoutStruct
 
@@ -52,7 +56,9 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 	/* THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm
 	db = dbgorm.NewDBWrapper(filename, "github_com_fullstack_lang_gong_lib_button_go",
 		&ButtonDB{},
+		&ButtonToggleDB{},
 		&GroupDB{},
+		&GroupToogleDB{},
 		&LayoutDB{},
 	)
 	THIS IS REMOVED BY GONG COMPILER IF TARGET IS gorm */
@@ -68,10 +74,26 @@ func NewBackRepo(stage *models.Stage, filename string) (backRepo *BackRepoStruct
 		db:    db,
 		stage: stage,
 	}
+	backRepo.BackRepoButtonToggle = BackRepoButtonToggleStruct{
+		Map_ButtonToggleDBID_ButtonTogglePtr: make(map[uint]*models.ButtonToggle, 0),
+		Map_ButtonToggleDBID_ButtonToggleDB:  make(map[uint]*ButtonToggleDB, 0),
+		Map_ButtonTogglePtr_ButtonToggleDBID: make(map[*models.ButtonToggle]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
 	backRepo.BackRepoGroup = BackRepoGroupStruct{
 		Map_GroupDBID_GroupPtr: make(map[uint]*models.Group, 0),
 		Map_GroupDBID_GroupDB:  make(map[uint]*GroupDB, 0),
 		Map_GroupPtr_GroupDBID: make(map[*models.Group]uint, 0),
+
+		db:    db,
+		stage: stage,
+	}
+	backRepo.BackRepoGroupToogle = BackRepoGroupToogleStruct{
+		Map_GroupToogleDBID_GroupTooglePtr: make(map[uint]*models.GroupToogle, 0),
+		Map_GroupToogleDBID_GroupToogleDB:  make(map[uint]*GroupToogleDB, 0),
+		Map_GroupTooglePtr_GroupToogleDBID: make(map[*models.GroupToogle]uint, 0),
 
 		db:    db,
 		stage: stage,
@@ -137,12 +159,16 @@ func (backRepo *BackRepoStruct) Commit(stage *models.Stage) {
 
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CommitPhaseOne(stage)
+	backRepo.BackRepoButtonToggle.CommitPhaseOne(stage)
 	backRepo.BackRepoGroup.CommitPhaseOne(stage)
+	backRepo.BackRepoGroupToogle.CommitPhaseOne(stage)
 	backRepo.BackRepoLayout.CommitPhaseOne(stage)
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoButtonToggle.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoGroup.CommitPhaseTwo(backRepo)
+	backRepo.BackRepoGroupToogle.CommitPhaseTwo(backRepo)
 	backRepo.BackRepoLayout.CommitPhaseTwo(backRepo)
 
 	// important to release the mutex before calls to IncrementCommitFromBackNb
@@ -159,12 +185,16 @@ func (backRepo *BackRepoStruct) Checkout(stage *models.Stage) {
 	defer backRepo.rwMutex.Unlock()
 	// insertion point for per struct back repo phase one commit
 	backRepo.BackRepoButton.CheckoutPhaseOne()
+	backRepo.BackRepoButtonToggle.CheckoutPhaseOne()
 	backRepo.BackRepoGroup.CheckoutPhaseOne()
+	backRepo.BackRepoGroupToogle.CheckoutPhaseOne()
 	backRepo.BackRepoLayout.CheckoutPhaseOne()
 
 	// insertion point for per struct back repo phase two commit
 	backRepo.BackRepoButton.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoButtonToggle.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoGroup.CheckoutPhaseTwo(backRepo)
+	backRepo.BackRepoGroupToogle.CheckoutPhaseTwo(backRepo)
 	backRepo.BackRepoLayout.CheckoutPhaseTwo(backRepo)
 }
 
@@ -174,7 +204,9 @@ func (backRepo *BackRepoStruct) Backup(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.Backup(dirPath)
+	backRepo.BackRepoButtonToggle.Backup(dirPath)
 	backRepo.BackRepoGroup.Backup(dirPath)
+	backRepo.BackRepoGroupToogle.Backup(dirPath)
 	backRepo.BackRepoLayout.Backup(dirPath)
 }
 
@@ -187,7 +219,9 @@ func (backRepo *BackRepoStruct) BackupXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.BackupXL(file)
+	backRepo.BackRepoButtonToggle.BackupXL(file)
 	backRepo.BackRepoGroup.BackupXL(file)
+	backRepo.BackRepoGroupToogle.BackupXL(file)
 	backRepo.BackRepoLayout.BackupXL(file)
 
 	var b bytes.Buffer
@@ -214,7 +248,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseOne(dirPath)
+	backRepo.BackRepoButtonToggle.RestorePhaseOne(dirPath)
 	backRepo.BackRepoGroup.RestorePhaseOne(dirPath)
+	backRepo.BackRepoGroupToogle.RestorePhaseOne(dirPath)
 	backRepo.BackRepoLayout.RestorePhaseOne(dirPath)
 
 	//
@@ -223,7 +259,9 @@ func (backRepo *BackRepoStruct) Restore(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestorePhaseTwo()
+	backRepo.BackRepoButtonToggle.RestorePhaseTwo()
 	backRepo.BackRepoGroup.RestorePhaseTwo()
+	backRepo.BackRepoGroupToogle.RestorePhaseTwo()
 	backRepo.BackRepoLayout.RestorePhaseTwo()
 
 	backRepo.stage.Checkout()
@@ -253,7 +291,9 @@ func (backRepo *BackRepoStruct) RestoreXL(stage *models.Stage, dirPath string) {
 
 	// insertion point for per struct backup
 	backRepo.BackRepoButton.RestoreXLPhaseOne(file)
+	backRepo.BackRepoButtonToggle.RestoreXLPhaseOne(file)
 	backRepo.BackRepoGroup.RestoreXLPhaseOne(file)
+	backRepo.BackRepoGroupToogle.RestoreXLPhaseOne(file)
 	backRepo.BackRepoLayout.RestoreXLPhaseOne(file)
 
 	// commit the restored stage

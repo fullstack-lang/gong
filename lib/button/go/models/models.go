@@ -3,7 +3,8 @@ package models
 type Layout struct {
 	Name string
 
-	Groups []*Group
+	Groups       []*Group
+	GroupToogles []*GroupToogle
 }
 
 type Group struct {
@@ -13,7 +14,6 @@ type Group struct {
 	NbColumns  int
 }
 
-// for instance is minor / is major
 type Button struct {
 	Name string
 
@@ -21,11 +21,35 @@ type Button struct {
 
 	Icon string
 
-	IsLookingPressed bool
+	IsDisabled bool
+
+	Color MatButtonPaletteType
 
 	MatButtonType MatButtonType
 
 	MatButtonAppearance MatButtonAppearance
+
+	Proxy ButtonProxyInterface
+}
+
+type GroupToogle struct {
+	Name          string
+	Percentage    float64
+	ButtonToggles []*ButtonToggle
+
+	IsSingleSelector bool
+}
+
+type ButtonToggle struct {
+	Name string
+
+	Label string
+
+	Icon string
+
+	IsDisabled bool
+
+	IsChecked bool
 
 	Proxy ButtonProxyInterface
 }
@@ -63,6 +87,14 @@ const (
 	MatButtonTypeExtendedFab MatButtonType = "matFab extended"
 )
 
+type MatButtonPaletteType string
+
+const (
+	MatButtonPaletteTypePrimary MatButtonPaletteType = "primary"
+	MatButtonPaletteTypeWarn    MatButtonPaletteType = "warn"
+	MatButtonPaletteTypeAccent  MatButtonPaletteType = "accent"
+)
+
 type ButtonProxyInterface interface {
 	Updated()
 }
@@ -73,5 +105,14 @@ func (button *Button) OnAfterUpdate(
 
 	if button.Proxy != nil {
 		button.Proxy.Updated()
+	}
+}
+
+func (buttonToggle *ButtonToggle) OnAfterUpdate(
+	stage *Stage,
+	stageButton, frontButton *ButtonToggle) {
+
+	if buttonToggle.Proxy != nil {
+		buttonToggle.Proxy.Updated()
 	}
 }

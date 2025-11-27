@@ -3,7 +3,11 @@
 //insertion point for imports
 import { ButtonAPI } from './button-api'
 
+import { ButtonToggleAPI } from './buttontoggle-api'
+
 import { GroupAPI } from './group-api'
+
+import { GroupToogleAPI } from './grouptoogle-api'
 
 import { LayoutAPI } from './layout-api'
 
@@ -12,7 +16,11 @@ export class BackRepoData {
 	// insertion point for declarations
 	ButtonAPIs = new Array<ButtonAPI>()
 
+	ButtonToggleAPIs = new Array<ButtonToggleAPI>()
+
 	GroupAPIs = new Array<GroupAPI>()
+
+	GroupToogleAPIs = new Array<GroupToogleAPI>()
 
 	LayoutAPIs = new Array<LayoutAPI>()
 
@@ -24,7 +32,11 @@ export class BackRepoData {
 		// insertion point for copies
 		this.ButtonAPIs = data?.ButtonAPIs || [];
 
+		this.ButtonToggleAPIs = data?.ButtonToggleAPIs || [];
+
 		this.GroupAPIs = data?.GroupAPIs || [];
+
+		this.GroupToogleAPIs = data?.GroupToogleAPIs || [];
 
 		this.LayoutAPIs = data?.LayoutAPIs || [];
 

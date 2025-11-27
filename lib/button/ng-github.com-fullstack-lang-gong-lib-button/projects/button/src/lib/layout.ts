@@ -5,6 +5,7 @@ import { FrontRepo } from './front-repo.service';
 
 // insertion point for imports
 import { Group } from './group'
+import { GroupToogle } from './grouptoogle'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -20,6 +21,7 @@ export class Layout {
 
 	// insertion point for pointers and slices of pointers declarations
 	Groups: Array<Group> = []
+	GroupToogles: Array<GroupToogle> = []
 
 	CreatedAt?: string
 	DeletedAt?: string
@@ -40,6 +42,11 @@ export function CopyLayoutToLayoutAPI(layout: Layout, layoutAPI: LayoutAPI) {
 	layoutAPI.LayoutPointersEncoding.Groups = []
 	for (let _group of layout.Groups) {
 		layoutAPI.LayoutPointersEncoding.Groups.push(_group.ID)
+	}
+
+	layoutAPI.LayoutPointersEncoding.GroupToogles = []
+	for (let _grouptoogle of layout.GroupToogles) {
+		layoutAPI.LayoutPointersEncoding.GroupToogles.push(_grouptoogle.ID)
 	}
 
 }
@@ -70,6 +77,18 @@ export function CopyLayoutAPIToLayout(layoutAPI: LayoutAPI, layout: Layout, fron
 		let _group = frontRepo.map_ID_Group.get(_id)
 		if (_group != undefined) {
 			layout.Groups.push(_group!)
+		}
+	}
+	if (!Array.isArray(layoutAPI.LayoutPointersEncoding.GroupToogles)) {
+		console.error('Rects is not an array:', layoutAPI.LayoutPointersEncoding.GroupToogles);
+		return;
+	}
+
+	layout.GroupToogles = new Array<GroupToogle>()
+	for (let _id of layoutAPI.LayoutPointersEncoding.GroupToogles) {
+		let _grouptoogle = frontRepo.map_ID_GroupToogle.get(_id)
+		if (_grouptoogle != undefined) {
+			layout.GroupToogles.push(_grouptoogle!)
 		}
 	}
 }
