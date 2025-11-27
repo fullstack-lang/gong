@@ -1509,6 +1509,10 @@ func (buttontoggle *ButtonToggle) GongGetFieldHeaders() (res []GongFieldHeader) 
 			Name:               "IsDisabled",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "IsChecked",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -1668,6 +1672,10 @@ func (buttontoggle *ButtonToggle) GongGetFieldValueString(fieldName string, stag
 		case "IsDisabled":
 			res.valueString = fmt.Sprintf("%t", buttontoggle.IsDisabled)
 			res.valueBool = buttontoggle.IsDisabled
+			res.GongFieldValueType = GongFieldValueTypeBool
+		case "IsChecked":
+			res.valueString = fmt.Sprintf("%t", buttontoggle.IsChecked)
+			res.valueBool = buttontoggle.IsChecked
 			res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return

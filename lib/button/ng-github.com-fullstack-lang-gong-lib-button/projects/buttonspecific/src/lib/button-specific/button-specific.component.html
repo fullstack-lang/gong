@@ -109,10 +109,11 @@
             <mat-button-toggle-group 
                 name="fontStyle" 
                 aria-label="Font Style" 
-                [multiple]="!groupToogle.IsSingleSelector">
+                [multiple]="!groupToogle.IsSingleSelector"
+                (change)="onGroupChange(groupToogle, $event)">
 
                 @for (buttonToggle of groupToogle.ButtonToggles; track buttonToggle.ID) {
-                    <mat-button-toggle [value]="buttonToggle.ID" (click)="onToggle(buttonToggle)">
+                    <mat-button-toggle [value]="buttonToggle.ID" [checked]="buttonToggle.IsChecked">
                         @if (buttonToggle.Icon) {
                             <mat-icon>{{buttonToggle.Icon}}</mat-icon>
                         }

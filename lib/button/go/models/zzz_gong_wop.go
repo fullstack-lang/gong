@@ -48,6 +48,8 @@ type ButtonToggle_WOP struct {
 	Icon string
 
 	IsDisabled bool
+
+	IsChecked bool
 }
 
 func (from *ButtonToggle) CopyBasicFields(to *ButtonToggle) {
@@ -56,6 +58,7 @@ func (from *ButtonToggle) CopyBasicFields(to *ButtonToggle) {
 	to.Label = from.Label
 	to.Icon = from.Icon
 	to.IsDisabled = from.IsDisabled
+	to.IsChecked = from.IsChecked
 }
 
 type Group_WOP struct {

@@ -19,6 +19,7 @@ export class ButtonToggle {
 	Label: string = ""
 	Icon: string = ""
 	IsDisabled: boolean = false
+	IsChecked: boolean = false
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -37,6 +38,7 @@ export function CopyButtonToggleToButtonToggleAPI(buttontoggle: ButtonToggle, bu
 	buttontoggleAPI.Label = buttontoggle.Label
 	buttontoggleAPI.Icon = buttontoggle.Icon
 	buttontoggleAPI.IsDisabled = buttontoggle.IsDisabled
+	buttontoggleAPI.IsChecked = buttontoggle.IsChecked
 
 	// insertion point for pointer fields encoding
 
@@ -58,6 +60,7 @@ export function CopyButtonToggleAPIToButtonToggle(buttontoggleAPI: ButtonToggleA
 	buttontoggle.Label = buttontoggleAPI.Label
 	buttontoggle.Icon = buttontoggleAPI.Icon
 	buttontoggle.IsDisabled = buttontoggleAPI.IsDisabled
+	buttontoggle.IsChecked = buttontoggleAPI.IsChecked
 
 	// insertion point for pointer fields encoding
 

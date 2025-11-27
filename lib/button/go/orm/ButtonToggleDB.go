@@ -73,6 +73,10 @@ type ButtonToggleDB struct {
 	// provide the sql storage for the boolan
 	IsDisabled_Data sql.NullBool
 
+	// Declation for basic field buttontoggleDB.IsChecked
+	// provide the sql storage for the boolan
+	IsChecked_Data sql.NullBool
+
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
 	ButtonTogglePointersEncoding
@@ -102,6 +106,8 @@ type ButtonToggleWOP struct {
 	Icon string `xlsx:"3"`
 
 	IsDisabled bool `xlsx:"4"`
+
+	IsChecked bool `xlsx:"5"`
 	// insertion for WOP pointer fields
 }
 
@@ -112,6 +118,7 @@ var ButtonToggle_Fields = []string{
 	"Label",
 	"Icon",
 	"IsDisabled",
+	"IsChecked",
 }
 
 type BackRepoButtonToggleStruct struct {
@@ -400,6 +407,9 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsFromButtonToggle(buttontogg
 
 	buttontoggleDB.IsDisabled_Data.Bool = buttontoggle.IsDisabled
 	buttontoggleDB.IsDisabled_Data.Valid = true
+
+	buttontoggleDB.IsChecked_Data.Bool = buttontoggle.IsChecked
+	buttontoggleDB.IsChecked_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButtonToggle_WOP
@@ -417,6 +427,9 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsFromButtonToggle_WOP(button
 
 	buttontoggleDB.IsDisabled_Data.Bool = buttontoggle.IsDisabled
 	buttontoggleDB.IsDisabled_Data.Valid = true
+
+	buttontoggleDB.IsChecked_Data.Bool = buttontoggle.IsChecked
+	buttontoggleDB.IsChecked_Data.Valid = true
 }
 
 // CopyBasicFieldsFromButtonToggleWOP
@@ -434,6 +447,9 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsFromButtonToggleWOP(buttont
 
 	buttontoggleDB.IsDisabled_Data.Bool = buttontoggle.IsDisabled
 	buttontoggleDB.IsDisabled_Data.Valid = true
+
+	buttontoggleDB.IsChecked_Data.Bool = buttontoggle.IsChecked
+	buttontoggleDB.IsChecked_Data.Valid = true
 }
 
 // CopyBasicFieldsToButtonToggle
@@ -443,6 +459,7 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsToButtonToggle(buttontoggle
 	buttontoggle.Label = buttontoggleDB.Label_Data.String
 	buttontoggle.Icon = buttontoggleDB.Icon_Data.String
 	buttontoggle.IsDisabled = buttontoggleDB.IsDisabled_Data.Bool
+	buttontoggle.IsChecked = buttontoggleDB.IsChecked_Data.Bool
 }
 
 // CopyBasicFieldsToButtonToggle_WOP
@@ -452,6 +469,7 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsToButtonToggle_WOP(buttonto
 	buttontoggle.Label = buttontoggleDB.Label_Data.String
 	buttontoggle.Icon = buttontoggleDB.Icon_Data.String
 	buttontoggle.IsDisabled = buttontoggleDB.IsDisabled_Data.Bool
+	buttontoggle.IsChecked = buttontoggleDB.IsChecked_Data.Bool
 }
 
 // CopyBasicFieldsToButtonToggleWOP
@@ -462,6 +480,7 @@ func (buttontoggleDB *ButtonToggleDB) CopyBasicFieldsToButtonToggleWOP(buttontog
 	buttontoggle.Label = buttontoggleDB.Label_Data.String
 	buttontoggle.Icon = buttontoggleDB.Icon_Data.String
 	buttontoggle.IsDisabled = buttontoggleDB.IsDisabled_Data.Bool
+	buttontoggle.IsChecked = buttontoggleDB.IsChecked_Data.Bool
 }
 
 // Backup generates a json file from a slice of all ButtonToggleDB instances in the backrepo

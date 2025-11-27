@@ -49,6 +49,8 @@ type ButtonToggle struct {
 
 	IsDisabled bool
 
+	IsChecked bool
+
 	Proxy ButtonProxyInterface
 }
 
@@ -108,7 +110,7 @@ func (button *Button) OnAfterUpdate(
 
 func (buttonToggle *ButtonToggle) OnAfterUpdate(
 	stage *Stage,
-	stageButton, frontButton *Button) {
+	stageButton, frontButton *ButtonToggle) {
 
 	if buttonToggle.Proxy != nil {
 		buttonToggle.Proxy.Updated()
