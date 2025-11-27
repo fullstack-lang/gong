@@ -18,11 +18,9 @@ type Button_WOP struct {
 
 	Icon string
 
-	IsPressed bool
-
 	IsDisabled bool
 
-	Colot string
+	Color MatButtonPaletteType
 
 	MatButtonType MatButtonType
 
@@ -34,9 +32,8 @@ func (from *Button) CopyBasicFields(to *Button) {
 	to.Name = from.Name
 	to.Label = from.Label
 	to.Icon = from.Icon
-	to.IsPressed = from.IsPressed
 	to.IsDisabled = from.IsDisabled
-	to.Colot = from.Colot
+	to.Color = from.Color
 	to.MatButtonType = from.MatButtonType
 	to.MatButtonAppearance = from.MatButtonAppearance
 }
