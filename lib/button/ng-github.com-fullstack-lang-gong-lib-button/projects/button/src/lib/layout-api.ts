@@ -1,5 +1,6 @@
 // insertion point for imports
 import { GroupAPI } from './group-api'
+import { GroupToogleAPI } from './grouptoogle-api'
 
 // usefull for managing pointer ID values that can be nullable
 import { NullInt64 } from './null-int64'
@@ -24,4 +25,5 @@ export class LayoutAPI {
 export class LayoutPointersEncoding {
 	// insertion point for pointers and slices of pointers encoding fields
 	Groups: number[] = []
+	GroupToogles: number[] = []
 }

@@ -18,6 +18,7 @@ import { FrontRepo, FrontRepoService } from './front-repo.service';
 
 // insertion point for imports
 import { GroupAPI } from './group-api'
+import { GroupToogleAPI } from './grouptoogle-api'
 
 @Injectable({
   providedIn: 'root'

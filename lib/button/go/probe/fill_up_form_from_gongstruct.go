@@ -31,12 +31,36 @@ func FillUpNamedFormFromGongstruct(instance any, probe *Probe, formStage *gongta
 		)
 		formGroup.HasSuppressButton = true
 		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.ButtonToggle:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "ButtonToggle Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ButtonToggleFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
 	case *models.Group:
 		formGroup := (&gongtable.FormGroup{
 			Name:  formName,
 			Label: "Group Form",
 		}).Stage(formStage)
 		formGroup.OnSave = __gong__New__GroupFormCallback(
+			instancesTyped,
+			probe,
+			formGroup,
+		)
+		formGroup.HasSuppressButton = true
+		FillUpForm(instancesTyped, formGroup, probe)
+	case *models.GroupToogle:
+		formGroup := (&gongtable.FormGroup{
+			Name:  formName,
+			Label: "GroupToogle Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GroupToogleFormCallback(
 			instancesTyped,
 			probe,
 			formGroup,

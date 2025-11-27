@@ -50,6 +50,9 @@ type LayoutPointersEncoding struct {
 
 	// field Groups is a slice of pointers to another Struct (optional or 0..1)
 	Groups IntSlice `gorm:"type:TEXT"`
+
+	// field GroupToogles is a slice of pointers to another Struct (optional or 0..1)
+	GroupToogles IntSlice `gorm:"type:TEXT"`
 }
 
 // LayoutDB describes a layout in the database
@@ -244,6 +247,24 @@ func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseTwoInstance(backRepo *Bac
 				append(layoutDB.LayoutPointersEncoding.Groups, int(groupAssocEnd_DB.ID))
 		}
 
+		// 1. reset
+		layoutDB.LayoutPointersEncoding.GroupToogles = make([]int, 0)
+		// 2. encode
+		for _, grouptoogleAssocEnd := range layout.GroupToogles {
+			grouptoogleAssocEnd_DB :=
+				backRepo.BackRepoGroupToogle.GetGroupToogleDBFromGroupTooglePtr(grouptoogleAssocEnd)
+			
+			// the stage might be inconsistant, meaning that the grouptoogleAssocEnd_DB might
+			// be missing from the stage. In this case, the commit operation is robust
+			// An alternative would be to crash here to reveal the missing element.
+			if grouptoogleAssocEnd_DB == nil {
+				continue
+			}
+			
+			layoutDB.LayoutPointersEncoding.GroupToogles =
+				append(layoutDB.LayoutPointersEncoding.GroupToogles, int(grouptoogleAssocEnd_DB.ID))
+		}
+
 		_, err := backRepoLayout.db.Save(layoutDB)
 		if err != nil {
 			log.Fatal(err)
@@ -364,6 +385,15 @@ func (layoutDB *LayoutDB) DecodePointers(backRepo *BackRepoStruct, layout *model
 	layout.Groups = layout.Groups[:0]
 	for _, _Groupid := range layoutDB.LayoutPointersEncoding.Groups {
 		layout.Groups = append(layout.Groups, backRepo.BackRepoGroup.Map_GroupDBID_GroupPtr[uint(_Groupid)])
+	}
+
+	// This loop redeem layout.GroupToogles in the stage from the encode in the back repo
+	// It parses all GroupToogleDB in the back repo and if the reverse pointer encoding matches the back repo ID
+	// it appends the stage instance
+	// 1. reset the slice
+	layout.GroupToogles = layout.GroupToogles[:0]
+	for _, _GroupToogleid := range layoutDB.LayoutPointersEncoding.GroupToogles {
+		layout.GroupToogles = append(layout.GroupToogles, backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupTooglePtr[uint(_GroupToogleid)])
 	}
 
 	return
