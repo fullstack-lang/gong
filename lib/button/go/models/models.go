@@ -21,7 +21,10 @@ type Button struct {
 
 	Icon string
 
-	IsLookingPressed bool
+	IsPressed  bool
+	IsDisabled bool
+
+	Colot string
 
 	MatButtonType MatButtonType
 
