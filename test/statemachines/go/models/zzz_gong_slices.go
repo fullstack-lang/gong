@@ -7,7 +7,6 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct Architecture
 	// insertion point per field
-	clear(stage.Architecture_StateMachines_reverseMap)
 	stage.Architecture_StateMachines_reverseMap = make(map[*StateMachine]*Architecture)
 	for architecture := range stage.Architectures {
 		_ = architecture
@@ -15,7 +14,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Architecture_StateMachines_reverseMap[_statemachine] = architecture
 		}
 	}
-	clear(stage.Architecture_Roles_reverseMap)
 	stage.Architecture_Roles_reverseMap = make(map[*Role]*Architecture)
 	for architecture := range stage.Architectures {
 		_ = architecture
@@ -26,7 +24,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
-	clear(stage.Diagram_State_Shapes_reverseMap)
 	stage.Diagram_State_Shapes_reverseMap = make(map[*StateShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -34,7 +31,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_State_Shapes_reverseMap[_stateshape] = diagram
 		}
 	}
-	clear(stage.Diagram_Transition_Shapes_reverseMap)
 	stage.Diagram_Transition_Shapes_reverseMap = make(map[*Transition_Shape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
@@ -54,7 +50,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Object
 	// insertion point per field
-	clear(stage.Object_Messages_reverseMap)
 	stage.Object_Messages_reverseMap = make(map[*Message]*Object)
 	for object := range stage.Objects {
 		_ = object
@@ -65,7 +60,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Role
 	// insertion point per field
-	clear(stage.Role_RolesWithSamePermissions_reverseMap)
 	stage.Role_RolesWithSamePermissions_reverseMap = make(map[*Role]*Role)
 	for role := range stage.Roles {
 		_ = role
@@ -76,7 +70,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct State
 	// insertion point per field
-	clear(stage.State_SubStates_reverseMap)
 	stage.State_SubStates_reverseMap = make(map[*State]*State)
 	for state := range stage.States {
 		_ = state
@@ -84,7 +77,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.State_SubStates_reverseMap[_state] = state
 		}
 	}
-	clear(stage.State_Diagrams_reverseMap)
 	stage.State_Diagrams_reverseMap = make(map[*Diagram]*State)
 	for state := range stage.States {
 		_ = state
@@ -95,7 +87,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct StateMachine
 	// insertion point per field
-	clear(stage.StateMachine_States_reverseMap)
 	stage.StateMachine_States_reverseMap = make(map[*State]*StateMachine)
 	for statemachine := range stage.StateMachines {
 		_ = statemachine
@@ -103,7 +94,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.StateMachine_States_reverseMap[_state] = statemachine
 		}
 	}
-	clear(stage.StateMachine_Diagrams_reverseMap)
 	stage.StateMachine_Diagrams_reverseMap = make(map[*Diagram]*StateMachine)
 	for statemachine := range stage.StateMachines {
 		_ = statemachine
@@ -117,7 +107,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Transition
 	// insertion point per field
-	clear(stage.Transition_RolesWithPermissions_reverseMap)
 	stage.Transition_RolesWithPermissions_reverseMap = make(map[*Role]*Transition)
 	for transition := range stage.Transitions {
 		_ = transition
@@ -125,7 +114,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Transition_RolesWithPermissions_reverseMap[_role] = transition
 		}
 	}
-	clear(stage.Transition_GeneratedMessages_reverseMap)
 	stage.Transition_GeneratedMessages_reverseMap = make(map[*MessageType]*Transition)
 	for transition := range stage.Transitions {
 		_ = transition
@@ -133,7 +121,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Transition_GeneratedMessages_reverseMap[_messagetype] = transition
 		}
 	}
-	clear(stage.Transition_Diagrams_reverseMap)
 	stage.Transition_Diagrams_reverseMap = make(map[*Diagram]*Transition)
 	for transition := range stage.Transitions {
 		_ = transition

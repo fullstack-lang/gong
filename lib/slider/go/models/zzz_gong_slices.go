@@ -10,7 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Group
 	// insertion point per field
-	clear(stage.Group_Sliders_reverseMap)
 	stage.Group_Sliders_reverseMap = make(map[*Slider]*Group)
 	for group := range stage.Groups {
 		_ = group
@@ -18,7 +17,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Group_Sliders_reverseMap[_slider] = group
 		}
 	}
-	clear(stage.Group_Checkboxes_reverseMap)
 	stage.Group_Checkboxes_reverseMap = make(map[*Checkbox]*Group)
 	for group := range stage.Groups {
 		_ = group
@@ -29,7 +27,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Layout
 	// insertion point per field
-	clear(stage.Layout_Groups_reverseMap)
 	stage.Layout_Groups_reverseMap = make(map[*Group]*Layout)
 	for layout := range stage.Layouts {
 		_ = layout

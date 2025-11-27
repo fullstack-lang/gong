@@ -13,7 +13,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Gantt
 	// insertion point per field
-	clear(stage.Gantt_Lanes_reverseMap)
 	stage.Gantt_Lanes_reverseMap = make(map[*Lane]*Gantt)
 	for gantt := range stage.Gantts {
 		_ = gantt
@@ -21,7 +20,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Gantt_Lanes_reverseMap[_lane] = gantt
 		}
 	}
-	clear(stage.Gantt_Milestones_reverseMap)
 	stage.Gantt_Milestones_reverseMap = make(map[*Milestone]*Gantt)
 	for gantt := range stage.Gantts {
 		_ = gantt
@@ -29,7 +27,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Gantt_Milestones_reverseMap[_milestone] = gantt
 		}
 	}
-	clear(stage.Gantt_Groups_reverseMap)
 	stage.Gantt_Groups_reverseMap = make(map[*Group]*Gantt)
 	for gantt := range stage.Gantts {
 		_ = gantt
@@ -37,7 +34,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Gantt_Groups_reverseMap[_group] = gantt
 		}
 	}
-	clear(stage.Gantt_Arrows_reverseMap)
 	stage.Gantt_Arrows_reverseMap = make(map[*Arrow]*Gantt)
 	for gantt := range stage.Gantts {
 		_ = gantt
@@ -48,7 +44,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Group
 	// insertion point per field
-	clear(stage.Group_GroupLanes_reverseMap)
 	stage.Group_GroupLanes_reverseMap = make(map[*Lane]*Group)
 	for group := range stage.Groups {
 		_ = group
@@ -59,7 +54,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Lane
 	// insertion point per field
-	clear(stage.Lane_Bars_reverseMap)
 	stage.Lane_Bars_reverseMap = make(map[*Bar]*Lane)
 	for lane := range stage.Lanes {
 		_ = lane
@@ -73,7 +67,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Milestone
 	// insertion point per field
-	clear(stage.Milestone_LanesToDisplay_reverseMap)
 	stage.Milestone_LanesToDisplay_reverseMap = make(map[*Lane]*Milestone)
 	for milestone := range stage.Milestones {
 		_ = milestone

@@ -10,7 +10,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongEnum
 	// insertion point per field
-	clear(stage.GongEnum_GongEnumValues_reverseMap)
 	stage.GongEnum_GongEnumValues_reverseMap = make(map[*GongEnumValue]*GongEnum)
 	for gongenum := range stage.GongEnums {
 		_ = gongenum
@@ -27,7 +26,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongNote
 	// insertion point per field
-	clear(stage.GongNote_Links_reverseMap)
 	stage.GongNote_Links_reverseMap = make(map[*GongLink]*GongNote)
 	for gongnote := range stage.GongNotes {
 		_ = gongnote
@@ -38,7 +36,6 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct GongStruct
 	// insertion point per field
-	clear(stage.GongStruct_GongBasicFields_reverseMap)
 	stage.GongStruct_GongBasicFields_reverseMap = make(map[*GongBasicField]*GongStruct)
 	for gongstruct := range stage.GongStructs {
 		_ = gongstruct
@@ -46,7 +43,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.GongStruct_GongBasicFields_reverseMap[_gongbasicfield] = gongstruct
 		}
 	}
-	clear(stage.GongStruct_GongTimeFields_reverseMap)
 	stage.GongStruct_GongTimeFields_reverseMap = make(map[*GongTimeField]*GongStruct)
 	for gongstruct := range stage.GongStructs {
 		_ = gongstruct
@@ -54,7 +50,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.GongStruct_GongTimeFields_reverseMap[_gongtimefield] = gongstruct
 		}
 	}
-	clear(stage.GongStruct_PointerToGongStructFields_reverseMap)
 	stage.GongStruct_PointerToGongStructFields_reverseMap = make(map[*PointerToGongStructField]*GongStruct)
 	for gongstruct := range stage.GongStructs {
 		_ = gongstruct
@@ -62,7 +57,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.GongStruct_PointerToGongStructFields_reverseMap[_pointertogongstructfield] = gongstruct
 		}
 	}
-	clear(stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap)
 	stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap = make(map[*SliceOfPointerToGongStructField]*GongStruct)
 	for gongstruct := range stage.GongStructs {
 		_ = gongstruct
