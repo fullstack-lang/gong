@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	gong_go "github.com/fullstack-lang/gong/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1843,6 +1847,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -2017,7 +2022,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -3124,6 +3129,332 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (gongbasicfield *GongBasicField) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongbasicfield.Name = value.GetValueString()
+	case "BasicKindName":
+		gongbasicfield.BasicKindName = value.GetValueString()
+	case "GongEnum":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			gongbasicfield.GongEnum = nil
+			for __instance__ := range stage.GongEnums {
+				if stage.GongEnumMap_Staged_Order[__instance__] == uint(id) {
+					gongbasicfield.GongEnum = __instance__
+					break
+				}
+			}
+		}
+	case "DeclaredType":
+		gongbasicfield.DeclaredType = value.GetValueString()
+	case "CompositeStructName":
+		gongbasicfield.CompositeStructName = value.GetValueString()
+	case "Index":
+		gongbasicfield.Index = int(value.GetValueInt())
+	case "IsTextArea":
+		gongbasicfield.IsTextArea = value.GetValueBool()
+	case "IsBespokeWidth":
+		gongbasicfield.IsBespokeWidth = value.GetValueBool()
+	case "BespokeWidth":
+		gongbasicfield.BespokeWidth = int(value.GetValueInt())
+	case "IsBespokeHeight":
+		gongbasicfield.IsBespokeHeight = value.GetValueBool()
+	case "BespokeHeight":
+		gongbasicfield.BespokeHeight = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongenum *GongEnum) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongenum.Name = value.GetValueString()
+	case "Type":
+		gongenum.Type.FromCodeString(value.GetValueString())
+	case "GongEnumValues":
+		gongenum.GongEnumValues = make([]*GongEnumValue, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongEnumValues {
+					if stage.GongEnumValueMap_Staged_Order[__instance__] == uint(id) {
+						gongenum.GongEnumValues = append(gongenum.GongEnumValues, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongenumvalue *GongEnumValue) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongenumvalue.Name = value.GetValueString()
+	case "Value":
+		gongenumvalue.Value = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gonglink *GongLink) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gonglink.Name = value.GetValueString()
+	case "Recv":
+		gonglink.Recv = value.GetValueString()
+	case "ImportPath":
+		gonglink.ImportPath = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongnote *GongNote) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongnote.Name = value.GetValueString()
+	case "Body":
+		gongnote.Body = value.GetValueString()
+	case "BodyHTML":
+		gongnote.BodyHTML = value.GetValueString()
+	case "Links":
+		gongnote.Links = make([]*GongLink, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongLinks {
+					if stage.GongLinkMap_Staged_Order[__instance__] == uint(id) {
+						gongnote.Links = append(gongnote.Links, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongstruct *GongStruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongstruct.Name = value.GetValueString()
+	case "GongBasicFields":
+		gongstruct.GongBasicFields = make([]*GongBasicField, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongBasicFields {
+					if stage.GongBasicFieldMap_Staged_Order[__instance__] == uint(id) {
+						gongstruct.GongBasicFields = append(gongstruct.GongBasicFields, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "GongTimeFields":
+		gongstruct.GongTimeFields = make([]*GongTimeField, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongTimeFields {
+					if stage.GongTimeFieldMap_Staged_Order[__instance__] == uint(id) {
+						gongstruct.GongTimeFields = append(gongstruct.GongTimeFields, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "PointerToGongStructFields":
+		gongstruct.PointerToGongStructFields = make([]*PointerToGongStructField, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.PointerToGongStructFields {
+					if stage.PointerToGongStructFieldMap_Staged_Order[__instance__] == uint(id) {
+						gongstruct.PointerToGongStructFields = append(gongstruct.PointerToGongStructFields, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "SliceOfPointerToGongStructFields":
+		gongstruct.SliceOfPointerToGongStructFields = make([]*SliceOfPointerToGongStructField, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.SliceOfPointerToGongStructFields {
+					if stage.SliceOfPointerToGongStructFieldMap_Staged_Order[__instance__] == uint(id) {
+						gongstruct.SliceOfPointerToGongStructFields = append(gongstruct.SliceOfPointerToGongStructFields, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "HasOnAfterUpdateSignature":
+		gongstruct.HasOnAfterUpdateSignature = value.GetValueBool()
+	case "IsIgnoredForFront":
+		gongstruct.IsIgnoredForFront = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongtimefield *GongTimeField) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongtimefield.Name = value.GetValueString()
+	case "Index":
+		gongtimefield.Index = int(value.GetValueInt())
+	case "CompositeStructName":
+		gongtimefield.CompositeStructName = value.GetValueString()
+	case "BespokeTimeFormat":
+		gongtimefield.BespokeTimeFormat = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (metareference *MetaReference) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		metareference.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (modelpkg *ModelPkg) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		modelpkg.Name = value.GetValueString()
+	case "PkgPath":
+		modelpkg.PkgPath = value.GetValueString()
+	case "PathToGoSubDirectory":
+		modelpkg.PathToGoSubDirectory = value.GetValueString()
+	case "OrmPkgGenPath":
+		modelpkg.OrmPkgGenPath = value.GetValueString()
+	case "DbOrmPkgGenPath":
+		modelpkg.DbOrmPkgGenPath = value.GetValueString()
+	case "DbLiteOrmPkgGenPath":
+		modelpkg.DbLiteOrmPkgGenPath = value.GetValueString()
+	case "DbPkgGenPath":
+		modelpkg.DbPkgGenPath = value.GetValueString()
+	case "ControllersPkgGenPath":
+		modelpkg.ControllersPkgGenPath = value.GetValueString()
+	case "FullstackPkgGenPath":
+		modelpkg.FullstackPkgGenPath = value.GetValueString()
+	case "StackPkgGenPath":
+		modelpkg.StackPkgGenPath = value.GetValueString()
+	case "StaticPkgGenPath":
+		modelpkg.StaticPkgGenPath = value.GetValueString()
+	case "ProbePkgGenPath":
+		modelpkg.ProbePkgGenPath = value.GetValueString()
+	case "NgWorkspacePath":
+		modelpkg.NgWorkspacePath = value.GetValueString()
+	case "NgWorkspaceName":
+		modelpkg.NgWorkspaceName = value.GetValueString()
+	case "NgDataLibrarySourceCodeDirectory":
+		modelpkg.NgDataLibrarySourceCodeDirectory = value.GetValueString()
+	case "NgSpecificLibrarySourceCodeDirectory":
+		modelpkg.NgSpecificLibrarySourceCodeDirectory = value.GetValueString()
+	case "MaterialLibDatamodelTargetPath":
+		modelpkg.MaterialLibDatamodelTargetPath = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		pointertogongstructfield.Name = value.GetValueString()
+	case "GongStruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			pointertogongstructfield.GongStruct = nil
+			for __instance__ := range stage.GongStructs {
+				if stage.GongStructMap_Staged_Order[__instance__] == uint(id) {
+					pointertogongstructfield.GongStruct = __instance__
+					break
+				}
+			}
+		}
+	case "Index":
+		pointertogongstructfield.Index = int(value.GetValueInt())
+	case "CompositeStructName":
+		pointertogongstructfield.CompositeStructName = value.GetValueString()
+	case "IsType":
+		pointertogongstructfield.IsType = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		sliceofpointertogongstructfield.Name = value.GetValueString()
+	case "GongStruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			sliceofpointertogongstructfield.GongStruct = nil
+			for __instance__ := range stage.GongStructs {
+				if stage.GongStructMap_Staged_Order[__instance__] == uint(id) {
+					sliceofpointertogongstructfield.GongStruct = __instance__
+					break
+				}
+			}
+		}
+	case "Index":
+		sliceofpointertogongstructfield.Index = int(value.GetValueInt())
+	case "CompositeStructName":
+		sliceofpointertogongstructfield.CompositeStructName = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

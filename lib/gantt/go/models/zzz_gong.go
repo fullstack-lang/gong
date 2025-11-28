@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	gantt_go "github.com/fullstack-lang/gong/lib/gantt/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1341,6 +1345,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1483,7 +1488,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -2524,6 +2529,276 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		arrow.Name = value.GetValueString()
+	case "From":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			arrow.From = nil
+			for __instance__ := range stage.Bars {
+				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+					arrow.From = __instance__
+					break
+				}
+			}
+		}
+	case "To":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			arrow.To = nil
+			for __instance__ := range stage.Bars {
+				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+					arrow.To = __instance__
+					break
+				}
+			}
+		}
+	case "OptionnalColor":
+		arrow.OptionnalColor = value.GetValueString()
+	case "OptionnalStroke":
+		arrow.OptionnalStroke = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (bar *Bar) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		bar.Name = value.GetValueString()
+	case "OptionnalColor":
+		bar.OptionnalColor = value.GetValueString()
+	case "OptionnalStroke":
+		bar.OptionnalStroke = value.GetValueString()
+	case "FillOpacity":
+		bar.FillOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		bar.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		bar.StrokeDashArray = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gantt.Name = value.GetValueString()
+	case "UseManualStartAndEndDates":
+		gantt.UseManualStartAndEndDates = value.GetValueBool()
+	case "LaneHeight":
+		gantt.LaneHeight = value.GetValueFloat()
+	case "RatioBarToLaneHeight":
+		gantt.RatioBarToLaneHeight = value.GetValueFloat()
+	case "YTopMargin":
+		gantt.YTopMargin = value.GetValueFloat()
+	case "XLeftText":
+		gantt.XLeftText = value.GetValueFloat()
+	case "TextHeight":
+		gantt.TextHeight = value.GetValueFloat()
+	case "XLeftLanes":
+		gantt.XLeftLanes = value.GetValueFloat()
+	case "XRightMargin":
+		gantt.XRightMargin = value.GetValueFloat()
+	case "ArrowLengthToTheRightOfStartBar":
+		gantt.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
+	case "ArrowTipLenght":
+		gantt.ArrowTipLenght = value.GetValueFloat()
+	case "TimeLine_Color":
+		gantt.TimeLine_Color = value.GetValueString()
+	case "TimeLine_FillOpacity":
+		gantt.TimeLine_FillOpacity = value.GetValueFloat()
+	case "TimeLine_Stroke":
+		gantt.TimeLine_Stroke = value.GetValueString()
+	case "TimeLine_StrokeWidth":
+		gantt.TimeLine_StrokeWidth = value.GetValueFloat()
+	case "Group_Stroke":
+		gantt.Group_Stroke = value.GetValueString()
+	case "Group_StrokeWidth":
+		gantt.Group_StrokeWidth = value.GetValueFloat()
+	case "Group_StrokeDashArray":
+		gantt.Group_StrokeDashArray = value.GetValueString()
+	case "DateYOffset":
+		gantt.DateYOffset = value.GetValueFloat()
+	case "AlignOnStartEndOnYearStart":
+		gantt.AlignOnStartEndOnYearStart = value.GetValueBool()
+	case "Lanes":
+		gantt.Lanes = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Lanes = append(gantt.Lanes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Milestones":
+		gantt.Milestones = make([]*Milestone, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Milestones {
+					if stage.MilestoneMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Milestones = append(gantt.Milestones, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Groups":
+		gantt.Groups = make([]*Group, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Groups {
+					if stage.GroupMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Groups = append(gantt.Groups, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Arrows":
+		gantt.Arrows = make([]*Arrow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Arrows {
+					if stage.ArrowMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Arrows = append(gantt.Arrows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		group.Name = value.GetValueString()
+	case "GroupLanes":
+		group.GroupLanes = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						group.GroupLanes = append(group.GroupLanes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (lane *Lane) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		lane.Name = value.GetValueString()
+	case "Order":
+		lane.Order = int(value.GetValueInt())
+	case "Bars":
+		lane.Bars = make([]*Bar, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Bars {
+					if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+						lane.Bars = append(lane.Bars, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (laneuse *LaneUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		laneuse.Name = value.GetValueString()
+	case "Lane":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			laneuse.Lane = nil
+			for __instance__ := range stage.Lanes {
+				if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+					laneuse.Lane = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		milestone.Name = value.GetValueString()
+	case "DisplayVerticalBar":
+		milestone.DisplayVerticalBar = value.GetValueBool()
+	case "LanesToDisplay":
+		milestone.LanesToDisplay = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						milestone.LanesToDisplay = append(milestone.LanesToDisplay, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

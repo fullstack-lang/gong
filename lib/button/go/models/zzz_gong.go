@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	button_go "github.com/fullstack-lang/gong/lib/button/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1083,6 +1087,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1209,7 +1214,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1765,6 +1770,151 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (button *Button) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		button.Name = value.GetValueString()
+	case "Label":
+		button.Label = value.GetValueString()
+	case "Icon":
+		button.Icon = value.GetValueString()
+	case "IsDisabled":
+		button.IsDisabled = value.GetValueBool()
+	case "Color":
+		button.Color.FromCodeString(value.GetValueString())
+	case "MatButtonType":
+		button.MatButtonType.FromCodeString(value.GetValueString())
+	case "MatButtonAppearance":
+		button.MatButtonAppearance.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (buttontoggle *ButtonToggle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		buttontoggle.Name = value.GetValueString()
+	case "Label":
+		buttontoggle.Label = value.GetValueString()
+	case "Icon":
+		buttontoggle.Icon = value.GetValueString()
+	case "IsDisabled":
+		buttontoggle.IsDisabled = value.GetValueBool()
+	case "IsChecked":
+		buttontoggle.IsChecked = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		group.Name = value.GetValueString()
+	case "Percentage":
+		group.Percentage = value.GetValueFloat()
+	case "Buttons":
+		group.Buttons = make([]*Button, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Buttons {
+					if stage.ButtonMap_Staged_Order[__instance__] == uint(id) {
+						group.Buttons = append(group.Buttons, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbColumns":
+		group.NbColumns = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (grouptoogle *GroupToogle) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		grouptoogle.Name = value.GetValueString()
+	case "Percentage":
+		grouptoogle.Percentage = value.GetValueFloat()
+	case "ButtonToggles":
+		grouptoogle.ButtonToggles = make([]*ButtonToggle, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.ButtonToggles {
+					if stage.ButtonToggleMap_Staged_Order[__instance__] == uint(id) {
+						grouptoogle.ButtonToggles = append(grouptoogle.ButtonToggles, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsSingleSelector":
+		grouptoogle.IsSingleSelector = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		layout.Name = value.GetValueString()
+	case "Groups":
+		layout.Groups = make([]*Group, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Groups {
+					if stage.GroupMap_Staged_Order[__instance__] == uint(id) {
+						layout.Groups = append(layout.Groups, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "GroupToogles":
+		layout.GroupToogles = make([]*GroupToogle, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GroupToogles {
+					if stage.GroupToogleMap_Staged_Order[__instance__] == uint(id) {
+						layout.GroupToogles = append(layout.GroupToogles, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template
