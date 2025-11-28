@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -3154,6 +3155,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -8320,6 +8322,97 @@ func (text *Text) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (animate *Animate) GongGetGongstructName() string {
+	return "Animate"
+}
+
+func (circle *Circle) GongGetGongstructName() string {
+	return "Circle"
+}
+
+func (condition *Condition) GongGetGongstructName() string {
+	return "Condition"
+}
+
+func (controlpoint *ControlPoint) GongGetGongstructName() string {
+	return "ControlPoint"
+}
+
+func (ellipse *Ellipse) GongGetGongstructName() string {
+	return "Ellipse"
+}
+
+func (layer *Layer) GongGetGongstructName() string {
+	return "Layer"
+}
+
+func (line *Line) GongGetGongstructName() string {
+	return "Line"
+}
+
+func (link *Link) GongGetGongstructName() string {
+	return "Link"
+}
+
+func (linkanchoredtext *LinkAnchoredText) GongGetGongstructName() string {
+	return "LinkAnchoredText"
+}
+
+func (path *Path) GongGetGongstructName() string {
+	return "Path"
+}
+
+func (point *Point) GongGetGongstructName() string {
+	return "Point"
+}
+
+func (polygone *Polygone) GongGetGongstructName() string {
+	return "Polygone"
+}
+
+func (polyline *Polyline) GongGetGongstructName() string {
+	return "Polyline"
+}
+
+func (rect *Rect) GongGetGongstructName() string {
+	return "Rect"
+}
+
+func (rectanchoredpath *RectAnchoredPath) GongGetGongstructName() string {
+	return "RectAnchoredPath"
+}
+
+func (rectanchoredrect *RectAnchoredRect) GongGetGongstructName() string {
+	return "RectAnchoredRect"
+}
+
+func (rectanchoredtext *RectAnchoredText) GongGetGongstructName() string {
+	return "RectAnchoredText"
+}
+
+func (rectlinklink *RectLinkLink) GongGetGongstructName() string {
+	return "RectLinkLink"
+}
+
+func (svg *SVG) GongGetGongstructName() string {
+	return "SVG"
+}
+
+func (svgtext *SvgText) GongGetGongstructName() string {
+	return "SvgText"
+}
+
+func (text *Text) GongGetGongstructName() string {
+	return "Text"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template

@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1988,6 +1989,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -4068,6 +4070,61 @@ func (transition_shape *Transition_Shape) GongSetFieldValue(fieldName string, va
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (architecture *Architecture) GongGetGongstructName() string {
+	return "Architecture"
+}
+
+func (diagram *Diagram) GongGetGongstructName() string {
+	return "Diagram"
+}
+
+func (kill *Kill) GongGetGongstructName() string {
+	return "Kill"
+}
+
+func (message *Message) GongGetGongstructName() string {
+	return "Message"
+}
+
+func (messagetype *MessageType) GongGetGongstructName() string {
+	return "MessageType"
+}
+
+func (object *Object) GongGetGongstructName() string {
+	return "Object"
+}
+
+func (role *Role) GongGetGongstructName() string {
+	return "Role"
+}
+
+func (state *State) GongGetGongstructName() string {
+	return "State"
+}
+
+func (statemachine *StateMachine) GongGetGongstructName() string {
+	return "StateMachine"
+}
+
+func (stateshape *StateShape) GongGetGongstructName() string {
+	return "StateShape"
+}
+
+func (transition *Transition) GongGetGongstructName() string {
+	return "Transition"
+}
+
+func (transition_shape *Transition_Shape) GongGetGongstructName() string {
+	return "Transition_Shape"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template

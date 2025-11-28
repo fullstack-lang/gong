@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -3362,6 +3363,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -6422,6 +6424,105 @@ func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, st
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (cell *Cell) GongGetGongstructName() string {
+	return "Cell"
+}
+
+func (cellboolean *CellBoolean) GongGetGongstructName() string {
+	return "CellBoolean"
+}
+
+func (cellfloat64 *CellFloat64) GongGetGongstructName() string {
+	return "CellFloat64"
+}
+
+func (cellicon *CellIcon) GongGetGongstructName() string {
+	return "CellIcon"
+}
+
+func (cellint *CellInt) GongGetGongstructName() string {
+	return "CellInt"
+}
+
+func (cellstring *CellString) GongGetGongstructName() string {
+	return "CellString"
+}
+
+func (checkbox *CheckBox) GongGetGongstructName() string {
+	return "CheckBox"
+}
+
+func (displayedcolumn *DisplayedColumn) GongGetGongstructName() string {
+	return "DisplayedColumn"
+}
+
+func (formdiv *FormDiv) GongGetGongstructName() string {
+	return "FormDiv"
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongGetGongstructName() string {
+	return "FormEditAssocButton"
+}
+
+func (formfield *FormField) GongGetGongstructName() string {
+	return "FormField"
+}
+
+func (formfielddate *FormFieldDate) GongGetGongstructName() string {
+	return "FormFieldDate"
+}
+
+func (formfielddatetime *FormFieldDateTime) GongGetGongstructName() string {
+	return "FormFieldDateTime"
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongGetGongstructName() string {
+	return "FormFieldFloat64"
+}
+
+func (formfieldint *FormFieldInt) GongGetGongstructName() string {
+	return "FormFieldInt"
+}
+
+func (formfieldselect *FormFieldSelect) GongGetGongstructName() string {
+	return "FormFieldSelect"
+}
+
+func (formfieldstring *FormFieldString) GongGetGongstructName() string {
+	return "FormFieldString"
+}
+
+func (formfieldtime *FormFieldTime) GongGetGongstructName() string {
+	return "FormFieldTime"
+}
+
+func (formgroup *FormGroup) GongGetGongstructName() string {
+	return "FormGroup"
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongGetGongstructName() string {
+	return "FormSortAssocButton"
+}
+
+func (option *Option) GongGetGongstructName() string {
+	return "Option"
+}
+
+func (row *Row) GongGetGongstructName() string {
+	return "Row"
+}
+
+func (table *Table) GongGetGongstructName() string {
+	return "Table"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template

@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1346,6 +1347,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -2799,6 +2801,41 @@ func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldV
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (arrow *Arrow) GongGetGongstructName() string {
+	return "Arrow"
+}
+
+func (bar *Bar) GongGetGongstructName() string {
+	return "Bar"
+}
+
+func (gantt *Gantt) GongGetGongstructName() string {
+	return "Gantt"
+}
+
+func (group *Group) GongGetGongstructName() string {
+	return "Group"
+}
+
+func (lane *Lane) GongGetGongstructName() string {
+	return "Lane"
+}
+
+func (laneuse *LaneUse) GongGetGongstructName() string {
+	return "LaneUse"
+}
+
+func (milestone *Milestone) GongGetGongstructName() string {
+	return "Milestone"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template

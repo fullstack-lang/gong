@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1848,6 +1849,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -3455,6 +3457,57 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongSetF
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (gongbasicfield *GongBasicField) GongGetGongstructName() string {
+	return "GongBasicField"
+}
+
+func (gongenum *GongEnum) GongGetGongstructName() string {
+	return "GongEnum"
+}
+
+func (gongenumvalue *GongEnumValue) GongGetGongstructName() string {
+	return "GongEnumValue"
+}
+
+func (gonglink *GongLink) GongGetGongstructName() string {
+	return "GongLink"
+}
+
+func (gongnote *GongNote) GongGetGongstructName() string {
+	return "GongNote"
+}
+
+func (gongstruct *GongStruct) GongGetGongstructName() string {
+	return "GongStruct"
+}
+
+func (gongtimefield *GongTimeField) GongGetGongstructName() string {
+	return "GongTimeField"
+}
+
+func (metareference *MetaReference) GongGetGongstructName() string {
+	return "MetaReference"
+}
+
+func (modelpkg *ModelPkg) GongGetGongstructName() string {
+	return "ModelPkg"
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongGetGongstructName() string {
+	return "PointerToGongStructField"
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetGongstructName() string {
+	return "SliceOfPointerToGongStructField"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template

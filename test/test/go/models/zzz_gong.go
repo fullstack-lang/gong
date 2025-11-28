@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1348,6 +1349,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -3035,6 +3037,41 @@ func (gstruct *Gstruct) GongSetFieldValue(fieldName string, value GongFieldValue
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (astruct *Astruct) GongGetGongstructName() string {
+	return "Astruct"
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetGongstructName() string {
+	return "AstructBstruct2Use"
+}
+
+func (astructbstructuse *AstructBstructUse) GongGetGongstructName() string {
+	return "AstructBstructUse"
+}
+
+func (bstruct *Bstruct) GongGetGongstructName() string {
+	return "Bstruct"
+}
+
+func (dstruct *Dstruct) GongGetGongstructName() string {
+	return "Dstruct"
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetGongstructName() string {
+	return "F0123456789012345678901234567890"
+}
+
+func (gstruct *Gstruct) GongGetGongstructName() string {
+	return "Gstruct"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template
