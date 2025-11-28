@@ -78,6 +78,7 @@ type GongStructInterface interface {
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -828,6 +829,7 @@ type GongstructIF interface {
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1260,6 +1262,25 @@ func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue
 
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (filetodownload *FileToDownload) GongGetGongstructName() string {
+	return "FileToDownload"
+}
+
+func (filetoupload *FileToUpload) GongGetGongstructName() string {
+	return "FileToUpload"
+}
+
+func (message *Message) GongGetGongstructName() string {
+	return "Message"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
+	return
 }
 
 // Last line of the template
