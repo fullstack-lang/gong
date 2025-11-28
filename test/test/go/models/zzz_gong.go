@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	test_go "github.com/fullstack-lang/gong/test/test/go"
@@ -74,6 +75,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1343,6 +1345,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1485,7 +1488,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -2667,6 +2670,369 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (astruct *Astruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		astruct.Name = value.GetValueString()
+	case "Associationtob":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Associationtob = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Associationtob = __instance__
+					break
+				}
+			}
+		}
+	case "Anarrayofb":
+		astruct.Anarrayofb = make([]*Bstruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Bstructs {
+					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+						astruct.Anarrayofb = append(astruct.Anarrayofb, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Anotherassociationtob_2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Anotherassociationtob_2 = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Anotherassociationtob_2 = __instance__
+					break
+				}
+			}
+		}
+	case "Booleanfield":
+		astruct.Booleanfield = value.GetValueBool()
+	case "Aenum":
+		astruct.Aenum.FromCodeString(value.GetValueString())
+	case "Aenum_2":
+		astruct.Aenum_2.FromCodeString(value.GetValueString())
+	case "Benum":
+		astruct.Benum.FromCodeString(value.GetValueString())
+	case "CEnum":
+		astruct.CEnum.FromCodeString(value.GetValueString())
+	case "CName":
+		astruct.CName = value.GetValueString()
+	case "CFloatfield":
+		astruct.CFloatfield = value.GetValueFloat()
+	case "Bstruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Bstruct = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Bstruct = __instance__
+					break
+				}
+			}
+		}
+	case "Bstruct2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Bstruct2 = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Bstruct2 = __instance__
+					break
+				}
+			}
+		}
+	case "Dstruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Dstruct = nil
+			for __instance__ := range stage.Dstructs {
+				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Dstruct = __instance__
+					break
+				}
+			}
+		}
+	case "Dstruct2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Dstruct2 = nil
+			for __instance__ := range stage.Dstructs {
+				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Dstruct2 = __instance__
+					break
+				}
+			}
+		}
+	case "Dstruct3":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Dstruct3 = nil
+			for __instance__ := range stage.Dstructs {
+				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Dstruct3 = __instance__
+					break
+				}
+			}
+		}
+	case "Dstruct4":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.Dstruct4 = nil
+			for __instance__ := range stage.Dstructs {
+				if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.Dstruct4 = __instance__
+					break
+				}
+			}
+		}
+	case "Dstruct4s":
+		astruct.Dstruct4s = make([]*Dstruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Dstructs {
+					if stage.DstructMap_Staged_Order[__instance__] == uint(id) {
+						astruct.Dstruct4s = append(astruct.Dstruct4s, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Floatfield":
+		astruct.Floatfield = value.GetValueFloat()
+	case "Intfield":
+		astruct.Intfield = int(value.GetValueInt())
+	case "Anotherbooleanfield":
+		astruct.Anotherbooleanfield = value.GetValueBool()
+	case "Anarrayofa":
+		astruct.Anarrayofa = make([]*Astruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Astructs {
+					if stage.AstructMap_Staged_Order[__instance__] == uint(id) {
+						astruct.Anarrayofa = append(astruct.Anarrayofa, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Anotherarrayofb":
+		astruct.Anotherarrayofb = make([]*Bstruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Bstructs {
+					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+						astruct.Anotherarrayofb = append(astruct.Anotherarrayofb, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "AnarrayofbUse":
+		astruct.AnarrayofbUse = make([]*AstructBstructUse, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.AstructBstructUses {
+					if stage.AstructBstructUseMap_Staged_Order[__instance__] == uint(id) {
+						astruct.AnarrayofbUse = append(astruct.AnarrayofbUse, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Anarrayofb2Use":
+		astruct.Anarrayofb2Use = make([]*AstructBstruct2Use, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.AstructBstruct2Uses {
+					if stage.AstructBstruct2UseMap_Staged_Order[__instance__] == uint(id) {
+						astruct.Anarrayofb2Use = append(astruct.Anarrayofb2Use, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "AnAstruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astruct.AnAstruct = nil
+			for __instance__ := range stage.Astructs {
+				if stage.AstructMap_Staged_Order[__instance__] == uint(id) {
+					astruct.AnAstruct = __instance__
+					break
+				}
+			}
+		}
+	case "TextFieldBespokeSize":
+		astruct.TextFieldBespokeSize = value.GetValueString()
+	case "TextArea":
+		astruct.TextArea = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		astructbstruct2use.Name = value.GetValueString()
+	case "Bstrcut2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astructbstruct2use.Bstrcut2 = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astructbstruct2use.Bstrcut2 = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (astructbstructuse *AstructBstructUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		astructbstructuse.Name = value.GetValueString()
+	case "Bstruct2":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			astructbstructuse.Bstruct2 = nil
+			for __instance__ := range stage.Bstructs {
+				if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+					astructbstructuse.Bstruct2 = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (bstruct *Bstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		bstruct.Name = value.GetValueString()
+	case "Floatfield":
+		bstruct.Floatfield = value.GetValueFloat()
+	case "Floatfield2":
+		bstruct.Floatfield2 = value.GetValueFloat()
+	case "Intfield":
+		bstruct.Intfield = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (dstruct *Dstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		dstruct.Name = value.GetValueString()
+	case "Anarrayofb":
+		dstruct.Anarrayofb = make([]*Bstruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Bstructs {
+					if stage.BstructMap_Staged_Order[__instance__] == uint(id) {
+						dstruct.Anarrayofb = append(dstruct.Anarrayofb, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Gstruct":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			dstruct.Gstruct = nil
+			for __instance__ := range stage.Gstructs {
+				if stage.GstructMap_Staged_Order[__instance__] == uint(id) {
+					dstruct.Gstruct = __instance__
+					break
+				}
+			}
+		}
+	case "Gstructs":
+		dstruct.Gstructs = make([]*Gstruct, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Gstructs {
+					if stage.GstructMap_Staged_Order[__instance__] == uint(id) {
+						dstruct.Gstructs = append(dstruct.Gstructs, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		f0123456789012345678901234567890.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gstruct *Gstruct) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gstruct.Name = value.GetValueString()
+	case "Floatfield":
+		gstruct.Floatfield = value.GetValueFloat()
+	case "Floatfield2":
+		gstruct.Floatfield2 = value.GetValueFloat()
+	case "Intfield":
+		gstruct.Intfield = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template
