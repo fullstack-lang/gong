@@ -3861,8 +3861,9 @@ func (assplit *AsSplit) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "AsSplitAreas",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "AsSplitAreas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AsSplitArea",
 		},
 	}
 	return
@@ -3890,54 +3891,67 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "AsSplit",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "AsSplit",
 		},
 		{
 			Name:               "Button",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Button",
 		},
 		{
 			Name:               "Cursor",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Cursor",
 		},
 		{
 			Name:               "Form",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Form",
 		},
 		{
 			Name:               "Load",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Load",
 		},
 		{
 			Name:               "Markdown",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Markdown",
 		},
 		{
 			Name:               "Slider",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Slider",
 		},
 		{
 			Name:               "Split",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Split",
 		},
 		{
 			Name:               "Svg",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Svg",
 		},
 		{
 			Name:               "Table",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Table",
 		},
 		{
 			Name:               "Tone",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Tone",
 		},
 		{
 			Name:               "Tree",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Tree",
 		},
 		{
 			Name:               "Xlsx",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Xlsx",
 		},
 		{
 			Name:               "HasDiv",
@@ -4208,8 +4222,9 @@ func (view *View) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "RootAsSplitAreas",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RootAsSplitAreas",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AsSplitArea",
 		},
 		{
 			Name:               "IsSelectedView",
@@ -4270,8 +4285,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
