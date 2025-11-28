@@ -12,6 +12,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
@@ -76,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -447,6 +449,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -533,7 +536,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -681,6 +684,12 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericSetFieldValuesFromPointer)) + `}}
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template
