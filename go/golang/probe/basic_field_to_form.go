@@ -9,11 +9,11 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"{{PkgPathRoot}}/models"
+	"github.com/fullstack-lang/gong/test/test/go/models"
 )
 
-func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicField](
-	fieldName string, field TF, instance T, formStage *form.Stage, formGroup *form.FormGroup,
+func BasicFieldtoForm[TF models.GongtructBasicField](
+	fieldName string, field TF, instance models.GongstructIF, formStage *form.Stage, formGroup *form.FormGroup,
 	isTextArea bool, isBespokeWidth bool, bespokeWidth int, isBespokeHeight bool, bespokeHeight int,
 ) {
 
@@ -24,11 +24,11 @@ func BasicFieldtoForm[T models.PointerToGongstruct, TF models.GongtructBasicFiel
 		}).Stage(formStage)
 		formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 		formField := (&form.FormField{
-			Name:            fieldName,
-			Label:           fieldName,
-			Placeholder:     "",
-			HasBespokeWidth: isBespokeWidth,
-			BespokeWidthPx:  bespokeWidth,
+			Name:             fieldName,
+			Label:            fieldName,
+			Placeholder:      "",
+			HasBespokeWidth:  isBespokeWidth,
+			BespokeWidthPx:   bespokeWidth,
 			HasBespokeHeight: isBespokeHeight,
 			BespokeHeightPx:  bespokeHeight,
 		}).Stage(formStage)
