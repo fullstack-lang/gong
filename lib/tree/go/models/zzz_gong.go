@@ -1344,6 +1344,7 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "SVGIcon",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "SVGIcon",
 		},
 		{
 			Name:               "IsDisabled",
@@ -1467,14 +1468,17 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "PreceedingSVGIcon",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "SVGIcon",
 		},
 		{
-			Name:               "Children",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Children",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Node",
 		},
 		{
-			Name:               "Buttons",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Buttons",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Button",
 		},
 	}
 	return
@@ -1503,8 +1507,9 @@ func (tree *Tree) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "RootNodes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RootNodes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Node",
 		},
 	}
 	return
@@ -1542,8 +1547,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

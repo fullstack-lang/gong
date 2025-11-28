@@ -1510,10 +1510,12 @@ func (displayselection *DisplaySelection) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "XLFile",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "XLFile",
 		},
 		{
 			Name:               "XLSheet",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "XLSheet",
 		},
 	}
 	return
@@ -1550,8 +1552,9 @@ func (xlfile *XLFile) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Sheets",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Sheets",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XLSheet",
 		},
 	}
 	return
@@ -1569,8 +1572,9 @@ func (xlrow *XLRow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Cells",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Cells",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XLCell",
 		},
 	}
 	return
@@ -1596,12 +1600,14 @@ func (xlsheet *XLSheet) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Rows",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Rows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XLRow",
 		},
 		{
-			Name:               "SheetCells",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "SheetCells",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "XLCell",
 		},
 	}
 	return
@@ -1639,8 +1645,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

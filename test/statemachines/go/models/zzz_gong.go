@@ -2861,12 +2861,14 @@ func (architecture *Architecture) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "StateMachines",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "StateMachines",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StateMachine",
 		},
 		{
-			Name:               "Roles",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Roles",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Role",
 		},
 		{
 			Name:               "NbPixPerCharacter",
@@ -2900,12 +2902,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "State_Shapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "State_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "StateShape",
 		},
 		{
-			Name:               "Transition_Shapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Transition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Transition_Shape",
 		},
 	}
 	return
@@ -2936,10 +2940,12 @@ func (message *Message) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "MessageType",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "MessageType",
 		},
 		{
 			Name:               "OriginTransition",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Transition",
 		},
 	}
 	return
@@ -2970,6 +2976,7 @@ func (object *Object) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "State",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:               "IsSelected",
@@ -2984,8 +2991,9 @@ func (object *Object) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Messages",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Messages",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Message",
 		},
 	}
 	return
@@ -3003,8 +3011,9 @@ func (role *Role) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "RolesWithSamePermissions",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RolesWithSamePermissions",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Role",
 		},
 	}
 	return
@@ -3020,6 +3029,7 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Parent",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:               "IsDecisionNode",
@@ -3034,12 +3044,14 @@ func (state *State) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "SubStates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "SubStates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "State",
 		},
 		{
-			Name:               "Diagrams",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
 		},
 	}
 	return
@@ -3057,16 +3069,19 @@ func (statemachine *StateMachine) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "States",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "States",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "State",
 		},
 		{
-			Name:               "Diagrams",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
 		},
 		{
 			Name:               "InitialState",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 	}
 	return
@@ -3082,6 +3097,7 @@ func (stateshape *StateShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "State",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:               "IsExpanded",
@@ -3117,22 +3133,27 @@ func (transition *Transition) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Start",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
 			Name:               "End",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "State",
 		},
 		{
-			Name:               "RolesWithPermissions",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RolesWithPermissions",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Role",
 		},
 		{
-			Name:               "GeneratedMessages",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GeneratedMessages",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "MessageType",
 		},
 		{
-			Name:               "Diagrams",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
 		},
 	}
 	return
@@ -3148,6 +3169,7 @@ func (transition_shape *Transition_Shape) GongGetFieldHeaders() (res []GongField
 		{
 			Name:               "Transition",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Transition",
 		},
 		{
 			Name:               "StartRatio",
@@ -3205,8 +3227,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

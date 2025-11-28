@@ -1126,8 +1126,9 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Frequencies",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Frequencies",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Freqency",
 		},
 		{
 			Name:               "Start",
@@ -1196,8 +1197,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

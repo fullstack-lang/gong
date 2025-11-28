@@ -415,11 +415,13 @@ map[GongFilePerStructSubTemplateId]string{
 		{
 			Name:               "{{FieldName}}",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "{{AssocStructName}}",
 		},`,
 	GongFileFieldSubTmplStringHeaderSliceOfPointersField: `
 		{
-			Name:               "{{FieldName}}",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "{{FieldName}}",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "{{AssocStructName}}",
 		},`,
 	GongFileFieldSubTmplStringValueBasicFieldBool: `
 	case "{{FieldName}}":
@@ -807,8 +809,9 @@ func CodeGeneratorModelGong(
 							"{{CompositeAssocStructName}}", assocCompositeStrucName,
 						)
 					}
-					fieldHeaders += models.Replace1(
+					fieldHeaders += models.Replace2(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderPointerField],
+						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{FieldName}}", field.GetName())
 				case *models.SliceOfPointerToGongStructField:
 					fieldStringValues += models.Replace1(
@@ -856,8 +859,9 @@ func CodeGeneratorModelGong(
 							"{{CompositeAssocStructName}}", assocCompositeStrucName,
 						)
 					}
-					fieldHeaders += models.Replace1(
+					fieldHeaders += models.Replace2(
 						GongFileFieldFieldSubTemplateCode[GongFileFieldSubTmplStringHeaderSliceOfPointersField],
+						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{FieldName}}", field.GetName())
 				default:
 				}

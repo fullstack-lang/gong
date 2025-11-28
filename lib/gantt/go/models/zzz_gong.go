@@ -1884,10 +1884,12 @@ func (arrow *Arrow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "From",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bar",
 		},
 		{
 			Name:               "To",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bar",
 		},
 		{
 			Name:               "OptionnalColor",
@@ -2048,20 +2050,24 @@ func (gantt *Gantt) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Lanes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Lanes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 		{
-			Name:               "Milestones",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Milestones",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Milestone",
 		},
 		{
-			Name:               "Groups",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Groups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Group",
 		},
 		{
-			Name:               "Arrows",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Arrows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Arrow",
 		},
 	}
 	return
@@ -2075,8 +2081,9 @@ func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GroupLanes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GroupLanes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2094,8 +2101,9 @@ func (lane *Lane) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Bars",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Bars",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Bar",
 		},
 	}
 	return
@@ -2111,6 +2119,7 @@ func (laneuse *LaneUse) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Lane",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2132,8 +2141,9 @@ func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "LanesToDisplay",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "LanesToDisplay",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2171,8 +2181,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

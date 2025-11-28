@@ -4611,22 +4611,27 @@ func (cell *Cell) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "CellString",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "CellString",
 		},
 		{
 			Name:               "CellFloat64",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "CellFloat64",
 		},
 		{
 			Name:               "CellInt",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "CellInt",
 		},
 		{
 			Name:               "CellBool",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "CellBoolean",
 		},
 		{
 			Name:               "CellIcon",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "CellIcon",
 		},
 	}
 	return
@@ -4749,20 +4754,24 @@ func (formdiv *FormDiv) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "FormFields",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "FormFields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "FormField",
 		},
 		{
-			Name:               "CheckBoxs",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "CheckBoxs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "CheckBox",
 		},
 		{
 			Name:               "FormEditAssocButton",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormEditAssocButton",
 		},
 		{
 			Name:               "FormSortAssocButton",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormSortAssocButton",
 		},
 	}
 	return
@@ -4829,30 +4838,37 @@ func (formfield *FormField) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "FormFieldString",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldString",
 		},
 		{
 			Name:               "FormFieldFloat64",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldFloat64",
 		},
 		{
 			Name:               "FormFieldInt",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldInt",
 		},
 		{
 			Name:               "FormFieldDate",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldDate",
 		},
 		{
 			Name:               "FormFieldTime",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldTime",
 		},
 		{
 			Name:               "FormFieldDateTime",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldDateTime",
 		},
 		{
 			Name:               "FormFieldSelect",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormFieldSelect",
 		},
 		{
 			Name:               "HasBespokeWidth",
@@ -4976,10 +4992,12 @@ func (formfieldselect *FormFieldSelect) GongGetFieldHeaders() (res []GongFieldHe
 		{
 			Name:               "Value",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Option",
 		},
 		{
-			Name:               "Options",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Options",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Option",
 		},
 		{
 			Name:               "CanBeEmpty",
@@ -5043,8 +5061,9 @@ func (formgroup *FormGroup) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "FormDivs",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "FormDivs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "FormDiv",
 		},
 		{
 			Name:               "HasSuppressButton",
@@ -5084,6 +5103,7 @@ func (formsortassocbutton *FormSortAssocButton) GongGetFieldHeaders() (res []Gon
 		{
 			Name:               "FormEditAssocButton",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "FormEditAssocButton",
 		},
 	}
 	return
@@ -5108,8 +5128,9 @@ func (row *Row) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Cells",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Cells",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Cell",
 		},
 		{
 			Name:               "IsChecked",
@@ -5127,12 +5148,14 @@ func (table *Table) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "DisplayedColumns",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "DisplayedColumns",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "DisplayedColumn",
 		},
 		{
-			Name:               "Rows",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Rows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Row",
 		},
 		{
 			Name:               "HasFiltering",
@@ -5210,8 +5233,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

@@ -2493,6 +2493,7 @@ func (gongbasicfield *GongBasicField) GongGetFieldHeaders() (res []GongFieldHead
 		{
 			Name:               "GongEnum",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "GongEnum",
 		},
 		{
 			Name:               "DeclaredType",
@@ -2542,8 +2543,9 @@ func (gongenum *GongEnum) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongEnumValues",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongEnumValues",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongEnumValue",
 		},
 	}
 	return
@@ -2599,8 +2601,9 @@ func (gongnote *GongNote) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Links",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Links",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongLink",
 		},
 	}
 	return
@@ -2614,20 +2617,24 @@ func (gongstruct *GongStruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongBasicFields",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongBasicFields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongBasicField",
 		},
 		{
-			Name:               "GongTimeFields",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongTimeFields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongTimeField",
 		},
 		{
-			Name:               "PointerToGongStructFields",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "PointerToGongStructFields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "PointerToGongStructField",
 		},
 		{
-			Name:               "SliceOfPointerToGongStructFields",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "SliceOfPointerToGongStructFields",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "SliceOfPointerToGongStructField",
 		},
 		{
 			Name:               "HasOnAfterUpdateSignature",
@@ -2760,6 +2767,7 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetFieldHeaders() 
 		{
 			Name:               "GongStruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "GongStruct",
 		},
 		{
 			Name:               "Index",
@@ -2787,6 +2795,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 		{
 			Name:               "GongStruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "GongStruct",
 		},
 		{
 			Name:               "Index",
@@ -2832,8 +2841,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
