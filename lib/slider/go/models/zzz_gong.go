@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	slider_go "github.com/fullstack-lang/gong/lib/slider/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -955,6 +959,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1073,7 +1078,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1569,6 +1574,126 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (checkbox *Checkbox) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		checkbox.Name = value.GetValueString()
+	case "ValueBool":
+		checkbox.ValueBool = value.GetValueBool()
+	case "LabelForTrue":
+		checkbox.LabelForTrue = value.GetValueString()
+	case "LabelForFalse":
+		checkbox.LabelForFalse = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		group.Name = value.GetValueString()
+	case "Percentage":
+		group.Percentage = value.GetValueFloat()
+	case "Sliders":
+		group.Sliders = make([]*Slider, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Sliders {
+					if stage.SliderMap_Staged_Order[__instance__] == uint(id) {
+						group.Sliders = append(group.Sliders, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Checkboxes":
+		group.Checkboxes = make([]*Checkbox, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Checkboxs {
+					if stage.CheckboxMap_Staged_Order[__instance__] == uint(id) {
+						group.Checkboxes = append(group.Checkboxes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		layout.Name = value.GetValueString()
+	case "Groups":
+		layout.Groups = make([]*Group, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Groups {
+					if stage.GroupMap_Staged_Order[__instance__] == uint(id) {
+						layout.Groups = append(layout.Groups, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (slider *Slider) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		slider.Name = value.GetValueString()
+	case "IsFloat64":
+		slider.IsFloat64 = value.GetValueBool()
+	case "IsInt":
+		slider.IsInt = value.GetValueBool()
+	case "MinInt":
+		slider.MinInt = int(value.GetValueInt())
+	case "MaxInt":
+		slider.MaxInt = int(value.GetValueInt())
+	case "StepInt":
+		slider.StepInt = int(value.GetValueInt())
+	case "ValueInt":
+		slider.ValueInt = int(value.GetValueInt())
+	case "MinFloat64":
+		slider.MinFloat64 = value.GetValueFloat()
+	case "MaxFloat64":
+		slider.MaxFloat64 = value.GetValueFloat()
+	case "StepFloat64":
+		slider.StepFloat64 = value.GetValueFloat()
+	case "ValueFloat64":
+		slider.ValueFloat64 = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

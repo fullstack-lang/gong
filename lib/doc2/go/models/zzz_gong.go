@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	doc2_go "github.com/fullstack-lang/gong/lib/doc2/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1595,6 +1599,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1753,7 +1758,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -2936,6 +2941,344 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (attributeshape *AttributeShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		attributeshape.Name = value.GetValueString()
+	case "FieldTypeAsString":
+		attributeshape.FieldTypeAsString = value.GetValueString()
+	case "Structname":
+		attributeshape.Structname = value.GetValueString()
+	case "Fieldtypename":
+		attributeshape.Fieldtypename = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (classdiagram *Classdiagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		classdiagram.Name = value.GetValueString()
+	case "Description":
+		classdiagram.Description = value.GetValueString()
+	case "IsIncludedInStaticWebSite":
+		classdiagram.IsIncludedInStaticWebSite = value.GetValueBool()
+	case "GongStructShapes":
+		classdiagram.GongStructShapes = make([]*GongStructShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongStructShapes {
+					if stage.GongStructShapeMap_Staged_Order[__instance__] == uint(id) {
+						classdiagram.GongStructShapes = append(classdiagram.GongStructShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "GongEnumShapes":
+		classdiagram.GongEnumShapes = make([]*GongEnumShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongEnumShapes {
+					if stage.GongEnumShapeMap_Staged_Order[__instance__] == uint(id) {
+						classdiagram.GongEnumShapes = append(classdiagram.GongEnumShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "GongNoteShapes":
+		classdiagram.GongNoteShapes = make([]*GongNoteShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongNoteShapes {
+					if stage.GongNoteShapeMap_Staged_Order[__instance__] == uint(id) {
+						classdiagram.GongNoteShapes = append(classdiagram.GongNoteShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "ShowNbInstances":
+		classdiagram.ShowNbInstances = value.GetValueBool()
+	case "ShowMultiplicity":
+		classdiagram.ShowMultiplicity = value.GetValueBool()
+	case "ShowLinkNames":
+		classdiagram.ShowLinkNames = value.GetValueBool()
+	case "IsInRenameMode":
+		classdiagram.IsInRenameMode = value.GetValueBool()
+	case "IsExpanded":
+		classdiagram.IsExpanded = value.GetValueBool()
+	case "NodeGongStructsIsExpanded":
+		classdiagram.NodeGongStructsIsExpanded = value.GetValueBool()
+	case "NodeGongStructNodeExpansion":
+		classdiagram.NodeGongStructNodeExpansion = value.GetValueString()
+	case "NodeGongEnumsIsExpanded":
+		classdiagram.NodeGongEnumsIsExpanded = value.GetValueBool()
+	case "NodeGongEnumNodeExpansion":
+		classdiagram.NodeGongEnumNodeExpansion = value.GetValueString()
+	case "NodeGongNotesIsExpanded":
+		classdiagram.NodeGongNotesIsExpanded = value.GetValueBool()
+	case "NodeGongNoteNodeExpansion":
+		classdiagram.NodeGongNoteNodeExpansion = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (diagrampackage *DiagramPackage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		diagrampackage.Name = value.GetValueString()
+	case "Path":
+		diagrampackage.Path = value.GetValueString()
+	case "GongModelPath":
+		diagrampackage.GongModelPath = value.GetValueString()
+	case "Classdiagrams":
+		diagrampackage.Classdiagrams = make([]*Classdiagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Classdiagrams {
+					if stage.ClassdiagramMap_Staged_Order[__instance__] == uint(id) {
+						diagrampackage.Classdiagrams = append(diagrampackage.Classdiagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "SelectedClassdiagram":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			diagrampackage.SelectedClassdiagram = nil
+			for __instance__ := range stage.Classdiagrams {
+				if stage.ClassdiagramMap_Staged_Order[__instance__] == uint(id) {
+					diagrampackage.SelectedClassdiagram = __instance__
+					break
+				}
+			}
+		}
+	case "AbsolutePathToDiagramPackage":
+		diagrampackage.AbsolutePathToDiagramPackage = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongenumshape *GongEnumShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongenumshape.Name = value.GetValueString()
+	case "X":
+		gongenumshape.X = value.GetValueFloat()
+	case "Y":
+		gongenumshape.Y = value.GetValueFloat()
+	case "GongEnumValueShapes":
+		gongenumshape.GongEnumValueShapes = make([]*GongEnumValueShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongEnumValueShapes {
+					if stage.GongEnumValueShapeMap_Staged_Order[__instance__] == uint(id) {
+						gongenumshape.GongEnumValueShapes = append(gongenumshape.GongEnumValueShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Width":
+		gongenumshape.Width = value.GetValueFloat()
+	case "Height":
+		gongenumshape.Height = value.GetValueFloat()
+	case "IsExpanded":
+		gongenumshape.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongenumvalueshape *GongEnumValueShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongenumvalueshape.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongnotelinkshape *GongNoteLinkShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongnotelinkshape.Name = value.GetValueString()
+	case "Identifier":
+		gongnotelinkshape.Identifier = value.GetValueString()
+	case "Type":
+		gongnotelinkshape.Type.FromCodeString(value.GetValueString())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongnoteshape *GongNoteShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongnoteshape.Name = value.GetValueString()
+	case "Identifier":
+		gongnoteshape.Identifier = value.GetValueString()
+	case "Body":
+		gongnoteshape.Body = value.GetValueString()
+	case "BodyHTML":
+		gongnoteshape.BodyHTML = value.GetValueString()
+	case "X":
+		gongnoteshape.X = value.GetValueFloat()
+	case "Y":
+		gongnoteshape.Y = value.GetValueFloat()
+	case "Width":
+		gongnoteshape.Width = value.GetValueFloat()
+	case "Height":
+		gongnoteshape.Height = value.GetValueFloat()
+	case "Matched":
+		gongnoteshape.Matched = value.GetValueBool()
+	case "GongNoteLinkShapes":
+		gongnoteshape.GongNoteLinkShapes = make([]*GongNoteLinkShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.GongNoteLinkShapes {
+					if stage.GongNoteLinkShapeMap_Staged_Order[__instance__] == uint(id) {
+						gongnoteshape.GongNoteLinkShapes = append(gongnoteshape.GongNoteLinkShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsExpanded":
+		gongnoteshape.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gongstructshape *GongStructShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gongstructshape.Name = value.GetValueString()
+	case "X":
+		gongstructshape.X = value.GetValueFloat()
+	case "Y":
+		gongstructshape.Y = value.GetValueFloat()
+	case "AttributeShapes":
+		gongstructshape.AttributeShapes = make([]*AttributeShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.AttributeShapes {
+					if stage.AttributeShapeMap_Staged_Order[__instance__] == uint(id) {
+						gongstructshape.AttributeShapes = append(gongstructshape.AttributeShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "LinkShapes":
+		gongstructshape.LinkShapes = make([]*LinkShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.LinkShapes {
+					if stage.LinkShapeMap_Staged_Order[__instance__] == uint(id) {
+						gongstructshape.LinkShapes = append(gongstructshape.LinkShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Width":
+		gongstructshape.Width = value.GetValueFloat()
+	case "Height":
+		gongstructshape.Height = value.GetValueFloat()
+	case "IsSelected":
+		gongstructshape.IsSelected = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (linkshape *LinkShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		linkshape.Name = value.GetValueString()
+	case "FieldOffsetX":
+		linkshape.FieldOffsetX = value.GetValueFloat()
+	case "FieldOffsetY":
+		linkshape.FieldOffsetY = value.GetValueFloat()
+	case "TargetMultiplicity":
+		linkshape.TargetMultiplicity.FromCodeString(value.GetValueString())
+	case "TargetMultiplicityOffsetX":
+		linkshape.TargetMultiplicityOffsetX = value.GetValueFloat()
+	case "TargetMultiplicityOffsetY":
+		linkshape.TargetMultiplicityOffsetY = value.GetValueFloat()
+	case "SourceMultiplicity":
+		linkshape.SourceMultiplicity.FromCodeString(value.GetValueString())
+	case "SourceMultiplicityOffsetX":
+		linkshape.SourceMultiplicityOffsetX = value.GetValueFloat()
+	case "SourceMultiplicityOffsetY":
+		linkshape.SourceMultiplicityOffsetY = value.GetValueFloat()
+	case "X":
+		linkshape.X = value.GetValueFloat()
+	case "Y":
+		linkshape.Y = value.GetValueFloat()
+	case "StartOrientation":
+		linkshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "StartRatio":
+		linkshape.StartRatio = value.GetValueFloat()
+	case "EndOrientation":
+		linkshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "EndRatio":
+		linkshape.EndRatio = value.GetValueFloat()
+	case "CornerOffsetRatio":
+		linkshape.CornerOffsetRatio = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

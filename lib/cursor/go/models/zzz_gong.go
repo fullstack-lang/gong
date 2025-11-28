@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	cursor_go "github.com/fullstack-lang/gong/lib/cursor/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -571,6 +575,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -665,7 +670,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -954,6 +959,51 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (cursor *Cursor) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cursor.Name = value.GetValueString()
+	case "StartX":
+		cursor.StartX = value.GetValueFloat()
+	case "EndX":
+		cursor.EndX = value.GetValueFloat()
+	case "Y1":
+		cursor.Y1 = value.GetValueFloat()
+	case "Y2":
+		cursor.Y2 = value.GetValueFloat()
+	case "DurationSeconds":
+		cursor.DurationSeconds = value.GetValueFloat()
+	case "Color":
+		cursor.Color = value.GetValueString()
+	case "FillOpacity":
+		cursor.FillOpacity = value.GetValueFloat()
+	case "Stroke":
+		cursor.Stroke = value.GetValueString()
+	case "StrokeOpacity":
+		cursor.StrokeOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		cursor.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		cursor.StrokeDashArray = value.GetValueString()
+	case "StrokeDashArrayWhenSelected":
+		cursor.StrokeDashArrayWhenSelected = value.GetValueString()
+	case "Transform":
+		cursor.Transform = value.GetValueString()
+	case "IsPlaying":
+		cursor.IsPlaying = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template
