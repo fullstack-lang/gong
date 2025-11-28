@@ -4533,8 +4533,9 @@ func (circle *Circle) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animations",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animations",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -4569,6 +4570,7 @@ func (controlpoint *ControlPoint) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "ClosestRect",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 	}
 	return
@@ -4630,8 +4632,9 @@ func (ellipse *Ellipse) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -4645,44 +4648,54 @@ func (layer *Layer) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Rects",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Rects",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Rect",
 		},
 		{
-			Name:               "Texts",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Texts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Text",
 		},
 		{
-			Name:               "Circles",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Circles",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Circle",
 		},
 		{
-			Name:               "Lines",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Lines",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Line",
 		},
 		{
-			Name:               "Ellipses",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Ellipses",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Ellipse",
 		},
 		{
-			Name:               "Polylines",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Polylines",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Polyline",
 		},
 		{
-			Name:               "Polygones",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Polygones",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Polygone",
 		},
 		{
-			Name:               "Paths",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Paths",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Path",
 		},
 		{
-			Name:               "Links",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Links",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Link",
 		},
 		{
-			Name:               "RectLinkLinks",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RectLinkLinks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RectLinkLink",
 		},
 	}
 	return
@@ -4744,8 +4757,9 @@ func (line *Line) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 		{
 			Name:               "MouseClickX",
@@ -4777,6 +4791,7 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Start",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "StartAnchorType",
@@ -4785,6 +4800,7 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "End",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "EndAnchorType",
@@ -4839,16 +4855,19 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "TextAtArrowStart",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "TextAtArrowStart",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredText",
 		},
 		{
-			Name:               "TextAtArrowEnd",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "TextAtArrowEnd",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkAnchoredText",
 		},
 		{
-			Name:               "ControlPoints",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "ControlPoints",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "ControlPoint",
 		},
 		{
 			Name:               "Color",
@@ -4982,8 +5001,9 @@ func (linkanchoredtext *LinkAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5033,8 +5053,9 @@ func (path *Path) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5103,8 +5124,9 @@ func (polygone *Polygone) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5154,8 +5176,9 @@ func (polyline *Polyline) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5221,16 +5244,19 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "HoveringTrigger",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "HoveringTrigger",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Condition",
 		},
 		{
-			Name:               "DisplayConditions",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "DisplayConditions",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Condition",
 		},
 		{
-			Name:               "Animations",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animations",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 		{
 			Name:               "IsSelectable",
@@ -5285,16 +5311,19 @@ func (rect *Rect) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "RectAnchoredTexts",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RectAnchoredTexts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RectAnchoredText",
 		},
 		{
-			Name:               "RectAnchoredRects",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RectAnchoredRects",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RectAnchoredRect",
 		},
 		{
-			Name:               "RectAnchoredPaths",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "RectAnchoredPaths",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "RectAnchoredPath",
 		},
 		{
 			Name:               "ChangeColorWhenHovered",
@@ -5594,8 +5623,9 @@ func (rectanchoredtext *RectAnchoredText) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5611,10 +5641,12 @@ func (rectlinklink *RectLinkLink) GongGetFieldHeaders() (res []GongFieldHeader) 
 		{
 			Name:               "Start",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "End",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Link",
 		},
 		{
 			Name:               "TargetAnchorPosition",
@@ -5664,8 +5696,9 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Layers",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Layers",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Layer",
 		},
 		{
 			Name:               "DrawingState",
@@ -5674,10 +5707,12 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "StartRect",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "EndRect",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Rect",
 		},
 		{
 			Name:               "IsEditable",
@@ -5794,8 +5829,9 @@ func (text *Text) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Animates",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Animates",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Animate",
 		},
 	}
 	return
@@ -5833,8 +5869,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

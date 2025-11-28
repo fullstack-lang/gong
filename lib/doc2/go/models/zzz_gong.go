@@ -2204,16 +2204,19 @@ func (classdiagram *Classdiagram) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongStructShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongStructShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongStructShape",
 		},
 		{
-			Name:               "GongEnumShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongEnumShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongEnumShape",
 		},
 		{
-			Name:               "GongNoteShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongNoteShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongNoteShape",
 		},
 		{
 			Name:               "ShowNbInstances",
@@ -2279,12 +2282,14 @@ func (diagrampackage *DiagramPackage) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Classdiagrams",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Classdiagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Classdiagram",
 		},
 		{
 			Name:               "SelectedClassdiagram",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Classdiagram",
 		},
 		{
 			Name:               "AbsolutePathToDiagramPackage",
@@ -2314,8 +2319,9 @@ func (gongenumshape *GongEnumShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongEnumValueShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongEnumValueShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongEnumValueShape",
 		},
 		{
 			Name:               "Width",
@@ -2407,8 +2413,9 @@ func (gongnoteshape *GongNoteShape) GongGetFieldHeaders() (res []GongFieldHeader
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongNoteLinkShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GongNoteLinkShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "GongNoteLinkShape",
 		},
 		{
 			Name:               "IsExpanded",
@@ -2438,12 +2445,14 @@ func (gongstructshape *GongStructShape) GongGetFieldHeaders() (res []GongFieldHe
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "AttributeShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "AttributeShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AttributeShape",
 		},
 		{
-			Name:               "LinkShapes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "LinkShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "LinkShape",
 		},
 		{
 			Name:               "Width",
@@ -2572,8 +2581,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

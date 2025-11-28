@@ -1327,12 +1327,14 @@ func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Sliders",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Sliders",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Slider",
 		},
 		{
-			Name:               "Checkboxes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Checkboxes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Checkbox",
 		},
 	}
 	return
@@ -1346,8 +1348,9 @@ func (layout *Layout) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Groups",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Groups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Group",
 		},
 	}
 	return
@@ -1436,8 +1439,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

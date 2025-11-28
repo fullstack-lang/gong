@@ -2064,14 +2064,17 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Associationtob",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 		{
-			Name:               "Anarrayofb",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Anarrayofb",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Bstruct",
 		},
 		{
 			Name:               "Anotherassociationtob_2",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 		{
 			Name:               "Date",
@@ -2112,30 +2115,37 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Bstruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 		{
 			Name:               "Bstruct2",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 		{
 			Name:               "Dstruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Dstruct",
 		},
 		{
 			Name:               "Dstruct2",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Dstruct",
 		},
 		{
 			Name:               "Dstruct3",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Dstruct",
 		},
 		{
 			Name:               "Dstruct4",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Dstruct",
 		},
 		{
-			Name:               "Dstruct4s",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Dstruct4s",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Dstruct",
 		},
 		{
 			Name:               "Floatfield",
@@ -2154,24 +2164,29 @@ func (astruct *Astruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Anarrayofa",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Anarrayofa",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Astruct",
 		},
 		{
-			Name:               "Anotherarrayofb",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Anotherarrayofb",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Bstruct",
 		},
 		{
-			Name:               "AnarrayofbUse",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "AnarrayofbUse",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AstructBstructUse",
 		},
 		{
-			Name:               "Anarrayofb2Use",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Anarrayofb2Use",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "AstructBstruct2Use",
 		},
 		{
 			Name:               "AnAstruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Astruct",
 		},
 		{
 			Name:               "TextFieldBespokeSize",
@@ -2195,6 +2210,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongGetFieldHeaders() (res []GongF
 		{
 			Name:               "Bstrcut2",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 	}
 	return
@@ -2210,6 +2226,7 @@ func (astructbstructuse *AstructBstructUse) GongGetFieldHeaders() (res []GongFie
 		{
 			Name:               "Bstruct2",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bstruct",
 		},
 	}
 	return
@@ -2246,16 +2263,19 @@ func (dstruct *Dstruct) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Anarrayofb",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Anarrayofb",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Bstruct",
 		},
 		{
 			Name:               "Gstruct",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Gstruct",
 		},
 		{
-			Name:               "Gstructs",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Gstructs",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Gstruct",
 		},
 	}
 	return
@@ -2331,8 +2351,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

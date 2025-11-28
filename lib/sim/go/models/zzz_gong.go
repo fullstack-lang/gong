@@ -1594,6 +1594,7 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Engine",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Engine",
 		},
 	}
 	return
@@ -1750,8 +1751,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {

@@ -1134,8 +1134,9 @@ func (chapter *Chapter) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Pages",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Pages",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Page",
 		},
 	}
 	return
@@ -1173,8 +1174,9 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Chapters",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Chapters",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Chapter",
 		},
 		{
 			Name:               "VersionInfo",
@@ -1231,8 +1233,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
