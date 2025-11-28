@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	xlsx_go "github.com/fullstack-lang/gong/lib/xlsx/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1083,6 +1087,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -1209,7 +1214,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1778,6 +1783,159 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (displayselection *DisplaySelection) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		displayselection.Name = value.GetValueString()
+	case "XLFile":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			displayselection.XLFile = nil
+			for __instance__ := range stage.XLFiles {
+				if stage.XLFileMap_Staged_Order[__instance__] == uint(id) {
+					displayselection.XLFile = __instance__
+					break
+				}
+			}
+		}
+	case "XLSheet":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			displayselection.XLSheet = nil
+			for __instance__ := range stage.XLSheets {
+				if stage.XLSheetMap_Staged_Order[__instance__] == uint(id) {
+					displayselection.XLSheet = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (xlcell *XLCell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		xlcell.Name = value.GetValueString()
+	case "X":
+		xlcell.X = int(value.GetValueInt())
+	case "Y":
+		xlcell.Y = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (xlfile *XLFile) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		xlfile.Name = value.GetValueString()
+	case "NbSheets":
+		xlfile.NbSheets = int(value.GetValueInt())
+	case "Sheets":
+		xlfile.Sheets = make([]*XLSheet, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.XLSheets {
+					if stage.XLSheetMap_Staged_Order[__instance__] == uint(id) {
+						xlfile.Sheets = append(xlfile.Sheets, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (xlrow *XLRow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		xlrow.Name = value.GetValueString()
+	case "RowIndex":
+		xlrow.RowIndex = int(value.GetValueInt())
+	case "Cells":
+		xlrow.Cells = make([]*XLCell, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.XLCells {
+					if stage.XLCellMap_Staged_Order[__instance__] == uint(id) {
+						xlrow.Cells = append(xlrow.Cells, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (xlsheet *XLSheet) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		xlsheet.Name = value.GetValueString()
+	case "MaxRow":
+		xlsheet.MaxRow = int(value.GetValueInt())
+	case "MaxCol":
+		xlsheet.MaxCol = int(value.GetValueInt())
+	case "NbRows":
+		xlsheet.NbRows = int(value.GetValueInt())
+	case "Rows":
+		xlsheet.Rows = make([]*XLRow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.XLRows {
+					if stage.XLRowMap_Staged_Order[__instance__] == uint(id) {
+						xlsheet.Rows = append(xlsheet.Rows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "SheetCells":
+		xlsheet.SheetCells = make([]*XLCell, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.XLCells {
+					if stage.XLCellMap_Staged_Order[__instance__] == uint(id) {
+						xlsheet.SheetCells = append(xlsheet.SheetCells, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

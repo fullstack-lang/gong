@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	statemachines_go "github.com/fullstack-lang/gong/test/statemachines/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -1983,6 +1987,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -2165,7 +2170,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -3596,6 +3601,473 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (architecture *Architecture) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		architecture.Name = value.GetValueString()
+	case "StateMachines":
+		architecture.StateMachines = make([]*StateMachine, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StateMachines {
+					if stage.StateMachineMap_Staged_Order[__instance__] == uint(id) {
+						architecture.StateMachines = append(architecture.StateMachines, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Roles":
+		architecture.Roles = make([]*Role, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Roles {
+					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+						architecture.Roles = append(architecture.Roles, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NbPixPerCharacter":
+		architecture.NbPixPerCharacter = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		diagram.Name = value.GetValueString()
+	case "IsChecked":
+		diagram.IsChecked = value.GetValueBool()
+	case "IsExpanded":
+		diagram.IsExpanded = value.GetValueBool()
+	case "IsEditable_":
+		diagram.IsEditable_ = value.GetValueBool()
+	case "IsInRenameMode":
+		diagram.IsInRenameMode = value.GetValueBool()
+	case "State_Shapes":
+		diagram.State_Shapes = make([]*StateShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.StateShapes {
+					if stage.StateShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.State_Shapes = append(diagram.State_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Transition_Shapes":
+		diagram.Transition_Shapes = make([]*Transition_Shape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Transition_Shapes {
+					if stage.Transition_ShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.Transition_Shapes = append(diagram.Transition_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (kill *Kill) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		kill.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		message.Name = value.GetValueString()
+	case "IsSelected":
+		message.IsSelected = value.GetValueBool()
+	case "MessageType":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			message.MessageType = nil
+			for __instance__ := range stage.MessageTypes {
+				if stage.MessageTypeMap_Staged_Order[__instance__] == uint(id) {
+					message.MessageType = __instance__
+					break
+				}
+			}
+		}
+	case "OriginTransition":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			message.OriginTransition = nil
+			for __instance__ := range stage.Transitions {
+				if stage.TransitionMap_Staged_Order[__instance__] == uint(id) {
+					message.OriginTransition = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (messagetype *MessageType) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		messagetype.Name = value.GetValueString()
+	case "Description":
+		messagetype.Description = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (object *Object) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		object.Name = value.GetValueString()
+	case "State":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			object.State = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					object.State = __instance__
+					break
+				}
+			}
+		}
+	case "IsSelected":
+		object.IsSelected = value.GetValueBool()
+	case "Rank":
+		object.Rank = int(value.GetValueInt())
+	case "Messages":
+		object.Messages = make([]*Message, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Messages {
+					if stage.MessageMap_Staged_Order[__instance__] == uint(id) {
+						object.Messages = append(object.Messages, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (role *Role) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		role.Name = value.GetValueString()
+	case "Acronym":
+		role.Acronym = value.GetValueString()
+	case "RolesWithSamePermissions":
+		role.RolesWithSamePermissions = make([]*Role, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Roles {
+					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+						role.RolesWithSamePermissions = append(role.RolesWithSamePermissions, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (state *State) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		state.Name = value.GetValueString()
+	case "Parent":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			state.Parent = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					state.Parent = __instance__
+					break
+				}
+			}
+		}
+	case "IsDecisionNode":
+		state.IsDecisionNode = value.GetValueBool()
+	case "IsFictif":
+		state.IsFictif = value.GetValueBool()
+	case "IsEndState":
+		state.IsEndState = value.GetValueBool()
+	case "SubStates":
+		state.SubStates = make([]*State, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.States {
+					if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+						state.SubStates = append(state.SubStates, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Diagrams":
+		state.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+						state.Diagrams = append(state.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (statemachine *StateMachine) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		statemachine.Name = value.GetValueString()
+	case "IsNodeExpanded":
+		statemachine.IsNodeExpanded = value.GetValueBool()
+	case "States":
+		statemachine.States = make([]*State, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.States {
+					if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+						statemachine.States = append(statemachine.States, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Diagrams":
+		statemachine.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+						statemachine.Diagrams = append(statemachine.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "InitialState":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			statemachine.InitialState = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					statemachine.InitialState = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (stateshape *StateShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		stateshape.Name = value.GetValueString()
+	case "State":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			stateshape.State = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					stateshape.State = __instance__
+					break
+				}
+			}
+		}
+	case "IsExpanded":
+		stateshape.IsExpanded = value.GetValueBool()
+	case "X":
+		stateshape.X = value.GetValueFloat()
+	case "Y":
+		stateshape.Y = value.GetValueFloat()
+	case "Width":
+		stateshape.Width = value.GetValueFloat()
+	case "Height":
+		stateshape.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (transition *Transition) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		transition.Name = value.GetValueString()
+	case "Start":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			transition.Start = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					transition.Start = __instance__
+					break
+				}
+			}
+		}
+	case "End":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			transition.End = nil
+			for __instance__ := range stage.States {
+				if stage.StateMap_Staged_Order[__instance__] == uint(id) {
+					transition.End = __instance__
+					break
+				}
+			}
+		}
+	case "RolesWithPermissions":
+		transition.RolesWithPermissions = make([]*Role, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Roles {
+					if stage.RoleMap_Staged_Order[__instance__] == uint(id) {
+						transition.RolesWithPermissions = append(transition.RolesWithPermissions, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "GeneratedMessages":
+		transition.GeneratedMessages = make([]*MessageType, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.MessageTypes {
+					if stage.MessageTypeMap_Staged_Order[__instance__] == uint(id) {
+						transition.GeneratedMessages = append(transition.GeneratedMessages, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Diagrams":
+		transition.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+						transition.Diagrams = append(transition.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (transition_shape *Transition_Shape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		transition_shape.Name = value.GetValueString()
+	case "Transition":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			transition_shape.Transition = nil
+			for __instance__ := range stage.Transitions {
+				if stage.TransitionMap_Staged_Order[__instance__] == uint(id) {
+					transition_shape.Transition = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		transition_shape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		transition_shape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		transition_shape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		transition_shape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		transition_shape.CornerOffsetRatio = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template

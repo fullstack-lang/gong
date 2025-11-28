@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	table_go "github.com/fullstack-lang/gong/lib/table/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,7 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 }
 
 // Stage enables storage of staged instances
@@ -3357,6 +3361,7 @@ type GongstructIF interface {
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongCopy() GongstructIF
 }
 type PointerToGongstruct interface {
@@ -3627,7 +3632,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -5774,6 +5779,649 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 
 	res = instance.GongGetFieldValue(fieldName, stage)
 	return
+}
+
+// insertion point for generic set gongstruct field value
+func (cell *Cell) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cell.Name = value.GetValueString()
+	case "CellString":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			cell.CellString = nil
+			for __instance__ := range stage.CellStrings {
+				if stage.CellStringMap_Staged_Order[__instance__] == uint(id) {
+					cell.CellString = __instance__
+					break
+				}
+			}
+		}
+	case "CellFloat64":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			cell.CellFloat64 = nil
+			for __instance__ := range stage.CellFloat64s {
+				if stage.CellFloat64Map_Staged_Order[__instance__] == uint(id) {
+					cell.CellFloat64 = __instance__
+					break
+				}
+			}
+		}
+	case "CellInt":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			cell.CellInt = nil
+			for __instance__ := range stage.CellInts {
+				if stage.CellIntMap_Staged_Order[__instance__] == uint(id) {
+					cell.CellInt = __instance__
+					break
+				}
+			}
+		}
+	case "CellBool":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			cell.CellBool = nil
+			for __instance__ := range stage.CellBooleans {
+				if stage.CellBooleanMap_Staged_Order[__instance__] == uint(id) {
+					cell.CellBool = __instance__
+					break
+				}
+			}
+		}
+	case "CellIcon":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			cell.CellIcon = nil
+			for __instance__ := range stage.CellIcons {
+				if stage.CellIconMap_Staged_Order[__instance__] == uint(id) {
+					cell.CellIcon = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cellboolean *CellBoolean) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cellboolean.Name = value.GetValueString()
+	case "Value":
+		cellboolean.Value = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cellfloat64 *CellFloat64) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cellfloat64.Name = value.GetValueString()
+	case "Value":
+		cellfloat64.Value = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cellicon *CellIcon) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cellicon.Name = value.GetValueString()
+	case "Icon":
+		cellicon.Icon = value.GetValueString()
+	case "NeedsConfirmation":
+		cellicon.NeedsConfirmation = value.GetValueBool()
+	case "ConfirmationMessage":
+		cellicon.ConfirmationMessage = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cellint *CellInt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cellint.Name = value.GetValueString()
+	case "Value":
+		cellint.Value = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (cellstring *CellString) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cellstring.Name = value.GetValueString()
+	case "Value":
+		cellstring.Value = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (checkbox *CheckBox) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		checkbox.Name = value.GetValueString()
+	case "Value":
+		checkbox.Value = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (displayedcolumn *DisplayedColumn) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		displayedcolumn.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formdiv *FormDiv) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formdiv.Name = value.GetValueString()
+	case "FormFields":
+		formdiv.FormFields = make([]*FormField, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.FormFields {
+					if stage.FormFieldMap_Staged_Order[__instance__] == uint(id) {
+						formdiv.FormFields = append(formdiv.FormFields, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "CheckBoxs":
+		formdiv.CheckBoxs = make([]*CheckBox, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.CheckBoxs {
+					if stage.CheckBoxMap_Staged_Order[__instance__] == uint(id) {
+						formdiv.CheckBoxs = append(formdiv.CheckBoxs, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "FormEditAssocButton":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formdiv.FormEditAssocButton = nil
+			for __instance__ := range stage.FormEditAssocButtons {
+				if stage.FormEditAssocButtonMap_Staged_Order[__instance__] == uint(id) {
+					formdiv.FormEditAssocButton = __instance__
+					break
+				}
+			}
+		}
+	case "FormSortAssocButton":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formdiv.FormSortAssocButton = nil
+			for __instance__ := range stage.FormSortAssocButtons {
+				if stage.FormSortAssocButtonMap_Staged_Order[__instance__] == uint(id) {
+					formdiv.FormSortAssocButton = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formeditassocbutton.Name = value.GetValueString()
+	case "Label":
+		formeditassocbutton.Label = value.GetValueString()
+	case "AssociationStorage":
+		formeditassocbutton.AssociationStorage = value.GetValueString()
+	case "HasChanged":
+		formeditassocbutton.HasChanged = value.GetValueBool()
+	case "IsForSavePurpose":
+		formeditassocbutton.IsForSavePurpose = value.GetValueBool()
+	case "HasToolTip":
+		formeditassocbutton.HasToolTip = value.GetValueBool()
+	case "ToolTipText":
+		formeditassocbutton.ToolTipText = value.GetValueString()
+	case "MatTooltipShowDelay":
+		formeditassocbutton.MatTooltipShowDelay = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfield *FormField) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfield.Name = value.GetValueString()
+	case "InputTypeEnum":
+		formfield.InputTypeEnum.FromCodeString(value.GetValueString())
+	case "Label":
+		formfield.Label = value.GetValueString()
+	case "Placeholder":
+		formfield.Placeholder = value.GetValueString()
+	case "FormFieldString":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldString = nil
+			for __instance__ := range stage.FormFieldStrings {
+				if stage.FormFieldStringMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldString = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldFloat64":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldFloat64 = nil
+			for __instance__ := range stage.FormFieldFloat64s {
+				if stage.FormFieldFloat64Map_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldFloat64 = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldInt":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldInt = nil
+			for __instance__ := range stage.FormFieldInts {
+				if stage.FormFieldIntMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldInt = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldDate":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldDate = nil
+			for __instance__ := range stage.FormFieldDates {
+				if stage.FormFieldDateMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldDate = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldTime":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldTime = nil
+			for __instance__ := range stage.FormFieldTimes {
+				if stage.FormFieldTimeMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldTime = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldDateTime":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldDateTime = nil
+			for __instance__ := range stage.FormFieldDateTimes {
+				if stage.FormFieldDateTimeMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldDateTime = __instance__
+					break
+				}
+			}
+		}
+	case "FormFieldSelect":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfield.FormFieldSelect = nil
+			for __instance__ := range stage.FormFieldSelects {
+				if stage.FormFieldSelectMap_Staged_Order[__instance__] == uint(id) {
+					formfield.FormFieldSelect = __instance__
+					break
+				}
+			}
+		}
+	case "HasBespokeWidth":
+		formfield.HasBespokeWidth = value.GetValueBool()
+	case "BespokeWidthPx":
+		formfield.BespokeWidthPx = int(value.GetValueInt())
+	case "HasBespokeHeight":
+		formfield.HasBespokeHeight = value.GetValueBool()
+	case "BespokeHeightPx":
+		formfield.BespokeHeightPx = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfielddate *FormFieldDate) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfielddate.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfielddatetime *FormFieldDateTime) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfielddatetime.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfieldfloat64.Name = value.GetValueString()
+	case "Value":
+		formfieldfloat64.Value = value.GetValueFloat()
+	case "HasMinValidator":
+		formfieldfloat64.HasMinValidator = value.GetValueBool()
+	case "MinValue":
+		formfieldfloat64.MinValue = value.GetValueFloat()
+	case "HasMaxValidator":
+		formfieldfloat64.HasMaxValidator = value.GetValueBool()
+	case "MaxValue":
+		formfieldfloat64.MaxValue = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfieldint *FormFieldInt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfieldint.Name = value.GetValueString()
+	case "Value":
+		formfieldint.Value = int(value.GetValueInt())
+	case "HasMinValidator":
+		formfieldint.HasMinValidator = value.GetValueBool()
+	case "MinValue":
+		formfieldint.MinValue = int(value.GetValueInt())
+	case "HasMaxValidator":
+		formfieldint.HasMaxValidator = value.GetValueBool()
+	case "MaxValue":
+		formfieldint.MaxValue = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfieldselect *FormFieldSelect) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfieldselect.Name = value.GetValueString()
+	case "Value":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formfieldselect.Value = nil
+			for __instance__ := range stage.Options {
+				if stage.OptionMap_Staged_Order[__instance__] == uint(id) {
+					formfieldselect.Value = __instance__
+					break
+				}
+			}
+		}
+	case "Options":
+		formfieldselect.Options = make([]*Option, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Options {
+					if stage.OptionMap_Staged_Order[__instance__] == uint(id) {
+						formfieldselect.Options = append(formfieldselect.Options, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "CanBeEmpty":
+		formfieldselect.CanBeEmpty = value.GetValueBool()
+	case "PreserveInitialOrder":
+		formfieldselect.PreserveInitialOrder = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfieldstring *FormFieldString) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfieldstring.Name = value.GetValueString()
+	case "Value":
+		formfieldstring.Value = value.GetValueString()
+	case "IsTextArea":
+		formfieldstring.IsTextArea = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formfieldtime *FormFieldTime) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formfieldtime.Name = value.GetValueString()
+	case "Step":
+		formfieldtime.Step = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formgroup *FormGroup) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formgroup.Name = value.GetValueString()
+	case "Label":
+		formgroup.Label = value.GetValueString()
+	case "FormDivs":
+		formgroup.FormDivs = make([]*FormDiv, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.FormDivs {
+					if stage.FormDivMap_Staged_Order[__instance__] == uint(id) {
+						formgroup.FormDivs = append(formgroup.FormDivs, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "HasSuppressButton":
+		formgroup.HasSuppressButton = value.GetValueBool()
+	case "HasSuppressButtonBeenPressed":
+		formgroup.HasSuppressButtonBeenPressed = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		formsortassocbutton.Name = value.GetValueString()
+	case "Label":
+		formsortassocbutton.Label = value.GetValueString()
+	case "HasToolTip":
+		formsortassocbutton.HasToolTip = value.GetValueBool()
+	case "ToolTipText":
+		formsortassocbutton.ToolTipText = value.GetValueString()
+	case "MatTooltipShowDelay":
+		formsortassocbutton.MatTooltipShowDelay = value.GetValueString()
+	case "FormEditAssocButton":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			formsortassocbutton.FormEditAssocButton = nil
+			for __instance__ := range stage.FormEditAssocButtons {
+				if stage.FormEditAssocButtonMap_Staged_Order[__instance__] == uint(id) {
+					formsortassocbutton.FormEditAssocButton = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (option *Option) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		option.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (row *Row) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		row.Name = value.GetValueString()
+	case "Cells":
+		row.Cells = make([]*Cell, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Cells {
+					if stage.CellMap_Staged_Order[__instance__] == uint(id) {
+						row.Cells = append(row.Cells, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsChecked":
+		row.IsChecked = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (table *Table) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		table.Name = value.GetValueString()
+	case "DisplayedColumns":
+		table.DisplayedColumns = make([]*DisplayedColumn, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.DisplayedColumns {
+					if stage.DisplayedColumnMap_Staged_Order[__instance__] == uint(id) {
+						table.DisplayedColumns = append(table.DisplayedColumns, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Rows":
+		table.Rows = make([]*Row, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Rows {
+					if stage.RowMap_Staged_Order[__instance__] == uint(id) {
+						table.Rows = append(table.Rows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "HasFiltering":
+		table.HasFiltering = value.GetValueBool()
+	case "HasColumnSorting":
+		table.HasColumnSorting = value.GetValueBool()
+	case "HasPaginator":
+		table.HasPaginator = value.GetValueBool()
+	case "HasCheckableRows":
+		table.HasCheckableRows = value.GetValueBool()
+	case "HasSaveButton":
+		table.HasSaveButton = value.GetValueBool()
+	case "SaveButtonLabel":
+		table.SaveButtonLabel = value.GetValueString()
+	case "CanDragDropRows":
+		table.CanDragDropRows = value.GetValueBool()
+	case "HasCloseButton":
+		table.HasCloseButton = value.GetValueBool()
+	case "SavingInProgress":
+		table.SavingInProgress = value.GetValueBool()
+	case "NbOfStickyColumns":
+		table.NbOfStickyColumns = int(value.GetValueInt())
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // Last line of the template
