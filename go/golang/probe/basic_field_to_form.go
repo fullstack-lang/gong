@@ -9,7 +9,7 @@ import (
 
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 
-	"github.com/fullstack-lang/gong/test/test/go/models"
+	"{{PkgPathRoot}}/models"
 )
 
 func BasicFieldtoForm[TF models.GongtructBasicField](
