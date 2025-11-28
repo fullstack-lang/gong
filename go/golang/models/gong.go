@@ -53,6 +53,7 @@ const (
 	ModelGongStructInsertionGenericGetAssociationNameFunctions
 
 	ModelGongStructInsertionGenericSetFieldValuesFromPointer
+	ModelGongStructInsertionGenericGetGongstructName
 
 	ModelGongOrderFields
 	ModelGongOrderMapsInit
@@ -107,6 +108,12 @@ func ({{structname}} *{{Structname}}) GongSetFieldValue(fieldName string, value 
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
 	return nil
+}
+`,
+
+	ModelGongStructInsertionGenericGetGongstructName: `
+func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
+	return "{{Structname}}"
 }
 `,
 
