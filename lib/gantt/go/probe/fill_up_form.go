@@ -32,7 +32,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Arrows"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Gantt),
@@ -75,7 +75,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Lane"
 			rf.Fieldname = "Bars"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Lane),
@@ -160,7 +160,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Groups"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Gantt),
@@ -190,7 +190,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Lanes"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Gantt),
@@ -212,7 +212,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "GroupLanes"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Group),
@@ -234,7 +234,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Milestone"
 			rf.Fieldname = "LanesToDisplay"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Milestone),
@@ -272,7 +272,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Gantt"
 			rf.Fieldname = "Milestones"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Gantt),

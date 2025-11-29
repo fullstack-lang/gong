@@ -194,9 +194,8 @@ map[FormCallbackSubTemplateId]string{
 				_ = rf
 				rf.GongstructName = "{{AssocStructName}}"
 				rf.Fieldname = "{{FieldName}}"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := {{structname}}_.GongGetReverseFieldOwner(
 					{{structname}}FormCallback.probe.stageOfInterest,
-					{{structname}}_,
 					&rf)
 
 				var ok bool

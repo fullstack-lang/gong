@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	cursor_go "github.com/fullstack-lang/gong/lib/cursor/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,8 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -570,8 +575,12 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -665,7 +674,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -874,8 +883,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -895,65 +905,120 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (cursor *Cursor) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (cursor *Cursor) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = cursor.Name
-		case "StartX":
-			res.valueString = fmt.Sprintf("%f", cursor.StartX)
-			res.valueFloat = cursor.StartX
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "EndX":
-			res.valueString = fmt.Sprintf("%f", cursor.EndX)
-			res.valueFloat = cursor.EndX
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y1":
-			res.valueString = fmt.Sprintf("%f", cursor.Y1)
-			res.valueFloat = cursor.Y1
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Y2":
-			res.valueString = fmt.Sprintf("%f", cursor.Y2)
-			res.valueFloat = cursor.Y2
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "DurationSeconds":
-			res.valueString = fmt.Sprintf("%f", cursor.DurationSeconds)
-			res.valueFloat = cursor.DurationSeconds
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Color":
-			res.valueString = cursor.Color
-		case "FillOpacity":
-			res.valueString = fmt.Sprintf("%f", cursor.FillOpacity)
-			res.valueFloat = cursor.FillOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Stroke":
-			res.valueString = cursor.Stroke
-		case "StrokeOpacity":
-			res.valueString = fmt.Sprintf("%f", cursor.StrokeOpacity)
-			res.valueFloat = cursor.StrokeOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", cursor.StrokeWidth)
-			res.valueFloat = cursor.StrokeWidth
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeDashArray":
-			res.valueString = cursor.StrokeDashArray
-		case "StrokeDashArrayWhenSelected":
-			res.valueString = cursor.StrokeDashArrayWhenSelected
-		case "Transform":
-			res.valueString = cursor.Transform
-		case "IsPlaying":
-			res.valueString = fmt.Sprintf("%t", cursor.IsPlaying)
-			res.valueBool = cursor.IsPlaying
-			res.GongFieldValueType = GongFieldValueTypeBool
+	// string value of fields
+	case "Name":
+		res.valueString = cursor.Name
+	case "StartX":
+		res.valueString = fmt.Sprintf("%f", cursor.StartX)
+		res.valueFloat = cursor.StartX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndX":
+		res.valueString = fmt.Sprintf("%f", cursor.EndX)
+		res.valueFloat = cursor.EndX
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y1":
+		res.valueString = fmt.Sprintf("%f", cursor.Y1)
+		res.valueFloat = cursor.Y1
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Y2":
+		res.valueString = fmt.Sprintf("%f", cursor.Y2)
+		res.valueFloat = cursor.Y2
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DurationSeconds":
+		res.valueString = fmt.Sprintf("%f", cursor.DurationSeconds)
+		res.valueFloat = cursor.DurationSeconds
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Color":
+		res.valueString = cursor.Color
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", cursor.FillOpacity)
+		res.valueFloat = cursor.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Stroke":
+		res.valueString = cursor.Stroke
+	case "StrokeOpacity":
+		res.valueString = fmt.Sprintf("%f", cursor.StrokeOpacity)
+		res.valueFloat = cursor.StrokeOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", cursor.StrokeWidth)
+		res.valueFloat = cursor.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = cursor.StrokeDashArray
+	case "StrokeDashArrayWhenSelected":
+		res.valueString = cursor.StrokeDashArrayWhenSelected
+	case "Transform":
+		res.valueString = cursor.Transform
+	case "IsPlaying":
+		res.valueString = fmt.Sprintf("%t", cursor.IsPlaying)
+		res.valueBool = cursor.IsPlaying
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
 
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
+	return
+}
+
+// insertion point for generic set gongstruct field value
+func (cursor *Cursor) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		cursor.Name = value.GetValueString()
+	case "StartX":
+		cursor.StartX = value.GetValueFloat()
+	case "EndX":
+		cursor.EndX = value.GetValueFloat()
+	case "Y1":
+		cursor.Y1 = value.GetValueFloat()
+	case "Y2":
+		cursor.Y2 = value.GetValueFloat()
+	case "DurationSeconds":
+		cursor.DurationSeconds = value.GetValueFloat()
+	case "Color":
+		cursor.Color = value.GetValueString()
+	case "FillOpacity":
+		cursor.FillOpacity = value.GetValueFloat()
+	case "Stroke":
+		cursor.Stroke = value.GetValueString()
+	case "StrokeOpacity":
+		cursor.StrokeOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		cursor.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		cursor.StrokeDashArray = value.GetValueString()
+	case "StrokeDashArrayWhenSelected":
+		cursor.StrokeDashArrayWhenSelected = value.GetValueString()
+	case "Transform":
+		cursor.Transform = value.GetValueString()
+	case "IsPlaying":
+		cursor.IsPlaying = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (cursor *Cursor) GongGetGongstructName() string {
+	return "Cursor"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
 	return
 }
 

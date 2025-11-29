@@ -26,7 +26,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Note"
 			rf.Fieldname = "Frequencies"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Note),

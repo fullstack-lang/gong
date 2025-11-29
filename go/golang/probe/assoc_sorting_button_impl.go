@@ -8,8 +8,7 @@ import (
 	"sort"
 
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
-	form "github.com/fullstack-lang/gong/lib/table/go/models"
-	gongtable_models "github.com/fullstack-lang/gong/lib/table/go/models"
+	table "github.com/fullstack-lang/gong/lib/table/go/models"
 
 	"{{PkgPathRoot}}/models"
 )
@@ -38,30 +37,30 @@ type OnSortingEditon[InstanceType models.PointerToGongstruct, FieldType models.P
 func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed() {
 
 	tableStackName := onSortingEditon.probe.formStage.GetName() +
-		string(form.StackNamePostFixForTableForAssociationSorting)
+		string(table.StackNamePostFixForTableForAssociationSorting)
 
 	// tableStackName supposed to be "test-form-table"
 	tableStageForSelection, _ := gongtable_fullstack.NewStackInstance(onSortingEditon.probe.r, tableStackName)
 
-	table := new(gongtable_models.Table).Stage(tableStageForSelection)
-	table.Name = string(form.TableSortExtraName)
-	table.HasColumnSorting = false
-	table.HasFiltering = false
-	table.HasPaginator = false
-	table.HasCheckableRows = false
-	table.HasSaveButton = true
-	table.SaveButtonLabel = "Close form"
-	table.CanDragDropRows = true
+	selectedInstancesTable := new(table.Table).Stage(tableStageForSelection)
+	selectedInstancesTable.Name = string(table.TableSortExtraName)
+	selectedInstancesTable.HasColumnSorting = false
+	selectedInstancesTable.HasFiltering = false
+	selectedInstancesTable.HasPaginator = false
+	selectedInstancesTable.HasCheckableRows = false
+	selectedInstancesTable.HasSaveButton = true
+	selectedInstancesTable.SaveButtonLabel = "Close form"
+	selectedInstancesTable.CanDragDropRows = true
 
 	// add a column for the ID
-	table.DisplayedColumns = append(table.DisplayedColumns, (&gongtable_models.DisplayedColumn{
+	selectedInstancesTable.DisplayedColumns = append(selectedInstancesTable.DisplayedColumns, (&table.DisplayedColumn{
 		Name: "ID",
 	}).Stage(tableStageForSelection))
 
 	for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
-		column := new(gongtable_models.DisplayedColumn).Stage(tableStageForSelection)
+		column := new(table.DisplayedColumn).Stage(tableStageForSelection)
 		column.Name = fieldName.Name
-		table.DisplayedColumns = append(table.DisplayedColumns, column)
+		selectedInstancesTable.DisplayedColumns = append(selectedInstancesTable.DisplayedColumns, column)
 	}
 
 	instanceSet := *models.GetGongstructInstancesSetFromPointerType[FieldType](onSortingEditon.probe.stageOfInterest)
@@ -76,18 +75,18 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		instnacej_order := models.GetOrderPointerGongstruct(onSortingEditon.probe.stageOfInterest, instancej)
 		return instancei_order < instnacej_order
 	})
-	map_RowID_instance := make(map[*gongtable_models.Row]FieldType)
+	map_RowID_instance := make(map[*table.Row]FieldType)
 	for _, instance := range instances {
-		row := new(gongtable_models.Row).Stage(tableStageForSelection)
+		row := new(table.Row).Stage(tableStageForSelection)
 		row.Name = instance.GetName()
 		map_RowID_instance[row] = instance
-		table.Rows = append(table.Rows, row)
+		selectedInstancesTable.Rows = append(selectedInstancesTable.Rows, row)
 
-		cell := (&gongtable_models.Cell{
+		cell := (&table.Cell{
 			Name: "ID",
 		}).Stage(tableStageForSelection)
 		row.Cells = append(row.Cells, cell)
-		cellInt := (&gongtable_models.CellInt{
+		cellInt := (&table.CellInt{
 			Name: "ID",
 			Value: int(models.GetOrderPointerGongstruct(
 				onSortingEditon.probe.stageOfInterest,
@@ -97,10 +96,10 @@ func (onSortingEditon *OnSortingEditon[InstanceType, FieldType]) OnButtonPressed
 		cell.CellInt = cellInt
 
 		for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
-			cell := new(gongtable_models.Cell).Stage(tableStageForSelection)
+			cell := new(table.Cell).Stage(tableStageForSelection)
 			cell.Name = fmt.Sprintf("Row %s - Column %s", instance.GetName(), fieldName)
 
-			cellString := new(gongtable_models.CellString).Stage(tableStageForSelection)
+			cellString := new(table.CellString).Stage(tableStageForSelection)
 			value := models.GetFieldStringValueFromPointer(instance, fieldName.Name, onSortingEditon.probe.stageOfInterest)
 			cellString.Name = value.GetValueString()
 			cellString.Value = cellString.Name
