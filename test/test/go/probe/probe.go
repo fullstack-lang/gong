@@ -159,3 +159,7 @@ func (probe *Probe) GetDataEditor() *split.AsSplit {
 func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
 	return probe.diagramEditor
 }
+
+func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
+	FillUpFormFromGongstruct(instance, probe)
+}
