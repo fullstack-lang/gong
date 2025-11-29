@@ -242,6 +242,16 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		pkgPath,
 		modelPkg.PkgPath)
 
+	if level1 {
+		// the probe interface definition uses API from
+		// form (table) and split. Therefore, it can only
+		// be generated when it is a level 1 code generation
+		gong_models.VerySimpleCodeGenerator(
+			modelPkg,
+			filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
+			models.ModelGongProbeFileTemplate)
+	}
+
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
 		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
