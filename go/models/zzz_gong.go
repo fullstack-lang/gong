@@ -813,6 +813,13 @@ func (stage *Stage) Commit() {
 	stage.commitId++
 	stage.commitTimeStamp = time.Now()
 
+	if stage.OnInitCommitCallback != nil {
+		stage.OnInitCommitCallback.BeforeCommit(stage)
+	}
+	if stage.OnInitCommitFromBackCallback != nil {
+		stage.OnInitCommitFromBackCallback.BeforeCommit(stage)
+	}
+
 	if stage.BackRepo != nil {
 		stage.BackRepo.Commit(stage)
 	}

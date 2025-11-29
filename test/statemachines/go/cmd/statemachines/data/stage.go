@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-25 08:38:29.486224 CET"
-	const __write__utc_time__ = "2025-11-25 07:38:29.486224 UTC"
+	const __write__local_time = "2025-11-29 10:30:25.900374 CET"
+	const __write__utc_time__ = "2025-11-29 09:30:25.900374 UTC"
 
-	const __commitId__ = "0000001144"
+	const __commitId__ = "0000001150"
 
 	// Declaration of instances to stage
 
@@ -123,7 +123,7 @@ func _(stage *models.Stage) {
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Name = `02/MI DOF/ 2025-11-26 DEP/ 083652`
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.IsSelected = true
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Rank = 0
-	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-11-26 08:36:52.163215 +0100 CET m=+86453.154167293")
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__Role__000000_Technician.Name = `Technician`
 	__Role__000000_Technician.Acronym = `Tech`
@@ -255,8 +255,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000008_Yellow_UK.Name = `Yellow UK`
 	__StateShape__000008_Yellow_UK.IsExpanded = false
-	__StateShape__000008_Yellow_UK.X = 342.000000
-	__StateShape__000008_Yellow_UK.Y = 400.000000
+	__StateShape__000008_Yellow_UK.X = 340.000000
+	__StateShape__000008_Yellow_UK.Y = 405.000000
 	__StateShape__000008_Yellow_UK.Width = 200.000000
 	__StateShape__000008_Yellow_UK.Height = 80.000000
 
@@ -271,13 +271,13 @@ func _(stage *models.Stage) {
 	__StateShape__000010_On_UK.IsExpanded = false
 	__StateShape__000010_On_UK.X = 197.000000
 	__StateShape__000010_On_UK.Y = 209.000000
-	__StateShape__000010_On_UK.Width = 742.000000
+	__StateShape__000010_On_UK.Width = 632.000000
 	__StateShape__000010_On_UK.Height = 479.000000
 
 	__StateShape__000011_Off_UK.Name = `Off UK`
 	__StateShape__000011_Off_UK.IsExpanded = false
-	__StateShape__000011_Off_UK.X = 1133.000000
-	__StateShape__000011_Off_UK.Y = 373.000000
+	__StateShape__000011_Off_UK.X = 972.000000
+	__StateShape__000011_Off_UK.Y = 386.000000
 	__StateShape__000011_Off_UK.Width = 94.000000
 	__StateShape__000011_Off_UK.Height = 36.000000
 
@@ -387,7 +387,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000011_Green_UK_to_Red_UK.EndRatio = 0.675073
 	__Transition_Shape__000011_Green_UK_to_Red_UK.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__000011_Green_UK_to_Red_UK.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Transition_Shape__000011_Green_UK_to_Red_UK.CornerOffsetRatio = 2.403789
+	__Transition_Shape__000011_Green_UK_to_Red_UK.CornerOffsetRatio = 2.206415
 
 	// Setup of pointers
 	// setup of Architecture instances pointers
