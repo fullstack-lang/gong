@@ -268,9 +268,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "State"
 				rf.Fieldname = "Diagrams"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := diagram_.GongGetReverseFieldOwner(
 					diagramFormCallback.probe.stageOfInterest,
-					diagram_,
 					&rf)
 
 				var ok bool
@@ -335,9 +334,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "StateMachine"
 				rf.Fieldname = "Diagrams"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := diagram_.GongGetReverseFieldOwner(
 					diagramFormCallback.probe.stageOfInterest,
-					diagram_,
 					&rf)
 
 				var ok bool
@@ -402,9 +400,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Transition"
 				rf.Fieldname = "Diagrams"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := diagram_.GongGetReverseFieldOwner(
 					diagramFormCallback.probe.stageOfInterest,
-					diagram_,
 					&rf)
 
 				var ok bool
@@ -629,9 +626,8 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Object"
 				rf.Fieldname = "Messages"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := message_.GongGetReverseFieldOwner(
 					messageFormCallback.probe.stageOfInterest,
-					message_,
 					&rf)
 
 				var ok bool
@@ -775,9 +771,8 @@ func (messagetypeFormCallback *MessageTypeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Transition"
 				rf.Fieldname = "GeneratedMessages"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := messagetype_.GongGetReverseFieldOwner(
 					messagetypeFormCallback.probe.stageOfInterest,
-					messagetype_,
 					&rf)
 
 				var ok bool
@@ -1056,9 +1051,8 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Architecture"
 				rf.Fieldname = "Roles"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := role_.GongGetReverseFieldOwner(
 					roleFormCallback.probe.stageOfInterest,
-					role_,
 					&rf)
 
 				var ok bool
@@ -1123,9 +1117,8 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Role"
 				rf.Fieldname = "RolesWithSamePermissions"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := role_.GongGetReverseFieldOwner(
 					roleFormCallback.probe.stageOfInterest,
-					role_,
 					&rf)
 
 				var ok bool
@@ -1190,9 +1183,8 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Transition"
 				rf.Fieldname = "RolesWithPermissions"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := role_.GongGetReverseFieldOwner(
 					roleFormCallback.probe.stageOfInterest,
-					role_,
 					&rf)
 
 				var ok bool
@@ -1392,9 +1384,8 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "State"
 				rf.Fieldname = "SubStates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := state_.GongGetReverseFieldOwner(
 					stateFormCallback.probe.stageOfInterest,
-					state_,
 					&rf)
 
 				var ok bool
@@ -1459,9 +1450,8 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "StateMachine"
 				rf.Fieldname = "States"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := state_.GongGetReverseFieldOwner(
 					stateFormCallback.probe.stageOfInterest,
-					state_,
 					&rf)
 
 				var ok bool
@@ -1657,9 +1647,8 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Architecture"
 				rf.Fieldname = "StateMachines"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := statemachine_.GongGetReverseFieldOwner(
 					statemachineFormCallback.probe.stageOfInterest,
-					statemachine_,
 					&rf)
 
 				var ok bool
@@ -1813,9 +1802,8 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Diagram"
 				rf.Fieldname = "State_Shapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := stateshape_.GongGetReverseFieldOwner(
 					stateshapeFormCallback.probe.stageOfInterest,
-					stateshape_,
 					&rf)
 
 				var ok bool
@@ -2125,9 +2113,8 @@ func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Diagram"
 				rf.Fieldname = "Transition_Shapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := transition_shape_.GongGetReverseFieldOwner(
 					transition_shapeFormCallback.probe.stageOfInterest,
-					transition_shape_,
 					&rf)
 
 				var ok bool

@@ -29,7 +29,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Content"
 			rf.Fieldname = "Chapters"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Content),
@@ -77,7 +77,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Chapter"
 			rf.Fieldname = "Pages"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Chapter),

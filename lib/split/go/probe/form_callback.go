@@ -221,9 +221,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "AsSplit"
 				rf.Fieldname = "AsSplitAreas"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := assplitarea_.GongGetReverseFieldOwner(
 					assplitareaFormCallback.probe.stageOfInterest,
-					assplitarea_,
 					&rf)
 
 				var ok bool
@@ -288,9 +287,8 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "View"
 				rf.Fieldname = "RootAsSplitAreas"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := assplitarea_.GongGetReverseFieldOwner(
 					assplitareaFormCallback.probe.stageOfInterest,
-					assplitarea_,
 					&rf)
 
 				var ok bool

@@ -1,17 +1,12 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Button:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Group":
 			switch reverseField.Fieldname {
 			case "Buttons":
@@ -19,11 +14,15 @@ func GetReverseFieldOwnerName(
 					res = _group.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *ButtonToggle:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *ButtonToggle) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GroupToogle":
 			switch reverseField.Fieldname {
 			case "ButtonToggles":
@@ -31,11 +30,15 @@ func GetReverseFieldOwnerName(
 					res = _grouptoogle.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *Group:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Layout":
 			switch reverseField.Fieldname {
 			case "Groups":
@@ -43,11 +46,15 @@ func GetReverseFieldOwnerName(
 					res = _layout.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *GroupToogle:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GroupToogle) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Layout":
 			switch reverseField.Fieldname {
 			case "GroupToogles":
@@ -55,74 +62,83 @@ func GetReverseFieldOwnerName(
 					res = _layout.Name
 				}
 			}
-		}
-
-	case *Layout:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+func (inst *Layout) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+
+// insertion point
+func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Button:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Group":
 			switch reverseField.Fieldname {
 			case "Buttons":
 				res = stage.Group_Buttons_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *ButtonToggle:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *ButtonToggle) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GroupToogle":
 			switch reverseField.Fieldname {
 			case "ButtonToggles":
 				res = stage.GroupToogle_ButtonToggles_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *Group:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Group) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Layout":
 			switch reverseField.Fieldname {
 			case "Groups":
 				res = stage.Layout_Groups_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *GroupToogle:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GroupToogle) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Layout":
 			switch reverseField.Fieldname {
 			case "GroupToogles":
 				res = stage.Layout_GroupToogles_reverseMap[inst]
 			}
-		}
-
-	case *Layout:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+
+func (inst *Layout) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+

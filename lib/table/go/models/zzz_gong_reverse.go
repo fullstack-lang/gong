@@ -1,17 +1,12 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *Cell) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Cell:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Row":
 			switch reverseField.Fieldname {
 			case "Cells":
@@ -19,36 +14,60 @@ func GetReverseFieldOwnerName(
 					res = _row.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *CellBoolean:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellBoolean) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *CellFloat64:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *CellIcon:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellFloat64) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *CellInt:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *CellString:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellIcon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *CheckBox:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *CellInt) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *CellString) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *CheckBox) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormDiv":
 			switch reverseField.Fieldname {
 			case "CheckBoxs":
@@ -56,11 +75,15 @@ func GetReverseFieldOwnerName(
 					res = _formdiv.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *DisplayedColumn:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *DisplayedColumn) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Table":
 			switch reverseField.Fieldname {
 			case "DisplayedColumns":
@@ -68,11 +91,15 @@ func GetReverseFieldOwnerName(
 					res = _table.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *FormDiv:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *FormDiv) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormGroup":
 			switch reverseField.Fieldname {
 			case "FormDivs":
@@ -80,16 +107,24 @@ func GetReverseFieldOwnerName(
 					res = _formgroup.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *FormEditAssocButton:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormEditAssocButton) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *FormField:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *FormField) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormDiv":
 			switch reverseField.Fieldname {
 			case "FormFields":
@@ -97,56 +132,96 @@ func GetReverseFieldOwnerName(
 					res = _formdiv.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *FormFieldDate:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldDate) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *FormFieldDateTime:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *FormFieldFloat64:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldDateTime) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *FormFieldInt:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *FormFieldSelect:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldFloat64) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *FormFieldString:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *FormFieldTime:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldInt) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *FormGroup:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
 
-	case *FormSortAssocButton:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldSelect) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *Option:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *FormFieldString) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *FormFieldTime) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *FormGroup) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *FormSortAssocButton) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *Option) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormFieldSelect":
 			switch reverseField.Fieldname {
 			case "Options":
@@ -154,11 +229,15 @@ func GetReverseFieldOwnerName(
 					res = _formfieldselect.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *Row:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Row) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Table":
 			switch reverseField.Fieldname {
 			case "Rows":
@@ -166,179 +245,260 @@ func GetReverseFieldOwnerName(
 					res = _table.Name
 				}
 			}
-		}
-
-	case *Table:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+func (inst *Table) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+
+// insertion point
+func (inst *Cell) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Cell:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Row":
 			switch reverseField.Fieldname {
 			case "Cells":
 				res = stage.Row_Cells_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *CellBoolean:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellBoolean) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *CellFloat64:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *CellIcon:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellFloat64) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *CellInt:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *CellString:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *CellIcon) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *CheckBox:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *CellInt) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *CellString) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *CheckBox) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormDiv":
 			switch reverseField.Fieldname {
 			case "CheckBoxs":
 				res = stage.FormDiv_CheckBoxs_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *DisplayedColumn:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *DisplayedColumn) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Table":
 			switch reverseField.Fieldname {
 			case "DisplayedColumns":
 				res = stage.Table_DisplayedColumns_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *FormDiv:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *FormDiv) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormGroup":
 			switch reverseField.Fieldname {
 			case "FormDivs":
 				res = stage.FormGroup_FormDivs_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *FormEditAssocButton:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormEditAssocButton) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *FormField:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *FormField) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormDiv":
 			switch reverseField.Fieldname {
 			case "FormFields":
 				res = stage.FormDiv_FormFields_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *FormFieldDate:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldDate) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *FormFieldDateTime:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *FormFieldFloat64:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldDateTime) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *FormFieldInt:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *FormFieldSelect:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldFloat64) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *FormFieldString:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *FormFieldTime:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldInt) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *FormGroup:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
 
-	case *FormSortAssocButton:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *FormFieldSelect) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *Option:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *FormFieldString) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *FormFieldTime) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *FormGroup) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *FormSortAssocButton) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Option) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "FormFieldSelect":
 			switch reverseField.Fieldname {
 			case "Options":
 				res = stage.FormFieldSelect_Options_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *Row:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Row) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Table":
 			switch reverseField.Fieldname {
 			case "Rows":
 				res = stage.Table_Rows_reverseMap[inst]
 			}
-		}
-
-	case *Table:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+
+func (inst *Table) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+

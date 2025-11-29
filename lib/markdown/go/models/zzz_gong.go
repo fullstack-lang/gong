@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	markdown_go "github.com/fullstack-lang/gong/lib/markdown/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,8 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -948,8 +953,12 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1067,7 +1076,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1332,8 +1341,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -1353,51 +1363,131 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (content *Content) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = content.Name
-		case "Content":
-			res.valueString = content.Content
+	// string value of fields
+	case "Name":
+		res.valueString = content.Name
+	case "Content":
+		res.valueString = content.Content
 	}
 	return
 }
-func (jpgimage *JpgImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (jpgimage *JpgImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = jpgimage.Name
-		case "Base64Content":
-			res.valueString = jpgimage.Base64Content
+	// string value of fields
+	case "Name":
+		res.valueString = jpgimage.Name
+	case "Base64Content":
+		res.valueString = jpgimage.Base64Content
 	}
 	return
 }
-func (pngimage *PngImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (pngimage *PngImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = pngimage.Name
-		case "Base64Content":
-			res.valueString = pngimage.Base64Content
+	// string value of fields
+	case "Name":
+		res.valueString = pngimage.Name
+	case "Base64Content":
+		res.valueString = pngimage.Base64Content
 	}
 	return
 }
-func (svgimage *SvgImage) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (svgimage *SvgImage) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = svgimage.Name
-		case "Content":
-			res.valueString = svgimage.Content
+	// string value of fields
+	case "Name":
+		res.valueString = svgimage.Name
+	case "Content":
+		res.valueString = svgimage.Content
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
+	return
+}
+
+// insertion point for generic set gongstruct field value
+func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		content.Name = value.GetValueString()
+	case "Content":
+		content.Content = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (jpgimage *JpgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		jpgimage.Name = value.GetValueString()
+	case "Base64Content":
+		jpgimage.Base64Content = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (pngimage *PngImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		pngimage.Name = value.GetValueString()
+	case "Base64Content":
+		pngimage.Base64Content = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (svgimage *SvgImage) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		svgimage.Name = value.GetValueString()
+	case "Content":
+		svgimage.Content = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (content *Content) GongGetGongstructName() string {
+	return "Content"
+}
+
+func (jpgimage *JpgImage) GongGetGongstructName() string {
+	return "JpgImage"
+}
+
+func (pngimage *PngImage) GongGetGongstructName() string {
+	return "PngImage"
+}
+
+func (svgimage *SvgImage) GongGetGongstructName() string {
+	return "SvgImage"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
 	return
 }
 

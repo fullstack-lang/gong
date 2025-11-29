@@ -1,22 +1,21 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *DisplaySelection) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *DisplaySelection:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	}
+	return
+}
 
-	case *XLCell:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *XLCell) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLRow":
 			switch reverseField.Fieldname {
 			case "Cells":
@@ -31,16 +30,24 @@ func GetReverseFieldOwnerName(
 					res = _xlsheet.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *XLFile:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *XLFile) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *XLRow:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *XLRow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLSheet":
 			switch reverseField.Fieldname {
 			case "Rows":
@@ -48,11 +55,15 @@ func GetReverseFieldOwnerName(
 					res = _xlsheet.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *XLSheet:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *XLSheet) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLFile":
 			switch reverseField.Fieldname {
 			case "Sheets":
@@ -60,30 +71,26 @@ func GetReverseFieldOwnerName(
 					res = _xlfile.Name
 				}
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+
+// insertion point
+func (inst *DisplaySelection) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *DisplaySelection:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+	}
+	return res
+}
 
-	case *XLCell:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *XLCell) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLRow":
 			switch reverseField.Fieldname {
 			case "Cells":
@@ -94,35 +101,44 @@ func GetReverseFieldOwner[T Gongstruct](
 			case "SheetCells":
 				res = stage.XLSheet_SheetCells_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *XLFile:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *XLFile) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *XLRow:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *XLRow) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLSheet":
 			switch reverseField.Fieldname {
 			case "Rows":
 				res = stage.XLSheet_Rows_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *XLSheet:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *XLSheet) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "XLFile":
 			switch reverseField.Fieldname {
 			case "Sheets":
 				res = stage.XLFile_Sheets_reverseMap[inst]
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+

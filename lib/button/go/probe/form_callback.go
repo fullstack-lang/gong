@@ -93,9 +93,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Group"
 				rf.Fieldname = "Buttons"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := button_.GongGetReverseFieldOwner(
 					buttonFormCallback.probe.stageOfInterest,
-					button_,
 					&rf)
 
 				var ok bool
@@ -245,9 +244,8 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GroupToogle"
 				rf.Fieldname = "ButtonToggles"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := buttontoggle_.GongGetReverseFieldOwner(
 					buttontoggleFormCallback.probe.stageOfInterest,
-					buttontoggle_,
 					&rf)
 
 				var ok bool
@@ -418,9 +416,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layout"
 				rf.Fieldname = "Groups"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := group_.GongGetReverseFieldOwner(
 					groupFormCallback.probe.stageOfInterest,
-					group_,
 					&rf)
 
 				var ok bool
@@ -591,9 +588,8 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layout"
 				rf.Fieldname = "GroupToogles"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := grouptoogle_.GongGetReverseFieldOwner(
 					grouptoogleFormCallback.probe.stageOfInterest,
-					grouptoogle_,
 					&rf)
 
 				var ok bool

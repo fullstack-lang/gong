@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	gantt_go "github.com/fullstack-lang/gong/lib/gantt/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,8 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1340,8 +1345,12 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1483,7 +1492,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1877,10 +1886,12 @@ func (arrow *Arrow) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "From",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bar",
 		},
 		{
 			Name:               "To",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Bar",
 		},
 		{
 			Name:               "OptionnalColor",
@@ -2041,20 +2052,24 @@ func (gantt *Gantt) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Lanes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Lanes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 		{
-			Name:               "Milestones",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Milestones",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Milestone",
 		},
 		{
-			Name:               "Groups",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Groups",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Group",
 		},
 		{
-			Name:               "Arrows",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Arrows",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Arrow",
 		},
 	}
 	return
@@ -2068,8 +2083,9 @@ func (group *Group) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GroupLanes",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "GroupLanes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2087,8 +2103,9 @@ func (lane *Lane) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Bars",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "Bars",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Bar",
 		},
 	}
 	return
@@ -2104,6 +2121,7 @@ func (laneuse *LaneUse) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Lane",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2125,8 +2143,9 @@ func (milestone *Milestone) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "LanesToDisplay",
-			GongFieldValueType: GongFieldValueTypeSliceOfPointers,
+			Name:                 "LanesToDisplay",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Lane",
 		},
 	}
 	return
@@ -2164,8 +2183,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -2185,345 +2205,649 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (arrow *Arrow) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (arrow *Arrow) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = arrow.Name
-		case "From":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if arrow.From != nil {
-				res.valueString = arrow.From.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.From))
-			}
-		case "To":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if arrow.To != nil {
-				res.valueString = arrow.To.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.To))
-			}
-		case "OptionnalColor":
-			res.valueString = arrow.OptionnalColor
-		case "OptionnalStroke":
-			res.valueString = arrow.OptionnalStroke
+	// string value of fields
+	case "Name":
+		res.valueString = arrow.Name
+	case "From":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if arrow.From != nil {
+			res.valueString = arrow.From.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.From))
+		}
+	case "To":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if arrow.To != nil {
+			res.valueString = arrow.To.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, arrow.To))
+		}
+	case "OptionnalColor":
+		res.valueString = arrow.OptionnalColor
+	case "OptionnalStroke":
+		res.valueString = arrow.OptionnalStroke
 	}
 	return
 }
-func (bar *Bar) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (bar *Bar) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = bar.Name
-		case "Start":
-			res.valueString = bar.Start.String()
-		case "End":
-			res.valueString = bar.End.String()
-		case "ComputedDuration":
-			if math.Abs(bar.ComputedDuration.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(bar.ComputedDuration.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
+	// string value of fields
+	case "Name":
+		res.valueString = bar.Name
+	case "Start":
+		res.valueString = bar.Start.String()
+	case "End":
+		res.valueString = bar.End.String()
+	case "ComputedDuration":
+		if math.Abs(bar.ComputedDuration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(bar.ComputedDuration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
 
-				remainingHours := int(bar.ComputedDuration.Hours()) % 24
-				remainingMinutes := int(bar.ComputedDuration.Minutes()) % 60
-				remainingSeconds := int(bar.ComputedDuration.Seconds()) % 60
+			remainingHours := int(bar.ComputedDuration.Hours()) % 24
+			remainingMinutes := int(bar.ComputedDuration.Minutes()) % 60
+			remainingSeconds := int(bar.ComputedDuration.Seconds()) % 60
 
-				if bar.ComputedDuration.Hours() < 0 {
-					res.valueString = "- "
-				}
-
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", bar.ComputedDuration.String())
+			if bar.ComputedDuration.Hours() < 0 {
+				res.valueString = "- "
 			}
-		case "OptionnalColor":
-			res.valueString = bar.OptionnalColor
-		case "OptionnalStroke":
-			res.valueString = bar.OptionnalStroke
-		case "FillOpacity":
-			res.valueString = fmt.Sprintf("%f", bar.FillOpacity)
-			res.valueFloat = bar.FillOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", bar.StrokeWidth)
-			res.valueFloat = bar.StrokeWidth
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "StrokeDashArray":
-			res.valueString = bar.StrokeDashArray
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", bar.ComputedDuration.String())
+		}
+	case "OptionnalColor":
+		res.valueString = bar.OptionnalColor
+	case "OptionnalStroke":
+		res.valueString = bar.OptionnalStroke
+	case "FillOpacity":
+		res.valueString = fmt.Sprintf("%f", bar.FillOpacity)
+		res.valueFloat = bar.FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", bar.StrokeWidth)
+		res.valueFloat = bar.StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StrokeDashArray":
+		res.valueString = bar.StrokeDashArray
 	}
 	return
 }
-func (gantt *Gantt) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (gantt *Gantt) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = gantt.Name
-		case "ComputedStart":
-			res.valueString = gantt.ComputedStart.String()
-		case "ComputedEnd":
-			res.valueString = gantt.ComputedEnd.String()
-		case "ComputedDuration":
-			if math.Abs(gantt.ComputedDuration.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(gantt.ComputedDuration.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
+	// string value of fields
+	case "Name":
+		res.valueString = gantt.Name
+	case "ComputedStart":
+		res.valueString = gantt.ComputedStart.String()
+	case "ComputedEnd":
+		res.valueString = gantt.ComputedEnd.String()
+	case "ComputedDuration":
+		if math.Abs(gantt.ComputedDuration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(gantt.ComputedDuration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
 
-				remainingHours := int(gantt.ComputedDuration.Hours()) % 24
-				remainingMinutes := int(gantt.ComputedDuration.Minutes()) % 60
-				remainingSeconds := int(gantt.ComputedDuration.Seconds()) % 60
+			remainingHours := int(gantt.ComputedDuration.Hours()) % 24
+			remainingMinutes := int(gantt.ComputedDuration.Minutes()) % 60
+			remainingSeconds := int(gantt.ComputedDuration.Seconds()) % 60
 
-				if gantt.ComputedDuration.Hours() < 0 {
-					res.valueString = "- "
+			if gantt.ComputedDuration.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
 				}
 
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", gantt.ComputedDuration.String())
 			}
-		case "UseManualStartAndEndDates":
-			res.valueString = fmt.Sprintf("%t", gantt.UseManualStartAndEndDates)
-			res.valueBool = gantt.UseManualStartAndEndDates
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "ManualStart":
-			res.valueString = gantt.ManualStart.String()
-		case "ManualEnd":
-			res.valueString = gantt.ManualEnd.String()
-		case "LaneHeight":
-			res.valueString = fmt.Sprintf("%f", gantt.LaneHeight)
-			res.valueFloat = gantt.LaneHeight
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "RatioBarToLaneHeight":
-			res.valueString = fmt.Sprintf("%f", gantt.RatioBarToLaneHeight)
-			res.valueFloat = gantt.RatioBarToLaneHeight
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "YTopMargin":
-			res.valueString = fmt.Sprintf("%f", gantt.YTopMargin)
-			res.valueFloat = gantt.YTopMargin
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "XLeftText":
-			res.valueString = fmt.Sprintf("%f", gantt.XLeftText)
-			res.valueFloat = gantt.XLeftText
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TextHeight":
-			res.valueString = fmt.Sprintf("%f", gantt.TextHeight)
-			res.valueFloat = gantt.TextHeight
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "XLeftLanes":
-			res.valueString = fmt.Sprintf("%f", gantt.XLeftLanes)
-			res.valueFloat = gantt.XLeftLanes
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "XRightMargin":
-			res.valueString = fmt.Sprintf("%f", gantt.XRightMargin)
-			res.valueFloat = gantt.XRightMargin
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "ArrowLengthToTheRightOfStartBar":
-			res.valueString = fmt.Sprintf("%f", gantt.ArrowLengthToTheRightOfStartBar)
-			res.valueFloat = gantt.ArrowLengthToTheRightOfStartBar
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "ArrowTipLenght":
-			res.valueString = fmt.Sprintf("%f", gantt.ArrowTipLenght)
-			res.valueFloat = gantt.ArrowTipLenght
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TimeLine_Color":
-			res.valueString = gantt.TimeLine_Color
-		case "TimeLine_FillOpacity":
-			res.valueString = fmt.Sprintf("%f", gantt.TimeLine_FillOpacity)
-			res.valueFloat = gantt.TimeLine_FillOpacity
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "TimeLine_Stroke":
-			res.valueString = gantt.TimeLine_Stroke
-		case "TimeLine_StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", gantt.TimeLine_StrokeWidth)
-			res.valueFloat = gantt.TimeLine_StrokeWidth
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Group_Stroke":
-			res.valueString = gantt.Group_Stroke
-		case "Group_StrokeWidth":
-			res.valueString = fmt.Sprintf("%f", gantt.Group_StrokeWidth)
-			res.valueFloat = gantt.Group_StrokeWidth
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Group_StrokeDashArray":
-			res.valueString = gantt.Group_StrokeDashArray
-		case "DateYOffset":
-			res.valueString = fmt.Sprintf("%f", gantt.DateYOffset)
-			res.valueFloat = gantt.DateYOffset
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "AlignOnStartEndOnYearStart":
-			res.valueString = fmt.Sprintf("%t", gantt.AlignOnStartEndOnYearStart)
-			res.valueBool = gantt.AlignOnStartEndOnYearStart
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "Lanes":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range gantt.Lanes {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
 				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
 			}
-		case "Milestones":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range gantt.Milestones {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", gantt.ComputedDuration.String())
+		}
+	case "UseManualStartAndEndDates":
+		res.valueString = fmt.Sprintf("%t", gantt.UseManualStartAndEndDates)
+		res.valueBool = gantt.UseManualStartAndEndDates
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ManualStart":
+		res.valueString = gantt.ManualStart.String()
+	case "ManualEnd":
+		res.valueString = gantt.ManualEnd.String()
+	case "LaneHeight":
+		res.valueString = fmt.Sprintf("%f", gantt.LaneHeight)
+		res.valueFloat = gantt.LaneHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "RatioBarToLaneHeight":
+		res.valueString = fmt.Sprintf("%f", gantt.RatioBarToLaneHeight)
+		res.valueFloat = gantt.RatioBarToLaneHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "YTopMargin":
+		res.valueString = fmt.Sprintf("%f", gantt.YTopMargin)
+		res.valueFloat = gantt.YTopMargin
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XLeftText":
+		res.valueString = fmt.Sprintf("%f", gantt.XLeftText)
+		res.valueFloat = gantt.XLeftText
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TextHeight":
+		res.valueString = fmt.Sprintf("%f", gantt.TextHeight)
+		res.valueFloat = gantt.TextHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XLeftLanes":
+		res.valueString = fmt.Sprintf("%f", gantt.XLeftLanes)
+		res.valueFloat = gantt.XLeftLanes
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "XRightMargin":
+		res.valueString = fmt.Sprintf("%f", gantt.XRightMargin)
+		res.valueFloat = gantt.XRightMargin
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ArrowLengthToTheRightOfStartBar":
+		res.valueString = fmt.Sprintf("%f", gantt.ArrowLengthToTheRightOfStartBar)
+		res.valueFloat = gantt.ArrowLengthToTheRightOfStartBar
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "ArrowTipLenght":
+		res.valueString = fmt.Sprintf("%f", gantt.ArrowTipLenght)
+		res.valueFloat = gantt.ArrowTipLenght
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TimeLine_Color":
+		res.valueString = gantt.TimeLine_Color
+	case "TimeLine_FillOpacity":
+		res.valueString = fmt.Sprintf("%f", gantt.TimeLine_FillOpacity)
+		res.valueFloat = gantt.TimeLine_FillOpacity
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "TimeLine_Stroke":
+		res.valueString = gantt.TimeLine_Stroke
+	case "TimeLine_StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", gantt.TimeLine_StrokeWidth)
+		res.valueFloat = gantt.TimeLine_StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Group_Stroke":
+		res.valueString = gantt.Group_Stroke
+	case "Group_StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", gantt.Group_StrokeWidth)
+		res.valueFloat = gantt.Group_StrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Group_StrokeDashArray":
+		res.valueString = gantt.Group_StrokeDashArray
+	case "DateYOffset":
+		res.valueString = fmt.Sprintf("%f", gantt.DateYOffset)
+		res.valueFloat = gantt.DateYOffset
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "AlignOnStartEndOnYearStart":
+		res.valueString = fmt.Sprintf("%t", gantt.AlignOnStartEndOnYearStart)
+		res.valueBool = gantt.AlignOnStartEndOnYearStart
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Lanes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range gantt.Lanes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Groups":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range gantt.Groups {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Milestones":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range gantt.Milestones {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
-		case "Arrows":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range gantt.Arrows {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Groups":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range gantt.Groups {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Arrows":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range gantt.Arrows {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-func (group *Group) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (group *Group) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = group.Name
-		case "GroupLanes":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range group.GroupLanes {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = group.Name
+	case "GroupLanes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range group.GroupLanes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-func (lane *Lane) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (lane *Lane) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = lane.Name
-		case "Order":
-			res.valueString = fmt.Sprintf("%d", lane.Order)
-			res.valueInt = lane.Order
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "Bars":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range lane.Bars {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = lane.Name
+	case "Order":
+		res.valueString = fmt.Sprintf("%d", lane.Order)
+		res.valueInt = lane.Order
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "Bars":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range lane.Bars {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-func (laneuse *LaneUse) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (laneuse *LaneUse) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = laneuse.Name
-		case "Lane":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if laneuse.Lane != nil {
-				res.valueString = laneuse.Lane.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, laneuse.Lane))
-			}
+	// string value of fields
+	case "Name":
+		res.valueString = laneuse.Name
+	case "Lane":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if laneuse.Lane != nil {
+			res.valueString = laneuse.Lane.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, laneuse.Lane))
+		}
 	}
 	return
 }
-func (milestone *Milestone) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = milestone.Name
-		case "Date":
-			res.valueString = milestone.Date.String()
-		case "DisplayVerticalBar":
-			res.valueString = fmt.Sprintf("%t", milestone.DisplayVerticalBar)
-			res.valueBool = milestone.DisplayVerticalBar
-			res.GongFieldValueType = GongFieldValueTypeBool
-		case "LanesToDisplay":
-			res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-			for idx, __instance__ := range milestone.LanesToDisplay {
-				if idx > 0 {
-					res.valueString += "\n"
-					res.ids += ";"
-				}
-				res.valueString += __instance__.Name
-				res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+	// string value of fields
+	case "Name":
+		res.valueString = milestone.Name
+	case "Date":
+		res.valueString = milestone.Date.String()
+	case "DisplayVerticalBar":
+		res.valueString = fmt.Sprintf("%t", milestone.DisplayVerticalBar)
+		res.valueBool = milestone.DisplayVerticalBar
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "LanesToDisplay":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range milestone.LanesToDisplay {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
 			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
-
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
+	return
+}
+
+// insertion point for generic set gongstruct field value
+func (arrow *Arrow) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		arrow.Name = value.GetValueString()
+	case "From":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			arrow.From = nil
+			for __instance__ := range stage.Bars {
+				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+					arrow.From = __instance__
+					break
+				}
+			}
+		}
+	case "To":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			arrow.To = nil
+			for __instance__ := range stage.Bars {
+				if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+					arrow.To = __instance__
+					break
+				}
+			}
+		}
+	case "OptionnalColor":
+		arrow.OptionnalColor = value.GetValueString()
+	case "OptionnalStroke":
+		arrow.OptionnalStroke = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (bar *Bar) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		bar.Name = value.GetValueString()
+	case "OptionnalColor":
+		bar.OptionnalColor = value.GetValueString()
+	case "OptionnalStroke":
+		bar.OptionnalStroke = value.GetValueString()
+	case "FillOpacity":
+		bar.FillOpacity = value.GetValueFloat()
+	case "StrokeWidth":
+		bar.StrokeWidth = value.GetValueFloat()
+	case "StrokeDashArray":
+		bar.StrokeDashArray = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (gantt *Gantt) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		gantt.Name = value.GetValueString()
+	case "UseManualStartAndEndDates":
+		gantt.UseManualStartAndEndDates = value.GetValueBool()
+	case "LaneHeight":
+		gantt.LaneHeight = value.GetValueFloat()
+	case "RatioBarToLaneHeight":
+		gantt.RatioBarToLaneHeight = value.GetValueFloat()
+	case "YTopMargin":
+		gantt.YTopMargin = value.GetValueFloat()
+	case "XLeftText":
+		gantt.XLeftText = value.GetValueFloat()
+	case "TextHeight":
+		gantt.TextHeight = value.GetValueFloat()
+	case "XLeftLanes":
+		gantt.XLeftLanes = value.GetValueFloat()
+	case "XRightMargin":
+		gantt.XRightMargin = value.GetValueFloat()
+	case "ArrowLengthToTheRightOfStartBar":
+		gantt.ArrowLengthToTheRightOfStartBar = value.GetValueFloat()
+	case "ArrowTipLenght":
+		gantt.ArrowTipLenght = value.GetValueFloat()
+	case "TimeLine_Color":
+		gantt.TimeLine_Color = value.GetValueString()
+	case "TimeLine_FillOpacity":
+		gantt.TimeLine_FillOpacity = value.GetValueFloat()
+	case "TimeLine_Stroke":
+		gantt.TimeLine_Stroke = value.GetValueString()
+	case "TimeLine_StrokeWidth":
+		gantt.TimeLine_StrokeWidth = value.GetValueFloat()
+	case "Group_Stroke":
+		gantt.Group_Stroke = value.GetValueString()
+	case "Group_StrokeWidth":
+		gantt.Group_StrokeWidth = value.GetValueFloat()
+	case "Group_StrokeDashArray":
+		gantt.Group_StrokeDashArray = value.GetValueString()
+	case "DateYOffset":
+		gantt.DateYOffset = value.GetValueFloat()
+	case "AlignOnStartEndOnYearStart":
+		gantt.AlignOnStartEndOnYearStart = value.GetValueBool()
+	case "Lanes":
+		gantt.Lanes = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Lanes = append(gantt.Lanes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Milestones":
+		gantt.Milestones = make([]*Milestone, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Milestones {
+					if stage.MilestoneMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Milestones = append(gantt.Milestones, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Groups":
+		gantt.Groups = make([]*Group, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Groups {
+					if stage.GroupMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Groups = append(gantt.Groups, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Arrows":
+		gantt.Arrows = make([]*Arrow, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Arrows {
+					if stage.ArrowMap_Staged_Order[__instance__] == uint(id) {
+						gantt.Arrows = append(gantt.Arrows, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (group *Group) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		group.Name = value.GetValueString()
+	case "GroupLanes":
+		group.GroupLanes = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						group.GroupLanes = append(group.GroupLanes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (lane *Lane) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		lane.Name = value.GetValueString()
+	case "Order":
+		lane.Order = int(value.GetValueInt())
+	case "Bars":
+		lane.Bars = make([]*Bar, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Bars {
+					if stage.BarMap_Staged_Order[__instance__] == uint(id) {
+						lane.Bars = append(lane.Bars, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (laneuse *LaneUse) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		laneuse.Name = value.GetValueString()
+	case "Lane":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			laneuse.Lane = nil
+			for __instance__ := range stage.Lanes {
+				if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+					laneuse.Lane = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		milestone.Name = value.GetValueString()
+	case "DisplayVerticalBar":
+		milestone.DisplayVerticalBar = value.GetValueBool()
+	case "LanesToDisplay":
+		milestone.LanesToDisplay = make([]*Lane, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Lanes {
+					if stage.LaneMap_Staged_Order[__instance__] == uint(id) {
+						milestone.LanesToDisplay = append(milestone.LanesToDisplay, __instance__)
+						break
+					}
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (arrow *Arrow) GongGetGongstructName() string {
+	return "Arrow"
+}
+
+func (bar *Bar) GongGetGongstructName() string {
+	return "Bar"
+}
+
+func (gantt *Gantt) GongGetGongstructName() string {
+	return "Gantt"
+}
+
+func (group *Group) GongGetGongstructName() string {
+	return "Group"
+}
+
+func (lane *Lane) GongGetGongstructName() string {
+	return "Lane"
+}
+
+func (laneuse *LaneUse) GongGetGongstructName() string {
+	return "LaneUse"
+}
+
+func (milestone *Milestone) GongGetGongstructName() string {
+	return "Milestone"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
 	return
 }
 
