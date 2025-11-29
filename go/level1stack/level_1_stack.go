@@ -7,10 +7,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/fullstack-lang/gong/test/statemachines/go/models"
-	"github.com/fullstack-lang/gong/test/statemachines/go/probe"
+	"github.com/fullstack-lang/gong/go/models"
+	"github.com/fullstack-lang/gong/go/probe"
 
-	statemachines_go "github.com/fullstack-lang/gong/test/statemachines/go"
+	gong_go "github.com/fullstack-lang/gong/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -43,7 +43,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "github.com/fullstack-lang/gong/test/statemachines/go/models", packageName)
+	stage.Marshall(file, "github.com/fullstack-lang/gong/go/models", packageName)
 }
 
 type Level1Stack struct {
@@ -93,8 +93,8 @@ func NewLevel1Stack(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		miniStack.Probe = probe.NewProbe(
 			miniStack.R,
-			statemachines_go.GoModelsDir,
-			statemachines_go.GoDiagramsDir,
+			gong_go.GoModelsDir,
+			gong_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)
@@ -102,18 +102,17 @@ func NewLevel1Stack(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Architecture](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Kill](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Message](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MessageType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Object](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Role](stage)
-	models.SetOrchestratorOnAfterUpdate[models.State](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateMachine](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition_Shape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongBasicField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongEnum](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongEnumValue](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongLink](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongNote](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongStruct](stage)
+	models.SetOrchestratorOnAfterUpdate[models.GongTimeField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.MetaReference](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ModelPkg](stage)
+	models.SetOrchestratorOnAfterUpdate[models.PointerToGongStructField](stage)
+	models.SetOrchestratorOnAfterUpdate[models.SliceOfPointerToGongStructField](stage)
 
 	return
 }

@@ -7,7 +7,7 @@ import (
 
 	// insertion point for models import
 
-	doc2_stack "github.com/fullstack-lang/gong/lib/doc2/go/stack"
+	"github.com/fullstack-lang/gong/lib/doc2/go/level1stack"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -37,7 +37,7 @@ func main() {
 	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := level1stack.NewLevel1Stack("doc2", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 
 	// since we do not use the default stager, we need to create the root split
 	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage

@@ -90,6 +90,9 @@ type ModelPkgDB struct {
 	// Declation for basic field modelpkgDB.StackPkgGenPath
 	StackPkgGenPath_Data sql.NullString
 
+	// Declation for basic field modelpkgDB.Level1StackPkgGenPath
+	Level1StackPkgGenPath_Data sql.NullString
+
 	// Declation for basic field modelpkgDB.StaticPkgGenPath
 	StaticPkgGenPath_Data sql.NullString
 
@@ -153,19 +156,21 @@ type ModelPkgWOP struct {
 
 	StackPkgGenPath string `xlsx:"10"`
 
-	StaticPkgGenPath string `xlsx:"11"`
+	Level1StackPkgGenPath string `xlsx:"11"`
 
-	ProbePkgGenPath string `xlsx:"12"`
+	StaticPkgGenPath string `xlsx:"12"`
 
-	NgWorkspacePath string `xlsx:"13"`
+	ProbePkgGenPath string `xlsx:"13"`
 
-	NgWorkspaceName string `xlsx:"14"`
+	NgWorkspacePath string `xlsx:"14"`
 
-	NgDataLibrarySourceCodeDirectory string `xlsx:"15"`
+	NgWorkspaceName string `xlsx:"15"`
 
-	NgSpecificLibrarySourceCodeDirectory string `xlsx:"16"`
+	NgDataLibrarySourceCodeDirectory string `xlsx:"16"`
 
-	MaterialLibDatamodelTargetPath string `xlsx:"17"`
+	NgSpecificLibrarySourceCodeDirectory string `xlsx:"17"`
+
+	MaterialLibDatamodelTargetPath string `xlsx:"18"`
 	// insertion for WOP pointer fields
 }
 
@@ -182,6 +187,7 @@ var ModelPkg_Fields = []string{
 	"ControllersPkgGenPath",
 	"FullstackPkgGenPath",
 	"StackPkgGenPath",
+	"Level1StackPkgGenPath",
 	"StaticPkgGenPath",
 	"ProbePkgGenPath",
 	"NgWorkspacePath",
@@ -496,6 +502,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg(modelpkg *models.Model
 	modelpkgDB.StackPkgGenPath_Data.String = modelpkg.StackPkgGenPath
 	modelpkgDB.StackPkgGenPath_Data.Valid = true
 
+	modelpkgDB.Level1StackPkgGenPath_Data.String = modelpkg.Level1StackPkgGenPath
+	modelpkgDB.Level1StackPkgGenPath_Data.Valid = true
+
 	modelpkgDB.StaticPkgGenPath_Data.String = modelpkg.StaticPkgGenPath
 	modelpkgDB.StaticPkgGenPath_Data.Valid = true
 
@@ -551,6 +560,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkg_WOP(modelpkg *models.M
 
 	modelpkgDB.StackPkgGenPath_Data.String = modelpkg.StackPkgGenPath
 	modelpkgDB.StackPkgGenPath_Data.Valid = true
+
+	modelpkgDB.Level1StackPkgGenPath_Data.String = modelpkg.Level1StackPkgGenPath
+	modelpkgDB.Level1StackPkgGenPath_Data.Valid = true
 
 	modelpkgDB.StaticPkgGenPath_Data.String = modelpkg.StaticPkgGenPath
 	modelpkgDB.StaticPkgGenPath_Data.Valid = true
@@ -608,6 +620,9 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsFromModelPkgWOP(modelpkg *ModelPkgW
 	modelpkgDB.StackPkgGenPath_Data.String = modelpkg.StackPkgGenPath
 	modelpkgDB.StackPkgGenPath_Data.Valid = true
 
+	modelpkgDB.Level1StackPkgGenPath_Data.String = modelpkg.Level1StackPkgGenPath
+	modelpkgDB.Level1StackPkgGenPath_Data.Valid = true
+
 	modelpkgDB.StaticPkgGenPath_Data.String = modelpkg.StaticPkgGenPath
 	modelpkgDB.StaticPkgGenPath_Data.Valid = true
 
@@ -643,6 +658,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg(modelpkg *models.ModelPk
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
 	modelpkg.StackPkgGenPath = modelpkgDB.StackPkgGenPath_Data.String
+	modelpkg.Level1StackPkgGenPath = modelpkgDB.Level1StackPkgGenPath_Data.String
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String
@@ -665,6 +681,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkg_WOP(modelpkg *models.Mod
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
 	modelpkg.StackPkgGenPath = modelpkgDB.StackPkgGenPath_Data.String
+	modelpkg.Level1StackPkgGenPath = modelpkgDB.Level1StackPkgGenPath_Data.String
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String
@@ -688,6 +705,7 @@ func (modelpkgDB *ModelPkgDB) CopyBasicFieldsToModelPkgWOP(modelpkg *ModelPkgWOP
 	modelpkg.ControllersPkgGenPath = modelpkgDB.ControllersPkgGenPath_Data.String
 	modelpkg.FullstackPkgGenPath = modelpkgDB.FullstackPkgGenPath_Data.String
 	modelpkg.StackPkgGenPath = modelpkgDB.StackPkgGenPath_Data.String
+	modelpkg.Level1StackPkgGenPath = modelpkgDB.Level1StackPkgGenPath_Data.String
 	modelpkg.StaticPkgGenPath = modelpkgDB.StaticPkgGenPath_Data.String
 	modelpkg.ProbePkgGenPath = modelpkgDB.ProbePkgGenPath_Data.String
 	modelpkg.NgWorkspacePath = modelpkgDB.NgWorkspacePath_Data.String

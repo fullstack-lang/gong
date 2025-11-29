@@ -28,26 +28,15 @@
             ]
         },
         {
-            "name": "gongc gong -skipGoModCommands",
+            "name": "gongc gong -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gong -skipNg -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
+                "-skipGoModCommands",
+                "-level1"
             ]
         },
         {
@@ -739,7 +728,7 @@
             ]
         },
         {
-            "name": "gongc statemachines",
+            "name": "gongc statemachines -level1",
             "type": "go",
             "request": "launch",
             "mode": "auto",
