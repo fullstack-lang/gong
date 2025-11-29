@@ -686,7 +686,6 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericGetFieldValuesFromPointer)) + `}}
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -694,13 +693,11 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value{{` + string(rune(ModelGongStructInsertionGenericSetFieldValuesFromPointer)) + `}}
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
 
 // insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionGenericGetGongstructName)) + `}}
-
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
 	return

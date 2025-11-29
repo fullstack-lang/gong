@@ -4570,8 +4570,8 @@ func (controlpoint *ControlPoint) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ClosestRect",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "ClosestRect",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 	}
@@ -4791,8 +4791,8 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Start",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Start",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 		{
@@ -4800,8 +4800,8 @@ func (link *Link) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "End",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "End",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 		{
@@ -5641,13 +5641,13 @@ func (rectlinklink *RectLinkLink) GongGetFieldHeaders() (res []GongFieldHeader) 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Start",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Start",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 		{
-			Name:               "End",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "End",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Link",
 		},
 		{
@@ -5707,13 +5707,13 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "StartRect",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "StartRect",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 		{
-			Name:               "EndRect",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "EndRect",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Rect",
 		},
 		{
@@ -7146,7 +7146,6 @@ func (text *Text) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -8358,7 +8357,6 @@ func (text *Text) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -8447,7 +8445,6 @@ func (svgtext *SvgText) GongGetGongstructName() string {
 func (text *Text) GongGetGongstructName() string {
 	return "Text"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

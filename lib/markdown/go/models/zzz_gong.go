@@ -1403,7 +1403,6 @@ func (svgimage *SvgImage) GongGetFieldValue(fieldName string, stage *Stage) (res
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1463,7 +1462,6 @@ func (svgimage *SvgImage) GongSetFieldValue(fieldName string, value GongFieldVal
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1484,7 +1482,6 @@ func (pngimage *PngImage) GongGetGongstructName() string {
 func (svgimage *SvgImage) GongGetGongstructName() string {
 	return "SvgImage"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

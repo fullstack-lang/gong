@@ -1884,13 +1884,13 @@ func (arrow *Arrow) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "From",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "From",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Bar",
 		},
 		{
-			Name:               "To",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "To",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Bar",
 		},
 		{
@@ -2119,8 +2119,8 @@ func (laneuse *LaneUse) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Lane",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Lane",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Lane",
 		},
 	}
@@ -2539,7 +2539,6 @@ func (milestone *Milestone) GongGetFieldValue(fieldName string, stage *Stage) (r
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -2811,7 +2810,6 @@ func (milestone *Milestone) GongSetFieldValue(fieldName string, value GongFieldV
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -2844,7 +2842,6 @@ func (laneuse *LaneUse) GongGetGongstructName() string {
 func (milestone *Milestone) GongGetGongstructName() string {
 	return "Milestone"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

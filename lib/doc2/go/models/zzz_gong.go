@@ -2289,8 +2289,8 @@ func (diagrampackage *DiagramPackage) GongGetFieldHeaders() (res []GongFieldHead
 			TargetGongstructName: "Classdiagram",
 		},
 		{
-			Name:               "SelectedClassdiagram",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "SelectedClassdiagram",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Classdiagram",
 		},
 		{
@@ -2950,7 +2950,6 @@ func (linkshape *LinkShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -3290,7 +3289,6 @@ func (linkshape *LinkShape) GongSetFieldValue(fieldName string, value GongFieldV
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -3331,7 +3329,6 @@ func (gongstructshape *GongStructShape) GongGetGongstructName() string {
 func (linkshape *LinkShape) GongGetGongstructName() string {
 	return "LinkShape"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

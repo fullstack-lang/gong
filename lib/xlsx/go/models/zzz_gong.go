@@ -1510,13 +1510,13 @@ func (displayselection *DisplaySelection) GongGetFieldHeaders() (res []GongField
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "XLFile",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "XLFile",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "XLFile",
 		},
 		{
-			Name:               "XLSheet",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "XLSheet",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "XLSheet",
 		},
 	}
@@ -1789,7 +1789,6 @@ func (xlsheet *XLSheet) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1944,7 +1943,6 @@ func (xlsheet *XLSheet) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1969,7 +1967,6 @@ func (xlrow *XLRow) GongGetGongstructName() string {
 func (xlsheet *XLSheet) GongGetGongstructName() string {
 	return "XLSheet"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

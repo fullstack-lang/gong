@@ -1344,8 +1344,8 @@ func (button *Button) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "SVGIcon",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "SVGIcon",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "SVGIcon",
 		},
 		{
@@ -1468,8 +1468,8 @@ func (node *Node) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "PreceedingSVGIcon",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "PreceedingSVGIcon",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "SVGIcon",
 		},
 		{
@@ -1738,7 +1738,6 @@ func (tree *Tree) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1912,7 +1911,6 @@ func (tree *Tree) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1933,7 +1931,6 @@ func (svgicon *SVGIcon) GongGetGongstructName() string {
 func (tree *Tree) GongGetGongstructName() string {
 	return "Tree"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

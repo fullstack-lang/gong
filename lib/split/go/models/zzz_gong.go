@@ -3891,68 +3891,68 @@ func (assplitarea *AsSplitArea) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "AsSplit",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "AsSplit",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "AsSplit",
 		},
 		{
-			Name:               "Button",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Button",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Button",
 		},
 		{
-			Name:               "Cursor",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Cursor",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Cursor",
 		},
 		{
-			Name:               "Form",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Form",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Form",
 		},
 		{
-			Name:               "Load",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Load",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Load",
 		},
 		{
-			Name:               "Markdown",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Markdown",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Markdown",
 		},
 		{
-			Name:               "Slider",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Slider",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Slider",
 		},
 		{
-			Name:               "Split",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Split",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Split",
 		},
 		{
-			Name:               "Svg",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Svg",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Svg",
 		},
 		{
-			Name:               "Table",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Table",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Table",
 		},
 		{
-			Name:               "Tone",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Tone",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Tone",
 		},
 		{
-			Name:               "Tree",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Tree",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Tree",
 		},
 		{
-			Name:               "Xlsx",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Xlsx",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Xlsx",
 		},
 		{
@@ -4641,7 +4641,6 @@ func (xlsx *Xlsx) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -5089,7 +5088,6 @@ func (xlsx *Xlsx) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -5170,7 +5168,6 @@ func (view *View) GongGetGongstructName() string {
 func (xlsx *Xlsx) GongGetGongstructName() string {
 	return "Xlsx"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
