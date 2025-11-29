@@ -244,6 +244,11 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 	gong_models.VerySimpleCodeGenerator(
 		modelPkg,
+		filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
+		models.ModelGongProbeFileTemplate)
+
+	gong_models.VerySimpleCodeGenerator(
+		modelPkg,
 		filepath.Join(pkgPath, string(gong_models.GeneratedGongDiffGoFilePath)),
 		models.ModelGongDiffFileTemplate)
 
