@@ -87,9 +87,8 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongStructShape"
 				rf.Fieldname = "AttributeShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := attributeshape_.GongGetReverseFieldOwner(
 					attributeshapeFormCallback.probe.stageOfInterest,
-					attributeshape_,
 					&rf)
 
 				var ok bool
@@ -332,9 +331,8 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "DiagramPackage"
 				rf.Fieldname = "Classdiagrams"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := classdiagram_.GongGetReverseFieldOwner(
 					classdiagramFormCallback.probe.stageOfInterest,
-					classdiagram_,
 					&rf)
 
 				var ok bool
@@ -621,9 +619,8 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Classdiagram"
 				rf.Fieldname = "GongEnumShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongenumshape_.GongGetReverseFieldOwner(
 					gongenumshapeFormCallback.probe.stageOfInterest,
-					gongenumshape_,
 					&rf)
 
 				var ok bool
@@ -765,9 +762,8 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongEnumShape"
 				rf.Fieldname = "GongEnumValueShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongenumvalueshape_.GongGetReverseFieldOwner(
 					gongenumvalueshapeFormCallback.probe.stageOfInterest,
-					gongenumvalueshape_,
 					&rf)
 
 				var ok bool
@@ -913,9 +909,8 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongNoteShape"
 				rf.Fieldname = "GongNoteLinkShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongnotelinkshape_.GongGetReverseFieldOwner(
 					gongnotelinkshapeFormCallback.probe.stageOfInterest,
-					gongnotelinkshape_,
 					&rf)
 
 				var ok bool
@@ -1100,9 +1095,8 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Classdiagram"
 				rf.Fieldname = "GongNoteShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongnoteshape_.GongGetReverseFieldOwner(
 					gongnoteshapeFormCallback.probe.stageOfInterest,
-					gongnoteshape_,
 					&rf)
 
 				var ok bool
@@ -1304,9 +1298,8 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Classdiagram"
 				rf.Fieldname = "GongStructShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongstructshape_.GongGetReverseFieldOwner(
 					gongstructshapeFormCallback.probe.stageOfInterest,
-					gongstructshape_,
 					&rf)
 
 				var ok bool
@@ -1478,9 +1471,8 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongStructShape"
 				rf.Fieldname = "LinkShapes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := linkshape_.GongGetReverseFieldOwner(
 					linkshapeFormCallback.probe.stageOfInterest,
-					linkshape_,
 					&rf)
 
 				var ok bool
