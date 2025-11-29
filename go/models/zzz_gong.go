@@ -2493,8 +2493,8 @@ func (gongbasicfield *GongBasicField) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongEnum",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "GongEnum",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GongEnum",
 		},
 		{
@@ -2767,8 +2767,8 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetFieldHeaders() 
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongStruct",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "GongStruct",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GongStruct",
 		},
 		{
@@ -2795,8 +2795,8 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "GongStruct",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "GongStruct",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "GongStruct",
 		},
 		{
@@ -3138,7 +3138,6 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetF
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -3466,7 +3465,6 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongSetF
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -3515,7 +3513,6 @@ func (pointertogongstructfield *PointerToGongStructField) GongGetGongstructName(
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongGetGongstructName() string {
 	return "SliceOfPointerToGongStructField"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

@@ -1774,7 +1774,6 @@ func (layout *Layout) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1921,7 +1920,6 @@ func (layout *Layout) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1946,7 +1944,6 @@ func (grouptoogle *GroupToogle) GongGetGongstructName() string {
 func (layout *Layout) GongGetGongstructName() string {
 	return "Layout"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

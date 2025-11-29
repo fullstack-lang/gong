@@ -985,8 +985,8 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "B",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "B",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "B",
 		},
 		{
@@ -1099,7 +1099,6 @@ func (b *B) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1156,7 +1155,6 @@ func (b *B) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1169,7 +1167,6 @@ func (a *A) GongGetGongstructName() string {
 func (b *B) GongGetGongstructName() string {
 	return "B"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

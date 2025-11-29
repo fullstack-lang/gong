@@ -413,8 +413,8 @@ map[GongFilePerStructSubTemplateId]string{
 		},`,
 	GongFileFieldSubTmplStringHeaderPointerField: `
 		{
-			Name:               "{{FieldName}}",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "{{FieldName}}",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "{{AssocStructName}}",
 		},`,
 	GongFileFieldSubTmplStringHeaderSliceOfPointersField: `
