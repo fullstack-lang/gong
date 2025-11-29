@@ -166,9 +166,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "XLRow"
 				rf.Fieldname = "Cells"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := xlcell_.GongGetReverseFieldOwner(
 					xlcellFormCallback.probe.stageOfInterest,
-					xlcell_,
 					&rf)
 
 				var ok bool
@@ -233,9 +232,8 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "XLSheet"
 				rf.Fieldname = "SheetCells"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := xlcell_.GongGetReverseFieldOwner(
 					xlcellFormCallback.probe.stageOfInterest,
-					xlcell_,
 					&rf)
 
 				var ok bool
@@ -508,9 +506,8 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "XLSheet"
 				rf.Fieldname = "Rows"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := xlrow_.GongGetReverseFieldOwner(
 					xlrowFormCallback.probe.stageOfInterest,
-					xlrow_,
 					&rf)
 
 				var ok bool
@@ -708,9 +705,8 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "XLFile"
 				rf.Fieldname = "Sheets"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := xlsheet_.GongGetReverseFieldOwner(
 					xlsheetFormCallback.probe.stageOfInterest,
-					xlsheet_,
 					&rf)
 
 				var ok bool

@@ -81,9 +81,8 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Note"
 				rf.Fieldname = "Frequencies"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := freqency_.GongGetReverseFieldOwner(
 					freqencyFormCallback.probe.stageOfInterest,
-					freqency_,
 					&rf)
 
 				var ok bool

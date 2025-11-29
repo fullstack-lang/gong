@@ -10,6 +10,7 @@ import (
 	"math"
 	"slices"
 	"sort"
+	"strings"
 	"time"
 
 	sim_go "github.com/fullstack-lang/gong/lib/sim/go"
@@ -26,6 +27,7 @@ func __Gong__Abs(x int) int {
 }
 
 var _ = __Gong__Abs
+var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
@@ -50,6 +52,7 @@ func (stage *Stage) GetProbeSplitStageName() string {
 
 // errUnkownEnum is returns when a value cannot match enum values
 var errUnkownEnum = errors.New("unkown enum")
+var _ = errUnkownEnum
 
 // needed to avoid when fmt package is not needed by generated code
 var __dummy__fmt_variable fmt.Scanner
@@ -74,6 +77,8 @@ type GongStructInterface interface {
 	// GetID() (res int)
 	// GetFields() (res []string)
 	// GetFieldStringValue(fieldName string) (res string)
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 }
 
 // Stage enables storage of staged instances
@@ -1200,8 +1205,12 @@ type GongstructIF interface {
 	UnstageVoid(stage *Stage)
 	GongGetFieldHeaders() []GongFieldHeader
 	GongClean(stage *Stage)
-	GongGetFieldValueString(fieldName string, stage *Stage) GongFieldValue
+	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
+	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
+	GongGetGongstructName() string
 	GongCopy() GongstructIF
+	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
+	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
 }
 type PointerToGongstruct interface {
 	GongstructIF
@@ -1335,7 +1344,7 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 }
 
 // GetGongstructInstancesMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
+// it is usefull because it allows refactoring of gongstruct identifier
 func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type {
 	var ret Type
 
@@ -1587,6 +1596,7 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Engine",
 			GongFieldValueType: GongFieldValueTypePointer,
+			TargetGongstructName: "Engine",
 		},
 	}
 	return
@@ -1743,8 +1753,9 @@ type GongFieldValue struct {
 }
 
 type GongFieldHeader struct {
-	GongFieldValueType
 	Name string
+	GongFieldValueType
+	TargetGongstructName string
 }
 
 func (gongValueField *GongFieldValue) GetValueString() string {
@@ -1764,229 +1775,372 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
-func (command *Command) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
+func (command *Command) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = command.Name
-		case "Command":
-			enum := command.Command
-			res.valueString = enum.ToCodeString()
-		case "CommandDate":
-			res.valueString = command.CommandDate
-		case "Engine":
-			res.GongFieldValueType = GongFieldValueTypePointer
-			if command.Engine != nil {
-				res.valueString = command.Engine.Name
-				res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, command.Engine))
+	// string value of fields
+	case "Name":
+		res.valueString = command.Name
+	case "Command":
+		enum := command.Command
+		res.valueString = enum.ToCodeString()
+	case "CommandDate":
+		res.valueString = command.CommandDate
+	case "Engine":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if command.Engine != nil {
+			res.valueString = command.Engine.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, command.Engine))
+		}
+	}
+	return
+}
+func (dummyagent *DummyAgent) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "TechName":
+		res.valueString = dummyagent.TechName
+	case "Name":
+		res.valueString = dummyagent.Name
+	}
+	return
+}
+func (engine *Engine) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = engine.Name
+	case "EndTime":
+		res.valueString = engine.EndTime
+	case "CurrentTime":
+		res.valueString = engine.CurrentTime
+	case "DisplayFormat":
+		res.valueString = engine.DisplayFormat
+	case "SecondsSinceStart":
+		res.valueString = fmt.Sprintf("%f", engine.SecondsSinceStart)
+		res.valueFloat = engine.SecondsSinceStart
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "Fired":
+		res.valueString = fmt.Sprintf("%d", engine.Fired)
+		res.valueInt = engine.Fired
+		res.GongFieldValueType = GongFieldValueTypeInt
+	case "ControlMode":
+		enum := engine.ControlMode
+		res.valueString = enum.ToCodeString()
+	case "State":
+		enum := engine.State
+		res.valueString = enum.ToCodeString()
+	case "Speed":
+		res.valueString = fmt.Sprintf("%f", engine.Speed)
+		res.valueFloat = engine.Speed
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+func (event *Event) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = event.Name
+	case "Duration":
+		if math.Abs(event.Duration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(event.Duration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
+
+			remainingHours := int(event.Duration.Hours()) % 24
+			remainingMinutes := int(event.Duration.Minutes()) % 60
+			remainingSeconds := int(event.Duration.Seconds()) % 60
+
+			if event.Duration.Hours() < 0 {
+				res.valueString = "- "
 			}
-	}
-	return
-}
-func (dummyagent *DummyAgent) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-		// string value of fields
-		case "TechName":
-			res.valueString = dummyagent.TechName
-		case "Name":
-			res.valueString = dummyagent.Name
-	}
-	return
-}
-func (engine *Engine) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = engine.Name
-		case "EndTime":
-			res.valueString = engine.EndTime
-		case "CurrentTime":
-			res.valueString = engine.CurrentTime
-		case "DisplayFormat":
-			res.valueString = engine.DisplayFormat
-		case "SecondsSinceStart":
-			res.valueString = fmt.Sprintf("%f", engine.SecondsSinceStart)
-			res.valueFloat = engine.SecondsSinceStart
-			res.GongFieldValueType = GongFieldValueTypeFloat
-		case "Fired":
-			res.valueString = fmt.Sprintf("%d", engine.Fired)
-			res.valueInt = engine.Fired
-			res.GongFieldValueType = GongFieldValueTypeInt
-		case "ControlMode":
-			enum := engine.ControlMode
-			res.valueString = enum.ToCodeString()
-		case "State":
-			enum := engine.State
-			res.valueString = enum.ToCodeString()
-		case "Speed":
-			res.valueString = fmt.Sprintf("%f", engine.Speed)
-			res.valueFloat = engine.Speed
-			res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-func (event *Event) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = event.Name
-		case "Duration":
-			if math.Abs(event.Duration.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(event.Duration.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
 
-				remainingHours := int(event.Duration.Hours()) % 24
-				remainingMinutes := int(event.Duration.Minutes()) % 60
-				remainingSeconds := int(event.Duration.Seconds()) % 60
-
-				if event.Duration.Hours() < 0 {
-					res.valueString = "- "
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
 				}
-
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", event.Duration.String())
 			}
-	}
-	return
-}
-func (status *Status) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = status.Name
-		case "CurrentCommand":
-			enum := status.CurrentCommand
-			res.valueString = enum.ToCodeString()
-		case "CompletionDate":
-			res.valueString = status.CompletionDate
-		case "CurrentSpeedCommand":
-			enum := status.CurrentSpeedCommand
-			res.valueString = enum.ToCodeString()
-		case "SpeedCommandCompletionDate":
-			res.valueString = status.SpeedCommandCompletionDate
-	}
-	return
-}
-func (updatestate *UpdateState) GongGetFieldValueString(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-		// string value of fields
-		case "Name":
-			res.valueString = updatestate.Name
-		case "Duration":
-			if math.Abs(updatestate.Duration.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(updatestate.Duration.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
-
-				remainingHours := int(updatestate.Duration.Hours()) % 24
-				remainingMinutes := int(updatestate.Duration.Minutes()) % 60
-				remainingSeconds := int(updatestate.Duration.Seconds()) % 60
-
-				if updatestate.Duration.Hours() < 0 {
-					res.valueString = "- "
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
 				}
 
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", updatestate.Duration.String())
 			}
-		case "Period":
-			if math.Abs(updatestate.Period.Hours()) >= 24 {
-				days := __Gong__Abs(int(int(updatestate.Period.Hours()) / 24))
-				months := int(days / 31)
-				days = days - months*31
-
-				remainingHours := int(updatestate.Period.Hours()) % 24
-				remainingMinutes := int(updatestate.Period.Minutes()) % 60
-				remainingSeconds := int(updatestate.Period.Seconds()) % 60
-
-				if updatestate.Period.Hours() < 0 {
-					res.valueString = "- "
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
 				}
-
-				if months > 0 {
-					if months > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d months", months)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d month", months)
-					}
-				}
-				if days > 0 {
-					if months != 0 {
-						res.valueString = res.valueString + ", "
-					}
-					if days > 1 {
-						res.valueString = res.valueString + fmt.Sprintf("%d days", days)
-					} else {
-						res.valueString = res.valueString + fmt.Sprintf("%d day", days)
-					}
-
-				}
-				if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
-					if days != 0 || (days == 0 && months != 0) {
-						res.valueString = res.valueString + ", "
-					}
-					res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
-				}
-			} else {
-				res.valueString = fmt.Sprintf("%s\n", updatestate.Period.String())
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
 			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", event.Duration.String())
+		}
 	}
 	return
 }
+func (status *Status) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = status.Name
+	case "CurrentCommand":
+		enum := status.CurrentCommand
+		res.valueString = enum.ToCodeString()
+	case "CompletionDate":
+		res.valueString = status.CompletionDate
+	case "CurrentSpeedCommand":
+		enum := status.CurrentSpeedCommand
+		res.valueString = enum.ToCodeString()
+	case "SpeedCommandCompletionDate":
+		res.valueString = status.SpeedCommandCompletionDate
+	}
+	return
+}
+func (updatestate *UpdateState) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = updatestate.Name
+	case "Duration":
+		if math.Abs(updatestate.Duration.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(updatestate.Duration.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
 
+			remainingHours := int(updatestate.Duration.Hours()) % 24
+			remainingMinutes := int(updatestate.Duration.Minutes()) % 60
+			remainingSeconds := int(updatestate.Duration.Seconds()) % 60
+
+			if updatestate.Duration.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", updatestate.Duration.String())
+		}
+	case "Period":
+		if math.Abs(updatestate.Period.Hours()) >= 24 {
+			days := __Gong__Abs(int(int(updatestate.Period.Hours()) / 24))
+			months := int(days / 31)
+			days = days - months*31
+
+			remainingHours := int(updatestate.Period.Hours()) % 24
+			remainingMinutes := int(updatestate.Period.Minutes()) % 60
+			remainingSeconds := int(updatestate.Period.Seconds()) % 60
+
+			if updatestate.Period.Hours() < 0 {
+				res.valueString = "- "
+			}
+
+			if months > 0 {
+				if months > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d months", months)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d month", months)
+				}
+			}
+			if days > 0 {
+				if months != 0 {
+					res.valueString = res.valueString + ", "
+				}
+				if days > 1 {
+					res.valueString = res.valueString + fmt.Sprintf("%d days", days)
+				} else {
+					res.valueString = res.valueString + fmt.Sprintf("%d day", days)
+				}
+
+			}
+			if remainingHours != 0 || remainingMinutes != 0 || remainingSeconds != 0 {
+				if days != 0 || (days == 0 && months != 0) {
+					res.valueString = res.valueString + ", "
+				}
+				res.valueString = res.valueString + fmt.Sprintf("%d hours, %d minutes, %d seconds\n", remainingHours, remainingMinutes, remainingSeconds)
+			}
+		} else {
+			res.valueString = fmt.Sprintf("%s\n", updatestate.Period.String())
+		}
+	}
+	return
+}
 
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
-	res = instance.GongGetFieldValueString(fieldName, stage)
+	res = instance.GongGetFieldValue(fieldName, stage)
+	return
+}
+
+// insertion point for generic set gongstruct field value
+func (command *Command) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		command.Name = value.GetValueString()
+	case "Command":
+		command.Command.FromCodeString(value.GetValueString())
+	case "CommandDate":
+		command.CommandDate = value.GetValueString()
+	case "Engine":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			command.Engine = nil
+			for __instance__ := range stage.Engines {
+				if stage.EngineMap_Staged_Order[__instance__] == uint(id) {
+					command.Engine = __instance__
+					break
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (dummyagent *DummyAgent) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "TechName":
+		dummyagent.TechName = value.GetValueString()
+	case "Name":
+		dummyagent.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (engine *Engine) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		engine.Name = value.GetValueString()
+	case "EndTime":
+		engine.EndTime = value.GetValueString()
+	case "CurrentTime":
+		engine.CurrentTime = value.GetValueString()
+	case "DisplayFormat":
+		engine.DisplayFormat = value.GetValueString()
+	case "SecondsSinceStart":
+		engine.SecondsSinceStart = value.GetValueFloat()
+	case "Fired":
+		engine.Fired = int(value.GetValueInt())
+	case "ControlMode":
+		engine.ControlMode.FromCodeString(value.GetValueString())
+	case "State":
+		engine.State.FromCodeString(value.GetValueString())
+	case "Speed":
+		engine.Speed = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (event *Event) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		event.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (status *Status) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		status.Name = value.GetValueString()
+	case "CurrentCommand":
+		status.CurrentCommand.FromCodeString(value.GetValueString())
+	case "CompletionDate":
+		status.CompletionDate = value.GetValueString()
+	case "CurrentSpeedCommand":
+		status.CurrentSpeedCommand.FromCodeString(value.GetValueString())
+	case "SpeedCommandCompletionDate":
+		status.SpeedCommandCompletionDate = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (updatestate *UpdateState) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		updatestate.Name = value.GetValueString()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+
+func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
+	return instance.GongSetFieldValue(fieldName, value, stage)
+}
+
+// insertion point for generic get gongstruct name
+func (command *Command) GongGetGongstructName() string {
+	return "Command"
+}
+
+func (dummyagent *DummyAgent) GongGetGongstructName() string {
+	return "DummyAgent"
+}
+
+func (engine *Engine) GongGetGongstructName() string {
+	return "Engine"
+}
+
+func (event *Event) GongGetGongstructName() string {
+	return "Event"
+}
+
+func (status *Status) GongGetGongstructName() string {
+	return "Status"
+}
+
+func (updatestate *UpdateState) GongGetGongstructName() string {
+	return "UpdateState"
+}
+
+
+func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
+	res = instance.GongGetGongstructName()
 	return
 }
 

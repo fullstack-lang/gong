@@ -35,7 +35,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Group"
 			rf.Fieldname = "Buttons"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Group),
@@ -70,7 +70,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "GroupToogle"
 			rf.Fieldname = "ButtonToggles"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.GroupToogle),
@@ -102,7 +102,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layout"
 			rf.Fieldname = "Groups"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layout),
@@ -134,7 +134,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layout"
 			rf.Fieldname = "GroupToogles"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layout),

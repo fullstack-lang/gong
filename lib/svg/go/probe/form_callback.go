@@ -93,9 +93,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Circle"
 				rf.Fieldname = "Animations"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -160,9 +159,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Ellipse"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -227,9 +225,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Line"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -294,9 +291,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "LinkAnchoredText"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -361,9 +357,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Path"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -428,9 +423,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Polygone"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -495,9 +489,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Polyline"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -562,9 +555,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "Animations"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -629,9 +621,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "RectAnchoredText"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -696,9 +687,8 @@ func (animateFormCallback *AnimateFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Text"
 				rf.Fieldname = "Animates"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := animate_.GongGetReverseFieldOwner(
 					animateFormCallback.probe.stageOfInterest,
-					animate_,
 					&rf)
 
 				var ok bool
@@ -887,9 +877,8 @@ func (circleFormCallback *CircleFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Circles"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := circle_.GongGetReverseFieldOwner(
 					circleFormCallback.probe.stageOfInterest,
-					circle_,
 					&rf)
 
 				var ok bool
@@ -1031,9 +1020,8 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "HoveringTrigger"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := condition_.GongGetReverseFieldOwner(
 					conditionFormCallback.probe.stageOfInterest,
-					condition_,
 					&rf)
 
 				var ok bool
@@ -1098,9 +1086,8 @@ func (conditionFormCallback *ConditionFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "DisplayConditions"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := condition_.GongGetReverseFieldOwner(
 					conditionFormCallback.probe.stageOfInterest,
-					condition_,
 					&rf)
 
 				var ok bool
@@ -1248,9 +1235,8 @@ func (controlpointFormCallback *ControlPointFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Link"
 				rf.Fieldname = "ControlPoints"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := controlpoint_.GongGetReverseFieldOwner(
 					controlpointFormCallback.probe.stageOfInterest,
-					controlpoint_,
 					&rf)
 
 				var ok bool
@@ -1441,9 +1427,8 @@ func (ellipseFormCallback *EllipseFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Ellipses"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := ellipse_.GongGetReverseFieldOwner(
 					ellipseFormCallback.probe.stageOfInterest,
-					ellipse_,
 					&rf)
 
 				var ok bool
@@ -1835,9 +1820,8 @@ func (layerFormCallback *LayerFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "SVG"
 				rf.Fieldname = "Layers"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := layer_.GongGetReverseFieldOwner(
 					layerFormCallback.probe.stageOfInterest,
-					layer_,
 					&rf)
 
 				var ok bool
@@ -2032,9 +2016,8 @@ func (lineFormCallback *LineFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Lines"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := line_.GongGetReverseFieldOwner(
 					lineFormCallback.probe.stageOfInterest,
-					line_,
 					&rf)
 
 				var ok bool
@@ -2309,9 +2292,8 @@ func (linkFormCallback *LinkFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Links"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := link_.GongGetReverseFieldOwner(
 					linkFormCallback.probe.stageOfInterest,
-					link_,
 					&rf)
 
 				var ok bool
@@ -2516,9 +2498,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Link"
 				rf.Fieldname = "TextAtArrowStart"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := linkanchoredtext_.GongGetReverseFieldOwner(
 					linkanchoredtextFormCallback.probe.stageOfInterest,
-					linkanchoredtext_,
 					&rf)
 
 				var ok bool
@@ -2583,9 +2564,8 @@ func (linkanchoredtextFormCallback *LinkAnchoredTextFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Link"
 				rf.Fieldname = "TextAtArrowEnd"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := linkanchoredtext_.GongGetReverseFieldOwner(
 					linkanchoredtextFormCallback.probe.stageOfInterest,
-					linkanchoredtext_,
 					&rf)
 
 				var ok bool
@@ -2770,9 +2750,8 @@ func (pathFormCallback *PathFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Paths"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := path_.GongGetReverseFieldOwner(
 					pathFormCallback.probe.stageOfInterest,
-					path_,
 					&rf)
 
 				var ok bool
@@ -3038,9 +3017,8 @@ func (polygoneFormCallback *PolygoneFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Polygones"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := polygone_.GongGetReverseFieldOwner(
 					polygoneFormCallback.probe.stageOfInterest,
-					polygone_,
 					&rf)
 
 				var ok bool
@@ -3225,9 +3203,8 @@ func (polylineFormCallback *PolylineFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Polylines"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := polyline_.GongGetReverseFieldOwner(
 					polylineFormCallback.probe.stageOfInterest,
-					polyline_,
 					&rf)
 
 				var ok bool
@@ -3593,9 +3570,8 @@ func (rectFormCallback *RectFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Rects"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := rect_.GongGetReverseFieldOwner(
 					rectFormCallback.probe.stageOfInterest,
-					rect_,
 					&rf)
 
 				var ok bool
@@ -3765,9 +3741,8 @@ func (rectanchoredpathFormCallback *RectAnchoredPathFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "RectAnchoredPaths"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := rectanchoredpath_.GongGetReverseFieldOwner(
 					rectanchoredpathFormCallback.probe.stageOfInterest,
-					rectanchoredpath_,
 					&rf)
 
 				var ok bool
@@ -3949,9 +3924,8 @@ func (rectanchoredrectFormCallback *RectAnchoredRectFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "RectAnchoredRects"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := rectanchoredrect_.GongGetReverseFieldOwner(
 					rectanchoredrectFormCallback.probe.stageOfInterest,
-					rectanchoredrect_,
 					&rf)
 
 				var ok bool
@@ -4160,9 +4134,8 @@ func (rectanchoredtextFormCallback *RectAnchoredTextFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Rect"
 				rf.Fieldname = "RectAnchoredTexts"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := rectanchoredtext_.GongGetReverseFieldOwner(
 					rectanchoredtextFormCallback.probe.stageOfInterest,
-					rectanchoredtext_,
 					&rf)
 
 				var ok bool
@@ -4326,9 +4299,8 @@ func (rectlinklinkFormCallback *RectLinkLinkFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "RectLinkLinks"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := rectlinklink_.GongGetReverseFieldOwner(
 					rectlinklinkFormCallback.probe.stageOfInterest,
-					rectlinklink_,
 					&rf)
 
 				var ok bool
@@ -4726,9 +4698,8 @@ func (textFormCallback *TextFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layer"
 				rf.Fieldname = "Texts"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := text_.GongGetReverseFieldOwner(
 					textFormCallback.probe.stageOfInterest,
-					text_,
 					&rf)
 
 				var ok bool

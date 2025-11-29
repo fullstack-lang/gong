@@ -1,17 +1,12 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Button:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
@@ -19,11 +14,15 @@ func GetReverseFieldOwnerName(
 					res = _node.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *Node:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Node) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
@@ -38,45 +37,49 @@ func GetReverseFieldOwnerName(
 					res = _tree.Name
 				}
 			}
-		}
-
-	case *SVGIcon:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *Tree:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+func (inst *SVGIcon) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *Tree) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+
+// insertion point
+func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Button:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Buttons":
 				res = stage.Node_Buttons_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *Node:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Node) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Node":
 			switch reverseField.Fieldname {
 			case "Children":
@@ -87,20 +90,25 @@ func GetReverseFieldOwner[T Gongstruct](
 			case "RootNodes":
 				res = stage.Tree_RootNodes_reverseMap[inst]
 			}
-		}
-
-	case *SVGIcon:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *Tree:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+
+func (inst *SVGIcon) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *Tree) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+

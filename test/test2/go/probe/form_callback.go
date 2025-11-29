@@ -187,9 +187,8 @@ func (bFormCallback *BFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "A"
 				rf.Fieldname = "Bs"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := b_.GongGetReverseFieldOwner(
 					bFormCallback.probe.stageOfInterest,
-					b_,
 					&rf)
 
 				var ok bool

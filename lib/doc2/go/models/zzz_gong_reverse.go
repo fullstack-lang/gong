@@ -1,17 +1,12 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *AttributeShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *AttributeShape:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "AttributeShapes":
@@ -19,11 +14,15 @@ func GetReverseFieldOwnerName(
 					res = _gongstructshape.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *Classdiagram:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Classdiagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Classdiagrams":
@@ -31,16 +30,24 @@ func GetReverseFieldOwnerName(
 					res = _diagrampackage.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *DiagramPackage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *DiagramPackage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
-	case *GongEnumShape:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *GongEnumShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongEnumShapes":
@@ -48,11 +55,15 @@ func GetReverseFieldOwnerName(
 					res = _classdiagram.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *GongEnumValueShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongEnumValueShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
 			case "GongEnumValueShapes":
@@ -60,11 +71,15 @@ func GetReverseFieldOwnerName(
 					res = _gongenumshape.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *GongNoteLinkShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongNoteLinkShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongNoteShape":
 			switch reverseField.Fieldname {
 			case "GongNoteLinkShapes":
@@ -72,11 +87,15 @@ func GetReverseFieldOwnerName(
 					res = _gongnoteshape.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *GongNoteShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongNoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongNoteShapes":
@@ -84,11 +103,15 @@ func GetReverseFieldOwnerName(
 					res = _classdiagram.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *GongStructShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongStructShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongStructShapes":
@@ -96,11 +119,15 @@ func GetReverseFieldOwnerName(
 					res = _classdiagram.Name
 				}
 			}
-		}
+	}
+	return
+}
 
-	case *LinkShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *LinkShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "LinkShapes":
@@ -108,109 +135,130 @@ func GetReverseFieldOwnerName(
 					res = _gongstructshape.Name
 				}
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+
+// insertion point
+func (inst *AttributeShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *AttributeShape:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "AttributeShapes":
 				res = stage.GongStructShape_AttributeShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *Classdiagram:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *Classdiagram) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "DiagramPackage":
 			switch reverseField.Fieldname {
 			case "Classdiagrams":
 				res = stage.DiagramPackage_Classdiagrams_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *DiagramPackage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
+func (inst *DiagramPackage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
-	case *GongEnumShape:
-		switch reverseField.GongstructName {
-		// insertion point
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *GongEnumShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongEnumShapes":
 				res = stage.Classdiagram_GongEnumShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *GongEnumValueShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongEnumValueShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongEnumShape":
 			switch reverseField.Fieldname {
 			case "GongEnumValueShapes":
 				res = stage.GongEnumShape_GongEnumValueShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *GongNoteLinkShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongNoteLinkShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongNoteShape":
 			switch reverseField.Fieldname {
 			case "GongNoteLinkShapes":
 				res = stage.GongNoteShape_GongNoteLinkShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *GongNoteShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongNoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongNoteShapes":
 				res = stage.Classdiagram_GongNoteShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *GongStructShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *GongStructShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "Classdiagram":
 			switch reverseField.Fieldname {
 			case "GongStructShapes":
 				res = stage.Classdiagram_GongStructShapes_reverseMap[inst]
 			}
-		}
+	}
+	return res
+}
 
-	case *LinkShape:
-		switch reverseField.GongstructName {
-		// insertion point
+func (inst *LinkShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
 		case "GongStructShape":
 			switch reverseField.Fieldname {
 			case "LinkShapes":
 				res = stage.GongStructShape_LinkShapes_reverseMap[inst]
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+

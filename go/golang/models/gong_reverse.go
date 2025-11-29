@@ -16,83 +16,67 @@ import (
 const GongReverse = `// generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point{{` + string(rune(GongGetReverseFieldOwnerNameSwitch)) + `}}
+
+// insertion point{{` + string(rune(GongGetReverseFieldOwnerSwitch)) + `}}
+`
+
+type GongGetReverseFieldOwnerNameId int
+
+const (
+	GongGetReverseFieldOwnerNameSwitch GongGetReverseFieldOwnerNameId = iota
+	GongGetReverseFieldOwnerSwitch
+	GongGetReverseFieldOwnerNameNb
+)
+
+var GongGetReverseFieldOwnerNameSubTemplateCode map[GongGetReverseFieldOwnerNameId]string = // new line
+map[GongGetReverseFieldOwnerNameId]string{
+	GongGetReverseFieldOwnerNameSwitch: `
+func (inst *{{Structname}}) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
-	// insertion point{{` + string(rune(GetReverseFieldOwnerNameSwitch)) + `}}
-	default:
-		_ = inst
+	switch reverseField.GongstructName {
+	// insertion point{{fieldToFormCodeName}}
 	}
 	return
 }
-
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+`,
+	GongGetReverseFieldOwnerSwitch: `
+func (inst *{{Structname}}) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
-	// insertion point{{` + string(rune(GetReverseFieldOwnerSwitch)) + `}}
-	default:
-		_ = inst
+	switch reverseField.GongstructName {
+	// insertion point{{fieldToFormCode}}
 	}
 	return res
 }
-`
-
-type GetReverseFieldOwnerNameId int
-
-const (
-	GetReverseFieldOwnerNameSwitch GetReverseFieldOwnerNameId = iota
-	GetReverseFieldOwnerSwitch
-	GetReverseFieldOwnerNameNb
-)
-
-var GetReverseFieldOwnerNameSubTemplateCode map[GetReverseFieldOwnerNameId]string = // new line
-map[GetReverseFieldOwnerNameId]string{
-	GetReverseFieldOwnerNameSwitch: `
-	case *{{Structname}}:
-		switch reverseField.GongstructName {
-		// insertion point{{fieldToFormCodeName}}
-		}
-`,
-	GetReverseFieldOwnerSwitch: `
-	case *{{Structname}}:
-		switch reverseField.GongstructName {
-		// insertion point{{fieldToFormCode}}
-		}
 `,
 }
 
-type GetReverseFieldOwnerNameSubTemplateId int
+type GongGetReverseFieldOwnerNameSubTemplateId int
 
 const (
-	GetReverseFieldOwnerNameSwitchCode GetReverseFieldOwnerNameSubTemplateId = iota
-	GetReverseFieldOwnerSwitchCode
-	GetReverseFieldOwnerNameMasterSwitchCodeStart
-	GetReverseFieldOwnerNameMasterSwitchCodeEnd
+	GongGetReverseFieldOwnerNameSwitchCode GongGetReverseFieldOwnerNameSubTemplateId = iota
+	GongGetReverseFieldOwnerSwitchCode
+	GongGetReverseFieldOwnerNameMasterSwitchCodeStart
+	GongGetReverseFieldOwnerNameMasterSwitchCodeEnd
 )
 
-var GetReverseFieldOwnerNameSubSubTemplateCode map[GetReverseFieldOwnerNameSubTemplateId]string = // declaration of the sub templates
-map[GetReverseFieldOwnerNameSubTemplateId]string{
+var GongGetReverseFieldOwnerNameSubSubTemplateCode map[GongGetReverseFieldOwnerNameSubTemplateId]string = // declaration of the sub templates
+map[GongGetReverseFieldOwnerNameSubTemplateId]string{
 
-	GetReverseFieldOwnerNameMasterSwitchCodeStart: `
+	GongGetReverseFieldOwnerNameMasterSwitchCodeStart: `
 		case "{{AssocStructName}}":
 			switch reverseField.Fieldname {`,
-	GetReverseFieldOwnerNameSwitchCode: `
+	GongGetReverseFieldOwnerNameSwitchCode: `
 			case "{{FieldName}}":
 				if _{{assocStructName}}, ok := stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]; ok {
 					res = _{{assocStructName}}.Name
 				}`,
-	GetReverseFieldOwnerSwitchCode: `
+	GongGetReverseFieldOwnerSwitchCode: `
 			case "{{FieldName}}":
 				res = stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]`,
-	GetReverseFieldOwnerNameMasterSwitchCodeEnd: `
+	GongGetReverseFieldOwnerNameMasterSwitchCodeEnd: `
 			}`,
 }
 
@@ -105,8 +89,8 @@ func CodeGeneratorGongReverse(
 	// generate the typescript file
 	codeGO := GongReverse
 
-	subStructCodes := make(map[GetReverseFieldOwnerNameId]string)
-	for subStructTemplate := range GetReverseFieldOwnerNameSubTemplateCode {
+	subStructCodes := make(map[GongGetReverseFieldOwnerNameId]string)
+	for subStructTemplate := range GongGetReverseFieldOwnerNameSubTemplateCode {
 		subStructCodes[subStructTemplate] = ""
 	}
 
@@ -128,7 +112,7 @@ func CodeGeneratorGongReverse(
 		fieldNames := make(map[string]any, 0)
 		_ = fieldNames
 
-		for subStructTemplate := range GetReverseFieldOwnerNameSubTemplateCode {
+		for subStructTemplate := range GongGetReverseFieldOwnerNameSubTemplateCode {
 
 			fieldToFormCode := ""
 			fieldToFormCodeName := ""
@@ -157,10 +141,10 @@ func CodeGeneratorGongReverse(
 				}
 
 				fieldToFormCode += models.Replace1(
-					GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameMasterSwitchCodeStart],
+					GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerNameMasterSwitchCodeStart],
 					"{{AssocStructName}}", __struct.Name)
 				fieldToFormCodeName += models.Replace1(
-					GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameMasterSwitchCodeStart],
+					GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerNameMasterSwitchCodeStart],
 					"{{AssocStructName}}", __struct.Name)
 
 				for _, field := range __struct.Fields {
@@ -181,13 +165,13 @@ func CodeGeneratorGongReverse(
 
 						if field.GongStruct == gongStruct {
 							fieldToFormCode += models.Replace2(
-								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerSwitchCode],
+								GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerSwitchCode],
 								"{{AssocStructName}}", __struct.Name,
 								"{{FieldName}}", fieldNameForReverseMapField)
 						}
 						if field.GongStruct == gongStruct {
 							fieldToFormCodeName += models.Replace3(
-								GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameSwitchCode],
+								GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerNameSwitchCode],
 								"{{AssocStructName}}", __struct.Name,
 								"{{assocStructName}}", strings.ToLower(__struct.Name),
 								"{{FieldName}}", fieldNameForReverseMapField)
@@ -196,10 +180,10 @@ func CodeGeneratorGongReverse(
 				}
 
 				fieldToFormCode += models.Replace1(
-					GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameMasterSwitchCodeEnd],
+					GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerNameMasterSwitchCodeEnd],
 					"{{AssocStructName}}", __struct.Name)
 				fieldToFormCodeName += models.Replace1(
-					GetReverseFieldOwnerNameSubSubTemplateCode[GetReverseFieldOwnerNameMasterSwitchCodeEnd],
+					GongGetReverseFieldOwnerNameSubSubTemplateCode[GongGetReverseFieldOwnerNameMasterSwitchCodeEnd],
 					"{{AssocStructName}}", __struct.Name)
 			}
 
@@ -211,7 +195,7 @@ func CodeGeneratorGongReverse(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace4(GetReverseFieldOwnerNameSubTemplateCode[subStructTemplate],
+			generatedCodeFromSubTemplate := models.Replace4(GongGetReverseFieldOwnerNameSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{fieldToFormCode}}", fieldToFormCode,
@@ -223,7 +207,7 @@ func CodeGeneratorGongReverse(
 	}
 
 	// substitutes {{<<insertionPerStructId points>>}} stuff with generated code
-	for insertionPerStructId := GetReverseFieldOwnerNameId(0); insertionPerStructId < GetReverseFieldOwnerNameNb; insertionPerStructId++ {
+	for insertionPerStructId := GongGetReverseFieldOwnerNameId(0); insertionPerStructId < GongGetReverseFieldOwnerNameNb; insertionPerStructId++ {
 		toReplace := "{{" + string(rune(insertionPerStructId)) + "}}"
 		codeGO = strings.ReplaceAll(codeGO, toReplace, subStructCodes[insertionPerStructId])
 	}

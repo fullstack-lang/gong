@@ -279,9 +279,8 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "Anarrayofa"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := astruct_.GongGetReverseFieldOwner(
 					astructFormCallback.probe.stageOfInterest,
-					astruct_,
 					&rf)
 
 				var ok bool
@@ -425,9 +424,8 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "Anarrayofb2Use"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := astructbstruct2use_.GongGetReverseFieldOwner(
 					astructbstruct2useFormCallback.probe.stageOfInterest,
-					astructbstruct2use_,
 					&rf)
 
 				var ok bool
@@ -571,9 +569,8 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "AnarrayofbUse"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := astructbstructuse_.GongGetReverseFieldOwner(
 					astructbstructuseFormCallback.probe.stageOfInterest,
-					astructbstructuse_,
 					&rf)
 
 				var ok bool
@@ -721,9 +718,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "Anarrayofb"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
 					bstructFormCallback.probe.stageOfInterest,
-					bstruct_,
 					&rf)
 
 				var ok bool
@@ -788,9 +784,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "Anotherarrayofb"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
 					bstructFormCallback.probe.stageOfInterest,
-					bstruct_,
 					&rf)
 
 				var ok bool
@@ -855,9 +850,8 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Dstruct"
 				rf.Fieldname = "Anarrayofb"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := bstruct_.GongGetReverseFieldOwner(
 					bstructFormCallback.probe.stageOfInterest,
-					bstruct_,
 					&rf)
 
 				var ok bool
@@ -1051,9 +1045,8 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Astruct"
 				rf.Fieldname = "Dstruct4s"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := dstruct_.GongGetReverseFieldOwner(
 					dstructFormCallback.probe.stageOfInterest,
-					dstruct_,
 					&rf)
 
 				var ok bool
@@ -1280,9 +1273,8 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Dstruct"
 				rf.Fieldname = "Gstructs"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gstruct_.GongGetReverseFieldOwner(
 					gstructFormCallback.probe.stageOfInterest,
-					gstruct_,
 					&rf)
 
 				var ok bool

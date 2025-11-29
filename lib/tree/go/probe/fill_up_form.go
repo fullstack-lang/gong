@@ -36,7 +36,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Node"
 			rf.Fieldname = "Buttons"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Node),
@@ -108,7 +108,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Node"
 			rf.Fieldname = "Children"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Node),
@@ -130,7 +130,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Tree"
 			rf.Fieldname = "RootNodes"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Tree),

@@ -87,9 +87,8 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Group"
 				rf.Fieldname = "Checkboxes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := checkbox_.GongGetReverseFieldOwner(
 					checkboxFormCallback.probe.stageOfInterest,
-					checkbox_,
 					&rf)
 
 				var ok bool
@@ -283,9 +282,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Layout"
 				rf.Fieldname = "Groups"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := group_.GongGetReverseFieldOwner(
 					groupFormCallback.probe.stageOfInterest,
-					group_,
 					&rf)
 
 				var ok bool
@@ -549,9 +547,8 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Group"
 				rf.Fieldname = "Sliders"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := slider_.GongGetReverseFieldOwner(
 					sliderFormCallback.probe.stageOfInterest,
-					slider_,
 					&rf)
 
 				var ok bool

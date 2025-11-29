@@ -101,9 +101,8 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongStruct"
 				rf.Fieldname = "GongBasicFields"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongbasicfield_.GongGetReverseFieldOwner(
 					gongbasicfieldFormCallback.probe.stageOfInterest,
-					gongbasicfield_,
 					&rf)
 
 				var ok bool
@@ -351,9 +350,8 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongEnum"
 				rf.Fieldname = "GongEnumValues"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongenumvalue_.GongGetReverseFieldOwner(
 					gongenumvalueFormCallback.probe.stageOfInterest,
-					gongenumvalue_,
 					&rf)
 
 				var ok bool
@@ -499,9 +497,8 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongNote"
 				rf.Fieldname = "Links"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gonglink_.GongGetReverseFieldOwner(
 					gonglinkFormCallback.probe.stageOfInterest,
-					gonglink_,
 					&rf)
 
 				var ok bool
@@ -936,9 +933,8 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "GongStruct"
 				rf.Fieldname = "GongTimeFields"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := gongtimefield_.GongGetReverseFieldOwner(
 					gongtimefieldFormCallback.probe.stageOfInterest,
-					gongtimefield_,
 					&rf)
 
 				var ok bool
@@ -1274,9 +1270,8 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 				_ = rf
 				rf.GongstructName = "GongStruct"
 				rf.Fieldname = "PointerToGongStructFields"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := pointertogongstructfield_.GongGetReverseFieldOwner(
 					pointertogongstructfieldFormCallback.probe.stageOfInterest,
-					pointertogongstructfield_,
 					&rf)
 
 				var ok bool
@@ -1424,9 +1419,8 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 				_ = rf
 				rf.GongstructName = "GongStruct"
 				rf.Fieldname = "SliceOfPointerToGongStructFields"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := sliceofpointertogongstructfield_.GongGetReverseFieldOwner(
 					sliceofpointertogongstructfieldFormCallback.probe.stageOfInterest,
-					sliceofpointertogongstructfield_,
 					&rf)
 
 				var ok bool

@@ -89,9 +89,8 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Gantt"
 				rf.Fieldname = "Arrows"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := arrow_.GongGetReverseFieldOwner(
 					arrowFormCallback.probe.stageOfInterest,
-					arrow_,
 					&rf)
 
 				var ok bool
@@ -249,9 +248,8 @@ func (barFormCallback *BarFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Lane"
 				rf.Fieldname = "Bars"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := bar_.GongGetReverseFieldOwner(
 					barFormCallback.probe.stageOfInterest,
-					bar_,
 					&rf)
 
 				var ok bool
@@ -643,9 +641,8 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Gantt"
 				rf.Fieldname = "Groups"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := group_.GongGetReverseFieldOwner(
 					groupFormCallback.probe.stageOfInterest,
-					group_,
 					&rf)
 
 				var ok bool
@@ -814,9 +811,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Gantt"
 				rf.Fieldname = "Lanes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := lane_.GongGetReverseFieldOwner(
 					laneFormCallback.probe.stageOfInterest,
-					lane_,
 					&rf)
 
 				var ok bool
@@ -881,9 +877,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Group"
 				rf.Fieldname = "GroupLanes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := lane_.GongGetReverseFieldOwner(
 					laneFormCallback.probe.stageOfInterest,
-					lane_,
 					&rf)
 
 				var ok bool
@@ -948,9 +943,8 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Milestone"
 				rf.Fieldname = "LanesToDisplay"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := lane_.GongGetReverseFieldOwner(
 					laneFormCallback.probe.stageOfInterest,
-					lane_,
 					&rf)
 
 				var ok bool
@@ -1200,9 +1194,8 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Gantt"
 				rf.Fieldname = "Milestones"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := milestone_.GongGetReverseFieldOwner(
 					milestoneFormCallback.probe.stageOfInterest,
-					milestone_,
 					&rf)
 
 				var ok bool
