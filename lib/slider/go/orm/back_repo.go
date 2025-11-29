@@ -116,12 +116,6 @@ func (backRepo *BackRepoStruct) GetLastPushFromFrontNb() uint {
 }
 
 func (backRepo *BackRepoStruct) IncrementCommitFromBackNb() uint {
-	if backRepo.stage.OnInitCommitCallback != nil {
-		backRepo.stage.OnInitCommitCallback.BeforeCommit(backRepo.stage)
-	}
-	if backRepo.stage.OnInitCommitFromBackCallback != nil {
-		backRepo.stage.OnInitCommitFromBackCallback.BeforeCommit(backRepo.stage)
-	}
 	backRepo.CommitFromBackNb = backRepo.CommitFromBackNb + 1
 
 	backRepo.broadcastNbCommitToBack()
