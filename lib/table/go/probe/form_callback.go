@@ -91,9 +91,8 @@ func (cellFormCallback *CellFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Row"
 				rf.Fieldname = "Cells"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := cell_.GongGetReverseFieldOwner(
 					cellFormCallback.probe.stageOfInterest,
-					cell_,
 					&rf)
 
 				var ok bool
@@ -636,9 +635,8 @@ func (checkboxFormCallback *CheckBoxFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "FormDiv"
 				rf.Fieldname = "CheckBoxs"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := checkbox_.GongGetReverseFieldOwner(
 					checkboxFormCallback.probe.stageOfInterest,
-					checkbox_,
 					&rf)
 
 				var ok bool
@@ -780,9 +778,8 @@ func (displayedcolumnFormCallback *DisplayedColumnFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Table"
 				rf.Fieldname = "DisplayedColumns"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := displayedcolumn_.GongGetReverseFieldOwner(
 					displayedcolumnFormCallback.probe.stageOfInterest,
-					displayedcolumn_,
 					&rf)
 
 				var ok bool
@@ -978,9 +975,8 @@ func (formdivFormCallback *FormDivFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "FormGroup"
 				rf.Fieldname = "FormDivs"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := formdiv_.GongGetReverseFieldOwner(
 					formdivFormCallback.probe.stageOfInterest,
-					formdiv_,
 					&rf)
 
 				var ok bool
@@ -1241,9 +1237,8 @@ func (formfieldFormCallback *FormFieldFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "FormDiv"
 				rf.Fieldname = "FormFields"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := formfield_.GongGetReverseFieldOwner(
 					formfieldFormCallback.probe.stageOfInterest,
-					formfield_,
 					&rf)
 
 				var ok bool
@@ -2182,9 +2177,8 @@ func (optionFormCallback *OptionFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "FormFieldSelect"
 				rf.Fieldname = "Options"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := option_.GongGetReverseFieldOwner(
 					optionFormCallback.probe.stageOfInterest,
-					option_,
 					&rf)
 
 				var ok bool
@@ -2353,9 +2347,8 @@ func (rowFormCallback *RowFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Table"
 				rf.Fieldname = "Rows"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := row_.GongGetReverseFieldOwner(
 					rowFormCallback.probe.stageOfInterest,
-					row_,
 					&rf)
 
 				var ok bool

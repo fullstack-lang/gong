@@ -67,7 +67,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "Anarrayofa"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -95,7 +95,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "Anarrayofb2Use"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -123,7 +123,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "AnarrayofbUse"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -156,7 +156,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "Anarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -178,7 +178,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "Anotherarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -200,7 +200,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Dstruct"
 			rf.Fieldname = "Anarrayofb"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Dstruct),
@@ -230,7 +230,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Astruct"
 			rf.Fieldname = "Dstruct4s"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Astruct),
@@ -270,7 +270,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Dstruct"
 			rf.Fieldname = "Gstructs"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Dstruct),

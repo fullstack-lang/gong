@@ -108,9 +108,8 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Content"
 				rf.Fieldname = "Chapters"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := chapter_.GongGetReverseFieldOwner(
 					chapterFormCallback.probe.stageOfInterest,
-					chapter_,
 					&rf)
 
 				var ok bool
@@ -370,9 +369,8 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Chapter"
 				rf.Fieldname = "Pages"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := page_.GongGetReverseFieldOwner(
 					pageFormCallback.probe.stageOfInterest,
-					page_,
 					&rf)
 
 				var ok bool

@@ -1,17 +1,12 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *A) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *A:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "A":
 			switch reverseField.Fieldname {
 			case "As":
@@ -19,34 +14,23 @@ func GetReverseFieldOwnerName(
 					res = _a.Name
 				}
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+
+// insertion point
+func (inst *A) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *A:
-		switch reverseField.GongstructName {
-		// insertion point
 		case "A":
 			switch reverseField.Fieldname {
 			case "As":
 				res = stage.A_As_reverseMap[inst]
 			}
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+
