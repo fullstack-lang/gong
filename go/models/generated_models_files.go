@@ -7,6 +7,7 @@ var GeneratedModelFiles = []string{
 
 	string(GeneratedGongAstGoFilePath),
 	string(GeneratedGongCallbacksGoFilePath),
+	string(GeneratedGongCleanGoFilePath),
 	string(GeneratedGongCoderGoFilePath),
 	string(GeneratedGongDiffGoFilePath),
 	string(GeneratedGongEnumGoFilePath),

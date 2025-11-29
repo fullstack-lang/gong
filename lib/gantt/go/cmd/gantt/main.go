@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	// insertion point for models import
+	"github.com/fullstack-lang/gong/lib/gantt/go/level1stack"
 	gantt_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
-	gantt_stack "github.com/fullstack-lang/gong/lib/gantt/go/stack"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -37,7 +37,7 @@ func main() {
 	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup model stack with its probe
-	stack := gantt_stack.NewStack(r, "gantt", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := level1stack.NewLevel1Stack("gantt", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stack.Probe.Refresh()
 
 	// the root split name is "" by convention. Is is the same for all gong applications

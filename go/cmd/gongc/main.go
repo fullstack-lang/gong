@@ -124,6 +124,8 @@ func main() {
 		os.RemoveAll(modelPkg.FullstackPkgGenPath)
 		modelPkg.StackPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "stack")
 		os.RemoveAll(modelPkg.StackPkgGenPath)
+		modelPkg.Level1StackPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "level1stack")
+		os.RemoveAll(modelPkg.Level1StackPkgGenPath)
 		modelPkg.StaticPkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "static")
 		os.RemoveAll(modelPkg.StaticPkgGenPath)
 		modelPkg.ProbePkgGenPath = filepath.Join(modelPkg.PathToGoSubDirectory, "probe")
