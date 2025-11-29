@@ -1594,8 +1594,8 @@ func (command *Command) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Engine",
-			GongFieldValueType: GongFieldValueTypePointer,
+			Name:                 "Engine",
+			GongFieldValueType:   GongFieldValueTypePointer,
 			TargetGongstructName: "Engine",
 		},
 	}
@@ -1993,7 +1993,6 @@ func (updatestate *UpdateState) GongGetFieldValue(fieldName string, stage *Stage
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -2108,7 +2107,6 @@ func (updatestate *UpdateState) GongSetFieldValue(fieldName string, value GongFi
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -2137,7 +2135,6 @@ func (status *Status) GongGetGongstructName() string {
 func (updatestate *UpdateState) GongGetGongstructName() string {
 	return "UpdateState"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

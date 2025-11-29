@@ -1577,7 +1577,6 @@ func (slider *Slider) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1699,7 +1698,6 @@ func (slider *Slider) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1720,7 +1718,6 @@ func (layout *Layout) GongGetGongstructName() string {
 func (slider *Slider) GongGetGongstructName() string {
 	return "Slider"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()

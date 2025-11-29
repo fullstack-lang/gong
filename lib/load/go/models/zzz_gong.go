@@ -1217,7 +1217,6 @@ func (message *Message) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	}
 	return
 }
-
 func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, stage *Stage) (res GongFieldValue) {
 
 	res = instance.GongGetFieldValue(fieldName, stage)
@@ -1262,7 +1261,6 @@ func (message *Message) GongSetFieldValue(fieldName string, value GongFieldValue
 	return nil
 }
 
-
 func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, value GongFieldValue, stage *Stage) error {
 	return instance.GongSetFieldValue(fieldName, value, stage)
 }
@@ -1279,7 +1277,6 @@ func (filetoupload *FileToUpload) GongGetGongstructName() string {
 func (message *Message) GongGetGongstructName() string {
 	return "Message"
 }
-
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	res = instance.GongGetGongstructName()
