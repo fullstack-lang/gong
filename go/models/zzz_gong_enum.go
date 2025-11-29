@@ -34,34 +34,36 @@ func (generatedgofilepath GeneratedGoFilePath) ToString() (res string) {
 		res = "gong_serialize.go"
 	case LegacyGeneratedGongWopGoFilePath:
 		res = "gong_wop.go"
-	case GeneratedGongGoFilePath:
-		res = "zzz_gong.go"
-	case GeneratedGongDiffGoFilePath:
-		res = "zzz_gong_diff.go"
-	case GeneratedGongEnumGoFilePath:
-		res = "zzz_gong_enum.go"
-	case GeneratedGongMarshallGoFilePath:
-		res = "zzz_gong_marshall.go"
-	case GeneratedGongGraphGoFilePath:
-		res = "zzz_gong_graph.go"
-	case GeneratedGongSlicesGoFilePath:
-		res = "zzz_gong_slices.go"
-	case GeneratedGongCleanGoFilePath:
-		res = "zzz_gong_clean.go"
-	case GeneratedGongCoderGoFilePath:
-		res = "zzz_gong_coder.go"
 	case GeneratedGongAstGoFilePath:
 		res = "zzz_gong_ast.go"
 	case GeneratedGongCallbacksGoFilePath:
 		res = "zzz_gong_callbacks.go"
+	case GeneratedGongCleanGoFilePath:
+		res = "zzz_gong_clean.go"
+	case GeneratedGongCoderGoFilePath:
+		res = "zzz_gong_coder.go"
+	case GeneratedGongDiffGoFilePath:
+		res = "zzz_gong_diff.go"
+	case GeneratedGongEnumGoFilePath:
+		res = "zzz_gong_enum.go"
+	case GeneratedGongGoFilePath:
+		res = "zzz_gong.go"
+	case GeneratedGongGraphGoFilePath:
+		res = "zzz_gong_graph.go"
+	case GeneratedGongMarshallGoFilePath:
+		res = "zzz_gong_marshall.go"
 	case GeneratedGongOrchestratorGoFilePath:
 		res = "zzz_gong_orchestrator.go"
 	case GeneratedGongOrchestratorWMEGoFilePath:
 		res = "zzz_gong_orchestrator_wme.go"
+	case GeneratedGongProbeGoFilePath:
+		res = "zzz_gong_probe.go"
 	case GeneratedGongReverseGoFilePath:
 		res = "zzz_gong_reverse.go"
 	case GeneratedGongSerializeGoFilePath:
 		res = "zzz_gong_serialize.go"
+	case GeneratedGongSlicesGoFilePath:
+		res = "zzz_gong_slices.go"
 	case GeneratedGongWopGoFilePath:
 		res = "zzz_gong_wop.go"
 	case StagerGoFilePath:
@@ -112,23 +114,11 @@ func (generatedgofilepath *GeneratedGoFilePath) FromString(input string) (err er
 	case "gong_wop.go":
 		*generatedgofilepath = LegacyGeneratedGongWopGoFilePath
 		return
-	case "zzz_gong.go":
-		*generatedgofilepath = GeneratedGongGoFilePath
+	case "zzz_gong_ast.go":
+		*generatedgofilepath = GeneratedGongAstGoFilePath
 		return
-	case "zzz_gong_diff.go":
-		*generatedgofilepath = GeneratedGongDiffGoFilePath
-		return
-	case "zzz_gong_enum.go":
-		*generatedgofilepath = GeneratedGongEnumGoFilePath
-		return
-	case "zzz_gong_marshall.go":
-		*generatedgofilepath = GeneratedGongMarshallGoFilePath
-		return
-	case "zzz_gong_graph.go":
-		*generatedgofilepath = GeneratedGongGraphGoFilePath
-		return
-	case "zzz_gong_slices.go":
-		*generatedgofilepath = GeneratedGongSlicesGoFilePath
+	case "zzz_gong_callbacks.go":
+		*generatedgofilepath = GeneratedGongCallbacksGoFilePath
 		return
 	case "zzz_gong_clean.go":
 		*generatedgofilepath = GeneratedGongCleanGoFilePath
@@ -136,11 +126,20 @@ func (generatedgofilepath *GeneratedGoFilePath) FromString(input string) (err er
 	case "zzz_gong_coder.go":
 		*generatedgofilepath = GeneratedGongCoderGoFilePath
 		return
-	case "zzz_gong_ast.go":
-		*generatedgofilepath = GeneratedGongAstGoFilePath
+	case "zzz_gong_diff.go":
+		*generatedgofilepath = GeneratedGongDiffGoFilePath
 		return
-	case "zzz_gong_callbacks.go":
-		*generatedgofilepath = GeneratedGongCallbacksGoFilePath
+	case "zzz_gong_enum.go":
+		*generatedgofilepath = GeneratedGongEnumGoFilePath
+		return
+	case "zzz_gong.go":
+		*generatedgofilepath = GeneratedGongGoFilePath
+		return
+	case "zzz_gong_graph.go":
+		*generatedgofilepath = GeneratedGongGraphGoFilePath
+		return
+	case "zzz_gong_marshall.go":
+		*generatedgofilepath = GeneratedGongMarshallGoFilePath
 		return
 	case "zzz_gong_orchestrator.go":
 		*generatedgofilepath = GeneratedGongOrchestratorGoFilePath
@@ -148,11 +147,17 @@ func (generatedgofilepath *GeneratedGoFilePath) FromString(input string) (err er
 	case "zzz_gong_orchestrator_wme.go":
 		*generatedgofilepath = GeneratedGongOrchestratorWMEGoFilePath
 		return
+	case "zzz_gong_probe.go":
+		*generatedgofilepath = GeneratedGongProbeGoFilePath
+		return
 	case "zzz_gong_reverse.go":
 		*generatedgofilepath = GeneratedGongReverseGoFilePath
 		return
 	case "zzz_gong_serialize.go":
 		*generatedgofilepath = GeneratedGongSerializeGoFilePath
+		return
+	case "zzz_gong_slices.go":
+		*generatedgofilepath = GeneratedGongSlicesGoFilePath
 		return
 	case "zzz_gong_wop.go":
 		*generatedgofilepath = GeneratedGongWopGoFilePath
@@ -196,34 +201,36 @@ func (generatedgofilepath *GeneratedGoFilePath) FromCodeString(input string) (er
 		*generatedgofilepath = LegacyGeneratedGongSerializeGoFilePath
 	case "LegacyGeneratedGongWopGoFilePath":
 		*generatedgofilepath = LegacyGeneratedGongWopGoFilePath
-	case "GeneratedGongGoFilePath":
-		*generatedgofilepath = GeneratedGongGoFilePath
-	case "GeneratedGongDiffGoFilePath":
-		*generatedgofilepath = GeneratedGongDiffGoFilePath
-	case "GeneratedGongEnumGoFilePath":
-		*generatedgofilepath = GeneratedGongEnumGoFilePath
-	case "GeneratedGongMarshallGoFilePath":
-		*generatedgofilepath = GeneratedGongMarshallGoFilePath
-	case "GeneratedGongGraphGoFilePath":
-		*generatedgofilepath = GeneratedGongGraphGoFilePath
-	case "GeneratedGongSlicesGoFilePath":
-		*generatedgofilepath = GeneratedGongSlicesGoFilePath
-	case "GeneratedGongCleanGoFilePath":
-		*generatedgofilepath = GeneratedGongCleanGoFilePath
-	case "GeneratedGongCoderGoFilePath":
-		*generatedgofilepath = GeneratedGongCoderGoFilePath
 	case "GeneratedGongAstGoFilePath":
 		*generatedgofilepath = GeneratedGongAstGoFilePath
 	case "GeneratedGongCallbacksGoFilePath":
 		*generatedgofilepath = GeneratedGongCallbacksGoFilePath
+	case "GeneratedGongCleanGoFilePath":
+		*generatedgofilepath = GeneratedGongCleanGoFilePath
+	case "GeneratedGongCoderGoFilePath":
+		*generatedgofilepath = GeneratedGongCoderGoFilePath
+	case "GeneratedGongDiffGoFilePath":
+		*generatedgofilepath = GeneratedGongDiffGoFilePath
+	case "GeneratedGongEnumGoFilePath":
+		*generatedgofilepath = GeneratedGongEnumGoFilePath
+	case "GeneratedGongGoFilePath":
+		*generatedgofilepath = GeneratedGongGoFilePath
+	case "GeneratedGongGraphGoFilePath":
+		*generatedgofilepath = GeneratedGongGraphGoFilePath
+	case "GeneratedGongMarshallGoFilePath":
+		*generatedgofilepath = GeneratedGongMarshallGoFilePath
 	case "GeneratedGongOrchestratorGoFilePath":
 		*generatedgofilepath = GeneratedGongOrchestratorGoFilePath
 	case "GeneratedGongOrchestratorWMEGoFilePath":
 		*generatedgofilepath = GeneratedGongOrchestratorWMEGoFilePath
+	case "GeneratedGongProbeGoFilePath":
+		*generatedgofilepath = GeneratedGongProbeGoFilePath
 	case "GeneratedGongReverseGoFilePath":
 		*generatedgofilepath = GeneratedGongReverseGoFilePath
 	case "GeneratedGongSerializeGoFilePath":
 		*generatedgofilepath = GeneratedGongSerializeGoFilePath
+	case "GeneratedGongSlicesGoFilePath":
+		*generatedgofilepath = GeneratedGongSlicesGoFilePath
 	case "GeneratedGongWopGoFilePath":
 		*generatedgofilepath = GeneratedGongWopGoFilePath
 	case "StagerGoFilePath":
@@ -264,34 +271,36 @@ func (generatedgofilepath *GeneratedGoFilePath) ToCodeString() (res string) {
 		res = "LegacyGeneratedGongSerializeGoFilePath"
 	case LegacyGeneratedGongWopGoFilePath:
 		res = "LegacyGeneratedGongWopGoFilePath"
-	case GeneratedGongGoFilePath:
-		res = "GeneratedGongGoFilePath"
-	case GeneratedGongDiffGoFilePath:
-		res = "GeneratedGongDiffGoFilePath"
-	case GeneratedGongEnumGoFilePath:
-		res = "GeneratedGongEnumGoFilePath"
-	case GeneratedGongMarshallGoFilePath:
-		res = "GeneratedGongMarshallGoFilePath"
-	case GeneratedGongGraphGoFilePath:
-		res = "GeneratedGongGraphGoFilePath"
-	case GeneratedGongSlicesGoFilePath:
-		res = "GeneratedGongSlicesGoFilePath"
-	case GeneratedGongCleanGoFilePath:
-		res = "GeneratedGongCleanGoFilePath"
-	case GeneratedGongCoderGoFilePath:
-		res = "GeneratedGongCoderGoFilePath"
 	case GeneratedGongAstGoFilePath:
 		res = "GeneratedGongAstGoFilePath"
 	case GeneratedGongCallbacksGoFilePath:
 		res = "GeneratedGongCallbacksGoFilePath"
+	case GeneratedGongCleanGoFilePath:
+		res = "GeneratedGongCleanGoFilePath"
+	case GeneratedGongCoderGoFilePath:
+		res = "GeneratedGongCoderGoFilePath"
+	case GeneratedGongDiffGoFilePath:
+		res = "GeneratedGongDiffGoFilePath"
+	case GeneratedGongEnumGoFilePath:
+		res = "GeneratedGongEnumGoFilePath"
+	case GeneratedGongGoFilePath:
+		res = "GeneratedGongGoFilePath"
+	case GeneratedGongGraphGoFilePath:
+		res = "GeneratedGongGraphGoFilePath"
+	case GeneratedGongMarshallGoFilePath:
+		res = "GeneratedGongMarshallGoFilePath"
 	case GeneratedGongOrchestratorGoFilePath:
 		res = "GeneratedGongOrchestratorGoFilePath"
 	case GeneratedGongOrchestratorWMEGoFilePath:
 		res = "GeneratedGongOrchestratorWMEGoFilePath"
+	case GeneratedGongProbeGoFilePath:
+		res = "GeneratedGongProbeGoFilePath"
 	case GeneratedGongReverseGoFilePath:
 		res = "GeneratedGongReverseGoFilePath"
 	case GeneratedGongSerializeGoFilePath:
 		res = "GeneratedGongSerializeGoFilePath"
+	case GeneratedGongSlicesGoFilePath:
+		res = "GeneratedGongSlicesGoFilePath"
 	case GeneratedGongWopGoFilePath:
 		res = "GeneratedGongWopGoFilePath"
 	case StagerGoFilePath:
@@ -319,20 +328,21 @@ func (generatedgofilepath GeneratedGoFilePath) Codes() (res []string) {
 	res = append(res, "LegacyGeneratedGongReverseGoFilePath")
 	res = append(res, "LegacyGeneratedGongSerializeGoFilePath")
 	res = append(res, "LegacyGeneratedGongWopGoFilePath")
-	res = append(res, "GeneratedGongGoFilePath")
-	res = append(res, "GeneratedGongDiffGoFilePath")
-	res = append(res, "GeneratedGongEnumGoFilePath")
-	res = append(res, "GeneratedGongMarshallGoFilePath")
-	res = append(res, "GeneratedGongGraphGoFilePath")
-	res = append(res, "GeneratedGongSlicesGoFilePath")
-	res = append(res, "GeneratedGongCleanGoFilePath")
-	res = append(res, "GeneratedGongCoderGoFilePath")
 	res = append(res, "GeneratedGongAstGoFilePath")
 	res = append(res, "GeneratedGongCallbacksGoFilePath")
+	res = append(res, "GeneratedGongCleanGoFilePath")
+	res = append(res, "GeneratedGongCoderGoFilePath")
+	res = append(res, "GeneratedGongDiffGoFilePath")
+	res = append(res, "GeneratedGongEnumGoFilePath")
+	res = append(res, "GeneratedGongGoFilePath")
+	res = append(res, "GeneratedGongGraphGoFilePath")
+	res = append(res, "GeneratedGongMarshallGoFilePath")
 	res = append(res, "GeneratedGongOrchestratorGoFilePath")
 	res = append(res, "GeneratedGongOrchestratorWMEGoFilePath")
+	res = append(res, "GeneratedGongProbeGoFilePath")
 	res = append(res, "GeneratedGongReverseGoFilePath")
 	res = append(res, "GeneratedGongSerializeGoFilePath")
+	res = append(res, "GeneratedGongSlicesGoFilePath")
 	res = append(res, "GeneratedGongWopGoFilePath")
 	res = append(res, "StagerGoFilePath")
 	res = append(res, "DocsGoFilePath")
@@ -357,20 +367,21 @@ func (generatedgofilepath GeneratedGoFilePath) CodeValues() (res []string) {
 	res = append(res, "gong_reverse.go")
 	res = append(res, "gong_serialize.go")
 	res = append(res, "gong_wop.go")
-	res = append(res, "zzz_gong.go")
-	res = append(res, "zzz_gong_diff.go")
-	res = append(res, "zzz_gong_enum.go")
-	res = append(res, "zzz_gong_marshall.go")
-	res = append(res, "zzz_gong_graph.go")
-	res = append(res, "zzz_gong_slices.go")
-	res = append(res, "zzz_gong_clean.go")
-	res = append(res, "zzz_gong_coder.go")
 	res = append(res, "zzz_gong_ast.go")
 	res = append(res, "zzz_gong_callbacks.go")
+	res = append(res, "zzz_gong_clean.go")
+	res = append(res, "zzz_gong_coder.go")
+	res = append(res, "zzz_gong_diff.go")
+	res = append(res, "zzz_gong_enum.go")
+	res = append(res, "zzz_gong.go")
+	res = append(res, "zzz_gong_graph.go")
+	res = append(res, "zzz_gong_marshall.go")
 	res = append(res, "zzz_gong_orchestrator.go")
 	res = append(res, "zzz_gong_orchestrator_wme.go")
+	res = append(res, "zzz_gong_probe.go")
 	res = append(res, "zzz_gong_reverse.go")
 	res = append(res, "zzz_gong_serialize.go")
+	res = append(res, "zzz_gong_slices.go")
 	res = append(res, "zzz_gong_wop.go")
 	res = append(res, "stager.go")
 	res = append(res, "docs.go")

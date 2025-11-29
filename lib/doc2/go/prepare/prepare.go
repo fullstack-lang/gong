@@ -49,7 +49,6 @@ func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage
 		packageName = "main"
 	}
 
-	stage.Checkout()
 	stage.Marshall(file, "github.com/fullstack-lang/gong/lib/doc2/go/models", packageName)
 }
 

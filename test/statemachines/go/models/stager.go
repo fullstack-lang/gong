@@ -21,7 +21,6 @@ import (
 	button "github.com/fullstack-lang/gong/lib/button/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
-	table "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -48,12 +47,7 @@ type Stager struct {
 	map_state_stateMachine   map[*State]*StateMachine
 	map_diagram_stateMachine map[*Diagram]*StateMachine
 
-	probeForm ProbeFormInterface
-}
-
-type ProbeFormInterface interface {
-	FillUpFormFromGongstruct(instance any, formName string)
-	GetFormStage() *table.Stage
+	probeForm ProbeIF
 }
 
 func (stager *Stager) GetStage() *Stage {
@@ -72,9 +66,7 @@ func (stager *Stager) GetButtonsStage() *button.Stage {
 func NewStager(
 	r *gin.Engine,
 	stage *Stage,
-	dataEditor *split.AsSplit,
-	diagramEditor *split.AsSplitArea,
-	probeForm ProbeFormInterface,
+	probeForm ProbeIF,
 ) (stager *Stager) {
 
 	stager = new(Stager)
@@ -86,11 +78,12 @@ func NewStager(
 	// that do not develop their specific angular component
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	stager.treeObjectsStage = tree_stack.NewStack(r, ObjectTree.ToString(), "", "", "", true, true).Stage
-	stager.treeDiagramStage = tree_stack.NewStack(r, DiagramTree.ToString(), "", "", "", true, true).Stage
-	stager.svgStage = svg_stack.NewStack(r, GongsvgStack.ToString(), "", "", "", true, true).Stage
-	stager.buttonTransitionsStage = button_stack.NewStack(r, ButtonStackName.ToString(), "", "", "", false, false).Stage
-	stager.buttonExportXLStage = button_stack.NewStack(r, stage.GetName()+"-exportXL", "", "", "", true, true).Stage
+	stackName := "statemachines"
+	stager.treeObjectsStage = tree_stack.NewStack(r, stackName+"-objects", "", "", "", true, true).Stage
+	stager.treeDiagramStage = tree_stack.NewStack(r, stackName+"-diagrams", "", "", "", true, true).Stage
+	stager.svgStage = svg_stack.NewStack(r, stackName, "", "", "", true, true).Stage
+	stager.buttonTransitionsStage = button_stack.NewStack(r, stackName+"-transitions", "", "", "", false, false).Stage
+	stager.buttonExportXLStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Model view",
@@ -165,7 +158,7 @@ func NewStager(
 						},
 						{
 							Size:    50,
-							AsSplit: dataEditor,
+							AsSplit: probeForm.GetDataEditor(),
 						},
 					},
 				},
@@ -364,7 +357,7 @@ func NewStager(
 		Name: "Data Probe",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
-				AsSplit: dataEditor,
+				AsSplit: probeForm.GetDataEditor(),
 			},
 		},
 	})
@@ -372,7 +365,7 @@ func NewStager(
 	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
-			diagramEditor,
+			probeForm.GetDiagramEditor(),
 		},
 	})
 
