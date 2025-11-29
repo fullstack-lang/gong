@@ -38,7 +38,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Circle"
 			rf.Fieldname = "Animations"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Circle),
@@ -60,7 +60,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Ellipse"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Ellipse),
@@ -82,7 +82,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Line"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Line),
@@ -104,7 +104,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "LinkAnchoredText"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.LinkAnchoredText),
@@ -126,7 +126,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Path"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Path),
@@ -148,7 +148,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Polygone"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Polygone),
@@ -170,7 +170,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Polyline"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Polyline),
@@ -192,7 +192,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "Animations"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -214,7 +214,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "RectAnchoredText"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.RectAnchoredText),
@@ -236,7 +236,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Text"
 			rf.Fieldname = "Animates"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Text),
@@ -286,7 +286,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Circles"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -313,7 +313,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "HoveringTrigger"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -335,7 +335,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "DisplayConditions"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -367,7 +367,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Link"
 			rf.Fieldname = "ControlPoints"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Link),
@@ -419,7 +419,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Ellipses"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -456,7 +456,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "SVG"
 			rf.Fieldname = "Layers"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.SVG),
@@ -512,7 +512,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Lines"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -592,7 +592,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Links"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -656,7 +656,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Link"
 			rf.Fieldname = "TextAtArrowStart"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Link),
@@ -678,7 +678,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Link"
 			rf.Fieldname = "TextAtArrowEnd"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Link),
@@ -724,7 +724,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Paths"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -779,7 +779,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Polygones"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -825,7 +825,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Polylines"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -930,7 +930,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Rects"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -984,7 +984,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "RectAnchoredPaths"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -1050,7 +1050,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "RectAnchoredRects"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -1115,7 +1115,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Rect"
 			rf.Fieldname = "RectAnchoredTexts"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Rect),
@@ -1162,7 +1162,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "RectLinkLinks"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),
@@ -1249,7 +1249,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "Layer"
 			rf.Fieldname = "Texts"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Layer),

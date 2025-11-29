@@ -93,9 +93,8 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Node"
 				rf.Fieldname = "Buttons"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := button_.GongGetReverseFieldOwner(
 					buttonFormCallback.probe.stageOfInterest,
-					button_,
 					&rf)
 
 				var ok bool
@@ -335,9 +334,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Node"
 				rf.Fieldname = "Children"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := node_.GongGetReverseFieldOwner(
 					nodeFormCallback.probe.stageOfInterest,
-					node_,
 					&rf)
 
 				var ok bool
@@ -402,9 +400,8 @@ func (nodeFormCallback *NodeFormCallback) OnSave() {
 				_ = rf
 				rf.GongstructName = "Tree"
 				rf.Fieldname = "RootNodes"
-				formerAssociationSource := models.GetReverseFieldOwner(
+				formerAssociationSource := node_.GongGetReverseFieldOwner(
 					nodeFormCallback.probe.stageOfInterest,
-					node_,
 					&rf)
 
 				var ok bool

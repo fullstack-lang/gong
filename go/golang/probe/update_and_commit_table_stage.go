@@ -152,9 +152,8 @@ func updateAndCommitTable[T models.PointerToGongstruct](
 		}
 		for _, reverseField := range reverseFields {
 
-			value := models.GetReverseFieldOwnerName(
+			value := structInstance.GongGetReverseFieldOwnerName(
 				probe.stageOfInterest,
-				structInstance,
 				&reverseField)
 			name := fmt.Sprintf("%d", fieldIndex) + " " + value
 			fieldIndex++

@@ -1,70 +1,78 @@
 // generated code - do not edit
 package models
 
-func GetReverseFieldOwnerName(
-	stage *Stage,
-	instance any,
-	reverseField *ReverseField) (res string) {
+// insertion point
+func (inst *Content) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Content:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *JpgImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *PngImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *SvgImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return
 }
 
-func GetReverseFieldOwner[T Gongstruct](
-	stage *Stage,
-	instance *T,
-	reverseField *ReverseField) (res any) {
+func (inst *JpgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *PngImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+func (inst *SvgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
+
+// insertion point
+func (inst *Content) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
-	switch inst := any(instance).(type) {
+	switch reverseField.GongstructName {
 	// insertion point
-	case *Content:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *JpgImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *PngImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	case *SvgImage:
-		switch reverseField.GongstructName {
-		// insertion point
-		}
-
-	default:
-		_ = inst
 	}
 	return res
 }
+
+func (inst *JpgImage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *PngImage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
+func (inst *SvgImage) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+

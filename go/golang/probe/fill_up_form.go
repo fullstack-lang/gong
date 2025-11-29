@@ -90,7 +90,7 @@ map[ButtonImplSubTemplateId]string{
 			_ = rf
 			rf.GongstructName = "{{AssocStructName}}"
 			rf.Fieldname = "{{FieldName}}"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.{{AssocStructName}}),

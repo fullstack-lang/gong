@@ -37,7 +37,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "XLRow"
 			rf.Fieldname = "Cells"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.XLRow),
@@ -59,7 +59,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "XLSheet"
 			rf.Fieldname = "SheetCells"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.XLSheet),
@@ -97,7 +97,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "XLSheet"
 			rf.Fieldname = "Rows"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.XLSheet),
@@ -132,7 +132,7 @@ func FillUpForm(
 			_ = rf
 			rf.GongstructName = "XLFile"
 			rf.Fieldname = "Sheets"
-			reverseFieldOwner := models.GetReverseFieldOwner(probe.stageOfInterest, instanceWithInferedType, &rf)
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.XLFile),
