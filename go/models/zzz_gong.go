@@ -2735,6 +2735,10 @@ func (modelpkg *ModelPkg) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "Level1StackPkgGenPath",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "StaticPkgGenPath",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3084,6 +3088,8 @@ func (modelpkg *ModelPkg) GongGetFieldValue(fieldName string, stage *Stage) (res
 		res.valueString = modelpkg.FullstackPkgGenPath
 	case "StackPkgGenPath":
 		res.valueString = modelpkg.StackPkgGenPath
+	case "Level1StackPkgGenPath":
+		res.valueString = modelpkg.Level1StackPkgGenPath
 	case "StaticPkgGenPath":
 		res.valueString = modelpkg.StaticPkgGenPath
 	case "ProbePkgGenPath":
@@ -3398,6 +3404,8 @@ func (modelpkg *ModelPkg) GongSetFieldValue(fieldName string, value GongFieldVal
 		modelpkg.FullstackPkgGenPath = value.GetValueString()
 	case "StackPkgGenPath":
 		modelpkg.StackPkgGenPath = value.GetValueString()
+	case "Level1StackPkgGenPath":
+		modelpkg.Level1StackPkgGenPath = value.GetValueString()
 	case "StaticPkgGenPath":
 		modelpkg.StaticPkgGenPath = value.GetValueString()
 	case "ProbePkgGenPath":

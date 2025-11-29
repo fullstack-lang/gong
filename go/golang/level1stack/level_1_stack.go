@@ -1,4 +1,58 @@
-// do not modify, generated file
+package level1stack
+
+const DebouncedMarshallingLevel1StackInstanceTemplate = `// do not modify, generated file
+package stack
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"strings"
+	"sync"
+	"time"
+
+	"{{PkgPathRoot}}/fullstack"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/orm"
+	"{{PkgPathRoot}}/probe"
+
+	{{pkgname}}_go "{{PkgPathRoot}}"
+
+	"github.com/gin-gonic/gin"
+)
+
+// hook marhalling to stage
+type BeforeCommitImplementation struct {
+	marshallOnCommit string
+
+	packageName string
+
+	mu    sync.Mutex
+	timer *time.Timer
+}
+
+const debounceDuration = 2 * time.Second
+
+func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+	impl.mu.Lock()
+	defer impl.mu.Unlock()
+
+	// If a timer is already running, stop it.
+	if impl.timer != nil {
+		impl.timer.Stop()
+	}
+
+	// Start a new timer. When it fires, it will execute performMarshalling
+	// in a new goroutine.
+	impl.timer = time.AfterFunc(debounceDuration, func() {
+		go impl.performMarshalling(stage)
+	})
+}
+
+func (impl *BeforeCommitImplementation) performMarshalling(stage *models.Stage) {
+` + stackInstanceTemplateEpilogue
+
+const BlockingMarshallingLevel1StackInstanceTemplate = `// do not modify, generated file
 package level1stack
 
 import (
@@ -7,10 +61,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/fullstack-lang/gong/test/statemachines/go/models"
-	"github.com/fullstack-lang/gong/test/statemachines/go/probe"
+	"{{PkgPathRoot}}/models"
+	"{{PkgPathRoot}}/probe"
 
-	statemachines_go "github.com/fullstack-lang/gong/test/statemachines/go"
+	{{pkgname}}_go "{{PkgPathRoot}}"
 
 	"github.com/gin-gonic/gin"
 
@@ -25,7 +79,9 @@ type BeforeCommitImplementation struct {
 }
 
 func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
+` + stackInstanceTemplateEpilogue
 
+const stackInstanceTemplateEpilogue = `
 	// the ".go" is not provided
 	filename := impl.marshallOnCommit
 	if !strings.HasSuffix(filename, ".go") {
@@ -43,7 +99,7 @@ func (impl *BeforeCommitImplementation) BeforeCommit(stage *models.Stage) {
 		packageName = "main"
 	}
 
-	stage.Marshall(file, "github.com/fullstack-lang/gong/test/statemachines/go/models", packageName)
+	stage.Marshall(file, "{{PkgPathRoot}}/models", packageName)
 }
 
 type Level1Stack struct {
@@ -93,27 +149,28 @@ func NewLevel1Stack(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		miniStack.Probe = probe.NewProbe(
 			miniStack.R,
-			statemachines_go.GoModelsDir,
-			statemachines_go.GoDiagramsDir,
+			{{pkgname}}_go.GoModelsDir,
+			{{pkgname}}_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)
 	}
 
 	// add orchestration
-	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.Architecture](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Kill](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Message](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MessageType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Object](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Role](stage)
-	models.SetOrchestratorOnAfterUpdate[models.State](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateMachine](stage)
-	models.SetOrchestratorOnAfterUpdate[models.StateShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Transition_Shape](stage)
+	// insertion point{{` + string(rune(ModelGongNLevel1tackInstanceSet)) + `}}
 
 	return
+}
+`
+
+type ModelGongNLevel1tackInstanceStructInsertionId int
+
+const (
+	ModelGongNLevel1tackInstanceSet ModelGongNLevel1tackInstanceStructInsertionId = iota
+)
+
+var ModelGongNLevel1tackInstanceStructSubTemplateCode map[string]string = // new line
+map[string]string{
+	string(rune(ModelGongNLevel1tackInstanceSet)): `
+	models.SetOrchestratorOnAfterUpdate[models.{{Structname}}](stage)`,
 }

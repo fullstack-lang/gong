@@ -5,8 +5,8 @@ import (
 	"log"
 	"strconv"
 
+	level1stack "github.com/fullstack-lang/gong/lib/xlsx/go/level1stack"
 	xlsx_models "github.com/fullstack-lang/gong/lib/xlsx/go/models"
-	xlsx_stack "github.com/fullstack-lang/gong/lib/xlsx/go/stack"
 
 	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
@@ -36,7 +36,7 @@ func main() {
 	r := split_static.ServeStaticFiles(*logGINFlag)
 
 	// setup stack
-	stack := xlsx_stack.NewStack(r, "xlsx", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := level1stack.NewLevel1Stack("gantt", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stage := stack.Stage
 
 	args := flag.Args()
