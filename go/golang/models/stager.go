@@ -14,7 +14,7 @@ import (
 type Stager struct {
 	stage       *Stage
 	splitStage  *split.Stage
-	probeForm ProbeIF
+	probeForm   ProbeIF
 }
 
 func NewStager(
