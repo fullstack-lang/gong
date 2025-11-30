@@ -4,6 +4,19 @@
 
 .click-through {
     pointer-events: none;
+
+    /* Add these lines to prevent text selection highlighting */
+    /* -webkit-user-select: none; /* Safari */
+    /* user-select: none;         Standard syntax */
+}
+
+.unselectable .click-through {
+    -webkit-user-select: none; /* Safari */
+    user-select: none;         /* Standard syntax */
+}
+
+.noevents-area {
+    pointer-events: auto;
 }
 
 .moveable-line {

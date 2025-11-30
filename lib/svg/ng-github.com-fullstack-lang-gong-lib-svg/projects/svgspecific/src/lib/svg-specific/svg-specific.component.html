@@ -47,7 +47,7 @@
   <mat-divider style="border-top-width: 1.5px; border-top-color: rgba(0, 0, 0, 0.5); margin-top: 5px;"></mat-divider>
 }
 
-<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight">
+<svg #svgContainer [attr.width]="svgWidth" [attr.height]="svgHeight" [class.unselectable]="State !== StateEnumType.WAITING_FOR_USER_INPUT && State !== StateEnumType.NOT_EDITABLE">
   <g [attr.transform]="'translate(' + (-shiftX) + ' ' + (-shiftY) + ') scale(' + zoom + ')'">    
     <rect
       [attr.x]="0"
