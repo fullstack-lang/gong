@@ -1124,6 +1124,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_ModelPkg[identifier].StackPkgGenPath = fielValue
+				case "Level1StackPkgGenPath":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_ModelPkg[identifier].Level1StackPkgGenPath = fielValue
 				case "StaticPkgGenPath":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
