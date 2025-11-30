@@ -4,7 +4,7 @@ const VsCodeTasksConfig = `{
 	"version": "2.0.0",
 	"tasks": [
 	  {
-		"label": "02 - run {{pkgname}} -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+		"label": "02 - run {{pkgname}} --unmarshallFromCode=data/stage.go --marshallOnCommit=data/stage",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/cmd/{{pkgname}}"
@@ -13,9 +13,9 @@ const VsCodeTasksConfig = `{
 		"args": [
 		  "run",
 		  "main.go",
-		  "-unmarshallFromCode",
+		  "--unmarshallFromCode",
 		  "data/stage.go",
-		  "-marshallOnCommit",
+		  "--marshallOnCommit",
 		  "data/stage.go"
 		],
 		"group": "build"
@@ -41,50 +41,50 @@ const VsCodeTasksConfig = `{
 		"problemMatcher": []
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}}",
+		"label": "01 - gong generate {{pkgname}}",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
 		},
-		"command": "gongc",
+		"command": "gong generate",
 		"group": "build",
 		"args": []
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}} -skipNg",
+		"label": "01 - gong generate {{pkgname}} --skipNg",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
 		},
-		"command": "gongc",
+		"command": "gong generate",
 		"group": "build",
 		"args": [
-		  "-skipNg"
+		  "--skipNg"
 		]
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}} -skipGoModCommands",
+		"label": "01 - gong generate {{pkgname}} --skipGoModCommands",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
 		},
-		"command": "gongc",
+		"command": "gong generate",
 		"group": "build",
 		"args": [
-			"-skipGoModCommands"
+			"--skipGoModCommands"
 		]
 	  },
 	  {
-		"label": "01 - gongc {{pkgname}} -skipNg -skipGoModCommands",
+		"label": "01 - gong generate {{pkgname}} --skipNg --skipGoModCommands",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
 		},
-		"command": "gongc",
+		"command": "gong generate",
 		"group": "build",
 		"args": [
-		  "-skipNg",
-		  "-skipGoModCommands"
+		  "--skipNg",
+		  "--skipGoModCommands"
 		]
 	  },
 	  {
