@@ -213,6 +213,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StackPkgGenPath", instanceWithInferedType.StackPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("Level1StackPkgGenPath", instanceWithInferedType.Level1StackPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("StaticPkgGenPath", instanceWithInferedType.StaticPkgGenPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ProbePkgGenPath", instanceWithInferedType.ProbePkgGenPath, instanceWithInferedType, probe.formStage, formGroup,

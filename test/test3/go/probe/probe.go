@@ -11,7 +11,6 @@ import (
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
 
-	gong_fullstack "github.com/fullstack-lang/gong/go/fullstack"
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
@@ -51,8 +50,8 @@ func NewProbe(
 	splitStage.Commit()
 
 	// load the gong
-	gongStage, _ := gong_fullstack.NewStackInstance(r, stageOfInterest.GetName())
-	gong_models.LoadEmbedded(gongStage, goModelsDir)
+	stage := gong_models.NewStage(stageOfInterest.GetName())
+	gong_models.LoadEmbedded(stage, goModelsDir)
 
 	// treeForSelectingDate that is on the sidebar
 	treeStage, _ := gongtree_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTreeSidebarStageName())
@@ -65,15 +64,16 @@ func NewProbe(
 	formStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
-	probe = new(Probe)
-	probe.r = r
-	probe.stageOfInterest = stageOfInterest
-	probe.gongStage = gongStage
-	probe.treeStage = treeStage
-	probe.formStage = formStage
-	probe.tableStage = tableStage
-	probe.splitStage = splitStage
-
+	probe = &Probe{
+		r:               r,
+		stageOfInterest: stageOfInterest,
+		gongStage:       stage,
+		treeStage:       treeStage,
+		formStage:       formStage,
+		tableStage:      tableStage,
+		splitStage:      splitStage,
+	}
+		
 	// prepare the receiving AsSplitArea
 	probe.diagramEditor = &split.AsSplitArea{
 		Name:             "Bottom",

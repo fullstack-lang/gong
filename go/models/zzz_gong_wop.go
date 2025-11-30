@@ -180,6 +180,8 @@ type ModelPkg_WOP struct {
 
 	StackPkgGenPath string
 
+	Level1StackPkgGenPath string
+
 	StaticPkgGenPath string
 
 	ProbePkgGenPath string
@@ -207,6 +209,7 @@ func (from *ModelPkg) CopyBasicFields(to *ModelPkg) {
 	to.ControllersPkgGenPath = from.ControllersPkgGenPath
 	to.FullstackPkgGenPath = from.FullstackPkgGenPath
 	to.StackPkgGenPath = from.StackPkgGenPath
+	to.Level1StackPkgGenPath = from.Level1StackPkgGenPath
 	to.StaticPkgGenPath = from.StaticPkgGenPath
 	to.ProbePkgGenPath = from.ProbePkgGenPath
 	to.NgWorkspacePath = from.NgWorkspacePath

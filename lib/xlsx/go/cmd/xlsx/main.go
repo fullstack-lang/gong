@@ -5,10 +5,8 @@ import (
 	"log"
 	"strconv"
 
+	level1stack "github.com/fullstack-lang/gong/lib/xlsx/go/level1stack"
 	xlsx_models "github.com/fullstack-lang/gong/lib/xlsx/go/models"
-	xlsx_stack "github.com/fullstack-lang/gong/lib/xlsx/go/stack"
-
-	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -32,11 +30,8 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup the static file server and get the controller
-	r := split_static.ServeStaticFiles(*logGINFlag)
-
 	// setup stack
-	stack := xlsx_stack.NewStack(r, "xlsx", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := level1stack.NewLevel1Stack("gantt", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stage := stack.Stage
 
 	args := flag.Args()
@@ -56,10 +51,10 @@ func main() {
 
 	stack.Probe.Refresh()
 
-	NewStager(r, stack.Stage)
+	NewStager(stack.R, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
+	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
