@@ -29,10 +29,10 @@
       "command": "npx cypress open"
     },
     {
-      "label": "00 - go install gongc",
+      "label": "00 - go install gong",
       "type": "shell",
       "options": {
-        "cwd": "go/cmd/gongc"
+        "cwd": "go/cmd/gong"
       },
       "command": "go",
       "args": [
