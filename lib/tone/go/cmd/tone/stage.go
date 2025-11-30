@@ -21,6 +21,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
+	const __write__local_time = "2025-11-30 18:25:38.054678 CET"
+	const __write__utc_time__ = "2025-11-30 17:25:38.054678 UTC"
+
+	const __commitId__ = "0000000001"
+
 	// Declaration of instances to stage
 
 	__Freqency__000000_B4 := (&models.Freqency{}).Stage(stage)
@@ -138,3 +143,4 @@ func _(stage *models.Stage) {
 	__Note__000009_9_D5.Frequencies = append(__Note__000009_9_D5.Frequencies, __Freqency__000003_D5)
 	// setup of Player instances pointers
 }
+

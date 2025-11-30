@@ -38,6 +38,7 @@ func main() {
 	// setup model stack with its probe
 	stack := {{pkgname}}_stack.NewStack(r, "{{pkgname}}", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	{{pkgname}}_models.NewStager(r, stack.Stage, stack.Probe)
 

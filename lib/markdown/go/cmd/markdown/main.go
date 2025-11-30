@@ -36,6 +36,7 @@ func main() {
 	// setup model stack with its probe
 	stack := markdown_stack.NewStack(r, "markdown", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	NewStager(r, stack.Stage)
 
