@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Chapters           map[*Chapter]any
+	Chapters           map[*Chapter]struct{}
 	Chapters_mapString map[string]*Chapter
 
 	// insertion point for slice of pointers maps
@@ -103,7 +104,7 @@ type Stage struct {
 	OnAfterChapterDeleteCallback OnAfterDeleteInterface[Chapter]
 	OnAfterChapterReadCallback   OnAfterReadInterface[Chapter]
 
-	Contents           map[*Content]any
+	Contents           map[*Content]struct{}
 	Contents_mapString map[string]*Content
 
 	// insertion point for slice of pointers maps
@@ -114,7 +115,7 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
-	Pages           map[*Page]any
+	Pages           map[*Page]struct{}
 	Pages_mapString map[string]*Page
 
 	// insertion point for slice of pointers maps
@@ -207,7 +208,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -282,7 +283,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -396,13 +397,13 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Chapters:           make(map[*Chapter]any),
+		Chapters:           make(map[*Chapter]struct{}),
 		Chapters_mapString: make(map[string]*Chapter),
 
-		Contents:           make(map[*Content]any),
+		Contents:           make(map[*Content]struct{}),
 		Contents_mapString: make(map[string]*Content),
 
-		Pages:           make(map[*Page]any),
+		Pages:           make(map[*Page]struct{}),
 		Pages_mapString: make(map[string]*Page),
 
 		// end of insertion point
@@ -548,7 +549,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 
 	if _, ok := stage.Chapters[chapter]; !ok {
-		stage.Chapters[chapter] = __member
+		stage.Chapters[chapter] = struct{}{}
 		stage.ChapterMap_Staged_Order[chapter] = stage.ChapterOrder
 		stage.ChapterOrder++
 		stage.new[chapter] = struct{}{}
@@ -619,7 +620,7 @@ func (chapter *Chapter) GetName() (res string) {
 func (content *Content) Stage(stage *Stage) *Content {
 
 	if _, ok := stage.Contents[content]; !ok {
-		stage.Contents[content] = __member
+		stage.Contents[content] = struct{}{}
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
 		stage.new[content] = struct{}{}
@@ -690,7 +691,7 @@ func (content *Content) GetName() (res string) {
 func (page *Page) Stage(stage *Stage) *Page {
 
 	if _, ok := stage.Pages[page]; !ok {
-		stage.Pages[page] = __member
+		stage.Pages[page] = struct{}{}
 		stage.PageMap_Staged_Order[page] = stage.PageOrder
 		stage.PageOrder++
 		stage.new[page] = struct{}{}
@@ -771,17 +772,17 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Chapters = make(map[*Chapter]any)
+	stage.Chapters = make(map[*Chapter]struct{})
 	stage.Chapters_mapString = make(map[string]*Chapter)
 	stage.ChapterMap_Staged_Order = make(map[*Chapter]uint)
 	stage.ChapterOrder = 0
 
-	stage.Contents = make(map[*Content]any)
+	stage.Contents = make(map[*Content]struct{})
 	stage.Contents_mapString = make(map[string]*Content)
 	stage.ContentMap_Staged_Order = make(map[*Content]uint)
 	stage.ContentOrder = 0
 
-	stage.Pages = make(map[*Page]any)
+	stage.Pages = make(map[*Page]struct{})
 	stage.Pages_mapString = make(map[string]*Page)
 	stage.PageMap_Staged_Order = make(map[*Page]uint)
 	stage.PageOrder = 0
@@ -854,7 +855,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -918,17 +919,17 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Chapter:
-		return any(&stage.Chapters).(*map[*Type]any)
+		return any(&stage.Chapters).(*map[*Type]struct{})
 	case Content:
-		return any(&stage.Contents).(*map[*Type]any)
+		return any(&stage.Contents).(*map[*Type]struct{})
 	case Page:
-		return any(&stage.Pages).(*map[*Type]any)
+		return any(&stage.Pages).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -936,17 +937,17 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Chapter:
-		return any(&stage.Chapters).(*map[Type]any)
+		return any(&stage.Chapters).(*map[Type]struct{})
 	case *Content:
-		return any(&stage.Contents).(*map[Type]any)
+		return any(&stage.Contents).(*map[Type]struct{})
 	case *Page:
-		return any(&stage.Pages).(*map[Type]any)
+		return any(&stage.Pages).(*map[Type]struct{})
 	default:
 		return nil
 	}

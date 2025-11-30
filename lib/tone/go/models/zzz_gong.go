@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Freqencys           map[*Freqency]any
+	Freqencys           map[*Freqency]struct{}
 	Freqencys_mapString map[string]*Freqency
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterFreqencyDeleteCallback OnAfterDeleteInterface[Freqency]
 	OnAfterFreqencyReadCallback   OnAfterReadInterface[Freqency]
 
-	Notes           map[*Note]any
+	Notes           map[*Note]struct{}
 	Notes_mapString map[string]*Note
 
 	// insertion point for slice of pointers maps
@@ -112,7 +113,7 @@ type Stage struct {
 	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
 
-	Players           map[*Player]any
+	Players           map[*Player]struct{}
 	Players_mapString map[string]*Player
 
 	// insertion point for slice of pointers maps
@@ -205,7 +206,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -280,7 +281,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -394,13 +395,13 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Freqencys:           make(map[*Freqency]any),
+		Freqencys:           make(map[*Freqency]struct{}),
 		Freqencys_mapString: make(map[string]*Freqency),
 
-		Notes:           make(map[*Note]any),
+		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
 
-		Players:           make(map[*Player]any),
+		Players:           make(map[*Player]struct{}),
 		Players_mapString: make(map[string]*Player),
 
 		// end of insertion point
@@ -546,7 +547,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 
 	if _, ok := stage.Freqencys[freqency]; !ok {
-		stage.Freqencys[freqency] = __member
+		stage.Freqencys[freqency] = struct{}{}
 		stage.FreqencyMap_Staged_Order[freqency] = stage.FreqencyOrder
 		stage.FreqencyOrder++
 		stage.new[freqency] = struct{}{}
@@ -617,7 +618,7 @@ func (freqency *Freqency) GetName() (res string) {
 func (note *Note) Stage(stage *Stage) *Note {
 
 	if _, ok := stage.Notes[note]; !ok {
-		stage.Notes[note] = __member
+		stage.Notes[note] = struct{}{}
 		stage.NoteMap_Staged_Order[note] = stage.NoteOrder
 		stage.NoteOrder++
 		stage.new[note] = struct{}{}
@@ -688,7 +689,7 @@ func (note *Note) GetName() (res string) {
 func (player *Player) Stage(stage *Stage) *Player {
 
 	if _, ok := stage.Players[player]; !ok {
-		stage.Players[player] = __member
+		stage.Players[player] = struct{}{}
 		stage.PlayerMap_Staged_Order[player] = stage.PlayerOrder
 		stage.PlayerOrder++
 		stage.new[player] = struct{}{}
@@ -769,17 +770,17 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Freqencys = make(map[*Freqency]any)
+	stage.Freqencys = make(map[*Freqency]struct{})
 	stage.Freqencys_mapString = make(map[string]*Freqency)
 	stage.FreqencyMap_Staged_Order = make(map[*Freqency]uint)
 	stage.FreqencyOrder = 0
 
-	stage.Notes = make(map[*Note]any)
+	stage.Notes = make(map[*Note]struct{})
 	stage.Notes_mapString = make(map[string]*Note)
 	stage.NoteMap_Staged_Order = make(map[*Note]uint)
 	stage.NoteOrder = 0
 
-	stage.Players = make(map[*Player]any)
+	stage.Players = make(map[*Player]struct{})
 	stage.Players_mapString = make(map[string]*Player)
 	stage.PlayerMap_Staged_Order = make(map[*Player]uint)
 	stage.PlayerOrder = 0
@@ -852,7 +853,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -916,17 +917,17 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Freqency:
-		return any(&stage.Freqencys).(*map[*Type]any)
+		return any(&stage.Freqencys).(*map[*Type]struct{})
 	case Note:
-		return any(&stage.Notes).(*map[*Type]any)
+		return any(&stage.Notes).(*map[*Type]struct{})
 	case Player:
-		return any(&stage.Players).(*map[*Type]any)
+		return any(&stage.Players).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -934,17 +935,17 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Freqency:
-		return any(&stage.Freqencys).(*map[Type]any)
+		return any(&stage.Freqencys).(*map[Type]struct{})
 	case *Note:
-		return any(&stage.Notes).(*map[Type]any)
+		return any(&stage.Notes).(*map[Type]struct{})
 	case *Player:
-		return any(&stage.Players).(*map[Type]any)
+		return any(&stage.Players).(*map[Type]struct{})
 	default:
 		return nil
 	}
