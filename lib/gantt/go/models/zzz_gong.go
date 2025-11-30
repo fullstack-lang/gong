@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Arrows           map[*Arrow]any
+	Arrows           map[*Arrow]struct{}
 	Arrows_mapString map[string]*Arrow
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterArrowDeleteCallback OnAfterDeleteInterface[Arrow]
 	OnAfterArrowReadCallback   OnAfterReadInterface[Arrow]
 
-	Bars           map[*Bar]any
+	Bars           map[*Bar]struct{}
 	Bars_mapString map[string]*Bar
 
 	// insertion point for slice of pointers maps
@@ -110,7 +111,7 @@ type Stage struct {
 	OnAfterBarDeleteCallback OnAfterDeleteInterface[Bar]
 	OnAfterBarReadCallback   OnAfterReadInterface[Bar]
 
-	Gantts           map[*Gantt]any
+	Gantts           map[*Gantt]struct{}
 	Gantts_mapString map[string]*Gantt
 
 	// insertion point for slice of pointers maps
@@ -127,7 +128,7 @@ type Stage struct {
 	OnAfterGanttDeleteCallback OnAfterDeleteInterface[Gantt]
 	OnAfterGanttReadCallback   OnAfterReadInterface[Gantt]
 
-	Groups           map[*Group]any
+	Groups           map[*Group]struct{}
 	Groups_mapString map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -138,7 +139,7 @@ type Stage struct {
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
-	Lanes           map[*Lane]any
+	Lanes           map[*Lane]struct{}
 	Lanes_mapString map[string]*Lane
 
 	// insertion point for slice of pointers maps
@@ -149,7 +150,7 @@ type Stage struct {
 	OnAfterLaneDeleteCallback OnAfterDeleteInterface[Lane]
 	OnAfterLaneReadCallback   OnAfterReadInterface[Lane]
 
-	LaneUses           map[*LaneUse]any
+	LaneUses           map[*LaneUse]struct{}
 	LaneUses_mapString map[string]*LaneUse
 
 	// insertion point for slice of pointers maps
@@ -158,7 +159,7 @@ type Stage struct {
 	OnAfterLaneUseDeleteCallback OnAfterDeleteInterface[LaneUse]
 	OnAfterLaneUseReadCallback   OnAfterReadInterface[LaneUse]
 
-	Milestones           map[*Milestone]any
+	Milestones           map[*Milestone]struct{}
 	Milestones_mapString map[string]*Milestone
 
 	// insertion point for slice of pointers maps
@@ -265,7 +266,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -396,7 +397,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -526,25 +527,25 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Arrows:           make(map[*Arrow]any),
+		Arrows:           make(map[*Arrow]struct{}),
 		Arrows_mapString: make(map[string]*Arrow),
 
-		Bars:           make(map[*Bar]any),
+		Bars:           make(map[*Bar]struct{}),
 		Bars_mapString: make(map[string]*Bar),
 
-		Gantts:           make(map[*Gantt]any),
+		Gantts:           make(map[*Gantt]struct{}),
 		Gantts_mapString: make(map[string]*Gantt),
 
-		Groups:           make(map[*Group]any),
+		Groups:           make(map[*Group]struct{}),
 		Groups_mapString: make(map[string]*Group),
 
-		Lanes:           make(map[*Lane]any),
+		Lanes:           make(map[*Lane]struct{}),
 		Lanes_mapString: make(map[string]*Lane),
 
-		LaneUses:           make(map[*LaneUse]any),
+		LaneUses:           make(map[*LaneUse]struct{}),
 		LaneUses_mapString: make(map[string]*LaneUse),
 
-		Milestones:           make(map[*Milestone]any),
+		Milestones:           make(map[*Milestone]struct{}),
 		Milestones_mapString: make(map[string]*Milestone),
 
 		// end of insertion point
@@ -722,7 +723,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 
 	if _, ok := stage.Arrows[arrow]; !ok {
-		stage.Arrows[arrow] = __member
+		stage.Arrows[arrow] = struct{}{}
 		stage.ArrowMap_Staged_Order[arrow] = stage.ArrowOrder
 		stage.ArrowOrder++
 		stage.new[arrow] = struct{}{}
@@ -793,7 +794,7 @@ func (arrow *Arrow) GetName() (res string) {
 func (bar *Bar) Stage(stage *Stage) *Bar {
 
 	if _, ok := stage.Bars[bar]; !ok {
-		stage.Bars[bar] = __member
+		stage.Bars[bar] = struct{}{}
 		stage.BarMap_Staged_Order[bar] = stage.BarOrder
 		stage.BarOrder++
 		stage.new[bar] = struct{}{}
@@ -864,7 +865,7 @@ func (bar *Bar) GetName() (res string) {
 func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 
 	if _, ok := stage.Gantts[gantt]; !ok {
-		stage.Gantts[gantt] = __member
+		stage.Gantts[gantt] = struct{}{}
 		stage.GanttMap_Staged_Order[gantt] = stage.GanttOrder
 		stage.GanttOrder++
 		stage.new[gantt] = struct{}{}
@@ -935,7 +936,7 @@ func (gantt *Gantt) GetName() (res string) {
 func (group *Group) Stage(stage *Stage) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = __member
+		stage.Groups[group] = struct{}{}
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
 		stage.new[group] = struct{}{}
@@ -1006,7 +1007,7 @@ func (group *Group) GetName() (res string) {
 func (lane *Lane) Stage(stage *Stage) *Lane {
 
 	if _, ok := stage.Lanes[lane]; !ok {
-		stage.Lanes[lane] = __member
+		stage.Lanes[lane] = struct{}{}
 		stage.LaneMap_Staged_Order[lane] = stage.LaneOrder
 		stage.LaneOrder++
 		stage.new[lane] = struct{}{}
@@ -1077,7 +1078,7 @@ func (lane *Lane) GetName() (res string) {
 func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 
 	if _, ok := stage.LaneUses[laneuse]; !ok {
-		stage.LaneUses[laneuse] = __member
+		stage.LaneUses[laneuse] = struct{}{}
 		stage.LaneUseMap_Staged_Order[laneuse] = stage.LaneUseOrder
 		stage.LaneUseOrder++
 		stage.new[laneuse] = struct{}{}
@@ -1148,7 +1149,7 @@ func (laneuse *LaneUse) GetName() (res string) {
 func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 
 	if _, ok := stage.Milestones[milestone]; !ok {
-		stage.Milestones[milestone] = __member
+		stage.Milestones[milestone] = struct{}{}
 		stage.MilestoneMap_Staged_Order[milestone] = stage.MilestoneOrder
 		stage.MilestoneOrder++
 		stage.new[milestone] = struct{}{}
@@ -1237,37 +1238,37 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Arrows = make(map[*Arrow]any)
+	stage.Arrows = make(map[*Arrow]struct{})
 	stage.Arrows_mapString = make(map[string]*Arrow)
 	stage.ArrowMap_Staged_Order = make(map[*Arrow]uint)
 	stage.ArrowOrder = 0
 
-	stage.Bars = make(map[*Bar]any)
+	stage.Bars = make(map[*Bar]struct{})
 	stage.Bars_mapString = make(map[string]*Bar)
 	stage.BarMap_Staged_Order = make(map[*Bar]uint)
 	stage.BarOrder = 0
 
-	stage.Gantts = make(map[*Gantt]any)
+	stage.Gantts = make(map[*Gantt]struct{})
 	stage.Gantts_mapString = make(map[string]*Gantt)
 	stage.GanttMap_Staged_Order = make(map[*Gantt]uint)
 	stage.GanttOrder = 0
 
-	stage.Groups = make(map[*Group]any)
+	stage.Groups = make(map[*Group]struct{})
 	stage.Groups_mapString = make(map[string]*Group)
 	stage.GroupMap_Staged_Order = make(map[*Group]uint)
 	stage.GroupOrder = 0
 
-	stage.Lanes = make(map[*Lane]any)
+	stage.Lanes = make(map[*Lane]struct{})
 	stage.Lanes_mapString = make(map[string]*Lane)
 	stage.LaneMap_Staged_Order = make(map[*Lane]uint)
 	stage.LaneOrder = 0
 
-	stage.LaneUses = make(map[*LaneUse]any)
+	stage.LaneUses = make(map[*LaneUse]struct{})
 	stage.LaneUses_mapString = make(map[string]*LaneUse)
 	stage.LaneUseMap_Staged_Order = make(map[*LaneUse]uint)
 	stage.LaneUseOrder = 0
 
-	stage.Milestones = make(map[*Milestone]any)
+	stage.Milestones = make(map[*Milestone]struct{})
 	stage.Milestones_mapString = make(map[string]*Milestone)
 	stage.MilestoneMap_Staged_Order = make(map[*Milestone]uint)
 	stage.MilestoneOrder = 0
@@ -1368,7 +1369,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1448,25 +1449,25 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Arrow:
-		return any(&stage.Arrows).(*map[*Type]any)
+		return any(&stage.Arrows).(*map[*Type]struct{})
 	case Bar:
-		return any(&stage.Bars).(*map[*Type]any)
+		return any(&stage.Bars).(*map[*Type]struct{})
 	case Gantt:
-		return any(&stage.Gantts).(*map[*Type]any)
+		return any(&stage.Gantts).(*map[*Type]struct{})
 	case Group:
-		return any(&stage.Groups).(*map[*Type]any)
+		return any(&stage.Groups).(*map[*Type]struct{})
 	case Lane:
-		return any(&stage.Lanes).(*map[*Type]any)
+		return any(&stage.Lanes).(*map[*Type]struct{})
 	case LaneUse:
-		return any(&stage.LaneUses).(*map[*Type]any)
+		return any(&stage.LaneUses).(*map[*Type]struct{})
 	case Milestone:
-		return any(&stage.Milestones).(*map[*Type]any)
+		return any(&stage.Milestones).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1474,25 +1475,25 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Arrow:
-		return any(&stage.Arrows).(*map[Type]any)
+		return any(&stage.Arrows).(*map[Type]struct{})
 	case *Bar:
-		return any(&stage.Bars).(*map[Type]any)
+		return any(&stage.Bars).(*map[Type]struct{})
 	case *Gantt:
-		return any(&stage.Gantts).(*map[Type]any)
+		return any(&stage.Gantts).(*map[Type]struct{})
 	case *Group:
-		return any(&stage.Groups).(*map[Type]any)
+		return any(&stage.Groups).(*map[Type]struct{})
 	case *Lane:
-		return any(&stage.Lanes).(*map[Type]any)
+		return any(&stage.Lanes).(*map[Type]struct{})
 	case *LaneUse:
-		return any(&stage.LaneUses).(*map[Type]any)
+		return any(&stage.LaneUses).(*map[Type]struct{})
 	case *Milestone:
-		return any(&stage.Milestones).(*map[Type]any)
+		return any(&stage.Milestones).(*map[Type]struct{})
 	default:
 		return nil
 	}

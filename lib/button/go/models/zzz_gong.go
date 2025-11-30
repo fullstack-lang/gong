@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Buttons           map[*Button]any
+	Buttons           map[*Button]struct{}
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
-	ButtonToggles           map[*ButtonToggle]any
+	ButtonToggles           map[*ButtonToggle]struct{}
 	ButtonToggles_mapString map[string]*ButtonToggle
 
 	// insertion point for slice of pointers maps
@@ -110,7 +111,7 @@ type Stage struct {
 	OnAfterButtonToggleDeleteCallback OnAfterDeleteInterface[ButtonToggle]
 	OnAfterButtonToggleReadCallback   OnAfterReadInterface[ButtonToggle]
 
-	Groups           map[*Group]any
+	Groups           map[*Group]struct{}
 	Groups_mapString map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -121,7 +122,7 @@ type Stage struct {
 	OnAfterGroupDeleteCallback OnAfterDeleteInterface[Group]
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
-	GroupToogles           map[*GroupToogle]any
+	GroupToogles           map[*GroupToogle]struct{}
 	GroupToogles_mapString map[string]*GroupToogle
 
 	// insertion point for slice of pointers maps
@@ -132,7 +133,7 @@ type Stage struct {
 	OnAfterGroupToogleDeleteCallback OnAfterDeleteInterface[GroupToogle]
 	OnAfterGroupToogleReadCallback   OnAfterReadInterface[GroupToogle]
 
-	Layouts           map[*Layout]any
+	Layouts           map[*Layout]struct{}
 	Layouts_mapString map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -235,7 +236,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -338,7 +339,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -460,19 +461,19 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Buttons:           make(map[*Button]any),
+		Buttons:           make(map[*Button]struct{}),
 		Buttons_mapString: make(map[string]*Button),
 
-		ButtonToggles:           make(map[*ButtonToggle]any),
+		ButtonToggles:           make(map[*ButtonToggle]struct{}),
 		ButtonToggles_mapString: make(map[string]*ButtonToggle),
 
-		Groups:           make(map[*Group]any),
+		Groups:           make(map[*Group]struct{}),
 		Groups_mapString: make(map[string]*Group),
 
-		GroupToogles:           make(map[*GroupToogle]any),
+		GroupToogles:           make(map[*GroupToogle]struct{}),
 		GroupToogles_mapString: make(map[string]*GroupToogle),
 
-		Layouts:           make(map[*Layout]any),
+		Layouts:           make(map[*Layout]struct{}),
 		Layouts_mapString: make(map[string]*Layout),
 
 		// end of insertion point
@@ -634,7 +635,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (button *Button) Stage(stage *Stage) *Button {
 
 	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = __member
+		stage.Buttons[button] = struct{}{}
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
 		stage.new[button] = struct{}{}
@@ -705,7 +706,7 @@ func (button *Button) GetName() (res string) {
 func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 
 	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
-		stage.ButtonToggles[buttontoggle] = __member
+		stage.ButtonToggles[buttontoggle] = struct{}{}
 		stage.ButtonToggleMap_Staged_Order[buttontoggle] = stage.ButtonToggleOrder
 		stage.ButtonToggleOrder++
 		stage.new[buttontoggle] = struct{}{}
@@ -776,7 +777,7 @@ func (buttontoggle *ButtonToggle) GetName() (res string) {
 func (group *Group) Stage(stage *Stage) *Group {
 
 	if _, ok := stage.Groups[group]; !ok {
-		stage.Groups[group] = __member
+		stage.Groups[group] = struct{}{}
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
 		stage.new[group] = struct{}{}
@@ -847,7 +848,7 @@ func (group *Group) GetName() (res string) {
 func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 
 	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
-		stage.GroupToogles[grouptoogle] = __member
+		stage.GroupToogles[grouptoogle] = struct{}{}
 		stage.GroupToogleMap_Staged_Order[grouptoogle] = stage.GroupToogleOrder
 		stage.GroupToogleOrder++
 		stage.new[grouptoogle] = struct{}{}
@@ -918,7 +919,7 @@ func (grouptoogle *GroupToogle) GetName() (res string) {
 func (layout *Layout) Stage(stage *Stage) *Layout {
 
 	if _, ok := stage.Layouts[layout]; !ok {
-		stage.Layouts[layout] = __member
+		stage.Layouts[layout] = struct{}{}
 		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
 		stage.LayoutOrder++
 		stage.new[layout] = struct{}{}
@@ -1003,27 +1004,27 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Buttons = make(map[*Button]any)
+	stage.Buttons = make(map[*Button]struct{})
 	stage.Buttons_mapString = make(map[string]*Button)
 	stage.ButtonMap_Staged_Order = make(map[*Button]uint)
 	stage.ButtonOrder = 0
 
-	stage.ButtonToggles = make(map[*ButtonToggle]any)
+	stage.ButtonToggles = make(map[*ButtonToggle]struct{})
 	stage.ButtonToggles_mapString = make(map[string]*ButtonToggle)
 	stage.ButtonToggleMap_Staged_Order = make(map[*ButtonToggle]uint)
 	stage.ButtonToggleOrder = 0
 
-	stage.Groups = make(map[*Group]any)
+	stage.Groups = make(map[*Group]struct{})
 	stage.Groups_mapString = make(map[string]*Group)
 	stage.GroupMap_Staged_Order = make(map[*Group]uint)
 	stage.GroupOrder = 0
 
-	stage.GroupToogles = make(map[*GroupToogle]any)
+	stage.GroupToogles = make(map[*GroupToogle]struct{})
 	stage.GroupToogles_mapString = make(map[string]*GroupToogle)
 	stage.GroupToogleMap_Staged_Order = make(map[*GroupToogle]uint)
 	stage.GroupToogleOrder = 0
 
-	stage.Layouts = make(map[*Layout]any)
+	stage.Layouts = make(map[*Layout]struct{})
 	stage.Layouts_mapString = make(map[string]*Layout)
 	stage.LayoutMap_Staged_Order = make(map[*Layout]uint)
 	stage.LayoutOrder = 0
@@ -1110,7 +1111,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1182,21 +1183,21 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Button:
-		return any(&stage.Buttons).(*map[*Type]any)
+		return any(&stage.Buttons).(*map[*Type]struct{})
 	case ButtonToggle:
-		return any(&stage.ButtonToggles).(*map[*Type]any)
+		return any(&stage.ButtonToggles).(*map[*Type]struct{})
 	case Group:
-		return any(&stage.Groups).(*map[*Type]any)
+		return any(&stage.Groups).(*map[*Type]struct{})
 	case GroupToogle:
-		return any(&stage.GroupToogles).(*map[*Type]any)
+		return any(&stage.GroupToogles).(*map[*Type]struct{})
 	case Layout:
-		return any(&stage.Layouts).(*map[*Type]any)
+		return any(&stage.Layouts).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1204,21 +1205,21 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Button:
-		return any(&stage.Buttons).(*map[Type]any)
+		return any(&stage.Buttons).(*map[Type]struct{})
 	case *ButtonToggle:
-		return any(&stage.ButtonToggles).(*map[Type]any)
+		return any(&stage.ButtonToggles).(*map[Type]struct{})
 	case *Group:
-		return any(&stage.Groups).(*map[Type]any)
+		return any(&stage.Groups).(*map[Type]struct{})
 	case *GroupToogle:
-		return any(&stage.GroupToogles).(*map[Type]any)
+		return any(&stage.GroupToogles).(*map[Type]struct{})
 	case *Layout:
-		return any(&stage.Layouts).(*map[Type]any)
+		return any(&stage.Layouts).(*map[Type]struct{})
 	default:
 		return nil
 	}

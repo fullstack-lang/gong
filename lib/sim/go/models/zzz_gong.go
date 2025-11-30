@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Commands           map[*Command]any
+	Commands           map[*Command]struct{}
 	Commands_mapString map[string]*Command
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterCommandDeleteCallback OnAfterDeleteInterface[Command]
 	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
 
-	DummyAgents           map[*DummyAgent]any
+	DummyAgents           map[*DummyAgent]struct{}
 	DummyAgents_mapString map[string]*DummyAgent
 
 	// insertion point for slice of pointers maps
@@ -110,7 +111,7 @@ type Stage struct {
 	OnAfterDummyAgentDeleteCallback OnAfterDeleteInterface[DummyAgent]
 	OnAfterDummyAgentReadCallback   OnAfterReadInterface[DummyAgent]
 
-	Engines           map[*Engine]any
+	Engines           map[*Engine]struct{}
 	Engines_mapString map[string]*Engine
 
 	// insertion point for slice of pointers maps
@@ -119,7 +120,7 @@ type Stage struct {
 	OnAfterEngineDeleteCallback OnAfterDeleteInterface[Engine]
 	OnAfterEngineReadCallback   OnAfterReadInterface[Engine]
 
-	Events           map[*Event]any
+	Events           map[*Event]struct{}
 	Events_mapString map[string]*Event
 
 	// insertion point for slice of pointers maps
@@ -128,7 +129,7 @@ type Stage struct {
 	OnAfterEventDeleteCallback OnAfterDeleteInterface[Event]
 	OnAfterEventReadCallback   OnAfterReadInterface[Event]
 
-	Statuss           map[*Status]any
+	Statuss           map[*Status]struct{}
 	Statuss_mapString map[string]*Status
 
 	// insertion point for slice of pointers maps
@@ -137,7 +138,7 @@ type Stage struct {
 	OnAfterStatusDeleteCallback OnAfterDeleteInterface[Status]
 	OnAfterStatusReadCallback   OnAfterReadInterface[Status]
 
-	UpdateStates           map[*UpdateState]any
+	UpdateStates           map[*UpdateState]struct{}
 	UpdateStates_mapString map[string]*UpdateState
 
 	// insertion point for slice of pointers maps
@@ -239,7 +240,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -356,7 +357,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -482,22 +483,22 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Commands:           make(map[*Command]any),
+		Commands:           make(map[*Command]struct{}),
 		Commands_mapString: make(map[string]*Command),
 
-		DummyAgents:           make(map[*DummyAgent]any),
+		DummyAgents:           make(map[*DummyAgent]struct{}),
 		DummyAgents_mapString: make(map[string]*DummyAgent),
 
-		Engines:           make(map[*Engine]any),
+		Engines:           make(map[*Engine]struct{}),
 		Engines_mapString: make(map[string]*Engine),
 
-		Events:           make(map[*Event]any),
+		Events:           make(map[*Event]struct{}),
 		Events_mapString: make(map[string]*Event),
 
-		Statuss:           make(map[*Status]any),
+		Statuss:           make(map[*Status]struct{}),
 		Statuss_mapString: make(map[string]*Status),
 
-		UpdateStates:           make(map[*UpdateState]any),
+		UpdateStates:           make(map[*UpdateState]struct{}),
 		UpdateStates_mapString: make(map[string]*UpdateState),
 
 		// end of insertion point
@@ -667,7 +668,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (command *Command) Stage(stage *Stage) *Command {
 
 	if _, ok := stage.Commands[command]; !ok {
-		stage.Commands[command] = __member
+		stage.Commands[command] = struct{}{}
 		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
 		stage.CommandOrder++
 		stage.new[command] = struct{}{}
@@ -738,7 +739,7 @@ func (command *Command) GetName() (res string) {
 func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 
 	if _, ok := stage.DummyAgents[dummyagent]; !ok {
-		stage.DummyAgents[dummyagent] = __member
+		stage.DummyAgents[dummyagent] = struct{}{}
 		stage.DummyAgentMap_Staged_Order[dummyagent] = stage.DummyAgentOrder
 		stage.DummyAgentOrder++
 		stage.new[dummyagent] = struct{}{}
@@ -809,7 +810,7 @@ func (dummyagent *DummyAgent) GetName() (res string) {
 func (engine *Engine) Stage(stage *Stage) *Engine {
 
 	if _, ok := stage.Engines[engine]; !ok {
-		stage.Engines[engine] = __member
+		stage.Engines[engine] = struct{}{}
 		stage.EngineMap_Staged_Order[engine] = stage.EngineOrder
 		stage.EngineOrder++
 		stage.new[engine] = struct{}{}
@@ -880,7 +881,7 @@ func (engine *Engine) GetName() (res string) {
 func (event *Event) Stage(stage *Stage) *Event {
 
 	if _, ok := stage.Events[event]; !ok {
-		stage.Events[event] = __member
+		stage.Events[event] = struct{}{}
 		stage.EventMap_Staged_Order[event] = stage.EventOrder
 		stage.EventOrder++
 		stage.new[event] = struct{}{}
@@ -951,7 +952,7 @@ func (event *Event) GetName() (res string) {
 func (status *Status) Stage(stage *Stage) *Status {
 
 	if _, ok := stage.Statuss[status]; !ok {
-		stage.Statuss[status] = __member
+		stage.Statuss[status] = struct{}{}
 		stage.StatusMap_Staged_Order[status] = stage.StatusOrder
 		stage.StatusOrder++
 		stage.new[status] = struct{}{}
@@ -1022,7 +1023,7 @@ func (status *Status) GetName() (res string) {
 func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 
 	if _, ok := stage.UpdateStates[updatestate]; !ok {
-		stage.UpdateStates[updatestate] = __member
+		stage.UpdateStates[updatestate] = struct{}{}
 		stage.UpdateStateMap_Staged_Order[updatestate] = stage.UpdateStateOrder
 		stage.UpdateStateOrder++
 		stage.new[updatestate] = struct{}{}
@@ -1109,32 +1110,32 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Commands = make(map[*Command]any)
+	stage.Commands = make(map[*Command]struct{})
 	stage.Commands_mapString = make(map[string]*Command)
 	stage.CommandMap_Staged_Order = make(map[*Command]uint)
 	stage.CommandOrder = 0
 
-	stage.DummyAgents = make(map[*DummyAgent]any)
+	stage.DummyAgents = make(map[*DummyAgent]struct{})
 	stage.DummyAgents_mapString = make(map[string]*DummyAgent)
 	stage.DummyAgentMap_Staged_Order = make(map[*DummyAgent]uint)
 	stage.DummyAgentOrder = 0
 
-	stage.Engines = make(map[*Engine]any)
+	stage.Engines = make(map[*Engine]struct{})
 	stage.Engines_mapString = make(map[string]*Engine)
 	stage.EngineMap_Staged_Order = make(map[*Engine]uint)
 	stage.EngineOrder = 0
 
-	stage.Events = make(map[*Event]any)
+	stage.Events = make(map[*Event]struct{})
 	stage.Events_mapString = make(map[string]*Event)
 	stage.EventMap_Staged_Order = make(map[*Event]uint)
 	stage.EventOrder = 0
 
-	stage.Statuss = make(map[*Status]any)
+	stage.Statuss = make(map[*Status]struct{})
 	stage.Statuss_mapString = make(map[string]*Status)
 	stage.StatusMap_Staged_Order = make(map[*Status]uint)
 	stage.StatusOrder = 0
 
-	stage.UpdateStates = make(map[*UpdateState]any)
+	stage.UpdateStates = make(map[*UpdateState]struct{})
 	stage.UpdateStates_mapString = make(map[string]*UpdateState)
 	stage.UpdateStateMap_Staged_Order = make(map[*UpdateState]uint)
 	stage.UpdateStateOrder = 0
@@ -1228,7 +1229,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1304,23 +1305,23 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Command:
-		return any(&stage.Commands).(*map[*Type]any)
+		return any(&stage.Commands).(*map[*Type]struct{})
 	case DummyAgent:
-		return any(&stage.DummyAgents).(*map[*Type]any)
+		return any(&stage.DummyAgents).(*map[*Type]struct{})
 	case Engine:
-		return any(&stage.Engines).(*map[*Type]any)
+		return any(&stage.Engines).(*map[*Type]struct{})
 	case Event:
-		return any(&stage.Events).(*map[*Type]any)
+		return any(&stage.Events).(*map[*Type]struct{})
 	case Status:
-		return any(&stage.Statuss).(*map[*Type]any)
+		return any(&stage.Statuss).(*map[*Type]struct{})
 	case UpdateState:
-		return any(&stage.UpdateStates).(*map[*Type]any)
+		return any(&stage.UpdateStates).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1328,23 +1329,23 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Command:
-		return any(&stage.Commands).(*map[Type]any)
+		return any(&stage.Commands).(*map[Type]struct{})
 	case *DummyAgent:
-		return any(&stage.DummyAgents).(*map[Type]any)
+		return any(&stage.DummyAgents).(*map[Type]struct{})
 	case *Engine:
-		return any(&stage.Engines).(*map[Type]any)
+		return any(&stage.Engines).(*map[Type]struct{})
 	case *Event:
-		return any(&stage.Events).(*map[Type]any)
+		return any(&stage.Events).(*map[Type]struct{})
 	case *Status:
-		return any(&stage.Statuss).(*map[Type]any)
+		return any(&stage.Statuss).(*map[Type]struct{})
 	case *UpdateState:
-		return any(&stage.UpdateStates).(*map[Type]any)
+		return any(&stage.UpdateStates).(*map[Type]struct{})
 	default:
 		return nil
 	}

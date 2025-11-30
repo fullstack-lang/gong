@@ -122,7 +122,7 @@ func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
-		stage.{{Structname}}s[{{structname}}] = __member
+		stage.{{Structname}}s[{{structname}}] = struct{}{}
 		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
 		stage.{{Structname}}Order++
 		stage.new[{{structname}}] = struct{}{}
@@ -197,7 +197,7 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 	DeleteORM{{Structname}}({{Structname}} *{{Structname}})`,
 
 	ModelGongStructInsertionArrayDefintion: `
-	{{Structname}}s           map[*{{Structname}}]any
+	{{Structname}}s           map[*{{Structname}}]struct{}
 	{{Structname}}s_mapString map[string]*{{Structname}}
 
 	// insertion point for slice of pointers maps{{SliceOfPointersReverseMaps}}
@@ -208,12 +208,12 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 `,
 
 	ModelGongStructInsertionArrayInitialisation: `
-		{{Structname}}s:           make(map[*{{Structname}}]any),
+		{{Structname}}s:           make(map[*{{Structname}}]struct{}),
 		{{Structname}}s_mapString: make(map[string]*{{Structname}}),
 `,
 
 	ModelGongStructInsertionArrayReset: `
-	stage.{{Structname}}s = make(map[*{{Structname}}]any)
+	stage.{{Structname}}s = make(map[*{{Structname}}]struct{})
 	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
 	stage.{{Structname}}Map_Staged_Order = make(map[*{{Structname}}]uint)
 	stage.{{Structname}}Order = 0
@@ -297,11 +297,11 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 
 	ModelGongStructInsertionGenericInstancesSetFunctions: `
 	case {{Structname}}:
-		return any(&stage.{{Structname}}s).(*map[*Type]any)`,
+		return any(&stage.{{Structname}}s).(*map[*Type]struct{})`,
 
 	ModelGongStructInsertionGenericInstancesSetFromPointerTypeFunctions: `
 	case *{{Structname}}:
-		return any(&stage.{{Structname}}s).(*map[Type]any)`,
+		return any(&stage.{{Structname}}s).(*map[Type]struct{})`,
 
 	ModelGongStructInsertionGenericInstancesMapFunctions: `
 	case {{Structname}}:
@@ -959,7 +959,7 @@ func CodeGeneratorModelGong(
 	}
 
 	caserEnglish := cases.Title(language.English)
-	returnType := "*map[Type]any" // to solve the issue of empty model
+	returnType := "*map[Type]struct{}" // to solve the issue of empty model
 	_ = returnType
 	if len(modelPkg.GongStructs) == 0 {
 		returnType = "any"

@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	As           map[*A]any
+	As           map[*A]struct{}
 	As_mapString map[string]*A
 
 	// insertion point for slice of pointers maps
@@ -103,7 +104,7 @@ type Stage struct {
 	OnAfterADeleteCallback OnAfterDeleteInterface[A]
 	OnAfterAReadCallback   OnAfterReadInterface[A]
 
-	Bs           map[*B]any
+	Bs           map[*B]struct{}
 	Bs_mapString map[string]*B
 
 	// insertion point for slice of pointers maps
@@ -193,7 +194,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -254,7 +255,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -364,10 +365,10 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		As:           make(map[*A]any),
+		As:           make(map[*A]struct{}),
 		As_mapString: make(map[string]*A),
 
-		Bs:           make(map[*B]any),
+		Bs:           make(map[*B]struct{}),
 		Bs_mapString: make(map[string]*B),
 
 		// end of insertion point
@@ -505,7 +506,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (a *A) Stage(stage *Stage) *A {
 
 	if _, ok := stage.As[a]; !ok {
-		stage.As[a] = __member
+		stage.As[a] = struct{}{}
 		stage.AMap_Staged_Order[a] = stage.AOrder
 		stage.AOrder++
 		stage.new[a] = struct{}{}
@@ -576,7 +577,7 @@ func (a *A) GetName() (res string) {
 func (b *B) Stage(stage *Stage) *B {
 
 	if _, ok := stage.Bs[b]; !ok {
-		stage.Bs[b] = __member
+		stage.Bs[b] = struct{}{}
 		stage.BMap_Staged_Order[b] = stage.BOrder
 		stage.BOrder++
 		stage.new[b] = struct{}{}
@@ -655,12 +656,12 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.As = make(map[*A]any)
+	stage.As = make(map[*A]struct{})
 	stage.As_mapString = make(map[string]*A)
 	stage.AMap_Staged_Order = make(map[*A]uint)
 	stage.AOrder = 0
 
-	stage.Bs = make(map[*B]any)
+	stage.Bs = make(map[*B]struct{})
 	stage.Bs_mapString = make(map[string]*B)
 	stage.BMap_Staged_Order = make(map[*B]uint)
 	stage.BOrder = 0
@@ -726,7 +727,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -786,15 +787,15 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case A:
-		return any(&stage.As).(*map[*Type]any)
+		return any(&stage.As).(*map[*Type]struct{})
 	case B:
-		return any(&stage.Bs).(*map[*Type]any)
+		return any(&stage.Bs).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -802,15 +803,15 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *A:
-		return any(&stage.As).(*map[Type]any)
+		return any(&stage.As).(*map[Type]struct{})
 	case *B:
-		return any(&stage.Bs).(*map[Type]any)
+		return any(&stage.Bs).(*map[Type]struct{})
 	default:
 		return nil
 	}

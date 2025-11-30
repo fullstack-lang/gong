@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Astructs           map[*Astruct]any
+	Astructs           map[*Astruct]struct{}
 	Astructs_mapString map[string]*Astruct
 
 	// insertion point for slice of pointers maps
@@ -113,7 +114,7 @@ type Stage struct {
 	OnAfterAstructDeleteCallback OnAfterDeleteInterface[Astruct]
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
-	AstructBstruct2Uses           map[*AstructBstruct2Use]any
+	AstructBstruct2Uses           map[*AstructBstruct2Use]struct{}
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
 
 	// insertion point for slice of pointers maps
@@ -122,7 +123,7 @@ type Stage struct {
 	OnAfterAstructBstruct2UseDeleteCallback OnAfterDeleteInterface[AstructBstruct2Use]
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
 
-	AstructBstructUses           map[*AstructBstructUse]any
+	AstructBstructUses           map[*AstructBstructUse]struct{}
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
 	// insertion point for slice of pointers maps
@@ -131,7 +132,7 @@ type Stage struct {
 	OnAfterAstructBstructUseDeleteCallback OnAfterDeleteInterface[AstructBstructUse]
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
-	Bstructs           map[*Bstruct]any
+	Bstructs           map[*Bstruct]struct{}
 	Bstructs_mapString map[string]*Bstruct
 
 	// insertion point for slice of pointers maps
@@ -140,7 +141,7 @@ type Stage struct {
 	OnAfterBstructDeleteCallback OnAfterDeleteInterface[Bstruct]
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
-	Dstructs           map[*Dstruct]any
+	Dstructs           map[*Dstruct]struct{}
 	Dstructs_mapString map[string]*Dstruct
 
 	// insertion point for slice of pointers maps
@@ -153,7 +154,7 @@ type Stage struct {
 	OnAfterDstructDeleteCallback OnAfterDeleteInterface[Dstruct]
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
-	F0123456789012345678901234567890s           map[*F0123456789012345678901234567890]any
+	F0123456789012345678901234567890s           map[*F0123456789012345678901234567890]struct{}
 	F0123456789012345678901234567890s_mapString map[string]*F0123456789012345678901234567890
 
 	// insertion point for slice of pointers maps
@@ -162,7 +163,7 @@ type Stage struct {
 	OnAfterF0123456789012345678901234567890DeleteCallback OnAfterDeleteInterface[F0123456789012345678901234567890]
 	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
-	Gstructs           map[*Gstruct]any
+	Gstructs           map[*Gstruct]struct{}
 	Gstructs_mapString map[string]*Gstruct
 
 	// insertion point for slice of pointers maps
@@ -267,7 +268,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -398,7 +399,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -528,25 +529,25 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Astructs:           make(map[*Astruct]any),
+		Astructs:           make(map[*Astruct]struct{}),
 		Astructs_mapString: make(map[string]*Astruct),
 
-		AstructBstruct2Uses:           make(map[*AstructBstruct2Use]any),
+		AstructBstruct2Uses:           make(map[*AstructBstruct2Use]struct{}),
 		AstructBstruct2Uses_mapString: make(map[string]*AstructBstruct2Use),
 
-		AstructBstructUses:           make(map[*AstructBstructUse]any),
+		AstructBstructUses:           make(map[*AstructBstructUse]struct{}),
 		AstructBstructUses_mapString: make(map[string]*AstructBstructUse),
 
-		Bstructs:           make(map[*Bstruct]any),
+		Bstructs:           make(map[*Bstruct]struct{}),
 		Bstructs_mapString: make(map[string]*Bstruct),
 
-		Dstructs:           make(map[*Dstruct]any),
+		Dstructs:           make(map[*Dstruct]struct{}),
 		Dstructs_mapString: make(map[string]*Dstruct),
 
-		F0123456789012345678901234567890s:           make(map[*F0123456789012345678901234567890]any),
+		F0123456789012345678901234567890s:           make(map[*F0123456789012345678901234567890]struct{}),
 		F0123456789012345678901234567890s_mapString: make(map[string]*F0123456789012345678901234567890),
 
-		Gstructs:           make(map[*Gstruct]any),
+		Gstructs:           make(map[*Gstruct]struct{}),
 		Gstructs_mapString: make(map[string]*Gstruct),
 
 		// end of insertion point
@@ -724,7 +725,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 
 	if _, ok := stage.Astructs[astruct]; !ok {
-		stage.Astructs[astruct] = __member
+		stage.Astructs[astruct] = struct{}{}
 		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
 		stage.AstructOrder++
 		stage.new[astruct] = struct{}{}
@@ -795,7 +796,7 @@ func (astruct *Astruct) GetName() (res string) {
 func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruct2Use {
 
 	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
-		stage.AstructBstruct2Uses[astructbstruct2use] = __member
+		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
 		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
 		stage.AstructBstruct2UseOrder++
 		stage.new[astructbstruct2use] = struct{}{}
@@ -866,7 +867,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructUse {
 
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
-		stage.AstructBstructUses[astructbstructuse] = __member
+		stage.AstructBstructUses[astructbstructuse] = struct{}{}
 		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
 		stage.AstructBstructUseOrder++
 		stage.new[astructbstructuse] = struct{}{}
@@ -937,7 +938,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 
 	if _, ok := stage.Bstructs[bstruct]; !ok {
-		stage.Bstructs[bstruct] = __member
+		stage.Bstructs[bstruct] = struct{}{}
 		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
 		stage.BstructOrder++
 		stage.new[bstruct] = struct{}{}
@@ -1008,7 +1009,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 
 	if _, ok := stage.Dstructs[dstruct]; !ok {
-		stage.Dstructs[dstruct] = __member
+		stage.Dstructs[dstruct] = struct{}{}
 		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
 		stage.DstructOrder++
 		stage.new[dstruct] = struct{}{}
@@ -1079,7 +1080,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(stage *Stage) *F0123456789012345678901234567890 {
 
 	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
-		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = __member
+		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
 		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
 		stage.F0123456789012345678901234567890Order++
 		stage.new[f0123456789012345678901234567890] = struct{}{}
@@ -1150,7 +1151,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 
 	if _, ok := stage.Gstructs[gstruct]; !ok {
-		stage.Gstructs[gstruct] = __member
+		stage.Gstructs[gstruct] = struct{}{}
 		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
 		stage.GstructOrder++
 		stage.new[gstruct] = struct{}{}
@@ -1239,37 +1240,37 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Astructs = make(map[*Astruct]any)
+	stage.Astructs = make(map[*Astruct]struct{})
 	stage.Astructs_mapString = make(map[string]*Astruct)
 	stage.AstructMap_Staged_Order = make(map[*Astruct]uint)
 	stage.AstructOrder = 0
 
-	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]any)
+	stage.AstructBstruct2Uses = make(map[*AstructBstruct2Use]struct{})
 	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
 	stage.AstructBstruct2UseMap_Staged_Order = make(map[*AstructBstruct2Use]uint)
 	stage.AstructBstruct2UseOrder = 0
 
-	stage.AstructBstructUses = make(map[*AstructBstructUse]any)
+	stage.AstructBstructUses = make(map[*AstructBstructUse]struct{})
 	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
 	stage.AstructBstructUseMap_Staged_Order = make(map[*AstructBstructUse]uint)
 	stage.AstructBstructUseOrder = 0
 
-	stage.Bstructs = make(map[*Bstruct]any)
+	stage.Bstructs = make(map[*Bstruct]struct{})
 	stage.Bstructs_mapString = make(map[string]*Bstruct)
 	stage.BstructMap_Staged_Order = make(map[*Bstruct]uint)
 	stage.BstructOrder = 0
 
-	stage.Dstructs = make(map[*Dstruct]any)
+	stage.Dstructs = make(map[*Dstruct]struct{})
 	stage.Dstructs_mapString = make(map[string]*Dstruct)
 	stage.DstructMap_Staged_Order = make(map[*Dstruct]uint)
 	stage.DstructOrder = 0
 
-	stage.F0123456789012345678901234567890s = make(map[*F0123456789012345678901234567890]any)
+	stage.F0123456789012345678901234567890s = make(map[*F0123456789012345678901234567890]struct{})
 	stage.F0123456789012345678901234567890s_mapString = make(map[string]*F0123456789012345678901234567890)
 	stage.F0123456789012345678901234567890Map_Staged_Order = make(map[*F0123456789012345678901234567890]uint)
 	stage.F0123456789012345678901234567890Order = 0
 
-	stage.Gstructs = make(map[*Gstruct]any)
+	stage.Gstructs = make(map[*Gstruct]struct{})
 	stage.Gstructs_mapString = make(map[string]*Gstruct)
 	stage.GstructMap_Staged_Order = make(map[*Gstruct]uint)
 	stage.GstructOrder = 0
@@ -1370,7 +1371,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1450,25 +1451,25 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Astruct:
-		return any(&stage.Astructs).(*map[*Type]any)
+		return any(&stage.Astructs).(*map[*Type]struct{})
 	case AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses).(*map[*Type]any)
+		return any(&stage.AstructBstruct2Uses).(*map[*Type]struct{})
 	case AstructBstructUse:
-		return any(&stage.AstructBstructUses).(*map[*Type]any)
+		return any(&stage.AstructBstructUses).(*map[*Type]struct{})
 	case Bstruct:
-		return any(&stage.Bstructs).(*map[*Type]any)
+		return any(&stage.Bstructs).(*map[*Type]struct{})
 	case Dstruct:
-		return any(&stage.Dstructs).(*map[*Type]any)
+		return any(&stage.Dstructs).(*map[*Type]struct{})
 	case F0123456789012345678901234567890:
-		return any(&stage.F0123456789012345678901234567890s).(*map[*Type]any)
+		return any(&stage.F0123456789012345678901234567890s).(*map[*Type]struct{})
 	case Gstruct:
-		return any(&stage.Gstructs).(*map[*Type]any)
+		return any(&stage.Gstructs).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1476,25 +1477,25 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Astruct:
-		return any(&stage.Astructs).(*map[Type]any)
+		return any(&stage.Astructs).(*map[Type]struct{})
 	case *AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses).(*map[Type]any)
+		return any(&stage.AstructBstruct2Uses).(*map[Type]struct{})
 	case *AstructBstructUse:
-		return any(&stage.AstructBstructUses).(*map[Type]any)
+		return any(&stage.AstructBstructUses).(*map[Type]struct{})
 	case *Bstruct:
-		return any(&stage.Bstructs).(*map[Type]any)
+		return any(&stage.Bstructs).(*map[Type]struct{})
 	case *Dstruct:
-		return any(&stage.Dstructs).(*map[Type]any)
+		return any(&stage.Dstructs).(*map[Type]struct{})
 	case *F0123456789012345678901234567890:
-		return any(&stage.F0123456789012345678901234567890s).(*map[Type]any)
+		return any(&stage.F0123456789012345678901234567890s).(*map[Type]struct{})
 	case *Gstruct:
-		return any(&stage.Gstructs).(*map[Type]any)
+		return any(&stage.Gstructs).(*map[Type]struct{})
 	default:
 		return nil
 	}
