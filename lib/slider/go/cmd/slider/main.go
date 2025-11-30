@@ -36,6 +36,7 @@ func main() {
 	// setup model stack with its probe
 	stack := slider_stack.NewStack(r, "slider", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	// insertion point for call to stager
 	NewStager(r, stack.Stage)
