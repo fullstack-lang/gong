@@ -348,7 +348,6 @@ func main() {
 
 	}
 
-	// generate directory for orm package
 	golang.GeneratesGoCode(modelPkg, pathToModelsDirectory, *skipCoder, *dbLite, *skipSerialize, *skipStager, *level1, *debouncedMarshall)
 
 	// since go mod vendor brings angular dependencies into the vendor directory
