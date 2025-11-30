@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-29 15:23:29.517693 CET"
-	const __write__utc_time__ = "2025-11-29 14:23:29.517693 UTC"
+	const __write__local_time = "2025-11-30 21:22:16.946467 CET"
+	const __write__utc_time__ = "2025-11-30 20:22:16.946467 UTC"
 
-	const __commitId__ = "0000001153"
+	const __commitId__ = "0000001155"
 
 	// Declaration of instances to stage
 
@@ -241,7 +241,7 @@ func _(stage *models.Stage) {
 
 	__StateShape__000006_Red_UK.Name = `Red UK`
 	__StateShape__000006_Red_UK.IsExpanded = false
-	__StateShape__000006_Red_UK.X = 346.000000
+	__StateShape__000006_Red_UK.X = 344.000000
 	__StateShape__000006_Red_UK.Y = 253.000000
 	__StateShape__000006_Red_UK.Width = 200.000000
 	__StateShape__000006_Red_UK.Height = 80.000000
@@ -276,8 +276,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000011_Off_UK.Name = `Off UK`
 	__StateShape__000011_Off_UK.IsExpanded = false
-	__StateShape__000011_Off_UK.X = 972.000000
-	__StateShape__000011_Off_UK.Y = 386.000000
+	__StateShape__000011_Off_UK.X = 998.000000
+	__StateShape__000011_Off_UK.Y = 388.000000
 	__StateShape__000011_Off_UK.Width = 94.000000
 	__StateShape__000011_Off_UK.Height = 36.000000
 

@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Architectures           map[*Architecture]any
+	Architectures           map[*Architecture]struct{}
 	Architectures_mapString map[string]*Architecture
 
 	// insertion point for slice of pointers maps
@@ -105,7 +106,7 @@ type Stage struct {
 	OnAfterArchitectureDeleteCallback OnAfterDeleteInterface[Architecture]
 	OnAfterArchitectureReadCallback   OnAfterReadInterface[Architecture]
 
-	Diagrams           map[*Diagram]any
+	Diagrams           map[*Diagram]struct{}
 	Diagrams_mapString map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -118,7 +119,7 @@ type Stage struct {
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
-	Kills           map[*Kill]any
+	Kills           map[*Kill]struct{}
 	Kills_mapString map[string]*Kill
 
 	// insertion point for slice of pointers maps
@@ -127,7 +128,7 @@ type Stage struct {
 	OnAfterKillDeleteCallback OnAfterDeleteInterface[Kill]
 	OnAfterKillReadCallback   OnAfterReadInterface[Kill]
 
-	Messages           map[*Message]any
+	Messages           map[*Message]struct{}
 	Messages_mapString map[string]*Message
 
 	// insertion point for slice of pointers maps
@@ -136,7 +137,7 @@ type Stage struct {
 	OnAfterMessageDeleteCallback OnAfterDeleteInterface[Message]
 	OnAfterMessageReadCallback   OnAfterReadInterface[Message]
 
-	MessageTypes           map[*MessageType]any
+	MessageTypes           map[*MessageType]struct{}
 	MessageTypes_mapString map[string]*MessageType
 
 	// insertion point for slice of pointers maps
@@ -145,7 +146,7 @@ type Stage struct {
 	OnAfterMessageTypeDeleteCallback OnAfterDeleteInterface[MessageType]
 	OnAfterMessageTypeReadCallback   OnAfterReadInterface[MessageType]
 
-	Objects           map[*Object]any
+	Objects           map[*Object]struct{}
 	Objects_mapString map[string]*Object
 
 	// insertion point for slice of pointers maps
@@ -156,7 +157,7 @@ type Stage struct {
 	OnAfterObjectDeleteCallback OnAfterDeleteInterface[Object]
 	OnAfterObjectReadCallback   OnAfterReadInterface[Object]
 
-	Roles           map[*Role]any
+	Roles           map[*Role]struct{}
 	Roles_mapString map[string]*Role
 
 	// insertion point for slice of pointers maps
@@ -167,7 +168,7 @@ type Stage struct {
 	OnAfterRoleDeleteCallback OnAfterDeleteInterface[Role]
 	OnAfterRoleReadCallback   OnAfterReadInterface[Role]
 
-	States           map[*State]any
+	States           map[*State]struct{}
 	States_mapString map[string]*State
 
 	// insertion point for slice of pointers maps
@@ -180,7 +181,7 @@ type Stage struct {
 	OnAfterStateDeleteCallback OnAfterDeleteInterface[State]
 	OnAfterStateReadCallback   OnAfterReadInterface[State]
 
-	StateMachines           map[*StateMachine]any
+	StateMachines           map[*StateMachine]struct{}
 	StateMachines_mapString map[string]*StateMachine
 
 	// insertion point for slice of pointers maps
@@ -193,7 +194,7 @@ type Stage struct {
 	OnAfterStateMachineDeleteCallback OnAfterDeleteInterface[StateMachine]
 	OnAfterStateMachineReadCallback   OnAfterReadInterface[StateMachine]
 
-	StateShapes           map[*StateShape]any
+	StateShapes           map[*StateShape]struct{}
 	StateShapes_mapString map[string]*StateShape
 
 	// insertion point for slice of pointers maps
@@ -202,7 +203,7 @@ type Stage struct {
 	OnAfterStateShapeDeleteCallback OnAfterDeleteInterface[StateShape]
 	OnAfterStateShapeReadCallback   OnAfterReadInterface[StateShape]
 
-	Transitions           map[*Transition]any
+	Transitions           map[*Transition]struct{}
 	Transitions_mapString map[string]*Transition
 
 	// insertion point for slice of pointers maps
@@ -217,7 +218,7 @@ type Stage struct {
 	OnAfterTransitionDeleteCallback OnAfterDeleteInterface[Transition]
 	OnAfterTransitionReadCallback   OnAfterReadInterface[Transition]
 
-	Transition_Shapes           map[*Transition_Shape]any
+	Transition_Shapes           map[*Transition_Shape]struct{}
 	Transition_Shapes_mapString map[string]*Transition_Shape
 
 	// insertion point for slice of pointers maps
@@ -337,7 +338,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -538,7 +539,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -688,40 +689,40 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Architectures:           make(map[*Architecture]any),
+		Architectures:           make(map[*Architecture]struct{}),
 		Architectures_mapString: make(map[string]*Architecture),
 
-		Diagrams:           make(map[*Diagram]any),
+		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
 
-		Kills:           make(map[*Kill]any),
+		Kills:           make(map[*Kill]struct{}),
 		Kills_mapString: make(map[string]*Kill),
 
-		Messages:           make(map[*Message]any),
+		Messages:           make(map[*Message]struct{}),
 		Messages_mapString: make(map[string]*Message),
 
-		MessageTypes:           make(map[*MessageType]any),
+		MessageTypes:           make(map[*MessageType]struct{}),
 		MessageTypes_mapString: make(map[string]*MessageType),
 
-		Objects:           make(map[*Object]any),
+		Objects:           make(map[*Object]struct{}),
 		Objects_mapString: make(map[string]*Object),
 
-		Roles:           make(map[*Role]any),
+		Roles:           make(map[*Role]struct{}),
 		Roles_mapString: make(map[string]*Role),
 
-		States:           make(map[*State]any),
+		States:           make(map[*State]struct{}),
 		States_mapString: make(map[string]*State),
 
-		StateMachines:           make(map[*StateMachine]any),
+		StateMachines:           make(map[*StateMachine]struct{}),
 		StateMachines_mapString: make(map[string]*StateMachine),
 
-		StateShapes:           make(map[*StateShape]any),
+		StateShapes:           make(map[*StateShape]struct{}),
 		StateShapes_mapString: make(map[string]*StateShape),
 
-		Transitions:           make(map[*Transition]any),
+		Transitions:           make(map[*Transition]struct{}),
 		Transitions_mapString: make(map[string]*Transition),
 
-		Transition_Shapes:           make(map[*Transition_Shape]any),
+		Transition_Shapes:           make(map[*Transition_Shape]struct{}),
 		Transition_Shapes_mapString: make(map[string]*Transition_Shape),
 
 		// end of insertion point
@@ -939,7 +940,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (architecture *Architecture) Stage(stage *Stage) *Architecture {
 
 	if _, ok := stage.Architectures[architecture]; !ok {
-		stage.Architectures[architecture] = __member
+		stage.Architectures[architecture] = struct{}{}
 		stage.ArchitectureMap_Staged_Order[architecture] = stage.ArchitectureOrder
 		stage.ArchitectureOrder++
 		stage.new[architecture] = struct{}{}
@@ -1010,7 +1011,7 @@ func (architecture *Architecture) GetName() (res string) {
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 
 	if _, ok := stage.Diagrams[diagram]; !ok {
-		stage.Diagrams[diagram] = __member
+		stage.Diagrams[diagram] = struct{}{}
 		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
 		stage.DiagramOrder++
 		stage.new[diagram] = struct{}{}
@@ -1081,7 +1082,7 @@ func (diagram *Diagram) GetName() (res string) {
 func (kill *Kill) Stage(stage *Stage) *Kill {
 
 	if _, ok := stage.Kills[kill]; !ok {
-		stage.Kills[kill] = __member
+		stage.Kills[kill] = struct{}{}
 		stage.KillMap_Staged_Order[kill] = stage.KillOrder
 		stage.KillOrder++
 		stage.new[kill] = struct{}{}
@@ -1152,7 +1153,7 @@ func (kill *Kill) GetName() (res string) {
 func (message *Message) Stage(stage *Stage) *Message {
 
 	if _, ok := stage.Messages[message]; !ok {
-		stage.Messages[message] = __member
+		stage.Messages[message] = struct{}{}
 		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
 		stage.MessageOrder++
 		stage.new[message] = struct{}{}
@@ -1223,7 +1224,7 @@ func (message *Message) GetName() (res string) {
 func (messagetype *MessageType) Stage(stage *Stage) *MessageType {
 
 	if _, ok := stage.MessageTypes[messagetype]; !ok {
-		stage.MessageTypes[messagetype] = __member
+		stage.MessageTypes[messagetype] = struct{}{}
 		stage.MessageTypeMap_Staged_Order[messagetype] = stage.MessageTypeOrder
 		stage.MessageTypeOrder++
 		stage.new[messagetype] = struct{}{}
@@ -1294,7 +1295,7 @@ func (messagetype *MessageType) GetName() (res string) {
 func (object *Object) Stage(stage *Stage) *Object {
 
 	if _, ok := stage.Objects[object]; !ok {
-		stage.Objects[object] = __member
+		stage.Objects[object] = struct{}{}
 		stage.ObjectMap_Staged_Order[object] = stage.ObjectOrder
 		stage.ObjectOrder++
 		stage.new[object] = struct{}{}
@@ -1365,7 +1366,7 @@ func (object *Object) GetName() (res string) {
 func (role *Role) Stage(stage *Stage) *Role {
 
 	if _, ok := stage.Roles[role]; !ok {
-		stage.Roles[role] = __member
+		stage.Roles[role] = struct{}{}
 		stage.RoleMap_Staged_Order[role] = stage.RoleOrder
 		stage.RoleOrder++
 		stage.new[role] = struct{}{}
@@ -1436,7 +1437,7 @@ func (role *Role) GetName() (res string) {
 func (state *State) Stage(stage *Stage) *State {
 
 	if _, ok := stage.States[state]; !ok {
-		stage.States[state] = __member
+		stage.States[state] = struct{}{}
 		stage.StateMap_Staged_Order[state] = stage.StateOrder
 		stage.StateOrder++
 		stage.new[state] = struct{}{}
@@ -1507,7 +1508,7 @@ func (state *State) GetName() (res string) {
 func (statemachine *StateMachine) Stage(stage *Stage) *StateMachine {
 
 	if _, ok := stage.StateMachines[statemachine]; !ok {
-		stage.StateMachines[statemachine] = __member
+		stage.StateMachines[statemachine] = struct{}{}
 		stage.StateMachineMap_Staged_Order[statemachine] = stage.StateMachineOrder
 		stage.StateMachineOrder++
 		stage.new[statemachine] = struct{}{}
@@ -1578,7 +1579,7 @@ func (statemachine *StateMachine) GetName() (res string) {
 func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 
 	if _, ok := stage.StateShapes[stateshape]; !ok {
-		stage.StateShapes[stateshape] = __member
+		stage.StateShapes[stateshape] = struct{}{}
 		stage.StateShapeMap_Staged_Order[stateshape] = stage.StateShapeOrder
 		stage.StateShapeOrder++
 		stage.new[stateshape] = struct{}{}
@@ -1649,7 +1650,7 @@ func (stateshape *StateShape) GetName() (res string) {
 func (transition *Transition) Stage(stage *Stage) *Transition {
 
 	if _, ok := stage.Transitions[transition]; !ok {
-		stage.Transitions[transition] = __member
+		stage.Transitions[transition] = struct{}{}
 		stage.TransitionMap_Staged_Order[transition] = stage.TransitionOrder
 		stage.TransitionOrder++
 		stage.new[transition] = struct{}{}
@@ -1720,7 +1721,7 @@ func (transition *Transition) GetName() (res string) {
 func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape {
 
 	if _, ok := stage.Transition_Shapes[transition_shape]; !ok {
-		stage.Transition_Shapes[transition_shape] = __member
+		stage.Transition_Shapes[transition_shape] = struct{}{}
 		stage.Transition_ShapeMap_Staged_Order[transition_shape] = stage.Transition_ShapeOrder
 		stage.Transition_ShapeOrder++
 		stage.new[transition_shape] = struct{}{}
@@ -1819,62 +1820,62 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Architectures = make(map[*Architecture]any)
+	stage.Architectures = make(map[*Architecture]struct{})
 	stage.Architectures_mapString = make(map[string]*Architecture)
 	stage.ArchitectureMap_Staged_Order = make(map[*Architecture]uint)
 	stage.ArchitectureOrder = 0
 
-	stage.Diagrams = make(map[*Diagram]any)
+	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
 
-	stage.Kills = make(map[*Kill]any)
+	stage.Kills = make(map[*Kill]struct{})
 	stage.Kills_mapString = make(map[string]*Kill)
 	stage.KillMap_Staged_Order = make(map[*Kill]uint)
 	stage.KillOrder = 0
 
-	stage.Messages = make(map[*Message]any)
+	stage.Messages = make(map[*Message]struct{})
 	stage.Messages_mapString = make(map[string]*Message)
 	stage.MessageMap_Staged_Order = make(map[*Message]uint)
 	stage.MessageOrder = 0
 
-	stage.MessageTypes = make(map[*MessageType]any)
+	stage.MessageTypes = make(map[*MessageType]struct{})
 	stage.MessageTypes_mapString = make(map[string]*MessageType)
 	stage.MessageTypeMap_Staged_Order = make(map[*MessageType]uint)
 	stage.MessageTypeOrder = 0
 
-	stage.Objects = make(map[*Object]any)
+	stage.Objects = make(map[*Object]struct{})
 	stage.Objects_mapString = make(map[string]*Object)
 	stage.ObjectMap_Staged_Order = make(map[*Object]uint)
 	stage.ObjectOrder = 0
 
-	stage.Roles = make(map[*Role]any)
+	stage.Roles = make(map[*Role]struct{})
 	stage.Roles_mapString = make(map[string]*Role)
 	stage.RoleMap_Staged_Order = make(map[*Role]uint)
 	stage.RoleOrder = 0
 
-	stage.States = make(map[*State]any)
+	stage.States = make(map[*State]struct{})
 	stage.States_mapString = make(map[string]*State)
 	stage.StateMap_Staged_Order = make(map[*State]uint)
 	stage.StateOrder = 0
 
-	stage.StateMachines = make(map[*StateMachine]any)
+	stage.StateMachines = make(map[*StateMachine]struct{})
 	stage.StateMachines_mapString = make(map[string]*StateMachine)
 	stage.StateMachineMap_Staged_Order = make(map[*StateMachine]uint)
 	stage.StateMachineOrder = 0
 
-	stage.StateShapes = make(map[*StateShape]any)
+	stage.StateShapes = make(map[*StateShape]struct{})
 	stage.StateShapes_mapString = make(map[string]*StateShape)
 	stage.StateShapeMap_Staged_Order = make(map[*StateShape]uint)
 	stage.StateShapeOrder = 0
 
-	stage.Transitions = make(map[*Transition]any)
+	stage.Transitions = make(map[*Transition]struct{})
 	stage.Transitions_mapString = make(map[string]*Transition)
 	stage.TransitionMap_Staged_Order = make(map[*Transition]uint)
 	stage.TransitionOrder = 0
 
-	stage.Transition_Shapes = make(map[*Transition_Shape]any)
+	stage.Transition_Shapes = make(map[*Transition_Shape]struct{})
 	stage.Transition_Shapes_mapString = make(map[string]*Transition_Shape)
 	stage.Transition_ShapeMap_Staged_Order = make(map[*Transition_Shape]uint)
 	stage.Transition_ShapeOrder = 0
@@ -2010,7 +2011,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -2110,35 +2111,35 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Architecture:
-		return any(&stage.Architectures).(*map[*Type]any)
+		return any(&stage.Architectures).(*map[*Type]struct{})
 	case Diagram:
-		return any(&stage.Diagrams).(*map[*Type]any)
+		return any(&stage.Diagrams).(*map[*Type]struct{})
 	case Kill:
-		return any(&stage.Kills).(*map[*Type]any)
+		return any(&stage.Kills).(*map[*Type]struct{})
 	case Message:
-		return any(&stage.Messages).(*map[*Type]any)
+		return any(&stage.Messages).(*map[*Type]struct{})
 	case MessageType:
-		return any(&stage.MessageTypes).(*map[*Type]any)
+		return any(&stage.MessageTypes).(*map[*Type]struct{})
 	case Object:
-		return any(&stage.Objects).(*map[*Type]any)
+		return any(&stage.Objects).(*map[*Type]struct{})
 	case Role:
-		return any(&stage.Roles).(*map[*Type]any)
+		return any(&stage.Roles).(*map[*Type]struct{})
 	case State:
-		return any(&stage.States).(*map[*Type]any)
+		return any(&stage.States).(*map[*Type]struct{})
 	case StateMachine:
-		return any(&stage.StateMachines).(*map[*Type]any)
+		return any(&stage.StateMachines).(*map[*Type]struct{})
 	case StateShape:
-		return any(&stage.StateShapes).(*map[*Type]any)
+		return any(&stage.StateShapes).(*map[*Type]struct{})
 	case Transition:
-		return any(&stage.Transitions).(*map[*Type]any)
+		return any(&stage.Transitions).(*map[*Type]struct{})
 	case Transition_Shape:
-		return any(&stage.Transition_Shapes).(*map[*Type]any)
+		return any(&stage.Transition_Shapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -2146,35 +2147,35 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Architecture:
-		return any(&stage.Architectures).(*map[Type]any)
+		return any(&stage.Architectures).(*map[Type]struct{})
 	case *Diagram:
-		return any(&stage.Diagrams).(*map[Type]any)
+		return any(&stage.Diagrams).(*map[Type]struct{})
 	case *Kill:
-		return any(&stage.Kills).(*map[Type]any)
+		return any(&stage.Kills).(*map[Type]struct{})
 	case *Message:
-		return any(&stage.Messages).(*map[Type]any)
+		return any(&stage.Messages).(*map[Type]struct{})
 	case *MessageType:
-		return any(&stage.MessageTypes).(*map[Type]any)
+		return any(&stage.MessageTypes).(*map[Type]struct{})
 	case *Object:
-		return any(&stage.Objects).(*map[Type]any)
+		return any(&stage.Objects).(*map[Type]struct{})
 	case *Role:
-		return any(&stage.Roles).(*map[Type]any)
+		return any(&stage.Roles).(*map[Type]struct{})
 	case *State:
-		return any(&stage.States).(*map[Type]any)
+		return any(&stage.States).(*map[Type]struct{})
 	case *StateMachine:
-		return any(&stage.StateMachines).(*map[Type]any)
+		return any(&stage.StateMachines).(*map[Type]struct{})
 	case *StateShape:
-		return any(&stage.StateShapes).(*map[Type]any)
+		return any(&stage.StateShapes).(*map[Type]struct{})
 	case *Transition:
-		return any(&stage.Transitions).(*map[Type]any)
+		return any(&stage.Transitions).(*map[Type]struct{})
 	case *Transition_Shape:
-		return any(&stage.Transition_Shapes).(*map[Type]any)
+		return any(&stage.Transition_Shapes).(*map[Type]struct{})
 	default:
 		return nil
 	}

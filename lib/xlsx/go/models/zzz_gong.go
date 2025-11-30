@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	DisplaySelections           map[*DisplaySelection]any
+	DisplaySelections           map[*DisplaySelection]struct{}
 	DisplaySelections_mapString map[string]*DisplaySelection
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterDisplaySelectionDeleteCallback OnAfterDeleteInterface[DisplaySelection]
 	OnAfterDisplaySelectionReadCallback   OnAfterReadInterface[DisplaySelection]
 
-	XLCells           map[*XLCell]any
+	XLCells           map[*XLCell]struct{}
 	XLCells_mapString map[string]*XLCell
 
 	// insertion point for slice of pointers maps
@@ -110,7 +111,7 @@ type Stage struct {
 	OnAfterXLCellDeleteCallback OnAfterDeleteInterface[XLCell]
 	OnAfterXLCellReadCallback   OnAfterReadInterface[XLCell]
 
-	XLFiles           map[*XLFile]any
+	XLFiles           map[*XLFile]struct{}
 	XLFiles_mapString map[string]*XLFile
 
 	// insertion point for slice of pointers maps
@@ -121,7 +122,7 @@ type Stage struct {
 	OnAfterXLFileDeleteCallback OnAfterDeleteInterface[XLFile]
 	OnAfterXLFileReadCallback   OnAfterReadInterface[XLFile]
 
-	XLRows           map[*XLRow]any
+	XLRows           map[*XLRow]struct{}
 	XLRows_mapString map[string]*XLRow
 
 	// insertion point for slice of pointers maps
@@ -132,7 +133,7 @@ type Stage struct {
 	OnAfterXLRowDeleteCallback OnAfterDeleteInterface[XLRow]
 	OnAfterXLRowReadCallback   OnAfterReadInterface[XLRow]
 
-	XLSheets           map[*XLSheet]any
+	XLSheets           map[*XLSheet]struct{}
 	XLSheets_mapString map[string]*XLSheet
 
 	// insertion point for slice of pointers maps
@@ -235,7 +236,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -338,7 +339,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -460,19 +461,19 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		DisplaySelections:           make(map[*DisplaySelection]any),
+		DisplaySelections:           make(map[*DisplaySelection]struct{}),
 		DisplaySelections_mapString: make(map[string]*DisplaySelection),
 
-		XLCells:           make(map[*XLCell]any),
+		XLCells:           make(map[*XLCell]struct{}),
 		XLCells_mapString: make(map[string]*XLCell),
 
-		XLFiles:           make(map[*XLFile]any),
+		XLFiles:           make(map[*XLFile]struct{}),
 		XLFiles_mapString: make(map[string]*XLFile),
 
-		XLRows:           make(map[*XLRow]any),
+		XLRows:           make(map[*XLRow]struct{}),
 		XLRows_mapString: make(map[string]*XLRow),
 
-		XLSheets:           make(map[*XLSheet]any),
+		XLSheets:           make(map[*XLSheet]struct{}),
 		XLSheets_mapString: make(map[string]*XLSheet),
 
 		// end of insertion point
@@ -634,7 +635,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection {
 
 	if _, ok := stage.DisplaySelections[displayselection]; !ok {
-		stage.DisplaySelections[displayselection] = __member
+		stage.DisplaySelections[displayselection] = struct{}{}
 		stage.DisplaySelectionMap_Staged_Order[displayselection] = stage.DisplaySelectionOrder
 		stage.DisplaySelectionOrder++
 		stage.new[displayselection] = struct{}{}
@@ -705,7 +706,7 @@ func (displayselection *DisplaySelection) GetName() (res string) {
 func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 
 	if _, ok := stage.XLCells[xlcell]; !ok {
-		stage.XLCells[xlcell] = __member
+		stage.XLCells[xlcell] = struct{}{}
 		stage.XLCellMap_Staged_Order[xlcell] = stage.XLCellOrder
 		stage.XLCellOrder++
 		stage.new[xlcell] = struct{}{}
@@ -776,7 +777,7 @@ func (xlcell *XLCell) GetName() (res string) {
 func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 
 	if _, ok := stage.XLFiles[xlfile]; !ok {
-		stage.XLFiles[xlfile] = __member
+		stage.XLFiles[xlfile] = struct{}{}
 		stage.XLFileMap_Staged_Order[xlfile] = stage.XLFileOrder
 		stage.XLFileOrder++
 		stage.new[xlfile] = struct{}{}
@@ -847,7 +848,7 @@ func (xlfile *XLFile) GetName() (res string) {
 func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 
 	if _, ok := stage.XLRows[xlrow]; !ok {
-		stage.XLRows[xlrow] = __member
+		stage.XLRows[xlrow] = struct{}{}
 		stage.XLRowMap_Staged_Order[xlrow] = stage.XLRowOrder
 		stage.XLRowOrder++
 		stage.new[xlrow] = struct{}{}
@@ -918,7 +919,7 @@ func (xlrow *XLRow) GetName() (res string) {
 func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 
 	if _, ok := stage.XLSheets[xlsheet]; !ok {
-		stage.XLSheets[xlsheet] = __member
+		stage.XLSheets[xlsheet] = struct{}{}
 		stage.XLSheetMap_Staged_Order[xlsheet] = stage.XLSheetOrder
 		stage.XLSheetOrder++
 		stage.new[xlsheet] = struct{}{}
@@ -1003,27 +1004,27 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.DisplaySelections = make(map[*DisplaySelection]any)
+	stage.DisplaySelections = make(map[*DisplaySelection]struct{})
 	stage.DisplaySelections_mapString = make(map[string]*DisplaySelection)
 	stage.DisplaySelectionMap_Staged_Order = make(map[*DisplaySelection]uint)
 	stage.DisplaySelectionOrder = 0
 
-	stage.XLCells = make(map[*XLCell]any)
+	stage.XLCells = make(map[*XLCell]struct{})
 	stage.XLCells_mapString = make(map[string]*XLCell)
 	stage.XLCellMap_Staged_Order = make(map[*XLCell]uint)
 	stage.XLCellOrder = 0
 
-	stage.XLFiles = make(map[*XLFile]any)
+	stage.XLFiles = make(map[*XLFile]struct{})
 	stage.XLFiles_mapString = make(map[string]*XLFile)
 	stage.XLFileMap_Staged_Order = make(map[*XLFile]uint)
 	stage.XLFileOrder = 0
 
-	stage.XLRows = make(map[*XLRow]any)
+	stage.XLRows = make(map[*XLRow]struct{})
 	stage.XLRows_mapString = make(map[string]*XLRow)
 	stage.XLRowMap_Staged_Order = make(map[*XLRow]uint)
 	stage.XLRowOrder = 0
 
-	stage.XLSheets = make(map[*XLSheet]any)
+	stage.XLSheets = make(map[*XLSheet]struct{})
 	stage.XLSheets_mapString = make(map[string]*XLSheet)
 	stage.XLSheetMap_Staged_Order = make(map[*XLSheet]uint)
 	stage.XLSheetOrder = 0
@@ -1110,7 +1111,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1182,21 +1183,21 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case DisplaySelection:
-		return any(&stage.DisplaySelections).(*map[*Type]any)
+		return any(&stage.DisplaySelections).(*map[*Type]struct{})
 	case XLCell:
-		return any(&stage.XLCells).(*map[*Type]any)
+		return any(&stage.XLCells).(*map[*Type]struct{})
 	case XLFile:
-		return any(&stage.XLFiles).(*map[*Type]any)
+		return any(&stage.XLFiles).(*map[*Type]struct{})
 	case XLRow:
-		return any(&stage.XLRows).(*map[*Type]any)
+		return any(&stage.XLRows).(*map[*Type]struct{})
 	case XLSheet:
-		return any(&stage.XLSheets).(*map[*Type]any)
+		return any(&stage.XLSheets).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1204,21 +1205,21 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *DisplaySelection:
-		return any(&stage.DisplaySelections).(*map[Type]any)
+		return any(&stage.DisplaySelections).(*map[Type]struct{})
 	case *XLCell:
-		return any(&stage.XLCells).(*map[Type]any)
+		return any(&stage.XLCells).(*map[Type]struct{})
 	case *XLFile:
-		return any(&stage.XLFiles).(*map[Type]any)
+		return any(&stage.XLFiles).(*map[Type]struct{})
 	case *XLRow:
-		return any(&stage.XLRows).(*map[Type]any)
+		return any(&stage.XLRows).(*map[Type]struct{})
 	case *XLSheet:
-		return any(&stage.XLSheets).(*map[Type]any)
+		return any(&stage.XLSheets).(*map[Type]struct{})
 	default:
 		return nil
 	}

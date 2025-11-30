@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Animates           map[*Animate]any
+	Animates           map[*Animate]struct{}
 	Animates_mapString map[string]*Animate
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterAnimateDeleteCallback OnAfterDeleteInterface[Animate]
 	OnAfterAnimateReadCallback   OnAfterReadInterface[Animate]
 
-	Circles           map[*Circle]any
+	Circles           map[*Circle]struct{}
 	Circles_mapString map[string]*Circle
 
 	// insertion point for slice of pointers maps
@@ -112,7 +113,7 @@ type Stage struct {
 	OnAfterCircleDeleteCallback OnAfterDeleteInterface[Circle]
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
-	Conditions           map[*Condition]any
+	Conditions           map[*Condition]struct{}
 	Conditions_mapString map[string]*Condition
 
 	// insertion point for slice of pointers maps
@@ -121,7 +122,7 @@ type Stage struct {
 	OnAfterConditionDeleteCallback OnAfterDeleteInterface[Condition]
 	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
 
-	ControlPoints           map[*ControlPoint]any
+	ControlPoints           map[*ControlPoint]struct{}
 	ControlPoints_mapString map[string]*ControlPoint
 
 	// insertion point for slice of pointers maps
@@ -130,7 +131,7 @@ type Stage struct {
 	OnAfterControlPointDeleteCallback OnAfterDeleteInterface[ControlPoint]
 	OnAfterControlPointReadCallback   OnAfterReadInterface[ControlPoint]
 
-	Ellipses           map[*Ellipse]any
+	Ellipses           map[*Ellipse]struct{}
 	Ellipses_mapString map[string]*Ellipse
 
 	// insertion point for slice of pointers maps
@@ -141,7 +142,7 @@ type Stage struct {
 	OnAfterEllipseDeleteCallback OnAfterDeleteInterface[Ellipse]
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
-	Layers           map[*Layer]any
+	Layers           map[*Layer]struct{}
 	Layers_mapString map[string]*Layer
 
 	// insertion point for slice of pointers maps
@@ -170,7 +171,7 @@ type Stage struct {
 	OnAfterLayerDeleteCallback OnAfterDeleteInterface[Layer]
 	OnAfterLayerReadCallback   OnAfterReadInterface[Layer]
 
-	Lines           map[*Line]any
+	Lines           map[*Line]struct{}
 	Lines_mapString map[string]*Line
 
 	// insertion point for slice of pointers maps
@@ -181,7 +182,7 @@ type Stage struct {
 	OnAfterLineDeleteCallback OnAfterDeleteInterface[Line]
 	OnAfterLineReadCallback   OnAfterReadInterface[Line]
 
-	Links           map[*Link]any
+	Links           map[*Link]struct{}
 	Links_mapString map[string]*Link
 
 	// insertion point for slice of pointers maps
@@ -196,7 +197,7 @@ type Stage struct {
 	OnAfterLinkDeleteCallback OnAfterDeleteInterface[Link]
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
-	LinkAnchoredTexts           map[*LinkAnchoredText]any
+	LinkAnchoredTexts           map[*LinkAnchoredText]struct{}
 	LinkAnchoredTexts_mapString map[string]*LinkAnchoredText
 
 	// insertion point for slice of pointers maps
@@ -207,7 +208,7 @@ type Stage struct {
 	OnAfterLinkAnchoredTextDeleteCallback OnAfterDeleteInterface[LinkAnchoredText]
 	OnAfterLinkAnchoredTextReadCallback   OnAfterReadInterface[LinkAnchoredText]
 
-	Paths           map[*Path]any
+	Paths           map[*Path]struct{}
 	Paths_mapString map[string]*Path
 
 	// insertion point for slice of pointers maps
@@ -218,7 +219,7 @@ type Stage struct {
 	OnAfterPathDeleteCallback OnAfterDeleteInterface[Path]
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
-	Points           map[*Point]any
+	Points           map[*Point]struct{}
 	Points_mapString map[string]*Point
 
 	// insertion point for slice of pointers maps
@@ -227,7 +228,7 @@ type Stage struct {
 	OnAfterPointDeleteCallback OnAfterDeleteInterface[Point]
 	OnAfterPointReadCallback   OnAfterReadInterface[Point]
 
-	Polygones           map[*Polygone]any
+	Polygones           map[*Polygone]struct{}
 	Polygones_mapString map[string]*Polygone
 
 	// insertion point for slice of pointers maps
@@ -238,7 +239,7 @@ type Stage struct {
 	OnAfterPolygoneDeleteCallback OnAfterDeleteInterface[Polygone]
 	OnAfterPolygoneReadCallback   OnAfterReadInterface[Polygone]
 
-	Polylines           map[*Polyline]any
+	Polylines           map[*Polyline]struct{}
 	Polylines_mapString map[string]*Polyline
 
 	// insertion point for slice of pointers maps
@@ -249,7 +250,7 @@ type Stage struct {
 	OnAfterPolylineDeleteCallback OnAfterDeleteInterface[Polyline]
 	OnAfterPolylineReadCallback   OnAfterReadInterface[Polyline]
 
-	Rects           map[*Rect]any
+	Rects           map[*Rect]struct{}
 	Rects_mapString map[string]*Rect
 
 	// insertion point for slice of pointers maps
@@ -270,7 +271,7 @@ type Stage struct {
 	OnAfterRectDeleteCallback OnAfterDeleteInterface[Rect]
 	OnAfterRectReadCallback   OnAfterReadInterface[Rect]
 
-	RectAnchoredPaths           map[*RectAnchoredPath]any
+	RectAnchoredPaths           map[*RectAnchoredPath]struct{}
 	RectAnchoredPaths_mapString map[string]*RectAnchoredPath
 
 	// insertion point for slice of pointers maps
@@ -279,7 +280,7 @@ type Stage struct {
 	OnAfterRectAnchoredPathDeleteCallback OnAfterDeleteInterface[RectAnchoredPath]
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
 
-	RectAnchoredRects           map[*RectAnchoredRect]any
+	RectAnchoredRects           map[*RectAnchoredRect]struct{}
 	RectAnchoredRects_mapString map[string]*RectAnchoredRect
 
 	// insertion point for slice of pointers maps
@@ -288,7 +289,7 @@ type Stage struct {
 	OnAfterRectAnchoredRectDeleteCallback OnAfterDeleteInterface[RectAnchoredRect]
 	OnAfterRectAnchoredRectReadCallback   OnAfterReadInterface[RectAnchoredRect]
 
-	RectAnchoredTexts           map[*RectAnchoredText]any
+	RectAnchoredTexts           map[*RectAnchoredText]struct{}
 	RectAnchoredTexts_mapString map[string]*RectAnchoredText
 
 	// insertion point for slice of pointers maps
@@ -299,7 +300,7 @@ type Stage struct {
 	OnAfterRectAnchoredTextDeleteCallback OnAfterDeleteInterface[RectAnchoredText]
 	OnAfterRectAnchoredTextReadCallback   OnAfterReadInterface[RectAnchoredText]
 
-	RectLinkLinks           map[*RectLinkLink]any
+	RectLinkLinks           map[*RectLinkLink]struct{}
 	RectLinkLinks_mapString map[string]*RectLinkLink
 
 	// insertion point for slice of pointers maps
@@ -308,7 +309,7 @@ type Stage struct {
 	OnAfterRectLinkLinkDeleteCallback OnAfterDeleteInterface[RectLinkLink]
 	OnAfterRectLinkLinkReadCallback   OnAfterReadInterface[RectLinkLink]
 
-	SVGs           map[*SVG]any
+	SVGs           map[*SVG]struct{}
 	SVGs_mapString map[string]*SVG
 
 	// insertion point for slice of pointers maps
@@ -319,7 +320,7 @@ type Stage struct {
 	OnAfterSVGDeleteCallback OnAfterDeleteInterface[SVG]
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
-	SvgTexts           map[*SvgText]any
+	SvgTexts           map[*SvgText]struct{}
 	SvgTexts_mapString map[string]*SvgText
 
 	// insertion point for slice of pointers maps
@@ -328,7 +329,7 @@ type Stage struct {
 	OnAfterSvgTextDeleteCallback OnAfterDeleteInterface[SvgText]
 	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
 
-	Texts           map[*Text]any
+	Texts           map[*Text]struct{}
 	Texts_mapString map[string]*Text
 
 	// insertion point for slice of pointers maps
@@ -477,7 +478,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -804,7 +805,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -990,67 +991,67 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Animates:           make(map[*Animate]any),
+		Animates:           make(map[*Animate]struct{}),
 		Animates_mapString: make(map[string]*Animate),
 
-		Circles:           make(map[*Circle]any),
+		Circles:           make(map[*Circle]struct{}),
 		Circles_mapString: make(map[string]*Circle),
 
-		Conditions:           make(map[*Condition]any),
+		Conditions:           make(map[*Condition]struct{}),
 		Conditions_mapString: make(map[string]*Condition),
 
-		ControlPoints:           make(map[*ControlPoint]any),
+		ControlPoints:           make(map[*ControlPoint]struct{}),
 		ControlPoints_mapString: make(map[string]*ControlPoint),
 
-		Ellipses:           make(map[*Ellipse]any),
+		Ellipses:           make(map[*Ellipse]struct{}),
 		Ellipses_mapString: make(map[string]*Ellipse),
 
-		Layers:           make(map[*Layer]any),
+		Layers:           make(map[*Layer]struct{}),
 		Layers_mapString: make(map[string]*Layer),
 
-		Lines:           make(map[*Line]any),
+		Lines:           make(map[*Line]struct{}),
 		Lines_mapString: make(map[string]*Line),
 
-		Links:           make(map[*Link]any),
+		Links:           make(map[*Link]struct{}),
 		Links_mapString: make(map[string]*Link),
 
-		LinkAnchoredTexts:           make(map[*LinkAnchoredText]any),
+		LinkAnchoredTexts:           make(map[*LinkAnchoredText]struct{}),
 		LinkAnchoredTexts_mapString: make(map[string]*LinkAnchoredText),
 
-		Paths:           make(map[*Path]any),
+		Paths:           make(map[*Path]struct{}),
 		Paths_mapString: make(map[string]*Path),
 
-		Points:           make(map[*Point]any),
+		Points:           make(map[*Point]struct{}),
 		Points_mapString: make(map[string]*Point),
 
-		Polygones:           make(map[*Polygone]any),
+		Polygones:           make(map[*Polygone]struct{}),
 		Polygones_mapString: make(map[string]*Polygone),
 
-		Polylines:           make(map[*Polyline]any),
+		Polylines:           make(map[*Polyline]struct{}),
 		Polylines_mapString: make(map[string]*Polyline),
 
-		Rects:           make(map[*Rect]any),
+		Rects:           make(map[*Rect]struct{}),
 		Rects_mapString: make(map[string]*Rect),
 
-		RectAnchoredPaths:           make(map[*RectAnchoredPath]any),
+		RectAnchoredPaths:           make(map[*RectAnchoredPath]struct{}),
 		RectAnchoredPaths_mapString: make(map[string]*RectAnchoredPath),
 
-		RectAnchoredRects:           make(map[*RectAnchoredRect]any),
+		RectAnchoredRects:           make(map[*RectAnchoredRect]struct{}),
 		RectAnchoredRects_mapString: make(map[string]*RectAnchoredRect),
 
-		RectAnchoredTexts:           make(map[*RectAnchoredText]any),
+		RectAnchoredTexts:           make(map[*RectAnchoredText]struct{}),
 		RectAnchoredTexts_mapString: make(map[string]*RectAnchoredText),
 
-		RectLinkLinks:           make(map[*RectLinkLink]any),
+		RectLinkLinks:           make(map[*RectLinkLink]struct{}),
 		RectLinkLinks_mapString: make(map[string]*RectLinkLink),
 
-		SVGs:           make(map[*SVG]any),
+		SVGs:           make(map[*SVG]struct{}),
 		SVGs_mapString: make(map[string]*SVG),
 
-		SvgTexts:           make(map[*SvgText]any),
+		SvgTexts:           make(map[*SvgText]struct{}),
 		SvgTexts_mapString: make(map[string]*SvgText),
 
-		Texts:           make(map[*Text]any),
+		Texts:           make(map[*Text]struct{}),
 		Texts_mapString: make(map[string]*Text),
 
 		// end of insertion point
@@ -1340,7 +1341,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (animate *Animate) Stage(stage *Stage) *Animate {
 
 	if _, ok := stage.Animates[animate]; !ok {
-		stage.Animates[animate] = __member
+		stage.Animates[animate] = struct{}{}
 		stage.AnimateMap_Staged_Order[animate] = stage.AnimateOrder
 		stage.AnimateOrder++
 		stage.new[animate] = struct{}{}
@@ -1411,7 +1412,7 @@ func (animate *Animate) GetName() (res string) {
 func (circle *Circle) Stage(stage *Stage) *Circle {
 
 	if _, ok := stage.Circles[circle]; !ok {
-		stage.Circles[circle] = __member
+		stage.Circles[circle] = struct{}{}
 		stage.CircleMap_Staged_Order[circle] = stage.CircleOrder
 		stage.CircleOrder++
 		stage.new[circle] = struct{}{}
@@ -1482,7 +1483,7 @@ func (circle *Circle) GetName() (res string) {
 func (condition *Condition) Stage(stage *Stage) *Condition {
 
 	if _, ok := stage.Conditions[condition]; !ok {
-		stage.Conditions[condition] = __member
+		stage.Conditions[condition] = struct{}{}
 		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
 		stage.ConditionOrder++
 		stage.new[condition] = struct{}{}
@@ -1553,7 +1554,7 @@ func (condition *Condition) GetName() (res string) {
 func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
-		stage.ControlPoints[controlpoint] = __member
+		stage.ControlPoints[controlpoint] = struct{}{}
 		stage.ControlPointMap_Staged_Order[controlpoint] = stage.ControlPointOrder
 		stage.ControlPointOrder++
 		stage.new[controlpoint] = struct{}{}
@@ -1624,7 +1625,7 @@ func (controlpoint *ControlPoint) GetName() (res string) {
 func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 
 	if _, ok := stage.Ellipses[ellipse]; !ok {
-		stage.Ellipses[ellipse] = __member
+		stage.Ellipses[ellipse] = struct{}{}
 		stage.EllipseMap_Staged_Order[ellipse] = stage.EllipseOrder
 		stage.EllipseOrder++
 		stage.new[ellipse] = struct{}{}
@@ -1695,7 +1696,7 @@ func (ellipse *Ellipse) GetName() (res string) {
 func (layer *Layer) Stage(stage *Stage) *Layer {
 
 	if _, ok := stage.Layers[layer]; !ok {
-		stage.Layers[layer] = __member
+		stage.Layers[layer] = struct{}{}
 		stage.LayerMap_Staged_Order[layer] = stage.LayerOrder
 		stage.LayerOrder++
 		stage.new[layer] = struct{}{}
@@ -1766,7 +1767,7 @@ func (layer *Layer) GetName() (res string) {
 func (line *Line) Stage(stage *Stage) *Line {
 
 	if _, ok := stage.Lines[line]; !ok {
-		stage.Lines[line] = __member
+		stage.Lines[line] = struct{}{}
 		stage.LineMap_Staged_Order[line] = stage.LineOrder
 		stage.LineOrder++
 		stage.new[line] = struct{}{}
@@ -1837,7 +1838,7 @@ func (line *Line) GetName() (res string) {
 func (link *Link) Stage(stage *Stage) *Link {
 
 	if _, ok := stage.Links[link]; !ok {
-		stage.Links[link] = __member
+		stage.Links[link] = struct{}{}
 		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
 		stage.LinkOrder++
 		stage.new[link] = struct{}{}
@@ -1908,7 +1909,7 @@ func (link *Link) GetName() (res string) {
 func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText {
 
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
-		stage.LinkAnchoredTexts[linkanchoredtext] = __member
+		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
 		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = stage.LinkAnchoredTextOrder
 		stage.LinkAnchoredTextOrder++
 		stage.new[linkanchoredtext] = struct{}{}
@@ -1979,7 +1980,7 @@ func (linkanchoredtext *LinkAnchoredText) GetName() (res string) {
 func (path *Path) Stage(stage *Stage) *Path {
 
 	if _, ok := stage.Paths[path]; !ok {
-		stage.Paths[path] = __member
+		stage.Paths[path] = struct{}{}
 		stage.PathMap_Staged_Order[path] = stage.PathOrder
 		stage.PathOrder++
 		stage.new[path] = struct{}{}
@@ -2050,7 +2051,7 @@ func (path *Path) GetName() (res string) {
 func (point *Point) Stage(stage *Stage) *Point {
 
 	if _, ok := stage.Points[point]; !ok {
-		stage.Points[point] = __member
+		stage.Points[point] = struct{}{}
 		stage.PointMap_Staged_Order[point] = stage.PointOrder
 		stage.PointOrder++
 		stage.new[point] = struct{}{}
@@ -2121,7 +2122,7 @@ func (point *Point) GetName() (res string) {
 func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 
 	if _, ok := stage.Polygones[polygone]; !ok {
-		stage.Polygones[polygone] = __member
+		stage.Polygones[polygone] = struct{}{}
 		stage.PolygoneMap_Staged_Order[polygone] = stage.PolygoneOrder
 		stage.PolygoneOrder++
 		stage.new[polygone] = struct{}{}
@@ -2192,7 +2193,7 @@ func (polygone *Polygone) GetName() (res string) {
 func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 
 	if _, ok := stage.Polylines[polyline]; !ok {
-		stage.Polylines[polyline] = __member
+		stage.Polylines[polyline] = struct{}{}
 		stage.PolylineMap_Staged_Order[polyline] = stage.PolylineOrder
 		stage.PolylineOrder++
 		stage.new[polyline] = struct{}{}
@@ -2263,7 +2264,7 @@ func (polyline *Polyline) GetName() (res string) {
 func (rect *Rect) Stage(stage *Stage) *Rect {
 
 	if _, ok := stage.Rects[rect]; !ok {
-		stage.Rects[rect] = __member
+		stage.Rects[rect] = struct{}{}
 		stage.RectMap_Staged_Order[rect] = stage.RectOrder
 		stage.RectOrder++
 		stage.new[rect] = struct{}{}
@@ -2334,7 +2335,7 @@ func (rect *Rect) GetName() (res string) {
 func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath {
 
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
-		stage.RectAnchoredPaths[rectanchoredpath] = __member
+		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
 		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = stage.RectAnchoredPathOrder
 		stage.RectAnchoredPathOrder++
 		stage.new[rectanchoredpath] = struct{}{}
@@ -2405,7 +2406,7 @@ func (rectanchoredpath *RectAnchoredPath) GetName() (res string) {
 func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect {
 
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
-		stage.RectAnchoredRects[rectanchoredrect] = __member
+		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
 		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = stage.RectAnchoredRectOrder
 		stage.RectAnchoredRectOrder++
 		stage.new[rectanchoredrect] = struct{}{}
@@ -2476,7 +2477,7 @@ func (rectanchoredrect *RectAnchoredRect) GetName() (res string) {
 func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText {
 
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
-		stage.RectAnchoredTexts[rectanchoredtext] = __member
+		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
 		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = stage.RectAnchoredTextOrder
 		stage.RectAnchoredTextOrder++
 		stage.new[rectanchoredtext] = struct{}{}
@@ -2547,7 +2548,7 @@ func (rectanchoredtext *RectAnchoredText) GetName() (res string) {
 func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
-		stage.RectLinkLinks[rectlinklink] = __member
+		stage.RectLinkLinks[rectlinklink] = struct{}{}
 		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = stage.RectLinkLinkOrder
 		stage.RectLinkLinkOrder++
 		stage.new[rectlinklink] = struct{}{}
@@ -2618,7 +2619,7 @@ func (rectlinklink *RectLinkLink) GetName() (res string) {
 func (svg *SVG) Stage(stage *Stage) *SVG {
 
 	if _, ok := stage.SVGs[svg]; !ok {
-		stage.SVGs[svg] = __member
+		stage.SVGs[svg] = struct{}{}
 		stage.SVGMap_Staged_Order[svg] = stage.SVGOrder
 		stage.SVGOrder++
 		stage.new[svg] = struct{}{}
@@ -2689,7 +2690,7 @@ func (svg *SVG) GetName() (res string) {
 func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
-		stage.SvgTexts[svgtext] = __member
+		stage.SvgTexts[svgtext] = struct{}{}
 		stage.SvgTextMap_Staged_Order[svgtext] = stage.SvgTextOrder
 		stage.SvgTextOrder++
 		stage.new[svgtext] = struct{}{}
@@ -2760,7 +2761,7 @@ func (svgtext *SvgText) GetName() (res string) {
 func (text *Text) Stage(stage *Stage) *Text {
 
 	if _, ok := stage.Texts[text]; !ok {
-		stage.Texts[text] = __member
+		stage.Texts[text] = struct{}{}
 		stage.TextMap_Staged_Order[text] = stage.TextOrder
 		stage.TextOrder++
 		stage.new[text] = struct{}{}
@@ -2877,107 +2878,107 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Animates = make(map[*Animate]any)
+	stage.Animates = make(map[*Animate]struct{})
 	stage.Animates_mapString = make(map[string]*Animate)
 	stage.AnimateMap_Staged_Order = make(map[*Animate]uint)
 	stage.AnimateOrder = 0
 
-	stage.Circles = make(map[*Circle]any)
+	stage.Circles = make(map[*Circle]struct{})
 	stage.Circles_mapString = make(map[string]*Circle)
 	stage.CircleMap_Staged_Order = make(map[*Circle]uint)
 	stage.CircleOrder = 0
 
-	stage.Conditions = make(map[*Condition]any)
+	stage.Conditions = make(map[*Condition]struct{})
 	stage.Conditions_mapString = make(map[string]*Condition)
 	stage.ConditionMap_Staged_Order = make(map[*Condition]uint)
 	stage.ConditionOrder = 0
 
-	stage.ControlPoints = make(map[*ControlPoint]any)
+	stage.ControlPoints = make(map[*ControlPoint]struct{})
 	stage.ControlPoints_mapString = make(map[string]*ControlPoint)
 	stage.ControlPointMap_Staged_Order = make(map[*ControlPoint]uint)
 	stage.ControlPointOrder = 0
 
-	stage.Ellipses = make(map[*Ellipse]any)
+	stage.Ellipses = make(map[*Ellipse]struct{})
 	stage.Ellipses_mapString = make(map[string]*Ellipse)
 	stage.EllipseMap_Staged_Order = make(map[*Ellipse]uint)
 	stage.EllipseOrder = 0
 
-	stage.Layers = make(map[*Layer]any)
+	stage.Layers = make(map[*Layer]struct{})
 	stage.Layers_mapString = make(map[string]*Layer)
 	stage.LayerMap_Staged_Order = make(map[*Layer]uint)
 	stage.LayerOrder = 0
 
-	stage.Lines = make(map[*Line]any)
+	stage.Lines = make(map[*Line]struct{})
 	stage.Lines_mapString = make(map[string]*Line)
 	stage.LineMap_Staged_Order = make(map[*Line]uint)
 	stage.LineOrder = 0
 
-	stage.Links = make(map[*Link]any)
+	stage.Links = make(map[*Link]struct{})
 	stage.Links_mapString = make(map[string]*Link)
 	stage.LinkMap_Staged_Order = make(map[*Link]uint)
 	stage.LinkOrder = 0
 
-	stage.LinkAnchoredTexts = make(map[*LinkAnchoredText]any)
+	stage.LinkAnchoredTexts = make(map[*LinkAnchoredText]struct{})
 	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)
 	stage.LinkAnchoredTextMap_Staged_Order = make(map[*LinkAnchoredText]uint)
 	stage.LinkAnchoredTextOrder = 0
 
-	stage.Paths = make(map[*Path]any)
+	stage.Paths = make(map[*Path]struct{})
 	stage.Paths_mapString = make(map[string]*Path)
 	stage.PathMap_Staged_Order = make(map[*Path]uint)
 	stage.PathOrder = 0
 
-	stage.Points = make(map[*Point]any)
+	stage.Points = make(map[*Point]struct{})
 	stage.Points_mapString = make(map[string]*Point)
 	stage.PointMap_Staged_Order = make(map[*Point]uint)
 	stage.PointOrder = 0
 
-	stage.Polygones = make(map[*Polygone]any)
+	stage.Polygones = make(map[*Polygone]struct{})
 	stage.Polygones_mapString = make(map[string]*Polygone)
 	stage.PolygoneMap_Staged_Order = make(map[*Polygone]uint)
 	stage.PolygoneOrder = 0
 
-	stage.Polylines = make(map[*Polyline]any)
+	stage.Polylines = make(map[*Polyline]struct{})
 	stage.Polylines_mapString = make(map[string]*Polyline)
 	stage.PolylineMap_Staged_Order = make(map[*Polyline]uint)
 	stage.PolylineOrder = 0
 
-	stage.Rects = make(map[*Rect]any)
+	stage.Rects = make(map[*Rect]struct{})
 	stage.Rects_mapString = make(map[string]*Rect)
 	stage.RectMap_Staged_Order = make(map[*Rect]uint)
 	stage.RectOrder = 0
 
-	stage.RectAnchoredPaths = make(map[*RectAnchoredPath]any)
+	stage.RectAnchoredPaths = make(map[*RectAnchoredPath]struct{})
 	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
 	stage.RectAnchoredPathMap_Staged_Order = make(map[*RectAnchoredPath]uint)
 	stage.RectAnchoredPathOrder = 0
 
-	stage.RectAnchoredRects = make(map[*RectAnchoredRect]any)
+	stage.RectAnchoredRects = make(map[*RectAnchoredRect]struct{})
 	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)
 	stage.RectAnchoredRectMap_Staged_Order = make(map[*RectAnchoredRect]uint)
 	stage.RectAnchoredRectOrder = 0
 
-	stage.RectAnchoredTexts = make(map[*RectAnchoredText]any)
+	stage.RectAnchoredTexts = make(map[*RectAnchoredText]struct{})
 	stage.RectAnchoredTexts_mapString = make(map[string]*RectAnchoredText)
 	stage.RectAnchoredTextMap_Staged_Order = make(map[*RectAnchoredText]uint)
 	stage.RectAnchoredTextOrder = 0
 
-	stage.RectLinkLinks = make(map[*RectLinkLink]any)
+	stage.RectLinkLinks = make(map[*RectLinkLink]struct{})
 	stage.RectLinkLinks_mapString = make(map[string]*RectLinkLink)
 	stage.RectLinkLinkMap_Staged_Order = make(map[*RectLinkLink]uint)
 	stage.RectLinkLinkOrder = 0
 
-	stage.SVGs = make(map[*SVG]any)
+	stage.SVGs = make(map[*SVG]struct{})
 	stage.SVGs_mapString = make(map[string]*SVG)
 	stage.SVGMap_Staged_Order = make(map[*SVG]uint)
 	stage.SVGOrder = 0
 
-	stage.SvgTexts = make(map[*SvgText]any)
+	stage.SvgTexts = make(map[*SvgText]struct{})
 	stage.SvgTexts_mapString = make(map[string]*SvgText)
 	stage.SvgTextMap_Staged_Order = make(map[*SvgText]uint)
 	stage.SvgTextOrder = 0
 
-	stage.Texts = make(map[*Text]any)
+	stage.Texts = make(map[*Text]struct{})
 	stage.Texts_mapString = make(map[string]*Text)
 	stage.TextMap_Staged_Order = make(map[*Text]uint)
 	stage.TextOrder = 0
@@ -3176,7 +3177,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -3312,53 +3313,53 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Animate:
-		return any(&stage.Animates).(*map[*Type]any)
+		return any(&stage.Animates).(*map[*Type]struct{})
 	case Circle:
-		return any(&stage.Circles).(*map[*Type]any)
+		return any(&stage.Circles).(*map[*Type]struct{})
 	case Condition:
-		return any(&stage.Conditions).(*map[*Type]any)
+		return any(&stage.Conditions).(*map[*Type]struct{})
 	case ControlPoint:
-		return any(&stage.ControlPoints).(*map[*Type]any)
+		return any(&stage.ControlPoints).(*map[*Type]struct{})
 	case Ellipse:
-		return any(&stage.Ellipses).(*map[*Type]any)
+		return any(&stage.Ellipses).(*map[*Type]struct{})
 	case Layer:
-		return any(&stage.Layers).(*map[*Type]any)
+		return any(&stage.Layers).(*map[*Type]struct{})
 	case Line:
-		return any(&stage.Lines).(*map[*Type]any)
+		return any(&stage.Lines).(*map[*Type]struct{})
 	case Link:
-		return any(&stage.Links).(*map[*Type]any)
+		return any(&stage.Links).(*map[*Type]struct{})
 	case LinkAnchoredText:
-		return any(&stage.LinkAnchoredTexts).(*map[*Type]any)
+		return any(&stage.LinkAnchoredTexts).(*map[*Type]struct{})
 	case Path:
-		return any(&stage.Paths).(*map[*Type]any)
+		return any(&stage.Paths).(*map[*Type]struct{})
 	case Point:
-		return any(&stage.Points).(*map[*Type]any)
+		return any(&stage.Points).(*map[*Type]struct{})
 	case Polygone:
-		return any(&stage.Polygones).(*map[*Type]any)
+		return any(&stage.Polygones).(*map[*Type]struct{})
 	case Polyline:
-		return any(&stage.Polylines).(*map[*Type]any)
+		return any(&stage.Polylines).(*map[*Type]struct{})
 	case Rect:
-		return any(&stage.Rects).(*map[*Type]any)
+		return any(&stage.Rects).(*map[*Type]struct{})
 	case RectAnchoredPath:
-		return any(&stage.RectAnchoredPaths).(*map[*Type]any)
+		return any(&stage.RectAnchoredPaths).(*map[*Type]struct{})
 	case RectAnchoredRect:
-		return any(&stage.RectAnchoredRects).(*map[*Type]any)
+		return any(&stage.RectAnchoredRects).(*map[*Type]struct{})
 	case RectAnchoredText:
-		return any(&stage.RectAnchoredTexts).(*map[*Type]any)
+		return any(&stage.RectAnchoredTexts).(*map[*Type]struct{})
 	case RectLinkLink:
-		return any(&stage.RectLinkLinks).(*map[*Type]any)
+		return any(&stage.RectLinkLinks).(*map[*Type]struct{})
 	case SVG:
-		return any(&stage.SVGs).(*map[*Type]any)
+		return any(&stage.SVGs).(*map[*Type]struct{})
 	case SvgText:
-		return any(&stage.SvgTexts).(*map[*Type]any)
+		return any(&stage.SvgTexts).(*map[*Type]struct{})
 	case Text:
-		return any(&stage.Texts).(*map[*Type]any)
+		return any(&stage.Texts).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -3366,53 +3367,53 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Animate:
-		return any(&stage.Animates).(*map[Type]any)
+		return any(&stage.Animates).(*map[Type]struct{})
 	case *Circle:
-		return any(&stage.Circles).(*map[Type]any)
+		return any(&stage.Circles).(*map[Type]struct{})
 	case *Condition:
-		return any(&stage.Conditions).(*map[Type]any)
+		return any(&stage.Conditions).(*map[Type]struct{})
 	case *ControlPoint:
-		return any(&stage.ControlPoints).(*map[Type]any)
+		return any(&stage.ControlPoints).(*map[Type]struct{})
 	case *Ellipse:
-		return any(&stage.Ellipses).(*map[Type]any)
+		return any(&stage.Ellipses).(*map[Type]struct{})
 	case *Layer:
-		return any(&stage.Layers).(*map[Type]any)
+		return any(&stage.Layers).(*map[Type]struct{})
 	case *Line:
-		return any(&stage.Lines).(*map[Type]any)
+		return any(&stage.Lines).(*map[Type]struct{})
 	case *Link:
-		return any(&stage.Links).(*map[Type]any)
+		return any(&stage.Links).(*map[Type]struct{})
 	case *LinkAnchoredText:
-		return any(&stage.LinkAnchoredTexts).(*map[Type]any)
+		return any(&stage.LinkAnchoredTexts).(*map[Type]struct{})
 	case *Path:
-		return any(&stage.Paths).(*map[Type]any)
+		return any(&stage.Paths).(*map[Type]struct{})
 	case *Point:
-		return any(&stage.Points).(*map[Type]any)
+		return any(&stage.Points).(*map[Type]struct{})
 	case *Polygone:
-		return any(&stage.Polygones).(*map[Type]any)
+		return any(&stage.Polygones).(*map[Type]struct{})
 	case *Polyline:
-		return any(&stage.Polylines).(*map[Type]any)
+		return any(&stage.Polylines).(*map[Type]struct{})
 	case *Rect:
-		return any(&stage.Rects).(*map[Type]any)
+		return any(&stage.Rects).(*map[Type]struct{})
 	case *RectAnchoredPath:
-		return any(&stage.RectAnchoredPaths).(*map[Type]any)
+		return any(&stage.RectAnchoredPaths).(*map[Type]struct{})
 	case *RectAnchoredRect:
-		return any(&stage.RectAnchoredRects).(*map[Type]any)
+		return any(&stage.RectAnchoredRects).(*map[Type]struct{})
 	case *RectAnchoredText:
-		return any(&stage.RectAnchoredTexts).(*map[Type]any)
+		return any(&stage.RectAnchoredTexts).(*map[Type]struct{})
 	case *RectLinkLink:
-		return any(&stage.RectLinkLinks).(*map[Type]any)
+		return any(&stage.RectLinkLinks).(*map[Type]struct{})
 	case *SVG:
-		return any(&stage.SVGs).(*map[Type]any)
+		return any(&stage.SVGs).(*map[Type]struct{})
 	case *SvgText:
-		return any(&stage.SvgTexts).(*map[Type]any)
+		return any(&stage.SvgTexts).(*map[Type]struct{})
 	case *Text:
-		return any(&stage.Texts).(*map[Type]any)
+		return any(&stage.Texts).(*map[Type]struct{})
 	default:
 		return nil
 	}

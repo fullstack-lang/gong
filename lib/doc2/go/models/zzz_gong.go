@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	AttributeShapes           map[*AttributeShape]any
+	AttributeShapes           map[*AttributeShape]struct{}
 	AttributeShapes_mapString map[string]*AttributeShape
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterAttributeShapeDeleteCallback OnAfterDeleteInterface[AttributeShape]
 	OnAfterAttributeShapeReadCallback   OnAfterReadInterface[AttributeShape]
 
-	Classdiagrams           map[*Classdiagram]any
+	Classdiagrams           map[*Classdiagram]struct{}
 	Classdiagrams_mapString map[string]*Classdiagram
 
 	// insertion point for slice of pointers maps
@@ -116,7 +117,7 @@ type Stage struct {
 	OnAfterClassdiagramDeleteCallback OnAfterDeleteInterface[Classdiagram]
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
-	DiagramPackages           map[*DiagramPackage]any
+	DiagramPackages           map[*DiagramPackage]struct{}
 	DiagramPackages_mapString map[string]*DiagramPackage
 
 	// insertion point for slice of pointers maps
@@ -127,7 +128,7 @@ type Stage struct {
 	OnAfterDiagramPackageDeleteCallback OnAfterDeleteInterface[DiagramPackage]
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
-	GongEnumShapes           map[*GongEnumShape]any
+	GongEnumShapes           map[*GongEnumShape]struct{}
 	GongEnumShapes_mapString map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
@@ -138,7 +139,7 @@ type Stage struct {
 	OnAfterGongEnumShapeDeleteCallback OnAfterDeleteInterface[GongEnumShape]
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
-	GongEnumValueShapes           map[*GongEnumValueShape]any
+	GongEnumValueShapes           map[*GongEnumValueShape]struct{}
 	GongEnumValueShapes_mapString map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
@@ -147,7 +148,7 @@ type Stage struct {
 	OnAfterGongEnumValueShapeDeleteCallback OnAfterDeleteInterface[GongEnumValueShape]
 	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
-	GongNoteLinkShapes           map[*GongNoteLinkShape]any
+	GongNoteLinkShapes           map[*GongNoteLinkShape]struct{}
 	GongNoteLinkShapes_mapString map[string]*GongNoteLinkShape
 
 	// insertion point for slice of pointers maps
@@ -156,7 +157,7 @@ type Stage struct {
 	OnAfterGongNoteLinkShapeDeleteCallback OnAfterDeleteInterface[GongNoteLinkShape]
 	OnAfterGongNoteLinkShapeReadCallback   OnAfterReadInterface[GongNoteLinkShape]
 
-	GongNoteShapes           map[*GongNoteShape]any
+	GongNoteShapes           map[*GongNoteShape]struct{}
 	GongNoteShapes_mapString map[string]*GongNoteShape
 
 	// insertion point for slice of pointers maps
@@ -167,7 +168,7 @@ type Stage struct {
 	OnAfterGongNoteShapeDeleteCallback OnAfterDeleteInterface[GongNoteShape]
 	OnAfterGongNoteShapeReadCallback   OnAfterReadInterface[GongNoteShape]
 
-	GongStructShapes           map[*GongStructShape]any
+	GongStructShapes           map[*GongStructShape]struct{}
 	GongStructShapes_mapString map[string]*GongStructShape
 
 	// insertion point for slice of pointers maps
@@ -180,7 +181,7 @@ type Stage struct {
 	OnAfterGongStructShapeDeleteCallback OnAfterDeleteInterface[GongStructShape]
 	OnAfterGongStructShapeReadCallback   OnAfterReadInterface[GongStructShape]
 
-	LinkShapes           map[*LinkShape]any
+	LinkShapes           map[*LinkShape]struct{}
 	LinkShapes_mapString map[string]*LinkShape
 
 	// insertion point for slice of pointers maps
@@ -291,7 +292,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -450,7 +451,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -588,31 +589,31 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		AttributeShapes:           make(map[*AttributeShape]any),
+		AttributeShapes:           make(map[*AttributeShape]struct{}),
 		AttributeShapes_mapString: make(map[string]*AttributeShape),
 
-		Classdiagrams:           make(map[*Classdiagram]any),
+		Classdiagrams:           make(map[*Classdiagram]struct{}),
 		Classdiagrams_mapString: make(map[string]*Classdiagram),
 
-		DiagramPackages:           make(map[*DiagramPackage]any),
+		DiagramPackages:           make(map[*DiagramPackage]struct{}),
 		DiagramPackages_mapString: make(map[string]*DiagramPackage),
 
-		GongEnumShapes:           make(map[*GongEnumShape]any),
+		GongEnumShapes:           make(map[*GongEnumShape]struct{}),
 		GongEnumShapes_mapString: make(map[string]*GongEnumShape),
 
-		GongEnumValueShapes:           make(map[*GongEnumValueShape]any),
+		GongEnumValueShapes:           make(map[*GongEnumValueShape]struct{}),
 		GongEnumValueShapes_mapString: make(map[string]*GongEnumValueShape),
 
-		GongNoteLinkShapes:           make(map[*GongNoteLinkShape]any),
+		GongNoteLinkShapes:           make(map[*GongNoteLinkShape]struct{}),
 		GongNoteLinkShapes_mapString: make(map[string]*GongNoteLinkShape),
 
-		GongNoteShapes:           make(map[*GongNoteShape]any),
+		GongNoteShapes:           make(map[*GongNoteShape]struct{}),
 		GongNoteShapes_mapString: make(map[string]*GongNoteShape),
 
-		GongStructShapes:           make(map[*GongStructShape]any),
+		GongStructShapes:           make(map[*GongStructShape]struct{}),
 		GongStructShapes_mapString: make(map[string]*GongStructShape),
 
-		LinkShapes:           make(map[*LinkShape]any),
+		LinkShapes:           make(map[*LinkShape]struct{}),
 		LinkShapes_mapString: make(map[string]*LinkShape),
 
 		// end of insertion point
@@ -806,7 +807,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 
 	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
-		stage.AttributeShapes[attributeshape] = __member
+		stage.AttributeShapes[attributeshape] = struct{}{}
 		stage.AttributeShapeMap_Staged_Order[attributeshape] = stage.AttributeShapeOrder
 		stage.AttributeShapeOrder++
 		stage.new[attributeshape] = struct{}{}
@@ -877,7 +878,7 @@ func (attributeshape *AttributeShape) GetName() (res string) {
 func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 
 	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
-		stage.Classdiagrams[classdiagram] = __member
+		stage.Classdiagrams[classdiagram] = struct{}{}
 		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
 		stage.ClassdiagramOrder++
 		stage.new[classdiagram] = struct{}{}
@@ -948,7 +949,7 @@ func (classdiagram *Classdiagram) GetName() (res string) {
 func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 
 	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
-		stage.DiagramPackages[diagrampackage] = __member
+		stage.DiagramPackages[diagrampackage] = struct{}{}
 		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
 		stage.DiagramPackageOrder++
 		stage.new[diagrampackage] = struct{}{}
@@ -1019,7 +1020,7 @@ func (diagrampackage *DiagramPackage) GetName() (res string) {
 func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 
 	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
-		stage.GongEnumShapes[gongenumshape] = __member
+		stage.GongEnumShapes[gongenumshape] = struct{}{}
 		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
 		stage.GongEnumShapeOrder++
 		stage.new[gongenumshape] = struct{}{}
@@ -1090,7 +1091,7 @@ func (gongenumshape *GongEnumShape) GetName() (res string) {
 func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValueShape {
 
 	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
-		stage.GongEnumValueShapes[gongenumvalueshape] = __member
+		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
 		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
 		stage.GongEnumValueShapeOrder++
 		stage.new[gongenumvalueshape] = struct{}{}
@@ -1161,7 +1162,7 @@ func (gongenumvalueshape *GongEnumValueShape) GetName() (res string) {
 func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkShape {
 
 	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
-		stage.GongNoteLinkShapes[gongnotelinkshape] = __member
+		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
 		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
 		stage.GongNoteLinkShapeOrder++
 		stage.new[gongnotelinkshape] = struct{}{}
@@ -1232,7 +1233,7 @@ func (gongnotelinkshape *GongNoteLinkShape) GetName() (res string) {
 func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 
 	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
-		stage.GongNoteShapes[gongnoteshape] = __member
+		stage.GongNoteShapes[gongnoteshape] = struct{}{}
 		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = stage.GongNoteShapeOrder
 		stage.GongNoteShapeOrder++
 		stage.new[gongnoteshape] = struct{}{}
@@ -1303,7 +1304,7 @@ func (gongnoteshape *GongNoteShape) GetName() (res string) {
 func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 
 	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
-		stage.GongStructShapes[gongstructshape] = __member
+		stage.GongStructShapes[gongstructshape] = struct{}{}
 		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
 		stage.GongStructShapeOrder++
 		stage.new[gongstructshape] = struct{}{}
@@ -1374,7 +1375,7 @@ func (gongstructshape *GongStructShape) GetName() (res string) {
 func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 
 	if _, ok := stage.LinkShapes[linkshape]; !ok {
-		stage.LinkShapes[linkshape] = __member
+		stage.LinkShapes[linkshape] = struct{}{}
 		stage.LinkShapeMap_Staged_Order[linkshape] = stage.LinkShapeOrder
 		stage.LinkShapeOrder++
 		stage.new[linkshape] = struct{}{}
@@ -1467,47 +1468,47 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.AttributeShapes = make(map[*AttributeShape]any)
+	stage.AttributeShapes = make(map[*AttributeShape]struct{})
 	stage.AttributeShapes_mapString = make(map[string]*AttributeShape)
 	stage.AttributeShapeMap_Staged_Order = make(map[*AttributeShape]uint)
 	stage.AttributeShapeOrder = 0
 
-	stage.Classdiagrams = make(map[*Classdiagram]any)
+	stage.Classdiagrams = make(map[*Classdiagram]struct{})
 	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
 	stage.ClassdiagramMap_Staged_Order = make(map[*Classdiagram]uint)
 	stage.ClassdiagramOrder = 0
 
-	stage.DiagramPackages = make(map[*DiagramPackage]any)
+	stage.DiagramPackages = make(map[*DiagramPackage]struct{})
 	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
 	stage.DiagramPackageMap_Staged_Order = make(map[*DiagramPackage]uint)
 	stage.DiagramPackageOrder = 0
 
-	stage.GongEnumShapes = make(map[*GongEnumShape]any)
+	stage.GongEnumShapes = make(map[*GongEnumShape]struct{})
 	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
 	stage.GongEnumShapeMap_Staged_Order = make(map[*GongEnumShape]uint)
 	stage.GongEnumShapeOrder = 0
 
-	stage.GongEnumValueShapes = make(map[*GongEnumValueShape]any)
+	stage.GongEnumValueShapes = make(map[*GongEnumValueShape]struct{})
 	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
 	stage.GongEnumValueShapeMap_Staged_Order = make(map[*GongEnumValueShape]uint)
 	stage.GongEnumValueShapeOrder = 0
 
-	stage.GongNoteLinkShapes = make(map[*GongNoteLinkShape]any)
+	stage.GongNoteLinkShapes = make(map[*GongNoteLinkShape]struct{})
 	stage.GongNoteLinkShapes_mapString = make(map[string]*GongNoteLinkShape)
 	stage.GongNoteLinkShapeMap_Staged_Order = make(map[*GongNoteLinkShape]uint)
 	stage.GongNoteLinkShapeOrder = 0
 
-	stage.GongNoteShapes = make(map[*GongNoteShape]any)
+	stage.GongNoteShapes = make(map[*GongNoteShape]struct{})
 	stage.GongNoteShapes_mapString = make(map[string]*GongNoteShape)
 	stage.GongNoteShapeMap_Staged_Order = make(map[*GongNoteShape]uint)
 	stage.GongNoteShapeOrder = 0
 
-	stage.GongStructShapes = make(map[*GongStructShape]any)
+	stage.GongStructShapes = make(map[*GongStructShape]struct{})
 	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
 	stage.GongStructShapeMap_Staged_Order = make(map[*GongStructShape]uint)
 	stage.GongStructShapeOrder = 0
 
-	stage.LinkShapes = make(map[*LinkShape]any)
+	stage.LinkShapes = make(map[*LinkShape]struct{})
 	stage.LinkShapes_mapString = make(map[string]*LinkShape)
 	stage.LinkShapeMap_Staged_Order = make(map[*LinkShape]uint)
 	stage.LinkShapeOrder = 0
@@ -1622,7 +1623,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1710,29 +1711,29 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case AttributeShape:
-		return any(&stage.AttributeShapes).(*map[*Type]any)
+		return any(&stage.AttributeShapes).(*map[*Type]struct{})
 	case Classdiagram:
-		return any(&stage.Classdiagrams).(*map[*Type]any)
+		return any(&stage.Classdiagrams).(*map[*Type]struct{})
 	case DiagramPackage:
-		return any(&stage.DiagramPackages).(*map[*Type]any)
+		return any(&stage.DiagramPackages).(*map[*Type]struct{})
 	case GongEnumShape:
-		return any(&stage.GongEnumShapes).(*map[*Type]any)
+		return any(&stage.GongEnumShapes).(*map[*Type]struct{})
 	case GongEnumValueShape:
-		return any(&stage.GongEnumValueShapes).(*map[*Type]any)
+		return any(&stage.GongEnumValueShapes).(*map[*Type]struct{})
 	case GongNoteLinkShape:
-		return any(&stage.GongNoteLinkShapes).(*map[*Type]any)
+		return any(&stage.GongNoteLinkShapes).(*map[*Type]struct{})
 	case GongNoteShape:
-		return any(&stage.GongNoteShapes).(*map[*Type]any)
+		return any(&stage.GongNoteShapes).(*map[*Type]struct{})
 	case GongStructShape:
-		return any(&stage.GongStructShapes).(*map[*Type]any)
+		return any(&stage.GongStructShapes).(*map[*Type]struct{})
 	case LinkShape:
-		return any(&stage.LinkShapes).(*map[*Type]any)
+		return any(&stage.LinkShapes).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1740,29 +1741,29 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *AttributeShape:
-		return any(&stage.AttributeShapes).(*map[Type]any)
+		return any(&stage.AttributeShapes).(*map[Type]struct{})
 	case *Classdiagram:
-		return any(&stage.Classdiagrams).(*map[Type]any)
+		return any(&stage.Classdiagrams).(*map[Type]struct{})
 	case *DiagramPackage:
-		return any(&stage.DiagramPackages).(*map[Type]any)
+		return any(&stage.DiagramPackages).(*map[Type]struct{})
 	case *GongEnumShape:
-		return any(&stage.GongEnumShapes).(*map[Type]any)
+		return any(&stage.GongEnumShapes).(*map[Type]struct{})
 	case *GongEnumValueShape:
-		return any(&stage.GongEnumValueShapes).(*map[Type]any)
+		return any(&stage.GongEnumValueShapes).(*map[Type]struct{})
 	case *GongNoteLinkShape:
-		return any(&stage.GongNoteLinkShapes).(*map[Type]any)
+		return any(&stage.GongNoteLinkShapes).(*map[Type]struct{})
 	case *GongNoteShape:
-		return any(&stage.GongNoteShapes).(*map[Type]any)
+		return any(&stage.GongNoteShapes).(*map[Type]struct{})
 	case *GongStructShape:
-		return any(&stage.GongStructShapes).(*map[Type]any)
+		return any(&stage.GongStructShapes).(*map[Type]struct{})
 	case *LinkShape:
-		return any(&stage.LinkShapes).(*map[Type]any)
+		return any(&stage.LinkShapes).(*map[Type]struct{})
 	default:
 		return nil
 	}
