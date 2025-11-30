@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	Contents           map[*Content]any
+	Contents           map[*Content]struct{}
 	Contents_mapString map[string]*Content
 
 	// insertion point for slice of pointers maps
@@ -101,7 +102,7 @@ type Stage struct {
 	OnAfterContentDeleteCallback OnAfterDeleteInterface[Content]
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
-	JpgImages           map[*JpgImage]any
+	JpgImages           map[*JpgImage]struct{}
 	JpgImages_mapString map[string]*JpgImage
 
 	// insertion point for slice of pointers maps
@@ -110,7 +111,7 @@ type Stage struct {
 	OnAfterJpgImageDeleteCallback OnAfterDeleteInterface[JpgImage]
 	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
 
-	PngImages           map[*PngImage]any
+	PngImages           map[*PngImage]struct{}
 	PngImages_mapString map[string]*PngImage
 
 	// insertion point for slice of pointers maps
@@ -119,7 +120,7 @@ type Stage struct {
 	OnAfterPngImageDeleteCallback OnAfterDeleteInterface[PngImage]
 	OnAfterPngImageReadCallback   OnAfterReadInterface[PngImage]
 
-	SvgImages           map[*SvgImage]any
+	SvgImages           map[*SvgImage]struct{}
 	SvgImages_mapString map[string]*SvgImage
 
 	// insertion point for slice of pointers maps
@@ -215,7 +216,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -304,7 +305,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -422,16 +423,16 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		Contents:           make(map[*Content]any),
+		Contents:           make(map[*Content]struct{}),
 		Contents_mapString: make(map[string]*Content),
 
-		JpgImages:           make(map[*JpgImage]any),
+		JpgImages:           make(map[*JpgImage]struct{}),
 		JpgImages_mapString: make(map[string]*JpgImage),
 
-		PngImages:           make(map[*PngImage]any),
+		PngImages:           make(map[*PngImage]struct{}),
 		PngImages_mapString: make(map[string]*PngImage),
 
-		SvgImages:           make(map[*SvgImage]any),
+		SvgImages:           make(map[*SvgImage]struct{}),
 		SvgImages_mapString: make(map[string]*SvgImage),
 
 		// end of insertion point
@@ -585,7 +586,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (content *Content) Stage(stage *Stage) *Content {
 
 	if _, ok := stage.Contents[content]; !ok {
-		stage.Contents[content] = __member
+		stage.Contents[content] = struct{}{}
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
 		stage.new[content] = struct{}{}
@@ -656,7 +657,7 @@ func (content *Content) GetName() (res string) {
 func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 
 	if _, ok := stage.JpgImages[jpgimage]; !ok {
-		stage.JpgImages[jpgimage] = __member
+		stage.JpgImages[jpgimage] = struct{}{}
 		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
 		stage.JpgImageOrder++
 		stage.new[jpgimage] = struct{}{}
@@ -727,7 +728,7 @@ func (jpgimage *JpgImage) GetName() (res string) {
 func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 
 	if _, ok := stage.PngImages[pngimage]; !ok {
-		stage.PngImages[pngimage] = __member
+		stage.PngImages[pngimage] = struct{}{}
 		stage.PngImageMap_Staged_Order[pngimage] = stage.PngImageOrder
 		stage.PngImageOrder++
 		stage.new[pngimage] = struct{}{}
@@ -798,7 +799,7 @@ func (pngimage *PngImage) GetName() (res string) {
 func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 
 	if _, ok := stage.SvgImages[svgimage]; !ok {
-		stage.SvgImages[svgimage] = __member
+		stage.SvgImages[svgimage] = struct{}{}
 		stage.SvgImageMap_Staged_Order[svgimage] = stage.SvgImageOrder
 		stage.SvgImageOrder++
 		stage.new[svgimage] = struct{}{}
@@ -881,22 +882,22 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.Contents = make(map[*Content]any)
+	stage.Contents = make(map[*Content]struct{})
 	stage.Contents_mapString = make(map[string]*Content)
 	stage.ContentMap_Staged_Order = make(map[*Content]uint)
 	stage.ContentOrder = 0
 
-	stage.JpgImages = make(map[*JpgImage]any)
+	stage.JpgImages = make(map[*JpgImage]struct{})
 	stage.JpgImages_mapString = make(map[string]*JpgImage)
 	stage.JpgImageMap_Staged_Order = make(map[*JpgImage]uint)
 	stage.JpgImageOrder = 0
 
-	stage.PngImages = make(map[*PngImage]any)
+	stage.PngImages = make(map[*PngImage]struct{})
 	stage.PngImages_mapString = make(map[string]*PngImage)
 	stage.PngImageMap_Staged_Order = make(map[*PngImage]uint)
 	stage.PngImageOrder = 0
 
-	stage.SvgImages = make(map[*SvgImage]any)
+	stage.SvgImages = make(map[*SvgImage]struct{})
 	stage.SvgImages_mapString = make(map[string]*SvgImage)
 	stage.SvgImageMap_Staged_Order = make(map[*SvgImage]uint)
 	stage.SvgImageOrder = 0
@@ -976,7 +977,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -1044,19 +1045,19 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case Content:
-		return any(&stage.Contents).(*map[*Type]any)
+		return any(&stage.Contents).(*map[*Type]struct{})
 	case JpgImage:
-		return any(&stage.JpgImages).(*map[*Type]any)
+		return any(&stage.JpgImages).(*map[*Type]struct{})
 	case PngImage:
-		return any(&stage.PngImages).(*map[*Type]any)
+		return any(&stage.PngImages).(*map[*Type]struct{})
 	case SvgImage:
-		return any(&stage.SvgImages).(*map[*Type]any)
+		return any(&stage.SvgImages).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -1064,19 +1065,19 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *Content:
-		return any(&stage.Contents).(*map[Type]any)
+		return any(&stage.Contents).(*map[Type]struct{})
 	case *JpgImage:
-		return any(&stage.JpgImages).(*map[Type]any)
+		return any(&stage.JpgImages).(*map[Type]struct{})
 	case *PngImage:
-		return any(&stage.PngImages).(*map[Type]any)
+		return any(&stage.PngImages).(*map[Type]struct{})
 	case *SvgImage:
-		return any(&stage.SvgImages).(*map[Type]any)
+		return any(&stage.SvgImages).(*map[Type]struct{})
 	default:
 		return nil
 	}

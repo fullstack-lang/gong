@@ -69,6 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
+var _ = __member 
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -92,7 +93,7 @@ type Stage struct {
 	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
-	AsSplits           map[*AsSplit]any
+	AsSplits           map[*AsSplit]struct{}
 	AsSplits_mapString map[string]*AsSplit
 
 	// insertion point for slice of pointers maps
@@ -103,7 +104,7 @@ type Stage struct {
 	OnAfterAsSplitDeleteCallback OnAfterDeleteInterface[AsSplit]
 	OnAfterAsSplitReadCallback   OnAfterReadInterface[AsSplit]
 
-	AsSplitAreas           map[*AsSplitArea]any
+	AsSplitAreas           map[*AsSplitArea]struct{}
 	AsSplitAreas_mapString map[string]*AsSplitArea
 
 	// insertion point for slice of pointers maps
@@ -112,7 +113,7 @@ type Stage struct {
 	OnAfterAsSplitAreaDeleteCallback OnAfterDeleteInterface[AsSplitArea]
 	OnAfterAsSplitAreaReadCallback   OnAfterReadInterface[AsSplitArea]
 
-	Buttons           map[*Button]any
+	Buttons           map[*Button]struct{}
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -121,7 +122,7 @@ type Stage struct {
 	OnAfterButtonDeleteCallback OnAfterDeleteInterface[Button]
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
-	Cursors           map[*Cursor]any
+	Cursors           map[*Cursor]struct{}
 	Cursors_mapString map[string]*Cursor
 
 	// insertion point for slice of pointers maps
@@ -130,7 +131,7 @@ type Stage struct {
 	OnAfterCursorDeleteCallback OnAfterDeleteInterface[Cursor]
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
-	FavIcons           map[*FavIcon]any
+	FavIcons           map[*FavIcon]struct{}
 	FavIcons_mapString map[string]*FavIcon
 
 	// insertion point for slice of pointers maps
@@ -139,7 +140,7 @@ type Stage struct {
 	OnAfterFavIconDeleteCallback OnAfterDeleteInterface[FavIcon]
 	OnAfterFavIconReadCallback   OnAfterReadInterface[FavIcon]
 
-	Forms           map[*Form]any
+	Forms           map[*Form]struct{}
 	Forms_mapString map[string]*Form
 
 	// insertion point for slice of pointers maps
@@ -148,7 +149,7 @@ type Stage struct {
 	OnAfterFormDeleteCallback OnAfterDeleteInterface[Form]
 	OnAfterFormReadCallback   OnAfterReadInterface[Form]
 
-	Loads           map[*Load]any
+	Loads           map[*Load]struct{}
 	Loads_mapString map[string]*Load
 
 	// insertion point for slice of pointers maps
@@ -157,7 +158,7 @@ type Stage struct {
 	OnAfterLoadDeleteCallback OnAfterDeleteInterface[Load]
 	OnAfterLoadReadCallback   OnAfterReadInterface[Load]
 
-	LogoOnTheLefts           map[*LogoOnTheLeft]any
+	LogoOnTheLefts           map[*LogoOnTheLeft]struct{}
 	LogoOnTheLefts_mapString map[string]*LogoOnTheLeft
 
 	// insertion point for slice of pointers maps
@@ -166,7 +167,7 @@ type Stage struct {
 	OnAfterLogoOnTheLeftDeleteCallback OnAfterDeleteInterface[LogoOnTheLeft]
 	OnAfterLogoOnTheLeftReadCallback   OnAfterReadInterface[LogoOnTheLeft]
 
-	LogoOnTheRights           map[*LogoOnTheRight]any
+	LogoOnTheRights           map[*LogoOnTheRight]struct{}
 	LogoOnTheRights_mapString map[string]*LogoOnTheRight
 
 	// insertion point for slice of pointers maps
@@ -175,7 +176,7 @@ type Stage struct {
 	OnAfterLogoOnTheRightDeleteCallback OnAfterDeleteInterface[LogoOnTheRight]
 	OnAfterLogoOnTheRightReadCallback   OnAfterReadInterface[LogoOnTheRight]
 
-	Markdowns           map[*Markdown]any
+	Markdowns           map[*Markdown]struct{}
 	Markdowns_mapString map[string]*Markdown
 
 	// insertion point for slice of pointers maps
@@ -184,7 +185,7 @@ type Stage struct {
 	OnAfterMarkdownDeleteCallback OnAfterDeleteInterface[Markdown]
 	OnAfterMarkdownReadCallback   OnAfterReadInterface[Markdown]
 
-	Sliders           map[*Slider]any
+	Sliders           map[*Slider]struct{}
 	Sliders_mapString map[string]*Slider
 
 	// insertion point for slice of pointers maps
@@ -193,7 +194,7 @@ type Stage struct {
 	OnAfterSliderDeleteCallback OnAfterDeleteInterface[Slider]
 	OnAfterSliderReadCallback   OnAfterReadInterface[Slider]
 
-	Splits           map[*Split]any
+	Splits           map[*Split]struct{}
 	Splits_mapString map[string]*Split
 
 	// insertion point for slice of pointers maps
@@ -202,7 +203,7 @@ type Stage struct {
 	OnAfterSplitDeleteCallback OnAfterDeleteInterface[Split]
 	OnAfterSplitReadCallback   OnAfterReadInterface[Split]
 
-	Svgs           map[*Svg]any
+	Svgs           map[*Svg]struct{}
 	Svgs_mapString map[string]*Svg
 
 	// insertion point for slice of pointers maps
@@ -211,7 +212,7 @@ type Stage struct {
 	OnAfterSvgDeleteCallback OnAfterDeleteInterface[Svg]
 	OnAfterSvgReadCallback   OnAfterReadInterface[Svg]
 
-	Tables           map[*Table]any
+	Tables           map[*Table]struct{}
 	Tables_mapString map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -220,7 +221,7 @@ type Stage struct {
 	OnAfterTableDeleteCallback OnAfterDeleteInterface[Table]
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
-	Titles           map[*Title]any
+	Titles           map[*Title]struct{}
 	Titles_mapString map[string]*Title
 
 	// insertion point for slice of pointers maps
@@ -229,7 +230,7 @@ type Stage struct {
 	OnAfterTitleDeleteCallback OnAfterDeleteInterface[Title]
 	OnAfterTitleReadCallback   OnAfterReadInterface[Title]
 
-	Tones           map[*Tone]any
+	Tones           map[*Tone]struct{}
 	Tones_mapString map[string]*Tone
 
 	// insertion point for slice of pointers maps
@@ -238,7 +239,7 @@ type Stage struct {
 	OnAfterToneDeleteCallback OnAfterDeleteInterface[Tone]
 	OnAfterToneReadCallback   OnAfterReadInterface[Tone]
 
-	Trees           map[*Tree]any
+	Trees           map[*Tree]struct{}
 	Trees_mapString map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -247,7 +248,7 @@ type Stage struct {
 	OnAfterTreeDeleteCallback OnAfterDeleteInterface[Tree]
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
-	Views           map[*View]any
+	Views           map[*View]struct{}
 	Views_mapString map[string]*View
 
 	// insertion point for slice of pointers maps
@@ -258,7 +259,7 @@ type Stage struct {
 	OnAfterViewDeleteCallback OnAfterDeleteInterface[View]
 	OnAfterViewReadCallback   OnAfterReadInterface[View]
 
-	Xlsxs           map[*Xlsx]any
+	Xlsxs           map[*Xlsx]struct{}
 	Xlsxs_mapString map[string]*Xlsx
 
 	// insertion point for slice of pointers maps
@@ -399,7 +400,7 @@ func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
 	return stage.deleted
 }
 
-func GetNamedStructInstances[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []string) {
+func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -698,7 +699,7 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	return
 }
 
-func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]any, order map[T]uint) (res []T) {
+func GetStructInstancesByOrder[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []T) {
 
 	orderedSet := []T{}
 	for instance := range set {
@@ -876,61 +877,61 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
-		AsSplits:           make(map[*AsSplit]any),
+		AsSplits:           make(map[*AsSplit]struct{}),
 		AsSplits_mapString: make(map[string]*AsSplit),
 
-		AsSplitAreas:           make(map[*AsSplitArea]any),
+		AsSplitAreas:           make(map[*AsSplitArea]struct{}),
 		AsSplitAreas_mapString: make(map[string]*AsSplitArea),
 
-		Buttons:           make(map[*Button]any),
+		Buttons:           make(map[*Button]struct{}),
 		Buttons_mapString: make(map[string]*Button),
 
-		Cursors:           make(map[*Cursor]any),
+		Cursors:           make(map[*Cursor]struct{}),
 		Cursors_mapString: make(map[string]*Cursor),
 
-		FavIcons:           make(map[*FavIcon]any),
+		FavIcons:           make(map[*FavIcon]struct{}),
 		FavIcons_mapString: make(map[string]*FavIcon),
 
-		Forms:           make(map[*Form]any),
+		Forms:           make(map[*Form]struct{}),
 		Forms_mapString: make(map[string]*Form),
 
-		Loads:           make(map[*Load]any),
+		Loads:           make(map[*Load]struct{}),
 		Loads_mapString: make(map[string]*Load),
 
-		LogoOnTheLefts:           make(map[*LogoOnTheLeft]any),
+		LogoOnTheLefts:           make(map[*LogoOnTheLeft]struct{}),
 		LogoOnTheLefts_mapString: make(map[string]*LogoOnTheLeft),
 
-		LogoOnTheRights:           make(map[*LogoOnTheRight]any),
+		LogoOnTheRights:           make(map[*LogoOnTheRight]struct{}),
 		LogoOnTheRights_mapString: make(map[string]*LogoOnTheRight),
 
-		Markdowns:           make(map[*Markdown]any),
+		Markdowns:           make(map[*Markdown]struct{}),
 		Markdowns_mapString: make(map[string]*Markdown),
 
-		Sliders:           make(map[*Slider]any),
+		Sliders:           make(map[*Slider]struct{}),
 		Sliders_mapString: make(map[string]*Slider),
 
-		Splits:           make(map[*Split]any),
+		Splits:           make(map[*Split]struct{}),
 		Splits_mapString: make(map[string]*Split),
 
-		Svgs:           make(map[*Svg]any),
+		Svgs:           make(map[*Svg]struct{}),
 		Svgs_mapString: make(map[string]*Svg),
 
-		Tables:           make(map[*Table]any),
+		Tables:           make(map[*Table]struct{}),
 		Tables_mapString: make(map[string]*Table),
 
-		Titles:           make(map[*Title]any),
+		Titles:           make(map[*Title]struct{}),
 		Titles_mapString: make(map[string]*Title),
 
-		Tones:           make(map[*Tone]any),
+		Tones:           make(map[*Tone]struct{}),
 		Tones_mapString: make(map[string]*Tone),
 
-		Trees:           make(map[*Tree]any),
+		Trees:           make(map[*Tree]struct{}),
 		Trees_mapString: make(map[string]*Tree),
 
-		Views:           make(map[*View]any),
+		Views:           make(map[*View]struct{}),
 		Views_mapString: make(map[string]*View),
 
-		Xlsxs:           make(map[*Xlsx]any),
+		Xlsxs:           make(map[*Xlsx]struct{}),
 		Xlsxs_mapString: make(map[string]*Xlsx),
 
 		// end of insertion point
@@ -1204,7 +1205,7 @@ func (stage *Stage) RestoreXL(dirPath string) {
 func (assplit *AsSplit) Stage(stage *Stage) *AsSplit {
 
 	if _, ok := stage.AsSplits[assplit]; !ok {
-		stage.AsSplits[assplit] = __member
+		stage.AsSplits[assplit] = struct{}{}
 		stage.AsSplitMap_Staged_Order[assplit] = stage.AsSplitOrder
 		stage.AsSplitOrder++
 		stage.new[assplit] = struct{}{}
@@ -1275,7 +1276,7 @@ func (assplit *AsSplit) GetName() (res string) {
 func (assplitarea *AsSplitArea) Stage(stage *Stage) *AsSplitArea {
 
 	if _, ok := stage.AsSplitAreas[assplitarea]; !ok {
-		stage.AsSplitAreas[assplitarea] = __member
+		stage.AsSplitAreas[assplitarea] = struct{}{}
 		stage.AsSplitAreaMap_Staged_Order[assplitarea] = stage.AsSplitAreaOrder
 		stage.AsSplitAreaOrder++
 		stage.new[assplitarea] = struct{}{}
@@ -1346,7 +1347,7 @@ func (assplitarea *AsSplitArea) GetName() (res string) {
 func (button *Button) Stage(stage *Stage) *Button {
 
 	if _, ok := stage.Buttons[button]; !ok {
-		stage.Buttons[button] = __member
+		stage.Buttons[button] = struct{}{}
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
 		stage.new[button] = struct{}{}
@@ -1417,7 +1418,7 @@ func (button *Button) GetName() (res string) {
 func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 
 	if _, ok := stage.Cursors[cursor]; !ok {
-		stage.Cursors[cursor] = __member
+		stage.Cursors[cursor] = struct{}{}
 		stage.CursorMap_Staged_Order[cursor] = stage.CursorOrder
 		stage.CursorOrder++
 		stage.new[cursor] = struct{}{}
@@ -1488,7 +1489,7 @@ func (cursor *Cursor) GetName() (res string) {
 func (favicon *FavIcon) Stage(stage *Stage) *FavIcon {
 
 	if _, ok := stage.FavIcons[favicon]; !ok {
-		stage.FavIcons[favicon] = __member
+		stage.FavIcons[favicon] = struct{}{}
 		stage.FavIconMap_Staged_Order[favicon] = stage.FavIconOrder
 		stage.FavIconOrder++
 		stage.new[favicon] = struct{}{}
@@ -1559,7 +1560,7 @@ func (favicon *FavIcon) GetName() (res string) {
 func (form *Form) Stage(stage *Stage) *Form {
 
 	if _, ok := stage.Forms[form]; !ok {
-		stage.Forms[form] = __member
+		stage.Forms[form] = struct{}{}
 		stage.FormMap_Staged_Order[form] = stage.FormOrder
 		stage.FormOrder++
 		stage.new[form] = struct{}{}
@@ -1630,7 +1631,7 @@ func (form *Form) GetName() (res string) {
 func (load *Load) Stage(stage *Stage) *Load {
 
 	if _, ok := stage.Loads[load]; !ok {
-		stage.Loads[load] = __member
+		stage.Loads[load] = struct{}{}
 		stage.LoadMap_Staged_Order[load] = stage.LoadOrder
 		stage.LoadOrder++
 		stage.new[load] = struct{}{}
@@ -1701,7 +1702,7 @@ func (load *Load) GetName() (res string) {
 func (logoontheleft *LogoOnTheLeft) Stage(stage *Stage) *LogoOnTheLeft {
 
 	if _, ok := stage.LogoOnTheLefts[logoontheleft]; !ok {
-		stage.LogoOnTheLefts[logoontheleft] = __member
+		stage.LogoOnTheLefts[logoontheleft] = struct{}{}
 		stage.LogoOnTheLeftMap_Staged_Order[logoontheleft] = stage.LogoOnTheLeftOrder
 		stage.LogoOnTheLeftOrder++
 		stage.new[logoontheleft] = struct{}{}
@@ -1772,7 +1773,7 @@ func (logoontheleft *LogoOnTheLeft) GetName() (res string) {
 func (logoontheright *LogoOnTheRight) Stage(stage *Stage) *LogoOnTheRight {
 
 	if _, ok := stage.LogoOnTheRights[logoontheright]; !ok {
-		stage.LogoOnTheRights[logoontheright] = __member
+		stage.LogoOnTheRights[logoontheright] = struct{}{}
 		stage.LogoOnTheRightMap_Staged_Order[logoontheright] = stage.LogoOnTheRightOrder
 		stage.LogoOnTheRightOrder++
 		stage.new[logoontheright] = struct{}{}
@@ -1843,7 +1844,7 @@ func (logoontheright *LogoOnTheRight) GetName() (res string) {
 func (markdown *Markdown) Stage(stage *Stage) *Markdown {
 
 	if _, ok := stage.Markdowns[markdown]; !ok {
-		stage.Markdowns[markdown] = __member
+		stage.Markdowns[markdown] = struct{}{}
 		stage.MarkdownMap_Staged_Order[markdown] = stage.MarkdownOrder
 		stage.MarkdownOrder++
 		stage.new[markdown] = struct{}{}
@@ -1914,7 +1915,7 @@ func (markdown *Markdown) GetName() (res string) {
 func (slider *Slider) Stage(stage *Stage) *Slider {
 
 	if _, ok := stage.Sliders[slider]; !ok {
-		stage.Sliders[slider] = __member
+		stage.Sliders[slider] = struct{}{}
 		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
 		stage.SliderOrder++
 		stage.new[slider] = struct{}{}
@@ -1985,7 +1986,7 @@ func (slider *Slider) GetName() (res string) {
 func (split *Split) Stage(stage *Stage) *Split {
 
 	if _, ok := stage.Splits[split]; !ok {
-		stage.Splits[split] = __member
+		stage.Splits[split] = struct{}{}
 		stage.SplitMap_Staged_Order[split] = stage.SplitOrder
 		stage.SplitOrder++
 		stage.new[split] = struct{}{}
@@ -2056,7 +2057,7 @@ func (split *Split) GetName() (res string) {
 func (svg *Svg) Stage(stage *Stage) *Svg {
 
 	if _, ok := stage.Svgs[svg]; !ok {
-		stage.Svgs[svg] = __member
+		stage.Svgs[svg] = struct{}{}
 		stage.SvgMap_Staged_Order[svg] = stage.SvgOrder
 		stage.SvgOrder++
 		stage.new[svg] = struct{}{}
@@ -2127,7 +2128,7 @@ func (svg *Svg) GetName() (res string) {
 func (table *Table) Stage(stage *Stage) *Table {
 
 	if _, ok := stage.Tables[table]; !ok {
-		stage.Tables[table] = __member
+		stage.Tables[table] = struct{}{}
 		stage.TableMap_Staged_Order[table] = stage.TableOrder
 		stage.TableOrder++
 		stage.new[table] = struct{}{}
@@ -2198,7 +2199,7 @@ func (table *Table) GetName() (res string) {
 func (title *Title) Stage(stage *Stage) *Title {
 
 	if _, ok := stage.Titles[title]; !ok {
-		stage.Titles[title] = __member
+		stage.Titles[title] = struct{}{}
 		stage.TitleMap_Staged_Order[title] = stage.TitleOrder
 		stage.TitleOrder++
 		stage.new[title] = struct{}{}
@@ -2269,7 +2270,7 @@ func (title *Title) GetName() (res string) {
 func (tone *Tone) Stage(stage *Stage) *Tone {
 
 	if _, ok := stage.Tones[tone]; !ok {
-		stage.Tones[tone] = __member
+		stage.Tones[tone] = struct{}{}
 		stage.ToneMap_Staged_Order[tone] = stage.ToneOrder
 		stage.ToneOrder++
 		stage.new[tone] = struct{}{}
@@ -2340,7 +2341,7 @@ func (tone *Tone) GetName() (res string) {
 func (tree *Tree) Stage(stage *Stage) *Tree {
 
 	if _, ok := stage.Trees[tree]; !ok {
-		stage.Trees[tree] = __member
+		stage.Trees[tree] = struct{}{}
 		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
 		stage.TreeOrder++
 		stage.new[tree] = struct{}{}
@@ -2411,7 +2412,7 @@ func (tree *Tree) GetName() (res string) {
 func (view *View) Stage(stage *Stage) *View {
 
 	if _, ok := stage.Views[view]; !ok {
-		stage.Views[view] = __member
+		stage.Views[view] = struct{}{}
 		stage.ViewMap_Staged_Order[view] = stage.ViewOrder
 		stage.ViewOrder++
 		stage.new[view] = struct{}{}
@@ -2482,7 +2483,7 @@ func (view *View) GetName() (res string) {
 func (xlsx *Xlsx) Stage(stage *Stage) *Xlsx {
 
 	if _, ok := stage.Xlsxs[xlsx]; !ok {
-		stage.Xlsxs[xlsx] = __member
+		stage.Xlsxs[xlsx] = struct{}{}
 		stage.XlsxMap_Staged_Order[xlsx] = stage.XlsxOrder
 		stage.XlsxOrder++
 		stage.new[xlsx] = struct{}{}
@@ -2595,97 +2596,97 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
-	stage.AsSplits = make(map[*AsSplit]any)
+	stage.AsSplits = make(map[*AsSplit]struct{})
 	stage.AsSplits_mapString = make(map[string]*AsSplit)
 	stage.AsSplitMap_Staged_Order = make(map[*AsSplit]uint)
 	stage.AsSplitOrder = 0
 
-	stage.AsSplitAreas = make(map[*AsSplitArea]any)
+	stage.AsSplitAreas = make(map[*AsSplitArea]struct{})
 	stage.AsSplitAreas_mapString = make(map[string]*AsSplitArea)
 	stage.AsSplitAreaMap_Staged_Order = make(map[*AsSplitArea]uint)
 	stage.AsSplitAreaOrder = 0
 
-	stage.Buttons = make(map[*Button]any)
+	stage.Buttons = make(map[*Button]struct{})
 	stage.Buttons_mapString = make(map[string]*Button)
 	stage.ButtonMap_Staged_Order = make(map[*Button]uint)
 	stage.ButtonOrder = 0
 
-	stage.Cursors = make(map[*Cursor]any)
+	stage.Cursors = make(map[*Cursor]struct{})
 	stage.Cursors_mapString = make(map[string]*Cursor)
 	stage.CursorMap_Staged_Order = make(map[*Cursor]uint)
 	stage.CursorOrder = 0
 
-	stage.FavIcons = make(map[*FavIcon]any)
+	stage.FavIcons = make(map[*FavIcon]struct{})
 	stage.FavIcons_mapString = make(map[string]*FavIcon)
 	stage.FavIconMap_Staged_Order = make(map[*FavIcon]uint)
 	stage.FavIconOrder = 0
 
-	stage.Forms = make(map[*Form]any)
+	stage.Forms = make(map[*Form]struct{})
 	stage.Forms_mapString = make(map[string]*Form)
 	stage.FormMap_Staged_Order = make(map[*Form]uint)
 	stage.FormOrder = 0
 
-	stage.Loads = make(map[*Load]any)
+	stage.Loads = make(map[*Load]struct{})
 	stage.Loads_mapString = make(map[string]*Load)
 	stage.LoadMap_Staged_Order = make(map[*Load]uint)
 	stage.LoadOrder = 0
 
-	stage.LogoOnTheLefts = make(map[*LogoOnTheLeft]any)
+	stage.LogoOnTheLefts = make(map[*LogoOnTheLeft]struct{})
 	stage.LogoOnTheLefts_mapString = make(map[string]*LogoOnTheLeft)
 	stage.LogoOnTheLeftMap_Staged_Order = make(map[*LogoOnTheLeft]uint)
 	stage.LogoOnTheLeftOrder = 0
 
-	stage.LogoOnTheRights = make(map[*LogoOnTheRight]any)
+	stage.LogoOnTheRights = make(map[*LogoOnTheRight]struct{})
 	stage.LogoOnTheRights_mapString = make(map[string]*LogoOnTheRight)
 	stage.LogoOnTheRightMap_Staged_Order = make(map[*LogoOnTheRight]uint)
 	stage.LogoOnTheRightOrder = 0
 
-	stage.Markdowns = make(map[*Markdown]any)
+	stage.Markdowns = make(map[*Markdown]struct{})
 	stage.Markdowns_mapString = make(map[string]*Markdown)
 	stage.MarkdownMap_Staged_Order = make(map[*Markdown]uint)
 	stage.MarkdownOrder = 0
 
-	stage.Sliders = make(map[*Slider]any)
+	stage.Sliders = make(map[*Slider]struct{})
 	stage.Sliders_mapString = make(map[string]*Slider)
 	stage.SliderMap_Staged_Order = make(map[*Slider]uint)
 	stage.SliderOrder = 0
 
-	stage.Splits = make(map[*Split]any)
+	stage.Splits = make(map[*Split]struct{})
 	stage.Splits_mapString = make(map[string]*Split)
 	stage.SplitMap_Staged_Order = make(map[*Split]uint)
 	stage.SplitOrder = 0
 
-	stage.Svgs = make(map[*Svg]any)
+	stage.Svgs = make(map[*Svg]struct{})
 	stage.Svgs_mapString = make(map[string]*Svg)
 	stage.SvgMap_Staged_Order = make(map[*Svg]uint)
 	stage.SvgOrder = 0
 
-	stage.Tables = make(map[*Table]any)
+	stage.Tables = make(map[*Table]struct{})
 	stage.Tables_mapString = make(map[string]*Table)
 	stage.TableMap_Staged_Order = make(map[*Table]uint)
 	stage.TableOrder = 0
 
-	stage.Titles = make(map[*Title]any)
+	stage.Titles = make(map[*Title]struct{})
 	stage.Titles_mapString = make(map[string]*Title)
 	stage.TitleMap_Staged_Order = make(map[*Title]uint)
 	stage.TitleOrder = 0
 
-	stage.Tones = make(map[*Tone]any)
+	stage.Tones = make(map[*Tone]struct{})
 	stage.Tones_mapString = make(map[string]*Tone)
 	stage.ToneMap_Staged_Order = make(map[*Tone]uint)
 	stage.ToneOrder = 0
 
-	stage.Trees = make(map[*Tree]any)
+	stage.Trees = make(map[*Tree]struct{})
 	stage.Trees_mapString = make(map[string]*Tree)
 	stage.TreeMap_Staged_Order = make(map[*Tree]uint)
 	stage.TreeOrder = 0
 
-	stage.Views = make(map[*View]any)
+	stage.Views = make(map[*View]struct{})
 	stage.Views_mapString = make(map[string]*View)
 	stage.ViewMap_Staged_Order = make(map[*View]uint)
 	stage.ViewOrder = 0
 
-	stage.Xlsxs = make(map[*Xlsx]any)
+	stage.Xlsxs = make(map[*Xlsx]struct{})
 	stage.Xlsxs_mapString = make(map[string]*Xlsx)
 	stage.XlsxMap_Staged_Order = make(map[*Xlsx]uint)
 	stage.XlsxOrder = 0
@@ -2870,7 +2871,7 @@ func CompareGongstructByName[T PointerToGongstruct](a, b T) int {
 	return cmp.Compare(a.GetName(), b.GetName())
 }
 
-func SortGongstructSetByName[T PointerToGongstruct](set map[T]any) (sortedSlice []T) {
+func SortGongstructSetByName[T PointerToGongstruct](set map[T]struct{}) (sortedSlice []T) {
 
 	for key := range set {
 		sortedSlice = append(sortedSlice, key)
@@ -2998,49 +2999,49 @@ func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
 
 // GetGongstructInstancesSet returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
+func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case AsSplit:
-		return any(&stage.AsSplits).(*map[*Type]any)
+		return any(&stage.AsSplits).(*map[*Type]struct{})
 	case AsSplitArea:
-		return any(&stage.AsSplitAreas).(*map[*Type]any)
+		return any(&stage.AsSplitAreas).(*map[*Type]struct{})
 	case Button:
-		return any(&stage.Buttons).(*map[*Type]any)
+		return any(&stage.Buttons).(*map[*Type]struct{})
 	case Cursor:
-		return any(&stage.Cursors).(*map[*Type]any)
+		return any(&stage.Cursors).(*map[*Type]struct{})
 	case FavIcon:
-		return any(&stage.FavIcons).(*map[*Type]any)
+		return any(&stage.FavIcons).(*map[*Type]struct{})
 	case Form:
-		return any(&stage.Forms).(*map[*Type]any)
+		return any(&stage.Forms).(*map[*Type]struct{})
 	case Load:
-		return any(&stage.Loads).(*map[*Type]any)
+		return any(&stage.Loads).(*map[*Type]struct{})
 	case LogoOnTheLeft:
-		return any(&stage.LogoOnTheLefts).(*map[*Type]any)
+		return any(&stage.LogoOnTheLefts).(*map[*Type]struct{})
 	case LogoOnTheRight:
-		return any(&stage.LogoOnTheRights).(*map[*Type]any)
+		return any(&stage.LogoOnTheRights).(*map[*Type]struct{})
 	case Markdown:
-		return any(&stage.Markdowns).(*map[*Type]any)
+		return any(&stage.Markdowns).(*map[*Type]struct{})
 	case Slider:
-		return any(&stage.Sliders).(*map[*Type]any)
+		return any(&stage.Sliders).(*map[*Type]struct{})
 	case Split:
-		return any(&stage.Splits).(*map[*Type]any)
+		return any(&stage.Splits).(*map[*Type]struct{})
 	case Svg:
-		return any(&stage.Svgs).(*map[*Type]any)
+		return any(&stage.Svgs).(*map[*Type]struct{})
 	case Table:
-		return any(&stage.Tables).(*map[*Type]any)
+		return any(&stage.Tables).(*map[*Type]struct{})
 	case Title:
-		return any(&stage.Titles).(*map[*Type]any)
+		return any(&stage.Titles).(*map[*Type]struct{})
 	case Tone:
-		return any(&stage.Tones).(*map[*Type]any)
+		return any(&stage.Tones).(*map[*Type]struct{})
 	case Tree:
-		return any(&stage.Trees).(*map[*Type]any)
+		return any(&stage.Trees).(*map[*Type]struct{})
 	case View:
-		return any(&stage.Views).(*map[*Type]any)
+		return any(&stage.Views).(*map[*Type]struct{})
 	case Xlsx:
-		return any(&stage.Xlsxs).(*map[*Type]any)
+		return any(&stage.Xlsxs).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -3048,49 +3049,49 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]any {
 
 // GetGongstructInstancesSetFromPointerType returns the set staged GongstructType instances
 // it is usefull because it allows refactoring of gongstruct identifier
-func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]any {
+func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *Stage) *map[Type]struct{} {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case *AsSplit:
-		return any(&stage.AsSplits).(*map[Type]any)
+		return any(&stage.AsSplits).(*map[Type]struct{})
 	case *AsSplitArea:
-		return any(&stage.AsSplitAreas).(*map[Type]any)
+		return any(&stage.AsSplitAreas).(*map[Type]struct{})
 	case *Button:
-		return any(&stage.Buttons).(*map[Type]any)
+		return any(&stage.Buttons).(*map[Type]struct{})
 	case *Cursor:
-		return any(&stage.Cursors).(*map[Type]any)
+		return any(&stage.Cursors).(*map[Type]struct{})
 	case *FavIcon:
-		return any(&stage.FavIcons).(*map[Type]any)
+		return any(&stage.FavIcons).(*map[Type]struct{})
 	case *Form:
-		return any(&stage.Forms).(*map[Type]any)
+		return any(&stage.Forms).(*map[Type]struct{})
 	case *Load:
-		return any(&stage.Loads).(*map[Type]any)
+		return any(&stage.Loads).(*map[Type]struct{})
 	case *LogoOnTheLeft:
-		return any(&stage.LogoOnTheLefts).(*map[Type]any)
+		return any(&stage.LogoOnTheLefts).(*map[Type]struct{})
 	case *LogoOnTheRight:
-		return any(&stage.LogoOnTheRights).(*map[Type]any)
+		return any(&stage.LogoOnTheRights).(*map[Type]struct{})
 	case *Markdown:
-		return any(&stage.Markdowns).(*map[Type]any)
+		return any(&stage.Markdowns).(*map[Type]struct{})
 	case *Slider:
-		return any(&stage.Sliders).(*map[Type]any)
+		return any(&stage.Sliders).(*map[Type]struct{})
 	case *Split:
-		return any(&stage.Splits).(*map[Type]any)
+		return any(&stage.Splits).(*map[Type]struct{})
 	case *Svg:
-		return any(&stage.Svgs).(*map[Type]any)
+		return any(&stage.Svgs).(*map[Type]struct{})
 	case *Table:
-		return any(&stage.Tables).(*map[Type]any)
+		return any(&stage.Tables).(*map[Type]struct{})
 	case *Title:
-		return any(&stage.Titles).(*map[Type]any)
+		return any(&stage.Titles).(*map[Type]struct{})
 	case *Tone:
-		return any(&stage.Tones).(*map[Type]any)
+		return any(&stage.Tones).(*map[Type]struct{})
 	case *Tree:
-		return any(&stage.Trees).(*map[Type]any)
+		return any(&stage.Trees).(*map[Type]struct{})
 	case *View:
-		return any(&stage.Views).(*map[Type]any)
+		return any(&stage.Views).(*map[Type]struct{})
 	case *Xlsx:
-		return any(&stage.Xlsxs).(*map[Type]any)
+		return any(&stage.Xlsxs).(*map[Type]struct{})
 	default:
 		return nil
 	}
