@@ -274,10 +274,12 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		pkgPath,
 		modelPkg.PkgPath)
 
-	if level1 {
-		// the probe interface definition uses API from
-		// form (table) and split. Therefore, it can only
-		// be generated when it is a level 1 code generation
+	// the probe interface definition uses API from
+	// form (table) and split. Therefore, it can only
+	// be generated when it is not either stack
+	if modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/table/go/models" &&
+		modelPkg.PkgPath != "github.com/fullstack-lang/gong/lib/split/go/models" {
+
 		gong_models.VerySimpleCodeGenerator(
 			modelPkg,
 			filepath.Join(pkgPath, string(gong_models.GeneratedGongProbeGoFilePath)),
