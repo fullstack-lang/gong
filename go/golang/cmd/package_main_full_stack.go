@@ -1,17 +1,6 @@
 package cmd
 
-import (
-	"fmt"
-	"log"
-	"os"
-	"strings"
-
-	"github.com/fullstack-lang/gong/go/models"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
-)
-
-const PackageMain = `package main
+const PackageMainFullStack = `package main
 
 import (
 	"flag"
@@ -92,70 +81,3 @@ func main() {
 	}
 }
 `
-
-const modelsImportDirective = `
-	{{pkgname}}_models "{{PkgPathRoot}}/models"`
-
-const newStagerCall = `
-	{{pkgname}}_models.NewStager(r, stack.Stage)`
-
-const commentedModelsImportDirective = `
-	// {{pkgname}}_models "{{PkgPathRoot}}/models"`
-
-const commentedNewStagerCall = `
-	// {{pkgname}}_models.NewStager(r, stack.Stage)`
-
-func CodeGeneratorPackageMain(
-	modelPkg *models.ModelPkg,
-	pkgName string,
-	pkgGoPath string,
-	mainFilePath string,
-	skipStager bool,
-	level1 bool) {
-	{
-		codeGo := PackageMain
-
-		if !skipStager {
-			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", modelsImportDirective)
-			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", newStagerCall)
-		} else {
-			codeGo = strings.ReplaceAll(codeGo, "{{modelsImportDirective}}", commentedModelsImportDirective)
-			codeGo = strings.ReplaceAll(codeGo, "{{newStagerCall}}", commentedNewStagerCall)
-		}
-
-		caserEnglish := cases.Title(language.English)
-		codeGo = models.Replace4(codeGo,
-			"{{PkgName}}", pkgName,
-			"{{TitlePkgName}}", caserEnglish.String(pkgName),
-			"{{pkgname}}", strings.ToLower(pkgName),
-			"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
-		codeGo = strings.ReplaceAll(codeGo, "{{PkgPathAboveRoot}}",
-			strings.ReplaceAll(pkgGoPath, "/go/models", ""))
-
-		if level1 {
-
-			// replace import of serve static
-			toBeReplaced := models.Replace2(
-				`{{pkgname}}_static "{{PkgPathRoot}}/static"`,
-				"{{pkgname}}", strings.ToLower(pkgName),
-				"{{PkgPathRoot}}", strings.ReplaceAll(pkgGoPath, "/models", ""))
-			codeGo = strings.ReplaceAll(codeGo, toBeReplaced,
-				`split_static "github.com/fullstack-lang/gong/lib/split/go/static"`)
-
-			// replace call to serve static
-			toBeReplaced = models.Replace1(
-				`r := {{pkgname}}_static.ServeStaticFiles(*logGINFlag)`,
-				"{{pkgname}}", strings.ToLower(pkgName),
-			)
-			codeGo = strings.ReplaceAll(codeGo, toBeReplaced,
-				`r := split_static.ServeStaticFiles(*logGINFlag)`)
-		}
-
-		file, err := os.Create(mainFilePath)
-		if err != nil {
-			log.Panic(err)
-		}
-		defer file.Close()
-		fmt.Fprint(file, codeGo)
-	}
-}
