@@ -7,11 +7,10 @@ import (
 
 	// insertion point for models import
 
-	doc2_stack "github.com/fullstack-lang/gong/lib/doc2/go/stack"
+	"github.com/fullstack-lang/gong/lib/doc2/go/level1stack"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
-	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -33,14 +32,11 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup the static file server and get the controller
-	r := split_static.ServeStaticFiles(*logGINFlag)
-
 	// setup model stack with its probe
-	stack := doc2_stack.NewStack(r, "doc2", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := level1stack.NewLevel1Stack("doc2", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 
 	// since we do not use the default stager, we need to create the root split
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
 	probeSplitStageName := stack.Stage.GetProbeSplitStageName()
 
@@ -58,7 +54,7 @@ func main() {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
+	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

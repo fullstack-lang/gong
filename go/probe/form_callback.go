@@ -1154,6 +1154,8 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(modelpkg_.FullstackPkgGenPath), formDiv)
 		case "StackPkgGenPath":
 			FormDivBasicFieldToField(&(modelpkg_.StackPkgGenPath), formDiv)
+		case "Level1StackPkgGenPath":
+			FormDivBasicFieldToField(&(modelpkg_.Level1StackPkgGenPath), formDiv)
 		case "StaticPkgGenPath":
 			FormDivBasicFieldToField(&(modelpkg_.StaticPkgGenPath), formDiv)
 		case "ProbePkgGenPath":

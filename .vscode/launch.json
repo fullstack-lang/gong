@@ -5,13 +5,25 @@
         // "gongc" configurations
         //
         {
-            "name": "gongc /tmp/helloworld",
+            "name": "gongc /tmp/helloworld -skipStager=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "/tmp/helloworld/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
+                "-skipStager=false",
+            ]
+        },
+        {
+            "name": "gongc /tmp/helloworld -level1 -skipStager=false",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "/tmp/helloworld/go/models",
+            "program": "${workspaceFolder}/go/cmd/gongc",
+            "args": [
+                "-level1",
                 "-skipStager=false",
             ]
         },
@@ -28,26 +40,15 @@
             ]
         },
         {
-            "name": "gongc gong -skipGoModCommands",
+            "name": "gongc gong -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
             "program": "${workspaceFolder}/go/cmd/gongc",
             "args": [
-                "-skipGoModCommands"
-            ]
-        },
-        {
-            "name": "gongc gong -skipNg -skipGoModCommands",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipNg",
-                "-skipGoModCommands"
+                "-skipGoModCommands",
+                "-level1"
             ]
         },
         {
@@ -739,7 +740,7 @@
             ]
         },
         {
-            "name": "gongc statemachines",
+            "name": "gongc statemachines -level1",
             "type": "go",
             "request": "launch",
             "mode": "auto",

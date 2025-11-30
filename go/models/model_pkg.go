@@ -40,6 +40,9 @@ type ModelPkg struct {
 	// StackPkgGenPath is target path for Stack package
 	StackPkgGenPath string
 
+	// StackPkgGenPath is target path for the level 1 Stack package
+	Level1StackPkgGenPath string
+
 	// StaticPkgGenPath is target path for Static package
 	StaticPkgGenPath string
 
