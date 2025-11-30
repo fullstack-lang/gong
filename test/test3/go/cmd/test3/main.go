@@ -6,11 +6,10 @@ import (
 	"strconv"
 
 	// insertion point for models import
+	test3_level1stack "github.com/fullstack-lang/gong/test/test3/go/level1stack"
 	test3_models "github.com/fullstack-lang/gong/test/test3/go/models"
-	test3_stack "github.com/fullstack-lang/gong/test/test3/go/stack"
 
 	// static
-	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
@@ -35,18 +34,15 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup the static file server and get the controller
-	r := split_static.ServeStaticFiles(*logGINFlag)
-
 	// setup model stack with its probe
-	stack := test3_stack.NewStack(r, "test3", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := test3_level1stack.NewLevel1Stack("test3", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stack.Probe.Refresh()
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	stager := test3_models.NewStager(r, stack.Stage, splitStage)
+	stager := test3_models.NewStager(stack.R, stack.Stage, splitStage)
 
 	// one for the probe of the
 	split.StageBranch(splitStage, &split.View{
@@ -74,7 +70,7 @@ func main() {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
+	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
