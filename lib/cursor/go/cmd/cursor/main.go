@@ -34,6 +34,7 @@ func main() {
 	// setup stack
 	stack := cursor_stack.NewStack(r, "cursor", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := r.Run(":" + strconv.Itoa(*port))

@@ -13,7 +13,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipStager=false",
+                "--skipStager=false",
             ]
         },
         {
@@ -25,8 +25,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-level1",
-                "-skipStager=false",
+                "--level1",
+                "--skipStager=false",
             ]
         },
         {
@@ -38,8 +38,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNg"
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
@@ -51,8 +51,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-level1"
+                "--skipGoModCommands",
+                "--level1"
             ]
         },
         {
@@ -64,8 +64,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipNg",
-                "-skipGoModCommands"
+                "--skipNg",
+                "--skipGoModCommands",
             ]
         },
         {
@@ -88,23 +88,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gong generate phyllotaxymusic sliders -skipGoModCommands -skipNg -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/sliders/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-compileForDebug"
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--compileForDebug",
             ]
         },
         {
@@ -116,9 +102,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces"
             ]
         },
         {
@@ -130,8 +116,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNg"
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
@@ -143,9 +129,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces"
             ]
         },
         {
@@ -158,9 +144,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipFlutter=false"
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
@@ -172,10 +157,10 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-compileForDebug",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall"
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -187,11 +172,11 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-compileForDebug",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall",
-                "-debouncedMarshall"
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall",
+                "--debouncedMarshall"
             ]
         },
         {
@@ -204,9 +189,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipStager=false",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "--skipStager=false",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -219,10 +204,10 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipNg",
-                "-skipStager=false",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "--skipNg",
+                "--skipStager=false",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -236,9 +221,9 @@
             "args": [
                 "generate",
                 "go/models",
-                "-skipNg",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "--skipNg",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -251,10 +236,10 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces",
-                "-skipStager=false"
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces",
+                "--skipStager=false"
             ]
         },
         {
@@ -266,8 +251,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -280,9 +265,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "-skipStager=false"
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipStager=false"
             ]
         },
         {
@@ -295,9 +280,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipNg",
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces"
+                "--skipNg",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces"
             ]
         },
         {
@@ -310,9 +295,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipNpmInstall",
-                "-skipGoModCommands",
-                "-skipNg"
+                "--skipNpmInstall",
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
@@ -324,8 +309,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipNg",
-                "-skipGoModCommands"
+                "--skipNg",
+                "--skipGoModCommands",
             ]
         },
         {
@@ -337,8 +322,8 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
@@ -350,9 +335,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNg"
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNg",
             ]
         },
         {
@@ -364,9 +349,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipStager=false",
-                "-level1"
+                "--skipGoModCommands",
+                "--skipStager=false",
+                "--level1"
             ]
         },
         //
@@ -412,17 +397,6 @@
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage",
                 "-embeddedDiagrams=true"
-            ]
-        },
-        {
-            "name": "go run gong",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
             ]
         },
         {
@@ -775,9 +749,9 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "-skipGoModCommands",
-                "-skipStager=false",
-                "-level1"
+                "--skipGoModCommands",
+                "--skipStager=false",
+                "--level1"
             ]
         },
         {

@@ -37,6 +37,7 @@ func main() {
 	// setup model stack with its probe
 	stack := svg_stack.NewStack(r, "svg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	// get the unique svg and hook a callback for when it is edited or not
 	// the is the only way to update the commit nb from the back

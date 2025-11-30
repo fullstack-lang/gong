@@ -35,6 +35,7 @@ func main() {
 	// setup stack
 	stack := tree_stack.NewStack(r, tree_models.TreeStackDefaultName.ToString(), *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	NewStager(r, stack.Stage)
 

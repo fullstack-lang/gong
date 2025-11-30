@@ -459,24 +459,3 @@ func init() {
 	generateCmd.Flags().BoolVar(&dbLite, "dbLite", true, "If true, the database in all stack instances are purely in memory. If false, it is sqlite and can be persisted to a sqlite file")
 	generateCmd.Flags().BoolVar(&debouncedMarshall, "debouncedMarshall", false, "If false, each marshall call is blocking. If true, the marshalling is non blocking and debounced")
 }
-
-
-func init() {
-	rootCmd.AddCommand(generateCmd)
-
-	generateCmd.Flags().BoolVar(&skipSwagger, "skipSwagger", true, "skip swagger file generation")
-	generateCmd.Flags().BoolVar(&skipNg, "skipNg", false, "generates skipNg, skip ng operations")
-	generateCmd.Flags().BoolVar(&skipFlutter, "skipFlutter", true, "do not generate flutter front")
-	generateCmd.Flags().BoolVar(&skipCoder, "skipCoder", true, "do not generate coder file")
-	generateCmd.Flags().BoolVar(&skipSerialize, "skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
-	generateCmd.Flags().BoolVar(&skipNpmWorkspaces, "skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
-	generateCmd.Flags().BoolVar(&skipStager, "skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
-	generateCmd.Flags().BoolVar(&level1, "level1", false, "generates a level1 gong application (implies -skipNg)")
-	generateCmd.Flags().StringVar(&addr, "addr", "localhost:8080/api", "network address addr where the angular generated service will lookup the server")
-	generateCmd.Flags().BoolVar(&run, "run", false, "run 'go run main.go' after compilation")
-	generateCmd.Flags().BoolVar(&skipGoModCommands, "skipGoModCommands", false, "avoid calls to go mod init, tidy and vendor")
-	generateCmd.Flags().BoolVar(&skipNpmInstall, "skipNpmInstall", false, "skip the npm install command")
-	generateCmd.Flags().BoolVar(&compileForDebug, "compileForDebug", false, "The go debugger can be slow to start (more than 60'). A workaround is to generate a go build with with '-N -l' options")
-	generateCmd.Flags().BoolVar(&dbLite, "dbLite", true, "If true, the database in all stack instances are purely in memory. If false, it is sqlite and can be persisted to a sqlite file")
-	generateCmd.Flags().BoolVar(&debouncedMarshall, "debouncedMarshall", false, "If false, each marshall call is blocking. If true, the marshalling is non blocking and debounced")
-}
