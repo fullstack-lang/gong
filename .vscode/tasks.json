@@ -63,372 +63,398 @@
       "command": "GOOS=js GOARCH=wasm go build -o wasmworkbench.wasm"
     },
     {
-      "label": "01 - Run gongc skipNg conditionally (from script)",
+      "label": "01 - Run gong skipNg conditionally (from script)",
       "type": "shell",
-      "command": "./scripts/run_gongc_skip_ng_conditionally.sh",
+      "command": "./scripts/run_gong_skip_ng_conditionally.sh",
       "group": "build"
     },
     {
-      "label": "01 - Run gongc conditionally (from script)",
+      "label": "01 - Run gong conditionally (from script)",
       "type": "shell",
-      "command": "./scripts/run_gongc_conditionally.sh",
+      "command": "./scripts/run_gong_conditionally.sh",
       "group": "build"
     },
     {
-      "label": "01 - gongc button",
+      "label": "01 - gong generate button",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/button"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc cursor",
+      "label": "01 - gong generate cursor",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/cursor"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc doc2",
+      "label": "01 - gong generate doc2",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/doc2"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipStager=false",
-        "-level1",
-        "go/models",
+        "generate",
+        "--skipGoModCommands",
+        "--skipStager=false",
+        "--level1",
+        "go/models"
       ]
     },
     {
-      "label": "01 - gongc doc -clean",
+      "label": "01 - gong generate doc --clean",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/doc/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-clean"
+        "generate",
+        "--clean"
       ]
     },
     {
-      "label": "01 - gongc load",
+      "label": "01 - gong generate load",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/load"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc markdown",
+      "label": "01 - gong generate markdown",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/markdown"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc probe",
+      "label": "01 - gong generate probe",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/probe"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc gantt",
+      "label": "01 - gong generate gantt",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/gantt"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-level1",
-        "-skipStager=false",
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+        "--skipStager=false",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc gong",
+      "label": "01 - gong generate gong",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipStager=false",
-        "-level1",
+        "generate",
+        "--skipGoModCommands",
+        "--skipStager=false",
+        "--level1",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc gong -clean",
+      "label": "01 - gong generate gong --clean",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-clean"
+        "generate",
+        "--clean"
       ]
     },
     {
-      "label": "01 - gongc gong -skipGoModCommands -skipNg",
+      "label": "01 - gong generate gong --skipGoModCommands --skipNg",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNg"
+        "generate",
+        "--skipGoModCommands",
+        "--skipNg"
       ]
     },
     {
-      "label": "01 - gongc sim",
+      "label": "01 - gong generate sim",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/sim"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc ssg",
+      "label": "01 - gong generate ssg",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/ssg"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
-        "-skipStager=false",
-        "go/models",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
+        "--skipStager=false",
+        "go/models"
       ]
     },
     {
-      "label": "01 - gongc slider",
+      "label": "01 - gong generate slider",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/slider"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc split",
+      "label": "01 - gong generate split",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/split"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc table",
+      "label": "01 - gong generate table",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/table"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc test -skipGoModCommands -skipNpmWorkspaces",
+      "label": "01 - gong generate test --skipGoModCommands --skipNpmWorkspaces",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces"
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces"
       ]
     },
     {
-      "label": "01 - gongc test -skipNg",
+      "label": "01 - gong generate test --skipNg",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipNg"
+        "generate",
+        "--skipNg"
       ]
     },
     {
-      "label": "01 - gongc test -skipNpmWorkspaces",
+      "label": "01 - gong generate test --skipNpmWorkspaces",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipNpmWorkspaces"
+        "generate",
+        "--skipNpmWorkspaces"
       ]
     },
     {
-      "label": "01 - gongc test2",
+      "label": "01 - gong generate test2",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test2/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces"
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces"
       ]
     },
     {
-      "label": "01 - gongc test3",
+      "label": "01 - gong generate test3",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test3/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
-        "-skipStager=false",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
+        "--skipStager=false"
       ]
     },
     {
-      "label": "01 - gongc statemachines",
+      "label": "01 - gong generate statemachines",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/statemachines/go/models"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-level1",
-        "-skipStager=false",
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+        "--skipStager=false"
       ]
     },
     {
-      "label": "01 - gongc tone",
+      "label": "01 - gong generate tone",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/tone"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
-        "-skipStager=false",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
+        "--skipStager=false",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc tree",
+      "label": "01 - gong generate tree",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/tree"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc xlsx",
+      "label": "01 - gong generate xlsx",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/xlsx"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-level1",
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
         "go/models"
       ]
     },
     {
-      "label": "01 - gongc svg",
+      "label": "01 - gong generate svg",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/lib/svg"
       },
-      "command": "gongc",
+      "command": "gong",
       "group": "build",
       "args": [
-        "-skipGoModCommands",
-        "-skipNpmWorkspaces",
+        "generate",
+        "--skipGoModCommands",
+        "--skipNpmWorkspaces",
         "go/models"
       ]
     },
@@ -711,7 +737,7 @@
       "group": "build"
     },
     {
-      "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go -diagrams",
+      "label": "04 - go run main.go -marshallOnCommit stage_out -unmarshallFromCode stage.go --diagrams",
       "type": "shell",
       "options": {
         "cwd": "./test/test/go/cmd/test"
@@ -723,7 +749,7 @@
         "-marshallOnCommit=sdata/tage_out",
         "-unmarshallFromCode",
         "stage.go",
-        "-diagrams"
+        "--diagrams"
       ],
       "group": "build"
     },
@@ -738,7 +764,7 @@
         "run",
         "main.go",
         "-unmarshallFromCode",
-        "stage.go",
+        "stage.go"
       ],
       "group": "build"
     },
@@ -861,7 +887,7 @@
         "data/simple.go",
         "-marshallOnCommit",
         "data/simple.go",
-        "-port",
+        "--port",
         "8090"
       ],
       "group": "build"
@@ -879,7 +905,7 @@
         "-unmarshallFromCode",
         "data/simple.go",
         "-marshallOnCommit",
-        "data/simple.go",
+        "data/simple.go"
       ],
       "group": "build"
     },
@@ -912,7 +938,7 @@
       "group": "build"
     },
     {
-      "label": "04 - go run test -unmarshallFromCode=data/stage.go -marshallOnCommidata=data/stage.go",
+      "label": "04 - go run test -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage.go",
       "type": "shell",
       "options": {
         "cwd": "./test/test/go/cmd/test"
@@ -929,7 +955,7 @@
       "group": "build"
     },
     {
-      "label": "04 - go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommidata/t=stage2",
+      "label": "04 - go run test2 -unmarshallFromCode=data/stage2.go -marshallOnCommit=data/stage2",
       "type": "shell",
       "options": {
         "cwd": "./test2/go/cmd/test2"
@@ -994,37 +1020,37 @@
     {
       "label": "Create and Run Helloworld level4 Gong Example in /tmp",
       "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gongc -skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
       "options": {
-        "cwd": "/tmp" // Specifies the directory where the task command will run
+        "cwd": "/tmp"
       },
-      "problemMatcher": [], // You might add problem matchers if gongc or ./helloworld produce structured errors
+      "problemMatcher": [],
       "presentation": {
-        "echo": true, // Show the command in the terminal before executing
-        "reveal": "always", // Always show the terminal panel
-        "focus": true, // Focus the terminal panel
-        "panel": "shared", // Use a shared terminal panel for this task
-        "clear": true // Clear the terminal before running the task
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
       },
-      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gongc and the compiled binary, then cleans up.",
+      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
       "group": "build"
     },
     {
       "label": "Create and Run Helloworld level1 Gong Example in /tmp",
       "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gongc -level1 -skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --level1 --skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
       "options": {
-        "cwd": "/tmp" // Specifies the directory where the task command will run
+        "cwd": "/tmp"
       },
-      "problemMatcher": [], // You might add problem matchers if gongc or ./helloworld produce structured errors
+      "problemMatcher": [],
       "presentation": {
-        "echo": true, // Show the command in the terminal before executing
-        "reveal": "always", // Always show the terminal panel
-        "focus": true, // Focus the terminal panel
-        "panel": "shared", // Use a shared terminal panel for this task
-        "clear": true // Clear the terminal before running the task
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
       },
-      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gongc and the compiled binary, then cleans up.",
+      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
       "group": "build"
     },
     {
@@ -1032,17 +1058,17 @@
       "type": "shell",
       "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go",
       "options": {
-        "cwd": "/tmp" // Specifies the directory where the task command will run
+        "cwd": "/tmp"
       },
-      "problemMatcher": [], // You might add problem matchers if gongc or ./helloworld produce structured errors
+      "problemMatcher": [],
       "presentation": {
-        "echo": true, // Show the command in the terminal before executing
-        "reveal": "always", // Always show the terminal panel
-        "focus": true, // Focus the terminal panel
-        "panel": "shared", // Use a shared terminal panel for this task
-        "clear": true // Clear the terminal before running the task
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "clear": true
       },
-      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gongc and the compiled binary, then cleans up.",
+      "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
       "group": "build"
     }
   ]

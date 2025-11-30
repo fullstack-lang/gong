@@ -11,7 +11,6 @@ import (
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
-	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 var (
@@ -33,18 +32,15 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup the static file server and get the controller
-	r := split_static.ServeStaticFiles(*logGINFlag)
-
 	// setup model stack with its probe
 	stack := level1stack.NewLevel1Stack("gantt", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stack.Probe.Refresh()
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
-	splitStage := split_stack.NewStack(r, "", "", "", "", false, false).Stage
+	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	stager := gantt_models.NewStager(r, stack.Stage, splitStage)
+	stager := gantt_models.NewStager(stack.R, stack.Stage, splitStage)
 
 	// set up the GanttSVGMapper that will intercept
 	// commits on the gantt stage and that will
@@ -88,7 +84,7 @@ func main() {
 	splitStage.Commit()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
+	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}

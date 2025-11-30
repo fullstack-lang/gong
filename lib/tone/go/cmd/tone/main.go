@@ -36,6 +36,7 @@ func main() {
 	// setup model stack with its probe
 	stack := tone_stack.NewStack(r, "tone", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	//
 	tone_models.NewStager(r, stack.Stage)

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/fullstack-lang/gong/lib/slider/go/models"
-
 	// injection point for ident package import declaration{{ImportPackageDeclaration}}
 )
 
@@ -21,6 +20,11 @@ var _ map[string]any = map[string]any{
 
 // function will stage objects
 func _(stage *models.Stage) {
+
+	const __write__local_time = "2025-11-30 18:22:09.675810 CET"
+	const __write__utc_time__ = "2025-11-30 17:22:09.675810 UTC"
+
+	const __commitId__ = "0000000001"
 
 	// Declaration of instances to stage
 
@@ -65,3 +69,4 @@ func _(stage *models.Stage) {
 	__Layout__000000_layout.Groups = append(__Layout__000000_layout.Groups, __Group__000000_group_1)
 	// setup of Slider instances pointers
 }
+
