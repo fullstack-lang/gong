@@ -5,341 +5,353 @@
         // "gongc" configurations
         //
         {
-            "name": "gongc /tmp/helloworld -skipStager=false",
+            "name": "gong generate /tmp/helloworld -skipStager=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipStager=false",
+                "generate",
+                "--skipStager=false",
             ]
         },
         {
-            "name": "gongc /tmp/helloworld -level1 -skipStager=false",
+            "name": "gong generate /tmp/helloworld -level1 -skipStager=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "/tmp/helloworld/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-level1",
-                "-skipStager=false",
+                "generate",
+                "--level1",
+                "--skipStager=false",
             ]
         },
         {
-            "name": "gongc doc2 -skipGoModCommands -skipNg",
+            "name": "gong generate doc2 -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/lib/doc2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNg"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
-            "name": "gongc gong -skipGoModCommands -level1",
+            "name": "gong generate gong -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-level1"
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
             ]
         },
         {
-            "name": "gongc gongreqif",
+            "name": "gong generate gongreqif",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongreqif/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNg",
-                "-skipGoModCommands"
+                "generate",
+                "--skipNg",
+                "--skipGoModCommands",
             ]
         },
         {
-            "name": "gongc gongxsd books",
+            "name": "gong generate gongxsd books",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongxsd/test/books/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": []
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate"
+            ]
         },
         {
-            "name": "gongc musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
+            "name": "gong generate musicxml of gongxsd -skipGoModCommands -skipNpmInstall -compileForDebug",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/../gongxsd/test/musicxml/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-compileForDebug"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--compileForDebug",
             ]
         },
         {
-            "name": "gongc phyllotaxymusic sliders -skipGoModCommands -skipNg -compileForDebug",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/sliders/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-                "-compileForDebug"
-            ]
-        },
-        {
-            "name": "gongc slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "gong generate slider -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/lib/slider/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces"
             ]
         },
         {
-            "name": "gongc svg -skipGoModCommands -skipNg",
+            "name": "gong generate svg -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/lib/svg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNg"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
-            "name": "gongc svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "gong generate svg -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/lib/svg/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipFlutter=false",
+            "name": "gong generate test -skipGoModCommands -skipNg -skipFlutter=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipFlutter=false"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNg",
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
+            "name": "gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-compileForDebug",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall"
+                "generate",
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
+            "name": "gong generate test -skipGoModCommands -skipNg -skipNpmInstall -compileForDebug -debouncedMarshall w/o rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-compileForDebug",
-                "-skipGoModCommands",
-                "-skipNg",
-                "-skipNpmInstall",
-                "-debouncedMarshall"
+                "generate",
+                "--compileForDebug",
+                "--skipGoModCommands",
+                "--skipNg",
+                "--skipNpmInstall",
+                "--debouncedMarshall"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall  with rm main.go",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipStager=false",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
-            ]
-        },
-        {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
+            "name": "gong generate test -skipGoModCommands -skipNpmInstall  with rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNg",
-                "-skipStager=false",
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "generate",
+                "--skipStager=false",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
+            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipNg",
+                "--skipStager=false",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
+            ]
+        },
+        {
+            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNg with rm main.go, from test",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNg",
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "go/models"
+                "generate",
+                "go/models",
+                "--skipNg",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
+            "name": "gong generate test -skipGoModCommands -skipNpmInstall -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNpmWorkspaces",
-                "-skipStager=false"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNpmWorkspaces",
+                "--skipStager=false"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmInstall without rm main.go",
+            "name": "gong generate test -skipGoModCommands -skipNpmInstall without rm main.go",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
-            "name": "gongc test -skipGoModCommands -skipNpmWorkspaces -skipStager=false",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "preLaunchTask": "01 - remove test main.go and stager.go",
-            "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
-            "args": [
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces",
-                "-skipStager=false"
-            ]
-        },
-        {
-            "name": "gongc test -skipNg -skipGoModCommands -skipNpmWorkspaces",
+            "name": "gong generate test -skipGoModCommands -skipNpmWorkspaces -skipStager=false",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNg",
-                "-skipGoModCommands",
-                "-skipNpmWorkspaces"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces",
+                "--skipStager=false"
             ]
         },
         {
-            "name": "gongc test -skipNpmInstall -skipGoModCommands -skipNg",
+            "name": "gong generate test -skipNg -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "preLaunchTask": "01 - remove test main.go and stager.go",
             "cwd": "${workspaceFolder}/test/test/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNpmInstall",
-                "-skipGoModCommands",
-                "-skipNg"
+                "generate",
+                "--skipNg",
+                "--skipGoModCommands",
+                "--skipNpmWorkspaces"
             ]
         },
         {
-            "name": "gongc test2 -skipGoModCommands -skipNg",
+            "name": "gong generate test -skipNpmInstall -skipGoModCommands -skipNg",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "preLaunchTask": "01 - remove test main.go and stager.go",
+            "cwd": "${workspaceFolder}/test/test/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipNpmInstall",
+                "--skipGoModCommands",
+                "--skipNg",
+            ]
+        },
+        {
+            "name": "gong generate test2 -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipNg",
-                "-skipGoModCommands"
+                "generate",
+                "--skipNg",
+                "--skipGoModCommands",
             ]
         },
         {
-            "name": "gongc test2 -skipGoModCommands -skipNpmInstall",
+            "name": "gong generate test2 -skipGoModCommands -skipNpmInstall",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall"
             ]
         },
         {
-            "name": "gongc test2 -skipGoModCommands -skipNpmInstall -skipNg",
+            "name": "gong generate test2 -skipGoModCommands -skipNpmInstall -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test2/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipNpmInstall",
-                "-skipNg"
+                "generate",
+                "--skipGoModCommands",
+                "--skipNpmInstall",
+                "--skipNg",
             ]
         },
         {
-            "name": "gongc test3 -skipGoModCommands -level1",
+            "name": "gong generate test3 -skipGoModCommands -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "cwd": "${workspaceFolder}/test/test3/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipStager=false",
-                "-level1"
+                "generate",
+                "--skipGoModCommands",
+                "--skipStager=false",
+                "--level1"
             ]
         },
         //
@@ -385,17 +397,6 @@
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage",
                 "-embeddedDiagrams=true"
-            ]
-        },
-        {
-            "name": "go run gong",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "-unmarshallFromCode=data/stage.go",
-                "-marshallOnCommit=data/stage"
             ]
         },
         {
@@ -740,16 +741,17 @@
             ]
         },
         {
-            "name": "gongc statemachines -level1",
+            "name": "gong generate statemachines -level1",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "cwd": "${workspaceFolder}/test/statemachines/go/models",
-            "program": "${workspaceFolder}/go/cmd/gongc",
+            "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
-                "-skipGoModCommands",
-                "-skipStager=false",
-                "-level1"
+                "generate",
+                "--skipGoModCommands",
+                "--skipStager=false",
+                "--level1"
             ]
         },
         {

@@ -56,6 +56,7 @@ func main() {
 	// setup model stack with its probe
 	stack := ssg_stack.NewStack(r, "ssg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
+	stack.Stage.Commit()
 
 	// insertion point for call to stager
 	ssg_models.NewStager(r, stack.Stage)
