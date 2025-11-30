@@ -40,9 +40,10 @@ var (
 )
 
 var generateCmd = &cobra.Command{
-	Use:   "generate [path to models package]",
-	Short: "Generates the code from the models package",
-	Args:  cobra.MaximumNArgs(1),
+	Use:     "generate [path to models package]",
+	Short:   "Generates the code from the models package",
+	Aliases: []string{"g"},
+	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		log.SetPrefix("gongc: ")
 		log.SetFlags(0)
