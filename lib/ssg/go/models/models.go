@@ -19,9 +19,10 @@ type Content struct {
 	LayoutPath  string // path to the layout directory
 	StaticPath  string // path to the static directory
 
-	// LogoFileName is the filename is the file located in the StaticPath/images
-	// for instance "logo.svg"
-	LogoFileName string
+	// BespokeLogoFileName is the filename is the file located in the StaticPath/images
+	// default "logo.svg"
+	IsBespokeLogoFileName bool
+	BespokeLogoFileName   string
 
 	Target Target
 

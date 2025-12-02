@@ -38,7 +38,9 @@ type Content_WOP struct {
 
 	StaticPath string
 
-	LogoFileName string
+	IsBespokeLogoFileName bool
+
+	BespokeLogoFileName string
 
 	Target Target
 
@@ -53,7 +55,8 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.OutputPath = from.OutputPath
 	to.LayoutPath = from.LayoutPath
 	to.StaticPath = from.StaticPath
-	to.LogoFileName = from.LogoFileName
+	to.IsBespokeLogoFileName = from.IsBespokeLogoFileName
+	to.BespokeLogoFileName = from.BespokeLogoFileName
 	to.Target = from.Target
 	to.VersionInfo = from.VersionInfo
 }
