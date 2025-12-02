@@ -17,6 +17,8 @@ import (
 	{{pkgname}}_go "{{PkgPathRoot}}"
 
 	"github.com/gin-gonic/gin"
+
+	split_static "github.com/fullstack-lang/gong/lib/split/go/static"
 )
 
 // hook marhalling to stage
