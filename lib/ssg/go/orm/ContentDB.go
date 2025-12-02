@@ -81,6 +81,9 @@ type ContentDB struct {
 	// Declation for basic field contentDB.StaticPath
 	StaticPath_Data sql.NullString
 
+	// Declation for basic field contentDB.LogoFileName
+	LogoFileName_Data sql.NullString
+
 	// Declation for basic field contentDB.Target
 	Target_Data sql.NullString
 
@@ -121,9 +124,11 @@ type ContentWOP struct {
 
 	StaticPath string `xlsx:"6"`
 
-	Target models.Target `xlsx:"7"`
+	LogoFileName string `xlsx:"7"`
 
-	VersionInfo string `xlsx:"8"`
+	Target models.Target `xlsx:"8"`
+
+	VersionInfo string `xlsx:"9"`
 	// insertion for WOP pointer fields
 }
 
@@ -136,6 +141,7 @@ var Content_Fields = []string{
 	"OutputPath",
 	"LayoutPath",
 	"StaticPath",
+	"LogoFileName",
 	"Target",
 	"VersionInfo",
 }
@@ -460,6 +466,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 	contentDB.StaticPath_Data.String = content.StaticPath
 	contentDB.StaticPath_Data.Valid = true
 
+	contentDB.LogoFileName_Data.String = content.LogoFileName
+	contentDB.LogoFileName_Data.Valid = true
+
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
 
@@ -488,6 +497,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 
 	contentDB.StaticPath_Data.String = content.StaticPath
 	contentDB.StaticPath_Data.Valid = true
+
+	contentDB.LogoFileName_Data.String = content.LogoFileName
+	contentDB.LogoFileName_Data.Valid = true
 
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
@@ -518,6 +530,9 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 	contentDB.StaticPath_Data.String = content.StaticPath
 	contentDB.StaticPath_Data.Valid = true
 
+	contentDB.LogoFileName_Data.String = content.LogoFileName
+	contentDB.LogoFileName_Data.Valid = true
+
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
 
@@ -534,6 +549,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
+	content.LogoFileName = contentDB.LogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
@@ -547,6 +563,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
+	content.LogoFileName = contentDB.LogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
@@ -561,6 +578,7 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.OutputPath = contentDB.OutputPath_Data.String
 	content.LayoutPath = contentDB.LayoutPath_Data.String
 	content.StaticPath = contentDB.StaticPath_Data.String
+	content.LogoFileName = contentDB.LogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }

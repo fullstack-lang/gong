@@ -1180,6 +1180,10 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "LogoFileName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "Target",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -1300,6 +1304,8 @@ func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = content.LayoutPath
 	case "StaticPath":
 		res.valueString = content.StaticPath
+	case "LogoFileName":
+		res.valueString = content.LogoFileName
 	case "Target":
 		enum := content.Target
 		res.valueString = enum.ToCodeString()
@@ -1377,6 +1383,8 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 		content.LayoutPath = value.GetValueString()
 	case "StaticPath":
 		content.StaticPath = value.GetValueString()
+	case "LogoFileName":
+		content.LogoFileName = value.GetValueString()
 	case "Target":
 		content.Target.FromCodeString(value.GetValueString())
 	case "Chapters":
