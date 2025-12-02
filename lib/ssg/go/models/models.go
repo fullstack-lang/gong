@@ -14,10 +14,14 @@ type Content struct {
 	MardownContent string
 
 	// path to the content generation
-	ContentPath string
-	OutputPath  string
-	LayoutPath  string
-	StaticPath  string
+	ContentPath string // path to the markdown content
+	OutputPath  string // path to the output directory
+	LayoutPath  string // path to the layout directory
+	StaticPath  string // path to the static directory
+
+	// LogoFileName is the filename is the file located in the StaticPath/images
+	// for instance "logo.svg"
+	LogoFileName string
 
 	Target Target
 
