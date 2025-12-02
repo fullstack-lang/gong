@@ -42,10 +42,11 @@ type Page struct {
 
 // SiteInfo holds global information about the site
 type SiteInfo struct {
-	Pages        map[string]*Page   // Map Absolute URLs to Pages for easy lookup
-	Sections     []*Page            // Top-level sections (chapters) sorted by weight
-	Templates    *template.Template // Parsed HTML templates
-	LogoFileName string             // Logo file name
+	Pages                 map[string]*Page   // Map Absolute URLs to Pages for easy lookup
+	Sections              []*Page            // Top-level sections (chapters) sorted by weight
+	Templates             *template.Template // Parsed HTML templates
+	IsBespokeLogoFileName bool
+	BespokeLogoFileName   string             // Logo file name
 }
 
 // Initialize Goldmark with extensions
