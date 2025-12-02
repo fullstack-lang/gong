@@ -128,7 +128,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__000010_MardownContent.Fieldtypename = `string`
 
 	__AttributeShape__000011_LogoFileName.Name = `LogoFileName`
-	__AttributeShape__000011_LogoFileName.IdentifierMeta = ref_models.Content{}.LogoFileName
+	__AttributeShape__000011_LogoFileName.IdentifierMeta = ref_models.Content{}.BespokeLogoFileName
 	__AttributeShape__000011_LogoFileName.FieldTypeAsString = ``
 	__AttributeShape__000011_LogoFileName.Structname = `Content`
 	__AttributeShape__000011_LogoFileName.Fieldtypename = `string`
@@ -260,4 +260,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000002_Default_Page.AttributeShapes = append(__GongStructShape__000002_Default_Page.AttributeShapes, __AttributeShape__000010_MardownContent)
 	// setup of LinkShape instances pointers
 }
-

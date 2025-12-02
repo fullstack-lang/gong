@@ -12,7 +12,12 @@
     {{ end }}
     <div class="container">
         <nav class="sidebar">
-            <img src="{{ .Page.RelPathToRoot }}images/{{ .Site.LogoFileName }}" alt="Site Logo" class="site-logo"> <h2><a href="{{ .Page.RelPathToRoot }}index.html">{{ (index .Site.Pages "/").Title }}</a></h2>
+            {{ if .Site.IsBespokeLogoFileName }}
+            <img src="{{ .Page.RelPathToRoot }}images/{{ .Site.BespokeLogoFileName }}" alt="Site Logo" class="site-logo">
+            {{ else }}
+            <img src="{{ .Page.RelPathToRoot }}images/logo.svg" alt="Site Logo" class="site-logo">
+            {{ end }}
+            <h2><a href="{{ .Page.RelPathToRoot }}index.html">{{ (index .Site.Pages "/").Title }}</a></h2>
             {{ template "nav.html" . }}
         </nav>
         <main class="content">
