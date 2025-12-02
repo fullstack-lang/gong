@@ -94,6 +94,21 @@ body {
     background-color: #e2e3e5;
 }
 
+.sidebar .site-logo {
+    display: block;
+    
+    /* 1. Pull the image out into the padding area */
+    margin-left: -25px;  /* Counteracts the left padding */
+    margin-top: -25px;   /* Counteracts the top padding (optional, if you want it flush top) */
+    
+    /* 2. Make the width wider to cover the padding on both sides */
+    /* 100% is the content area + 25px (left) + 25px (right) = 50px */
+    width: calc(100% + 50px);
+    
+    height: auto;
+    margin-bottom: 1.5em;
+}
+
 .content {
     flex-grow: 1;
     padding: 30px 40px;
@@ -229,4 +244,9 @@ body {
     padding: 2px 5px;
     border-radius: 3px;
     z-index: 1000;
+}
+
+/* Add this to make top-level sidebar links bold */
+.sidebar > ul > li > a {
+    font-weight: bold;
 }
