@@ -61,6 +61,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("StaticPath", instanceWithInferedType.StaticPath, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("LogoFileName", instanceWithInferedType.LogoFileName, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		EnumTypeStringToForm("Target", instanceWithInferedType.Target, instanceWithInferedType, probe.formStage, formGroup)
 		AssociationSliceToForm("Chapters", instanceWithInferedType, &instanceWithInferedType.Chapters, formGroup, probe)
 		BasicFieldtoForm("VersionInfo", instanceWithInferedType.VersionInfo, instanceWithInferedType, probe.formStage, formGroup,

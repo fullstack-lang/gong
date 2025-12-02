@@ -23,10 +23,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-05 18:16:01.719257 CEST"
-	const __write__utc_time__ = "2025-07-05 16:16:01.719257 UTC"
+	const __write__local_time = "2025-12-03 00:12:14.658179 CET"
+	const __write__utc_time__ = "2025-12-02 23:12:14.658179 UTC"
 
-	const __commitId__ = "0000000043"
+	const __commitId__ = "0000000046"
 
 	// Declaration of instances to stage
 
@@ -41,6 +41,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__000008_Target := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000009_Name := (&models.AttributeShape{}).Stage(stage)
 	__AttributeShape__000010_MardownContent := (&models.AttributeShape{}).Stage(stage)
+	__AttributeShape__000011_LogoFileName := (&models.AttributeShape{}).Stage(stage)
 
 	__Classdiagram__000000_Default := (&models.Classdiagram{}).Stage(stage)
 
@@ -126,13 +127,22 @@ func _(stage *models.Stage) {
 	__AttributeShape__000010_MardownContent.Structname = `Page`
 	__AttributeShape__000010_MardownContent.Fieldtypename = `string`
 
+	__AttributeShape__000011_LogoFileName.Name = `LogoFileName`
+	__AttributeShape__000011_LogoFileName.IdentifierMeta = ref_models.Content{}.LogoFileName
+	__AttributeShape__000011_LogoFileName.FieldTypeAsString = ``
+	__AttributeShape__000011_LogoFileName.Structname = `Content`
+	__AttributeShape__000011_LogoFileName.Fieldtypename = `string`
+
 	__Classdiagram__000000_Default.Name = `Default`
 	__Classdiagram__000000_Default.Description = ``
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = false
+	__Classdiagram__000000_Default.ShowNbInstances = false
+	__Classdiagram__000000_Default.ShowMultiplicity = false
+	__Classdiagram__000000_Default.ShowLinkNames = false
 	__Classdiagram__000000_Default.IsInRenameMode = false
 	__Classdiagram__000000_Default.IsExpanded = true
 	__Classdiagram__000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[true,true,true]`
+	__Classdiagram__000000_Default.NodeGongStructNodeExpansion = `[false,false,true]`
 	__Classdiagram__000000_Default.NodeGongEnumsIsExpanded = true
 	__Classdiagram__000000_Default.NodeGongEnumNodeExpansion = `[true]`
 	__Classdiagram__000000_Default.NodeGongNotesIsExpanded = false
@@ -170,7 +180,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Content.Y = 44.000000
 	__GongStructShape__000001_Default_Content.IdentifierMeta = ref_models.Content{}
 	__GongStructShape__000001_Default_Content.Width = 240.000000
-	__GongStructShape__000001_Default_Content.Height = 203.000000
+	__GongStructShape__000001_Default_Content.Height = 223.000000
 	__GongStructShape__000001_Default_Content.IsSelected = false
 
 	__GongStructShape__000002_Default_Page.Name = `Default-Page`
@@ -243,6 +253,7 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000005_OutputPath)
 	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000006_LayoutPath)
 	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000007_StaticPath)
+	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000011_LogoFileName)
 	__GongStructShape__000001_Default_Content.AttributeShapes = append(__GongStructShape__000001_Default_Content.AttributeShapes, __AttributeShape__000008_Target)
 	__GongStructShape__000001_Default_Content.LinkShapes = append(__GongStructShape__000001_Default_Content.LinkShapes, __LinkShape__000001_Chapters)
 	__GongStructShape__000002_Default_Page.AttributeShapes = append(__GongStructShape__000002_Default_Page.AttributeShapes, __AttributeShape__000009_Name)
