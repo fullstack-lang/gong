@@ -11,9 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"{{PkgPathRoot}}/fullstack"
 	"{{PkgPathRoot}}/models"
-	"{{PkgPathRoot}}/orm"
 	"{{PkgPathRoot}}/probe"
 
 	{{pkgname}}_go "{{PkgPathRoot}}"
