@@ -94,13 +94,19 @@ body {
     background-color: #e2e3e5;
 }
 
-/* Add near the .sidebar styles in style.css */
 .sidebar .site-logo {
-    display: block; /* Make it a block element for margin control */
-    width: 150px;   /* Adjust width as needed */
-    height: auto;   /* Maintain aspect ratio */
-    margin-bottom: 1.5em; /* Add space below the logo */
-    /* Add other styles like margin-left: auto; margin-right: auto; for centering if needed */
+    display: block;
+    
+    /* 1. Pull the image out into the padding area */
+    margin-left: -25px;  /* Counteracts the left padding */
+    margin-top: -25px;   /* Counteracts the top padding (optional, if you want it flush top) */
+    
+    /* 2. Make the width wider to cover the padding on both sides */
+    /* 100% is the content area + 25px (left) + 25px (right) = 50px */
+    width: calc(100% + 50px);
+    
+    height: auto;
+    margin-bottom: 1.5em;
 }
 
 .content {
@@ -238,4 +244,9 @@ body {
     padding: 2px 5px;
     border-radius: 3px;
     z-index: 1000;
+}
+
+/* Add this to make top-level sidebar links bold */
+.sidebar > ul > li > a {
+    font-weight: bold;
 }
