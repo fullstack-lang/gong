@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -36,16 +35,9 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
-		probe.stageOfInterest.GetName(),
-		probe.stageOfInterest.GetCommitId(),
-		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
-	nodeRefreshButton.Name +=
-		fmt.Sprintf(" (%d/%d/%d)", 
-			len(probe.stageOfInterest.GetNew()), 
-			len(probe.stageOfInterest.GetModified()), 
-			len(probe.stageOfInterest.GetDeleted()),
-		)
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
+		probe.stageOfInterest.GetName())}
+
 	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
@@ -91,26 +83,13 @@ func updateAndCommitTree(
 		case "Astruct":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Astruct](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _astruct := range set {
 				nodeInstance := &tree.Node{Name: _astruct.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_astruct, "Astruct", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_astruct]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_astruct]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_astruct]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "AstructBstruct2Use":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.AstructBstruct2Use](probe.stageOfInterest)
