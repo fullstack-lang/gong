@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -36,16 +35,9 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
-		probe.stageOfInterest.GetName(),
-		probe.stageOfInterest.GetCommitId(),
-		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
-	nodeRefreshButton.Name +=
-		fmt.Sprintf(" (%d/%d/%d)", 
-			len(probe.stageOfInterest.GetNew()), 
-			len(probe.stageOfInterest.GetModified()), 
-			len(probe.stageOfInterest.GetDeleted()),
-		)
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
+		probe.stageOfInterest.GetName())}
+
 	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
@@ -91,279 +83,123 @@ func updateAndCommitTree(
 		case "Architecture":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Architecture](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _architecture := range set {
 				nodeInstance := &tree.Node{Name: _architecture.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_architecture, "Architecture", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_architecture]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_architecture]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_architecture]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Diagram":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _diagram := range set {
 				nodeInstance := &tree.Node{Name: _diagram.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_diagram, "Diagram", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_diagram]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_diagram]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_diagram]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Kill":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Kill](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _kill := range set {
 				nodeInstance := &tree.Node{Name: _kill.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_kill, "Kill", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_kill]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_kill]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_kill]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Message":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Message](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _message := range set {
 				nodeInstance := &tree.Node{Name: _message.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_message, "Message", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_message]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_message]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_message]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "MessageType":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.MessageType](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _messagetype := range set {
 				nodeInstance := &tree.Node{Name: _messagetype.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_messagetype, "MessageType", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_messagetype]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_messagetype]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_messagetype]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Object":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Object](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _object := range set {
 				nodeInstance := &tree.Node{Name: _object.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_object, "Object", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_object]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_object]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_object]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Role":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Role](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _role := range set {
 				nodeInstance := &tree.Node{Name: _role.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_role, "Role", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_role]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_role]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_role]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "State":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.State](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _state := range set {
 				nodeInstance := &tree.Node{Name: _state.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_state, "State", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_state]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_state]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_state]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "StateMachine":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.StateMachine](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _statemachine := range set {
 				nodeInstance := &tree.Node{Name: _statemachine.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_statemachine, "StateMachine", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_statemachine]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_statemachine]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_statemachine]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "StateShape":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.StateShape](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _stateshape := range set {
 				nodeInstance := &tree.Node{Name: _stateshape.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_stateshape, "StateShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_stateshape]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_stateshape]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_stateshape]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Transition":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Transition](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _transition := range set {
 				nodeInstance := &tree.Node{Name: _transition.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_transition, "Transition", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_transition]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_transition]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_transition]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "Transition_Shape":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Transition_Shape](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _transition_shape := range set {
 				nodeInstance := &tree.Node{Name: _transition_shape.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_transition_shape, "Transition_Shape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_transition_shape]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_transition_shape]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_transition_shape]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		}
 
 		nodeGongstruct.IsNodeClickable = true
