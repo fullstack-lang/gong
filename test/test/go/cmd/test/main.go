@@ -50,7 +50,6 @@ func main() {
 	// setup model stack with its probe
 	stack := test_stack.NewStack(r, "test", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
 	stack.Probe.Refresh()
-	stack.Stage.SetGeneratesDiff(true)
 
 	// the root split name is "" by convention. Is is the same for all gong applications
 	// that do not develop their specific angular component
