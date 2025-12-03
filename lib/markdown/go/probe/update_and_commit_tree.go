@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-	"time"
 
 	gongtree_buttons "github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -36,16 +35,9 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s, # %d, %s",
-		probe.stageOfInterest.GetName(),
-		probe.stageOfInterest.GetCommitId(),
-		probe.stageOfInterest.GetCommitTS().Local().Format(time.Kitchen))}
-	nodeRefreshButton.Name +=
-		fmt.Sprintf(" (%d/%d/%d)", 
-			len(probe.stageOfInterest.GetNew()), 
-			len(probe.stageOfInterest.GetModified()), 
-			len(probe.stageOfInterest.GetDeleted()),
-		)
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
+		probe.stageOfInterest.GetName())}
+
 	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
@@ -91,95 +83,43 @@ func updateAndCommitTree(
 		case "Content":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Content](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _content := range set {
 				nodeInstance := &tree.Node{Name: _content.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_content, "Content", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_content]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_content]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_content]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "JpgImage":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.JpgImage](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _jpgimage := range set {
 				nodeInstance := &tree.Node{Name: _jpgimage.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_jpgimage, "JpgImage", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_jpgimage]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_jpgimage]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_jpgimage]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "PngImage":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.PngImage](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _pngimage := range set {
 				nodeInstance := &tree.Node{Name: _pngimage.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_pngimage, "PngImage", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_pngimage]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_pngimage]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_pngimage]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		case "SvgImage":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.SvgImage](probe.stageOfInterest)
-			created := 0
-			updated := 0
-			deleted := 0
 			for _svgimage := range set {
 				nodeInstance := &tree.Node{Name: _svgimage.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_svgimage, "SvgImage", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-				if _, ok := probe.stageOfInterest.GetNew()[_svgimage]; ok {
-					created++
-				}
-				if _, ok := probe.stageOfInterest.GetModified()[_svgimage]; ok {
-					updated++
-				}
-				if _, ok := probe.stageOfInterest.GetDeleted()[_svgimage]; ok {
-					deleted++
-				}
 			}
-			nodeGongstruct.Name += fmt.Sprintf(" (%d/%d/%d)", created, updated, deleted)
 		}
 
 		nodeGongstruct.IsNodeClickable = true
