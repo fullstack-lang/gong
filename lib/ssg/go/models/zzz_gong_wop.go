@@ -42,6 +42,10 @@ type Content_WOP struct {
 
 	BespokeLogoFileName string
 
+	IsBespokePageTileLogoFileName bool
+
+	BespokePageTileLogoFileName string
+
 	Target Target
 
 	VersionInfo string
@@ -57,6 +61,8 @@ func (from *Content) CopyBasicFields(to *Content) {
 	to.StaticPath = from.StaticPath
 	to.IsBespokeLogoFileName = from.IsBespokeLogoFileName
 	to.BespokeLogoFileName = from.BespokeLogoFileName
+	to.IsBespokePageTileLogoFileName = from.IsBespokePageTileLogoFileName
+	to.BespokePageTileLogoFileName = from.BespokePageTileLogoFileName
 	to.Target = from.Target
 	to.VersionInfo = from.VersionInfo
 }
