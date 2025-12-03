@@ -1,5 +1,10 @@
 {{ define "main" }}
-    <h1>{{ .Page.Title }}</h1>
+    <div class="title-container">
+        <h1>{{ .Page.Title }}</h1>
+        {{ if .Site.IsBespokePageTileLogoFileName }}
+        <img src="{{ .Page.RelPathToRoot }}images/{{ .Site.BespokePageTileLogoFileName }}" alt="Page Title Logo" class="page-title-logo">
+        {{ end }}
+    </div>
     <article class="page-content">
         {{ .Page.ContentHTML }}
     </article>

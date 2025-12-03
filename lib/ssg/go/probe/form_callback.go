@@ -248,6 +248,10 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(content_.IsBespokeLogoFileName), formDiv)
 		case "BespokeLogoFileName":
 			FormDivBasicFieldToField(&(content_.BespokeLogoFileName), formDiv)
+		case "IsBespokePageTileLogoFileName":
+			FormDivBasicFieldToField(&(content_.IsBespokePageTileLogoFileName), formDiv)
+		case "BespokePageTileLogoFileName":
+			FormDivBasicFieldToField(&(content_.BespokePageTileLogoFileName), formDiv)
 		case "Target":
 			FormDivEnumStringFieldToField(&(content_.Target), formDiv)
 		case "Chapters":

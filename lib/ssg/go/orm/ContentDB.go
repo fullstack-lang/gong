@@ -88,6 +88,13 @@ type ContentDB struct {
 	// Declation for basic field contentDB.BespokeLogoFileName
 	BespokeLogoFileName_Data sql.NullString
 
+	// Declation for basic field contentDB.IsBespokePageTileLogoFileName
+	// provide the sql storage for the boolan
+	IsBespokePageTileLogoFileName_Data sql.NullBool
+
+	// Declation for basic field contentDB.BespokePageTileLogoFileName
+	BespokePageTileLogoFileName_Data sql.NullString
+
 	// Declation for basic field contentDB.Target
 	Target_Data sql.NullString
 
@@ -132,9 +139,13 @@ type ContentWOP struct {
 
 	BespokeLogoFileName string `xlsx:"8"`
 
-	Target models.Target `xlsx:"9"`
+	IsBespokePageTileLogoFileName bool `xlsx:"9"`
 
-	VersionInfo string `xlsx:"10"`
+	BespokePageTileLogoFileName string `xlsx:"10"`
+
+	Target models.Target `xlsx:"11"`
+
+	VersionInfo string `xlsx:"12"`
 	// insertion for WOP pointer fields
 }
 
@@ -149,6 +160,8 @@ var Content_Fields = []string{
 	"StaticPath",
 	"IsBespokeLogoFileName",
 	"BespokeLogoFileName",
+	"IsBespokePageTileLogoFileName",
+	"BespokePageTileLogoFileName",
 	"Target",
 	"VersionInfo",
 }
@@ -479,6 +492,12 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent(content *models.Content) 
 	contentDB.BespokeLogoFileName_Data.String = content.BespokeLogoFileName
 	contentDB.BespokeLogoFileName_Data.Valid = true
 
+	contentDB.IsBespokePageTileLogoFileName_Data.Bool = content.IsBespokePageTileLogoFileName
+	contentDB.IsBespokePageTileLogoFileName_Data.Valid = true
+
+	contentDB.BespokePageTileLogoFileName_Data.String = content.BespokePageTileLogoFileName
+	contentDB.BespokePageTileLogoFileName_Data.Valid = true
+
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
 
@@ -513,6 +532,12 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContent_WOP(content *models.Conte
 
 	contentDB.BespokeLogoFileName_Data.String = content.BespokeLogoFileName
 	contentDB.BespokeLogoFileName_Data.Valid = true
+
+	contentDB.IsBespokePageTileLogoFileName_Data.Bool = content.IsBespokePageTileLogoFileName
+	contentDB.IsBespokePageTileLogoFileName_Data.Valid = true
+
+	contentDB.BespokePageTileLogoFileName_Data.String = content.BespokePageTileLogoFileName
+	contentDB.BespokePageTileLogoFileName_Data.Valid = true
 
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
@@ -549,6 +574,12 @@ func (contentDB *ContentDB) CopyBasicFieldsFromContentWOP(content *ContentWOP) {
 	contentDB.BespokeLogoFileName_Data.String = content.BespokeLogoFileName
 	contentDB.BespokeLogoFileName_Data.Valid = true
 
+	contentDB.IsBespokePageTileLogoFileName_Data.Bool = content.IsBespokePageTileLogoFileName
+	contentDB.IsBespokePageTileLogoFileName_Data.Valid = true
+
+	contentDB.BespokePageTileLogoFileName_Data.String = content.BespokePageTileLogoFileName
+	contentDB.BespokePageTileLogoFileName_Data.Valid = true
+
 	contentDB.Target_Data.String = content.Target.ToString()
 	contentDB.Target_Data.Valid = true
 
@@ -567,6 +598,8 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent(content *models.Content) {
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.IsBespokeLogoFileName = contentDB.IsBespokeLogoFileName_Data.Bool
 	content.BespokeLogoFileName = contentDB.BespokeLogoFileName_Data.String
+	content.IsBespokePageTileLogoFileName = contentDB.IsBespokePageTileLogoFileName_Data.Bool
+	content.BespokePageTileLogoFileName = contentDB.BespokePageTileLogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
@@ -582,6 +615,8 @@ func (contentDB *ContentDB) CopyBasicFieldsToContent_WOP(content *models.Content
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.IsBespokeLogoFileName = contentDB.IsBespokeLogoFileName_Data.Bool
 	content.BespokeLogoFileName = contentDB.BespokeLogoFileName_Data.String
+	content.IsBespokePageTileLogoFileName = contentDB.IsBespokePageTileLogoFileName_Data.Bool
+	content.BespokePageTileLogoFileName = contentDB.BespokePageTileLogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }
@@ -598,6 +633,8 @@ func (contentDB *ContentDB) CopyBasicFieldsToContentWOP(content *ContentWOP) {
 	content.StaticPath = contentDB.StaticPath_Data.String
 	content.IsBespokeLogoFileName = contentDB.IsBespokeLogoFileName_Data.Bool
 	content.BespokeLogoFileName = contentDB.BespokeLogoFileName_Data.String
+	content.IsBespokePageTileLogoFileName = contentDB.IsBespokePageTileLogoFileName_Data.Bool
+	content.BespokePageTileLogoFileName = contentDB.BespokePageTileLogoFileName_Data.String
 	content.Target.FromString(contentDB.Target_Data.String)
 	content.VersionInfo = contentDB.VersionInfo_Data.String
 }

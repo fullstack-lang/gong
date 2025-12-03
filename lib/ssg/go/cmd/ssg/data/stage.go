@@ -21,10 +21,10 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-12-03 00:42:37.284381 CET"
-	const __write__utc_time__ = "2025-12-02 23:42:37.284381 UTC"
+	const __write__local_time = "2025-12-03 00:55:04.820035 CET"
+	const __write__utc_time__ = "2025-12-02 23:55:04.820035 UTC"
 
-	const __commitId__ = "0000000046"
+	const __commitId__ = "0000000047"
 
 	// Declaration of instances to stage
 
@@ -71,6 +71,8 @@ Site construction began on 14 April 2015 with the ceremonial laying of the first
 	__Content__000000_The_Vera_C_Rubin_Observatory.StaticPath = `../../defaults/static`
 	__Content__000000_The_Vera_C_Rubin_Observatory.IsBespokeLogoFileName = false
 	__Content__000000_The_Vera_C_Rubin_Observatory.BespokeLogoFileName = `gong logo.svg`
+	__Content__000000_The_Vera_C_Rubin_Observatory.IsBespokePageTileLogoFileName = true
+	__Content__000000_The_Vera_C_Rubin_Observatory.BespokePageTileLogoFileName = `page-title-logo.svg`
 	__Content__000000_The_Vera_C_Rubin_Observatory.Target = models.FILE
 	__Content__000000_The_Vera_C_Rubin_Observatory.VersionInfo = `1.9.8`
 

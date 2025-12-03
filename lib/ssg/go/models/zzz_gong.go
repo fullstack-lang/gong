@@ -1188,6 +1188,14 @@ func (content *Content) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "IsBespokePageTileLogoFileName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "BespokePageTileLogoFileName",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "Target",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -1314,6 +1322,12 @@ func (content *Content) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "BespokeLogoFileName":
 		res.valueString = content.BespokeLogoFileName
+	case "IsBespokePageTileLogoFileName":
+		res.valueString = fmt.Sprintf("%t", content.IsBespokePageTileLogoFileName)
+		res.valueBool = content.IsBespokePageTileLogoFileName
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "BespokePageTileLogoFileName":
+		res.valueString = content.BespokePageTileLogoFileName
 	case "Target":
 		enum := content.Target
 		res.valueString = enum.ToCodeString()
@@ -1395,6 +1409,10 @@ func (content *Content) GongSetFieldValue(fieldName string, value GongFieldValue
 		content.IsBespokeLogoFileName = value.GetValueBool()
 	case "BespokeLogoFileName":
 		content.BespokeLogoFileName = value.GetValueString()
+	case "IsBespokePageTileLogoFileName":
+		content.IsBespokePageTileLogoFileName = value.GetValueBool()
+	case "BespokePageTileLogoFileName":
+		content.BespokePageTileLogoFileName = value.GetValueString()
 	case "Target":
 		content.Target.FromCodeString(value.GetValueString())
 	case "Chapters":

@@ -832,6 +832,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Content[identifier].BespokeLogoFileName = fielValue
+				case "BespokePageTileLogoFileName":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Content[identifier].BespokePageTileLogoFileName = fielValue
 				case "VersionInfo":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -878,6 +882,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Content[identifier].IsBespokeLogoFileName = fielValue
+				case "IsBespokePageTileLogoFileName":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Content[identifier].IsBespokePageTileLogoFileName = fielValue
 				}
 			case "Page":
 				switch fieldName {
