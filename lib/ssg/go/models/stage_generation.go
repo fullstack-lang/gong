@@ -164,10 +164,12 @@ func (*Stage) markdown2ssg(content *Content) {
 	// log.Println("Loaded HTML templates.")
 
 	site := &gen.SiteInfo{
-		Pages:                 make(map[string]*gen.Page),
-		Templates:             templates,
-		IsBespokeLogoFileName: content.IsBespokeLogoFileName,
-		BespokeLogoFileName:   content.BespokeLogoFileName,
+		Pages:                         make(map[string]*gen.Page),
+		Templates:                     templates,
+		IsBespokeLogoFileName:         content.IsBespokeLogoFileName,
+		BespokeLogoFileName:           content.BespokeLogoFileName,
+		IsBespokePageTileLogoFileName: content.IsBespokePageTileLogoFileName,
+		BespokePageTileLogoFileName:   content.BespokePageTileLogoFileName,
 	}
 	// Pass build target and output dir to parseContent
 	err = gen.ParseContent(content.ContentPath, site, content.Target.ToString(), content.OutputPath)

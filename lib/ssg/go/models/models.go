@@ -24,6 +24,9 @@ type Content struct {
 	IsBespokeLogoFileName bool
 	BespokeLogoFileName   string
 
+	IsBespokePageTileLogoFileName bool
+	BespokePageTileLogoFileName   string
+
 	Target Target
 
 	Chapters []*Chapter
