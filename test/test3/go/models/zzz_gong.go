@@ -69,7 +69,7 @@ type __void any
 
 // needed for creating set of instances in the stage
 var __member __void
-var _ = __member 
+var _ = __member
 
 // GongStructInterface is the interface met by GongStructs
 // It allows runtime reflexion of instances (without the hassle of the "reflect" package)
@@ -90,7 +90,6 @@ type Stage struct {
 	commitTimeStamp    time.Time
 	contentWhenParsed  string
 	commitIdWhenParsed uint
-	generatesDiff      bool
 
 	// insertion point for definition of arrays registering instances
 	As           map[*A]struct{}
@@ -150,10 +149,6 @@ func (stage *Stage) GetCommitId() uint {
 
 func (stage *Stage) GetCommitTS() time.Time {
 	return stage.commitTimeStamp
-}
-
-func (stage *Stage) SetGeneratesDiff(generatesDiff bool) {
-	stage.generatesDiff = generatesDiff
 }
 
 // GetNamedStructs implements models.ProbebStage.
