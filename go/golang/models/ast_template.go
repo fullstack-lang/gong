@@ -48,15 +48,6 @@ func ParseAstFile(stage *Stage, pathToFile string) error {
 		return errors.New("Path does not exist %s ;" + fileOfInterest)
 	}
 
-	// Read the file content using os.ReadFile
-	content, err := os.ReadFile(fileOfInterest)
-	if err != nil {
-		return errors.New("Unable to read file " + err.Error())
-	}
-
-	// Assign the content to stage.contentWhenParsed
-	stage.contentWhenParsed = string(content)
-
 	fset := token.NewFileSet()
 	// startParser := time.Now()
 	inFile, errParser := parser.ParseFile(fset, fileOfInterest, nil, parser.ParseComments)
@@ -150,29 +141,6 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 				// astCoordinate := // astCoordinate + "\tBody: "
 				for _, stmt := range body.List {
 					switch stmt := stmt.(type) {
-					case *ast.DeclStmt:
-						if genDecl, ok := stmt.Decl.(*ast.GenDecl); ok && genDecl.Tok == token.CONST {
-							for _, spec := range genDecl.Specs {
-								if valueSpec, ok := spec.(*ast.ValueSpec); ok {
-									for i, name := range valueSpec.Names {
-										if i < len(valueSpec.Values) {
-											if basicLit, ok := valueSpec.Values[i].(*ast.BasicLit); ok && basicLit.Kind == token.STRING {
-												// Remove quotes from string literal
-												value := strings.Trim(basicLit.Value, ` + "`" + `"` + "`" + `)
-
-												switch name.Name {
-												case "__commitId__":
-													if parsedUint, err := strconv.ParseUint(value, 10, 64); err == nil {
-														stage.commitId = uint(parsedUint)
-														stage.commitIdWhenParsed = stage.commitId
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
 					case *ast.ExprStmt:
 						exprStmt := stmt
 						// astCoordinate := // astCoordinate + "\tExprStmt: "
