@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-12-03 01:15:27.279687 CET"
-	const __write__utc_time__ = "2025-12-03 00:15:27.279687 UTC"
-
-	const __commitId__ = "0000000140"
-
 	// Declaration of instances to stage
 
 	__Astruct__000000_A1 := (&models.Astruct{}).Stage(stage)

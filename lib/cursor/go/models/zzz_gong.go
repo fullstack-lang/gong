@@ -85,11 +85,7 @@ type GongStructInterface interface {
 // Stage enables storage of staged instances
 // swagger:ignore
 type Stage struct {
-	name               string
-	commitId           uint // commitId is updated at each commit
-	commitTimeStamp    time.Time
-	contentWhenParsed  string
-	commitIdWhenParsed uint
+	name string
 
 	// insertion point for definition of arrays registering instances
 	Cursors           map[*Cursor]struct{}
@@ -139,14 +135,6 @@ type Stage struct {
 	modified  map[GongstructIF]struct{}
 	new       map[GongstructIF]struct{}
 	deleted   map[GongstructIF]struct{}
-}
-
-func (stage *Stage) GetCommitId() uint {
-	return stage.commitId
-}
-
-func (stage *Stage) GetCommitTS() time.Time {
-	return stage.commitTimeStamp
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -394,9 +382,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	stage.commitId++
-	stage.commitTimeStamp = time.Now()
-
+	
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
