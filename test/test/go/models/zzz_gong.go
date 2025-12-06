@@ -3085,10 +3085,41 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 
 func (stage *Stage) ResetMapStrings() {
 
+	// insertion point for generic get gongstruct name
 	stage.Astructs_mapString = make(map[string]*Astruct)
 	for astruct := range stage.Astructs {
 		stage.Astructs_mapString[astruct.Name] = astruct
 	}
-}
 
+	stage.AstructBstruct2Uses_mapString = make(map[string]*AstructBstruct2Use)
+	for astructbstruct2use := range stage.AstructBstruct2Uses {
+		stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
+	}
+
+	stage.AstructBstructUses_mapString = make(map[string]*AstructBstructUse)
+	for astructbstructuse := range stage.AstructBstructUses {
+		stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
+	}
+
+	stage.Bstructs_mapString = make(map[string]*Bstruct)
+	for bstruct := range stage.Bstructs {
+		stage.Bstructs_mapString[bstruct.Name] = bstruct
+	}
+
+	stage.Dstructs_mapString = make(map[string]*Dstruct)
+	for dstruct := range stage.Dstructs {
+		stage.Dstructs_mapString[dstruct.Name] = dstruct
+	}
+
+	stage.F0123456789012345678901234567890s_mapString = make(map[string]*F0123456789012345678901234567890)
+	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
+		stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
+	}
+
+	stage.Gstructs_mapString = make(map[string]*Gstruct)
+	for gstruct := range stage.Gstructs {
+		stage.Gstructs_mapString[gstruct.Name] = gstruct
+	}
+
+}
 // Last line of the template
