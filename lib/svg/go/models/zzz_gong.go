@@ -1240,7 +1240,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -8440,4 +8440,113 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.Animates_mapString = make(map[string]*Animate)
+	for animate := range stage.Animates {
+		stage.Animates_mapString[animate.Name] = animate
+	}
+
+	stage.Circles_mapString = make(map[string]*Circle)
+	for circle := range stage.Circles {
+		stage.Circles_mapString[circle.Name] = circle
+	}
+
+	stage.Conditions_mapString = make(map[string]*Condition)
+	for condition := range stage.Conditions {
+		stage.Conditions_mapString[condition.Name] = condition
+	}
+
+	stage.ControlPoints_mapString = make(map[string]*ControlPoint)
+	for controlpoint := range stage.ControlPoints {
+		stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
+	}
+
+	stage.Ellipses_mapString = make(map[string]*Ellipse)
+	for ellipse := range stage.Ellipses {
+		stage.Ellipses_mapString[ellipse.Name] = ellipse
+	}
+
+	stage.Layers_mapString = make(map[string]*Layer)
+	for layer := range stage.Layers {
+		stage.Layers_mapString[layer.Name] = layer
+	}
+
+	stage.Lines_mapString = make(map[string]*Line)
+	for line := range stage.Lines {
+		stage.Lines_mapString[line.Name] = line
+	}
+
+	stage.Links_mapString = make(map[string]*Link)
+	for link := range stage.Links {
+		stage.Links_mapString[link.Name] = link
+	}
+
+	stage.LinkAnchoredTexts_mapString = make(map[string]*LinkAnchoredText)
+	for linkanchoredtext := range stage.LinkAnchoredTexts {
+		stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
+	}
+
+	stage.Paths_mapString = make(map[string]*Path)
+	for path := range stage.Paths {
+		stage.Paths_mapString[path.Name] = path
+	}
+
+	stage.Points_mapString = make(map[string]*Point)
+	for point := range stage.Points {
+		stage.Points_mapString[point.Name] = point
+	}
+
+	stage.Polygones_mapString = make(map[string]*Polygone)
+	for polygone := range stage.Polygones {
+		stage.Polygones_mapString[polygone.Name] = polygone
+	}
+
+	stage.Polylines_mapString = make(map[string]*Polyline)
+	for polyline := range stage.Polylines {
+		stage.Polylines_mapString[polyline.Name] = polyline
+	}
+
+	stage.Rects_mapString = make(map[string]*Rect)
+	for rect := range stage.Rects {
+		stage.Rects_mapString[rect.Name] = rect
+	}
+
+	stage.RectAnchoredPaths_mapString = make(map[string]*RectAnchoredPath)
+	for rectanchoredpath := range stage.RectAnchoredPaths {
+		stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
+	}
+
+	stage.RectAnchoredRects_mapString = make(map[string]*RectAnchoredRect)
+	for rectanchoredrect := range stage.RectAnchoredRects {
+		stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
+	}
+
+	stage.RectAnchoredTexts_mapString = make(map[string]*RectAnchoredText)
+	for rectanchoredtext := range stage.RectAnchoredTexts {
+		stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
+	}
+
+	stage.RectLinkLinks_mapString = make(map[string]*RectLinkLink)
+	for rectlinklink := range stage.RectLinkLinks {
+		stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
+	}
+
+	stage.SVGs_mapString = make(map[string]*SVG)
+	for svg := range stage.SVGs {
+		stage.SVGs_mapString[svg.Name] = svg
+	}
+
+	stage.SvgTexts_mapString = make(map[string]*SvgText)
+	for svgtext := range stage.SvgTexts {
+		stage.SvgTexts_mapString[svgtext.Name] = svgtext
+	}
+
+	stage.Texts_mapString = make(map[string]*Text)
+	for text := range stage.Texts {
+		stage.Texts_mapString[text.Name] = text
+	}
+
+}
 // Last line of the template
