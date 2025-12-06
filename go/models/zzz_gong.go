@@ -794,7 +794,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -3516,4 +3516,63 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.GongBasicFields_mapString = make(map[string]*GongBasicField)
+	for gongbasicfield := range stage.GongBasicFields {
+		stage.GongBasicFields_mapString[gongbasicfield.Name] = gongbasicfield
+	}
+
+	stage.GongEnums_mapString = make(map[string]*GongEnum)
+	for gongenum := range stage.GongEnums {
+		stage.GongEnums_mapString[gongenum.Name] = gongenum
+	}
+
+	stage.GongEnumValues_mapString = make(map[string]*GongEnumValue)
+	for gongenumvalue := range stage.GongEnumValues {
+		stage.GongEnumValues_mapString[gongenumvalue.Name] = gongenumvalue
+	}
+
+	stage.GongLinks_mapString = make(map[string]*GongLink)
+	for gonglink := range stage.GongLinks {
+		stage.GongLinks_mapString[gonglink.Name] = gonglink
+	}
+
+	stage.GongNotes_mapString = make(map[string]*GongNote)
+	for gongnote := range stage.GongNotes {
+		stage.GongNotes_mapString[gongnote.Name] = gongnote
+	}
+
+	stage.GongStructs_mapString = make(map[string]*GongStruct)
+	for gongstruct := range stage.GongStructs {
+		stage.GongStructs_mapString[gongstruct.Name] = gongstruct
+	}
+
+	stage.GongTimeFields_mapString = make(map[string]*GongTimeField)
+	for gongtimefield := range stage.GongTimeFields {
+		stage.GongTimeFields_mapString[gongtimefield.Name] = gongtimefield
+	}
+
+	stage.MetaReferences_mapString = make(map[string]*MetaReference)
+	for metareference := range stage.MetaReferences {
+		stage.MetaReferences_mapString[metareference.Name] = metareference
+	}
+
+	stage.ModelPkgs_mapString = make(map[string]*ModelPkg)
+	for modelpkg := range stage.ModelPkgs {
+		stage.ModelPkgs_mapString[modelpkg.Name] = modelpkg
+	}
+
+	stage.PointerToGongStructFields_mapString = make(map[string]*PointerToGongStructField)
+	for pointertogongstructfield := range stage.PointerToGongStructFields {
+		stage.PointerToGongStructFields_mapString[pointertogongstructfield.Name] = pointertogongstructfield
+	}
+
+	stage.SliceOfPointerToGongStructFields_mapString = make(map[string]*SliceOfPointerToGongStructField)
+	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
+		stage.SliceOfPointerToGongStructFields_mapString[sliceofpointertogongstructfield.Name] = sliceofpointertogongstructfield
+	}
+
+}
 // Last line of the template

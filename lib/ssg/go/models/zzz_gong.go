@@ -466,7 +466,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -1453,4 +1453,23 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.Chapters_mapString = make(map[string]*Chapter)
+	for chapter := range stage.Chapters {
+		stage.Chapters_mapString[chapter.Name] = chapter
+	}
+
+	stage.Contents_mapString = make(map[string]*Content)
+	for content := range stage.Contents {
+		stage.Contents_mapString[content.Name] = content
+	}
+
+	stage.Pages_mapString = make(map[string]*Page)
+	for page := range stage.Pages {
+		stage.Pages_mapString[page.Name] = page
+	}
+
+}
 // Last line of the template

@@ -718,7 +718,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -3324,4 +3324,53 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.AttributeShapes_mapString = make(map[string]*AttributeShape)
+	for attributeshape := range stage.AttributeShapes {
+		stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
+	}
+
+	stage.Classdiagrams_mapString = make(map[string]*Classdiagram)
+	for classdiagram := range stage.Classdiagrams {
+		stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
+	}
+
+	stage.DiagramPackages_mapString = make(map[string]*DiagramPackage)
+	for diagrampackage := range stage.DiagramPackages {
+		stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
+	}
+
+	stage.GongEnumShapes_mapString = make(map[string]*GongEnumShape)
+	for gongenumshape := range stage.GongEnumShapes {
+		stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
+	}
+
+	stage.GongEnumValueShapes_mapString = make(map[string]*GongEnumValueShape)
+	for gongenumvalueshape := range stage.GongEnumValueShapes {
+		stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
+	}
+
+	stage.GongNoteLinkShapes_mapString = make(map[string]*GongNoteLinkShape)
+	for gongnotelinkshape := range stage.GongNoteLinkShapes {
+		stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
+	}
+
+	stage.GongNoteShapes_mapString = make(map[string]*GongNoteShape)
+	for gongnoteshape := range stage.GongNoteShapes {
+		stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
+	}
+
+	stage.GongStructShapes_mapString = make(map[string]*GongStructShape)
+	for gongstructshape := range stage.GongStructShapes {
+		stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
+	}
+
+	stage.LinkShapes_mapString = make(map[string]*LinkShape)
+	for linkshape := range stage.LinkShapes {
+		stage.LinkShapes_mapString[linkshape.Name] = linkshape
+	}
+
+}
 // Last line of the template

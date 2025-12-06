@@ -54,6 +54,7 @@ const (
 
 	ModelGongStructInsertionGenericSetFieldValuesFromPointer
 	ModelGongStructInsertionGenericGetGongstructName
+	ModelGongStructInsertionMapStringReset
 
 	ModelGongOrderFields
 	ModelGongOrderMapsInit
@@ -115,6 +116,12 @@ func ({{structname}} *{{Structname}}) GongSetFieldValue(fieldName string, value 
 func ({{structname}} *{{Structname}}) GongGetGongstructName() string {
 	return "{{Structname}}"
 }
+`,
+	ModelGongStructInsertionMapStringReset: `
+	stage.{{Structname}}s_mapString = make(map[string]*{{Structname}})
+	for {{structname}} := range stage.{{Structname}}s {
+		stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
+	}
 `,
 
 	ModelGongStructInsertionStageFunctions: `

@@ -848,7 +848,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -4138,4 +4138,68 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.Architectures_mapString = make(map[string]*Architecture)
+	for architecture := range stage.Architectures {
+		stage.Architectures_mapString[architecture.Name] = architecture
+	}
+
+	stage.Diagrams_mapString = make(map[string]*Diagram)
+	for diagram := range stage.Diagrams {
+		stage.Diagrams_mapString[diagram.Name] = diagram
+	}
+
+	stage.Kills_mapString = make(map[string]*Kill)
+	for kill := range stage.Kills {
+		stage.Kills_mapString[kill.Name] = kill
+	}
+
+	stage.Messages_mapString = make(map[string]*Message)
+	for message := range stage.Messages {
+		stage.Messages_mapString[message.Name] = message
+	}
+
+	stage.MessageTypes_mapString = make(map[string]*MessageType)
+	for messagetype := range stage.MessageTypes {
+		stage.MessageTypes_mapString[messagetype.Name] = messagetype
+	}
+
+	stage.Objects_mapString = make(map[string]*Object)
+	for object := range stage.Objects {
+		stage.Objects_mapString[object.Name] = object
+	}
+
+	stage.Roles_mapString = make(map[string]*Role)
+	for role := range stage.Roles {
+		stage.Roles_mapString[role.Name] = role
+	}
+
+	stage.States_mapString = make(map[string]*State)
+	for state := range stage.States {
+		stage.States_mapString[state.Name] = state
+	}
+
+	stage.StateMachines_mapString = make(map[string]*StateMachine)
+	for statemachine := range stage.StateMachines {
+		stage.StateMachines_mapString[statemachine.Name] = statemachine
+	}
+
+	stage.StateShapes_mapString = make(map[string]*StateShape)
+	for stateshape := range stage.StateShapes {
+		stage.StateShapes_mapString[stateshape.Name] = stateshape
+	}
+
+	stage.Transitions_mapString = make(map[string]*Transition)
+	for transition := range stage.Transitions {
+		stage.Transitions_mapString[transition.Name] = transition
+	}
+
+	stage.Transition_Shapes_mapString = make(map[string]*Transition_Shape)
+	for transition_shape := range stage.Transition_Shapes {
+		stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
+	}
+
+}
 // Last line of the template
