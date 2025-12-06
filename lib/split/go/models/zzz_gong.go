@@ -1106,7 +1106,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -5163,4 +5163,103 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.AsSplits_mapString = make(map[string]*AsSplit)
+	for assplit := range stage.AsSplits {
+		stage.AsSplits_mapString[assplit.Name] = assplit
+	}
+
+	stage.AsSplitAreas_mapString = make(map[string]*AsSplitArea)
+	for assplitarea := range stage.AsSplitAreas {
+		stage.AsSplitAreas_mapString[assplitarea.Name] = assplitarea
+	}
+
+	stage.Buttons_mapString = make(map[string]*Button)
+	for button := range stage.Buttons {
+		stage.Buttons_mapString[button.Name] = button
+	}
+
+	stage.Cursors_mapString = make(map[string]*Cursor)
+	for cursor := range stage.Cursors {
+		stage.Cursors_mapString[cursor.Name] = cursor
+	}
+
+	stage.FavIcons_mapString = make(map[string]*FavIcon)
+	for favicon := range stage.FavIcons {
+		stage.FavIcons_mapString[favicon.Name] = favicon
+	}
+
+	stage.Forms_mapString = make(map[string]*Form)
+	for form := range stage.Forms {
+		stage.Forms_mapString[form.Name] = form
+	}
+
+	stage.Loads_mapString = make(map[string]*Load)
+	for load := range stage.Loads {
+		stage.Loads_mapString[load.Name] = load
+	}
+
+	stage.LogoOnTheLefts_mapString = make(map[string]*LogoOnTheLeft)
+	for logoontheleft := range stage.LogoOnTheLefts {
+		stage.LogoOnTheLefts_mapString[logoontheleft.Name] = logoontheleft
+	}
+
+	stage.LogoOnTheRights_mapString = make(map[string]*LogoOnTheRight)
+	for logoontheright := range stage.LogoOnTheRights {
+		stage.LogoOnTheRights_mapString[logoontheright.Name] = logoontheright
+	}
+
+	stage.Markdowns_mapString = make(map[string]*Markdown)
+	for markdown := range stage.Markdowns {
+		stage.Markdowns_mapString[markdown.Name] = markdown
+	}
+
+	stage.Sliders_mapString = make(map[string]*Slider)
+	for slider := range stage.Sliders {
+		stage.Sliders_mapString[slider.Name] = slider
+	}
+
+	stage.Splits_mapString = make(map[string]*Split)
+	for split := range stage.Splits {
+		stage.Splits_mapString[split.Name] = split
+	}
+
+	stage.Svgs_mapString = make(map[string]*Svg)
+	for svg := range stage.Svgs {
+		stage.Svgs_mapString[svg.Name] = svg
+	}
+
+	stage.Tables_mapString = make(map[string]*Table)
+	for table := range stage.Tables {
+		stage.Tables_mapString[table.Name] = table
+	}
+
+	stage.Titles_mapString = make(map[string]*Title)
+	for title := range stage.Titles {
+		stage.Titles_mapString[title.Name] = title
+	}
+
+	stage.Tones_mapString = make(map[string]*Tone)
+	for tone := range stage.Tones {
+		stage.Tones_mapString[tone.Name] = tone
+	}
+
+	stage.Trees_mapString = make(map[string]*Tree)
+	for tree := range stage.Trees {
+		stage.Trees_mapString[tree.Name] = tree
+	}
+
+	stage.Views_mapString = make(map[string]*View)
+	for view := range stage.Views {
+		stage.Views_mapString[view.Name] = view
+	}
+
+	stage.Xlsxs_mapString = make(map[string]*Xlsx)
+	for xlsx := range stage.Xlsxs {
+		stage.Xlsxs_mapString[xlsx.Name] = xlsx
+	}
+
+}
 // Last line of the template

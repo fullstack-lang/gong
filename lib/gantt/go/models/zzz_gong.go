@@ -636,7 +636,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -2837,4 +2837,43 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.Arrows_mapString = make(map[string]*Arrow)
+	for arrow := range stage.Arrows {
+		stage.Arrows_mapString[arrow.Name] = arrow
+	}
+
+	stage.Bars_mapString = make(map[string]*Bar)
+	for bar := range stage.Bars {
+		stage.Bars_mapString[bar.Name] = bar
+	}
+
+	stage.Gantts_mapString = make(map[string]*Gantt)
+	for gantt := range stage.Gantts {
+		stage.Gantts_mapString[gantt.Name] = gantt
+	}
+
+	stage.Groups_mapString = make(map[string]*Group)
+	for group := range stage.Groups {
+		stage.Groups_mapString[group.Name] = group
+	}
+
+	stage.Lanes_mapString = make(map[string]*Lane)
+	for lane := range stage.Lanes {
+		stage.Lanes_mapString[lane.Name] = lane
+	}
+
+	stage.LaneUses_mapString = make(map[string]*LaneUse)
+	for laneuse := range stage.LaneUses {
+		stage.LaneUses_mapString[laneuse.Name] = laneuse
+	}
+
+	stage.Milestones_mapString = make(map[string]*Milestone)
+	for milestone := range stage.Milestones {
+		stage.Milestones_mapString[milestone.Name] = milestone
+	}
+
+}
 // Last line of the template
