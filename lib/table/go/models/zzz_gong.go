@@ -1276,7 +1276,7 @@ func (stage *Stage) CommitWithSuspendedCallbacks() {
 
 func (stage *Stage) Commit() {
 	stage.ComputeReverseMaps()
-	
+
 	if stage.OnInitCommitCallback != nil {
 		stage.OnInitCommitCallback.BeforeCommit(stage)
 	}
@@ -6537,4 +6537,123 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 	return
 }
 
+func (stage *Stage) ResetMapStrings() {
+
+	// insertion point for generic get gongstruct name
+	stage.Cells_mapString = make(map[string]*Cell)
+	for cell := range stage.Cells {
+		stage.Cells_mapString[cell.Name] = cell
+	}
+
+	stage.CellBooleans_mapString = make(map[string]*CellBoolean)
+	for cellboolean := range stage.CellBooleans {
+		stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
+	}
+
+	stage.CellFloat64s_mapString = make(map[string]*CellFloat64)
+	for cellfloat64 := range stage.CellFloat64s {
+		stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
+	}
+
+	stage.CellIcons_mapString = make(map[string]*CellIcon)
+	for cellicon := range stage.CellIcons {
+		stage.CellIcons_mapString[cellicon.Name] = cellicon
+	}
+
+	stage.CellInts_mapString = make(map[string]*CellInt)
+	for cellint := range stage.CellInts {
+		stage.CellInts_mapString[cellint.Name] = cellint
+	}
+
+	stage.CellStrings_mapString = make(map[string]*CellString)
+	for cellstring := range stage.CellStrings {
+		stage.CellStrings_mapString[cellstring.Name] = cellstring
+	}
+
+	stage.CheckBoxs_mapString = make(map[string]*CheckBox)
+	for checkbox := range stage.CheckBoxs {
+		stage.CheckBoxs_mapString[checkbox.Name] = checkbox
+	}
+
+	stage.DisplayedColumns_mapString = make(map[string]*DisplayedColumn)
+	for displayedcolumn := range stage.DisplayedColumns {
+		stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
+	}
+
+	stage.FormDivs_mapString = make(map[string]*FormDiv)
+	for formdiv := range stage.FormDivs {
+		stage.FormDivs_mapString[formdiv.Name] = formdiv
+	}
+
+	stage.FormEditAssocButtons_mapString = make(map[string]*FormEditAssocButton)
+	for formeditassocbutton := range stage.FormEditAssocButtons {
+		stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
+	}
+
+	stage.FormFields_mapString = make(map[string]*FormField)
+	for formfield := range stage.FormFields {
+		stage.FormFields_mapString[formfield.Name] = formfield
+	}
+
+	stage.FormFieldDates_mapString = make(map[string]*FormFieldDate)
+	for formfielddate := range stage.FormFieldDates {
+		stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
+	}
+
+	stage.FormFieldDateTimes_mapString = make(map[string]*FormFieldDateTime)
+	for formfielddatetime := range stage.FormFieldDateTimes {
+		stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
+	}
+
+	stage.FormFieldFloat64s_mapString = make(map[string]*FormFieldFloat64)
+	for formfieldfloat64 := range stage.FormFieldFloat64s {
+		stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
+	}
+
+	stage.FormFieldInts_mapString = make(map[string]*FormFieldInt)
+	for formfieldint := range stage.FormFieldInts {
+		stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
+	}
+
+	stage.FormFieldSelects_mapString = make(map[string]*FormFieldSelect)
+	for formfieldselect := range stage.FormFieldSelects {
+		stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
+	}
+
+	stage.FormFieldStrings_mapString = make(map[string]*FormFieldString)
+	for formfieldstring := range stage.FormFieldStrings {
+		stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
+	}
+
+	stage.FormFieldTimes_mapString = make(map[string]*FormFieldTime)
+	for formfieldtime := range stage.FormFieldTimes {
+		stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
+	}
+
+	stage.FormGroups_mapString = make(map[string]*FormGroup)
+	for formgroup := range stage.FormGroups {
+		stage.FormGroups_mapString[formgroup.Name] = formgroup
+	}
+
+	stage.FormSortAssocButtons_mapString = make(map[string]*FormSortAssocButton)
+	for formsortassocbutton := range stage.FormSortAssocButtons {
+		stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
+	}
+
+	stage.Options_mapString = make(map[string]*Option)
+	for option := range stage.Options {
+		stage.Options_mapString[option.Name] = option
+	}
+
+	stage.Rows_mapString = make(map[string]*Row)
+	for row := range stage.Rows {
+		stage.Rows_mapString[row.Name] = row
+	}
+
+	stage.Tables_mapString = make(map[string]*Table)
+	for table := range stage.Tables {
+		stage.Tables_mapString[table.Name] = table
+	}
+
+}
 // Last line of the template
