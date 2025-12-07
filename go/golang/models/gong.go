@@ -305,7 +305,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) (){
 
 	ModelGongStructInsertionGenericGetMapFunctions: `
 	case map[string]*{{Structname}}:
-		return any(&stage.{{Structname}}s_mapString).(*Type)`,
+		return any(&stage.{{Structname}}s_mapString).(map[string]GongstructIF)`,
 
 	ModelGongStructInsertionGenericInstancesSetFunctions: `
 	case {{Structname}}:
