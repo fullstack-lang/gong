@@ -1253,6 +1253,11 @@ func (assplit *AsSplit) GetName() (res string) {
 	return assplit.Name
 }
 
+// for satisfaction of GongStruct interface
+func (assplit *AsSplit) SetName(name string) (){
+	assplit.Name = name
+}
+
 // Stage puts assplitarea to the model stage
 func (assplitarea *AsSplitArea) Stage(stage *Stage) *AsSplitArea {
 
@@ -1322,6 +1327,11 @@ func (assplitarea *AsSplitArea) Checkout(stage *Stage) *AsSplitArea {
 // for satisfaction of GongStruct interface
 func (assplitarea *AsSplitArea) GetName() (res string) {
 	return assplitarea.Name
+}
+
+// for satisfaction of GongStruct interface
+func (assplitarea *AsSplitArea) SetName(name string) (){
+	assplitarea.Name = name
 }
 
 // Stage puts button to the model stage
@@ -1395,6 +1405,11 @@ func (button *Button) GetName() (res string) {
 	return button.Name
 }
 
+// for satisfaction of GongStruct interface
+func (button *Button) SetName(name string) (){
+	button.Name = name
+}
+
 // Stage puts cursor to the model stage
 func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 
@@ -1464,6 +1479,11 @@ func (cursor *Cursor) Checkout(stage *Stage) *Cursor {
 // for satisfaction of GongStruct interface
 func (cursor *Cursor) GetName() (res string) {
 	return cursor.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cursor *Cursor) SetName(name string) (){
+	cursor.Name = name
 }
 
 // Stage puts favicon to the model stage
@@ -1537,6 +1557,11 @@ func (favicon *FavIcon) GetName() (res string) {
 	return favicon.Name
 }
 
+// for satisfaction of GongStruct interface
+func (favicon *FavIcon) SetName(name string) (){
+	favicon.Name = name
+}
+
 // Stage puts form to the model stage
 func (form *Form) Stage(stage *Stage) *Form {
 
@@ -1606,6 +1631,11 @@ func (form *Form) Checkout(stage *Stage) *Form {
 // for satisfaction of GongStruct interface
 func (form *Form) GetName() (res string) {
 	return form.Name
+}
+
+// for satisfaction of GongStruct interface
+func (form *Form) SetName(name string) (){
+	form.Name = name
 }
 
 // Stage puts load to the model stage
@@ -1679,6 +1709,11 @@ func (load *Load) GetName() (res string) {
 	return load.Name
 }
 
+// for satisfaction of GongStruct interface
+func (load *Load) SetName(name string) (){
+	load.Name = name
+}
+
 // Stage puts logoontheleft to the model stage
 func (logoontheleft *LogoOnTheLeft) Stage(stage *Stage) *LogoOnTheLeft {
 
@@ -1748,6 +1783,11 @@ func (logoontheleft *LogoOnTheLeft) Checkout(stage *Stage) *LogoOnTheLeft {
 // for satisfaction of GongStruct interface
 func (logoontheleft *LogoOnTheLeft) GetName() (res string) {
 	return logoontheleft.Name
+}
+
+// for satisfaction of GongStruct interface
+func (logoontheleft *LogoOnTheLeft) SetName(name string) (){
+	logoontheleft.Name = name
 }
 
 // Stage puts logoontheright to the model stage
@@ -1821,6 +1861,11 @@ func (logoontheright *LogoOnTheRight) GetName() (res string) {
 	return logoontheright.Name
 }
 
+// for satisfaction of GongStruct interface
+func (logoontheright *LogoOnTheRight) SetName(name string) (){
+	logoontheright.Name = name
+}
+
 // Stage puts markdown to the model stage
 func (markdown *Markdown) Stage(stage *Stage) *Markdown {
 
@@ -1890,6 +1935,11 @@ func (markdown *Markdown) Checkout(stage *Stage) *Markdown {
 // for satisfaction of GongStruct interface
 func (markdown *Markdown) GetName() (res string) {
 	return markdown.Name
+}
+
+// for satisfaction of GongStruct interface
+func (markdown *Markdown) SetName(name string) (){
+	markdown.Name = name
 }
 
 // Stage puts slider to the model stage
@@ -1963,6 +2013,11 @@ func (slider *Slider) GetName() (res string) {
 	return slider.Name
 }
 
+// for satisfaction of GongStruct interface
+func (slider *Slider) SetName(name string) (){
+	slider.Name = name
+}
+
 // Stage puts split to the model stage
 func (split *Split) Stage(stage *Stage) *Split {
 
@@ -2032,6 +2087,11 @@ func (split *Split) Checkout(stage *Stage) *Split {
 // for satisfaction of GongStruct interface
 func (split *Split) GetName() (res string) {
 	return split.Name
+}
+
+// for satisfaction of GongStruct interface
+func (split *Split) SetName(name string) (){
+	split.Name = name
 }
 
 // Stage puts svg to the model stage
@@ -2105,6 +2165,11 @@ func (svg *Svg) GetName() (res string) {
 	return svg.Name
 }
 
+// for satisfaction of GongStruct interface
+func (svg *Svg) SetName(name string) (){
+	svg.Name = name
+}
+
 // Stage puts table to the model stage
 func (table *Table) Stage(stage *Stage) *Table {
 
@@ -2174,6 +2239,11 @@ func (table *Table) Checkout(stage *Stage) *Table {
 // for satisfaction of GongStruct interface
 func (table *Table) GetName() (res string) {
 	return table.Name
+}
+
+// for satisfaction of GongStruct interface
+func (table *Table) SetName(name string) (){
+	table.Name = name
 }
 
 // Stage puts title to the model stage
@@ -2247,6 +2317,11 @@ func (title *Title) GetName() (res string) {
 	return title.Name
 }
 
+// for satisfaction of GongStruct interface
+func (title *Title) SetName(name string) (){
+	title.Name = name
+}
+
 // Stage puts tone to the model stage
 func (tone *Tone) Stage(stage *Stage) *Tone {
 
@@ -2316,6 +2391,11 @@ func (tone *Tone) Checkout(stage *Stage) *Tone {
 // for satisfaction of GongStruct interface
 func (tone *Tone) GetName() (res string) {
 	return tone.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tone *Tone) SetName(name string) (){
+	tone.Name = name
 }
 
 // Stage puts tree to the model stage
@@ -2389,6 +2469,11 @@ func (tree *Tree) GetName() (res string) {
 	return tree.Name
 }
 
+// for satisfaction of GongStruct interface
+func (tree *Tree) SetName(name string) (){
+	tree.Name = name
+}
+
 // Stage puts view to the model stage
 func (view *View) Stage(stage *Stage) *View {
 
@@ -2460,6 +2545,11 @@ func (view *View) GetName() (res string) {
 	return view.Name
 }
 
+// for satisfaction of GongStruct interface
+func (view *View) SetName(name string) (){
+	view.Name = name
+}
+
 // Stage puts xlsx to the model stage
 func (xlsx *Xlsx) Stage(stage *Stage) *Xlsx {
 
@@ -2529,6 +2619,11 @@ func (xlsx *Xlsx) Checkout(stage *Stage) *Xlsx {
 // for satisfaction of GongStruct interface
 func (xlsx *Xlsx) GetName() (res string) {
 	return xlsx.Name
+}
+
+// for satisfaction of GongStruct interface
+func (xlsx *Xlsx) SetName(name string) (){
+	xlsx.Name = name
 }
 
 // swagger:ignore
@@ -2831,6 +2926,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

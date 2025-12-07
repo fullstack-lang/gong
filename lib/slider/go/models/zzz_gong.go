@@ -640,6 +640,11 @@ func (checkbox *Checkbox) GetName() (res string) {
 	return checkbox.Name
 }
 
+// for satisfaction of GongStruct interface
+func (checkbox *Checkbox) SetName(name string) (){
+	checkbox.Name = name
+}
+
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
 
@@ -709,6 +714,11 @@ func (group *Group) Checkout(stage *Stage) *Group {
 // for satisfaction of GongStruct interface
 func (group *Group) GetName() (res string) {
 	return group.Name
+}
+
+// for satisfaction of GongStruct interface
+func (group *Group) SetName(name string) (){
+	group.Name = name
 }
 
 // Stage puts layout to the model stage
@@ -782,6 +792,11 @@ func (layout *Layout) GetName() (res string) {
 	return layout.Name
 }
 
+// for satisfaction of GongStruct interface
+func (layout *Layout) SetName(name string) (){
+	layout.Name = name
+}
+
 // Stage puts slider to the model stage
 func (slider *Slider) Stage(stage *Stage) *Slider {
 
@@ -851,6 +866,11 @@ func (slider *Slider) Checkout(stage *Stage) *Slider {
 // for satisfaction of GongStruct interface
 func (slider *Slider) GetName() (res string) {
 	return slider.Name
+}
+
+// for satisfaction of GongStruct interface
+func (slider *Slider) SetName(name string) (){
+	slider.Name = name
 }
 
 // swagger:ignore
@@ -943,6 +963,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

@@ -634,6 +634,11 @@ func (content *Content) GetName() (res string) {
 	return content.Name
 }
 
+// for satisfaction of GongStruct interface
+func (content *Content) SetName(name string) (){
+	content.Name = name
+}
+
 // Stage puts jpgimage to the model stage
 func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 
@@ -703,6 +708,11 @@ func (jpgimage *JpgImage) Checkout(stage *Stage) *JpgImage {
 // for satisfaction of GongStruct interface
 func (jpgimage *JpgImage) GetName() (res string) {
 	return jpgimage.Name
+}
+
+// for satisfaction of GongStruct interface
+func (jpgimage *JpgImage) SetName(name string) (){
+	jpgimage.Name = name
 }
 
 // Stage puts pngimage to the model stage
@@ -776,6 +786,11 @@ func (pngimage *PngImage) GetName() (res string) {
 	return pngimage.Name
 }
 
+// for satisfaction of GongStruct interface
+func (pngimage *PngImage) SetName(name string) (){
+	pngimage.Name = name
+}
+
 // Stage puts svgimage to the model stage
 func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 
@@ -845,6 +860,11 @@ func (svgimage *SvgImage) Checkout(stage *Stage) *SvgImage {
 // for satisfaction of GongStruct interface
 func (svgimage *SvgImage) GetName() (res string) {
 	return svgimage.Name
+}
+
+// for satisfaction of GongStruct interface
+func (svgimage *SvgImage) SetName(name string) (){
+	svgimage.Name = name
 }
 
 // swagger:ignore
@@ -937,6 +957,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

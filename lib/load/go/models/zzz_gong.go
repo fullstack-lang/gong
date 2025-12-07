@@ -593,6 +593,11 @@ func (filetodownload *FileToDownload) GetName() (res string) {
 	return filetodownload.Name
 }
 
+// for satisfaction of GongStruct interface
+func (filetodownload *FileToDownload) SetName(name string) (){
+	filetodownload.Name = name
+}
+
 // Stage puts filetoupload to the model stage
 func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 
@@ -664,6 +669,11 @@ func (filetoupload *FileToUpload) GetName() (res string) {
 	return filetoupload.Name
 }
 
+// for satisfaction of GongStruct interface
+func (filetoupload *FileToUpload) SetName(name string) (){
+	filetoupload.Name = name
+}
+
 // Stage puts message to the model stage
 func (message *Message) Stage(stage *Stage) *Message {
 
@@ -733,6 +743,11 @@ func (message *Message) Checkout(stage *Stage) *Message {
 // for satisfaction of GongStruct interface
 func (message *Message) GetName() (res string) {
 	return message.Name
+}
+
+// for satisfaction of GongStruct interface
+func (message *Message) SetName(name string) (){
+	message.Name = name
 }
 
 // swagger:ignore
@@ -811,6 +826,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

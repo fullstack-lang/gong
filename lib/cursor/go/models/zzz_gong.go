@@ -511,6 +511,11 @@ func (cursor *Cursor) GetName() (res string) {
 	return cursor.Name
 }
 
+// for satisfaction of GongStruct interface
+func (cursor *Cursor) SetName(name string) (){
+	cursor.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMCursor(Cursor *Cursor)
@@ -559,6 +564,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
