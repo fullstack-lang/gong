@@ -1427,6 +1427,11 @@ func (cell *Cell) GetName() (res string) {
 	return cell.Name
 }
 
+// for satisfaction of GongStruct interface
+func (cell *Cell) SetName(name string) (){
+	cell.Name = name
+}
+
 // Stage puts cellboolean to the model stage
 func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 
@@ -1496,6 +1501,11 @@ func (cellboolean *CellBoolean) Checkout(stage *Stage) *CellBoolean {
 // for satisfaction of GongStruct interface
 func (cellboolean *CellBoolean) GetName() (res string) {
 	return cellboolean.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cellboolean *CellBoolean) SetName(name string) (){
+	cellboolean.Name = name
 }
 
 // Stage puts cellfloat64 to the model stage
@@ -1569,6 +1579,11 @@ func (cellfloat64 *CellFloat64) GetName() (res string) {
 	return cellfloat64.Name
 }
 
+// for satisfaction of GongStruct interface
+func (cellfloat64 *CellFloat64) SetName(name string) (){
+	cellfloat64.Name = name
+}
+
 // Stage puts cellicon to the model stage
 func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 
@@ -1638,6 +1653,11 @@ func (cellicon *CellIcon) Checkout(stage *Stage) *CellIcon {
 // for satisfaction of GongStruct interface
 func (cellicon *CellIcon) GetName() (res string) {
 	return cellicon.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cellicon *CellIcon) SetName(name string) (){
+	cellicon.Name = name
 }
 
 // Stage puts cellint to the model stage
@@ -1711,6 +1731,11 @@ func (cellint *CellInt) GetName() (res string) {
 	return cellint.Name
 }
 
+// for satisfaction of GongStruct interface
+func (cellint *CellInt) SetName(name string) (){
+	cellint.Name = name
+}
+
 // Stage puts cellstring to the model stage
 func (cellstring *CellString) Stage(stage *Stage) *CellString {
 
@@ -1780,6 +1805,11 @@ func (cellstring *CellString) Checkout(stage *Stage) *CellString {
 // for satisfaction of GongStruct interface
 func (cellstring *CellString) GetName() (res string) {
 	return cellstring.Name
+}
+
+// for satisfaction of GongStruct interface
+func (cellstring *CellString) SetName(name string) (){
+	cellstring.Name = name
 }
 
 // Stage puts checkbox to the model stage
@@ -1853,6 +1883,11 @@ func (checkbox *CheckBox) GetName() (res string) {
 	return checkbox.Name
 }
 
+// for satisfaction of GongStruct interface
+func (checkbox *CheckBox) SetName(name string) (){
+	checkbox.Name = name
+}
+
 // Stage puts displayedcolumn to the model stage
 func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 
@@ -1922,6 +1957,11 @@ func (displayedcolumn *DisplayedColumn) Checkout(stage *Stage) *DisplayedColumn 
 // for satisfaction of GongStruct interface
 func (displayedcolumn *DisplayedColumn) GetName() (res string) {
 	return displayedcolumn.Name
+}
+
+// for satisfaction of GongStruct interface
+func (displayedcolumn *DisplayedColumn) SetName(name string) (){
+	displayedcolumn.Name = name
 }
 
 // Stage puts formdiv to the model stage
@@ -1995,6 +2035,11 @@ func (formdiv *FormDiv) GetName() (res string) {
 	return formdiv.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formdiv *FormDiv) SetName(name string) (){
+	formdiv.Name = name
+}
+
 // Stage puts formeditassocbutton to the model stage
 func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAssocButton {
 
@@ -2064,6 +2109,11 @@ func (formeditassocbutton *FormEditAssocButton) Checkout(stage *Stage) *FormEdit
 // for satisfaction of GongStruct interface
 func (formeditassocbutton *FormEditAssocButton) GetName() (res string) {
 	return formeditassocbutton.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formeditassocbutton *FormEditAssocButton) SetName(name string) (){
+	formeditassocbutton.Name = name
 }
 
 // Stage puts formfield to the model stage
@@ -2137,6 +2187,11 @@ func (formfield *FormField) GetName() (res string) {
 	return formfield.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formfield *FormField) SetName(name string) (){
+	formfield.Name = name
+}
+
 // Stage puts formfielddate to the model stage
 func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 
@@ -2206,6 +2261,11 @@ func (formfielddate *FormFieldDate) Checkout(stage *Stage) *FormFieldDate {
 // for satisfaction of GongStruct interface
 func (formfielddate *FormFieldDate) GetName() (res string) {
 	return formfielddate.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formfielddate *FormFieldDate) SetName(name string) (){
+	formfielddate.Name = name
 }
 
 // Stage puts formfielddatetime to the model stage
@@ -2279,6 +2339,11 @@ func (formfielddatetime *FormFieldDateTime) GetName() (res string) {
 	return formfielddatetime.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formfielddatetime *FormFieldDateTime) SetName(name string) (){
+	formfielddatetime.Name = name
+}
+
 // Stage puts formfieldfloat64 to the model stage
 func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 {
 
@@ -2348,6 +2413,11 @@ func (formfieldfloat64 *FormFieldFloat64) Checkout(stage *Stage) *FormFieldFloat
 // for satisfaction of GongStruct interface
 func (formfieldfloat64 *FormFieldFloat64) GetName() (res string) {
 	return formfieldfloat64.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formfieldfloat64 *FormFieldFloat64) SetName(name string) (){
+	formfieldfloat64.Name = name
 }
 
 // Stage puts formfieldint to the model stage
@@ -2421,6 +2491,11 @@ func (formfieldint *FormFieldInt) GetName() (res string) {
 	return formfieldint.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formfieldint *FormFieldInt) SetName(name string) (){
+	formfieldint.Name = name
+}
+
 // Stage puts formfieldselect to the model stage
 func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 
@@ -2490,6 +2565,11 @@ func (formfieldselect *FormFieldSelect) Checkout(stage *Stage) *FormFieldSelect 
 // for satisfaction of GongStruct interface
 func (formfieldselect *FormFieldSelect) GetName() (res string) {
 	return formfieldselect.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formfieldselect *FormFieldSelect) SetName(name string) (){
+	formfieldselect.Name = name
 }
 
 // Stage puts formfieldstring to the model stage
@@ -2563,6 +2643,11 @@ func (formfieldstring *FormFieldString) GetName() (res string) {
 	return formfieldstring.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formfieldstring *FormFieldString) SetName(name string) (){
+	formfieldstring.Name = name
+}
+
 // Stage puts formfieldtime to the model stage
 func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 
@@ -2632,6 +2717,11 @@ func (formfieldtime *FormFieldTime) Checkout(stage *Stage) *FormFieldTime {
 // for satisfaction of GongStruct interface
 func (formfieldtime *FormFieldTime) GetName() (res string) {
 	return formfieldtime.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formfieldtime *FormFieldTime) SetName(name string) (){
+	formfieldtime.Name = name
 }
 
 // Stage puts formgroup to the model stage
@@ -2705,6 +2795,11 @@ func (formgroup *FormGroup) GetName() (res string) {
 	return formgroup.Name
 }
 
+// for satisfaction of GongStruct interface
+func (formgroup *FormGroup) SetName(name string) (){
+	formgroup.Name = name
+}
+
 // Stage puts formsortassocbutton to the model stage
 func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAssocButton {
 
@@ -2774,6 +2869,11 @@ func (formsortassocbutton *FormSortAssocButton) Checkout(stage *Stage) *FormSort
 // for satisfaction of GongStruct interface
 func (formsortassocbutton *FormSortAssocButton) GetName() (res string) {
 	return formsortassocbutton.Name
+}
+
+// for satisfaction of GongStruct interface
+func (formsortassocbutton *FormSortAssocButton) SetName(name string) (){
+	formsortassocbutton.Name = name
 }
 
 // Stage puts option to the model stage
@@ -2847,6 +2947,11 @@ func (option *Option) GetName() (res string) {
 	return option.Name
 }
 
+// for satisfaction of GongStruct interface
+func (option *Option) SetName(name string) (){
+	option.Name = name
+}
+
 // Stage puts row to the model stage
 func (row *Row) Stage(stage *Stage) *Row {
 
@@ -2918,6 +3023,11 @@ func (row *Row) GetName() (res string) {
 	return row.Name
 }
 
+// for satisfaction of GongStruct interface
+func (row *Row) SetName(name string) (){
+	row.Name = name
+}
+
 // Stage puts table to the model stage
 func (table *Table) Stage(stage *Stage) *Table {
 
@@ -2987,6 +3097,11 @@ func (table *Table) Checkout(stage *Stage) *Table {
 // for satisfaction of GongStruct interface
 func (table *Table) GetName() (res string) {
 	return table.Name
+}
+
+// for satisfaction of GongStruct interface
+func (table *Table) SetName(name string) (){
+	table.Name = name
 }
 
 // swagger:ignore
@@ -3345,6 +3460,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

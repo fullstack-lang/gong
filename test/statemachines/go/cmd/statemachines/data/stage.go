@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-30 21:22:16.946467 CET"
-	const __write__utc_time__ = "2025-11-30 20:22:16.946467 UTC"
-
-	const __commitId__ = "0000001155"
-
 	// Declaration of instances to stage
 
 	__Architecture__000000_Traffic_Lights_of_the_world := (&models.Architecture{}).Stage(stage)
@@ -38,6 +33,7 @@ func _(stage *models.Stage) {
 	__MessageType__000000_Repair_Report := (&models.MessageType{}).Stage(stage)
 
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652 := (&models.Object{}).Stage(stage)
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802 := (&models.Object{}).Stage(stage)
 
 	__Role__000000_Technician := (&models.Role{}).Stage(stage)
 	__Role__000001_Timer := (&models.Role{}).Stage(stage)
@@ -103,13 +99,13 @@ func _(stage *models.Stage) {
 	__Architecture__000000_Traffic_Lights_of_the_world.NbPixPerCharacter = 8.000000
 
 	__Diagram__000000_Traffic_Light_FR_Diagram.Name = `Traffic Light FR Diagram`
-	__Diagram__000000_Traffic_Light_FR_Diagram.IsChecked = false
+	__Diagram__000000_Traffic_Light_FR_Diagram.IsChecked = true
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsExpanded = true
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsEditable_ = true
 	__Diagram__000000_Traffic_Light_FR_Diagram.IsInRenameMode = false
 
 	__Diagram__000001_Traffic_Light_UK_Diagram.Name = `Traffic Light UK Diagram`
-	__Diagram__000001_Traffic_Light_UK_Diagram.IsChecked = true
+	__Diagram__000001_Traffic_Light_UK_Diagram.IsChecked = false
 	__Diagram__000001_Traffic_Light_UK_Diagram.IsExpanded = true
 	__Diagram__000001_Traffic_Light_UK_Diagram.IsEditable_ = true
 	__Diagram__000001_Traffic_Light_UK_Diagram.IsInRenameMode = false
@@ -121,9 +117,14 @@ func _(stage *models.Stage) {
 	__MessageType__000000_Repair_Report.Description = ``
 
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Name = `02/MI DOF/ 2025-11-26 DEP/ 083652`
-	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.IsSelected = true
+	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.IsSelected = false
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Rank = 0
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802.Name = `01/MI DOF/ 2025-12-08 DEP/ 102802`
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802.IsSelected = true
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802.Rank = 0
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802.DOF, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2025-12-08 10:28:02.735754 +0100 CET m=+86435.100357002")
 
 	__Role__000000_Technician.Name = `Technician`
 	__Role__000000_Technician.Acronym = `Tech`
@@ -199,8 +200,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000000_Red_FR.Name = `Red FR`
 	__StateShape__000000_Red_FR.IsExpanded = false
-	__StateShape__000000_Red_FR.X = 568.000000
-	__StateShape__000000_Red_FR.Y = 209.000000
+	__StateShape__000000_Red_FR.X = 578.000000
+	__StateShape__000000_Red_FR.Y = 204.000000
 	__StateShape__000000_Red_FR.Width = 200.000000
 	__StateShape__000000_Red_FR.Height = 80.000000
 
@@ -213,8 +214,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__000002_Green_FR.Name = `Green FR`
 	__StateShape__000002_Green_FR.IsExpanded = false
-	__StateShape__000002_Green_FR.X = 418.000000
-	__StateShape__000002_Green_FR.Y = 358.000000
+	__StateShape__000002_Green_FR.X = 556.000000
+	__StateShape__000002_Green_FR.Y = 356.000000
 	__StateShape__000002_Green_FR.Width = 200.000000
 	__StateShape__000002_Green_FR.Height = 80.000000
 
@@ -228,9 +229,9 @@ func _(stage *models.Stage) {
 	__StateShape__000004_On_FR.Name = `On FR`
 	__StateShape__000004_On_FR.IsExpanded = false
 	__StateShape__000004_On_FR.X = 351.000000
-	__StateShape__000004_On_FR.Y = 156.000000
+	__StateShape__000004_On_FR.Y = 141.714286
 	__StateShape__000004_On_FR.Width = 678.000000
-	__StateShape__000004_On_FR.Height = 478.000000
+	__StateShape__000004_On_FR.Height = 492.285714
 
 	__StateShape__000005_Off_FR.Name = `Off FR`
 	__StateShape__000005_Off_FR.IsExpanded = false
@@ -427,6 +428,7 @@ func _(stage *models.Stage) {
 	// setup of Object instances pointers
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.State = __State__000007_Red_UK
 	__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Messages = append(__Object__000000_02_MI_DOF_2025_11_26_DEP_083652.Messages, __Message__000000_08_38_29_Off_UK_to_Red_UK_Repair_Report)
+	__Object__000001_01_MI_DOF_2025_12_08_DEP_102802.State = __State__000001_Red_FR
 	// setup of Role instances pointers
 	// setup of State instances pointers
 	__State__000000_Initial_State_FR.Diagrams = append(__State__000000_Initial_State_FR.Diagrams, __Diagram__000000_Traffic_Light_FR_Diagram)

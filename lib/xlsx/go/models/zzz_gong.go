@@ -683,6 +683,11 @@ func (displayselection *DisplaySelection) GetName() (res string) {
 	return displayselection.Name
 }
 
+// for satisfaction of GongStruct interface
+func (displayselection *DisplaySelection) SetName(name string) (){
+	displayselection.Name = name
+}
+
 // Stage puts xlcell to the model stage
 func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 
@@ -752,6 +757,11 @@ func (xlcell *XLCell) Checkout(stage *Stage) *XLCell {
 // for satisfaction of GongStruct interface
 func (xlcell *XLCell) GetName() (res string) {
 	return xlcell.Name
+}
+
+// for satisfaction of GongStruct interface
+func (xlcell *XLCell) SetName(name string) (){
+	xlcell.Name = name
 }
 
 // Stage puts xlfile to the model stage
@@ -825,6 +835,11 @@ func (xlfile *XLFile) GetName() (res string) {
 	return xlfile.Name
 }
 
+// for satisfaction of GongStruct interface
+func (xlfile *XLFile) SetName(name string) (){
+	xlfile.Name = name
+}
+
 // Stage puts xlrow to the model stage
 func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 
@@ -896,6 +911,11 @@ func (xlrow *XLRow) GetName() (res string) {
 	return xlrow.Name
 }
 
+// for satisfaction of GongStruct interface
+func (xlrow *XLRow) SetName(name string) (){
+	xlrow.Name = name
+}
+
 // Stage puts xlsheet to the model stage
 func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 
@@ -965,6 +985,11 @@ func (xlsheet *XLSheet) Checkout(stage *Stage) *XLSheet {
 // for satisfaction of GongStruct interface
 func (xlsheet *XLSheet) GetName() (res string) {
 	return xlsheet.Name
+}
+
+// for satisfaction of GongStruct interface
+func (xlsheet *XLSheet) SetName(name string) (){
+	xlsheet.Name = name
 }
 
 // swagger:ignore
@@ -1071,6 +1096,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

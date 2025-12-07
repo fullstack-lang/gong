@@ -988,6 +988,11 @@ func (architecture *Architecture) GetName() (res string) {
 	return architecture.Name
 }
 
+// for satisfaction of GongStruct interface
+func (architecture *Architecture) SetName(name string) (){
+	architecture.Name = name
+}
+
 // Stage puts diagram to the model stage
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 
@@ -1057,6 +1062,11 @@ func (diagram *Diagram) Checkout(stage *Stage) *Diagram {
 // for satisfaction of GongStruct interface
 func (diagram *Diagram) GetName() (res string) {
 	return diagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (diagram *Diagram) SetName(name string) (){
+	diagram.Name = name
 }
 
 // Stage puts kill to the model stage
@@ -1130,6 +1140,11 @@ func (kill *Kill) GetName() (res string) {
 	return kill.Name
 }
 
+// for satisfaction of GongStruct interface
+func (kill *Kill) SetName(name string) (){
+	kill.Name = name
+}
+
 // Stage puts message to the model stage
 func (message *Message) Stage(stage *Stage) *Message {
 
@@ -1199,6 +1214,11 @@ func (message *Message) Checkout(stage *Stage) *Message {
 // for satisfaction of GongStruct interface
 func (message *Message) GetName() (res string) {
 	return message.Name
+}
+
+// for satisfaction of GongStruct interface
+func (message *Message) SetName(name string) (){
+	message.Name = name
 }
 
 // Stage puts messagetype to the model stage
@@ -1272,6 +1292,11 @@ func (messagetype *MessageType) GetName() (res string) {
 	return messagetype.Name
 }
 
+// for satisfaction of GongStruct interface
+func (messagetype *MessageType) SetName(name string) (){
+	messagetype.Name = name
+}
+
 // Stage puts object to the model stage
 func (object *Object) Stage(stage *Stage) *Object {
 
@@ -1341,6 +1366,11 @@ func (object *Object) Checkout(stage *Stage) *Object {
 // for satisfaction of GongStruct interface
 func (object *Object) GetName() (res string) {
 	return object.Name
+}
+
+// for satisfaction of GongStruct interface
+func (object *Object) SetName(name string) (){
+	object.Name = name
 }
 
 // Stage puts role to the model stage
@@ -1414,6 +1444,11 @@ func (role *Role) GetName() (res string) {
 	return role.Name
 }
 
+// for satisfaction of GongStruct interface
+func (role *Role) SetName(name string) (){
+	role.Name = name
+}
+
 // Stage puts state to the model stage
 func (state *State) Stage(stage *Stage) *State {
 
@@ -1483,6 +1518,11 @@ func (state *State) Checkout(stage *Stage) *State {
 // for satisfaction of GongStruct interface
 func (state *State) GetName() (res string) {
 	return state.Name
+}
+
+// for satisfaction of GongStruct interface
+func (state *State) SetName(name string) (){
+	state.Name = name
 }
 
 // Stage puts statemachine to the model stage
@@ -1556,6 +1596,11 @@ func (statemachine *StateMachine) GetName() (res string) {
 	return statemachine.Name
 }
 
+// for satisfaction of GongStruct interface
+func (statemachine *StateMachine) SetName(name string) (){
+	statemachine.Name = name
+}
+
 // Stage puts stateshape to the model stage
 func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 
@@ -1625,6 +1670,11 @@ func (stateshape *StateShape) Checkout(stage *Stage) *StateShape {
 // for satisfaction of GongStruct interface
 func (stateshape *StateShape) GetName() (res string) {
 	return stateshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (stateshape *StateShape) SetName(name string) (){
+	stateshape.Name = name
 }
 
 // Stage puts transition to the model stage
@@ -1698,6 +1748,11 @@ func (transition *Transition) GetName() (res string) {
 	return transition.Name
 }
 
+// for satisfaction of GongStruct interface
+func (transition *Transition) SetName(name string) (){
+	transition.Name = name
+}
+
 // Stage puts transition_shape to the model stage
 func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape {
 
@@ -1767,6 +1822,11 @@ func (transition_shape *Transition_Shape) Checkout(stage *Stage) *Transition_Sha
 // for satisfaction of GongStruct interface
 func (transition_shape *Transition_Shape) GetName() (res string) {
 	return transition_shape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (transition_shape *Transition_Shape) SetName(name string) (){
+	transition_shape.Name = name
 }
 
 // swagger:ignore
@@ -1971,6 +2031,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

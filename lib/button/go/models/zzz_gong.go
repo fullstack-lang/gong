@@ -683,6 +683,11 @@ func (button *Button) GetName() (res string) {
 	return button.Name
 }
 
+// for satisfaction of GongStruct interface
+func (button *Button) SetName(name string) (){
+	button.Name = name
+}
+
 // Stage puts buttontoggle to the model stage
 func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 
@@ -752,6 +757,11 @@ func (buttontoggle *ButtonToggle) Checkout(stage *Stage) *ButtonToggle {
 // for satisfaction of GongStruct interface
 func (buttontoggle *ButtonToggle) GetName() (res string) {
 	return buttontoggle.Name
+}
+
+// for satisfaction of GongStruct interface
+func (buttontoggle *ButtonToggle) SetName(name string) (){
+	buttontoggle.Name = name
 }
 
 // Stage puts group to the model stage
@@ -825,6 +835,11 @@ func (group *Group) GetName() (res string) {
 	return group.Name
 }
 
+// for satisfaction of GongStruct interface
+func (group *Group) SetName(name string) (){
+	group.Name = name
+}
+
 // Stage puts grouptoogle to the model stage
 func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 
@@ -896,6 +911,11 @@ func (grouptoogle *GroupToogle) GetName() (res string) {
 	return grouptoogle.Name
 }
 
+// for satisfaction of GongStruct interface
+func (grouptoogle *GroupToogle) SetName(name string) (){
+	grouptoogle.Name = name
+}
+
 // Stage puts layout to the model stage
 func (layout *Layout) Stage(stage *Stage) *Layout {
 
@@ -965,6 +985,11 @@ func (layout *Layout) Checkout(stage *Stage) *Layout {
 // for satisfaction of GongStruct interface
 func (layout *Layout) GetName() (res string) {
 	return layout.Name
+}
+
+// for satisfaction of GongStruct interface
+func (layout *Layout) SetName(name string) (){
+	layout.Name = name
 }
 
 // swagger:ignore
@@ -1071,6 +1096,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
