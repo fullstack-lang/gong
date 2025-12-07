@@ -595,6 +595,11 @@ func (freqency *Freqency) GetName() (res string) {
 	return freqency.Name
 }
 
+// for satisfaction of GongStruct interface
+func (freqency *Freqency) SetName(name string) (){
+	freqency.Name = name
+}
+
 // Stage puts note to the model stage
 func (note *Note) Stage(stage *Stage) *Note {
 
@@ -666,6 +671,11 @@ func (note *Note) GetName() (res string) {
 	return note.Name
 }
 
+// for satisfaction of GongStruct interface
+func (note *Note) SetName(name string) (){
+	note.Name = name
+}
+
 // Stage puts player to the model stage
 func (player *Player) Stage(stage *Stage) *Player {
 
@@ -735,6 +745,11 @@ func (player *Player) Checkout(stage *Stage) *Player {
 // for satisfaction of GongStruct interface
 func (player *Player) GetName() (res string) {
 	return player.Name
+}
+
+// for satisfaction of GongStruct interface
+func (player *Player) SetName(name string) (){
+	player.Name = name
 }
 
 // swagger:ignore
@@ -813,6 +828,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

@@ -597,6 +597,11 @@ func (chapter *Chapter) GetName() (res string) {
 	return chapter.Name
 }
 
+// for satisfaction of GongStruct interface
+func (chapter *Chapter) SetName(name string) (){
+	chapter.Name = name
+}
+
 // Stage puts content to the model stage
 func (content *Content) Stage(stage *Stage) *Content {
 
@@ -668,6 +673,11 @@ func (content *Content) GetName() (res string) {
 	return content.Name
 }
 
+// for satisfaction of GongStruct interface
+func (content *Content) SetName(name string) (){
+	content.Name = name
+}
+
 // Stage puts page to the model stage
 func (page *Page) Stage(stage *Stage) *Page {
 
@@ -737,6 +747,11 @@ func (page *Page) Checkout(stage *Stage) *Page {
 // for satisfaction of GongStruct interface
 func (page *Page) GetName() (res string) {
 	return page.Name
+}
+
+// for satisfaction of GongStruct interface
+func (page *Page) SetName(name string) (){
+	page.Name = name
 }
 
 // swagger:ignore
@@ -815,6 +830,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

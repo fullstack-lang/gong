@@ -933,6 +933,11 @@ func (gongbasicfield *GongBasicField) GetName() (res string) {
 	return gongbasicfield.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongbasicfield *GongBasicField) SetName(name string) (){
+	gongbasicfield.Name = name
+}
+
 // Stage puts gongenum to the model stage
 func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 
@@ -1002,6 +1007,11 @@ func (gongenum *GongEnum) Checkout(stage *Stage) *GongEnum {
 // for satisfaction of GongStruct interface
 func (gongenum *GongEnum) GetName() (res string) {
 	return gongenum.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gongenum *GongEnum) SetName(name string) (){
+	gongenum.Name = name
 }
 
 // Stage puts gongenumvalue to the model stage
@@ -1075,6 +1085,11 @@ func (gongenumvalue *GongEnumValue) GetName() (res string) {
 	return gongenumvalue.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongenumvalue *GongEnumValue) SetName(name string) (){
+	gongenumvalue.Name = name
+}
+
 // Stage puts gonglink to the model stage
 func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 
@@ -1144,6 +1159,11 @@ func (gonglink *GongLink) Checkout(stage *Stage) *GongLink {
 // for satisfaction of GongStruct interface
 func (gonglink *GongLink) GetName() (res string) {
 	return gonglink.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gonglink *GongLink) SetName(name string) (){
+	gonglink.Name = name
 }
 
 // Stage puts gongnote to the model stage
@@ -1217,6 +1237,11 @@ func (gongnote *GongNote) GetName() (res string) {
 	return gongnote.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongnote *GongNote) SetName(name string) (){
+	gongnote.Name = name
+}
+
 // Stage puts gongstruct to the model stage
 func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 
@@ -1286,6 +1311,11 @@ func (gongstruct *GongStruct) Checkout(stage *Stage) *GongStruct {
 // for satisfaction of GongStruct interface
 func (gongstruct *GongStruct) GetName() (res string) {
 	return gongstruct.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gongstruct *GongStruct) SetName(name string) (){
+	gongstruct.Name = name
 }
 
 // Stage puts gongtimefield to the model stage
@@ -1359,6 +1389,11 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 	return gongtimefield.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongtimefield *GongTimeField) SetName(name string) (){
+	gongtimefield.Name = name
+}
+
 // Stage puts metareference to the model stage
 func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 
@@ -1428,6 +1463,11 @@ func (metareference *MetaReference) Checkout(stage *Stage) *MetaReference {
 // for satisfaction of GongStruct interface
 func (metareference *MetaReference) GetName() (res string) {
 	return metareference.Name
+}
+
+// for satisfaction of GongStruct interface
+func (metareference *MetaReference) SetName(name string) (){
+	metareference.Name = name
 }
 
 // Stage puts modelpkg to the model stage
@@ -1501,6 +1541,11 @@ func (modelpkg *ModelPkg) GetName() (res string) {
 	return modelpkg.Name
 }
 
+// for satisfaction of GongStruct interface
+func (modelpkg *ModelPkg) SetName(name string) (){
+	modelpkg.Name = name
+}
+
 // Stage puts pointertogongstructfield to the model stage
 func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *PointerToGongStructField {
 
@@ -1572,6 +1617,11 @@ func (pointertogongstructfield *PointerToGongStructField) GetName() (res string)
 	return pointertogongstructfield.Name
 }
 
+// for satisfaction of GongStruct interface
+func (pointertogongstructfield *PointerToGongStructField) SetName(name string) (){
+	pointertogongstructfield.Name = name
+}
+
 // Stage puts sliceofpointertogongstructfield to the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(stage *Stage) *SliceOfPointerToGongStructField {
 
@@ -1641,6 +1691,11 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Checkout
 // for satisfaction of GongStruct interface
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetName() (res string) {
 	return sliceofpointertogongstructfield.Name
+}
+
+// for satisfaction of GongStruct interface
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) SetName(name string) (){
+	sliceofpointertogongstructfield.Name = name
 }
 
 // swagger:ignore
@@ -1831,6 +1886,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

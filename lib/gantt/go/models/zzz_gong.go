@@ -771,6 +771,11 @@ func (arrow *Arrow) GetName() (res string) {
 	return arrow.Name
 }
 
+// for satisfaction of GongStruct interface
+func (arrow *Arrow) SetName(name string) (){
+	arrow.Name = name
+}
+
 // Stage puts bar to the model stage
 func (bar *Bar) Stage(stage *Stage) *Bar {
 
@@ -840,6 +845,11 @@ func (bar *Bar) Checkout(stage *Stage) *Bar {
 // for satisfaction of GongStruct interface
 func (bar *Bar) GetName() (res string) {
 	return bar.Name
+}
+
+// for satisfaction of GongStruct interface
+func (bar *Bar) SetName(name string) (){
+	bar.Name = name
 }
 
 // Stage puts gantt to the model stage
@@ -913,6 +923,11 @@ func (gantt *Gantt) GetName() (res string) {
 	return gantt.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gantt *Gantt) SetName(name string) (){
+	gantt.Name = name
+}
+
 // Stage puts group to the model stage
 func (group *Group) Stage(stage *Stage) *Group {
 
@@ -982,6 +997,11 @@ func (group *Group) Checkout(stage *Stage) *Group {
 // for satisfaction of GongStruct interface
 func (group *Group) GetName() (res string) {
 	return group.Name
+}
+
+// for satisfaction of GongStruct interface
+func (group *Group) SetName(name string) (){
+	group.Name = name
 }
 
 // Stage puts lane to the model stage
@@ -1055,6 +1075,11 @@ func (lane *Lane) GetName() (res string) {
 	return lane.Name
 }
 
+// for satisfaction of GongStruct interface
+func (lane *Lane) SetName(name string) (){
+	lane.Name = name
+}
+
 // Stage puts laneuse to the model stage
 func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 
@@ -1126,6 +1151,11 @@ func (laneuse *LaneUse) GetName() (res string) {
 	return laneuse.Name
 }
 
+// for satisfaction of GongStruct interface
+func (laneuse *LaneUse) SetName(name string) (){
+	laneuse.Name = name
+}
+
 // Stage puts milestone to the model stage
 func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 
@@ -1195,6 +1225,11 @@ func (milestone *Milestone) Checkout(stage *Stage) *Milestone {
 // for satisfaction of GongStruct interface
 func (milestone *Milestone) GetName() (res string) {
 	return milestone.Name
+}
+
+// for satisfaction of GongStruct interface
+func (milestone *Milestone) SetName(name string) (){
+	milestone.Name = name
 }
 
 // swagger:ignore
@@ -1329,6 +1364,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
