@@ -1389,6 +1389,11 @@ func (animate *Animate) GetName() (res string) {
 	return animate.Name
 }
 
+// for satisfaction of GongStruct interface
+func (animate *Animate) SetName(name string) (){
+	animate.Name = name
+}
+
 // Stage puts circle to the model stage
 func (circle *Circle) Stage(stage *Stage) *Circle {
 
@@ -1458,6 +1463,11 @@ func (circle *Circle) Checkout(stage *Stage) *Circle {
 // for satisfaction of GongStruct interface
 func (circle *Circle) GetName() (res string) {
 	return circle.Name
+}
+
+// for satisfaction of GongStruct interface
+func (circle *Circle) SetName(name string) (){
+	circle.Name = name
 }
 
 // Stage puts condition to the model stage
@@ -1531,6 +1541,11 @@ func (condition *Condition) GetName() (res string) {
 	return condition.Name
 }
 
+// for satisfaction of GongStruct interface
+func (condition *Condition) SetName(name string) (){
+	condition.Name = name
+}
+
 // Stage puts controlpoint to the model stage
 func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 
@@ -1600,6 +1615,11 @@ func (controlpoint *ControlPoint) Checkout(stage *Stage) *ControlPoint {
 // for satisfaction of GongStruct interface
 func (controlpoint *ControlPoint) GetName() (res string) {
 	return controlpoint.Name
+}
+
+// for satisfaction of GongStruct interface
+func (controlpoint *ControlPoint) SetName(name string) (){
+	controlpoint.Name = name
 }
 
 // Stage puts ellipse to the model stage
@@ -1673,6 +1693,11 @@ func (ellipse *Ellipse) GetName() (res string) {
 	return ellipse.Name
 }
 
+// for satisfaction of GongStruct interface
+func (ellipse *Ellipse) SetName(name string) (){
+	ellipse.Name = name
+}
+
 // Stage puts layer to the model stage
 func (layer *Layer) Stage(stage *Stage) *Layer {
 
@@ -1742,6 +1767,11 @@ func (layer *Layer) Checkout(stage *Stage) *Layer {
 // for satisfaction of GongStruct interface
 func (layer *Layer) GetName() (res string) {
 	return layer.Name
+}
+
+// for satisfaction of GongStruct interface
+func (layer *Layer) SetName(name string) (){
+	layer.Name = name
 }
 
 // Stage puts line to the model stage
@@ -1815,6 +1845,11 @@ func (line *Line) GetName() (res string) {
 	return line.Name
 }
 
+// for satisfaction of GongStruct interface
+func (line *Line) SetName(name string) (){
+	line.Name = name
+}
+
 // Stage puts link to the model stage
 func (link *Link) Stage(stage *Stage) *Link {
 
@@ -1884,6 +1919,11 @@ func (link *Link) Checkout(stage *Stage) *Link {
 // for satisfaction of GongStruct interface
 func (link *Link) GetName() (res string) {
 	return link.Name
+}
+
+// for satisfaction of GongStruct interface
+func (link *Link) SetName(name string) (){
+	link.Name = name
 }
 
 // Stage puts linkanchoredtext to the model stage
@@ -1957,6 +1997,11 @@ func (linkanchoredtext *LinkAnchoredText) GetName() (res string) {
 	return linkanchoredtext.Name
 }
 
+// for satisfaction of GongStruct interface
+func (linkanchoredtext *LinkAnchoredText) SetName(name string) (){
+	linkanchoredtext.Name = name
+}
+
 // Stage puts path to the model stage
 func (path *Path) Stage(stage *Stage) *Path {
 
@@ -2026,6 +2071,11 @@ func (path *Path) Checkout(stage *Stage) *Path {
 // for satisfaction of GongStruct interface
 func (path *Path) GetName() (res string) {
 	return path.Name
+}
+
+// for satisfaction of GongStruct interface
+func (path *Path) SetName(name string) (){
+	path.Name = name
 }
 
 // Stage puts point to the model stage
@@ -2099,6 +2149,11 @@ func (point *Point) GetName() (res string) {
 	return point.Name
 }
 
+// for satisfaction of GongStruct interface
+func (point *Point) SetName(name string) (){
+	point.Name = name
+}
+
 // Stage puts polygone to the model stage
 func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 
@@ -2168,6 +2223,11 @@ func (polygone *Polygone) Checkout(stage *Stage) *Polygone {
 // for satisfaction of GongStruct interface
 func (polygone *Polygone) GetName() (res string) {
 	return polygone.Name
+}
+
+// for satisfaction of GongStruct interface
+func (polygone *Polygone) SetName(name string) (){
+	polygone.Name = name
 }
 
 // Stage puts polyline to the model stage
@@ -2241,6 +2301,11 @@ func (polyline *Polyline) GetName() (res string) {
 	return polyline.Name
 }
 
+// for satisfaction of GongStruct interface
+func (polyline *Polyline) SetName(name string) (){
+	polyline.Name = name
+}
+
 // Stage puts rect to the model stage
 func (rect *Rect) Stage(stage *Stage) *Rect {
 
@@ -2310,6 +2375,11 @@ func (rect *Rect) Checkout(stage *Stage) *Rect {
 // for satisfaction of GongStruct interface
 func (rect *Rect) GetName() (res string) {
 	return rect.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rect *Rect) SetName(name string) (){
+	rect.Name = name
 }
 
 // Stage puts rectanchoredpath to the model stage
@@ -2383,6 +2453,11 @@ func (rectanchoredpath *RectAnchoredPath) GetName() (res string) {
 	return rectanchoredpath.Name
 }
 
+// for satisfaction of GongStruct interface
+func (rectanchoredpath *RectAnchoredPath) SetName(name string) (){
+	rectanchoredpath.Name = name
+}
+
 // Stage puts rectanchoredrect to the model stage
 func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect {
 
@@ -2452,6 +2527,11 @@ func (rectanchoredrect *RectAnchoredRect) Checkout(stage *Stage) *RectAnchoredRe
 // for satisfaction of GongStruct interface
 func (rectanchoredrect *RectAnchoredRect) GetName() (res string) {
 	return rectanchoredrect.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rectanchoredrect *RectAnchoredRect) SetName(name string) (){
+	rectanchoredrect.Name = name
 }
 
 // Stage puts rectanchoredtext to the model stage
@@ -2525,6 +2605,11 @@ func (rectanchoredtext *RectAnchoredText) GetName() (res string) {
 	return rectanchoredtext.Name
 }
 
+// for satisfaction of GongStruct interface
+func (rectanchoredtext *RectAnchoredText) SetName(name string) (){
+	rectanchoredtext.Name = name
+}
+
 // Stage puts rectlinklink to the model stage
 func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 
@@ -2594,6 +2679,11 @@ func (rectlinklink *RectLinkLink) Checkout(stage *Stage) *RectLinkLink {
 // for satisfaction of GongStruct interface
 func (rectlinklink *RectLinkLink) GetName() (res string) {
 	return rectlinklink.Name
+}
+
+// for satisfaction of GongStruct interface
+func (rectlinklink *RectLinkLink) SetName(name string) (){
+	rectlinklink.Name = name
 }
 
 // Stage puts svg to the model stage
@@ -2667,6 +2757,11 @@ func (svg *SVG) GetName() (res string) {
 	return svg.Name
 }
 
+// for satisfaction of GongStruct interface
+func (svg *SVG) SetName(name string) (){
+	svg.Name = name
+}
+
 // Stage puts svgtext to the model stage
 func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 
@@ -2738,6 +2833,11 @@ func (svgtext *SvgText) GetName() (res string) {
 	return svgtext.Name
 }
 
+// for satisfaction of GongStruct interface
+func (svgtext *SvgText) SetName(name string) (){
+	svgtext.Name = name
+}
+
 // Stage puts text to the model stage
 func (text *Text) Stage(stage *Stage) *Text {
 
@@ -2807,6 +2907,11 @@ func (text *Text) Checkout(stage *Stage) *Text {
 // for satisfaction of GongStruct interface
 func (text *Text) GetName() (res string) {
 	return text.Name
+}
+
+// for satisfaction of GongStruct interface
+func (text *Text) SetName(name string) (){
+	text.Name = name
 }
 
 // swagger:ignore
@@ -3137,6 +3242,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
