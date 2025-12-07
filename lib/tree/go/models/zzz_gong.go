@@ -640,6 +640,11 @@ func (button *Button) GetName() (res string) {
 	return button.Name
 }
 
+// for satisfaction of GongStruct interface
+func (button *Button) SetName(name string) (){
+	button.Name = name
+}
+
 // Stage puts node to the model stage
 func (node *Node) Stage(stage *Stage) *Node {
 
@@ -709,6 +714,11 @@ func (node *Node) Checkout(stage *Stage) *Node {
 // for satisfaction of GongStruct interface
 func (node *Node) GetName() (res string) {
 	return node.Name
+}
+
+// for satisfaction of GongStruct interface
+func (node *Node) SetName(name string) (){
+	node.Name = name
 }
 
 // Stage puts svgicon to the model stage
@@ -782,6 +792,11 @@ func (svgicon *SVGIcon) GetName() (res string) {
 	return svgicon.Name
 }
 
+// for satisfaction of GongStruct interface
+func (svgicon *SVGIcon) SetName(name string) (){
+	svgicon.Name = name
+}
+
 // Stage puts tree to the model stage
 func (tree *Tree) Stage(stage *Stage) *Tree {
 
@@ -851,6 +866,11 @@ func (tree *Tree) Checkout(stage *Stage) *Tree {
 // for satisfaction of GongStruct interface
 func (tree *Tree) GetName() (res string) {
 	return tree.Name
+}
+
+// for satisfaction of GongStruct interface
+func (tree *Tree) SetName(name string) (){
+	tree.Name = name
 }
 
 // swagger:ignore
@@ -943,6 +963,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

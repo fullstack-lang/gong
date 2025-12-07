@@ -554,6 +554,11 @@ func (a *A) GetName() (res string) {
 	return a.Name
 }
 
+// for satisfaction of GongStruct interface
+func (a *A) SetName(name string) (){
+	a.Name = name
+}
+
 // Stage puts b to the model stage
 func (b *B) Stage(stage *Stage) *B {
 
@@ -625,6 +630,11 @@ func (b *B) GetName() (res string) {
 	return b.Name
 }
 
+// for satisfaction of GongStruct interface
+func (b *B) SetName(name string) (){
+	b.Name = name
+}
+
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMA(A *A)
@@ -687,6 +697,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

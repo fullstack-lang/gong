@@ -195,6 +195,11 @@ func ({{structname}} *{{Structname}}) Checkout(stage *Stage) *{{Structname}} {
 func ({{structname}} *{{Structname}}) GetName() (res string) {
 	return {{structname}}.Name
 }
+
+// for satisfaction of GongStruct interface
+func ({{structname}} *{{Structname}}) SetName(name string) (){
+	{{structname}}.Name = name
+}
 `,
 
 	ModelGongStructInsertionCreateCallback: `

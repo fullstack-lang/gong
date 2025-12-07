@@ -773,6 +773,11 @@ func (astruct *Astruct) GetName() (res string) {
 	return astruct.Name
 }
 
+// for satisfaction of GongStruct interface
+func (astruct *Astruct) SetName(name string) (){
+	astruct.Name = name
+}
+
 // Stage puts astructbstruct2use to the model stage
 func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruct2Use {
 
@@ -842,6 +847,11 @@ func (astructbstruct2use *AstructBstruct2Use) Checkout(stage *Stage) *AstructBst
 // for satisfaction of GongStruct interface
 func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 	return astructbstruct2use.Name
+}
+
+// for satisfaction of GongStruct interface
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
+	astructbstruct2use.Name = name
 }
 
 // Stage puts astructbstructuse to the model stage
@@ -915,6 +925,11 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 	return astructbstructuse.Name
 }
 
+// for satisfaction of GongStruct interface
+func (astructbstructuse *AstructBstructUse) SetName(name string) (){
+	astructbstructuse.Name = name
+}
+
 // Stage puts bstruct to the model stage
 func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 
@@ -984,6 +999,11 @@ func (bstruct *Bstruct) Checkout(stage *Stage) *Bstruct {
 // for satisfaction of GongStruct interface
 func (bstruct *Bstruct) GetName() (res string) {
 	return bstruct.Name
+}
+
+// for satisfaction of GongStruct interface
+func (bstruct *Bstruct) SetName(name string) (){
+	bstruct.Name = name
 }
 
 // Stage puts dstruct to the model stage
@@ -1057,6 +1077,11 @@ func (dstruct *Dstruct) GetName() (res string) {
 	return dstruct.Name
 }
 
+// for satisfaction of GongStruct interface
+func (dstruct *Dstruct) SetName(name string) (){
+	dstruct.Name = name
+}
+
 // Stage puts f0123456789012345678901234567890 to the model stage
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(stage *Stage) *F0123456789012345678901234567890 {
 
@@ -1128,6 +1153,11 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 	return f0123456789012345678901234567890.Name
 }
 
+// for satisfaction of GongStruct interface
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
+	f0123456789012345678901234567890.Name = name
+}
+
 // Stage puts gstruct to the model stage
 func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 
@@ -1197,6 +1227,11 @@ func (gstruct *Gstruct) Checkout(stage *Stage) *Gstruct {
 // for satisfaction of GongStruct interface
 func (gstruct *Gstruct) GetName() (res string) {
 	return gstruct.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gstruct *Gstruct) SetName(name string) (){
+	gstruct.Name = name
 }
 
 // swagger:ignore
@@ -1331,6 +1366,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
