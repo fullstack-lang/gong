@@ -1970,33 +1970,33 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*GongBasicField:
-		return any(&stage.GongBasicFields_mapString).(*Type)
+		return any(&stage.GongBasicFields_mapString).(map[string]GongstructIF)
 	case map[string]*GongEnum:
-		return any(&stage.GongEnums_mapString).(*Type)
+		return any(&stage.GongEnums_mapString).(map[string]GongstructIF)
 	case map[string]*GongEnumValue:
-		return any(&stage.GongEnumValues_mapString).(*Type)
+		return any(&stage.GongEnumValues_mapString).(map[string]GongstructIF)
 	case map[string]*GongLink:
-		return any(&stage.GongLinks_mapString).(*Type)
+		return any(&stage.GongLinks_mapString).(map[string]GongstructIF)
 	case map[string]*GongNote:
-		return any(&stage.GongNotes_mapString).(*Type)
+		return any(&stage.GongNotes_mapString).(map[string]GongstructIF)
 	case map[string]*GongStruct:
-		return any(&stage.GongStructs_mapString).(*Type)
+		return any(&stage.GongStructs_mapString).(map[string]GongstructIF)
 	case map[string]*GongTimeField:
-		return any(&stage.GongTimeFields_mapString).(*Type)
+		return any(&stage.GongTimeFields_mapString).(map[string]GongstructIF)
 	case map[string]*MetaReference:
-		return any(&stage.MetaReferences_mapString).(*Type)
+		return any(&stage.MetaReferences_mapString).(map[string]GongstructIF)
 	case map[string]*ModelPkg:
-		return any(&stage.ModelPkgs_mapString).(*Type)
+		return any(&stage.ModelPkgs_mapString).(map[string]GongstructIF)
 	case map[string]*PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields_mapString).(*Type)
+		return any(&stage.PointerToGongStructFields_mapString).(map[string]GongstructIF)
 	case map[string]*SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields_mapString).(*Type)
+		return any(&stage.SliceOfPointerToGongStructFields_mapString).(map[string]GongstructIF)
 	default:
 		return nil
 	}

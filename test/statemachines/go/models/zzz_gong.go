@@ -2117,35 +2117,35 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 // GongGetMap returns the map of staged GongstructType instances
 // it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructMapString](stage *Stage) *Type {
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
 	case map[string]*Architecture:
-		return any(&stage.Architectures_mapString).(*Type)
+		return any(&stage.Architectures_mapString).(map[string]GongstructIF)
 	case map[string]*Diagram:
-		return any(&stage.Diagrams_mapString).(*Type)
+		return any(&stage.Diagrams_mapString).(map[string]GongstructIF)
 	case map[string]*Kill:
-		return any(&stage.Kills_mapString).(*Type)
+		return any(&stage.Kills_mapString).(map[string]GongstructIF)
 	case map[string]*Message:
-		return any(&stage.Messages_mapString).(*Type)
+		return any(&stage.Messages_mapString).(map[string]GongstructIF)
 	case map[string]*MessageType:
-		return any(&stage.MessageTypes_mapString).(*Type)
+		return any(&stage.MessageTypes_mapString).(map[string]GongstructIF)
 	case map[string]*Object:
-		return any(&stage.Objects_mapString).(*Type)
+		return any(&stage.Objects_mapString).(map[string]GongstructIF)
 	case map[string]*Role:
-		return any(&stage.Roles_mapString).(*Type)
+		return any(&stage.Roles_mapString).(map[string]GongstructIF)
 	case map[string]*State:
-		return any(&stage.States_mapString).(*Type)
+		return any(&stage.States_mapString).(map[string]GongstructIF)
 	case map[string]*StateMachine:
-		return any(&stage.StateMachines_mapString).(*Type)
+		return any(&stage.StateMachines_mapString).(map[string]GongstructIF)
 	case map[string]*StateShape:
-		return any(&stage.StateShapes_mapString).(*Type)
+		return any(&stage.StateShapes_mapString).(map[string]GongstructIF)
 	case map[string]*Transition:
-		return any(&stage.Transitions_mapString).(*Type)
+		return any(&stage.Transitions_mapString).(map[string]GongstructIF)
 	case map[string]*Transition_Shape:
-		return any(&stage.Transition_Shapes_mapString).(*Type)
+		return any(&stage.Transition_Shapes_mapString).(map[string]GongstructIF)
 	default:
 		return nil
 	}
