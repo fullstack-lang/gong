@@ -855,6 +855,11 @@ func (attributeshape *AttributeShape) GetName() (res string) {
 	return attributeshape.Name
 }
 
+// for satisfaction of GongStruct interface
+func (attributeshape *AttributeShape) SetName(name string) (){
+	attributeshape.Name = name
+}
+
 // Stage puts classdiagram to the model stage
 func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 
@@ -924,6 +929,11 @@ func (classdiagram *Classdiagram) Checkout(stage *Stage) *Classdiagram {
 // for satisfaction of GongStruct interface
 func (classdiagram *Classdiagram) GetName() (res string) {
 	return classdiagram.Name
+}
+
+// for satisfaction of GongStruct interface
+func (classdiagram *Classdiagram) SetName(name string) (){
+	classdiagram.Name = name
 }
 
 // Stage puts diagrampackage to the model stage
@@ -997,6 +1007,11 @@ func (diagrampackage *DiagramPackage) GetName() (res string) {
 	return diagrampackage.Name
 }
 
+// for satisfaction of GongStruct interface
+func (diagrampackage *DiagramPackage) SetName(name string) (){
+	diagrampackage.Name = name
+}
+
 // Stage puts gongenumshape to the model stage
 func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 
@@ -1066,6 +1081,11 @@ func (gongenumshape *GongEnumShape) Checkout(stage *Stage) *GongEnumShape {
 // for satisfaction of GongStruct interface
 func (gongenumshape *GongEnumShape) GetName() (res string) {
 	return gongenumshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gongenumshape *GongEnumShape) SetName(name string) (){
+	gongenumshape.Name = name
 }
 
 // Stage puts gongenumvalueshape to the model stage
@@ -1139,6 +1159,11 @@ func (gongenumvalueshape *GongEnumValueShape) GetName() (res string) {
 	return gongenumvalueshape.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongenumvalueshape *GongEnumValueShape) SetName(name string) (){
+	gongenumvalueshape.Name = name
+}
+
 // Stage puts gongnotelinkshape to the model stage
 func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkShape {
 
@@ -1208,6 +1233,11 @@ func (gongnotelinkshape *GongNoteLinkShape) Checkout(stage *Stage) *GongNoteLink
 // for satisfaction of GongStruct interface
 func (gongnotelinkshape *GongNoteLinkShape) GetName() (res string) {
 	return gongnotelinkshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (gongnotelinkshape *GongNoteLinkShape) SetName(name string) (){
+	gongnotelinkshape.Name = name
 }
 
 // Stage puts gongnoteshape to the model stage
@@ -1281,6 +1311,11 @@ func (gongnoteshape *GongNoteShape) GetName() (res string) {
 	return gongnoteshape.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongnoteshape *GongNoteShape) SetName(name string) (){
+	gongnoteshape.Name = name
+}
+
 // Stage puts gongstructshape to the model stage
 func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 
@@ -1352,6 +1387,11 @@ func (gongstructshape *GongStructShape) GetName() (res string) {
 	return gongstructshape.Name
 }
 
+// for satisfaction of GongStruct interface
+func (gongstructshape *GongStructShape) SetName(name string) (){
+	gongstructshape.Name = name
+}
+
 // Stage puts linkshape to the model stage
 func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 
@@ -1421,6 +1461,11 @@ func (linkshape *LinkShape) Checkout(stage *Stage) *LinkShape {
 // for satisfaction of GongStruct interface
 func (linkshape *LinkShape) GetName() (res string) {
 	return linkshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (linkshape *LinkShape) SetName(name string) (){
+	linkshape.Name = name
 }
 
 // swagger:ignore
@@ -1583,6 +1628,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)

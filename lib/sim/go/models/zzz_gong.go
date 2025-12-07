@@ -716,6 +716,11 @@ func (command *Command) GetName() (res string) {
 	return command.Name
 }
 
+// for satisfaction of GongStruct interface
+func (command *Command) SetName(name string) (){
+	command.Name = name
+}
+
 // Stage puts dummyagent to the model stage
 func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 
@@ -785,6 +790,11 @@ func (dummyagent *DummyAgent) Checkout(stage *Stage) *DummyAgent {
 // for satisfaction of GongStruct interface
 func (dummyagent *DummyAgent) GetName() (res string) {
 	return dummyagent.Name
+}
+
+// for satisfaction of GongStruct interface
+func (dummyagent *DummyAgent) SetName(name string) (){
+	dummyagent.Name = name
 }
 
 // Stage puts engine to the model stage
@@ -858,6 +868,11 @@ func (engine *Engine) GetName() (res string) {
 	return engine.Name
 }
 
+// for satisfaction of GongStruct interface
+func (engine *Engine) SetName(name string) (){
+	engine.Name = name
+}
+
 // Stage puts event to the model stage
 func (event *Event) Stage(stage *Stage) *Event {
 
@@ -927,6 +942,11 @@ func (event *Event) Checkout(stage *Stage) *Event {
 // for satisfaction of GongStruct interface
 func (event *Event) GetName() (res string) {
 	return event.Name
+}
+
+// for satisfaction of GongStruct interface
+func (event *Event) SetName(name string) (){
+	event.Name = name
 }
 
 // Stage puts status to the model stage
@@ -1000,6 +1020,11 @@ func (status *Status) GetName() (res string) {
 	return status.Name
 }
 
+// for satisfaction of GongStruct interface
+func (status *Status) SetName(name string) (){
+	status.Name = name
+}
+
 // Stage puts updatestate to the model stage
 func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 
@@ -1069,6 +1094,11 @@ func (updatestate *UpdateState) Checkout(stage *Stage) *UpdateState {
 // for satisfaction of GongStruct interface
 func (updatestate *UpdateState) GetName() (res string) {
 	return updatestate.Name
+}
+
+// for satisfaction of GongStruct interface
+func (updatestate *UpdateState) SetName(name string) (){
+	updatestate.Name = name
 }
 
 // swagger:ignore
@@ -1189,6 +1219,7 @@ type GongtructBasicField interface {
 // - full refactoring of Gongstruct identifiers / fields
 type GongstructIF interface {
 	GetName() string
+	SetName(string)
 	CommitVoid(*Stage)
 	StageVoid(*Stage)
 	UnstageVoid(stage *Stage)
