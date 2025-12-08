@@ -3344,55 +3344,55 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Animate:
-		return any(&stage.Animates_mapString).(map[string]GongstructIF)
-	case map[string]*Circle:
-		return any(&stage.Circles_mapString).(map[string]GongstructIF)
-	case map[string]*Condition:
-		return any(&stage.Conditions_mapString).(map[string]GongstructIF)
-	case map[string]*ControlPoint:
-		return any(&stage.ControlPoints_mapString).(map[string]GongstructIF)
-	case map[string]*Ellipse:
-		return any(&stage.Ellipses_mapString).(map[string]GongstructIF)
-	case map[string]*Layer:
-		return any(&stage.Layers_mapString).(map[string]GongstructIF)
-	case map[string]*Line:
-		return any(&stage.Lines_mapString).(map[string]GongstructIF)
-	case map[string]*Link:
-		return any(&stage.Links_mapString).(map[string]GongstructIF)
-	case map[string]*LinkAnchoredText:
-		return any(&stage.LinkAnchoredTexts_mapString).(map[string]GongstructIF)
-	case map[string]*Path:
-		return any(&stage.Paths_mapString).(map[string]GongstructIF)
-	case map[string]*Point:
-		return any(&stage.Points_mapString).(map[string]GongstructIF)
-	case map[string]*Polygone:
-		return any(&stage.Polygones_mapString).(map[string]GongstructIF)
-	case map[string]*Polyline:
-		return any(&stage.Polylines_mapString).(map[string]GongstructIF)
-	case map[string]*Rect:
-		return any(&stage.Rects_mapString).(map[string]GongstructIF)
-	case map[string]*RectAnchoredPath:
-		return any(&stage.RectAnchoredPaths_mapString).(map[string]GongstructIF)
-	case map[string]*RectAnchoredRect:
-		return any(&stage.RectAnchoredRects_mapString).(map[string]GongstructIF)
-	case map[string]*RectAnchoredText:
-		return any(&stage.RectAnchoredTexts_mapString).(map[string]GongstructIF)
-	case map[string]*RectLinkLink:
-		return any(&stage.RectLinkLinks_mapString).(map[string]GongstructIF)
-	case map[string]*SVG:
-		return any(&stage.SVGs_mapString).(map[string]GongstructIF)
-	case map[string]*SvgText:
-		return any(&stage.SvgTexts_mapString).(map[string]GongstructIF)
-	case map[string]*Text:
-		return any(&stage.Texts_mapString).(map[string]GongstructIF)
+	case *Animate:
+		return any(stage.Animates_mapString).(map[string]Type)
+	case *Circle:
+		return any(stage.Circles_mapString).(map[string]Type)
+	case *Condition:
+		return any(stage.Conditions_mapString).(map[string]Type)
+	case *ControlPoint:
+		return any(stage.ControlPoints_mapString).(map[string]Type)
+	case *Ellipse:
+		return any(stage.Ellipses_mapString).(map[string]Type)
+	case *Layer:
+		return any(stage.Layers_mapString).(map[string]Type)
+	case *Line:
+		return any(stage.Lines_mapString).(map[string]Type)
+	case *Link:
+		return any(stage.Links_mapString).(map[string]Type)
+	case *LinkAnchoredText:
+		return any(stage.LinkAnchoredTexts_mapString).(map[string]Type)
+	case *Path:
+		return any(stage.Paths_mapString).(map[string]Type)
+	case *Point:
+		return any(stage.Points_mapString).(map[string]Type)
+	case *Polygone:
+		return any(stage.Polygones_mapString).(map[string]Type)
+	case *Polyline:
+		return any(stage.Polylines_mapString).(map[string]Type)
+	case *Rect:
+		return any(stage.Rects_mapString).(map[string]Type)
+	case *RectAnchoredPath:
+		return any(stage.RectAnchoredPaths_mapString).(map[string]Type)
+	case *RectAnchoredRect:
+		return any(stage.RectAnchoredRects_mapString).(map[string]Type)
+	case *RectAnchoredText:
+		return any(stage.RectAnchoredTexts_mapString).(map[string]Type)
+	case *RectLinkLink:
+		return any(stage.RectLinkLinks_mapString).(map[string]Type)
+	case *SVG:
+		return any(stage.SVGs_mapString).(map[string]Type)
+	case *SvgText:
+		return any(stage.SvgTexts_mapString).(map[string]Type)
+	case *Text:
+		return any(stage.Texts_mapString).(map[string]Type)
 	default:
 		return nil
 	}

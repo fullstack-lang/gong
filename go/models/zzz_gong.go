@@ -1968,35 +1968,35 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*GongBasicField:
-		return any(&stage.GongBasicFields_mapString).(map[string]GongstructIF)
-	case map[string]*GongEnum:
-		return any(&stage.GongEnums_mapString).(map[string]GongstructIF)
-	case map[string]*GongEnumValue:
-		return any(&stage.GongEnumValues_mapString).(map[string]GongstructIF)
-	case map[string]*GongLink:
-		return any(&stage.GongLinks_mapString).(map[string]GongstructIF)
-	case map[string]*GongNote:
-		return any(&stage.GongNotes_mapString).(map[string]GongstructIF)
-	case map[string]*GongStruct:
-		return any(&stage.GongStructs_mapString).(map[string]GongstructIF)
-	case map[string]*GongTimeField:
-		return any(&stage.GongTimeFields_mapString).(map[string]GongstructIF)
-	case map[string]*MetaReference:
-		return any(&stage.MetaReferences_mapString).(map[string]GongstructIF)
-	case map[string]*ModelPkg:
-		return any(&stage.ModelPkgs_mapString).(map[string]GongstructIF)
-	case map[string]*PointerToGongStructField:
-		return any(&stage.PointerToGongStructFields_mapString).(map[string]GongstructIF)
-	case map[string]*SliceOfPointerToGongStructField:
-		return any(&stage.SliceOfPointerToGongStructFields_mapString).(map[string]GongstructIF)
+	case *GongBasicField:
+		return any(stage.GongBasicFields_mapString).(map[string]Type)
+	case *GongEnum:
+		return any(stage.GongEnums_mapString).(map[string]Type)
+	case *GongEnumValue:
+		return any(stage.GongEnumValues_mapString).(map[string]Type)
+	case *GongLink:
+		return any(stage.GongLinks_mapString).(map[string]Type)
+	case *GongNote:
+		return any(stage.GongNotes_mapString).(map[string]Type)
+	case *GongStruct:
+		return any(stage.GongStructs_mapString).(map[string]Type)
+	case *GongTimeField:
+		return any(stage.GongTimeFields_mapString).(map[string]Type)
+	case *MetaReference:
+		return any(stage.MetaReferences_mapString).(map[string]Type)
+	case *ModelPkg:
+		return any(stage.ModelPkgs_mapString).(map[string]Type)
+	case *PointerToGongStructField:
+		return any(stage.PointerToGongStructFields_mapString).(map[string]Type)
+	case *SliceOfPointerToGongStructField:
+		return any(stage.SliceOfPointerToGongStructFields_mapString).(map[string]Type)
 	default:
 		return nil
 	}

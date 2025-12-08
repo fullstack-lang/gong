@@ -1706,31 +1706,31 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*AttributeShape:
-		return any(&stage.AttributeShapes_mapString).(map[string]GongstructIF)
-	case map[string]*Classdiagram:
-		return any(&stage.Classdiagrams_mapString).(map[string]GongstructIF)
-	case map[string]*DiagramPackage:
-		return any(&stage.DiagramPackages_mapString).(map[string]GongstructIF)
-	case map[string]*GongEnumShape:
-		return any(&stage.GongEnumShapes_mapString).(map[string]GongstructIF)
-	case map[string]*GongEnumValueShape:
-		return any(&stage.GongEnumValueShapes_mapString).(map[string]GongstructIF)
-	case map[string]*GongNoteLinkShape:
-		return any(&stage.GongNoteLinkShapes_mapString).(map[string]GongstructIF)
-	case map[string]*GongNoteShape:
-		return any(&stage.GongNoteShapes_mapString).(map[string]GongstructIF)
-	case map[string]*GongStructShape:
-		return any(&stage.GongStructShapes_mapString).(map[string]GongstructIF)
-	case map[string]*LinkShape:
-		return any(&stage.LinkShapes_mapString).(map[string]GongstructIF)
+	case *AttributeShape:
+		return any(stage.AttributeShapes_mapString).(map[string]Type)
+	case *Classdiagram:
+		return any(stage.Classdiagrams_mapString).(map[string]Type)
+	case *DiagramPackage:
+		return any(stage.DiagramPackages_mapString).(map[string]Type)
+	case *GongEnumShape:
+		return any(stage.GongEnumShapes_mapString).(map[string]Type)
+	case *GongEnumValueShape:
+		return any(stage.GongEnumValueShapes_mapString).(map[string]Type)
+	case *GongNoteLinkShape:
+		return any(stage.GongNoteLinkShapes_mapString).(map[string]Type)
+	case *GongNoteShape:
+		return any(stage.GongNoteShapes_mapString).(map[string]Type)
+	case *GongStructShape:
+		return any(stage.GongStructShapes_mapString).(map[string]Type)
+	case *LinkShape:
+		return any(stage.LinkShapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}

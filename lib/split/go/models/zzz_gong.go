@@ -3024,51 +3024,51 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*AsSplit:
-		return any(&stage.AsSplits_mapString).(map[string]GongstructIF)
-	case map[string]*AsSplitArea:
-		return any(&stage.AsSplitAreas_mapString).(map[string]GongstructIF)
-	case map[string]*Button:
-		return any(&stage.Buttons_mapString).(map[string]GongstructIF)
-	case map[string]*Cursor:
-		return any(&stage.Cursors_mapString).(map[string]GongstructIF)
-	case map[string]*FavIcon:
-		return any(&stage.FavIcons_mapString).(map[string]GongstructIF)
-	case map[string]*Form:
-		return any(&stage.Forms_mapString).(map[string]GongstructIF)
-	case map[string]*Load:
-		return any(&stage.Loads_mapString).(map[string]GongstructIF)
-	case map[string]*LogoOnTheLeft:
-		return any(&stage.LogoOnTheLefts_mapString).(map[string]GongstructIF)
-	case map[string]*LogoOnTheRight:
-		return any(&stage.LogoOnTheRights_mapString).(map[string]GongstructIF)
-	case map[string]*Markdown:
-		return any(&stage.Markdowns_mapString).(map[string]GongstructIF)
-	case map[string]*Slider:
-		return any(&stage.Sliders_mapString).(map[string]GongstructIF)
-	case map[string]*Split:
-		return any(&stage.Splits_mapString).(map[string]GongstructIF)
-	case map[string]*Svg:
-		return any(&stage.Svgs_mapString).(map[string]GongstructIF)
-	case map[string]*Table:
-		return any(&stage.Tables_mapString).(map[string]GongstructIF)
-	case map[string]*Title:
-		return any(&stage.Titles_mapString).(map[string]GongstructIF)
-	case map[string]*Tone:
-		return any(&stage.Tones_mapString).(map[string]GongstructIF)
-	case map[string]*Tree:
-		return any(&stage.Trees_mapString).(map[string]GongstructIF)
-	case map[string]*View:
-		return any(&stage.Views_mapString).(map[string]GongstructIF)
-	case map[string]*Xlsx:
-		return any(&stage.Xlsxs_mapString).(map[string]GongstructIF)
+	case *AsSplit:
+		return any(stage.AsSplits_mapString).(map[string]Type)
+	case *AsSplitArea:
+		return any(stage.AsSplitAreas_mapString).(map[string]Type)
+	case *Button:
+		return any(stage.Buttons_mapString).(map[string]Type)
+	case *Cursor:
+		return any(stage.Cursors_mapString).(map[string]Type)
+	case *FavIcon:
+		return any(stage.FavIcons_mapString).(map[string]Type)
+	case *Form:
+		return any(stage.Forms_mapString).(map[string]Type)
+	case *Load:
+		return any(stage.Loads_mapString).(map[string]Type)
+	case *LogoOnTheLeft:
+		return any(stage.LogoOnTheLefts_mapString).(map[string]Type)
+	case *LogoOnTheRight:
+		return any(stage.LogoOnTheRights_mapString).(map[string]Type)
+	case *Markdown:
+		return any(stage.Markdowns_mapString).(map[string]Type)
+	case *Slider:
+		return any(stage.Sliders_mapString).(map[string]Type)
+	case *Split:
+		return any(stage.Splits_mapString).(map[string]Type)
+	case *Svg:
+		return any(stage.Svgs_mapString).(map[string]Type)
+	case *Table:
+		return any(stage.Tables_mapString).(map[string]Type)
+	case *Title:
+		return any(stage.Titles_mapString).(map[string]Type)
+	case *Tone:
+		return any(stage.Tones_mapString).(map[string]Type)
+	case *Tree:
+		return any(stage.Trees_mapString).(map[string]Type)
+	case *View:
+		return any(stage.Views_mapString).(map[string]Type)
+	case *Xlsx:
+		return any(stage.Xlsxs_mapString).(map[string]Type)
 	default:
 		return nil
 	}

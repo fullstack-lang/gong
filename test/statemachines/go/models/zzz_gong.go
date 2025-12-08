@@ -2115,37 +2115,37 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Architecture:
-		return any(&stage.Architectures_mapString).(map[string]GongstructIF)
-	case map[string]*Diagram:
-		return any(&stage.Diagrams_mapString).(map[string]GongstructIF)
-	case map[string]*Kill:
-		return any(&stage.Kills_mapString).(map[string]GongstructIF)
-	case map[string]*Message:
-		return any(&stage.Messages_mapString).(map[string]GongstructIF)
-	case map[string]*MessageType:
-		return any(&stage.MessageTypes_mapString).(map[string]GongstructIF)
-	case map[string]*Object:
-		return any(&stage.Objects_mapString).(map[string]GongstructIF)
-	case map[string]*Role:
-		return any(&stage.Roles_mapString).(map[string]GongstructIF)
-	case map[string]*State:
-		return any(&stage.States_mapString).(map[string]GongstructIF)
-	case map[string]*StateMachine:
-		return any(&stage.StateMachines_mapString).(map[string]GongstructIF)
-	case map[string]*StateShape:
-		return any(&stage.StateShapes_mapString).(map[string]GongstructIF)
-	case map[string]*Transition:
-		return any(&stage.Transitions_mapString).(map[string]GongstructIF)
-	case map[string]*Transition_Shape:
-		return any(&stage.Transition_Shapes_mapString).(map[string]GongstructIF)
+	case *Architecture:
+		return any(stage.Architectures_mapString).(map[string]Type)
+	case *Diagram:
+		return any(stage.Diagrams_mapString).(map[string]Type)
+	case *Kill:
+		return any(stage.Kills_mapString).(map[string]Type)
+	case *Message:
+		return any(stage.Messages_mapString).(map[string]Type)
+	case *MessageType:
+		return any(stage.MessageTypes_mapString).(map[string]Type)
+	case *Object:
+		return any(stage.Objects_mapString).(map[string]Type)
+	case *Role:
+		return any(stage.Roles_mapString).(map[string]Type)
+	case *State:
+		return any(stage.States_mapString).(map[string]Type)
+	case *StateMachine:
+		return any(stage.StateMachines_mapString).(map[string]Type)
+	case *StateShape:
+		return any(stage.StateShapes_mapString).(map[string]Type)
+	case *Transition:
+		return any(stage.Transitions_mapString).(map[string]Type)
+	case *Transition_Shape:
+		return any(stage.Transition_Shapes_mapString).(map[string]Type)
 	default:
 		return nil
 	}

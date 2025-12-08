@@ -3566,59 +3566,59 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Cell:
-		return any(&stage.Cells_mapString).(map[string]GongstructIF)
-	case map[string]*CellBoolean:
-		return any(&stage.CellBooleans_mapString).(map[string]GongstructIF)
-	case map[string]*CellFloat64:
-		return any(&stage.CellFloat64s_mapString).(map[string]GongstructIF)
-	case map[string]*CellIcon:
-		return any(&stage.CellIcons_mapString).(map[string]GongstructIF)
-	case map[string]*CellInt:
-		return any(&stage.CellInts_mapString).(map[string]GongstructIF)
-	case map[string]*CellString:
-		return any(&stage.CellStrings_mapString).(map[string]GongstructIF)
-	case map[string]*CheckBox:
-		return any(&stage.CheckBoxs_mapString).(map[string]GongstructIF)
-	case map[string]*DisplayedColumn:
-		return any(&stage.DisplayedColumns_mapString).(map[string]GongstructIF)
-	case map[string]*FormDiv:
-		return any(&stage.FormDivs_mapString).(map[string]GongstructIF)
-	case map[string]*FormEditAssocButton:
-		return any(&stage.FormEditAssocButtons_mapString).(map[string]GongstructIF)
-	case map[string]*FormField:
-		return any(&stage.FormFields_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldDate:
-		return any(&stage.FormFieldDates_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldDateTime:
-		return any(&stage.FormFieldDateTimes_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldFloat64:
-		return any(&stage.FormFieldFloat64s_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldInt:
-		return any(&stage.FormFieldInts_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldSelect:
-		return any(&stage.FormFieldSelects_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldString:
-		return any(&stage.FormFieldStrings_mapString).(map[string]GongstructIF)
-	case map[string]*FormFieldTime:
-		return any(&stage.FormFieldTimes_mapString).(map[string]GongstructIF)
-	case map[string]*FormGroup:
-		return any(&stage.FormGroups_mapString).(map[string]GongstructIF)
-	case map[string]*FormSortAssocButton:
-		return any(&stage.FormSortAssocButtons_mapString).(map[string]GongstructIF)
-	case map[string]*Option:
-		return any(&stage.Options_mapString).(map[string]GongstructIF)
-	case map[string]*Row:
-		return any(&stage.Rows_mapString).(map[string]GongstructIF)
-	case map[string]*Table:
-		return any(&stage.Tables_mapString).(map[string]GongstructIF)
+	case *Cell:
+		return any(stage.Cells_mapString).(map[string]Type)
+	case *CellBoolean:
+		return any(stage.CellBooleans_mapString).(map[string]Type)
+	case *CellFloat64:
+		return any(stage.CellFloat64s_mapString).(map[string]Type)
+	case *CellIcon:
+		return any(stage.CellIcons_mapString).(map[string]Type)
+	case *CellInt:
+		return any(stage.CellInts_mapString).(map[string]Type)
+	case *CellString:
+		return any(stage.CellStrings_mapString).(map[string]Type)
+	case *CheckBox:
+		return any(stage.CheckBoxs_mapString).(map[string]Type)
+	case *DisplayedColumn:
+		return any(stage.DisplayedColumns_mapString).(map[string]Type)
+	case *FormDiv:
+		return any(stage.FormDivs_mapString).(map[string]Type)
+	case *FormEditAssocButton:
+		return any(stage.FormEditAssocButtons_mapString).(map[string]Type)
+	case *FormField:
+		return any(stage.FormFields_mapString).(map[string]Type)
+	case *FormFieldDate:
+		return any(stage.FormFieldDates_mapString).(map[string]Type)
+	case *FormFieldDateTime:
+		return any(stage.FormFieldDateTimes_mapString).(map[string]Type)
+	case *FormFieldFloat64:
+		return any(stage.FormFieldFloat64s_mapString).(map[string]Type)
+	case *FormFieldInt:
+		return any(stage.FormFieldInts_mapString).(map[string]Type)
+	case *FormFieldSelect:
+		return any(stage.FormFieldSelects_mapString).(map[string]Type)
+	case *FormFieldString:
+		return any(stage.FormFieldStrings_mapString).(map[string]Type)
+	case *FormFieldTime:
+		return any(stage.FormFieldTimes_mapString).(map[string]Type)
+	case *FormGroup:
+		return any(stage.FormGroups_mapString).(map[string]Type)
+	case *FormSortAssocButton:
+		return any(stage.FormSortAssocButtons_mapString).(map[string]Type)
+	case *Option:
+		return any(stage.Options_mapString).(map[string]Type)
+	case *Row:
+		return any(stage.Rows_mapString).(map[string]Type)
+	case *Table:
+		return any(stage.Tables_mapString).(map[string]Type)
 	default:
 		return nil
 	}

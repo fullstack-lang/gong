@@ -1440,27 +1440,27 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Astruct:
-		return any(&stage.Astructs_mapString).(map[string]GongstructIF)
-	case map[string]*AstructBstruct2Use:
-		return any(&stage.AstructBstruct2Uses_mapString).(map[string]GongstructIF)
-	case map[string]*AstructBstructUse:
-		return any(&stage.AstructBstructUses_mapString).(map[string]GongstructIF)
-	case map[string]*Bstruct:
-		return any(&stage.Bstructs_mapString).(map[string]GongstructIF)
-	case map[string]*Dstruct:
-		return any(&stage.Dstructs_mapString).(map[string]GongstructIF)
-	case map[string]*F0123456789012345678901234567890:
-		return any(&stage.F0123456789012345678901234567890s_mapString).(map[string]GongstructIF)
-	case map[string]*Gstruct:
-		return any(&stage.Gstructs_mapString).(map[string]GongstructIF)
+	case *Astruct:
+		return any(stage.Astructs_mapString).(map[string]Type)
+	case *AstructBstruct2Use:
+		return any(stage.AstructBstruct2Uses_mapString).(map[string]Type)
+	case *AstructBstructUse:
+		return any(stage.AstructBstructUses_mapString).(map[string]Type)
+	case *Bstruct:
+		return any(stage.Bstructs_mapString).(map[string]Type)
+	case *Dstruct:
+		return any(stage.Dstructs_mapString).(map[string]Type)
+	case *F0123456789012345678901234567890:
+		return any(stage.F0123456789012345678901234567890s_mapString).(map[string]Type)
+	case *Gstruct:
+		return any(stage.Gstructs_mapString).(map[string]Type)
 	default:
 		return nil
 	}
