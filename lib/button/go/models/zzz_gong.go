@@ -1166,23 +1166,23 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 	}
 }
 
-// GongGetMap returns the map of staged GongstructType instances
-// it is usefull because it allows refactoring of gong struct identifier
-func GongGetMap[Type GongstructIF](stage *Stage) map[string]GongstructIF {
+// GongGetMap returns the map of staged Gonstruct instance by their name
+// Can be usefull if names are unique
+func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 	var ret Type
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
-	case map[string]*Button:
-		return any(&stage.Buttons_mapString).(map[string]GongstructIF)
-	case map[string]*ButtonToggle:
-		return any(&stage.ButtonToggles_mapString).(map[string]GongstructIF)
-	case map[string]*Group:
-		return any(&stage.Groups_mapString).(map[string]GongstructIF)
-	case map[string]*GroupToogle:
-		return any(&stage.GroupToogles_mapString).(map[string]GongstructIF)
-	case map[string]*Layout:
-		return any(&stage.Layouts_mapString).(map[string]GongstructIF)
+	case *Button:
+		return any(stage.Buttons_mapString).(map[string]Type)
+	case *ButtonToggle:
+		return any(stage.ButtonToggles_mapString).(map[string]Type)
+	case *Group:
+		return any(stage.Groups_mapString).(map[string]Type)
+	case *GroupToogle:
+		return any(stage.GroupToogles_mapString).(map[string]Type)
+	case *Layout:
+		return any(stage.Layouts_mapString).(map[string]Type)
 	default:
 		return nil
 	}
