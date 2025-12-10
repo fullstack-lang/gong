@@ -1,5 +1,5 @@
-import { Component, Renderer2, Input, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, Renderer2, Input, OnInit, Inject, DOCUMENT } from '@angular/core';
+
 
 import * as split from '../../../../split/src/public-api'
 
