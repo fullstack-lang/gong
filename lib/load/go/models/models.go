@@ -8,7 +8,7 @@ type FileToDownload struct {
 
 	//gong:text
 	//gong:width 600 gong:height 2000
-	Content string
+	Base64EncodedContent string
 }
 
 type FileToUploadProxy interface {

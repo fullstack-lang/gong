@@ -64,8 +64,8 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(filetodownload_.Name), formDiv)
-		case "Content":
-			FormDivBasicFieldToField(&(filetodownload_.Content), formDiv)
+		case "Base64EncodedContent":
+			FormDivBasicFieldToField(&(filetodownload_.Base64EncodedContent), formDiv)
 		}
 	}
 
