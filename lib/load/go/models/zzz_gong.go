@@ -1107,7 +1107,7 @@ func (filetodownload *FileToDownload) GongGetFieldHeaders() (res []GongFieldHead
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "Content",
+			Name:               "Base64EncodedContent",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -1199,8 +1199,8 @@ func (filetodownload *FileToDownload) GongGetFieldValue(fieldName string, stage 
 	// string value of fields
 	case "Name":
 		res.valueString = filetodownload.Name
-	case "Content":
-		res.valueString = filetodownload.Content
+	case "Base64EncodedContent":
+		res.valueString = filetodownload.Base64EncodedContent
 	}
 	return
 }
@@ -1234,8 +1234,8 @@ func (filetodownload *FileToDownload) GongSetFieldValue(fieldName string, value 
 	// insertion point for per field code
 	case "Name":
 		filetodownload.Name = value.GetValueString()
-	case "Content":
-		filetodownload.Content = value.GetValueString()
+	case "Base64EncodedContent":
+		filetodownload.Base64EncodedContent = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

@@ -744,10 +744,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_FileToDownload[identifier].Name = fielValue
-				case "Content":
+				case "Base64EncodedContent":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_FileToDownload[identifier].Content = fielValue
+					__gong__map_FileToDownload[identifier].Base64EncodedContent = fielValue
 				}
 			case "FileToUpload":
 				switch fieldName {

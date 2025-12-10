@@ -14,13 +14,13 @@ type FileToDownload_WOP struct {
 
 	Name string
 
-	Content string
+	Base64EncodedContent string
 }
 
 func (from *FileToDownload) CopyBasicFields(to *FileToDownload) {
 	// insertion point
 	to.Name = from.Name
-	to.Content = from.Content
+	to.Base64EncodedContent = from.Base64EncodedContent
 }
 
 type FileToUpload_WOP struct {
