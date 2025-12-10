@@ -63,8 +63,8 @@ type FileToDownloadDB struct {
 	// Declation for basic field filetodownloadDB.Name
 	Name_Data sql.NullString
 
-	// Declation for basic field filetodownloadDB.Content
-	Content_Data sql.NullString
+	// Declation for basic field filetodownloadDB.Base64EncodedContent
+	Base64EncodedContent_Data sql.NullString
 
 	// encoding of pointers
 	// for GORM serialization, it is necessary to embed to Pointer Encoding declaration
@@ -90,7 +90,7 @@ type FileToDownloadWOP struct {
 
 	Name string `xlsx:"1"`
 
-	Content string `xlsx:"2"`
+	Base64EncodedContent string `xlsx:"2"`
 	// insertion for WOP pointer fields
 }
 
@@ -98,7 +98,7 @@ var FileToDownload_Fields = []string{
 	// insertion for WOP basic fields
 	"ID",
 	"Name",
-	"Content",
+	"Base64EncodedContent",
 }
 
 type BackRepoFileToDownloadStruct struct {
@@ -379,8 +379,8 @@ func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsFromFileToDownload(file
 	filetodownloadDB.Name_Data.String = filetodownload.Name
 	filetodownloadDB.Name_Data.Valid = true
 
-	filetodownloadDB.Content_Data.String = filetodownload.Content
-	filetodownloadDB.Content_Data.Valid = true
+	filetodownloadDB.Base64EncodedContent_Data.String = filetodownload.Base64EncodedContent
+	filetodownloadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToDownload_WOP
@@ -390,8 +390,8 @@ func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsFromFileToDownload_WOP(
 	filetodownloadDB.Name_Data.String = filetodownload.Name
 	filetodownloadDB.Name_Data.Valid = true
 
-	filetodownloadDB.Content_Data.String = filetodownload.Content
-	filetodownloadDB.Content_Data.Valid = true
+	filetodownloadDB.Base64EncodedContent_Data.String = filetodownload.Base64EncodedContent
+	filetodownloadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsFromFileToDownloadWOP
@@ -401,22 +401,22 @@ func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsFromFileToDownloadWOP(f
 	filetodownloadDB.Name_Data.String = filetodownload.Name
 	filetodownloadDB.Name_Data.Valid = true
 
-	filetodownloadDB.Content_Data.String = filetodownload.Content
-	filetodownloadDB.Content_Data.Valid = true
+	filetodownloadDB.Base64EncodedContent_Data.String = filetodownload.Base64EncodedContent
+	filetodownloadDB.Base64EncodedContent_Data.Valid = true
 }
 
 // CopyBasicFieldsToFileToDownload
 func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsToFileToDownload(filetodownload *models.FileToDownload) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetodownload.Name = filetodownloadDB.Name_Data.String
-	filetodownload.Content = filetodownloadDB.Content_Data.String
+	filetodownload.Base64EncodedContent = filetodownloadDB.Base64EncodedContent_Data.String
 }
 
 // CopyBasicFieldsToFileToDownload_WOP
 func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsToFileToDownload_WOP(filetodownload *models.FileToDownload_WOP) {
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetodownload.Name = filetodownloadDB.Name_Data.String
-	filetodownload.Content = filetodownloadDB.Content_Data.String
+	filetodownload.Base64EncodedContent = filetodownloadDB.Base64EncodedContent_Data.String
 }
 
 // CopyBasicFieldsToFileToDownloadWOP
@@ -424,7 +424,7 @@ func (filetodownloadDB *FileToDownloadDB) CopyBasicFieldsToFileToDownloadWOP(fil
 	filetodownload.ID = int(filetodownloadDB.ID)
 	// insertion point for checkout of basic fields (back repo to stage)
 	filetodownload.Name = filetodownloadDB.Name_Data.String
-	filetodownload.Content = filetodownloadDB.Content_Data.String
+	filetodownload.Base64EncodedContent = filetodownloadDB.Base64EncodedContent_Data.String
 }
 
 // Backup generates a json file from a slice of all FileToDownloadDB instances in the backrepo

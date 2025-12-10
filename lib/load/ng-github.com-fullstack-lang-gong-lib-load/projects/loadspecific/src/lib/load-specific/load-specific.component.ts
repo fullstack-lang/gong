@@ -72,7 +72,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
 
           if (this.fileToDownload) {
             // UPDATED: Decode the base64 string to binary data
-            const binaryString = window.atob(this.fileToDownload.Content);
+            const binaryString = window.atob(this.fileToDownload.Base64EncodedContent);
             const len = binaryString.length;
             const bytes = new Uint8Array(len);
             for (let i = 0; i < len; i++) {

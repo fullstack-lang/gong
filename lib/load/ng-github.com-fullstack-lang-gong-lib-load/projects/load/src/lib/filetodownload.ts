@@ -16,7 +16,7 @@ export class FileToDownload {
 
 	// insertion point for basic fields declarations
 	Name: string = ""
-	Content: string = ""
+	Base64EncodedContent: string = ""
 
 	// insertion point for pointers and slices of pointers declarations
 
@@ -32,7 +32,7 @@ export function CopyFileToDownloadToFileToDownloadAPI(filetodownload: FileToDown
 
 	// insertion point for basic fields copy operations
 	filetodownloadAPI.Name = filetodownload.Name
-	filetodownloadAPI.Content = filetodownload.Content
+	filetodownloadAPI.Base64EncodedContent = filetodownload.Base64EncodedContent
 
 	// insertion point for pointer fields encoding
 
@@ -51,7 +51,7 @@ export function CopyFileToDownloadAPIToFileToDownload(filetodownloadAPI: FileToD
 
 	// insertion point for basic fields copy operations
 	filetodownload.Name = filetodownloadAPI.Name
-	filetodownload.Content = filetodownloadAPI.Content
+	filetodownload.Base64EncodedContent = filetodownloadAPI.Base64EncodedContent
 
 	// insertion point for pointer fields encoding
 

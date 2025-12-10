@@ -146,8 +146,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Content))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Base64EncodedContent))
 		initializerStatements += setValueField
 
 	}
