@@ -34,6 +34,7 @@ npm i
 ng update @angular/core@20 @angular/cli@20 --allow-dirty
 ng update @angular/material@20 --allow-dirty
 ng update angular-split@20 --allow-dirty
+ng update ngx-markdown@20 --allow-dirty
 mv ../../../package.json.tmp ../../../package.json
 find ../../.. -type d -name "node_modules" -prune -exec rm -rf '{}' +
 find ../../.. -type d -name "dist" -prune -exec rm -rf '{}' +

@@ -11,7 +11,6 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc2/go/models"
 
-	ssg_fullstack "github.com/fullstack-lang/gong/lib/ssg/go/fullstack"
 	svg_fullstack "github.com/fullstack-lang/gong/lib/svg/go/fullstack"
 	table_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	tree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
@@ -92,7 +91,6 @@ func Prepare(
 
 	treeStage, _ := tree_fullstack.NewStackInstance(r, doc2StackName+":doc2-sidebar", "", "")
 	svgStage, _ := svg_fullstack.NewStackInstance(r, doc2StackName+":doc2-svg", "", "", "")
-	ssgStage, _ := ssg_fullstack.NewStackInstance(r, doc2StackName+":doc2-ssg", "", "", "")
 	gongStage := gong.NewStage(doc2StackName + ":doc2-gong")
 	formStage, _ := table_fullstack.NewStackInstance(r, doc2StackName+":doc2-diagramForm", "", "")
 
@@ -107,7 +105,6 @@ func Prepare(
 		svgStage,
 		gongStage,
 		formStage,
-		ssgStage,
 		embeddedDiagrams,
 		map_GongStructName_InstancesNb)
 }
