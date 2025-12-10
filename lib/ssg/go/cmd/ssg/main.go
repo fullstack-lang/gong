@@ -17,9 +17,8 @@ import (
 
 	// insertion point for models import
 
+	ssg_level1stack "github.com/fullstack-lang/gong/lib/ssg/go/level1stack"
 	ssg_models "github.com/fullstack-lang/gong/lib/ssg/go/models"
-	ssg_stack "github.com/fullstack-lang/gong/lib/ssg/go/stack"
-	ssg_static "github.com/fullstack-lang/gong/lib/ssg/go/static"
 )
 
 var (
@@ -50,18 +49,15 @@ func main() {
 	// parse program arguments
 	flag.Parse()
 
-	// setup the static file server and get the controller
-	r := ssg_static.ServeStaticFiles(*logGINFlag)
-
 	// setup model stack with its probe
-	stack := ssg_stack.NewStack(r, "ssg", *unmarshallFromCode, *marshallOnCommit, "", *embeddedDiagrams, true)
+	stack := ssg_level1stack.NewLevel1Stack("ssg", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 	stack.Probe.Refresh()
 
 	// insertion point for call to stager
-	ssg_models.NewStager(r, stack.Stage)
+	ssg_models.NewStager(stack.R, stack.Stage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
-	err := r.Run(":" + strconv.Itoa(*port))
+	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
