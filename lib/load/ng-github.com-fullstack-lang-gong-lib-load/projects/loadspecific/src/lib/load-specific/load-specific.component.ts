@@ -71,7 +71,16 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
           }
 
           if (this.fileToDownload) {
-            const blob = new Blob([this.fileToDownload.Content], { type: 'text/plain' });
+            // UPDATED: Decode the base64 string to binary data
+            const binaryString = window.atob(this.fileToDownload.Content);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+              bytes[i] = binaryString.charCodeAt(i);
+            }
+
+            // UPDATED: Create Blob from the binary array instead of the raw string
+            const blob = new Blob([bytes], { type: 'application/octet-stream' });
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
