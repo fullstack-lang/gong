@@ -26,6 +26,10 @@ func (cellDeleteIconImpl *CellDeleteIconImplPointerToGongstruct[T]) CellIconUpda
 	row, updatedCellIcon *gongtable.CellIcon) {
 	cellDeleteIconImpl.Instance.UnstageVoid(cellDeleteIconImpl.probe.stageOfInterest)
 
+	// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+	// reference the deleted instance.
+	// therefore, it is mandatory to clean the stage of interest
+	cellDeleteIconImpl.probe.stageOfInterest.Clean()
 	cellDeleteIconImpl.probe.stageOfInterest.Commit()
 
 	updateProbeTable[T](cellDeleteIconImpl.probe)

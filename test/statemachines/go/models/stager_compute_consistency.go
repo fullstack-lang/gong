@@ -183,7 +183,7 @@ func (stager *Stager) computeConsistency() {
 	}
 
 	if needCommit {
+		stager.stage.Clean()
 		stager.stage.CommitWithSuspendedCallbacks()
-		stager.stage.Checkout()
 	}
 }
