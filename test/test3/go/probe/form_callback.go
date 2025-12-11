@@ -98,7 +98,7 @@ func (aFormCallback *AFormCallback) OnSave() {
 	}
 
 	aFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.A](
+	updateProbeTable[*models.A](
 		aFormCallback.probe,
 	)
 	aFormCallback.probe.tableStage.Commit()
@@ -241,7 +241,7 @@ func (bFormCallback *BFormCallback) OnSave() {
 	}
 
 	bFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.B](
+	updateProbeTable[*models.B](
 		bFormCallback.probe,
 	)
 	bFormCallback.probe.tableStage.Commit()

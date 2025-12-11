@@ -51,13 +51,13 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Freqency" {
-		updateAndCommitTable[*models.Freqency](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Freqency](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Note" {
-		updateAndCommitTable[*models.Note](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Note](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Player" {
-		updateAndCommitTable[*models.Player](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Player](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

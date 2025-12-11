@@ -79,7 +79,7 @@ func (commandFormCallback *CommandFormCallback) OnSave() {
 	}
 
 	commandFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Command](
+	updateProbeTable[*models.Command](
 		commandFormCallback.probe,
 	)
 	commandFormCallback.probe.tableStage.Commit()
@@ -158,7 +158,7 @@ func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 	}
 
 	dummyagentFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.DummyAgent](
+	updateProbeTable[*models.DummyAgent](
 		dummyagentFormCallback.probe,
 	)
 	dummyagentFormCallback.probe.tableStage.Commit()
@@ -251,7 +251,7 @@ func (engineFormCallback *EngineFormCallback) OnSave() {
 	}
 
 	engineFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Engine](
+	updateProbeTable[*models.Engine](
 		engineFormCallback.probe,
 	)
 	engineFormCallback.probe.tableStage.Commit()
@@ -330,7 +330,7 @@ func (eventFormCallback *EventFormCallback) OnSave() {
 	}
 
 	eventFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Event](
+	updateProbeTable[*models.Event](
 		eventFormCallback.probe,
 	)
 	eventFormCallback.probe.tableStage.Commit()
@@ -415,7 +415,7 @@ func (statusFormCallback *StatusFormCallback) OnSave() {
 	}
 
 	statusFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Status](
+	updateProbeTable[*models.Status](
 		statusFormCallback.probe,
 	)
 	statusFormCallback.probe.tableStage.Commit()
@@ -496,7 +496,7 @@ func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 	}
 
 	updatestateFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.UpdateState](
+	updateProbeTable[*models.UpdateState](
 		updatestateFormCallback.probe,
 	)
 	updatestateFormCallback.probe.tableStage.Commit()
