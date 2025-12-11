@@ -31,7 +31,13 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 // Clean garbage collect unstaged instances that are referenced by A
 func (a *A) GongClean(stage *Stage) {
 	// insertion point per field
-	a.As = GongCleanSlice(stage, a.As)
+	a.Bs = GongCleanSlice(stage, a.Bs)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by B
+func (b *B) GongClean(stage *Stage) {
+	// insertion point per field
 	// insertion point per field
 }
 
