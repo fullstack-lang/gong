@@ -1,7 +1,8 @@
-import { Injectable, Component, Inject } from '@angular/core';
+// generated file, do not edit
+import { Injectable, Component, Inject, DOCUMENT } from '@angular/core';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { DOCUMENT, Location } from '@angular/common'
+import { Location } from '@angular/common'
 
 /*
  * Behavior subject
