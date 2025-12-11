@@ -379,7 +379,8 @@
         "generate",
         "--skipGoModCommands",
         "--level1",
-        "--skipStager=false"
+        "--skipStager=false",
+        "--debouncedMarshall=true"
       ]
     },
     {
