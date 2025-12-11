@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-30 18:10:23.534528 CET"
-	const __write__utc_time__ = "2025-11-30 17:10:23.534528 UTC"
-
-	const __commitId__ = "0000000004"
-
 	// Declaration of instances to stage
 
 	__FileToUpload__000000_DOORS_export_sample_1_reqif := (&models.FileToUpload{}).Stage(stage)

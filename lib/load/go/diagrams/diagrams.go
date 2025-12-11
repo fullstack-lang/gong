@@ -53,7 +53,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__000000_Name.Fieldtypename = `string`
 
 	__AttributeShape__000001_Content.Name = `Content`
-	__AttributeShape__000001_Content.IdentifierMeta = ref_models.FileToDownload{}.Content
+	__AttributeShape__000001_Content.IdentifierMeta = ref_models.FileToDownload{}.Base64EncodedContent
 	__AttributeShape__000001_Content.FieldTypeAsString = ``
 	__AttributeShape__000001_Content.Structname = `FileToDownload`
 	__AttributeShape__000001_Content.Fieldtypename = `string`
@@ -133,4 +133,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000001_Default_FileToUpload.AttributeShapes = append(__GongStructShape__000001_Default_FileToUpload.AttributeShapes, __AttributeShape__000003_Base64EncodedContent)
 	__GongStructShape__000002_Default_Message.AttributeShapes = append(__GongStructShape__000002_Default_Message.AttributeShapes, __AttributeShape__000004_Name)
 }
-
