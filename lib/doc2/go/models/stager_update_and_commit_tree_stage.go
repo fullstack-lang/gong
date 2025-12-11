@@ -49,16 +49,6 @@ func (stager *Stager) UpdateAndCommitTreeStage() {
 				ToolTipText:     "Create a new diagram",
 				ToolTipPosition: tree.Above,
 			},
-			&tree.Button{
-				Name: "Generates the documentation static web site",
-				Icon: string(buttons.BUTTON_web_asset),
-				Impl: &ButtonGeneratesStaticWebSiteProxy{
-					stager: stager,
-				},
-				HasToolTip:      true,
-				ToolTipText:     "Generates the documentation static web site",
-				ToolTipPosition: tree.Above,
-			},
 		)
 	}
 
