@@ -169,7 +169,6 @@ func (chapterFormCallback *ChapterFormCallback) OnSave() {
 	updateProbeTable[*models.Chapter](
 		chapterFormCallback.probe,
 	)
-	chapterFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if chapterFormCallback.CreationMode || chapterFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -293,7 +292,6 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 	updateProbeTable[*models.Content](
 		contentFormCallback.probe,
 	)
-	contentFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if contentFormCallback.CreationMode || contentFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -438,7 +436,6 @@ func (pageFormCallback *PageFormCallback) OnSave() {
 	updateProbeTable[*models.Page](
 		pageFormCallback.probe,
 	)
-	pageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if pageFormCallback.CreationMode || pageFormCallback.formGroup.HasSuppressButtonBeenPressed {

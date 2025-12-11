@@ -78,7 +78,6 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 	updateProbeTable[*models.FileToDownload](
 		filetodownloadFormCallback.probe,
 	)
-	filetodownloadFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if filetodownloadFormCallback.CreationMode || filetodownloadFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -157,7 +156,6 @@ func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
 	updateProbeTable[*models.FileToUpload](
 		filetouploadFormCallback.probe,
 	)
-	filetouploadFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if filetouploadFormCallback.CreationMode || filetouploadFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -234,7 +232,6 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 	updateProbeTable[*models.Message](
 		messageFormCallback.probe,
 	)
-	messageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if messageFormCallback.CreationMode || messageFormCallback.formGroup.HasSuppressButtonBeenPressed {

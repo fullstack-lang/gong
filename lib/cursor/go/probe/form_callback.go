@@ -104,7 +104,6 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	updateProbeTable[*models.Cursor](
 		cursorFormCallback.probe,
 	)
-	cursorFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if cursorFormCallback.CreationMode || cursorFormCallback.formGroup.HasSuppressButtonBeenPressed {
