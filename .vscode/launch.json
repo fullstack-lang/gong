@@ -325,20 +325,7 @@
                 "--skipNg",
             ]
         },
-        {
-            "name": "gong generate test3 -skipGoModCommands -level1",
-            "type": "go",
-            "request": "launch",
-            "mode": "debug",
-            "cwd": "${workspaceFolder}/test/test3/go/models",
-            "program": "${workspaceFolder}/go/cmd/gong",
-            "args": [
-                "generate",
-                "--skipGoModCommands",
-                "--skipStager=false",
-                "--level1"
-            ]
-        },
+
         //
         // "go run" configurations
         //
@@ -727,6 +714,21 @@
             "program": "${workspaceFolder}/test2/go/cmd/test2",
             "args": [
                 "-testPackageHierarchy"
+            ]
+        },
+        {
+            "name": "gong generate test3",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/test/test3/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--skipStager=false",
+                "--level1",
+                "--debouncedMarshall=true"
             ]
         },
         {
