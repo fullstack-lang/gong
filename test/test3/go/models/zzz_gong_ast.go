@@ -362,6 +362,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
 var __gong__map_A = make(map[string]*A)
+var __gong__map_B = make(map[string]*B)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -540,6 +541,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceA.Stage(stage)
 										instance = any(instanceA)
 										__gong__map_A[identifier] = instanceA
+									case "B":
+										instanceB := new(B)
+										instanceB.Name = instanceName
+										instanceB.Stage(stage)
+										instance = any(instanceB)
+										__gong__map_B[identifier] = instanceB
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -578,6 +585,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						switch gongstructName {
 						// insertion point for basic lit assignments
 						case "A":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "B":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -646,16 +657,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "A":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "As":
+						case "Bs":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
 							}
 							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_A[identifierOfInstanceToAppend]; ok {
+							if instanceToAppend, ok := __gong__map_B[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_A[identifier]
-								instanceWhoseFieldIsAppended.As = append(instanceWhoseFieldIsAppended.As, instanceToAppend)
+								instanceWhoseFieldIsAppended.Bs = append(instanceWhoseFieldIsAppended.Bs, instanceToAppend)
 							}
+						}
+					case "B":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					}
 				}
@@ -725,6 +740,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_A[identifier].Name = fielValue
 				}
+			case "B":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_B[identifier].Name = fielValue
+				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -741,6 +764,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
 			case "A":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "B":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
@@ -803,6 +830,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				switch gongstructName {
 				// insertion point for selector expr assignments
 				case "A":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "B":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
