@@ -9,12 +9,12 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"github.com/fullstack-lang/gong/lib/cursor/go/models"
+	"github.com/fullstack-lang/gong/lib/ssg/go/models"
 )
 
 const TableName = "Table"
 
-func updateAndCommitTable[T models.PointerToGongstruct](
+func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 

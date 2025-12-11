@@ -1,6 +1,4 @@
-package probe
-
-const FillUpTableTemplate = `// generated code - do not edit
+// generated code - do not edit
 package probe
 
 import (
@@ -11,12 +9,12 @@ import (
 
 	"github.com/fullstack-lang/maticons/maticons"
 
-	"{{PkgPathRoot}}/models"
+	"github.com/fullstack-lang/gong/lib/cursor/go/models"
 )
 
 const TableName = "Table"
 
-func updateAndCommitTable[T models.PointerToGongstruct](
+func updateProbeTable[T models.PointerToGongstruct](
 	probe *Probe,
 ) {
 
@@ -194,35 +192,4 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRo
 	// log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
-}
-`
-
-type FillUpTableInsertionId int
-
-const (
-	FillUpTableCase FillUpTableInsertionId = iota
-	FillUpTableCaseForCastingDown
-	FillUpTableCaseForDeleteIcon
-)
-
-var FillUpTableSubTemplateCode map[string]string = // new line
-map[string]string{
-
-	string(rune(FillUpTableCaseForCastingDown)): `
-	case *models.{{Structname}}:
-		updateAndCommitTable[models.{{Structname}}](probe)`,
-	string(rune(FillUpTableCase)): `
-	case *models.{{Structname}}:
-		formGroup := (&gongtable.FormGroup{
-			Name:  FormName,
-			Label: "Update {{Structname}} Form",
-			OnSave: __gong__New__{{Structname}}FormCallback(
-				instancesTyped,
-				rowUpdate.probe,
-			),
-		}).Stage(formStage)
-		FillUpForm(instancesTyped, formGroup, rowUpdate.probe)`,
-	string(rune(FillUpTableCaseForDeleteIcon)): `
-	case *models.{{Structname}}:
-		instancesTyped.Unstage(cellDeleteIconImpl.probe.stageOfInterest)`,
 }

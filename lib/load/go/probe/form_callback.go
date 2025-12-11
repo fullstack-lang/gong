@@ -75,7 +75,7 @@ func (filetodownloadFormCallback *FileToDownloadFormCallback) OnSave() {
 	}
 
 	filetodownloadFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.FileToDownload](
+	updateProbeTable[*models.FileToDownload](
 		filetodownloadFormCallback.probe,
 	)
 	filetodownloadFormCallback.probe.tableStage.Commit()
@@ -154,7 +154,7 @@ func (filetouploadFormCallback *FileToUploadFormCallback) OnSave() {
 	}
 
 	filetouploadFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.FileToUpload](
+	updateProbeTable[*models.FileToUpload](
 		filetouploadFormCallback.probe,
 	)
 	filetouploadFormCallback.probe.tableStage.Commit()
@@ -231,7 +231,7 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 	}
 
 	messageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Message](
+	updateProbeTable[*models.Message](
 		messageFormCallback.probe,
 	)
 	messageFormCallback.probe.tableStage.Commit()

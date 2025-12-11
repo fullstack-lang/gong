@@ -51,22 +51,22 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Command" {
-		updateAndCommitTable[*models.Command](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Command](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DummyAgent" {
-		updateAndCommitTable[*models.DummyAgent](nodeImplGongstruct.probe)
+		updateProbeTable[*models.DummyAgent](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Engine" {
-		updateAndCommitTable[*models.Engine](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Engine](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Event" {
-		updateAndCommitTable[*models.Event](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Event](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Status" {
-		updateAndCommitTable[*models.Status](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Status](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "UpdateState" {
-		updateAndCommitTable[*models.UpdateState](nodeImplGongstruct.probe)
+		updateProbeTable[*models.UpdateState](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

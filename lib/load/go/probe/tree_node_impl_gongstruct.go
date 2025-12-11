@@ -51,13 +51,13 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "FileToDownload" {
-		updateAndCommitTable[*models.FileToDownload](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FileToDownload](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FileToUpload" {
-		updateAndCommitTable[*models.FileToUpload](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FileToUpload](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Message" {
-		updateAndCommitTable[*models.Message](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Message](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

@@ -51,40 +51,40 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Architecture" {
-		updateAndCommitTable[*models.Architecture](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Architecture](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Diagram" {
-		updateAndCommitTable[*models.Diagram](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Diagram](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Kill" {
-		updateAndCommitTable[*models.Kill](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Kill](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Message" {
-		updateAndCommitTable[*models.Message](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Message](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "MessageType" {
-		updateAndCommitTable[*models.MessageType](nodeImplGongstruct.probe)
+		updateProbeTable[*models.MessageType](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Object" {
-		updateAndCommitTable[*models.Object](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Object](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Role" {
-		updateAndCommitTable[*models.Role](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Role](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "State" {
-		updateAndCommitTable[*models.State](nodeImplGongstruct.probe)
+		updateProbeTable[*models.State](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "StateMachine" {
-		updateAndCommitTable[*models.StateMachine](nodeImplGongstruct.probe)
+		updateProbeTable[*models.StateMachine](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "StateShape" {
-		updateAndCommitTable[*models.StateShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.StateShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Transition" {
-		updateAndCommitTable[*models.Transition](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Transition](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Transition_Shape" {
-		updateAndCommitTable[*models.Transition_Shape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Transition_Shape](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

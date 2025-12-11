@@ -147,7 +147,7 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 	}
 
 	arrowFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Arrow](
+	updateProbeTable[*models.Arrow](
 		arrowFormCallback.probe,
 	)
 	arrowFormCallback.probe.tableStage.Commit()
@@ -306,7 +306,7 @@ func (barFormCallback *BarFormCallback) OnSave() {
 	}
 
 	barFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Bar](
+	updateProbeTable[*models.Bar](
 		barFormCallback.probe,
 	)
 	barFormCallback.probe.tableStage.Commit()
@@ -531,7 +531,7 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 	}
 
 	ganttFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Gantt](
+	updateProbeTable[*models.Gantt](
 		ganttFormCallback.probe,
 	)
 	ganttFormCallback.probe.tableStage.Commit()
@@ -699,7 +699,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Group](
+	updateProbeTable[*models.Group](
 		groupFormCallback.probe,
 	)
 	groupFormCallback.probe.tableStage.Commit()
@@ -1001,7 +1001,7 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 	}
 
 	laneFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Lane](
+	updateProbeTable[*models.Lane](
 		laneFormCallback.probe,
 	)
 	laneFormCallback.probe.tableStage.Commit()
@@ -1080,7 +1080,7 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 	}
 
 	laneuseFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.LaneUse](
+	updateProbeTable[*models.LaneUse](
 		laneuseFormCallback.probe,
 	)
 	laneuseFormCallback.probe.tableStage.Commit()
@@ -1252,7 +1252,7 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 	}
 
 	milestoneFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Milestone](
+	updateProbeTable[*models.Milestone](
 		milestoneFormCallback.probe,
 	)
 	milestoneFormCallback.probe.tableStage.Commit()

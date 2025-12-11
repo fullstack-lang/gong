@@ -51,73 +51,73 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Cell" {
-		updateAndCommitTable[*models.Cell](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Cell](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CellBoolean" {
-		updateAndCommitTable[*models.CellBoolean](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CellBoolean](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CellFloat64" {
-		updateAndCommitTable[*models.CellFloat64](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CellFloat64](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CellIcon" {
-		updateAndCommitTable[*models.CellIcon](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CellIcon](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CellInt" {
-		updateAndCommitTable[*models.CellInt](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CellInt](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CellString" {
-		updateAndCommitTable[*models.CellString](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CellString](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "CheckBox" {
-		updateAndCommitTable[*models.CheckBox](nodeImplGongstruct.probe)
+		updateProbeTable[*models.CheckBox](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DisplayedColumn" {
-		updateAndCommitTable[*models.DisplayedColumn](nodeImplGongstruct.probe)
+		updateProbeTable[*models.DisplayedColumn](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormDiv" {
-		updateAndCommitTable[*models.FormDiv](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormDiv](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormEditAssocButton" {
-		updateAndCommitTable[*models.FormEditAssocButton](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormEditAssocButton](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormField" {
-		updateAndCommitTable[*models.FormField](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormField](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldDate" {
-		updateAndCommitTable[*models.FormFieldDate](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldDate](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldDateTime" {
-		updateAndCommitTable[*models.FormFieldDateTime](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldDateTime](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldFloat64" {
-		updateAndCommitTable[*models.FormFieldFloat64](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldFloat64](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldInt" {
-		updateAndCommitTable[*models.FormFieldInt](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldInt](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldSelect" {
-		updateAndCommitTable[*models.FormFieldSelect](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldSelect](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldString" {
-		updateAndCommitTable[*models.FormFieldString](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldString](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormFieldTime" {
-		updateAndCommitTable[*models.FormFieldTime](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormFieldTime](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormGroup" {
-		updateAndCommitTable[*models.FormGroup](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormGroup](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "FormSortAssocButton" {
-		updateAndCommitTable[*models.FormSortAssocButton](nodeImplGongstruct.probe)
+		updateProbeTable[*models.FormSortAssocButton](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Option" {
-		updateAndCommitTable[*models.Option](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Option](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Row" {
-		updateAndCommitTable[*models.Row](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Row](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Table" {
-		updateAndCommitTable[*models.Table](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Table](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color
