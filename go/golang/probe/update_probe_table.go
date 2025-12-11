@@ -35,11 +35,6 @@ func updateProbeTable[T models.PointerToGongstruct](
 
 	table.NbOfStickyColumns = 3
 
-	// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
-	// reference the deleted instance. 
-	// therefore, it is mandatory to clean the stage of interest
-	probe.stageOfInterest.Clean()
-
 	setOfStructs := (*models.GetGongstructInstancesSetFromPointerType[T](probe.stageOfInterest))
 	sliceOfGongStructsSorted := make([]T, len(setOfStructs))
 	i := 0
