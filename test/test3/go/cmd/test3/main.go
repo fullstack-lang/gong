@@ -11,7 +11,6 @@ import (
 
 	// static
 
-	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
@@ -42,32 +41,7 @@ func main() {
 	// that do not develop their specific angular component
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
-	stager := test3_models.NewStager(stack.R, stack.Stage, splitStage)
-
-	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
-		Name: stack.Stage.GetName() + "with Probe",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Size: 50,
-				AsSplit: (&split.AsSplit{
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						stager.GetAsSplitArea(),
-					},
-				}),
-			}),
-			(&split.AsSplitArea{
-				Size: 50,
-				Split: (&split.Split{
-					StackName: stack.Stage.GetProbeSplitStageName(),
-				}),
-			}),
-		},
-	})
-
-	// commit the split stage (this will initiate the front components)
-	splitStage.Commit()
+	test3_models.NewStager(stack.R, stack.Stage, splitStage)
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := stack.R.Run(":" + strconv.Itoa(*port))

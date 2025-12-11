@@ -20,3 +20,14 @@ func (from *A) CopyBasicFields(to *A) {
 	to.Name = from.Name
 }
 
+type B_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *B) CopyBasicFields(to *B) {
+	// insertion point
+	to.Name = from.Name
+}
+

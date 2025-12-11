@@ -7,13 +7,16 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct A
 	// insertion point per field
-	stage.A_As_reverseMap = make(map[*A]*A)
+	stage.A_Bs_reverseMap = make(map[*B]*A)
 	for a := range stage.As {
 		_ = a
-		for _, _a := range a.As {
-			stage.A_As_reverseMap[_a] = a
+		for _, _b := range a.Bs {
+			stage.A_Bs_reverseMap[_b] = a
 		}
 	}
+
+	// Compute reverse map for named struct B
+	// insertion point per field
 
 }
 
@@ -24,12 +27,21 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Bs {
+		res = append(res, instance)
+	}
+
 	return
 }
 
 // insertion point per named struct
 func (a *A) GongCopy() GongstructIF {
 	newInstance := *a
+	return &newInstance
+}
+
+func (b *B) GongCopy() GongstructIF {
+	newInstance := *b
 	return &newInstance
 }
 

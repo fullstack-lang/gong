@@ -146,6 +146,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_B_Identifiers := make(map[*B]string)
+	_ = map_B_Identifiers
+
+	bOrdered := []*B{}
+	for b := range stage.Bs {
+		bOrdered = append(bOrdered, b)
+	}
+	sort.Slice(bOrdered[:], func(i, j int) bool {
+		bi := bOrdered[i]
+		bj := bOrdered[j]
+		bi_order, oki := stage.BMap_Staged_Order[bi]
+		bj_order, okj := stage.BMap_Staged_Order[bj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return bi_order < bj_order
+	})
+	if len(bOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, b := range bOrdered {
+
+		id = generatesIdentifier("B", idx, b.Name)
+		map_B_Identifiers[b] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(b.Name))
+		initializerStatements += setValueField
+
+	}
+
 	// insertion initialization of objects to stage
 	if len(aOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of A instances pointers"
@@ -158,14 +199,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_A_Identifiers[a] = id
 
 		// Initialisation of values
-		for _, _a := range a.As {
+		for _, _b := range a.Bs {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "As")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_A_Identifiers[_a])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bs")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_B_Identifiers[_b])
 			pointersInitializesStatements += setPointerField
 		}
 
+	}
+
+	if len(bOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of B instances pointers"
+	}
+	for idx, b := range bOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("B", idx, b.Name)
+		map_B_Identifiers[b] = id
+
+		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
