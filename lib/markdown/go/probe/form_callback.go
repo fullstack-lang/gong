@@ -78,7 +78,6 @@ func (contentFormCallback *ContentFormCallback) OnSave() {
 	updateProbeTable[*models.Content](
 		contentFormCallback.probe,
 	)
-	contentFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if contentFormCallback.CreationMode || contentFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -157,7 +156,6 @@ func (jpgimageFormCallback *JpgImageFormCallback) OnSave() {
 	updateProbeTable[*models.JpgImage](
 		jpgimageFormCallback.probe,
 	)
-	jpgimageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if jpgimageFormCallback.CreationMode || jpgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -236,7 +234,6 @@ func (pngimageFormCallback *PngImageFormCallback) OnSave() {
 	updateProbeTable[*models.PngImage](
 		pngimageFormCallback.probe,
 	)
-	pngimageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if pngimageFormCallback.CreationMode || pngimageFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -315,7 +312,6 @@ func (svgimageFormCallback *SvgImageFormCallback) OnSave() {
 	updateProbeTable[*models.SvgImage](
 		svgimageFormCallback.probe,
 	)
-	svgimageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if svgimageFormCallback.CreationMode || svgimageFormCallback.formGroup.HasSuppressButtonBeenPressed {

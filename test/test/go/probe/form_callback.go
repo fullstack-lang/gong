@@ -340,7 +340,6 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 	updateProbeTable[*models.Astruct](
 		astructFormCallback.probe,
 	)
-	astructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if astructFormCallback.CreationMode || astructFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -485,7 +484,6 @@ func (astructbstruct2useFormCallback *AstructBstruct2UseFormCallback) OnSave() {
 	updateProbeTable[*models.AstructBstruct2Use](
 		astructbstruct2useFormCallback.probe,
 	)
-	astructbstruct2useFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if astructbstruct2useFormCallback.CreationMode || astructbstruct2useFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -630,7 +628,6 @@ func (astructbstructuseFormCallback *AstructBstructUseFormCallback) OnSave() {
 	updateProbeTable[*models.AstructBstructUse](
 		astructbstructuseFormCallback.probe,
 	)
-	astructbstructuseFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if astructbstructuseFormCallback.CreationMode || astructbstructuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -911,7 +908,6 @@ func (bstructFormCallback *BstructFormCallback) OnSave() {
 	updateProbeTable[*models.Bstruct](
 		bstructFormCallback.probe,
 	)
-	bstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if bstructFormCallback.CreationMode || bstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1106,7 +1102,6 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 	updateProbeTable[*models.Dstruct](
 		dstructFormCallback.probe,
 	)
-	dstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if dstructFormCallback.CreationMode || dstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1185,7 +1180,6 @@ func (f0123456789012345678901234567890FormCallback *F012345678901234567890123456
 	updateProbeTable[*models.F0123456789012345678901234567890](
 		f0123456789012345678901234567890FormCallback.probe,
 	)
-	f0123456789012345678901234567890FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if f0123456789012345678901234567890FormCallback.CreationMode || f0123456789012345678901234567890FormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1334,7 +1328,6 @@ func (gstructFormCallback *GstructFormCallback) OnSave() {
 	updateProbeTable[*models.Gstruct](
 		gstructFormCallback.probe,
 	)
-	gstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gstructFormCallback.CreationMode || gstructFormCallback.formGroup.HasSuppressButtonBeenPressed {

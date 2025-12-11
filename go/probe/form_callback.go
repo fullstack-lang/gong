@@ -162,7 +162,6 @@ func (gongbasicfieldFormCallback *GongBasicFieldFormCallback) OnSave() {
 	updateProbeTable[*models.GongBasicField](
 		gongbasicfieldFormCallback.probe,
 	)
-	gongbasicfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongbasicfieldFormCallback.CreationMode || gongbasicfieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -266,7 +265,6 @@ func (gongenumFormCallback *GongEnumFormCallback) OnSave() {
 	updateProbeTable[*models.GongEnum](
 		gongenumFormCallback.probe,
 	)
-	gongenumFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumFormCallback.CreationMode || gongenumFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -411,7 +409,6 @@ func (gongenumvalueFormCallback *GongEnumValueFormCallback) OnSave() {
 	updateProbeTable[*models.GongEnumValue](
 		gongenumvalueFormCallback.probe,
 	)
-	gongenumvalueFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumvalueFormCallback.CreationMode || gongenumvalueFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -558,7 +555,6 @@ func (gonglinkFormCallback *GongLinkFormCallback) OnSave() {
 	updateProbeTable[*models.GongLink](
 		gonglinkFormCallback.probe,
 	)
-	gonglinkFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gonglinkFormCallback.CreationMode || gonglinkFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -664,7 +660,6 @@ func (gongnoteFormCallback *GongNoteFormCallback) OnSave() {
 	updateProbeTable[*models.GongNote](
 		gongnoteFormCallback.probe,
 	)
-	gongnoteFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongnoteFormCallback.CreationMode || gongnoteFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -845,7 +840,6 @@ func (gongstructFormCallback *GongStructFormCallback) OnSave() {
 	updateProbeTable[*models.GongStruct](
 		gongstructFormCallback.probe,
 	)
-	gongstructFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongstructFormCallback.CreationMode || gongstructFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -994,7 +988,6 @@ func (gongtimefieldFormCallback *GongTimeFieldFormCallback) OnSave() {
 	updateProbeTable[*models.GongTimeField](
 		gongtimefieldFormCallback.probe,
 	)
-	gongtimefieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongtimefieldFormCallback.CreationMode || gongtimefieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1071,7 +1064,6 @@ func (metareferenceFormCallback *MetaReferenceFormCallback) OnSave() {
 	updateProbeTable[*models.MetaReference](
 		metareferenceFormCallback.probe,
 	)
-	metareferenceFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if metareferenceFormCallback.CreationMode || metareferenceFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1182,7 +1174,6 @@ func (modelpkgFormCallback *ModelPkgFormCallback) OnSave() {
 	updateProbeTable[*models.ModelPkg](
 		modelpkgFormCallback.probe,
 	)
-	modelpkgFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if modelpkgFormCallback.CreationMode || modelpkgFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1333,7 +1324,6 @@ func (pointertogongstructfieldFormCallback *PointerToGongStructFieldFormCallback
 	updateProbeTable[*models.PointerToGongStructField](
 		pointertogongstructfieldFormCallback.probe,
 	)
-	pointertogongstructfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if pointertogongstructfieldFormCallback.CreationMode || pointertogongstructfieldFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1482,7 +1472,6 @@ func (sliceofpointertogongstructfieldFormCallback *SliceOfPointerToGongStructFie
 	updateProbeTable[*models.SliceOfPointerToGongStructField](
 		sliceofpointertogongstructfieldFormCallback.probe,
 	)
-	sliceofpointertogongstructfieldFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if sliceofpointertogongstructfieldFormCallback.CreationMode || sliceofpointertogongstructfieldFormCallback.formGroup.HasSuppressButtonBeenPressed {

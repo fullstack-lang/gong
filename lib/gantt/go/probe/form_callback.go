@@ -150,7 +150,6 @@ func (arrowFormCallback *ArrowFormCallback) OnSave() {
 	updateProbeTable[*models.Arrow](
 		arrowFormCallback.probe,
 	)
-	arrowFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if arrowFormCallback.CreationMode || arrowFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -309,7 +308,6 @@ func (barFormCallback *BarFormCallback) OnSave() {
 	updateProbeTable[*models.Bar](
 		barFormCallback.probe,
 	)
-	barFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if barFormCallback.CreationMode || barFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -534,7 +532,6 @@ func (ganttFormCallback *GanttFormCallback) OnSave() {
 	updateProbeTable[*models.Gantt](
 		ganttFormCallback.probe,
 	)
-	ganttFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if ganttFormCallback.CreationMode || ganttFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -702,7 +699,6 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	updateProbeTable[*models.Group](
 		groupFormCallback.probe,
 	)
-	groupFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1004,7 +1000,6 @@ func (laneFormCallback *LaneFormCallback) OnSave() {
 	updateProbeTable[*models.Lane](
 		laneFormCallback.probe,
 	)
-	laneFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if laneFormCallback.CreationMode || laneFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1083,7 +1078,6 @@ func (laneuseFormCallback *LaneUseFormCallback) OnSave() {
 	updateProbeTable[*models.LaneUse](
 		laneuseFormCallback.probe,
 	)
-	laneuseFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if laneuseFormCallback.CreationMode || laneuseFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1255,7 +1249,6 @@ func (milestoneFormCallback *MilestoneFormCallback) OnSave() {
 	updateProbeTable[*models.Milestone](
 		milestoneFormCallback.probe,
 	)
-	milestoneFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if milestoneFormCallback.CreationMode || milestoneFormCallback.formGroup.HasSuppressButtonBeenPressed {
