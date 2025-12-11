@@ -20,6 +20,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	{
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*A](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*B](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled
