@@ -145,7 +145,7 @@ func (checkboxFormCallback *CheckboxFormCallback) OnSave() {
 	}
 
 	checkboxFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Checkbox](
+	updateProbeTable[*models.Checkbox](
 		checkboxFormCallback.probe,
 	)
 	checkboxFormCallback.probe.tableStage.Commit()
@@ -340,7 +340,7 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	}
 
 	groupFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Group](
+	updateProbeTable[*models.Group](
 		groupFormCallback.probe,
 	)
 	groupFormCallback.probe.tableStage.Commit()
@@ -442,7 +442,7 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	}
 
 	layoutFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Layout](
+	updateProbeTable[*models.Layout](
 		layoutFormCallback.probe,
 	)
 	layoutFormCallback.probe.tableStage.Commit()
@@ -605,7 +605,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	}
 
 	sliderFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Slider](
+	updateProbeTable[*models.Slider](
 		sliderFormCallback.probe,
 	)
 	sliderFormCallback.probe.tableStage.Commit()

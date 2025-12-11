@@ -51,19 +51,19 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Button" {
-		updateAndCommitTable[*models.Button](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Button](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "ButtonToggle" {
-		updateAndCommitTable[*models.ButtonToggle](nodeImplGongstruct.probe)
+		updateProbeTable[*models.ButtonToggle](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Group" {
-		updateAndCommitTable[*models.Group](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Group](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GroupToogle" {
-		updateAndCommitTable[*models.GroupToogle](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GroupToogle](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Layout" {
-		updateAndCommitTable[*models.Layout](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Layout](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

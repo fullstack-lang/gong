@@ -368,7 +368,7 @@
       ]
     },
     {
-      "label": "01 - gong generate test3 --level1",
+      "label": "01 - gong generate test3 --level1 --debouncedMarshall=true",
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/test/test3/go/models"

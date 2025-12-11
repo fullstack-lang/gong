@@ -51,7 +51,7 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Cursor" {
-		updateAndCommitTable[*models.Cursor](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Cursor](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

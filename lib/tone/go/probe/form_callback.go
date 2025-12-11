@@ -139,7 +139,7 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 	}
 
 	freqencyFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Freqency](
+	updateProbeTable[*models.Freqency](
 		freqencyFormCallback.probe,
 	)
 	freqencyFormCallback.probe.tableStage.Commit()
@@ -249,7 +249,7 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	}
 
 	noteFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Note](
+	updateProbeTable[*models.Note](
 		noteFormCallback.probe,
 	)
 	noteFormCallback.probe.tableStage.Commit()
@@ -328,7 +328,7 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 	}
 
 	playerFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Player](
+	updateProbeTable[*models.Player](
 		playerFormCallback.probe,
 	)
 	playerFormCallback.probe.tableStage.Commit()

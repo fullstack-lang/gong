@@ -101,7 +101,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	}
 
 	cursorFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Cursor](
+	updateProbeTable[*models.Cursor](
 		cursorFormCallback.probe,
 	)
 	cursorFormCallback.probe.tableStage.Commit()

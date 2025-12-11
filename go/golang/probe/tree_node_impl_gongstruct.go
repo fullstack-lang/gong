@@ -74,6 +74,6 @@ var TreeNodeImplGongstructSubTemplateCode map[string]string = // new line
 map[string]string{
 	string(rune(NodeImplGongstruct)): `
 	if nodeImplGongstruct.gongStruct.GetName() == "{{Structname}}" {
-		updateAndCommitTable[*models.{{Structname}}](nodeImplGongstruct.probe)
+		updateProbeTable[*models.{{Structname}}](nodeImplGongstruct.probe)
 	}`,
 }

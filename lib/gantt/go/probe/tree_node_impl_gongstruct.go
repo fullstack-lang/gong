@@ -51,25 +51,25 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Arrow" {
-		updateAndCommitTable[*models.Arrow](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Arrow](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Bar" {
-		updateAndCommitTable[*models.Bar](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Bar](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Gantt" {
-		updateAndCommitTable[*models.Gantt](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Gantt](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Group" {
-		updateAndCommitTable[*models.Group](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Group](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Lane" {
-		updateAndCommitTable[*models.Lane](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Lane](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LaneUse" {
-		updateAndCommitTable[*models.LaneUse](nodeImplGongstruct.probe)
+		updateProbeTable[*models.LaneUse](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Milestone" {
-		updateAndCommitTable[*models.Milestone](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Milestone](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

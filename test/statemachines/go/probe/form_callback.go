@@ -125,7 +125,7 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 	}
 
 	architectureFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Architecture](
+	updateProbeTable[*models.Architecture](
 		architectureFormCallback.probe,
 	)
 	architectureFormCallback.probe.tableStage.Commit()
@@ -458,7 +458,7 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 	}
 
 	diagramFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Diagram](
+	updateProbeTable[*models.Diagram](
 		diagramFormCallback.probe,
 	)
 	diagramFormCallback.probe.tableStage.Commit()
@@ -535,7 +535,7 @@ func (killFormCallback *KillFormCallback) OnSave() {
 	}
 
 	killFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Kill](
+	updateProbeTable[*models.Kill](
 		killFormCallback.probe,
 	)
 	killFormCallback.probe.tableStage.Commit()
@@ -684,7 +684,7 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 	}
 
 	messageFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Message](
+	updateProbeTable[*models.Message](
 		messageFormCallback.probe,
 	)
 	messageFormCallback.probe.tableStage.Commit()
@@ -829,7 +829,7 @@ func (messagetypeFormCallback *MessageTypeFormCallback) OnSave() {
 	}
 
 	messagetypeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.MessageType](
+	updateProbeTable[*models.MessageType](
 		messagetypeFormCallback.probe,
 	)
 	messagetypeFormCallback.probe.tableStage.Commit()
@@ -939,7 +939,7 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 	}
 
 	objectFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Object](
+	updateProbeTable[*models.Object](
 		objectFormCallback.probe,
 	)
 	objectFormCallback.probe.tableStage.Commit()
@@ -1241,7 +1241,7 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 	}
 
 	roleFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Role](
+	updateProbeTable[*models.Role](
 		roleFormCallback.probe,
 	)
 	roleFormCallback.probe.tableStage.Commit()
@@ -1508,7 +1508,7 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 	}
 
 	stateFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.State](
+	updateProbeTable[*models.State](
 		stateFormCallback.probe,
 	)
 	stateFormCallback.probe.tableStage.Commit()
@@ -1705,7 +1705,7 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 	}
 
 	statemachineFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.StateMachine](
+	updateProbeTable[*models.StateMachine](
 		statemachineFormCallback.probe,
 	)
 	statemachineFormCallback.probe.tableStage.Commit()
@@ -1860,7 +1860,7 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 	}
 
 	stateshapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.StateShape](
+	updateProbeTable[*models.StateShape](
 		stateshapeFormCallback.probe,
 	)
 	stateshapeFormCallback.probe.tableStage.Commit()
@@ -2016,7 +2016,7 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 	}
 
 	transitionFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Transition](
+	updateProbeTable[*models.Transition](
 		transitionFormCallback.probe,
 	)
 	transitionFormCallback.probe.tableStage.Commit()
@@ -2171,7 +2171,7 @@ func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
 	}
 
 	transition_shapeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Transition_Shape](
+	updateProbeTable[*models.Transition_Shape](
 		transition_shapeFormCallback.probe,
 	)
 	transition_shapeFormCallback.probe.tableStage.Commit()

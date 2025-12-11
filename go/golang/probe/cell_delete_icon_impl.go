@@ -30,7 +30,7 @@ func (cellDeleteIconImpl *CellDeleteIconImplPointerToGongstruct[T]) CellIconUpda
 
 	cellDeleteIconImpl.probe.stageOfInterest.Commit()
 
-	updateAndCommitTable[T](cellDeleteIconImpl.probe)
+	updateProbeTable[T](cellDeleteIconImpl.probe)
 	updateAndCommitTree(cellDeleteIconImpl.probe)
 	cellDeleteIconImpl.probe.tableStage.Commit()
 }

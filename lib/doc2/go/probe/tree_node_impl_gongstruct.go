@@ -51,31 +51,31 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "AttributeShape" {
-		updateAndCommitTable[*models.AttributeShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.AttributeShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Classdiagram" {
-		updateAndCommitTable[*models.Classdiagram](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Classdiagram](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "DiagramPackage" {
-		updateAndCommitTable[*models.DiagramPackage](nodeImplGongstruct.probe)
+		updateProbeTable[*models.DiagramPackage](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumShape" {
-		updateAndCommitTable[*models.GongEnumShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GongEnumShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongEnumValueShape" {
-		updateAndCommitTable[*models.GongEnumValueShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GongEnumValueShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongNoteLinkShape" {
-		updateAndCommitTable[*models.GongNoteLinkShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GongNoteLinkShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongNoteShape" {
-		updateAndCommitTable[*models.GongNoteShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GongNoteShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "GongStructShape" {
-		updateAndCommitTable[*models.GongStructShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.GongStructShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "LinkShape" {
-		updateAndCommitTable[*models.LinkShape](nodeImplGongstruct.probe)
+		updateProbeTable[*models.LinkShape](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

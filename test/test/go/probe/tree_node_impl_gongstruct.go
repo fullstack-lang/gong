@@ -51,25 +51,25 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "Astruct" {
-		updateAndCommitTable[*models.Astruct](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Astruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstruct2Use" {
-		updateAndCommitTable[*models.AstructBstruct2Use](nodeImplGongstruct.probe)
+		updateProbeTable[*models.AstructBstruct2Use](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "AstructBstructUse" {
-		updateAndCommitTable[*models.AstructBstructUse](nodeImplGongstruct.probe)
+		updateProbeTable[*models.AstructBstructUse](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Bstruct" {
-		updateAndCommitTable[*models.Bstruct](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Bstruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Dstruct" {
-		updateAndCommitTable[*models.Dstruct](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Dstruct](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "F0123456789012345678901234567890" {
-		updateAndCommitTable[*models.F0123456789012345678901234567890](nodeImplGongstruct.probe)
+		updateProbeTable[*models.F0123456789012345678901234567890](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Gstruct" {
-		updateAndCommitTable[*models.Gstruct](nodeImplGongstruct.probe)
+		updateProbeTable[*models.Gstruct](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

@@ -51,19 +51,19 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 
 	// insertion point
 	if nodeImplGongstruct.gongStruct.GetName() == "DisplaySelection" {
-		updateAndCommitTable[*models.DisplaySelection](nodeImplGongstruct.probe)
+		updateProbeTable[*models.DisplaySelection](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLCell" {
-		updateAndCommitTable[*models.XLCell](nodeImplGongstruct.probe)
+		updateProbeTable[*models.XLCell](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLFile" {
-		updateAndCommitTable[*models.XLFile](nodeImplGongstruct.probe)
+		updateProbeTable[*models.XLFile](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLRow" {
-		updateAndCommitTable[*models.XLRow](nodeImplGongstruct.probe)
+		updateProbeTable[*models.XLRow](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "XLSheet" {
-		updateAndCommitTable[*models.XLSheet](nodeImplGongstruct.probe)
+		updateProbeTable[*models.XLSheet](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

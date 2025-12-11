@@ -100,7 +100,7 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 	}
 
 	assplitFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.AsSplit](
+	updateProbeTable[*models.AsSplit](
 		assplitFormCallback.probe,
 	)
 	assplitFormCallback.probe.tableStage.Commit()
@@ -345,7 +345,7 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 	}
 
 	assplitareaFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.AsSplitArea](
+	updateProbeTable[*models.AsSplitArea](
 		assplitareaFormCallback.probe,
 	)
 	assplitareaFormCallback.probe.tableStage.Commit()
@@ -424,7 +424,7 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	}
 
 	buttonFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Button](
+	updateProbeTable[*models.Button](
 		buttonFormCallback.probe,
 	)
 	buttonFormCallback.probe.tableStage.Commit()
@@ -505,7 +505,7 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	}
 
 	cursorFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Cursor](
+	updateProbeTable[*models.Cursor](
 		cursorFormCallback.probe,
 	)
 	cursorFormCallback.probe.tableStage.Commit()
@@ -584,7 +584,7 @@ func (faviconFormCallback *FavIconFormCallback) OnSave() {
 	}
 
 	faviconFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.FavIcon](
+	updateProbeTable[*models.FavIcon](
 		faviconFormCallback.probe,
 	)
 	faviconFormCallback.probe.tableStage.Commit()
@@ -663,7 +663,7 @@ func (formFormCallback *FormFormCallback) OnSave() {
 	}
 
 	formFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Form](
+	updateProbeTable[*models.Form](
 		formFormCallback.probe,
 	)
 	formFormCallback.probe.tableStage.Commit()
@@ -742,7 +742,7 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 	}
 
 	loadFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Load](
+	updateProbeTable[*models.Load](
 		loadFormCallback.probe,
 	)
 	loadFormCallback.probe.tableStage.Commit()
@@ -825,7 +825,7 @@ func (logoontheleftFormCallback *LogoOnTheLeftFormCallback) OnSave() {
 	}
 
 	logoontheleftFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.LogoOnTheLeft](
+	updateProbeTable[*models.LogoOnTheLeft](
 		logoontheleftFormCallback.probe,
 	)
 	logoontheleftFormCallback.probe.tableStage.Commit()
@@ -908,7 +908,7 @@ func (logoontherightFormCallback *LogoOnTheRightFormCallback) OnSave() {
 	}
 
 	logoontherightFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.LogoOnTheRight](
+	updateProbeTable[*models.LogoOnTheRight](
 		logoontherightFormCallback.probe,
 	)
 	logoontherightFormCallback.probe.tableStage.Commit()
@@ -987,7 +987,7 @@ func (markdownFormCallback *MarkdownFormCallback) OnSave() {
 	}
 
 	markdownFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Markdown](
+	updateProbeTable[*models.Markdown](
 		markdownFormCallback.probe,
 	)
 	markdownFormCallback.probe.tableStage.Commit()
@@ -1066,7 +1066,7 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	}
 
 	sliderFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Slider](
+	updateProbeTable[*models.Slider](
 		sliderFormCallback.probe,
 	)
 	sliderFormCallback.probe.tableStage.Commit()
@@ -1145,7 +1145,7 @@ func (splitFormCallback *SplitFormCallback) OnSave() {
 	}
 
 	splitFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Split](
+	updateProbeTable[*models.Split](
 		splitFormCallback.probe,
 	)
 	splitFormCallback.probe.tableStage.Commit()
@@ -1226,7 +1226,7 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 	}
 
 	svgFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Svg](
+	updateProbeTable[*models.Svg](
 		svgFormCallback.probe,
 	)
 	svgFormCallback.probe.tableStage.Commit()
@@ -1305,7 +1305,7 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	}
 
 	tableFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Table](
+	updateProbeTable[*models.Table](
 		tableFormCallback.probe,
 	)
 	tableFormCallback.probe.tableStage.Commit()
@@ -1382,7 +1382,7 @@ func (titleFormCallback *TitleFormCallback) OnSave() {
 	}
 
 	titleFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Title](
+	updateProbeTable[*models.Title](
 		titleFormCallback.probe,
 	)
 	titleFormCallback.probe.tableStage.Commit()
@@ -1461,7 +1461,7 @@ func (toneFormCallback *ToneFormCallback) OnSave() {
 	}
 
 	toneFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Tone](
+	updateProbeTable[*models.Tone](
 		toneFormCallback.probe,
 	)
 	toneFormCallback.probe.tableStage.Commit()
@@ -1540,7 +1540,7 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	}
 
 	treeFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Tree](
+	updateProbeTable[*models.Tree](
 		treeFormCallback.probe,
 	)
 	treeFormCallback.probe.tableStage.Commit()
@@ -1648,7 +1648,7 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 	}
 
 	viewFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.View](
+	updateProbeTable[*models.View](
 		viewFormCallback.probe,
 	)
 	viewFormCallback.probe.tableStage.Commit()
@@ -1727,7 +1727,7 @@ func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 	}
 
 	xlsxFormCallback.probe.stageOfInterest.Commit()
-	updateAndCommitTable[*models.Xlsx](
+	updateProbeTable[*models.Xlsx](
 		xlsxFormCallback.probe,
 	)
 	xlsxFormCallback.probe.tableStage.Commit()
