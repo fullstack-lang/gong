@@ -90,6 +90,4 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	}
 	stagedNode.BackgroundColor = "lightgrey"
 	gongtreeStage.Commit()
-
-	nodeImplGongstruct.probe.tableStage.Commit()
 }

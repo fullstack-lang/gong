@@ -102,7 +102,6 @@ func ({{structname}}FormCallback *{{Structname}}FormCallback) OnSave() {
 	updateProbeTable[*models.{{Structname}}](
 		{{structname}}FormCallback.probe,
 	)
-	{{structname}}FormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if {{structname}}FormCallback.CreationMode || {{structname}}FormCallback.formGroup.HasSuppressButtonBeenPressed {

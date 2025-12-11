@@ -128,7 +128,6 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 	updateProbeTable[*models.Architecture](
 		architectureFormCallback.probe,
 	)
-	architectureFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if architectureFormCallback.CreationMode || architectureFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -461,7 +460,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 	updateProbeTable[*models.Diagram](
 		diagramFormCallback.probe,
 	)
-	diagramFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if diagramFormCallback.CreationMode || diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -538,7 +536,6 @@ func (killFormCallback *KillFormCallback) OnSave() {
 	updateProbeTable[*models.Kill](
 		killFormCallback.probe,
 	)
-	killFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if killFormCallback.CreationMode || killFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -687,7 +684,6 @@ func (messageFormCallback *MessageFormCallback) OnSave() {
 	updateProbeTable[*models.Message](
 		messageFormCallback.probe,
 	)
-	messageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if messageFormCallback.CreationMode || messageFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -832,7 +828,6 @@ func (messagetypeFormCallback *MessageTypeFormCallback) OnSave() {
 	updateProbeTable[*models.MessageType](
 		messagetypeFormCallback.probe,
 	)
-	messagetypeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if messagetypeFormCallback.CreationMode || messagetypeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -942,7 +937,6 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 	updateProbeTable[*models.Object](
 		objectFormCallback.probe,
 	)
-	objectFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if objectFormCallback.CreationMode || objectFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1244,7 +1238,6 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 	updateProbeTable[*models.Role](
 		roleFormCallback.probe,
 	)
-	roleFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if roleFormCallback.CreationMode || roleFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1511,7 +1504,6 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 	updateProbeTable[*models.State](
 		stateFormCallback.probe,
 	)
-	stateFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if stateFormCallback.CreationMode || stateFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1708,7 +1700,6 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 	updateProbeTable[*models.StateMachine](
 		statemachineFormCallback.probe,
 	)
-	statemachineFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if statemachineFormCallback.CreationMode || statemachineFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1863,7 +1854,6 @@ func (stateshapeFormCallback *StateShapeFormCallback) OnSave() {
 	updateProbeTable[*models.StateShape](
 		stateshapeFormCallback.probe,
 	)
-	stateshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if stateshapeFormCallback.CreationMode || stateshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -2019,7 +2009,6 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 	updateProbeTable[*models.Transition](
 		transitionFormCallback.probe,
 	)
-	transitionFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if transitionFormCallback.CreationMode || transitionFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -2174,7 +2163,6 @@ func (transition_shapeFormCallback *Transition_ShapeFormCallback) OnSave() {
 	updateProbeTable[*models.Transition_Shape](
 		transition_shapeFormCallback.probe,
 	)
-	transition_shapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if transition_shapeFormCallback.CreationMode || transition_shapeFormCallback.formGroup.HasSuppressButtonBeenPressed {

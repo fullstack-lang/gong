@@ -148,7 +148,6 @@ func (attributeshapeFormCallback *AttributeShapeFormCallback) OnSave() {
 	updateProbeTable[*models.AttributeShape](
 		attributeshapeFormCallback.probe,
 	)
-	attributeshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if attributeshapeFormCallback.CreationMode || attributeshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -392,7 +391,6 @@ func (classdiagramFormCallback *ClassdiagramFormCallback) OnSave() {
 	updateProbeTable[*models.Classdiagram](
 		classdiagramFormCallback.probe,
 	)
-	classdiagramFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if classdiagramFormCallback.CreationMode || classdiagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -502,7 +500,6 @@ func (diagrampackageFormCallback *DiagramPackageFormCallback) OnSave() {
 	updateProbeTable[*models.DiagramPackage](
 		diagrampackageFormCallback.probe,
 	)
-	diagrampackageFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if diagrampackageFormCallback.CreationMode || diagrampackageFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -680,7 +677,6 @@ func (gongenumshapeFormCallback *GongEnumShapeFormCallback) OnSave() {
 	updateProbeTable[*models.GongEnumShape](
 		gongenumshapeFormCallback.probe,
 	)
-	gongenumshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumshapeFormCallback.CreationMode || gongenumshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -823,7 +819,6 @@ func (gongenumvalueshapeFormCallback *GongEnumValueShapeFormCallback) OnSave() {
 	updateProbeTable[*models.GongEnumValueShape](
 		gongenumvalueshapeFormCallback.probe,
 	)
-	gongenumvalueshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongenumvalueshapeFormCallback.CreationMode || gongenumvalueshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -970,7 +965,6 @@ func (gongnotelinkshapeFormCallback *GongNoteLinkShapeFormCallback) OnSave() {
 	updateProbeTable[*models.GongNoteLinkShape](
 		gongnotelinkshapeFormCallback.probe,
 	)
-	gongnotelinkshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongnotelinkshapeFormCallback.CreationMode || gongnotelinkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1156,7 +1150,6 @@ func (gongnoteshapeFormCallback *GongNoteShapeFormCallback) OnSave() {
 	updateProbeTable[*models.GongNoteShape](
 		gongnoteshapeFormCallback.probe,
 	)
-	gongnoteshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongnoteshapeFormCallback.CreationMode || gongnoteshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1359,7 +1352,6 @@ func (gongstructshapeFormCallback *GongStructShapeFormCallback) OnSave() {
 	updateProbeTable[*models.GongStructShape](
 		gongstructshapeFormCallback.probe,
 	)
-	gongstructshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if gongstructshapeFormCallback.CreationMode || gongstructshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1532,7 +1524,6 @@ func (linkshapeFormCallback *LinkShapeFormCallback) OnSave() {
 	updateProbeTable[*models.LinkShape](
 		linkshapeFormCallback.probe,
 	)
-	linkshapeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if linkshapeFormCallback.CreationMode || linkshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {

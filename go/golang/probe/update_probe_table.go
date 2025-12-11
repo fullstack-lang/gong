@@ -173,6 +173,7 @@ func updateProbeTable[T models.PointerToGongstruct](
 
 	gongtable.StageBranch(probe.tableStage, table)
 
+	probe.tableStage.Commit()
 }
 
 func NewRowUpdate[T models.PointerToGongstruct](

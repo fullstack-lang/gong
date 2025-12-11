@@ -154,7 +154,6 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	updateProbeTable[*models.Button](
 		buttonFormCallback.probe,
 	)
-	buttonFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -305,7 +304,6 @@ func (buttontoggleFormCallback *ButtonToggleFormCallback) OnSave() {
 	updateProbeTable[*models.ButtonToggle](
 		buttontoggleFormCallback.probe,
 	)
-	buttontoggleFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if buttontoggleFormCallback.CreationMode || buttontoggleFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -477,7 +475,6 @@ func (groupFormCallback *GroupFormCallback) OnSave() {
 	updateProbeTable[*models.Group](
 		groupFormCallback.probe,
 	)
-	groupFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if groupFormCallback.CreationMode || groupFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -649,7 +646,6 @@ func (grouptoogleFormCallback *GroupToogleFormCallback) OnSave() {
 	updateProbeTable[*models.GroupToogle](
 		grouptoogleFormCallback.probe,
 	)
-	grouptoogleFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if grouptoogleFormCallback.CreationMode || grouptoogleFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -776,7 +772,6 @@ func (layoutFormCallback *LayoutFormCallback) OnSave() {
 	updateProbeTable[*models.Layout](
 		layoutFormCallback.probe,
 	)
-	layoutFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if layoutFormCallback.CreationMode || layoutFormCallback.formGroup.HasSuppressButtonBeenPressed {

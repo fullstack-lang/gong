@@ -360,11 +360,10 @@ var generateCmd = &cobra.Command{
 		}
 
 		// go mod tidy
-		if true {
+		if !skipGoModCommands {
 			start := time.Now()
-			var cmd *exec.Cmd
 
-			cmd = exec.Command("go", "mod", "tidy")
+			cmd := exec.Command("go", "mod", "tidy")
 
 			cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPath, fmt.Sprintf("../cmd/%s", gong_models.ComputePkgNameFromPkgPath(pkgPath))))
 			log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)

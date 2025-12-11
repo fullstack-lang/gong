@@ -80,7 +80,6 @@ func (displayselectionFormCallback *DisplaySelectionFormCallback) OnSave() {
 	updateProbeTable[*models.DisplaySelection](
 		displayselectionFormCallback.probe,
 	)
-	displayselectionFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if displayselectionFormCallback.CreationMode || displayselectionFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -293,7 +292,6 @@ func (xlcellFormCallback *XLCellFormCallback) OnSave() {
 	updateProbeTable[*models.XLCell](
 		xlcellFormCallback.probe,
 	)
-	xlcellFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if xlcellFormCallback.CreationMode || xlcellFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -397,7 +395,6 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 	updateProbeTable[*models.XLFile](
 		xlfileFormCallback.probe,
 	)
-	xlfileFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if xlfileFormCallback.CreationMode || xlfileFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -567,7 +564,6 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 	updateProbeTable[*models.XLRow](
 		xlrowFormCallback.probe,
 	)
-	xlrowFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if xlrowFormCallback.CreationMode || xlrowFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -766,7 +762,6 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 	updateProbeTable[*models.XLSheet](
 		xlsheetFormCallback.probe,
 	)
-	xlsheetFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if xlsheetFormCallback.CreationMode || xlsheetFormCallback.formGroup.HasSuppressButtonBeenPressed {

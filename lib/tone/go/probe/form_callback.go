@@ -142,7 +142,6 @@ func (freqencyFormCallback *FreqencyFormCallback) OnSave() {
 	updateProbeTable[*models.Freqency](
 		freqencyFormCallback.probe,
 	)
-	freqencyFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if freqencyFormCallback.CreationMode || freqencyFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -252,7 +251,6 @@ func (noteFormCallback *NoteFormCallback) OnSave() {
 	updateProbeTable[*models.Note](
 		noteFormCallback.probe,
 	)
-	noteFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if noteFormCallback.CreationMode || noteFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -331,7 +329,6 @@ func (playerFormCallback *PlayerFormCallback) OnSave() {
 	updateProbeTable[*models.Player](
 		playerFormCallback.probe,
 	)
-	playerFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if playerFormCallback.CreationMode || playerFormCallback.formGroup.HasSuppressButtonBeenPressed {

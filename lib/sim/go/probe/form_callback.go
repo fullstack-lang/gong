@@ -82,7 +82,6 @@ func (commandFormCallback *CommandFormCallback) OnSave() {
 	updateProbeTable[*models.Command](
 		commandFormCallback.probe,
 	)
-	commandFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if commandFormCallback.CreationMode || commandFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -161,7 +160,6 @@ func (dummyagentFormCallback *DummyAgentFormCallback) OnSave() {
 	updateProbeTable[*models.DummyAgent](
 		dummyagentFormCallback.probe,
 	)
-	dummyagentFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if dummyagentFormCallback.CreationMode || dummyagentFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -254,7 +252,6 @@ func (engineFormCallback *EngineFormCallback) OnSave() {
 	updateProbeTable[*models.Engine](
 		engineFormCallback.probe,
 	)
-	engineFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if engineFormCallback.CreationMode || engineFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -333,7 +330,6 @@ func (eventFormCallback *EventFormCallback) OnSave() {
 	updateProbeTable[*models.Event](
 		eventFormCallback.probe,
 	)
-	eventFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if eventFormCallback.CreationMode || eventFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -418,7 +414,6 @@ func (statusFormCallback *StatusFormCallback) OnSave() {
 	updateProbeTable[*models.Status](
 		statusFormCallback.probe,
 	)
-	statusFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if statusFormCallback.CreationMode || statusFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -499,7 +494,6 @@ func (updatestateFormCallback *UpdateStateFormCallback) OnSave() {
 	updateProbeTable[*models.UpdateState](
 		updatestateFormCallback.probe,
 	)
-	updatestateFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if updatestateFormCallback.CreationMode || updatestateFormCallback.formGroup.HasSuppressButtonBeenPressed {

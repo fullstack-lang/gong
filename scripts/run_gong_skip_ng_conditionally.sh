@@ -15,10 +15,10 @@ find . -path '*/go/models/docs.go' -exec dirname {} \; | xargs -I {} dirname {} 
     
     if [ -f "embed_ng_dist_ng.go" ]; then
       echo "==> Found embed_ng_dist_ng.go in '$dir', running standard command..."
-      gong generate --skipGoModCommands --skipNpmWorkspaces --skipNg go/models
+      gong generate --skipGoModCommands --skipNpmWorkspaces --skipNg --skipGoModCommands go/models
     else
       echo "==> Did not find embed_ng_dist_ng.go in '$dir', running level1 command..."
-      gong generate --level1 --skipNpmWorkspaces go/models
+      gong generate --level1 --skipNpmWorkspaces --skipGoModCommands go/models
     fi
   )
 done

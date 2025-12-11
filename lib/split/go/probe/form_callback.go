@@ -103,7 +103,6 @@ func (assplitFormCallback *AsSplitFormCallback) OnSave() {
 	updateProbeTable[*models.AsSplit](
 		assplitFormCallback.probe,
 	)
-	assplitFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if assplitFormCallback.CreationMode || assplitFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -348,7 +347,6 @@ func (assplitareaFormCallback *AsSplitAreaFormCallback) OnSave() {
 	updateProbeTable[*models.AsSplitArea](
 		assplitareaFormCallback.probe,
 	)
-	assplitareaFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if assplitareaFormCallback.CreationMode || assplitareaFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -427,7 +425,6 @@ func (buttonFormCallback *ButtonFormCallback) OnSave() {
 	updateProbeTable[*models.Button](
 		buttonFormCallback.probe,
 	)
-	buttonFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if buttonFormCallback.CreationMode || buttonFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -508,7 +505,6 @@ func (cursorFormCallback *CursorFormCallback) OnSave() {
 	updateProbeTable[*models.Cursor](
 		cursorFormCallback.probe,
 	)
-	cursorFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if cursorFormCallback.CreationMode || cursorFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -587,7 +583,6 @@ func (faviconFormCallback *FavIconFormCallback) OnSave() {
 	updateProbeTable[*models.FavIcon](
 		faviconFormCallback.probe,
 	)
-	faviconFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if faviconFormCallback.CreationMode || faviconFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -666,7 +661,6 @@ func (formFormCallback *FormFormCallback) OnSave() {
 	updateProbeTable[*models.Form](
 		formFormCallback.probe,
 	)
-	formFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if formFormCallback.CreationMode || formFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -745,7 +739,6 @@ func (loadFormCallback *LoadFormCallback) OnSave() {
 	updateProbeTable[*models.Load](
 		loadFormCallback.probe,
 	)
-	loadFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if loadFormCallback.CreationMode || loadFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -828,7 +821,6 @@ func (logoontheleftFormCallback *LogoOnTheLeftFormCallback) OnSave() {
 	updateProbeTable[*models.LogoOnTheLeft](
 		logoontheleftFormCallback.probe,
 	)
-	logoontheleftFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if logoontheleftFormCallback.CreationMode || logoontheleftFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -911,7 +903,6 @@ func (logoontherightFormCallback *LogoOnTheRightFormCallback) OnSave() {
 	updateProbeTable[*models.LogoOnTheRight](
 		logoontherightFormCallback.probe,
 	)
-	logoontherightFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if logoontherightFormCallback.CreationMode || logoontherightFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -990,7 +981,6 @@ func (markdownFormCallback *MarkdownFormCallback) OnSave() {
 	updateProbeTable[*models.Markdown](
 		markdownFormCallback.probe,
 	)
-	markdownFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if markdownFormCallback.CreationMode || markdownFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1069,7 +1059,6 @@ func (sliderFormCallback *SliderFormCallback) OnSave() {
 	updateProbeTable[*models.Slider](
 		sliderFormCallback.probe,
 	)
-	sliderFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if sliderFormCallback.CreationMode || sliderFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1148,7 +1137,6 @@ func (splitFormCallback *SplitFormCallback) OnSave() {
 	updateProbeTable[*models.Split](
 		splitFormCallback.probe,
 	)
-	splitFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if splitFormCallback.CreationMode || splitFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1229,7 +1217,6 @@ func (svgFormCallback *SvgFormCallback) OnSave() {
 	updateProbeTable[*models.Svg](
 		svgFormCallback.probe,
 	)
-	svgFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if svgFormCallback.CreationMode || svgFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1308,7 +1295,6 @@ func (tableFormCallback *TableFormCallback) OnSave() {
 	updateProbeTable[*models.Table](
 		tableFormCallback.probe,
 	)
-	tableFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if tableFormCallback.CreationMode || tableFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1385,7 +1371,6 @@ func (titleFormCallback *TitleFormCallback) OnSave() {
 	updateProbeTable[*models.Title](
 		titleFormCallback.probe,
 	)
-	titleFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if titleFormCallback.CreationMode || titleFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1464,7 +1449,6 @@ func (toneFormCallback *ToneFormCallback) OnSave() {
 	updateProbeTable[*models.Tone](
 		toneFormCallback.probe,
 	)
-	toneFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if toneFormCallback.CreationMode || toneFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1543,7 +1527,6 @@ func (treeFormCallback *TreeFormCallback) OnSave() {
 	updateProbeTable[*models.Tree](
 		treeFormCallback.probe,
 	)
-	treeFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if treeFormCallback.CreationMode || treeFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1651,7 +1634,6 @@ func (viewFormCallback *ViewFormCallback) OnSave() {
 	updateProbeTable[*models.View](
 		viewFormCallback.probe,
 	)
-	viewFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if viewFormCallback.CreationMode || viewFormCallback.formGroup.HasSuppressButtonBeenPressed {
@@ -1730,7 +1712,6 @@ func (xlsxFormCallback *XlsxFormCallback) OnSave() {
 	updateProbeTable[*models.Xlsx](
 		xlsxFormCallback.probe,
 	)
-	xlsxFormCallback.probe.tableStage.Commit()
 
 	// display a new form by reset the form stage
 	if xlsxFormCallback.CreationMode || xlsxFormCallback.formGroup.HasSuppressButtonBeenPressed {
