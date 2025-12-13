@@ -39,6 +39,8 @@ type Probe struct {
 	diagramEditor *split.AsSplitArea
 
 	docStager *doc.Stager
+
+	displayAssociationsSlicesWithNewLines bool
 }
 
 func NewProbe(
@@ -150,6 +152,10 @@ func NewProbe(
 func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
 	probe.docStager.UpdateAndCommitSVGStage()
+}
+
+func (probe *Probe) ToggleDisplayAssociations() {
+	updateAndCommitTree(probe)
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {
