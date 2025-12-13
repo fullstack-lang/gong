@@ -23,11 +23,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-11-29 14:08:02.723507 CET"
-	const __write__utc_time__ = "2025-11-29 13:08:02.723507 UTC"
-
-	const __commitId__ = "0000000198"
-
 	// Declaration of instances to stage
 
 	__AttributeShape__000000_IsDecisionNode := (&models.AttributeShape{}).Stage(stage)
@@ -35,6 +30,7 @@ func _(stage *models.Stage) {
 	__AttributeShape__000002_IsEndState := (&models.AttributeShape{}).Stage(stage)
 
 	__Classdiagram__000000_abstract_syntax := (&models.Classdiagram{}).Stage(stage)
+	__Classdiagram__000001_concrete_syntax := (&models.Classdiagram{}).Stage(stage)
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z := (&models.DiagramPackage{}).Stage(stage)
 
@@ -44,6 +40,12 @@ func _(stage *models.Stage) {
 	__GongStructShape__000003_Default_State := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000004_Default_StateMachine := (&models.GongStructShape{}).Stage(stage)
 	__GongStructShape__000005_Default_Transition := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000006_concrete_syntax_Diagram := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000007_concrete_syntax_StateMachine := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000008_concrete_syntax_StateShape := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000009_concrete_syntax_Transition_Shape := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000010_concrete_syntax_Transition := (&models.GongStructShape{}).Stage(stage)
+	__GongStructShape__000011_concrete_syntax_State := (&models.GongStructShape{}).Stage(stage)
 
 	__LinkShape__000000_Start := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000001_End := (&models.LinkShape{}).Stage(stage)
@@ -55,6 +57,11 @@ func _(stage *models.Stage) {
 	__LinkShape__000007_RolesWithSamePermissions := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000008_StateMachines := (&models.LinkShape{}).Stage(stage)
 	__LinkShape__000009_Roles := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000010_Diagrams := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000011_State_Shapes := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000012_Transition_Shapes := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000013_State := (&models.LinkShape{}).Stage(stage)
+	__LinkShape__000014_Transition := (&models.LinkShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -83,13 +90,28 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_abstract_syntax.ShowMultiplicity = true
 	__Classdiagram__000000_abstract_syntax.ShowLinkNames = true
 	__Classdiagram__000000_abstract_syntax.IsInRenameMode = false
-	__Classdiagram__000000_abstract_syntax.IsExpanded = true
-	__Classdiagram__000000_abstract_syntax.NodeGongStructsIsExpanded = true
+	__Classdiagram__000000_abstract_syntax.IsExpanded = false
+	__Classdiagram__000000_abstract_syntax.NodeGongStructsIsExpanded = false
 	__Classdiagram__000000_abstract_syntax.NodeGongStructNodeExpansion = `[true,false,false,true,true,false,true,true,true,false,false,false]`
-	__Classdiagram__000000_abstract_syntax.NodeGongEnumsIsExpanded = true
+	__Classdiagram__000000_abstract_syntax.NodeGongEnumsIsExpanded = false
 	__Classdiagram__000000_abstract_syntax.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__000000_abstract_syntax.NodeGongNotesIsExpanded = false
 	__Classdiagram__000000_abstract_syntax.NodeGongNoteNodeExpansion = ``
+
+	__Classdiagram__000001_concrete_syntax.Name = `concrete syntax`
+	__Classdiagram__000001_concrete_syntax.Description = ``
+	__Classdiagram__000001_concrete_syntax.IsIncludedInStaticWebSite = false
+	__Classdiagram__000001_concrete_syntax.ShowNbInstances = true
+	__Classdiagram__000001_concrete_syntax.ShowMultiplicity = true
+	__Classdiagram__000001_concrete_syntax.ShowLinkNames = true
+	__Classdiagram__000001_concrete_syntax.IsInRenameMode = false
+	__Classdiagram__000001_concrete_syntax.IsExpanded = true
+	__Classdiagram__000001_concrete_syntax.NodeGongStructsIsExpanded = true
+	__Classdiagram__000001_concrete_syntax.NodeGongStructNodeExpansion = `[false,true,false,false,false,false,false,false,true,false,false,false]`
+	__Classdiagram__000001_concrete_syntax.NodeGongEnumsIsExpanded = false
+	__Classdiagram__000001_concrete_syntax.NodeGongEnumNodeExpansion = ``
+	__Classdiagram__000001_concrete_syntax.NodeGongNotesIsExpanded = false
+	__Classdiagram__000001_concrete_syntax.NodeGongNoteNodeExpansion = ``
 
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Name = `Diagram Package created the 2025-11-29T13:01:53Z`
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Path = ``
@@ -143,6 +165,54 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Transition.Width = 240.000000
 	__GongStructShape__000005_Default_Transition.Height = 315.000031
 	__GongStructShape__000005_Default_Transition.IsSelected = false
+
+	__GongStructShape__000006_concrete_syntax_Diagram.Name = `concrete syntax-Diagram`
+	__GongStructShape__000006_concrete_syntax_Diagram.X = 98.000000
+	__GongStructShape__000006_concrete_syntax_Diagram.Y = 274.999985
+	__GongStructShape__000006_concrete_syntax_Diagram.IdentifierMeta = ref_models.Diagram{}
+	__GongStructShape__000006_concrete_syntax_Diagram.Width = 240.000000
+	__GongStructShape__000006_concrete_syntax_Diagram.Height = 63.000000
+	__GongStructShape__000006_concrete_syntax_Diagram.IsSelected = false
+
+	__GongStructShape__000007_concrete_syntax_StateMachine.Name = `concrete syntax-StateMachine`
+	__GongStructShape__000007_concrete_syntax_StateMachine.X = 93.000000
+	__GongStructShape__000007_concrete_syntax_StateMachine.Y = 106.000000
+	__GongStructShape__000007_concrete_syntax_StateMachine.IdentifierMeta = ref_models.StateMachine{}
+	__GongStructShape__000007_concrete_syntax_StateMachine.Width = 240.000000
+	__GongStructShape__000007_concrete_syntax_StateMachine.Height = 63.000000
+	__GongStructShape__000007_concrete_syntax_StateMachine.IsSelected = false
+
+	__GongStructShape__000008_concrete_syntax_StateShape.Name = `concrete syntax-StateShape`
+	__GongStructShape__000008_concrete_syntax_StateShape.X = 656.000000
+	__GongStructShape__000008_concrete_syntax_StateShape.Y = 110.000000
+	__GongStructShape__000008_concrete_syntax_StateShape.IdentifierMeta = ref_models.StateShape{}
+	__GongStructShape__000008_concrete_syntax_StateShape.Width = 240.000000
+	__GongStructShape__000008_concrete_syntax_StateShape.Height = 63.000000
+	__GongStructShape__000008_concrete_syntax_StateShape.IsSelected = false
+
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.Name = `concrete syntax-Transition_Shape`
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.X = 672.000000
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.Y = 274.999985
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.IdentifierMeta = ref_models.Transition_Shape{}
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.Width = 240.000000
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.Height = 63.000000
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.IsSelected = false
+
+	__GongStructShape__000010_concrete_syntax_Transition.Name = `concrete syntax-Transition`
+	__GongStructShape__000010_concrete_syntax_Transition.X = 1072.000000
+	__GongStructShape__000010_concrete_syntax_Transition.Y = 272.999985
+	__GongStructShape__000010_concrete_syntax_Transition.IdentifierMeta = ref_models.Transition{}
+	__GongStructShape__000010_concrete_syntax_Transition.Width = 240.000000
+	__GongStructShape__000010_concrete_syntax_Transition.Height = 63.000000
+	__GongStructShape__000010_concrete_syntax_Transition.IsSelected = false
+
+	__GongStructShape__000011_concrete_syntax_State.Name = `concrete syntax-State`
+	__GongStructShape__000011_concrete_syntax_State.X = 1063.000000
+	__GongStructShape__000011_concrete_syntax_State.Y = 111.000000
+	__GongStructShape__000011_concrete_syntax_State.IdentifierMeta = ref_models.State{}
+	__GongStructShape__000011_concrete_syntax_State.Width = 240.000000
+	__GongStructShape__000011_concrete_syntax_State.Height = 63.000000
+	__GongStructShape__000011_concrete_syntax_State.IsSelected = false
 
 	__LinkShape__000000_Start.Name = `Start`
 	__LinkShape__000000_Start.IdentifierMeta = ref_models.Transition{}.Start
@@ -334,6 +404,101 @@ func _(stage *models.Stage) {
 	__LinkShape__000009_Roles.EndRatio = 0.843880
 	__LinkShape__000009_Roles.CornerOffsetRatio = 1.700099
 
+	__LinkShape__000010_Diagrams.Name = `Diagrams`
+	__LinkShape__000010_Diagrams.IdentifierMeta = ref_models.StateMachine{}.Diagrams
+	__LinkShape__000010_Diagrams.FieldTypeIdentifierMeta = ref_models.Diagram{}
+	__LinkShape__000010_Diagrams.FieldOffsetX = 0.000000
+	__LinkShape__000010_Diagrams.FieldOffsetY = 0.000000
+	__LinkShape__000010_Diagrams.TargetMultiplicity = models.MANY
+	__LinkShape__000010_Diagrams.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000010_Diagrams.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000010_Diagrams.SourceMultiplicity = models.MANY
+	__LinkShape__000010_Diagrams.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000010_Diagrams.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000010_Diagrams.X = 443.000000
+	__LinkShape__000010_Diagrams.Y = 65.500000
+	__LinkShape__000010_Diagrams.StartOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000010_Diagrams.StartRatio = 0.437630
+	__LinkShape__000010_Diagrams.EndOrientation = models.ORIENTATION_VERTICAL
+	__LinkShape__000010_Diagrams.EndRatio = 0.387630
+	__LinkShape__000010_Diagrams.CornerOffsetRatio = 1.571539
+
+	__LinkShape__000011_State_Shapes.Name = `State_Shapes`
+	__LinkShape__000011_State_Shapes.IdentifierMeta = ref_models.Diagram{}.State_Shapes
+	__LinkShape__000011_State_Shapes.FieldTypeIdentifierMeta = ref_models.StateShape{}
+	__LinkShape__000011_State_Shapes.FieldOffsetX = 0.000000
+	__LinkShape__000011_State_Shapes.FieldOffsetY = 0.000000
+	__LinkShape__000011_State_Shapes.TargetMultiplicity = models.MANY
+	__LinkShape__000011_State_Shapes.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000011_State_Shapes.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000011_State_Shapes.SourceMultiplicity = models.MANY
+	__LinkShape__000011_State_Shapes.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000011_State_Shapes.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000011_State_Shapes.X = 655.000000
+	__LinkShape__000011_State_Shapes.Y = 223.499992
+	__LinkShape__000011_State_Shapes.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000011_State_Shapes.StartRatio = 0.500000
+	__LinkShape__000011_State_Shapes.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000011_State_Shapes.EndRatio = 0.500000
+	__LinkShape__000011_State_Shapes.CornerOffsetRatio = 1.380000
+
+	__LinkShape__000012_Transition_Shapes.Name = `Transition_Shapes`
+	__LinkShape__000012_Transition_Shapes.IdentifierMeta = ref_models.Diagram{}.Transition_Shapes
+	__LinkShape__000012_Transition_Shapes.FieldTypeIdentifierMeta = ref_models.Transition_Shape{}
+	__LinkShape__000012_Transition_Shapes.FieldOffsetX = 0.000000
+	__LinkShape__000012_Transition_Shapes.FieldOffsetY = 0.000000
+	__LinkShape__000012_Transition_Shapes.TargetMultiplicity = models.MANY
+	__LinkShape__000012_Transition_Shapes.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000012_Transition_Shapes.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000012_Transition_Shapes.SourceMultiplicity = models.MANY
+	__LinkShape__000012_Transition_Shapes.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000012_Transition_Shapes.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000012_Transition_Shapes.X = 658.000000
+	__LinkShape__000012_Transition_Shapes.Y = 303.999985
+	__LinkShape__000012_Transition_Shapes.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000012_Transition_Shapes.StartRatio = 0.500000
+	__LinkShape__000012_Transition_Shapes.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000012_Transition_Shapes.EndRatio = 0.500000
+	__LinkShape__000012_Transition_Shapes.CornerOffsetRatio = 1.380000
+
+	__LinkShape__000013_State.Name = `State`
+	__LinkShape__000013_State.IdentifierMeta = ref_models.StateShape{}.State
+	__LinkShape__000013_State.FieldTypeIdentifierMeta = ref_models.State{}
+	__LinkShape__000013_State.FieldOffsetX = 0.000000
+	__LinkShape__000013_State.FieldOffsetY = 0.000000
+	__LinkShape__000013_State.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__000013_State.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000013_State.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000013_State.SourceMultiplicity = models.MANY
+	__LinkShape__000013_State.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000013_State.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000013_State.X = 1224.000000
+	__LinkShape__000013_State.Y = 221.999992
+	__LinkShape__000013_State.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000013_State.StartRatio = 0.500000
+	__LinkShape__000013_State.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000013_State.EndRatio = 0.500000
+	__LinkShape__000013_State.CornerOffsetRatio = 1.380000
+
+	__LinkShape__000014_Transition.Name = `Transition`
+	__LinkShape__000014_Transition.IdentifierMeta = ref_models.Transition_Shape{}.Transition
+	__LinkShape__000014_Transition.FieldTypeIdentifierMeta = ref_models.Transition{}
+	__LinkShape__000014_Transition.FieldOffsetX = 0.000000
+	__LinkShape__000014_Transition.FieldOffsetY = 0.000000
+	__LinkShape__000014_Transition.TargetMultiplicity = models.ZERO_ONE
+	__LinkShape__000014_Transition.TargetMultiplicityOffsetX = 0.000000
+	__LinkShape__000014_Transition.TargetMultiplicityOffsetY = 0.000000
+	__LinkShape__000014_Transition.SourceMultiplicity = models.MANY
+	__LinkShape__000014_Transition.SourceMultiplicityOffsetX = 0.000000
+	__LinkShape__000014_Transition.SourceMultiplicityOffsetY = 0.000000
+	__LinkShape__000014_Transition.X = 1228.500000
+	__LinkShape__000014_Transition.Y = 223.999992
+	__LinkShape__000014_Transition.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000014_Transition.StartRatio = 0.500000
+	__LinkShape__000014_Transition.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__LinkShape__000014_Transition.EndRatio = 0.500000
+	__LinkShape__000014_Transition.CornerOffsetRatio = 1.380000
+
 	// Setup of pointers
 	// setup of AttributeShape instances pointers
 	// setup of Classdiagram instances pointers
@@ -343,9 +508,16 @@ func _(stage *models.Stage) {
 	__Classdiagram__000000_abstract_syntax.GongStructShapes = append(__Classdiagram__000000_abstract_syntax.GongStructShapes, __GongStructShape__000003_Default_State)
 	__Classdiagram__000000_abstract_syntax.GongStructShapes = append(__Classdiagram__000000_abstract_syntax.GongStructShapes, __GongStructShape__000004_Default_StateMachine)
 	__Classdiagram__000000_abstract_syntax.GongStructShapes = append(__Classdiagram__000000_abstract_syntax.GongStructShapes, __GongStructShape__000005_Default_Transition)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000006_concrete_syntax_Diagram)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000007_concrete_syntax_StateMachine)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000008_concrete_syntax_StateShape)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000009_concrete_syntax_Transition_Shape)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000010_concrete_syntax_Transition)
+	__Classdiagram__000001_concrete_syntax.GongStructShapes = append(__Classdiagram__000001_concrete_syntax.GongStructShapes, __GongStructShape__000011_concrete_syntax_State)
 	// setup of DiagramPackage instances pointers
 	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Classdiagrams, __Classdiagram__000000_abstract_syntax)
-	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.SelectedClassdiagram = __Classdiagram__000000_abstract_syntax
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Classdiagrams = append(__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.Classdiagrams, __Classdiagram__000001_concrete_syntax)
+	__DiagramPackage__000000_Diagram_Package_created_the_2025_11_29T13_01_53Z.SelectedClassdiagram = __Classdiagram__000001_concrete_syntax
 	// setup of GongStructShape instances pointers
 	__GongStructShape__000000_Default_Architecture.LinkShapes = append(__GongStructShape__000000_Default_Architecture.LinkShapes, __LinkShape__000008_StateMachines)
 	__GongStructShape__000000_Default_Architecture.LinkShapes = append(__GongStructShape__000000_Default_Architecture.LinkShapes, __LinkShape__000009_Roles)
@@ -360,5 +532,11 @@ func _(stage *models.Stage) {
 	__GongStructShape__000005_Default_Transition.LinkShapes = append(__GongStructShape__000005_Default_Transition.LinkShapes, __LinkShape__000001_End)
 	__GongStructShape__000005_Default_Transition.LinkShapes = append(__GongStructShape__000005_Default_Transition.LinkShapes, __LinkShape__000002_RolesWithPermissions)
 	__GongStructShape__000005_Default_Transition.LinkShapes = append(__GongStructShape__000005_Default_Transition.LinkShapes, __LinkShape__000003_GeneratedMessages)
+	__GongStructShape__000006_concrete_syntax_Diagram.LinkShapes = append(__GongStructShape__000006_concrete_syntax_Diagram.LinkShapes, __LinkShape__000011_State_Shapes)
+	__GongStructShape__000006_concrete_syntax_Diagram.LinkShapes = append(__GongStructShape__000006_concrete_syntax_Diagram.LinkShapes, __LinkShape__000012_Transition_Shapes)
+	__GongStructShape__000007_concrete_syntax_StateMachine.LinkShapes = append(__GongStructShape__000007_concrete_syntax_StateMachine.LinkShapes, __LinkShape__000010_Diagrams)
+	__GongStructShape__000008_concrete_syntax_StateShape.LinkShapes = append(__GongStructShape__000008_concrete_syntax_StateShape.LinkShapes, __LinkShape__000013_State)
+	__GongStructShape__000009_concrete_syntax_Transition_Shape.LinkShapes = append(__GongStructShape__000009_concrete_syntax_Transition_Shape.LinkShapes, __LinkShape__000014_Transition)
 	// setup of LinkShape instances pointers
 }
+
