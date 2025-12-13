@@ -13,6 +13,10 @@
                 [matTooltip]="isTextTruncated ? 'Show full text' : 'Limit text to 3 lines'">
                 <mat-icon>{{ isTextTruncated ? 'subject' : 'wrap_text' }}</mat-icon>
             </button>
+            <button mat-icon-button (click)="toggleNewlineWrapping()"
+                [matTooltip]="isAssociationsWrapping ? 'Collapse newlines' : 'Show newlines'">
+                <mat-icon>{{ isAssociationsWrapping ? 'format_line_spacing' : 'format_align_justify' }}</mat-icon>
+            </button>
 
             <div class="toolbar-separator"></div>
 
@@ -62,7 +66,7 @@
 
                 <td mat-cell *matCellDef="let element">
                     @if (element.Cells[i]?.CellString) {
-                    <div [class.truncate-text]="isTextTruncated">
+                   <div [class.truncate-text]="isTextTruncated" [class.wrap-newlines]="isAssociationsWrapping">
                         {{ element.Cells[i].CellString.Value }}
                     </div>
                     }
