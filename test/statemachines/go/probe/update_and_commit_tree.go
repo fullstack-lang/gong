@@ -35,10 +35,10 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	nodeForActionsButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
+	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
 		probe.stageOfInterest.GetName())}
 
-	sidebar.RootNodes = append(sidebar.RootNodes, nodeForActionsButton)
+	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
 		Icon:            string(gongtree_buttons.BUTTON_refresh),
@@ -47,19 +47,8 @@ func updateAndCommitTree(
 		ToolTipPosition: tree.Left,
 	}
 
-	nodeForActionsButton.Buttons = append(nodeForActionsButton.Buttons, refreshButton)
+	nodeRefreshButton.Buttons = append(nodeRefreshButton.Buttons, refreshButton)
 	refreshButton.Impl = NewButtonImplRefresh(probe)
-
-	ToggleDisplayAssociationsButton := &tree.Button{
-		Name:            "ToggleDisplayAssociationsButton",
-		Icon:            string(gongtree_buttons.BUTTON_unfold_more),
-		HasToolTip:      true,
-		ToolTipText:     "Warp slices association with one white space",
-		ToolTipPosition: tree.Left,
-	}
-
-	nodeForActionsButton.Buttons = append(nodeForActionsButton.Buttons, ToggleDisplayAssociationsButton)
-	ToggleDisplayAssociationsButton.Impl = NewButtonImplRefresh(probe)
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
