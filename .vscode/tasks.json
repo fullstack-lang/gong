@@ -105,10 +105,10 @@
       ]
     },
     {
-      "label": "01 - gong generate doc2",
+      "label": "01 - gong generate doc",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/lib/doc2"
+        "cwd": "${workspaceFolder}/lib/doc"
       },
       "command": "gong",
       "group": "build",
@@ -512,10 +512,10 @@
       ]
     },
     {
-      "label": "03 - ng serve doc2",
+      "label": "03 - ng serve doc",
       "type": "shell",
       "options": {
-        "cwd": "lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2"
+        "cwd": "lib/doc/ng-github.com-fullstack-lang-gong-lib-doc"
       },
       "command": "ng",
       "group": "build",
