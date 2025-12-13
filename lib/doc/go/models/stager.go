@@ -68,7 +68,7 @@ func NewStager(
 	// StageBranch will stage on the the first argument
 	// all instances related to the second argument
 	receivingAsSplitArea.AsSplit = &split.AsSplit{
-		Name:      "Root As Split for doc2 receiving area",
+		Name:      "Root As Split for doc receiving area",
 		Direction: split.Horizontal,
 		AsSplitAreas: []*split.AsSplitArea{
 			{
@@ -83,7 +83,7 @@ func NewStager(
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Name:             "doc2 Tree",
+										Name:             "doc Tree",
 										ShowNameInHeader: false,
 										Size:             66,
 										Tree: &split.Tree{
@@ -101,7 +101,7 @@ func NewStager(
 							},
 						},
 						{
-							Name:             "doc2 SVG",
+							Name:             "doc SVG",
 							ShowNameInHeader: false,
 							Size:             75,
 							Svg: &split.Svg{

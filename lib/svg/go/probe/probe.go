@@ -86,7 +86,7 @@ func NewProbe(
 		embeddedDiagrams,
 
 		// this is the prefix of the names of the stages svg and tree that will be created
-		// by doc2. Using a combination of the package name and the stage of interest name
+		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"github.com/fullstack-lang/gong/lib/svg/go"+":"+stageOfInterest.GetName(),
 		svg_go.GoModelsDir,

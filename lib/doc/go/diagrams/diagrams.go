@@ -50,7 +50,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Classdiagram__000000_Default.Name = `Default`
-	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc2 package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
+	__Classdiagram__000000_Default.Description = `This diagram describes the model of the doc package. A DiagramPackage is composed of ClassDiagram and each ClassDiagram has shapes.`
 	__Classdiagram__000000_Default.IsIncludedInStaticWebSite = true
 	__Classdiagram__000000_Default.ShowNbInstances = true
 	__Classdiagram__000000_Default.ShowMultiplicity = true

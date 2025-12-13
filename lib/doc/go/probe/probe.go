@@ -19,7 +19,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 
-	doc2_go "github.com/fullstack-lang/gong/lib/doc/go"
+	doc_go "github.com/fullstack-lang/gong/lib/doc/go"
 )
 
 type Probe struct {
@@ -86,11 +86,11 @@ func NewProbe(
 		embeddedDiagrams,
 
 		// this is the prefix of the names of the stages svg and tree that will be created
-		// by doc2. Using a combination of the package name and the stage of interest name
+		// by doc. Using a combination of the package name and the stage of interest name
 		// might prevent name collisions if more that one probe is being instancied
 		"github.com/fullstack-lang/gong/lib/doc/go"+":"+stageOfInterest.GetName(),
-		doc2_go.GoModelsDir,
-		doc2_go.GoDiagramsDir,
+		doc_go.GoModelsDir,
+		doc_go.GoDiagramsDir,
 		probe.diagramEditor,
 		stageOfInterest.Map_GongStructName_InstancesNb,
 	)

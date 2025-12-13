@@ -30,11 +30,11 @@
             ]
         },
         {
-            "name": "gong generate doc2 -skipGoModCommands -skipNg",
+            "name": "gong generate doc -skipGoModCommands -skipNg",
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "cwd": "${workspaceFolder}/lib/doc2/go/models",
+            "cwd": "${workspaceFolder}/lib/doc/go/models",
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
@@ -349,22 +349,22 @@
             "args": []
         },
         {
-            "name": "go run doc2",
+            "name": "go run doc",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc2/go/cmd/doc2",
+            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage"
             ]
         },
         {
-            "name": "go run doc2 -embeddedDiagrams=true",
+            "name": "go run doc -embeddedDiagrams=true",
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/lib/doc2/go/cmd/doc2",
+            "program": "${workspaceFolder}/lib/doc/go/cmd/doc",
             "args": [
                 "-unmarshallFromCode=data/stage.go",
                 "-marshallOnCommit=data/stage",
@@ -798,11 +798,11 @@
             "sourceMaps": true,
         },
         {
-            "name": "Launch Chrome (doc2) on 4200",
+            "name": "Launch Chrome (doc) on 4200",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2",
+            "webRoot": "${workspaceFolder}/lib/doc/ng-github.com-fullstack-lang-gong-lib-doc",
             "sourceMaps": true,
         },
         {
