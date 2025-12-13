@@ -1071,6 +1071,13 @@
       },
       "detail": "Creates a temporary 'helloworld' project in /tmp, runs gong and the compiled binary, then cleans up.",
       "group": "build"
+    },
+    {
+      "label": "clean all",
+      "type": "shell",
+      "command": "go clean -x -i ./... && find . -name \"*debug*.exe\" -exec rm -rf {} +",
+      "group": "build",
+      "problemMatcher": []
     }
   ]
 }
