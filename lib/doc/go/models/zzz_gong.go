@@ -856,7 +856,7 @@ func (attributeshape *AttributeShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (attributeshape *AttributeShape) SetName(name string) {
+func (attributeshape *AttributeShape) SetName(name string) (){
 	attributeshape.Name = name
 }
 
@@ -932,7 +932,7 @@ func (classdiagram *Classdiagram) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (classdiagram *Classdiagram) SetName(name string) {
+func (classdiagram *Classdiagram) SetName(name string) (){
 	classdiagram.Name = name
 }
 
@@ -1008,7 +1008,7 @@ func (diagrampackage *DiagramPackage) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (diagrampackage *DiagramPackage) SetName(name string) {
+func (diagrampackage *DiagramPackage) SetName(name string) (){
 	diagrampackage.Name = name
 }
 
@@ -1084,7 +1084,7 @@ func (gongenumshape *GongEnumShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongenumshape *GongEnumShape) SetName(name string) {
+func (gongenumshape *GongEnumShape) SetName(name string) (){
 	gongenumshape.Name = name
 }
 
@@ -1160,7 +1160,7 @@ func (gongenumvalueshape *GongEnumValueShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongenumvalueshape *GongEnumValueShape) SetName(name string) {
+func (gongenumvalueshape *GongEnumValueShape) SetName(name string) (){
 	gongenumvalueshape.Name = name
 }
 
@@ -1236,7 +1236,7 @@ func (gongnotelinkshape *GongNoteLinkShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongnotelinkshape *GongNoteLinkShape) SetName(name string) {
+func (gongnotelinkshape *GongNoteLinkShape) SetName(name string) (){
 	gongnotelinkshape.Name = name
 }
 
@@ -1312,7 +1312,7 @@ func (gongnoteshape *GongNoteShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongnoteshape *GongNoteShape) SetName(name string) {
+func (gongnoteshape *GongNoteShape) SetName(name string) (){
 	gongnoteshape.Name = name
 }
 
@@ -1388,7 +1388,7 @@ func (gongstructshape *GongStructShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongstructshape *GongStructShape) SetName(name string) {
+func (gongstructshape *GongStructShape) SetName(name string) (){
 	gongstructshape.Name = name
 }
 
@@ -1464,7 +1464,7 @@ func (linkshape *LinkShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (linkshape *LinkShape) SetName(name string) {
+func (linkshape *LinkShape) SetName(name string) (){
 	linkshape.Name = name
 }
 
@@ -3419,5 +3419,4 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
-
 // Last line of the template

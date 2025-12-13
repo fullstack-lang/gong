@@ -75,7 +75,7 @@ func NewProbe(
 		tableStage:      tableStage,
 		splitStage:      splitStage,
 	}
-		
+
 	// prepare the receiving AsSplitArea
 	probe.diagramEditor = &split.AsSplitArea{
 		Name:             "Bottom",
