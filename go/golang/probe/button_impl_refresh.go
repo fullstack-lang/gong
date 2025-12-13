@@ -4,7 +4,6 @@ const ButtonImplRefreshFileTemplate = `// generated code - do not edit
 package probe
 
 import (
-
 	gongtree_models "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
@@ -26,8 +25,10 @@ func (buttonImpl *ButtonImplRefresh) ButtonUpdated(
 	gongtreeStage *gongtree_models.Stage,
 	stageButton, front *gongtree_models.Button) {
 
-	// log.Println("ButtonImplRefresh: ButtonUpdated")
-
+	buttonImpl.probe.stageOfInterest.ComputeInstancesNb()
+	buttonImpl.probe.docStager.SetMap_GongStructName_InstancesNb(
+		buttonImpl.probe.stageOfInterest.Map_GongStructName_InstancesNb,
+	)
 	buttonImpl.probe.Refresh()
 }
 `
