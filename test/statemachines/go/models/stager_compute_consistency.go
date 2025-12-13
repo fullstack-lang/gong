@@ -21,6 +21,11 @@ func (stager *Stager) computeConsistency() {
 		stager.architecture = architectures[0]
 	}
 
+	if stager.architecture.NbPixPerCharacter == 0 {
+		stager.architecture.NbPixPerCharacter = 8
+		needCommit = true
+	}
+
 	stager.map_state_nextStates = make(map[*State][]*State)
 	rm := GetPointerReverseMap[Transition_Shape, Transition](GetAssociationName[Transition_Shape]().Transition.Name, stager.stage)
 
