@@ -15,6 +15,7 @@ import (
 
 	gong_models "github.com/fullstack-lang/gong/go/models"
 
+	doc "github.com/fullstack-lang/gong/lib/doc/go/models"
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
 	form "github.com/fullstack-lang/gong/lib/table/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -38,6 +39,8 @@ type Probe struct {
 
 	// AsSplitArea for the diagram editor
 	diagramEditor *split.AsSplitArea
+
+	docStager *doc.Stager
 }
 
 func NewProbe(
@@ -83,7 +86,7 @@ func NewProbe(
 		Size:             50,
 	}
 
-	prepare.Prepare(
+	probe.docStager = prepare.Prepare(
 		r,
 		embeddedDiagrams,
 
@@ -148,6 +151,7 @@ func NewProbe(
 
 func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
+	probe.docStager.UpdateAndCommitSVGStage()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {
