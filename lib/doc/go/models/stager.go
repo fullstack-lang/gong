@@ -164,3 +164,7 @@ func NewStager(
 
 	return
 }
+
+func (stager *Stager) SetMap_GongStructName_InstancesNb(map_GongStructName_InstancesNb map[string]int) {
+	stager.map_GongStructName_InstancesNb = map_GongStructName_InstancesNb
+}
