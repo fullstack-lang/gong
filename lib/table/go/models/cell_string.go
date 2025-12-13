@@ -1,6 +1,8 @@
 package models
 
 type CellString struct {
-	Name  string
+	Name string
+
+	//gong:text
 	Value string
 }
