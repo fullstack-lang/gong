@@ -2,10 +2,10 @@
 	"version": "2.0.0",
 	"tasks": [
 	  {
-		"label": "02 - run doc2 -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+		"label": "02 - run doc -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
 		"type": "shell",
 		"options": {
-		  "cwd": "${workspaceFolder}/go/cmd/doc2"
+		  "cwd": "${workspaceFolder}/go/cmd/doc"
 		},
 		"command": "go",
 		"args": [
@@ -18,10 +18,10 @@
 		"group": "build"
 	  },
 	  {
-		"label": "02 - run doc2 w/o diagrams",
+		"label": "02 - run doc w/o diagrams",
 		"type": "shell",
 		"options": {
-		  "cwd": "${workspaceFolder}/go/cmd/doc2"
+		  "cwd": "${workspaceFolder}/go/cmd/doc"
 		},
 		"command": "go",
 		"args": [
@@ -42,19 +42,19 @@
 	  {
 		"label": "03 - ng build",
 		"type": "shell",
-		"command": "cd ng-github.com-fullstack-lang-gong-lib-doc2; ng build",
+		"command": "cd ng-github.com-fullstack-lang-gong-lib-doc; ng build",
 		"group": "build",
 		"problemMatcher": []
 	  },
 	  {
 		"label": "04 - ng serve --host=127.0.0.1",
 		"type": "shell",
-		"command": "cd ng-github.com-fullstack-lang-gong-lib-doc2; ng serve --host=127.0.0.1",
+		"command": "cd ng-github.com-fullstack-lang-gong-lib-doc; ng serve --host=127.0.0.1",
 		"group": "build",
 		"problemMatcher": []
 	  },
 	  {
-		"label": "01 - gongc doc2",
+		"label": "01 - gongc doc",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -64,7 +64,7 @@
 		"args": []
 	  },
 	  {
-		"label": "01 - gongc doc2 -skipNg",
+		"label": "01 - gongc doc -skipNg",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -76,7 +76,7 @@
 		]
 	  },
 	  {
-		"label": "01 - gongc doc2 -skipGoModCommands",
+		"label": "01 - gongc doc -skipGoModCommands",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -88,7 +88,7 @@
 		]
 	  },
 	  {
-		"label": "01 - gongc doc2 -skipNg -skipGoModCommands",
+		"label": "01 - gongc doc -skipNg -skipGoModCommands",
 		"type": "shell",
 		"options": {
 		  "cwd": "${workspaceFolder}/go/models"
@@ -138,7 +138,7 @@
 		"label": "00 - go build",
 		"type": "shell",
 		"options": {
-		  "cwd": "${workspaceFolder}/go/cmd/doc2"
+		  "cwd": "${workspaceFolder}/go/cmd/doc"
 		},
 		"command": "go",
 		"args": [

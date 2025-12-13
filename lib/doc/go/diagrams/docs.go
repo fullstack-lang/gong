@@ -1,5 +1,5 @@
 // generated code - do not edit
-// Package diagrams implements uml diagrams for documenting the doc2 stack.
+// Package diagrams implements uml diagrams for documenting the doc stack.
 //
 // The diagrams package is a set of go files, one for each diagram. A diagram is
 // a go variable of type either github.com/fullstack-lang/gong/lib/doc/go/models.Classdiagram or

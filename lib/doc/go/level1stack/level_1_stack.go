@@ -10,7 +10,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	"github.com/fullstack-lang/gong/lib/doc/go/probe"
 
-	doc2_go "github.com/fullstack-lang/gong/lib/doc/go"
+	doc_go "github.com/fullstack-lang/gong/lib/doc/go"
 
 	"github.com/gin-gonic/gin"
 
@@ -93,8 +93,8 @@ func NewLevel1Stack(
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		miniStack.Probe = probe.NewProbe(
 			miniStack.R,
-			doc2_go.GoModelsDir,
-			doc2_go.GoDiagramsDir,
+			doc_go.GoModelsDir,
+			doc_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)

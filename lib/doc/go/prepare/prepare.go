@@ -52,17 +52,17 @@ func (beforeCommitImplementation *beforeCommitImplementation) BeforeCommit(stage
 func Prepare(
 	r *gin.Engine,
 	embeddedDiagrams bool,
-	doc2StackName string,
+	docStackName string,
 	goModelsDir embed.FS,
 	goDiagramsDir embed.FS,
-	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc2 areas
+	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc areas
 	map_GongStructName_InstancesNb map[string]int,
 ) {
-	stage := models.NewStage(doc2StackName)
+	stage := models.NewStage(docStackName)
 
 	stage.MetaPackageImportAlias = "ref_models"
 
-	splits := strings.Split(doc2StackName, ":")
+	splits := strings.Split(docStackName, ":")
 	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
 
 	if !embeddedDiagrams {
@@ -89,10 +89,10 @@ func Prepare(
 		}
 	}
 
-	treeStage, _ := tree_fullstack.NewStackInstance(r, doc2StackName+":doc2-sidebar", "", "")
-	svgStage, _ := svg_fullstack.NewStackInstance(r, doc2StackName+":doc2-svg", "", "", "")
-	gongStage := gong.NewStage(doc2StackName + ":doc2-gong")
-	formStage, _ := table_fullstack.NewStackInstance(r, doc2StackName+":doc2-diagramForm", "", "")
+	treeStage, _ := tree_fullstack.NewStackInstance(r, docStackName+":doc-sidebar", "", "")
+	svgStage, _ := svg_fullstack.NewStackInstance(r, docStackName+":doc-svg", "", "", "")
+	gongStage := gong.NewStage(docStackName + ":doc-gong")
+	formStage, _ := table_fullstack.NewStackInstance(r, docStackName+":doc-diagramForm", "", "")
 
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)

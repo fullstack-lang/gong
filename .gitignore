@@ -41,7 +41,7 @@ lib/cursor/go/cmd/cursor/cursor
 lib/load/go/cmd/load/load
 lib/probe/go/cmd/probe/probe
 lib/ssg/go/cmd/ssg/ssg
-lib/doc2/go/cmd/doc2/doc2
+lib/doc/go/cmd/doc/doc
 test/test/go/cmd/test/~$foo.xlsx
 test/test/go/cmd/test/data/stage.go-*.diff
 test/test/go/cmd/test/data/stage.go-*.delta
@@ -49,7 +49,7 @@ test/test/go/cmd/test/app.log
 test/test/go/cmd/test/data/stage_out.go-*
 
 ng-github.com-fullstack-lang-gong
-lib/doc2/ng-github.com-fullstack-lang-gong-lib-doc2
+lib/doc/ng-github.com-fullstack-lang-gong-lib-doc
 lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt
 lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx
 test/test/go/tests/stage_tests/Astructs.xlsx

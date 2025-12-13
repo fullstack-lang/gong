@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	doc2_go "github.com/fullstack-lang/gong/lib/doc/go"
+	doc_go "github.com/fullstack-lang/gong/lib/doc/go"
 )
 
 // can be used for
@@ -500,11 +500,11 @@ func (stage *Stage) GetMap_GongStructName_InstancesNb() map[string]int {
 }
 
 func (stage *Stage) GetModelsEmbededDir() embed.FS {
-	return doc2_go.GoModelsDir
+	return doc_go.GoModelsDir
 }
 
 func (stage *Stage) GetDigramsEmbededDir() embed.FS {
-	return doc2_go.GoDiagramsDir
+	return doc_go.GoDiagramsDir
 }
 
 type GONG__Identifier struct {
