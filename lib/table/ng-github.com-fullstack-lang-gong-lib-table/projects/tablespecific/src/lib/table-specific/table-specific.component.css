@@ -190,5 +190,10 @@ mat-dialog-container .container {
     overflow: hidden;
     text-overflow: ellipsis;
     word-break: break-word;
-    /* Helps with long words or strings without spaces */
+}
+
+/* Style for wrapping newlines - only applied when isAssociationsWrapping is true */
+.wrap-newlines {
+    white-space: pre-wrap;
+    /* Preserve newlines and wrap text */
 }

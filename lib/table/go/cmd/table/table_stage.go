@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-07-24 09:17:32.705088 CEST"
-	const __write__utc_time__ = "2025-07-24 07:17:32.705088 UTC"
-
-	const __commitId__ = "0000000002"
-
 	// Declaration of instances to stage
 
 	__Cell__000000_Row_1_Cell_1 := (&models.Cell{}).Stage(stage)
@@ -147,7 +142,8 @@ func _(stage *models.Stage) {
 	__CellInt__000001_Row_2_Cell_4_Int.Value = 288
 
 	__CellString__000000_Row_1_Cell_5.Name = `Row 1 - Cell 5`
-	__CellString__000000_Row_1_Cell_5.Value = `Je ferais le métier`
+	__CellString__000000_Row_1_Cell_5.Value = `Je ferais le métier  des idoles antiques
+Et comme elles je veux me faire redorer`
 
 	__CellString__000001_Row_2_Cell_5.Name = `Row 2 - Cell 5`
 	__CellString__000001_Row_2_Cell_5.Value = `des idoles antiques`
