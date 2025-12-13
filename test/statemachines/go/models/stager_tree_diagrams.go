@@ -17,6 +17,31 @@ func (stager *Stager) updateTreeDiagramStage() {
 	transitionsSet := *GetGongstructInstancesSet[Transition](stager.stage)
 	transitionSlice := SortGongstructSetByName(transitionsSet)
 
+	// architecture node
+	architectureNode := &tree.Node{
+		Name:            "-- State Machines --",
+		IsNodeClickable: true,
+		Impl: &diagramArchitectureNodeProxy{
+			stager:       stager,
+			architecture: stager.architecture,
+		},
+	}
+	treeInstance.RootNodes = append(treeInstance.RootNodes, architectureNode)
+	{
+		addButton := &tree.Button{
+			Name:            "State Machine" + " " + string(buttons.BUTTON_add_box),
+			Icon:            string(buttons.BUTTON_add_box),
+			HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Add a State Machine",
+		}
+		architectureNode.Buttons = append(architectureNode.Buttons, addButton)
+		addButton.Impl = &ArchitectureAddDiagramButtonProxy{
+			stager:      stager,
+			architecure: stager.architecture,
+		}
+	}
+
 	for _, stateMachine := range stager.architecture.StateMachines {
 		stateMachineNode := &tree.Node{
 			Name:            stateMachine.Name,
@@ -40,7 +65,7 @@ func (stager *Stager) updateTreeDiagramStage() {
 				ToolTipText:     "Add a Diagram to the state machine",
 			}
 			stateMachineNode.Buttons = append(stateMachineNode.Buttons, addButton)
-			addButton.Impl = &SateMachineAddDiagramButtonProxy{
+			addButton.Impl = &StateMachineAddDiagramButtonProxy{
 				stager:       stager,
 				stateMachine: stateMachine,
 			}
