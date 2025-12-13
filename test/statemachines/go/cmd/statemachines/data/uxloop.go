@@ -40,6 +40,7 @@ func _(stage *models.Stage) {
 	__State__000010_Waiting_for_user_Input_ := (&models.State{}).Stage(stage)
 
 	__StateMachine__000000_UX_Loop := (&models.StateMachine{}).Stage(stage)
+	__StateMachine__000001_New_StateMachine := (&models.StateMachine{}).Stage(stage)
 
 	__StateShape__000000_UX_1_Waiting_for_User_Input := (&models.StateShape{}).Stage(stage)
 	__StateShape__000001_UX_2_Waiting_for_User_Input := (&models.StateShape{}).Stage(stage)
@@ -143,6 +144,9 @@ func _(stage *models.Stage) {
 
 	__StateMachine__000000_UX_Loop.Name = `UX Loop`
 	__StateMachine__000000_UX_Loop.IsNodeExpanded = true
+
+	__StateMachine__000001_New_StateMachine.Name = `New StateMachine`
+	__StateMachine__000001_New_StateMachine.IsNodeExpanded = false
 
 	__StateShape__000000_UX_1_Waiting_for_User_Input.Name = `UX 1 - Waiting for User Input`
 	__StateShape__000000_UX_1_Waiting_for_User_Input.IsExpanded = false
@@ -314,6 +318,7 @@ func _(stage *models.Stage) {
 	// Setup of pointers
 	// setup of Architecture instances pointers
 	__Architecture__000000_Gong_UX_loop_Architecture.StateMachines = append(__Architecture__000000_Gong_UX_loop_Architecture.StateMachines, __StateMachine__000000_UX_Loop)
+	__Architecture__000000_Gong_UX_loop_Architecture.StateMachines = append(__Architecture__000000_Gong_UX_loop_Architecture.StateMachines, __StateMachine__000001_New_StateMachine)
 	// setup of Diagram instances pointers
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000010_Waiting_for_user_Input_)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000000_UX_1_Waiting_for_User_Input)
