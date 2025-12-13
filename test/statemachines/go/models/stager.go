@@ -86,6 +86,92 @@ func NewStager(
 	stager.buttonExportXLStage = button_stack.NewStack(r, stackName+"-exportXL", "", "", "", true, true).Stage
 
 	split.StageBranch(stager.splitStage, &split.View{
+		Name:           "Edit view",
+		IsSelectedView: true,
+		RootAsSplitAreas: []*split.AsSplitArea{
+			{
+				Name:             "Main view area",
+				Size:             100,
+				ShowNameInHeader: false,
+				AsSplit: &split.AsSplit{
+					Direction: split.Vertical,
+					AsSplitAreas: []*split.AsSplitArea{
+						{
+							Name:             "Main view area",
+							Size:             100,
+							ShowNameInHeader: false,
+							AsSplit: &split.AsSplit{
+								Direction: split.Horizontal,
+								AsSplitAreas: []*split.AsSplitArea{
+									// Sidebar
+									{
+										Name:             "Sidebar with both trees",
+										ShowNameInHeader: false,
+										Size:             25,
+										AsSplit: &split.AsSplit{
+											Name:      "as split",
+											Direction: split.Vertical,
+											AsSplitAreas: []*split.AsSplitArea{
+												{
+													Name:             "Top",
+													Size:             100,
+													ShowNameInHeader: false,
+
+													AsSplit: &split.AsSplit{
+														Direction: split.Vertical,
+														AsSplitAreas: []*split.AsSplitArea{
+															{
+																Name:             "Model tree",
+																Size:             90,
+																ShowNameInHeader: false,
+																Tree: &split.Tree{
+																	StackName: stager.treeDiagramStage.GetName(),
+																},
+															},
+
+															//
+															{
+																Name:             "Export XL button",
+																Size:             10,
+																ShowNameInHeader: false,
+																Button: &split.Button{
+																	StackName: stager.buttonExportXLStage.GetName(),
+																},
+															},
+															//
+														}},
+												},
+											},
+										},
+									},
+
+									// SVG area
+									{
+										Name:             "svg diagram",
+										ShowNameInHeader: false,
+										Size:             55,
+										Svg: &split.Svg{
+											StackName: stager.svgStage.GetName(),
+										},
+									},
+									{
+										Name:             "form",
+										ShowNameInHeader: false,
+										Size:             20,
+										Form: &split.Form{
+											StackName: stager.probeForm.GetFormStage().GetName(),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+		},
+	})
+
+	split.StageBranch(stager.splitStage, &split.View{
 		Name: "Model view",
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
@@ -249,91 +335,6 @@ func NewStager(
 							Size:             80,
 							Svg: &split.Svg{
 								StackName: stager.svgStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-		},
-	})
-
-	split.StageBranch(stager.splitStage, &split.View{
-		Name: "Edit view",
-		RootAsSplitAreas: []*split.AsSplitArea{
-			{
-				Name:             "Main view area",
-				Size:             100,
-				ShowNameInHeader: false,
-				AsSplit: &split.AsSplit{
-					Direction: split.Vertical,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Name:             "Main view area",
-							Size:             100,
-							ShowNameInHeader: false,
-							AsSplit: &split.AsSplit{
-								Direction: split.Horizontal,
-								AsSplitAreas: []*split.AsSplitArea{
-									// Sidebar
-									{
-										Name:             "Sidebar with both trees",
-										ShowNameInHeader: false,
-										Size:             25,
-										AsSplit: &split.AsSplit{
-											Name:      "as split",
-											Direction: split.Vertical,
-											AsSplitAreas: []*split.AsSplitArea{
-												{
-													Name:             "Top",
-													Size:             100,
-													ShowNameInHeader: false,
-
-													AsSplit: &split.AsSplit{
-														Direction: split.Vertical,
-														AsSplitAreas: []*split.AsSplitArea{
-															{
-																Name:             "Model tree",
-																Size:             90,
-																ShowNameInHeader: false,
-																Tree: &split.Tree{
-																	StackName: stager.treeDiagramStage.GetName(),
-																},
-															},
-
-															//
-															{
-																Name:             "Export XL button",
-																Size:             10,
-																ShowNameInHeader: false,
-																Button: &split.Button{
-																	StackName: stager.buttonExportXLStage.GetName(),
-																},
-															},
-															//
-														}},
-												},
-											},
-										},
-									},
-
-									// SVG area
-									{
-										Name:             "svg diagram",
-										ShowNameInHeader: false,
-										Size:             55,
-										Svg: &split.Svg{
-											StackName: stager.svgStage.GetName(),
-										},
-									},
-									{
-										Name:             "form",
-										ShowNameInHeader: false,
-										Size:             20,
-										Form: &split.Form{
-											StackName: stager.probeForm.GetFormStage().GetName(),
-										},
-									},
-								},
 							},
 						},
 					},
