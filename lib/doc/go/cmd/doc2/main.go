@@ -26,14 +26,14 @@ var (
 
 func main() {
 
-	log.SetPrefix("doc2: ")
+	log.SetPrefix("doc: ")
 	log.SetFlags(0)
 
 	// parse program arguments
 	flag.Parse()
 
 	// setup model stack with its probe
-	stack := level1stack.NewLevel1Stack("doc2", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
+	stack := level1stack.NewLevel1Stack("doc", *unmarshallFromCode, *marshallOnCommit, true, *embeddedDiagrams)
 
 	// since we do not use the default stager, we need to create the root split
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
