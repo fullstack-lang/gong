@@ -3,7 +3,7 @@ package diagrams
 import (
 	"time"
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration
 	ref_models "github.com/fullstack-lang/gong/lib/split/go/models"
 )
@@ -752,4 +752,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000019_Default_AsSplit.LinkShapes = append(__GongStructShape__000019_Default_AsSplit.LinkShapes, __LinkShape__000015_AsSplitAreas)
 	// setup of LinkShape instances pointers
 }
-
