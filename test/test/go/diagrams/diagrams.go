@@ -3,7 +3,7 @@ package diagrams
 import (
 	"time"
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration
 	ref_models "github.com/fullstack-lang/gong/test/test/go/models"
 )
@@ -310,4 +310,3 @@ renaming
 	__GongStructShape__000002_0_Zero_Astruct.LinkShapes = append(__GongStructShape__000002_0_Zero_Astruct.LinkShapes, __LinkShape__000002_Anarrayofb2Use)
 	// setup of LinkShape instances pointers
 }
-

@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/prepare"
+	"github.com/fullstack-lang/gong/lib/doc/go/prepare"
 	gongsplit_fullstack "github.com/fullstack-lang/gong/lib/split/go/fullstack"
 	gongtable_fullstack "github.com/fullstack-lang/gong/lib/table/go/fullstack"
 	gongtree_fullstack "github.com/fullstack-lang/gong/lib/tree/go/fullstack"
