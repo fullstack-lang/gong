@@ -3,7 +3,7 @@ package diagrams
 import (
 	"time"
 
-	"github.com/fullstack-lang/gong/lib/doc2/go/models"
+	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration
 	ref_models "github.com/fullstack-lang/gong/lib/gantt/go/models"
 )
