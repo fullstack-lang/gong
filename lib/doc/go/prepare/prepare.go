@@ -57,7 +57,7 @@ func Prepare(
 	goDiagramsDir embed.FS,
 	receivingAsSplitArea *split.AsSplitArea, // split area that will receive the doc areas
 	map_GongStructName_InstancesNb map[string]int,
-) {
+) (stager *models.Stager) {
 	stage := models.NewStage(docStackName)
 
 	stage.MetaPackageImportAlias = "ref_models"
@@ -97,7 +97,7 @@ func Prepare(
 	// load the code of the model of interest into the gongStage
 	gong.LoadEmbedded(gongStage, goModelsDir)
 
-	models.NewStager(
+	return models.NewStager(
 		r,
 		receivingAsSplitArea,
 		stage,
