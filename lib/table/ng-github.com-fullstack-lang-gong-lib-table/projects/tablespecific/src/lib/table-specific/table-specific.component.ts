@@ -102,8 +102,11 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
   selection: SelectionModel<table.Row> = new SelectionModel<table.Row>(allowMultiSelect, [])
   initialSelection = new Array<table.Row>()
 
-  // NEW: for toggling text truncation
+  // for toggling text truncation
   public isTextTruncated = true
+
+  // for toggle between association names separated by a space or by a new line
+  public isAssociationsWrapping = true
 
   constructor(
     private gongtableFrontRepoService: table.FrontRepoService,
@@ -176,6 +179,9 @@ export class TableSpecificComponent implements OnInit, AfterViewInit, OnDestroy 
     this.isTextTruncated = !this.isTextTruncated
   }
 
+  toggleNewlineWrapping(): void {
+    this.isAssociationsWrapping = !this.isAssociationsWrapping
+  }
   refresh(): void {
     // Unsubscribe from previous WebSocket connection if it exists
     if (this.webSocketSubscription) {
