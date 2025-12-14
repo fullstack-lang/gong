@@ -382,7 +382,21 @@
       "label": "01 - gong generate statemachines",
       "type": "shell",
       "options": {
-        "cwd": "${workspaceFolder}/test/statemachines/go/models"
+        "cwd": "${workspaceFolder}/dsme/statemachines/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+      ]
+    },
+    {
+      "label": "01 - gong generate cld",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsme/cld/go/models"
       },
       "command": "gong",
       "group": "build",
