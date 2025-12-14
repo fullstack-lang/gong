@@ -361,6 +361,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
+var __gong__map_Action = make(map[string]*Action)
 var __gong__map_Activities = make(map[string]*Activities)
 var __gong__map_Architecture = make(map[string]*Architecture)
 var __gong__map_Diagram = make(map[string]*Diagram)
@@ -546,6 +547,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
+									case "Action":
+										instanceAction := new(Action)
+										instanceAction.Name = instanceName
+										instanceAction.Stage(stage)
+										instance = any(instanceAction)
+										__gong__map_Action[identifier] = instanceAction
 									case "Activities":
 										instanceActivities := new(Activities)
 										instanceActivities.Name = instanceName
@@ -661,6 +668,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
+						case "Action":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						case "Activities":
 							switch fieldName {
 							// insertion point for date assign code
@@ -779,6 +790,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
+					case "Action":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
 					case "Activities":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -1031,6 +1046,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
+			case "Action":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Action[identifier].Name = fielValue
+				}
 			case "Activities":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1221,6 +1244,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
+			case "Action":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Activities":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1331,6 +1358,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_State[identifier].IsEndState = fielValue
+				case "Entry":
+					targetIdentifier := ident.Name
+					__gong__map_State[identifier].Entry = __gong__map_Action[targetIdentifier]
+				case "Exit":
+					targetIdentifier := ident.Name
+					__gong__map_State[identifier].Exit = __gong__map_Action[targetIdentifier]
 				}
 			case "StateMachine":
 				switch fieldName {
@@ -1435,6 +1468,17 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for selector expr assignments
+				case "Action":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					case "Criticality":
+						var val Criticality
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Action[identifier].Criticality = Criticality(val)
+					}
 				case "Activities":
 					switch fieldName {
 					// insertion point for selector expr assign code

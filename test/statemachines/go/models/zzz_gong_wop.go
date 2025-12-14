@@ -9,6 +9,20 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Action_WOP struct {
+	// insertion point
+
+	Name string
+
+	Criticality Criticality
+}
+
+func (from *Action) CopyBasicFields(to *Action) {
+	// insertion point
+	to.Name = from.Name
+	to.Criticality = from.Criticality
+}
+
 type Activities_WOP struct {
 	// insertion point
 

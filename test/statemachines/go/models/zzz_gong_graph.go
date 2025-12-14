@@ -5,6 +5,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Action:
+		ok = stage.IsStagedAction(target)
+
 	case *Activities:
 		ok = stage.IsStagedActivities(target)
 
@@ -54,6 +57,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Action:
+		ok = stage.IsStagedAction(target)
+
 	case *Activities:
 		ok = stage.IsStagedActivities(target)
 
@@ -100,6 +106,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedAction(action *Action) (ok bool) {
+
+	_, ok = stage.Actions[action]
+
+	return
+}
+
 func (stage *Stage) IsStagedActivities(activities *Activities) (ok bool) {
 
 	_, ok = stage.Activitiess[activities]
@@ -199,6 +212,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Action:
+		stage.StageBranchAction(target)
+
 	case *Activities:
 		stage.StageBranchActivities(target)
 
@@ -244,6 +260,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchAction(action *Action) {
+
+	// check if instance is already staged
+	if IsStaged(stage, action) {
+		return
+	}
+
+	action.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchActivities(activities *Activities) {
 
 	// check if instance is already staged
@@ -404,6 +435,12 @@ func (stage *Stage) StageBranchState(state *State) {
 	if state.Parent != nil {
 		StageBranch(stage, state.Parent)
 	}
+	if state.Entry != nil {
+		StageBranch(stage, state.Entry)
+	}
+	if state.Exit != nil {
+		StageBranch(stage, state.Exit)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range state.SubStates {
@@ -519,6 +556,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Action:
+		toT := CopyBranchAction(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Activities:
 		toT := CopyBranchActivities(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -578,6 +619,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchAction(mapOrigCopy map[any]any, actionFrom *Action) (actionTo *Action) {
+
+	// actionFrom has already been copied
+	if _actionTo, ok := mapOrigCopy[actionFrom]; ok {
+		actionTo = _actionTo.(*Action)
+		return
+	}
+
+	actionTo = new(Action)
+	mapOrigCopy[actionFrom] = actionTo
+	actionFrom.CopyBasicFields(actionTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (activitiesTo *Activities) {
 
 	// activitiesFrom has already been copied
@@ -773,6 +833,12 @@ func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State)
 	if stateFrom.Parent != nil {
 		stateTo.Parent = CopyBranchState(mapOrigCopy, stateFrom.Parent)
 	}
+	if stateFrom.Entry != nil {
+		stateTo.Entry = CopyBranchAction(mapOrigCopy, stateFrom.Entry)
+	}
+	if stateFrom.Exit != nil {
+		stateTo.Exit = CopyBranchAction(mapOrigCopy, stateFrom.Exit)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _state := range stateFrom.SubStates {
@@ -902,6 +968,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Action:
+		stage.UnstageBranchAction(target)
+
 	case *Activities:
 		stage.UnstageBranchActivities(target)
 
@@ -947,6 +1016,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchAction(action *Action) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, action) {
+		return
+	}
+
+	action.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchActivities(activities *Activities) {
 
 	// check if instance is already staged
@@ -1106,6 +1190,12 @@ func (stage *Stage) UnstageBranchState(state *State) {
 	//insertion point for the staging of instances referenced by pointers
 	if state.Parent != nil {
 		UnstageBranch(stage, state.Parent)
+	}
+	if state.Entry != nil {
+		UnstageBranch(stage, state.Entry)
+	}
+	if state.Exit != nil {
+		UnstageBranch(stage, state.Exit)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers

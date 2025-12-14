@@ -19,7 +19,9 @@ type State struct {
 	// in the XL file
 	Diagrams []*Diagram
 
+	Entry      *Action
 	Activities []*Activities
+	Exit       *Action
 }
 
 func (state *State) IsComposite() bool {
@@ -38,3 +40,8 @@ const (
 	CriticalityCritical Criticality = "Critical"
 	CriticalityDefault  Criticality = "Default"
 )
+
+type Action struct {
+	Name        string
+	Criticality Criticality
+}

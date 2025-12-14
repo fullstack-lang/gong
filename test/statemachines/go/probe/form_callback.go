@@ -19,6 +19,84 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__ActionFormCallback(
+	action *models.Action,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (actionFormCallback *ActionFormCallback) {
+	actionFormCallback = new(ActionFormCallback)
+	actionFormCallback.probe = probe
+	actionFormCallback.action = action
+	actionFormCallback.formGroup = formGroup
+
+	actionFormCallback.CreationMode = (action == nil)
+
+	return
+}
+
+type ActionFormCallback struct {
+	action *models.Action
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (actionFormCallback *ActionFormCallback) OnSave() {
+
+	// log.Println("ActionFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	actionFormCallback.probe.formStage.Checkout()
+
+	if actionFormCallback.action == nil {
+		actionFormCallback.action = new(models.Action).Stage(actionFormCallback.probe.stageOfInterest)
+	}
+	action_ := actionFormCallback.action
+	_ = action_
+
+	for _, formDiv := range actionFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(action_.Name), formDiv)
+		case "Criticality":
+			FormDivEnumStringFieldToField(&(action_.Criticality), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if actionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		action_.Unstage(actionFormCallback.probe.stageOfInterest)
+	}
+
+	actionFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Action](
+		actionFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if actionFormCallback.CreationMode || actionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		actionFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(actionFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ActionFormCallback(
+			nil,
+			actionFormCallback.probe,
+			newFormGroup,
+		)
+		action := new(models.Action)
+		FillUpForm(action, newFormGroup, actionFormCallback.probe)
+		actionFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(actionFormCallback.probe)
+}
 func __gong__New__ActivitiesFormCallback(
 	activities *models.Activities,
 	probe *Probe,
@@ -1504,6 +1582,8 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 			}
 			state_.Diagrams = instanceSlice
 
+		case "Entry":
+			FormDivSelectFieldToField(&(state_.Entry), stateFormCallback.probe.stageOfInterest, formDiv)
 		case "Activities":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Activities](stateFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Activities, 0)
@@ -1529,6 +1609,8 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 			}
 			state_.Activities = instanceSlice
 
+		case "Exit":
+			FormDivSelectFieldToField(&(state_.Exit), stateFormCallback.probe.stageOfInterest, formDiv)
 		case "State:SubStates":
 			// WARNING : this form deals with the N-N association "State.SubStates []*State" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

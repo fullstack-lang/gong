@@ -19,6 +19,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	f := excelize.NewFile()
 	{
 		// insertion point
+		SerializeExcelizePointerToGongstruct2[*Action](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Activities](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Architecture](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)

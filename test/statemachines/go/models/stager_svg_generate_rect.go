@@ -90,39 +90,103 @@ func (stager *Stager) svgGenerateRect(
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, stateTitleText)
 	}
 
-	// add the /Do actions
 	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
-	for _, activity := range state.Activities {
-		{
-			activityText := new(svg.RectAnchoredText)
-			activityText.Name = activity.Name
-			content := "/do " + activity.Name
 
-			if rect.Width > 0 {
-				content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
-			}
-			activityText.Content = content
-			activityText.Stroke = svg.Black.ToString()
-			activityText.StrokeWidth = 1
-			activityText.StrokeOpacity = 1
-			activityText.Color = svg.Black.ToString()
-			activityText.FillOpacity = 1
+	// Add the /Entry Action
+	if action := state.Entry; action != nil {
+		text := new(svg.RectAnchoredText)
+		text.Name = action.Name
+		content := "/entry " + action.Name
 
-			if activity.Criticality == CriticalityCritical {
-				activityText.Stroke = svg.Red.ToString()
-				activityText.Color = svg.Red.ToString()
-			}
-
-			activityText.FontSize = "16px"
-			activityText.X_Offset = 0
-			activityText.Y_Offset = currentY_Offset
-			activityText.RectAnchorType = svg.RECT_TOP
-			activityText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
-
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, activityText)
-
-			currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(activityText.Content, "\n")))
+		if rect.Width > 0 {
+			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
 		}
+		text.Content = content
+		text.Stroke = svg.Black.ToString()
+		text.StrokeWidth = 1
+		text.StrokeOpacity = 1
+		text.Color = svg.Black.ToString()
+		text.FillOpacity = 1
+
+		if action.Criticality == CriticalityCritical {
+			text.Stroke = svg.Red.ToString()
+			text.Color = svg.Red.ToString()
+		}
+
+		text.FontSize = "16px"
+		text.X_Offset = 0
+		text.Y_Offset = currentY_Offset
+		text.RectAnchorType = svg.RECT_TOP
+		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
+		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
+	}
+
+	// add the /Do activities
+
+	for _, activity := range state.Activities {
+
+		text := new(svg.RectAnchoredText)
+		text.Name = activity.Name
+		content := "/do " + activity.Name
+
+		if rect.Width > 0 {
+			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		}
+		text.Content = content
+		text.Stroke = svg.Black.ToString()
+		text.StrokeWidth = 1
+		text.StrokeOpacity = 1
+		text.Color = svg.Black.ToString()
+		text.FillOpacity = 1
+
+		if activity.Criticality == CriticalityCritical {
+			text.Stroke = svg.Red.ToString()
+			text.Color = svg.Red.ToString()
+		}
+
+		text.FontSize = "16px"
+		text.X_Offset = 0
+		text.Y_Offset = currentY_Offset
+		text.RectAnchorType = svg.RECT_TOP
+		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
+
+		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
+
+	}
+
+	// Add the /Entry Action
+	if action := state.Exit; action != nil {
+		text := new(svg.RectAnchoredText)
+		text.Name = action.Name
+		content := "/exit " + action.Name
+
+		if rect.Width > 0 {
+			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		}
+		text.Content = content
+		text.Stroke = svg.Black.ToString()
+		text.StrokeWidth = 1
+		text.StrokeOpacity = 1
+		text.Color = svg.Black.ToString()
+		text.FillOpacity = 1
+
+		if action.Criticality == CriticalityCritical {
+			text.Stroke = svg.Red.ToString()
+			text.Color = svg.Red.ToString()
+		}
+
+		text.FontSize = "16px"
+		text.X_Offset = 0
+		text.Y_Offset = currentY_Offset
+		text.RectAnchorType = svg.RECT_TOP
+		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
+		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
 	}
 
 	if state.IsDecisionNode {

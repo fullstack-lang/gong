@@ -105,6 +105,55 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	map_Action_Identifiers := make(map[*Action]string)
+	_ = map_Action_Identifiers
+
+	actionOrdered := []*Action{}
+	for action := range stage.Actions {
+		actionOrdered = append(actionOrdered, action)
+	}
+	sort.Slice(actionOrdered[:], func(i, j int) bool {
+		actioni := actionOrdered[i]
+		actionj := actionOrdered[j]
+		actioni_order, oki := stage.ActionMap_Staged_Order[actioni]
+		actionj_order, okj := stage.ActionMap_Staged_Order[actionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return actioni_order < actionj_order
+	})
+	if len(actionOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, action := range actionOrdered {
+
+		id = generatesIdentifier("Action", idx, action.Name)
+		map_Action_Identifiers[action] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Action")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", action.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(action.Name))
+		initializerStatements += setValueField
+
+		if action.Criticality != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Criticality")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+action.Criticality.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+	}
+
 	map_Activities_Identifiers := make(map[*Activities]string)
 	_ = map_Activities_Identifiers
 
@@ -801,6 +850,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	if len(actionOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Action instances pointers"
+	}
+	for idx, action := range actionOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Action", idx, action.Name)
+		map_Action_Identifiers[action] = id
+
+		// Initialisation of values
+	}
+
 	if len(activitiesOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Activities instances pointers"
 	}
@@ -1012,11 +1074,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
+		if state.Entry != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Entry")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Action_Identifiers[state.Entry])
+			pointersInitializesStatements += setPointerField
+		}
+
 		for _, _activities := range state.Activities {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Activities")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Activities_Identifiers[_activities])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if state.Exit != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Exit")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Action_Identifiers[state.Exit])
 			pointersInitializesStatements += setPointerField
 		}
 

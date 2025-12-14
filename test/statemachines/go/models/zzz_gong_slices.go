@@ -5,6 +5,9 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Action
+	// insertion point per field
+
 	// Compute reverse map for named struct Activities
 	// insertion point per field
 
@@ -147,6 +150,10 @@ func (stage *Stage) ComputeReverseMaps() {
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
+	for instance := range stage.Actions {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Activitiess {
 		res = append(res, instance)
 	}
@@ -203,6 +210,11 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (action *Action) GongCopy() GongstructIF {
+	newInstance := *action
+	return &newInstance
+}
+
 func (activities *Activities) GongCopy() GongstructIF {
 	newInstance := *activities
 	return &newInstance
