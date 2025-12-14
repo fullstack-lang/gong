@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldSelect_sql sql.NullBool
+var _ =  dummy_FormFieldSelect_sql
 var dummy_FormFieldSelect_time time.Duration
+var _ = dummy_FormFieldSelect_time
 var dummy_FormFieldSelect_sort sort.Float64Slice
+var _ = dummy_FormFieldSelect_sort
 
 // FormFieldSelectAPI is the input in POST API
 //
@@ -280,8 +283,7 @@ func (backRepoFormFieldSelect *BackRepoFormFieldSelectStruct) CommitPhaseTwoInst
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldSelect intance %s", formfieldselect.Name))
+		err := fmt.Errorf("Unkown FormFieldSelect intance %s", formfieldselect.Name)
 		return err
 	}
 
@@ -417,7 +419,6 @@ func (formfieldselectDB *FormFieldSelectDB) DecodePointers(backRepo *BackRepoStr
 		formfieldselect.Options = append(formfieldselect.Options, backRepo.BackRepoOption.Map_OptionDBID_OptionPtr[uint(_Optionid)])
 	}
 
-	return
 }
 
 // CommitFormFieldSelect allows commit of a single formfieldselect (if already staged)

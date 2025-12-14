@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Path_sql sql.NullBool
+var _ =  dummy_Path_sql
 var dummy_Path_time time.Duration
+var _ = dummy_Path_time
 var dummy_Path_sort sort.Float64Slice
+var _ = dummy_Path_sort
 
 // PathAPI is the input in POST API
 //
@@ -304,8 +307,7 @@ func (backRepoPath *BackRepoPathStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Path intance %s", path.Name))
+		err := fmt.Errorf("Unkown Path intance %s", path.Name)
 		return err
 	}
 
@@ -420,7 +422,6 @@ func (pathDB *PathDB) DecodePointers(backRepo *BackRepoStruct, path *models.Path
 		path.Animates = append(path.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitPath allows commit of a single path (if already staged)

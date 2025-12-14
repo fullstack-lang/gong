@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Slider_sql sql.NullBool
+var _ =  dummy_Slider_sql
 var dummy_Slider_time time.Duration
+var _ = dummy_Slider_time
 var dummy_Slider_sort sort.Float64Slice
+var _ = dummy_Slider_sort
 
 // SliderAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoSlider *BackRepoSliderStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Slider intance %s", slider.Name))
+		err := fmt.Errorf("Unkown Slider intance %s", slider.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoSlider *BackRepoSliderStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (sliderDB *SliderDB) DecodePointers(backRepo *BackRepoStruct, slider *models.Slider) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitSlider allows commit of a single slider (if already staged)

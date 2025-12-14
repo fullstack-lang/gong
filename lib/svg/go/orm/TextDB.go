@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Text_sql sql.NullBool
+var _ =  dummy_Text_sql
 var dummy_Text_time time.Duration
+var _ = dummy_Text_time
 var dummy_Text_sort sort.Float64Slice
+var _ = dummy_Text_sort
 
 // TextAPI is the input in POST API
 //
@@ -352,8 +355,7 @@ func (backRepoText *BackRepoTextStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Text intance %s", text.Name))
+		err := fmt.Errorf("Unkown Text intance %s", text.Name)
 		return err
 	}
 
@@ -468,7 +470,6 @@ func (textDB *TextDB) DecodePointers(backRepo *BackRepoStruct, text *models.Text
 		text.Animates = append(text.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitText allows commit of a single text (if already staged)

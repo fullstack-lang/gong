@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormSortAssocButton_sql sql.NullBool
+var _ =  dummy_FormSortAssocButton_sql
 var dummy_FormSortAssocButton_time time.Duration
+var _ = dummy_FormSortAssocButton_time
 var dummy_FormSortAssocButton_sort sort.Float64Slice
+var _ = dummy_FormSortAssocButton_sort
 
 // FormSortAssocButtonAPI is the input in POST API
 //
@@ -270,8 +273,7 @@ func (backRepoFormSortAssocButton *BackRepoFormSortAssocButtonStruct) CommitPhas
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormSortAssocButton intance %s", formsortassocbutton.Name))
+		err := fmt.Errorf("Unkown FormSortAssocButton intance %s", formsortassocbutton.Name)
 		return err
 	}
 
@@ -398,7 +400,6 @@ func (formsortassocbuttonDB *FormSortAssocButtonDB) DecodePointers(backRepo *Bac
 		}
 	}
 	
-	return
 }
 
 // CommitFormSortAssocButton allows commit of a single formsortassocbutton (if already staged)

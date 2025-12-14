@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FileToDownload_sql sql.NullBool
+var _ =  dummy_FileToDownload_sql
 var dummy_FileToDownload_time time.Duration
+var _ = dummy_FileToDownload_time
 var dummy_FileToDownload_sort sort.Float64Slice
+var _ = dummy_FileToDownload_sort
 
 // FileToDownloadAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoFileToDownload *BackRepoFileToDownloadStruct) CommitPhaseTwoInstan
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FileToDownload intance %s", filetodownload.Name))
+		err := fmt.Errorf("Unkown FileToDownload intance %s", filetodownload.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoFileToDownload *BackRepoFileToDownloadStruct) CheckoutPhaseTwoInst
 func (filetodownloadDB *FileToDownloadDB) DecodePointers(backRepo *BackRepoStruct, filetodownload *models.FileToDownload) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFileToDownload allows commit of a single filetodownload (if already staged)

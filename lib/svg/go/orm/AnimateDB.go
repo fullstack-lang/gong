@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Animate_sql sql.NullBool
+var _ =  dummy_Animate_sql
 var dummy_Animate_time time.Duration
+var _ = dummy_Animate_time
 var dummy_Animate_sort sort.Float64Slice
+var _ = dummy_Animate_sort
 
 // AnimateAPI is the input in POST API
 //
@@ -265,8 +268,7 @@ func (backRepoAnimate *BackRepoAnimateStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Animate intance %s", animate.Name))
+		err := fmt.Errorf("Unkown Animate intance %s", animate.Name)
 		return err
 	}
 
@@ -372,7 +374,6 @@ func (backRepoAnimate *BackRepoAnimateStruct) CheckoutPhaseTwoInstance(backRepo 
 func (animateDB *AnimateDB) DecodePointers(backRepo *BackRepoStruct, animate *models.Animate) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitAnimate allows commit of a single animate (if already staged)

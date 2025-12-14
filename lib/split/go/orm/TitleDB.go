@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Title_sql sql.NullBool
+var _ =  dummy_Title_sql
 var dummy_Title_time time.Duration
+var _ = dummy_Title_time
 var dummy_Title_sort sort.Float64Slice
+var _ = dummy_Title_sort
 
 // TitleAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoTitle *BackRepoTitleStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Title intance %s", title.Name))
+		err := fmt.Errorf("Unkown Title intance %s", title.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoTitle *BackRepoTitleStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 func (titleDB *TitleDB) DecodePointers(backRepo *BackRepoStruct, title *models.Title) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitTitle allows commit of a single title (if already staged)

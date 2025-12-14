@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Command_sql sql.NullBool
+var _ =  dummy_Command_sql
 var dummy_Command_time time.Duration
+var _ = dummy_Command_time
 var dummy_Command_sort sort.Float64Slice
+var _ = dummy_Command_sort
 
 // CommandAPI is the input in POST API
 //
@@ -257,8 +260,7 @@ func (backRepoCommand *BackRepoCommandStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Command intance %s", command.Name))
+		err := fmt.Errorf("Unkown Command intance %s", command.Name)
 		return err
 	}
 
@@ -385,7 +387,6 @@ func (commandDB *CommandDB) DecodePointers(backRepo *BackRepoStruct, command *mo
 		}
 	}
 	
-	return
 }
 
 // CommitCommand allows commit of a single command (if already staged)

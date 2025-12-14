@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Astruct_sql sql.NullBool
+var _ =  dummy_Astruct_sql
 var dummy_Astruct_time time.Duration
+var _ = dummy_Astruct_time
 var dummy_Astruct_sort sort.Float64Slice
+var _ = dummy_Astruct_sort
 
 // AstructAPI is the input in POST API
 //
@@ -594,8 +597,7 @@ func (backRepoAstruct *BackRepoAstructStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Astruct intance %s", astruct.Name))
+		err := fmt.Errorf("Unkown Astruct intance %s", astruct.Name)
 		return err
 	}
 
@@ -944,7 +946,6 @@ func (astructDB *AstructDB) DecodePointers(backRepo *BackRepoStruct, astruct *mo
 		}
 	}
 	
-	return
 }
 
 // CommitAstruct allows commit of a single astruct (if already staged)

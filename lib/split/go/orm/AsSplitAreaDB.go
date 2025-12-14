@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_AsSplitArea_sql sql.NullBool
+var _ =  dummy_AsSplitArea_sql
 var dummy_AsSplitArea_time time.Duration
+var _ = dummy_AsSplitArea_time
 var dummy_AsSplitArea_sort sort.Float64Slice
+var _ = dummy_AsSplitArea_sort
 
 // AsSplitAreaAPI is the input in POST API
 //
@@ -470,8 +473,7 @@ func (backRepoAsSplitArea *BackRepoAsSplitAreaStruct) CommitPhaseTwoInstance(bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown AsSplitArea intance %s", assplitarea.Name))
+		err := fmt.Errorf("Unkown AsSplitArea intance %s", assplitarea.Name)
 		return err
 	}
 
@@ -850,7 +852,6 @@ func (assplitareaDB *AsSplitAreaDB) DecodePointers(backRepo *BackRepoStruct, ass
 		}
 	}
 	
-	return
 }
 
 // CommitAsSplitArea allows commit of a single assplitarea (if already staged)

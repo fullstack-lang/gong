@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Player_sql sql.NullBool
+var _ =  dummy_Player_sql
 var dummy_Player_time time.Duration
+var _ = dummy_Player_time
 var dummy_Player_sort sort.Float64Slice
+var _ = dummy_Player_sort
 
 // PlayerAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoPlayer *BackRepoPlayerStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Player intance %s", player.Name))
+		err := fmt.Errorf("Unkown Player intance %s", player.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoPlayer *BackRepoPlayerStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (playerDB *PlayerDB) DecodePointers(backRepo *BackRepoStruct, player *models.Player) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitPlayer allows commit of a single player (if already staged)

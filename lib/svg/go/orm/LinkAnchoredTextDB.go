@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_LinkAnchoredText_sql sql.NullBool
+var _ =  dummy_LinkAnchoredText_sql
 var dummy_LinkAnchoredText_time time.Duration
+var _ = dummy_LinkAnchoredText_time
 var dummy_LinkAnchoredText_sort sort.Float64Slice
+var _ = dummy_LinkAnchoredText_sort
 
 // LinkAnchoredTextAPI is the input in POST API
 //
@@ -365,8 +368,7 @@ func (backRepoLinkAnchoredText *BackRepoLinkAnchoredTextStruct) CommitPhaseTwoIn
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown LinkAnchoredText intance %s", linkanchoredtext.Name))
+		err := fmt.Errorf("Unkown LinkAnchoredText intance %s", linkanchoredtext.Name)
 		return err
 	}
 
@@ -481,7 +483,6 @@ func (linkanchoredtextDB *LinkAnchoredTextDB) DecodePointers(backRepo *BackRepoS
 		linkanchoredtext.Animates = append(linkanchoredtext.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitLinkAnchoredText allows commit of a single linkanchoredtext (if already staged)

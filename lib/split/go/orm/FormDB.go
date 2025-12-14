@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Form_sql sql.NullBool
+var _ =  dummy_Form_sql
 var dummy_Form_time time.Duration
+var _ = dummy_Form_time
 var dummy_Form_sort sort.Float64Slice
+var _ = dummy_Form_sort
 
 // FormAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoForm *BackRepoFormStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Form intance %s", form.Name))
+		err := fmt.Errorf("Unkown Form intance %s", form.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoForm *BackRepoFormStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (formDB *FormDB) DecodePointers(backRepo *BackRepoStruct, form *models.Form) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitForm allows commit of a single form (if already staged)

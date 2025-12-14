@@ -181,7 +181,7 @@ const (
   Casual HelloType = \"Casual\"
   Formal HelloType = \"Formal\"
 )" > go/models/hello_type.go
-gongc -skipStager=false -level1 go/models
+gongc -level1 go/models
 cd go/cmd/helloworld
 ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage
 cd ../../../..

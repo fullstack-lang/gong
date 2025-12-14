@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Cursor_sql sql.NullBool
+var _ =  dummy_Cursor_sql
 var dummy_Cursor_time time.Duration
+var _ = dummy_Cursor_time
 var dummy_Cursor_sort sort.Float64Slice
+var _ = dummy_Cursor_sort
 
 // CursorAPI is the input in POST API
 //
@@ -241,8 +244,7 @@ func (backRepoCursor *BackRepoCursorStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Cursor intance %s", cursor.Name))
+		err := fmt.Errorf("Unkown Cursor intance %s", cursor.Name)
 		return err
 	}
 
@@ -348,7 +350,6 @@ func (backRepoCursor *BackRepoCursorStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (cursorDB *CursorDB) DecodePointers(backRepo *BackRepoStruct, cursor *models.Cursor) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCursor allows commit of a single cursor (if already staged)

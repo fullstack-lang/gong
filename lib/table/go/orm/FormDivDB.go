@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormDiv_sql sql.NullBool
+var _ =  dummy_FormDiv_sql
 var dummy_FormDiv_time time.Duration
+var _ = dummy_FormDiv_time
 var dummy_FormDiv_sort sort.Float64Slice
+var _ = dummy_FormDiv_sort
 
 // FormDivAPI is the input in POST API
 //
@@ -303,8 +306,7 @@ func (backRepoFormDiv *BackRepoFormDivStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormDiv intance %s", formdiv.Name))
+		err := fmt.Errorf("Unkown FormDiv intance %s", formdiv.Name)
 		return err
 	}
 
@@ -470,7 +472,6 @@ func (formdivDB *FormDivDB) DecodePointers(backRepo *BackRepoStruct, formdiv *mo
 		}
 	}
 	
-	return
 }
 
 // CommitFormDiv allows commit of a single formdiv (if already staged)

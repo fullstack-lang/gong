@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Polyline_sql sql.NullBool
+var _ =  dummy_Polyline_sql
 var dummy_Polyline_time time.Duration
+var _ = dummy_Polyline_time
 var dummy_Polyline_sort sort.Float64Slice
+var _ = dummy_Polyline_sort
 
 // PolylineAPI is the input in POST API
 //
@@ -304,8 +307,7 @@ func (backRepoPolyline *BackRepoPolylineStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Polyline intance %s", polyline.Name))
+		err := fmt.Errorf("Unkown Polyline intance %s", polyline.Name)
 		return err
 	}
 
@@ -420,7 +422,6 @@ func (polylineDB *PolylineDB) DecodePointers(backRepo *BackRepoStruct, polyline 
 		polyline.Animates = append(polyline.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitPolyline allows commit of a single polyline (if already staged)

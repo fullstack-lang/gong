@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Table_sql sql.NullBool
+var _ =  dummy_Table_sql
 var dummy_Table_time time.Duration
+var _ = dummy_Table_time
 var dummy_Table_sort sort.Float64Slice
+var _ = dummy_Table_sort
 
 // TableAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoTable *BackRepoTableStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Table intance %s", table.Name))
+		err := fmt.Errorf("Unkown Table intance %s", table.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoTable *BackRepoTableStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 func (tableDB *TableDB) DecodePointers(backRepo *BackRepoStruct, table *models.Table) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitTable allows commit of a single table (if already staged)

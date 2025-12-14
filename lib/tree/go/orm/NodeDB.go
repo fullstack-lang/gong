@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Node_sql sql.NullBool
+var _ =  dummy_Node_sql
 var dummy_Node_time time.Duration
+var _ = dummy_Node_time
 var dummy_Node_sort sort.Float64Slice
+var _ = dummy_Node_sort
 
 // NodeAPI is the input in POST API
 //
@@ -438,8 +441,7 @@ func (backRepoNode *BackRepoNodeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Node intance %s", node.Name))
+		err := fmt.Errorf("Unkown Node intance %s", node.Name)
 		return err
 	}
 
@@ -584,7 +586,6 @@ func (nodeDB *NodeDB) DecodePointers(backRepo *BackRepoStruct, node *models.Node
 		node.Buttons = append(node.Buttons, backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(_Buttonid)])
 	}
 
-	return
 }
 
 // CommitNode allows commit of a single node (if already staged)

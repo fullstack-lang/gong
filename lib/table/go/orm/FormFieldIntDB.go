@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldInt_sql sql.NullBool
+var _ =  dummy_FormFieldInt_sql
 var dummy_FormFieldInt_time time.Duration
+var _ = dummy_FormFieldInt_time
 var dummy_FormFieldInt_sort sort.Float64Slice
+var _ = dummy_FormFieldInt_sort
 
 // FormFieldIntAPI is the input in POST API
 //
@@ -261,8 +264,7 @@ func (backRepoFormFieldInt *BackRepoFormFieldIntStruct) CommitPhaseTwoInstance(b
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldInt intance %s", formfieldint.Name))
+		err := fmt.Errorf("Unkown FormFieldInt intance %s", formfieldint.Name)
 		return err
 	}
 
@@ -368,7 +370,6 @@ func (backRepoFormFieldInt *BackRepoFormFieldIntStruct) CheckoutPhaseTwoInstance
 func (formfieldintDB *FormFieldIntDB) DecodePointers(backRepo *BackRepoStruct, formfieldint *models.FormFieldInt) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFormFieldInt allows commit of a single formfieldint (if already staged)

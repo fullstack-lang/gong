@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Checkbox_sql sql.NullBool
+var _ =  dummy_Checkbox_sql
 var dummy_Checkbox_time time.Duration
+var _ = dummy_Checkbox_time
 var dummy_Checkbox_sort sort.Float64Slice
+var _ = dummy_Checkbox_sort
 
 // CheckboxAPI is the input in POST API
 //
@@ -248,8 +251,7 @@ func (backRepoCheckbox *BackRepoCheckboxStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Checkbox intance %s", checkbox.Name))
+		err := fmt.Errorf("Unkown Checkbox intance %s", checkbox.Name)
 		return err
 	}
 
@@ -355,7 +357,6 @@ func (backRepoCheckbox *BackRepoCheckboxStruct) CheckoutPhaseTwoInstance(backRep
 func (checkboxDB *CheckboxDB) DecodePointers(backRepo *BackRepoStruct, checkbox *models.Checkbox) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCheckbox allows commit of a single checkbox (if already staged)

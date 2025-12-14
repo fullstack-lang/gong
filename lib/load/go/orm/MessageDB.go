@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Message_sql sql.NullBool
+var _ =  dummy_Message_sql
 var dummy_Message_time time.Duration
+var _ = dummy_Message_time
 var dummy_Message_sort sort.Float64Slice
+var _ = dummy_Message_sort
 
 // MessageAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoMessage *BackRepoMessageStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Message intance %s", message.Name))
+		err := fmt.Errorf("Unkown Message intance %s", message.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoMessage *BackRepoMessageStruct) CheckoutPhaseTwoInstance(backRepo 
 func (messageDB *MessageDB) DecodePointers(backRepo *BackRepoStruct, message *models.Message) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitMessage allows commit of a single message (if already staged)

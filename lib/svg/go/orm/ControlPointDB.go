@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_ControlPoint_sql sql.NullBool
+var _ =  dummy_ControlPoint_sql
 var dummy_ControlPoint_time time.Duration
+var _ = dummy_ControlPoint_time
 var dummy_ControlPoint_sort sort.Float64Slice
+var _ = dummy_ControlPoint_sort
 
 // ControlPointAPI is the input in POST API
 //
@@ -257,8 +260,7 @@ func (backRepoControlPoint *BackRepoControlPointStruct) CommitPhaseTwoInstance(b
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown ControlPoint intance %s", controlpoint.Name))
+		err := fmt.Errorf("Unkown ControlPoint intance %s", controlpoint.Name)
 		return err
 	}
 
@@ -385,7 +387,6 @@ func (controlpointDB *ControlPointDB) DecodePointers(backRepo *BackRepoStruct, c
 		}
 	}
 	
-	return
 }
 
 // CommitControlPoint allows commit of a single controlpoint (if already staged)

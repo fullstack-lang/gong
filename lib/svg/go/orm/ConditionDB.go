@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Condition_sql sql.NullBool
+var _ =  dummy_Condition_sql
 var dummy_Condition_time time.Duration
+var _ = dummy_Condition_time
 var dummy_Condition_sort sort.Float64Slice
+var _ = dummy_Condition_sort
 
 // ConditionAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoCondition *BackRepoConditionStruct) CommitPhaseTwoInstance(backRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Condition intance %s", condition.Name))
+		err := fmt.Errorf("Unkown Condition intance %s", condition.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoCondition *BackRepoConditionStruct) CheckoutPhaseTwoInstance(backR
 func (conditionDB *ConditionDB) DecodePointers(backRepo *BackRepoStruct, condition *models.Condition) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCondition allows commit of a single condition (if already staged)

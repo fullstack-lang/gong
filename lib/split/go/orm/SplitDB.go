@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Split_sql sql.NullBool
+var _ =  dummy_Split_sql
 var dummy_Split_time time.Duration
+var _ = dummy_Split_time
 var dummy_Split_sort sort.Float64Slice
+var _ = dummy_Split_sort
 
 // SplitAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoSplit *BackRepoSplitStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Split intance %s", split.Name))
+		err := fmt.Errorf("Unkown Split intance %s", split.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoSplit *BackRepoSplitStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 func (splitDB *SplitDB) DecodePointers(backRepo *BackRepoStruct, split *models.Split) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitSplit allows commit of a single split (if already staged)

@@ -449,7 +449,7 @@ func init() {
 	generateCmd.Flags().BoolVar(&skipCoder, "skipCoder", true, "do not generate coder file")
 	generateCmd.Flags().BoolVar(&skipSerialize, "skipSerialize", false, "do not generate models/gong_serialize code for xl ouput")
 	generateCmd.Flags().BoolVar(&skipNpmWorkspaces, "skipNpmWorkspaces", false, "do not generate package.json at the root for npm workspaces")
-	generateCmd.Flags().BoolVar(&skipStager, "skipStager", true, "do not generate blolerplate stager.go in models and in main.go")
+	generateCmd.Flags().BoolVar(&skipStager, "skipStager", false, "do not generate blolerplate stager.go in models and in main.go")
 	generateCmd.Flags().BoolVar(&level1, "level1", false, "generates a level1 gong application (implies -skipNg)")
 	generateCmd.Flags().StringVar(&addr, "addr", "localhost:8080/api", "network address addr where the angular generated service will lookup the server")
 	generateCmd.Flags().BoolVar(&run, "run", false, "run 'go run main.go' after compilation")

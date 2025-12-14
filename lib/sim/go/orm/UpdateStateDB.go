@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_UpdateState_sql sql.NullBool
+var _ =  dummy_UpdateState_sql
 var dummy_UpdateState_time time.Duration
+var _ = dummy_UpdateState_time
 var dummy_UpdateState_sort sort.Float64Slice
+var _ = dummy_UpdateState_sort
 
 // UpdateStateAPI is the input in POST API
 //
@@ -241,8 +244,7 @@ func (backRepoUpdateState *BackRepoUpdateStateStruct) CommitPhaseTwoInstance(bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown UpdateState intance %s", updatestate.Name))
+		err := fmt.Errorf("Unkown UpdateState intance %s", updatestate.Name)
 		return err
 	}
 
@@ -348,7 +350,6 @@ func (backRepoUpdateState *BackRepoUpdateStateStruct) CheckoutPhaseTwoInstance(b
 func (updatestateDB *UpdateStateDB) DecodePointers(backRepo *BackRepoStruct, updatestate *models.UpdateState) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitUpdateState allows commit of a single updatestate (if already staged)

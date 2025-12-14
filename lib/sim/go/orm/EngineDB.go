@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Engine_sql sql.NullBool
+var _ =  dummy_Engine_sql
 var dummy_Engine_time time.Duration
+var _ = dummy_Engine_time
 var dummy_Engine_sort sort.Float64Slice
+var _ = dummy_Engine_sort
 
 // EngineAPI is the input in POST API
 //
@@ -277,8 +280,7 @@ func (backRepoEngine *BackRepoEngineStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Engine intance %s", engine.Name))
+		err := fmt.Errorf("Unkown Engine intance %s", engine.Name)
 		return err
 	}
 
@@ -384,7 +386,6 @@ func (backRepoEngine *BackRepoEngineStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (engineDB *EngineDB) DecodePointers(backRepo *BackRepoStruct, engine *models.Engine) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitEngine allows commit of a single engine (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_RectLinkLink_sql sql.NullBool
+var _ =  dummy_RectLinkLink_sql
 var dummy_RectLinkLink_time time.Duration
+var _ = dummy_RectLinkLink_time
 var dummy_RectLinkLink_sort sort.Float64Slice
+var _ = dummy_RectLinkLink_sort
 
 // RectLinkLinkAPI is the input in POST API
 //
@@ -315,8 +318,7 @@ func (backRepoRectLinkLink *BackRepoRectLinkLinkStruct) CommitPhaseTwoInstance(b
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown RectLinkLink intance %s", rectlinklink.Name))
+		err := fmt.Errorf("Unkown RectLinkLink intance %s", rectlinklink.Name)
 		return err
 	}
 
@@ -464,7 +466,6 @@ func (rectlinklinkDB *RectLinkLinkDB) DecodePointers(backRepo *BackRepoStruct, r
 		}
 	}
 	
-	return
 }
 
 // CommitRectLinkLink allows commit of a single rectlinklink (if already staged)

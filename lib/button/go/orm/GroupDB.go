@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Group_sql sql.NullBool
+var _ =  dummy_Group_sql
 var dummy_Group_time time.Duration
+var _ = dummy_Group_time
 var dummy_Group_sort sort.Float64Slice
+var _ = dummy_Group_sort
 
 // GroupAPI is the input in POST API
 //
@@ -262,8 +265,7 @@ func (backRepoGroup *BackRepoGroupStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Group intance %s", group.Name))
+		err := fmt.Errorf("Unkown Group intance %s", group.Name)
 		return err
 	}
 
@@ -378,7 +380,6 @@ func (groupDB *GroupDB) DecodePointers(backRepo *BackRepoStruct, group *models.G
 		group.Buttons = append(group.Buttons, backRepo.BackRepoButton.Map_ButtonDBID_ButtonPtr[uint(_Buttonid)])
 	}
 
-	return
 }
 
 // CommitGroup allows commit of a single group (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Option_sql sql.NullBool
+var _ =  dummy_Option_sql
 var dummy_Option_time time.Duration
+var _ = dummy_Option_time
 var dummy_Option_sort sort.Float64Slice
+var _ = dummy_Option_sort
 
 // OptionAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoOption *BackRepoOptionStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Option intance %s", option.Name))
+		err := fmt.Errorf("Unkown Option intance %s", option.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoOption *BackRepoOptionStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (optionDB *OptionDB) DecodePointers(backRepo *BackRepoStruct, option *models.Option) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitOption allows commit of a single option (if already staged)

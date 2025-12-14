@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Rect_sql sql.NullBool
+var _ =  dummy_Rect_sql
 var dummy_Rect_time time.Duration
+var _ = dummy_Rect_time
 var dummy_Rect_sort sort.Float64Slice
+var _ = dummy_Rect_sort
 
 // RectAPI is the input in POST API
 //
@@ -592,8 +595,7 @@ func (backRepoRect *BackRepoRectStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Rect intance %s", rect.Name))
+		err := fmt.Errorf("Unkown Rect intance %s", rect.Name)
 		return err
 	}
 
@@ -753,7 +755,6 @@ func (rectDB *RectDB) DecodePointers(backRepo *BackRepoStruct, rect *models.Rect
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, backRepo.BackRepoRectAnchoredPath.Map_RectAnchoredPathDBID_RectAnchoredPathPtr[uint(_RectAnchoredPathid)])
 	}
 
-	return
 }
 
 // CommitRect allows commit of a single rect (if already staged)

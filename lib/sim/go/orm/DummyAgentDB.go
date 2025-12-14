@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_DummyAgent_sql sql.NullBool
+var _ =  dummy_DummyAgent_sql
 var dummy_DummyAgent_time time.Duration
+var _ = dummy_DummyAgent_time
 var dummy_DummyAgent_sort sort.Float64Slice
+var _ = dummy_DummyAgent_sort
 
 // DummyAgentAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoDummyAgent *BackRepoDummyAgentStruct) CommitPhaseTwoInstance(backR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown DummyAgent intance %s", dummyagent.Name))
+		err := fmt.Errorf("Unkown DummyAgent intance %s", dummyagent.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoDummyAgent *BackRepoDummyAgentStruct) CheckoutPhaseTwoInstance(bac
 func (dummyagentDB *DummyAgentDB) DecodePointers(backRepo *BackRepoStruct, dummyagent *models.DummyAgent) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitDummyAgent allows commit of a single dummyagent (if already staged)

@@ -5,7 +5,7 @@
         // "gongc" configurations
         //
         {
-            "name": "gong generate /tmp/helloworld -skipStager=false",
+            "name": "gong generate /tmp/helloworld",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -13,11 +13,10 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipStager=false",
             ]
         },
         {
-            "name": "gong generate /tmp/helloworld -level1 -skipStager=false",
+            "name": "gong generate /tmp/helloworld -level1",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -26,7 +25,6 @@
             "args": [
                 "generate",
                 "--level1",
-                "--skipStager=false",
             ]
         },
         {
@@ -185,7 +183,6 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipStager=false",
                 "--skipGoModCommands",
                 "--skipNpmInstall"
             ]
@@ -201,7 +198,6 @@
             "args": [
                 "generate",
                 "--skipNg",
-                "--skipStager=false",
                 "--skipGoModCommands",
                 "--skipNpmInstall"
             ]
@@ -235,7 +231,6 @@
                 "--skipGoModCommands",
                 "--skipNpmInstall",
                 "--skipNpmWorkspaces",
-                "--skipStager=false"
             ]
         },
         {
@@ -252,7 +247,7 @@
             ]
         },
         {
-            "name": "gong generate test -skipGoModCommands -skipNpmWorkspaces -skipStager=false",
+            "name": "gong generate test -skipGoModCommands -skipNpmWorkspaces",
             "type": "go",
             "request": "launch",
             "mode": "debug",
@@ -263,7 +258,6 @@
                 "generate",
                 "--skipGoModCommands",
                 "--skipNpmWorkspaces",
-                "--skipStager=false"
             ]
         },
         {
@@ -737,7 +731,6 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--skipStager=false",
                 "--level1",
                 "--debouncedMarshall=true"
             ]
@@ -763,7 +756,6 @@
             "args": [
                 "generate",
                 "--skipGoModCommands",
-                "--skipStager=false",
                 "--level1"
             ]
         },

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FileToUpload_sql sql.NullBool
+var _ =  dummy_FileToUpload_sql
 var dummy_FileToUpload_time time.Duration
+var _ = dummy_FileToUpload_time
 var dummy_FileToUpload_sort sort.Float64Slice
+var _ = dummy_FileToUpload_sort
 
 // FileToUploadAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoFileToUpload *BackRepoFileToUploadStruct) CommitPhaseTwoInstance(b
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FileToUpload intance %s", filetoupload.Name))
+		err := fmt.Errorf("Unkown FileToUpload intance %s", filetoupload.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoFileToUpload *BackRepoFileToUploadStruct) CheckoutPhaseTwoInstance
 func (filetouploadDB *FileToUploadDB) DecodePointers(backRepo *BackRepoStruct, filetoupload *models.FileToUpload) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFileToUpload allows commit of a single filetoupload (if already staged)

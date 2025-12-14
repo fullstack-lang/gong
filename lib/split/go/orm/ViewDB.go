@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_View_sql sql.NullBool
+var _ =  dummy_View_sql
 var dummy_View_time time.Duration
+var _ = dummy_View_time
 var dummy_View_sort sort.Float64Slice
+var _ = dummy_View_sort
 
 // ViewAPI is the input in POST API
 //
@@ -270,8 +273,7 @@ func (backRepoView *BackRepoViewStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown View intance %s", view.Name))
+		err := fmt.Errorf("Unkown View intance %s", view.Name)
 		return err
 	}
 
@@ -386,7 +388,6 @@ func (viewDB *ViewDB) DecodePointers(backRepo *BackRepoStruct, view *models.View
 		view.RootAsSplitAreas = append(view.RootAsSplitAreas, backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaPtr[uint(_AsSplitAreaid)])
 	}
 
-	return
 }
 
 // CommitView allows commit of a single view (if already staged)

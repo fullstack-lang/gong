@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Cell_sql sql.NullBool
+var _ =  dummy_Cell_sql
 var dummy_Cell_time time.Duration
+var _ = dummy_Cell_time
 var dummy_Cell_sort sort.Float64Slice
+var _ = dummy_Cell_sort
 
 // CellAPI is the input in POST API
 //
@@ -309,8 +312,7 @@ func (backRepoCell *BackRepoCellStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Cell intance %s", cell.Name))
+		err := fmt.Errorf("Unkown Cell intance %s", cell.Name)
 		return err
 	}
 
@@ -521,7 +523,6 @@ func (cellDB *CellDB) DecodePointers(backRepo *BackRepoStruct, cell *models.Cell
 		}
 	}
 	
-	return
 }
 
 // CommitCell allows commit of a single cell (if already staged)

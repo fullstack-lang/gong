@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormField_sql sql.NullBool
+var _ =  dummy_FormField_sql
 var dummy_FormField_time time.Duration
+var _ = dummy_FormField_time
 var dummy_FormField_sort sort.Float64Slice
+var _ = dummy_FormField_sort
 
 // FormFieldAPI is the input in POST API
 //
@@ -385,8 +388,7 @@ func (backRepoFormField *BackRepoFormFieldStruct) CommitPhaseTwoInstance(backRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormField intance %s", formfield.Name))
+		err := fmt.Errorf("Unkown FormField intance %s", formfield.Name)
 		return err
 	}
 
@@ -639,7 +641,6 @@ func (formfieldDB *FormFieldDB) DecodePointers(backRepo *BackRepoStruct, formfie
 		}
 	}
 	
-	return
 }
 
 // CommitFormField allows commit of a single formfield (if already staged)

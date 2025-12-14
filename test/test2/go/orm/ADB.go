@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_A_sql sql.NullBool
+var _ =  dummy_A_sql
 var dummy_A_time time.Duration
+var _ = dummy_A_time
 var dummy_A_sort sort.Float64Slice
+var _ = dummy_A_sort
 
 // AAPI is the input in POST API
 //
@@ -272,8 +275,7 @@ func (backRepoA *BackRepoAStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown A intance %s", a.Name))
+		err := fmt.Errorf("Unkown A intance %s", a.Name)
 		return err
 	}
 
@@ -409,7 +411,6 @@ func (aDB *ADB) DecodePointers(backRepo *BackRepoStruct, a *models.A) {
 		a.Bs = append(a.Bs, backRepo.BackRepoB.Map_BDBID_BPtr[uint(_Bid)])
 	}
 
-	return
 }
 
 // CommitA allows commit of a single a (if already staged)

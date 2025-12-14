@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Link_sql sql.NullBool
+var _ =  dummy_Link_sql
 var dummy_Link_time time.Duration
+var _ = dummy_Link_time
 var dummy_Link_sort sort.Float64Slice
+var _ = dummy_Link_sort
 
 // LinkAPI is the input in POST API
 //
@@ -489,8 +492,7 @@ func (backRepoLink *BackRepoLinkStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Link intance %s", link.Name))
+		err := fmt.Errorf("Unkown Link intance %s", link.Name)
 		return err
 	}
 
@@ -665,7 +667,6 @@ func (linkDB *LinkDB) DecodePointers(backRepo *BackRepoStruct, link *models.Link
 		link.ControlPoints = append(link.ControlPoints, backRepo.BackRepoControlPoint.Map_ControlPointDBID_ControlPointPtr[uint(_ControlPointid)])
 	}
 
-	return
 }
 
 // CommitLink allows commit of a single link (if already staged)

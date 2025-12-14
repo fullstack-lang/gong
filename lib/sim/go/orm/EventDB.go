@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Event_sql sql.NullBool
+var _ =  dummy_Event_sql
 var dummy_Event_time time.Duration
+var _ = dummy_Event_time
 var dummy_Event_sort sort.Float64Slice
+var _ = dummy_Event_sort
 
 // EventAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoEvent *BackRepoEventStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Event intance %s", event.Name))
+		err := fmt.Errorf("Unkown Event intance %s", event.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoEvent *BackRepoEventStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 func (eventDB *EventDB) DecodePointers(backRepo *BackRepoStruct, event *models.Event) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitEvent allows commit of a single event (if already staged)

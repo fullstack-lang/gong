@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Content_sql sql.NullBool
+var _ =  dummy_Content_sql
 var dummy_Content_time time.Duration
+var _ = dummy_Content_time
 var dummy_Content_sort sort.Float64Slice
+var _ = dummy_Content_sort
 
 // ContentAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoContent *BackRepoContentStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Content intance %s", content.Name))
+		err := fmt.Errorf("Unkown Content intance %s", content.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoContent *BackRepoContentStruct) CheckoutPhaseTwoInstance(backRepo 
 func (contentDB *ContentDB) DecodePointers(backRepo *BackRepoStruct, content *models.Content) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitContent allows commit of a single content (if already staged)
