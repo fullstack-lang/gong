@@ -173,7 +173,7 @@ type Diagram_WOP struct {
 
 	Height float64
 
-	NextVerticalDateXMargin float64
+	Width float64
 
 	RedColorCode string
 
@@ -181,63 +181,47 @@ type Diagram_WOP struct {
 
 	GrayColorCode string
 
-	BottomBoxYOffset float64
+	Category1RectAnchorType RectAnchorType
 
-	BottomBoxWidth float64
+	Category1TextAnchorType TextAnchorType
 
-	BottomBoxHeigth float64
+	Category1DominantBaselineType DominantBaselineType
 
-	BottomBoxFontSize string
+	Category1FontSize string
 
-	BottomBoxFontWeigth string
+	Category1FontWeigth string
 
-	BottomBoxFontFamily string
+	Category1FontFamily string
 
-	BottomBoxLetterSpacing string
+	Category1LetterSpacing string
 
-	BottomBoxLetterColorCode string
+	Category2TypeFontSize string
 
-	MovementRectAnchorType RectAnchorType
+	Category2TypeFontWeigth string
 
-	MovementTextAnchorType TextAnchorType
+	Category2TypeFontFamily string
 
-	MovementDominantBaselineType DominantBaselineType
+	Category2TypeLetterSpacing string
 
-	MovementFontSize string
+	Category2TypeRectAnchorType RectAnchorType
 
-	MovementFontWeigth string
+	Category2DominantBaselineType DominantBaselineType
 
-	MovementFontFamily string
+	Category2StrokeWidth float64
 
-	MovementLetterSpacing string
+	Category3RectAnchorType RectAnchorType
 
-	ArtefactTypeFontSize string
+	Category3TextAnchorType TextAnchorType
 
-	ArtefactTypeFontWeigth string
+	Category3DominantBaselineType DominantBaselineType
 
-	ArtefactTypeFontFamily string
+	Category3FontSize string
 
-	ArtefactTypeLetterSpacing string
+	Category3FontWeigth string
 
-	ArtefactTypeRectAnchorType RectAnchorType
+	Category3FontFamily string
 
-	ArtefactDominantBaselineType DominantBaselineType
-
-	ArtefactTypeStrokeWidth float64
-
-	ArtistRectAnchorType RectAnchorType
-
-	ArtistTextAnchorType TextAnchorType
-
-	ArtistDominantBaselineType DominantBaselineType
-
-	ArtistFontSize string
-
-	ArtistFontWeigth string
-
-	ArtistFontFamily string
-
-	ArtistLetterSpacing string
+	Category3LetterSpacing string
 
 	InfluenceArrowSize float64
 
@@ -266,39 +250,31 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.XMargin = from.XMargin
 	to.YMargin = from.YMargin
 	to.Height = from.Height
-	to.NextVerticalDateXMargin = from.NextVerticalDateXMargin
+	to.Width = from.Width
 	to.RedColorCode = from.RedColorCode
 	to.BackgroundGreyColorCode = from.BackgroundGreyColorCode
 	to.GrayColorCode = from.GrayColorCode
-	to.BottomBoxYOffset = from.BottomBoxYOffset
-	to.BottomBoxWidth = from.BottomBoxWidth
-	to.BottomBoxHeigth = from.BottomBoxHeigth
-	to.BottomBoxFontSize = from.BottomBoxFontSize
-	to.BottomBoxFontWeigth = from.BottomBoxFontWeigth
-	to.BottomBoxFontFamily = from.BottomBoxFontFamily
-	to.BottomBoxLetterSpacing = from.BottomBoxLetterSpacing
-	to.BottomBoxLetterColorCode = from.BottomBoxLetterColorCode
-	to.MovementRectAnchorType = from.MovementRectAnchorType
-	to.MovementTextAnchorType = from.MovementTextAnchorType
-	to.MovementDominantBaselineType = from.MovementDominantBaselineType
-	to.MovementFontSize = from.MovementFontSize
-	to.MovementFontWeigth = from.MovementFontWeigth
-	to.MovementFontFamily = from.MovementFontFamily
-	to.MovementLetterSpacing = from.MovementLetterSpacing
-	to.ArtefactTypeFontSize = from.ArtefactTypeFontSize
-	to.ArtefactTypeFontWeigth = from.ArtefactTypeFontWeigth
-	to.ArtefactTypeFontFamily = from.ArtefactTypeFontFamily
-	to.ArtefactTypeLetterSpacing = from.ArtefactTypeLetterSpacing
-	to.ArtefactTypeRectAnchorType = from.ArtefactTypeRectAnchorType
-	to.ArtefactDominantBaselineType = from.ArtefactDominantBaselineType
-	to.ArtefactTypeStrokeWidth = from.ArtefactTypeStrokeWidth
-	to.ArtistRectAnchorType = from.ArtistRectAnchorType
-	to.ArtistTextAnchorType = from.ArtistTextAnchorType
-	to.ArtistDominantBaselineType = from.ArtistDominantBaselineType
-	to.ArtistFontSize = from.ArtistFontSize
-	to.ArtistFontWeigth = from.ArtistFontWeigth
-	to.ArtistFontFamily = from.ArtistFontFamily
-	to.ArtistLetterSpacing = from.ArtistLetterSpacing
+	to.Category1RectAnchorType = from.Category1RectAnchorType
+	to.Category1TextAnchorType = from.Category1TextAnchorType
+	to.Category1DominantBaselineType = from.Category1DominantBaselineType
+	to.Category1FontSize = from.Category1FontSize
+	to.Category1FontWeigth = from.Category1FontWeigth
+	to.Category1FontFamily = from.Category1FontFamily
+	to.Category1LetterSpacing = from.Category1LetterSpacing
+	to.Category2TypeFontSize = from.Category2TypeFontSize
+	to.Category2TypeFontWeigth = from.Category2TypeFontWeigth
+	to.Category2TypeFontFamily = from.Category2TypeFontFamily
+	to.Category2TypeLetterSpacing = from.Category2TypeLetterSpacing
+	to.Category2TypeRectAnchorType = from.Category2TypeRectAnchorType
+	to.Category2DominantBaselineType = from.Category2DominantBaselineType
+	to.Category2StrokeWidth = from.Category2StrokeWidth
+	to.Category3RectAnchorType = from.Category3RectAnchorType
+	to.Category3TextAnchorType = from.Category3TextAnchorType
+	to.Category3DominantBaselineType = from.Category3DominantBaselineType
+	to.Category3FontSize = from.Category3FontSize
+	to.Category3FontWeigth = from.Category3FontWeigth
+	to.Category3FontFamily = from.Category3FontFamily
+	to.Category3LetterSpacing = from.Category3LetterSpacing
 	to.InfluenceArrowSize = from.InfluenceArrowSize
 	to.InfluenceArrowStartOffset = from.InfluenceArrowStartOffset
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset

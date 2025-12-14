@@ -26,12 +26,12 @@ func (stager *Stager) ComputeConsistency() {
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
-		if diagram.MovementRectAnchorType == "" {
-			diagram.MovementRectAnchorType = RECT_RIGHT
+		if diagram.Category1RectAnchorType == "" {
+			diagram.Category1RectAnchorType = RECT_RIGHT
 			needCommit = true
 		}
-		if diagram.MovementTextAnchorType == "" {
-			diagram.MovementTextAnchorType = TEXT_ANCHOR_END
+		if diagram.Category1TextAnchorType == "" {
+			diagram.Category1TextAnchorType = TEXT_ANCHOR_END
 			needCommit = true
 		}
 	}

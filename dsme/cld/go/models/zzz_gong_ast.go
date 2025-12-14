@@ -1097,13 +1097,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].Height = exprSign * fielValue
-				case "NextVerticalDateXMargin":
+				case "Width":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].NextVerticalDateXMargin = exprSign * fielValue
+					__gong__map_Diagram[identifier].Width = exprSign * fielValue
 				case "RedColorCode":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1116,102 +1116,61 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].GrayColorCode = fielValue
-				case "BottomBoxYOffset":
+				case "Category1FontSize":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category1FontSize = fielValue
+				case "Category1FontWeigth":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category1FontWeigth = fielValue
+				case "Category1FontFamily":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category1FontFamily = fielValue
+				case "Category1LetterSpacing":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category1LetterSpacing = fielValue
+				case "Category2TypeFontSize":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category2TypeFontSize = fielValue
+				case "Category2TypeFontWeigth":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category2TypeFontWeigth = fielValue
+				case "Category2TypeFontFamily":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category2TypeFontFamily = fielValue
+				case "Category2TypeLetterSpacing":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].Category2TypeLetterSpacing = fielValue
+				case "Category2StrokeWidth":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].BottomBoxYOffset = exprSign * fielValue
-				case "BottomBoxWidth":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].BottomBoxWidth = exprSign * fielValue
-				case "BottomBoxHeigth":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].BottomBoxHeigth = exprSign * fielValue
-				case "BottomBoxFontSize":
+					__gong__map_Diagram[identifier].Category2StrokeWidth = exprSign * fielValue
+				case "Category3FontSize":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].BottomBoxFontSize = fielValue
-				case "BottomBoxFontWeigth":
+					__gong__map_Diagram[identifier].Category3FontSize = fielValue
+				case "Category3FontWeigth":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].BottomBoxFontWeigth = fielValue
-				case "BottomBoxFontFamily":
+					__gong__map_Diagram[identifier].Category3FontWeigth = fielValue
+				case "Category3FontFamily":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].BottomBoxFontFamily = fielValue
-				case "BottomBoxLetterSpacing":
+					__gong__map_Diagram[identifier].Category3FontFamily = fielValue
+				case "Category3LetterSpacing":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].BottomBoxLetterSpacing = fielValue
-				case "BottomBoxLetterColorCode":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].BottomBoxLetterColorCode = fielValue
-				case "MovementFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementFontSize = fielValue
-				case "MovementFontWeigth":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementFontWeigth = fielValue
-				case "MovementFontFamily":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementFontFamily = fielValue
-				case "MovementLetterSpacing":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementLetterSpacing = fielValue
-				case "ArtefactTypeFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtefactTypeFontSize = fielValue
-				case "ArtefactTypeFontWeigth":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtefactTypeFontWeigth = fielValue
-				case "ArtefactTypeFontFamily":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtefactTypeFontFamily = fielValue
-				case "ArtefactTypeLetterSpacing":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtefactTypeLetterSpacing = fielValue
-				case "ArtefactTypeStrokeWidth":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].ArtefactTypeStrokeWidth = exprSign * fielValue
-				case "ArtistFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistFontSize = fielValue
-				case "ArtistFontWeigth":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistFontWeigth = fielValue
-				case "ArtistFontFamily":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistFontFamily = fielValue
-				case "ArtistLetterSpacing":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistLetterSpacing = fielValue
+					__gong__map_Diagram[identifier].Category3LetterSpacing = fielValue
 				case "InfluenceArrowSize":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1530,62 +1489,62 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Diagram":
 					switch fieldName {
 					// insertion point for selector expr assign code
-					case "MovementRectAnchorType":
+					case "Category1RectAnchorType":
 						var val RectAnchorType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].MovementRectAnchorType = RectAnchorType(val)
-					case "MovementTextAnchorType":
+						__gong__map_Diagram[identifier].Category1RectAnchorType = RectAnchorType(val)
+					case "Category1TextAnchorType":
 						var val TextAnchorType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].MovementTextAnchorType = TextAnchorType(val)
-					case "MovementDominantBaselineType":
+						__gong__map_Diagram[identifier].Category1TextAnchorType = TextAnchorType(val)
+					case "Category1DominantBaselineType":
 						var val DominantBaselineType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].MovementDominantBaselineType = DominantBaselineType(val)
-					case "ArtefactTypeRectAnchorType":
+						__gong__map_Diagram[identifier].Category1DominantBaselineType = DominantBaselineType(val)
+					case "Category2TypeRectAnchorType":
 						var val RectAnchorType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].ArtefactTypeRectAnchorType = RectAnchorType(val)
-					case "ArtefactDominantBaselineType":
+						__gong__map_Diagram[identifier].Category2TypeRectAnchorType = RectAnchorType(val)
+					case "Category2DominantBaselineType":
 						var val DominantBaselineType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].ArtefactDominantBaselineType = DominantBaselineType(val)
-					case "ArtistRectAnchorType":
+						__gong__map_Diagram[identifier].Category2DominantBaselineType = DominantBaselineType(val)
+					case "Category3RectAnchorType":
 						var val RectAnchorType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].ArtistRectAnchorType = RectAnchorType(val)
-					case "ArtistTextAnchorType":
+						__gong__map_Diagram[identifier].Category3RectAnchorType = RectAnchorType(val)
+					case "Category3TextAnchorType":
 						var val TextAnchorType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].ArtistTextAnchorType = TextAnchorType(val)
-					case "ArtistDominantBaselineType":
+						__gong__map_Diagram[identifier].Category3TextAnchorType = TextAnchorType(val)
+					case "Category3DominantBaselineType":
 						var val DominantBaselineType
 						err := (&val).FromCodeString(enumValue)
 						if err != nil {
 							log.Fatalln(err)
 						}
-						__gong__map_Diagram[identifier].ArtistDominantBaselineType = DominantBaselineType(val)
+						__gong__map_Diagram[identifier].Category3DominantBaselineType = DominantBaselineType(val)
 					}
 				case "Influence":
 					switch fieldName {

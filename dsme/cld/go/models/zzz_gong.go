@@ -2911,7 +2911,7 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "NextVerticalDateXMargin",
+			Name:               "Width",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -2927,119 +2927,87 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxYOffset",
+			Name:               "Category1RectAnchorType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxWidth",
+			Name:               "Category1TextAnchorType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxHeigth",
+			Name:               "Category1DominantBaselineType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxFontSize",
+			Name:               "Category1FontSize",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxFontWeigth",
+			Name:               "Category1FontWeigth",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxFontFamily",
+			Name:               "Category1FontFamily",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxLetterSpacing",
+			Name:               "Category1LetterSpacing",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "BottomBoxLetterColorCode",
+			Name:               "Category2TypeFontSize",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementRectAnchorType",
+			Name:               "Category2TypeFontWeigth",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementTextAnchorType",
+			Name:               "Category2TypeFontFamily",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementDominantBaselineType",
+			Name:               "Category2TypeLetterSpacing",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementFontSize",
+			Name:               "Category2TypeRectAnchorType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementFontWeigth",
+			Name:               "Category2DominantBaselineType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementFontFamily",
+			Name:               "Category2StrokeWidth",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "MovementLetterSpacing",
+			Name:               "Category3RectAnchorType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactTypeFontSize",
+			Name:               "Category3TextAnchorType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactTypeFontWeigth",
+			Name:               "Category3DominantBaselineType",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactTypeFontFamily",
+			Name:               "Category3FontSize",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactTypeLetterSpacing",
+			Name:               "Category3FontWeigth",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactTypeRectAnchorType",
+			Name:               "Category3FontFamily",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ArtefactDominantBaselineType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtefactTypeStrokeWidth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistRectAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistTextAnchorType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistDominantBaselineType",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistFontSize",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistFontWeigth",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistFontFamily",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "ArtistLetterSpacing",
+			Name:               "Category3LetterSpacing",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -3431,9 +3399,9 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.Height)
 		res.valueFloat = diagram.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "NextVerticalDateXMargin":
-		res.valueString = fmt.Sprintf("%f", diagram.NextVerticalDateXMargin)
-		res.valueFloat = diagram.NextVerticalDateXMargin
+	case "Width":
+		res.valueString = fmt.Sprintf("%f", diagram.Width)
+		res.valueFloat = diagram.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RedColorCode":
 		res.valueString = diagram.RedColorCode
@@ -3441,80 +3409,58 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.BackgroundGreyColorCode
 	case "GrayColorCode":
 		res.valueString = diagram.GrayColorCode
-	case "BottomBoxYOffset":
-		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxYOffset)
-		res.valueFloat = diagram.BottomBoxYOffset
+	case "Category1RectAnchorType":
+		enum := diagram.Category1RectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "Category1TextAnchorType":
+		enum := diagram.Category1TextAnchorType
+		res.valueString = enum.ToCodeString()
+	case "Category1DominantBaselineType":
+		enum := diagram.Category1DominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "Category1FontSize":
+		res.valueString = diagram.Category1FontSize
+	case "Category1FontWeigth":
+		res.valueString = diagram.Category1FontWeigth
+	case "Category1FontFamily":
+		res.valueString = diagram.Category1FontFamily
+	case "Category1LetterSpacing":
+		res.valueString = diagram.Category1LetterSpacing
+	case "Category2TypeFontSize":
+		res.valueString = diagram.Category2TypeFontSize
+	case "Category2TypeFontWeigth":
+		res.valueString = diagram.Category2TypeFontWeigth
+	case "Category2TypeFontFamily":
+		res.valueString = diagram.Category2TypeFontFamily
+	case "Category2TypeLetterSpacing":
+		res.valueString = diagram.Category2TypeLetterSpacing
+	case "Category2TypeRectAnchorType":
+		enum := diagram.Category2TypeRectAnchorType
+		res.valueString = enum.ToCodeString()
+	case "Category2DominantBaselineType":
+		enum := diagram.Category2DominantBaselineType
+		res.valueString = enum.ToCodeString()
+	case "Category2StrokeWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.Category2StrokeWidth)
+		res.valueFloat = diagram.Category2StrokeWidth
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "BottomBoxWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxWidth)
-		res.valueFloat = diagram.BottomBoxWidth
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "BottomBoxHeigth":
-		res.valueString = fmt.Sprintf("%f", diagram.BottomBoxHeigth)
-		res.valueFloat = diagram.BottomBoxHeigth
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "BottomBoxFontSize":
-		res.valueString = diagram.BottomBoxFontSize
-	case "BottomBoxFontWeigth":
-		res.valueString = diagram.BottomBoxFontWeigth
-	case "BottomBoxFontFamily":
-		res.valueString = diagram.BottomBoxFontFamily
-	case "BottomBoxLetterSpacing":
-		res.valueString = diagram.BottomBoxLetterSpacing
-	case "BottomBoxLetterColorCode":
-		res.valueString = diagram.BottomBoxLetterColorCode
-	case "MovementRectAnchorType":
-		enum := diagram.MovementRectAnchorType
+	case "Category3RectAnchorType":
+		enum := diagram.Category3RectAnchorType
 		res.valueString = enum.ToCodeString()
-	case "MovementTextAnchorType":
-		enum := diagram.MovementTextAnchorType
+	case "Category3TextAnchorType":
+		enum := diagram.Category3TextAnchorType
 		res.valueString = enum.ToCodeString()
-	case "MovementDominantBaselineType":
-		enum := diagram.MovementDominantBaselineType
+	case "Category3DominantBaselineType":
+		enum := diagram.Category3DominantBaselineType
 		res.valueString = enum.ToCodeString()
-	case "MovementFontSize":
-		res.valueString = diagram.MovementFontSize
-	case "MovementFontWeigth":
-		res.valueString = diagram.MovementFontWeigth
-	case "MovementFontFamily":
-		res.valueString = diagram.MovementFontFamily
-	case "MovementLetterSpacing":
-		res.valueString = diagram.MovementLetterSpacing
-	case "ArtefactTypeFontSize":
-		res.valueString = diagram.ArtefactTypeFontSize
-	case "ArtefactTypeFontWeigth":
-		res.valueString = diagram.ArtefactTypeFontWeigth
-	case "ArtefactTypeFontFamily":
-		res.valueString = diagram.ArtefactTypeFontFamily
-	case "ArtefactTypeLetterSpacing":
-		res.valueString = diagram.ArtefactTypeLetterSpacing
-	case "ArtefactTypeRectAnchorType":
-		enum := diagram.ArtefactTypeRectAnchorType
-		res.valueString = enum.ToCodeString()
-	case "ArtefactDominantBaselineType":
-		enum := diagram.ArtefactDominantBaselineType
-		res.valueString = enum.ToCodeString()
-	case "ArtefactTypeStrokeWidth":
-		res.valueString = fmt.Sprintf("%f", diagram.ArtefactTypeStrokeWidth)
-		res.valueFloat = diagram.ArtefactTypeStrokeWidth
-		res.GongFieldValueType = GongFieldValueTypeFloat
-	case "ArtistRectAnchorType":
-		enum := diagram.ArtistRectAnchorType
-		res.valueString = enum.ToCodeString()
-	case "ArtistTextAnchorType":
-		enum := diagram.ArtistTextAnchorType
-		res.valueString = enum.ToCodeString()
-	case "ArtistDominantBaselineType":
-		enum := diagram.ArtistDominantBaselineType
-		res.valueString = enum.ToCodeString()
-	case "ArtistFontSize":
-		res.valueString = diagram.ArtistFontSize
-	case "ArtistFontWeigth":
-		res.valueString = diagram.ArtistFontWeigth
-	case "ArtistFontFamily":
-		res.valueString = diagram.ArtistFontFamily
-	case "ArtistLetterSpacing":
-		res.valueString = diagram.ArtistLetterSpacing
+	case "Category3FontSize":
+		res.valueString = diagram.Category3FontSize
+	case "Category3FontWeigth":
+		res.valueString = diagram.Category3FontWeigth
+	case "Category3FontFamily":
+		res.valueString = diagram.Category3FontFamily
+	case "Category3LetterSpacing":
+		res.valueString = diagram.Category3LetterSpacing
 	case "InfluenceArrowSize":
 		res.valueString = fmt.Sprintf("%f", diagram.InfluenceArrowSize)
 		res.valueFloat = diagram.InfluenceArrowSize
@@ -3864,72 +3810,56 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.YMargin = value.GetValueFloat()
 	case "Height":
 		diagram.Height = value.GetValueFloat()
-	case "NextVerticalDateXMargin":
-		diagram.NextVerticalDateXMargin = value.GetValueFloat()
+	case "Width":
+		diagram.Width = value.GetValueFloat()
 	case "RedColorCode":
 		diagram.RedColorCode = value.GetValueString()
 	case "BackgroundGreyColorCode":
 		diagram.BackgroundGreyColorCode = value.GetValueString()
 	case "GrayColorCode":
 		diagram.GrayColorCode = value.GetValueString()
-	case "BottomBoxYOffset":
-		diagram.BottomBoxYOffset = value.GetValueFloat()
-	case "BottomBoxWidth":
-		diagram.BottomBoxWidth = value.GetValueFloat()
-	case "BottomBoxHeigth":
-		diagram.BottomBoxHeigth = value.GetValueFloat()
-	case "BottomBoxFontSize":
-		diagram.BottomBoxFontSize = value.GetValueString()
-	case "BottomBoxFontWeigth":
-		diagram.BottomBoxFontWeigth = value.GetValueString()
-	case "BottomBoxFontFamily":
-		diagram.BottomBoxFontFamily = value.GetValueString()
-	case "BottomBoxLetterSpacing":
-		diagram.BottomBoxLetterSpacing = value.GetValueString()
-	case "BottomBoxLetterColorCode":
-		diagram.BottomBoxLetterColorCode = value.GetValueString()
-	case "MovementRectAnchorType":
-		diagram.MovementRectAnchorType.FromCodeString(value.GetValueString())
-	case "MovementTextAnchorType":
-		diagram.MovementTextAnchorType.FromCodeString(value.GetValueString())
-	case "MovementDominantBaselineType":
-		diagram.MovementDominantBaselineType.FromCodeString(value.GetValueString())
-	case "MovementFontSize":
-		diagram.MovementFontSize = value.GetValueString()
-	case "MovementFontWeigth":
-		diagram.MovementFontWeigth = value.GetValueString()
-	case "MovementFontFamily":
-		diagram.MovementFontFamily = value.GetValueString()
-	case "MovementLetterSpacing":
-		diagram.MovementLetterSpacing = value.GetValueString()
-	case "ArtefactTypeFontSize":
-		diagram.ArtefactTypeFontSize = value.GetValueString()
-	case "ArtefactTypeFontWeigth":
-		diagram.ArtefactTypeFontWeigth = value.GetValueString()
-	case "ArtefactTypeFontFamily":
-		diagram.ArtefactTypeFontFamily = value.GetValueString()
-	case "ArtefactTypeLetterSpacing":
-		diagram.ArtefactTypeLetterSpacing = value.GetValueString()
-	case "ArtefactTypeRectAnchorType":
-		diagram.ArtefactTypeRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtefactDominantBaselineType":
-		diagram.ArtefactDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtefactTypeStrokeWidth":
-		diagram.ArtefactTypeStrokeWidth = value.GetValueFloat()
-	case "ArtistRectAnchorType":
-		diagram.ArtistRectAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistTextAnchorType":
-		diagram.ArtistTextAnchorType.FromCodeString(value.GetValueString())
-	case "ArtistDominantBaselineType":
-		diagram.ArtistDominantBaselineType.FromCodeString(value.GetValueString())
-	case "ArtistFontSize":
-		diagram.ArtistFontSize = value.GetValueString()
-	case "ArtistFontWeigth":
-		diagram.ArtistFontWeigth = value.GetValueString()
-	case "ArtistFontFamily":
-		diagram.ArtistFontFamily = value.GetValueString()
-	case "ArtistLetterSpacing":
-		diagram.ArtistLetterSpacing = value.GetValueString()
+	case "Category1RectAnchorType":
+		diagram.Category1RectAnchorType.FromCodeString(value.GetValueString())
+	case "Category1TextAnchorType":
+		diagram.Category1TextAnchorType.FromCodeString(value.GetValueString())
+	case "Category1DominantBaselineType":
+		diagram.Category1DominantBaselineType.FromCodeString(value.GetValueString())
+	case "Category1FontSize":
+		diagram.Category1FontSize = value.GetValueString()
+	case "Category1FontWeigth":
+		diagram.Category1FontWeigth = value.GetValueString()
+	case "Category1FontFamily":
+		diagram.Category1FontFamily = value.GetValueString()
+	case "Category1LetterSpacing":
+		diagram.Category1LetterSpacing = value.GetValueString()
+	case "Category2TypeFontSize":
+		diagram.Category2TypeFontSize = value.GetValueString()
+	case "Category2TypeFontWeigth":
+		diagram.Category2TypeFontWeigth = value.GetValueString()
+	case "Category2TypeFontFamily":
+		diagram.Category2TypeFontFamily = value.GetValueString()
+	case "Category2TypeLetterSpacing":
+		diagram.Category2TypeLetterSpacing = value.GetValueString()
+	case "Category2TypeRectAnchorType":
+		diagram.Category2TypeRectAnchorType.FromCodeString(value.GetValueString())
+	case "Category2DominantBaselineType":
+		diagram.Category2DominantBaselineType.FromCodeString(value.GetValueString())
+	case "Category2StrokeWidth":
+		diagram.Category2StrokeWidth = value.GetValueFloat()
+	case "Category3RectAnchorType":
+		diagram.Category3RectAnchorType.FromCodeString(value.GetValueString())
+	case "Category3TextAnchorType":
+		diagram.Category3TextAnchorType.FromCodeString(value.GetValueString())
+	case "Category3DominantBaselineType":
+		diagram.Category3DominantBaselineType.FromCodeString(value.GetValueString())
+	case "Category3FontSize":
+		diagram.Category3FontSize = value.GetValueString()
+	case "Category3FontWeigth":
+		diagram.Category3FontWeigth = value.GetValueString()
+	case "Category3FontFamily":
+		diagram.Category3FontFamily = value.GetValueString()
+	case "Category3LetterSpacing":
+		diagram.Category3LetterSpacing = value.GetValueString()
 	case "InfluenceArrowSize":
 		diagram.InfluenceArrowSize = value.GetValueFloat()
 	case "InfluenceArrowStartOffset":
