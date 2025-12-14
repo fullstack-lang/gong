@@ -77,7 +77,7 @@ func ComputePkgPathFromGoModFile(pkgPathArg string) (pkgName, fullPkgPath string
 	}
 
 	if goModFileMissing {
-		log.Printf("gongc get the gong package with latest commit")
+		log.Printf("gong get the gong package with latest commit")
 		cmd := exec.Command("go", "get", "github.com/fullstack-lang/gong@main")
 		cmd.Dir, _ = filepath.Abs(filepath.Join(pkgPathArg, "../.."))
 		log.Printf("Running %s command in directory %s and waiting for it to finish...\n", cmd.Args, cmd.Dir)

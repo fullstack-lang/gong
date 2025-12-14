@@ -4,7 +4,7 @@ import (
 	"strings"
 )
 
-// GongStruct is a go struct that is selected by the gongc compiler
+// GongStruct is a go struct that is selected by the gong generate compiler
 // swagger:model
 type GongStruct struct {
 	Name string
@@ -13,7 +13,7 @@ type GongStruct struct {
 	// swagger:ignore
 	Fields []FieldInterface `gorm:"-"`
 
-	// Slice of Fields by their type (not populated by the gongc)
+	// Slice of Fields by their type (not populated by the gong generate)
 	GongBasicFields                  []*GongBasicField
 	GongTimeFields                   []*GongTimeField
 	PointerToGongStructFields        []*PointerToGongStructField

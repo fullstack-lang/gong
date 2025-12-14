@@ -45,7 +45,7 @@ var generateCmd = &cobra.Command{
 	Aliases: []string{"g"},
 	Args:    cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		log.SetPrefix("gongc: ")
+		log.SetPrefix("gong: ")
 		log.SetFlags(0)
 
 		if level1 {
@@ -262,7 +262,7 @@ var generateCmd = &cobra.Command{
 			diagramsDocFilePath := filepath.Join(pkgPath, "../diagrams/docs.go")
 			_, errd := os.Stat(diagramsDocFilePath)
 			if os.IsNotExist(errd) {
-				log.Printf("../diagrams/docs.go does not exist, gongc creates a default one")
+				log.Printf("../diagrams/docs.go does not exist, gong generate creates a default one")
 
 				diagramsDocFileDirPath := filepath.Dir(diagramsDocFilePath)
 				diagramsDocFileDirAbsPath, _ := filepath.Abs(diagramsDocFileDirPath)
@@ -288,7 +288,7 @@ var generateCmd = &cobra.Command{
 
 			_, errd := os.Stat(vscodeDirFilePath)
 			if os.IsNotExist(errd) {
-				log.Printf(".vscode directory does not exist, gongc creates a default .vscode directory and the debug and launch configs")
+				log.Printf(".vscode directory does not exist, gong generate creates a default .vscode directory and the debug and launch configs")
 
 				errd := os.MkdirAll(vscodeDirFilePath, os.ModePerm)
 				if os.IsNotExist(errd) {

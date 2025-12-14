@@ -12,7 +12,7 @@ var cleanCmd = &cobra.Command{
 	Short: "Removes generated files",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		log.SetPrefix("gongc: ")
+		log.SetPrefix("gong: ")
 		log.SetFlags(0)
 
 		var pkgPath string
