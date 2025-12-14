@@ -3,9 +3,12 @@ package models
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
+
+const HeightBetween2AttributeShapes = 20
 
 type diagramInterface interface {
 	IsEditable() bool
@@ -64,30 +67,67 @@ func (stager *Stager) svgGenerateRect(
 		// rect.FillOpacity = 0.3
 	}
 
-	rectAnchoredText := new(svg.RectAnchoredText)
-	rectAnchoredText.Name = state.Name
-	rectAnchoredText.Content = state.Name
+	stateTitleText := new(svg.RectAnchoredText)
+	{
+		stateTitleText.Name = state.Name
+		stateTitleText.Content = state.Name
 
-	if rect.Width > 0 {
-		rectAnchoredText.Content = WrapString(stateShape.State.Name, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		if rect.Width > 0 {
+			stateTitleText.Content = WrapString(stateShape.State.Name, int(rect.Width/stager.architecture.NbPixPerCharacter))
+		}
+		stateTitleText.Stroke = svg.Black.ToString()
+		stateTitleText.StrokeWidth = 1
+		stateTitleText.StrokeOpacity = 1
+		stateTitleText.Color = svg.Black.ToString()
+		stateTitleText.FillOpacity = 1
+
+		stateTitleText.FontSize = "16px"
+		stateTitleText.X_Offset = 0
+		stateTitleText.Y_Offset = 30
+		stateTitleText.RectAnchorType = svg.RECT_TOP
+		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, stateTitleText)
 	}
-	rectAnchoredText.Stroke = svg.Black.ToString()
-	rectAnchoredText.StrokeWidth = 1
-	rectAnchoredText.StrokeOpacity = 1
-	rectAnchoredText.Color = svg.Black.ToString()
-	rectAnchoredText.FillOpacity = 1
 
-	rectAnchoredText.FontSize = "16px"
-	rectAnchoredText.X_Offset = 0
-	rectAnchoredText.Y_Offset = 30
-	rectAnchoredText.RectAnchorType = svg.RECT_TOP
-	rectAnchoredText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+	// add the /Do actions
+	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
+	for _, doAction := range state.DoActions {
+		{
+			doActionText := new(svg.RectAnchoredText)
+			doActionText.Name = doAction.Name
+			content := "/do " + doAction.Name
 
-	rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, rectAnchoredText)
+			if rect.Width > 0 {
+				content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+			}
+			doActionText.Content = content
+			doActionText.Stroke = svg.Black.ToString()
+			doActionText.StrokeWidth = 1
+			doActionText.StrokeOpacity = 1
+			doActionText.Color = svg.Black.ToString()
+			doActionText.FillOpacity = 1
+
+			if doAction.Criticality == DoActionCritical {
+				doActionText.Stroke = svg.Red.ToString()
+				doActionText.Color = svg.Red.ToString()
+			}
+
+			doActionText.FontSize = "16px"
+			doActionText.X_Offset = 0
+			doActionText.Y_Offset = currentY_Offset
+			doActionText.RectAnchorType = svg.RECT_TOP
+			doActionText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, doActionText)
+
+			currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(doActionText.Content, "\n")))
+		}
+	}
 
 	if state.IsDecisionNode {
-		rectAnchoredText.TextAnchorType = svg.TEXT_ANCHOR_START
-		rectAnchoredText.RectAnchorType = svg.RECT_TOP_LEFT
+		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
 
 		diamond := new(svg.RectAnchoredPath)
 		diamond.Stroke = svg.Black.ToString()
@@ -99,7 +139,7 @@ func (stager *Stager) svgGenerateRect(
 		diamond.Definition = "M 25 0 L 50 25 L 25 50 L 0 25 Z"
 		diamond.X_Offset = -50
 		diamond.Y_Offset = -25
-		rectAnchoredText.X_Offset = -25
+		stateTitleText.X_Offset = -25
 		diamond.RectAnchorType = svg.RECT_RIGHT
 		rect.Height = 50
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, diamond)
@@ -117,12 +157,12 @@ func (stager *Stager) svgGenerateRect(
 	}
 
 	if isStartState {
-		rectAnchoredText.TextAnchorType = svg.TEXT_ANCHOR_START
-		rectAnchoredText.RectAnchorType = svg.RECT_TOP_LEFT
-		rectAnchoredText.DominantBaseline = svg.DominantBaselineCentral
-		rectAnchoredText.WhiteSpace = svg.WhiteSpaceEnumPre
-		rectAnchoredText.X_Offset = 0
-		rectAnchoredText.Y_Offset = 0
+		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+		stateTitleText.DominantBaseline = svg.DominantBaselineCentral
+		stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+		stateTitleText.X_Offset = 0
+		stateTitleText.Y_Offset = 0
 
 		if isSelected {
 			circle := new(svg.RectAnchoredPath)
@@ -168,12 +208,12 @@ func (stager *Stager) svgGenerateRect(
 	}
 
 	if state.IsEndState {
-		rectAnchoredText.TextAnchorType = svg.TEXT_ANCHOR_START
-		rectAnchoredText.RectAnchorType = svg.RECT_TOP_LEFT
-		rectAnchoredText.DominantBaseline = svg.DominantBaselineCentral
-		rectAnchoredText.WhiteSpace = svg.WhiteSpaceEnumPre
-		rectAnchoredText.X_Offset = 0
-		rectAnchoredText.Y_Offset = 0
+		stateTitleText.TextAnchorType = svg.TEXT_ANCHOR_START
+		stateTitleText.RectAnchorType = svg.RECT_TOP_LEFT
+		stateTitleText.DominantBaseline = svg.DominantBaselineCentral
+		stateTitleText.WhiteSpace = svg.WhiteSpaceEnumPre
+		stateTitleText.X_Offset = 0
+		stateTitleText.Y_Offset = 0
 
 		rect.CanHaveBottomHandle = false
 		rect.CanHaveTopHandle = false

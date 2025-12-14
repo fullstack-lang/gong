@@ -18,8 +18,23 @@ type State struct {
 	// Diagrams where a state is present is exported
 	// in the XL file
 	Diagrams []*Diagram
+
+	DoActions []*DoAction
 }
 
 func (state *State) IsComposite() bool {
 	return len(state.SubStates) > 0
 }
+
+// DoAction action
+type DoAction struct {
+	Name        string
+	Criticality Criticality
+}
+
+type Criticality string
+
+const (
+	DoActionCritical Criticality = "Critical"
+	DoActionDefault  Criticality = "Default"
+)
