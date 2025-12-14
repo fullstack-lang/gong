@@ -45,12 +45,12 @@ func (stager *Stager) TreeStageUpdate() {
 			Diagram: diagram,
 		}
 
-		movementCategoryNode := &tree.Node{
+		node := &tree.Node{
 			Name:              "Movements",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsCategory1NodeExpanded,
 		}
-		movementCategoryNode.Buttons = []*tree.Button{
+		node.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
@@ -61,36 +61,36 @@ func (stager *Stager) TreeStageUpdate() {
 			},
 		}
 		if diagram.IsCategory1Shown {
-			movementCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			node.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		movementCategoryNode.Impl = &expandableNodeProxy{
-			node:           movementCategoryNode,
+		node.Impl = &expandableNodeProxy{
+			node:           node,
 			stager:         stager,
 			isNodeExpanded: &diagram.IsCategory1NodeExpanded,
 		}
-		diagramNode.Children = append(diagramNode.Children, movementCategoryNode)
+		diagramNode.Children = append(diagramNode.Children, node)
 
-		for _, movement := range GetGongstrucsSorted[*Category1](stager.stage) {
+		for _, category := range GetGongstrucsSorted[*Category1](stager.stage) {
 			isInDiagram := false
 			for _, shape := range diagram.Category1Shapes {
-				if shape.Category1 == movement {
+				if shape.Category1 == category {
 					isInDiagram = true
 					continue
 				}
 			}
 
-			movementNode := &tree.Node{
-				Name:              movement.Name,
+			categoryInstanceNode := &tree.Node{
+				Name:              category.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 			}
-			movementNode.Impl = &Category1NodeProxy{
-				node:     movementNode,
+			categoryInstanceNode.Impl = &Category1NodeProxy{
+				node:     categoryInstanceNode,
 				diagram:  diagram,
-				category: movement,
+				category: category,
 				stager:   stager,
 			}
-			movementCategoryNode.Children = append(movementCategoryNode.Children, movementNode)
+			node.Children = append(node.Children, categoryInstanceNode)
 		}
 
 		artefactTypeCategoryNode := &tree.Node{

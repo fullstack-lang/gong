@@ -213,7 +213,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Height", instanceWithInferedType.Height, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("NextVerticalDateXMargin", instanceWithInferedType.NextVerticalDateXMargin, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Width", instanceWithInferedType.Width, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("RedColorCode", instanceWithInferedType.RedColorCode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
@@ -221,55 +221,39 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("GrayColorCode", instanceWithInferedType.GrayColorCode, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxYOffset", instanceWithInferedType.BottomBoxYOffset, instanceWithInferedType, probe.formStage, formGroup,
+		EnumTypeStringToForm("Category1RectAnchorType", instanceWithInferedType.Category1RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Category1TextAnchorType", instanceWithInferedType.Category1TextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Category1DominantBaselineType", instanceWithInferedType.Category1DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("Category1FontSize", instanceWithInferedType.Category1FontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxWidth", instanceWithInferedType.BottomBoxWidth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category1FontWeigth", instanceWithInferedType.Category1FontWeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxHeigth", instanceWithInferedType.BottomBoxHeigth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category1FontFamily", instanceWithInferedType.Category1FontFamily, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxFontSize", instanceWithInferedType.BottomBoxFontSize, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category1LetterSpacing", instanceWithInferedType.Category1LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxFontWeigth", instanceWithInferedType.BottomBoxFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category2TypeFontSize", instanceWithInferedType.Category2TypeFontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxFontFamily", instanceWithInferedType.BottomBoxFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category2TypeFontWeigth", instanceWithInferedType.Category2TypeFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxLetterSpacing", instanceWithInferedType.BottomBoxLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category2TypeFontFamily", instanceWithInferedType.Category2TypeFontFamily, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("BottomBoxLetterColorCode", instanceWithInferedType.BottomBoxLetterColorCode, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category2TypeLetterSpacing", instanceWithInferedType.Category2TypeLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		EnumTypeStringToForm("MovementRectAnchorType", instanceWithInferedType.MovementRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("MovementTextAnchorType", instanceWithInferedType.MovementTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("MovementDominantBaselineType", instanceWithInferedType.MovementDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("MovementFontSize", instanceWithInferedType.MovementFontSize, instanceWithInferedType, probe.formStage, formGroup,
+		EnumTypeStringToForm("Category2TypeRectAnchorType", instanceWithInferedType.Category2TypeRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Category2DominantBaselineType", instanceWithInferedType.Category2DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("Category2StrokeWidth", instanceWithInferedType.Category2StrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("MovementFontWeigth", instanceWithInferedType.MovementFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
+		EnumTypeStringToForm("Category3RectAnchorType", instanceWithInferedType.Category3RectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Category3TextAnchorType", instanceWithInferedType.Category3TextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
+		EnumTypeStringToForm("Category3DominantBaselineType", instanceWithInferedType.Category3DominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
+		BasicFieldtoForm("Category3FontSize", instanceWithInferedType.Category3FontSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("MovementFontFamily", instanceWithInferedType.MovementFontFamily, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category3FontWeigth", instanceWithInferedType.Category3FontWeigth, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("MovementLetterSpacing", instanceWithInferedType.MovementLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category3FontFamily", instanceWithInferedType.Category3FontFamily, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtefactTypeFontSize", instanceWithInferedType.ArtefactTypeFontSize, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtefactTypeFontWeigth", instanceWithInferedType.ArtefactTypeFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtefactTypeFontFamily", instanceWithInferedType.ArtefactTypeFontFamily, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtefactTypeLetterSpacing", instanceWithInferedType.ArtefactTypeLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		EnumTypeStringToForm("ArtefactTypeRectAnchorType", instanceWithInferedType.ArtefactTypeRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("ArtefactDominantBaselineType", instanceWithInferedType.ArtefactDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("ArtefactTypeStrokeWidth", instanceWithInferedType.ArtefactTypeStrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		EnumTypeStringToForm("ArtistRectAnchorType", instanceWithInferedType.ArtistRectAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("ArtistTextAnchorType", instanceWithInferedType.ArtistTextAnchorType, instanceWithInferedType, probe.formStage, formGroup)
-		EnumTypeStringToForm("ArtistDominantBaselineType", instanceWithInferedType.ArtistDominantBaselineType, instanceWithInferedType, probe.formStage, formGroup)
-		BasicFieldtoForm("ArtistFontSize", instanceWithInferedType.ArtistFontSize, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtistFontWeigth", instanceWithInferedType.ArtistFontWeigth, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtistFontFamily", instanceWithInferedType.ArtistFontFamily, instanceWithInferedType, probe.formStage, formGroup,
-			false, false, 0, false, 0)
-		BasicFieldtoForm("ArtistLetterSpacing", instanceWithInferedType.ArtistLetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
+		BasicFieldtoForm("Category3LetterSpacing", instanceWithInferedType.Category3LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceArrowSize", instanceWithInferedType.InfluenceArrowSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
