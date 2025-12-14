@@ -105,35 +105,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_ArtefactType_Identifiers := make(map[*ArtefactType]string)
-	_ = map_ArtefactType_Identifiers
+	map_Category1_Identifiers := make(map[*Category1]string)
+	_ = map_Category1_Identifiers
 
-	artefacttypeOrdered := []*ArtefactType{}
-	for artefacttype := range stage.ArtefactTypes {
-		artefacttypeOrdered = append(artefacttypeOrdered, artefacttype)
+	category1Ordered := []*Category1{}
+	for category1 := range stage.Category1s {
+		category1Ordered = append(category1Ordered, category1)
 	}
-	sort.Slice(artefacttypeOrdered[:], func(i, j int) bool {
-		artefacttypei := artefacttypeOrdered[i]
-		artefacttypej := artefacttypeOrdered[j]
-		artefacttypei_order, oki := stage.ArtefactTypeMap_Staged_Order[artefacttypei]
-		artefacttypej_order, okj := stage.ArtefactTypeMap_Staged_Order[artefacttypej]
+	sort.Slice(category1Ordered[:], func(i, j int) bool {
+		category1i := category1Ordered[i]
+		category1j := category1Ordered[j]
+		category1i_order, oki := stage.Category1Map_Staged_Order[category1i]
+		category1j_order, okj := stage.Category1Map_Staged_Order[category1j]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return artefacttypei_order < artefacttypej_order
+		return category1i_order < category1j_order
 	})
-	if len(artefacttypeOrdered) > 0 {
+	if len(category1Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, artefacttype := range artefacttypeOrdered {
+	for idx, category1 := range category1Ordered {
 
-		id = generatesIdentifier("ArtefactType", idx, artefacttype.Name)
-		map_ArtefactType_Identifiers[artefacttype] = id
+		id = generatesIdentifier("Category1", idx, category1.Name)
+		map_Category1_Identifiers[category1] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArtefactType")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", artefacttype.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -141,40 +141,40 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(artefacttype.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category1.Name))
 		initializerStatements += setValueField
 
 	}
 
-	map_ArtefactTypeShape_Identifiers := make(map[*ArtefactTypeShape]string)
-	_ = map_ArtefactTypeShape_Identifiers
+	map_Category1Shape_Identifiers := make(map[*Category1Shape]string)
+	_ = map_Category1Shape_Identifiers
 
-	artefacttypeshapeOrdered := []*ArtefactTypeShape{}
-	for artefacttypeshape := range stage.ArtefactTypeShapes {
-		artefacttypeshapeOrdered = append(artefacttypeshapeOrdered, artefacttypeshape)
+	category1shapeOrdered := []*Category1Shape{}
+	for category1shape := range stage.Category1Shapes {
+		category1shapeOrdered = append(category1shapeOrdered, category1shape)
 	}
-	sort.Slice(artefacttypeshapeOrdered[:], func(i, j int) bool {
-		artefacttypeshapei := artefacttypeshapeOrdered[i]
-		artefacttypeshapej := artefacttypeshapeOrdered[j]
-		artefacttypeshapei_order, oki := stage.ArtefactTypeShapeMap_Staged_Order[artefacttypeshapei]
-		artefacttypeshapej_order, okj := stage.ArtefactTypeShapeMap_Staged_Order[artefacttypeshapej]
+	sort.Slice(category1shapeOrdered[:], func(i, j int) bool {
+		category1shapei := category1shapeOrdered[i]
+		category1shapej := category1shapeOrdered[j]
+		category1shapei_order, oki := stage.Category1ShapeMap_Staged_Order[category1shapei]
+		category1shapej_order, okj := stage.Category1ShapeMap_Staged_Order[category1shapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return artefacttypeshapei_order < artefacttypeshapej_order
+		return category1shapei_order < category1shapej_order
 	})
-	if len(artefacttypeshapeOrdered) > 0 {
+	if len(category1shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, artefacttypeshape := range artefacttypeshapeOrdered {
+	for idx, category1shape := range category1shapeOrdered {
 
-		id = generatesIdentifier("ArtefactTypeShape", idx, artefacttypeshape.Name)
-		map_ArtefactTypeShape_Identifiers[artefacttypeshape] = id
+		id = generatesIdentifier("Category1Shape", idx, category1shape.Name)
+		map_Category1Shape_Identifiers[category1shape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArtefactTypeShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", artefacttypeshape.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1Shape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1shape.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -182,64 +182,64 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(artefacttypeshape.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category1shape.Name))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artefacttypeshape.X))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category1shape.X))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artefacttypeshape.Y))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category1shape.Y))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artefacttypeshape.Width))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category1shape.Width))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artefacttypeshape.Height))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category1shape.Height))
 		initializerStatements += setValueField
 
 	}
 
-	map_Artist_Identifiers := make(map[*Artist]string)
-	_ = map_Artist_Identifiers
+	map_Category2_Identifiers := make(map[*Category2]string)
+	_ = map_Category2_Identifiers
 
-	artistOrdered := []*Artist{}
-	for artist := range stage.Artists {
-		artistOrdered = append(artistOrdered, artist)
+	category2Ordered := []*Category2{}
+	for category2 := range stage.Category2s {
+		category2Ordered = append(category2Ordered, category2)
 	}
-	sort.Slice(artistOrdered[:], func(i, j int) bool {
-		artisti := artistOrdered[i]
-		artistj := artistOrdered[j]
-		artisti_order, oki := stage.ArtistMap_Staged_Order[artisti]
-		artistj_order, okj := stage.ArtistMap_Staged_Order[artistj]
+	sort.Slice(category2Ordered[:], func(i, j int) bool {
+		category2i := category2Ordered[i]
+		category2j := category2Ordered[j]
+		category2i_order, oki := stage.Category2Map_Staged_Order[category2i]
+		category2j_order, okj := stage.Category2Map_Staged_Order[category2j]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return artisti_order < artistj_order
+		return category2i_order < category2j_order
 	})
-	if len(artistOrdered) > 0 {
+	if len(category2Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, artist := range artistOrdered {
+	for idx, category2 := range category2Ordered {
 
-		id = generatesIdentifier("Artist", idx, artist.Name)
-		map_Artist_Identifiers[artist] = id
+		id = generatesIdentifier("Category2", idx, category2.Name)
+		map_Category2_Identifiers[category2] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Artist")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", artist.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -247,40 +247,40 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(artist.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category2.Name))
 		initializerStatements += setValueField
 
 	}
 
-	map_ArtistShape_Identifiers := make(map[*ArtistShape]string)
-	_ = map_ArtistShape_Identifiers
+	map_Category2Shape_Identifiers := make(map[*Category2Shape]string)
+	_ = map_Category2Shape_Identifiers
 
-	artistshapeOrdered := []*ArtistShape{}
-	for artistshape := range stage.ArtistShapes {
-		artistshapeOrdered = append(artistshapeOrdered, artistshape)
+	category2shapeOrdered := []*Category2Shape{}
+	for category2shape := range stage.Category2Shapes {
+		category2shapeOrdered = append(category2shapeOrdered, category2shape)
 	}
-	sort.Slice(artistshapeOrdered[:], func(i, j int) bool {
-		artistshapei := artistshapeOrdered[i]
-		artistshapej := artistshapeOrdered[j]
-		artistshapei_order, oki := stage.ArtistShapeMap_Staged_Order[artistshapei]
-		artistshapej_order, okj := stage.ArtistShapeMap_Staged_Order[artistshapej]
+	sort.Slice(category2shapeOrdered[:], func(i, j int) bool {
+		category2shapei := category2shapeOrdered[i]
+		category2shapej := category2shapeOrdered[j]
+		category2shapei_order, oki := stage.Category2ShapeMap_Staged_Order[category2shapei]
+		category2shapej_order, okj := stage.Category2ShapeMap_Staged_Order[category2shapej]
 		if !oki || !okj {
 			log.Fatalln("unknown pointers")
 		}
-		return artistshapei_order < artistshapej_order
+		return category2shapei_order < category2shapej_order
 	})
-	if len(artistshapeOrdered) > 0 {
+	if len(category2shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, artistshape := range artistshapeOrdered {
+	for idx, category2shape := range category2shapeOrdered {
 
-		id = generatesIdentifier("ArtistShape", idx, artistshape.Name)
-		map_ArtistShape_Identifiers[artistshape] = id
+		id = generatesIdentifier("Category2Shape", idx, category2shape.Name)
+		map_Category2Shape_Identifiers[category2shape] = id
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ArtistShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", artistshape.Name)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2Shape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2shape.Name)
 		identifiersDecl += decl
 
 		initializerStatements += "\n"
@@ -288,31 +288,137 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(artistshape.Name))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category2shape.Name))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artistshape.X))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category2shape.X))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artistshape.Y))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category2shape.Y))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artistshape.Width))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category2shape.Width))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", artistshape.Height))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category2shape.Height))
+		initializerStatements += setValueField
+
+	}
+
+	map_Category3_Identifiers := make(map[*Category3]string)
+	_ = map_Category3_Identifiers
+
+	category3Ordered := []*Category3{}
+	for category3 := range stage.Category3s {
+		category3Ordered = append(category3Ordered, category3)
+	}
+	sort.Slice(category3Ordered[:], func(i, j int) bool {
+		category3i := category3Ordered[i]
+		category3j := category3Ordered[j]
+		category3i_order, oki := stage.Category3Map_Staged_Order[category3i]
+		category3j_order, okj := stage.Category3Map_Staged_Order[category3j]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return category3i_order < category3j_order
+	})
+	if len(category3Ordered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, category3 := range category3Ordered {
+
+		id = generatesIdentifier("Category3", idx, category3.Name)
+		map_Category3_Identifiers[category3] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category3.Name))
+		initializerStatements += setValueField
+
+	}
+
+	map_Category3Shape_Identifiers := make(map[*Category3Shape]string)
+	_ = map_Category3Shape_Identifiers
+
+	category3shapeOrdered := []*Category3Shape{}
+	for category3shape := range stage.Category3Shapes {
+		category3shapeOrdered = append(category3shapeOrdered, category3shape)
+	}
+	sort.Slice(category3shapeOrdered[:], func(i, j int) bool {
+		category3shapei := category3shapeOrdered[i]
+		category3shapej := category3shapeOrdered[j]
+		category3shapei_order, oki := stage.Category3ShapeMap_Staged_Order[category3shapei]
+		category3shapej_order, okj := stage.Category3ShapeMap_Staged_Order[category3shapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return category3shapei_order < category3shapej_order
+	})
+	if len(category3shapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, category3shape := range category3shapeOrdered {
+
+		id = generatesIdentifier("Category3Shape", idx, category3shape.Name)
+		map_Category3Shape_Identifiers[category3shape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3Shape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3shape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(category3shape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category3shape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category3shape.Y))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category3shape.Width))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", category3shape.Height))
 		initializerStatements += setValueField
 
 	}
@@ -470,20 +576,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsMovementCategoryNodeExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsMovementCategoryNodeExpanded))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory1NodeExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory1NodeExpanded))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsArtefactTypeCategoryNodeExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryNodeExpanded))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory2NodeExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory2NodeExpanded))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsArtistCategoryNodeExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtistCategoryNodeExpanded))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory3NodeExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory3NodeExpanded))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
@@ -494,20 +600,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsMovementCategoryShown")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsMovementCategoryShown))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory1Shown")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory1Shown))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsArtefactTypeCategoryShown")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtefactTypeCategoryShown))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory2Shown")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory2Shown))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsArtistCategoryShown")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsArtistCategoryShown))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCategory3Shown")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsCategory3Shown))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
@@ -638,18 +744,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MajorMovementFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MajorMovementFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinorMovementFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MinorMovementFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementFontWeigth")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementFontWeigth))
 		initializerStatements += setValueField
@@ -665,120 +759,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementLetterSpacing")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementLetterSpacing))
 		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbstractMovementFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.AbstractMovementFontSize))
-		initializerStatements += setValueField
-
-		if diagram.AbstractMovementRectAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbstractMovementRectAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.AbstractMovementRectAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.AbstractMovementTextAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbstractMovementTextAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.AbstractMovementTextAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.AbstractDominantBaselineType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AbstractDominantBaselineType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.AbstractDominantBaselineType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.MovementDateRectAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateRectAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementDateRectAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.MovementDateTextAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateTextAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementDateTextAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.MovementDateTextDominantBaselineType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateTextDominantBaselineType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementDateTextDominantBaselineType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateAndPlacesFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementDateAndPlacesFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateAndPlacesFontWeigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementDateAndPlacesFontWeigth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateAndPlacesFontFamily")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementDateAndPlacesFontFamily))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementDateAndPlacesLetterSpacing")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MovementDateAndPlacesLetterSpacing))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementBelowArcY_Offset")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.MovementBelowArcY_Offset))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementBelowArcY_OffsetPerPlace")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", diagram.MovementBelowArcY_OffsetPerPlace))
-		initializerStatements += setValueField
-
-		if diagram.MovementPlacesRectAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementPlacesRectAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementPlacesRectAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.MovementPlacesTextAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementPlacesTextAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementPlacesTextAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.MovementPlacesDominantBaselineType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MovementPlacesDominantBaselineType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.MovementPlacesDominantBaselineType.ToCodeString())
-			initializerStatements += setValueField
-		}
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -858,18 +838,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = StringInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MajorArtistFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MajorArtistFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinorArtistFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.MinorArtistFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistFontWeigth")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistFontWeigth))
 		initializerStatements += setValueField
@@ -885,78 +853,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistLetterSpacing")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistLetterSpacing))
 		initializerStatements += setValueField
-
-		if diagram.ArtistDateRectAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateRectAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistDateRectAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.ArtistDateTextAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateTextAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistDateTextAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.ArtistDateDominantBaselineType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateDominantBaselineType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistDateDominantBaselineType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateAndPlacesFontSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistDateAndPlacesFontSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateAndPlacesFontWeigth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistDateAndPlacesFontWeigth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateAndPlacesFontFamily")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistDateAndPlacesFontFamily))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistDateAndPlacesLetterSpacing")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ArtistDateAndPlacesLetterSpacing))
-		initializerStatements += setValueField
-
-		if diagram.ArtistPlacesRectAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistPlacesRectAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistPlacesRectAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.ArtistPlacesTextAnchorType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistPlacesTextAnchorType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistPlacesTextAnchorType.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if diagram.ArtistPlacesDominantBaselineType != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArtistPlacesDominantBaselineType")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+diagram.ArtistPlacesDominantBaselineType.ToCodeString())
-			initializerStatements += setValueField
-		}
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
@@ -1078,176 +974,104 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
-	map_Movement_Identifiers := make(map[*Movement]string)
-	_ = map_Movement_Identifiers
-
-	movementOrdered := []*Movement{}
-	for movement := range stage.Movements {
-		movementOrdered = append(movementOrdered, movement)
-	}
-	sort.Slice(movementOrdered[:], func(i, j int) bool {
-		movementi := movementOrdered[i]
-		movementj := movementOrdered[j]
-		movementi_order, oki := stage.MovementMap_Staged_Order[movementi]
-		movementj_order, okj := stage.MovementMap_Staged_Order[movementj]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return movementi_order < movementj_order
-	})
-	if len(movementOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, movement := range movementOrdered {
-
-		id = generatesIdentifier("Movement", idx, movement.Name)
-		map_Movement_Identifiers[movement] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Movement")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", movement.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(movement.Name))
-		initializerStatements += setValueField
-
-	}
-
-	map_MovementShape_Identifiers := make(map[*MovementShape]string)
-	_ = map_MovementShape_Identifiers
-
-	movementshapeOrdered := []*MovementShape{}
-	for movementshape := range stage.MovementShapes {
-		movementshapeOrdered = append(movementshapeOrdered, movementshape)
-	}
-	sort.Slice(movementshapeOrdered[:], func(i, j int) bool {
-		movementshapei := movementshapeOrdered[i]
-		movementshapej := movementshapeOrdered[j]
-		movementshapei_order, oki := stage.MovementShapeMap_Staged_Order[movementshapei]
-		movementshapej_order, okj := stage.MovementShapeMap_Staged_Order[movementshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return movementshapei_order < movementshapej_order
-	})
-	if len(movementshapeOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, movementshape := range movementshapeOrdered {
-
-		id = generatesIdentifier("MovementShape", idx, movementshape.Name)
-		map_MovementShape_Identifiers[movementshape] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MovementShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", movementshape.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(movementshape.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", movementshape.X))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", movementshape.Y))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", movementshape.Width))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", movementshape.Height))
-		initializerStatements += setValueField
-
-	}
-
 	// insertion initialization of objects to stage
-	if len(artefacttypeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of ArtefactType instances pointers"
+	if len(category1Ordered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category1 instances pointers"
 	}
-	for idx, artefacttype := range artefacttypeOrdered {
+	for idx, category1 := range category1Ordered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ArtefactType", idx, artefacttype.Name)
-		map_ArtefactType_Identifiers[artefacttype] = id
+		id = generatesIdentifier("Category1", idx, category1.Name)
+		map_Category1_Identifiers[category1] = id
 
 		// Initialisation of values
 	}
 
-	if len(artefacttypeshapeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of ArtefactTypeShape instances pointers"
+	if len(category1shapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category1Shape instances pointers"
 	}
-	for idx, artefacttypeshape := range artefacttypeshapeOrdered {
+	for idx, category1shape := range category1shapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ArtefactTypeShape", idx, artefacttypeshape.Name)
-		map_ArtefactTypeShape_Identifiers[artefacttypeshape] = id
+		id = generatesIdentifier("Category1Shape", idx, category1shape.Name)
+		map_Category1Shape_Identifiers[category1shape] = id
 
 		// Initialisation of values
-		if artefacttypeshape.ArtefactType != nil {
+		if category1shape.Category1 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ArtefactType")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ArtefactType_Identifiers[artefacttypeshape.ArtefactType])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category1")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category1_Identifiers[category1shape.Category1])
 			pointersInitializesStatements += setPointerField
 		}
 
 	}
 
-	if len(artistOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Artist instances pointers"
+	if len(category2Ordered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category2 instances pointers"
 	}
-	for idx, artist := range artistOrdered {
+	for idx, category2 := range category2Ordered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Artist", idx, artist.Name)
-		map_Artist_Identifiers[artist] = id
+		id = generatesIdentifier("Category2", idx, category2.Name)
+		map_Category2_Identifiers[category2] = id
 
 		// Initialisation of values
 	}
 
-	if len(artistshapeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of ArtistShape instances pointers"
+	if len(category2shapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category2Shape instances pointers"
 	}
-	for idx, artistshape := range artistshapeOrdered {
+	for idx, category2shape := range category2shapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ArtistShape", idx, artistshape.Name)
-		map_ArtistShape_Identifiers[artistshape] = id
+		id = generatesIdentifier("Category2Shape", idx, category2shape.Name)
+		map_Category2Shape_Identifiers[category2shape] = id
 
 		// Initialisation of values
-		if artistshape.Artist != nil {
+		if category2shape.Category2 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Artist")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Artist_Identifiers[artistshape.Artist])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category2_Identifiers[category2shape.Category2])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(category3Ordered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category3 instances pointers"
+	}
+	for idx, category3 := range category3Ordered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Category3", idx, category3.Name)
+		map_Category3_Identifiers[category3] = id
+
+		// Initialisation of values
+	}
+
+	if len(category3shapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Category3Shape instances pointers"
+	}
+	for idx, category3shape := range category3shapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Category3Shape", idx, category3shape.Name)
+		map_Category3Shape_Identifiers[category3shape] = id
+
+		// Initialisation of values
+		if category3shape.Category3 != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category3")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category3_Identifiers[category3shape.Category3])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1298,27 +1122,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Diagram_Identifiers[diagram] = id
 
 		// Initialisation of values
-		for _, _movementshape := range diagram.MovementShapes {
+		for _, _category1shape := range diagram.Category1Shapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "MovementShapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_MovementShape_Identifiers[_movementshape])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category1Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category1Shape_Identifiers[_category1shape])
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _artefacttypeshape := range diagram.ArtefactTypeShapes {
+		for _, _category2shape := range diagram.Category2Shapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ArtefactTypeShapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ArtefactTypeShape_Identifiers[_artefacttypeshape])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category2Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category2Shape_Identifiers[_category2shape])
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _artistshape := range diagram.ArtistShapes {
+		for _, _category3shape := range diagram.Category3Shapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ArtistShapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ArtistShape_Identifiers[_artistshape])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Category3Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category3Shape_Identifiers[_category3shape])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1343,51 +1167,51 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Influence_Identifiers[influence] = id
 
 		// Initialisation of values
-		if influence.SourceMovement != nil {
+		if influence.SourceCategory1 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceMovement")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Movement_Identifiers[influence.SourceMovement])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceCategory1")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category1_Identifiers[influence.SourceCategory1])
 			pointersInitializesStatements += setPointerField
 		}
 
-		if influence.SourceArtefactType != nil {
+		if influence.SourceCategory2 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceArtefactType")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ArtefactType_Identifiers[influence.SourceArtefactType])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceCategory2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category3_Identifiers[influence.SourceCategory2])
 			pointersInitializesStatements += setPointerField
 		}
 
-		if influence.SourceArtist != nil {
+		if influence.SourceCategory3 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceArtist")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Artist_Identifiers[influence.SourceArtist])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SourceCategory3")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category2_Identifiers[influence.SourceCategory3])
 			pointersInitializesStatements += setPointerField
 		}
 
-		if influence.TargetMovement != nil {
+		if influence.TargetCategory1 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetMovement")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Movement_Identifiers[influence.TargetMovement])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetCategory1")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category1_Identifiers[influence.TargetCategory1])
 			pointersInitializesStatements += setPointerField
 		}
 
-		if influence.TargetArtefactType != nil {
+		if influence.TargetCategory2 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetArtefactType")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ArtefactType_Identifiers[influence.TargetArtefactType])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetCategory2")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category3_Identifiers[influence.TargetCategory2])
 			pointersInitializesStatements += setPointerField
 		}
 
-		if influence.TargetArtist != nil {
+		if influence.TargetCategory3 != nil {
 			setPointerField = PointerFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetArtist")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Artist_Identifiers[influence.TargetArtist])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TargetCategory3")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Category2_Identifiers[influence.TargetCategory3])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -1417,40 +1241,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ControlPointShapes")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ControlPointShape_Identifiers[_controlpointshape])
-			pointersInitializesStatements += setPointerField
-		}
-
-	}
-
-	if len(movementOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Movement instances pointers"
-	}
-	for idx, movement := range movementOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Movement", idx, movement.Name)
-		map_Movement_Identifiers[movement] = id
-
-		// Initialisation of values
-	}
-
-	if len(movementshapeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of MovementShape instances pointers"
-	}
-	for idx, movementshape := range movementshapeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("MovementShape", idx, movementshape.Name)
-		map_MovementShape_Identifiers[movementshape] = id
-
-		// Initialisation of values
-		if movementshape.Movement != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Movement")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Movement_Identifiers[movementshape.Movement])
 			pointersInitializesStatements += setPointerField
 		}
 

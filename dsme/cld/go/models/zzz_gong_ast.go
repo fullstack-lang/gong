@@ -361,17 +361,17 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
-var __gong__map_ArtefactType = make(map[string]*ArtefactType)
-var __gong__map_ArtefactTypeShape = make(map[string]*ArtefactTypeShape)
-var __gong__map_Artist = make(map[string]*Artist)
-var __gong__map_ArtistShape = make(map[string]*ArtistShape)
+var __gong__map_Category1 = make(map[string]*Category1)
+var __gong__map_Category1Shape = make(map[string]*Category1Shape)
+var __gong__map_Category2 = make(map[string]*Category2)
+var __gong__map_Category2Shape = make(map[string]*Category2Shape)
+var __gong__map_Category3 = make(map[string]*Category3)
+var __gong__map_Category3Shape = make(map[string]*Category3Shape)
 var __gong__map_ControlPointShape = make(map[string]*ControlPointShape)
 var __gong__map_Desk = make(map[string]*Desk)
 var __gong__map_Diagram = make(map[string]*Diagram)
 var __gong__map_Influence = make(map[string]*Influence)
 var __gong__map_InfluenceShape = make(map[string]*InfluenceShape)
-var __gong__map_Movement = make(map[string]*Movement)
-var __gong__map_MovementShape = make(map[string]*MovementShape)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -544,30 +544,42 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
-									case "ArtefactType":
-										instanceArtefactType := new(ArtefactType)
-										instanceArtefactType.Name = instanceName
-										instanceArtefactType.Stage(stage)
-										instance = any(instanceArtefactType)
-										__gong__map_ArtefactType[identifier] = instanceArtefactType
-									case "ArtefactTypeShape":
-										instanceArtefactTypeShape := new(ArtefactTypeShape)
-										instanceArtefactTypeShape.Name = instanceName
-										instanceArtefactTypeShape.Stage(stage)
-										instance = any(instanceArtefactTypeShape)
-										__gong__map_ArtefactTypeShape[identifier] = instanceArtefactTypeShape
-									case "Artist":
-										instanceArtist := new(Artist)
-										instanceArtist.Name = instanceName
-										instanceArtist.Stage(stage)
-										instance = any(instanceArtist)
-										__gong__map_Artist[identifier] = instanceArtist
-									case "ArtistShape":
-										instanceArtistShape := new(ArtistShape)
-										instanceArtistShape.Name = instanceName
-										instanceArtistShape.Stage(stage)
-										instance = any(instanceArtistShape)
-										__gong__map_ArtistShape[identifier] = instanceArtistShape
+									case "Category1":
+										instanceCategory1 := new(Category1)
+										instanceCategory1.Name = instanceName
+										instanceCategory1.Stage(stage)
+										instance = any(instanceCategory1)
+										__gong__map_Category1[identifier] = instanceCategory1
+									case "Category1Shape":
+										instanceCategory1Shape := new(Category1Shape)
+										instanceCategory1Shape.Name = instanceName
+										instanceCategory1Shape.Stage(stage)
+										instance = any(instanceCategory1Shape)
+										__gong__map_Category1Shape[identifier] = instanceCategory1Shape
+									case "Category2":
+										instanceCategory2 := new(Category2)
+										instanceCategory2.Name = instanceName
+										instanceCategory2.Stage(stage)
+										instance = any(instanceCategory2)
+										__gong__map_Category2[identifier] = instanceCategory2
+									case "Category2Shape":
+										instanceCategory2Shape := new(Category2Shape)
+										instanceCategory2Shape.Name = instanceName
+										instanceCategory2Shape.Stage(stage)
+										instance = any(instanceCategory2Shape)
+										__gong__map_Category2Shape[identifier] = instanceCategory2Shape
+									case "Category3":
+										instanceCategory3 := new(Category3)
+										instanceCategory3.Name = instanceName
+										instanceCategory3.Stage(stage)
+										instance = any(instanceCategory3)
+										__gong__map_Category3[identifier] = instanceCategory3
+									case "Category3Shape":
+										instanceCategory3Shape := new(Category3Shape)
+										instanceCategory3Shape.Name = instanceName
+										instanceCategory3Shape.Stage(stage)
+										instance = any(instanceCategory3Shape)
+										__gong__map_Category3Shape[identifier] = instanceCategory3Shape
 									case "ControlPointShape":
 										instanceControlPointShape := new(ControlPointShape)
 										instanceControlPointShape.Name = instanceName
@@ -598,18 +610,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceInfluenceShape.Stage(stage)
 										instance = any(instanceInfluenceShape)
 										__gong__map_InfluenceShape[identifier] = instanceInfluenceShape
-									case "Movement":
-										instanceMovement := new(Movement)
-										instanceMovement.Name = instanceName
-										instanceMovement.Stage(stage)
-										instance = any(instanceMovement)
-										__gong__map_Movement[identifier] = instanceMovement
-									case "MovementShape":
-										instanceMovementShape := new(MovementShape)
-										instanceMovementShape.Name = instanceName
-										instanceMovementShape.Stage(stage)
-										instance = any(instanceMovementShape)
-										__gong__map_MovementShape[identifier] = instanceMovementShape
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -647,19 +647,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
-						case "ArtefactType":
+						case "Category1":
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "ArtefactTypeShape":
+						case "Category1Shape":
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "Artist":
+						case "Category2":
 							switch fieldName {
 							// insertion point for date assign code
 							}
-						case "ArtistShape":
+						case "Category2Shape":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Category3":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Category3Shape":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -680,14 +688,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "InfluenceShape":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Movement":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "MovementShape":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -753,19 +753,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
-					case "ArtefactType":
+					case "Category1":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
-					case "ArtefactTypeShape":
+					case "Category1Shape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
-					case "Artist":
+					case "Category2":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
-					case "ArtistShape":
+					case "Category2Shape":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "Category3":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "Category3Shape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -780,35 +788,35 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Diagram":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "MovementShapes":
+						case "Category1Shapes":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
 							}
 							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_MovementShape[identifierOfInstanceToAppend]; ok {
+							if instanceToAppend, ok := __gong__map_Category1Shape[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
-								instanceWhoseFieldIsAppended.MovementShapes = append(instanceWhoseFieldIsAppended.MovementShapes, instanceToAppend)
+								instanceWhoseFieldIsAppended.Category1Shapes = append(instanceWhoseFieldIsAppended.Category1Shapes, instanceToAppend)
 							}
-						case "ArtefactTypeShapes":
+						case "Category2Shapes":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
 							}
 							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_ArtefactTypeShape[identifierOfInstanceToAppend]; ok {
+							if instanceToAppend, ok := __gong__map_Category2Shape[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
-								instanceWhoseFieldIsAppended.ArtefactTypeShapes = append(instanceWhoseFieldIsAppended.ArtefactTypeShapes, instanceToAppend)
+								instanceWhoseFieldIsAppended.Category2Shapes = append(instanceWhoseFieldIsAppended.Category2Shapes, instanceToAppend)
 							}
-						case "ArtistShapes":
+						case "Category3Shapes":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
 							}
 							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_ArtistShape[identifierOfInstanceToAppend]; ok {
+							if instanceToAppend, ok := __gong__map_Category3Shape[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
-								instanceWhoseFieldIsAppended.ArtistShapes = append(instanceWhoseFieldIsAppended.ArtistShapes, instanceToAppend)
+								instanceWhoseFieldIsAppended.Category3Shapes = append(instanceWhoseFieldIsAppended.Category3Shapes, instanceToAppend)
 							}
 						case "InfluenceShapes":
 							// perform the append only when the loop is processing the second argument
@@ -838,14 +846,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_InfluenceShape[identifier]
 								instanceWhoseFieldIsAppended.ControlPointShapes = append(instanceWhoseFieldIsAppended.ControlPointShapes, instanceToAppend)
 							}
-						}
-					case "Movement":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
-					case "MovementShape":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
 						}
 					}
 				}
@@ -907,93 +907,137 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
-			case "ArtefactType":
+			case "Category1":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_ArtefactType[identifier].Name = fielValue
+					__gong__map_Category1[identifier].Name = fielValue
 				}
-			case "ArtefactTypeShape":
+			case "Category1Shape":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_ArtefactTypeShape[identifier].Name = fielValue
+					__gong__map_Category1Shape[identifier].Name = fielValue
 				case "X":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtefactTypeShape[identifier].X = exprSign * fielValue
+					__gong__map_Category1Shape[identifier].X = exprSign * fielValue
 				case "Y":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtefactTypeShape[identifier].Y = exprSign * fielValue
+					__gong__map_Category1Shape[identifier].Y = exprSign * fielValue
 				case "Width":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtefactTypeShape[identifier].Width = exprSign * fielValue
+					__gong__map_Category1Shape[identifier].Width = exprSign * fielValue
 				case "Height":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtefactTypeShape[identifier].Height = exprSign * fielValue
+					__gong__map_Category1Shape[identifier].Height = exprSign * fielValue
 				}
-			case "Artist":
+			case "Category2":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Artist[identifier].Name = fielValue
+					__gong__map_Category2[identifier].Name = fielValue
 				}
-			case "ArtistShape":
+			case "Category2Shape":
 				switch fieldName {
 				// insertion point for field dependant code
 				case "Name":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_ArtistShape[identifier].Name = fielValue
+					__gong__map_Category2Shape[identifier].Name = fielValue
 				case "X":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtistShape[identifier].X = exprSign * fielValue
+					__gong__map_Category2Shape[identifier].X = exprSign * fielValue
 				case "Y":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtistShape[identifier].Y = exprSign * fielValue
+					__gong__map_Category2Shape[identifier].Y = exprSign * fielValue
 				case "Width":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtistShape[identifier].Width = exprSign * fielValue
+					__gong__map_Category2Shape[identifier].Width = exprSign * fielValue
 				case "Height":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_ArtistShape[identifier].Height = exprSign * fielValue
+					__gong__map_Category2Shape[identifier].Height = exprSign * fielValue
+				}
+			case "Category3":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Category3[identifier].Name = fielValue
+				}
+			case "Category3Shape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Category3Shape[identifier].Name = fielValue
+				case "X":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Category3Shape[identifier].X = exprSign * fielValue
+				case "Y":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Category3Shape[identifier].Y = exprSign * fielValue
+				case "Width":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Category3Shape[identifier].Width = exprSign * fielValue
+				case "Height":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Category3Shape[identifier].Height = exprSign * fielValue
 				}
 			case "ControlPointShape":
 				switch fieldName {
@@ -1117,14 +1161,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].MovementFontSize = fielValue
-				case "MajorMovementFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MajorMovementFontSize = fielValue
-				case "MinorMovementFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MinorMovementFontSize = fielValue
 				case "MovementFontWeigth":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1137,40 +1173,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].MovementLetterSpacing = fielValue
-				case "AbstractMovementFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].AbstractMovementFontSize = fielValue
-				case "MovementDateAndPlacesFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementDateAndPlacesFontSize = fielValue
-				case "MovementDateAndPlacesFontWeigth":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementDateAndPlacesFontWeigth = fielValue
-				case "MovementDateAndPlacesFontFamily":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementDateAndPlacesFontFamily = fielValue
-				case "MovementDateAndPlacesLetterSpacing":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MovementDateAndPlacesLetterSpacing = fielValue
-				case "MovementBelowArcY_Offset":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].MovementBelowArcY_Offset = exprSign * fielValue
-				case "MovementBelowArcY_OffsetPerPlace":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].MovementBelowArcY_OffsetPerPlace = exprSign * fielValue
 				case "ArtefactTypeFontSize":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1198,14 +1200,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].ArtistFontSize = fielValue
-				case "MajorArtistFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MajorArtistFontSize = fielValue
-				case "MinorArtistFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].MinorArtistFontSize = fielValue
 				case "ArtistFontWeigth":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1218,22 +1212,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].ArtistLetterSpacing = fielValue
-				case "ArtistDateAndPlacesFontSize":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistDateAndPlacesFontSize = fielValue
-				case "ArtistDateAndPlacesFontWeigth":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistDateAndPlacesFontWeigth = fielValue
-				case "ArtistDateAndPlacesFontFamily":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistDateAndPlacesFontFamily = fielValue
-				case "ArtistDateAndPlacesLetterSpacing":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Diagram[identifier].ArtistDateAndPlacesLetterSpacing = fielValue
 				case "InfluenceArrowSize":
 					// convert string to float64
 					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
@@ -1283,50 +1261,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_InfluenceShape[identifier].Name = fielValue
 				}
-			case "Movement":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Movement[identifier].Name = fielValue
-				}
-			case "MovementShape":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_MovementShape[identifier].Name = fielValue
-				case "X":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_MovementShape[identifier].X = exprSign * fielValue
-				case "Y":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_MovementShape[identifier].Y = exprSign * fielValue
-				case "Width":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_MovementShape[identifier].Width = exprSign * fielValue
-				case "Height":
-					// convert string to float64
-					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_MovementShape[identifier].Height = exprSign * fielValue
-				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -1342,27 +1276,38 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
-			case "ArtefactType":
+			case "Category1":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
-			case "ArtefactTypeShape":
+			case "Category1Shape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "ArtefactType":
+				case "Category1":
 					targetIdentifier := ident.Name
-					__gong__map_ArtefactTypeShape[identifier].ArtefactType = __gong__map_ArtefactType[targetIdentifier]
+					__gong__map_Category1Shape[identifier].Category1 = __gong__map_Category1[targetIdentifier]
 				}
-			case "Artist":
+			case "Category2":
 				switch fieldName {
 				// insertion point for field dependant code
 				}
-			case "ArtistShape":
+			case "Category2Shape":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "Artist":
+				case "Category2":
 					targetIdentifier := ident.Name
-					__gong__map_ArtistShape[identifier].Artist = __gong__map_Artist[targetIdentifier]
+					__gong__map_Category2Shape[identifier].Category2 = __gong__map_Category2[targetIdentifier]
+				}
+			case "Category3":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
+			case "Category3Shape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Category3":
+					targetIdentifier := ident.Name
+					__gong__map_Category3Shape[identifier].Category3 = __gong__map_Category3[targetIdentifier]
 				}
 			case "ControlPointShape":
 				switch fieldName {
@@ -1399,27 +1344,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsNodeExpanded = fielValue
-				case "IsMovementCategoryNodeExpanded":
+				case "IsCategory1NodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsMovementCategoryNodeExpanded = fielValue
-				case "IsArtefactTypeCategoryNodeExpanded":
+					__gong__map_Diagram[identifier].IsCategory1NodeExpanded = fielValue
+				case "IsCategory2NodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsArtefactTypeCategoryNodeExpanded = fielValue
-				case "IsArtistCategoryNodeExpanded":
+					__gong__map_Diagram[identifier].IsCategory2NodeExpanded = fielValue
+				case "IsCategory3NodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsArtistCategoryNodeExpanded = fielValue
+					__gong__map_Diagram[identifier].IsCategory3NodeExpanded = fielValue
 				case "IsInfluenceCategoryNodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1427,27 +1372,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsInfluenceCategoryNodeExpanded = fielValue
-				case "IsMovementCategoryShown":
+				case "IsCategory1Shown":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsMovementCategoryShown = fielValue
-				case "IsArtefactTypeCategoryShown":
+					__gong__map_Diagram[identifier].IsCategory1Shown = fielValue
+				case "IsCategory2Shown":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsArtefactTypeCategoryShown = fielValue
-				case "IsArtistCategoryShown":
+					__gong__map_Diagram[identifier].IsCategory2Shown = fielValue
+				case "IsCategory3Shown":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Diagram[identifier].IsArtistCategoryShown = fielValue
+					__gong__map_Diagram[identifier].IsCategory3Shown = fielValue
 				case "IsInfluenceCategoryShown":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1459,24 +1404,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Influence":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "SourceMovement":
+				case "SourceCategory1":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].SourceMovement = __gong__map_Movement[targetIdentifier]
-				case "SourceArtefactType":
+					__gong__map_Influence[identifier].SourceCategory1 = __gong__map_Category1[targetIdentifier]
+				case "SourceCategory2":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].SourceArtefactType = __gong__map_ArtefactType[targetIdentifier]
-				case "SourceArtist":
+					__gong__map_Influence[identifier].SourceCategory2 = __gong__map_Category3[targetIdentifier]
+				case "SourceCategory3":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].SourceArtist = __gong__map_Artist[targetIdentifier]
-				case "TargetMovement":
+					__gong__map_Influence[identifier].SourceCategory3 = __gong__map_Category2[targetIdentifier]
+				case "TargetCategory1":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].TargetMovement = __gong__map_Movement[targetIdentifier]
-				case "TargetArtefactType":
+					__gong__map_Influence[identifier].TargetCategory1 = __gong__map_Category1[targetIdentifier]
+				case "TargetCategory2":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].TargetArtefactType = __gong__map_ArtefactType[targetIdentifier]
-				case "TargetArtist":
+					__gong__map_Influence[identifier].TargetCategory2 = __gong__map_Category3[targetIdentifier]
+				case "TargetCategory3":
 					targetIdentifier := ident.Name
-					__gong__map_Influence[identifier].TargetArtist = __gong__map_Artist[targetIdentifier]
+					__gong__map_Influence[identifier].TargetCategory3 = __gong__map_Category2[targetIdentifier]
 				case "IsHypothtical":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1491,17 +1436,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Influence":
 					targetIdentifier := ident.Name
 					__gong__map_InfluenceShape[identifier].Influence = __gong__map_Influence[targetIdentifier]
-				}
-			case "Movement":
-				switch fieldName {
-				// insertion point for field dependant code
-				}
-			case "MovementShape":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Movement":
-					targetIdentifier := ident.Name
-					__gong__map_MovementShape[identifier].Movement = __gong__map_Movement[targetIdentifier]
 				}
 			}
 		case *ast.SelectorExpr:
@@ -1561,19 +1495,27 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for selector expr assignments
-				case "ArtefactType":
+				case "Category1":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
-				case "ArtefactTypeShape":
+				case "Category1Shape":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
-				case "Artist":
+				case "Category2":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
-				case "ArtistShape":
+				case "Category2Shape":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "Category3":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "Category3Shape":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
@@ -1609,69 +1551,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_Diagram[identifier].MovementDominantBaselineType = DominantBaselineType(val)
-					case "AbstractMovementRectAnchorType":
-						var val RectAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].AbstractMovementRectAnchorType = RectAnchorType(val)
-					case "AbstractMovementTextAnchorType":
-						var val TextAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].AbstractMovementTextAnchorType = TextAnchorType(val)
-					case "AbstractDominantBaselineType":
-						var val DominantBaselineType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].AbstractDominantBaselineType = DominantBaselineType(val)
-					case "MovementDateRectAnchorType":
-						var val RectAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementDateRectAnchorType = RectAnchorType(val)
-					case "MovementDateTextAnchorType":
-						var val TextAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementDateTextAnchorType = TextAnchorType(val)
-					case "MovementDateTextDominantBaselineType":
-						var val DominantBaselineType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementDateTextDominantBaselineType = DominantBaselineType(val)
-					case "MovementPlacesRectAnchorType":
-						var val RectAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementPlacesRectAnchorType = RectAnchorType(val)
-					case "MovementPlacesTextAnchorType":
-						var val TextAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementPlacesTextAnchorType = TextAnchorType(val)
-					case "MovementPlacesDominantBaselineType":
-						var val DominantBaselineType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].MovementPlacesDominantBaselineType = DominantBaselineType(val)
 					case "ArtefactTypeRectAnchorType":
 						var val RectAnchorType
 						err := (&val).FromCodeString(enumValue)
@@ -1707,62 +1586,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							log.Fatalln(err)
 						}
 						__gong__map_Diagram[identifier].ArtistDominantBaselineType = DominantBaselineType(val)
-					case "ArtistDateRectAnchorType":
-						var val RectAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistDateRectAnchorType = RectAnchorType(val)
-					case "ArtistDateTextAnchorType":
-						var val TextAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistDateTextAnchorType = TextAnchorType(val)
-					case "ArtistDateDominantBaselineType":
-						var val DominantBaselineType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistDateDominantBaselineType = DominantBaselineType(val)
-					case "ArtistPlacesRectAnchorType":
-						var val RectAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistPlacesRectAnchorType = RectAnchorType(val)
-					case "ArtistPlacesTextAnchorType":
-						var val TextAnchorType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistPlacesTextAnchorType = TextAnchorType(val)
-					case "ArtistPlacesDominantBaselineType":
-						var val DominantBaselineType
-						err := (&val).FromCodeString(enumValue)
-						if err != nil {
-							log.Fatalln(err)
-						}
-						__gong__map_Diagram[identifier].ArtistPlacesDominantBaselineType = DominantBaselineType(val)
 					}
 				case "Influence":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
 				case "InfluenceShape":
-					switch fieldName {
-					// insertion point for selector expr assign code
-					}
-				case "Movement":
-					switch fieldName {
-					// insertion point for selector expr assign code
-					}
-				case "MovementShape":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

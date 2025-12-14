@@ -50,17 +50,23 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	// log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point
-	if nodeImplGongstruct.gongStruct.GetName() == "ArtefactType" {
-		updateProbeTable[*models.ArtefactType](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "Category1" {
+		updateProbeTable[*models.Category1](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "ArtefactTypeShape" {
-		updateProbeTable[*models.ArtefactTypeShape](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "Category1Shape" {
+		updateProbeTable[*models.Category1Shape](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Artist" {
-		updateProbeTable[*models.Artist](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "Category2" {
+		updateProbeTable[*models.Category2](nodeImplGongstruct.probe)
 	}
-	if nodeImplGongstruct.gongStruct.GetName() == "ArtistShape" {
-		updateProbeTable[*models.ArtistShape](nodeImplGongstruct.probe)
+	if nodeImplGongstruct.gongStruct.GetName() == "Category2Shape" {
+		updateProbeTable[*models.Category2Shape](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Category3" {
+		updateProbeTable[*models.Category3](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "Category3Shape" {
+		updateProbeTable[*models.Category3Shape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "ControlPointShape" {
 		updateProbeTable[*models.ControlPointShape](nodeImplGongstruct.probe)
@@ -76,12 +82,6 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "InfluenceShape" {
 		updateProbeTable[*models.InfluenceShape](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "Movement" {
-		updateProbeTable[*models.Movement](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "MovementShape" {
-		updateProbeTable[*models.MovementShape](nodeImplGongstruct.probe)
 	}
 
 	// set color for node and reset all other nodes color

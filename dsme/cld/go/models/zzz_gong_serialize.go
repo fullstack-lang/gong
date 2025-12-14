@@ -19,17 +19,17 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 	f := excelize.NewFile()
 	{
 		// insertion point
-		SerializeExcelizePointerToGongstruct2[*ArtefactType](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ArtefactTypeShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Artist](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*ArtistShape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category1](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category1Shape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category2](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category2Shape](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category3](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*Category3Shape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ControlPointShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Desk](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Influence](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*InfluenceShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Movement](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*MovementShape](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

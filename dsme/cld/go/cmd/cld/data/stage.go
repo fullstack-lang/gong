@@ -23,31 +23,67 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__ArtefactType__000000_Japanese_prints := (&models.ArtefactType{}).Stage(stage)
-	__ArtefactType__000001_Near_Eastern_Art := (&models.ArtefactType{}).Stage(stage)
-	__ArtefactType__000002_African_First_Art := (&models.ArtefactType{}).Stage(stage)
-	__ArtefactType__000003_Machine_Esthetic := (&models.ArtefactType{}).Stage(stage)
+	__Category1__000000_Purism := (&models.Category1{}).Stage(stage)
+	__Category1__000001_Synthetism := (&models.Category1{}).Stage(stage)
+	__Category1__000002_Neo_Impressionism := (&models.Category1{}).Stage(stage)
+	__Category1__000003_Fauvism := (&models.Category1{}).Stage(stage)
+	__Category1__000004_Expressionism := (&models.Category1{}).Stage(stage)
+	__Category1__000005_Futurism := (&models.Category1{}).Stage(stage)
+	__Category1__000006_Orphism := (&models.Category1{}).Stage(stage)
+	__Category1__000007_Cubism := (&models.Category1{}).Stage(stage)
+	__Category1__000008_Suprematism := (&models.Category1{}).Stage(stage)
+	__Category1__000009_Constructivism := (&models.Category1{}).Stage(stage)
+	__Category1__000010_Dadaism := (&models.Category1{}).Stage(stage)
+	__Category1__000011_De_Stijl := (&models.Category1{}).Stage(stage)
+	__Category1__000012_Bauhaus := (&models.Category1{}).Stage(stage)
+	__Category1__000013_Surrealism := (&models.Category1{}).Stage(stage)
+	__Category1__000014_Non_Geometrical_Abstract_Art := (&models.Category1{}).Stage(stage)
+	__Category1__000015_Geometrical_Abstract_Art := (&models.Category1{}).Stage(stage)
+	__Category1__000016_Architecture := (&models.Category1{}).Stage(stage)
 
-	__ArtefactTypeShape__000000_ := (&models.ArtefactTypeShape{}).Stage(stage)
-	__ArtefactTypeShape__000001_ := (&models.ArtefactTypeShape{}).Stage(stage)
-	__ArtefactTypeShape__000002_ := (&models.ArtefactTypeShape{}).Stage(stage)
-	__ArtefactTypeShape__000003_ := (&models.ArtefactTypeShape{}).Stage(stage)
+	__Category1Shape__000000_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000001_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000002_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000003_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000004_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000005_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000006_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000007_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000008_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000009_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000010_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000011_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000012_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000013_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000014_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000015_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000016_ := (&models.Category1Shape{}).Stage(stage)
 
-	__Artist__000000_Van_Gogh := (&models.Artist{}).Stage(stage)
-	__Artist__000001_Gauguin := (&models.Artist{}).Stage(stage)
-	__Artist__000002_C_zanne := (&models.Artist{}).Stage(stage)
-	__Artist__000003_Seurat := (&models.Artist{}).Stage(stage)
-	__Artist__000004_Redon := (&models.Artist{}).Stage(stage)
-	__Artist__000005_Rousseau := (&models.Artist{}).Stage(stage)
-	__Artist__000006_Brancusi := (&models.Artist{}).Stage(stage)
+	__Category2__000000_Van_Gogh := (&models.Category2{}).Stage(stage)
+	__Category2__000001_Gauguin := (&models.Category2{}).Stage(stage)
+	__Category2__000002_C_zanne := (&models.Category2{}).Stage(stage)
+	__Category2__000003_Seurat := (&models.Category2{}).Stage(stage)
+	__Category2__000004_Redon := (&models.Category2{}).Stage(stage)
+	__Category2__000005_Rousseau := (&models.Category2{}).Stage(stage)
+	__Category2__000006_Brancusi := (&models.Category2{}).Stage(stage)
 
-	__ArtistShape__000000_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000001_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000002_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000003_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000004_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000005_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000006_ := (&models.ArtistShape{}).Stage(stage)
+	__Category2Shape__000000_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000001_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000002_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000003_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000004_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000005_ := (&models.Category2Shape{}).Stage(stage)
+	__Category2Shape__000006_ := (&models.Category2Shape{}).Stage(stage)
+
+	__Category3__000000_Japanese_prints := (&models.Category3{}).Stage(stage)
+	__Category3__000001_Near_Eastern_Art := (&models.Category3{}).Stage(stage)
+	__Category3__000002_African_First_Art := (&models.Category3{}).Stage(stage)
+	__Category3__000003_Machine_Esthetic := (&models.Category3{}).Stage(stage)
+
+	__Category3Shape__000000_ := (&models.Category3Shape{}).Stage(stage)
+	__Category3Shape__000001_ := (&models.Category3Shape{}).Stage(stage)
+	__Category3Shape__000002_ := (&models.Category3Shape{}).Stage(stage)
+	__Category3Shape__000003_ := (&models.Category3Shape{}).Stage(stage)
 
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0 := (&models.ControlPointShape{}).Stage(stage)
 	__ControlPointShape__000001_Control_Point_Shape_in_Redon_to_Expressionism_0 := (&models.ControlPointShape{}).Stage(stage)
@@ -216,131 +252,231 @@ func _(stage *models.Stage) {
 	__InfluenceShape__000047_Machine_Esthetic_to_Architecture := (&models.InfluenceShape{}).Stage(stage)
 	__InfluenceShape__000048_Suprematism_to_Bauhaus := (&models.InfluenceShape{}).Stage(stage)
 
-	__Movement__000000_Purism := (&models.Movement{}).Stage(stage)
-	__Movement__000001_Synthetism := (&models.Movement{}).Stage(stage)
-	__Movement__000002_Neo_Impressionism := (&models.Movement{}).Stage(stage)
-	__Movement__000003_Fauvism := (&models.Movement{}).Stage(stage)
-	__Movement__000004_Expressionism := (&models.Movement{}).Stage(stage)
-	__Movement__000005_Futurism := (&models.Movement{}).Stage(stage)
-	__Movement__000006_Orphism := (&models.Movement{}).Stage(stage)
-	__Movement__000007_Cubism := (&models.Movement{}).Stage(stage)
-	__Movement__000008_Suprematism := (&models.Movement{}).Stage(stage)
-	__Movement__000009_Constructivism := (&models.Movement{}).Stage(stage)
-	__Movement__000010_Dadaism := (&models.Movement{}).Stage(stage)
-	__Movement__000011_De_Stijl := (&models.Movement{}).Stage(stage)
-	__Movement__000012_Bauhaus := (&models.Movement{}).Stage(stage)
-	__Movement__000013_Surrealism := (&models.Movement{}).Stage(stage)
-	__Movement__000014_Non_Geometrical_Abstract_Art := (&models.Movement{}).Stage(stage)
-	__Movement__000015_Geometrical_Abstract_Art := (&models.Movement{}).Stage(stage)
-	__Movement__000016_Architecture := (&models.Movement{}).Stage(stage)
-
-	__MovementShape__000000_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000001_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000002_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000003_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000004_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000005_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000006_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000007_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000008_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000009_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000010_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000011_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000012_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000013_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000014_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000015_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000016_ := (&models.MovementShape{}).Stage(stage)
-
 	// Setup of values
 
-	__ArtefactType__000000_Japanese_prints.Name = `Japanese prints`
+	__Category1__000000_Purism.Name = `Purism`
 
-	__ArtefactType__000001_Near_Eastern_Art.Name = `Near-Eastern Art`
+	__Category1__000001_Synthetism.Name = `Synthetism`
 
-	__ArtefactType__000002_African_First_Art.Name = `African First Art`
+	__Category1__000002_Neo_Impressionism.Name = `Neo-Impressionism`
 
-	__ArtefactType__000003_Machine_Esthetic.Name = `Machine Esthetic`
+	__Category1__000003_Fauvism.Name = `Fauvism`
 
-	__ArtefactTypeShape__000000_.Name = ``
-	__ArtefactTypeShape__000000_.X = 80.000000
-	__ArtefactTypeShape__000000_.Y = 37.000000
-	__ArtefactTypeShape__000000_.Width = 119.000000
-	__ArtefactTypeShape__000000_.Height = 21.000000
+	__Category1__000004_Expressionism.Name = `Expressionism`
 
-	__ArtefactTypeShape__000001_.Name = ``
-	__ArtefactTypeShape__000001_.X = 101.000000
-	__ArtefactTypeShape__000001_.Y = 238.000000
-	__ArtefactTypeShape__000001_.Width = 130.000000
-	__ArtefactTypeShape__000001_.Height = 21.000000
+	__Category1__000005_Futurism.Name = `Futurism`
 
-	__ArtefactTypeShape__000002_.Name = ``
-	__ArtefactTypeShape__000002_.X = 405.000000
-	__ArtefactTypeShape__000002_.Y = 319.333333
-	__ArtefactTypeShape__000002_.Width = 139.000000
-	__ArtefactTypeShape__000002_.Height = 21.000000
+	__Category1__000006_Orphism.Name = `Orphism`
 
-	__ArtefactTypeShape__000003_.Name = ``
-	__ArtefactTypeShape__000003_.X = 397.000000
-	__ArtefactTypeShape__000003_.Y = 238.000000
-	__ArtefactTypeShape__000003_.Width = 132.000000
-	__ArtefactTypeShape__000003_.Height = 20.000000
+	__Category1__000007_Cubism.Name = `Cubism`
 
-	__Artist__000000_Van_Gogh.Name = `Van Gogh`
+	__Category1__000008_Suprematism.Name = `Suprematism`
 
-	__Artist__000001_Gauguin.Name = `Gauguin`
+	__Category1__000009_Constructivism.Name = `Constructivism`
 
-	__Artist__000002_C_zanne.Name = `Cézanne`
+	__Category1__000010_Dadaism.Name = `Dadaism`
 
-	__Artist__000003_Seurat.Name = `Seurat`
+	__Category1__000011_De_Stijl.Name = `De Stijl`
 
-	__Artist__000004_Redon.Name = `Redon`
+	__Category1__000012_Bauhaus.Name = `Bauhaus`
 
-	__Artist__000005_Rousseau.Name = `Rousseau`
+	__Category1__000013_Surrealism.Name = `Surrealism`
 
-	__Artist__000006_Brancusi.Name = `Brancusi`
+	__Category1__000014_Non_Geometrical_Abstract_Art.Name = `Non-Geometrical Abstract Art`
 
-	__ArtistShape__000000_.Name = ``
-	__ArtistShape__000000_.X = 296.680251
-	__ArtistShape__000000_.Y = 413.927203
-	__ArtistShape__000000_.Width = 54.000000
-	__ArtistShape__000000_.Height = 28.000000
+	__Category1__000015_Geometrical_Abstract_Art.Name = `Geometrical Abstract Art`
 
-	__ArtistShape__000001_.Name = ``
-	__ArtistShape__000001_.X = 445.888889
-	__ArtistShape__000001_.Y = 26.333333
-	__ArtistShape__000001_.Width = 84.000000
-	__ArtistShape__000001_.Height = 33.000000
+	__Category1__000016_Architecture.Name = `Architecture`
 
-	__ArtistShape__000002_.Name = ``
-	__ArtistShape__000002_.X = 293.000000
-	__ArtistShape__000002_.Y = 19.000000
-	__ArtistShape__000002_.Width = 74.000000
-	__ArtistShape__000002_.Height = 31.000000
+	__Category1Shape__000000_.Name = ``
+	__Category1Shape__000000_.X = 158.219546
+	__Category1Shape__000000_.Y = 442.062032
+	__Category1Shape__000000_.Width = 91.094118
+	__Category1Shape__000000_.Height = 44.724138
 
-	__ArtistShape__000003_.Name = ``
-	__ArtistShape__000003_.X = 57.000000
-	__ArtistShape__000003_.Y = 116.000000
-	__ArtistShape__000003_.Width = 73.000000
-	__ArtistShape__000003_.Height = 30.000000
+	__Category1Shape__000001_.Name = ``
+	__Category1Shape__000001_.X = 89.500000
+	__Category1Shape__000001_.Y = 367.913793
+	__Category1Shape__000001_.Width = 112.500031
+	__Category1Shape__000001_.Height = 34.086207
 
-	__ArtistShape__000004_.Name = ``
-	__ArtistShape__000004_.X = 662.222222
-	__ArtistShape__000004_.Y = 126.555556
-	__ArtistShape__000004_.Width = 69.000000
-	__ArtistShape__000004_.Height = 30.000000
+	__Category1Shape__000002_.Name = ``
+	__Category1Shape__000002_.X = 122.813468
+	__Category1Shape__000002_.Y = 590.434344
+	__Category1Shape__000002_.Width = 88.200000
+	__Category1Shape__000002_.Height = 36.200000
 
-	__ArtistShape__000005_.Name = ``
-	__ArtistShape__000005_.X = 655.000000
-	__ArtistShape__000005_.Y = 17.000000
-	__ArtistShape__000005_.Width = 47.000000
-	__ArtistShape__000005_.Height = 30.000000
+	__Category1Shape__000003_.Name = ``
+	__Category1Shape__000003_.X = 270.420875
+	__Category1Shape__000003_.Y = 356.713805
+	__Category1Shape__000003_.Width = 69.333333
+	__Category1Shape__000003_.Height = 29.090909
 
-	__ArtistShape__000006_.Name = ``
-	__ArtistShape__000006_.X = 156.000000
-	__ArtistShape__000006_.Y = 75.000000
-	__ArtistShape__000006_.Width = 70.000000
-	__ArtistShape__000006_.Height = 30.000000
+	__Category1Shape__000004_.Name = ``
+	__Category1Shape__000004_.X = 281.023424
+	__Category1Shape__000004_.Y = 241.051724
+	__Category1Shape__000004_.Width = 63.130750
+	__Category1Shape__000004_.Height = 41.908046
+
+	__Category1Shape__000005_.Name = ``
+	__Category1Shape__000005_.X = 84.385185
+	__Category1Shape__000005_.Y = 740.444444
+	__Category1Shape__000005_.Width = 240.000000
+	__Category1Shape__000005_.Height = 23.200000
+
+	__Category1Shape__000006_.Name = ``
+	__Category1Shape__000006_.X = 416.599327
+	__Category1Shape__000006_.Y = 449.518519
+	__Category1Shape__000006_.Width = 114.197980
+	__Category1Shape__000006_.Height = 50.340067
+
+	__Category1Shape__000007_.Name = ``
+	__Category1Shape__000007_.X = 553.786833
+	__Category1Shape__000007_.Y = 568.328805
+	__Category1Shape__000007_.Width = 71.909122
+	__Category1Shape__000007_.Height = 28.181818
+
+	__Category1Shape__000008_.Name = ``
+	__Category1Shape__000008_.X = 596.169697
+	__Category1Shape__000008_.Y = 426.400000
+	__Category1Shape__000008_.Width = 125.363636
+	__Category1Shape__000008_.Height = 40.000000
+
+	__Category1Shape__000009_.Name = ``
+	__Category1Shape__000009_.X = 493.727304
+	__Category1Shape__000009_.Y = 734.558923
+	__Category1Shape__000009_.Width = 208.181818
+	__Category1Shape__000009_.Height = 32.545455
+
+	__Category1Shape__000010_.Name = ``
+	__Category1Shape__000010_.X = 556.142096
+	__Category1Shape__000010_.Y = 55.409613
+	__Category1Shape__000010_.Width = 148.757576
+	__Category1Shape__000010_.Height = 34.090909
+
+	__Category1Shape__000011_.Name = ``
+	__Category1Shape__000011_.X = 438.554510
+	__Category1Shape__000011_.Y = 349.000000
+	__Category1Shape__000011_.Width = 42.564263
+	__Category1Shape__000011_.Height = 36.839827
+
+	__Category1Shape__000012_.Name = ``
+	__Category1Shape__000012_.X = 303.138046
+	__Category1Shape__000012_.Y = 482.222222
+	__Category1Shape__000012_.Width = 51.000031
+	__Category1Shape__000012_.Height = 32.000000
+
+	__Category1Shape__000013_.Name = ``
+	__Category1Shape__000013_.X = 579.787879
+	__Category1Shape__000013_.Y = 370.921212
+	__Category1Shape__000013_.Width = 99.090909
+	__Category1Shape__000013_.Height = 27.636364
+
+	__Category1Shape__000014_.Name = ``
+	__Category1Shape__000014_.X = 284.666681
+	__Category1Shape__000014_.Y = 54.200000
+	__Category1Shape__000014_.Width = 89.666667
+	__Category1Shape__000014_.Height = 31.000000
+
+	__Category1Shape__000015_.Name = ``
+	__Category1Shape__000015_.X = 612.064814
+	__Category1Shape__000015_.Y = 275.523148
+	__Category1Shape__000015_.Width = 75.000000
+	__Category1Shape__000015_.Height = 48.636364
+
+	__Category1Shape__000016_.Name = ``
+	__Category1Shape__000016_.X = 261.070707
+	__Category1Shape__000016_.Y = 582.747475
+	__Category1Shape__000016_.Width = 147.222222
+	__Category1Shape__000016_.Height = 49.555556
+
+	__Category2__000000_Van_Gogh.Name = `Van Gogh`
+
+	__Category2__000001_Gauguin.Name = `Gauguin`
+
+	__Category2__000002_C_zanne.Name = `Cézanne`
+
+	__Category2__000003_Seurat.Name = `Seurat`
+
+	__Category2__000004_Redon.Name = `Redon`
+
+	__Category2__000005_Rousseau.Name = `Rousseau`
+
+	__Category2__000006_Brancusi.Name = `Brancusi`
+
+	__Category2Shape__000000_.Name = ``
+	__Category2Shape__000000_.X = 296.680251
+	__Category2Shape__000000_.Y = 413.927203
+	__Category2Shape__000000_.Width = 54.000000
+	__Category2Shape__000000_.Height = 28.000000
+
+	__Category2Shape__000001_.Name = ``
+	__Category2Shape__000001_.X = 445.888889
+	__Category2Shape__000001_.Y = 26.333333
+	__Category2Shape__000001_.Width = 84.000000
+	__Category2Shape__000001_.Height = 33.000000
+
+	__Category2Shape__000002_.Name = ``
+	__Category2Shape__000002_.X = 293.000000
+	__Category2Shape__000002_.Y = 19.000000
+	__Category2Shape__000002_.Width = 74.000000
+	__Category2Shape__000002_.Height = 31.000000
+
+	__Category2Shape__000003_.Name = ``
+	__Category2Shape__000003_.X = 57.000000
+	__Category2Shape__000003_.Y = 116.000000
+	__Category2Shape__000003_.Width = 73.000000
+	__Category2Shape__000003_.Height = 30.000000
+
+	__Category2Shape__000004_.Name = ``
+	__Category2Shape__000004_.X = 662.222222
+	__Category2Shape__000004_.Y = 126.555556
+	__Category2Shape__000004_.Width = 69.000000
+	__Category2Shape__000004_.Height = 30.000000
+
+	__Category2Shape__000005_.Name = ``
+	__Category2Shape__000005_.X = 655.000000
+	__Category2Shape__000005_.Y = 17.000000
+	__Category2Shape__000005_.Width = 47.000000
+	__Category2Shape__000005_.Height = 30.000000
+
+	__Category2Shape__000006_.Name = ``
+	__Category2Shape__000006_.X = 156.000000
+	__Category2Shape__000006_.Y = 75.000000
+	__Category2Shape__000006_.Width = 70.000000
+	__Category2Shape__000006_.Height = 30.000000
+
+	__Category3__000000_Japanese_prints.Name = `Japanese prints`
+
+	__Category3__000001_Near_Eastern_Art.Name = `Near-Eastern Art`
+
+	__Category3__000002_African_First_Art.Name = `African First Art`
+
+	__Category3__000003_Machine_Esthetic.Name = `Machine Esthetic`
+
+	__Category3Shape__000000_.Name = ``
+	__Category3Shape__000000_.X = 80.000000
+	__Category3Shape__000000_.Y = 37.000000
+	__Category3Shape__000000_.Width = 119.000000
+	__Category3Shape__000000_.Height = 21.000000
+
+	__Category3Shape__000001_.Name = ``
+	__Category3Shape__000001_.X = 101.000000
+	__Category3Shape__000001_.Y = 238.000000
+	__Category3Shape__000001_.Width = 130.000000
+	__Category3Shape__000001_.Height = 21.000000
+
+	__Category3Shape__000002_.Name = ``
+	__Category3Shape__000002_.X = 405.000000
+	__Category3Shape__000002_.Y = 319.333333
+	__Category3Shape__000002_.Width = 139.000000
+	__Category3Shape__000002_.Height = 21.000000
+
+	__Category3Shape__000003_.Name = ``
+	__Category3Shape__000003_.X = 397.000000
+	__Category3Shape__000003_.Y = 238.000000
+	__Category3Shape__000003_.Width = 132.000000
+	__Category3Shape__000003_.Height = 20.000000
 
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0.Name = `Control Point Shape in Japanese prints to Fauvism 0`
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0.X_Relative = 0.162020
@@ -657,13 +793,13 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.Name = `Cubism   and   abstract   art`
 	__Diagram__000000_Cubism_and_abstract_art.IsEditable = false
 	__Diagram__000000_Cubism_and_abstract_art.IsNodeExpanded = true
-	__Diagram__000000_Cubism_and_abstract_art.IsMovementCategoryNodeExpanded = false
-	__Diagram__000000_Cubism_and_abstract_art.IsArtefactTypeCategoryNodeExpanded = false
-	__Diagram__000000_Cubism_and_abstract_art.IsArtistCategoryNodeExpanded = false
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory1NodeExpanded = false
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory2NodeExpanded = false
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory3NodeExpanded = false
 	__Diagram__000000_Cubism_and_abstract_art.IsInfluenceCategoryNodeExpanded = false
-	__Diagram__000000_Cubism_and_abstract_art.IsMovementCategoryShown = true
-	__Diagram__000000_Cubism_and_abstract_art.IsArtefactTypeCategoryShown = true
-	__Diagram__000000_Cubism_and_abstract_art.IsArtistCategoryShown = true
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory1Shown = true
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory2Shown = true
+	__Diagram__000000_Cubism_and_abstract_art.IsCategory3Shown = true
 	__Diagram__000000_Cubism_and_abstract_art.IsInfluenceCategoryShown = true
 	__Diagram__000000_Cubism_and_abstract_art.XMargin = 20.000000
 	__Diagram__000000_Cubism_and_abstract_art.YMargin = 40.000000
@@ -684,27 +820,9 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.MovementTextAnchorType = models.TEXT_ANCHOR_END
 	__Diagram__000000_Cubism_and_abstract_art.MovementDominantBaselineType = models.DominantBaselineCentral
 	__Diagram__000000_Cubism_and_abstract_art.MovementFontSize = `14px`
-	__Diagram__000000_Cubism_and_abstract_art.MajorMovementFontSize = `18px`
-	__Diagram__000000_Cubism_and_abstract_art.MinorMovementFontSize = `10px`
 	__Diagram__000000_Cubism_and_abstract_art.MovementFontWeigth = `Thin`
 	__Diagram__000000_Cubism_and_abstract_art.MovementFontFamily = `Futura, sans serif`
 	__Diagram__000000_Cubism_and_abstract_art.MovementLetterSpacing = `1`
-	__Diagram__000000_Cubism_and_abstract_art.AbstractMovementFontSize = `12px`
-	__Diagram__000000_Cubism_and_abstract_art.AbstractMovementRectAnchorType = models.RECT_TOP_RIGHT
-	__Diagram__000000_Cubism_and_abstract_art.AbstractMovementTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000000_Cubism_and_abstract_art.AbstractDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateRectAnchorType = models.RECT_BOTTOM_LEFT
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateTextAnchorType = models.TEXT_ANCHOR_START
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateTextDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateAndPlacesFontSize = `9px`
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateAndPlacesFontWeigth = ``
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateAndPlacesFontFamily = `Futura`
-	__Diagram__000000_Cubism_and_abstract_art.MovementDateAndPlacesLetterSpacing = `0`
-	__Diagram__000000_Cubism_and_abstract_art.MovementBelowArcY_Offset = 6.000000
-	__Diagram__000000_Cubism_and_abstract_art.MovementBelowArcY_OffsetPerPlace = 6.000000
-	__Diagram__000000_Cubism_and_abstract_art.MovementPlacesRectAnchorType = models.RECT_BOTTOM_RIGHT
-	__Diagram__000000_Cubism_and_abstract_art.MovementPlacesTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000000_Cubism_and_abstract_art.MovementPlacesDominantBaselineType = models.DominantBaselineCentral
 	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeFontSize = `12px`
 	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeFontWeigth = ``
 	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeFontFamily = `Futura`
@@ -716,21 +834,9 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.ArtistTextAnchorType = models.TEXT_ANCHOR_CENTER
 	__Diagram__000000_Cubism_and_abstract_art.ArtistDominantBaselineType = models.DominantBaselineCentral
 	__Diagram__000000_Cubism_and_abstract_art.ArtistFontSize = `14px`
-	__Diagram__000000_Cubism_and_abstract_art.MajorArtistFontSize = ``
-	__Diagram__000000_Cubism_and_abstract_art.MinorArtistFontSize = ``
 	__Diagram__000000_Cubism_and_abstract_art.ArtistFontWeigth = `100`
 	__Diagram__000000_Cubism_and_abstract_art.ArtistFontFamily = `Futura`
 	__Diagram__000000_Cubism_and_abstract_art.ArtistLetterSpacing = `0`
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateRectAnchorType = models.RECT_BOTTOM_LEFT
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateTextAnchorType = models.TEXT_ANCHOR_START
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateAndPlacesFontSize = `10px`
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateAndPlacesFontWeigth = `100`
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateAndPlacesFontFamily = `Futura`
-	__Diagram__000000_Cubism_and_abstract_art.ArtistDateAndPlacesLetterSpacing = ``
-	__Diagram__000000_Cubism_and_abstract_art.ArtistPlacesRectAnchorType = models.RECT_BOTTOM_RIGHT
-	__Diagram__000000_Cubism_and_abstract_art.ArtistPlacesTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000000_Cubism_and_abstract_art.ArtistPlacesDominantBaselineType = models.DominantBaselineCentral
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceArrowSize = 6.000000
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceArrowStartOffset = 19.000000
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceArrowEndOffset = 9.000000
@@ -982,190 +1088,73 @@ func _(stage *models.Stage) {
 
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.Name = `Suprematism to Bauhaus`
 
-	__Movement__000000_Purism.Name = `Purism`
-
-	__Movement__000001_Synthetism.Name = `Synthetism`
-
-	__Movement__000002_Neo_Impressionism.Name = `Neo-Impressionism`
-
-	__Movement__000003_Fauvism.Name = `Fauvism`
-
-	__Movement__000004_Expressionism.Name = `Expressionism`
-
-	__Movement__000005_Futurism.Name = `Futurism`
-
-	__Movement__000006_Orphism.Name = `Orphism`
-
-	__Movement__000007_Cubism.Name = `Cubism`
-
-	__Movement__000008_Suprematism.Name = `Suprematism`
-
-	__Movement__000009_Constructivism.Name = `Constructivism`
-
-	__Movement__000010_Dadaism.Name = `Dadaism`
-
-	__Movement__000011_De_Stijl.Name = `De Stijl`
-
-	__Movement__000012_Bauhaus.Name = `Bauhaus`
-
-	__Movement__000013_Surrealism.Name = `Surrealism`
-
-	__Movement__000014_Non_Geometrical_Abstract_Art.Name = `Non-Geometrical Abstract Art`
-
-	__Movement__000015_Geometrical_Abstract_Art.Name = `Geometrical Abstract Art`
-
-	__Movement__000016_Architecture.Name = `Architecture`
-
-	__MovementShape__000000_.Name = ``
-	__MovementShape__000000_.X = 158.219546
-	__MovementShape__000000_.Y = 442.062032
-	__MovementShape__000000_.Width = 91.094118
-	__MovementShape__000000_.Height = 44.724138
-
-	__MovementShape__000001_.Name = ``
-	__MovementShape__000001_.X = 89.500000
-	__MovementShape__000001_.Y = 367.913793
-	__MovementShape__000001_.Width = 112.500031
-	__MovementShape__000001_.Height = 34.086207
-
-	__MovementShape__000002_.Name = ``
-	__MovementShape__000002_.X = 122.813468
-	__MovementShape__000002_.Y = 590.434344
-	__MovementShape__000002_.Width = 88.200000
-	__MovementShape__000002_.Height = 36.200000
-
-	__MovementShape__000003_.Name = ``
-	__MovementShape__000003_.X = 270.420875
-	__MovementShape__000003_.Y = 356.713805
-	__MovementShape__000003_.Width = 69.333333
-	__MovementShape__000003_.Height = 29.090909
-
-	__MovementShape__000004_.Name = ``
-	__MovementShape__000004_.X = 281.023424
-	__MovementShape__000004_.Y = 241.051724
-	__MovementShape__000004_.Width = 63.130750
-	__MovementShape__000004_.Height = 41.908046
-
-	__MovementShape__000005_.Name = ``
-	__MovementShape__000005_.X = 84.385185
-	__MovementShape__000005_.Y = 740.444444
-	__MovementShape__000005_.Width = 240.000000
-	__MovementShape__000005_.Height = 23.200000
-
-	__MovementShape__000006_.Name = ``
-	__MovementShape__000006_.X = 416.599327
-	__MovementShape__000006_.Y = 449.518519
-	__MovementShape__000006_.Width = 114.197980
-	__MovementShape__000006_.Height = 50.340067
-
-	__MovementShape__000007_.Name = ``
-	__MovementShape__000007_.X = 553.786833
-	__MovementShape__000007_.Y = 568.328805
-	__MovementShape__000007_.Width = 71.909122
-	__MovementShape__000007_.Height = 28.181818
-
-	__MovementShape__000008_.Name = ``
-	__MovementShape__000008_.X = 596.169697
-	__MovementShape__000008_.Y = 426.400000
-	__MovementShape__000008_.Width = 125.363636
-	__MovementShape__000008_.Height = 40.000000
-
-	__MovementShape__000009_.Name = ``
-	__MovementShape__000009_.X = 493.727304
-	__MovementShape__000009_.Y = 734.558923
-	__MovementShape__000009_.Width = 208.181818
-	__MovementShape__000009_.Height = 32.545455
-
-	__MovementShape__000010_.Name = ``
-	__MovementShape__000010_.X = 556.142096
-	__MovementShape__000010_.Y = 55.409613
-	__MovementShape__000010_.Width = 148.757576
-	__MovementShape__000010_.Height = 34.090909
-
-	__MovementShape__000011_.Name = ``
-	__MovementShape__000011_.X = 438.554510
-	__MovementShape__000011_.Y = 349.000000
-	__MovementShape__000011_.Width = 42.564263
-	__MovementShape__000011_.Height = 36.839827
-
-	__MovementShape__000012_.Name = ``
-	__MovementShape__000012_.X = 303.138046
-	__MovementShape__000012_.Y = 482.222222
-	__MovementShape__000012_.Width = 51.000031
-	__MovementShape__000012_.Height = 32.000000
-
-	__MovementShape__000013_.Name = ``
-	__MovementShape__000013_.X = 579.787879
-	__MovementShape__000013_.Y = 370.921212
-	__MovementShape__000013_.Width = 99.090909
-	__MovementShape__000013_.Height = 27.636364
-
-	__MovementShape__000014_.Name = ``
-	__MovementShape__000014_.X = 284.666681
-	__MovementShape__000014_.Y = 54.200000
-	__MovementShape__000014_.Width = 89.666667
-	__MovementShape__000014_.Height = 31.000000
-
-	__MovementShape__000015_.Name = ``
-	__MovementShape__000015_.X = 612.064814
-	__MovementShape__000015_.Y = 275.523148
-	__MovementShape__000015_.Width = 75.000000
-	__MovementShape__000015_.Height = 48.636364
-
-	__MovementShape__000016_.Name = ``
-	__MovementShape__000016_.X = 261.070707
-	__MovementShape__000016_.Y = 582.747475
-	__MovementShape__000016_.Width = 147.222222
-	__MovementShape__000016_.Height = 49.555556
-
 	// Setup of pointers
-	// setup of ArtefactType instances pointers
-	// setup of ArtefactTypeShape instances pointers
-	__ArtefactTypeShape__000000_.ArtefactType = __ArtefactType__000000_Japanese_prints
-	__ArtefactTypeShape__000001_.ArtefactType = __ArtefactType__000001_Near_Eastern_Art
-	__ArtefactTypeShape__000002_.ArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__ArtefactTypeShape__000003_.ArtefactType = __ArtefactType__000002_African_First_Art
-	// setup of Artist instances pointers
-	// setup of ArtistShape instances pointers
-	__ArtistShape__000000_.Artist = __Artist__000006_Brancusi
-	__ArtistShape__000001_.Artist = __Artist__000002_C_zanne
-	__ArtistShape__000002_.Artist = __Artist__000001_Gauguin
-	__ArtistShape__000003_.Artist = __Artist__000004_Redon
-	__ArtistShape__000004_.Artist = __Artist__000005_Rousseau
-	__ArtistShape__000005_.Artist = __Artist__000003_Seurat
-	__ArtistShape__000006_.Artist = __Artist__000000_Van_Gogh
+	// setup of Category1 instances pointers
+	// setup of Category1Shape instances pointers
+	__Category1Shape__000000_.Category1 = __Category1__000010_Dadaism
+	__Category1Shape__000001_.Category1 = __Category1__000004_Expressionism
+	__Category1Shape__000002_.Category1 = __Category1__000013_Surrealism
+	__Category1Shape__000003_.Category1 = __Category1__000005_Futurism
+	__Category1Shape__000004_.Category1 = __Category1__000003_Fauvism
+	__Category1Shape__000005_.Category1 = __Category1__000014_Non_Geometrical_Abstract_Art
+	__Category1Shape__000006_.Category1 = __Category1__000011_De_Stijl
+	__Category1Shape__000007_.Category1 = __Category1__000012_Bauhaus
+	__Category1Shape__000008_.Category1 = __Category1__000009_Constructivism
+	__Category1Shape__000009_.Category1 = __Category1__000015_Geometrical_Abstract_Art
+	__Category1Shape__000010_.Category1 = __Category1__000002_Neo_Impressionism
+	__Category1Shape__000011_.Category1 = __Category1__000006_Orphism
+	__Category1Shape__000012_.Category1 = __Category1__000000_Purism
+	__Category1Shape__000013_.Category1 = __Category1__000008_Suprematism
+	__Category1Shape__000014_.Category1 = __Category1__000001_Synthetism
+	__Category1Shape__000015_.Category1 = __Category1__000007_Cubism
+	__Category1Shape__000016_.Category1 = __Category1__000016_Architecture
+	// setup of Category2 instances pointers
+	// setup of Category2Shape instances pointers
+	__Category2Shape__000000_.Category2 = __Category2__000006_Brancusi
+	__Category2Shape__000001_.Category2 = __Category2__000002_C_zanne
+	__Category2Shape__000002_.Category2 = __Category2__000001_Gauguin
+	__Category2Shape__000003_.Category2 = __Category2__000004_Redon
+	__Category2Shape__000004_.Category2 = __Category2__000005_Rousseau
+	__Category2Shape__000005_.Category2 = __Category2__000003_Seurat
+	__Category2Shape__000006_.Category2 = __Category2__000000_Van_Gogh
+	// setup of Category3 instances pointers
+	// setup of Category3Shape instances pointers
+	__Category3Shape__000000_.Category3 = __Category3__000000_Japanese_prints
+	__Category3Shape__000001_.Category3 = __Category3__000001_Near_Eastern_Art
+	__Category3Shape__000002_.Category3 = __Category3__000003_Machine_Esthetic
+	__Category3Shape__000003_.Category3 = __Category3__000002_African_First_Art
 	// setup of ControlPointShape instances pointers
 	// setup of Desk instances pointers
 	__Desk__000000_Desk.SelectedDiagram = __Diagram__000000_Cubism_and_abstract_art
 	// setup of Diagram instances pointers
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000000_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000001_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000002_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000003_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000004_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000005_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000006_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000007_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000008_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000009_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000010_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000011_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000012_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000013_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000014_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000015_)
-	__Diagram__000000_Cubism_and_abstract_art.MovementShapes = append(__Diagram__000000_Cubism_and_abstract_art.MovementShapes, __MovementShape__000016_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes, __ArtefactTypeShape__000000_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes, __ArtefactTypeShape__000001_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes, __ArtefactTypeShape__000002_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtefactTypeShapes, __ArtefactTypeShape__000003_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000000_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000001_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000002_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000003_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000004_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000005_)
-	__Diagram__000000_Cubism_and_abstract_art.ArtistShapes = append(__Diagram__000000_Cubism_and_abstract_art.ArtistShapes, __ArtistShape__000006_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000000_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000001_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000002_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000003_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000004_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000005_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000006_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000007_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000008_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000009_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000010_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000011_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000012_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000013_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000014_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000015_)
+	__Diagram__000000_Cubism_and_abstract_art.Category1Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category1Shapes, __Category1Shape__000016_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000000_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000001_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000002_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000003_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000004_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000005_)
+	__Diagram__000000_Cubism_and_abstract_art.Category2Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category2Shapes, __Category2Shape__000006_)
+	__Diagram__000000_Cubism_and_abstract_art.Category3Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category3Shapes, __Category3Shape__000000_)
+	__Diagram__000000_Cubism_and_abstract_art.Category3Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category3Shapes, __Category3Shape__000001_)
+	__Diagram__000000_Cubism_and_abstract_art.Category3Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category3Shapes, __Category3Shape__000002_)
+	__Diagram__000000_Cubism_and_abstract_art.Category3Shapes = append(__Diagram__000000_Cubism_and_abstract_art.Category3Shapes, __Category3Shape__000003_)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000000_Bauhaus_to_Architecture)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000001_Brancusi_to_Non_Geometrical_Abstract_Art)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000002_Constructivism_to_Bauhaus)
@@ -1216,104 +1205,104 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000047_Machine_Esthetic_to_Architecture)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000048_Suprematism_to_Bauhaus)
 	// setup of Influence instances pointers
-	__Influence__000000_Japanese_prints_to_Synthetism.SourceArtefactType = __ArtefactType__000000_Japanese_prints
-	__Influence__000000_Japanese_prints_to_Synthetism.TargetMovement = __Movement__000001_Synthetism
-	__Influence__000001_Japanese_prints_to_Fauvism.SourceArtefactType = __ArtefactType__000000_Japanese_prints
-	__Influence__000001_Japanese_prints_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000002_Van_Gogh_to_Fauvism.SourceArtist = __Artist__000000_Van_Gogh
-	__Influence__000002_Van_Gogh_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000003_Redon_to_Expressionism.SourceArtist = __Artist__000004_Redon
-	__Influence__000003_Redon_to_Expressionism.TargetMovement = __Movement__000004_Expressionism
-	__Influence__000004_Synthetism_to_Fauvism.SourceMovement = __Movement__000001_Synthetism
-	__Influence__000004_Synthetism_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000005_C_zanne_to_Cubism.SourceArtist = __Artist__000002_C_zanne
-	__Influence__000005_C_zanne_to_Cubism.TargetMovement = __Movement__000007_Cubism
-	__Influence__000006_Neo_Impressionism_to_Fauvism.SourceMovement = __Movement__000002_Neo_Impressionism
-	__Influence__000006_Neo_Impressionism_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000007_Neo_Impressionism_to_Cubism.SourceMovement = __Movement__000002_Neo_Impressionism
-	__Influence__000007_Neo_Impressionism_to_Cubism.TargetMovement = __Movement__000007_Cubism
-	__Influence__000008_Neo_Impressionism_to_Futurism.SourceMovement = __Movement__000002_Neo_Impressionism
-	__Influence__000008_Neo_Impressionism_to_Futurism.TargetMovement = __Movement__000005_Futurism
-	__Influence__000009_Rousseau_to_Cubism.SourceArtist = __Artist__000005_Rousseau
-	__Influence__000009_Rousseau_to_Cubism.TargetMovement = __Movement__000007_Cubism
-	__Influence__000010_Near_Eastern_Art_to_Fauvism.SourceArtefactType = __ArtefactType__000001_Near_Eastern_Art
-	__Influence__000010_Near_Eastern_Art_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000011_Fauvism_to_Expressionism.SourceMovement = __Movement__000003_Fauvism
-	__Influence__000011_Fauvism_to_Expressionism.TargetMovement = __Movement__000004_Expressionism
-	__Influence__000012_African_First_Art_to_Cubism.SourceArtefactType = __ArtefactType__000002_African_First_Art
-	__Influence__000012_African_First_Art_to_Cubism.TargetMovement = __Movement__000007_Cubism
-	__Influence__000013_Cubism_to_Futurism.SourceMovement = __Movement__000007_Cubism
-	__Influence__000013_Cubism_to_Futurism.TargetMovement = __Movement__000005_Futurism
-	__Influence__000014_Cubism_to_Orphism.SourceMovement = __Movement__000007_Cubism
-	__Influence__000014_Cubism_to_Orphism.TargetMovement = __Movement__000006_Orphism
-	__Influence__000015_Cubism_to_Purism.SourceMovement = __Movement__000007_Cubism
-	__Influence__000015_Cubism_to_Purism.TargetMovement = __Movement__000000_Purism
-	__Influence__000016_Cubism_to_Suprematism.SourceMovement = __Movement__000007_Cubism
-	__Influence__000016_Cubism_to_Suprematism.TargetMovement = __Movement__000008_Suprematism
-	__Influence__000017_Cubism_to_De_Stijl.SourceMovement = __Movement__000007_Cubism
-	__Influence__000017_Cubism_to_De_Stijl.TargetMovement = __Movement__000011_De_Stijl
-	__Influence__000018_Cubism_to_Constructivism.SourceMovement = __Movement__000007_Cubism
-	__Influence__000018_Cubism_to_Constructivism.TargetMovement = __Movement__000009_Constructivism
-	__Influence__000019_Futurism_to_Expressionism.SourceMovement = __Movement__000005_Futurism
-	__Influence__000019_Futurism_to_Expressionism.TargetMovement = __Movement__000004_Expressionism
-	__Influence__000020_Futurism_to_Dadaism.SourceMovement = __Movement__000005_Futurism
-	__Influence__000020_Futurism_to_Dadaism.TargetMovement = __Movement__000010_Dadaism
-	__Influence__000021_Brancusi_to_Non_Geometrical_Abstract_Art.SourceArtist = __Artist__000006_Brancusi
-	__Influence__000021_Brancusi_to_Non_Geometrical_Abstract_Art.TargetMovement = __Movement__000014_Non_Geometrical_Abstract_Art
-	__Influence__000022_Expressionism_to_Non_Geometrical_Abstract_Art.SourceMovement = __Movement__000004_Expressionism
-	__Influence__000022_Expressionism_to_Non_Geometrical_Abstract_Art.TargetMovement = __Movement__000014_Non_Geometrical_Abstract_Art
-	__Influence__000023_Machine_Esthetic_to_Futurism.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000023_Machine_Esthetic_to_Futurism.TargetMovement = __Movement__000005_Futurism
-	__Influence__000024_Machine_Esthetic_to_Purism.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000024_Machine_Esthetic_to_Purism.TargetMovement = __Movement__000000_Purism
-	__Influence__000025_Machine_Esthetic_to_De_Stijl.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000025_Machine_Esthetic_to_De_Stijl.TargetMovement = __Movement__000011_De_Stijl
-	__Influence__000026_Machine_Esthetic_to_Constructivism.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000026_Machine_Esthetic_to_Constructivism.TargetMovement = __Movement__000009_Constructivism
-	__Influence__000027_Machine_Esthetic_to_Bauhaus.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000027_Machine_Esthetic_to_Bauhaus.TargetMovement = __Movement__000012_Bauhaus
-	__Influence__000028_Machine_Esthetic_to_Geometrical_Abstract_Art.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000028_Machine_Esthetic_to_Geometrical_Abstract_Art.TargetMovement = __Movement__000015_Geometrical_Abstract_Art
-	__Influence__000029_Suprematism_to_Geometrical_Abstract_Art.SourceMovement = __Movement__000008_Suprematism
-	__Influence__000029_Suprematism_to_Geometrical_Abstract_Art.TargetMovement = __Movement__000015_Geometrical_Abstract_Art
-	__Influence__000030_Dadaism_to_Surrealism.SourceMovement = __Movement__000010_Dadaism
-	__Influence__000030_Dadaism_to_Surrealism.TargetMovement = __Movement__000013_Surrealism
-	__Influence__000031_Purism_to_Architecture.SourceMovement = __Movement__000000_Purism
-	__Influence__000031_Purism_to_Architecture.TargetMovement = __Movement__000016_Architecture
-	__Influence__000032_De_Stijl_to_Bauhaus.SourceMovement = __Movement__000011_De_Stijl
-	__Influence__000032_De_Stijl_to_Bauhaus.TargetMovement = __Movement__000012_Bauhaus
-	__Influence__000033_De_Stijl_to_Architecture.SourceMovement = __Movement__000011_De_Stijl
-	__Influence__000033_De_Stijl_to_Architecture.TargetMovement = __Movement__000016_Architecture
-	__Influence__000034_De_Stijl_to_Geometrical_Abstract_Art.SourceMovement = __Movement__000011_De_Stijl
-	__Influence__000034_De_Stijl_to_Geometrical_Abstract_Art.TargetMovement = __Movement__000015_Geometrical_Abstract_Art
-	__Influence__000035_Constructivism_to_Bauhaus.SourceMovement = __Movement__000009_Constructivism
-	__Influence__000035_Constructivism_to_Bauhaus.TargetMovement = __Movement__000012_Bauhaus
-	__Influence__000036_Constructivism_to_Geometrical_Abstract_Art.SourceMovement = __Movement__000009_Constructivism
-	__Influence__000036_Constructivism_to_Geometrical_Abstract_Art.TargetMovement = __Movement__000015_Geometrical_Abstract_Art
-	__Influence__000037_Surrealism_to_Non_Geometrical_Abstract_Art.SourceMovement = __Movement__000013_Surrealism
-	__Influence__000037_Surrealism_to_Non_Geometrical_Abstract_Art.TargetMovement = __Movement__000014_Non_Geometrical_Abstract_Art
-	__Influence__000038_Bauhaus_to_Architecture.SourceMovement = __Movement__000012_Bauhaus
-	__Influence__000038_Bauhaus_to_Architecture.TargetMovement = __Movement__000016_Architecture
-	__Influence__000039_Near_Eastern_Art_to_Expressionism.SourceArtefactType = __ArtefactType__000001_Near_Eastern_Art
-	__Influence__000039_Near_Eastern_Art_to_Expressionism.TargetMovement = __Movement__000004_Expressionism
-	__Influence__000040_Machine_Esthetic_to_Brancusi.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000040_Machine_Esthetic_to_Brancusi.TargetArtist = __Artist__000006_Brancusi
-	__Influence__000041_Expressionism_to_Bauhaus.SourceMovement = __Movement__000004_Expressionism
-	__Influence__000041_Expressionism_to_Bauhaus.TargetMovement = __Movement__000012_Bauhaus
-	__Influence__000042_Expressionism_to_Surrealism.SourceMovement = __Movement__000004_Expressionism
-	__Influence__000042_Expressionism_to_Surrealism.TargetMovement = __Movement__000013_Surrealism
-	__Influence__000043_C_zanne_to_Synthetism.SourceArtist = __Artist__000002_C_zanne
-	__Influence__000043_C_zanne_to_Synthetism.TargetMovement = __Movement__000001_Synthetism
-	__Influence__000044_C_zanne_to_Fauvism.SourceArtist = __Artist__000002_C_zanne
-	__Influence__000044_C_zanne_to_Fauvism.TargetMovement = __Movement__000003_Fauvism
-	__Influence__000045_Machine_Esthetic_to_Cubism.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000045_Machine_Esthetic_to_Cubism.TargetMovement = __Movement__000007_Cubism
-	__Influence__000046_Machine_Esthetic_to_Suprematism.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000046_Machine_Esthetic_to_Suprematism.TargetMovement = __Movement__000008_Suprematism
-	__Influence__000047_Machine_Esthetic_to_Architecture.SourceArtefactType = __ArtefactType__000003_Machine_Esthetic
-	__Influence__000047_Machine_Esthetic_to_Architecture.TargetMovement = __Movement__000016_Architecture
-	__Influence__000048_Suprematism_to_Bauhaus.SourceMovement = __Movement__000008_Suprematism
-	__Influence__000048_Suprematism_to_Bauhaus.TargetMovement = __Movement__000012_Bauhaus
+	__Influence__000000_Japanese_prints_to_Synthetism.SourceCategory2 = __Category3__000000_Japanese_prints
+	__Influence__000000_Japanese_prints_to_Synthetism.TargetCategory1 = __Category1__000001_Synthetism
+	__Influence__000001_Japanese_prints_to_Fauvism.SourceCategory2 = __Category3__000000_Japanese_prints
+	__Influence__000001_Japanese_prints_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000002_Van_Gogh_to_Fauvism.SourceCategory3 = __Category2__000000_Van_Gogh
+	__Influence__000002_Van_Gogh_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000003_Redon_to_Expressionism.SourceCategory3 = __Category2__000004_Redon
+	__Influence__000003_Redon_to_Expressionism.TargetCategory1 = __Category1__000004_Expressionism
+	__Influence__000004_Synthetism_to_Fauvism.SourceCategory1 = __Category1__000001_Synthetism
+	__Influence__000004_Synthetism_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000005_C_zanne_to_Cubism.SourceCategory3 = __Category2__000002_C_zanne
+	__Influence__000005_C_zanne_to_Cubism.TargetCategory1 = __Category1__000007_Cubism
+	__Influence__000006_Neo_Impressionism_to_Fauvism.SourceCategory1 = __Category1__000002_Neo_Impressionism
+	__Influence__000006_Neo_Impressionism_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000007_Neo_Impressionism_to_Cubism.SourceCategory1 = __Category1__000002_Neo_Impressionism
+	__Influence__000007_Neo_Impressionism_to_Cubism.TargetCategory1 = __Category1__000007_Cubism
+	__Influence__000008_Neo_Impressionism_to_Futurism.SourceCategory1 = __Category1__000002_Neo_Impressionism
+	__Influence__000008_Neo_Impressionism_to_Futurism.TargetCategory1 = __Category1__000005_Futurism
+	__Influence__000009_Rousseau_to_Cubism.SourceCategory3 = __Category2__000005_Rousseau
+	__Influence__000009_Rousseau_to_Cubism.TargetCategory1 = __Category1__000007_Cubism
+	__Influence__000010_Near_Eastern_Art_to_Fauvism.SourceCategory2 = __Category3__000001_Near_Eastern_Art
+	__Influence__000010_Near_Eastern_Art_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000011_Fauvism_to_Expressionism.SourceCategory1 = __Category1__000003_Fauvism
+	__Influence__000011_Fauvism_to_Expressionism.TargetCategory1 = __Category1__000004_Expressionism
+	__Influence__000012_African_First_Art_to_Cubism.SourceCategory2 = __Category3__000002_African_First_Art
+	__Influence__000012_African_First_Art_to_Cubism.TargetCategory1 = __Category1__000007_Cubism
+	__Influence__000013_Cubism_to_Futurism.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000013_Cubism_to_Futurism.TargetCategory1 = __Category1__000005_Futurism
+	__Influence__000014_Cubism_to_Orphism.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000014_Cubism_to_Orphism.TargetCategory1 = __Category1__000006_Orphism
+	__Influence__000015_Cubism_to_Purism.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000015_Cubism_to_Purism.TargetCategory1 = __Category1__000000_Purism
+	__Influence__000016_Cubism_to_Suprematism.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000016_Cubism_to_Suprematism.TargetCategory1 = __Category1__000008_Suprematism
+	__Influence__000017_Cubism_to_De_Stijl.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000017_Cubism_to_De_Stijl.TargetCategory1 = __Category1__000011_De_Stijl
+	__Influence__000018_Cubism_to_Constructivism.SourceCategory1 = __Category1__000007_Cubism
+	__Influence__000018_Cubism_to_Constructivism.TargetCategory1 = __Category1__000009_Constructivism
+	__Influence__000019_Futurism_to_Expressionism.SourceCategory1 = __Category1__000005_Futurism
+	__Influence__000019_Futurism_to_Expressionism.TargetCategory1 = __Category1__000004_Expressionism
+	__Influence__000020_Futurism_to_Dadaism.SourceCategory1 = __Category1__000005_Futurism
+	__Influence__000020_Futurism_to_Dadaism.TargetCategory1 = __Category1__000010_Dadaism
+	__Influence__000021_Brancusi_to_Non_Geometrical_Abstract_Art.SourceCategory3 = __Category2__000006_Brancusi
+	__Influence__000021_Brancusi_to_Non_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000014_Non_Geometrical_Abstract_Art
+	__Influence__000022_Expressionism_to_Non_Geometrical_Abstract_Art.SourceCategory1 = __Category1__000004_Expressionism
+	__Influence__000022_Expressionism_to_Non_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000014_Non_Geometrical_Abstract_Art
+	__Influence__000023_Machine_Esthetic_to_Futurism.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000023_Machine_Esthetic_to_Futurism.TargetCategory1 = __Category1__000005_Futurism
+	__Influence__000024_Machine_Esthetic_to_Purism.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000024_Machine_Esthetic_to_Purism.TargetCategory1 = __Category1__000000_Purism
+	__Influence__000025_Machine_Esthetic_to_De_Stijl.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000025_Machine_Esthetic_to_De_Stijl.TargetCategory1 = __Category1__000011_De_Stijl
+	__Influence__000026_Machine_Esthetic_to_Constructivism.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000026_Machine_Esthetic_to_Constructivism.TargetCategory1 = __Category1__000009_Constructivism
+	__Influence__000027_Machine_Esthetic_to_Bauhaus.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000027_Machine_Esthetic_to_Bauhaus.TargetCategory1 = __Category1__000012_Bauhaus
+	__Influence__000028_Machine_Esthetic_to_Geometrical_Abstract_Art.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000028_Machine_Esthetic_to_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000015_Geometrical_Abstract_Art
+	__Influence__000029_Suprematism_to_Geometrical_Abstract_Art.SourceCategory1 = __Category1__000008_Suprematism
+	__Influence__000029_Suprematism_to_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000015_Geometrical_Abstract_Art
+	__Influence__000030_Dadaism_to_Surrealism.SourceCategory1 = __Category1__000010_Dadaism
+	__Influence__000030_Dadaism_to_Surrealism.TargetCategory1 = __Category1__000013_Surrealism
+	__Influence__000031_Purism_to_Architecture.SourceCategory1 = __Category1__000000_Purism
+	__Influence__000031_Purism_to_Architecture.TargetCategory1 = __Category1__000016_Architecture
+	__Influence__000032_De_Stijl_to_Bauhaus.SourceCategory1 = __Category1__000011_De_Stijl
+	__Influence__000032_De_Stijl_to_Bauhaus.TargetCategory1 = __Category1__000012_Bauhaus
+	__Influence__000033_De_Stijl_to_Architecture.SourceCategory1 = __Category1__000011_De_Stijl
+	__Influence__000033_De_Stijl_to_Architecture.TargetCategory1 = __Category1__000016_Architecture
+	__Influence__000034_De_Stijl_to_Geometrical_Abstract_Art.SourceCategory1 = __Category1__000011_De_Stijl
+	__Influence__000034_De_Stijl_to_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000015_Geometrical_Abstract_Art
+	__Influence__000035_Constructivism_to_Bauhaus.SourceCategory1 = __Category1__000009_Constructivism
+	__Influence__000035_Constructivism_to_Bauhaus.TargetCategory1 = __Category1__000012_Bauhaus
+	__Influence__000036_Constructivism_to_Geometrical_Abstract_Art.SourceCategory1 = __Category1__000009_Constructivism
+	__Influence__000036_Constructivism_to_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000015_Geometrical_Abstract_Art
+	__Influence__000037_Surrealism_to_Non_Geometrical_Abstract_Art.SourceCategory1 = __Category1__000013_Surrealism
+	__Influence__000037_Surrealism_to_Non_Geometrical_Abstract_Art.TargetCategory1 = __Category1__000014_Non_Geometrical_Abstract_Art
+	__Influence__000038_Bauhaus_to_Architecture.SourceCategory1 = __Category1__000012_Bauhaus
+	__Influence__000038_Bauhaus_to_Architecture.TargetCategory1 = __Category1__000016_Architecture
+	__Influence__000039_Near_Eastern_Art_to_Expressionism.SourceCategory2 = __Category3__000001_Near_Eastern_Art
+	__Influence__000039_Near_Eastern_Art_to_Expressionism.TargetCategory1 = __Category1__000004_Expressionism
+	__Influence__000040_Machine_Esthetic_to_Brancusi.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000040_Machine_Esthetic_to_Brancusi.TargetCategory3 = __Category2__000006_Brancusi
+	__Influence__000041_Expressionism_to_Bauhaus.SourceCategory1 = __Category1__000004_Expressionism
+	__Influence__000041_Expressionism_to_Bauhaus.TargetCategory1 = __Category1__000012_Bauhaus
+	__Influence__000042_Expressionism_to_Surrealism.SourceCategory1 = __Category1__000004_Expressionism
+	__Influence__000042_Expressionism_to_Surrealism.TargetCategory1 = __Category1__000013_Surrealism
+	__Influence__000043_C_zanne_to_Synthetism.SourceCategory3 = __Category2__000002_C_zanne
+	__Influence__000043_C_zanne_to_Synthetism.TargetCategory1 = __Category1__000001_Synthetism
+	__Influence__000044_C_zanne_to_Fauvism.SourceCategory3 = __Category2__000002_C_zanne
+	__Influence__000044_C_zanne_to_Fauvism.TargetCategory1 = __Category1__000003_Fauvism
+	__Influence__000045_Machine_Esthetic_to_Cubism.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000045_Machine_Esthetic_to_Cubism.TargetCategory1 = __Category1__000007_Cubism
+	__Influence__000046_Machine_Esthetic_to_Suprematism.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000046_Machine_Esthetic_to_Suprematism.TargetCategory1 = __Category1__000008_Suprematism
+	__Influence__000047_Machine_Esthetic_to_Architecture.SourceCategory2 = __Category3__000003_Machine_Esthetic
+	__Influence__000047_Machine_Esthetic_to_Architecture.TargetCategory1 = __Category1__000016_Architecture
+	__Influence__000048_Suprematism_to_Bauhaus.SourceCategory1 = __Category1__000008_Suprematism
+	__Influence__000048_Suprematism_to_Bauhaus.TargetCategory1 = __Category1__000012_Bauhaus
 	// setup of InfluenceShape instances pointers
 	__InfluenceShape__000000_Bauhaus_to_Architecture.Influence = __Influence__000038_Bauhaus_to_Architecture
 	__InfluenceShape__000000_Bauhaus_to_Architecture.ControlPointShapes = append(__InfluenceShape__000000_Bauhaus_to_Architecture.ControlPointShapes, __ControlPointShape__000033_Control_Point_Shape_in_Bauhaus_to_Architecture_0)
@@ -1426,24 +1415,5 @@ func _(stage *models.Stage) {
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes = append(__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes, __ControlPointShape__000059_Control_Point_Shape_in_Suprematism_to_Bauhaus_0)
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes = append(__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes, __ControlPointShape__000060_Control_Point_Shape_in_Suprematism_to_Bauhaus_1)
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes = append(__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes, __ControlPointShape__000061_Control_Point_Shape_in_Suprematism_to_Bauhaus_2)
-	// setup of Movement instances pointers
-	// setup of MovementShape instances pointers
-	__MovementShape__000000_.Movement = __Movement__000010_Dadaism
-	__MovementShape__000001_.Movement = __Movement__000004_Expressionism
-	__MovementShape__000002_.Movement = __Movement__000013_Surrealism
-	__MovementShape__000003_.Movement = __Movement__000005_Futurism
-	__MovementShape__000004_.Movement = __Movement__000003_Fauvism
-	__MovementShape__000005_.Movement = __Movement__000014_Non_Geometrical_Abstract_Art
-	__MovementShape__000006_.Movement = __Movement__000011_De_Stijl
-	__MovementShape__000007_.Movement = __Movement__000012_Bauhaus
-	__MovementShape__000008_.Movement = __Movement__000009_Constructivism
-	__MovementShape__000009_.Movement = __Movement__000015_Geometrical_Abstract_Art
-	__MovementShape__000010_.Movement = __Movement__000002_Neo_Impressionism
-	__MovementShape__000011_.Movement = __Movement__000006_Orphism
-	__MovementShape__000012_.Movement = __Movement__000000_Purism
-	__MovementShape__000013_.Movement = __Movement__000008_Suprematism
-	__MovementShape__000014_.Movement = __Movement__000001_Synthetism
-	__MovementShape__000015_.Movement = __Movement__000007_Cubism
-	__MovementShape__000016_.Movement = __Movement__000016_Architecture
 }
 

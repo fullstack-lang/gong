@@ -102,17 +102,17 @@ func NewLevel1Stack(
 
 	// add orchestration
 	// insertion point
-	models.SetOrchestratorOnAfterUpdate[models.ArtefactType](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ArtefactTypeShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Artist](stage)
-	models.SetOrchestratorOnAfterUpdate[models.ArtistShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category1](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category1Shape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category2](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category2Shape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category3](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Category3Shape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ControlPointShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Desk](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Influence](stage)
 	models.SetOrchestratorOnAfterUpdate[models.InfluenceShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Movement](stage)
-	models.SetOrchestratorOnAfterUpdate[models.MovementShape](stage)
 
 	return
 }

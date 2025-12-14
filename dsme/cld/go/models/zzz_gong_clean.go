@@ -28,30 +28,43 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by ArtefactType
-func (artefacttype *ArtefactType) GongClean(stage *Stage) {
+// Clean garbage collect unstaged instances that are referenced by Category1
+func (category1 *Category1) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
 }
 
-// Clean garbage collect unstaged instances that are referenced by ArtefactTypeShape
-func (artefacttypeshape *ArtefactTypeShape) GongClean(stage *Stage) {
+// Clean garbage collect unstaged instances that are referenced by Category1Shape
+func (category1shape *Category1Shape) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
-	artefacttypeshape.ArtefactType = GongCleanPointer(stage, artefacttypeshape.ArtefactType)
+	category1shape.Category1 = GongCleanPointer(stage, category1shape.Category1)
 }
 
-// Clean garbage collect unstaged instances that are referenced by Artist
-func (artist *Artist) GongClean(stage *Stage) {
+// Clean garbage collect unstaged instances that are referenced by Category2
+func (category2 *Category2) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
 }
 
-// Clean garbage collect unstaged instances that are referenced by ArtistShape
-func (artistshape *ArtistShape) GongClean(stage *Stage) {
+// Clean garbage collect unstaged instances that are referenced by Category2Shape
+func (category2shape *Category2Shape) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
-	artistshape.Artist = GongCleanPointer(stage, artistshape.Artist)
+	category2shape.Category2 = GongCleanPointer(stage, category2shape.Category2)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Category3
+func (category3 *Category3) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Category3Shape
+func (category3shape *Category3Shape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	category3shape.Category3 = GongCleanPointer(stage, category3shape.Category3)
 }
 
 // Clean garbage collect unstaged instances that are referenced by ControlPointShape
@@ -70,9 +83,9 @@ func (desk *Desk) GongClean(stage *Stage) {
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
-	diagram.MovementShapes = GongCleanSlice(stage, diagram.MovementShapes)
-	diagram.ArtefactTypeShapes = GongCleanSlice(stage, diagram.ArtefactTypeShapes)
-	diagram.ArtistShapes = GongCleanSlice(stage, diagram.ArtistShapes)
+	diagram.Category1Shapes = GongCleanSlice(stage, diagram.Category1Shapes)
+	diagram.Category2Shapes = GongCleanSlice(stage, diagram.Category2Shapes)
+	diagram.Category3Shapes = GongCleanSlice(stage, diagram.Category3Shapes)
 	diagram.InfluenceShapes = GongCleanSlice(stage, diagram.InfluenceShapes)
 	// insertion point per field
 }
@@ -81,12 +94,12 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 func (influence *Influence) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
-	influence.SourceMovement = GongCleanPointer(stage, influence.SourceMovement)
-	influence.SourceArtefactType = GongCleanPointer(stage, influence.SourceArtefactType)
-	influence.SourceArtist = GongCleanPointer(stage, influence.SourceArtist)
-	influence.TargetMovement = GongCleanPointer(stage, influence.TargetMovement)
-	influence.TargetArtefactType = GongCleanPointer(stage, influence.TargetArtefactType)
-	influence.TargetArtist = GongCleanPointer(stage, influence.TargetArtist)
+	influence.SourceCategory1 = GongCleanPointer(stage, influence.SourceCategory1)
+	influence.SourceCategory2 = GongCleanPointer(stage, influence.SourceCategory2)
+	influence.SourceCategory3 = GongCleanPointer(stage, influence.SourceCategory3)
+	influence.TargetCategory1 = GongCleanPointer(stage, influence.TargetCategory1)
+	influence.TargetCategory2 = GongCleanPointer(stage, influence.TargetCategory2)
+	influence.TargetCategory3 = GongCleanPointer(stage, influence.TargetCategory3)
 }
 
 // Clean garbage collect unstaged instances that are referenced by InfluenceShape
@@ -95,19 +108,6 @@ func (influenceshape *InfluenceShape) GongClean(stage *Stage) {
 	influenceshape.ControlPointShapes = GongCleanSlice(stage, influenceshape.ControlPointShapes)
 	// insertion point per field
 	influenceshape.Influence = GongCleanPointer(stage, influenceshape.Influence)
-}
-
-// Clean garbage collect unstaged instances that are referenced by Movement
-func (movement *Movement) GongClean(stage *Stage) {
-	// insertion point per field
-	// insertion point per field
-}
-
-// Clean garbage collect unstaged instances that are referenced by MovementShape
-func (movementshape *MovementShape) GongClean(stage *Stage) {
-	// insertion point per field
-	// insertion point per field
-	movementshape.Movement = GongCleanPointer(stage, movementshape.Movement)
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements
