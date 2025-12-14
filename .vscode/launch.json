@@ -781,6 +781,17 @@
             ]
         },
         {
+            "name": "go run cld -unmarshallFromCode=data/influence.go -marshallOnCommit=data/influence.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/dsme/cld/go/cmd/cld",
+            "args": [
+                "-unmarshallFromCode=data/influence.go",
+                "-marshallOnCommit=data/influence.go"
+            ]
+        },
+        {
             "name": "go run test3 -unmarshallFromCode=data/stage-large.go -marshallOnCommit=data/stage-large.go",
             "type": "go",
             "request": "launch",
