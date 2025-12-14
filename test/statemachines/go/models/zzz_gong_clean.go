@@ -44,6 +44,12 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
 }
 
+// Clean garbage collect unstaged instances that are referenced by DoAction
+func (doaction *DoAction) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
 // Clean garbage collect unstaged instances that are referenced by Kill
 func (kill *Kill) GongClean(stage *Stage) {
 	// insertion point per field
@@ -84,6 +90,7 @@ func (state *State) GongClean(stage *Stage) {
 	// insertion point per field
 	state.SubStates = GongCleanSlice(stage, state.SubStates)
 	state.Diagrams = GongCleanSlice(stage, state.Diagrams)
+	state.DoActions = GongCleanSlice(stage, state.DoActions)
 	// insertion point per field
 	state.Parent = GongCleanPointer(stage, state.Parent)
 }

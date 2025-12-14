@@ -479,6 +479,150 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 	updateAndCommitTree(diagramFormCallback.probe)
 }
+func __gong__New__DoActionFormCallback(
+	doaction *models.DoAction,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (doactionFormCallback *DoActionFormCallback) {
+	doactionFormCallback = new(DoActionFormCallback)
+	doactionFormCallback.probe = probe
+	doactionFormCallback.doaction = doaction
+	doactionFormCallback.formGroup = formGroup
+
+	doactionFormCallback.CreationMode = (doaction == nil)
+
+	return
+}
+
+type DoActionFormCallback struct {
+	doaction *models.DoAction
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (doactionFormCallback *DoActionFormCallback) OnSave() {
+
+	// log.Println("DoActionFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	doactionFormCallback.probe.formStage.Checkout()
+
+	if doactionFormCallback.doaction == nil {
+		doactionFormCallback.doaction = new(models.DoAction).Stage(doactionFormCallback.probe.stageOfInterest)
+	}
+	doaction_ := doactionFormCallback.doaction
+	_ = doaction_
+
+	for _, formDiv := range doactionFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(doaction_.Name), formDiv)
+		case "Criticality":
+			FormDivEnumStringFieldToField(&(doaction_.Criticality), formDiv)
+		case "State:DoActions":
+			// WARNING : this form deals with the N-N association "State.DoActions []*DoAction" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of DoAction). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.State
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "State"
+				rf.Fieldname = "DoActions"
+				formerAssociationSource := doaction_.GongGetReverseFieldOwner(
+					doactionFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.State)
+					if !ok {
+						log.Fatalln("Source of State.DoActions []*DoAction, is not an State instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.DoActions, doaction_)
+					formerSource.DoActions = slices.Delete(formerSource.DoActions, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.State
+			for _state := range *models.GetGongstructInstancesSet[models.State](doactionFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _state.GetName() == newSourceName.GetName() {
+					newSource = _state // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of State.DoActions []*DoAction, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.DoActions = append(newSource.DoActions, doaction_)
+		}
+	}
+
+	// manage the suppress operation
+	if doactionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		doaction_.Unstage(doactionFormCallback.probe.stageOfInterest)
+	}
+
+	doactionFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.DoAction](
+		doactionFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if doactionFormCallback.CreationMode || doactionFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		doactionFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(doactionFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DoActionFormCallback(
+			nil,
+			doactionFormCallback.probe,
+			newFormGroup,
+		)
+		doaction := new(models.DoAction)
+		FillUpForm(doaction, newFormGroup, doactionFormCallback.probe)
+		doactionFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(doactionFormCallback.probe)
+}
 func __gong__New__KillFormCallback(
 	kill *models.Kill,
 	probe *Probe,
@@ -1359,6 +1503,31 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				instanceSlice = append(instanceSlice, map_id_instances[id])
 			}
 			state_.Diagrams = instanceSlice
+
+		case "DoActions":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.DoAction](stateFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.DoAction, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.DoAction)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					stateFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			state_.DoActions = instanceSlice
 
 		case "State:SubStates":
 			// WARNING : this form deals with the N-N association "State.SubStates []*State" but

@@ -27,6 +27,11 @@ func _(stage *models.Stage) {
 
 	__Diagram__000000_UX_Loop_Diagram := (&models.Diagram{}).Stage(stage)
 
+	__DoAction__000000_Lock_Stage := (&models.DoAction{}).Stage(stage)
+	__DoAction__000001_Unlock_Stage := (&models.DoAction{}).Stage(stage)
+	__DoAction__000002_RLock_Stage := (&models.DoAction{}).Stage(stage)
+	__DoAction__000003_RUnlock_Stage := (&models.DoAction{}).Stage(stage)
+
 	__State__000000_UX_1_Waiting_for_User_Input := (&models.State{}).Stage(stage)
 	__State__000001_UX_2_Waiting_for_User_Input := (&models.State{}).Stage(stage)
 	__State__000002_UX_n_Waiting_for_User_Input := (&models.State{}).Stage(stage)
@@ -105,6 +110,18 @@ func _(stage *models.Stage) {
 	__Diagram__000000_UX_Loop_Diagram.IsExpanded = true
 	__Diagram__000000_UX_Loop_Diagram.IsEditable_ = true
 	__Diagram__000000_UX_Loop_Diagram.IsInRenameMode = false
+
+	__DoAction__000000_Lock_Stage.Name = `Lock Stage`
+	__DoAction__000000_Lock_Stage.Criticality = models.DoActionCritical
+
+	__DoAction__000001_Unlock_Stage.Name = `Unlock Stage`
+	__DoAction__000001_Unlock_Stage.Criticality = models.DoActionCritical
+
+	__DoAction__000002_RLock_Stage.Name = `RLock Stage`
+	__DoAction__000002_RLock_Stage.Criticality = models.DoActionCritical
+
+	__DoAction__000003_RUnlock_Stage.Name = `RUnlock Stage`
+	__DoAction__000003_RUnlock_Stage.Criticality = models.DoActionCritical
 
 	__State__000000_UX_1_Waiting_for_User_Input.Name = `UX 1 - Waiting for User Input`
 	__State__000000_UX_1_Waiting_for_User_Input.IsDecisionNode = false
@@ -186,9 +203,9 @@ func _(stage *models.Stage) {
 
 	__StateShape__000000_UX_1_Waiting_for_User_Input.Name = `UX 1 - Waiting for User Input`
 	__StateShape__000000_UX_1_Waiting_for_User_Input.IsExpanded = false
-	__StateShape__000000_UX_1_Waiting_for_User_Input.X = 375.000000
+	__StateShape__000000_UX_1_Waiting_for_User_Input.X = 359.000000
 	__StateShape__000000_UX_1_Waiting_for_User_Input.Y = 154.000000
-	__StateShape__000000_UX_1_Waiting_for_User_Input.Width = 205.000000
+	__StateShape__000000_UX_1_Waiting_for_User_Input.Width = 221.000000
 	__StateShape__000000_UX_1_Waiting_for_User_Input.Height = 80.000000
 
 	__StateShape__000001_UX_2_Waiting_for_User_Input.Name = `UX 2 - Waiting for User Input`
@@ -468,20 +485,37 @@ func _(stage *models.Stage) {
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000013_Stage_Modified_to_Persist_Stage)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000014_Update_UX_to_UX_1_Update_UX)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_)
+	// setup of DoAction instances pointers
 	// setup of State instances pointers
 	__State__000000_UX_1_Waiting_for_User_Input.Diagrams = append(__State__000000_UX_1_Waiting_for_User_Input.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000001_UX_2_Waiting_for_User_Input.Diagrams = append(__State__000001_UX_2_Waiting_for_User_Input.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000002_UX_n_Waiting_for_User_Input.Diagrams = append(__State__000002_UX_n_Waiting_for_User_Input.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000003_UX_1_Update_Stage.Diagrams = append(__State__000003_UX_1_Update_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000003_UX_1_Update_Stage.DoActions = append(__State__000003_UX_1_Update_Stage.DoActions, __DoAction__000000_Lock_Stage)
+	__State__000003_UX_1_Update_Stage.DoActions = append(__State__000003_UX_1_Update_Stage.DoActions, __DoAction__000001_Unlock_Stage)
 	__State__000004_UX_2_Update_Stage.Diagrams = append(__State__000004_UX_2_Update_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000004_UX_2_Update_Stage.DoActions = append(__State__000004_UX_2_Update_Stage.DoActions, __DoAction__000000_Lock_Stage)
+	__State__000004_UX_2_Update_Stage.DoActions = append(__State__000004_UX_2_Update_Stage.DoActions, __DoAction__000001_Unlock_Stage)
 	__State__000005_UX_n_Update_Stage.Diagrams = append(__State__000005_UX_n_Update_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000005_UX_n_Update_Stage.DoActions = append(__State__000005_UX_n_Update_Stage.DoActions, __DoAction__000000_Lock_Stage)
+	__State__000005_UX_n_Update_Stage.DoActions = append(__State__000005_UX_n_Update_Stage.DoActions, __DoAction__000001_Unlock_Stage)
 	__State__000006_Enforce_Model_Semantic.Diagrams = append(__State__000006_Enforce_Model_Semantic.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000006_Enforce_Model_Semantic.DoActions = append(__State__000006_Enforce_Model_Semantic.DoActions, __DoAction__000000_Lock_Stage)
+	__State__000006_Enforce_Model_Semantic.DoActions = append(__State__000006_Enforce_Model_Semantic.DoActions, __DoAction__000001_Unlock_Stage)
 	__State__000007_UX_1_Update_UX.Diagrams = append(__State__000007_UX_1_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000007_UX_1_Update_UX.DoActions = append(__State__000007_UX_1_Update_UX.DoActions, __DoAction__000002_RLock_Stage)
+	__State__000007_UX_1_Update_UX.DoActions = append(__State__000007_UX_1_Update_UX.DoActions, __DoAction__000003_RUnlock_Stage)
 	__State__000008_UX_2_Update_UX.Diagrams = append(__State__000008_UX_2_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000008_UX_2_Update_UX.DoActions = append(__State__000008_UX_2_Update_UX.DoActions, __DoAction__000002_RLock_Stage)
+	__State__000008_UX_2_Update_UX.DoActions = append(__State__000008_UX_2_Update_UX.DoActions, __DoAction__000003_RUnlock_Stage)
 	__State__000009_UX_n_Update_UX.Diagrams = append(__State__000009_UX_n_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000009_UX_n_Update_UX.DoActions = append(__State__000009_UX_n_Update_UX.DoActions, __DoAction__000002_RLock_Stage)
+	__State__000009_UX_n_Update_UX.DoActions = append(__State__000009_UX_n_Update_UX.DoActions, __DoAction__000003_RUnlock_Stage)
 	__State__000010_Waiting_for_user_Input_.Diagrams = append(__State__000010_Waiting_for_user_Input_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000011_Load_Stage.Diagrams = append(__State__000011_Load_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000012_Persist_Stage.Diagrams = append(__State__000012_Persist_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000012_Persist_Stage.DoActions = append(__State__000012_Persist_Stage.DoActions, __DoAction__000002_RLock_Stage)
+	__State__000012_Persist_Stage.DoActions = append(__State__000012_Persist_Stage.DoActions, __DoAction__000003_RUnlock_Stage)
 	__State__000013_Stage_Modified_.Diagrams = append(__State__000013_Stage_Modified_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000014_Update_UX_.Diagrams = append(__State__000014_Update_UX_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	// setup of StateMachine instances pointers

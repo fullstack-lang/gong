@@ -107,6 +107,34 @@ func FillUpForm(
 			}
 		}
 
+	case *models.DoAction:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		EnumTypeStringToForm("Criticality", instanceWithInferedType.Criticality, instanceWithInferedType, probe.formStage, formGroup)
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "State"
+			rf.Fieldname = "DoActions"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.State),
+					"DoActions",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.State](
+					nil,
+					"DoActions",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+
 	case *models.Kill:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -272,6 +300,7 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("SubStates", instanceWithInferedType, &instanceWithInferedType.SubStates, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
+		AssociationSliceToForm("DoActions", instanceWithInferedType, &instanceWithInferedType.DoActions, formGroup, probe)
 		{
 			var rf models.ReverseField
 			_ = rf
