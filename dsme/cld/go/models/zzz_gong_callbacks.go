@@ -6,21 +6,29 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeCreateCallback != nil {
-			stage.OnAfterArtefactTypeCreateCallback.OnAfterCreate(stage, target)
+	case *Category1:
+		if stage.OnAfterCategory1CreateCallback != nil {
+			stage.OnAfterCategory1CreateCallback.OnAfterCreate(stage, target)
 		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeCreateCallback != nil {
-			stage.OnAfterArtefactTypeShapeCreateCallback.OnAfterCreate(stage, target)
+	case *Category1Shape:
+		if stage.OnAfterCategory1ShapeCreateCallback != nil {
+			stage.OnAfterCategory1ShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Artist:
-		if stage.OnAfterArtistCreateCallback != nil {
-			stage.OnAfterArtistCreateCallback.OnAfterCreate(stage, target)
+	case *Category2:
+		if stage.OnAfterCategory2CreateCallback != nil {
+			stage.OnAfterCategory2CreateCallback.OnAfterCreate(stage, target)
 		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeCreateCallback != nil {
-			stage.OnAfterArtistShapeCreateCallback.OnAfterCreate(stage, target)
+	case *Category2Shape:
+		if stage.OnAfterCategory2ShapeCreateCallback != nil {
+			stage.OnAfterCategory2ShapeCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Category3:
+		if stage.OnAfterCategory3CreateCallback != nil {
+			stage.OnAfterCategory3CreateCallback.OnAfterCreate(stage, target)
+		}
+	case *Category3Shape:
+		if stage.OnAfterCategory3ShapeCreateCallback != nil {
+			stage.OnAfterCategory3ShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *ControlPointShape:
 		if stage.OnAfterControlPointShapeCreateCallback != nil {
@@ -42,14 +50,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInfluenceShapeCreateCallback != nil {
 			stage.OnAfterInfluenceShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Movement:
-		if stage.OnAfterMovementCreateCallback != nil {
-			stage.OnAfterMovementCreateCallback.OnAfterCreate(stage, target)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeCreateCallback != nil {
-			stage.OnAfterMovementShapeCreateCallback.OnAfterCreate(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -64,25 +64,35 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
-	case *ArtefactType:
-		newTarget := any(new).(*ArtefactType)
-		if stage.OnAfterArtefactTypeUpdateCallback != nil {
-			stage.OnAfterArtefactTypeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Category1:
+		newTarget := any(new).(*Category1)
+		if stage.OnAfterCategory1UpdateCallback != nil {
+			stage.OnAfterCategory1UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *ArtefactTypeShape:
-		newTarget := any(new).(*ArtefactTypeShape)
-		if stage.OnAfterArtefactTypeShapeUpdateCallback != nil {
-			stage.OnAfterArtefactTypeShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Category1Shape:
+		newTarget := any(new).(*Category1Shape)
+		if stage.OnAfterCategory1ShapeUpdateCallback != nil {
+			stage.OnAfterCategory1ShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Artist:
-		newTarget := any(new).(*Artist)
-		if stage.OnAfterArtistUpdateCallback != nil {
-			stage.OnAfterArtistUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Category2:
+		newTarget := any(new).(*Category2)
+		if stage.OnAfterCategory2UpdateCallback != nil {
+			stage.OnAfterCategory2UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *ArtistShape:
-		newTarget := any(new).(*ArtistShape)
-		if stage.OnAfterArtistShapeUpdateCallback != nil {
-			stage.OnAfterArtistShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+	case *Category2Shape:
+		newTarget := any(new).(*Category2Shape)
+		if stage.OnAfterCategory2ShapeUpdateCallback != nil {
+			stage.OnAfterCategory2ShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Category3:
+		newTarget := any(new).(*Category3)
+		if stage.OnAfterCategory3UpdateCallback != nil {
+			stage.OnAfterCategory3UpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Category3Shape:
+		newTarget := any(new).(*Category3Shape)
+		if stage.OnAfterCategory3ShapeUpdateCallback != nil {
+			stage.OnAfterCategory3ShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *ControlPointShape:
 		newTarget := any(new).(*ControlPointShape)
@@ -109,16 +119,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterInfluenceShapeUpdateCallback != nil {
 			stage.OnAfterInfluenceShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Movement:
-		newTarget := any(new).(*Movement)
-		if stage.OnAfterMovementUpdateCallback != nil {
-			stage.OnAfterMovementUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
-	case *MovementShape:
-		newTarget := any(new).(*MovementShape)
-		if stage.OnAfterMovementShapeUpdateCallback != nil {
-			stage.OnAfterMovementShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	default:
 		_ = oldTarget
 	}
@@ -129,25 +129,35 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeDeleteCallback != nil {
-			staged := any(staged).(*ArtefactType)
-			stage.OnAfterArtefactTypeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Category1:
+		if stage.OnAfterCategory1DeleteCallback != nil {
+			staged := any(staged).(*Category1)
+			stage.OnAfterCategory1DeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeDeleteCallback != nil {
-			staged := any(staged).(*ArtefactTypeShape)
-			stage.OnAfterArtefactTypeShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Category1Shape:
+		if stage.OnAfterCategory1ShapeDeleteCallback != nil {
+			staged := any(staged).(*Category1Shape)
+			stage.OnAfterCategory1ShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Artist:
-		if stage.OnAfterArtistDeleteCallback != nil {
-			staged := any(staged).(*Artist)
-			stage.OnAfterArtistDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Category2:
+		if stage.OnAfterCategory2DeleteCallback != nil {
+			staged := any(staged).(*Category2)
+			stage.OnAfterCategory2DeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeDeleteCallback != nil {
-			staged := any(staged).(*ArtistShape)
-			stage.OnAfterArtistShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+	case *Category2Shape:
+		if stage.OnAfterCategory2ShapeDeleteCallback != nil {
+			staged := any(staged).(*Category2Shape)
+			stage.OnAfterCategory2ShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Category3:
+		if stage.OnAfterCategory3DeleteCallback != nil {
+			staged := any(staged).(*Category3)
+			stage.OnAfterCategory3DeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *Category3Shape:
+		if stage.OnAfterCategory3ShapeDeleteCallback != nil {
+			staged := any(staged).(*Category3Shape)
+			stage.OnAfterCategory3ShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *ControlPointShape:
 		if stage.OnAfterControlPointShapeDeleteCallback != nil {
@@ -174,16 +184,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*InfluenceShape)
 			stage.OnAfterInfluenceShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Movement:
-		if stage.OnAfterMovementDeleteCallback != nil {
-			staged := any(staged).(*Movement)
-			stage.OnAfterMovementDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeDeleteCallback != nil {
-			staged := any(staged).(*MovementShape)
-			stage.OnAfterMovementShapeDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	default:
 		_ = front
 	}
@@ -194,21 +194,29 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
-	case *ArtefactType:
-		if stage.OnAfterArtefactTypeReadCallback != nil {
-			stage.OnAfterArtefactTypeReadCallback.OnAfterRead(stage, target)
+	case *Category1:
+		if stage.OnAfterCategory1ReadCallback != nil {
+			stage.OnAfterCategory1ReadCallback.OnAfterRead(stage, target)
 		}
-	case *ArtefactTypeShape:
-		if stage.OnAfterArtefactTypeShapeReadCallback != nil {
-			stage.OnAfterArtefactTypeShapeReadCallback.OnAfterRead(stage, target)
+	case *Category1Shape:
+		if stage.OnAfterCategory1ShapeReadCallback != nil {
+			stage.OnAfterCategory1ShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *Artist:
-		if stage.OnAfterArtistReadCallback != nil {
-			stage.OnAfterArtistReadCallback.OnAfterRead(stage, target)
+	case *Category2:
+		if stage.OnAfterCategory2ReadCallback != nil {
+			stage.OnAfterCategory2ReadCallback.OnAfterRead(stage, target)
 		}
-	case *ArtistShape:
-		if stage.OnAfterArtistShapeReadCallback != nil {
-			stage.OnAfterArtistShapeReadCallback.OnAfterRead(stage, target)
+	case *Category2Shape:
+		if stage.OnAfterCategory2ShapeReadCallback != nil {
+			stage.OnAfterCategory2ShapeReadCallback.OnAfterRead(stage, target)
+		}
+	case *Category3:
+		if stage.OnAfterCategory3ReadCallback != nil {
+			stage.OnAfterCategory3ReadCallback.OnAfterRead(stage, target)
+		}
+	case *Category3Shape:
+		if stage.OnAfterCategory3ShapeReadCallback != nil {
+			stage.OnAfterCategory3ShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *ControlPointShape:
 		if stage.OnAfterControlPointShapeReadCallback != nil {
@@ -230,14 +238,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterInfluenceShapeReadCallback != nil {
 			stage.OnAfterInfluenceShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *Movement:
-		if stage.OnAfterMovementReadCallback != nil {
-			stage.OnAfterMovementReadCallback.OnAfterRead(stage, target)
-		}
-	case *MovementShape:
-		if stage.OnAfterMovementShapeReadCallback != nil {
-			stage.OnAfterMovementShapeReadCallback.OnAfterRead(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -249,17 +249,23 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtefactType])
+	case *Category1:
+		stage.OnAfterCategory1UpdateCallback = any(callback).(OnAfterUpdateInterface[Category1])
 	
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtefactTypeShape])
+	case *Category1Shape:
+		stage.OnAfterCategory1ShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Category1Shape])
 	
-	case *Artist:
-		stage.OnAfterArtistUpdateCallback = any(callback).(OnAfterUpdateInterface[Artist])
+	case *Category2:
+		stage.OnAfterCategory2UpdateCallback = any(callback).(OnAfterUpdateInterface[Category2])
 	
-	case *ArtistShape:
-		stage.OnAfterArtistShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ArtistShape])
+	case *Category2Shape:
+		stage.OnAfterCategory2ShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Category2Shape])
+	
+	case *Category3:
+		stage.OnAfterCategory3UpdateCallback = any(callback).(OnAfterUpdateInterface[Category3])
+	
+	case *Category3Shape:
+		stage.OnAfterCategory3ShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Category3Shape])
 	
 	case *ControlPointShape:
 		stage.OnAfterControlPointShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPointShape])
@@ -276,12 +282,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[InfluenceShape])
 	
-	case *Movement:
-		stage.OnAfterMovementUpdateCallback = any(callback).(OnAfterUpdateInterface[Movement])
-	
-	case *MovementShape:
-		stage.OnAfterMovementShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MovementShape])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -289,17 +289,23 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeCreateCallback = any(callback).(OnAfterCreateInterface[ArtefactType])
+	case *Category1:
+		stage.OnAfterCategory1CreateCallback = any(callback).(OnAfterCreateInterface[Category1])
 	
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeCreateCallback = any(callback).(OnAfterCreateInterface[ArtefactTypeShape])
+	case *Category1Shape:
+		stage.OnAfterCategory1ShapeCreateCallback = any(callback).(OnAfterCreateInterface[Category1Shape])
 	
-	case *Artist:
-		stage.OnAfterArtistCreateCallback = any(callback).(OnAfterCreateInterface[Artist])
+	case *Category2:
+		stage.OnAfterCategory2CreateCallback = any(callback).(OnAfterCreateInterface[Category2])
 	
-	case *ArtistShape:
-		stage.OnAfterArtistShapeCreateCallback = any(callback).(OnAfterCreateInterface[ArtistShape])
+	case *Category2Shape:
+		stage.OnAfterCategory2ShapeCreateCallback = any(callback).(OnAfterCreateInterface[Category2Shape])
+	
+	case *Category3:
+		stage.OnAfterCategory3CreateCallback = any(callback).(OnAfterCreateInterface[Category3])
+	
+	case *Category3Shape:
+		stage.OnAfterCategory3ShapeCreateCallback = any(callback).(OnAfterCreateInterface[Category3Shape])
 	
 	case *ControlPointShape:
 		stage.OnAfterControlPointShapeCreateCallback = any(callback).(OnAfterCreateInterface[ControlPointShape])
@@ -316,12 +322,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeCreateCallback = any(callback).(OnAfterCreateInterface[InfluenceShape])
 	
-	case *Movement:
-		stage.OnAfterMovementCreateCallback = any(callback).(OnAfterCreateInterface[Movement])
-	
-	case *MovementShape:
-		stage.OnAfterMovementShapeCreateCallback = any(callback).(OnAfterCreateInterface[MovementShape])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -329,17 +329,23 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtefactType])
+	case *Category1:
+		stage.OnAfterCategory1DeleteCallback = any(callback).(OnAfterDeleteInterface[Category1])
 	
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtefactTypeShape])
+	case *Category1Shape:
+		stage.OnAfterCategory1ShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Category1Shape])
 	
-	case *Artist:
-		stage.OnAfterArtistDeleteCallback = any(callback).(OnAfterDeleteInterface[Artist])
+	case *Category2:
+		stage.OnAfterCategory2DeleteCallback = any(callback).(OnAfterDeleteInterface[Category2])
 	
-	case *ArtistShape:
-		stage.OnAfterArtistShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ArtistShape])
+	case *Category2Shape:
+		stage.OnAfterCategory2ShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Category2Shape])
+	
+	case *Category3:
+		stage.OnAfterCategory3DeleteCallback = any(callback).(OnAfterDeleteInterface[Category3])
+	
+	case *Category3Shape:
+		stage.OnAfterCategory3ShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Category3Shape])
 	
 	case *ControlPointShape:
 		stage.OnAfterControlPointShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPointShape])
@@ -356,12 +362,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[InfluenceShape])
 	
-	case *Movement:
-		stage.OnAfterMovementDeleteCallback = any(callback).(OnAfterDeleteInterface[Movement])
-	
-	case *MovementShape:
-		stage.OnAfterMovementShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MovementShape])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -369,17 +369,23 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
-	case *ArtefactType:
-		stage.OnAfterArtefactTypeReadCallback = any(callback).(OnAfterReadInterface[ArtefactType])
+	case *Category1:
+		stage.OnAfterCategory1ReadCallback = any(callback).(OnAfterReadInterface[Category1])
 	
-	case *ArtefactTypeShape:
-		stage.OnAfterArtefactTypeShapeReadCallback = any(callback).(OnAfterReadInterface[ArtefactTypeShape])
+	case *Category1Shape:
+		stage.OnAfterCategory1ShapeReadCallback = any(callback).(OnAfterReadInterface[Category1Shape])
 	
-	case *Artist:
-		stage.OnAfterArtistReadCallback = any(callback).(OnAfterReadInterface[Artist])
+	case *Category2:
+		stage.OnAfterCategory2ReadCallback = any(callback).(OnAfterReadInterface[Category2])
 	
-	case *ArtistShape:
-		stage.OnAfterArtistShapeReadCallback = any(callback).(OnAfterReadInterface[ArtistShape])
+	case *Category2Shape:
+		stage.OnAfterCategory2ShapeReadCallback = any(callback).(OnAfterReadInterface[Category2Shape])
+	
+	case *Category3:
+		stage.OnAfterCategory3ReadCallback = any(callback).(OnAfterReadInterface[Category3])
+	
+	case *Category3Shape:
+		stage.OnAfterCategory3ShapeReadCallback = any(callback).(OnAfterReadInterface[Category3Shape])
 	
 	case *ControlPointShape:
 		stage.OnAfterControlPointShapeReadCallback = any(callback).(OnAfterReadInterface[ControlPointShape])
@@ -395,12 +401,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *InfluenceShape:
 		stage.OnAfterInfluenceShapeReadCallback = any(callback).(OnAfterReadInterface[InfluenceShape])
-	
-	case *Movement:
-		stage.OnAfterMovementReadCallback = any(callback).(OnAfterReadInterface[Movement])
-	
-	case *MovementShape:
-		stage.OnAfterMovementShapeReadCallback = any(callback).(OnAfterReadInterface[MovementShape])
 	
 	}
 }
