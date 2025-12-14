@@ -56,6 +56,12 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
 }
 
+// Clean garbage collect unstaged instances that are referenced by Guard
+func (guard *Guard) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
 // Clean garbage collect unstaged instances that are referenced by Kill
 func (kill *Kill) GongClean(stage *Stage) {
 	// insertion point per field
@@ -128,6 +134,7 @@ func (transition *Transition) GongClean(stage *Stage) {
 	// insertion point per field
 	transition.Start = GongCleanPointer(stage, transition.Start)
 	transition.End = GongCleanPointer(stage, transition.End)
+	transition.Guard = GongCleanPointer(stage, transition.Guard)
 }
 
 // Clean garbage collect unstaged instances that are referenced by Transition_Shape

@@ -701,6 +701,82 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 
 	updateAndCommitTree(diagramFormCallback.probe)
 }
+func __gong__New__GuardFormCallback(
+	guard *models.Guard,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (guardFormCallback *GuardFormCallback) {
+	guardFormCallback = new(GuardFormCallback)
+	guardFormCallback.probe = probe
+	guardFormCallback.guard = guard
+	guardFormCallback.formGroup = formGroup
+
+	guardFormCallback.CreationMode = (guard == nil)
+
+	return
+}
+
+type GuardFormCallback struct {
+	guard *models.Guard
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (guardFormCallback *GuardFormCallback) OnSave() {
+
+	// log.Println("GuardFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	guardFormCallback.probe.formStage.Checkout()
+
+	if guardFormCallback.guard == nil {
+		guardFormCallback.guard = new(models.Guard).Stage(guardFormCallback.probe.stageOfInterest)
+	}
+	guard_ := guardFormCallback.guard
+	_ = guard_
+
+	for _, formDiv := range guardFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(guard_.Name), formDiv)
+		}
+	}
+
+	// manage the suppress operation
+	if guardFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		guard_.Unstage(guardFormCallback.probe.stageOfInterest)
+	}
+
+	guardFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Guard](
+		guardFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if guardFormCallback.CreationMode || guardFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		guardFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(guardFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__GuardFormCallback(
+			nil,
+			guardFormCallback.probe,
+			newFormGroup,
+		)
+		guard := new(models.Guard)
+		FillUpForm(guard, newFormGroup, guardFormCallback.probe)
+		guardFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(guardFormCallback.probe)
+}
 func __gong__New__KillFormCallback(
 	kill *models.Kill,
 	probe *Probe,
@@ -2223,6 +2299,8 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 			}
 			transition_.GeneratedMessages = instanceSlice
 
+		case "Guard":
+			FormDivSelectFieldToField(&(transition_.Guard), transitionFormCallback.probe.stageOfInterest, formDiv)
 		case "Diagrams":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](transitionFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Diagram, 0)

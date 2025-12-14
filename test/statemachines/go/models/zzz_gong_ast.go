@@ -365,6 +365,7 @@ var __gong__map_Action = make(map[string]*Action)
 var __gong__map_Activities = make(map[string]*Activities)
 var __gong__map_Architecture = make(map[string]*Architecture)
 var __gong__map_Diagram = make(map[string]*Diagram)
+var __gong__map_Guard = make(map[string]*Guard)
 var __gong__map_Kill = make(map[string]*Kill)
 var __gong__map_Message = make(map[string]*Message)
 var __gong__map_MessageType = make(map[string]*MessageType)
@@ -571,6 +572,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceDiagram.Stage(stage)
 										instance = any(instanceDiagram)
 										__gong__map_Diagram[identifier] = instanceDiagram
+									case "Guard":
+										instanceGuard := new(Guard)
+										instanceGuard.Name = instanceName
+										instanceGuard.Stage(stage)
+										instance = any(instanceGuard)
+										__gong__map_Guard[identifier] = instanceGuard
 									case "Kill":
 										instanceKill := new(Kill)
 										instanceKill.Name = instanceName
@@ -681,6 +688,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "Diagram":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "Guard":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -845,6 +856,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
 								instanceWhoseFieldIsAppended.Transition_Shapes = append(instanceWhoseFieldIsAppended.Transition_Shapes, instanceToAppend)
 							}
+						}
+					case "Guard":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
 						}
 					case "Kill":
 						switch fieldName {
@@ -1085,6 +1100,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].Name = fielValue
 				}
+			case "Guard":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Guard[identifier].Name = fielValue
+				}
 			case "Kill":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1288,6 +1311,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_Diagram[identifier].IsInRenameMode = fielValue
 				}
+			case "Guard":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Kill":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1402,6 +1429,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "End":
 					targetIdentifier := ident.Name
 					__gong__map_Transition[identifier].End = __gong__map_State[targetIdentifier]
+				case "Guard":
+					targetIdentifier := ident.Name
+					__gong__map_Transition[identifier].Guard = __gong__map_Guard[targetIdentifier]
 				}
 			case "Transition_Shape":
 				switch fieldName {
@@ -1495,6 +1525,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "Diagram":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					}
+				case "Guard":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}
