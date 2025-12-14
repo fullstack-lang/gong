@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __LogoOnTheRight__dummysDeclaration__ models.LogoOnTheRight
+var _ = __LogoOnTheRight__dummysDeclaration__
 var __LogoOnTheRight_time__dummyDeclaration time.Duration
+var _ = __LogoOnTheRight_time__dummyDeclaration
 
 var mutexLogoOnTheRight sync.Mutex
 

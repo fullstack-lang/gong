@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Note__dummysDeclaration__ models.Note
+var _ = __Note__dummysDeclaration__
 var __Note_time__dummyDeclaration time.Duration
+var _ = __Note_time__dummyDeclaration
 
 var mutexNote sync.Mutex
 

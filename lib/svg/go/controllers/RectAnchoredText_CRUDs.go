@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __RectAnchoredText__dummysDeclaration__ models.RectAnchoredText
+var _ = __RectAnchoredText__dummysDeclaration__
 var __RectAnchoredText_time__dummyDeclaration time.Duration
+var _ = __RectAnchoredText_time__dummyDeclaration
 
 var mutexRectAnchoredText sync.Mutex
 

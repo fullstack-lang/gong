@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __CellIcon__dummysDeclaration__ models.CellIcon
+var _ = __CellIcon__dummysDeclaration__
 var __CellIcon_time__dummyDeclaration time.Duration
+var _ = __CellIcon_time__dummyDeclaration
 
 var mutexCellIcon sync.Mutex
 

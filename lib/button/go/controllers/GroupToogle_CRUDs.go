@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __GroupToogle__dummysDeclaration__ models.GroupToogle
+var _ = __GroupToogle__dummysDeclaration__
 var __GroupToogle_time__dummyDeclaration time.Duration
+var _ = __GroupToogle_time__dummyDeclaration
 
 var mutexGroupToogle sync.Mutex
 

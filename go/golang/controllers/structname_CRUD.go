@@ -31,7 +31,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __{{Structname}}__dummysDeclaration__ models.{{Structname}}
+var _ = __{{Structname}}__dummysDeclaration__
 var __{{Structname}}_time__dummyDeclaration time.Duration
+var _ = __{{Structname}}_time__dummyDeclaration
 
 var mutex{{Structname}} sync.Mutex
 

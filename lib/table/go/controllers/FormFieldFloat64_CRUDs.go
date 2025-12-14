@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FormFieldFloat64__dummysDeclaration__ models.FormFieldFloat64
+var _ = __FormFieldFloat64__dummysDeclaration__
 var __FormFieldFloat64_time__dummyDeclaration time.Duration
+var _ = __FormFieldFloat64_time__dummyDeclaration
 
 var mutexFormFieldFloat64 sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Rect__dummysDeclaration__ models.Rect
+var _ = __Rect__dummysDeclaration__
 var __Rect_time__dummyDeclaration time.Duration
+var _ = __Rect_time__dummyDeclaration
 
 var mutexRect sync.Mutex
 

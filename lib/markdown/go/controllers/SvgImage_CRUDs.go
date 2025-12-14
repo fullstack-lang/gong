@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __SvgImage__dummysDeclaration__ models.SvgImage
+var _ = __SvgImage__dummysDeclaration__
 var __SvgImage_time__dummyDeclaration time.Duration
+var _ = __SvgImage_time__dummyDeclaration
 
 var mutexSvgImage sync.Mutex
 

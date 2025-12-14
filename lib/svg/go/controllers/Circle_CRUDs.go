@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Circle__dummysDeclaration__ models.Circle
+var _ = __Circle__dummysDeclaration__
 var __Circle_time__dummyDeclaration time.Duration
+var _ = __Circle_time__dummyDeclaration
 
 var mutexCircle sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Link__dummysDeclaration__ models.Link
+var _ = __Link__dummysDeclaration__
 var __Link_time__dummyDeclaration time.Duration
+var _ = __Link_time__dummyDeclaration
 
 var mutexLink sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __ButtonToggle__dummysDeclaration__ models.ButtonToggle
+var _ = __ButtonToggle__dummysDeclaration__
 var __ButtonToggle_time__dummyDeclaration time.Duration
+var _ = __ButtonToggle_time__dummyDeclaration
 
 var mutexButtonToggle sync.Mutex
 

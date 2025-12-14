@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Freqency__dummysDeclaration__ models.Freqency
+var _ = __Freqency__dummysDeclaration__
 var __Freqency_time__dummyDeclaration time.Duration
+var _ = __Freqency_time__dummyDeclaration
 
 var mutexFreqency sync.Mutex
 

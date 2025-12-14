@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FormSortAssocButton__dummysDeclaration__ models.FormSortAssocButton
+var _ = __FormSortAssocButton__dummysDeclaration__
 var __FormSortAssocButton_time__dummyDeclaration time.Duration
+var _ = __FormSortAssocButton_time__dummyDeclaration
 
 var mutexFormSortAssocButton sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Polyline__dummysDeclaration__ models.Polyline
+var _ = __Polyline__dummysDeclaration__
 var __Polyline_time__dummyDeclaration time.Duration
+var _ = __Polyline_time__dummyDeclaration
 
 var mutexPolyline sync.Mutex
 

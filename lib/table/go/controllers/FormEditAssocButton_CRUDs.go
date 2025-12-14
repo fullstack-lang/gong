@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FormEditAssocButton__dummysDeclaration__ models.FormEditAssocButton
+var _ = __FormEditAssocButton__dummysDeclaration__
 var __FormEditAssocButton_time__dummyDeclaration time.Duration
+var _ = __FormEditAssocButton_time__dummyDeclaration
 
 var mutexFormEditAssocButton sync.Mutex
 

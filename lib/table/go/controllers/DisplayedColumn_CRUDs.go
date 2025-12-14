@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __DisplayedColumn__dummysDeclaration__ models.DisplayedColumn
+var _ = __DisplayedColumn__dummysDeclaration__
 var __DisplayedColumn_time__dummyDeclaration time.Duration
+var _ = __DisplayedColumn_time__dummyDeclaration
 
 var mutexDisplayedColumn sync.Mutex
 

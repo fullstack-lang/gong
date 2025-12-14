@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Cursor__dummysDeclaration__ models.Cursor
+var _ = __Cursor__dummysDeclaration__
 var __Cursor_time__dummyDeclaration time.Duration
+var _ = __Cursor_time__dummyDeclaration
 
 var mutexCursor sync.Mutex
 

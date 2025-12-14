@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Ellipse__dummysDeclaration__ models.Ellipse
+var _ = __Ellipse__dummysDeclaration__
 var __Ellipse_time__dummyDeclaration time.Duration
+var _ = __Ellipse_time__dummyDeclaration
 
 var mutexEllipse sync.Mutex
 

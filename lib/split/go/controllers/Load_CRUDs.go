@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Load__dummysDeclaration__ models.Load
+var _ = __Load__dummysDeclaration__
 var __Load_time__dummyDeclaration time.Duration
+var _ = __Load_time__dummyDeclaration
 
 var mutexLoad sync.Mutex
 

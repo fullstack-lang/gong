@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __F0123456789012345678901234567890__dummysDeclaration__ models.F0123456789012345678901234567890
+var _ = __F0123456789012345678901234567890__dummysDeclaration__
 var __F0123456789012345678901234567890_time__dummyDeclaration time.Duration
+var _ = __F0123456789012345678901234567890_time__dummyDeclaration
 
 var mutexF0123456789012345678901234567890 sync.Mutex
 

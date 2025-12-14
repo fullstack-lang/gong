@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FormDiv__dummysDeclaration__ models.FormDiv
+var _ = __FormDiv__dummysDeclaration__
 var __FormDiv_time__dummyDeclaration time.Duration
+var _ = __FormDiv_time__dummyDeclaration
 
 var mutexFormDiv sync.Mutex
 

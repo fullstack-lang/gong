@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Animate__dummysDeclaration__ models.Animate
+var _ = __Animate__dummysDeclaration__
 var __Animate_time__dummyDeclaration time.Duration
+var _ = __Animate_time__dummyDeclaration
 
 var mutexAnimate sync.Mutex
 

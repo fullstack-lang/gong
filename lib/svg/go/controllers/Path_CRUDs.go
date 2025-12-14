@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Path__dummysDeclaration__ models.Path
+var _ = __Path__dummysDeclaration__
 var __Path_time__dummyDeclaration time.Duration
+var _ = __Path_time__dummyDeclaration
 
 var mutexPath sync.Mutex
 

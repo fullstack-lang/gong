@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Astruct__dummysDeclaration__ models.Astruct
+var _ = __Astruct__dummysDeclaration__
 var __Astruct_time__dummyDeclaration time.Duration
+var _ = __Astruct_time__dummyDeclaration
 
 var mutexAstruct sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __SVGIcon__dummysDeclaration__ models.SVGIcon
+var _ = __SVGIcon__dummysDeclaration__
 var __SVGIcon_time__dummyDeclaration time.Duration
+var _ = __SVGIcon_time__dummyDeclaration
 
 var mutexSVGIcon sync.Mutex
 

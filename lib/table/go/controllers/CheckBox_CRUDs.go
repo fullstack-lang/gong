@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __CheckBox__dummysDeclaration__ models.CheckBox
+var _ = __CheckBox__dummysDeclaration__
 var __CheckBox_time__dummyDeclaration time.Duration
+var _ = __CheckBox_time__dummyDeclaration
 
 var mutexCheckBox sync.Mutex
 

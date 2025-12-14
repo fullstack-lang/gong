@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __CellFloat64__dummysDeclaration__ models.CellFloat64
+var _ = __CellFloat64__dummysDeclaration__
 var __CellFloat64_time__dummyDeclaration time.Duration
+var _ = __CellFloat64_time__dummyDeclaration
 
 var mutexCellFloat64 sync.Mutex
 

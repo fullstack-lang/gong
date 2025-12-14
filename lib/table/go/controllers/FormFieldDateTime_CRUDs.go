@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FormFieldDateTime__dummysDeclaration__ models.FormFieldDateTime
+var _ = __FormFieldDateTime__dummysDeclaration__
 var __FormFieldDateTime_time__dummyDeclaration time.Duration
+var _ = __FormFieldDateTime_time__dummyDeclaration
 
 var mutexFormFieldDateTime sync.Mutex
 

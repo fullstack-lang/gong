@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Markdown__dummysDeclaration__ models.Markdown
+var _ = __Markdown__dummysDeclaration__
 var __Markdown_time__dummyDeclaration time.Duration
+var _ = __Markdown_time__dummyDeclaration
 
 var mutexMarkdown sync.Mutex
 

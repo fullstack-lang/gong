@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Event__dummysDeclaration__ models.Event
+var _ = __Event__dummysDeclaration__
 var __Event_time__dummyDeclaration time.Duration
+var _ = __Event_time__dummyDeclaration
 
 var mutexEvent sync.Mutex
 
