@@ -872,10 +872,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsArtistCategoryShown), formDiv)
 		case "IsInfluenceCategoryShown":
 			FormDivBasicFieldToField(&(diagram_.IsInfluenceCategoryShown), formDiv)
-		case "StartDate":
-			FormDivBasicFieldToField(&(diagram_.StartDate), formDiv)
-		case "EndDate":
-			FormDivBasicFieldToField(&(diagram_.EndDate), formDiv)
 		case "XMargin":
 			FormDivBasicFieldToField(&(diagram_.XMargin), formDiv)
 		case "YMargin":

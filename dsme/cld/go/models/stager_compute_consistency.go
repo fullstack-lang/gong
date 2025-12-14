@@ -25,14 +25,6 @@ func (stager *Stager) ComputeConsistency() {
 	}
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
-		if diagram.AlignDatesToFiveYears() {
-			needCommit = true
-		}
-
-		if diagram.EndDate.Before(diagram.StartDate) {
-			diagram.EndDate = diagram.StartDate
-			needCommit = true
-		}
 
 		if diagram.MovementRectAnchorType == "" {
 			diagram.MovementRectAnchorType = RECT_RIGHT

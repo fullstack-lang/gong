@@ -32,8 +32,6 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__000001_ := (&models.ArtefactTypeShape{}).Stage(stage)
 	__ArtefactTypeShape__000002_ := (&models.ArtefactTypeShape{}).Stage(stage)
 	__ArtefactTypeShape__000003_ := (&models.ArtefactTypeShape{}).Stage(stage)
-	__ArtefactTypeShape__000004_ := (&models.ArtefactTypeShape{}).Stage(stage)
-	__ArtefactTypeShape__000005_ := (&models.ArtefactTypeShape{}).Stage(stage)
 
 	__Artist__000000_Van_Gogh := (&models.Artist{}).Stage(stage)
 	__Artist__000001_Gauguin := (&models.Artist{}).Stage(stage)
@@ -50,8 +48,6 @@ func _(stage *models.Stage) {
 	__ArtistShape__000004_ := (&models.ArtistShape{}).Stage(stage)
 	__ArtistShape__000005_ := (&models.ArtistShape{}).Stage(stage)
 	__ArtistShape__000006_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000007_ := (&models.ArtistShape{}).Stage(stage)
-	__ArtistShape__000008_ := (&models.ArtistShape{}).Stage(stage)
 
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0 := (&models.ControlPointShape{}).Stage(stage)
 	__ControlPointShape__000001_Control_Point_Shape_in_Redon_to_Expressionism_0 := (&models.ControlPointShape{}).Stage(stage)
@@ -119,7 +115,6 @@ func _(stage *models.Stage) {
 	__Desk__000000_Desk := (&models.Desk{}).Stage(stage)
 
 	__Diagram__000000_Cubism_and_abstract_art := (&models.Diagram{}).Stage(stage)
-	__Diagram__000001_Post_Alfred := (&models.Diagram{}).Stage(stage)
 
 	__Influence__000000_Japanese_prints_to_Synthetism := (&models.Influence{}).Stage(stage)
 	__Influence__000001_Japanese_prints_to_Fauvism := (&models.Influence{}).Stage(stage)
@@ -256,7 +251,6 @@ func _(stage *models.Stage) {
 	__MovementShape__000014_ := (&models.MovementShape{}).Stage(stage)
 	__MovementShape__000015_ := (&models.MovementShape{}).Stage(stage)
 	__MovementShape__000016_ := (&models.MovementShape{}).Stage(stage)
-	__MovementShape__000017_ := (&models.MovementShape{}).Stage(stage)
 
 	__Place__000000_Paris := (&models.Place{}).Stage(stage)
 	__Place__000001_Pont_Aven := (&models.Place{}).Stage(stage)
@@ -304,18 +298,6 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__000003_.Y = 238.000000
 	__ArtefactTypeShape__000003_.Width = 132.000000
 	__ArtefactTypeShape__000003_.Height = 20.000000
-
-	__ArtefactTypeShape__000004_.Name = ``
-	__ArtefactTypeShape__000004_.X = 120.857143
-	__ArtefactTypeShape__000004_.Y = 72.285714
-	__ArtefactTypeShape__000004_.Width = 150.000000
-	__ArtefactTypeShape__000004_.Height = 25.000000
-
-	__ArtefactTypeShape__000005_.Name = ``
-	__ArtefactTypeShape__000005_.X = 154.285714
-	__ArtefactTypeShape__000005_.Y = 429.714286
-	__ArtefactTypeShape__000005_.Width = 150.000000
-	__ArtefactTypeShape__000005_.Height = 25.000000
 
 	__Artist__000000_Van_Gogh.Name = `Van Gogh`
 	__Artist__000000_Van_Gogh.IsDead = true
@@ -386,18 +368,6 @@ func _(stage *models.Stage) {
 	__ArtistShape__000006_.Y = 75.000000
 	__ArtistShape__000006_.Width = 70.000000
 	__ArtistShape__000006_.Height = 30.000000
-
-	__ArtistShape__000007_.Name = ``
-	__ArtistShape__000007_.X = 154.714286
-	__ArtistShape__000007_.Y = 270.571429
-	__ArtistShape__000007_.Width = 68.000000
-	__ArtistShape__000007_.Height = 30.000000
-
-	__ArtistShape__000008_.Name = ``
-	__ArtistShape__000008_.X = 473.000000
-	__ArtistShape__000008_.Y = 144.000000
-	__ArtistShape__000008_.Width = 80.000000
-	__ArtistShape__000008_.Height = 30.000000
 
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0.Name = `Control Point Shape in Japanese prints to Fauvism 0`
 	__ControlPointShape__000000_Control_Point_Shape_in_Japanese_prints_to_Fauvism_0.X_Relative = 0.162020
@@ -722,8 +692,6 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.IsArtefactTypeCategoryShown = true
 	__Diagram__000000_Cubism_and_abstract_art.IsArtistCategoryShown = true
 	__Diagram__000000_Cubism_and_abstract_art.IsInfluenceCategoryShown = true
-	__Diagram__000000_Cubism_and_abstract_art.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1890-01-01 00:00:00 +0000 UTC")
-	__Diagram__000000_Cubism_and_abstract_art.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
 	__Diagram__000000_Cubism_and_abstract_art.XMargin = 20.000000
 	__Diagram__000000_Cubism_and_abstract_art.YMargin = 40.000000
 	__Diagram__000000_Cubism_and_abstract_art.Height = 900.000000
@@ -795,91 +763,6 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceArrowEndOffset = 9.000000
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceCornerRadius = 20.000000
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceDashedLinePattern = `7 3`
-
-	__Diagram__000001_Post_Alfred.Name = `Post Alfred`
-	__Diagram__000001_Post_Alfred.IsEditable = true
-	__Diagram__000001_Post_Alfred.IsNodeExpanded = false
-	__Diagram__000001_Post_Alfred.IsMovementCategoryNodeExpanded = false
-	__Diagram__000001_Post_Alfred.IsArtefactTypeCategoryNodeExpanded = true
-	__Diagram__000001_Post_Alfred.IsArtistCategoryNodeExpanded = true
-	__Diagram__000001_Post_Alfred.IsInfluenceCategoryNodeExpanded = true
-	__Diagram__000001_Post_Alfred.IsMovementCategoryShown = true
-	__Diagram__000001_Post_Alfred.IsArtefactTypeCategoryShown = true
-	__Diagram__000001_Post_Alfred.IsArtistCategoryShown = true
-	__Diagram__000001_Post_Alfred.IsInfluenceCategoryShown = true
-	__Diagram__000001_Post_Alfred.StartDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
-	__Diagram__000001_Post_Alfred.EndDate, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
-	__Diagram__000001_Post_Alfred.XMargin = 20.000000
-	__Diagram__000001_Post_Alfred.YMargin = 40.000000
-	__Diagram__000001_Post_Alfred.Height = 900.000000
-	__Diagram__000001_Post_Alfred.NextVerticalDateXMargin = 700.000000
-	__Diagram__000001_Post_Alfred.RedColorCode = `#D23B22`
-	__Diagram__000001_Post_Alfred.BackgroundGreyColorCode = `#DED6CA`
-	__Diagram__000001_Post_Alfred.GrayColorCode = `#343434`
-	__Diagram__000001_Post_Alfred.BottomBoxYOffset = 50.000000
-	__Diagram__000001_Post_Alfred.BottomBoxWidth = 770.000000
-	__Diagram__000001_Post_Alfred.BottomBoxHeigth = 150.000000
-	__Diagram__000001_Post_Alfred.BottomBoxFontSize = `74px`
-	__Diagram__000001_Post_Alfred.BottomBoxFontWeigth = `500`
-	__Diagram__000001_Post_Alfred.BottomBoxFontFamily = `ChunkFive, sans-serif`
-	__Diagram__000001_Post_Alfred.BottomBoxLetterSpacing = `1`
-	__Diagram__000001_Post_Alfred.BottomBoxLetterColorCode = `#debdaaff`
-	__Diagram__000001_Post_Alfred.MovementRectAnchorType = models.RECT_RIGHT
-	__Diagram__000001_Post_Alfred.MovementTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000001_Post_Alfred.MovementDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.MovementFontSize = `14px`
-	__Diagram__000001_Post_Alfred.MajorMovementFontSize = `18px`
-	__Diagram__000001_Post_Alfred.MinorMovementFontSize = `10px`
-	__Diagram__000001_Post_Alfred.MovementFontWeigth = `Thin`
-	__Diagram__000001_Post_Alfred.MovementFontFamily = `Futura, sans serif`
-	__Diagram__000001_Post_Alfred.MovementLetterSpacing = `1`
-	__Diagram__000001_Post_Alfred.AbstractMovementFontSize = `12px`
-	__Diagram__000001_Post_Alfred.AbstractMovementRectAnchorType = models.RECT_TOP_RIGHT
-	__Diagram__000001_Post_Alfred.AbstractMovementTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000001_Post_Alfred.AbstractDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.MovementDateRectAnchorType = models.RECT_BOTTOM_LEFT
-	__Diagram__000001_Post_Alfred.MovementDateTextAnchorType = models.TEXT_ANCHOR_START
-	__Diagram__000001_Post_Alfred.MovementDateTextDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.MovementDateAndPlacesFontSize = `9px`
-	__Diagram__000001_Post_Alfred.MovementDateAndPlacesFontWeigth = ``
-	__Diagram__000001_Post_Alfred.MovementDateAndPlacesFontFamily = `Futura`
-	__Diagram__000001_Post_Alfred.MovementDateAndPlacesLetterSpacing = `0`
-	__Diagram__000001_Post_Alfred.MovementBelowArcY_Offset = 6.000000
-	__Diagram__000001_Post_Alfred.MovementBelowArcY_OffsetPerPlace = 6.000000
-	__Diagram__000001_Post_Alfred.MovementPlacesRectAnchorType = models.RECT_BOTTOM_RIGHT
-	__Diagram__000001_Post_Alfred.MovementPlacesTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000001_Post_Alfred.MovementPlacesDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.ArtefactTypeFontSize = `12px`
-	__Diagram__000001_Post_Alfred.ArtefactTypeFontWeigth = ``
-	__Diagram__000001_Post_Alfred.ArtefactTypeFontFamily = `Futura`
-	__Diagram__000001_Post_Alfred.ArtefactTypeLetterSpacing = ``
-	__Diagram__000001_Post_Alfred.ArtefactTypeRectAnchorType = models.RECT_CENTER
-	__Diagram__000001_Post_Alfred.ArtefactDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.ArtefactTypeStrokeWidth = 3.000000
-	__Diagram__000001_Post_Alfred.ArtistRectAnchorType = models.RECT_CENTER
-	__Diagram__000001_Post_Alfred.ArtistTextAnchorType = models.TEXT_ANCHOR_CENTER
-	__Diagram__000001_Post_Alfred.ArtistDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.ArtistFontSize = `14px`
-	__Diagram__000001_Post_Alfred.MajorArtistFontSize = ``
-	__Diagram__000001_Post_Alfred.MinorArtistFontSize = ``
-	__Diagram__000001_Post_Alfred.ArtistFontWeigth = `100`
-	__Diagram__000001_Post_Alfred.ArtistFontFamily = `Futura`
-	__Diagram__000001_Post_Alfred.ArtistLetterSpacing = `0`
-	__Diagram__000001_Post_Alfred.ArtistDateRectAnchorType = models.RECT_BOTTOM_LEFT
-	__Diagram__000001_Post_Alfred.ArtistDateTextAnchorType = models.TEXT_ANCHOR_START
-	__Diagram__000001_Post_Alfred.ArtistDateDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.ArtistDateAndPlacesFontSize = `10px`
-	__Diagram__000001_Post_Alfred.ArtistDateAndPlacesFontWeigth = `100`
-	__Diagram__000001_Post_Alfred.ArtistDateAndPlacesFontFamily = `Futura`
-	__Diagram__000001_Post_Alfred.ArtistDateAndPlacesLetterSpacing = ``
-	__Diagram__000001_Post_Alfred.ArtistPlacesRectAnchorType = models.RECT_BOTTOM_RIGHT
-	__Diagram__000001_Post_Alfred.ArtistPlacesTextAnchorType = models.TEXT_ANCHOR_END
-	__Diagram__000001_Post_Alfred.ArtistPlacesDominantBaselineType = models.DominantBaselineCentral
-	__Diagram__000001_Post_Alfred.InfluenceArrowSize = 6.000000
-	__Diagram__000001_Post_Alfred.InfluenceArrowStartOffset = 19.000000
-	__Diagram__000001_Post_Alfred.InfluenceArrowEndOffset = 9.000000
-	__Diagram__000001_Post_Alfred.InfluenceCornerRadius = 20.000000
-	__Diagram__000001_Post_Alfred.InfluenceDashedLinePattern = `7 3`
 
 	__Influence__000000_Japanese_prints_to_Synthetism.Name = `Japanese prints to Synthetism`
 	__Influence__000000_Japanese_prints_to_Synthetism.IsHypothtical = false
@@ -1381,12 +1264,6 @@ func _(stage *models.Stage) {
 	__MovementShape__000016_.Width = 147.222222
 	__MovementShape__000016_.Height = 49.555556
 
-	__MovementShape__000017_.Name = ``
-	__MovementShape__000017_.X = 478.428571
-	__MovementShape__000017_.Y = 394.571429
-	__MovementShape__000017_.Width = 97.000000
-	__MovementShape__000017_.Height = 53.000000
-
 	__Place__000000_Paris.Name = `Paris`
 
 	__Place__000001_Pont_Aven.Name = `Pont-Aven`
@@ -1418,8 +1295,6 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__000001_.ArtefactType = __ArtefactType__000001_Near_Eastern_Art
 	__ArtefactTypeShape__000002_.ArtefactType = __ArtefactType__000003_Machine_Esthetic
 	__ArtefactTypeShape__000003_.ArtefactType = __ArtefactType__000002_African_First_Art
-	__ArtefactTypeShape__000004_.ArtefactType = __ArtefactType__000000_Japanese_prints
-	__ArtefactTypeShape__000005_.ArtefactType = __ArtefactType__000002_African_First_Art
 	// setup of Artist instances pointers
 	__Artist__000002_C_zanne.Place = __Place__000011_Provence
 	__Artist__000004_Redon.Place = __Place__000000_Paris
@@ -1433,8 +1308,6 @@ func _(stage *models.Stage) {
 	__ArtistShape__000004_.Artist = __Artist__000005_Rousseau
 	__ArtistShape__000005_.Artist = __Artist__000003_Seurat
 	__ArtistShape__000006_.Artist = __Artist__000000_Van_Gogh
-	__ArtistShape__000007_.Artist = __Artist__000006_Brancusi
-	__ArtistShape__000008_.Artist = __Artist__000004_Redon
 	// setup of ControlPointShape instances pointers
 	// setup of Desk instances pointers
 	__Desk__000000_Desk.SelectedDiagram = __Diagram__000000_Cubism_and_abstract_art
@@ -1516,11 +1389,6 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000046_Machine_Esthetic_to_Suprematism)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000047_Machine_Esthetic_to_Architecture)
 	__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes = append(__Diagram__000000_Cubism_and_abstract_art.InfluenceShapes, __InfluenceShape__000048_Suprematism_to_Bauhaus)
-	__Diagram__000001_Post_Alfred.MovementShapes = append(__Diagram__000001_Post_Alfred.MovementShapes, __MovementShape__000017_)
-	__Diagram__000001_Post_Alfred.ArtefactTypeShapes = append(__Diagram__000001_Post_Alfred.ArtefactTypeShapes, __ArtefactTypeShape__000004_)
-	__Diagram__000001_Post_Alfred.ArtefactTypeShapes = append(__Diagram__000001_Post_Alfred.ArtefactTypeShapes, __ArtefactTypeShape__000005_)
-	__Diagram__000001_Post_Alfred.ArtistShapes = append(__Diagram__000001_Post_Alfred.ArtistShapes, __ArtistShape__000007_)
-	__Diagram__000001_Post_Alfred.ArtistShapes = append(__Diagram__000001_Post_Alfred.ArtistShapes, __ArtistShape__000008_)
 	// setup of Influence instances pointers
 	__Influence__000000_Japanese_prints_to_Synthetism.SourceArtefactType = __ArtefactType__000000_Japanese_prints
 	__Influence__000000_Japanese_prints_to_Synthetism.TargetMovement = __Movement__000001_Synthetism
@@ -1772,7 +1640,6 @@ func _(stage *models.Stage) {
 	__MovementShape__000014_.Movement = __Movement__000001_Synthetism
 	__MovementShape__000015_.Movement = __Movement__000007_Cubism
 	__MovementShape__000016_.Movement = __Movement__000016_Architecture
-	__MovementShape__000017_.Movement = __Movement__000012_Bauhaus
 	// setup of Place instances pointers
 }
 

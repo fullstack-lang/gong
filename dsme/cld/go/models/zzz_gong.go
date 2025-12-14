@@ -3063,14 +3063,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "StartDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "EndDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
 			Name:               "XMargin",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3772,10 +3764,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsInfluenceCategoryShown)
 		res.valueBool = diagram.IsInfluenceCategoryShown
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "StartDate":
-		res.valueString = diagram.StartDate.String()
-	case "EndDate":
-		res.valueString = diagram.EndDate.String()
 	case "XMargin":
 		res.valueString = fmt.Sprintf("%f", diagram.XMargin)
 		res.valueFloat = diagram.XMargin

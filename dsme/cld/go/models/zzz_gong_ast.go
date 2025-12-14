@@ -685,14 +685,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Diagram":
 							switch fieldName {
 							// insertion point for date assign code
-							case "StartDate":
-								__gong__map_Diagram[identifier].StartDate, _ = time.Parse(
-									"2006-01-02 15:04:05.999999999 -0700 MST",
-									date)
-							case "EndDate":
-								__gong__map_Diagram[identifier].EndDate, _ = time.Parse(
-									"2006-01-02 15:04:05.999999999 -0700 MST",
-									date)
 							}
 						case "Influence":
 							switch fieldName {
