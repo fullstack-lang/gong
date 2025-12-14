@@ -431,7 +431,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_.EndRatio = 0.234180
 	__Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_.CornerOffsetRatio = 9.719025
+	__Transition_Shape__000015_Update_UX_to_Waiting_for_user_Input_.CornerOffsetRatio = 9.527358
 
 	// Setup of pointers
 	// setup of Architecture instances pointers
