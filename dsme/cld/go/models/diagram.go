@@ -31,46 +31,36 @@ type DiagramPresentation struct {
 	XMargin float64
 	YMargin float64
 
-	Height                  float64
-	NextVerticalDateXMargin float64
+	Height float64
+	Width  float64
 
 	RedColorCode            string
 	BackgroundGreyColorCode string
 	GrayColorCode           string
 
-	BottomBoxYOffset         float64
-	BottomBoxWidth           float64
-	BottomBoxHeigth          float64
-	BottomBoxFontSize        string
-	BottomBoxFontWeigth      string
-	BottomBoxFontFamily      string
-	BottomBoxLetterSpacing   string
-	BottomBoxLetterColorCode string
+	Category1RectAnchorType       RectAnchorType
+	Category1TextAnchorType       TextAnchorType
+	Category1DominantBaselineType DominantBaselineType
+	Category1FontSize             string
+	Category1FontWeigth           string
+	Category1FontFamily           string
+	Category1LetterSpacing        string
 
-	MovementRectAnchorType       RectAnchorType
-	MovementTextAnchorType       TextAnchorType
-	MovementDominantBaselineType DominantBaselineType
-	MovementFontSize             string
-	MovementFontWeigth           string
-	MovementFontFamily           string
-	MovementLetterSpacing        string
+	Category2TypeFontSize         string
+	Category2TypeFontWeigth       string
+	Category2TypeFontFamily       string
+	Category2TypeLetterSpacing    string
+	Category2TypeRectAnchorType   RectAnchorType
+	Category2DominantBaselineType DominantBaselineType
+	Category2StrokeWidth          float64
 
-	ArtefactTypeFontSize      string
-	ArtefactTypeFontWeigth    string
-	ArtefactTypeFontFamily    string
-	ArtefactTypeLetterSpacing string
-
-	ArtefactTypeRectAnchorType   RectAnchorType
-	ArtefactDominantBaselineType DominantBaselineType
-	ArtefactTypeStrokeWidth      float64
-
-	ArtistRectAnchorType       RectAnchorType
-	ArtistTextAnchorType       TextAnchorType
-	ArtistDominantBaselineType DominantBaselineType
-	ArtistFontSize             string
-	ArtistFontWeigth           string
-	ArtistFontFamily           string
-	ArtistLetterSpacing        string
+	Category3RectAnchorType       RectAnchorType
+	Category3TextAnchorType       TextAnchorType
+	Category3DominantBaselineType DominantBaselineType
+	Category3FontSize             string
+	Category3FontWeigth           string
+	Category3FontFamily           string
+	Category3LetterSpacing        string
 
 	InfluenceArrowSize        float64
 	InfluenceArrowStartOffset float64

@@ -13,7 +13,7 @@ func (stager *Stager) SvgStageUpdate() {
 	log.Println("SVG update")
 
 	// creates a map of art history element
-	map_ArtElement_Rect := make(map[Category]*svg.Rect)
+	map_Category_Rect := make(map[Category]*svg.Rect)
 
 	diagram := stager.desk.SelectedDiagram
 	svg_ := &svg.SVG{
@@ -24,16 +24,13 @@ func (stager *Stager) SvgStageUpdate() {
 	layer := &svg.Layer{Name: "Default"}
 	svg_.Layers = append(svg_.Layers, layer)
 
-	arcLayer := &svg.Layer{Name: "Arc Layer"}
-	svg_.Layers = append(svg_.Layers, arcLayer)
-
-	y := diagram.Height + diagram.BottomBoxYOffset
+	y := diagram.Height
 
 	backgroundRect := &svg.Rect{
 		Name:   diagram.Name,
 		X:      0.0,
 		Y:      0,
-		Width:  diagram.BottomBoxWidth,
+		Width:  diagram.Width,
 		Height: y,
 		Presentation: svg.Presentation{
 			Color:       diagram.BackgroundGreyColorCode,
@@ -46,19 +43,19 @@ func (stager *Stager) SvgStageUpdate() {
 	}
 	layer.Rects = append(layer.Rects, backgroundRect)
 
-	for _, movementShape := range diagram.Category1Shapes {
-		movement := movementShape.Category1
+	for _, s := range diagram.Category1Shapes {
+		category := s.Category1
 		titleRectAnchoredText := &svg.RectAnchoredText{
-			Name:             movement.Name,
-			Content:          strings.ToUpper(movement.Name),
-			RectAnchorType:   svg.RectAnchorType(diagram.MovementRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.MovementTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.MovementDominantBaselineType),
+			Name:             category.Name,
+			Content:          strings.ToUpper(category.Name),
+			RectAnchorType:   svg.RectAnchorType(diagram.Category1RectAnchorType),
+			TextAnchorType:   svg.TextAnchorType(diagram.Category1TextAnchorType),
+			DominantBaseline: svg.DominantBaselineType(diagram.Category1DominantBaselineType),
 			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementFontWeigth,
-				FontSize:      diagram.MovementFontSize,
-				FontFamily:    diagram.MovementFontFamily,
-				LetterSpacing: diagram.MovementLetterSpacing,
+				FontWeight:    diagram.Category1FontWeigth,
+				FontSize:      diagram.Category1FontSize,
+				FontFamily:    diagram.Category1FontFamily,
+				LetterSpacing: diagram.Category1LetterSpacing,
 			},
 			Presentation: svg.Presentation{
 				Color:       diagram.GrayColorCode,
@@ -67,11 +64,11 @@ func (stager *Stager) SvgStageUpdate() {
 		}
 
 		rect := &svg.Rect{
-			Name:                movement.Name,
-			X:                   movementShape.X,
-			Y:                   movementShape.Y,
-			Width:               movementShape.Width,
-			Height:              movementShape.Height,
+			Name:                category.Name,
+			X:                   s.X,
+			Y:                   s.Y,
+			Width:               s.Width,
+			Height:              s.Height,
 			CanMoveHorizontaly:  true,
 			CanMoveVerticaly:    true,
 			IsSelectable:        true,
@@ -85,30 +82,30 @@ func (stager *Stager) SvgStageUpdate() {
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText},
 		}
-		map_ArtElement_Rect[movement] = rect
+		map_Category_Rect[category] = rect
 
 		rect.Impl = &Category1ShapeProxy{
 			stager: stager,
-			shape:  movementShape,
+			shape:  s,
 		}
 		if diagram.IsCategory1Shown {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
 
-	for _, artefactTypeShape := range diagram.Category3Shapes {
-		artefactType := artefactTypeShape.Category3
+	for _, s := range diagram.Category3Shapes {
+		category := s.Category3
 		titleRectAnchoredText := &svg.RectAnchoredText{
-			Name:             artefactType.Name,
-			Content:          strings.ToUpper(artefactType.Name),
-			RectAnchorType:   svg.RectAnchorType(diagram.ArtefactTypeRectAnchorType),
+			Name:             category.Name,
+			Content:          strings.ToUpper(category.Name),
+			RectAnchorType:   svg.RectAnchorType(diagram.Category2TypeRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(TEXT_ANCHOR_CENTER),
-			DominantBaseline: svg.DominantBaselineType(diagram.ArtefactDominantBaselineType),
+			DominantBaseline: svg.DominantBaselineType(diagram.Category2DominantBaselineType),
 			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtefactTypeFontWeigth,
-				FontSize:      diagram.ArtefactTypeFontSize,
-				FontFamily:    diagram.ArtefactTypeFontFamily,
-				LetterSpacing: diagram.ArtefactTypeLetterSpacing,
+				FontWeight:    diagram.Category2TypeFontWeigth,
+				FontSize:      diagram.Category2TypeFontSize,
+				FontFamily:    diagram.Category2TypeFontFamily,
+				LetterSpacing: diagram.Category2TypeLetterSpacing,
 			},
 			Presentation: svg.Presentation{
 				Color:       diagram.RedColorCode,
@@ -117,11 +114,11 @@ func (stager *Stager) SvgStageUpdate() {
 		}
 
 		rect := &svg.Rect{
-			Name:                artefactType.Name,
-			X:                   artefactTypeShape.X,
-			Y:                   artefactTypeShape.Y,
-			Width:               artefactTypeShape.Width,
-			Height:              artefactTypeShape.Height,
+			Name:                category.Name,
+			X:                   s.X,
+			Y:                   s.Y,
+			Width:               s.Width,
+			Height:              s.Height,
 			CanMoveHorizontaly:  true,
 			CanMoveVerticaly:    true,
 			IsSelectable:        true,
@@ -133,35 +130,35 @@ func (stager *Stager) SvgStageUpdate() {
 				Color:         svg.White.ToString(),
 				Stroke:        diagram.RedColorCode,
 				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
+				StrokeWidth:   diagram.Category2StrokeWidth,
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText},
 		}
-		map_ArtElement_Rect[artefactType] = rect
+		map_Category_Rect[category] = rect
 
 		rect.Impl = &Category3ShapeProxy{
 			stager: stager,
-			shape:  artefactTypeShape,
+			shape:  s,
 		}
 		if diagram.IsCategory2Shown {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
 
-	for _, artistShape := range diagram.Category2Shapes {
-		artist := artistShape.Category2
+	for _, s := range diagram.Category2Shapes {
+		category := s.Category2
 		titleRectAnchoredText := &svg.RectAnchoredText{
-			Name:             artist.Name,
-			Content:          artist.Name,
-			RectAnchorType:   svg.RectAnchorType(diagram.ArtistRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.ArtistTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.ArtistDominantBaselineType),
+			Name:             category.Name,
+			Content:          category.Name,
+			RectAnchorType:   svg.RectAnchorType(diagram.Category3RectAnchorType),
+			TextAnchorType:   svg.TextAnchorType(diagram.Category3TextAnchorType),
+			DominantBaseline: svg.DominantBaselineType(diagram.Category3DominantBaselineType),
 			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistFontWeigth,
-				FontSize:      diagram.ArtistFontSize,
-				FontFamily:    diagram.ArtistFontFamily,
-				LetterSpacing: diagram.ArtistLetterSpacing,
+				FontWeight:    diagram.Category3FontWeigth,
+				FontSize:      diagram.Category3FontSize,
+				FontFamily:    diagram.Category3FontFamily,
+				LetterSpacing: diagram.Category3LetterSpacing,
 			},
 			Presentation: svg.Presentation{
 				Color:       diagram.GrayColorCode,
@@ -169,11 +166,11 @@ func (stager *Stager) SvgStageUpdate() {
 			},
 		}
 		rect := &svg.Rect{
-			Name:                artist.Name,
-			X:                   artistShape.X,
-			Y:                   artistShape.Y,
-			Width:               artistShape.Width,
-			Height:              artistShape.Height,
+			Name:                category.Name,
+			X:                   s.X,
+			Y:                   s.Y,
+			Width:               s.Width,
+			Height:              s.Height,
 			CanMoveHorizontaly:  true,
 			CanMoveVerticaly:    true,
 			IsSelectable:        true,
@@ -187,11 +184,11 @@ func (stager *Stager) SvgStageUpdate() {
 			RectAnchoredTexts: []*svg.RectAnchoredText{
 				titleRectAnchoredText},
 		}
-		map_ArtElement_Rect[artist] = rect
+		map_Category_Rect[category] = rect
 
 		rect.Impl = &Category2Proxy{
 			stager: stager,
-			shape:  artistShape,
+			shape:  s,
 		}
 
 		if diagram.IsCategory3Shown {
@@ -206,11 +203,11 @@ func (stager *Stager) SvgStageUpdate() {
 		link := new(svg.Link)
 		link.Name = influenceShape.Name
 
-		link.Start = map_ArtElement_Rect[influence.source]
+		link.Start = map_Category_Rect[influence.source]
 
 		link.StartArrowOffset = diagram.InfluenceArrowStartOffset
 
-		link.End = map_ArtElement_Rect[influence.target]
+		link.End = map_Category_Rect[influence.target]
 		link.HasEndArrow = true
 		link.EndArrowSize = diagram.InfluenceArrowSize
 
@@ -230,7 +227,7 @@ func (stager *Stager) SvgStageUpdate() {
 			link.StartArrowOffset = 0.0
 		}
 
-		link.StrokeWidth = diagram.ArtefactTypeStrokeWidth
+		link.StrokeWidth = diagram.Category2StrokeWidth
 		link.StrokeOpacity = 1
 
 		if influence.IsHypothtical {

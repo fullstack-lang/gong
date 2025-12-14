@@ -1100,72 +1100,56 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.YMargin), formDiv)
 		case "Height":
 			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
-		case "NextVerticalDateXMargin":
-			FormDivBasicFieldToField(&(diagram_.NextVerticalDateXMargin), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
 		case "RedColorCode":
 			FormDivBasicFieldToField(&(diagram_.RedColorCode), formDiv)
 		case "BackgroundGreyColorCode":
 			FormDivBasicFieldToField(&(diagram_.BackgroundGreyColorCode), formDiv)
 		case "GrayColorCode":
 			FormDivBasicFieldToField(&(diagram_.GrayColorCode), formDiv)
-		case "BottomBoxYOffset":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxYOffset), formDiv)
-		case "BottomBoxWidth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxWidth), formDiv)
-		case "BottomBoxHeigth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxHeigth), formDiv)
-		case "BottomBoxFontSize":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontSize), formDiv)
-		case "BottomBoxFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontWeigth), formDiv)
-		case "BottomBoxFontFamily":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxFontFamily), formDiv)
-		case "BottomBoxLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxLetterSpacing), formDiv)
-		case "BottomBoxLetterColorCode":
-			FormDivBasicFieldToField(&(diagram_.BottomBoxLetterColorCode), formDiv)
-		case "MovementRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementRectAnchorType), formDiv)
-		case "MovementTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementTextAnchorType), formDiv)
-		case "MovementDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.MovementDominantBaselineType), formDiv)
-		case "MovementFontSize":
-			FormDivBasicFieldToField(&(diagram_.MovementFontSize), formDiv)
-		case "MovementFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.MovementFontWeigth), formDiv)
-		case "MovementFontFamily":
-			FormDivBasicFieldToField(&(diagram_.MovementFontFamily), formDiv)
-		case "MovementLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.MovementLetterSpacing), formDiv)
-		case "ArtefactTypeFontSize":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontSize), formDiv)
-		case "ArtefactTypeFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontWeigth), formDiv)
-		case "ArtefactTypeFontFamily":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeFontFamily), formDiv)
-		case "ArtefactTypeLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeLetterSpacing), formDiv)
-		case "ArtefactTypeRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtefactTypeRectAnchorType), formDiv)
-		case "ArtefactDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtefactDominantBaselineType), formDiv)
-		case "ArtefactTypeStrokeWidth":
-			FormDivBasicFieldToField(&(diagram_.ArtefactTypeStrokeWidth), formDiv)
-		case "ArtistRectAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistRectAnchorType), formDiv)
-		case "ArtistTextAnchorType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistTextAnchorType), formDiv)
-		case "ArtistDominantBaselineType":
-			FormDivEnumStringFieldToField(&(diagram_.ArtistDominantBaselineType), formDiv)
-		case "ArtistFontSize":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontSize), formDiv)
-		case "ArtistFontWeigth":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontWeigth), formDiv)
-		case "ArtistFontFamily":
-			FormDivBasicFieldToField(&(diagram_.ArtistFontFamily), formDiv)
-		case "ArtistLetterSpacing":
-			FormDivBasicFieldToField(&(diagram_.ArtistLetterSpacing), formDiv)
+		case "Category1RectAnchorType":
+			FormDivEnumStringFieldToField(&(diagram_.Category1RectAnchorType), formDiv)
+		case "Category1TextAnchorType":
+			FormDivEnumStringFieldToField(&(diagram_.Category1TextAnchorType), formDiv)
+		case "Category1DominantBaselineType":
+			FormDivEnumStringFieldToField(&(diagram_.Category1DominantBaselineType), formDiv)
+		case "Category1FontSize":
+			FormDivBasicFieldToField(&(diagram_.Category1FontSize), formDiv)
+		case "Category1FontWeigth":
+			FormDivBasicFieldToField(&(diagram_.Category1FontWeigth), formDiv)
+		case "Category1FontFamily":
+			FormDivBasicFieldToField(&(diagram_.Category1FontFamily), formDiv)
+		case "Category1LetterSpacing":
+			FormDivBasicFieldToField(&(diagram_.Category1LetterSpacing), formDiv)
+		case "Category2TypeFontSize":
+			FormDivBasicFieldToField(&(diagram_.Category2TypeFontSize), formDiv)
+		case "Category2TypeFontWeigth":
+			FormDivBasicFieldToField(&(diagram_.Category2TypeFontWeigth), formDiv)
+		case "Category2TypeFontFamily":
+			FormDivBasicFieldToField(&(diagram_.Category2TypeFontFamily), formDiv)
+		case "Category2TypeLetterSpacing":
+			FormDivBasicFieldToField(&(diagram_.Category2TypeLetterSpacing), formDiv)
+		case "Category2TypeRectAnchorType":
+			FormDivEnumStringFieldToField(&(diagram_.Category2TypeRectAnchorType), formDiv)
+		case "Category2DominantBaselineType":
+			FormDivEnumStringFieldToField(&(diagram_.Category2DominantBaselineType), formDiv)
+		case "Category2StrokeWidth":
+			FormDivBasicFieldToField(&(diagram_.Category2StrokeWidth), formDiv)
+		case "Category3RectAnchorType":
+			FormDivEnumStringFieldToField(&(diagram_.Category3RectAnchorType), formDiv)
+		case "Category3TextAnchorType":
+			FormDivEnumStringFieldToField(&(diagram_.Category3TextAnchorType), formDiv)
+		case "Category3DominantBaselineType":
+			FormDivEnumStringFieldToField(&(diagram_.Category3DominantBaselineType), formDiv)
+		case "Category3FontSize":
+			FormDivBasicFieldToField(&(diagram_.Category3FontSize), formDiv)
+		case "Category3FontWeigth":
+			FormDivBasicFieldToField(&(diagram_.Category3FontWeigth), formDiv)
+		case "Category3FontFamily":
+			FormDivBasicFieldToField(&(diagram_.Category3FontFamily), formDiv)
+		case "Category3LetterSpacing":
+			FormDivBasicFieldToField(&(diagram_.Category3LetterSpacing), formDiv)
 		case "InfluenceArrowSize":
 			FormDivBasicFieldToField(&(diagram_.InfluenceArrowSize), formDiv)
 		case "InfluenceArrowStartOffset":
