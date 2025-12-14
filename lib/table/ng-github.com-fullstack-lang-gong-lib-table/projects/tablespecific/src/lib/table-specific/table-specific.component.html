@@ -66,9 +66,7 @@
 
                 <td mat-cell *matCellDef="let element">
                     @if (element.Cells[i]?.CellString) {
-                   <div [class.truncate-text]="isTextTruncated" [class.wrap-newlines]="isAssociationsWrapping">
-                        {{ element.Cells[i].CellString.Value }}
-                    </div>
+                   <div [class.truncate-text]="isTextTruncated" [class.wrap-newlines]="isAssociationsWrapping">{{element.Cells[i].CellString.Value}}</div>
                     }
                     @if (element.Cells[i]?.CellInt) {
                     {{ element.Cells[i].CellInt.Value }}
