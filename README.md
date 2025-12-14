@@ -239,3 +239,13 @@ curl --request POST \
 - angular version 19 (see https://angular.dev/)
 
 Remove the `-level1` arg to the gongc command.
+
+# Compiling the gong repo
+
+```bash
+git clone https://github.com/fullstack-lang/gong
+cd gong/go/cmd/gong
+go install
+cd ../../..
+./scripts/run_gong_conditionally.sh
+```
