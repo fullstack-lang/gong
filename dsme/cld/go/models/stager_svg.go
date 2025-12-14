@@ -30,9 +30,7 @@ func (stager *Stager) SvgStageUpdate() {
 	arcLayer := &svg.Layer{Name: "Arc Layer"}
 	svg_.Layers = append(svg_.Layers, arcLayer)
 
-	years := diagram.GetFiveYearTicks()
-	yStep := diagram.Height / (float64(len(years) + 1))
-	y := float64(len(years)-1)*yStep + diagram.BottomBoxYOffset
+	y := diagram.Height + diagram.BottomBoxYOffset
 
 	backgroundRect := &svg.Rect{
 		Name:   diagram.Name,
@@ -50,39 +48,6 @@ func (stager *Stager) SvgStageUpdate() {
 		},
 	}
 	layer.Rects = append(layer.Rects, backgroundRect)
-
-	for idx := range 2 {
-		for idx2, year := range years {
-			rect := &svg.Rect{
-				Name: year.Format("2006"),
-				X:    diagram.XMargin + float64(idx)*diagram.NextVerticalDateXMargin,
-				Y:    diagram.YMargin + float64(idx2)*yStep,
-				RectAnchoredTexts: []*svg.RectAnchoredText{
-					{
-						Name:           year.Format("2006"),
-						Content:        year.Format("2006"),
-						RectAnchorType: svg.RECT_CENTER,
-						Presentation: svg.Presentation{
-							Stroke:        diagram.RedColorCode,
-							StrokeOpacity: 1.0,
-							StrokeWidth:   1.0,
-							Color:         diagram.RedColorCode,
-							FillOpacity:   1.0,
-						},
-						TextAttributes: svg.TextAttributes{
-							FontWeight:    diagram.MovementFontWeigth,
-							FontSize:      diagram.MovementFontSize,
-							FontFamily:    diagram.MovementFontFamily,
-							LetterSpacing: diagram.MovementLetterSpacing,
-						},
-					},
-				},
-			}
-			layer.Rects = append(layer.Rects, rect)
-		}
-	}
-
-	stager.addBottomRect(y, diagram, layer)
 
 	for _, movementShape := range diagram.MovementShapes {
 		movement := movementShape.Movement
@@ -205,59 +170,9 @@ func (stager *Stager) SvgStageUpdate() {
 			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, abstractRectAnchoredText)
 		}
 
-		// add the arc below the movement
-		/*
-			For a given x-radius and y-radius, there are two ellipses that can connect
-			any two points (as long as they're within the radius of the circle).
-			long either of those circles, there are two possible paths that can be taken to connect
-			the points—so in any situation, there are four possible arcs available.
-
-			A rx ry x-axis-rotation large-arc-flag sweep-flag x y
-
-			The third parameter describes the rotation of the arc
-
-			The final two parameters designate the x and y coordinates to end the stroke.
-			Together, these four values define the basic structure of the arc.
-
-		*/
-		x := movementShape.X + movementShape.Width/2.0
-		y := movementShape.Y + movementShape.Height +
-			diagram.MovementBelowArcY_Offset +
-			float64(len(movement.Places)*
-				int(diagram.MovementBelowArcY_OffsetPerPlace))
-		path := &svg.Path{
-			Name: movement.Name,
-			Definition: fmt.Sprintf("M %f %f A %f %f 0 0 0 %f %f",
-				// move to
-				x-movementShape.Width/2.0,
-				y,
-
-				// rx, ry
-				movementShape.Width/2.0,
-				movementShape.Height/2.0,
-
-				// end of the stroke
-				x+movementShape.Width/2.0,
-				y,
-			),
-			Presentation: svg.Presentation{
-				Stroke:        diagram.GrayColorCode,
-				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
-				Color:         diagram.BackgroundGreyColorCode,
-				FillOpacity:   1.0,
-			},
-		}
-
 		rect.Impl = &MovementShapeProxy{
 			stager: stager,
 			shape:  movementShape,
-		}
-		if diagram.IsInfluenceCategoryShown {
-			// some movements have no underlying arcs
-			if !movement.IsModern && len(movement.Places) > 0 {
-				arcLayer.Paths = append(arcLayer.Paths, path)
-			}
 		}
 		if diagram.IsMovementCategoryShown {
 			layer.Rects = append(layer.Rects, rect)
@@ -534,49 +449,4 @@ func (stager *Stager) SvgStageUpdate() {
 	svg.StageBranch(stager.svgStage, svg_)
 
 	stager.svgStage.Commit()
-}
-
-func (*Stager) addBottomRect(y float64, diagram *Diagram, layer *svg.Layer) {
-	yBoxText := y + diagram.BottomBoxHeigth/2.0
-	_ = yBoxText
-	rect := &svg.Rect{
-		Name:   diagram.Name,
-		X:      0.0,
-		Y:      y,
-		Width:  diagram.BottomBoxWidth,
-		Height: diagram.BottomBoxHeigth,
-		Presentation: svg.Presentation{
-			Color:       diagram.RedColorCode,
-			FillOpacity: 1.0,
-		},
-		RectAnchoredTexts: []*svg.RectAnchoredText{
-			{
-				Name:           diagram.Name,
-				Content:        strings.ToUpper(diagram.Name),
-				TextAnchorType: svg.TEXT_ANCHOR_START,
-				RectAnchorType: svg.RECT_LEFT,
-				TextAttributes: svg.TextAttributes{
-					FontWeight:    diagram.BottomBoxFontWeigth,
-					FontSize:      diagram.BottomBoxFontSize,
-					FontFamily:    diagram.BottomBoxFontFamily,
-					LetterSpacing: diagram.BottomBoxLetterSpacing,
-					WhiteSpace:    svg.WhiteSpaceEnumPre,
-				},
-				X_Offset: 8,
-				// Y_Offset:         10,
-				DominantBaseline: svg.DominantBaselineCentral,
-				Presentation: svg.Presentation{
-					Stroke:        diagram.BottomBoxLetterColorCode,
-					StrokeOpacity: 1.0,
-					StrokeWidth:   1.0,
-					Color:         diagram.BottomBoxLetterColorCode,
-					FillOpacity:   1.0,
-					Transform: fmt.Sprintf("translate(0, %f) scale(0.649, 1.2) translate(0, %f)",
-						yBoxText,
-						-yBoxText),
-				},
-			},
-		},
-	}
-	layer.Rects = append(layer.Rects, rect)
 }

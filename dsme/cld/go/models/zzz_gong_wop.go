@@ -139,10 +139,6 @@ type Diagram_WOP struct {
 
 	IsInfluenceCategoryShown bool
 
-	StartDate time.Time
-
-	EndDate time.Time
-
 	XMargin float64
 
 	YMargin float64
@@ -299,8 +295,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsArtefactTypeCategoryShown = from.IsArtefactTypeCategoryShown
 	to.IsArtistCategoryShown = from.IsArtistCategoryShown
 	to.IsInfluenceCategoryShown = from.IsInfluenceCategoryShown
-	to.StartDate = from.StartDate
-	to.EndDate = from.EndDate
 	to.XMargin = from.XMargin
 	to.YMargin = from.YMargin
 	to.Height = from.Height
