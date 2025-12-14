@@ -24,7 +24,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("ng", "add", "@angular/material@19", "--skip-confirmation")
+		cmd := exec.Command("ng", "add", "@angular/material@20", "--skip-confirmation")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular material\n")
 
@@ -50,7 +50,7 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 		// otherwise, one meet the error
 		// "No terminal detected. '--skip-confirmation' can be used to bypass installation confirmation.
 		// Ensure package name is correct prior to '--skip-confirmation' option usage."
-		cmd := exec.Command("npm", "install", "@angular/animations@19")
+		cmd := exec.Command("npm", "install", "@angular/animations@20")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Adding angular animation\n")
 
@@ -74,9 +74,9 @@ func InstallMaterialLibs(modelPkg *gong_models.ModelPkg) {
 	{
 		start := time.Now()
 		cmd := exec.Command("npm", "install",
-			"angular-split@19",
+			"angular-split@20",
 			"tone",
-			"ngx-markdown@19",
+			"ngx-markdown@20",
 			"material-icons")
 		cmd.Dir = modelPkg.NgWorkspacePath
 		log.Printf("Installing some packages\n")
