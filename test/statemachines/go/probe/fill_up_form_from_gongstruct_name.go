@@ -25,6 +25,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "Action":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Action Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ActionFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		action := new(models.Action)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(action, formGroup, probe)
 	case "Activities":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
