@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Slider__dummysDeclaration__ models.Slider
+var _ = __Slider__dummysDeclaration__
 var __Slider_time__dummyDeclaration time.Duration
+var _ = __Slider_time__dummyDeclaration
 
 var mutexSlider sync.Mutex
 

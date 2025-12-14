@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Condition__dummysDeclaration__ models.Condition
+var _ = __Condition__dummysDeclaration__
 var __Condition_time__dummyDeclaration time.Duration
+var _ = __Condition_time__dummyDeclaration
 
 var mutexCondition sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __DummyAgent__dummysDeclaration__ models.DummyAgent
+var _ = __DummyAgent__dummysDeclaration__
 var __DummyAgent_time__dummyDeclaration time.Duration
+var _ = __DummyAgent_time__dummyDeclaration
 
 var mutexDummyAgent sync.Mutex
 

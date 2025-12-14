@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __View__dummysDeclaration__ models.View
+var _ = __View__dummysDeclaration__
 var __View_time__dummyDeclaration time.Duration
+var _ = __View_time__dummyDeclaration
 
 var mutexView sync.Mutex
 

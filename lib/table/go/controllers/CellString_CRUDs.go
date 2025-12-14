@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __CellString__dummysDeclaration__ models.CellString
+var _ = __CellString__dummysDeclaration__
 var __CellString_time__dummyDeclaration time.Duration
+var _ = __CellString_time__dummyDeclaration
 
 var mutexCellString sync.Mutex
 

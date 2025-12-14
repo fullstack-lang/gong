@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Layer__dummysDeclaration__ models.Layer
+var _ = __Layer__dummysDeclaration__
 var __Layer_time__dummyDeclaration time.Duration
+var _ = __Layer_time__dummyDeclaration
 
 var mutexLayer sync.Mutex
 

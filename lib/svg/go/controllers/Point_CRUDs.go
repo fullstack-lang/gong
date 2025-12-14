@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Point__dummysDeclaration__ models.Point
+var _ = __Point__dummysDeclaration__
 var __Point_time__dummyDeclaration time.Duration
+var _ = __Point_time__dummyDeclaration
 
 var mutexPoint sync.Mutex
 

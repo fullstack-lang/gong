@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Option__dummysDeclaration__ models.Option
+var _ = __Option__dummysDeclaration__
 var __Option_time__dummyDeclaration time.Duration
+var _ = __Option_time__dummyDeclaration
 
 var mutexOption sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Gstruct__dummysDeclaration__ models.Gstruct
+var _ = __Gstruct__dummysDeclaration__
 var __Gstruct_time__dummyDeclaration time.Duration
+var _ = __Gstruct_time__dummyDeclaration
 
 var mutexGstruct sync.Mutex
 

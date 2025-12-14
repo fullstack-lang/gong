@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Svg__dummysDeclaration__ models.Svg
+var _ = __Svg__dummysDeclaration__
 var __Svg_time__dummyDeclaration time.Duration
+var _ = __Svg_time__dummyDeclaration
 
 var mutexSvg sync.Mutex
 

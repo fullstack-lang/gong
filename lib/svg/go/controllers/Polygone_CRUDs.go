@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Polygone__dummysDeclaration__ models.Polygone
+var _ = __Polygone__dummysDeclaration__
 var __Polygone_time__dummyDeclaration time.Duration
+var _ = __Polygone_time__dummyDeclaration
 
 var mutexPolygone sync.Mutex
 

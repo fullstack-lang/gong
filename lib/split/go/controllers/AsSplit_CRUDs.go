@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __AsSplit__dummysDeclaration__ models.AsSplit
+var _ = __AsSplit__dummysDeclaration__
 var __AsSplit_time__dummyDeclaration time.Duration
+var _ = __AsSplit_time__dummyDeclaration
 
 var mutexAsSplit sync.Mutex
 

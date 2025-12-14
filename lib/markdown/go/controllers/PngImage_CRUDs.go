@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __PngImage__dummysDeclaration__ models.PngImage
+var _ = __PngImage__dummysDeclaration__
 var __PngImage_time__dummyDeclaration time.Duration
+var _ = __PngImage_time__dummyDeclaration
 
 var mutexPngImage sync.Mutex
 

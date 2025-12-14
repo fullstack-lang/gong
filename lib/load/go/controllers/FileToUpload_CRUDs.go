@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FileToUpload__dummysDeclaration__ models.FileToUpload
+var _ = __FileToUpload__dummysDeclaration__
 var __FileToUpload_time__dummyDeclaration time.Duration
+var _ = __FileToUpload_time__dummyDeclaration
 
 var mutexFileToUpload sync.Mutex
 

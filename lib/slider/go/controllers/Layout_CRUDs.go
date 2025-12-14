@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Layout__dummysDeclaration__ models.Layout
+var _ = __Layout__dummysDeclaration__
 var __Layout_time__dummyDeclaration time.Duration
+var _ = __Layout_time__dummyDeclaration
 
 var mutexLayout sync.Mutex
 
