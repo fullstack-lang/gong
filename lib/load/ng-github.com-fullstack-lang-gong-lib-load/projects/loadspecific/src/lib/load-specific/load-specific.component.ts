@@ -199,7 +199,7 @@ export class LoadSpecificComponent implements OnInit, OnDestroy {
       this.fileToUploadService.updateFront(this.fileToUpload, this.Name).subscribe(
         (fileToUploadResponse: load.FileToUpload) => {
           this.isUploading.set(false);
-          this.uploadStatus.set(`File "${fileName}" processed successfully`);
+          this.uploadStatus.set(`File "${fileName}" has been successfully uploaded`);
           console.log("Upload successful", fileToUploadResponse);
         },
         (serviceError: any) => {
