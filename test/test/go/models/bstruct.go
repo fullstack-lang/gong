@@ -10,7 +10,7 @@ type Bstruct struct {
 
 	Intfield int
 
-	// swagger:ignore this field is ignored by gongc
+	// swagger:ignore this field is ignored by gong generate
 	Struct interface{} `gorm:"-"` // instruction for gorm ORM
 
 	// swagger:ignore

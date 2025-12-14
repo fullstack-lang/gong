@@ -41,7 +41,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 		_, errd := os.Stat(mainFilePath)
 		if os.IsNotExist(errd) {
-			log.Printf("maing.go does not exist, gongc creates a default main.go")
+			log.Printf("maing.go does not exist, gong generate creates a default main.go")
 
 			mainFileDirPath := filepath.Dir(mainFilePath)
 			mainFileDirAbsPath, _ := filepath.Abs(mainFileDirPath)
@@ -85,7 +85,7 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 
 		_, errd := os.Stat(coderFilePath)
 		if os.IsNotExist(errd) && !skipStager {
-			log.Printf("stager.go does not exist, gongc creates a default stager.go")
+			log.Printf("stager.go does not exist, gong generate creates a default stager.go")
 			gong_models.VerySimpleCodeGenerator(
 				modelPkg,
 				coderFilePath,

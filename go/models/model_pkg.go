@@ -64,7 +64,7 @@ type ModelPkg struct {
 	// the source code for the library's components,
 	// services, modules, and other features are located.
 	//
-	// gongc regenerates at each compilation a material angular library "<pkgName>" for
+	// gong generate regenerates at each compilation a material angular library "<pkgName>" for
 	// having the code related to data manipulation of objects of the
 	// stack
 	NgDataLibrarySourceCodeDirectory string
@@ -77,7 +77,7 @@ type ModelPkg struct {
 
 	// MaterialLibDatamodelTargetPath is the "<pkgName>datamodel/src/lib"
 	//
-	// gongc regenerates at each compilation a material angular library "<pkgName>datamodel" for
+	// gong generate regenerates at each compilation a material angular library "<pkgName>datamodel" for
 	// having the code related to inclusion of the gongdoc stack and the gong stack
 	// for docmenting the stack with UML diagrams (gongdoc) and providing a meta inspection
 	// of the declarations of the stack
@@ -123,12 +123,12 @@ func LoadSource(stage *Stage, pkgPath string) (modelPkg *ModelPkg, err error) {
 
 	// check existance of go.mod file in the path to the 'models' package
 	//
-	// if no go.mod file is found above the 'models' package, gongc fails
+	// if no go.mod file is found above the 'models' package, gong generate fails
 	//
 	// if go.mod exists, it means the package path has been defined
 	// for instance "github.com/fullstack-lang/gongsvg"
 	//
-	// if go.mod does not exist, gongc can only infer the package name
+	// if go.mod does not exist, gong generate can only infer the package name
 	// from the name of directory that is two levels above "go/models"
 	// it is up to the developper to change the module name after the first gong generation
 	pkgName, fullPkgPath := ComputePkgPathFromGoModFile(pkgPath)
