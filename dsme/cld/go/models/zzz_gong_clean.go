@@ -1,0 +1,126 @@
+// generated code - do not edit
+package models
+
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by ArtefactType
+func (artefacttype *ArtefactType) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by ArtefactTypeShape
+func (artefacttypeshape *ArtefactTypeShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	artefacttypeshape.ArtefactType = GongCleanPointer(stage, artefacttypeshape.ArtefactType)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Artist
+func (artist *Artist) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	artist.Place = GongCleanPointer(stage, artist.Place)
+}
+
+// Clean garbage collect unstaged instances that are referenced by ArtistShape
+func (artistshape *ArtistShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	artistshape.Artist = GongCleanPointer(stage, artistshape.Artist)
+}
+
+// Clean garbage collect unstaged instances that are referenced by ControlPointShape
+func (controlpointshape *ControlPointShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Desk
+func (desk *Desk) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	desk.SelectedDiagram = GongCleanPointer(stage, desk.SelectedDiagram)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Diagram
+func (diagram *Diagram) GongClean(stage *Stage) {
+	// insertion point per field
+	diagram.MovementShapes = GongCleanSlice(stage, diagram.MovementShapes)
+	diagram.ArtefactTypeShapes = GongCleanSlice(stage, diagram.ArtefactTypeShapes)
+	diagram.ArtistShapes = GongCleanSlice(stage, diagram.ArtistShapes)
+	diagram.InfluenceShapes = GongCleanSlice(stage, diagram.InfluenceShapes)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Influence
+func (influence *Influence) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	influence.SourceMovement = GongCleanPointer(stage, influence.SourceMovement)
+	influence.SourceArtefactType = GongCleanPointer(stage, influence.SourceArtefactType)
+	influence.SourceArtist = GongCleanPointer(stage, influence.SourceArtist)
+	influence.TargetMovement = GongCleanPointer(stage, influence.TargetMovement)
+	influence.TargetArtefactType = GongCleanPointer(stage, influence.TargetArtefactType)
+	influence.TargetArtist = GongCleanPointer(stage, influence.TargetArtist)
+}
+
+// Clean garbage collect unstaged instances that are referenced by InfluenceShape
+func (influenceshape *InfluenceShape) GongClean(stage *Stage) {
+	// insertion point per field
+	influenceshape.ControlPointShapes = GongCleanSlice(stage, influenceshape.ControlPointShapes)
+	// insertion point per field
+	influenceshape.Influence = GongCleanPointer(stage, influenceshape.Influence)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Movement
+func (movement *Movement) GongClean(stage *Stage) {
+	// insertion point per field
+	movement.Places = GongCleanSlice(stage, movement.Places)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by MovementShape
+func (movementshape *MovementShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	movementshape.Movement = GongCleanPointer(stage, movementshape.Movement)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Place
+func (place *Place) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
+func (stage *Stage) Clean() {
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
+	}
+}
