@@ -64,8 +64,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
-                "--skipNg",
-                "--skipGoModCommands",
+                "--level1",
             ]
         },
         {
@@ -77,6 +76,7 @@
             "program": "${workspaceFolder}/go/cmd/gong",
             "args": [
                 "generate",
+                "--level1"
             ]
         },
         {
