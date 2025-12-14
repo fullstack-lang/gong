@@ -28,6 +28,12 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Action
+func (action *Action) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
 // Clean garbage collect unstaged instances that are referenced by Activities
 func (activities *Activities) GongClean(stage *Stage) {
 	// insertion point per field
@@ -93,6 +99,8 @@ func (state *State) GongClean(stage *Stage) {
 	state.Activities = GongCleanSlice(stage, state.Activities)
 	// insertion point per field
 	state.Parent = GongCleanPointer(stage, state.Parent)
+	state.Entry = GongCleanPointer(stage, state.Entry)
+	state.Exit = GongCleanPointer(stage, state.Exit)
 }
 
 // Clean garbage collect unstaged instances that are referenced by StateMachine
