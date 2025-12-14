@@ -363,6 +363,7 @@ var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 // insertion point for identifiers maps
 var __gong__map_Architecture = make(map[string]*Architecture)
 var __gong__map_Diagram = make(map[string]*Diagram)
+var __gong__map_DoAction = make(map[string]*DoAction)
 var __gong__map_Kill = make(map[string]*Kill)
 var __gong__map_Message = make(map[string]*Message)
 var __gong__map_MessageType = make(map[string]*MessageType)
@@ -557,6 +558,12 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceDiagram.Stage(stage)
 										instance = any(instanceDiagram)
 										__gong__map_Diagram[identifier] = instanceDiagram
+									case "DoAction":
+										instanceDoAction := new(DoAction)
+										instanceDoAction.Name = instanceName
+										instanceDoAction.Stage(stage)
+										instance = any(instanceDoAction)
+										__gong__map_DoAction[identifier] = instanceDoAction
 									case "Kill":
 										instanceKill := new(Kill)
 										instanceKill.Name = instanceName
@@ -659,6 +666,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "Diagram":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "DoAction":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -816,6 +827,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended.Transition_Shapes = append(instanceWhoseFieldIsAppended.Transition_Shapes, instanceToAppend)
 							}
 						}
+					case "DoAction":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
 					case "Kill":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -878,6 +893,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_State[identifier]
 								instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
+							}
+						case "DoActions":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_DoAction[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_State[identifier]
+								instanceWhoseFieldIsAppended.DoActions = append(instanceWhoseFieldIsAppended.DoActions, instanceToAppend)
 							}
 						}
 					case "StateMachine":
@@ -1028,6 +1053,14 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].Name = fielValue
+				}
+			case "DoAction":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_DoAction[identifier].Name = fielValue
 				}
 			case "Kill":
 				switch fieldName {
@@ -1224,6 +1257,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_Diagram[identifier].IsInRenameMode = fielValue
 				}
+			case "DoAction":
+				switch fieldName {
+				// insertion point for field dependant code
+				}
 			case "Kill":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1405,6 +1442,17 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Diagram":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					}
+				case "DoAction":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					case "Criticality":
+						var val Criticality
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_DoAction[identifier].Criticality = Criticality(val)
 					}
 				case "Kill":
 					switch fieldName {

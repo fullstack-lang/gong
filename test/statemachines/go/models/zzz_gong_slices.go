@@ -39,6 +39,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct DoAction
+	// insertion point per field
+
 	// Compute reverse map for named struct Kill
 	// insertion point per field
 
@@ -82,6 +85,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = state
 		for _, _diagram := range state.Diagrams {
 			stage.State_Diagrams_reverseMap[_diagram] = state
+		}
+	}
+	stage.State_DoActions_reverseMap = make(map[*DoAction]*State)
+	for state := range stage.States {
+		_ = state
+		for _, _doaction := range state.DoActions {
+			stage.State_DoActions_reverseMap[_doaction] = state
 		}
 	}
 
@@ -145,6 +155,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.DoActions {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Kills {
 		res = append(res, instance)
 	}
@@ -196,6 +210,11 @@ func (architecture *Architecture) GongCopy() GongstructIF {
 
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := *diagram
+	return &newInstance
+}
+
+func (doaction *DoAction) GongCopy() GongstructIF {
+	newInstance := *doaction
 	return &newInstance
 }
 

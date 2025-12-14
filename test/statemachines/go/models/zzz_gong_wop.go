@@ -46,6 +46,20 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsInRenameMode = from.IsInRenameMode
 }
 
+type DoAction_WOP struct {
+	// insertion point
+
+	Name string
+
+	Criticality Criticality
+}
+
+func (from *DoAction) CopyBasicFields(to *DoAction) {
+	// insertion point
+	to.Name = from.Name
+	to.Criticality = from.Criticality
+}
+
 type Kill_WOP struct {
 	// insertion point
 

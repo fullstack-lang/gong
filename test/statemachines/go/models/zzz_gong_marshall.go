@@ -217,6 +217,55 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_DoAction_Identifiers := make(map[*DoAction]string)
+	_ = map_DoAction_Identifiers
+
+	doactionOrdered := []*DoAction{}
+	for doaction := range stage.DoActions {
+		doactionOrdered = append(doactionOrdered, doaction)
+	}
+	sort.Slice(doactionOrdered[:], func(i, j int) bool {
+		doactioni := doactionOrdered[i]
+		doactionj := doactionOrdered[j]
+		doactioni_order, oki := stage.DoActionMap_Staged_Order[doactioni]
+		doactionj_order, okj := stage.DoActionMap_Staged_Order[doactionj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return doactioni_order < doactionj_order
+	})
+	if len(doactionOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, doaction := range doactionOrdered {
+
+		id = generatesIdentifier("DoAction", idx, doaction.Name)
+		map_DoAction_Identifiers[doaction] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DoAction")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", doaction.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(doaction.Name))
+		initializerStatements += setValueField
+
+		if doaction.Criticality != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Criticality")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+doaction.Criticality.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+	}
+
 	map_Kill_Identifiers := make(map[*Kill]string)
 	_ = map_Kill_Identifiers
 
@@ -810,6 +859,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	if len(doactionOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of DoAction instances pointers"
+	}
+	for idx, doaction := range doactionOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("DoAction", idx, doaction.Name)
+		map_DoAction_Identifiers[doaction] = id
+
+		// Initialisation of values
+	}
+
 	if len(killOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Kill instances pointers"
 	}
@@ -947,6 +1009,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Diagrams")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Diagram_Identifiers[_diagram])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _doaction := range state.DoActions {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DoActions")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_DoAction_Identifiers[_doaction])
 			pointersInitializesStatements += setPointerField
 		}
 

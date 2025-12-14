@@ -56,6 +56,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Diagram" {
 		updateProbeTable[*models.Diagram](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "DoAction" {
+		updateProbeTable[*models.DoAction](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Kill" {
 		updateProbeTable[*models.Kill](nodeImplGongstruct.probe)
 	}

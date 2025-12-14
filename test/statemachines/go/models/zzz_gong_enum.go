@@ -136,6 +136,85 @@ func (buttontype ButtonType) CodeValues() (res []int) {
 	return
 }
 
+// Utility function for Criticality
+// if enum values are string, it is stored with the value
+// if enum values are int, they are stored with the code of the value
+func (criticality Criticality) ToString() (res string) {
+
+	// migration of former implementation of enum
+	switch criticality {
+	// insertion code per enum code
+	case DoActionCritical:
+		res = "Critical"
+	case DoActionDefault:
+		res = "Default"
+	}
+	return
+}
+
+func (criticality *Criticality) FromString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "Critical":
+		*criticality = DoActionCritical
+		return
+	case "Default":
+		*criticality = DoActionDefault
+		return
+	default:
+		return errUnkownEnum
+	}
+}
+
+func (criticality *Criticality) FromCodeString(input string) (err error) {
+
+	switch input {
+	// insertion code per enum code
+	case "DoActionCritical":
+		*criticality = DoActionCritical
+	case "DoActionDefault":
+		*criticality = DoActionDefault
+	default:
+		err = errUnkownEnum
+	}
+	return
+}
+
+func (criticality *Criticality) ToCodeString() (res string) {
+
+	switch *criticality {
+	// insertion code per enum code
+	case DoActionCritical:
+		res = "DoActionCritical"
+	case DoActionDefault:
+		res = "DoActionDefault"
+	}
+	return
+}
+
+func (criticality Criticality) Codes() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "DoActionCritical")
+	res = append(res, "DoActionDefault")
+
+	return
+}
+
+func (criticality Criticality) CodeValues() (res []string) {
+
+	res = make([]string, 0)
+
+	// insertion code per enum code
+	res = append(res, "Critical")
+	res = append(res, "Default")
+
+	return
+}
+
 // Utility function for OrientationType
 // if enum values are string, it is stored with the value
 // if enum values are int, they are stored with the code of the value
