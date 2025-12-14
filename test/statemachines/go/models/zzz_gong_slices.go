@@ -5,6 +5,9 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Activities
+	// insertion point per field
+
 	// Compute reverse map for named struct Architecture
 	// insertion point per field
 	stage.Architecture_StateMachines_reverseMap = make(map[*StateMachine]*Architecture)
@@ -38,9 +41,6 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_Transition_Shapes_reverseMap[_transition_shape] = diagram
 		}
 	}
-
-	// Compute reverse map for named struct DoAction
-	// insertion point per field
 
 	// Compute reverse map for named struct Kill
 	// insertion point per field
@@ -87,11 +87,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.State_Diagrams_reverseMap[_diagram] = state
 		}
 	}
-	stage.State_DoActions_reverseMap = make(map[*DoAction]*State)
+	stage.State_Activities_reverseMap = make(map[*Activities]*State)
 	for state := range stage.States {
 		_ = state
-		for _, _doaction := range state.DoActions {
-			stage.State_DoActions_reverseMap[_doaction] = state
+		for _, _activities := range state.Activities {
+			stage.State_Activities_reverseMap[_activities] = state
 		}
 	}
 
@@ -147,15 +147,15 @@ func (stage *Stage) ComputeReverseMaps() {
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
+	for instance := range stage.Activitiess {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Architectures {
 		res = append(res, instance)
 	}
 
 	for instance := range stage.Diagrams {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.DoActions {
 		res = append(res, instance)
 	}
 
@@ -203,6 +203,11 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (activities *Activities) GongCopy() GongstructIF {
+	newInstance := *activities
+	return &newInstance
+}
+
 func (architecture *Architecture) GongCopy() GongstructIF {
 	newInstance := *architecture
 	return &newInstance
@@ -210,11 +215,6 @@ func (architecture *Architecture) GongCopy() GongstructIF {
 
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := *diagram
-	return &newInstance
-}
-
-func (doaction *DoAction) GongCopy() GongstructIF {
-	newInstance := *doaction
 	return &newInstance
 }
 

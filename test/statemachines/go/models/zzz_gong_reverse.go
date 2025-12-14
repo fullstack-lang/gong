@@ -2,6 +2,22 @@
 package models
 
 // insertion point
+func (inst *Activities) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "State":
+			switch reverseField.Fieldname {
+			case "Activities":
+				if _state, ok := stage.State_Activities_reverseMap[inst]; ok {
+					res = _state.Name
+				}
+			}
+	}
+	return
+}
+
 func (inst *Architecture) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -35,22 +51,6 @@ func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 			case "Diagrams":
 				if _transition, ok := stage.Transition_Diagrams_reverseMap[inst]; ok {
 					res = _transition.Name
-				}
-			}
-	}
-	return
-}
-
-func (inst *DoAction) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-		case "State":
-			switch reverseField.Fieldname {
-			case "DoActions":
-				if _state, ok := stage.State_DoActions_reverseMap[inst]; ok {
-					res = _state.Name
 				}
 			}
 	}
@@ -219,6 +219,20 @@ func (inst *Transition_Shape) GongGetReverseFieldOwnerName(stage *Stage, reverse
 
 
 // insertion point
+func (inst *Activities) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "State":
+			switch reverseField.Fieldname {
+			case "Activities":
+				res = stage.State_Activities_reverseMap[inst]
+			}
+	}
+	return res
+}
+
 func (inst *Architecture) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -247,20 +261,6 @@ func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 			switch reverseField.Fieldname {
 			case "Diagrams":
 				res = stage.Transition_Diagrams_reverseMap[inst]
-			}
-	}
-	return res
-}
-
-func (inst *DoAction) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-		case "State":
-			switch reverseField.Fieldname {
-			case "DoActions":
-				res = stage.State_DoActions_reverseMap[inst]
 			}
 	}
 	return res

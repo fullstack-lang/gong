@@ -9,6 +9,20 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Activities_WOP struct {
+	// insertion point
+
+	Name string
+
+	Criticality Criticality
+}
+
+func (from *Activities) CopyBasicFields(to *Activities) {
+	// insertion point
+	to.Name = from.Name
+	to.Criticality = from.Criticality
+}
+
 type Architecture_WOP struct {
 	// insertion point
 
@@ -44,20 +58,6 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
 	to.IsInRenameMode = from.IsInRenameMode
-}
-
-type DoAction_WOP struct {
-	// insertion point
-
-	Name string
-
-	Criticality Criticality
-}
-
-func (from *DoAction) CopyBasicFields(to *DoAction) {
-	// insertion point
-	to.Name = from.Name
-	to.Criticality = from.Criticality
 }
 
 type Kill_WOP struct {

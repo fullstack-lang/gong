@@ -144,9 +144,9 @@ func (criticality Criticality) ToString() (res string) {
 	// migration of former implementation of enum
 	switch criticality {
 	// insertion code per enum code
-	case DoActionCritical:
+	case CriticalityCritical:
 		res = "Critical"
-	case DoActionDefault:
+	case CriticalityDefault:
 		res = "Default"
 	}
 	return
@@ -157,10 +157,10 @@ func (criticality *Criticality) FromString(input string) (err error) {
 	switch input {
 	// insertion code per enum code
 	case "Critical":
-		*criticality = DoActionCritical
+		*criticality = CriticalityCritical
 		return
 	case "Default":
-		*criticality = DoActionDefault
+		*criticality = CriticalityDefault
 		return
 	default:
 		return errUnkownEnum
@@ -171,10 +171,10 @@ func (criticality *Criticality) FromCodeString(input string) (err error) {
 
 	switch input {
 	// insertion code per enum code
-	case "DoActionCritical":
-		*criticality = DoActionCritical
-	case "DoActionDefault":
-		*criticality = DoActionDefault
+	case "CriticalityCritical":
+		*criticality = CriticalityCritical
+	case "CriticalityDefault":
+		*criticality = CriticalityDefault
 	default:
 		err = errUnkownEnum
 	}
@@ -185,10 +185,10 @@ func (criticality *Criticality) ToCodeString() (res string) {
 
 	switch *criticality {
 	// insertion code per enum code
-	case DoActionCritical:
-		res = "DoActionCritical"
-	case DoActionDefault:
-		res = "DoActionDefault"
+	case CriticalityCritical:
+		res = "CriticalityCritical"
+	case CriticalityDefault:
+		res = "CriticalityDefault"
 	}
 	return
 }
@@ -198,8 +198,8 @@ func (criticality Criticality) Codes() (res []string) {
 	res = make([]string, 0)
 
 	// insertion code per enum code
-	res = append(res, "DoActionCritical")
-	res = append(res, "DoActionDefault")
+	res = append(res, "CriticalityCritical")
+	res = append(res, "CriticalityDefault")
 
 	return
 }
