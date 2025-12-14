@@ -5,14 +5,14 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Activities:
+		ok = stage.IsStagedActivities(target)
+
 	case *Architecture:
 		ok = stage.IsStagedArchitecture(target)
 
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
-
-	case *DoAction:
-		ok = stage.IsStagedDoAction(target)
 
 	case *Kill:
 		ok = stage.IsStagedKill(target)
@@ -54,14 +54,14 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Activities:
+		ok = stage.IsStagedActivities(target)
+
 	case *Architecture:
 		ok = stage.IsStagedArchitecture(target)
 
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
-
-	case *DoAction:
-		ok = stage.IsStagedDoAction(target)
 
 	case *Kill:
 		ok = stage.IsStagedKill(target)
@@ -100,6 +100,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedActivities(activities *Activities) (ok bool) {
+
+	_, ok = stage.Activitiess[activities]
+
+	return
+}
+
 func (stage *Stage) IsStagedArchitecture(architecture *Architecture) (ok bool) {
 
 	_, ok = stage.Architectures[architecture]
@@ -110,13 +117,6 @@ func (stage *Stage) IsStagedArchitecture(architecture *Architecture) (ok bool) {
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
-
-	return
-}
-
-func (stage *Stage) IsStagedDoAction(doaction *DoAction) (ok bool) {
-
-	_, ok = stage.DoActions[doaction]
 
 	return
 }
@@ -199,14 +199,14 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Activities:
+		stage.StageBranchActivities(target)
+
 	case *Architecture:
 		stage.StageBranchArchitecture(target)
 
 	case *Diagram:
 		stage.StageBranchDiagram(target)
-
-	case *DoAction:
-		stage.StageBranchDoAction(target)
 
 	case *Kill:
 		stage.StageBranchKill(target)
@@ -244,6 +244,21 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchActivities(activities *Activities) {
+
+	// check if instance is already staged
+	if IsStaged(stage, activities) {
+		return
+	}
+
+	activities.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchArchitecture(architecture *Architecture) {
 
 	// check if instance is already staged
@@ -283,21 +298,6 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		StageBranch(stage, _transition_shape)
 	}
-
-}
-
-func (stage *Stage) StageBranchDoAction(doaction *DoAction) {
-
-	// check if instance is already staged
-	if IsStaged(stage, doaction) {
-		return
-	}
-
-	doaction.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -412,8 +412,8 @@ func (stage *Stage) StageBranchState(state *State) {
 	for _, _diagram := range state.Diagrams {
 		StageBranch(stage, _diagram)
 	}
-	for _, _doaction := range state.DoActions {
-		StageBranch(stage, _doaction)
+	for _, _activities := range state.Activities {
+		StageBranch(stage, _activities)
 	}
 
 }
@@ -519,16 +519,16 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Activities:
+		toT := CopyBranchActivities(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Architecture:
 		toT := CopyBranchArchitecture(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Diagram:
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *DoAction:
-		toT := CopyBranchDoAction(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Kill:
@@ -578,6 +578,25 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchActivities(mapOrigCopy map[any]any, activitiesFrom *Activities) (activitiesTo *Activities) {
+
+	// activitiesFrom has already been copied
+	if _activitiesTo, ok := mapOrigCopy[activitiesFrom]; ok {
+		activitiesTo = _activitiesTo.(*Activities)
+		return
+	}
+
+	activitiesTo = new(Activities)
+	mapOrigCopy[activitiesFrom] = activitiesTo
+	activitiesFrom.CopyBasicFields(activitiesTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchArchitecture(mapOrigCopy map[any]any, architectureFrom *Architecture) (architectureTo *Architecture) {
 
 	// architectureFrom has already been copied
@@ -624,25 +643,6 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _transition_shape := range diagramFrom.Transition_Shapes {
 		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, CopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
 	}
-
-	return
-}
-
-func CopyBranchDoAction(mapOrigCopy map[any]any, doactionFrom *DoAction) (doactionTo *DoAction) {
-
-	// doactionFrom has already been copied
-	if _doactionTo, ok := mapOrigCopy[doactionFrom]; ok {
-		doactionTo = _doactionTo.(*DoAction)
-		return
-	}
-
-	doactionTo = new(DoAction)
-	mapOrigCopy[doactionFrom] = doactionTo
-	doactionFrom.CopyBasicFields(doactionTo)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -781,8 +781,8 @@ func CopyBranchState(mapOrigCopy map[any]any, stateFrom *State) (stateTo *State)
 	for _, _diagram := range stateFrom.Diagrams {
 		stateTo.Diagrams = append(stateTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
-	for _, _doaction := range stateFrom.DoActions {
-		stateTo.DoActions = append(stateTo.DoActions, CopyBranchDoAction(mapOrigCopy, _doaction))
+	for _, _activities := range stateFrom.Activities {
+		stateTo.Activities = append(stateTo.Activities, CopyBranchActivities(mapOrigCopy, _activities))
 	}
 
 	return
@@ -902,14 +902,14 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Activities:
+		stage.UnstageBranchActivities(target)
+
 	case *Architecture:
 		stage.UnstageBranchArchitecture(target)
 
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
-
-	case *DoAction:
-		stage.UnstageBranchDoAction(target)
 
 	case *Kill:
 		stage.UnstageBranchKill(target)
@@ -947,6 +947,21 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchActivities(activities *Activities) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, activities) {
+		return
+	}
+
+	activities.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchArchitecture(architecture *Architecture) {
 
 	// check if instance is already staged
@@ -986,21 +1001,6 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		UnstageBranch(stage, _transition_shape)
 	}
-
-}
-
-func (stage *Stage) UnstageBranchDoAction(doaction *DoAction) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, doaction) {
-		return
-	}
-
-	doaction.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
-
-	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1115,8 +1115,8 @@ func (stage *Stage) UnstageBranchState(state *State) {
 	for _, _diagram := range state.Diagrams {
 		UnstageBranch(stage, _diagram)
 	}
-	for _, _doaction := range state.DoActions {
-		UnstageBranch(stage, _doaction)
+	for _, _activities := range state.Activities {
+		UnstageBranch(stage, _activities)
 	}
 
 }

@@ -50,14 +50,14 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	// log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point
+	if nodeImplGongstruct.gongStruct.GetName() == "Activities" {
+		updateProbeTable[*models.Activities](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Architecture" {
 		updateProbeTable[*models.Architecture](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Diagram" {
 		updateProbeTable[*models.Diagram](nodeImplGongstruct.probe)
-	}
-	if nodeImplGongstruct.gongStruct.GetName() == "DoAction" {
-		updateProbeTable[*models.DoAction](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Kill" {
 		updateProbeTable[*models.Kill](nodeImplGongstruct.probe)
