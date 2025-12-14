@@ -69,50 +69,6 @@ func (stager *Stager) SvgStageUpdate() {
 			},
 		}
 
-		if movement.IsModern {
-			titleRectAnchoredText.Content = strings.ToUpper("modern") + "\n" + titleRectAnchoredText.Content
-			titleRectAnchoredText.Y_Offset = -10
-			titleRectAnchoredText.X_Offset = -6
-		}
-		if movement.AdditionnalName != "" {
-			titleRectAnchoredText.Content += " and" + "\n" + strings.ToUpper(movement.AdditionnalName)
-		}
-		dateRectAnchoredText := &svg.RectAnchoredText{
-			Name:             movement.Name + " date",
-			Content:          movement.Date.Format("2006"),
-			RectAnchorType:   svg.RectAnchorType(diagram.MovementDateRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.MovementDateTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.MovementDateTextDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementDateAndPlacesFontWeigth,
-				FontSize:      diagram.MovementDateAndPlacesFontSize,
-				FontFamily:    diagram.MovementDateAndPlacesFontFamily,
-				LetterSpacing: diagram.MovementDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
-		}
-		placesRectAnchoredText := &svg.RectAnchoredText{
-			Name:             movement.Name + " places",
-			RectAnchorType:   svg.RectAnchorType(diagram.MovementPlacesRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.MovementPlacesTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.MovementPlacesDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.MovementDateAndPlacesFontWeigth,
-				FontSize:      diagram.MovementDateAndPlacesFontSize,
-				FontFamily:    diagram.MovementDateAndPlacesFontFamily,
-				LetterSpacing: diagram.MovementDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
-		}
-		for _, place := range movement.Places {
-			placesRectAnchoredText.Content += place.Name + "\n"
-		}
 		rect := &svg.Rect{
 			Name:                movement.Name,
 			X:                   movementShape.X,
@@ -130,45 +86,9 @@ func (stager *Stager) SvgStageUpdate() {
 				Color: svg.White.ToString(),
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
-				titleRectAnchoredText,
-				placesRectAnchoredText},
+				titleRectAnchoredText},
 		}
 		map_ArtElement_Rect[movement] = rect
-
-		if movement.IsMajor {
-			titleRectAnchoredText.FontSize = diagram.MajorMovementFontSize
-		}
-		if movement.IsMinor {
-			titleRectAnchoredText.FontSize = diagram.MinorMovementFontSize
-		}
-		if !movement.HideDate {
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
-		}
-		if movement.IsModern {
-			rect.Stroke = diagram.GrayColorCode
-			rect.StrokeOpacity = 1.0
-			rect.StrokeWidth = diagram.ArtefactTypeStrokeWidth
-		}
-		if movement.IsAbstract {
-			abstractRectAnchoredText := &svg.RectAnchoredText{
-				Name:             movement.Name,
-				Content:          strings.ToUpper("(abstract)"),
-				RectAnchorType:   svg.RectAnchorType(diagram.AbstractMovementRectAnchorType),
-				TextAnchorType:   svg.TextAnchorType(diagram.AbstractMovementTextAnchorType),
-				DominantBaseline: svg.DominantBaselineType(diagram.AbstractDominantBaselineType),
-				TextAttributes: svg.TextAttributes{
-					FontWeight:    diagram.MovementFontWeigth,
-					FontSize:      diagram.AbstractMovementFontSize,
-					FontFamily:    diagram.MovementFontFamily,
-					LetterSpacing: diagram.MovementLetterSpacing,
-				},
-				Presentation: svg.Presentation{
-					Color:       diagram.GrayColorCode,
-					FillOpacity: 1.0,
-				},
-			}
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, abstractRectAnchoredText)
-		}
 
 		rect.Impl = &MovementShapeProxy{
 			stager: stager,
@@ -252,23 +172,6 @@ func (stager *Stager) SvgStageUpdate() {
 			},
 		}
 
-		dateRectAnchoredText := &svg.RectAnchoredText{
-			Name:             artist.Name + " date",
-			Content:          "d. " + artist.DateOfDeath.Format("2006"),
-			RectAnchorType:   svg.RectAnchorType(diagram.ArtistDateRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.ArtistDateTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.ArtefactDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistDateAndPlacesFontWeigth,
-				FontSize:      diagram.ArtistDateAndPlacesFontSize,
-				FontFamily:    diagram.ArtistDateAndPlacesFontFamily,
-				LetterSpacing: diagram.ArtistDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
-		}
 		placesRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artist.Name + " places",
 			RectAnchorType:   svg.RectAnchorType(diagram.ArtistPlacesRectAnchorType),
@@ -284,9 +187,6 @@ func (stager *Stager) SvgStageUpdate() {
 				Color:       diagram.GrayColorCode,
 				FillOpacity: 1.0,
 			},
-		}
-		if artist.Place != nil {
-			placesRectAnchoredText.Content += artist.Place.Name
 		}
 
 		x := artistShape.X + artistShape.Width/2.0
@@ -339,10 +239,6 @@ func (stager *Stager) SvgStageUpdate() {
 		}
 		map_ArtElement_Rect[artist] = rect
 
-		if artist.IsDead {
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, dateRectAnchoredText)
-		}
-
 		rect.Impl = &ArtistShapeProxy{
 			stager: stager,
 			shape:  artistShape,
@@ -388,23 +284,6 @@ func (stager *Stager) SvgStageUpdate() {
 		if influence.SourceArtefactType != nil {
 			link.Stroke = diagram.RedColorCode
 			link.StartArrowOffset = 0.0
-		}
-
-		if influence.TargetMovement != nil && influence.TargetMovement.IsModern {
-			if influence.SourceArtefactType == nil {
-				link.EndArrowOffset = 0.0
-			} else {
-				link.EndArrowOffset *= 2.0
-			}
-		}
-
-		if influence.SourceMovement != nil {
-			link.StartArrowOffset += float64(len(influence.SourceMovement.Places) *
-				int(diagram.MovementBelowArcY_OffsetPerPlace))
-		}
-
-		if influence.TargetMovement != nil && influence.TargetMovement.IsAbstract {
-			link.EndArrowOffset *= 2.0
 		}
 
 		link.StrokeWidth = diagram.ArtefactTypeStrokeWidth

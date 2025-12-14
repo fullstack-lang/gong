@@ -372,7 +372,6 @@ var __gong__map_Influence = make(map[string]*Influence)
 var __gong__map_InfluenceShape = make(map[string]*InfluenceShape)
 var __gong__map_Movement = make(map[string]*Movement)
 var __gong__map_MovementShape = make(map[string]*MovementShape)
-var __gong__map_Place = make(map[string]*Place)
 
 // Parser needs to be configured for having the [Name1.Name2] or [pkg.Name1] ...
 // to be recognized as a proper identifier.
@@ -611,12 +610,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										instanceMovementShape.Stage(stage)
 										instance = any(instanceMovementShape)
 										__gong__map_MovementShape[identifier] = instanceMovementShape
-									case "Place":
-										instancePlace := new(Place)
-										instancePlace.Name = instanceName
-										instancePlace.Stage(stage)
-										instance = any(instancePlace)
-										__gong__map_Place[identifier] = instancePlace
 									}
 									__gong__map_Indentifiers_gongstructName[identifier] = gongstructName
 									return
@@ -665,10 +658,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Artist":
 							switch fieldName {
 							// insertion point for date assign code
-							case "DateOfDeath":
-								__gong__map_Artist[identifier].DateOfDeath, _ = time.Parse(
-									"2006-01-02 15:04:05.999999999 -0700 MST",
-									date)
 							}
 						case "ArtistShape":
 							switch fieldName {
@@ -697,16 +686,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						case "Movement":
 							switch fieldName {
 							// insertion point for date assign code
-							case "Date":
-								__gong__map_Movement[identifier].Date, _ = time.Parse(
-									"2006-01-02 15:04:05.999999999 -0700 MST",
-									date)
 							}
 						case "MovementShape":
-							switch fieldName {
-							// insertion point for date assign code
-							}
-						case "Place":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -861,22 +842,8 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Movement":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "Places":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Place[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Movement[identifier]
-								instanceWhoseFieldIsAppended.Places = append(instanceWhoseFieldIsAppended.Places, instanceToAppend)
-							}
 						}
 					case "MovementShape":
-						switch fieldName {
-						// insertion point for slice of pointers assign code
-						}
-					case "Place":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1323,10 +1290,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Movement[identifier].Name = fielValue
-				case "AdditionnalName":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Movement[identifier].AdditionnalName = fielValue
 				}
 			case "MovementShape":
 				switch fieldName {
@@ -1364,14 +1327,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_MovementShape[identifier].Height = exprSign * fielValue
 				}
-			case "Place":
-				switch fieldName {
-				// insertion point for field dependant code
-				case "Name":
-					// remove first and last char
-					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
-					__gong__map_Place[identifier].Name = fielValue
-				}
 			}
 		case *ast.Ident:
 			// assignment to boolean field ?
@@ -1401,16 +1356,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Artist":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "IsDead":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Artist[identifier].IsDead = fielValue
-				case "Place":
-					targetIdentifier := ident.Name
-					__gong__map_Artist[identifier].Place = __gong__map_Place[targetIdentifier]
 				}
 			case "ArtistShape":
 				switch fieldName {
@@ -1550,41 +1495,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Movement":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "IsAbstract":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Movement[identifier].IsAbstract = fielValue
-				case "IsModern":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Movement[identifier].IsModern = fielValue
-				case "IsMajor":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Movement[identifier].IsMajor = fielValue
-				case "IsMinor":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Movement[identifier].IsMinor = fielValue
-				case "HideDate":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Movement[identifier].HideDate = fielValue
 				}
 			case "MovementShape":
 				switch fieldName {
@@ -1592,10 +1502,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Movement":
 					targetIdentifier := ident.Name
 					__gong__map_MovementShape[identifier].Movement = __gong__map_Movement[targetIdentifier]
-				}
-			case "Place":
-				switch fieldName {
-				// insertion point for field dependant code
 				}
 			}
 		case *ast.SelectorExpr:
@@ -1857,10 +1763,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// insertion point for selector expr assign code
 					}
 				case "MovementShape":
-					switch fieldName {
-					// insertion point for selector expr assign code
-					}
-				case "Place":
 					switch fieldName {
 					// insertion point for selector expr assign code
 					}

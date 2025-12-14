@@ -50,10 +50,6 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMovementShapeCreateCallback != nil {
 			stage.OnAfterMovementShapeCreateCallback.OnAfterCreate(stage, target)
 		}
-	case *Place:
-		if stage.OnAfterPlaceCreateCallback != nil {
-			stage.OnAfterPlaceCreateCallback.OnAfterCreate(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -123,11 +119,6 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		if stage.OnAfterMovementShapeUpdateCallback != nil {
 			stage.OnAfterMovementShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
-	case *Place:
-		newTarget := any(new).(*Place)
-		if stage.OnAfterPlaceUpdateCallback != nil {
-			stage.OnAfterPlaceUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
-		}
 	default:
 		_ = oldTarget
 	}
@@ -193,11 +184,6 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*MovementShape)
 			stage.OnAfterMovementShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
-	case *Place:
-		if stage.OnAfterPlaceDeleteCallback != nil {
-			staged := any(staged).(*Place)
-			stage.OnAfterPlaceDeleteCallback.OnAfterDelete(stage, staged, front)
-		}
 	default:
 		_ = front
 	}
@@ -252,10 +238,6 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterMovementShapeReadCallback != nil {
 			stage.OnAfterMovementShapeReadCallback.OnAfterRead(stage, target)
 		}
-	case *Place:
-		if stage.OnAfterPlaceReadCallback != nil {
-			stage.OnAfterPlaceReadCallback.OnAfterRead(stage, target)
-		}
 	default:
 		_ = target
 	}
@@ -300,9 +282,6 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *MovementShape:
 		stage.OnAfterMovementShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[MovementShape])
 	
-	case *Place:
-		stage.OnAfterPlaceUpdateCallback = any(callback).(OnAfterUpdateInterface[Place])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -342,9 +321,6 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *MovementShape:
 		stage.OnAfterMovementShapeCreateCallback = any(callback).(OnAfterCreateInterface[MovementShape])
-	
-	case *Place:
-		stage.OnAfterPlaceCreateCallback = any(callback).(OnAfterCreateInterface[Place])
 	
 	}
 }
@@ -386,9 +362,6 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *MovementShape:
 		stage.OnAfterMovementShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[MovementShape])
 	
-	case *Place:
-		stage.OnAfterPlaceDeleteCallback = any(callback).(OnAfterDeleteInterface[Place])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -428,9 +401,6 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *MovementShape:
 		stage.OnAfterMovementShapeReadCallback = any(callback).(OnAfterReadInterface[MovementShape])
-	
-	case *Place:
-		stage.OnAfterPlaceReadCallback = any(callback).(OnAfterReadInterface[Place])
 	
 	}
 }

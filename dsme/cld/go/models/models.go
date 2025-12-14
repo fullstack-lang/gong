@@ -5,10 +5,7 @@ type ArtElement interface {
 	GetName() string
 }
 
-type Place struct {
-	Name string
-}
-
+// Desk is the singloton organizing the diagrams
 type Desk struct {
 	Name            string
 	SelectedDiagram *Diagram

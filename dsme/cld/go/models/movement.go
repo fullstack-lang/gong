@@ -3,37 +3,13 @@ package models
 import (
 	"math/rand/v2"
 	"slices"
-	"time"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
 type Movement struct {
-	Name   string
-	Date   time.Time
-	Places []*Place
-
-	IsAbstract bool // some mouvements are abstracts
-
-	// the "Modern" in "Modern Architecture" is rendered above.
-	// We surmise this is a Alfred Barr"s intentional caterogy choice
-	IsModern bool
-
-	IsMajor bool // cubism
-	IsMinor bool // orphism
-
-	// For DE STILJ and NEOPLATICISM, the
-	// rendering is different the "and" is in lower cases
-	// and NEOPLATICISM is on the next line
-	// So, for this movement, the
-	// Name is "DE STILJ" and the AdditionnalName
-	// AdditionnalName is NEOPLATICISM
-	AdditionnalName string
-
-	// NON GEOMETRICAL and GEOMTRICAL ABSRTACT ART
-	// have no dates shown
-	HideDate bool
+	Name string
 }
 
 func (*Movement) IsArtElement() {

@@ -45,7 +45,6 @@ func (artefacttypeshape *ArtefactTypeShape) GongClean(stage *Stage) {
 func (artist *Artist) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
-	artist.Place = GongCleanPointer(stage, artist.Place)
 }
 
 // Clean garbage collect unstaged instances that are referenced by ArtistShape
@@ -101,7 +100,6 @@ func (influenceshape *InfluenceShape) GongClean(stage *Stage) {
 // Clean garbage collect unstaged instances that are referenced by Movement
 func (movement *Movement) GongClean(stage *Stage) {
 	// insertion point per field
-	movement.Places = GongCleanSlice(stage, movement.Places)
 	// insertion point per field
 }
 
@@ -110,12 +108,6 @@ func (movementshape *MovementShape) GongClean(stage *Stage) {
 	// insertion point per field
 	// insertion point per field
 	movementshape.Movement = GongCleanPointer(stage, movementshape.Movement)
-}
-
-// Clean garbage collect unstaged instances that are referenced by Place
-func (place *Place) GongClean(stage *Stage) {
-	// insertion point per field
-	// insertion point per field
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements

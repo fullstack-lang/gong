@@ -38,9 +38,6 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *MovementShape:
 		ok = stage.IsStagedMovementShape(target)
 
-	case *Place:
-		ok = stage.IsStagedPlace(target)
-
 	default:
 		_ = target
 	}
@@ -83,9 +80,6 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *MovementShape:
 		ok = stage.IsStagedMovementShape(target)
-
-	case *Place:
-		ok = stage.IsStagedPlace(target)
 
 	default:
 		_ = target
@@ -171,13 +165,6 @@ func (stage *Stage) IsStagedMovementShape(movementshape *MovementShape) (ok bool
 	return
 }
 
-func (stage *Stage) IsStagedPlace(place *Place) (ok bool) {
-
-	_, ok = stage.Places[place]
-
-	return
-}
-
 // StageBranch stages instance and apply StageBranch on all gongstruct instances that are
 // referenced by pointers or slices of pointers of the instance
 //
@@ -218,9 +205,6 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MovementShape:
 		stage.StageBranchMovementShape(target)
-
-	case *Place:
-		stage.StageBranchPlace(target)
 
 	default:
 		_ = target
@@ -271,9 +255,6 @@ func (stage *Stage) StageBranchArtist(artist *Artist) {
 	artist.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if artist.Place != nil {
-		StageBranch(stage, artist.Place)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -423,9 +404,6 @@ func (stage *Stage) StageBranchMovement(movement *Movement) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _place := range movement.Places {
-		StageBranch(stage, _place)
-	}
 
 }
 
@@ -442,21 +420,6 @@ func (stage *Stage) StageBranchMovementShape(movementshape *MovementShape) {
 	if movementshape.Movement != nil {
 		StageBranch(stage, movementshape.Movement)
 	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) StageBranchPlace(place *Place) {
-
-	// check if instance is already staged
-	if IsStaged(stage, place) {
-		return
-	}
-
-	place.Stage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -515,10 +478,6 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *MovementShape:
 		toT := CopyBranchMovementShape(mapOrigCopy, fromT)
-		return any(toT).(*Type)
-
-	case *Place:
-		toT := CopyBranchPlace(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	default:
@@ -582,9 +541,6 @@ func CopyBranchArtist(mapOrigCopy map[any]any, artistFrom *Artist) (artistTo *Ar
 	artistFrom.CopyBasicFields(artistTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if artistFrom.Place != nil {
-		artistTo.Place = CopyBranchPlace(mapOrigCopy, artistFrom.Place)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -762,9 +718,6 @@ func CopyBranchMovement(mapOrigCopy map[any]any, movementFrom *Movement) (moveme
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _place := range movementFrom.Places {
-		movementTo.Places = append(movementTo.Places, CopyBranchPlace(mapOrigCopy, _place))
-	}
 
 	return
 }
@@ -785,25 +738,6 @@ func CopyBranchMovementShape(mapOrigCopy map[any]any, movementshapeFrom *Movemen
 	if movementshapeFrom.Movement != nil {
 		movementshapeTo.Movement = CopyBranchMovement(mapOrigCopy, movementshapeFrom.Movement)
 	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-	return
-}
-
-func CopyBranchPlace(mapOrigCopy map[any]any, placeFrom *Place) (placeTo *Place) {
-
-	// placeFrom has already been copied
-	if _placeTo, ok := mapOrigCopy[placeFrom]; ok {
-		placeTo = _placeTo.(*Place)
-		return
-	}
-
-	placeTo = new(Place)
-	mapOrigCopy[placeFrom] = placeTo
-	placeFrom.CopyBasicFields(placeTo)
-
-	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -850,9 +784,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *MovementShape:
 		stage.UnstageBranchMovementShape(target)
-
-	case *Place:
-		stage.UnstageBranchPlace(target)
 
 	default:
 		_ = target
@@ -903,9 +834,6 @@ func (stage *Stage) UnstageBranchArtist(artist *Artist) {
 	artist.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if artist.Place != nil {
-		UnstageBranch(stage, artist.Place)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 
@@ -1055,9 +983,6 @@ func (stage *Stage) UnstageBranchMovement(movement *Movement) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _place := range movement.Places {
-		UnstageBranch(stage, _place)
-	}
 
 }
 
@@ -1074,21 +999,6 @@ func (stage *Stage) UnstageBranchMovementShape(movementshape *MovementShape) {
 	if movementshape.Movement != nil {
 		UnstageBranch(stage, movementshape.Movement)
 	}
-
-	//insertion point for the staging of instances referenced by slice of pointers
-
-}
-
-func (stage *Stage) UnstageBranchPlace(place *Place) {
-
-	// check if instance is already staged
-	if !IsStaged(stage, place) {
-		return
-	}
-
-	place.Unstage(stage)
-
-	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
 

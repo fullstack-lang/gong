@@ -69,18 +69,8 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Movement
 	// insertion point per field
-	stage.Movement_Places_reverseMap = make(map[*Place]*Movement)
-	for movement := range stage.Movements {
-		_ = movement
-		for _, _place := range movement.Places {
-			stage.Movement_Places_reverseMap[_place] = movement
-		}
-	}
 
 	// Compute reverse map for named struct MovementShape
-	// insertion point per field
-
-	// Compute reverse map for named struct Place
 	// insertion point per field
 
 }
@@ -129,10 +119,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.MovementShapes {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.Places {
 		res = append(res, instance)
 	}
 
@@ -192,11 +178,6 @@ func (movement *Movement) GongCopy() GongstructIF {
 
 func (movementshape *MovementShape) GongCopy() GongstructIF {
 	newInstance := *movementshape
-	return &newInstance
-}
-
-func (place *Place) GongCopy() GongstructIF {
-	newInstance := *place
 	return &newInstance
 }
 
