@@ -69,6 +69,17 @@
             ]
         },
         {
+            "name": "gong generate phyllotaxymusic",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/../../thomaspeugeot/phyllotaxymusic/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+            ]
+        },
+        {
             "name": "gong generate gongxsd books",
             "type": "go",
             "request": "launch",

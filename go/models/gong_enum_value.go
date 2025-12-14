@@ -1,6 +1,6 @@
 package models
 
-// GongEnumValue is a go const declared as Value of an enum that is selected by the gongc compiler
+// GongEnumValue is a go const declared as Value of an enum that is selected by the gong generate compiler
 type GongEnumValue struct {
 	Name  string
 	Value string
