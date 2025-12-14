@@ -3,7 +3,6 @@ package models
 import (
 	"math/rand/v2"
 	"slices"
-	"time"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -11,10 +10,6 @@ import (
 
 type Artist struct {
 	Name string
-
-	IsDead      bool
-	DateOfDeath time.Time
-	Place       *Place
 }
 
 func (*Artist) IsArtElement() {

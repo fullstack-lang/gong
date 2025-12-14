@@ -183,8 +183,6 @@ type Stage struct {
 	Movements_mapString map[string]*Movement
 
 	// insertion point for slice of pointers maps
-	Movement_Places_reverseMap map[*Place]*Movement
-
 	OnAfterMovementCreateCallback OnAfterCreateInterface[Movement]
 	OnAfterMovementUpdateCallback OnAfterUpdateInterface[Movement]
 	OnAfterMovementDeleteCallback OnAfterDeleteInterface[Movement]
@@ -198,15 +196,6 @@ type Stage struct {
 	OnAfterMovementShapeUpdateCallback OnAfterUpdateInterface[MovementShape]
 	OnAfterMovementShapeDeleteCallback OnAfterDeleteInterface[MovementShape]
 	OnAfterMovementShapeReadCallback   OnAfterReadInterface[MovementShape]
-
-	Places           map[*Place]struct{}
-	Places_mapString map[string]*Place
-
-	// insertion point for slice of pointers maps
-	OnAfterPlaceCreateCallback OnAfterCreateInterface[Place]
-	OnAfterPlaceUpdateCallback OnAfterUpdateInterface[Place]
-	OnAfterPlaceDeleteCallback OnAfterDeleteInterface[Place]
-	OnAfterPlaceReadCallback   OnAfterReadInterface[Place]
 
 	AllModelsStructCreateCallback AllModelsStructCreateInterface
 
@@ -266,9 +255,6 @@ type Stage struct {
 
 	MovementShapeOrder            uint
 	MovementShapeMap_Staged_Order map[*MovementShape]uint
-
-	PlaceOrder            uint
-	PlaceMap_Staged_Order map[*Place]uint
 
 	// end of insertion point
 
@@ -489,20 +475,6 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
-	case *Place:
-		tmp := GetStructInstancesByOrder(stage.Places, stage.PlaceMap_Staged_Order)
-
-		// Create a new slice of the generic type T with the same capacity.
-		res = make([]T, 0, len(tmp))
-
-		// Iterate over the source slice and perform a type assertion on each element.
-		for _, v := range tmp {
-			// Assert that the element 'v' can be treated as type 'T'.
-			// Note: This relies on the constraint that PointerToGongstruct
-			// is an interface that *Place implements.
-			res = append(res, any(v).(T))
-		}
-		return res
 
 	}
 	return
@@ -556,8 +528,6 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Movements, stage.MovementMap_Staged_Order)
 	case "MovementShape":
 		res = GetNamedStructInstances(stage.MovementShapes, stage.MovementShapeMap_Staged_Order)
-	case "Place":
-		res = GetNamedStructInstances(stage.Places, stage.PlaceMap_Staged_Order)
 	}
 
 	return
@@ -649,8 +619,6 @@ type BackRepoInterface interface {
 	CheckoutMovement(movement *Movement)
 	CommitMovementShape(movementshape *MovementShape)
 	CheckoutMovementShape(movementshape *MovementShape)
-	CommitPlace(place *Place)
-	CheckoutPlace(place *Place)
 	GetLastCommitFromBackNb() uint
 	GetLastPushFromFrontNb() uint
 }
@@ -691,9 +659,6 @@ func NewStage(name string) (stage *Stage) {
 		MovementShapes:           make(map[*MovementShape]struct{}),
 		MovementShapes_mapString: make(map[string]*MovementShape),
 
-		Places:           make(map[*Place]struct{}),
-		Places_mapString: make(map[string]*Place),
-
 		// end of insertion point
 		Map_GongStructName_InstancesNb: make(map[string]int),
 
@@ -726,8 +691,6 @@ func NewStage(name string) (stage *Stage) {
 
 		MovementShapeMap_Staged_Order: make(map[*MovementShape]uint),
 
-		PlaceMap_Staged_Order: make(map[*Place]uint),
-
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
@@ -742,7 +705,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "InfluenceShape"},
 			{name: "Movement"},
 			{name: "MovementShape"},
-			{name: "Place"},
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
@@ -780,8 +742,6 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.MovementMap_Staged_Order[instance]
 	case *MovementShape:
 		return stage.MovementShapeMap_Staged_Order[instance]
-	case *Place:
-		return stage.PlaceMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -813,8 +773,6 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.MovementMap_Staged_Order[instance]
 	case *MovementShape:
 		return stage.MovementShapeMap_Staged_Order[instance]
-	case *Place:
-		return stage.PlaceMap_Staged_Order[instance]
 	default:
 		return 0 // should not happen
 	}
@@ -862,7 +820,6 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["InfluenceShape"] = len(stage.InfluenceShapes)
 	stage.Map_GongStructName_InstancesNb["Movement"] = len(stage.Movements)
 	stage.Map_GongStructName_InstancesNb["MovementShape"] = len(stage.MovementShapes)
-	stage.Map_GongStructName_InstancesNb["Place"] = len(stage.Places)
 }
 
 func (stage *Stage) Checkout() {
@@ -1739,82 +1696,6 @@ func (movementshape *MovementShape) SetName(name string) (){
 	movementshape.Name = name
 }
 
-// Stage puts place to the model stage
-func (place *Place) Stage(stage *Stage) *Place {
-
-	if _, ok := stage.Places[place]; !ok {
-		stage.Places[place] = struct{}{}
-		stage.PlaceMap_Staged_Order[place] = stage.PlaceOrder
-		stage.PlaceOrder++
-		stage.new[place] = struct{}{}
-		delete(stage.deleted, place)
-	} else {
-		if _, ok := stage.new[place]; !ok {
-			stage.modified[place] = struct{}{}
-		}
-	}
-	stage.Places_mapString[place.Name] = place
-
-	return place
-}
-
-// Unstage removes place off the model stage
-func (place *Place) Unstage(stage *Stage) *Place {
-	delete(stage.Places, place)
-	delete(stage.Places_mapString, place.Name)
-
-	if _, ok := stage.reference[place]; ok {
-		stage.deleted[place] = struct{}{}
-	} else {
-		delete(stage.new, place)
-	}
-	return place
-}
-
-// UnstageVoid removes place off the model stage
-func (place *Place) UnstageVoid(stage *Stage) {
-	delete(stage.Places, place)
-	delete(stage.Places_mapString, place.Name)
-}
-
-// commit place to the back repo (if it is already staged)
-func (place *Place) Commit(stage *Stage) *Place {
-	if _, ok := stage.Places[place]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CommitPlace(place)
-		}
-	}
-	return place
-}
-
-func (place *Place) CommitVoid(stage *Stage) {
-	place.Commit(stage)
-}
-
-func (place *Place) StageVoid(stage *Stage) {
-	place.Stage(stage)
-}
-
-// Checkout place to the back repo (if it is already staged)
-func (place *Place) Checkout(stage *Stage) *Place {
-	if _, ok := stage.Places[place]; ok {
-		if stage.BackRepo != nil {
-			stage.BackRepo.CheckoutPlace(place)
-		}
-	}
-	return place
-}
-
-// for satisfaction of GongStruct interface
-func (place *Place) GetName() (res string) {
-	return place.Name
-}
-
-// for satisfaction of GongStruct interface
-func (place *Place) SetName(name string) (){
-	place.Name = name
-}
-
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMArtefactType(ArtefactType *ArtefactType)
@@ -1828,7 +1709,6 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMInfluenceShape(InfluenceShape *InfluenceShape)
 	CreateORMMovement(Movement *Movement)
 	CreateORMMovementShape(MovementShape *MovementShape)
-	CreateORMPlace(Place *Place)
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
@@ -1843,7 +1723,6 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMInfluenceShape(InfluenceShape *InfluenceShape)
 	DeleteORMMovement(Movement *Movement)
 	DeleteORMMovementShape(MovementShape *MovementShape)
-	DeleteORMPlace(Place *Place)
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
@@ -1902,11 +1781,6 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.MovementShapeMap_Staged_Order = make(map[*MovementShape]uint)
 	stage.MovementShapeOrder = 0
 
-	stage.Places = make(map[*Place]struct{})
-	stage.Places_mapString = make(map[string]*Place)
-	stage.PlaceMap_Staged_Order = make(map[*Place]uint)
-	stage.PlaceOrder = 0
-
 	stage.ComputeReference()
 }
 
@@ -1943,9 +1817,6 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.MovementShapes = nil
 	stage.MovementShapes_mapString = nil
-
-	stage.Places = nil
-	stage.Places_mapString = nil
 
 }
 
@@ -1992,10 +1863,6 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for movementshape := range stage.MovementShapes {
 		movementshape.Unstage(stage)
-	}
-
-	for place := range stage.Places {
-		place.Unstage(stage)
 	}
 
 }
@@ -2094,8 +1961,6 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Movements).(*Type)
 	case map[*MovementShape]any:
 		return any(&stage.MovementShapes).(*Type)
-	case map[*Place]any:
-		return any(&stage.Places).(*Type)
 	default:
 		return nil
 	}
@@ -2130,8 +1995,6 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Movements_mapString).(map[string]Type)
 	case *MovementShape:
 		return any(stage.MovementShapes_mapString).(map[string]Type)
-	case *Place:
-		return any(stage.Places_mapString).(map[string]Type)
 	default:
 		return nil
 	}
@@ -2166,8 +2029,6 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Movements).(*map[*Type]struct{})
 	case MovementShape:
 		return any(&stage.MovementShapes).(*map[*Type]struct{})
-	case Place:
-		return any(&stage.Places).(*map[*Type]struct{})
 	default:
 		return nil
 	}
@@ -2202,8 +2063,6 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Movements).(*map[Type]struct{})
 	case *MovementShape:
 		return any(&stage.MovementShapes).(*map[Type]struct{})
-	case *Place:
-		return any(&stage.Places).(*map[Type]struct{})
 	default:
 		return nil
 	}
@@ -2238,8 +2097,6 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Movements_mapString).(*map[string]*Type)
 	case MovementShape:
 		return any(&stage.MovementShapes_mapString).(*map[string]*Type)
-	case Place:
-		return any(&stage.Places_mapString).(*map[string]*Type)
 	default:
 		return nil
 	}
@@ -2267,8 +2124,6 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Artist:
 		return any(&Artist{
 			// Initialisation of associations
-			// field is initialized with an instance of Place with the name of the field
-			Place: &Place{Name: "Place"},
 		}).(*Type)
 	case ArtistShape:
 		return any(&ArtistShape{
@@ -2325,18 +2180,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 	case Movement:
 		return any(&Movement{
 			// Initialisation of associations
-			// field is initialized with an instance of Place with the name of the field
-			Places: []*Place{{Name: "Places"}},
 		}).(*Type)
 	case MovementShape:
 		return any(&MovementShape{
 			// Initialisation of associations
 			// field is initialized with an instance of Movement with the name of the field
 			Movement: &Movement{Name: "Movement"},
-		}).(*Type)
-	case Place:
-		return any(&Place{
-			// Initialisation of associations
 		}).(*Type)
 	default:
 		return nil
@@ -2387,23 +2236,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Artist:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Place":
-			res := make(map[*Place][]*Artist)
-			for artist := range stage.Artists {
-				if artist.Place != nil {
-					place_ := artist.Place
-					var artists []*Artist
-					_, ok := res[place_]
-					if ok {
-						artists = res[place_]
-					} else {
-						artists = make([]*Artist, 0)
-					}
-					artists = append(artists, artist)
-					res[place_] = artists
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of ArtistShape
 	case ArtistShape:
@@ -2615,11 +2447,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
-	// reverse maps of direct associations of Place
-	case Place:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
 	}
 	return nil
 }
@@ -2725,22 +2552,9 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Movement:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "Places":
-			res := make(map[*Place][]*Movement)
-			for movement := range stage.Movements {
-				for _, place_ := range movement.Places {
-					res[place_] = append(res[place_], movement)
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of MovementShape
 	case MovementShape:
-		switch fieldname {
-		// insertion point for per direct association field
-		}
-	// reverse maps of direct associations of Place
-	case Place:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2778,8 +2592,6 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Movement"
 	case *MovementShape:
 		res = "MovementShape"
-	case *Place:
-		res = "Place"
 	}
 	return res
 }
@@ -2846,12 +2658,6 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "MovementShapes"
 		res = append(res, rf)
-	case *Place:
-		var rf ReverseField
-		_ = rf
-		rf.GongstructName = "Movement"
-		rf.Fieldname = "Places"
-		res = append(res, rf)
 	}
 	return
 }
@@ -2906,19 +2712,6 @@ func (artist *Artist) GongGetFieldHeaders() (res []GongFieldHeader) {
 		{
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "IsDead",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "DateOfDeath",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:                 "Place",
-			GongFieldValueType:   GongFieldValueTypePointer,
-			TargetGongstructName: "Place",
 		},
 	}
 	return
@@ -3423,39 +3216,6 @@ func (movement *Movement) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
-		{
-			Name:               "Date",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:                 "Places",
-			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
-			TargetGongstructName: "Place",
-		},
-		{
-			Name:               "IsAbstract",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "IsModern",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "IsMajor",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "IsMinor",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "AdditionnalName",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
-			Name:               "HideDate",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
 	}
 	return
 }
@@ -3486,17 +3246,6 @@ func (movementshape *MovementShape) GongGetFieldHeaders() (res []GongFieldHeader
 		},
 		{
 			Name:               "Height",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-	}
-	return
-}
-
-func (place *Place) GongGetFieldHeaders() (res []GongFieldHeader) {
-	// insertion point for list of field headers
-	res = []GongFieldHeader{
-		{
-			Name:               "Name",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -3600,18 +3349,6 @@ func (artist *Artist) GongGetFieldValue(fieldName string, stage *Stage) (res Gon
 	// string value of fields
 	case "Name":
 		res.valueString = artist.Name
-	case "IsDead":
-		res.valueString = fmt.Sprintf("%t", artist.IsDead)
-		res.valueBool = artist.IsDead
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "DateOfDeath":
-		res.valueString = artist.DateOfDeath.String()
-	case "Place":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if artist.Place != nil {
-			res.valueString = artist.Place.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, artist.Place))
-		}
 	}
 	return
 }
@@ -4037,40 +3774,6 @@ func (movement *Movement) GongGetFieldValue(fieldName string, stage *Stage) (res
 	// string value of fields
 	case "Name":
 		res.valueString = movement.Name
-	case "Date":
-		res.valueString = movement.Date.String()
-	case "Places":
-		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
-		for idx, __instance__ := range movement.Places {
-			if idx > 0 {
-				res.valueString += "\n"
-				res.ids += ";"
-			}
-			res.valueString += __instance__.Name
-			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
-		}
-	case "IsAbstract":
-		res.valueString = fmt.Sprintf("%t", movement.IsAbstract)
-		res.valueBool = movement.IsAbstract
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsModern":
-		res.valueString = fmt.Sprintf("%t", movement.IsModern)
-		res.valueBool = movement.IsModern
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsMajor":
-		res.valueString = fmt.Sprintf("%t", movement.IsMajor)
-		res.valueBool = movement.IsMajor
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsMinor":
-		res.valueString = fmt.Sprintf("%t", movement.IsMinor)
-		res.valueBool = movement.IsMinor
-		res.GongFieldValueType = GongFieldValueTypeBool
-	case "AdditionnalName":
-		res.valueString = movement.AdditionnalName
-	case "HideDate":
-		res.valueString = fmt.Sprintf("%t", movement.HideDate)
-		res.valueBool = movement.HideDate
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -4101,14 +3804,6 @@ func (movementshape *MovementShape) GongGetFieldValue(fieldName string, stage *S
 		res.valueString = fmt.Sprintf("%f", movementshape.Height)
 		res.valueFloat = movementshape.Height
 		res.GongFieldValueType = GongFieldValueTypeFloat
-	}
-	return
-}
-func (place *Place) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
-	switch fieldName {
-	// string value of fields
-	case "Name":
-		res.valueString = place.Name
 	}
 	return
 }
@@ -4165,19 +3860,6 @@ func (artist *Artist) GongSetFieldValue(fieldName string, value GongFieldValue, 
 	// insertion point for per field code
 	case "Name":
 		artist.Name = value.GetValueString()
-	case "IsDead":
-		artist.IsDead = value.GetValueBool()
-	case "Place":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			artist.Place = nil
-			for __instance__ := range stage.Places {
-				if stage.PlaceMap_Staged_Order[__instance__] == uint(id) {
-					artist.Place = __instance__
-					break
-				}
-			}
-		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4602,32 +4284,6 @@ func (movement *Movement) GongSetFieldValue(fieldName string, value GongFieldVal
 	// insertion point for per field code
 	case "Name":
 		movement.Name = value.GetValueString()
-	case "Places":
-		movement.Places = make([]*Place, 0)
-		ids := strings.Split(value.ids, ";")
-		for _, idStr := range ids {
-			var id int
-			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
-				for __instance__ := range stage.Places {
-					if stage.PlaceMap_Staged_Order[__instance__] == uint(id) {
-						movement.Places = append(movement.Places, __instance__)
-						break
-					}
-				}
-			}
-		}
-	case "IsAbstract":
-		movement.IsAbstract = value.GetValueBool()
-	case "IsModern":
-		movement.IsModern = value.GetValueBool()
-	case "IsMajor":
-		movement.IsMajor = value.GetValueBool()
-	case "IsMinor":
-		movement.IsMinor = value.GetValueBool()
-	case "AdditionnalName":
-		movement.AdditionnalName = value.GetValueString()
-	case "HideDate":
-		movement.HideDate = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4658,17 +4314,6 @@ func (movementshape *MovementShape) GongSetFieldValue(fieldName string, value Go
 		movementshape.Width = value.GetValueFloat()
 	case "Height":
 		movementshape.Height = value.GetValueFloat()
-	default:
-		return fmt.Errorf("unknown field %s", fieldName)
-	}
-	return nil
-}
-
-func (place *Place) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
-	switch fieldName {
-	// insertion point for per field code
-	case "Name":
-		place.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4722,10 +4367,6 @@ func (movement *Movement) GongGetGongstructName() string {
 
 func (movementshape *MovementShape) GongGetGongstructName() string {
 	return "MovementShape"
-}
-
-func (place *Place) GongGetGongstructName() string {
-	return "Place"
 }
 
 func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
@@ -4789,11 +4430,6 @@ func (stage *Stage) ResetMapStrings() {
 	stage.MovementShapes_mapString = make(map[string]*MovementShape)
 	for movementshape := range stage.MovementShapes {
 		stage.MovementShapes_mapString[movementshape.Name] = movementshape
-	}
-
-	stage.Places_mapString = make(map[string]*Place)
-	for place := range stage.Places {
-		stage.Places_mapString[place.Name] = place
 	}
 
 }

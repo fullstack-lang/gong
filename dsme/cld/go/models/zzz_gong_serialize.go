@@ -30,7 +30,6 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		SerializeExcelizePointerToGongstruct2[*InfluenceShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Movement](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*MovementShape](stage, f, addIDs)
-		SerializeExcelizePointerToGongstruct2[*Place](stage, f, addIDs)
 	}
 
 	// Create a style with wrap text enabled

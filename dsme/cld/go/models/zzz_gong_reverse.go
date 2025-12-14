@@ -136,22 +136,6 @@ func (inst *MovementShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	return
 }
 
-func (inst *Place) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
-
-	res = ""
-	switch reverseField.GongstructName {
-	// insertion point
-		case "Movement":
-			switch reverseField.Fieldname {
-			case "Places":
-				if _movement, ok := stage.Movement_Places_reverseMap[inst]; ok {
-					res = _movement.Name
-				}
-			}
-	}
-	return
-}
-
 
 // insertion point
 func (inst *ArtefactType) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
@@ -273,20 +257,6 @@ func (inst *MovementShape) GongGetReverseFieldOwner(stage *Stage, reverseField *
 			switch reverseField.Fieldname {
 			case "MovementShapes":
 				res = stage.Diagram_MovementShapes_reverseMap[inst]
-			}
-	}
-	return res
-}
-
-func (inst *Place) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
-
-	res = nil
-	switch reverseField.GongstructName {
-	// insertion point
-		case "Movement":
-			switch reverseField.Fieldname {
-			case "Places":
-				res = stage.Movement_Places_reverseMap[inst]
 			}
 	}
 	return res

@@ -168,19 +168,6 @@ func FillUpFormFromGongstructName(
 		movementshape := new(models.MovementShape)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(movementshape, formGroup, probe)
-	case "Place":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "Place Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__PlaceFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		place := new(models.Place)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(place, formGroup, probe)
 	}
 	formStage.Commit()
 }
