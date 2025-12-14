@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_B_sql sql.NullBool
+var _ =  dummy_B_sql
 var dummy_B_time time.Duration
+var _ = dummy_B_time
 var dummy_B_sort sort.Float64Slice
+var _ = dummy_B_sort
 
 // BAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoB *BackRepoBStruct) CommitPhaseTwoInstance(backRepo *BackRepoStruc
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown B intance %s", b.Name))
+		err := fmt.Errorf("Unkown B intance %s", b.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoB *BackRepoBStruct) CheckoutPhaseTwoInstance(backRepo *BackRepoStr
 func (bDB *BDB) DecodePointers(backRepo *BackRepoStruct, b *models.B) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitB allows commit of a single b (if already staged)

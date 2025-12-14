@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_PngImage_sql sql.NullBool
+var _ =  dummy_PngImage_sql
 var dummy_PngImage_time time.Duration
+var _ = dummy_PngImage_time
 var dummy_PngImage_sort sort.Float64Slice
+var _ = dummy_PngImage_sort
 
 // PngImageAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoPngImage *BackRepoPngImageStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown PngImage intance %s", pngimage.Name))
+		err := fmt.Errorf("Unkown PngImage intance %s", pngimage.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoPngImage *BackRepoPngImageStruct) CheckoutPhaseTwoInstance(backRep
 func (pngimageDB *PngImageDB) DecodePointers(backRepo *BackRepoStruct, pngimage *models.PngImage) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitPngImage allows commit of a single pngimage (if already staged)

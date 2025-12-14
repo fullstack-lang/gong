@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_CellIcon_sql sql.NullBool
+var _ =  dummy_CellIcon_sql
 var dummy_CellIcon_time time.Duration
+var _ = dummy_CellIcon_time
 var dummy_CellIcon_sort sort.Float64Slice
+var _ = dummy_CellIcon_sort
 
 // CellIconAPI is the input in POST API
 //
@@ -248,8 +251,7 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown CellIcon intance %s", cellicon.Name))
+		err := fmt.Errorf("Unkown CellIcon intance %s", cellicon.Name)
 		return err
 	}
 
@@ -355,7 +357,6 @@ func (backRepoCellIcon *BackRepoCellIconStruct) CheckoutPhaseTwoInstance(backRep
 func (celliconDB *CellIconDB) DecodePointers(backRepo *BackRepoStruct, cellicon *models.CellIcon) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCellIcon allows commit of a single cellicon (if already staged)

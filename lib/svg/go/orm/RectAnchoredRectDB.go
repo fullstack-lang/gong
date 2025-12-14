@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_RectAnchoredRect_sql sql.NullBool
+var _ =  dummy_RectAnchoredRect_sql
 var dummy_RectAnchoredRect_time time.Duration
+var _ = dummy_RectAnchoredRect_time
 var dummy_RectAnchoredRect_sort sort.Float64Slice
+var _ = dummy_RectAnchoredRect_sort
 
 // RectAnchoredRectAPI is the input in POST API
 //
@@ -352,8 +355,7 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CommitPhaseTwoIn
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown RectAnchoredRect intance %s", rectanchoredrect.Name))
+		err := fmt.Errorf("Unkown RectAnchoredRect intance %s", rectanchoredrect.Name)
 		return err
 	}
 
@@ -459,7 +461,6 @@ func (backRepoRectAnchoredRect *BackRepoRectAnchoredRectStruct) CheckoutPhaseTwo
 func (rectanchoredrectDB *RectAnchoredRectDB) DecodePointers(backRepo *BackRepoStruct, rectanchoredrect *models.RectAnchoredRect) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitRectAnchoredRect allows commit of a single rectanchoredrect (if already staged)

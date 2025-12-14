@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Note_sql sql.NullBool
+var _ =  dummy_Note_sql
 var dummy_Note_time time.Duration
+var _ = dummy_Note_time
 var dummy_Note_sort sort.Float64Slice
+var _ = dummy_Note_sort
 
 // NoteAPI is the input in POST API
 //
@@ -274,8 +277,7 @@ func (backRepoNote *BackRepoNoteStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Note intance %s", note.Name))
+		err := fmt.Errorf("Unkown Note intance %s", note.Name)
 		return err
 	}
 
@@ -390,7 +392,6 @@ func (noteDB *NoteDB) DecodePointers(backRepo *BackRepoStruct, note *models.Note
 		note.Frequencies = append(note.Frequencies, backRepo.BackRepoFreqency.Map_FreqencyDBID_FreqencyPtr[uint(_Freqencyid)])
 	}
 
-	return
 }
 
 // CommitNote allows commit of a single note (if already staged)

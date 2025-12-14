@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Xlsx_sql sql.NullBool
+var _ =  dummy_Xlsx_sql
 var dummy_Xlsx_time time.Duration
+var _ = dummy_Xlsx_time
 var dummy_Xlsx_sort sort.Float64Slice
+var _ = dummy_Xlsx_sort
 
 // XlsxAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoXlsx *BackRepoXlsxStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Xlsx intance %s", xlsx.Name))
+		err := fmt.Errorf("Unkown Xlsx intance %s", xlsx.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoXlsx *BackRepoXlsxStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (xlsxDB *XlsxDB) DecodePointers(backRepo *BackRepoStruct, xlsx *models.Xlsx) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitXlsx allows commit of a single xlsx (if already staged)

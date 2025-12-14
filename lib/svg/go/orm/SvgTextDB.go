@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_SvgText_sql sql.NullBool
+var _ =  dummy_SvgText_sql
 var dummy_SvgText_time time.Duration
+var _ = dummy_SvgText_time
 var dummy_SvgText_sort sort.Float64Slice
+var _ = dummy_SvgText_sort
 
 // SvgTextAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoSvgText *BackRepoSvgTextStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown SvgText intance %s", svgtext.Name))
+		err := fmt.Errorf("Unkown SvgText intance %s", svgtext.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoSvgText *BackRepoSvgTextStruct) CheckoutPhaseTwoInstance(backRepo 
 func (svgtextDB *SvgTextDB) DecodePointers(backRepo *BackRepoStruct, svgtext *models.SvgText) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitSvgText allows commit of a single svgtext (if already staged)

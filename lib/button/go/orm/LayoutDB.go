@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Layout_sql sql.NullBool
+var _ =  dummy_Layout_sql
 var dummy_Layout_time time.Duration
+var _ = dummy_Layout_time
 var dummy_Layout_sort sort.Float64Slice
+var _ = dummy_Layout_sort
 
 // LayoutAPI is the input in POST API
 //
@@ -271,8 +274,7 @@ func (backRepoLayout *BackRepoLayoutStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Layout intance %s", layout.Name))
+		err := fmt.Errorf("Unkown Layout intance %s", layout.Name)
 		return err
 	}
 
@@ -396,7 +398,6 @@ func (layoutDB *LayoutDB) DecodePointers(backRepo *BackRepoStruct, layout *model
 		layout.GroupToogles = append(layout.GroupToogles, backRepo.BackRepoGroupToogle.Map_GroupToogleDBID_GroupTooglePtr[uint(_GroupToogleid)])
 	}
 
-	return
 }
 
 // CommitLayout allows commit of a single layout (if already staged)

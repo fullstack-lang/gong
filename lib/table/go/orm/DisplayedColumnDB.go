@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_DisplayedColumn_sql sql.NullBool
+var _ =  dummy_DisplayedColumn_sql
 var dummy_DisplayedColumn_time time.Duration
+var _ = dummy_DisplayedColumn_time
 var dummy_DisplayedColumn_sort sort.Float64Slice
+var _ = dummy_DisplayedColumn_sort
 
 // DisplayedColumnAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CommitPhaseTwoInst
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown DisplayedColumn intance %s", displayedcolumn.Name))
+		err := fmt.Errorf("Unkown DisplayedColumn intance %s", displayedcolumn.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoDisplayedColumn *BackRepoDisplayedColumnStruct) CheckoutPhaseTwoIn
 func (displayedcolumnDB *DisplayedColumnDB) DecodePointers(backRepo *BackRepoStruct, displayedcolumn *models.DisplayedColumn) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitDisplayedColumn allows commit of a single displayedcolumn (if already staged)

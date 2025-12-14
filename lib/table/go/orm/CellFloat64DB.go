@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_CellFloat64_sql sql.NullBool
+var _ =  dummy_CellFloat64_sql
 var dummy_CellFloat64_time time.Duration
+var _ = dummy_CellFloat64_time
 var dummy_CellFloat64_sort sort.Float64Slice
+var _ = dummy_CellFloat64_sort
 
 // CellFloat64API is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CommitPhaseTwoInstance(bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown CellFloat64 intance %s", cellfloat64.Name))
+		err := fmt.Errorf("Unkown CellFloat64 intance %s", cellfloat64.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoCellFloat64 *BackRepoCellFloat64Struct) CheckoutPhaseTwoInstance(b
 func (cellfloat64DB *CellFloat64DB) DecodePointers(backRepo *BackRepoStruct, cellfloat64 *models.CellFloat64) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCellFloat64 allows commit of a single cellfloat64 (if already staged)

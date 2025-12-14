@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Row_sql sql.NullBool
+var _ =  dummy_Row_sql
 var dummy_Row_time time.Duration
+var _ = dummy_Row_time
 var dummy_Row_sort sort.Float64Slice
+var _ = dummy_Row_sort
 
 // RowAPI is the input in POST API
 //
@@ -257,8 +260,7 @@ func (backRepoRow *BackRepoRowStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Row intance %s", row.Name))
+		err := fmt.Errorf("Unkown Row intance %s", row.Name)
 		return err
 	}
 
@@ -373,7 +375,6 @@ func (rowDB *RowDB) DecodePointers(backRepo *BackRepoStruct, row *models.Row) {
 		row.Cells = append(row.Cells, backRepo.BackRepoCell.Map_CellDBID_CellPtr[uint(_Cellid)])
 	}
 
-	return
 }
 
 // CommitRow allows commit of a single row (if already staged)

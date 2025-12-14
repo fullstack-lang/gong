@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldFloat64_sql sql.NullBool
+var _ =  dummy_FormFieldFloat64_sql
 var dummy_FormFieldFloat64_time time.Duration
+var _ = dummy_FormFieldFloat64_time
 var dummy_FormFieldFloat64_sort sort.Float64Slice
+var _ = dummy_FormFieldFloat64_sort
 
 // FormFieldFloat64API is the input in POST API
 //
@@ -261,8 +264,7 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CommitPhaseTwoIn
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldFloat64 intance %s", formfieldfloat64.Name))
+		err := fmt.Errorf("Unkown FormFieldFloat64 intance %s", formfieldfloat64.Name)
 		return err
 	}
 
@@ -368,7 +370,6 @@ func (backRepoFormFieldFloat64 *BackRepoFormFieldFloat64Struct) CheckoutPhaseTwo
 func (formfieldfloat64DB *FormFieldFloat64DB) DecodePointers(backRepo *BackRepoStruct, formfieldfloat64 *models.FormFieldFloat64) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFormFieldFloat64 allows commit of a single formfieldfloat64 (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Circle_sql sql.NullBool
+var _ =  dummy_Circle_sql
 var dummy_Circle_time time.Duration
+var _ = dummy_Circle_time
 var dummy_Circle_sort sort.Float64Slice
+var _ = dummy_Circle_sort
 
 // CircleAPI is the input in POST API
 //
@@ -316,8 +319,7 @@ func (backRepoCircle *BackRepoCircleStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Circle intance %s", circle.Name))
+		err := fmt.Errorf("Unkown Circle intance %s", circle.Name)
 		return err
 	}
 
@@ -432,7 +434,6 @@ func (circleDB *CircleDB) DecodePointers(backRepo *BackRepoStruct, circle *model
 		circle.Animations = append(circle.Animations, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitCircle allows commit of a single circle (if already staged)

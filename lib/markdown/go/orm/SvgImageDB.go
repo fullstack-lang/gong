@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_SvgImage_sql sql.NullBool
+var _ =  dummy_SvgImage_sql
 var dummy_SvgImage_time time.Duration
+var _ = dummy_SvgImage_time
 var dummy_SvgImage_sort sort.Float64Slice
+var _ = dummy_SvgImage_sort
 
 // SvgImageAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoSvgImage *BackRepoSvgImageStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown SvgImage intance %s", svgimage.Name))
+		err := fmt.Errorf("Unkown SvgImage intance %s", svgimage.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoSvgImage *BackRepoSvgImageStruct) CheckoutPhaseTwoInstance(backRep
 func (svgimageDB *SvgImageDB) DecodePointers(backRepo *BackRepoStruct, svgimage *models.SvgImage) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitSvgImage allows commit of a single svgimage (if already staged)

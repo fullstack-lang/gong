@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_SVG_sql sql.NullBool
+var _ =  dummy_SVG_sql
 var dummy_SVG_time time.Duration
+var _ = dummy_SVG_time
 var dummy_SVG_sort sort.Float64Slice
+var _ = dummy_SVG_sort
 
 // SVGAPI is the input in POST API
 //
@@ -322,8 +325,7 @@ func (backRepoSVG *BackRepoSVGStruct) CommitPhaseTwoInstance(backRepo *BackRepoS
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown SVG intance %s", svg.Name))
+		err := fmt.Errorf("Unkown SVG intance %s", svg.Name)
 		return err
 	}
 
@@ -480,7 +482,6 @@ func (svgDB *SVGDB) DecodePointers(backRepo *BackRepoStruct, svg *models.SVG) {
 		}
 	}
 	
-	return
 }
 
 // CommitSVG allows commit of a single svg (if already staged)

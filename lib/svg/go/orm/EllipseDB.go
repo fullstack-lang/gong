@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Ellipse_sql sql.NullBool
+var _ =  dummy_Ellipse_sql
 var dummy_Ellipse_time time.Duration
+var _ = dummy_Ellipse_time
 var dummy_Ellipse_sort sort.Float64Slice
+var _ = dummy_Ellipse_sort
 
 // EllipseAPI is the input in POST API
 //
@@ -322,8 +325,7 @@ func (backRepoEllipse *BackRepoEllipseStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Ellipse intance %s", ellipse.Name))
+		err := fmt.Errorf("Unkown Ellipse intance %s", ellipse.Name)
 		return err
 	}
 
@@ -438,7 +440,6 @@ func (ellipseDB *EllipseDB) DecodePointers(backRepo *BackRepoStruct, ellipse *mo
 		ellipse.Animates = append(ellipse.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitEllipse allows commit of a single ellipse (if already staged)

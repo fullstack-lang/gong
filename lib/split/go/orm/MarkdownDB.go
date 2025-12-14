@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Markdown_sql sql.NullBool
+var _ =  dummy_Markdown_sql
 var dummy_Markdown_time time.Duration
+var _ = dummy_Markdown_time
 var dummy_Markdown_sort sort.Float64Slice
+var _ = dummy_Markdown_sort
 
 // MarkdownAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoMarkdown *BackRepoMarkdownStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Markdown intance %s", markdown.Name))
+		err := fmt.Errorf("Unkown Markdown intance %s", markdown.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoMarkdown *BackRepoMarkdownStruct) CheckoutPhaseTwoInstance(backRep
 func (markdownDB *MarkdownDB) DecodePointers(backRepo *BackRepoStruct, markdown *models.Markdown) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitMarkdown allows commit of a single markdown (if already staged)

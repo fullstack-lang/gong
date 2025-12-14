@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Bstruct_sql sql.NullBool
+var _ =  dummy_Bstruct_sql
 var dummy_Bstruct_time time.Duration
+var _ = dummy_Bstruct_time
 var dummy_Bstruct_sort sort.Float64Slice
+var _ = dummy_Bstruct_sort
 
 // BstructAPI is the input in POST API
 //
@@ -247,8 +250,7 @@ func (backRepoBstruct *BackRepoBstructStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Bstruct intance %s", bstruct.Name))
+		err := fmt.Errorf("Unkown Bstruct intance %s", bstruct.Name)
 		return err
 	}
 
@@ -354,7 +356,6 @@ func (backRepoBstruct *BackRepoBstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (bstructDB *BstructDB) DecodePointers(backRepo *BackRepoStruct, bstruct *models.Bstruct) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitBstruct allows commit of a single bstruct (if already staged)

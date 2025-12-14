@@ -115,7 +115,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipStager=false",
         "--level1",
         "go/models"
       ]
@@ -190,7 +189,6 @@
         "generate",
         "--skipGoModCommands",
         "--level1",
-        "--skipStager=false",
         "go/models"
       ]
     },
@@ -205,7 +203,6 @@
       "args": [
         "generate",
         "--skipGoModCommands",
-        "--skipStager=false",
         "--level1",
         "go/models"
       ]
@@ -264,7 +261,6 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
-        "--skipStager=false",
         "go/models"
       ]
     },
@@ -379,7 +375,6 @@
         "generate",
         "--skipGoModCommands",
         "--level1",
-        "--skipStager=false",
         "--debouncedMarshall=true"
       ]
     },
@@ -395,7 +390,6 @@
         "generate",
         "--skipGoModCommands",
         "--level1",
-        "--skipStager=false"
       ]
     },
     {
@@ -410,7 +404,6 @@
         "generate",
         "--skipGoModCommands",
         "--skipNpmWorkspaces",
-        "--skipStager=false",
         "go/models"
       ]
     },
@@ -1021,7 +1014,7 @@
     {
       "label": "Create and Run Helloworld level4 Gong Example in /tmp",
       "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
       "options": {
         "cwd": "/tmp"
       },
@@ -1039,7 +1032,7 @@
     {
       "label": "Create and Run Helloworld level1 Gong Example in /tmp",
       "type": "shell",
-      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --level1 --skipStager=false go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
+      "command": "rm -rf helloworld && mkdir helloworld && cd helloworld && mkdir -p go/models && echo \"package models\ntype Hello struct {\n  Name string\n  HelloType HelloType\n}\" > go/models/hello.go && echo \"package models\ntype Country struct {\n  Name string\n  Hello *Hello\n  AlternateHellos []*Hello\n}\" > go/models/country.go && echo \"package models\ntype HelloType string\nconst (\n  Casual HelloType = \\\"Casual\\\"\n  Formal HelloType = \\\"Formal\\\"\n)\" > go/models/hello_type.go && gong generate --level1 go/models && cd go/cmd/helloworld && ./helloworld -unmarshallFromCode=data/stage.go -marshallOnCommit=data/stage",
       "options": {
         "cwd": "/tmp"
       },

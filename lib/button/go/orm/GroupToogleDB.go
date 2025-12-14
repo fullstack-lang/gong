@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_GroupToogle_sql sql.NullBool
+var _ =  dummy_GroupToogle_sql
 var dummy_GroupToogle_time time.Duration
+var _ = dummy_GroupToogle_time
 var dummy_GroupToogle_sort sort.Float64Slice
+var _ = dummy_GroupToogle_sort
 
 // GroupToogleAPI is the input in POST API
 //
@@ -263,8 +266,7 @@ func (backRepoGroupToogle *BackRepoGroupToogleStruct) CommitPhaseTwoInstance(bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown GroupToogle intance %s", grouptoogle.Name))
+		err := fmt.Errorf("Unkown GroupToogle intance %s", grouptoogle.Name)
 		return err
 	}
 
@@ -379,7 +381,6 @@ func (grouptoogleDB *GroupToogleDB) DecodePointers(backRepo *BackRepoStruct, gro
 		grouptoogle.ButtonToggles = append(grouptoogle.ButtonToggles, backRepo.BackRepoButtonToggle.Map_ButtonToggleDBID_ButtonTogglePtr[uint(_ButtonToggleid)])
 	}
 
-	return
 }
 
 // CommitGroupToogle allows commit of a single grouptoogle (if already staged)

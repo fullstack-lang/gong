@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Load_sql sql.NullBool
+var _ =  dummy_Load_sql
 var dummy_Load_time time.Duration
+var _ = dummy_Load_time
 var dummy_Load_sort sort.Float64Slice
+var _ = dummy_Load_sort
 
 // LoadAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoLoad *BackRepoLoadStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Load intance %s", load.Name))
+		err := fmt.Errorf("Unkown Load intance %s", load.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoLoad *BackRepoLoadStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (loadDB *LoadDB) DecodePointers(backRepo *BackRepoStruct, load *models.Load) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitLoad allows commit of a single load (if already staged)
