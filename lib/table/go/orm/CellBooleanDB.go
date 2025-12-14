@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_CellBoolean_sql sql.NullBool
+var _ =  dummy_CellBoolean_sql
 var dummy_CellBoolean_time time.Duration
+var _ = dummy_CellBoolean_time
 var dummy_CellBoolean_sort sort.Float64Slice
+var _ = dummy_CellBoolean_sort
 
 // CellBooleanAPI is the input in POST API
 //
@@ -236,8 +239,7 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CommitPhaseTwoInstance(bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown CellBoolean intance %s", cellboolean.Name))
+		err := fmt.Errorf("Unkown CellBoolean intance %s", cellboolean.Name)
 		return err
 	}
 
@@ -343,7 +345,6 @@ func (backRepoCellBoolean *BackRepoCellBooleanStruct) CheckoutPhaseTwoInstance(b
 func (cellbooleanDB *CellBooleanDB) DecodePointers(backRepo *BackRepoStruct, cellboolean *models.CellBoolean) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCellBoolean allows commit of a single cellboolean (if already staged)

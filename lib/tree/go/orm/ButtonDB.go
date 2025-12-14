@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Button_sql sql.NullBool
+var _ =  dummy_Button_sql
 var dummy_Button_time time.Duration
+var _ = dummy_Button_time
 var dummy_Button_sort sort.Float64Slice
+var _ = dummy_Button_sort
 
 // ButtonAPI is the input in POST API
 //
@@ -277,8 +280,7 @@ func (backRepoButton *BackRepoButtonStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Button intance %s", button.Name))
+		err := fmt.Errorf("Unkown Button intance %s", button.Name)
 		return err
 	}
 
@@ -405,7 +407,6 @@ func (buttonDB *ButtonDB) DecodePointers(backRepo *BackRepoStruct, button *model
 		}
 	}
 	
-	return
 }
 
 // CommitButton allows commit of a single button (if already staged)

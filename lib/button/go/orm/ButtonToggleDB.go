@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_ButtonToggle_sql sql.NullBool
+var _ =  dummy_ButtonToggle_sql
 var dummy_ButtonToggle_time time.Duration
+var _ = dummy_ButtonToggle_time
 var dummy_ButtonToggle_sort sort.Float64Slice
+var _ = dummy_ButtonToggle_sort
 
 // ButtonToggleAPI is the input in POST API
 //
@@ -255,8 +258,7 @@ func (backRepoButtonToggle *BackRepoButtonToggleStruct) CommitPhaseTwoInstance(b
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown ButtonToggle intance %s", buttontoggle.Name))
+		err := fmt.Errorf("Unkown ButtonToggle intance %s", buttontoggle.Name)
 		return err
 	}
 
@@ -362,7 +364,6 @@ func (backRepoButtonToggle *BackRepoButtonToggleStruct) CheckoutPhaseTwoInstance
 func (buttontoggleDB *ButtonToggleDB) DecodePointers(backRepo *BackRepoStruct, buttontoggle *models.ButtonToggle) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitButtonToggle allows commit of a single buttontoggle (if already staged)

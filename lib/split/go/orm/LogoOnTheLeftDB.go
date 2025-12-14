@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_LogoOnTheLeft_sql sql.NullBool
+var _ =  dummy_LogoOnTheLeft_sql
 var dummy_LogoOnTheLeft_time time.Duration
+var _ = dummy_LogoOnTheLeft_time
 var dummy_LogoOnTheLeft_sort sort.Float64Slice
+var _ = dummy_LogoOnTheLeft_sort
 
 // LogoOnTheLeftAPI is the input in POST API
 //
@@ -247,8 +250,7 @@ func (backRepoLogoOnTheLeft *BackRepoLogoOnTheLeftStruct) CommitPhaseTwoInstance
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown LogoOnTheLeft intance %s", logoontheleft.Name))
+		err := fmt.Errorf("Unkown LogoOnTheLeft intance %s", logoontheleft.Name)
 		return err
 	}
 
@@ -354,7 +356,6 @@ func (backRepoLogoOnTheLeft *BackRepoLogoOnTheLeftStruct) CheckoutPhaseTwoInstan
 func (logoontheleftDB *LogoOnTheLeftDB) DecodePointers(backRepo *BackRepoStruct, logoontheleft *models.LogoOnTheLeft) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitLogoOnTheLeft allows commit of a single logoontheleft (if already staged)

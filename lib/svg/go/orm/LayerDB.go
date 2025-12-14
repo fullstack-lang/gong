@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Layer_sql sql.NullBool
+var _ =  dummy_Layer_sql
 var dummy_Layer_time time.Duration
+var _ = dummy_Layer_time
 var dummy_Layer_sort sort.Float64Slice
+var _ = dummy_Layer_sort
 
 // LayerAPI is the input in POST API
 //
@@ -439,8 +442,7 @@ func (backRepoLayer *BackRepoLayerStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Layer intance %s", layer.Name))
+		err := fmt.Errorf("Unkown Layer intance %s", layer.Name)
 		return err
 	}
 
@@ -636,7 +638,6 @@ func (layerDB *LayerDB) DecodePointers(backRepo *BackRepoStruct, layer *models.L
 		layer.RectLinkLinks = append(layer.RectLinkLinks, backRepo.BackRepoRectLinkLink.Map_RectLinkLinkDBID_RectLinkLinkPtr[uint(_RectLinkLinkid)])
 	}
 
-	return
 }
 
 // CommitLayer allows commit of a single layer (if already staged)

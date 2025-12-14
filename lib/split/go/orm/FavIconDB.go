@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FavIcon_sql sql.NullBool
+var _ =  dummy_FavIcon_sql
 var dummy_FavIcon_time time.Duration
+var _ = dummy_FavIcon_time
 var dummy_FavIcon_sort sort.Float64Slice
+var _ = dummy_FavIcon_sort
 
 // FavIconAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoFavIcon *BackRepoFavIconStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FavIcon intance %s", favicon.Name))
+		err := fmt.Errorf("Unkown FavIcon intance %s", favicon.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoFavIcon *BackRepoFavIconStruct) CheckoutPhaseTwoInstance(backRepo 
 func (faviconDB *FavIconDB) DecodePointers(backRepo *BackRepoStruct, favicon *models.FavIcon) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFavIcon allows commit of a single favicon (if already staged)

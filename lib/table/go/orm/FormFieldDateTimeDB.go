@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldDateTime_sql sql.NullBool
+var _ =  dummy_FormFieldDateTime_sql
 var dummy_FormFieldDateTime_time time.Duration
+var _ = dummy_FormFieldDateTime_time
 var dummy_FormFieldDateTime_sort sort.Float64Slice
+var _ = dummy_FormFieldDateTime_sort
 
 // FormFieldDateTimeAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CommitPhaseTwo
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldDateTime intance %s", formfielddatetime.Name))
+		err := fmt.Errorf("Unkown FormFieldDateTime intance %s", formfielddatetime.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoFormFieldDateTime *BackRepoFormFieldDateTimeStruct) CheckoutPhaseT
 func (formfielddatetimeDB *FormFieldDateTimeDB) DecodePointers(backRepo *BackRepoStruct, formfielddatetime *models.FormFieldDateTime) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFormFieldDateTime allows commit of a single formfielddatetime (if already staged)

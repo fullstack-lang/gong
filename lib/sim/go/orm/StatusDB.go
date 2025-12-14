@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Status_sql sql.NullBool
+var _ =  dummy_Status_sql
 var dummy_Status_time time.Duration
+var _ = dummy_Status_time
 var dummy_Status_sort sort.Float64Slice
+var _ = dummy_Status_sort
 
 // StatusAPI is the input in POST API
 //
@@ -253,8 +256,7 @@ func (backRepoStatus *BackRepoStatusStruct) CommitPhaseTwoInstance(backRepo *Bac
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Status intance %s", status.Name))
+		err := fmt.Errorf("Unkown Status intance %s", status.Name)
 		return err
 	}
 
@@ -360,7 +362,6 @@ func (backRepoStatus *BackRepoStatusStruct) CheckoutPhaseTwoInstance(backRepo *B
 func (statusDB *StatusDB) DecodePointers(backRepo *BackRepoStruct, status *models.Status) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitStatus allows commit of a single status (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Gstruct_sql sql.NullBool
+var _ =  dummy_Gstruct_sql
 var dummy_Gstruct_time time.Duration
+var _ = dummy_Gstruct_time
 var dummy_Gstruct_sort sort.Float64Slice
+var _ = dummy_Gstruct_sort
 
 // GstructAPI is the input in POST API
 //
@@ -247,8 +250,7 @@ func (backRepoGstruct *BackRepoGstructStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Gstruct intance %s", gstruct.Name))
+		err := fmt.Errorf("Unkown Gstruct intance %s", gstruct.Name)
 		return err
 	}
 
@@ -354,7 +356,6 @@ func (backRepoGstruct *BackRepoGstructStruct) CheckoutPhaseTwoInstance(backRepo 
 func (gstructDB *GstructDB) DecodePointers(backRepo *BackRepoStruct, gstruct *models.Gstruct) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitGstruct allows commit of a single gstruct (if already staged)

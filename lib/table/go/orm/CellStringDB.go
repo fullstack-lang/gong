@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_CellString_sql sql.NullBool
+var _ =  dummy_CellString_sql
 var dummy_CellString_time time.Duration
+var _ = dummy_CellString_time
 var dummy_CellString_sort sort.Float64Slice
+var _ = dummy_CellString_sort
 
 // CellStringAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoCellString *BackRepoCellStringStruct) CommitPhaseTwoInstance(backR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown CellString intance %s", cellstring.Name))
+		err := fmt.Errorf("Unkown CellString intance %s", cellstring.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoCellString *BackRepoCellStringStruct) CheckoutPhaseTwoInstance(bac
 func (cellstringDB *CellStringDB) DecodePointers(backRepo *BackRepoStruct, cellstring *models.CellString) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCellString allows commit of a single cellstring (if already staged)

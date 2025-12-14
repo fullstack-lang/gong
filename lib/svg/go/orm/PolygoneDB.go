@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Polygone_sql sql.NullBool
+var _ =  dummy_Polygone_sql
 var dummy_Polygone_time time.Duration
+var _ = dummy_Polygone_time
 var dummy_Polygone_sort sort.Float64Slice
+var _ = dummy_Polygone_sort
 
 // PolygoneAPI is the input in POST API
 //
@@ -304,8 +307,7 @@ func (backRepoPolygone *BackRepoPolygoneStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Polygone intance %s", polygone.Name))
+		err := fmt.Errorf("Unkown Polygone intance %s", polygone.Name)
 		return err
 	}
 
@@ -420,7 +422,6 @@ func (polygoneDB *PolygoneDB) DecodePointers(backRepo *BackRepoStruct, polygone 
 		polygone.Animates = append(polygone.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitPolygone allows commit of a single polygone (if already staged)

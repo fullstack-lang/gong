@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_AsSplit_sql sql.NullBool
+var _ =  dummy_AsSplit_sql
 var dummy_AsSplit_time time.Duration
+var _ = dummy_AsSplit_time
 var dummy_AsSplit_sort sort.Float64Slice
+var _ = dummy_AsSplit_sort
 
 // AsSplitAPI is the input in POST API
 //
@@ -256,8 +259,7 @@ func (backRepoAsSplit *BackRepoAsSplitStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown AsSplit intance %s", assplit.Name))
+		err := fmt.Errorf("Unkown AsSplit intance %s", assplit.Name)
 		return err
 	}
 
@@ -372,7 +374,6 @@ func (assplitDB *AsSplitDB) DecodePointers(backRepo *BackRepoStruct, assplit *mo
 		assplit.AsSplitAreas = append(assplit.AsSplitAreas, backRepo.BackRepoAsSplitArea.Map_AsSplitAreaDBID_AsSplitAreaPtr[uint(_AsSplitAreaid)])
 	}
 
-	return
 }
 
 // CommitAsSplit allows commit of a single assplit (if already staged)

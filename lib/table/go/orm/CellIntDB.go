@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_CellInt_sql sql.NullBool
+var _ =  dummy_CellInt_sql
 var dummy_CellInt_time time.Duration
+var _ = dummy_CellInt_time
 var dummy_CellInt_sort sort.Float64Slice
+var _ = dummy_CellInt_sort
 
 // CellIntAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoCellInt *BackRepoCellIntStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown CellInt intance %s", cellint.Name))
+		err := fmt.Errorf("Unkown CellInt intance %s", cellint.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoCellInt *BackRepoCellIntStruct) CheckoutPhaseTwoInstance(backRepo 
 func (cellintDB *CellIntDB) DecodePointers(backRepo *BackRepoStruct, cellint *models.CellInt) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitCellInt allows commit of a single cellint (if already staged)

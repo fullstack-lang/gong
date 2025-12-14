@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_RectAnchoredText_sql sql.NullBool
+var _ =  dummy_RectAnchoredText_sql
 var dummy_RectAnchoredText_time time.Duration
+var _ = dummy_RectAnchoredText_time
 var dummy_RectAnchoredText_sort sort.Float64Slice
+var _ = dummy_RectAnchoredText_sort
 
 // RectAnchoredTextAPI is the input in POST API
 //
@@ -376,8 +379,7 @@ func (backRepoRectAnchoredText *BackRepoRectAnchoredTextStruct) CommitPhaseTwoIn
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown RectAnchoredText intance %s", rectanchoredtext.Name))
+		err := fmt.Errorf("Unkown RectAnchoredText intance %s", rectanchoredtext.Name)
 		return err
 	}
 
@@ -492,7 +494,6 @@ func (rectanchoredtextDB *RectAnchoredTextDB) DecodePointers(backRepo *BackRepoS
 		rectanchoredtext.Animates = append(rectanchoredtext.Animates, backRepo.BackRepoAnimate.Map_AnimateDBID_AnimatePtr[uint(_Animateid)])
 	}
 
-	return
 }
 
 // CommitRectAnchoredText allows commit of a single rectanchoredtext (if already staged)

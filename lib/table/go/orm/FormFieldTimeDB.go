@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldTime_sql sql.NullBool
+var _ =  dummy_FormFieldTime_sql
 var dummy_FormFieldTime_time time.Duration
+var _ = dummy_FormFieldTime_time
 var dummy_FormFieldTime_sort sort.Float64Slice
+var _ = dummy_FormFieldTime_sort
 
 // FormFieldTimeAPI is the input in POST API
 //
@@ -241,8 +244,7 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CommitPhaseTwoInstance
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldTime intance %s", formfieldtime.Name))
+		err := fmt.Errorf("Unkown FormFieldTime intance %s", formfieldtime.Name)
 		return err
 	}
 
@@ -348,7 +350,6 @@ func (backRepoFormFieldTime *BackRepoFormFieldTimeStruct) CheckoutPhaseTwoInstan
 func (formfieldtimeDB *FormFieldTimeDB) DecodePointers(backRepo *BackRepoStruct, formfieldtime *models.FormFieldTime) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFormFieldTime allows commit of a single formfieldtime (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Tree_sql sql.NullBool
+var _ =  dummy_Tree_sql
 var dummy_Tree_time time.Duration
+var _ = dummy_Tree_time
 var dummy_Tree_sort sort.Float64Slice
+var _ = dummy_Tree_sort
 
 // TreeAPI is the input in POST API
 //
@@ -250,8 +253,7 @@ func (backRepoTree *BackRepoTreeStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Tree intance %s", tree.Name))
+		err := fmt.Errorf("Unkown Tree intance %s", tree.Name)
 		return err
 	}
 
@@ -366,7 +368,6 @@ func (treeDB *TreeDB) DecodePointers(backRepo *BackRepoStruct, tree *models.Tree
 		tree.RootNodes = append(tree.RootNodes, backRepo.BackRepoNode.Map_NodeDBID_NodePtr[uint(_Nodeid)])
 	}
 
-	return
 }
 
 // CommitTree allows commit of a single tree (if already staged)

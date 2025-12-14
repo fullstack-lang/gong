@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_AstructBstruct2Use_sql sql.NullBool
+var _ =  dummy_AstructBstruct2Use_sql
 var dummy_AstructBstruct2Use_time time.Duration
+var _ = dummy_AstructBstruct2Use_time
 var dummy_AstructBstruct2Use_sort sort.Float64Slice
+var _ = dummy_AstructBstruct2Use_sort
 
 // AstructBstruct2UseAPI is the input in POST API
 //
@@ -245,8 +248,7 @@ func (backRepoAstructBstruct2Use *BackRepoAstructBstruct2UseStruct) CommitPhaseT
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown AstructBstruct2Use intance %s", astructbstruct2use.Name))
+		err := fmt.Errorf("Unkown AstructBstruct2Use intance %s", astructbstruct2use.Name)
 		return err
 	}
 
@@ -373,7 +375,6 @@ func (astructbstruct2useDB *AstructBstruct2UseDB) DecodePointers(backRepo *BackR
 		}
 	}
 	
-	return
 }
 
 // CommitAstructBstruct2Use allows commit of a single astructbstruct2use (if already staged)

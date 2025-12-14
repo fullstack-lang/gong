@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_JpgImage_sql sql.NullBool
+var _ =  dummy_JpgImage_sql
 var dummy_JpgImage_time time.Duration
+var _ = dummy_JpgImage_time
 var dummy_JpgImage_sort sort.Float64Slice
+var _ = dummy_JpgImage_sort
 
 // JpgImageAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoJpgImage *BackRepoJpgImageStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown JpgImage intance %s", jpgimage.Name))
+		err := fmt.Errorf("Unkown JpgImage intance %s", jpgimage.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoJpgImage *BackRepoJpgImageStruct) CheckoutPhaseTwoInstance(backRep
 func (jpgimageDB *JpgImageDB) DecodePointers(backRepo *BackRepoStruct, jpgimage *models.JpgImage) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitJpgImage allows commit of a single jpgimage (if already staged)

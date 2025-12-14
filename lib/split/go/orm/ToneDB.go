@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Tone_sql sql.NullBool
+var _ =  dummy_Tone_sql
 var dummy_Tone_time time.Duration
+var _ = dummy_Tone_time
 var dummy_Tone_sort sort.Float64Slice
+var _ = dummy_Tone_sort
 
 // ToneAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoTone *BackRepoToneStruct) CommitPhaseTwoInstance(backRepo *BackRep
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Tone intance %s", tone.Name))
+		err := fmt.Errorf("Unkown Tone intance %s", tone.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoTone *BackRepoToneStruct) CheckoutPhaseTwoInstance(backRepo *BackR
 func (toneDB *ToneDB) DecodePointers(backRepo *BackRepoStruct, tone *models.Tone) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitTone allows commit of a single tone (if already staged)

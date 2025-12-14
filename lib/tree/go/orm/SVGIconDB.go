@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_SVGIcon_sql sql.NullBool
+var _ =  dummy_SVGIcon_sql
 var dummy_SVGIcon_time time.Duration
+var _ = dummy_SVGIcon_time
 var dummy_SVGIcon_sort sort.Float64Slice
+var _ = dummy_SVGIcon_sort
 
 // SVGIconAPI is the input in POST API
 //
@@ -235,8 +238,7 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CommitPhaseTwoInstance(backRepo *B
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown SVGIcon intance %s", svgicon.Name))
+		err := fmt.Errorf("Unkown SVGIcon intance %s", svgicon.Name)
 		return err
 	}
 
@@ -342,7 +344,6 @@ func (backRepoSVGIcon *BackRepoSVGIconStruct) CheckoutPhaseTwoInstance(backRepo 
 func (svgiconDB *SVGIconDB) DecodePointers(backRepo *BackRepoStruct, svgicon *models.SVGIcon) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitSVGIcon allows commit of a single svgicon (if already staged)

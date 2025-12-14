@@ -39,8 +39,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_{{Structname}}_sql sql.NullBool
+var _ =  dummy_{{Structname}}_sql
 var dummy_{{Structname}}_time time.Duration
+var _ = dummy_{{Structname}}_time
 var dummy_{{Structname}}_sort sort.Float64Slice
+var _ = dummy_{{Structname}}_sort
 
 // {{Structname}}API is the input in POST API
 //
@@ -238,8 +241,7 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CommitPhaseTwoInstan
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown {{Structname}} intance %s", {{structname}}.Name))
+		err := fmt.Errorf("Unkown {{Structname}} intance %s", {{structname}}.Name)
 		return err
 	}
 
@@ -345,7 +347,6 @@ func (backRepo{{Structname}} *BackRepo{{Structname}}Struct) CheckoutPhaseTwoInst
 func ({{structname}}DB *{{Structname}}DB) DecodePointers(backRepo *BackRepoStruct, {{structname}} *models.{{Structname}}) {
 
 	// insertion point for checkout of pointer encoding{{` + string(rune(BackRepoPointerEncodingFieldsCheckout)) + `}}
-	return
 }
 
 // Commit{{Structname}} allows commit of a single {{structname}} (if already staged)

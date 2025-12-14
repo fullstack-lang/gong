@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Freqency_sql sql.NullBool
+var _ =  dummy_Freqency_sql
 var dummy_Freqency_time time.Duration
+var _ = dummy_Freqency_time
 var dummy_Freqency_sort sort.Float64Slice
+var _ = dummy_Freqency_sort
 
 // FreqencyAPI is the input in POST API
 //
@@ -229,8 +232,7 @@ func (backRepoFreqency *BackRepoFreqencyStruct) CommitPhaseTwoInstance(backRepo 
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Freqency intance %s", freqency.Name))
+		err := fmt.Errorf("Unkown Freqency intance %s", freqency.Name)
 		return err
 	}
 
@@ -336,7 +338,6 @@ func (backRepoFreqency *BackRepoFreqencyStruct) CheckoutPhaseTwoInstance(backRep
 func (freqencyDB *FreqencyDB) DecodePointers(backRepo *BackRepoStruct, freqency *models.Freqency) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFreqency allows commit of a single freqency (if already staged)

@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_Point_sql sql.NullBool
+var _ =  dummy_Point_sql
 var dummy_Point_time time.Duration
+var _ = dummy_Point_time
 var dummy_Point_sort sort.Float64Slice
+var _ = dummy_Point_sort
 
 // PointAPI is the input in POST API
 //
@@ -241,8 +244,7 @@ func (backRepoPoint *BackRepoPointStruct) CommitPhaseTwoInstance(backRepo *BackR
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown Point intance %s", point.Name))
+		err := fmt.Errorf("Unkown Point intance %s", point.Name)
 		return err
 	}
 
@@ -348,7 +350,6 @@ func (backRepoPoint *BackRepoPointStruct) CheckoutPhaseTwoInstance(backRepo *Bac
 func (pointDB *PointDB) DecodePointers(backRepo *BackRepoStruct, point *models.Point) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitPoint allows commit of a single point (if already staged)

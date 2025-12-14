@@ -23,8 +23,11 @@ import (
 
 // dummy variable to have the import declaration wihthout compile failure (even if no code needing this import is generated)
 var dummy_FormFieldString_sql sql.NullBool
+var _ =  dummy_FormFieldString_sql
 var dummy_FormFieldString_time time.Duration
+var _ = dummy_FormFieldString_time
 var dummy_FormFieldString_sort sort.Float64Slice
+var _ = dummy_FormFieldString_sort
 
 // FormFieldStringAPI is the input in POST API
 //
@@ -242,8 +245,7 @@ func (backRepoFormFieldString *BackRepoFormFieldStringStruct) CommitPhaseTwoInst
 		}
 
 	} else {
-		err := errors.New(
-			fmt.Sprintf("Unkown FormFieldString intance %s", formfieldstring.Name))
+		err := fmt.Errorf("Unkown FormFieldString intance %s", formfieldstring.Name)
 		return err
 	}
 
@@ -349,7 +351,6 @@ func (backRepoFormFieldString *BackRepoFormFieldStringStruct) CheckoutPhaseTwoIn
 func (formfieldstringDB *FormFieldStringDB) DecodePointers(backRepo *BackRepoStruct, formfieldstring *models.FormFieldString) {
 
 	// insertion point for checkout of pointer encoding
-	return
 }
 
 // CommitFormFieldString allows commit of a single formfieldstring (if already staged)
