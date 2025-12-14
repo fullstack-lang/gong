@@ -28,6 +28,12 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Activities
+func (activities *Activities) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+}
+
 // Clean garbage collect unstaged instances that are referenced by Architecture
 func (architecture *Architecture) GongClean(stage *Stage) {
 	// insertion point per field
@@ -41,12 +47,6 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
 	diagram.State_Shapes = GongCleanSlice(stage, diagram.State_Shapes)
 	diagram.Transition_Shapes = GongCleanSlice(stage, diagram.Transition_Shapes)
-	// insertion point per field
-}
-
-// Clean garbage collect unstaged instances that are referenced by DoAction
-func (doaction *DoAction) GongClean(stage *Stage) {
-	// insertion point per field
 	// insertion point per field
 }
 
@@ -90,7 +90,7 @@ func (state *State) GongClean(stage *Stage) {
 	// insertion point per field
 	state.SubStates = GongCleanSlice(stage, state.SubStates)
 	state.Diagrams = GongCleanSlice(stage, state.Diagrams)
-	state.DoActions = GongCleanSlice(stage, state.DoActions)
+	state.Activities = GongCleanSlice(stage, state.Activities)
 	// insertion point per field
 	state.Parent = GongCleanPointer(stage, state.Parent)
 }

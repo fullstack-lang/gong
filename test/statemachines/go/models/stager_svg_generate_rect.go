@@ -92,36 +92,36 @@ func (stager *Stager) svgGenerateRect(
 
 	// add the /Do actions
 	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
-	for _, doAction := range state.DoActions {
+	for _, activity := range state.Activities {
 		{
-			doActionText := new(svg.RectAnchoredText)
-			doActionText.Name = doAction.Name
-			content := "/do " + doAction.Name
+			activityText := new(svg.RectAnchoredText)
+			activityText.Name = activity.Name
+			content := "/do " + activity.Name
 
 			if rect.Width > 0 {
 				content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
 			}
-			doActionText.Content = content
-			doActionText.Stroke = svg.Black.ToString()
-			doActionText.StrokeWidth = 1
-			doActionText.StrokeOpacity = 1
-			doActionText.Color = svg.Black.ToString()
-			doActionText.FillOpacity = 1
+			activityText.Content = content
+			activityText.Stroke = svg.Black.ToString()
+			activityText.StrokeWidth = 1
+			activityText.StrokeOpacity = 1
+			activityText.Color = svg.Black.ToString()
+			activityText.FillOpacity = 1
 
-			if doAction.Criticality == DoActionCritical {
-				doActionText.Stroke = svg.Red.ToString()
-				doActionText.Color = svg.Red.ToString()
+			if activity.Criticality == CriticalityCritical {
+				activityText.Stroke = svg.Red.ToString()
+				activityText.Color = svg.Red.ToString()
 			}
 
-			doActionText.FontSize = "16px"
-			doActionText.X_Offset = 0
-			doActionText.Y_Offset = currentY_Offset
-			doActionText.RectAnchorType = svg.RECT_TOP
-			doActionText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+			activityText.FontSize = "16px"
+			activityText.X_Offset = 0
+			activityText.Y_Offset = currentY_Offset
+			activityText.RectAnchorType = svg.RECT_TOP
+			activityText.TextAnchorType = svg.TEXT_ANCHOR_CENTER
 
-			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, doActionText)
+			rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, activityText)
 
-			currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(doActionText.Content, "\n")))
+			currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(activityText.Content, "\n")))
 		}
 	}
 
