@@ -1,24 +1,28 @@
 package models
 
 type Diagram struct {
-	Name               string
-	MovementShapes     []*MovementShape
-	ArtefactTypeShapes []*ArtefactTypeShape
-	ArtistShapes       []*ArtistShape
-	InfluenceShapes    []*InfluenceShape
+	Name            string
+	Category1Shapes []*Category1Shape
+	Category2Shapes []*Category2Shape
+	Category3Shapes []*Category3Shape
+
+	InfluenceShapes []*InfluenceShape
 
 	IsEditable bool
 
-	IsNodeExpanded                     bool
-	IsMovementCategoryNodeExpanded     bool
-	IsArtefactTypeCategoryNodeExpanded bool
-	IsArtistCategoryNodeExpanded       bool
-	IsInfluenceCategoryNodeExpanded    bool
+	IsNodeExpanded bool
 
-	IsMovementCategoryShown     bool
-	IsArtefactTypeCategoryShown bool
-	IsArtistCategoryShown       bool
-	IsInfluenceCategoryShown    bool
+	IsCategory1NodeExpanded bool
+	IsCategory2NodeExpanded bool
+	IsCategory3NodeExpanded bool
+
+	IsInfluenceCategoryNodeExpanded bool
+
+	IsCategory1Shown bool
+	IsCategory2Shown bool
+	IsCategory3Shown bool
+
+	IsInfluenceCategoryShown bool
 
 	DiagramPresentation
 }
@@ -47,31 +51,9 @@ type DiagramPresentation struct {
 	MovementTextAnchorType       TextAnchorType
 	MovementDominantBaselineType DominantBaselineType
 	MovementFontSize             string
-	MajorMovementFontSize        string
-	MinorMovementFontSize        string
 	MovementFontWeigth           string
 	MovementFontFamily           string
 	MovementLetterSpacing        string
-
-	AbstractMovementFontSize       string
-	AbstractMovementRectAnchorType RectAnchorType
-	AbstractMovementTextAnchorType TextAnchorType
-	AbstractDominantBaselineType   DominantBaselineType
-
-	MovementDateRectAnchorType           RectAnchorType
-	MovementDateTextAnchorType           TextAnchorType
-	MovementDateTextDominantBaselineType DominantBaselineType
-	MovementDateAndPlacesFontSize        string
-	MovementDateAndPlacesFontWeigth      string
-	MovementDateAndPlacesFontFamily      string
-	MovementDateAndPlacesLetterSpacing   string
-
-	MovementBelowArcY_Offset         float64
-	MovementBelowArcY_OffsetPerPlace float64
-
-	MovementPlacesRectAnchorType       RectAnchorType
-	MovementPlacesTextAnchorType       TextAnchorType
-	MovementPlacesDominantBaselineType DominantBaselineType
 
 	ArtefactTypeFontSize      string
 	ArtefactTypeFontWeigth    string
@@ -86,23 +68,9 @@ type DiagramPresentation struct {
 	ArtistTextAnchorType       TextAnchorType
 	ArtistDominantBaselineType DominantBaselineType
 	ArtistFontSize             string
-	MajorArtistFontSize        string
-	MinorArtistFontSize        string
 	ArtistFontWeigth           string
 	ArtistFontFamily           string
 	ArtistLetterSpacing        string
-
-	ArtistDateRectAnchorType         RectAnchorType
-	ArtistDateTextAnchorType         TextAnchorType
-	ArtistDateDominantBaselineType   DominantBaselineType
-	ArtistDateAndPlacesFontSize      string
-	ArtistDateAndPlacesFontWeigth    string
-	ArtistDateAndPlacesFontFamily    string
-	ArtistDateAndPlacesLetterSpacing string
-
-	ArtistPlacesRectAnchorType       RectAnchorType
-	ArtistPlacesTextAnchorType       TextAnchorType
-	ArtistPlacesDominantBaselineType DominantBaselineType
 
 	InfluenceArrowSize        float64
 	InfluenceArrowStartOffset float64

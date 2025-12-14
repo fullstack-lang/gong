@@ -34,33 +34,17 @@ func (stager *Stager) ComputeConsistency() {
 			diagram.MovementTextAnchorType = TEXT_ANCHOR_END
 			needCommit = true
 		}
-		if diagram.MovementDateRectAnchorType == "" {
-			diagram.MovementDateRectAnchorType = RECT_BOTTOM_LEFT
-			needCommit = true
-		}
-		if diagram.MovementDateTextAnchorType == "" {
-			diagram.MovementDateTextAnchorType = TEXT_ANCHOR_START
-			needCommit = true
-		}
-		if diagram.MovementPlacesRectAnchorType == "" {
-			diagram.MovementPlacesRectAnchorType = RECT_BOTTOM_RIGHT
-			needCommit = true
-		}
-		if diagram.MovementPlacesTextAnchorType == "" {
-			diagram.MovementPlacesTextAnchorType = TEXT_ANCHOR_END
-			needCommit = true
-		}
 	}
 
-	for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
+	for _, movement := range GetGongstrucsSorted[*Category1](stager.stage) {
 		_ = movement
 	}
 
 	// remove orphean movement shapes
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, MovementShape](GetAssociationName[Diagram]().MovementShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*MovementShape](stager.stage) {
-			if shape.GetArtElement() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, Category1Shape](GetAssociationName[Diagram]().Category1Shapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*Category1Shape](stager.stage) {
+			if shape.GetCategory() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -71,9 +55,9 @@ func (stager *Stager) ComputeConsistency() {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, ArtistShape](GetAssociationName[Diagram]().ArtistShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*ArtistShape](stager.stage) {
-			if shape.GetArtElement() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, Category2Shape](GetAssociationName[Diagram]().Category2Shapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*Category2Shape](stager.stage) {
+			if shape.GetCategory() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -84,9 +68,9 @@ func (stager *Stager) ComputeConsistency() {
 		}
 	}
 	{
-		rm := GetSliceOfPointersReverseMap[Diagram, ArtefactTypeShape](GetAssociationName[Diagram]().ArtefactTypeShapes[0].Name, stager.stage)
-		for _, shape := range GetGongstrucsSorted[*ArtefactTypeShape](stager.stage) {
-			if shape.GetArtElement() == nil {
+		rm := GetSliceOfPointersReverseMap[Diagram, Category3Shape](GetAssociationName[Diagram]().Category3Shapes[0].Name, stager.stage)
+		for _, shape := range GetGongstrucsSorted[*Category3Shape](stager.stage) {
+			if shape.GetCategory() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -99,7 +83,7 @@ func (stager *Stager) ComputeConsistency() {
 	{
 		rm := GetSliceOfPointersReverseMap[Diagram, InfluenceShape](GetAssociationName[Diagram]().InfluenceShapes[0].Name, stager.stage)
 		for _, shape := range GetGongstrucsSorted[*InfluenceShape](stager.stage) {
-			if shape.GetArtElement() == nil {
+			if shape.GetCategory() == nil {
 				shape.Unstage(stager.stage)
 				needCommit = true
 			}
@@ -121,24 +105,24 @@ func (stager *Stager) ComputeConsistency() {
 	}
 
 	for _, influence := range GetGongstrucsSorted[*Influence](stager.stage) {
-		if influence.SourceMovement != nil {
-			influence.source = influence.SourceMovement
+		if influence.SourceCategory1 != nil {
+			influence.source = influence.SourceCategory1
 		}
-		if influence.SourceArtefactType != nil {
-			influence.source = influence.SourceArtefactType
+		if influence.SourceCategory2 != nil {
+			influence.source = influence.SourceCategory2
 		}
-		if influence.SourceArtist != nil {
-			influence.source = influence.SourceArtist
+		if influence.SourceCategory3 != nil {
+			influence.source = influence.SourceCategory3
 		}
 
-		if influence.TargetMovement != nil {
-			influence.target = influence.TargetMovement
+		if influence.TargetCategory1 != nil {
+			influence.target = influence.TargetCategory1
 		}
-		if influence.TargetArtefactType != nil {
-			influence.target = influence.TargetArtefactType
+		if influence.TargetCategory2 != nil {
+			influence.target = influence.TargetCategory2
 		}
-		if influence.TargetArtist != nil {
-			influence.target = influence.TargetArtist
+		if influence.TargetCategory3 != nil {
+			influence.target = influence.TargetCategory3
 		}
 
 		if influence.Name != influence.source.GetName()+" to "+influence.target.GetName() {

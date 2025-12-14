@@ -5,16 +5,22 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct ArtefactType
+	// Compute reverse map for named struct Category1
 	// insertion point per field
 
-	// Compute reverse map for named struct ArtefactTypeShape
+	// Compute reverse map for named struct Category1Shape
 	// insertion point per field
 
-	// Compute reverse map for named struct Artist
+	// Compute reverse map for named struct Category2
 	// insertion point per field
 
-	// Compute reverse map for named struct ArtistShape
+	// Compute reverse map for named struct Category2Shape
+	// insertion point per field
+
+	// Compute reverse map for named struct Category3
+	// insertion point per field
+
+	// Compute reverse map for named struct Category3Shape
 	// insertion point per field
 
 	// Compute reverse map for named struct ControlPointShape
@@ -25,25 +31,25 @@ func (stage *Stage) ComputeReverseMaps() {
 
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
-	stage.Diagram_MovementShapes_reverseMap = make(map[*MovementShape]*Diagram)
+	stage.Diagram_Category1Shapes_reverseMap = make(map[*Category1Shape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _movementshape := range diagram.MovementShapes {
-			stage.Diagram_MovementShapes_reverseMap[_movementshape] = diagram
+		for _, _category1shape := range diagram.Category1Shapes {
+			stage.Diagram_Category1Shapes_reverseMap[_category1shape] = diagram
 		}
 	}
-	stage.Diagram_ArtefactTypeShapes_reverseMap = make(map[*ArtefactTypeShape]*Diagram)
+	stage.Diagram_Category2Shapes_reverseMap = make(map[*Category2Shape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _artefacttypeshape := range diagram.ArtefactTypeShapes {
-			stage.Diagram_ArtefactTypeShapes_reverseMap[_artefacttypeshape] = diagram
+		for _, _category2shape := range diagram.Category2Shapes {
+			stage.Diagram_Category2Shapes_reverseMap[_category2shape] = diagram
 		}
 	}
-	stage.Diagram_ArtistShapes_reverseMap = make(map[*ArtistShape]*Diagram)
+	stage.Diagram_Category3Shapes_reverseMap = make(map[*Category3Shape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _artistshape := range diagram.ArtistShapes {
-			stage.Diagram_ArtistShapes_reverseMap[_artistshape] = diagram
+		for _, _category3shape := range diagram.Category3Shapes {
+			stage.Diagram_Category3Shapes_reverseMap[_category3shape] = diagram
 		}
 	}
 	stage.Diagram_InfluenceShapes_reverseMap = make(map[*InfluenceShape]*Diagram)
@@ -67,30 +73,32 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
-	// Compute reverse map for named struct Movement
-	// insertion point per field
-
-	// Compute reverse map for named struct MovementShape
-	// insertion point per field
-
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
-	for instance := range stage.ArtefactTypes {
+	for instance := range stage.Category1s {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.ArtefactTypeShapes {
+	for instance := range stage.Category1Shapes {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.Artists {
+	for instance := range stage.Category2s {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.ArtistShapes {
+	for instance := range stage.Category2Shapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Category3s {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.Category3Shapes {
 		res = append(res, instance)
 	}
 
@@ -114,35 +122,37 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
-	for instance := range stage.Movements {
-		res = append(res, instance)
-	}
-
-	for instance := range stage.MovementShapes {
-		res = append(res, instance)
-	}
-
 	return
 }
 
 // insertion point per named struct
-func (artefacttype *ArtefactType) GongCopy() GongstructIF {
-	newInstance := *artefacttype
+func (category1 *Category1) GongCopy() GongstructIF {
+	newInstance := *category1
 	return &newInstance
 }
 
-func (artefacttypeshape *ArtefactTypeShape) GongCopy() GongstructIF {
-	newInstance := *artefacttypeshape
+func (category1shape *Category1Shape) GongCopy() GongstructIF {
+	newInstance := *category1shape
 	return &newInstance
 }
 
-func (artist *Artist) GongCopy() GongstructIF {
-	newInstance := *artist
+func (category2 *Category2) GongCopy() GongstructIF {
+	newInstance := *category2
 	return &newInstance
 }
 
-func (artistshape *ArtistShape) GongCopy() GongstructIF {
-	newInstance := *artistshape
+func (category2shape *Category2Shape) GongCopy() GongstructIF {
+	newInstance := *category2shape
+	return &newInstance
+}
+
+func (category3 *Category3) GongCopy() GongstructIF {
+	newInstance := *category3
+	return &newInstance
+}
+
+func (category3shape *Category3Shape) GongCopy() GongstructIF {
+	newInstance := *category3shape
 	return &newInstance
 }
 
@@ -168,16 +178,6 @@ func (influence *Influence) GongCopy() GongstructIF {
 
 func (influenceshape *InfluenceShape) GongCopy() GongstructIF {
 	newInstance := *influenceshape
-	return &newInstance
-}
-
-func (movement *Movement) GongCopy() GongstructIF {
-	newInstance := *movement
-	return &newInstance
-}
-
-func (movementshape *MovementShape) GongCopy() GongstructIF {
-	newInstance := *movementshape
 	return &newInstance
 }
 

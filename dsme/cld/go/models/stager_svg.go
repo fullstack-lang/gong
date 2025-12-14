@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	"log"
 	"strings"
 
@@ -14,9 +13,7 @@ func (stager *Stager) SvgStageUpdate() {
 	log.Println("SVG update")
 
 	// creates a map of art history element
-	map_ArtElement_Rect := make(map[ArtElement]*svg.Rect)
-
-	map_Artist_Influences := GetPointerReverseMap[Influence, Artist](GetAssociationName[Influence]().SourceArtist.Name, stager.stage)
+	map_ArtElement_Rect := make(map[Category]*svg.Rect)
 
 	diagram := stager.desk.SelectedDiagram
 	svg_ := &svg.SVG{
@@ -49,8 +46,8 @@ func (stager *Stager) SvgStageUpdate() {
 	}
 	layer.Rects = append(layer.Rects, backgroundRect)
 
-	for _, movementShape := range diagram.MovementShapes {
-		movement := movementShape.Movement
+	for _, movementShape := range diagram.Category1Shapes {
+		movement := movementShape.Category1
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             movement.Name,
 			Content:          strings.ToUpper(movement.Name),
@@ -90,17 +87,17 @@ func (stager *Stager) SvgStageUpdate() {
 		}
 		map_ArtElement_Rect[movement] = rect
 
-		rect.Impl = &MovementShapeProxy{
+		rect.Impl = &Category1ShapeProxy{
 			stager: stager,
 			shape:  movementShape,
 		}
-		if diagram.IsMovementCategoryShown {
+		if diagram.IsCategory1Shown {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
 
-	for _, artefactTypeShape := range diagram.ArtefactTypeShapes {
-		artefactType := artefactTypeShape.ArtefactType
+	for _, artefactTypeShape := range diagram.Category3Shapes {
+		artefactType := artefactTypeShape.Category3
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artefactType.Name,
 			Content:          strings.ToUpper(artefactType.Name),
@@ -143,17 +140,17 @@ func (stager *Stager) SvgStageUpdate() {
 		}
 		map_ArtElement_Rect[artefactType] = rect
 
-		rect.Impl = &ArtefactTypeShapeProxy{
+		rect.Impl = &Category3ShapeProxy{
 			stager: stager,
 			shape:  artefactTypeShape,
 		}
-		if diagram.IsArtefactTypeCategoryShown {
+		if diagram.IsCategory2Shown {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
 
-	for _, artistShape := range diagram.ArtistShapes {
-		artist := artistShape.Artist
+	for _, artistShape := range diagram.Category2Shapes {
+		artist := artistShape.Category2
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             artist.Name,
 			Content:          artist.Name,
@@ -171,52 +168,6 @@ func (stager *Stager) SvgStageUpdate() {
 				FillOpacity: 1.0,
 			},
 		}
-
-		placesRectAnchoredText := &svg.RectAnchoredText{
-			Name:             artist.Name + " places",
-			RectAnchorType:   svg.RectAnchorType(diagram.ArtistPlacesRectAnchorType),
-			TextAnchorType:   svg.TextAnchorType(diagram.ArtistPlacesTextAnchorType),
-			DominantBaseline: svg.DominantBaselineType(diagram.ArtistPlacesDominantBaselineType),
-			TextAttributes: svg.TextAttributes{
-				FontWeight:    diagram.ArtistDateAndPlacesFontWeigth,
-				FontSize:      diagram.ArtistDateAndPlacesFontSize,
-				FontFamily:    diagram.ArtistDateAndPlacesFontFamily,
-				LetterSpacing: diagram.ArtistDateAndPlacesLetterSpacing,
-			},
-			Presentation: svg.Presentation{
-				Color:       diagram.GrayColorCode,
-				FillOpacity: 1.0,
-			},
-		}
-
-		x := artistShape.X + artistShape.Width/2.0
-		y := artistShape.Y + artistShape.Height +
-			diagram.MovementBelowArcY_Offset +
-			diagram.MovementBelowArcY_OffsetPerPlace
-		path := &svg.Path{
-			Name: artist.Name,
-			Definition: fmt.Sprintf("M %f %f A %f %f 0 0 0 %f %f",
-				// move to
-				x-artistShape.Width/2.0,
-				y,
-
-				// rx, ry
-				artistShape.Width/2.0,
-				artistShape.Height/2.0,
-
-				// end of the stroke
-				x+artistShape.Width/2.0,
-				y,
-			),
-			Presentation: svg.Presentation{
-				Stroke:        diagram.GrayColorCode,
-				StrokeOpacity: 1.0,
-				StrokeWidth:   diagram.ArtefactTypeStrokeWidth,
-				Color:         diagram.BackgroundGreyColorCode,
-				FillOpacity:   1.0,
-			},
-		}
-
 		rect := &svg.Rect{
 			Name:                artist.Name,
 			X:                   artistShape.X,
@@ -234,23 +185,16 @@ func (stager *Stager) SvgStageUpdate() {
 				Color: svg.White.ToString(),
 			},
 			RectAnchoredTexts: []*svg.RectAnchoredText{
-				titleRectAnchoredText,
-				placesRectAnchoredText},
+				titleRectAnchoredText},
 		}
 		map_ArtElement_Rect[artist] = rect
 
-		rect.Impl = &ArtistShapeProxy{
+		rect.Impl = &Category2Proxy{
 			stager: stager,
 			shape:  artistShape,
 		}
 
-		if diagram.IsInfluenceCategoryShown {
-			// only artists with influence have a bottom arc
-			if len(map_Artist_Influences[artist]) > 0 {
-				arcLayer.Paths = append(arcLayer.Paths, path)
-			}
-		}
-		if diagram.IsArtistCategoryShown {
+		if diagram.IsCategory3Shown {
 			layer.Rects = append(layer.Rects, rect)
 		}
 	}
@@ -281,7 +225,7 @@ func (stager *Stager) SvgStageUpdate() {
 		link.Stroke = diagram.GrayColorCode
 
 		// exception for artefact types
-		if influence.SourceArtefactType != nil {
+		if influence.SourceCategory2 != nil {
 			link.Stroke = diagram.RedColorCode
 			link.StartArrowOffset = 0.0
 		}

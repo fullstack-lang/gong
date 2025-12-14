@@ -80,43 +80,63 @@ func updateAndCommitTree(
 
 		switch gongStruct.Name {
 		// insertion point
-		case "ArtefactType":
+		case "Category1":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.ArtefactType](probe.stageOfInterest)
-			for _artefacttype := range set {
-				nodeInstance := &tree.Node{Name: _artefacttype.GetName()}
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category1](probe.stageOfInterest)
+			for _category1 := range set {
+				nodeInstance := &tree.Node{Name: _category1.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_artefacttype, "ArtefactType", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_category1, "Category1", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "ArtefactTypeShape":
+		case "Category1Shape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.ArtefactTypeShape](probe.stageOfInterest)
-			for _artefacttypeshape := range set {
-				nodeInstance := &tree.Node{Name: _artefacttypeshape.GetName()}
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category1Shape](probe.stageOfInterest)
+			for _category1shape := range set {
+				nodeInstance := &tree.Node{Name: _category1shape.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_artefacttypeshape, "ArtefactTypeShape", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_category1shape, "Category1Shape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "Artist":
+		case "Category2":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Artist](probe.stageOfInterest)
-			for _artist := range set {
-				nodeInstance := &tree.Node{Name: _artist.GetName()}
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category2](probe.stageOfInterest)
+			for _category2 := range set {
+				nodeInstance := &tree.Node{Name: _category2.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_artist, "Artist", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_category2, "Category2", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
-		case "ArtistShape":
+		case "Category2Shape":
 			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.ArtistShape](probe.stageOfInterest)
-			for _artistshape := range set {
-				nodeInstance := &tree.Node{Name: _artistshape.GetName()}
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category2Shape](probe.stageOfInterest)
+			for _category2shape := range set {
+				nodeInstance := &tree.Node{Name: _category2shape.GetName()}
 				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_artistshape, "ArtistShape", probe)
+				nodeInstance.Impl = NewInstanceNodeCallback(_category2shape, "Category2Shape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Category3":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category3](probe.stageOfInterest)
+			for _category3 := range set {
+				nodeInstance := &tree.Node{Name: _category3.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_category3, "Category3", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "Category3Shape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Category3Shape](probe.stageOfInterest)
+			for _category3shape := range set {
+				nodeInstance := &tree.Node{Name: _category3shape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_category3shape, "Category3Shape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -167,26 +187,6 @@ func updateAndCommitTree(
 				nodeInstance := &tree.Node{Name: _influenceshape.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_influenceshape, "InfluenceShape", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "Movement":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.Movement](probe.stageOfInterest)
-			for _movement := range set {
-				nodeInstance := &tree.Node{Name: _movement.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_movement, "Movement", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
-		case "MovementShape":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.MovementShape](probe.stageOfInterest)
-			for _movementshape := range set {
-				nodeInstance := &tree.Node{Name: _movementshape.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_movementshape, "MovementShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

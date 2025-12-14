@@ -1,7 +1,7 @@
 package models
 
-type ArtElement interface {
-	IsArtElement()
+type Category interface {
+	IsCategory()
 	GetName() string
 }
 
