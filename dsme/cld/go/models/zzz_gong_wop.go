@@ -47,17 +47,11 @@ type Artist_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsDead bool
-
-	DateOfDeath time.Time
 }
 
 func (from *Artist) CopyBasicFields(to *Artist) {
 	// insertion point
 	to.Name = from.Name
-	to.IsDead = from.IsDead
-	to.DateOfDeath = from.DateOfDeath
 }
 
 type ArtistShape_WOP struct {
@@ -397,32 +391,11 @@ type Movement_WOP struct {
 	// insertion point
 
 	Name string
-
-	Date time.Time
-
-	IsAbstract bool
-
-	IsModern bool
-
-	IsMajor bool
-
-	IsMinor bool
-
-	AdditionnalName string
-
-	HideDate bool
 }
 
 func (from *Movement) CopyBasicFields(to *Movement) {
 	// insertion point
 	to.Name = from.Name
-	to.Date = from.Date
-	to.IsAbstract = from.IsAbstract
-	to.IsModern = from.IsModern
-	to.IsMajor = from.IsMajor
-	to.IsMinor = from.IsMinor
-	to.AdditionnalName = from.AdditionnalName
-	to.HideDate = from.HideDate
 }
 
 type MovementShape_WOP struct {
@@ -446,16 +419,5 @@ func (from *MovementShape) CopyBasicFields(to *MovementShape) {
 	to.Y = from.Y
 	to.Width = from.Width
 	to.Height = from.Height
-}
-
-type Place_WOP struct {
-	// insertion point
-
-	Name string
-}
-
-func (from *Place) CopyBasicFields(to *Place) {
-	// insertion point
-	to.Name = from.Name
 }
 

@@ -53,11 +53,7 @@ func (stager *Stager) ComputeConsistency() {
 	}
 
 	for _, movement := range GetGongstrucsSorted[*Movement](stager.stage) {
-		//  movement cannot be minor AND major
-		if movement.IsMajor && movement.IsMinor {
-			movement.IsMinor = false
-			needCommit = true
-		}
+		_ = movement
 	}
 
 	// remove orphean movement shapes

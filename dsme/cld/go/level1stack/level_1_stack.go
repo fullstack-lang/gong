@@ -113,7 +113,6 @@ func NewLevel1Stack(
 	models.SetOrchestratorOnAfterUpdate[models.InfluenceShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Movement](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MovementShape](stage)
-	models.SetOrchestratorOnAfterUpdate[models.Place](stage)
 
 	return
 }

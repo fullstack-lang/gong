@@ -252,19 +252,6 @@ func _(stage *models.Stage) {
 	__MovementShape__000015_ := (&models.MovementShape{}).Stage(stage)
 	__MovementShape__000016_ := (&models.MovementShape{}).Stage(stage)
 
-	__Place__000000_Paris := (&models.Place{}).Stage(stage)
-	__Place__000001_Pont_Aven := (&models.Place{}).Stage(stage)
-	__Place__000002_Munich := (&models.Place{}).Stage(stage)
-	__Place__000003_Milan := (&models.Place{}).Stage(stage)
-	__Place__000004_Zurich := (&models.Place{}).Stage(stage)
-	__Place__000005_Cologne := (&models.Place{}).Stage(stage)
-	__Place__000006_Berlin := (&models.Place{}).Stage(stage)
-	__Place__000007_Moscow := (&models.Place{}).Stage(stage)
-	__Place__000008_Leyden := (&models.Place{}).Stage(stage)
-	__Place__000009_Weimar := (&models.Place{}).Stage(stage)
-	__Place__000010_Dessau := (&models.Place{}).Stage(stage)
-	__Place__000011_Provence := (&models.Place{}).Stage(stage)
-
 	// Setup of values
 
 	__ArtefactType__000000_Japanese_prints.Name = `Japanese prints`
@@ -300,32 +287,18 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__000003_.Height = 20.000000
 
 	__Artist__000000_Van_Gogh.Name = `Van Gogh`
-	__Artist__000000_Van_Gogh.IsDead = true
-	__Artist__000000_Van_Gogh.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1890-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000001_Gauguin.Name = `Gauguin`
-	__Artist__000001_Gauguin.IsDead = true
-	__Artist__000001_Gauguin.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1903-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000002_C_zanne.Name = `Cézanne`
-	__Artist__000002_C_zanne.IsDead = true
-	__Artist__000002_C_zanne.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000003_Seurat.Name = `Seurat`
-	__Artist__000003_Seurat.IsDead = true
-	__Artist__000003_Seurat.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1891-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000004_Redon.Name = `Redon`
-	__Artist__000004_Redon.IsDead = true
-	__Artist__000004_Redon.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000005_Rousseau.Name = `Rousseau`
-	__Artist__000005_Rousseau.IsDead = true
-	__Artist__000005_Rousseau.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
 
 	__Artist__000006_Brancusi.Name = `Brancusi`
-	__Artist__000006_Brancusi.IsDead = false
-	__Artist__000006_Brancusi.DateOfDeath, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 
 	__ArtistShape__000000_.Name = ``
 	__ArtistShape__000000_.X = 296.680251
@@ -1010,157 +983,38 @@ func _(stage *models.Stage) {
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.Name = `Suprematism to Bauhaus`
 
 	__Movement__000000_Purism.Name = `Purism`
-	__Movement__000000_Purism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1918-01-01 00:00:00 +0000 UTC")
-	__Movement__000000_Purism.IsAbstract = false
-	__Movement__000000_Purism.IsModern = false
-	__Movement__000000_Purism.IsMajor = false
-	__Movement__000000_Purism.IsMinor = false
-	__Movement__000000_Purism.AdditionnalName = ``
-	__Movement__000000_Purism.HideDate = false
 
 	__Movement__000001_Synthetism.Name = `Synthetism`
-	__Movement__000001_Synthetism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1888-01-01 00:00:00 +0000 UTC")
-	__Movement__000001_Synthetism.IsAbstract = false
-	__Movement__000001_Synthetism.IsModern = false
-	__Movement__000001_Synthetism.IsMajor = false
-	__Movement__000001_Synthetism.IsMinor = false
-	__Movement__000001_Synthetism.AdditionnalName = ``
-	__Movement__000001_Synthetism.HideDate = false
 
 	__Movement__000002_Neo_Impressionism.Name = `Neo-Impressionism`
-	__Movement__000002_Neo_Impressionism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1886-01-01 00:00:00 +0000 UTC")
-	__Movement__000002_Neo_Impressionism.IsAbstract = false
-	__Movement__000002_Neo_Impressionism.IsModern = false
-	__Movement__000002_Neo_Impressionism.IsMajor = false
-	__Movement__000002_Neo_Impressionism.IsMinor = false
-	__Movement__000002_Neo_Impressionism.AdditionnalName = ``
-	__Movement__000002_Neo_Impressionism.HideDate = false
 
 	__Movement__000003_Fauvism.Name = `Fauvism`
-	__Movement__000003_Fauvism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1905-01-01 00:00:00 +0000 UTC")
-	__Movement__000003_Fauvism.IsAbstract = false
-	__Movement__000003_Fauvism.IsModern = false
-	__Movement__000003_Fauvism.IsMajor = false
-	__Movement__000003_Fauvism.IsMinor = false
-	__Movement__000003_Fauvism.AdditionnalName = ``
-	__Movement__000003_Fauvism.HideDate = false
 
 	__Movement__000004_Expressionism.Name = `Expressionism`
-	__Movement__000004_Expressionism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1911-01-01 00:00:00 +0000 UTC")
-	__Movement__000004_Expressionism.IsAbstract = true
-	__Movement__000004_Expressionism.IsModern = false
-	__Movement__000004_Expressionism.IsMajor = false
-	__Movement__000004_Expressionism.IsMinor = false
-	__Movement__000004_Expressionism.AdditionnalName = ``
-	__Movement__000004_Expressionism.HideDate = false
 
 	__Movement__000005_Futurism.Name = `Futurism`
-	__Movement__000005_Futurism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1910-01-01 00:00:00 +0000 UTC")
-	__Movement__000005_Futurism.IsAbstract = false
-	__Movement__000005_Futurism.IsModern = false
-	__Movement__000005_Futurism.IsMajor = false
-	__Movement__000005_Futurism.IsMinor = false
-	__Movement__000005_Futurism.AdditionnalName = ``
-	__Movement__000005_Futurism.HideDate = false
 
 	__Movement__000006_Orphism.Name = `Orphism`
-	__Movement__000006_Orphism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1912-01-01 00:00:00 +0000 UTC")
-	__Movement__000006_Orphism.IsAbstract = false
-	__Movement__000006_Orphism.IsModern = false
-	__Movement__000006_Orphism.IsMajor = false
-	__Movement__000006_Orphism.IsMinor = true
-	__Movement__000006_Orphism.AdditionnalName = ``
-	__Movement__000006_Orphism.HideDate = false
 
 	__Movement__000007_Cubism.Name = `Cubism`
-	__Movement__000007_Cubism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1906-01-01 00:00:00 +0000 UTC")
-	__Movement__000007_Cubism.IsAbstract = false
-	__Movement__000007_Cubism.IsModern = false
-	__Movement__000007_Cubism.IsMajor = true
-	__Movement__000007_Cubism.IsMinor = false
-	__Movement__000007_Cubism.AdditionnalName = ``
-	__Movement__000007_Cubism.HideDate = false
 
 	__Movement__000008_Suprematism.Name = `Suprematism`
-	__Movement__000008_Suprematism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1913-01-01 00:00:00 +0000 UTC")
-	__Movement__000008_Suprematism.IsAbstract = false
-	__Movement__000008_Suprematism.IsModern = false
-	__Movement__000008_Suprematism.IsMajor = false
-	__Movement__000008_Suprematism.IsMinor = false
-	__Movement__000008_Suprematism.AdditionnalName = ``
-	__Movement__000008_Suprematism.HideDate = false
 
 	__Movement__000009_Constructivism.Name = `Constructivism`
-	__Movement__000009_Constructivism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1914-01-01 00:00:00 +0000 UTC")
-	__Movement__000009_Constructivism.IsAbstract = false
-	__Movement__000009_Constructivism.IsModern = false
-	__Movement__000009_Constructivism.IsMajor = false
-	__Movement__000009_Constructivism.IsMinor = false
-	__Movement__000009_Constructivism.AdditionnalName = ``
-	__Movement__000009_Constructivism.HideDate = false
 
 	__Movement__000010_Dadaism.Name = `Dadaism`
-	__Movement__000010_Dadaism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
-	__Movement__000010_Dadaism.IsAbstract = true
-	__Movement__000010_Dadaism.IsModern = false
-	__Movement__000010_Dadaism.IsMajor = false
-	__Movement__000010_Dadaism.IsMinor = false
-	__Movement__000010_Dadaism.AdditionnalName = ``
-	__Movement__000010_Dadaism.HideDate = false
 
 	__Movement__000011_De_Stijl.Name = `De Stijl`
-	__Movement__000011_De_Stijl.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1916-01-01 00:00:00 +0000 UTC")
-	__Movement__000011_De_Stijl.IsAbstract = false
-	__Movement__000011_De_Stijl.IsModern = false
-	__Movement__000011_De_Stijl.IsMajor = false
-	__Movement__000011_De_Stijl.IsMinor = false
-	__Movement__000011_De_Stijl.AdditionnalName = `Neoplasticism`
-	__Movement__000011_De_Stijl.HideDate = false
 
 	__Movement__000012_Bauhaus.Name = `Bauhaus`
-	__Movement__000012_Bauhaus.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1919-01-01 00:00:00 +0000 UTC")
-	__Movement__000012_Bauhaus.IsAbstract = false
-	__Movement__000012_Bauhaus.IsModern = false
-	__Movement__000012_Bauhaus.IsMajor = false
-	__Movement__000012_Bauhaus.IsMinor = false
-	__Movement__000012_Bauhaus.AdditionnalName = ``
-	__Movement__000012_Bauhaus.HideDate = false
 
 	__Movement__000013_Surrealism.Name = `Surrealism`
-	__Movement__000013_Surrealism.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1924-01-01 00:00:00 +0000 UTC")
-	__Movement__000013_Surrealism.IsAbstract = true
-	__Movement__000013_Surrealism.IsModern = false
-	__Movement__000013_Surrealism.IsMajor = false
-	__Movement__000013_Surrealism.IsMinor = false
-	__Movement__000013_Surrealism.AdditionnalName = ``
-	__Movement__000013_Surrealism.HideDate = false
 
 	__Movement__000014_Non_Geometrical_Abstract_Art.Name = `Non-Geometrical Abstract Art`
-	__Movement__000014_Non_Geometrical_Abstract_Art.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
-	__Movement__000014_Non_Geometrical_Abstract_Art.IsAbstract = false
-	__Movement__000014_Non_Geometrical_Abstract_Art.IsModern = false
-	__Movement__000014_Non_Geometrical_Abstract_Art.IsMajor = false
-	__Movement__000014_Non_Geometrical_Abstract_Art.IsMinor = false
-	__Movement__000014_Non_Geometrical_Abstract_Art.AdditionnalName = ``
-	__Movement__000014_Non_Geometrical_Abstract_Art.HideDate = true
 
 	__Movement__000015_Geometrical_Abstract_Art.Name = `Geometrical Abstract Art`
-	__Movement__000015_Geometrical_Abstract_Art.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "1935-01-01 00:00:00 +0000 UTC")
-	__Movement__000015_Geometrical_Abstract_Art.IsAbstract = false
-	__Movement__000015_Geometrical_Abstract_Art.IsModern = false
-	__Movement__000015_Geometrical_Abstract_Art.IsMajor = false
-	__Movement__000015_Geometrical_Abstract_Art.IsMinor = false
-	__Movement__000015_Geometrical_Abstract_Art.AdditionnalName = ``
-	__Movement__000015_Geometrical_Abstract_Art.HideDate = true
 
 	__Movement__000016_Architecture.Name = `Architecture`
-	__Movement__000016_Architecture.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Movement__000016_Architecture.IsAbstract = false
-	__Movement__000016_Architecture.IsModern = true
-	__Movement__000016_Architecture.IsMajor = true
-	__Movement__000016_Architecture.IsMinor = false
-	__Movement__000016_Architecture.AdditionnalName = ``
-	__Movement__000016_Architecture.HideDate = true
 
 	__MovementShape__000000_.Name = ``
 	__MovementShape__000000_.X = 158.219546
@@ -1264,30 +1118,6 @@ func _(stage *models.Stage) {
 	__MovementShape__000016_.Width = 147.222222
 	__MovementShape__000016_.Height = 49.555556
 
-	__Place__000000_Paris.Name = `Paris`
-
-	__Place__000001_Pont_Aven.Name = `Pont-Aven`
-
-	__Place__000002_Munich.Name = `Munich`
-
-	__Place__000003_Milan.Name = `Milan`
-
-	__Place__000004_Zurich.Name = `Zurich`
-
-	__Place__000005_Cologne.Name = `Cologne`
-
-	__Place__000006_Berlin.Name = `Berlin`
-
-	__Place__000007_Moscow.Name = `Moscow`
-
-	__Place__000008_Leyden.Name = `Leyden`
-
-	__Place__000009_Weimar.Name = `Weimar`
-
-	__Place__000010_Dessau.Name = `Dessau`
-
-	__Place__000011_Provence.Name = `Provence`
-
 	// Setup of pointers
 	// setup of ArtefactType instances pointers
 	// setup of ArtefactTypeShape instances pointers
@@ -1296,10 +1126,6 @@ func _(stage *models.Stage) {
 	__ArtefactTypeShape__000002_.ArtefactType = __ArtefactType__000003_Machine_Esthetic
 	__ArtefactTypeShape__000003_.ArtefactType = __ArtefactType__000002_African_First_Art
 	// setup of Artist instances pointers
-	__Artist__000002_C_zanne.Place = __Place__000011_Provence
-	__Artist__000004_Redon.Place = __Place__000000_Paris
-	__Artist__000005_Rousseau.Place = __Place__000000_Paris
-	__Artist__000006_Brancusi.Place = __Place__000000_Paris
 	// setup of ArtistShape instances pointers
 	__ArtistShape__000000_.Artist = __Artist__000006_Brancusi
 	__ArtistShape__000001_.Artist = __Artist__000002_C_zanne
@@ -1601,27 +1427,6 @@ func _(stage *models.Stage) {
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes = append(__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes, __ControlPointShape__000060_Control_Point_Shape_in_Suprematism_to_Bauhaus_1)
 	__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes = append(__InfluenceShape__000048_Suprematism_to_Bauhaus.ControlPointShapes, __ControlPointShape__000061_Control_Point_Shape_in_Suprematism_to_Bauhaus_2)
 	// setup of Movement instances pointers
-	__Movement__000000_Purism.Places = append(__Movement__000000_Purism.Places, __Place__000000_Paris)
-	__Movement__000001_Synthetism.Places = append(__Movement__000001_Synthetism.Places, __Place__000001_Pont_Aven)
-	__Movement__000001_Synthetism.Places = append(__Movement__000001_Synthetism.Places, __Place__000000_Paris)
-	__Movement__000002_Neo_Impressionism.Places = append(__Movement__000002_Neo_Impressionism.Places, __Place__000000_Paris)
-	__Movement__000003_Fauvism.Places = append(__Movement__000003_Fauvism.Places, __Place__000000_Paris)
-	__Movement__000004_Expressionism.Places = append(__Movement__000004_Expressionism.Places, __Place__000002_Munich)
-	__Movement__000005_Futurism.Places = append(__Movement__000005_Futurism.Places, __Place__000003_Milan)
-	__Movement__000006_Orphism.Places = append(__Movement__000006_Orphism.Places, __Place__000000_Paris)
-	__Movement__000007_Cubism.Places = append(__Movement__000007_Cubism.Places, __Place__000000_Paris)
-	__Movement__000008_Suprematism.Places = append(__Movement__000008_Suprematism.Places, __Place__000007_Moscow)
-	__Movement__000009_Constructivism.Places = append(__Movement__000009_Constructivism.Places, __Place__000007_Moscow)
-	__Movement__000010_Dadaism.Places = append(__Movement__000010_Dadaism.Places, __Place__000004_Zurich)
-	__Movement__000010_Dadaism.Places = append(__Movement__000010_Dadaism.Places, __Place__000000_Paris)
-	__Movement__000010_Dadaism.Places = append(__Movement__000010_Dadaism.Places, __Place__000005_Cologne)
-	__Movement__000010_Dadaism.Places = append(__Movement__000010_Dadaism.Places, __Place__000006_Berlin)
-	__Movement__000011_De_Stijl.Places = append(__Movement__000011_De_Stijl.Places, __Place__000008_Leyden)
-	__Movement__000011_De_Stijl.Places = append(__Movement__000011_De_Stijl.Places, __Place__000006_Berlin)
-	__Movement__000011_De_Stijl.Places = append(__Movement__000011_De_Stijl.Places, __Place__000000_Paris)
-	__Movement__000012_Bauhaus.Places = append(__Movement__000012_Bauhaus.Places, __Place__000009_Weimar)
-	__Movement__000012_Bauhaus.Places = append(__Movement__000012_Bauhaus.Places, __Place__000010_Dessau)
-	__Movement__000013_Surrealism.Places = append(__Movement__000013_Surrealism.Places, __Place__000000_Paris)
 	// setup of MovementShape instances pointers
 	__MovementShape__000000_.Movement = __Movement__000010_Dadaism
 	__MovementShape__000001_.Movement = __Movement__000004_Expressionism
@@ -1640,6 +1445,5 @@ func _(stage *models.Stage) {
 	__MovementShape__000014_.Movement = __Movement__000001_Synthetism
 	__MovementShape__000015_.Movement = __Movement__000007_Cubism
 	__MovementShape__000016_.Movement = __Movement__000016_Architecture
-	// setup of Place instances pointers
 }
 

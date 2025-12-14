@@ -250,18 +250,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(artist.Name))
 		initializerStatements += setValueField
 
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsDead")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", artist.IsDead))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DateOfDeath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", artist.DateOfDeath.String())
-		initializerStatements += setValueField
-
 	}
 
 	map_ArtistShape_Identifiers := make(map[*ArtistShape]string)
@@ -1129,48 +1117,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(movement.Name))
 		initializerStatements += setValueField
 
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", movement.Date.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsAbstract")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsAbstract))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsModern")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsModern))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsMajor")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsMajor))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsMinor")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.IsMinor))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AdditionnalName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(movement.AdditionnalName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HideDate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", movement.HideDate))
-		initializerStatements += setValueField
-
 	}
 
 	map_MovementShape_Identifiers := make(map[*MovementShape]string)
@@ -1238,47 +1184,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
-	map_Place_Identifiers := make(map[*Place]string)
-	_ = map_Place_Identifiers
-
-	placeOrdered := []*Place{}
-	for place := range stage.Places {
-		placeOrdered = append(placeOrdered, place)
-	}
-	sort.Slice(placeOrdered[:], func(i, j int) bool {
-		placei := placeOrdered[i]
-		placej := placeOrdered[j]
-		placei_order, oki := stage.PlaceMap_Staged_Order[placei]
-		placej_order, okj := stage.PlaceMap_Staged_Order[placej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return placei_order < placej_order
-	})
-	if len(placeOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for idx, place := range placeOrdered {
-
-		id = generatesIdentifier("Place", idx, place.Name)
-		map_Place_Identifiers[place] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Place")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", place.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(place.Name))
-		initializerStatements += setValueField
-
-	}
-
 	// insertion initialization of objects to stage
 	if len(artefacttypeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of ArtefactType instances pointers"
@@ -1325,14 +1230,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Artist_Identifiers[artist] = id
 
 		// Initialisation of values
-		if artist.Place != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Place")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Place_Identifiers[artist.Place])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(artistshapeOrdered) > 0 {
@@ -1536,14 +1433,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Movement_Identifiers[movement] = id
 
 		// Initialisation of values
-		for _, _place := range movement.Places {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Places")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Place_Identifiers[_place])
-			pointersInitializesStatements += setPointerField
-		}
-
 	}
 
 	if len(movementshapeOrdered) > 0 {
@@ -1565,19 +1454,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
-	}
-
-	if len(placeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Place instances pointers"
-	}
-	for idx, place := range placeOrdered {
-		var setPointerField string
-		_ = setPointerField
-
-		id = generatesIdentifier("Place", idx, place.Name)
-		map_Place_Identifiers[place] = id
-
-		// Initialisation of values
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
