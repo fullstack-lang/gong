@@ -132,6 +132,15 @@ type Stage struct {
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
+	Guards           map[*Guard]struct{}
+	Guards_mapString map[string]*Guard
+
+	// insertion point for slice of pointers maps
+	OnAfterGuardCreateCallback OnAfterCreateInterface[Guard]
+	OnAfterGuardUpdateCallback OnAfterUpdateInterface[Guard]
+	OnAfterGuardDeleteCallback OnAfterDeleteInterface[Guard]
+	OnAfterGuardReadCallback   OnAfterReadInterface[Guard]
+
 	Kills           map[*Kill]struct{}
 	Kills_mapString map[string]*Kill
 
@@ -279,6 +288,9 @@ type Stage struct {
 
 	DiagramOrder            uint
 	DiagramMap_Staged_Order map[*Diagram]uint
+
+	GuardOrder            uint
+	GuardMap_Staged_Order map[*Guard]uint
 
 	KillOrder            uint
 	KillMap_Staged_Order map[*Kill]uint
@@ -428,6 +440,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *Diagram implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *Guard:
+		tmp := GetStructInstancesByOrder(stage.Guards, stage.GuardMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *Guard implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -610,6 +636,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Architectures, stage.ArchitectureMap_Staged_Order)
 	case "Diagram":
 		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
+	case "Guard":
+		res = GetNamedStructInstances(stage.Guards, stage.GuardMap_Staged_Order)
 	case "Kill":
 		res = GetNamedStructInstances(stage.Kills, stage.KillMap_Staged_Order)
 	case "Message":
@@ -707,6 +735,8 @@ type BackRepoInterface interface {
 	CheckoutArchitecture(architecture *Architecture)
 	CommitDiagram(diagram *Diagram)
 	CheckoutDiagram(diagram *Diagram)
+	CommitGuard(guard *Guard)
+	CheckoutGuard(guard *Guard)
 	CommitKill(kill *Kill)
 	CheckoutKill(kill *Kill)
 	CommitMessage(message *Message)
@@ -745,6 +775,9 @@ func NewStage(name string) (stage *Stage) {
 
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
+
+		Guards:           make(map[*Guard]struct{}),
+		Guards_mapString: make(map[string]*Guard),
 
 		Kills:           make(map[*Kill]struct{}),
 		Kills_mapString: make(map[string]*Kill),
@@ -794,6 +827,8 @@ func NewStage(name string) (stage *Stage) {
 
 		DiagramMap_Staged_Order: make(map[*Diagram]uint),
 
+		GuardMap_Staged_Order: make(map[*Guard]uint),
+
 		KillMap_Staged_Order: make(map[*Kill]uint),
 
 		MessageMap_Staged_Order: make(map[*Message]uint),
@@ -821,6 +856,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Activities"},
 			{name: "Architecture"},
 			{name: "Diagram"},
+			{name: "Guard"},
 			{name: "Kill"},
 			{name: "Message"},
 			{name: "MessageType"},
@@ -854,6 +890,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.ArchitectureMap_Staged_Order[instance]
 	case *Diagram:
 		return stage.DiagramMap_Staged_Order[instance]
+	case *Guard:
+		return stage.GuardMap_Staged_Order[instance]
 	case *Kill:
 		return stage.KillMap_Staged_Order[instance]
 	case *Message:
@@ -891,6 +929,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.ArchitectureMap_Staged_Order[instance]
 	case *Diagram:
 		return stage.DiagramMap_Staged_Order[instance]
+	case *Guard:
+		return stage.GuardMap_Staged_Order[instance]
 	case *Kill:
 		return stage.KillMap_Staged_Order[instance]
 	case *Message:
@@ -951,6 +991,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Activities"] = len(stage.Activitiess)
 	stage.Map_GongStructName_InstancesNb["Architecture"] = len(stage.Architectures)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
+	stage.Map_GongStructName_InstancesNb["Guard"] = len(stage.Guards)
 	stage.Map_GongStructName_InstancesNb["Kill"] = len(stage.Kills)
 	stage.Map_GongStructName_InstancesNb["Message"] = len(stage.Messages)
 	stage.Map_GongStructName_InstancesNb["MessageType"] = len(stage.MessageTypes)
@@ -1303,6 +1344,82 @@ func (diagram *Diagram) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (diagram *Diagram) SetName(name string) (){
 	diagram.Name = name
+}
+
+// Stage puts guard to the model stage
+func (guard *Guard) Stage(stage *Stage) *Guard {
+
+	if _, ok := stage.Guards[guard]; !ok {
+		stage.Guards[guard] = struct{}{}
+		stage.GuardMap_Staged_Order[guard] = stage.GuardOrder
+		stage.GuardOrder++
+		stage.new[guard] = struct{}{}
+		delete(stage.deleted, guard)
+	} else {
+		if _, ok := stage.new[guard]; !ok {
+			stage.modified[guard] = struct{}{}
+		}
+	}
+	stage.Guards_mapString[guard.Name] = guard
+
+	return guard
+}
+
+// Unstage removes guard off the model stage
+func (guard *Guard) Unstage(stage *Stage) *Guard {
+	delete(stage.Guards, guard)
+	delete(stage.Guards_mapString, guard.Name)
+
+	if _, ok := stage.reference[guard]; ok {
+		stage.deleted[guard] = struct{}{}
+	} else {
+		delete(stage.new, guard)
+	}
+	return guard
+}
+
+// UnstageVoid removes guard off the model stage
+func (guard *Guard) UnstageVoid(stage *Stage) {
+	delete(stage.Guards, guard)
+	delete(stage.Guards_mapString, guard.Name)
+}
+
+// commit guard to the back repo (if it is already staged)
+func (guard *Guard) Commit(stage *Stage) *Guard {
+	if _, ok := stage.Guards[guard]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitGuard(guard)
+		}
+	}
+	return guard
+}
+
+func (guard *Guard) CommitVoid(stage *Stage) {
+	guard.Commit(stage)
+}
+
+func (guard *Guard) StageVoid(stage *Stage) {
+	guard.Stage(stage)
+}
+
+// Checkout guard to the back repo (if it is already staged)
+func (guard *Guard) Checkout(stage *Stage) *Guard {
+	if _, ok := stage.Guards[guard]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutGuard(guard)
+		}
+	}
+	return guard
+}
+
+// for satisfaction of GongStruct interface
+func (guard *Guard) GetName() (res string) {
+	return guard.Name
+}
+
+// for satisfaction of GongStruct interface
+func (guard *Guard) SetName(name string) (){
+	guard.Name = name
 }
 
 // Stage puts kill to the model stage
@@ -2071,6 +2188,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMActivities(Activities *Activities)
 	CreateORMArchitecture(Architecture *Architecture)
 	CreateORMDiagram(Diagram *Diagram)
+	CreateORMGuard(Guard *Guard)
 	CreateORMKill(Kill *Kill)
 	CreateORMMessage(Message *Message)
 	CreateORMMessageType(MessageType *MessageType)
@@ -2088,6 +2206,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMActivities(Activities *Activities)
 	DeleteORMArchitecture(Architecture *Architecture)
 	DeleteORMDiagram(Diagram *Diagram)
+	DeleteORMGuard(Guard *Guard)
 	DeleteORMKill(Kill *Kill)
 	DeleteORMMessage(Message *Message)
 	DeleteORMMessageType(MessageType *MessageType)
@@ -2120,6 +2239,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
 	stage.DiagramOrder = 0
+
+	stage.Guards = make(map[*Guard]struct{})
+	stage.Guards_mapString = make(map[string]*Guard)
+	stage.GuardMap_Staged_Order = make(map[*Guard]uint)
+	stage.GuardOrder = 0
 
 	stage.Kills = make(map[*Kill]struct{})
 	stage.Kills_mapString = make(map[string]*Kill)
@@ -2187,6 +2311,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Diagrams = nil
 	stage.Diagrams_mapString = nil
 
+	stage.Guards = nil
+	stage.Guards_mapString = nil
+
 	stage.Kills = nil
 	stage.Kills_mapString = nil
 
@@ -2234,6 +2361,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for diagram := range stage.Diagrams {
 		diagram.Unstage(stage)
+	}
+
+	for guard := range stage.Guards {
+		guard.Unstage(stage)
 	}
 
 	for kill := range stage.Kills {
@@ -2358,6 +2489,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Architectures).(*Type)
 	case map[*Diagram]any:
 		return any(&stage.Diagrams).(*Type)
+	case map[*Guard]any:
+		return any(&stage.Guards).(*Type)
 	case map[*Kill]any:
 		return any(&stage.Kills).(*Type)
 	case map[*Message]any:
@@ -2398,6 +2531,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Architectures_mapString).(map[string]Type)
 	case *Diagram:
 		return any(stage.Diagrams_mapString).(map[string]Type)
+	case *Guard:
+		return any(stage.Guards_mapString).(map[string]Type)
 	case *Kill:
 		return any(stage.Kills_mapString).(map[string]Type)
 	case *Message:
@@ -2438,6 +2573,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Architectures).(*map[*Type]struct{})
 	case Diagram:
 		return any(&stage.Diagrams).(*map[*Type]struct{})
+	case Guard:
+		return any(&stage.Guards).(*map[*Type]struct{})
 	case Kill:
 		return any(&stage.Kills).(*map[*Type]struct{})
 	case Message:
@@ -2478,6 +2615,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Architectures).(*map[Type]struct{})
 	case *Diagram:
 		return any(&stage.Diagrams).(*map[Type]struct{})
+	case *Guard:
+		return any(&stage.Guards).(*map[Type]struct{})
 	case *Kill:
 		return any(&stage.Kills).(*map[Type]struct{})
 	case *Message:
@@ -2518,6 +2657,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Architectures_mapString).(*map[string]*Type)
 	case Diagram:
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
+	case Guard:
+		return any(&stage.Guards_mapString).(*map[string]*Type)
 	case Kill:
 		return any(&stage.Kills_mapString).(*map[string]*Type)
 	case Message:
@@ -2575,6 +2716,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			State_Shapes: []*StateShape{{Name: "State_Shapes"}},
 			// field is initialized with an instance of Transition_Shape with the name of the field
 			Transition_Shapes: []*Transition_Shape{{Name: "Transition_Shapes"}},
+		}).(*Type)
+	case Guard:
+		return any(&Guard{
+			// Initialisation of associations
 		}).(*Type)
 	case Kill:
 		return any(&Kill{
@@ -2649,6 +2794,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RolesWithPermissions: []*Role{{Name: "RolesWithPermissions"}},
 			// field is initialized with an instance of MessageType with the name of the field
 			GeneratedMessages: []*MessageType{{Name: "GeneratedMessages"}},
+			// field is initialized with an instance of Guard with the name of the field
+			Guard: &Guard{Name: "Guard"},
 			// field is initialized with an instance of Diagram with the name of the field
 			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
@@ -2693,6 +2840,11 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of Guard
+	case Guard:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -2910,6 +3062,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Guard":
+			res := make(map[*Guard][]*Transition)
+			for transition := range stage.Transitions {
+				if transition.Guard != nil {
+					guard_ := transition.Guard
+					var transitions []*Transition
+					_, ok := res[guard_]
+					if ok {
+						transitions = res[guard_]
+					} else {
+						transitions = make([]*Transition, 0)
+					}
+					transitions = append(transitions, transition)
+					res[guard_] = transitions
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Transition_Shape
 	case Transition_Shape:
@@ -3000,6 +3169,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of Guard
+	case Guard:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of Kill
 	case Kill:
@@ -3151,6 +3325,8 @@ func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
 		res = "Architecture"
 	case *Diagram:
 		res = "Diagram"
+	case *Guard:
+		res = "Guard"
 	case *Kill:
 		res = "Kill"
 	case *Message:
@@ -3213,6 +3389,9 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 		rf.GongstructName = "Transition"
 		rf.Fieldname = "Diagrams"
 		res = append(res, rf)
+	case *Guard:
+		var rf ReverseField
+		_ = rf
 	case *Kill:
 		var rf ReverseField
 		_ = rf
@@ -3365,6 +3544,17 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Transition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Transition_Shape",
+		},
+	}
+	return
+}
+
+func (guard *Guard) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
 	return
@@ -3621,6 +3811,11 @@ func (transition *Transition) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "MessageType",
 		},
 		{
+			Name:                 "Guard",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Guard",
+		},
+		{
 			Name:                 "Diagrams",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Diagram",
@@ -3814,6 +4009,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	}
+	return
+}
+func (guard *Guard) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = guard.Name
 	}
 	return
 }
@@ -4090,6 +4293,12 @@ func (transition *Transition) GongGetFieldValue(fieldName string, stage *Stage) 
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "Guard":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if transition.Guard != nil {
+			res.valueString = transition.Guard.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, transition.Guard))
+		}
 	case "Diagrams":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range transition.Diagrams {
@@ -4250,6 +4459,17 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (guard *Guard) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		guard.Name = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4613,6 +4833,17 @@ func (transition *Transition) GongSetFieldValue(fieldName string, value GongFiel
 				}
 			}
 		}
+	case "Guard":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			transition.Guard = nil
+			for __instance__ := range stage.Guards {
+				if stage.GuardMap_Staged_Order[__instance__] == uint(id) {
+					transition.Guard = __instance__
+					break
+				}
+			}
+		}
 	case "Diagrams":
 		transition.Diagrams = make([]*Diagram, 0)
 		ids := strings.Split(value.ids, ";")
@@ -4686,6 +4917,10 @@ func (diagram *Diagram) GongGetGongstructName() string {
 	return "Diagram"
 }
 
+func (guard *Guard) GongGetGongstructName() string {
+	return "Guard"
+}
+
 func (kill *Kill) GongGetGongstructName() string {
 	return "Kill"
 }
@@ -4752,6 +4987,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	for diagram := range stage.Diagrams {
 		stage.Diagrams_mapString[diagram.Name] = diagram
+	}
+
+	stage.Guards_mapString = make(map[string]*Guard)
+	for guard := range stage.Guards {
+		stage.Guards_mapString[guard.Name] = guard
 	}
 
 	stage.Kills_mapString = make(map[string]*Kill)

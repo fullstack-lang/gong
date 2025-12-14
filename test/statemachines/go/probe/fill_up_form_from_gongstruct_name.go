@@ -77,6 +77,19 @@ func FillUpFormFromGongstructName(
 		diagram := new(models.Diagram)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(diagram, formGroup, probe)
+	case "Guard":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "Guard Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__GuardFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		guard := new(models.Guard)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(guard, formGroup, probe)
 	case "Kill":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

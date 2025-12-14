@@ -141,6 +141,11 @@ func FillUpForm(
 			}
 		}
 
+	case *models.Guard:
+		// insertion point
+		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+
 	case *models.Kill:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
@@ -432,6 +437,7 @@ func FillUpForm(
 		AssociationFieldToForm("End", instanceWithInferedType.End, formGroup, probe)
 		AssociationSliceToForm("RolesWithPermissions", instanceWithInferedType, &instanceWithInferedType.RolesWithPermissions, formGroup, probe)
 		AssociationSliceToForm("GeneratedMessages", instanceWithInferedType, &instanceWithInferedType.GeneratedMessages, formGroup, probe)
+		AssociationFieldToForm("Guard", instanceWithInferedType.Guard, formGroup, probe)
 		AssociationSliceToForm("Diagrams", instanceWithInferedType, &instanceWithInferedType.Diagrams, formGroup, probe)
 
 	case *models.Transition_Shape:

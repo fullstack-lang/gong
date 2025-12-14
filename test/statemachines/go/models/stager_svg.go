@@ -87,36 +87,8 @@ func (stager *Stager) updateSvgStage() {
 		startRect := map_State_Rect[transition.Start]
 		endRect := map_State_Rect[transition.End]
 
-		linkName := transition.Name
-
-		var rolesNames string
-		{
-
-			for _, role := range transition.RolesWithPermissions {
-
-				rolesNames += role.Acronym
-
-				for _, role_ := range role.RolesWithSamePermissions {
-					rolesNames += role_.Acronym
-				}
-			}
-		}
-		if rolesNames != "" {
-			linkName += " /" + rolesNames
-		}
-
-		var messageName string
-		for idx, messageType := range transition.GeneratedMessages {
-			messageName += messageType.Name
-
-			l := len(transition.GeneratedMessages)
-			if idx < l-1 {
-				messageName += " + "
-			}
-		}
 		stager.svgGenerateLink(
 			startRect, endRect,
-			linkName, messageName,
 			&transtionShape.LinkShape, transition, layer, false)
 	}
 

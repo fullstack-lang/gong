@@ -22,6 +22,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
 		}
+	case *Guard:
+		if stage.OnAfterGuardCreateCallback != nil {
+			stage.OnAfterGuardCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Kill:
 		if stage.OnAfterKillCreateCallback != nil {
 			stage.OnAfterKillCreateCallback.OnAfterCreate(stage, target)
@@ -95,6 +99,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 		newTarget := any(new).(*Diagram)
 		if stage.OnAfterDiagramUpdateCallback != nil {
 			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *Guard:
+		newTarget := any(new).(*Guard)
+		if stage.OnAfterGuardUpdateCallback != nil {
+			stage.OnAfterGuardUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Kill:
 		newTarget := any(new).(*Kill)
@@ -176,6 +185,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 			staged := any(staged).(*Diagram)
 			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
+	case *Guard:
+		if stage.OnAfterGuardDeleteCallback != nil {
+			staged := any(staged).(*Guard)
+			stage.OnAfterGuardDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Kill:
 		if stage.OnAfterKillDeleteCallback != nil {
 			staged := any(staged).(*Kill)
@@ -252,6 +266,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
 		}
+	case *Guard:
+		if stage.OnAfterGuardReadCallback != nil {
+			stage.OnAfterGuardReadCallback.OnAfterRead(stage, target)
+		}
 	case *Kill:
 		if stage.OnAfterKillReadCallback != nil {
 			stage.OnAfterKillReadCallback.OnAfterRead(stage, target)
@@ -315,6 +333,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
 	
+	case *Guard:
+		stage.OnAfterGuardUpdateCallback = any(callback).(OnAfterUpdateInterface[Guard])
+	
 	case *Kill:
 		stage.OnAfterKillUpdateCallback = any(callback).(OnAfterUpdateInterface[Kill])
 	
@@ -363,6 +384,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	
+	case *Guard:
+		stage.OnAfterGuardCreateCallback = any(callback).(OnAfterCreateInterface[Guard])
 	
 	case *Kill:
 		stage.OnAfterKillCreateCallback = any(callback).(OnAfterCreateInterface[Kill])
@@ -413,6 +437,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
 	
+	case *Guard:
+		stage.OnAfterGuardDeleteCallback = any(callback).(OnAfterDeleteInterface[Guard])
+	
 	case *Kill:
 		stage.OnAfterKillDeleteCallback = any(callback).(OnAfterDeleteInterface[Kill])
 	
@@ -461,6 +488,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	
+	case *Guard:
+		stage.OnAfterGuardReadCallback = any(callback).(OnAfterReadInterface[Guard])
 	
 	case *Kill:
 		stage.OnAfterKillReadCallback = any(callback).(OnAfterReadInterface[Kill])

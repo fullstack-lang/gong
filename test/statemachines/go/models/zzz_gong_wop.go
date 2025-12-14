@@ -74,6 +74,17 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsInRenameMode = from.IsInRenameMode
 }
 
+type Guard_WOP struct {
+	// insertion point
+
+	Name string
+}
+
+func (from *Guard) CopyBasicFields(to *Guard) {
+	// insertion point
+	to.Name = from.Name
+}
+
 type Kill_WOP struct {
 	// insertion point
 

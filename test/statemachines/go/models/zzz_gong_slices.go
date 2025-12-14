@@ -45,6 +45,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct Guard
+	// insertion point per field
+
 	// Compute reverse map for named struct Kill
 	// insertion point per field
 
@@ -166,6 +169,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.Guards {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Kills {
 		res = append(res, instance)
 	}
@@ -227,6 +234,11 @@ func (architecture *Architecture) GongCopy() GongstructIF {
 
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := *diagram
+	return &newInstance
+}
+
+func (guard *Guard) GongCopy() GongstructIF {
+	newInstance := *guard
 	return &newInstance
 }
 

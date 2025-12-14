@@ -9,8 +9,6 @@ import (
 func (stager *Stager) svgGenerateLink(
 	startRect *svg.Rect,
 	endRect *svg.Rect,
-	name string,
-	messageName string,
 	transitionShape *LinkShape,
 	transition *Transition,
 	layer *svg.Layer,
@@ -18,6 +16,34 @@ func (stager *Stager) svgGenerateLink(
 
 	if startRect == nil || endRect == nil {
 		return
+	}
+
+	linkDisplayedName := transition.Name
+
+	var rolesNames string
+	{
+
+		for _, role := range transition.RolesWithPermissions {
+
+			rolesNames += role.Acronym
+
+			for _, role_ := range role.RolesWithSamePermissions {
+				rolesNames += role_.Acronym
+			}
+		}
+	}
+	if rolesNames != "" {
+		linkDisplayedName += " /" + rolesNames
+	}
+
+	var messageName string
+	for idx, messageType := range transition.GeneratedMessages {
+		messageName += messageType.Name
+
+		l := len(transition.GeneratedMessages)
+		if idx < l-1 {
+			messageName += " + "
+		}
 	}
 
 	link := new(svg.Link)
@@ -56,13 +82,19 @@ func (stager *Stager) svgGenerateLink(
 	{
 		linkAnchoredText := new(svg.LinkAnchoredText)
 		linkAnchoredText.Name = link.Name
+
+		// when there is a guard, only the guard is displayed
+		if guard := transition.Guard; guard != nil {
+			linkDisplayedName = "[" + guard.Name + "]"
+		}
+
 		linkAnchoredText.Stroke = svg.Black.ToString()
 		linkAnchoredText.StrokeWidth = 1
 		linkAnchoredText.StrokeOpacity = 1
 		linkAnchoredText.Color = svg.Black.ToString()
 		linkAnchoredText.FillOpacity = 1
 
-		linkAnchoredText.Content = name
+		linkAnchoredText.Content = linkDisplayedName
 		linkAnchoredText.AutomaticLayout = true
 		linkAnchoredText.LinkAnchorType = svg.LINK_LEFT_OR_TOP
 		if messageName != "" {
