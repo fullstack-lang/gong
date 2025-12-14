@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Bstruct__dummysDeclaration__ models.Bstruct
+var _ = __Bstruct__dummysDeclaration__
 var __Bstruct_time__dummyDeclaration time.Duration
+var _ = __Bstruct_time__dummyDeclaration
 
 var mutexBstruct sync.Mutex
 

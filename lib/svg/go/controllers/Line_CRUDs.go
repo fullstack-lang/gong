@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Line__dummysDeclaration__ models.Line
+var _ = __Line__dummysDeclaration__
 var __Line_time__dummyDeclaration time.Duration
+var _ = __Line_time__dummyDeclaration
 
 var mutexLine sync.Mutex
 

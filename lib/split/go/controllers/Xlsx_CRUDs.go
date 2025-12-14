@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Xlsx__dummysDeclaration__ models.Xlsx
+var _ = __Xlsx__dummysDeclaration__
 var __Xlsx_time__dummyDeclaration time.Duration
+var _ = __Xlsx_time__dummyDeclaration
 
 var mutexXlsx sync.Mutex
 

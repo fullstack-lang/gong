@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __FavIcon__dummysDeclaration__ models.FavIcon
+var _ = __FavIcon__dummysDeclaration__
 var __FavIcon_time__dummyDeclaration time.Duration
+var _ = __FavIcon_time__dummyDeclaration
 
 var mutexFavIcon sync.Mutex
 

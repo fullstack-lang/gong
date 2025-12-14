@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __CellBoolean__dummysDeclaration__ models.CellBoolean
+var _ = __CellBoolean__dummysDeclaration__
 var __CellBoolean_time__dummyDeclaration time.Duration
+var _ = __CellBoolean_time__dummyDeclaration
 
 var mutexCellBoolean sync.Mutex
 

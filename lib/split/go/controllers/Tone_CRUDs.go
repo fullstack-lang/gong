@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __Tone__dummysDeclaration__ models.Tone
+var _ = __Tone__dummysDeclaration__
 var __Tone_time__dummyDeclaration time.Duration
+var _ = __Tone_time__dummyDeclaration
 
 var mutexTone sync.Mutex
 

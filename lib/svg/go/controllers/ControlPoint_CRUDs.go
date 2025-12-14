@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __ControlPoint__dummysDeclaration__ models.ControlPoint
+var _ = __ControlPoint__dummysDeclaration__
 var __ControlPoint_time__dummyDeclaration time.Duration
+var _ = __ControlPoint_time__dummyDeclaration
 
 var mutexControlPoint sync.Mutex
 

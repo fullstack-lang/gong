@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __RectLinkLink__dummysDeclaration__ models.RectLinkLink
+var _ = __RectLinkLink__dummysDeclaration__
 var __RectLinkLink_time__dummyDeclaration time.Duration
+var _ = __RectLinkLink_time__dummyDeclaration
 
 var mutexRectLinkLink sync.Mutex
 

@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __LinkAnchoredText__dummysDeclaration__ models.LinkAnchoredText
+var _ = __LinkAnchoredText__dummysDeclaration__
 var __LinkAnchoredText_time__dummyDeclaration time.Duration
+var _ = __LinkAnchoredText_time__dummyDeclaration
 
 var mutexLinkAnchoredText sync.Mutex
 

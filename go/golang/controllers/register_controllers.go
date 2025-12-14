@@ -29,6 +29,8 @@ func genQuery(columnName string) string {
 	return fmt.Sprintf("%s = ?", columnName)
 }
 
+var _ = genQuery
+
 // A GenericError is the default error message that is generated.
 // For certain status codes there are more appropriate error structures.
 //

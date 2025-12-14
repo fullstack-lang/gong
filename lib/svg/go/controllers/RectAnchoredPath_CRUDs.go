@@ -15,7 +15,9 @@ import (
 
 // declaration in order to justify use of the models import
 var __RectAnchoredPath__dummysDeclaration__ models.RectAnchoredPath
+var _ = __RectAnchoredPath__dummysDeclaration__
 var __RectAnchoredPath_time__dummyDeclaration time.Duration
+var _ = __RectAnchoredPath_time__dummyDeclaration
 
 var mutexRectAnchoredPath sync.Mutex
 
