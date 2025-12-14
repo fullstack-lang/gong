@@ -315,6 +315,47 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_Guard_Identifiers := make(map[*Guard]string)
+	_ = map_Guard_Identifiers
+
+	guardOrdered := []*Guard{}
+	for guard := range stage.Guards {
+		guardOrdered = append(guardOrdered, guard)
+	}
+	sort.Slice(guardOrdered[:], func(i, j int) bool {
+		guardi := guardOrdered[i]
+		guardj := guardOrdered[j]
+		guardi_order, oki := stage.GuardMap_Staged_Order[guardi]
+		guardj_order, okj := stage.GuardMap_Staged_Order[guardj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return guardi_order < guardj_order
+	})
+	if len(guardOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for idx, guard := range guardOrdered {
+
+		id = generatesIdentifier("Guard", idx, guard.Name)
+		map_Guard_Identifiers[guard] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Guard")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", guard.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(guard.Name))
+		initializerStatements += setValueField
+
+	}
+
 	map_Kill_Identifiers := make(map[*Kill]string)
 	_ = map_Kill_Identifiers
 
@@ -934,6 +975,19 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	if len(guardOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Guard instances pointers"
+	}
+	for idx, guard := range guardOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Guard", idx, guard.Name)
+		map_Guard_Identifiers[guard] = id
+
+		// Initialisation of values
+	}
+
 	if len(killOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Kill instances pointers"
 	}
@@ -1198,6 +1252,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GeneratedMessages")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_MessageType_Identifiers[_messagetype])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if transition.Guard != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Guard")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Guard_Identifiers[transition.Guard])
 			pointersInitializesStatements += setPointerField
 		}
 

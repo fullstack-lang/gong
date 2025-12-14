@@ -28,27 +28,28 @@ func _(stage *models.Stage) {
 	__Action__000002_RLock := (&models.Action{}).Stage(stage)
 	__Action__000003_Runlock := (&models.Action{}).Stage(stage)
 
-	__Activities__000000_Lock_Stage := (&models.Activities{}).Stage(stage)
-	__Activities__000001_Unlock_Stage := (&models.Activities{}).Stage(stage)
-	__Activities__000002_RLock_Stage := (&models.Activities{}).Stage(stage)
-	__Activities__000003_RUnlock_Stage := (&models.Activities{}).Stage(stage)
-
 	__Architecture__000000_Gong_UX_loop_Architecture := (&models.Architecture{}).Stage(stage)
 
 	__Diagram__000000_UX_Loop_Diagram := (&models.Diagram{}).Stage(stage)
+
+	__Guard__000000_yes := (&models.Guard{}).Stage(stage)
+	__Guard__000001_no := (&models.Guard{}).Stage(stage)
+	__Guard__000002_a_suppress_action := (&models.Guard{}).Stage(stage)
+	__Guard__000003_not_a_suppress_action := (&models.Guard{}).Stage(stage)
 
 	__State__000000_Probe_Form := (&models.State{}).Stage(stage)
 	__State__000001_Probe_Tree := (&models.State{}).Stage(stage)
 	__State__000002_Probe_Table := (&models.State{}).Stage(stage)
 	__State__000003_Form_Update_Stage_Of_Interest := (&models.State{}).Stage(stage)
 	__State__000004_Enforce_Model_Semantic := (&models.State{}).Stage(stage)
-	__State__000005_UX_1_Update_UX := (&models.State{}).Stage(stage)
-	__State__000006_UX_2_Update_UX := (&models.State{}).Stage(stage)
-	__State__000007_UX_n_Update_UX := (&models.State{}).Stage(stage)
+	__State__000005_Update_Probe_Form := (&models.State{}).Stage(stage)
+	__State__000006_Update_Probe_Table := (&models.State{}).Stage(stage)
+	__State__000007_Update_Probe_Tree := (&models.State{}).Stage(stage)
 	__State__000008_Load_Stage := (&models.State{}).Stage(stage)
 	__State__000009_Persist_Stage := (&models.State{}).Stage(stage)
 	__State__000010_Stage_Modified_ := (&models.State{}).Stage(stage)
 	__State__000011_Update_UX_ := (&models.State{}).Stage(stage)
+	__State__000012_Clean_Stage := (&models.State{}).Stage(stage)
 
 	__StateMachine__000000_UX_Loop := (&models.StateMachine{}).Stage(stage)
 
@@ -57,13 +58,14 @@ func _(stage *models.Stage) {
 	__StateShape__000002_Probe_Table := (&models.StateShape{}).Stage(stage)
 	__StateShape__000003_Form_Update_Stage_Of_Interest := (&models.StateShape{}).Stage(stage)
 	__StateShape__000004_Enforce_Model_Semantic := (&models.StateShape{}).Stage(stage)
-	__StateShape__000005_UX_1_Update_UX := (&models.StateShape{}).Stage(stage)
-	__StateShape__000006_UX_2_Update_UX := (&models.StateShape{}).Stage(stage)
-	__StateShape__000007_UX_n_Update_UX := (&models.StateShape{}).Stage(stage)
+	__StateShape__000005_Update_Probe_Form := (&models.StateShape{}).Stage(stage)
+	__StateShape__000006_Update_Probe_Table := (&models.StateShape{}).Stage(stage)
+	__StateShape__000007_Update_Probe_Tree := (&models.StateShape{}).Stage(stage)
 	__StateShape__000008_Load_Stage := (&models.StateShape{}).Stage(stage)
 	__StateShape__000009_Persist_Stage := (&models.StateShape{}).Stage(stage)
 	__StateShape__000010_Stage_Modified_ := (&models.StateShape{}).Stage(stage)
 	__StateShape__000011_Update_UX_ := (&models.StateShape{}).Stage(stage)
+	__StateShape__000012_Clean_Stage := (&models.StateShape{}).Stage(stage)
 
 	__Transition__000000_Submit := (&models.Transition{}).Stage(stage)
 	__Transition__000001_ := (&models.Transition{}).Stage(stage)
@@ -74,6 +76,8 @@ func _(stage *models.Stage) {
 	__Transition__000006__Stage_persisted := (&models.Transition{}).Stage(stage)
 	__Transition__000007_Yes := (&models.Transition{}).Stage(stage)
 	__Transition__000008_Yes := (&models.Transition{}).Stage(stage)
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage := (&models.Transition{}).Stage(stage)
+	__Transition__000010_ := (&models.Transition{}).Stage(stage)
 
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic := (&models.Transition_Shape{}).Stage(stage)
@@ -84,6 +88,8 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000006_Persist_Stage_to_UX_1_Update_UX := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__000007_Stage_Modified_to_Persist_Stage := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX := (&models.Transition_Shape{}).Stage(stage)
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage := (&models.Transition_Shape{}).Stage(stage)
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic := (&models.Transition_Shape{}).Stage(stage)
 
 	// Setup of values
 
@@ -99,18 +105,6 @@ func _(stage *models.Stage) {
 	__Action__000003_Runlock.Name = `Runlock`
 	__Action__000003_Runlock.Criticality = models.CriticalityDefault
 
-	__Activities__000000_Lock_Stage.Name = `Lock Stage`
-	__Activities__000000_Lock_Stage.Criticality = models.CriticalityCritical
-
-	__Activities__000001_Unlock_Stage.Name = `Unlock Stage`
-	__Activities__000001_Unlock_Stage.Criticality = models.CriticalityCritical
-
-	__Activities__000002_RLock_Stage.Name = `RLock Stage`
-	__Activities__000002_RLock_Stage.Criticality = models.CriticalityCritical
-
-	__Activities__000003_RUnlock_Stage.Name = `RUnlock Stage`
-	__Activities__000003_RUnlock_Stage.Criticality = models.CriticalityCritical
-
 	__Architecture__000000_Gong_UX_loop_Architecture.Name = `Gong UX loop Architecture`
 	__Architecture__000000_Gong_UX_loop_Architecture.NbPixPerCharacter = 8.000000
 
@@ -119,6 +113,14 @@ func _(stage *models.Stage) {
 	__Diagram__000000_UX_Loop_Diagram.IsExpanded = true
 	__Diagram__000000_UX_Loop_Diagram.IsEditable_ = true
 	__Diagram__000000_UX_Loop_Diagram.IsInRenameMode = false
+
+	__Guard__000000_yes.Name = `yes`
+
+	__Guard__000001_no.Name = `no`
+
+	__Guard__000002_a_suppress_action.Name = `a suppress action`
+
+	__Guard__000003_not_a_suppress_action.Name = `not a suppress action`
 
 	__State__000000_Probe_Form.Name = `Probe Form`
 	__State__000000_Probe_Form.IsDecisionNode = false
@@ -145,20 +147,20 @@ func _(stage *models.Stage) {
 	__State__000004_Enforce_Model_Semantic.IsFictif = false
 	__State__000004_Enforce_Model_Semantic.IsEndState = false
 
-	__State__000005_UX_1_Update_UX.Name = `UX 1 - Update UX`
-	__State__000005_UX_1_Update_UX.IsDecisionNode = false
-	__State__000005_UX_1_Update_UX.IsFictif = false
-	__State__000005_UX_1_Update_UX.IsEndState = false
+	__State__000005_Update_Probe_Form.Name = `Update Probe Form`
+	__State__000005_Update_Probe_Form.IsDecisionNode = false
+	__State__000005_Update_Probe_Form.IsFictif = false
+	__State__000005_Update_Probe_Form.IsEndState = false
 
-	__State__000006_UX_2_Update_UX.Name = `UX 2 - Update UX`
-	__State__000006_UX_2_Update_UX.IsDecisionNode = false
-	__State__000006_UX_2_Update_UX.IsFictif = false
-	__State__000006_UX_2_Update_UX.IsEndState = false
+	__State__000006_Update_Probe_Table.Name = `Update Probe Table`
+	__State__000006_Update_Probe_Table.IsDecisionNode = false
+	__State__000006_Update_Probe_Table.IsFictif = false
+	__State__000006_Update_Probe_Table.IsEndState = false
 
-	__State__000007_UX_n_Update_UX.Name = `UX n - Update UX`
-	__State__000007_UX_n_Update_UX.IsDecisionNode = false
-	__State__000007_UX_n_Update_UX.IsFictif = false
-	__State__000007_UX_n_Update_UX.IsEndState = false
+	__State__000007_Update_Probe_Tree.Name = `Update Probe Tree`
+	__State__000007_Update_Probe_Tree.IsDecisionNode = false
+	__State__000007_Update_Probe_Tree.IsFictif = false
+	__State__000007_Update_Probe_Tree.IsEndState = false
 
 	__State__000008_Load_Stage.Name = `Load Stage`
 	__State__000008_Load_Stage.IsDecisionNode = false
@@ -179,6 +181,11 @@ func _(stage *models.Stage) {
 	__State__000011_Update_UX_.IsDecisionNode = true
 	__State__000011_Update_UX_.IsFictif = false
 	__State__000011_Update_UX_.IsEndState = false
+
+	__State__000012_Clean_Stage.Name = `Clean Stage`
+	__State__000012_Clean_Stage.IsDecisionNode = false
+	__State__000012_Clean_Stage.IsFictif = false
+	__State__000012_Clean_Stage.IsEndState = false
 
 	__StateMachine__000000_UX_Loop.Name = `UX Loop`
 	__StateMachine__000000_UX_Loop.IsNodeExpanded = true
@@ -218,26 +225,26 @@ func _(stage *models.Stage) {
 	__StateShape__000004_Enforce_Model_Semantic.Width = 646.000000
 	__StateShape__000004_Enforce_Model_Semantic.Height = 80.000000
 
-	__StateShape__000005_UX_1_Update_UX.Name = `UX 1 - Update UX`
-	__StateShape__000005_UX_1_Update_UX.IsExpanded = false
-	__StateShape__000005_UX_1_Update_UX.X = 329.000000
-	__StateShape__000005_UX_1_Update_UX.Y = 1005.999954
-	__StateShape__000005_UX_1_Update_UX.Width = 200.000000
-	__StateShape__000005_UX_1_Update_UX.Height = 80.000000
+	__StateShape__000005_Update_Probe_Form.Name = `Update Probe Form`
+	__StateShape__000005_Update_Probe_Form.IsExpanded = false
+	__StateShape__000005_Update_Probe_Form.X = 329.000000
+	__StateShape__000005_Update_Probe_Form.Y = 1005.999954
+	__StateShape__000005_Update_Probe_Form.Width = 200.000000
+	__StateShape__000005_Update_Probe_Form.Height = 80.000000
 
-	__StateShape__000006_UX_2_Update_UX.Name = `UX 2 - Update UX`
-	__StateShape__000006_UX_2_Update_UX.IsExpanded = false
-	__StateShape__000006_UX_2_Update_UX.X = 552.000000
-	__StateShape__000006_UX_2_Update_UX.Y = 1003.999954
-	__StateShape__000006_UX_2_Update_UX.Width = 200.000000
-	__StateShape__000006_UX_2_Update_UX.Height = 80.000000
+	__StateShape__000006_Update_Probe_Table.Name = `Update Probe Table`
+	__StateShape__000006_Update_Probe_Table.IsExpanded = false
+	__StateShape__000006_Update_Probe_Table.X = 552.000000
+	__StateShape__000006_Update_Probe_Table.Y = 1003.999954
+	__StateShape__000006_Update_Probe_Table.Width = 200.000000
+	__StateShape__000006_Update_Probe_Table.Height = 80.000000
 
-	__StateShape__000007_UX_n_Update_UX.Name = `UX n - Update UX`
-	__StateShape__000007_UX_n_Update_UX.IsExpanded = false
-	__StateShape__000007_UX_n_Update_UX.X = 772.000000
-	__StateShape__000007_UX_n_Update_UX.Y = 1003.999954
-	__StateShape__000007_UX_n_Update_UX.Width = 200.000000
-	__StateShape__000007_UX_n_Update_UX.Height = 80.000000
+	__StateShape__000007_Update_Probe_Tree.Name = `Update Probe Tree`
+	__StateShape__000007_Update_Probe_Tree.IsExpanded = false
+	__StateShape__000007_Update_Probe_Tree.X = 772.000000
+	__StateShape__000007_Update_Probe_Tree.Y = 1003.999954
+	__StateShape__000007_Update_Probe_Tree.Width = 200.000000
+	__StateShape__000007_Update_Probe_Tree.Height = 80.000000
 
 	__StateShape__000008_Load_Stage.Name = `Load Stage`
 	__StateShape__000008_Load_Stage.IsExpanded = false
@@ -267,6 +274,13 @@ func _(stage *models.Stage) {
 	__StateShape__000011_Update_UX_.Width = 120.000000
 	__StateShape__000011_Update_UX_.Height = 50.000000
 
+	__StateShape__000012_Clean_Stage.Name = `Clean Stage`
+	__StateShape__000012_Clean_Stage.IsExpanded = false
+	__StateShape__000012_Clean_Stage.X = 786.000000
+	__StateShape__000012_Clean_Stage.Y = 411.000000
+	__StateShape__000012_Clean_Stage.Width = 200.000000
+	__StateShape__000012_Clean_Stage.Height = 80.000000
+
 	__Transition__000000_Submit.Name = `Submit`
 
 	__Transition__000001_.Name = ``
@@ -285,6 +299,10 @@ func _(stage *models.Stage) {
 
 	__Transition__000008_Yes.Name = `Yes`
 
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Name = `Form - Update Stage Of Interest to Clean Stage`
+
+	__Transition__000010_.Name = ``
+
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.Name = `UX 1 - Waiting for User Input to UX 1 - Update Stage`
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.StartRatio = 0.815760
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.EndRatio = 0.866415
@@ -293,7 +311,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.CornerOffsetRatio = 2.175087
 
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.Name = `UX 1 - Update Stage to Enforce Model Semantic`
-	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartRatio = 0.558932
+	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartRatio = 0.557656
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.EndRatio = 0.166852
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.EndOrientation = models.ORIENTATION_VERTICAL
@@ -342,15 +360,28 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000007_Stage_Modified_to_Persist_Stage.CornerOffsetRatio = 1.100139
 
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.Name = `Update UX ? to UX 1 - Update UX`
-	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.StartRatio = 0.120139
+	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.StartRatio = 0.475693
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.EndRatio = 0.500000
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.CornerOffsetRatio = 1.560691
 
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Name = `Form - Update Stage Of Interest to Clean Stage`
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.StartRatio = 0.500000
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.EndRatio = 0.500000
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.CornerOffsetRatio = 1.200000
+
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.Name = `Clean Stage to Enforce Model Semantic`
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.StartRatio = 0.786415
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.EndRatio = 0.887435
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.StartOrientation = models.ORIENTATION_VERTICAL
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.EndOrientation = models.ORIENTATION_VERTICAL
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.CornerOffsetRatio = 1.950087
+
 	// Setup of pointers
 	// setup of Action instances pointers
-	// setup of Activities instances pointers
 	// setup of Architecture instances pointers
 	__Architecture__000000_Gong_UX_loop_Architecture.StateMachines = append(__Architecture__000000_Gong_UX_loop_Architecture.StateMachines, __StateMachine__000000_UX_Loop)
 	// setup of Diagram instances pointers
@@ -360,12 +391,13 @@ func _(stage *models.Stage) {
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000002_Probe_Table)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000003_Form_Update_Stage_Of_Interest)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000004_Enforce_Model_Semantic)
-	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000005_UX_1_Update_UX)
-	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000006_UX_2_Update_UX)
-	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000007_UX_n_Update_UX)
+	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000005_Update_Probe_Form)
+	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000006_Update_Probe_Table)
+	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000007_Update_Probe_Tree)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000008_Load_Stage)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000009_Persist_Stage)
 	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000010_Stage_Modified_)
+	__Diagram__000000_UX_Loop_Diagram.State_Shapes = append(__Diagram__000000_UX_Loop_Diagram.State_Shapes, __StateShape__000012_Clean_Stage)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000002_Enforce_Model_Semantic_to_UX_1_Update_UX)
@@ -375,6 +407,9 @@ func _(stage *models.Stage) {
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000006_Persist_Stage_to_UX_1_Update_UX)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000007_Stage_Modified_to_Persist_Stage)
 	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000008_Update_UX_to_UX_1_Update_UX)
+	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage)
+	__Diagram__000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic)
+	// setup of Guard instances pointers
 	// setup of State instances pointers
 	__State__000000_Probe_Form.Diagrams = append(__State__000000_Probe_Form.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000001_Probe_Tree.Diagrams = append(__State__000001_Probe_Tree.Diagrams, __Diagram__000000_UX_Loop_Diagram)
@@ -383,34 +418,30 @@ func _(stage *models.Stage) {
 	__State__000003_Form_Update_Stage_Of_Interest.Entry = __Action__000000_Lock
 	__State__000003_Form_Update_Stage_Of_Interest.Exit = __Action__000001_Unlock
 	__State__000004_Enforce_Model_Semantic.Diagrams = append(__State__000004_Enforce_Model_Semantic.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__State__000005_UX_1_Update_UX.Diagrams = append(__State__000005_UX_1_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__State__000005_UX_1_Update_UX.Activities = append(__State__000005_UX_1_Update_UX.Activities, __Activities__000002_RLock_Stage)
-	__State__000005_UX_1_Update_UX.Activities = append(__State__000005_UX_1_Update_UX.Activities, __Activities__000003_RUnlock_Stage)
-	__State__000006_UX_2_Update_UX.Diagrams = append(__State__000006_UX_2_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__State__000006_UX_2_Update_UX.Activities = append(__State__000006_UX_2_Update_UX.Activities, __Activities__000002_RLock_Stage)
-	__State__000006_UX_2_Update_UX.Activities = append(__State__000006_UX_2_Update_UX.Activities, __Activities__000003_RUnlock_Stage)
-	__State__000007_UX_n_Update_UX.Diagrams = append(__State__000007_UX_n_Update_UX.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__State__000007_UX_n_Update_UX.Activities = append(__State__000007_UX_n_Update_UX.Activities, __Activities__000002_RLock_Stage)
-	__State__000007_UX_n_Update_UX.Activities = append(__State__000007_UX_n_Update_UX.Activities, __Activities__000003_RUnlock_Stage)
+	__State__000004_Enforce_Model_Semantic.Entry = __Action__000000_Lock
+	__State__000004_Enforce_Model_Semantic.Exit = __Action__000001_Unlock
+	__State__000005_Update_Probe_Form.Diagrams = append(__State__000005_Update_Probe_Form.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000006_Update_Probe_Table.Diagrams = append(__State__000006_Update_Probe_Table.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000007_Update_Probe_Tree.Diagrams = append(__State__000007_Update_Probe_Tree.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000008_Load_Stage.Diagrams = append(__State__000008_Load_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000009_Persist_Stage.Diagrams = append(__State__000009_Persist_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__State__000009_Persist_Stage.Activities = append(__State__000009_Persist_Stage.Activities, __Activities__000002_RLock_Stage)
-	__State__000009_Persist_Stage.Activities = append(__State__000009_Persist_Stage.Activities, __Activities__000003_RUnlock_Stage)
 	__State__000010_Stage_Modified_.Diagrams = append(__State__000010_Stage_Modified_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__State__000011_Update_UX_.Diagrams = append(__State__000011_Update_UX_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__State__000012_Clean_Stage.Diagrams = append(__State__000012_Clean_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	// setup of StateMachine instances pointers
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000000_Probe_Form)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000001_Probe_Tree)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000002_Probe_Table)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000003_Form_Update_Stage_Of_Interest)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000004_Enforce_Model_Semantic)
-	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000005_UX_1_Update_UX)
-	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000006_UX_2_Update_UX)
-	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000007_UX_n_Update_UX)
+	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000005_Update_Probe_Form)
+	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000006_Update_Probe_Table)
+	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000007_Update_Probe_Tree)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000008_Load_Stage)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000009_Persist_Stage)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000010_Stage_Modified_)
 	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000011_Update_UX_)
+	__StateMachine__000000_UX_Loop.States = append(__StateMachine__000000_UX_Loop.States, __State__000012_Clean_Stage)
 	__StateMachine__000000_UX_Loop.Diagrams = append(__StateMachine__000000_UX_Loop.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__StateMachine__000000_UX_Loop.InitialState = __State__000008_Load_Stage
 	// setup of StateShape instances pointers
@@ -419,28 +450,30 @@ func _(stage *models.Stage) {
 	__StateShape__000002_Probe_Table.State = __State__000002_Probe_Table
 	__StateShape__000003_Form_Update_Stage_Of_Interest.State = __State__000003_Form_Update_Stage_Of_Interest
 	__StateShape__000004_Enforce_Model_Semantic.State = __State__000004_Enforce_Model_Semantic
-	__StateShape__000005_UX_1_Update_UX.State = __State__000005_UX_1_Update_UX
-	__StateShape__000006_UX_2_Update_UX.State = __State__000006_UX_2_Update_UX
-	__StateShape__000007_UX_n_Update_UX.State = __State__000007_UX_n_Update_UX
+	__StateShape__000005_Update_Probe_Form.State = __State__000005_Update_Probe_Form
+	__StateShape__000006_Update_Probe_Table.State = __State__000006_Update_Probe_Table
+	__StateShape__000007_Update_Probe_Tree.State = __State__000007_Update_Probe_Tree
 	__StateShape__000008_Load_Stage.State = __State__000008_Load_Stage
 	__StateShape__000009_Persist_Stage.State = __State__000009_Persist_Stage
 	__StateShape__000010_Stage_Modified_.State = __State__000010_Stage_Modified_
 	__StateShape__000011_Update_UX_.State = __State__000011_Update_UX_
+	__StateShape__000012_Clean_Stage.State = __State__000012_Clean_Stage
 	// setup of Transition instances pointers
 	__Transition__000000_Submit.Start = __State__000000_Probe_Form
 	__Transition__000000_Submit.End = __State__000003_Form_Update_Stage_Of_Interest
 	__Transition__000000_Submit.Diagrams = append(__Transition__000000_Submit.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__Transition__000001_.Start = __State__000003_Form_Update_Stage_Of_Interest
 	__Transition__000001_.End = __State__000004_Enforce_Model_Semantic
+	__Transition__000001_.Guard = __Guard__000003_not_a_suppress_action
 	__Transition__000001_.Diagrams = append(__Transition__000001_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__Transition__000002__Model_Updated.Start = __State__000004_Enforce_Model_Semantic
 	__Transition__000002__Model_Updated.End = __State__000010_Stage_Modified_
 	__Transition__000002__Model_Updated.Diagrams = append(__Transition__000002__Model_Updated.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__Transition__000003_UX_1_updated.Start = __State__000005_UX_1_Update_UX
-	__Transition__000003_UX_1_updated.End = __State__000006_UX_2_Update_UX
+	__Transition__000003_UX_1_updated.Start = __State__000005_Update_Probe_Form
+	__Transition__000003_UX_1_updated.End = __State__000006_Update_Probe_Table
 	__Transition__000003_UX_1_updated.Diagrams = append(__Transition__000003_UX_1_updated.Diagrams, __Diagram__000000_UX_Loop_Diagram)
-	__Transition__000004_UX_2_updated.Start = __State__000006_UX_2_Update_UX
-	__Transition__000004_UX_2_updated.End = __State__000007_UX_n_Update_UX
+	__Transition__000004_UX_2_updated.Start = __State__000006_Update_Probe_Table
+	__Transition__000004_UX_2_updated.End = __State__000007_Update_Probe_Tree
 	__Transition__000004_UX_2_updated.Diagrams = append(__Transition__000004_UX_2_updated.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__Transition__000005__Stage_loaded.Start = __State__000008_Load_Stage
 	__Transition__000005__Stage_loaded.End = __State__000004_Enforce_Model_Semantic
@@ -452,8 +485,15 @@ func _(stage *models.Stage) {
 	__Transition__000007_Yes.End = __State__000009_Persist_Stage
 	__Transition__000007_Yes.Diagrams = append(__Transition__000007_Yes.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	__Transition__000008_Yes.Start = __State__000011_Update_UX_
-	__Transition__000008_Yes.End = __State__000005_UX_1_Update_UX
+	__Transition__000008_Yes.End = __State__000005_Update_Probe_Form
 	__Transition__000008_Yes.Diagrams = append(__Transition__000008_Yes.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Start = __State__000003_Form_Update_Stage_Of_Interest
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.End = __State__000012_Clean_Stage
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Guard = __Guard__000002_a_suppress_action
+	__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Diagrams = append(__Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Diagrams, __Diagram__000000_UX_Loop_Diagram)
+	__Transition__000010_.Start = __State__000012_Clean_Stage
+	__Transition__000010_.End = __State__000004_Enforce_Model_Semantic
+	__Transition__000010_.Diagrams = append(__Transition__000010_.Diagrams, __Diagram__000000_UX_Loop_Diagram)
 	// setup of Transition_Shape instances pointers
 	__Transition_Shape__000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.Transition = __Transition__000000_Submit
 	__Transition_Shape__000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.Transition = __Transition__000001_
@@ -464,5 +504,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__000006_Persist_Stage_to_UX_1_Update_UX.Transition = __Transition__000006__Stage_persisted
 	__Transition_Shape__000007_Stage_Modified_to_Persist_Stage.Transition = __Transition__000007_Yes
 	__Transition_Shape__000008_Update_UX_to_UX_1_Update_UX.Transition = __Transition__000008_Yes
+	__Transition_Shape__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Transition = __Transition__000009_Form_Update_Stage_Of_Interest_to_Clean_Stage
+	__Transition_Shape__000010_Clean_Stage_to_Enforce_Model_Semantic.Transition = __Transition__000010_
 }
 

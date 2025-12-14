@@ -106,6 +106,7 @@ func NewLevel1Stack(
 	models.SetOrchestratorOnAfterUpdate[models.Activities](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Architecture](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
+	models.SetOrchestratorOnAfterUpdate[models.Guard](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Kill](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Message](stage)
 	models.SetOrchestratorOnAfterUpdate[models.MessageType](stage)

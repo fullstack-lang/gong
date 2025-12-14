@@ -22,8 +22,14 @@ type Transition struct {
 
 	GeneratedMessages []*MessageType
 
+	Guard *Guard
+
 	// Diagram dans lequel la transition est présente
 	Diagrams []*Diagram
+}
+
+type Guard struct {
+	Name string
 }
 
 func (transition *Transition) OnAfterUpdate(stage *Stage, stagedTransition, frontTransition *Transition) {

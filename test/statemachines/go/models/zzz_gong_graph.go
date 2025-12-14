@@ -17,6 +17,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *Guard:
+		ok = stage.IsStagedGuard(target)
+
 	case *Kill:
 		ok = stage.IsStagedKill(target)
 
@@ -68,6 +71,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
+
+	case *Guard:
+		ok = stage.IsStagedGuard(target)
 
 	case *Kill:
 		ok = stage.IsStagedKill(target)
@@ -130,6 +136,13 @@ func (stage *Stage) IsStagedArchitecture(architecture *Architecture) (ok bool) {
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedGuard(guard *Guard) (ok bool) {
+
+	_, ok = stage.Guards[guard]
 
 	return
 }
@@ -223,6 +236,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Diagram:
 		stage.StageBranchDiagram(target)
+
+	case *Guard:
+		stage.StageBranchGuard(target)
 
 	case *Kill:
 		stage.StageBranchKill(target)
@@ -329,6 +345,21 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		StageBranch(stage, _transition_shape)
 	}
+
+}
+
+func (stage *Stage) StageBranchGuard(guard *Guard) {
+
+	// check if instance is already staged
+	if IsStaged(stage, guard) {
+		return
+	}
+
+	guard.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -513,6 +544,9 @@ func (stage *Stage) StageBranchTransition(transition *Transition) {
 	if transition.End != nil {
 		StageBranch(stage, transition.End)
 	}
+	if transition.Guard != nil {
+		StageBranch(stage, transition.Guard)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range transition.RolesWithPermissions {
@@ -570,6 +604,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	case *Diagram:
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *Guard:
+		toT := CopyBranchGuard(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Kill:
@@ -703,6 +741,25 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _transition_shape := range diagramFrom.Transition_Shapes {
 		diagramTo.Transition_Shapes = append(diagramTo.Transition_Shapes, CopyBranchTransition_Shape(mapOrigCopy, _transition_shape))
 	}
+
+	return
+}
+
+func CopyBranchGuard(mapOrigCopy map[any]any, guardFrom *Guard) (guardTo *Guard) {
+
+	// guardFrom has already been copied
+	if _guardTo, ok := mapOrigCopy[guardFrom]; ok {
+		guardTo = _guardTo.(*Guard)
+		return
+	}
+
+	guardTo = new(Guard)
+	mapOrigCopy[guardFrom] = guardTo
+	guardFrom.CopyBasicFields(guardTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -923,6 +980,9 @@ func CopyBranchTransition(mapOrigCopy map[any]any, transitionFrom *Transition) (
 	if transitionFrom.End != nil {
 		transitionTo.End = CopyBranchState(mapOrigCopy, transitionFrom.End)
 	}
+	if transitionFrom.Guard != nil {
+		transitionTo.Guard = CopyBranchGuard(mapOrigCopy, transitionFrom.Guard)
+	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _role := range transitionFrom.RolesWithPermissions {
@@ -979,6 +1039,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
+
+	case *Guard:
+		stage.UnstageBranchGuard(target)
 
 	case *Kill:
 		stage.UnstageBranchKill(target)
@@ -1085,6 +1148,21 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _transition_shape := range diagram.Transition_Shapes {
 		UnstageBranch(stage, _transition_shape)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchGuard(guard *Guard) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, guard) {
+		return
+	}
+
+	guard.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -1268,6 +1346,9 @@ func (stage *Stage) UnstageBranchTransition(transition *Transition) {
 	}
 	if transition.End != nil {
 		UnstageBranch(stage, transition.End)
+	}
+	if transition.Guard != nil {
+		UnstageBranch(stage, transition.Guard)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
