@@ -3011,6 +3011,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "InfluenceStrokeWidth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "InfluenceArrowSize",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3461,6 +3465,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = diagram.Category3FontFamily
 	case "Category3LetterSpacing":
 		res.valueString = diagram.Category3LetterSpacing
+	case "InfluenceStrokeWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.InfluenceStrokeWidth)
+		res.valueFloat = diagram.InfluenceStrokeWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "InfluenceArrowSize":
 		res.valueString = fmt.Sprintf("%f", diagram.InfluenceArrowSize)
 		res.valueFloat = diagram.InfluenceArrowSize
@@ -3860,6 +3868,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Category3FontFamily = value.GetValueString()
 	case "Category3LetterSpacing":
 		diagram.Category3LetterSpacing = value.GetValueString()
+	case "InfluenceStrokeWidth":
+		diagram.InfluenceStrokeWidth = value.GetValueFloat()
 	case "InfluenceArrowSize":
 		diagram.InfluenceArrowSize = value.GetValueFloat()
 	case "InfluenceArrowStartOffset":

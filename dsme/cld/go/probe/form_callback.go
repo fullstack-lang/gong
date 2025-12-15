@@ -1150,6 +1150,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Category3FontFamily), formDiv)
 		case "Category3LetterSpacing":
 			FormDivBasicFieldToField(&(diagram_.Category3LetterSpacing), formDiv)
+		case "InfluenceStrokeWidth":
+			FormDivBasicFieldToField(&(diagram_.InfluenceStrokeWidth), formDiv)
 		case "InfluenceArrowSize":
 			FormDivBasicFieldToField(&(diagram_.InfluenceArrowSize), formDiv)
 		case "InfluenceArrowStartOffset":

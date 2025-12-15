@@ -223,6 +223,8 @@ type Diagram_WOP struct {
 
 	Category3LetterSpacing string
 
+	InfluenceStrokeWidth float64
+
 	InfluenceArrowSize float64
 
 	InfluenceArrowStartOffset float64
@@ -275,6 +277,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.Category3FontWeigth = from.Category3FontWeigth
 	to.Category3FontFamily = from.Category3FontFamily
 	to.Category3LetterSpacing = from.Category3LetterSpacing
+	to.InfluenceStrokeWidth = from.InfluenceStrokeWidth
 	to.InfluenceArrowSize = from.InfluenceArrowSize
 	to.InfluenceArrowStartOffset = from.InfluenceArrowStartOffset
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset

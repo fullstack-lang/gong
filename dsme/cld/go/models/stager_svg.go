@@ -227,7 +227,7 @@ func (stager *Stager) SvgStageUpdate() {
 			link.StartArrowOffset = 0.0
 		}
 
-		link.StrokeWidth = diagram.Category2StrokeWidth
+		link.StrokeWidth = diagram.InfluenceStrokeWidth
 		link.StrokeOpacity = 1
 
 		if influence.IsHypothtical {

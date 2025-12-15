@@ -62,6 +62,7 @@ type DiagramPresentation struct {
 	Category3FontFamily           string
 	Category3LetterSpacing        string
 
+	InfluenceStrokeWidth      float64
 	InfluenceArrowSize        float64
 	InfluenceArrowStartOffset float64
 	InfluenceArrowEndOffset   float64
