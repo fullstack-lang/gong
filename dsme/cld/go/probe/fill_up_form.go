@@ -280,6 +280,8 @@ func FillUpForm(
 		AssociationFieldToForm("TargetCategory3", instanceWithInferedType.TargetCategory3, formGroup, probe)
 		BasicFieldtoForm("IsHypothtical", instanceWithInferedType.IsHypothtical, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("TextAtEndOfArrow", instanceWithInferedType.TextAtEndOfArrow, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.InfluenceShape:
 		// insertion point

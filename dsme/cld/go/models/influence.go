@@ -28,6 +28,8 @@ type Influence struct {
 	target Category
 
 	IsHypothtical bool
+
+	TextAtEndOfArrow string
 }
 
 type InfluenceShape struct {
