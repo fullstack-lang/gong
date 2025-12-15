@@ -27,11 +27,15 @@ func _(stage *models.Stage) {
 	__Category1__000001_Niveau_des_prix := (&models.Category1{}).Stage(stage)
 	__Category1__000002_Hauteur_des_barri_res_l_entr_e := (&models.Category1{}).Stage(stage)
 	__Category1__000003_Probabilit_d_Oligopoles := (&models.Category1{}).Stage(stage)
+	__Category1__000004_Intensit_de_la_politique_concurrentielle := (&models.Category1{}).Stage(stage)
+	__Category1__000005_Probabilit_de_monopole := (&models.Category1{}).Stage(stage)
 
 	__Category1Shape__000000_ := (&models.Category1Shape{}).Stage(stage)
 	__Category1Shape__000001_ := (&models.Category1Shape{}).Stage(stage)
 	__Category1Shape__000002_ := (&models.Category1Shape{}).Stage(stage)
 	__Category1Shape__000003_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000004_ := (&models.Category1Shape{}).Stage(stage)
+	__Category1Shape__000005_ := (&models.Category1Shape{}).Stage(stage)
 
 	__Desk__000000_Desk := (&models.Desk{}).Stage(stage)
 
@@ -40,10 +44,16 @@ func _(stage *models.Stage) {
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix := (&models.Influence{}).Stage(stage)
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence := (&models.Influence{}).Stage(stage)
 	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles := (&models.Influence{}).Stage(stage)
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles := (&models.Influence{}).Stage(stage)
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e := (&models.Influence{}).Stage(stage)
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole := (&models.Influence{}).Stage(stage)
 
 	__InfluenceShape__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix := (&models.InfluenceShape{}).Stage(stage)
 	__InfluenceShape__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence := (&models.InfluenceShape{}).Stage(stage)
 	__InfluenceShape__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles := (&models.InfluenceShape{}).Stage(stage)
+	__InfluenceShape__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles := (&models.InfluenceShape{}).Stage(stage)
+	__InfluenceShape__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e := (&models.InfluenceShape{}).Stage(stage)
+	__InfluenceShape__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole := (&models.InfluenceShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -55,29 +65,45 @@ func _(stage *models.Stage) {
 
 	__Category1__000003_Probabilit_d_Oligopoles.Name = `Probabilité d'Oligopoles`
 
+	__Category1__000004_Intensit_de_la_politique_concurrentielle.Name = `Intensité de la politique concurrentielle`
+
+	__Category1__000005_Probabilit_de_monopole.Name = `Probabilité de monopole`
+
 	__Category1Shape__000000_.Name = ``
-	__Category1Shape__000000_.X = 242.000000
-	__Category1Shape__000000_.Y = 245.999985
-	__Category1Shape__000000_.Width = 240.000000
+	__Category1Shape__000000_.X = 200.000000
+	__Category1Shape__000000_.Y = 218.000000
+	__Category1Shape__000000_.Width = 131.000000
 	__Category1Shape__000000_.Height = 80.000000
 
 	__Category1Shape__000001_.Name = ``
-	__Category1Shape__000001_.X = 234.999938
-	__Category1Shape__000001_.Y = 396.000016
-	__Category1Shape__000001_.Width = 240.000000
+	__Category1Shape__000001_.X = 120.999938
+	__Category1Shape__000001_.Y = 454.000016
+	__Category1Shape__000001_.Width = 147.000000
 	__Category1Shape__000001_.Height = 80.000000
 
 	__Category1Shape__000002_.Name = ``
-	__Category1Shape__000002_.X = 435.000000
-	__Category1Shape__000002_.Y = 56.000000
+	__Category1Shape__000002_.X = 398.999969
+	__Category1Shape__000002_.Y = 51.000000
 	__Category1Shape__000002_.Width = 240.000000
 	__Category1Shape__000002_.Height = 80.000000
 
 	__Category1Shape__000003_.Name = ``
-	__Category1Shape__000003_.X = 594.999969
-	__Category1Shape__000003_.Y = 364.999985
-	__Category1Shape__000003_.Width = 240.000000
+	__Category1Shape__000003_.X = 579.999969
+	__Category1Shape__000003_.Y = 378.999985
+	__Category1Shape__000003_.Width = 142.000000
 	__Category1Shape__000003_.Height = 80.000000
+
+	__Category1Shape__000004_.Name = ``
+	__Category1Shape__000004_.X = 737.999969
+	__Category1Shape__000004_.Y = 56.000000
+	__Category1Shape__000004_.Width = 194.000000
+	__Category1Shape__000004_.Height = 80.000000
+
+	__Category1Shape__000005_.Name = ``
+	__Category1Shape__000005_.X = 436.000000
+	__Category1Shape__000005_.Y = 529.000015
+	__Category1Shape__000005_.Width = 76.000031
+	__Category1Shape__000005_.Height = 80.000000
 
 	__Desk__000000_Desk.Name = `Desk`
 
@@ -96,11 +122,12 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Default.YMargin = 0.000000
 	__Diagram__000000_Default.Height = 2000.000000
 	__Diagram__000000_Default.Width = 2000.000000
+	__Diagram__000000_Default.NbPixPerCharacter = 8.000000
 	__Diagram__000000_Default.RedColorCode = `salmon `
 	__Diagram__000000_Default.BackgroundGreyColorCode = `white`
 	__Diagram__000000_Default.GrayColorCode = `gray`
-	__Diagram__000000_Default.Category1RectAnchorType = models.RECT_RIGHT
-	__Diagram__000000_Default.Category1TextAnchorType = models.TEXT_ANCHOR_END
+	__Diagram__000000_Default.Category1RectAnchorType = models.RECT_CENTER
+	__Diagram__000000_Default.Category1TextAnchorType = models.TEXT_ANCHOR_CENTER
 	__Diagram__000000_Default.Category1FontSize = ``
 	__Diagram__000000_Default.Category1FontWeigth = ``
 	__Diagram__000000_Default.Category1FontFamily = ``
@@ -119,11 +146,15 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Default.InfluenceArrowStartOffset = 0.000000
 	__Diagram__000000_Default.InfluenceArrowEndOffset = 0.000000
 	__Diagram__000000_Default.InfluenceCornerRadius = 19.000000
+	__Diagram__000000_Default.InfluenceFontSize = `28`
+	__Diagram__000000_Default.InfluenceFontWeigth = `bold`
+	__Diagram__000000_Default.InfluenceFontFamily = ``
+	__Diagram__000000_Default.InfluenceLetterSpacing = ``
 	__Diagram__000000_Default.InfluenceDashedLinePattern = ``
 
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.Name = `Intensité de la Concurrence to Niveau des prix`
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.IsHypothtical = false
-	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.TextAtEndOfArrow = `+`
+	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.TextAtEndOfArrow = `-`
 
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.Name = `Hauteur des barrières à l'entrée to Intensité de la Concurrence`
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.IsHypothtical = false
@@ -131,13 +162,31 @@ func _(stage *models.Stage) {
 
 	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.Name = `Intensité de la Concurrence to Probabilité d'Oligopoles`
 	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.IsHypothtical = false
-	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.TextAtEndOfArrow = `+`
+	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.TextAtEndOfArrow = `-`
+
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.Name = `Hauteur des barrières à l'entrée to Probabilité d'Oligopoles`
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.IsHypothtical = false
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.TextAtEndOfArrow = `+`
+
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.Name = `Intensité de la politique concurrentielle to Hauteur des barrières à l'entrée`
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.IsHypothtical = false
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.TextAtEndOfArrow = `-`
+
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.Name = `Intensité de la Concurrence to Probabilité de monopole`
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.IsHypothtical = false
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.TextAtEndOfArrow = `-`
 
 	__InfluenceShape__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.Name = `Intensité de la Concurrence to Niveau des prix`
 
 	__InfluenceShape__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.Name = `Hauteur des barrières à l'entrée to Intensité de la Concurrence`
 
 	__InfluenceShape__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.Name = `Intensité de la Concurrence to Probabilité d'Oligopoles`
+
+	__InfluenceShape__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.Name = `Hauteur des barrières à l'entrée to Probabilité d'Oligopoles`
+
+	__InfluenceShape__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.Name = `Intensité de la politique concurrentielle to Hauteur des barrières à l'entrée`
+
+	__InfluenceShape__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.Name = `Intensité de la Concurrence to Probabilité de monopole`
 
 	// Setup of pointers
 	// setup of Category1 instances pointers
@@ -146,6 +195,8 @@ func _(stage *models.Stage) {
 	__Category1Shape__000001_.Category1 = __Category1__000001_Niveau_des_prix
 	__Category1Shape__000002_.Category1 = __Category1__000002_Hauteur_des_barri_res_l_entr_e
 	__Category1Shape__000003_.Category1 = __Category1__000003_Probabilit_d_Oligopoles
+	__Category1Shape__000004_.Category1 = __Category1__000004_Intensit_de_la_politique_concurrentielle
+	__Category1Shape__000005_.Category1 = __Category1__000005_Probabilit_de_monopole
 	// setup of Desk instances pointers
 	__Desk__000000_Desk.SelectedDiagram = __Diagram__000000_Default
 	// setup of Diagram instances pointers
@@ -153,9 +204,14 @@ func _(stage *models.Stage) {
 	__Diagram__000000_Default.Category1Shapes = append(__Diagram__000000_Default.Category1Shapes, __Category1Shape__000001_)
 	__Diagram__000000_Default.Category1Shapes = append(__Diagram__000000_Default.Category1Shapes, __Category1Shape__000002_)
 	__Diagram__000000_Default.Category1Shapes = append(__Diagram__000000_Default.Category1Shapes, __Category1Shape__000003_)
+	__Diagram__000000_Default.Category1Shapes = append(__Diagram__000000_Default.Category1Shapes, __Category1Shape__000004_)
+	__Diagram__000000_Default.Category1Shapes = append(__Diagram__000000_Default.Category1Shapes, __Category1Shape__000005_)
 	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix)
 	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence)
 	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles)
+	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles)
+	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e)
+	__Diagram__000000_Default.InfluenceShapes = append(__Diagram__000000_Default.InfluenceShapes, __InfluenceShape__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole)
 	// setup of Influence instances pointers
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.SourceCategory1 = __Category1__000000_Intensit_de_la_Concurrence
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.TargetCategory1 = __Category1__000001_Niveau_des_prix
@@ -163,9 +219,18 @@ func _(stage *models.Stage) {
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.TargetCategory1 = __Category1__000000_Intensit_de_la_Concurrence
 	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.SourceCategory1 = __Category1__000000_Intensit_de_la_Concurrence
 	__Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.TargetCategory1 = __Category1__000003_Probabilit_d_Oligopoles
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.SourceCategory1 = __Category1__000002_Hauteur_des_barri_res_l_entr_e
+	__Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.TargetCategory1 = __Category1__000003_Probabilit_d_Oligopoles
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.SourceCategory1 = __Category1__000004_Intensit_de_la_politique_concurrentielle
+	__Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.TargetCategory1 = __Category1__000002_Hauteur_des_barri_res_l_entr_e
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.SourceCategory1 = __Category1__000000_Intensit_de_la_Concurrence
+	__Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.TargetCategory1 = __Category1__000005_Probabilit_de_monopole
 	// setup of InfluenceShape instances pointers
 	__InfluenceShape__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.Influence = __Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix
 	__InfluenceShape__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.Influence = __Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence
 	__InfluenceShape__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles.Influence = __Influence__000002_Intensit_de_la_Concurrence_to_Probabilit_d_Oligopoles
+	__InfluenceShape__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles.Influence = __Influence__000003_Hauteur_des_barri_res_l_entr_e_to_Probabilit_d_Oligopoles
+	__InfluenceShape__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e.Influence = __Influence__000004_Intensit_de_la_politique_concurrentielle_to_Hauteur_des_barri_res_l_entr_e
+	__InfluenceShape__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole.Influence = __Influence__000005_Intensit_de_la_Concurrence_to_Probabilit_de_monopole
 }
 

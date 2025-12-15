@@ -47,7 +47,7 @@ func (stager *Stager) SvgStageUpdate() {
 		category := s.Category1
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             category.Name,
-			Content:          strings.ToUpper(category.Name),
+			Content:          WrapString(strings.ToUpper(category.Name), int(s.Width/diagram.NbPixPerCharacter)),
 			RectAnchorType:   svg.RectAnchorType(diagram.Category1RectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.Category1TextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.Category1DominantBaselineType),
@@ -97,7 +97,7 @@ func (stager *Stager) SvgStageUpdate() {
 		category := s.Category3
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             category.Name,
-			Content:          strings.ToUpper(category.Name),
+			Content:          WrapString(strings.ToUpper(category.Name), int(s.Width/diagram.NbPixPerCharacter)),
 			RectAnchorType:   svg.RectAnchorType(diagram.Category2TypeRectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(TEXT_ANCHOR_CENTER),
 			DominantBaseline: svg.DominantBaselineType(diagram.Category2DominantBaselineType),
@@ -150,7 +150,7 @@ func (stager *Stager) SvgStageUpdate() {
 		category := s.Category2
 		titleRectAnchoredText := &svg.RectAnchoredText{
 			Name:             category.Name,
-			Content:          category.Name,
+			Content:          WrapString(strings.ToUpper(category.Name), int(s.Width/diagram.NbPixPerCharacter)),
 			RectAnchorType:   svg.RectAnchorType(diagram.Category3RectAnchorType),
 			TextAnchorType:   svg.TextAnchorType(diagram.Category3TextAnchorType),
 			DominantBaseline: svg.DominantBaselineType(diagram.Category3DominantBaselineType),
@@ -279,7 +279,10 @@ func (stager *Stager) SvgStageUpdate() {
 					FillOpacity:   1.0,
 				},
 				TextAttributes: svg.TextAttributes{
-					FontWeight: "normal",
+					FontWeight:    diagram.InfluenceFontWeigth,
+					FontSize:      diagram.InfluenceFontSize,
+					FontFamily:    diagram.InfluenceFontFamily,
+					LetterSpacing: diagram.InfluenceLetterSpacing,
 				},
 			}
 			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textDisplayed)

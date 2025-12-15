@@ -175,6 +175,8 @@ type Diagram_WOP struct {
 
 	Width float64
 
+	NbPixPerCharacter float64
+
 	RedColorCode string
 
 	BackgroundGreyColorCode string
@@ -233,6 +235,14 @@ type Diagram_WOP struct {
 
 	InfluenceCornerRadius float64
 
+	InfluenceFontSize string
+
+	InfluenceFontWeigth string
+
+	InfluenceFontFamily string
+
+	InfluenceLetterSpacing string
+
 	InfluenceDashedLinePattern string
 }
 
@@ -253,6 +263,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.YMargin = from.YMargin
 	to.Height = from.Height
 	to.Width = from.Width
+	to.NbPixPerCharacter = from.NbPixPerCharacter
 	to.RedColorCode = from.RedColorCode
 	to.BackgroundGreyColorCode = from.BackgroundGreyColorCode
 	to.GrayColorCode = from.GrayColorCode
@@ -282,6 +293,10 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.InfluenceArrowStartOffset = from.InfluenceArrowStartOffset
 	to.InfluenceArrowEndOffset = from.InfluenceArrowEndOffset
 	to.InfluenceCornerRadius = from.InfluenceCornerRadius
+	to.InfluenceFontSize = from.InfluenceFontSize
+	to.InfluenceFontWeigth = from.InfluenceFontWeigth
+	to.InfluenceFontFamily = from.InfluenceFontFamily
+	to.InfluenceLetterSpacing = from.InfluenceLetterSpacing
 	to.InfluenceDashedLinePattern = from.InfluenceDashedLinePattern
 }
 

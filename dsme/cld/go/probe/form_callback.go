@@ -1102,6 +1102,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Height), formDiv)
 		case "Width":
 			FormDivBasicFieldToField(&(diagram_.Width), formDiv)
+		case "NbPixPerCharacter":
+			FormDivBasicFieldToField(&(diagram_.NbPixPerCharacter), formDiv)
 		case "RedColorCode":
 			FormDivBasicFieldToField(&(diagram_.RedColorCode), formDiv)
 		case "BackgroundGreyColorCode":
@@ -1160,6 +1162,14 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.InfluenceArrowEndOffset), formDiv)
 		case "InfluenceCornerRadius":
 			FormDivBasicFieldToField(&(diagram_.InfluenceCornerRadius), formDiv)
+		case "InfluenceFontSize":
+			FormDivBasicFieldToField(&(diagram_.InfluenceFontSize), formDiv)
+		case "InfluenceFontWeigth":
+			FormDivBasicFieldToField(&(diagram_.InfluenceFontWeigth), formDiv)
+		case "InfluenceFontFamily":
+			FormDivBasicFieldToField(&(diagram_.InfluenceFontFamily), formDiv)
+		case "InfluenceLetterSpacing":
+			FormDivBasicFieldToField(&(diagram_.InfluenceLetterSpacing), formDiv)
 		case "InfluenceDashedLinePattern":
 			FormDivBasicFieldToField(&(diagram_.InfluenceDashedLinePattern), formDiv)
 		}
