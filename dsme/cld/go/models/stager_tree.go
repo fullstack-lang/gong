@@ -46,7 +46,7 @@ func (stager *Stager) TreeStageUpdate() {
 		}
 
 		node := &tree.Node{
-			Name:              "Movements",
+			Name:              "Category 1",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsCategory1NodeExpanded,
 		}
@@ -93,18 +93,18 @@ func (stager *Stager) TreeStageUpdate() {
 			node.Children = append(node.Children, categoryInstanceNode)
 		}
 
-		artefactTypeCategoryNode := &tree.Node{
-			Name:              "ArtefactTypes",
+		category2Node := &tree.Node{
+			Name:              "Category 2",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsCategory2NodeExpanded,
 		}
-		artefactTypeCategoryNode.Impl = &expandableNodeProxy{
+		category2Node.Impl = &expandableNodeProxy{
 			isNodeExpanded: &diagram.IsCategory2NodeExpanded,
-			node:           artefactTypeCategoryNode,
+			node:           category2Node,
 			stager:         stager,
 		}
-		diagramNode.Children = append(diagramNode.Children, artefactTypeCategoryNode)
-		artefactTypeCategoryNode.Buttons = []*tree.Button{
+		diagramNode.Children = append(diagramNode.Children, category2Node)
+		category2Node.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
@@ -115,46 +115,46 @@ func (stager *Stager) TreeStageUpdate() {
 			},
 		}
 		if diagram.IsCategory2Shown {
-			artefactTypeCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			category2Node.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		for _, artefactType := range GetGongstrucsSorted[*Category3](stager.stage) {
+		for _, category3 := range GetGongstrucsSorted[*Category3](stager.stage) {
 
 			isInDiagram := false
 
 			for _, shape := range diagram.Category3Shapes {
-				if shape.Category3 == artefactType {
+				if shape.Category3 == category3 {
 					isInDiagram = true
 					continue
 				}
 			}
 
-			artefactTypeNode := &tree.Node{
-				Name:              artefactType.Name,
+			catNode := &tree.Node{
+				Name:              category3.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 			}
-			artefactTypeNode.Impl = &Category3NodeProxy{
-				node:     artefactTypeNode,
+			catNode.Impl = &Category3NodeProxy{
+				node:     catNode,
 				diagram:  diagram,
-				category: artefactType,
+				category: category3,
 				stager:   stager,
 			}
-			artefactTypeCategoryNode.Children = append(artefactTypeCategoryNode.Children, artefactTypeNode)
+			category2Node.Children = append(category2Node.Children, catNode)
 		}
 
-		artistCategoryNode := &tree.Node{
-			Name:              "Artists",
+		category3Node := &tree.Node{
+			Name:              "Category 3",
 			HasCheckboxButton: false,
 			IsExpanded:        diagram.IsCategory3NodeExpanded,
 		}
-		artistCategoryNode.Impl = &expandableNodeProxy{
+		category3Node.Impl = &expandableNodeProxy{
 			isNodeExpanded: &diagram.IsCategory3NodeExpanded,
-			node:           artistCategoryNode,
+			node:           category3Node,
 			stager:         stager,
 		}
-		diagramNode.Children = append(diagramNode.Children, artistCategoryNode)
+		diagramNode.Children = append(diagramNode.Children, category3Node)
 
-		artistCategoryNode.Buttons = []*tree.Button{
+		category3Node.Buttons = []*tree.Button{
 			{
 				Name: diagram.GetName(),
 				Icon: string(buttons.BUTTON_visibility),
@@ -165,31 +165,31 @@ func (stager *Stager) TreeStageUpdate() {
 			},
 		}
 		if diagram.IsCategory3Shown {
-			artistCategoryNode.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
+			category3Node.Buttons[0].Icon = string(buttons.BUTTON_visibility_off)
 		}
-		for _, artist := range GetGongstrucsSorted[*Category2](stager.stage) {
+		for _, category := range GetGongstrucsSorted[*Category2](stager.stage) {
 
 			isInDiagram := false
 
 			for _, shape := range diagram.Category2Shapes {
-				if shape.Category2 == artist {
+				if shape.Category2 == category {
 					isInDiagram = true
 					continue
 				}
 			}
 
 			artistNode := &tree.Node{
-				Name:              artist.Name,
+				Name:              category.Name,
 				HasCheckboxButton: true,
 				IsChecked:         isInDiagram,
 			}
 			artistNode.Impl = &Category2NodeProxy{
 				node:     artistNode,
 				diagram:  diagram,
-				category: artist,
+				category: category,
 				stager:   stager,
 			}
-			artistCategoryNode.Children = append(artistCategoryNode.Children, artistNode)
+			category3Node.Children = append(category3Node.Children, artistNode)
 		}
 
 		influenceCategoryNode := &tree.Node{
