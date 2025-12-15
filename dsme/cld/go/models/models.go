@@ -1,8 +1,8 @@
 package models
 
 type Category interface {
+	GongstructIF
 	IsCategory()
-	GetName() string
 }
 
 // Desk is the singloton organizing the diagrams
