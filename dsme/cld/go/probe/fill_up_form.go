@@ -255,6 +255,8 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("Category3LetterSpacing", instanceWithInferedType.Category3LetterSpacing, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("InfluenceStrokeWidth", instanceWithInferedType.InfluenceStrokeWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceArrowSize", instanceWithInferedType.InfluenceArrowSize, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		BasicFieldtoForm("InfluenceArrowStartOffset", instanceWithInferedType.InfluenceArrowStartOffset, instanceWithInferedType, probe.formStage, formGroup,
