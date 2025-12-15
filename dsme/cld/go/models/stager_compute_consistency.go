@@ -1,5 +1,9 @@
 package models
 
+import (
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+)
+
 func (stager *Stager) ComputeConsistency() {
 
 	// VERY important because the probe only unstages objects
@@ -26,12 +30,46 @@ func (stager *Stager) ComputeConsistency() {
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
+		if diagram.Width == 0 {
+			diagram.Width = 800
+			needCommit = true
+		}
+		if diagram.Height == 0 {
+			diagram.Height = 2000
+			needCommit = true
+		}
+
+		if diagram.GrayColorCode == "" {
+			diagram.GrayColorCode = svg.Gray.ToString()
+			needCommit = true
+		}
+		if diagram.RedColorCode == "" {
+			diagram.RedColorCode = svg.Salmon.ToString()
+			needCommit = true
+		}
+		if diagram.BackgroundGreyColorCode == "" {
+			diagram.BackgroundGreyColorCode = svg.White.ToString()
+			needCommit = true
+		}
 		if diagram.Category1RectAnchorType == "" {
 			diagram.Category1RectAnchorType = RECT_RIGHT
 			needCommit = true
 		}
 		if diagram.Category1TextAnchorType == "" {
 			diagram.Category1TextAnchorType = TEXT_ANCHOR_END
+			needCommit = true
+		}
+
+		if diagram.InfluenceStrokeWidth == 0 {
+			diagram.InfluenceStrokeWidth = 1
+			needCommit = true
+		}
+		if diagram.InfluenceArrowSize == 0 {
+			diagram.InfluenceArrowSize = 10
+			needCommit = true
+		}
+		if diagram.InfluenceCornerRadius == 0 {
+			diagram.InfluenceCornerRadius = 8
 			needCommit = true
 		}
 	}
