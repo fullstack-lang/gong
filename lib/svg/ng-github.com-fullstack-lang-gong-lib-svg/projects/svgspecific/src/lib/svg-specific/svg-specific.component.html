@@ -585,6 +585,74 @@
                   [attr.stroke-opacity]="link.StrokeOpacity"
                   [attr.stroke-width]="link.StrokeWidth"
                   [attr.stroke-dasharray]="link.StrokeDashArray" />
+                  @if(segments.indexOf(segment) == (segments.length - 1)) {
+                    @for(text of link.TextAtArrowEnd!; track text.ID; let k = $index) {
+                      @let lines = splitTextIntoLines(text.Content);
+                      @if(!text.AutomaticLayout) {
+                          <text class="click-through"
+                          [attr.x]="segment.EndPoint.X + text.X_Offset" 
+                          [attr.y]="segment.EndPoint.Y + text.Y_Offset" 
+                          [attr.font-weight]="text.FontWeight"
+                          [attr.font-family]="text.FontFamily"
+                          [attr.font-size]="text.FontSize"
+                          [attr.letter-spacing]="text.LetterSpacing"
+                          [attr.white-space]="text.WhiteSpace"
+                          [attr.fill]="text.Color"    
+                          [attr.fill-opacity]="text.FillOpacity"
+                          [attr.stroke]="text.Stroke"
+                          [attr.stroke-opacity]="text.StrokeOpacity"
+                          [attr.stroke-width]="text.StrokeWidth"
+                          [attr.stroke-dasharray]="text.StrokeDashArray"
+                          [attr.transform]="text.Transform"
+                          (mousedown)="textAnchoredMouseDown(link, $event, k, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                          (mousemove)="onmousemove($event)" 
+                          (mouseup)="textAnchoredMouseUp(link, $event)">
+                          @for(line of lines; track $index) {
+                            <tspan [attr.x]="segment.EndPoint.X + text.X_Offset"
+                                  [attr.dy]="($index > 0) ? '1em' : '0'">{{line}}</tspan>
+                          }
+                        </text>
+                      } @else {
+                        <text class="click-through"
+                          [attr.x]="segment.EndPoint.X" 
+                          [attr.y]="segment.EndPoint.Y + auto_Y_offset(link, segment, text, PositionOnArrowType.POSITION_ON_ARROW_END)" 
+                          [attr.font-weight]="text.FontWeight"
+                          [attr.font-family]="text.FontFamily"
+                          [attr.font-size]="text.FontSize"
+                          [attr.letter-spacing]="text.LetterSpacing"
+                          [attr.white-space]="text.WhiteSpace"
+                          [attr.fill]="text.Color"    
+                          [attr.fill-opacity]="text.FillOpacity"
+                          [attr.stroke]="text.Stroke"
+                          [attr.stroke-opacity]="text.StrokeOpacity"
+                          [attr.stroke-width]="text.StrokeWidth"
+                          [attr.stroke-dasharray]="text.StrokeDashArray"
+                          [attr.transform]="text.Transform">
+                          @for(line of lines; track $index) {
+                            @if (segment.Orientation === "ORIENTATION_VERTICAL") {
+                              <tspan [attr.x]="segment.EndPoint.X"
+                              [attr.dy]="($index > 0) ? '1em' : '0'"
+                              [attr.text-anchor]="text.LinkAnchorType === 'LINK_LEFT_OR_TOP' ? 'end' : 'start'">
+                              &nbsp;{{line}}&nbsp;</tspan>
+                            }
+                            @else {
+                              @if (segment.EndPoint.X > segment.StartPoint.X) {
+                                <tspan [attr.x]="segment.EndPoint.X"
+                                [attr.dy]="($index > 0) ? '1em' : '0'"
+                                [attr.text-anchor]="'end'">
+                                &nbsp;{{line}}&nbsp;</tspan>
+                              } @else {
+                                <tspan [attr.x]="segment.EndPoint.X"
+                                [attr.dy]="($index > 0) ? '1em' : '0'"
+                                [attr.text-anchor]="'start'">
+                                &nbsp;{{line}}&nbsp;</tspan>
+                              }
+                            } 
+                          }
+                        </text>
+                      }
+                    }
+                }
               }
               @if((segments.indexOf(segment) == 0) && link.HasStartArrow) {
                 <path

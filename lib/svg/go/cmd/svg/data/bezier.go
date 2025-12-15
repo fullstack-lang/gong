@@ -46,7 +46,7 @@ func _(stage *models.Stage) {
 
 	__Link__000000_start_end.Name = `start end`
 	__Link__000000_start_end.Type = models.LINK_TYPE_LINE_WITH_CONTROL_POINTS
-	__Link__000000_start_end.IsBezierCurve = true
+	__Link__000000_start_end.IsBezierCurve = false
 	__Link__000000_start_end.StartAnchorType = models.ANCHOR_CENTER
 	__Link__000000_start_end.EndAnchorType = models.ANCHOR_CENTER
 	__Link__000000_start_end.StartOrientation = models.ORIENTATION_HORIZONTAL
@@ -75,8 +75,8 @@ func _(stage *models.Stage) {
 	__LinkAnchoredText__000000_Text.Content = `Text`
 	__LinkAnchoredText__000000_Text.AutomaticLayout = true
 	__LinkAnchoredText__000000_Text.LinkAnchorType = models.LINK_LEFT_OR_TOP
-	__LinkAnchoredText__000000_Text.X_Offset = 0.000000
-	__LinkAnchoredText__000000_Text.Y_Offset = 0.000000
+	__LinkAnchoredText__000000_Text.X_Offset = -51.000000
+	__LinkAnchoredText__000000_Text.Y_Offset = 35.000000
 	__LinkAnchoredText__000000_Text.FontWeight = ``
 	__LinkAnchoredText__000000_Text.FontSize = ``
 	__LinkAnchoredText__000000_Text.FontStyle = ``
