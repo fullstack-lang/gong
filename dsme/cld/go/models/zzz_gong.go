@@ -2915,6 +2915,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "RedColorCode",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3028,6 +3032,22 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "InfluenceCornerRadius",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "InfluenceFontSize",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "InfluenceFontWeigth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "InfluenceFontFamily",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "InfluenceLetterSpacing",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -3411,6 +3431,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.Width)
 		res.valueFloat = diagram.Width
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", diagram.NbPixPerCharacter)
+		res.valueFloat = diagram.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "RedColorCode":
 		res.valueString = diagram.RedColorCode
 	case "BackgroundGreyColorCode":
@@ -3489,6 +3513,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%f", diagram.InfluenceCornerRadius)
 		res.valueFloat = diagram.InfluenceCornerRadius
 		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "InfluenceFontSize":
+		res.valueString = diagram.InfluenceFontSize
+	case "InfluenceFontWeigth":
+		res.valueString = diagram.InfluenceFontWeigth
+	case "InfluenceFontFamily":
+		res.valueString = diagram.InfluenceFontFamily
+	case "InfluenceLetterSpacing":
+		res.valueString = diagram.InfluenceLetterSpacing
 	case "InfluenceDashedLinePattern":
 		res.valueString = diagram.InfluenceDashedLinePattern
 	}
@@ -3826,6 +3858,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Height = value.GetValueFloat()
 	case "Width":
 		diagram.Width = value.GetValueFloat()
+	case "NbPixPerCharacter":
+		diagram.NbPixPerCharacter = value.GetValueFloat()
 	case "RedColorCode":
 		diagram.RedColorCode = value.GetValueString()
 	case "BackgroundGreyColorCode":
@@ -3884,6 +3918,14 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.InfluenceArrowEndOffset = value.GetValueFloat()
 	case "InfluenceCornerRadius":
 		diagram.InfluenceCornerRadius = value.GetValueFloat()
+	case "InfluenceFontSize":
+		diagram.InfluenceFontSize = value.GetValueString()
+	case "InfluenceFontWeigth":
+		diagram.InfluenceFontWeigth = value.GetValueString()
+	case "InfluenceFontFamily":
+		diagram.InfluenceFontFamily = value.GetValueString()
+	case "InfluenceLetterSpacing":
+		diagram.InfluenceLetterSpacing = value.GetValueString()
 	case "InfluenceDashedLinePattern":
 		diagram.InfluenceDashedLinePattern = value.GetValueString()
 	default:

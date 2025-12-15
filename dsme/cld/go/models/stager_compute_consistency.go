@@ -30,6 +30,11 @@ func (stager *Stager) ComputeConsistency() {
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
+		if diagram.NbPixPerCharacter == 0 {
+			diagram.NbPixPerCharacter = 8
+			needCommit = true
+		}
+
 		if diagram.Width == 0 {
 			diagram.Width = 800
 			needCommit = true
