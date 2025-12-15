@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-30 16:40:50.354301 CET"
-	const __write__utc_time__ = "2025-10-30 15:40:50.354301 UTC"
-
-	const __commitId__ = "0000000102"
-
 	// Declaration of instances to stage
 
 	__Condition__000000_Start_Rect_is_Howered := (&models.Condition{}).Stage(stage)
@@ -100,8 +95,10 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End.CornerRadius = 0.000000
 	__Link__000000_Start_to_End.HasEndArrow = true
 	__Link__000000_Start_to_End.EndArrowSize = 10.000000
+	__Link__000000_Start_to_End.EndArrowOffset = 0.000000
 	__Link__000000_Start_to_End.HasStartArrow = false
 	__Link__000000_Start_to_End.StartArrowSize = 0.000000
+	__Link__000000_Start_to_End.StartArrowOffset = 0.000000
 	__Link__000000_Start_to_End.Color = ``
 	__Link__000000_Start_to_End.FillOpacity = 0.000000
 	__Link__000000_Start_to_End.Stroke = `black`
@@ -110,6 +107,8 @@ func _(stage *models.Stage) {
 	__Link__000000_Start_to_End.StrokeDashArray = ``
 	__Link__000000_Start_to_End.StrokeDashArrayWhenSelected = ``
 	__Link__000000_Start_to_End.Transform = ``
+	__Link__000000_Start_to_End.MouseX = 0.000000
+	__Link__000000_Start_to_End.MouseY = 0.000000
 
 	__LinkAnchoredText__000000_LEFT_OR_TOP.Name = `LEFT_OR_TOP`
 	__LinkAnchoredText__000000_LEFT_OR_TOP.Content = `LEFT_OR_TOP`
@@ -186,6 +185,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Start.HasToolTip = true
 	__Rect__000000_Start.ToolTipText = `Start`
 	__Rect__000000_Start.ToolTipPosition = models.Left
+	__Rect__000000_Start.MouseX = 0.000000
+	__Rect__000000_Start.MouseY = 0.000000
 
 	__Rect__000001_End.Name = `End`
 	__Rect__000001_End.X = 700.000000
@@ -221,6 +222,8 @@ func _(stage *models.Stage) {
 	__Rect__000001_End.OriginalFillOpacity = 0.000000
 	__Rect__000001_End.HasToolTip = false
 	__Rect__000001_End.ToolTipText = `End`
+	__Rect__000001_End.MouseX = 0.000000
+	__Rect__000001_End.MouseY = 0.000000
 
 	__Rect__000002_Display_When_Start_is_Hovered.Name = `Display When Start is Hovered`
 	__Rect__000002_Display_When_Start_is_Hovered.X = 100.000000
@@ -256,6 +259,8 @@ func _(stage *models.Stage) {
 	__Rect__000002_Display_When_Start_is_Hovered.OriginalFillOpacity = 0.000000
 	__Rect__000002_Display_When_Start_is_Hovered.HasToolTip = false
 	__Rect__000002_Display_When_Start_is_Hovered.ToolTipText = ``
+	__Rect__000002_Display_When_Start_is_Hovered.MouseX = 0.000000
+	__Rect__000002_Display_When_Start_is_Hovered.MouseY = 0.000000
 
 	__RectAnchoredPath__000000_0_PathCenter.Name = `0. PathCenter`
 	__RectAnchoredPath__000000_0_PathCenter.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
