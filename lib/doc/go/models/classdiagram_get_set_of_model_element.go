@@ -20,17 +20,28 @@ func (stager *Stager) compute_map_modelElement_shape(
 
 	gongStructSet := *gong.GetGongstructInstancesMap[gong.GongStruct](stager.gongStage)
 
+	//
+	// Filter valid GongStructShapes (Fix for missing Structs)
+	//
+	validGongStructShapes := make([]*GongStructShape, 0)
 	for _, gongStructShape := range classdiagram.GongStructShapes {
 
 		gongStructName := IdentifierMetaToGongStructName(gongStructShape.IdentifierMeta)
 		gongStruct, ok := gongStructSet[gongStructName]
 
 		if !ok {
-			log.Println("Diagram", classdiagram.GetName(), "has a shape named", gongStructName, "but no gongstruct exists")
+			log.Println("Diagram", classdiagram.GetName(), "has a shape named", gongStructName, "but no gongstruct exists. Removing it.")
+			gongStructShape.Unstage(stager.stage)
 			continue
 		}
+
+		validGongStructShapes = append(validGongStructShapes, gongStructShape)
 		map_ModelElement_Shape[gongStruct] = gongStructShape
 
+		//
+		// Filter valid AttributeShapes (Fix for missing Fields)
+		//
+		validAttributeShapes := make([]*AttributeShape, 0)
 		for _, fieldShape := range gongStructShape.AttributeShapes {
 			fieldShapeName := IdentifierMetaToFieldName(fieldShape.IdentifierMeta)
 
@@ -43,26 +54,47 @@ func (stager *Stager) compute_map_modelElement_shape(
 				}
 			}
 			if !fieldFound {
-				log.Println("Diagram", classdiagram.GetName(), "has a shape named", fieldShapeName, "but no gongstruct exists")
+				log.Println("Diagram", classdiagram.GetName(), "has a shape named", fieldShapeName, "but no gongstruct field exists. Removing it.")
+				fieldShape.Unstage(stager.stage)
+			} else {
+				validAttributeShapes = append(validAttributeShapes, fieldShape)
 			}
 		}
+		gongStructShape.AttributeShapes = validAttributeShapes
 
+		//
+		// Filter valid LinkShapes (Fix for missing Pointers)
+		//
+		validLinkShapes := make([]*LinkShape, 0)
 		for _, linkShape := range gongStructShape.LinkShapes {
 			linkShapeName := IdentifierMetaToFieldName(linkShape.IdentifierMeta)
+			var linkFound bool
 
 			for _, link := range gongStruct.SliceOfPointerToGongStructFields {
 				if link.GetName() == linkShapeName {
 					map_ModelElement_Shape[link] = linkShape
+					linkFound = true
 				}
 			}
 
 			for _, link := range gongStruct.PointerToGongStructFields {
 				if link.GetName() == linkShapeName {
 					map_ModelElement_Shape[link] = linkShape
+					linkFound = true
 				}
 			}
+
+			if !linkFound {
+				log.Println("Diagram", classdiagram.GetName(), "has a link shape named", linkShapeName, "but no gongstruct link exists. Removing it.")
+				linkShape.Unstage(stager.stage)
+			} else {
+				validLinkShapes = append(validLinkShapes, linkShape)
+			}
 		}
+		gongStructShape.LinkShapes = validLinkShapes
 	}
+	// Update the diagram with only valid structs
+	classdiagram.GongStructShapes = validGongStructShapes
 
 	gongEnumSet := *gong.GetGongstructInstancesMap[gong.GongEnum](gongStage)
 	for _, gongEnumShape := range classdiagram.GongEnumShapes {

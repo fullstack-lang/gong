@@ -5,7 +5,7 @@ import (
 
 	"github.com/fullstack-lang/gong/lib/doc/go/models"
 	// injection point for ident package import declaration
-	ref_models "github.com/fullstack-lang/gong/test/statemachines/go/models"
+	ref_models "github.com/fullstack-lang/gong/dsme/statemachines/go/models"
 )
 
 // generated in order to avoid error in the package import
@@ -539,4 +539,3 @@ func _(stage *models.Stage) {
 	__GongStructShape__000009_concrete_syntax_Transition_Shape.LinkShapes = append(__GongStructShape__000009_concrete_syntax_Transition_Shape.LinkShapes, __LinkShape__000014_Transition)
 	// setup of LinkShape instances pointers
 }
-
