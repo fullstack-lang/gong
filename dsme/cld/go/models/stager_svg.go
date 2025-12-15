@@ -264,6 +264,26 @@ func (stager *Stager) SvgStageUpdate() {
 		if diagram.IsInfluenceCategoryShown {
 			layer.Links = append(layer.Links, link)
 		}
+
+		if text := influence.TextAtEndOfArrow; text != "" {
+			textDisplayed := &svg.LinkAnchoredText{
+				Name:            text,
+				Content:         text,
+				LinkAnchorType:  svg.LINK_LEFT_OR_TOP,
+				AutomaticLayout: true,
+				Presentation: svg.Presentation{
+					Stroke:        diagram.GrayColorCode,
+					StrokeOpacity: 1.0,
+					StrokeWidth:   diagram.InfluenceStrokeWidth,
+					Color:         diagram.GrayColorCode,
+					FillOpacity:   1.0,
+				},
+				TextAttributes: svg.TextAttributes{
+					FontWeight: "normal",
+				},
+			}
+			link.TextAtArrowEnd = append(link.TextAtArrowEnd, textDisplayed)
+		}
 	}
 
 	svg.StageBranch(stager.svgStage, svg_)

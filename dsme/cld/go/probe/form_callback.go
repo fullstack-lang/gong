@@ -1252,6 +1252,8 @@ func (influenceFormCallback *InfluenceFormCallback) OnSave() {
 			FormDivSelectFieldToField(&(influence_.TargetCategory3), influenceFormCallback.probe.stageOfInterest, formDiv)
 		case "IsHypothtical":
 			FormDivBasicFieldToField(&(influence_.IsHypothtical), formDiv)
+		case "TextAtEndOfArrow":
+			FormDivBasicFieldToField(&(influence_.TextAtEndOfArrow), formDiv)
 		}
 	}
 
