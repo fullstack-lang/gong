@@ -521,6 +521,17 @@
             ]
         },
         {
+            "name": "go run svg -unmarshallFromCode=bezier.go -marshallOnCommit=bezier.go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/lib/svg/go/cmd/svg",
+            "args": [
+                "-unmarshallFromCode=data/bezier.go",
+                "-marshallOnCommit=data/bezier.go"
+            ]
+        },
+        {
             "name": "go run svg -unmarshallFromCode=path.go -marshallOnCommit=path.go",
             "type": "go",
             "request": "launch",

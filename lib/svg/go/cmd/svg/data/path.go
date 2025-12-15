@@ -82,6 +82,8 @@ func _(stage *models.Stage) {
 	__Rect__000000_Host.OriginalFillOpacity = 0.000000
 	__Rect__000000_Host.HasToolTip = false
 	__Rect__000000_Host.ToolTipText = ``
+	__Rect__000000_Host.MouseX = 0.000000
+	__Rect__000000_Host.MouseY = 0.000000
 
 	__RectAnchoredPath__000000_Anchored_Path.Name = `Anchored Path`
 	__RectAnchoredPath__000000_Anchored_Path.Definition = `M 0,41 30,11 20,1 l 30,0 V 31 L 40,21 10,51 Z`
@@ -103,6 +105,7 @@ func _(stage *models.Stage) {
 	__SVG__000000_svg.IsSVGFrontEndFileGenerated = false
 	__SVG__000000_svg.IsSVGBackEndFileGenerated = false
 	__SVG__000000_svg.DefaultDirectoryForGeneratedImages = `../../diagrams/images`
+	__SVG__000000_svg.IsControlBannerHidden = false
 
 	// Setup of pointers
 	// setup of Layer instances pointers
@@ -115,3 +118,4 @@ func _(stage *models.Stage) {
 	// setup of SVG instances pointers
 	__SVG__000000_svg.Layers = append(__SVG__000000_svg.Layers, __Layer__000000_Path)
 }
+
