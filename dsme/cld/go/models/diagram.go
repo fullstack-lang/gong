@@ -34,6 +34,8 @@ type DiagramPresentation struct {
 	Height float64
 	Width  float64
 
+	NbPixPerCharacter float64
+
 	RedColorCode            string
 	BackgroundGreyColorCode string
 	GrayColorCode           string
@@ -67,6 +69,11 @@ type DiagramPresentation struct {
 	InfluenceArrowStartOffset float64
 	InfluenceArrowEndOffset   float64
 	InfluenceCornerRadius     float64
+
+	InfluenceFontSize      string
+	InfluenceFontWeigth    string
+	InfluenceFontFamily    string
+	InfluenceLetterSpacing string
 
 	InfluenceDashedLinePattern string
 }

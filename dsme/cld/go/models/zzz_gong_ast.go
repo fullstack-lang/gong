@@ -1104,6 +1104,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].Width = exprSign * fielValue
+				case "NbPixPerCharacter":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].NbPixPerCharacter = exprSign * fielValue
 				case "RedColorCode":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1206,6 +1213,22 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].InfluenceCornerRadius = exprSign * fielValue
+				case "InfluenceFontSize":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].InfluenceFontSize = fielValue
+				case "InfluenceFontWeigth":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].InfluenceFontWeigth = fielValue
+				case "InfluenceFontFamily":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].InfluenceFontFamily = fielValue
+				case "InfluenceLetterSpacing":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].InfluenceLetterSpacing = fielValue
 				case "InfluenceDashedLinePattern":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
