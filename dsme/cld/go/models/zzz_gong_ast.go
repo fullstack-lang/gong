@@ -1218,6 +1218,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Influence[identifier].Name = fielValue
+				case "TextAtEndOfArrow":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Influence[identifier].TextAtEndOfArrow = fielValue
 				}
 			case "InfluenceShape":
 				switch fieldName {

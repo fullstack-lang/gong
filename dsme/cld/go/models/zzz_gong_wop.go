@@ -291,12 +291,15 @@ type Influence_WOP struct {
 	Name string
 
 	IsHypothtical bool
+
+	TextAtEndOfArrow string
 }
 
 func (from *Influence) CopyBasicFields(to *Influence) {
 	// insertion point
 	to.Name = from.Name
 	to.IsHypothtical = from.IsHypothtical
+	to.TextAtEndOfArrow = from.TextAtEndOfArrow
 }
 
 type InfluenceShape_WOP struct {

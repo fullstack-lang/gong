@@ -53,14 +53,14 @@ func _(stage *models.Stage) {
 	__Category1__000002_Hauteur_des_barri_res_l_entr_e.Name = `Hauteur des barrières à l'entrée`
 
 	__Category1Shape__000000_.Name = ``
-	__Category1Shape__000000_.X = 356.000000
-	__Category1Shape__000000_.Y = 247.999985
+	__Category1Shape__000000_.X = 242.000000
+	__Category1Shape__000000_.Y = 245.999985
 	__Category1Shape__000000_.Width = 240.000000
 	__Category1Shape__000000_.Height = 80.000000
 
 	__Category1Shape__000001_.Name = ``
-	__Category1Shape__000001_.X = 327.999938
-	__Category1Shape__000001_.Y = 501.000047
+	__Category1Shape__000001_.X = 118.999938
+	__Category1Shape__000001_.Y = 449.000016
 	__Category1Shape__000001_.Width = 240.000000
 	__Category1Shape__000001_.Height = 80.000000
 
@@ -124,9 +124,11 @@ func _(stage *models.Stage) {
 
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.Name = `Intensité de la Concurrence to Niveau des prix`
 	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.IsHypothtical = false
+	__Influence__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.TextAtEndOfArrow = `+`
 
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.Name = `Hauteur des barrières à l'entrée to Intensité de la Concurrence`
 	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.IsHypothtical = false
+	__Influence__000001_Hauteur_des_barri_res_l_entr_e_to_Intensit_de_la_Concurrence.TextAtEndOfArrow = ``
 
 	__InfluenceShape__000000_Intensit_de_la_Concurrence_to_Niveau_des_prix.Name = `Intensité de la Concurrence to Niveau des prix`
 

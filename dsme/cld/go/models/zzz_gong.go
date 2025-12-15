@@ -3079,6 +3079,10 @@ func (influence *Influence) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsHypothtical",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "TextAtEndOfArrow",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -3535,6 +3539,8 @@ func (influence *Influence) GongGetFieldValue(fieldName string, stage *Stage) (r
 		res.valueString = fmt.Sprintf("%t", influence.IsHypothtical)
 		res.valueBool = influence.IsHypothtical
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "TextAtEndOfArrow":
+		res.valueString = influence.TextAtEndOfArrow
 	}
 	return
 }
@@ -3959,6 +3965,8 @@ func (influence *Influence) GongSetFieldValue(fieldName string, value GongFieldV
 		}
 	case "IsHypothtical":
 		influence.IsHypothtical = value.GetValueBool()
+	case "TextAtEndOfArrow":
+		influence.TextAtEndOfArrow = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
