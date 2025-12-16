@@ -564,6 +564,25 @@ func (button *Button) Stage(stage *Stage) *Button {
 	return button
 }
 
+// StageForceOrder puts button to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ButtonOrder
+// - update stage.ButtonOrder accordingly
+func (button *Button) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Buttons[button]; !ok {
+		stage.Buttons[button] = struct{}{}
+
+		if order > stage.ButtonOrder {
+			stage.ButtonOrder = order
+		}
+		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.ButtonOrder++
+	}
+	stage.Buttons_mapString[button.Name] = button
+}
+
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
@@ -627,6 +646,25 @@ func (node *Node) Stage(stage *Stage) *Node {
 	stage.Nodes_mapString[node.Name] = node
 
 	return node
+}
+
+// StageForceOrder puts node to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NodeOrder
+// - update stage.NodeOrder accordingly
+func (node *Node) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Nodes[node]; !ok {
+		stage.Nodes[node] = struct{}{}
+
+		if order > stage.NodeOrder {
+			stage.NodeOrder = order
+		}
+		stage.NodeMap_Staged_Order[node] = stage.NodeOrder
+		stage.NodeOrder++
+	}
+	stage.Nodes_mapString[node.Name] = node
 }
 
 // Unstage removes node off the model stage
@@ -694,6 +732,25 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 	return svgicon
 }
 
+// StageForceOrder puts svgicon to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SVGIconOrder
+// - update stage.SVGIconOrder accordingly
+func (svgicon *SVGIcon) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.SVGIcons[svgicon]; !ok {
+		stage.SVGIcons[svgicon] = struct{}{}
+
+		if order > stage.SVGIconOrder {
+			stage.SVGIconOrder = order
+		}
+		stage.SVGIconMap_Staged_Order[svgicon] = stage.SVGIconOrder
+		stage.SVGIconOrder++
+	}
+	stage.SVGIcons_mapString[svgicon.Name] = svgicon
+}
+
 // Unstage removes svgicon off the model stage
 func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 	delete(stage.SVGIcons, svgicon)
@@ -757,6 +814,25 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 	stage.Trees_mapString[tree.Name] = tree
 
 	return tree
+}
+
+// StageForceOrder puts tree to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TreeOrder
+// - update stage.TreeOrder accordingly
+func (tree *Tree) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Trees[tree]; !ok {
+		stage.Trees[tree] = struct{}{}
+
+		if order > stage.TreeOrder {
+			stage.TreeOrder = order
+		}
+		stage.TreeMap_Staged_Order[tree] = stage.TreeOrder
+		stage.TreeOrder++
+	}
+	stage.Trees_mapString[tree.Name] = tree
 }
 
 // Unstage removes tree off the model stage

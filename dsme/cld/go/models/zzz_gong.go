@@ -855,6 +855,25 @@ func (category1 *Category1) Stage(stage *Stage) *Category1 {
 	return category1
 }
 
+// StageForceOrder puts category1 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category1Order
+// - update stage.Category1Order accordingly
+func (category1 *Category1) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category1s[category1]; !ok {
+		stage.Category1s[category1] = struct{}{}
+
+		if order > stage.Category1Order {
+			stage.Category1Order = order
+		}
+		stage.Category1Map_Staged_Order[category1] = stage.Category1Order
+		stage.Category1Order++
+	}
+	stage.Category1s_mapString[category1.Name] = category1
+}
+
 // Unstage removes category1 off the model stage
 func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 	delete(stage.Category1s, category1)
@@ -918,6 +937,25 @@ func (category1shape *Category1Shape) Stage(stage *Stage) *Category1Shape {
 	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
 
 	return category1shape
+}
+
+// StageForceOrder puts category1shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category1ShapeOrder
+// - update stage.Category1ShapeOrder accordingly
+func (category1shape *Category1Shape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category1Shapes[category1shape]; !ok {
+		stage.Category1Shapes[category1shape] = struct{}{}
+
+		if order > stage.Category1ShapeOrder {
+			stage.Category1ShapeOrder = order
+		}
+		stage.Category1ShapeMap_Staged_Order[category1shape] = stage.Category1ShapeOrder
+		stage.Category1ShapeOrder++
+	}
+	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
 }
 
 // Unstage removes category1shape off the model stage
@@ -985,6 +1023,25 @@ func (category2 *Category2) Stage(stage *Stage) *Category2 {
 	return category2
 }
 
+// StageForceOrder puts category2 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category2Order
+// - update stage.Category2Order accordingly
+func (category2 *Category2) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category2s[category2]; !ok {
+		stage.Category2s[category2] = struct{}{}
+
+		if order > stage.Category2Order {
+			stage.Category2Order = order
+		}
+		stage.Category2Map_Staged_Order[category2] = stage.Category2Order
+		stage.Category2Order++
+	}
+	stage.Category2s_mapString[category2.Name] = category2
+}
+
 // Unstage removes category2 off the model stage
 func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 	delete(stage.Category2s, category2)
@@ -1048,6 +1105,25 @@ func (category2shape *Category2Shape) Stage(stage *Stage) *Category2Shape {
 	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
 
 	return category2shape
+}
+
+// StageForceOrder puts category2shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category2ShapeOrder
+// - update stage.Category2ShapeOrder accordingly
+func (category2shape *Category2Shape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category2Shapes[category2shape]; !ok {
+		stage.Category2Shapes[category2shape] = struct{}{}
+
+		if order > stage.Category2ShapeOrder {
+			stage.Category2ShapeOrder = order
+		}
+		stage.Category2ShapeMap_Staged_Order[category2shape] = stage.Category2ShapeOrder
+		stage.Category2ShapeOrder++
+	}
+	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
 }
 
 // Unstage removes category2shape off the model stage
@@ -1115,6 +1191,25 @@ func (category3 *Category3) Stage(stage *Stage) *Category3 {
 	return category3
 }
 
+// StageForceOrder puts category3 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category3Order
+// - update stage.Category3Order accordingly
+func (category3 *Category3) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category3s[category3]; !ok {
+		stage.Category3s[category3] = struct{}{}
+
+		if order > stage.Category3Order {
+			stage.Category3Order = order
+		}
+		stage.Category3Map_Staged_Order[category3] = stage.Category3Order
+		stage.Category3Order++
+	}
+	stage.Category3s_mapString[category3.Name] = category3
+}
+
 // Unstage removes category3 off the model stage
 func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 	delete(stage.Category3s, category3)
@@ -1178,6 +1273,25 @@ func (category3shape *Category3Shape) Stage(stage *Stage) *Category3Shape {
 	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
 
 	return category3shape
+}
+
+// StageForceOrder puts category3shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Category3ShapeOrder
+// - update stage.Category3ShapeOrder accordingly
+func (category3shape *Category3Shape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Category3Shapes[category3shape]; !ok {
+		stage.Category3Shapes[category3shape] = struct{}{}
+
+		if order > stage.Category3ShapeOrder {
+			stage.Category3ShapeOrder = order
+		}
+		stage.Category3ShapeMap_Staged_Order[category3shape] = stage.Category3ShapeOrder
+		stage.Category3ShapeOrder++
+	}
+	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
 }
 
 // Unstage removes category3shape off the model stage
@@ -1245,6 +1359,25 @@ func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointSha
 	return controlpointshape
 }
 
+// StageForceOrder puts controlpointshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ControlPointShapeOrder
+// - update stage.ControlPointShapeOrder accordingly
+func (controlpointshape *ControlPointShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
+		stage.ControlPointShapes[controlpointshape] = struct{}{}
+
+		if order > stage.ControlPointShapeOrder {
+			stage.ControlPointShapeOrder = order
+		}
+		stage.ControlPointShapeMap_Staged_Order[controlpointshape] = stage.ControlPointShapeOrder
+		stage.ControlPointShapeOrder++
+	}
+	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
+}
+
 // Unstage removes controlpointshape off the model stage
 func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointShape {
 	delete(stage.ControlPointShapes, controlpointshape)
@@ -1308,6 +1441,25 @@ func (desk *Desk) Stage(stage *Stage) *Desk {
 	stage.Desks_mapString[desk.Name] = desk
 
 	return desk
+}
+
+// StageForceOrder puts desk to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DeskOrder
+// - update stage.DeskOrder accordingly
+func (desk *Desk) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Desks[desk]; !ok {
+		stage.Desks[desk] = struct{}{}
+
+		if order > stage.DeskOrder {
+			stage.DeskOrder = order
+		}
+		stage.DeskMap_Staged_Order[desk] = stage.DeskOrder
+		stage.DeskOrder++
+	}
+	stage.Desks_mapString[desk.Name] = desk
 }
 
 // Unstage removes desk off the model stage
@@ -1375,6 +1527,25 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	return diagram
 }
 
+// StageForceOrder puts diagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramOrder
+// - update stage.DiagramOrder accordingly
+func (diagram *Diagram) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Diagrams[diagram]; !ok {
+		stage.Diagrams[diagram] = struct{}{}
+
+		if order > stage.DiagramOrder {
+			stage.DiagramOrder = order
+		}
+		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.DiagramOrder++
+	}
+	stage.Diagrams_mapString[diagram.Name] = diagram
+}
+
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
@@ -1440,6 +1611,25 @@ func (influence *Influence) Stage(stage *Stage) *Influence {
 	return influence
 }
 
+// StageForceOrder puts influence to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.InfluenceOrder
+// - update stage.InfluenceOrder accordingly
+func (influence *Influence) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Influences[influence]; !ok {
+		stage.Influences[influence] = struct{}{}
+
+		if order > stage.InfluenceOrder {
+			stage.InfluenceOrder = order
+		}
+		stage.InfluenceMap_Staged_Order[influence] = stage.InfluenceOrder
+		stage.InfluenceOrder++
+	}
+	stage.Influences_mapString[influence.Name] = influence
+}
+
 // Unstage removes influence off the model stage
 func (influence *Influence) Unstage(stage *Stage) *Influence {
 	delete(stage.Influences, influence)
@@ -1503,6 +1693,25 @@ func (influenceshape *InfluenceShape) Stage(stage *Stage) *InfluenceShape {
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
 
 	return influenceshape
+}
+
+// StageForceOrder puts influenceshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.InfluenceShapeOrder
+// - update stage.InfluenceShapeOrder accordingly
+func (influenceshape *InfluenceShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.InfluenceShapes[influenceshape]; !ok {
+		stage.InfluenceShapes[influenceshape] = struct{}{}
+
+		if order > stage.InfluenceShapeOrder {
+			stage.InfluenceShapeOrder = order
+		}
+		stage.InfluenceShapeMap_Staged_Order[influenceshape] = stage.InfluenceShapeOrder
+		stage.InfluenceShapeOrder++
+	}
+	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
 }
 
 // Unstage removes influenceshape off the model stage

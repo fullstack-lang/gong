@@ -478,6 +478,25 @@ func (a *A) Stage(stage *Stage) *A {
 	return a
 }
 
+// StageForceOrder puts a to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AOrder
+// - update stage.AOrder accordingly
+func (a *A) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.As[a]; !ok {
+		stage.As[a] = struct{}{}
+
+		if order > stage.AOrder {
+			stage.AOrder = order
+		}
+		stage.AMap_Staged_Order[a] = stage.AOrder
+		stage.AOrder++
+	}
+	stage.As_mapString[a.Name] = a
+}
+
 // Unstage removes a off the model stage
 func (a *A) Unstage(stage *Stage) *A {
 	delete(stage.As, a)
@@ -541,6 +560,25 @@ func (b *B) Stage(stage *Stage) *B {
 	stage.Bs_mapString[b.Name] = b
 
 	return b
+}
+
+// StageForceOrder puts b to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BOrder
+// - update stage.BOrder accordingly
+func (b *B) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Bs[b]; !ok {
+		stage.Bs[b] = struct{}{}
+
+		if order > stage.BOrder {
+			stage.BOrder = order
+		}
+		stage.BMap_Staged_Order[b] = stage.BOrder
+		stage.BOrder++
+	}
+	stage.Bs_mapString[b.Name] = b
 }
 
 // Unstage removes b off the model stage
