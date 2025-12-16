@@ -695,6 +695,25 @@ func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 	return arrow
 }
 
+// StageForceOrder puts arrow to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ArrowOrder
+// - update stage.ArrowOrder accordingly
+func (arrow *Arrow) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Arrows[arrow]; !ok {
+		stage.Arrows[arrow] = struct{}{}
+
+		if order > stage.ArrowOrder {
+			stage.ArrowOrder = order
+		}
+		stage.ArrowMap_Staged_Order[arrow] = stage.ArrowOrder
+		stage.ArrowOrder++
+	}
+	stage.Arrows_mapString[arrow.Name] = arrow
+}
+
 // Unstage removes arrow off the model stage
 func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 	delete(stage.Arrows, arrow)
@@ -758,6 +777,25 @@ func (bar *Bar) Stage(stage *Stage) *Bar {
 	stage.Bars_mapString[bar.Name] = bar
 
 	return bar
+}
+
+// StageForceOrder puts bar to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BarOrder
+// - update stage.BarOrder accordingly
+func (bar *Bar) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Bars[bar]; !ok {
+		stage.Bars[bar] = struct{}{}
+
+		if order > stage.BarOrder {
+			stage.BarOrder = order
+		}
+		stage.BarMap_Staged_Order[bar] = stage.BarOrder
+		stage.BarOrder++
+	}
+	stage.Bars_mapString[bar.Name] = bar
 }
 
 // Unstage removes bar off the model stage
@@ -825,6 +863,25 @@ func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 	return gantt
 }
 
+// StageForceOrder puts gantt to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GanttOrder
+// - update stage.GanttOrder accordingly
+func (gantt *Gantt) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Gantts[gantt]; !ok {
+		stage.Gantts[gantt] = struct{}{}
+
+		if order > stage.GanttOrder {
+			stage.GanttOrder = order
+		}
+		stage.GanttMap_Staged_Order[gantt] = stage.GanttOrder
+		stage.GanttOrder++
+	}
+	stage.Gantts_mapString[gantt.Name] = gantt
+}
+
 // Unstage removes gantt off the model stage
 func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 	delete(stage.Gantts, gantt)
@@ -888,6 +945,25 @@ func (group *Group) Stage(stage *Stage) *Group {
 	stage.Groups_mapString[group.Name] = group
 
 	return group
+}
+
+// StageForceOrder puts group to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GroupOrder
+// - update stage.GroupOrder accordingly
+func (group *Group) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Groups[group]; !ok {
+		stage.Groups[group] = struct{}{}
+
+		if order > stage.GroupOrder {
+			stage.GroupOrder = order
+		}
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
+	}
+	stage.Groups_mapString[group.Name] = group
 }
 
 // Unstage removes group off the model stage
@@ -955,6 +1031,25 @@ func (lane *Lane) Stage(stage *Stage) *Lane {
 	return lane
 }
 
+// StageForceOrder puts lane to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LaneOrder
+// - update stage.LaneOrder accordingly
+func (lane *Lane) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Lanes[lane]; !ok {
+		stage.Lanes[lane] = struct{}{}
+
+		if order > stage.LaneOrder {
+			stage.LaneOrder = order
+		}
+		stage.LaneMap_Staged_Order[lane] = stage.LaneOrder
+		stage.LaneOrder++
+	}
+	stage.Lanes_mapString[lane.Name] = lane
+}
+
 // Unstage removes lane off the model stage
 func (lane *Lane) Unstage(stage *Stage) *Lane {
 	delete(stage.Lanes, lane)
@@ -1020,6 +1115,25 @@ func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 	return laneuse
 }
 
+// StageForceOrder puts laneuse to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LaneUseOrder
+// - update stage.LaneUseOrder accordingly
+func (laneuse *LaneUse) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.LaneUses[laneuse]; !ok {
+		stage.LaneUses[laneuse] = struct{}{}
+
+		if order > stage.LaneUseOrder {
+			stage.LaneUseOrder = order
+		}
+		stage.LaneUseMap_Staged_Order[laneuse] = stage.LaneUseOrder
+		stage.LaneUseOrder++
+	}
+	stage.LaneUses_mapString[laneuse.Name] = laneuse
+}
+
 // Unstage removes laneuse off the model stage
 func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 	delete(stage.LaneUses, laneuse)
@@ -1083,6 +1197,25 @@ func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 	stage.Milestones_mapString[milestone.Name] = milestone
 
 	return milestone
+}
+
+// StageForceOrder puts milestone to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MilestoneOrder
+// - update stage.MilestoneOrder accordingly
+func (milestone *Milestone) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Milestones[milestone]; !ok {
+		stage.Milestones[milestone] = struct{}{}
+
+		if order > stage.MilestoneOrder {
+			stage.MilestoneOrder = order
+		}
+		stage.MilestoneMap_Staged_Order[milestone] = stage.MilestoneOrder
+		stage.MilestoneOrder++
+	}
+	stage.Milestones_mapString[milestone.Name] = milestone
 }
 
 // Unstage removes milestone off the model stage

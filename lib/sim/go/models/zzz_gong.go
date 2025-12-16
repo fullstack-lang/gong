@@ -640,6 +640,25 @@ func (command *Command) Stage(stage *Stage) *Command {
 	return command
 }
 
+// StageForceOrder puts command to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CommandOrder
+// - update stage.CommandOrder accordingly
+func (command *Command) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Commands[command]; !ok {
+		stage.Commands[command] = struct{}{}
+
+		if order > stage.CommandOrder {
+			stage.CommandOrder = order
+		}
+		stage.CommandMap_Staged_Order[command] = stage.CommandOrder
+		stage.CommandOrder++
+	}
+	stage.Commands_mapString[command.Name] = command
+}
+
 // Unstage removes command off the model stage
 func (command *Command) Unstage(stage *Stage) *Command {
 	delete(stage.Commands, command)
@@ -703,6 +722,25 @@ func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
 
 	return dummyagent
+}
+
+// StageForceOrder puts dummyagent to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DummyAgentOrder
+// - update stage.DummyAgentOrder accordingly
+func (dummyagent *DummyAgent) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.DummyAgents[dummyagent]; !ok {
+		stage.DummyAgents[dummyagent] = struct{}{}
+
+		if order > stage.DummyAgentOrder {
+			stage.DummyAgentOrder = order
+		}
+		stage.DummyAgentMap_Staged_Order[dummyagent] = stage.DummyAgentOrder
+		stage.DummyAgentOrder++
+	}
+	stage.DummyAgents_mapString[dummyagent.Name] = dummyagent
 }
 
 // Unstage removes dummyagent off the model stage
@@ -770,6 +808,25 @@ func (engine *Engine) Stage(stage *Stage) *Engine {
 	return engine
 }
 
+// StageForceOrder puts engine to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EngineOrder
+// - update stage.EngineOrder accordingly
+func (engine *Engine) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Engines[engine]; !ok {
+		stage.Engines[engine] = struct{}{}
+
+		if order > stage.EngineOrder {
+			stage.EngineOrder = order
+		}
+		stage.EngineMap_Staged_Order[engine] = stage.EngineOrder
+		stage.EngineOrder++
+	}
+	stage.Engines_mapString[engine.Name] = engine
+}
+
 // Unstage removes engine off the model stage
 func (engine *Engine) Unstage(stage *Stage) *Engine {
 	delete(stage.Engines, engine)
@@ -833,6 +890,25 @@ func (event *Event) Stage(stage *Stage) *Event {
 	stage.Events_mapString[event.Name] = event
 
 	return event
+}
+
+// StageForceOrder puts event to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EventOrder
+// - update stage.EventOrder accordingly
+func (event *Event) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Events[event]; !ok {
+		stage.Events[event] = struct{}{}
+
+		if order > stage.EventOrder {
+			stage.EventOrder = order
+		}
+		stage.EventMap_Staged_Order[event] = stage.EventOrder
+		stage.EventOrder++
+	}
+	stage.Events_mapString[event.Name] = event
 }
 
 // Unstage removes event off the model stage
@@ -900,6 +976,25 @@ func (status *Status) Stage(stage *Stage) *Status {
 	return status
 }
 
+// StageForceOrder puts status to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StatusOrder
+// - update stage.StatusOrder accordingly
+func (status *Status) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Statuss[status]; !ok {
+		stage.Statuss[status] = struct{}{}
+
+		if order > stage.StatusOrder {
+			stage.StatusOrder = order
+		}
+		stage.StatusMap_Staged_Order[status] = stage.StatusOrder
+		stage.StatusOrder++
+	}
+	stage.Statuss_mapString[status.Name] = status
+}
+
 // Unstage removes status off the model stage
 func (status *Status) Unstage(stage *Stage) *Status {
 	delete(stage.Statuss, status)
@@ -963,6 +1058,25 @@ func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 	stage.UpdateStates_mapString[updatestate.Name] = updatestate
 
 	return updatestate
+}
+
+// StageForceOrder puts updatestate to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.UpdateStateOrder
+// - update stage.UpdateStateOrder accordingly
+func (updatestate *UpdateState) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.UpdateStates[updatestate]; !ok {
+		stage.UpdateStates[updatestate] = struct{}{}
+
+		if order > stage.UpdateStateOrder {
+			stage.UpdateStateOrder = order
+		}
+		stage.UpdateStateMap_Staged_Order[updatestate] = stage.UpdateStateOrder
+		stage.UpdateStateOrder++
+	}
+	stage.UpdateStates_mapString[updatestate.Name] = updatestate
 }
 
 // Unstage removes updatestate off the model stage

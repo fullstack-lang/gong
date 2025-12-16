@@ -138,6 +138,25 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 	return {{structname}}
 }
 
+// StageForceOrder puts {{structname}} to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.{{Structname}}Order
+// - update stage.{{Structname}}Order accordingly
+func ({{structname}} *{{Structname}}) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
+		stage.{{Structname}}s[{{structname}}] = struct{}{}
+
+		if order > stage.{{Structname}}Order {
+			stage.{{Structname}}Order = order
+		}
+		stage.{{Structname}}Map_Staged_Order[{{structname}}] = stage.{{Structname}}Order
+		stage.{{Structname}}Order++
+	}
+	stage.{{Structname}}s_mapString[{{structname}}.Name] = {{structname}}
+}
+
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})
