@@ -5981,6 +5981,22 @@ func (svg *SVG) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsControlBannerHidden",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "OverrideWidth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "OverriddenWidth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "OverrideHeight",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "OverriddenHeight",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -7315,6 +7331,22 @@ func (svg *SVG) GongGetFieldValue(fieldName string, stage *Stage) (res GongField
 		res.valueString = fmt.Sprintf("%t", svg.IsControlBannerHidden)
 		res.valueBool = svg.IsControlBannerHidden
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OverrideWidth":
+		res.valueString = fmt.Sprintf("%t", svg.OverrideWidth)
+		res.valueBool = svg.OverrideWidth
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OverriddenWidth":
+		res.valueString = fmt.Sprintf("%f", svg.OverriddenWidth)
+		res.valueFloat = svg.OverriddenWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "OverrideHeight":
+		res.valueString = fmt.Sprintf("%t", svg.OverrideHeight)
+		res.valueBool = svg.OverrideHeight
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OverriddenHeight":
+		res.valueString = fmt.Sprintf("%f", svg.OverriddenHeight)
+		res.valueFloat = svg.OverriddenHeight
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -8524,6 +8556,14 @@ func (svg *SVG) GongSetFieldValue(fieldName string, value GongFieldValue, stage 
 		svg.DefaultDirectoryForGeneratedImages = value.GetValueString()
 	case "IsControlBannerHidden":
 		svg.IsControlBannerHidden = value.GetValueBool()
+	case "OverrideWidth":
+		svg.OverrideWidth = value.GetValueBool()
+	case "OverriddenWidth":
+		svg.OverriddenWidth = value.GetValueFloat()
+	case "OverrideHeight":
+		svg.OverrideHeight = value.GetValueBool()
+	case "OverriddenHeight":
+		svg.OverriddenHeight = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

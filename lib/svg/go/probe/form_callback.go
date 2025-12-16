@@ -4448,6 +4448,14 @@ func (svgFormCallback *SVGFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(svg_.DefaultDirectoryForGeneratedImages), formDiv)
 		case "IsControlBannerHidden":
 			FormDivBasicFieldToField(&(svg_.IsControlBannerHidden), formDiv)
+		case "OverrideWidth":
+			FormDivBasicFieldToField(&(svg_.OverrideWidth), formDiv)
+		case "OverriddenWidth":
+			FormDivBasicFieldToField(&(svg_.OverriddenWidth), formDiv)
+		case "OverrideHeight":
+			FormDivBasicFieldToField(&(svg_.OverrideHeight), formDiv)
+		case "OverriddenHeight":
+			FormDivBasicFieldToField(&(svg_.OverriddenHeight), formDiv)
 		}
 	}
 
