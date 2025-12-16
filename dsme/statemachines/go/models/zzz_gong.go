@@ -1037,6 +1037,25 @@ func (action *Action) Stage(stage *Stage) *Action {
 	return action
 }
 
+// StageForceOrder puts action to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ActionOrder
+// - update stage.ActionOrder accordingly
+func (action *Action) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Actions[action]; !ok {
+		stage.Actions[action] = struct{}{}
+
+		if order > stage.ActionOrder {
+			stage.ActionOrder = order
+		}
+		stage.ActionMap_Staged_Order[action] = stage.ActionOrder
+		stage.ActionOrder++
+	}
+	stage.Actions_mapString[action.Name] = action
+}
+
 // Unstage removes action off the model stage
 func (action *Action) Unstage(stage *Stage) *Action {
 	delete(stage.Actions, action)
@@ -1100,6 +1119,25 @@ func (activities *Activities) Stage(stage *Stage) *Activities {
 	stage.Activitiess_mapString[activities.Name] = activities
 
 	return activities
+}
+
+// StageForceOrder puts activities to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ActivitiesOrder
+// - update stage.ActivitiesOrder accordingly
+func (activities *Activities) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Activitiess[activities]; !ok {
+		stage.Activitiess[activities] = struct{}{}
+
+		if order > stage.ActivitiesOrder {
+			stage.ActivitiesOrder = order
+		}
+		stage.ActivitiesMap_Staged_Order[activities] = stage.ActivitiesOrder
+		stage.ActivitiesOrder++
+	}
+	stage.Activitiess_mapString[activities.Name] = activities
 }
 
 // Unstage removes activities off the model stage
@@ -1167,6 +1205,25 @@ func (architecture *Architecture) Stage(stage *Stage) *Architecture {
 	return architecture
 }
 
+// StageForceOrder puts architecture to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ArchitectureOrder
+// - update stage.ArchitectureOrder accordingly
+func (architecture *Architecture) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Architectures[architecture]; !ok {
+		stage.Architectures[architecture] = struct{}{}
+
+		if order > stage.ArchitectureOrder {
+			stage.ArchitectureOrder = order
+		}
+		stage.ArchitectureMap_Staged_Order[architecture] = stage.ArchitectureOrder
+		stage.ArchitectureOrder++
+	}
+	stage.Architectures_mapString[architecture.Name] = architecture
+}
+
 // Unstage removes architecture off the model stage
 func (architecture *Architecture) Unstage(stage *Stage) *Architecture {
 	delete(stage.Architectures, architecture)
@@ -1230,6 +1287,25 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	stage.Diagrams_mapString[diagram.Name] = diagram
 
 	return diagram
+}
+
+// StageForceOrder puts diagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramOrder
+// - update stage.DiagramOrder accordingly
+func (diagram *Diagram) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Diagrams[diagram]; !ok {
+		stage.Diagrams[diagram] = struct{}{}
+
+		if order > stage.DiagramOrder {
+			stage.DiagramOrder = order
+		}
+		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
+		stage.DiagramOrder++
+	}
+	stage.Diagrams_mapString[diagram.Name] = diagram
 }
 
 // Unstage removes diagram off the model stage
@@ -1297,6 +1373,25 @@ func (guard *Guard) Stage(stage *Stage) *Guard {
 	return guard
 }
 
+// StageForceOrder puts guard to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GuardOrder
+// - update stage.GuardOrder accordingly
+func (guard *Guard) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Guards[guard]; !ok {
+		stage.Guards[guard] = struct{}{}
+
+		if order > stage.GuardOrder {
+			stage.GuardOrder = order
+		}
+		stage.GuardMap_Staged_Order[guard] = stage.GuardOrder
+		stage.GuardOrder++
+	}
+	stage.Guards_mapString[guard.Name] = guard
+}
+
 // Unstage removes guard off the model stage
 func (guard *Guard) Unstage(stage *Stage) *Guard {
 	delete(stage.Guards, guard)
@@ -1360,6 +1455,25 @@ func (kill *Kill) Stage(stage *Stage) *Kill {
 	stage.Kills_mapString[kill.Name] = kill
 
 	return kill
+}
+
+// StageForceOrder puts kill to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.KillOrder
+// - update stage.KillOrder accordingly
+func (kill *Kill) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Kills[kill]; !ok {
+		stage.Kills[kill] = struct{}{}
+
+		if order > stage.KillOrder {
+			stage.KillOrder = order
+		}
+		stage.KillMap_Staged_Order[kill] = stage.KillOrder
+		stage.KillOrder++
+	}
+	stage.Kills_mapString[kill.Name] = kill
 }
 
 // Unstage removes kill off the model stage
@@ -1427,6 +1541,25 @@ func (message *Message) Stage(stage *Stage) *Message {
 	return message
 }
 
+// StageForceOrder puts message to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MessageOrder
+// - update stage.MessageOrder accordingly
+func (message *Message) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Messages[message]; !ok {
+		stage.Messages[message] = struct{}{}
+
+		if order > stage.MessageOrder {
+			stage.MessageOrder = order
+		}
+		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
+		stage.MessageOrder++
+	}
+	stage.Messages_mapString[message.Name] = message
+}
+
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
@@ -1490,6 +1623,25 @@ func (messagetype *MessageType) Stage(stage *Stage) *MessageType {
 	stage.MessageTypes_mapString[messagetype.Name] = messagetype
 
 	return messagetype
+}
+
+// StageForceOrder puts messagetype to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MessageTypeOrder
+// - update stage.MessageTypeOrder accordingly
+func (messagetype *MessageType) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.MessageTypes[messagetype]; !ok {
+		stage.MessageTypes[messagetype] = struct{}{}
+
+		if order > stage.MessageTypeOrder {
+			stage.MessageTypeOrder = order
+		}
+		stage.MessageTypeMap_Staged_Order[messagetype] = stage.MessageTypeOrder
+		stage.MessageTypeOrder++
+	}
+	stage.MessageTypes_mapString[messagetype.Name] = messagetype
 }
 
 // Unstage removes messagetype off the model stage
@@ -1557,6 +1709,25 @@ func (object *Object) Stage(stage *Stage) *Object {
 	return object
 }
 
+// StageForceOrder puts object to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ObjectOrder
+// - update stage.ObjectOrder accordingly
+func (object *Object) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Objects[object]; !ok {
+		stage.Objects[object] = struct{}{}
+
+		if order > stage.ObjectOrder {
+			stage.ObjectOrder = order
+		}
+		stage.ObjectMap_Staged_Order[object] = stage.ObjectOrder
+		stage.ObjectOrder++
+	}
+	stage.Objects_mapString[object.Name] = object
+}
+
 // Unstage removes object off the model stage
 func (object *Object) Unstage(stage *Stage) *Object {
 	delete(stage.Objects, object)
@@ -1620,6 +1791,25 @@ func (role *Role) Stage(stage *Stage) *Role {
 	stage.Roles_mapString[role.Name] = role
 
 	return role
+}
+
+// StageForceOrder puts role to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RoleOrder
+// - update stage.RoleOrder accordingly
+func (role *Role) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Roles[role]; !ok {
+		stage.Roles[role] = struct{}{}
+
+		if order > stage.RoleOrder {
+			stage.RoleOrder = order
+		}
+		stage.RoleMap_Staged_Order[role] = stage.RoleOrder
+		stage.RoleOrder++
+	}
+	stage.Roles_mapString[role.Name] = role
 }
 
 // Unstage removes role off the model stage
@@ -1687,6 +1877,25 @@ func (state *State) Stage(stage *Stage) *State {
 	return state
 }
 
+// StageForceOrder puts state to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StateOrder
+// - update stage.StateOrder accordingly
+func (state *State) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.States[state]; !ok {
+		stage.States[state] = struct{}{}
+
+		if order > stage.StateOrder {
+			stage.StateOrder = order
+		}
+		stage.StateMap_Staged_Order[state] = stage.StateOrder
+		stage.StateOrder++
+	}
+	stage.States_mapString[state.Name] = state
+}
+
 // Unstage removes state off the model stage
 func (state *State) Unstage(stage *Stage) *State {
 	delete(stage.States, state)
@@ -1750,6 +1959,25 @@ func (statemachine *StateMachine) Stage(stage *Stage) *StateMachine {
 	stage.StateMachines_mapString[statemachine.Name] = statemachine
 
 	return statemachine
+}
+
+// StageForceOrder puts statemachine to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StateMachineOrder
+// - update stage.StateMachineOrder accordingly
+func (statemachine *StateMachine) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.StateMachines[statemachine]; !ok {
+		stage.StateMachines[statemachine] = struct{}{}
+
+		if order > stage.StateMachineOrder {
+			stage.StateMachineOrder = order
+		}
+		stage.StateMachineMap_Staged_Order[statemachine] = stage.StateMachineOrder
+		stage.StateMachineOrder++
+	}
+	stage.StateMachines_mapString[statemachine.Name] = statemachine
 }
 
 // Unstage removes statemachine off the model stage
@@ -1817,6 +2045,25 @@ func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 	return stateshape
 }
 
+// StageForceOrder puts stateshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.StateShapeOrder
+// - update stage.StateShapeOrder accordingly
+func (stateshape *StateShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.StateShapes[stateshape]; !ok {
+		stage.StateShapes[stateshape] = struct{}{}
+
+		if order > stage.StateShapeOrder {
+			stage.StateShapeOrder = order
+		}
+		stage.StateShapeMap_Staged_Order[stateshape] = stage.StateShapeOrder
+		stage.StateShapeOrder++
+	}
+	stage.StateShapes_mapString[stateshape.Name] = stateshape
+}
+
 // Unstage removes stateshape off the model stage
 func (stateshape *StateShape) Unstage(stage *Stage) *StateShape {
 	delete(stage.StateShapes, stateshape)
@@ -1882,6 +2129,25 @@ func (transition *Transition) Stage(stage *Stage) *Transition {
 	return transition
 }
 
+// StageForceOrder puts transition to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TransitionOrder
+// - update stage.TransitionOrder accordingly
+func (transition *Transition) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Transitions[transition]; !ok {
+		stage.Transitions[transition] = struct{}{}
+
+		if order > stage.TransitionOrder {
+			stage.TransitionOrder = order
+		}
+		stage.TransitionMap_Staged_Order[transition] = stage.TransitionOrder
+		stage.TransitionOrder++
+	}
+	stage.Transitions_mapString[transition.Name] = transition
+}
+
 // Unstage removes transition off the model stage
 func (transition *Transition) Unstage(stage *Stage) *Transition {
 	delete(stage.Transitions, transition)
@@ -1945,6 +2211,25 @@ func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape 
 	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
 
 	return transition_shape
+}
+
+// StageForceOrder puts transition_shape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.Transition_ShapeOrder
+// - update stage.Transition_ShapeOrder accordingly
+func (transition_shape *Transition_Shape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Transition_Shapes[transition_shape]; !ok {
+		stage.Transition_Shapes[transition_shape] = struct{}{}
+
+		if order > stage.Transition_ShapeOrder {
+			stage.Transition_ShapeOrder = order
+		}
+		stage.Transition_ShapeMap_Staged_Order[transition_shape] = stage.Transition_ShapeOrder
+		stage.Transition_ShapeOrder++
+	}
+	stage.Transition_Shapes_mapString[transition_shape.Name] = transition_shape
 }
 
 // Unstage removes transition_shape off the model stage
