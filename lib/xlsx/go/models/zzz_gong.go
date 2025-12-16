@@ -188,9 +188,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -205,18 +202,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -490,9 +475,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -619,12 +601,6 @@ func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection 
 		stage.DisplaySelections[displayselection] = struct{}{}
 		stage.DisplaySelectionMap_Staged_Order[displayselection] = stage.DisplaySelectionOrder
 		stage.DisplaySelectionOrder++
-		stage.new[displayselection] = struct{}{}
-		delete(stage.deleted, displayselection)
-	} else {
-		if _, ok := stage.new[displayselection]; !ok {
-			stage.modified[displayselection] = struct{}{}
-		}
 	}
 	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
 
@@ -636,11 +612,6 @@ func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelectio
 	delete(stage.DisplaySelections, displayselection)
 	delete(stage.DisplaySelections_mapString, displayselection.Name)
 
-	if _, ok := stage.reference[displayselection]; ok {
-		stage.deleted[displayselection] = struct{}{}
-	} else {
-		delete(stage.new, displayselection)
-	}
 	return displayselection
 }
 
@@ -695,12 +666,6 @@ func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 		stage.XLCells[xlcell] = struct{}{}
 		stage.XLCellMap_Staged_Order[xlcell] = stage.XLCellOrder
 		stage.XLCellOrder++
-		stage.new[xlcell] = struct{}{}
-		delete(stage.deleted, xlcell)
-	} else {
-		if _, ok := stage.new[xlcell]; !ok {
-			stage.modified[xlcell] = struct{}{}
-		}
 	}
 	stage.XLCells_mapString[xlcell.Name] = xlcell
 
@@ -712,11 +677,6 @@ func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
 	delete(stage.XLCells, xlcell)
 	delete(stage.XLCells_mapString, xlcell.Name)
 
-	if _, ok := stage.reference[xlcell]; ok {
-		stage.deleted[xlcell] = struct{}{}
-	} else {
-		delete(stage.new, xlcell)
-	}
 	return xlcell
 }
 
@@ -771,12 +731,6 @@ func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 		stage.XLFiles[xlfile] = struct{}{}
 		stage.XLFileMap_Staged_Order[xlfile] = stage.XLFileOrder
 		stage.XLFileOrder++
-		stage.new[xlfile] = struct{}{}
-		delete(stage.deleted, xlfile)
-	} else {
-		if _, ok := stage.new[xlfile]; !ok {
-			stage.modified[xlfile] = struct{}{}
-		}
 	}
 	stage.XLFiles_mapString[xlfile.Name] = xlfile
 
@@ -788,11 +742,6 @@ func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 	delete(stage.XLFiles, xlfile)
 	delete(stage.XLFiles_mapString, xlfile.Name)
 
-	if _, ok := stage.reference[xlfile]; ok {
-		stage.deleted[xlfile] = struct{}{}
-	} else {
-		delete(stage.new, xlfile)
-	}
 	return xlfile
 }
 
@@ -847,12 +796,6 @@ func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 		stage.XLRows[xlrow] = struct{}{}
 		stage.XLRowMap_Staged_Order[xlrow] = stage.XLRowOrder
 		stage.XLRowOrder++
-		stage.new[xlrow] = struct{}{}
-		delete(stage.deleted, xlrow)
-	} else {
-		if _, ok := stage.new[xlrow]; !ok {
-			stage.modified[xlrow] = struct{}{}
-		}
 	}
 	stage.XLRows_mapString[xlrow.Name] = xlrow
 
@@ -864,11 +807,6 @@ func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 	delete(stage.XLRows, xlrow)
 	delete(stage.XLRows_mapString, xlrow.Name)
 
-	if _, ok := stage.reference[xlrow]; ok {
-		stage.deleted[xlrow] = struct{}{}
-	} else {
-		delete(stage.new, xlrow)
-	}
 	return xlrow
 }
 
@@ -923,12 +861,6 @@ func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 		stage.XLSheets[xlsheet] = struct{}{}
 		stage.XLSheetMap_Staged_Order[xlsheet] = stage.XLSheetOrder
 		stage.XLSheetOrder++
-		stage.new[xlsheet] = struct{}{}
-		delete(stage.deleted, xlsheet)
-	} else {
-		if _, ok := stage.new[xlsheet]; !ok {
-			stage.modified[xlsheet] = struct{}{}
-		}
 	}
 	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
 
@@ -940,11 +872,6 @@ func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
 	delete(stage.XLSheets, xlsheet)
 	delete(stage.XLSheets_mapString, xlsheet.Name)
 
-	if _, ok := stage.reference[xlsheet]; ok {
-		stage.deleted[xlsheet] = struct{}{}
-	} else {
-		delete(stage.new, xlsheet)
-	}
 	return xlsheet
 }
 
