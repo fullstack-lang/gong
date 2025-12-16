@@ -220,14 +220,14 @@ func _(stage *models.Stage) {
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.X = 379.000000
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.Y = 404.999985
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.Width = 200.000000
-	__StateShape__00000003_Form_Update_Stage_Of_Interest.Height = 108.000000
+	__StateShape__00000003_Form_Update_Stage_Of_Interest.Height = 125.000031
 
 	__StateShape__00000004_Enforce_Model_Semantic.Name = `Enforce Model Semantic`
 	__StateShape__00000004_Enforce_Model_Semantic.IsExpanded = false
 	__StateShape__00000004_Enforce_Model_Semantic.X = 380.000000
 	__StateShape__00000004_Enforce_Model_Semantic.Y = 677.000015
 	__StateShape__00000004_Enforce_Model_Semantic.Width = 646.000000
-	__StateShape__00000004_Enforce_Model_Semantic.Height = 80.000000
+	__StateShape__00000004_Enforce_Model_Semantic.Height = 121.000000
 
 	__StateShape__00000005_Update_Probe_Form.Name = `Update Probe Form`
 	__StateShape__00000005_Update_Probe_Form.IsExpanded = false
@@ -283,7 +283,7 @@ func _(stage *models.Stage) {
 	__StateShape__00000012_Clean_Stage.X = 786.000000
 	__StateShape__00000012_Clean_Stage.Y = 411.000000
 	__StateShape__00000012_Clean_Stage.Width = 200.000000
-	__StateShape__00000012_Clean_Stage.Height = 80.000000
+	__StateShape__00000012_Clean_Stage.Height = 87.000000
 
 	__Transition__00000000_Submit.Name = `Submit`
 
