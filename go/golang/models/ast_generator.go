@@ -37,7 +37,16 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 									case "{{Structname}}":
 										instance{{Structname}} := new({{Structname}})
 										instance{{Structname}}.Name = instanceName
-										instance{{Structname}}.Stage(stage)
+										if !preserveOrder {
+											instance{{Structname}}.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instance{{Structname}}.Stage(stage)
+											} else {
+												instance{{Structname}}.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instance{{Structname}})
 										__gong__map_{{Structname}}[identifier] = instance{{Structname}}`,
 	ModelGongAstBasicLitAssignment: `
@@ -237,8 +246,8 @@ func GongAstGenerator(modelPkg *models.ModelPkg, pkgPath string) {
 							"{{FieldName}}", field.Name)
 					case types.UntypedNil:
 						// we have 2 possible assignments
-						// one for ref_models.Astruct{}
-						// one for ref_models.Astruct{}.Name
+						// one for ref_models.{{Structname}}{}
+						// one for ref_models.{{Structname}}{}.Name
 						basicLitAssignCode += models.Replace1(
 							ModelGongAstFieldSubTemplateCode[ModelGongAstFieldAssignMetaField],
 							"{{FieldName}}", field.Name)
