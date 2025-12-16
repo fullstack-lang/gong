@@ -48,9 +48,9 @@ map[ModelGongMarshallStructInsertionId]string{
 	if len({{structname}}Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, {{structname}} := range {{structname}}Ordered {
+	for _, {{structname}} := range {{structname}}Ordered {
 
-		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
+		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		decl = IdentifiersDecls

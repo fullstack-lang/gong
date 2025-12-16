@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(freqencyOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, freqency := range freqencyOrdered {
+	for _, freqency := range freqencyOrdered {
 
-		id = generatesIdentifier("Freqency", idx, freqency.Name)
+		id = generatesIdentifier("Freqency", int(stage.FreqencyMap_Staged_Order[freqency]), freqency.Name)
 		map_Freqency_Identifiers[freqency] = id
 
 		decl = IdentifiersDecls
@@ -166,9 +166,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(noteOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, note := range noteOrdered {
+	for _, note := range noteOrdered {
 
-		id = generatesIdentifier("Note", idx, note.Name)
+		id = generatesIdentifier("Note", int(stage.NoteMap_Staged_Order[note]), note.Name)
 		map_Note_Identifiers[note] = id
 
 		decl = IdentifiersDecls
@@ -231,9 +231,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(playerOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, player := range playerOrdered {
+	for _, player := range playerOrdered {
 
-		id = generatesIdentifier("Player", idx, player.Name)
+		id = generatesIdentifier("Player", int(stage.PlayerMap_Staged_Order[player]), player.Name)
 		map_Player_Identifiers[player] = id
 
 		decl = IdentifiersDecls
@@ -372,7 +372,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }
