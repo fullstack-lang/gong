@@ -262,9 +262,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -279,18 +276,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -708,9 +693,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -867,12 +849,6 @@ func (category1 *Category1) Stage(stage *Stage) *Category1 {
 		stage.Category1s[category1] = struct{}{}
 		stage.Category1Map_Staged_Order[category1] = stage.Category1Order
 		stage.Category1Order++
-		stage.new[category1] = struct{}{}
-		delete(stage.deleted, category1)
-	} else {
-		if _, ok := stage.new[category1]; !ok {
-			stage.modified[category1] = struct{}{}
-		}
 	}
 	stage.Category1s_mapString[category1.Name] = category1
 
@@ -884,11 +860,6 @@ func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 	delete(stage.Category1s, category1)
 	delete(stage.Category1s_mapString, category1.Name)
 
-	if _, ok := stage.reference[category1]; ok {
-		stage.deleted[category1] = struct{}{}
-	} else {
-		delete(stage.new, category1)
-	}
 	return category1
 }
 
@@ -943,12 +914,6 @@ func (category1shape *Category1Shape) Stage(stage *Stage) *Category1Shape {
 		stage.Category1Shapes[category1shape] = struct{}{}
 		stage.Category1ShapeMap_Staged_Order[category1shape] = stage.Category1ShapeOrder
 		stage.Category1ShapeOrder++
-		stage.new[category1shape] = struct{}{}
-		delete(stage.deleted, category1shape)
-	} else {
-		if _, ok := stage.new[category1shape]; !ok {
-			stage.modified[category1shape] = struct{}{}
-		}
 	}
 	stage.Category1Shapes_mapString[category1shape.Name] = category1shape
 
@@ -960,11 +925,6 @@ func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
 	delete(stage.Category1Shapes, category1shape)
 	delete(stage.Category1Shapes_mapString, category1shape.Name)
 
-	if _, ok := stage.reference[category1shape]; ok {
-		stage.deleted[category1shape] = struct{}{}
-	} else {
-		delete(stage.new, category1shape)
-	}
 	return category1shape
 }
 
@@ -1019,12 +979,6 @@ func (category2 *Category2) Stage(stage *Stage) *Category2 {
 		stage.Category2s[category2] = struct{}{}
 		stage.Category2Map_Staged_Order[category2] = stage.Category2Order
 		stage.Category2Order++
-		stage.new[category2] = struct{}{}
-		delete(stage.deleted, category2)
-	} else {
-		if _, ok := stage.new[category2]; !ok {
-			stage.modified[category2] = struct{}{}
-		}
 	}
 	stage.Category2s_mapString[category2.Name] = category2
 
@@ -1036,11 +990,6 @@ func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 	delete(stage.Category2s, category2)
 	delete(stage.Category2s_mapString, category2.Name)
 
-	if _, ok := stage.reference[category2]; ok {
-		stage.deleted[category2] = struct{}{}
-	} else {
-		delete(stage.new, category2)
-	}
 	return category2
 }
 
@@ -1095,12 +1044,6 @@ func (category2shape *Category2Shape) Stage(stage *Stage) *Category2Shape {
 		stage.Category2Shapes[category2shape] = struct{}{}
 		stage.Category2ShapeMap_Staged_Order[category2shape] = stage.Category2ShapeOrder
 		stage.Category2ShapeOrder++
-		stage.new[category2shape] = struct{}{}
-		delete(stage.deleted, category2shape)
-	} else {
-		if _, ok := stage.new[category2shape]; !ok {
-			stage.modified[category2shape] = struct{}{}
-		}
 	}
 	stage.Category2Shapes_mapString[category2shape.Name] = category2shape
 
@@ -1112,11 +1055,6 @@ func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
 	delete(stage.Category2Shapes, category2shape)
 	delete(stage.Category2Shapes_mapString, category2shape.Name)
 
-	if _, ok := stage.reference[category2shape]; ok {
-		stage.deleted[category2shape] = struct{}{}
-	} else {
-		delete(stage.new, category2shape)
-	}
 	return category2shape
 }
 
@@ -1171,12 +1109,6 @@ func (category3 *Category3) Stage(stage *Stage) *Category3 {
 		stage.Category3s[category3] = struct{}{}
 		stage.Category3Map_Staged_Order[category3] = stage.Category3Order
 		stage.Category3Order++
-		stage.new[category3] = struct{}{}
-		delete(stage.deleted, category3)
-	} else {
-		if _, ok := stage.new[category3]; !ok {
-			stage.modified[category3] = struct{}{}
-		}
 	}
 	stage.Category3s_mapString[category3.Name] = category3
 
@@ -1188,11 +1120,6 @@ func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 	delete(stage.Category3s, category3)
 	delete(stage.Category3s_mapString, category3.Name)
 
-	if _, ok := stage.reference[category3]; ok {
-		stage.deleted[category3] = struct{}{}
-	} else {
-		delete(stage.new, category3)
-	}
 	return category3
 }
 
@@ -1247,12 +1174,6 @@ func (category3shape *Category3Shape) Stage(stage *Stage) *Category3Shape {
 		stage.Category3Shapes[category3shape] = struct{}{}
 		stage.Category3ShapeMap_Staged_Order[category3shape] = stage.Category3ShapeOrder
 		stage.Category3ShapeOrder++
-		stage.new[category3shape] = struct{}{}
-		delete(stage.deleted, category3shape)
-	} else {
-		if _, ok := stage.new[category3shape]; !ok {
-			stage.modified[category3shape] = struct{}{}
-		}
 	}
 	stage.Category3Shapes_mapString[category3shape.Name] = category3shape
 
@@ -1264,11 +1185,6 @@ func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
 	delete(stage.Category3Shapes, category3shape)
 	delete(stage.Category3Shapes_mapString, category3shape.Name)
 
-	if _, ok := stage.reference[category3shape]; ok {
-		stage.deleted[category3shape] = struct{}{}
-	} else {
-		delete(stage.new, category3shape)
-	}
 	return category3shape
 }
 
@@ -1323,12 +1239,6 @@ func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointSha
 		stage.ControlPointShapes[controlpointshape] = struct{}{}
 		stage.ControlPointShapeMap_Staged_Order[controlpointshape] = stage.ControlPointShapeOrder
 		stage.ControlPointShapeOrder++
-		stage.new[controlpointshape] = struct{}{}
-		delete(stage.deleted, controlpointshape)
-	} else {
-		if _, ok := stage.new[controlpointshape]; !ok {
-			stage.modified[controlpointshape] = struct{}{}
-		}
 	}
 	stage.ControlPointShapes_mapString[controlpointshape.Name] = controlpointshape
 
@@ -1340,11 +1250,6 @@ func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointS
 	delete(stage.ControlPointShapes, controlpointshape)
 	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
 
-	if _, ok := stage.reference[controlpointshape]; ok {
-		stage.deleted[controlpointshape] = struct{}{}
-	} else {
-		delete(stage.new, controlpointshape)
-	}
 	return controlpointshape
 }
 
@@ -1399,12 +1304,6 @@ func (desk *Desk) Stage(stage *Stage) *Desk {
 		stage.Desks[desk] = struct{}{}
 		stage.DeskMap_Staged_Order[desk] = stage.DeskOrder
 		stage.DeskOrder++
-		stage.new[desk] = struct{}{}
-		delete(stage.deleted, desk)
-	} else {
-		if _, ok := stage.new[desk]; !ok {
-			stage.modified[desk] = struct{}{}
-		}
 	}
 	stage.Desks_mapString[desk.Name] = desk
 
@@ -1416,11 +1315,6 @@ func (desk *Desk) Unstage(stage *Stage) *Desk {
 	delete(stage.Desks, desk)
 	delete(stage.Desks_mapString, desk.Name)
 
-	if _, ok := stage.reference[desk]; ok {
-		stage.deleted[desk] = struct{}{}
-	} else {
-		delete(stage.new, desk)
-	}
 	return desk
 }
 
@@ -1475,12 +1369,6 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 		stage.Diagrams[diagram] = struct{}{}
 		stage.DiagramMap_Staged_Order[diagram] = stage.DiagramOrder
 		stage.DiagramOrder++
-		stage.new[diagram] = struct{}{}
-		delete(stage.deleted, diagram)
-	} else {
-		if _, ok := stage.new[diagram]; !ok {
-			stage.modified[diagram] = struct{}{}
-		}
 	}
 	stage.Diagrams_mapString[diagram.Name] = diagram
 
@@ -1492,11 +1380,6 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
-	if _, ok := stage.reference[diagram]; ok {
-		stage.deleted[diagram] = struct{}{}
-	} else {
-		delete(stage.new, diagram)
-	}
 	return diagram
 }
 
@@ -1551,12 +1434,6 @@ func (influence *Influence) Stage(stage *Stage) *Influence {
 		stage.Influences[influence] = struct{}{}
 		stage.InfluenceMap_Staged_Order[influence] = stage.InfluenceOrder
 		stage.InfluenceOrder++
-		stage.new[influence] = struct{}{}
-		delete(stage.deleted, influence)
-	} else {
-		if _, ok := stage.new[influence]; !ok {
-			stage.modified[influence] = struct{}{}
-		}
 	}
 	stage.Influences_mapString[influence.Name] = influence
 
@@ -1568,11 +1445,6 @@ func (influence *Influence) Unstage(stage *Stage) *Influence {
 	delete(stage.Influences, influence)
 	delete(stage.Influences_mapString, influence.Name)
 
-	if _, ok := stage.reference[influence]; ok {
-		stage.deleted[influence] = struct{}{}
-	} else {
-		delete(stage.new, influence)
-	}
 	return influence
 }
 
@@ -1627,12 +1499,6 @@ func (influenceshape *InfluenceShape) Stage(stage *Stage) *InfluenceShape {
 		stage.InfluenceShapes[influenceshape] = struct{}{}
 		stage.InfluenceShapeMap_Staged_Order[influenceshape] = stage.InfluenceShapeOrder
 		stage.InfluenceShapeOrder++
-		stage.new[influenceshape] = struct{}{}
-		delete(stage.deleted, influenceshape)
-	} else {
-		if _, ok := stage.new[influenceshape]; !ok {
-			stage.modified[influenceshape] = struct{}{}
-		}
 	}
 	stage.InfluenceShapes_mapString[influenceshape.Name] = influenceshape
 
@@ -1644,11 +1510,6 @@ func (influenceshape *InfluenceShape) Unstage(stage *Stage) *InfluenceShape {
 	delete(stage.InfluenceShapes, influenceshape)
 	delete(stage.InfluenceShapes_mapString, influenceshape.Name)
 
-	if _, ok := stage.reference[influenceshape]; ok {
-		stage.deleted[influenceshape] = struct{}{}
-	} else {
-		delete(stage.new, influenceshape)
-	}
 	return influenceshape
 }
 
