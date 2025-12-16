@@ -137,7 +137,7 @@ func NewStack(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
+		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"	
 		stack.Probe = probe.NewProbe(
 			r,
 			test_go.GoModelsDir,
