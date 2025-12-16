@@ -138,12 +138,12 @@ func ({{structname}} *{{Structname}}) Stage(stage *Stage) *{{Structname}} {
 	return {{structname}}
 }
 
-// StageForceOrder puts {{structname}} to the model stage, and if the astrtuct
+// StagePreserveOrder puts {{structname}} to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.{{Structname}}Order
 // - update stage.{{Structname}}Order accordingly
-func ({{structname}} *{{Structname}}) StageForceOrder(stage *Stage, order uint) {
+func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 		stage.{{Structname}}s[{{structname}}] = struct{}{}

@@ -640,12 +640,12 @@ func (command *Command) Stage(stage *Stage) *Command {
 	return command
 }
 
-// StageForceOrder puts command to the model stage, and if the astrtuct
+// StagePreserveOrder puts command to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CommandOrder
 // - update stage.CommandOrder accordingly
-func (command *Command) StageForceOrder(stage *Stage, order uint) {
+func (command *Command) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Commands[command]; !ok {
 		stage.Commands[command] = struct{}{}
@@ -724,12 +724,12 @@ func (dummyagent *DummyAgent) Stage(stage *Stage) *DummyAgent {
 	return dummyagent
 }
 
-// StageForceOrder puts dummyagent to the model stage, and if the astrtuct
+// StagePreserveOrder puts dummyagent to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DummyAgentOrder
 // - update stage.DummyAgentOrder accordingly
-func (dummyagent *DummyAgent) StageForceOrder(stage *Stage, order uint) {
+func (dummyagent *DummyAgent) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.DummyAgents[dummyagent]; !ok {
 		stage.DummyAgents[dummyagent] = struct{}{}
@@ -808,12 +808,12 @@ func (engine *Engine) Stage(stage *Stage) *Engine {
 	return engine
 }
 
-// StageForceOrder puts engine to the model stage, and if the astrtuct
+// StagePreserveOrder puts engine to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.EngineOrder
 // - update stage.EngineOrder accordingly
-func (engine *Engine) StageForceOrder(stage *Stage, order uint) {
+func (engine *Engine) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Engines[engine]; !ok {
 		stage.Engines[engine] = struct{}{}
@@ -892,12 +892,12 @@ func (event *Event) Stage(stage *Stage) *Event {
 	return event
 }
 
-// StageForceOrder puts event to the model stage, and if the astrtuct
+// StagePreserveOrder puts event to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.EventOrder
 // - update stage.EventOrder accordingly
-func (event *Event) StageForceOrder(stage *Stage, order uint) {
+func (event *Event) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Events[event]; !ok {
 		stage.Events[event] = struct{}{}
@@ -976,12 +976,12 @@ func (status *Status) Stage(stage *Stage) *Status {
 	return status
 }
 
-// StageForceOrder puts status to the model stage, and if the astrtuct
+// StagePreserveOrder puts status to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.StatusOrder
 // - update stage.StatusOrder accordingly
-func (status *Status) StageForceOrder(stage *Stage, order uint) {
+func (status *Status) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Statuss[status]; !ok {
 		stage.Statuss[status] = struct{}{}
@@ -1060,12 +1060,12 @@ func (updatestate *UpdateState) Stage(stage *Stage) *UpdateState {
 	return updatestate
 }
 
-// StageForceOrder puts updatestate to the model stage, and if the astrtuct
+// StagePreserveOrder puts updatestate to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.UpdateStateOrder
 // - update stage.UpdateStateOrder accordingly
-func (updatestate *UpdateState) StageForceOrder(stage *Stage, order uint) {
+func (updatestate *UpdateState) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.UpdateStates[updatestate]; !ok {
 		stage.UpdateStates[updatestate] = struct{}{}

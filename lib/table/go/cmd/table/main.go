@@ -108,7 +108,7 @@ func main() {
 		stageForManualyEditedTable.Checkout()
 		stageForManualyEditedTable.Reset()
 		stageForManualyEditedTable.Commit()
-		err := gongtable_models.ParseAstFile(stageForManualyEditedTable, "table_stage.go")
+		err := gongtable_models.ParseAstFile(stageForManualyEditedTable, "table_stage.go", false)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -122,7 +122,7 @@ func main() {
 		stageForManualyEditedForm.Checkout()
 		stageForManualyEditedForm.Reset()
 		stageForManualyEditedForm.Commit()
-		err := gongtable_models.ParseAstFile(stageForManualyEditedForm, "form_stage.go")
+		err := gongtable_models.ParseAstFile(stageForManualyEditedForm, "form_stage.go", false)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.

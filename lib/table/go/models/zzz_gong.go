@@ -1351,12 +1351,12 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 	return cell
 }
 
-// StageForceOrder puts cell to the model stage, and if the astrtuct
+// StagePreserveOrder puts cell to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellOrder
 // - update stage.CellOrder accordingly
-func (cell *Cell) StageForceOrder(stage *Stage, order uint) {
+func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Cells[cell]; !ok {
 		stage.Cells[cell] = struct{}{}
@@ -1435,12 +1435,12 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 	return cellboolean
 }
 
-// StageForceOrder puts cellboolean to the model stage, and if the astrtuct
+// StagePreserveOrder puts cellboolean to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellBooleanOrder
 // - update stage.CellBooleanOrder accordingly
-func (cellboolean *CellBoolean) StageForceOrder(stage *Stage, order uint) {
+func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CellBooleans[cellboolean]; !ok {
 		stage.CellBooleans[cellboolean] = struct{}{}
@@ -1519,12 +1519,12 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 	return cellfloat64
 }
 
-// StageForceOrder puts cellfloat64 to the model stage, and if the astrtuct
+// StagePreserveOrder puts cellfloat64 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellFloat64Order
 // - update stage.CellFloat64Order accordingly
-func (cellfloat64 *CellFloat64) StageForceOrder(stage *Stage, order uint) {
+func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 		stage.CellFloat64s[cellfloat64] = struct{}{}
@@ -1603,12 +1603,12 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 	return cellicon
 }
 
-// StageForceOrder puts cellicon to the model stage, and if the astrtuct
+// StagePreserveOrder puts cellicon to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellIconOrder
 // - update stage.CellIconOrder accordingly
-func (cellicon *CellIcon) StageForceOrder(stage *Stage, order uint) {
+func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CellIcons[cellicon]; !ok {
 		stage.CellIcons[cellicon] = struct{}{}
@@ -1687,12 +1687,12 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 	return cellint
 }
 
-// StageForceOrder puts cellint to the model stage, and if the astrtuct
+// StagePreserveOrder puts cellint to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellIntOrder
 // - update stage.CellIntOrder accordingly
-func (cellint *CellInt) StageForceOrder(stage *Stage, order uint) {
+func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CellInts[cellint]; !ok {
 		stage.CellInts[cellint] = struct{}{}
@@ -1771,12 +1771,12 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 	return cellstring
 }
 
-// StageForceOrder puts cellstring to the model stage, and if the astrtuct
+// StagePreserveOrder puts cellstring to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CellStringOrder
 // - update stage.CellStringOrder accordingly
-func (cellstring *CellString) StageForceOrder(stage *Stage, order uint) {
+func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CellStrings[cellstring]; !ok {
 		stage.CellStrings[cellstring] = struct{}{}
@@ -1855,12 +1855,12 @@ func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
 	return checkbox
 }
 
-// StageForceOrder puts checkbox to the model stage, and if the astrtuct
+// StagePreserveOrder puts checkbox to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CheckBoxOrder
 // - update stage.CheckBoxOrder accordingly
-func (checkbox *CheckBox) StageForceOrder(stage *Stage, order uint) {
+func (checkbox *CheckBox) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.CheckBoxs[checkbox]; !ok {
 		stage.CheckBoxs[checkbox] = struct{}{}
@@ -1939,12 +1939,12 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 	return displayedcolumn
 }
 
-// StageForceOrder puts displayedcolumn to the model stage, and if the astrtuct
+// StagePreserveOrder puts displayedcolumn to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DisplayedColumnOrder
 // - update stage.DisplayedColumnOrder accordingly
-func (displayedcolumn *DisplayedColumn) StageForceOrder(stage *Stage, order uint) {
+func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 		stage.DisplayedColumns[displayedcolumn] = struct{}{}
@@ -2023,12 +2023,12 @@ func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
 	return formdiv
 }
 
-// StageForceOrder puts formdiv to the model stage, and if the astrtuct
+// StagePreserveOrder puts formdiv to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormDivOrder
 // - update stage.FormDivOrder accordingly
-func (formdiv *FormDiv) StageForceOrder(stage *Stage, order uint) {
+func (formdiv *FormDiv) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormDivs[formdiv]; !ok {
 		stage.FormDivs[formdiv] = struct{}{}
@@ -2107,12 +2107,12 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAss
 	return formeditassocbutton
 }
 
-// StageForceOrder puts formeditassocbutton to the model stage, and if the astrtuct
+// StagePreserveOrder puts formeditassocbutton to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormEditAssocButtonOrder
 // - update stage.FormEditAssocButtonOrder accordingly
-func (formeditassocbutton *FormEditAssocButton) StageForceOrder(stage *Stage, order uint) {
+func (formeditassocbutton *FormEditAssocButton) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
@@ -2191,12 +2191,12 @@ func (formfield *FormField) Stage(stage *Stage) *FormField {
 	return formfield
 }
 
-// StageForceOrder puts formfield to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfield to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldOrder
 // - update stage.FormFieldOrder accordingly
-func (formfield *FormField) StageForceOrder(stage *Stage, order uint) {
+func (formfield *FormField) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFields[formfield]; !ok {
 		stage.FormFields[formfield] = struct{}{}
@@ -2275,12 +2275,12 @@ func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 	return formfielddate
 }
 
-// StageForceOrder puts formfielddate to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfielddate to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldDateOrder
 // - update stage.FormFieldDateOrder accordingly
-func (formfielddate *FormFieldDate) StageForceOrder(stage *Stage, order uint) {
+func (formfielddate *FormFieldDate) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 		stage.FormFieldDates[formfielddate] = struct{}{}
@@ -2359,12 +2359,12 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTi
 	return formfielddatetime
 }
 
-// StageForceOrder puts formfielddatetime to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfielddatetime to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldDateTimeOrder
 // - update stage.FormFieldDateTimeOrder accordingly
-func (formfielddatetime *FormFieldDateTime) StageForceOrder(stage *Stage, order uint) {
+func (formfielddatetime *FormFieldDateTime) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
@@ -2443,12 +2443,12 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 
 	return formfieldfloat64
 }
 
-// StageForceOrder puts formfieldfloat64 to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfieldfloat64 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldFloat64Order
 // - update stage.FormFieldFloat64Order accordingly
-func (formfieldfloat64 *FormFieldFloat64) StageForceOrder(stage *Stage, order uint) {
+func (formfieldfloat64 *FormFieldFloat64) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
@@ -2527,12 +2527,12 @@ func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
 	return formfieldint
 }
 
-// StageForceOrder puts formfieldint to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfieldint to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldIntOrder
 // - update stage.FormFieldIntOrder accordingly
-func (formfieldint *FormFieldInt) StageForceOrder(stage *Stage, order uint) {
+func (formfieldint *FormFieldInt) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 		stage.FormFieldInts[formfieldint] = struct{}{}
@@ -2611,12 +2611,12 @@ func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 	return formfieldselect
 }
 
-// StageForceOrder puts formfieldselect to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfieldselect to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldSelectOrder
 // - update stage.FormFieldSelectOrder accordingly
-func (formfieldselect *FormFieldSelect) StageForceOrder(stage *Stage, order uint) {
+func (formfieldselect *FormFieldSelect) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 		stage.FormFieldSelects[formfieldselect] = struct{}{}
@@ -2695,12 +2695,12 @@ func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
 	return formfieldstring
 }
 
-// StageForceOrder puts formfieldstring to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfieldstring to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldStringOrder
 // - update stage.FormFieldStringOrder accordingly
-func (formfieldstring *FormFieldString) StageForceOrder(stage *Stage, order uint) {
+func (formfieldstring *FormFieldString) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 		stage.FormFieldStrings[formfieldstring] = struct{}{}
@@ -2779,12 +2779,12 @@ func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 	return formfieldtime
 }
 
-// StageForceOrder puts formfieldtime to the model stage, and if the astrtuct
+// StagePreserveOrder puts formfieldtime to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormFieldTimeOrder
 // - update stage.FormFieldTimeOrder accordingly
-func (formfieldtime *FormFieldTime) StageForceOrder(stage *Stage, order uint) {
+func (formfieldtime *FormFieldTime) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 		stage.FormFieldTimes[formfieldtime] = struct{}{}
@@ -2863,12 +2863,12 @@ func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
 	return formgroup
 }
 
-// StageForceOrder puts formgroup to the model stage, and if the astrtuct
+// StagePreserveOrder puts formgroup to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormGroupOrder
 // - update stage.FormGroupOrder accordingly
-func (formgroup *FormGroup) StageForceOrder(stage *Stage, order uint) {
+func (formgroup *FormGroup) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormGroups[formgroup]; !ok {
 		stage.FormGroups[formgroup] = struct{}{}
@@ -2947,12 +2947,12 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAss
 	return formsortassocbutton
 }
 
-// StageForceOrder puts formsortassocbutton to the model stage, and if the astrtuct
+// StagePreserveOrder puts formsortassocbutton to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FormSortAssocButtonOrder
 // - update stage.FormSortAssocButtonOrder accordingly
-func (formsortassocbutton *FormSortAssocButton) StageForceOrder(stage *Stage, order uint) {
+func (formsortassocbutton *FormSortAssocButton) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
@@ -3031,12 +3031,12 @@ func (option *Option) Stage(stage *Stage) *Option {
 	return option
 }
 
-// StageForceOrder puts option to the model stage, and if the astrtuct
+// StagePreserveOrder puts option to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.OptionOrder
 // - update stage.OptionOrder accordingly
-func (option *Option) StageForceOrder(stage *Stage, order uint) {
+func (option *Option) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Options[option]; !ok {
 		stage.Options[option] = struct{}{}
@@ -3115,12 +3115,12 @@ func (row *Row) Stage(stage *Stage) *Row {
 	return row
 }
 
-// StageForceOrder puts row to the model stage, and if the astrtuct
+// StagePreserveOrder puts row to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RowOrder
 // - update stage.RowOrder accordingly
-func (row *Row) StageForceOrder(stage *Stage, order uint) {
+func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Rows[row]; !ok {
 		stage.Rows[row] = struct{}{}
@@ -3199,12 +3199,12 @@ func (table *Table) Stage(stage *Stage) *Table {
 	return table
 }
 
-// StageForceOrder puts table to the model stage, and if the astrtuct
+// StagePreserveOrder puts table to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.TableOrder
 // - update stage.TableOrder accordingly
-func (table *Table) StageForceOrder(stage *Stage, order uint) {
+func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Tables[table]; !ok {
 		stage.Tables[table] = struct{}{}

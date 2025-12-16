@@ -607,12 +607,12 @@ func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection 
 	return displayselection
 }
 
-// StageForceOrder puts displayselection to the model stage, and if the astrtuct
+// StagePreserveOrder puts displayselection to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DisplaySelectionOrder
 // - update stage.DisplaySelectionOrder accordingly
-func (displayselection *DisplaySelection) StageForceOrder(stage *Stage, order uint) {
+func (displayselection *DisplaySelection) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.DisplaySelections[displayselection]; !ok {
 		stage.DisplaySelections[displayselection] = struct{}{}
@@ -691,12 +691,12 @@ func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 	return xlcell
 }
 
-// StageForceOrder puts xlcell to the model stage, and if the astrtuct
+// StagePreserveOrder puts xlcell to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.XLCellOrder
 // - update stage.XLCellOrder accordingly
-func (xlcell *XLCell) StageForceOrder(stage *Stage, order uint) {
+func (xlcell *XLCell) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.XLCells[xlcell]; !ok {
 		stage.XLCells[xlcell] = struct{}{}
@@ -775,12 +775,12 @@ func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 	return xlfile
 }
 
-// StageForceOrder puts xlfile to the model stage, and if the astrtuct
+// StagePreserveOrder puts xlfile to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.XLFileOrder
 // - update stage.XLFileOrder accordingly
-func (xlfile *XLFile) StageForceOrder(stage *Stage, order uint) {
+func (xlfile *XLFile) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.XLFiles[xlfile]; !ok {
 		stage.XLFiles[xlfile] = struct{}{}
@@ -859,12 +859,12 @@ func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 	return xlrow
 }
 
-// StageForceOrder puts xlrow to the model stage, and if the astrtuct
+// StagePreserveOrder puts xlrow to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.XLRowOrder
 // - update stage.XLRowOrder accordingly
-func (xlrow *XLRow) StageForceOrder(stage *Stage, order uint) {
+func (xlrow *XLRow) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.XLRows[xlrow]; !ok {
 		stage.XLRows[xlrow] = struct{}{}
@@ -943,12 +943,12 @@ func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 	return xlsheet
 }
 
-// StageForceOrder puts xlsheet to the model stage, and if the astrtuct
+// StagePreserveOrder puts xlsheet to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.XLSheetOrder
 // - update stage.XLSheetOrder accordingly
-func (xlsheet *XLSheet) StageForceOrder(stage *Stage, order uint) {
+func (xlsheet *XLSheet) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.XLSheets[xlsheet]; !ok {
 		stage.XLSheets[xlsheet] = struct{}{}

@@ -779,12 +779,12 @@ func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 	return attributeshape
 }
 
-// StageForceOrder puts attributeshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts attributeshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AttributeShapeOrder
 // - update stage.AttributeShapeOrder accordingly
-func (attributeshape *AttributeShape) StageForceOrder(stage *Stage, order uint) {
+func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
 		stage.AttributeShapes[attributeshape] = struct{}{}
@@ -863,12 +863,12 @@ func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 	return classdiagram
 }
 
-// StageForceOrder puts classdiagram to the model stage, and if the astrtuct
+// StagePreserveOrder puts classdiagram to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ClassdiagramOrder
 // - update stage.ClassdiagramOrder accordingly
-func (classdiagram *Classdiagram) StageForceOrder(stage *Stage, order uint) {
+func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
 		stage.Classdiagrams[classdiagram] = struct{}{}
@@ -947,12 +947,12 @@ func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 	return diagrampackage
 }
 
-// StageForceOrder puts diagrampackage to the model stage, and if the astrtuct
+// StagePreserveOrder puts diagrampackage to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DiagramPackageOrder
 // - update stage.DiagramPackageOrder accordingly
-func (diagrampackage *DiagramPackage) StageForceOrder(stage *Stage, order uint) {
+func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
 		stage.DiagramPackages[diagrampackage] = struct{}{}
@@ -1031,12 +1031,12 @@ func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 	return gongenumshape
 }
 
-// StageForceOrder puts gongenumshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongenumshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongEnumShapeOrder
 // - update stage.GongEnumShapeOrder accordingly
-func (gongenumshape *GongEnumShape) StageForceOrder(stage *Stage, order uint) {
+func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
 		stage.GongEnumShapes[gongenumshape] = struct{}{}
@@ -1115,12 +1115,12 @@ func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValue
 	return gongenumvalueshape
 }
 
-// StageForceOrder puts gongenumvalueshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongenumvalueshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongEnumValueShapeOrder
 // - update stage.GongEnumValueShapeOrder accordingly
-func (gongenumvalueshape *GongEnumValueShape) StageForceOrder(stage *Stage, order uint) {
+func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
 		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
@@ -1199,12 +1199,12 @@ func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkSha
 	return gongnotelinkshape
 }
 
-// StageForceOrder puts gongnotelinkshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongnotelinkshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongNoteLinkShapeOrder
 // - update stage.GongNoteLinkShapeOrder accordingly
-func (gongnotelinkshape *GongNoteLinkShape) StageForceOrder(stage *Stage, order uint) {
+func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
 		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
@@ -1283,12 +1283,12 @@ func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 	return gongnoteshape
 }
 
-// StageForceOrder puts gongnoteshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongnoteshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongNoteShapeOrder
 // - update stage.GongNoteShapeOrder accordingly
-func (gongnoteshape *GongNoteShape) StageForceOrder(stage *Stage, order uint) {
+func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
 		stage.GongNoteShapes[gongnoteshape] = struct{}{}
@@ -1367,12 +1367,12 @@ func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 	return gongstructshape
 }
 
-// StageForceOrder puts gongstructshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongstructshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongStructShapeOrder
 // - update stage.GongStructShapeOrder accordingly
-func (gongstructshape *GongStructShape) StageForceOrder(stage *Stage, order uint) {
+func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
 		stage.GongStructShapes[gongstructshape] = struct{}{}
@@ -1451,12 +1451,12 @@ func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 	return linkshape
 }
 
-// StageForceOrder puts linkshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts linkshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LinkShapeOrder
 // - update stage.LinkShapeOrder accordingly
-func (linkshape *LinkShape) StageForceOrder(stage *Stage, order uint) {
+func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.LinkShapes[linkshape]; !ok {
 		stage.LinkShapes[linkshape] = struct{}{}

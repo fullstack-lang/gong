@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"embed"
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/doc/comment"
 	"go/parser"
@@ -37,7 +38,7 @@ const (
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(stage *Stage, pathToFile string) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 
 	ReplaceOldDeclarationsInFile(pathToFile)
 
@@ -55,7 +56,7 @@ func ParseAstFile(stage *Stage, pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
@@ -98,12 +99,12 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 	// 4. Call the common AST processing logic.
 	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
 		log.Fatalln("Too many imports in file", inFile.Name)
@@ -165,7 +166,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								stage, &cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate, preserveOrder)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -379,7 +380,7 @@ func lookupSym(recv, name string) bool {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string, preserveOrder bool) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -540,25 +541,61 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									case "Content":
 										instanceContent := new(Content)
 										instanceContent.Name = instanceName
-										instanceContent.Stage(stage)
+										if !preserveOrder {
+											instanceContent.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceContent.Stage(stage)
+											} else {
+												instanceContent.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceContent)
 										__gong__map_Content[identifier] = instanceContent
 									case "JpgImage":
 										instanceJpgImage := new(JpgImage)
 										instanceJpgImage.Name = instanceName
-										instanceJpgImage.Stage(stage)
+										if !preserveOrder {
+											instanceJpgImage.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceJpgImage.Stage(stage)
+											} else {
+												instanceJpgImage.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceJpgImage)
 										__gong__map_JpgImage[identifier] = instanceJpgImage
 									case "PngImage":
 										instancePngImage := new(PngImage)
 										instancePngImage.Name = instanceName
-										instancePngImage.Stage(stage)
+										if !preserveOrder {
+											instancePngImage.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instancePngImage.Stage(stage)
+											} else {
+												instancePngImage.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instancePngImage)
 										__gong__map_PngImage[identifier] = instancePngImage
 									case "SvgImage":
 										instanceSvgImage := new(SvgImage)
 										instanceSvgImage.Name = instanceName
-										instanceSvgImage.Stage(stage)
+										if !preserveOrder {
+											instanceSvgImage.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceSvgImage.Stage(stage)
+											} else {
+												instanceSvgImage.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceSvgImage)
 										__gong__map_SvgImage[identifier] = instanceSvgImage
 									}
@@ -957,4 +994,29 @@ func ReplaceOldDeclarationsInFile(pathToFile string) error {
 		}
 	}
 	return writer.Flush()
+}
+
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
+	// Compile the Regex Pattern
+	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
+
+	// Find the matches
+	matches := re.FindStringSubmatch(input)
+
+	// Validate that we found the pattern and the capture group
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("pattern not found in string: %s", input)
+	}
+
+	// matches[0] is the whole string, matches[1] is the capture group (\d+)
+	numberStr := matches[1]
+
+	// Convert string to integer (handles leading zeros automatically)
+	result, err := strconv.Atoi(numberStr)
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
+	}
+
+	return uint(result), nil
 }
