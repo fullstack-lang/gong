@@ -101,7 +101,7 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // temporary, will be computed dynamicaly
   svgWidth = 3000
-  svgHeight = 4000
+  svgHeight = 8000
 
   // svg is the singloton that is displayed. A svg
   // is the root of the directed acyclic graph containing
