@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"embed"
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/doc/comment"
 	"go/parser"
@@ -543,7 +544,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									case "Astruct":
 										instanceAstruct := new(Astruct)
 										instanceAstruct.Name = instanceName
-										instanceAstruct.Stage(stage)
+										if !preserveOrder {
+											instanceAstruct.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceAstruct.Stage(stage)
+											} else {
+												instanceAstruct.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceAstruct)
 										__gong__map_Astruct[identifier] = instanceAstruct
 									case "AstructBstruct2Use":
@@ -1292,4 +1302,34 @@ func ReplaceOldDeclarationsInFile(pathToFile string) error {
 		}
 	}
 	return writer.Flush()
+}
+
+// ExtractMiddleInt takes a formatted string and returns the extracted integer.
+func ExtractMiddleInt(input string) (int, error) {
+	// Compile the Regex Pattern
+	// 1. `__`    : Matches the literal first separator (double underscore)
+	// 2. `.*?`   : Non-greedy match for the first Identifier
+	// 3. `__`    : Matches the literal second separator (double underscore)
+	// 4. `(\d+)` : Capture group for the digits (The part we want)
+	// 5. `_`     : Matches the literal last separator (single underscore)
+	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
+
+	// Find the matches
+	matches := re.FindStringSubmatch(input)
+
+	// Validate that we found the pattern and the capture group
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("pattern not found in string: %s", input)
+	}
+
+	// matches[0] is the whole string, matches[1] is the capture group (\d+)
+	numberStr := matches[1]
+
+	// Convert string to integer (handles leading zeros automatically)
+	result, err := strconv.Atoi(numberStr)
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
+	}
+
+	return result, nil
 }
