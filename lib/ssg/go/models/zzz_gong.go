@@ -160,9 +160,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -177,18 +174,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -414,9 +399,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -533,12 +515,6 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 		stage.Chapters[chapter] = struct{}{}
 		stage.ChapterMap_Staged_Order[chapter] = stage.ChapterOrder
 		stage.ChapterOrder++
-		stage.new[chapter] = struct{}{}
-		delete(stage.deleted, chapter)
-	} else {
-		if _, ok := stage.new[chapter]; !ok {
-			stage.modified[chapter] = struct{}{}
-		}
 	}
 	stage.Chapters_mapString[chapter.Name] = chapter
 
@@ -550,11 +526,6 @@ func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 	delete(stage.Chapters, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
 
-	if _, ok := stage.reference[chapter]; ok {
-		stage.deleted[chapter] = struct{}{}
-	} else {
-		delete(stage.new, chapter)
-	}
 	return chapter
 }
 
@@ -609,12 +580,6 @@ func (content *Content) Stage(stage *Stage) *Content {
 		stage.Contents[content] = struct{}{}
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
-		stage.new[content] = struct{}{}
-		delete(stage.deleted, content)
-	} else {
-		if _, ok := stage.new[content]; !ok {
-			stage.modified[content] = struct{}{}
-		}
 	}
 	stage.Contents_mapString[content.Name] = content
 
@@ -626,11 +591,6 @@ func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
 	delete(stage.Contents_mapString, content.Name)
 
-	if _, ok := stage.reference[content]; ok {
-		stage.deleted[content] = struct{}{}
-	} else {
-		delete(stage.new, content)
-	}
 	return content
 }
 
@@ -685,12 +645,6 @@ func (page *Page) Stage(stage *Stage) *Page {
 		stage.Pages[page] = struct{}{}
 		stage.PageMap_Staged_Order[page] = stage.PageOrder
 		stage.PageOrder++
-		stage.new[page] = struct{}{}
-		delete(stage.deleted, page)
-	} else {
-		if _, ok := stage.new[page]; !ok {
-			stage.modified[page] = struct{}{}
-		}
 	}
 	stage.Pages_mapString[page.Name] = page
 
@@ -702,11 +656,6 @@ func (page *Page) Unstage(stage *Stage) *Page {
 	delete(stage.Pages, page)
 	delete(stage.Pages_mapString, page.Name)
 
-	if _, ok := stage.reference[page]; ok {
-		stage.deleted[page] = struct{}{}
-	} else {
-		delete(stage.new, page)
-	}
 	return page
 }
 

@@ -188,9 +188,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -205,18 +202,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -490,9 +475,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -619,12 +601,6 @@ func (button *Button) Stage(stage *Stage) *Button {
 		stage.Buttons[button] = struct{}{}
 		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
 		stage.ButtonOrder++
-		stage.new[button] = struct{}{}
-		delete(stage.deleted, button)
-	} else {
-		if _, ok := stage.new[button]; !ok {
-			stage.modified[button] = struct{}{}
-		}
 	}
 	stage.Buttons_mapString[button.Name] = button
 
@@ -636,11 +612,6 @@ func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
 	delete(stage.Buttons_mapString, button.Name)
 
-	if _, ok := stage.reference[button]; ok {
-		stage.deleted[button] = struct{}{}
-	} else {
-		delete(stage.new, button)
-	}
 	return button
 }
 
@@ -695,12 +666,6 @@ func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 		stage.ButtonToggles[buttontoggle] = struct{}{}
 		stage.ButtonToggleMap_Staged_Order[buttontoggle] = stage.ButtonToggleOrder
 		stage.ButtonToggleOrder++
-		stage.new[buttontoggle] = struct{}{}
-		delete(stage.deleted, buttontoggle)
-	} else {
-		if _, ok := stage.new[buttontoggle]; !ok {
-			stage.modified[buttontoggle] = struct{}{}
-		}
 	}
 	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
 
@@ -712,11 +677,6 @@ func (buttontoggle *ButtonToggle) Unstage(stage *Stage) *ButtonToggle {
 	delete(stage.ButtonToggles, buttontoggle)
 	delete(stage.ButtonToggles_mapString, buttontoggle.Name)
 
-	if _, ok := stage.reference[buttontoggle]; ok {
-		stage.deleted[buttontoggle] = struct{}{}
-	} else {
-		delete(stage.new, buttontoggle)
-	}
 	return buttontoggle
 }
 
@@ -771,12 +731,6 @@ func (group *Group) Stage(stage *Stage) *Group {
 		stage.Groups[group] = struct{}{}
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
-		stage.new[group] = struct{}{}
-		delete(stage.deleted, group)
-	} else {
-		if _, ok := stage.new[group]; !ok {
-			stage.modified[group] = struct{}{}
-		}
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -788,11 +742,6 @@ func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
 
-	if _, ok := stage.reference[group]; ok {
-		stage.deleted[group] = struct{}{}
-	} else {
-		delete(stage.new, group)
-	}
 	return group
 }
 
@@ -847,12 +796,6 @@ func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 		stage.GroupToogles[grouptoogle] = struct{}{}
 		stage.GroupToogleMap_Staged_Order[grouptoogle] = stage.GroupToogleOrder
 		stage.GroupToogleOrder++
-		stage.new[grouptoogle] = struct{}{}
-		delete(stage.deleted, grouptoogle)
-	} else {
-		if _, ok := stage.new[grouptoogle]; !ok {
-			stage.modified[grouptoogle] = struct{}{}
-		}
 	}
 	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
 
@@ -864,11 +807,6 @@ func (grouptoogle *GroupToogle) Unstage(stage *Stage) *GroupToogle {
 	delete(stage.GroupToogles, grouptoogle)
 	delete(stage.GroupToogles_mapString, grouptoogle.Name)
 
-	if _, ok := stage.reference[grouptoogle]; ok {
-		stage.deleted[grouptoogle] = struct{}{}
-	} else {
-		delete(stage.new, grouptoogle)
-	}
 	return grouptoogle
 }
 
@@ -923,12 +861,6 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 		stage.Layouts[layout] = struct{}{}
 		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
 		stage.LayoutOrder++
-		stage.new[layout] = struct{}{}
-		delete(stage.deleted, layout)
-	} else {
-		if _, ok := stage.new[layout]; !ok {
-			stage.modified[layout] = struct{}{}
-		}
 	}
 	stage.Layouts_mapString[layout.Name] = layout
 
@@ -940,11 +872,6 @@ func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 
-	if _, ok := stage.reference[layout]; ok {
-		stage.deleted[layout] = struct{}{}
-	} else {
-		delete(stage.new, layout)
-	}
 	return layout
 }
 

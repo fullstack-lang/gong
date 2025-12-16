@@ -410,9 +410,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -427,18 +424,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -1144,9 +1129,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -1363,12 +1345,6 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 		stage.Cells[cell] = struct{}{}
 		stage.CellMap_Staged_Order[cell] = stage.CellOrder
 		stage.CellOrder++
-		stage.new[cell] = struct{}{}
-		delete(stage.deleted, cell)
-	} else {
-		if _, ok := stage.new[cell]; !ok {
-			stage.modified[cell] = struct{}{}
-		}
 	}
 	stage.Cells_mapString[cell.Name] = cell
 
@@ -1380,11 +1356,6 @@ func (cell *Cell) Unstage(stage *Stage) *Cell {
 	delete(stage.Cells, cell)
 	delete(stage.Cells_mapString, cell.Name)
 
-	if _, ok := stage.reference[cell]; ok {
-		stage.deleted[cell] = struct{}{}
-	} else {
-		delete(stage.new, cell)
-	}
 	return cell
 }
 
@@ -1439,12 +1410,6 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 		stage.CellBooleans[cellboolean] = struct{}{}
 		stage.CellBooleanMap_Staged_Order[cellboolean] = stage.CellBooleanOrder
 		stage.CellBooleanOrder++
-		stage.new[cellboolean] = struct{}{}
-		delete(stage.deleted, cellboolean)
-	} else {
-		if _, ok := stage.new[cellboolean]; !ok {
-			stage.modified[cellboolean] = struct{}{}
-		}
 	}
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
 
@@ -1456,11 +1421,6 @@ func (cellboolean *CellBoolean) Unstage(stage *Stage) *CellBoolean {
 	delete(stage.CellBooleans, cellboolean)
 	delete(stage.CellBooleans_mapString, cellboolean.Name)
 
-	if _, ok := stage.reference[cellboolean]; ok {
-		stage.deleted[cellboolean] = struct{}{}
-	} else {
-		delete(stage.new, cellboolean)
-	}
 	return cellboolean
 }
 
@@ -1515,12 +1475,6 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 		stage.CellFloat64s[cellfloat64] = struct{}{}
 		stage.CellFloat64Map_Staged_Order[cellfloat64] = stage.CellFloat64Order
 		stage.CellFloat64Order++
-		stage.new[cellfloat64] = struct{}{}
-		delete(stage.deleted, cellfloat64)
-	} else {
-		if _, ok := stage.new[cellfloat64]; !ok {
-			stage.modified[cellfloat64] = struct{}{}
-		}
 	}
 	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
 
@@ -1532,11 +1486,6 @@ func (cellfloat64 *CellFloat64) Unstage(stage *Stage) *CellFloat64 {
 	delete(stage.CellFloat64s, cellfloat64)
 	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
 
-	if _, ok := stage.reference[cellfloat64]; ok {
-		stage.deleted[cellfloat64] = struct{}{}
-	} else {
-		delete(stage.new, cellfloat64)
-	}
 	return cellfloat64
 }
 
@@ -1591,12 +1540,6 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 		stage.CellIcons[cellicon] = struct{}{}
 		stage.CellIconMap_Staged_Order[cellicon] = stage.CellIconOrder
 		stage.CellIconOrder++
-		stage.new[cellicon] = struct{}{}
-		delete(stage.deleted, cellicon)
-	} else {
-		if _, ok := stage.new[cellicon]; !ok {
-			stage.modified[cellicon] = struct{}{}
-		}
 	}
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
 
@@ -1608,11 +1551,6 @@ func (cellicon *CellIcon) Unstage(stage *Stage) *CellIcon {
 	delete(stage.CellIcons, cellicon)
 	delete(stage.CellIcons_mapString, cellicon.Name)
 
-	if _, ok := stage.reference[cellicon]; ok {
-		stage.deleted[cellicon] = struct{}{}
-	} else {
-		delete(stage.new, cellicon)
-	}
 	return cellicon
 }
 
@@ -1667,12 +1605,6 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 		stage.CellInts[cellint] = struct{}{}
 		stage.CellIntMap_Staged_Order[cellint] = stage.CellIntOrder
 		stage.CellIntOrder++
-		stage.new[cellint] = struct{}{}
-		delete(stage.deleted, cellint)
-	} else {
-		if _, ok := stage.new[cellint]; !ok {
-			stage.modified[cellint] = struct{}{}
-		}
 	}
 	stage.CellInts_mapString[cellint.Name] = cellint
 
@@ -1684,11 +1616,6 @@ func (cellint *CellInt) Unstage(stage *Stage) *CellInt {
 	delete(stage.CellInts, cellint)
 	delete(stage.CellInts_mapString, cellint.Name)
 
-	if _, ok := stage.reference[cellint]; ok {
-		stage.deleted[cellint] = struct{}{}
-	} else {
-		delete(stage.new, cellint)
-	}
 	return cellint
 }
 
@@ -1743,12 +1670,6 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 		stage.CellStrings[cellstring] = struct{}{}
 		stage.CellStringMap_Staged_Order[cellstring] = stage.CellStringOrder
 		stage.CellStringOrder++
-		stage.new[cellstring] = struct{}{}
-		delete(stage.deleted, cellstring)
-	} else {
-		if _, ok := stage.new[cellstring]; !ok {
-			stage.modified[cellstring] = struct{}{}
-		}
 	}
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
 
@@ -1760,11 +1681,6 @@ func (cellstring *CellString) Unstage(stage *Stage) *CellString {
 	delete(stage.CellStrings, cellstring)
 	delete(stage.CellStrings_mapString, cellstring.Name)
 
-	if _, ok := stage.reference[cellstring]; ok {
-		stage.deleted[cellstring] = struct{}{}
-	} else {
-		delete(stage.new, cellstring)
-	}
 	return cellstring
 }
 
@@ -1819,12 +1735,6 @@ func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
 		stage.CheckBoxs[checkbox] = struct{}{}
 		stage.CheckBoxMap_Staged_Order[checkbox] = stage.CheckBoxOrder
 		stage.CheckBoxOrder++
-		stage.new[checkbox] = struct{}{}
-		delete(stage.deleted, checkbox)
-	} else {
-		if _, ok := stage.new[checkbox]; !ok {
-			stage.modified[checkbox] = struct{}{}
-		}
 	}
 	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
 
@@ -1836,11 +1746,6 @@ func (checkbox *CheckBox) Unstage(stage *Stage) *CheckBox {
 	delete(stage.CheckBoxs, checkbox)
 	delete(stage.CheckBoxs_mapString, checkbox.Name)
 
-	if _, ok := stage.reference[checkbox]; ok {
-		stage.deleted[checkbox] = struct{}{}
-	} else {
-		delete(stage.new, checkbox)
-	}
 	return checkbox
 }
 
@@ -1895,12 +1800,6 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 		stage.DisplayedColumns[displayedcolumn] = struct{}{}
 		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = stage.DisplayedColumnOrder
 		stage.DisplayedColumnOrder++
-		stage.new[displayedcolumn] = struct{}{}
-		delete(stage.deleted, displayedcolumn)
-	} else {
-		if _, ok := stage.new[displayedcolumn]; !ok {
-			stage.modified[displayedcolumn] = struct{}{}
-		}
 	}
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
 
@@ -1912,11 +1811,6 @@ func (displayedcolumn *DisplayedColumn) Unstage(stage *Stage) *DisplayedColumn {
 	delete(stage.DisplayedColumns, displayedcolumn)
 	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
 
-	if _, ok := stage.reference[displayedcolumn]; ok {
-		stage.deleted[displayedcolumn] = struct{}{}
-	} else {
-		delete(stage.new, displayedcolumn)
-	}
 	return displayedcolumn
 }
 
@@ -1971,12 +1865,6 @@ func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
 		stage.FormDivs[formdiv] = struct{}{}
 		stage.FormDivMap_Staged_Order[formdiv] = stage.FormDivOrder
 		stage.FormDivOrder++
-		stage.new[formdiv] = struct{}{}
-		delete(stage.deleted, formdiv)
-	} else {
-		if _, ok := stage.new[formdiv]; !ok {
-			stage.modified[formdiv] = struct{}{}
-		}
 	}
 	stage.FormDivs_mapString[formdiv.Name] = formdiv
 
@@ -1988,11 +1876,6 @@ func (formdiv *FormDiv) Unstage(stage *Stage) *FormDiv {
 	delete(stage.FormDivs, formdiv)
 	delete(stage.FormDivs_mapString, formdiv.Name)
 
-	if _, ok := stage.reference[formdiv]; ok {
-		stage.deleted[formdiv] = struct{}{}
-	} else {
-		delete(stage.new, formdiv)
-	}
 	return formdiv
 }
 
@@ -2047,12 +1930,6 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAss
 		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
 		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = stage.FormEditAssocButtonOrder
 		stage.FormEditAssocButtonOrder++
-		stage.new[formeditassocbutton] = struct{}{}
-		delete(stage.deleted, formeditassocbutton)
-	} else {
-		if _, ok := stage.new[formeditassocbutton]; !ok {
-			stage.modified[formeditassocbutton] = struct{}{}
-		}
 	}
 	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
 
@@ -2064,11 +1941,6 @@ func (formeditassocbutton *FormEditAssocButton) Unstage(stage *Stage) *FormEditA
 	delete(stage.FormEditAssocButtons, formeditassocbutton)
 	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
 
-	if _, ok := stage.reference[formeditassocbutton]; ok {
-		stage.deleted[formeditassocbutton] = struct{}{}
-	} else {
-		delete(stage.new, formeditassocbutton)
-	}
 	return formeditassocbutton
 }
 
@@ -2123,12 +1995,6 @@ func (formfield *FormField) Stage(stage *Stage) *FormField {
 		stage.FormFields[formfield] = struct{}{}
 		stage.FormFieldMap_Staged_Order[formfield] = stage.FormFieldOrder
 		stage.FormFieldOrder++
-		stage.new[formfield] = struct{}{}
-		delete(stage.deleted, formfield)
-	} else {
-		if _, ok := stage.new[formfield]; !ok {
-			stage.modified[formfield] = struct{}{}
-		}
 	}
 	stage.FormFields_mapString[formfield.Name] = formfield
 
@@ -2140,11 +2006,6 @@ func (formfield *FormField) Unstage(stage *Stage) *FormField {
 	delete(stage.FormFields, formfield)
 	delete(stage.FormFields_mapString, formfield.Name)
 
-	if _, ok := stage.reference[formfield]; ok {
-		stage.deleted[formfield] = struct{}{}
-	} else {
-		delete(stage.new, formfield)
-	}
 	return formfield
 }
 
@@ -2199,12 +2060,6 @@ func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 		stage.FormFieldDates[formfielddate] = struct{}{}
 		stage.FormFieldDateMap_Staged_Order[formfielddate] = stage.FormFieldDateOrder
 		stage.FormFieldDateOrder++
-		stage.new[formfielddate] = struct{}{}
-		delete(stage.deleted, formfielddate)
-	} else {
-		if _, ok := stage.new[formfielddate]; !ok {
-			stage.modified[formfielddate] = struct{}{}
-		}
 	}
 	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
 
@@ -2216,11 +2071,6 @@ func (formfielddate *FormFieldDate) Unstage(stage *Stage) *FormFieldDate {
 	delete(stage.FormFieldDates, formfielddate)
 	delete(stage.FormFieldDates_mapString, formfielddate.Name)
 
-	if _, ok := stage.reference[formfielddate]; ok {
-		stage.deleted[formfielddate] = struct{}{}
-	} else {
-		delete(stage.new, formfielddate)
-	}
 	return formfielddate
 }
 
@@ -2275,12 +2125,6 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTi
 		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
 		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = stage.FormFieldDateTimeOrder
 		stage.FormFieldDateTimeOrder++
-		stage.new[formfielddatetime] = struct{}{}
-		delete(stage.deleted, formfielddatetime)
-	} else {
-		if _, ok := stage.new[formfielddatetime]; !ok {
-			stage.modified[formfielddatetime] = struct{}{}
-		}
 	}
 	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
 
@@ -2292,11 +2136,6 @@ func (formfielddatetime *FormFieldDateTime) Unstage(stage *Stage) *FormFieldDate
 	delete(stage.FormFieldDateTimes, formfielddatetime)
 	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
 
-	if _, ok := stage.reference[formfielddatetime]; ok {
-		stage.deleted[formfielddatetime] = struct{}{}
-	} else {
-		delete(stage.new, formfielddatetime)
-	}
 	return formfielddatetime
 }
 
@@ -2351,12 +2190,6 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 
 		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
 		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = stage.FormFieldFloat64Order
 		stage.FormFieldFloat64Order++
-		stage.new[formfieldfloat64] = struct{}{}
-		delete(stage.deleted, formfieldfloat64)
-	} else {
-		if _, ok := stage.new[formfieldfloat64]; !ok {
-			stage.modified[formfieldfloat64] = struct{}{}
-		}
 	}
 	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
 
@@ -2368,11 +2201,6 @@ func (formfieldfloat64 *FormFieldFloat64) Unstage(stage *Stage) *FormFieldFloat6
 	delete(stage.FormFieldFloat64s, formfieldfloat64)
 	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
 
-	if _, ok := stage.reference[formfieldfloat64]; ok {
-		stage.deleted[formfieldfloat64] = struct{}{}
-	} else {
-		delete(stage.new, formfieldfloat64)
-	}
 	return formfieldfloat64
 }
 
@@ -2427,12 +2255,6 @@ func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
 		stage.FormFieldInts[formfieldint] = struct{}{}
 		stage.FormFieldIntMap_Staged_Order[formfieldint] = stage.FormFieldIntOrder
 		stage.FormFieldIntOrder++
-		stage.new[formfieldint] = struct{}{}
-		delete(stage.deleted, formfieldint)
-	} else {
-		if _, ok := stage.new[formfieldint]; !ok {
-			stage.modified[formfieldint] = struct{}{}
-		}
 	}
 	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
 
@@ -2444,11 +2266,6 @@ func (formfieldint *FormFieldInt) Unstage(stage *Stage) *FormFieldInt {
 	delete(stage.FormFieldInts, formfieldint)
 	delete(stage.FormFieldInts_mapString, formfieldint.Name)
 
-	if _, ok := stage.reference[formfieldint]; ok {
-		stage.deleted[formfieldint] = struct{}{}
-	} else {
-		delete(stage.new, formfieldint)
-	}
 	return formfieldint
 }
 
@@ -2503,12 +2320,6 @@ func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 		stage.FormFieldSelects[formfieldselect] = struct{}{}
 		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = stage.FormFieldSelectOrder
 		stage.FormFieldSelectOrder++
-		stage.new[formfieldselect] = struct{}{}
-		delete(stage.deleted, formfieldselect)
-	} else {
-		if _, ok := stage.new[formfieldselect]; !ok {
-			stage.modified[formfieldselect] = struct{}{}
-		}
 	}
 	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
 
@@ -2520,11 +2331,6 @@ func (formfieldselect *FormFieldSelect) Unstage(stage *Stage) *FormFieldSelect {
 	delete(stage.FormFieldSelects, formfieldselect)
 	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
 
-	if _, ok := stage.reference[formfieldselect]; ok {
-		stage.deleted[formfieldselect] = struct{}{}
-	} else {
-		delete(stage.new, formfieldselect)
-	}
 	return formfieldselect
 }
 
@@ -2579,12 +2385,6 @@ func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
 		stage.FormFieldStrings[formfieldstring] = struct{}{}
 		stage.FormFieldStringMap_Staged_Order[formfieldstring] = stage.FormFieldStringOrder
 		stage.FormFieldStringOrder++
-		stage.new[formfieldstring] = struct{}{}
-		delete(stage.deleted, formfieldstring)
-	} else {
-		if _, ok := stage.new[formfieldstring]; !ok {
-			stage.modified[formfieldstring] = struct{}{}
-		}
 	}
 	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
 
@@ -2596,11 +2396,6 @@ func (formfieldstring *FormFieldString) Unstage(stage *Stage) *FormFieldString {
 	delete(stage.FormFieldStrings, formfieldstring)
 	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
 
-	if _, ok := stage.reference[formfieldstring]; ok {
-		stage.deleted[formfieldstring] = struct{}{}
-	} else {
-		delete(stage.new, formfieldstring)
-	}
 	return formfieldstring
 }
 
@@ -2655,12 +2450,6 @@ func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 		stage.FormFieldTimes[formfieldtime] = struct{}{}
 		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = stage.FormFieldTimeOrder
 		stage.FormFieldTimeOrder++
-		stage.new[formfieldtime] = struct{}{}
-		delete(stage.deleted, formfieldtime)
-	} else {
-		if _, ok := stage.new[formfieldtime]; !ok {
-			stage.modified[formfieldtime] = struct{}{}
-		}
 	}
 	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
 
@@ -2672,11 +2461,6 @@ func (formfieldtime *FormFieldTime) Unstage(stage *Stage) *FormFieldTime {
 	delete(stage.FormFieldTimes, formfieldtime)
 	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
 
-	if _, ok := stage.reference[formfieldtime]; ok {
-		stage.deleted[formfieldtime] = struct{}{}
-	} else {
-		delete(stage.new, formfieldtime)
-	}
 	return formfieldtime
 }
 
@@ -2731,12 +2515,6 @@ func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
 		stage.FormGroups[formgroup] = struct{}{}
 		stage.FormGroupMap_Staged_Order[formgroup] = stage.FormGroupOrder
 		stage.FormGroupOrder++
-		stage.new[formgroup] = struct{}{}
-		delete(stage.deleted, formgroup)
-	} else {
-		if _, ok := stage.new[formgroup]; !ok {
-			stage.modified[formgroup] = struct{}{}
-		}
 	}
 	stage.FormGroups_mapString[formgroup.Name] = formgroup
 
@@ -2748,11 +2526,6 @@ func (formgroup *FormGroup) Unstage(stage *Stage) *FormGroup {
 	delete(stage.FormGroups, formgroup)
 	delete(stage.FormGroups_mapString, formgroup.Name)
 
-	if _, ok := stage.reference[formgroup]; ok {
-		stage.deleted[formgroup] = struct{}{}
-	} else {
-		delete(stage.new, formgroup)
-	}
 	return formgroup
 }
 
@@ -2807,12 +2580,6 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAss
 		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
 		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = stage.FormSortAssocButtonOrder
 		stage.FormSortAssocButtonOrder++
-		stage.new[formsortassocbutton] = struct{}{}
-		delete(stage.deleted, formsortassocbutton)
-	} else {
-		if _, ok := stage.new[formsortassocbutton]; !ok {
-			stage.modified[formsortassocbutton] = struct{}{}
-		}
 	}
 	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
 
@@ -2824,11 +2591,6 @@ func (formsortassocbutton *FormSortAssocButton) Unstage(stage *Stage) *FormSortA
 	delete(stage.FormSortAssocButtons, formsortassocbutton)
 	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
 
-	if _, ok := stage.reference[formsortassocbutton]; ok {
-		stage.deleted[formsortassocbutton] = struct{}{}
-	} else {
-		delete(stage.new, formsortassocbutton)
-	}
 	return formsortassocbutton
 }
 
@@ -2883,12 +2645,6 @@ func (option *Option) Stage(stage *Stage) *Option {
 		stage.Options[option] = struct{}{}
 		stage.OptionMap_Staged_Order[option] = stage.OptionOrder
 		stage.OptionOrder++
-		stage.new[option] = struct{}{}
-		delete(stage.deleted, option)
-	} else {
-		if _, ok := stage.new[option]; !ok {
-			stage.modified[option] = struct{}{}
-		}
 	}
 	stage.Options_mapString[option.Name] = option
 
@@ -2900,11 +2656,6 @@ func (option *Option) Unstage(stage *Stage) *Option {
 	delete(stage.Options, option)
 	delete(stage.Options_mapString, option.Name)
 
-	if _, ok := stage.reference[option]; ok {
-		stage.deleted[option] = struct{}{}
-	} else {
-		delete(stage.new, option)
-	}
 	return option
 }
 
@@ -2959,12 +2710,6 @@ func (row *Row) Stage(stage *Stage) *Row {
 		stage.Rows[row] = struct{}{}
 		stage.RowMap_Staged_Order[row] = stage.RowOrder
 		stage.RowOrder++
-		stage.new[row] = struct{}{}
-		delete(stage.deleted, row)
-	} else {
-		if _, ok := stage.new[row]; !ok {
-			stage.modified[row] = struct{}{}
-		}
 	}
 	stage.Rows_mapString[row.Name] = row
 
@@ -2976,11 +2721,6 @@ func (row *Row) Unstage(stage *Stage) *Row {
 	delete(stage.Rows, row)
 	delete(stage.Rows_mapString, row.Name)
 
-	if _, ok := stage.reference[row]; ok {
-		stage.deleted[row] = struct{}{}
-	} else {
-		delete(stage.new, row)
-	}
 	return row
 }
 
@@ -3035,12 +2775,6 @@ func (table *Table) Stage(stage *Stage) *Table {
 		stage.Tables[table] = struct{}{}
 		stage.TableMap_Staged_Order[table] = stage.TableOrder
 		stage.TableOrder++
-		stage.new[table] = struct{}{}
-		delete(stage.deleted, table)
-	} else {
-		if _, ok := stage.new[table]; !ok {
-			stage.modified[table] = struct{}{}
-		}
 	}
 	stage.Tables_mapString[table.Name] = table
 
@@ -3052,11 +2786,6 @@ func (table *Table) Unstage(stage *Stage) *Table {
 	delete(stage.Tables, table)
 	delete(stage.Tables_mapString, table.Name)
 
-	if _, ok := stage.reference[table]; ok {
-		stage.deleted[table] = struct{}{}
-	} else {
-		delete(stage.new, table)
-	}
 	return table
 }
 
