@@ -21,11 +21,6 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	const __write__local_time = "2025-10-04 03:45:16.159826 CEST"
-	const __write__utc_time__ = "2025-10-04 01:45:16.159826 UTC"
-
-	const __commitId__ = "0000000013"
-
 	// Declaration of instances to stage
 
 	__CellString__000000_A := (&models.CellString{}).Stage(stage)
@@ -121,6 +116,7 @@ func _(stage *models.Stage) {
 	__FormEditAssocButton__000000_Edit_Assoc.IsForSavePurpose = false
 	__FormEditAssocButton__000000_Edit_Assoc.HasToolTip = false
 	__FormEditAssocButton__000000_Edit_Assoc.ToolTipText = ``
+	__FormEditAssocButton__000000_Edit_Assoc.MatTooltipShowDelay = ``
 
 	__FormField__000000_Age.Name = `Age`
 	__FormField__000000_Age.InputTypeEnum = models.Number
@@ -274,6 +270,7 @@ second line`
 	__FormSortAssocButton__000000_Sort_Button.Label = `Sort Button`
 	__FormSortAssocButton__000000_Sort_Button.HasToolTip = false
 	__FormSortAssocButton__000000_Sort_Button.ToolTipText = ``
+	__FormSortAssocButton__000000_Sort_Button.MatTooltipShowDelay = ``
 
 	__Option__000000_A_Select_cannot_be_set_empty_.Name = `A - Select (cannot be set empty)`
 
@@ -347,4 +344,3 @@ second line`
 	// setup of FormSortAssocButton instances pointers
 	// setup of Option instances pointers
 }
-
