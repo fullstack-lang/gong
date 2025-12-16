@@ -517,6 +517,25 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 	return filetodownload
 }
 
+// StageForceOrder puts filetodownload to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FileToDownloadOrder
+// - update stage.FileToDownloadOrder accordingly
+func (filetodownload *FileToDownload) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
+		stage.FileToDownloads[filetodownload] = struct{}{}
+
+		if order > stage.FileToDownloadOrder {
+			stage.FileToDownloadOrder = order
+		}
+		stage.FileToDownloadMap_Staged_Order[filetodownload] = stage.FileToDownloadOrder
+		stage.FileToDownloadOrder++
+	}
+	stage.FileToDownloads_mapString[filetodownload.Name] = filetodownload
+}
+
 // Unstage removes filetodownload off the model stage
 func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 	delete(stage.FileToDownloads, filetodownload)
@@ -582,6 +601,25 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 	return filetoupload
 }
 
+// StageForceOrder puts filetoupload to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FileToUploadOrder
+// - update stage.FileToUploadOrder accordingly
+func (filetoupload *FileToUpload) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FileToUploads[filetoupload]; !ok {
+		stage.FileToUploads[filetoupload] = struct{}{}
+
+		if order > stage.FileToUploadOrder {
+			stage.FileToUploadOrder = order
+		}
+		stage.FileToUploadMap_Staged_Order[filetoupload] = stage.FileToUploadOrder
+		stage.FileToUploadOrder++
+	}
+	stage.FileToUploads_mapString[filetoupload.Name] = filetoupload
+}
+
 // Unstage removes filetoupload off the model stage
 func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 	delete(stage.FileToUploads, filetoupload)
@@ -645,6 +683,25 @@ func (message *Message) Stage(stage *Stage) *Message {
 	stage.Messages_mapString[message.Name] = message
 
 	return message
+}
+
+// StageForceOrder puts message to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.MessageOrder
+// - update stage.MessageOrder accordingly
+func (message *Message) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Messages[message]; !ok {
+		stage.Messages[message] = struct{}{}
+
+		if order > stage.MessageOrder {
+			stage.MessageOrder = order
+		}
+		stage.MessageMap_Staged_Order[message] = stage.MessageOrder
+		stage.MessageOrder++
+	}
+	stage.Messages_mapString[message.Name] = message
 }
 
 // Unstage removes message off the model stage

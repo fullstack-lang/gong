@@ -564,6 +564,25 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 	return checkbox
 }
 
+// StageForceOrder puts checkbox to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CheckboxOrder
+// - update stage.CheckboxOrder accordingly
+func (checkbox *Checkbox) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Checkboxs[checkbox]; !ok {
+		stage.Checkboxs[checkbox] = struct{}{}
+
+		if order > stage.CheckboxOrder {
+			stage.CheckboxOrder = order
+		}
+		stage.CheckboxMap_Staged_Order[checkbox] = stage.CheckboxOrder
+		stage.CheckboxOrder++
+	}
+	stage.Checkboxs_mapString[checkbox.Name] = checkbox
+}
+
 // Unstage removes checkbox off the model stage
 func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
 	delete(stage.Checkboxs, checkbox)
@@ -627,6 +646,25 @@ func (group *Group) Stage(stage *Stage) *Group {
 	stage.Groups_mapString[group.Name] = group
 
 	return group
+}
+
+// StageForceOrder puts group to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GroupOrder
+// - update stage.GroupOrder accordingly
+func (group *Group) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Groups[group]; !ok {
+		stage.Groups[group] = struct{}{}
+
+		if order > stage.GroupOrder {
+			stage.GroupOrder = order
+		}
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
+	}
+	stage.Groups_mapString[group.Name] = group
 }
 
 // Unstage removes group off the model stage
@@ -694,6 +732,25 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	return layout
 }
 
+// StageForceOrder puts layout to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LayoutOrder
+// - update stage.LayoutOrder accordingly
+func (layout *Layout) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Layouts[layout]; !ok {
+		stage.Layouts[layout] = struct{}{}
+
+		if order > stage.LayoutOrder {
+			stage.LayoutOrder = order
+		}
+		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
+		stage.LayoutOrder++
+	}
+	stage.Layouts_mapString[layout.Name] = layout
+}
+
 // Unstage removes layout off the model stage
 func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
@@ -757,6 +814,25 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 	stage.Sliders_mapString[slider.Name] = slider
 
 	return slider
+}
+
+// StageForceOrder puts slider to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SliderOrder
+// - update stage.SliderOrder accordingly
+func (slider *Slider) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Sliders[slider]; !ok {
+		stage.Sliders[slider] = struct{}{}
+
+		if order > stage.SliderOrder {
+			stage.SliderOrder = order
+		}
+		stage.SliderMap_Staged_Order[slider] = stage.SliderOrder
+		stage.SliderOrder++
+	}
+	stage.Sliders_mapString[slider.Name] = slider
 }
 
 // Unstage removes slider off the model stage

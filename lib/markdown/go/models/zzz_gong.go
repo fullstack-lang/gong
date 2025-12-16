@@ -558,6 +558,25 @@ func (content *Content) Stage(stage *Stage) *Content {
 	return content
 }
 
+// StageForceOrder puts content to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ContentOrder
+// - update stage.ContentOrder accordingly
+func (content *Content) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Contents[content]; !ok {
+		stage.Contents[content] = struct{}{}
+
+		if order > stage.ContentOrder {
+			stage.ContentOrder = order
+		}
+		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
+		stage.ContentOrder++
+	}
+	stage.Contents_mapString[content.Name] = content
+}
+
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
@@ -621,6 +640,25 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
 
 	return jpgimage
+}
+
+// StageForceOrder puts jpgimage to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.JpgImageOrder
+// - update stage.JpgImageOrder accordingly
+func (jpgimage *JpgImage) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.JpgImages[jpgimage]; !ok {
+		stage.JpgImages[jpgimage] = struct{}{}
+
+		if order > stage.JpgImageOrder {
+			stage.JpgImageOrder = order
+		}
+		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
+		stage.JpgImageOrder++
+	}
+	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
 }
 
 // Unstage removes jpgimage off the model stage
@@ -688,6 +726,25 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 	return pngimage
 }
 
+// StageForceOrder puts pngimage to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PngImageOrder
+// - update stage.PngImageOrder accordingly
+func (pngimage *PngImage) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.PngImages[pngimage]; !ok {
+		stage.PngImages[pngimage] = struct{}{}
+
+		if order > stage.PngImageOrder {
+			stage.PngImageOrder = order
+		}
+		stage.PngImageMap_Staged_Order[pngimage] = stage.PngImageOrder
+		stage.PngImageOrder++
+	}
+	stage.PngImages_mapString[pngimage.Name] = pngimage
+}
+
 // Unstage removes pngimage off the model stage
 func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 	delete(stage.PngImages, pngimage)
@@ -751,6 +808,25 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
 
 	return svgimage
+}
+
+// StageForceOrder puts svgimage to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SvgImageOrder
+// - update stage.SvgImageOrder accordingly
+func (svgimage *SvgImage) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.SvgImages[svgimage]; !ok {
+		stage.SvgImages[svgimage] = struct{}{}
+
+		if order > stage.SvgImageOrder {
+			stage.SvgImageOrder = order
+		}
+		stage.SvgImageMap_Staged_Order[svgimage] = stage.SvgImageOrder
+		stage.SvgImageOrder++
+	}
+	stage.SvgImages_mapString[svgimage.Name] = svgimage
 }
 
 // Unstage removes svgimage off the model stage
