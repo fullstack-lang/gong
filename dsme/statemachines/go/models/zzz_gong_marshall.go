@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(actionOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, action := range actionOrdered {
+	for _, action := range actionOrdered {
 
-		id = generatesIdentifier("Action", idx, action.Name)
+		id = generatesIdentifier("Action", int(stage.ActionMap_Staged_Order[action]), action.Name)
 		map_Action_Identifiers[action] = id
 
 		decl = IdentifiersDecls
@@ -174,9 +174,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(activitiesOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, activities := range activitiesOrdered {
+	for _, activities := range activitiesOrdered {
 
-		id = generatesIdentifier("Activities", idx, activities.Name)
+		id = generatesIdentifier("Activities", int(stage.ActivitiesMap_Staged_Order[activities]), activities.Name)
 		map_Activities_Identifiers[activities] = id
 
 		decl = IdentifiersDecls
@@ -223,9 +223,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(architectureOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, architecture := range architectureOrdered {
+	for _, architecture := range architectureOrdered {
 
-		id = generatesIdentifier("Architecture", idx, architecture.Name)
+		id = generatesIdentifier("Architecture", int(stage.ArchitectureMap_Staged_Order[architecture]), architecture.Name)
 		map_Architecture_Identifiers[architecture] = id
 
 		decl = IdentifiersDecls
@@ -270,9 +270,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(diagramOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, diagram := range diagramOrdered {
+	for _, diagram := range diagramOrdered {
 
-		id = generatesIdentifier("Diagram", idx, diagram.Name)
+		id = generatesIdentifier("Diagram", int(stage.DiagramMap_Staged_Order[diagram]), diagram.Name)
 		map_Diagram_Identifiers[diagram] = id
 
 		decl = IdentifiersDecls
@@ -335,9 +335,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(guardOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, guard := range guardOrdered {
+	for _, guard := range guardOrdered {
 
-		id = generatesIdentifier("Guard", idx, guard.Name)
+		id = generatesIdentifier("Guard", int(stage.GuardMap_Staged_Order[guard]), guard.Name)
 		map_Guard_Identifiers[guard] = id
 
 		decl = IdentifiersDecls
@@ -376,9 +376,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(killOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, kill := range killOrdered {
+	for _, kill := range killOrdered {
 
-		id = generatesIdentifier("Kill", idx, kill.Name)
+		id = generatesIdentifier("Kill", int(stage.KillMap_Staged_Order[kill]), kill.Name)
 		map_Kill_Identifiers[kill] = id
 
 		decl = IdentifiersDecls
@@ -417,9 +417,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(messageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, message := range messageOrdered {
+	for _, message := range messageOrdered {
 
-		id = generatesIdentifier("Message", idx, message.Name)
+		id = generatesIdentifier("Message", int(stage.MessageMap_Staged_Order[message]), message.Name)
 		map_Message_Identifiers[message] = id
 
 		decl = IdentifiersDecls
@@ -464,9 +464,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(messagetypeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, messagetype := range messagetypeOrdered {
+	for _, messagetype := range messagetypeOrdered {
 
-		id = generatesIdentifier("MessageType", idx, messagetype.Name)
+		id = generatesIdentifier("MessageType", int(stage.MessageTypeMap_Staged_Order[messagetype]), messagetype.Name)
 		map_MessageType_Identifiers[messagetype] = id
 
 		decl = IdentifiersDecls
@@ -511,9 +511,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(objectOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, object := range objectOrdered {
+	for _, object := range objectOrdered {
 
-		id = generatesIdentifier("Object", idx, object.Name)
+		id = generatesIdentifier("Object", int(stage.ObjectMap_Staged_Order[object]), object.Name)
 		map_Object_Identifiers[object] = id
 
 		decl = IdentifiersDecls
@@ -570,9 +570,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(roleOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, role := range roleOrdered {
+	for _, role := range roleOrdered {
 
-		id = generatesIdentifier("Role", idx, role.Name)
+		id = generatesIdentifier("Role", int(stage.RoleMap_Staged_Order[role]), role.Name)
 		map_Role_Identifiers[role] = id
 
 		decl = IdentifiersDecls
@@ -617,9 +617,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(stateOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, state := range stateOrdered {
+	for _, state := range stateOrdered {
 
-		id = generatesIdentifier("State", idx, state.Name)
+		id = generatesIdentifier("State", int(stage.StateMap_Staged_Order[state]), state.Name)
 		map_State_Identifiers[state] = id
 
 		decl = IdentifiersDecls
@@ -676,9 +676,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(statemachineOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, statemachine := range statemachineOrdered {
+	for _, statemachine := range statemachineOrdered {
 
-		id = generatesIdentifier("StateMachine", idx, statemachine.Name)
+		id = generatesIdentifier("StateMachine", int(stage.StateMachineMap_Staged_Order[statemachine]), statemachine.Name)
 		map_StateMachine_Identifiers[statemachine] = id
 
 		decl = IdentifiersDecls
@@ -723,9 +723,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(stateshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, stateshape := range stateshapeOrdered {
+	for _, stateshape := range stateshapeOrdered {
 
-		id = generatesIdentifier("StateShape", idx, stateshape.Name)
+		id = generatesIdentifier("StateShape", int(stage.StateShapeMap_Staged_Order[stateshape]), stateshape.Name)
 		map_StateShape_Identifiers[stateshape] = id
 
 		decl = IdentifiersDecls
@@ -794,9 +794,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(transitionOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, transition := range transitionOrdered {
+	for _, transition := range transitionOrdered {
 
-		id = generatesIdentifier("Transition", idx, transition.Name)
+		id = generatesIdentifier("Transition", int(stage.TransitionMap_Staged_Order[transition]), transition.Name)
 		map_Transition_Identifiers[transition] = id
 
 		decl = IdentifiersDecls
@@ -835,9 +835,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(transition_shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, transition_shape := range transition_shapeOrdered {
+	for _, transition_shape := range transition_shapeOrdered {
 
-		id = generatesIdentifier("Transition_Shape", idx, transition_shape.Name)
+		id = generatesIdentifier("Transition_Shape", int(stage.Transition_ShapeMap_Staged_Order[transition_shape]), transition_shape.Name)
 		map_Transition_Shape_Identifiers[transition_shape] = id
 
 		decl = IdentifiersDecls
@@ -1358,7 +1358,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

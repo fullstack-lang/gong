@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(buttonOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, button := range buttonOrdered {
+	for _, button := range buttonOrdered {
 
-		id = generatesIdentifier("Button", idx, button.Name)
+		id = generatesIdentifier("Button", int(stage.ButtonMap_Staged_Order[button]), button.Name)
 		map_Button_Identifiers[button] = id
 
 		decl = IdentifiersDecls
@@ -208,9 +208,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(buttontoggleOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, buttontoggle := range buttontoggleOrdered {
+	for _, buttontoggle := range buttontoggleOrdered {
 
-		id = generatesIdentifier("ButtonToggle", idx, buttontoggle.Name)
+		id = generatesIdentifier("ButtonToggle", int(stage.ButtonToggleMap_Staged_Order[buttontoggle]), buttontoggle.Name)
 		map_ButtonToggle_Identifiers[buttontoggle] = id
 
 		decl = IdentifiersDecls
@@ -273,9 +273,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		decl = IdentifiersDecls
@@ -326,9 +326,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(grouptoogleOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, grouptoogle := range grouptoogleOrdered {
+	for _, grouptoogle := range grouptoogleOrdered {
 
-		id = generatesIdentifier("GroupToogle", idx, grouptoogle.Name)
+		id = generatesIdentifier("GroupToogle", int(stage.GroupToogleMap_Staged_Order[grouptoogle]), grouptoogle.Name)
 		map_GroupToogle_Identifiers[grouptoogle] = id
 
 		decl = IdentifiersDecls
@@ -379,9 +379,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(layoutOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, layout := range layoutOrdered {
+	for _, layout := range layoutOrdered {
 
-		id = generatesIdentifier("Layout", idx, layout.Name)
+		id = generatesIdentifier("Layout", int(stage.LayoutMap_Staged_Order[layout]), layout.Name)
 		map_Layout_Identifiers[layout] = id
 
 		decl = IdentifiersDecls
@@ -562,7 +562,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

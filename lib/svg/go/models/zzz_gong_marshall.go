@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(animateOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, animate := range animateOrdered {
+	for _, animate := range animateOrdered {
 
-		id = generatesIdentifier("Animate", idx, animate.Name)
+		id = generatesIdentifier("Animate", int(stage.AnimateMap_Staged_Order[animate]), animate.Name)
 		map_Animate_Identifiers[animate] = id
 
 		decl = IdentifiersDecls
@@ -202,9 +202,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(circleOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, circle := range circleOrdered {
+	for _, circle := range circleOrdered {
 
-		id = generatesIdentifier("Circle", idx, circle.Name)
+		id = generatesIdentifier("Circle", int(stage.CircleMap_Staged_Order[circle]), circle.Name)
 		map_Circle_Identifiers[circle] = id
 
 		decl = IdentifiersDecls
@@ -309,9 +309,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(conditionOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, condition := range conditionOrdered {
+	for _, condition := range conditionOrdered {
 
-		id = generatesIdentifier("Condition", idx, condition.Name)
+		id = generatesIdentifier("Condition", int(stage.ConditionMap_Staged_Order[condition]), condition.Name)
 		map_Condition_Identifiers[condition] = id
 
 		decl = IdentifiersDecls
@@ -350,9 +350,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(controlpointOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, controlpoint := range controlpointOrdered {
+	for _, controlpoint := range controlpointOrdered {
 
-		id = generatesIdentifier("ControlPoint", idx, controlpoint.Name)
+		id = generatesIdentifier("ControlPoint", int(stage.ControlPointMap_Staged_Order[controlpoint]), controlpoint.Name)
 		map_ControlPoint_Identifiers[controlpoint] = id
 
 		decl = IdentifiersDecls
@@ -403,9 +403,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(ellipseOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, ellipse := range ellipseOrdered {
+	for _, ellipse := range ellipseOrdered {
 
-		id = generatesIdentifier("Ellipse", idx, ellipse.Name)
+		id = generatesIdentifier("Ellipse", int(stage.EllipseMap_Staged_Order[ellipse]), ellipse.Name)
 		map_Ellipse_Identifiers[ellipse] = id
 
 		decl = IdentifiersDecls
@@ -516,9 +516,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(layerOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, layer := range layerOrdered {
+	for _, layer := range layerOrdered {
 
-		id = generatesIdentifier("Layer", idx, layer.Name)
+		id = generatesIdentifier("Layer", int(stage.LayerMap_Staged_Order[layer]), layer.Name)
 		map_Layer_Identifiers[layer] = id
 
 		decl = IdentifiersDecls
@@ -557,9 +557,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(lineOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, line := range lineOrdered {
+	for _, line := range lineOrdered {
 
-		id = generatesIdentifier("Line", idx, line.Name)
+		id = generatesIdentifier("Line", int(stage.LineMap_Staged_Order[line]), line.Name)
 		map_Line_Identifiers[line] = id
 
 		decl = IdentifiersDecls
@@ -682,9 +682,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(linkOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, link := range linkOrdered {
+	for _, link := range linkOrdered {
 
-		id = generatesIdentifier("Link", idx, link.Name)
+		id = generatesIdentifier("Link", int(stage.LinkMap_Staged_Order[link]), link.Name)
 		map_Link_Identifiers[link] = id
 
 		decl = IdentifiersDecls
@@ -897,9 +897,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(linkanchoredtextOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, linkanchoredtext := range linkanchoredtextOrdered {
+	for _, linkanchoredtext := range linkanchoredtextOrdered {
 
-		id = generatesIdentifier("LinkAnchoredText", idx, linkanchoredtext.Name)
+		id = generatesIdentifier("LinkAnchoredText", int(stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext]), linkanchoredtext.Name)
 		map_LinkAnchoredText_Identifiers[linkanchoredtext] = id
 
 		decl = IdentifiersDecls
@@ -1056,9 +1056,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pathOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, path := range pathOrdered {
+	for _, path := range pathOrdered {
 
-		id = generatesIdentifier("Path", idx, path.Name)
+		id = generatesIdentifier("Path", int(stage.PathMap_Staged_Order[path]), path.Name)
 		map_Path_Identifiers[path] = id
 
 		decl = IdentifiersDecls
@@ -1151,9 +1151,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pointOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, point := range pointOrdered {
+	for _, point := range pointOrdered {
 
-		id = generatesIdentifier("Point", idx, point.Name)
+		id = generatesIdentifier("Point", int(stage.PointMap_Staged_Order[point]), point.Name)
 		map_Point_Identifiers[point] = id
 
 		decl = IdentifiersDecls
@@ -1204,9 +1204,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(polygoneOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, polygone := range polygoneOrdered {
+	for _, polygone := range polygoneOrdered {
 
-		id = generatesIdentifier("Polygone", idx, polygone.Name)
+		id = generatesIdentifier("Polygone", int(stage.PolygoneMap_Staged_Order[polygone]), polygone.Name)
 		map_Polygone_Identifiers[polygone] = id
 
 		decl = IdentifiersDecls
@@ -1299,9 +1299,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(polylineOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, polyline := range polylineOrdered {
+	for _, polyline := range polylineOrdered {
 
-		id = generatesIdentifier("Polyline", idx, polyline.Name)
+		id = generatesIdentifier("Polyline", int(stage.PolylineMap_Staged_Order[polyline]), polyline.Name)
 		map_Polyline_Identifiers[polyline] = id
 
 		decl = IdentifiersDecls
@@ -1394,9 +1394,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rectOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, rect := range rectOrdered {
+	for _, rect := range rectOrdered {
 
-		id = generatesIdentifier("Rect", idx, rect.Name)
+		id = generatesIdentifier("Rect", int(stage.RectMap_Staged_Order[rect]), rect.Name)
 		map_Rect_Identifiers[rect] = id
 
 		decl = IdentifiersDecls
@@ -1661,9 +1661,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rectanchoredpathOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, rectanchoredpath := range rectanchoredpathOrdered {
+	for _, rectanchoredpath := range rectanchoredpathOrdered {
 
-		id = generatesIdentifier("RectAnchoredPath", idx, rectanchoredpath.Name)
+		id = generatesIdentifier("RectAnchoredPath", int(stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath]), rectanchoredpath.Name)
 		map_RectAnchoredPath_Identifiers[rectanchoredpath] = id
 
 		decl = IdentifiersDecls
@@ -1788,9 +1788,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rectanchoredrectOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, rectanchoredrect := range rectanchoredrectOrdered {
+	for _, rectanchoredrect := range rectanchoredrectOrdered {
 
-		id = generatesIdentifier("RectAnchoredRect", idx, rectanchoredrect.Name)
+		id = generatesIdentifier("RectAnchoredRect", int(stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect]), rectanchoredrect.Name)
 		map_RectAnchoredRect_Identifiers[rectanchoredrect] = id
 
 		decl = IdentifiersDecls
@@ -1951,9 +1951,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rectanchoredtextOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, rectanchoredtext := range rectanchoredtextOrdered {
+	for _, rectanchoredtext := range rectanchoredtextOrdered {
 
-		id = generatesIdentifier("RectAnchoredText", idx, rectanchoredtext.Name)
+		id = generatesIdentifier("RectAnchoredText", int(stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext]), rectanchoredtext.Name)
 		map_RectAnchoredText_Identifiers[rectanchoredtext] = id
 
 		decl = IdentifiersDecls
@@ -2128,9 +2128,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rectlinklinkOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, rectlinklink := range rectlinklinkOrdered {
+	for _, rectlinklink := range rectlinklinkOrdered {
 
-		id = generatesIdentifier("RectLinkLink", idx, rectlinklink.Name)
+		id = generatesIdentifier("RectLinkLink", int(stage.RectLinkLinkMap_Staged_Order[rectlinklink]), rectlinklink.Name)
 		map_RectLinkLink_Identifiers[rectlinklink] = id
 
 		decl = IdentifiersDecls
@@ -2223,9 +2223,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(svgOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, svg := range svgOrdered {
+	for _, svg := range svgOrdered {
 
-		id = generatesIdentifier("SVG", idx, svg.Name)
+		id = generatesIdentifier("SVG", int(stage.SVGMap_Staged_Order[svg]), svg.Name)
 		map_SVG_Identifiers[svg] = id
 
 		decl = IdentifiersDecls
@@ -2302,9 +2302,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(svgtextOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, svgtext := range svgtextOrdered {
+	for _, svgtext := range svgtextOrdered {
 
-		id = generatesIdentifier("SvgText", idx, svgtext.Name)
+		id = generatesIdentifier("SvgText", int(stage.SvgTextMap_Staged_Order[svgtext]), svgtext.Name)
 		map_SvgText_Identifiers[svgtext] = id
 
 		decl = IdentifiersDecls
@@ -2349,9 +2349,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(textOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, text := range textOrdered {
+	for _, text := range textOrdered {
 
-		id = generatesIdentifier("Text", idx, text.Name)
+		id = generatesIdentifier("Text", int(stage.TextMap_Staged_Order[text]), text.Name)
 		map_Text_Identifiers[text] = id
 
 		decl = IdentifiersDecls
@@ -3100,7 +3100,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }
