@@ -519,6 +519,25 @@ func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 	return freqency
 }
 
+// StageForceOrder puts freqency to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FreqencyOrder
+// - update stage.FreqencyOrder accordingly
+func (freqency *Freqency) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Freqencys[freqency]; !ok {
+		stage.Freqencys[freqency] = struct{}{}
+
+		if order > stage.FreqencyOrder {
+			stage.FreqencyOrder = order
+		}
+		stage.FreqencyMap_Staged_Order[freqency] = stage.FreqencyOrder
+		stage.FreqencyOrder++
+	}
+	stage.Freqencys_mapString[freqency.Name] = freqency
+}
+
 // Unstage removes freqency off the model stage
 func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 	delete(stage.Freqencys, freqency)
@@ -584,6 +603,25 @@ func (note *Note) Stage(stage *Stage) *Note {
 	return note
 }
 
+// StageForceOrder puts note to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteOrder
+// - update stage.NoteOrder accordingly
+func (note *Note) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Notes[note]; !ok {
+		stage.Notes[note] = struct{}{}
+
+		if order > stage.NoteOrder {
+			stage.NoteOrder = order
+		}
+		stage.NoteMap_Staged_Order[note] = stage.NoteOrder
+		stage.NoteOrder++
+	}
+	stage.Notes_mapString[note.Name] = note
+}
+
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
@@ -647,6 +685,25 @@ func (player *Player) Stage(stage *Stage) *Player {
 	stage.Players_mapString[player.Name] = player
 
 	return player
+}
+
+// StageForceOrder puts player to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PlayerOrder
+// - update stage.PlayerOrder accordingly
+func (player *Player) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Players[player]; !ok {
+		stage.Players[player] = struct{}{}
+
+		if order > stage.PlayerOrder {
+			stage.PlayerOrder = order
+		}
+		stage.PlayerMap_Staged_Order[player] = stage.PlayerOrder
+		stage.PlayerOrder++
+	}
+	stage.Players_mapString[player.Name] = player
 }
 
 // Unstage removes player off the model stage
