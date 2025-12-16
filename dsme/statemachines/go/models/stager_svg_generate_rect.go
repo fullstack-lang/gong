@@ -92,6 +92,8 @@ func (stager *Stager) svgGenerateRect(
 
 	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
 
+	x_offset := 10.0 // on the left of the state
+
 	// Add the /Entry Action
 	if action := state.Entry; action != nil {
 		text := new(svg.RectAnchoredText)
@@ -114,10 +116,10 @@ func (stager *Stager) svgGenerateRect(
 		}
 
 		text.FontSize = "16px"
-		text.X_Offset = 0
+		text.X_Offset = x_offset
 		text.Y_Offset = currentY_Offset
-		text.RectAnchorType = svg.RECT_TOP
-		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		text.RectAnchorType = svg.RECT_TOP_LEFT
+		text.TextAnchorType = svg.TEXT_ANCHOR_START
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
 		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
@@ -147,10 +149,10 @@ func (stager *Stager) svgGenerateRect(
 		}
 
 		text.FontSize = "16px"
-		text.X_Offset = 0
+		text.X_Offset = x_offset
 		text.Y_Offset = currentY_Offset
-		text.RectAnchorType = svg.RECT_TOP
-		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		text.RectAnchorType = svg.RECT_TOP_LEFT
+		text.TextAnchorType = svg.TEXT_ANCHOR_START
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
 
@@ -180,10 +182,10 @@ func (stager *Stager) svgGenerateRect(
 		}
 
 		text.FontSize = "16px"
-		text.X_Offset = 0
+		text.X_Offset = x_offset
 		text.Y_Offset = currentY_Offset
-		text.RectAnchorType = svg.RECT_TOP
-		text.TextAnchorType = svg.TEXT_ANCHOR_CENTER
+		text.RectAnchorType = svg.RECT_TOP_LEFT
+		text.TextAnchorType = svg.TEXT_ANCHOR_START
 
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, text)
 		currentY_Offset += float64(HeightBetween2AttributeShapes * (1 + strings.Count(text.Content, "\n")))
