@@ -113,7 +113,7 @@ func NewStack(
 	stack.BackRepo = backRepo
 
 	if unmarshallFromCode != "" {
-		err := models.ParseAstFile(stage, unmarshallFromCode)
+		err := models.ParseAstFile(stage, unmarshallFromCode, true)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.
@@ -137,7 +137,7 @@ func NewStack(
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
-		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"	
+		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
 		stack.Probe = probe.NewProbe(
 			r,
 			test_go.GoModelsDir,

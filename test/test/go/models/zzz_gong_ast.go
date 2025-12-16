@@ -37,7 +37,7 @@ const (
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(stage *Stage, pathToFile string) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 
 	ReplaceOldDeclarationsInFile(pathToFile)
 
@@ -55,7 +55,7 @@ func ParseAstFile(stage *Stage, pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
@@ -98,12 +98,12 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 	// 4. Call the common AST processing logic.
 	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
 		log.Fatalln("Too many imports in file", inFile.Name)
@@ -165,7 +165,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								stage, &cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate, preserveOrder)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -382,7 +382,7 @@ func lookupSym(recv, name string) bool {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string, preserveOrder bool) (
 	instance any,
 	identifier string,
 	gongstructName string,
