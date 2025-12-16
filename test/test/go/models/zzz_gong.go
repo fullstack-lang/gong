@@ -220,9 +220,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -237,18 +234,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -570,9 +555,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -709,12 +691,6 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 		stage.Astructs[astruct] = struct{}{}
 		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
 		stage.AstructOrder++
-		stage.new[astruct] = struct{}{}
-		delete(stage.deleted, astruct)
-	} else {
-		if _, ok := stage.new[astruct]; !ok {
-			stage.modified[astruct] = struct{}{}
-		}
 	}
 	stage.Astructs_mapString[astruct.Name] = astruct
 
@@ -774,7 +750,7 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astruct *Astruct) SetName(name string) (){
+func (astruct *Astruct) SetName(name string) {
 	astruct.Name = name
 }
 
@@ -850,7 +826,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
 	astructbstruct2use.Name = name
 }
 
@@ -926,7 +902,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstructuse *AstructBstructUse) SetName(name string) (){
+func (astructbstructuse *AstructBstructUse) SetName(name string) {
 	astructbstructuse.Name = name
 }
 
@@ -1002,7 +978,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bstruct *Bstruct) SetName(name string) (){
+func (bstruct *Bstruct) SetName(name string) {
 	bstruct.Name = name
 }
 
@@ -1078,7 +1054,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dstruct *Dstruct) SetName(name string) (){
+func (dstruct *Dstruct) SetName(name string) {
 	dstruct.Name = name
 }
 
@@ -1154,7 +1130,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 }
 
 // for satisfaction of GongStruct interface
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) {
 	f0123456789012345678901234567890.Name = name
 }
 
@@ -1230,7 +1206,7 @@ func (gstruct *Gstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gstruct *Gstruct) SetName(name string) (){
+func (gstruct *Gstruct) SetName(name string) {
 	gstruct.Name = name
 }
 
@@ -3158,4 +3134,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template
