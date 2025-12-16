@@ -857,12 +857,12 @@ func (gongbasicfield *GongBasicField) Stage(stage *Stage) *GongBasicField {
 	return gongbasicfield
 }
 
-// StageForceOrder puts gongbasicfield to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongbasicfield to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongBasicFieldOrder
 // - update stage.GongBasicFieldOrder accordingly
-func (gongbasicfield *GongBasicField) StageForceOrder(stage *Stage, order uint) {
+func (gongbasicfield *GongBasicField) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
 		stage.GongBasicFields[gongbasicfield] = struct{}{}
@@ -941,12 +941,12 @@ func (gongenum *GongEnum) Stage(stage *Stage) *GongEnum {
 	return gongenum
 }
 
-// StageForceOrder puts gongenum to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongenum to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongEnumOrder
 // - update stage.GongEnumOrder accordingly
-func (gongenum *GongEnum) StageForceOrder(stage *Stage, order uint) {
+func (gongenum *GongEnum) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongEnums[gongenum]; !ok {
 		stage.GongEnums[gongenum] = struct{}{}
@@ -1025,12 +1025,12 @@ func (gongenumvalue *GongEnumValue) Stage(stage *Stage) *GongEnumValue {
 	return gongenumvalue
 }
 
-// StageForceOrder puts gongenumvalue to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongenumvalue to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongEnumValueOrder
 // - update stage.GongEnumValueOrder accordingly
-func (gongenumvalue *GongEnumValue) StageForceOrder(stage *Stage, order uint) {
+func (gongenumvalue *GongEnumValue) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongEnumValues[gongenumvalue]; !ok {
 		stage.GongEnumValues[gongenumvalue] = struct{}{}
@@ -1109,12 +1109,12 @@ func (gonglink *GongLink) Stage(stage *Stage) *GongLink {
 	return gonglink
 }
 
-// StageForceOrder puts gonglink to the model stage, and if the astrtuct
+// StagePreserveOrder puts gonglink to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongLinkOrder
 // - update stage.GongLinkOrder accordingly
-func (gonglink *GongLink) StageForceOrder(stage *Stage, order uint) {
+func (gonglink *GongLink) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongLinks[gonglink]; !ok {
 		stage.GongLinks[gonglink] = struct{}{}
@@ -1193,12 +1193,12 @@ func (gongnote *GongNote) Stage(stage *Stage) *GongNote {
 	return gongnote
 }
 
-// StageForceOrder puts gongnote to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongnote to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongNoteOrder
 // - update stage.GongNoteOrder accordingly
-func (gongnote *GongNote) StageForceOrder(stage *Stage, order uint) {
+func (gongnote *GongNote) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongNotes[gongnote]; !ok {
 		stage.GongNotes[gongnote] = struct{}{}
@@ -1277,12 +1277,12 @@ func (gongstruct *GongStruct) Stage(stage *Stage) *GongStruct {
 	return gongstruct
 }
 
-// StageForceOrder puts gongstruct to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongstruct to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongStructOrder
 // - update stage.GongStructOrder accordingly
-func (gongstruct *GongStruct) StageForceOrder(stage *Stage, order uint) {
+func (gongstruct *GongStruct) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongStructs[gongstruct]; !ok {
 		stage.GongStructs[gongstruct] = struct{}{}
@@ -1361,12 +1361,12 @@ func (gongtimefield *GongTimeField) Stage(stage *Stage) *GongTimeField {
 	return gongtimefield
 }
 
-// StageForceOrder puts gongtimefield to the model stage, and if the astrtuct
+// StagePreserveOrder puts gongtimefield to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GongTimeFieldOrder
 // - update stage.GongTimeFieldOrder accordingly
-func (gongtimefield *GongTimeField) StageForceOrder(stage *Stage, order uint) {
+func (gongtimefield *GongTimeField) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GongTimeFields[gongtimefield]; !ok {
 		stage.GongTimeFields[gongtimefield] = struct{}{}
@@ -1445,12 +1445,12 @@ func (metareference *MetaReference) Stage(stage *Stage) *MetaReference {
 	return metareference
 }
 
-// StageForceOrder puts metareference to the model stage, and if the astrtuct
+// StagePreserveOrder puts metareference to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.MetaReferenceOrder
 // - update stage.MetaReferenceOrder accordingly
-func (metareference *MetaReference) StageForceOrder(stage *Stage, order uint) {
+func (metareference *MetaReference) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.MetaReferences[metareference]; !ok {
 		stage.MetaReferences[metareference] = struct{}{}
@@ -1529,12 +1529,12 @@ func (modelpkg *ModelPkg) Stage(stage *Stage) *ModelPkg {
 	return modelpkg
 }
 
-// StageForceOrder puts modelpkg to the model stage, and if the astrtuct
+// StagePreserveOrder puts modelpkg to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ModelPkgOrder
 // - update stage.ModelPkgOrder accordingly
-func (modelpkg *ModelPkg) StageForceOrder(stage *Stage, order uint) {
+func (modelpkg *ModelPkg) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.ModelPkgs[modelpkg]; !ok {
 		stage.ModelPkgs[modelpkg] = struct{}{}
@@ -1613,12 +1613,12 @@ func (pointertogongstructfield *PointerToGongStructField) Stage(stage *Stage) *P
 	return pointertogongstructfield
 }
 
-// StageForceOrder puts pointertogongstructfield to the model stage, and if the astrtuct
+// StagePreserveOrder puts pointertogongstructfield to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PointerToGongStructFieldOrder
 // - update stage.PointerToGongStructFieldOrder accordingly
-func (pointertogongstructfield *PointerToGongStructField) StageForceOrder(stage *Stage, order uint) {
+func (pointertogongstructfield *PointerToGongStructField) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; !ok {
 		stage.PointerToGongStructFields[pointertogongstructfield] = struct{}{}
@@ -1697,12 +1697,12 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Stage(st
 	return sliceofpointertogongstructfield
 }
 
-// StageForceOrder puts sliceofpointertogongstructfield to the model stage, and if the astrtuct
+// StagePreserveOrder puts sliceofpointertogongstructfield to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SliceOfPointerToGongStructFieldOrder
 // - update stage.SliceOfPointerToGongStructFieldOrder accordingly
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StageForceOrder(stage *Stage, order uint) {
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; !ok {
 		stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield] = struct{}{}

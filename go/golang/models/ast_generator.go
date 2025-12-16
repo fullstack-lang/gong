@@ -40,7 +40,7 @@ var __gong__map_{{Structname}} = make(map[string]*{{Structname}})`,
 										if !preserveOrder {
 											instance{{Structname}}.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instance{{Structname}}.Stage(stage)
 											} else {

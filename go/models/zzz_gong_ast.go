@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"embed"
 	"errors"
+	"fmt"
 	"go/ast"
 	"go/doc/comment"
 	"go/parser"
@@ -37,7 +38,7 @@ const (
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFile(stage *Stage, pathToFile string) error {
+func ParseAstFile(stage *Stage, pathToFile string, preserveOrder bool) error {
 
 	ReplaceOldDeclarationsInFile(pathToFile)
 
@@ -55,7 +56,7 @@ func ParseAstFile(stage *Stage, pathToFile string) error {
 		return errors.New("Unable to parser " + errParser.Error())
 	}
 
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, preserveOrder)
 }
 
 // ParseAstEmbeddedFile parses the Go source code from an embedded file
@@ -98,12 +99,12 @@ func ParseAstEmbeddedFile(stage *Stage, directory embed.FS, pathToFile string) e
 
 	// 4. Call the common AST processing logic.
 	//    Pass the parsed AST (*ast.File), the FileSet, and the stage.
-	return ParseAstFileFromAst(stage, inFile, fset)
+	return ParseAstFileFromAst(stage, inFile, fset, false)
 }
 
 // ParseAstFile Parse pathToFile and stages all instances
 // declared in the file
-func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) error {
+func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, preserveOrder bool) error {
 	// if there is a meta package import, it is the third import
 	if len(inFile.Imports) > 3 {
 		log.Fatalln("Too many imports in file", inFile.Name)
@@ -165,7 +166,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet) er
 						assignStmt := stmt
 						instance, id, gongstruct, fieldName :=
 							UnmarshallGongstructStaging(
-								stage, &cmap, assignStmt, astCoordinate)
+								stage, &cmap, assignStmt, astCoordinate, preserveOrder)
 						_ = instance
 						_ = id
 						_ = gongstruct
@@ -386,7 +387,7 @@ func lookupSym(recv, name string) bool {
 }
 
 // UnmarshallGoStaging unmarshall a go assign statement
-func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string) (
+func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt *ast.AssignStmt, astCoordinate_ string, preserveOrder bool) (
 	instance any,
 	identifier string,
 	gongstructName string,
@@ -547,67 +548,166 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									case "GongBasicField":
 										instanceGongBasicField := new(GongBasicField)
 										instanceGongBasicField.Name = instanceName
-										instanceGongBasicField.Stage(stage)
+										if !preserveOrder {
+											instanceGongBasicField.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongBasicField.Stage(stage)
+											} else {
+												instanceGongBasicField.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongBasicField)
 										__gong__map_GongBasicField[identifier] = instanceGongBasicField
 									case "GongEnum":
 										instanceGongEnum := new(GongEnum)
 										instanceGongEnum.Name = instanceName
-										instanceGongEnum.Stage(stage)
+										if !preserveOrder {
+											instanceGongEnum.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongEnum.Stage(stage)
+											} else {
+												instanceGongEnum.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongEnum)
 										__gong__map_GongEnum[identifier] = instanceGongEnum
 									case "GongEnumValue":
 										instanceGongEnumValue := new(GongEnumValue)
 										instanceGongEnumValue.Name = instanceName
-										instanceGongEnumValue.Stage(stage)
+										if !preserveOrder {
+											instanceGongEnumValue.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongEnumValue.Stage(stage)
+											} else {
+												instanceGongEnumValue.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongEnumValue)
 										__gong__map_GongEnumValue[identifier] = instanceGongEnumValue
 									case "GongLink":
 										instanceGongLink := new(GongLink)
 										instanceGongLink.Name = instanceName
-										instanceGongLink.Stage(stage)
+										if !preserveOrder {
+											instanceGongLink.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongLink.Stage(stage)
+											} else {
+												instanceGongLink.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongLink)
 										__gong__map_GongLink[identifier] = instanceGongLink
 									case "GongNote":
 										instanceGongNote := new(GongNote)
 										instanceGongNote.Name = instanceName
-										instanceGongNote.Stage(stage)
+										if !preserveOrder {
+											instanceGongNote.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongNote.Stage(stage)
+											} else {
+												instanceGongNote.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongNote)
 										__gong__map_GongNote[identifier] = instanceGongNote
 									case "GongStruct":
 										instanceGongStruct := new(GongStruct)
 										instanceGongStruct.Name = instanceName
-										instanceGongStruct.Stage(stage)
+										if !preserveOrder {
+											instanceGongStruct.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongStruct.Stage(stage)
+											} else {
+												instanceGongStruct.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongStruct)
 										__gong__map_GongStruct[identifier] = instanceGongStruct
 									case "GongTimeField":
 										instanceGongTimeField := new(GongTimeField)
 										instanceGongTimeField.Name = instanceName
-										instanceGongTimeField.Stage(stage)
+										if !preserveOrder {
+											instanceGongTimeField.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceGongTimeField.Stage(stage)
+											} else {
+												instanceGongTimeField.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceGongTimeField)
 										__gong__map_GongTimeField[identifier] = instanceGongTimeField
 									case "MetaReference":
 										instanceMetaReference := new(MetaReference)
 										instanceMetaReference.Name = instanceName
-										instanceMetaReference.Stage(stage)
+										if !preserveOrder {
+											instanceMetaReference.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceMetaReference.Stage(stage)
+											} else {
+												instanceMetaReference.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceMetaReference)
 										__gong__map_MetaReference[identifier] = instanceMetaReference
 									case "ModelPkg":
 										instanceModelPkg := new(ModelPkg)
 										instanceModelPkg.Name = instanceName
-										instanceModelPkg.Stage(stage)
+										if !preserveOrder {
+											instanceModelPkg.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceModelPkg.Stage(stage)
+											} else {
+												instanceModelPkg.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceModelPkg)
 										__gong__map_ModelPkg[identifier] = instanceModelPkg
 									case "PointerToGongStructField":
 										instancePointerToGongStructField := new(PointerToGongStructField)
 										instancePointerToGongStructField.Name = instanceName
-										instancePointerToGongStructField.Stage(stage)
+										if !preserveOrder {
+											instancePointerToGongStructField.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instancePointerToGongStructField.Stage(stage)
+											} else {
+												instancePointerToGongStructField.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instancePointerToGongStructField)
 										__gong__map_PointerToGongStructField[identifier] = instancePointerToGongStructField
 									case "SliceOfPointerToGongStructField":
 										instanceSliceOfPointerToGongStructField := new(SliceOfPointerToGongStructField)
 										instanceSliceOfPointerToGongStructField.Name = instanceName
-										instanceSliceOfPointerToGongStructField.Stage(stage)
+										if !preserveOrder {
+											instanceSliceOfPointerToGongStructField.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceSliceOfPointerToGongStructField.Stage(stage)
+											} else {
+												instanceSliceOfPointerToGongStructField.StagePreserveOrder(stage, newOrder)
+											}
+										}
 										instance = any(instanceSliceOfPointerToGongStructField)
 										__gong__map_SliceOfPointerToGongStructField[identifier] = instanceSliceOfPointerToGongStructField
 									}
@@ -1434,4 +1534,29 @@ func ReplaceOldDeclarationsInFile(pathToFile string) error {
 		}
 	}
 	return writer.Flush()
+}
+
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
+	// Compile the Regex Pattern
+	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
+
+	// Find the matches
+	matches := re.FindStringSubmatch(input)
+
+	// Validate that we found the pattern and the capture group
+	if len(matches) < 2 {
+		return 0, fmt.Errorf("pattern not found in string: %s", input)
+	}
+
+	// matches[0] is the whole string, matches[1] is the capture group (\d+)
+	numberStr := matches[1]
+
+	// Convert string to integer (handles leading zeros automatically)
+	result, err := strconv.Atoi(numberStr)
+	if err != nil {
+		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
+	}
+
+	return uint(result), nil
 }

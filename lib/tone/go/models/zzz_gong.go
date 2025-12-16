@@ -519,12 +519,12 @@ func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 	return freqency
 }
 
-// StageForceOrder puts freqency to the model stage, and if the astrtuct
+// StagePreserveOrder puts freqency to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FreqencyOrder
 // - update stage.FreqencyOrder accordingly
-func (freqency *Freqency) StageForceOrder(stage *Stage, order uint) {
+func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Freqencys[freqency]; !ok {
 		stage.Freqencys[freqency] = struct{}{}
@@ -603,12 +603,12 @@ func (note *Note) Stage(stage *Stage) *Note {
 	return note
 }
 
-// StageForceOrder puts note to the model stage, and if the astrtuct
+// StagePreserveOrder puts note to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.NoteOrder
 // - update stage.NoteOrder accordingly
-func (note *Note) StageForceOrder(stage *Stage, order uint) {
+func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Notes[note]; !ok {
 		stage.Notes[note] = struct{}{}
@@ -687,12 +687,12 @@ func (player *Player) Stage(stage *Stage) *Player {
 	return player
 }
 
-// StageForceOrder puts player to the model stage, and if the astrtuct
+// StagePreserveOrder puts player to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PlayerOrder
 // - update stage.PlayerOrder accordingly
-func (player *Player) StageForceOrder(stage *Stage, order uint) {
+func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Players[player]; !ok {
 		stage.Players[player] = struct{}{}

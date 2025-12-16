@@ -1313,12 +1313,12 @@ func (animate *Animate) Stage(stage *Stage) *Animate {
 	return animate
 }
 
-// StageForceOrder puts animate to the model stage, and if the astrtuct
+// StagePreserveOrder puts animate to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AnimateOrder
 // - update stage.AnimateOrder accordingly
-func (animate *Animate) StageForceOrder(stage *Stage, order uint) {
+func (animate *Animate) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Animates[animate]; !ok {
 		stage.Animates[animate] = struct{}{}
@@ -1397,12 +1397,12 @@ func (circle *Circle) Stage(stage *Stage) *Circle {
 	return circle
 }
 
-// StageForceOrder puts circle to the model stage, and if the astrtuct
+// StagePreserveOrder puts circle to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CircleOrder
 // - update stage.CircleOrder accordingly
-func (circle *Circle) StageForceOrder(stage *Stage, order uint) {
+func (circle *Circle) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Circles[circle]; !ok {
 		stage.Circles[circle] = struct{}{}
@@ -1481,12 +1481,12 @@ func (condition *Condition) Stage(stage *Stage) *Condition {
 	return condition
 }
 
-// StageForceOrder puts condition to the model stage, and if the astrtuct
+// StagePreserveOrder puts condition to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ConditionOrder
 // - update stage.ConditionOrder accordingly
-func (condition *Condition) StageForceOrder(stage *Stage, order uint) {
+func (condition *Condition) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Conditions[condition]; !ok {
 		stage.Conditions[condition] = struct{}{}
@@ -1565,12 +1565,12 @@ func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 	return controlpoint
 }
 
-// StageForceOrder puts controlpoint to the model stage, and if the astrtuct
+// StagePreserveOrder puts controlpoint to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ControlPointOrder
 // - update stage.ControlPointOrder accordingly
-func (controlpoint *ControlPoint) StageForceOrder(stage *Stage, order uint) {
+func (controlpoint *ControlPoint) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.ControlPoints[controlpoint]; !ok {
 		stage.ControlPoints[controlpoint] = struct{}{}
@@ -1649,12 +1649,12 @@ func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 	return ellipse
 }
 
-// StageForceOrder puts ellipse to the model stage, and if the astrtuct
+// StagePreserveOrder puts ellipse to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.EllipseOrder
 // - update stage.EllipseOrder accordingly
-func (ellipse *Ellipse) StageForceOrder(stage *Stage, order uint) {
+func (ellipse *Ellipse) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Ellipses[ellipse]; !ok {
 		stage.Ellipses[ellipse] = struct{}{}
@@ -1733,12 +1733,12 @@ func (layer *Layer) Stage(stage *Stage) *Layer {
 	return layer
 }
 
-// StageForceOrder puts layer to the model stage, and if the astrtuct
+// StagePreserveOrder puts layer to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LayerOrder
 // - update stage.LayerOrder accordingly
-func (layer *Layer) StageForceOrder(stage *Stage, order uint) {
+func (layer *Layer) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Layers[layer]; !ok {
 		stage.Layers[layer] = struct{}{}
@@ -1817,12 +1817,12 @@ func (line *Line) Stage(stage *Stage) *Line {
 	return line
 }
 
-// StageForceOrder puts line to the model stage, and if the astrtuct
+// StagePreserveOrder puts line to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LineOrder
 // - update stage.LineOrder accordingly
-func (line *Line) StageForceOrder(stage *Stage, order uint) {
+func (line *Line) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Lines[line]; !ok {
 		stage.Lines[line] = struct{}{}
@@ -1901,12 +1901,12 @@ func (link *Link) Stage(stage *Stage) *Link {
 	return link
 }
 
-// StageForceOrder puts link to the model stage, and if the astrtuct
+// StagePreserveOrder puts link to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LinkOrder
 // - update stage.LinkOrder accordingly
-func (link *Link) StageForceOrder(stage *Stage, order uint) {
+func (link *Link) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Links[link]; !ok {
 		stage.Links[link] = struct{}{}
@@ -1985,12 +1985,12 @@ func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText 
 	return linkanchoredtext
 }
 
-// StageForceOrder puts linkanchoredtext to the model stage, and if the astrtuct
+// StagePreserveOrder puts linkanchoredtext to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LinkAnchoredTextOrder
 // - update stage.LinkAnchoredTextOrder accordingly
-func (linkanchoredtext *LinkAnchoredText) StageForceOrder(stage *Stage, order uint) {
+func (linkanchoredtext *LinkAnchoredText) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
@@ -2069,12 +2069,12 @@ func (path *Path) Stage(stage *Stage) *Path {
 	return path
 }
 
-// StageForceOrder puts path to the model stage, and if the astrtuct
+// StagePreserveOrder puts path to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PathOrder
 // - update stage.PathOrder accordingly
-func (path *Path) StageForceOrder(stage *Stage, order uint) {
+func (path *Path) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Paths[path]; !ok {
 		stage.Paths[path] = struct{}{}
@@ -2153,12 +2153,12 @@ func (point *Point) Stage(stage *Stage) *Point {
 	return point
 }
 
-// StageForceOrder puts point to the model stage, and if the astrtuct
+// StagePreserveOrder puts point to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PointOrder
 // - update stage.PointOrder accordingly
-func (point *Point) StageForceOrder(stage *Stage, order uint) {
+func (point *Point) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Points[point]; !ok {
 		stage.Points[point] = struct{}{}
@@ -2237,12 +2237,12 @@ func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 	return polygone
 }
 
-// StageForceOrder puts polygone to the model stage, and if the astrtuct
+// StagePreserveOrder puts polygone to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PolygoneOrder
 // - update stage.PolygoneOrder accordingly
-func (polygone *Polygone) StageForceOrder(stage *Stage, order uint) {
+func (polygone *Polygone) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Polygones[polygone]; !ok {
 		stage.Polygones[polygone] = struct{}{}
@@ -2321,12 +2321,12 @@ func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 	return polyline
 }
 
-// StageForceOrder puts polyline to the model stage, and if the astrtuct
+// StagePreserveOrder puts polyline to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PolylineOrder
 // - update stage.PolylineOrder accordingly
-func (polyline *Polyline) StageForceOrder(stage *Stage, order uint) {
+func (polyline *Polyline) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Polylines[polyline]; !ok {
 		stage.Polylines[polyline] = struct{}{}
@@ -2405,12 +2405,12 @@ func (rect *Rect) Stage(stage *Stage) *Rect {
 	return rect
 }
 
-// StageForceOrder puts rect to the model stage, and if the astrtuct
+// StagePreserveOrder puts rect to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RectOrder
 // - update stage.RectOrder accordingly
-func (rect *Rect) StageForceOrder(stage *Stage, order uint) {
+func (rect *Rect) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Rects[rect]; !ok {
 		stage.Rects[rect] = struct{}{}
@@ -2489,12 +2489,12 @@ func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath 
 	return rectanchoredpath
 }
 
-// StageForceOrder puts rectanchoredpath to the model stage, and if the astrtuct
+// StagePreserveOrder puts rectanchoredpath to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RectAnchoredPathOrder
 // - update stage.RectAnchoredPathOrder accordingly
-func (rectanchoredpath *RectAnchoredPath) StageForceOrder(stage *Stage, order uint) {
+func (rectanchoredpath *RectAnchoredPath) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
@@ -2573,12 +2573,12 @@ func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect 
 	return rectanchoredrect
 }
 
-// StageForceOrder puts rectanchoredrect to the model stage, and if the astrtuct
+// StagePreserveOrder puts rectanchoredrect to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RectAnchoredRectOrder
 // - update stage.RectAnchoredRectOrder accordingly
-func (rectanchoredrect *RectAnchoredRect) StageForceOrder(stage *Stage, order uint) {
+func (rectanchoredrect *RectAnchoredRect) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
@@ -2657,12 +2657,12 @@ func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText 
 	return rectanchoredtext
 }
 
-// StageForceOrder puts rectanchoredtext to the model stage, and if the astrtuct
+// StagePreserveOrder puts rectanchoredtext to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RectAnchoredTextOrder
 // - update stage.RectAnchoredTextOrder accordingly
-func (rectanchoredtext *RectAnchoredText) StageForceOrder(stage *Stage, order uint) {
+func (rectanchoredtext *RectAnchoredText) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
@@ -2741,12 +2741,12 @@ func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 	return rectlinklink
 }
 
-// StageForceOrder puts rectlinklink to the model stage, and if the astrtuct
+// StagePreserveOrder puts rectlinklink to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RectLinkLinkOrder
 // - update stage.RectLinkLinkOrder accordingly
-func (rectlinklink *RectLinkLink) StageForceOrder(stage *Stage, order uint) {
+func (rectlinklink *RectLinkLink) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 		stage.RectLinkLinks[rectlinklink] = struct{}{}
@@ -2825,12 +2825,12 @@ func (svg *SVG) Stage(stage *Stage) *SVG {
 	return svg
 }
 
-// StageForceOrder puts svg to the model stage, and if the astrtuct
+// StagePreserveOrder puts svg to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SVGOrder
 // - update stage.SVGOrder accordingly
-func (svg *SVG) StageForceOrder(stage *Stage, order uint) {
+func (svg *SVG) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.SVGs[svg]; !ok {
 		stage.SVGs[svg] = struct{}{}
@@ -2909,12 +2909,12 @@ func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 	return svgtext
 }
 
-// StageForceOrder puts svgtext to the model stage, and if the astrtuct
+// StagePreserveOrder puts svgtext to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SvgTextOrder
 // - update stage.SvgTextOrder accordingly
-func (svgtext *SvgText) StageForceOrder(stage *Stage, order uint) {
+func (svgtext *SvgText) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.SvgTexts[svgtext]; !ok {
 		stage.SvgTexts[svgtext] = struct{}{}
@@ -2993,12 +2993,12 @@ func (text *Text) Stage(stage *Stage) *Text {
 	return text
 }
 
-// StageForceOrder puts text to the model stage, and if the astrtuct
+// StagePreserveOrder puts text to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.TextOrder
 // - update stage.TextOrder accordingly
-func (text *Text) StageForceOrder(stage *Stage, order uint) {
+func (text *Text) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Texts[text]; !ok {
 		stage.Texts[text] = struct{}{}

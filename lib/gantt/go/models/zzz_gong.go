@@ -695,12 +695,12 @@ func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 	return arrow
 }
 
-// StageForceOrder puts arrow to the model stage, and if the astrtuct
+// StagePreserveOrder puts arrow to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ArrowOrder
 // - update stage.ArrowOrder accordingly
-func (arrow *Arrow) StageForceOrder(stage *Stage, order uint) {
+func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Arrows[arrow]; !ok {
 		stage.Arrows[arrow] = struct{}{}
@@ -779,12 +779,12 @@ func (bar *Bar) Stage(stage *Stage) *Bar {
 	return bar
 }
 
-// StageForceOrder puts bar to the model stage, and if the astrtuct
+// StagePreserveOrder puts bar to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.BarOrder
 // - update stage.BarOrder accordingly
-func (bar *Bar) StageForceOrder(stage *Stage, order uint) {
+func (bar *Bar) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Bars[bar]; !ok {
 		stage.Bars[bar] = struct{}{}
@@ -863,12 +863,12 @@ func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 	return gantt
 }
 
-// StageForceOrder puts gantt to the model stage, and if the astrtuct
+// StagePreserveOrder puts gantt to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GanttOrder
 // - update stage.GanttOrder accordingly
-func (gantt *Gantt) StageForceOrder(stage *Stage, order uint) {
+func (gantt *Gantt) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Gantts[gantt]; !ok {
 		stage.Gantts[gantt] = struct{}{}
@@ -947,12 +947,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 	return group
 }
 
-// StageForceOrder puts group to the model stage, and if the astrtuct
+// StagePreserveOrder puts group to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
-func (group *Group) StageForceOrder(stage *Stage, order uint) {
+func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
@@ -1031,12 +1031,12 @@ func (lane *Lane) Stage(stage *Stage) *Lane {
 	return lane
 }
 
-// StageForceOrder puts lane to the model stage, and if the astrtuct
+// StagePreserveOrder puts lane to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LaneOrder
 // - update stage.LaneOrder accordingly
-func (lane *Lane) StageForceOrder(stage *Stage, order uint) {
+func (lane *Lane) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Lanes[lane]; !ok {
 		stage.Lanes[lane] = struct{}{}
@@ -1115,12 +1115,12 @@ func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 	return laneuse
 }
 
-// StageForceOrder puts laneuse to the model stage, and if the astrtuct
+// StagePreserveOrder puts laneuse to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LaneUseOrder
 // - update stage.LaneUseOrder accordingly
-func (laneuse *LaneUse) StageForceOrder(stage *Stage, order uint) {
+func (laneuse *LaneUse) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.LaneUses[laneuse]; !ok {
 		stage.LaneUses[laneuse] = struct{}{}
@@ -1199,12 +1199,12 @@ func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 	return milestone
 }
 
-// StageForceOrder puts milestone to the model stage, and if the astrtuct
+// StagePreserveOrder puts milestone to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.MilestoneOrder
 // - update stage.MilestoneOrder accordingly
-func (milestone *Milestone) StageForceOrder(stage *Stage, order uint) {
+func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Milestones[milestone]; !ok {
 		stage.Milestones[milestone] = struct{}{}

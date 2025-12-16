@@ -822,8 +822,8 @@ func ReplaceOldDeclarationsInFile(pathToFile string) error {
 	return writer.Flush()
 }
 
-// ExtractMiddleInt takes a formatted string and returns the extracted integer.
-func ExtractMiddleInt(input string) (int, error) {
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
 	// Compile the Regex Pattern
 	re := regexp.MustCompile(` + "`" + `__.*?__(\d+)_.*` + "`" + `)
 
@@ -844,6 +844,6 @@ func ExtractMiddleInt(input string) (int, error) {
 		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
 	}
 
-	return result, nil
+	return uint(result), nil
 }
 `

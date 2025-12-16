@@ -517,12 +517,12 @@ func (filetodownload *FileToDownload) Stage(stage *Stage) *FileToDownload {
 	return filetodownload
 }
 
-// StageForceOrder puts filetodownload to the model stage, and if the astrtuct
+// StagePreserveOrder puts filetodownload to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FileToDownloadOrder
 // - update stage.FileToDownloadOrder accordingly
-func (filetodownload *FileToDownload) StageForceOrder(stage *Stage, order uint) {
+func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FileToDownloads[filetodownload]; !ok {
 		stage.FileToDownloads[filetodownload] = struct{}{}
@@ -601,12 +601,12 @@ func (filetoupload *FileToUpload) Stage(stage *Stage) *FileToUpload {
 	return filetoupload
 }
 
-// StageForceOrder puts filetoupload to the model stage, and if the astrtuct
+// StagePreserveOrder puts filetoupload to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.FileToUploadOrder
 // - update stage.FileToUploadOrder accordingly
-func (filetoupload *FileToUpload) StageForceOrder(stage *Stage, order uint) {
+func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.FileToUploads[filetoupload]; !ok {
 		stage.FileToUploads[filetoupload] = struct{}{}
@@ -685,12 +685,12 @@ func (message *Message) Stage(stage *Stage) *Message {
 	return message
 }
 
-// StageForceOrder puts message to the model stage, and if the astrtuct
+// StagePreserveOrder puts message to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.MessageOrder
 // - update stage.MessageOrder accordingly
-func (message *Message) StageForceOrder(stage *Stage, order uint) {
+func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}

@@ -855,12 +855,12 @@ func (category1 *Category1) Stage(stage *Stage) *Category1 {
 	return category1
 }
 
-// StageForceOrder puts category1 to the model stage, and if the astrtuct
+// StagePreserveOrder puts category1 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category1Order
 // - update stage.Category1Order accordingly
-func (category1 *Category1) StageForceOrder(stage *Stage, order uint) {
+func (category1 *Category1) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category1s[category1]; !ok {
 		stage.Category1s[category1] = struct{}{}
@@ -939,12 +939,12 @@ func (category1shape *Category1Shape) Stage(stage *Stage) *Category1Shape {
 	return category1shape
 }
 
-// StageForceOrder puts category1shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts category1shape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category1ShapeOrder
 // - update stage.Category1ShapeOrder accordingly
-func (category1shape *Category1Shape) StageForceOrder(stage *Stage, order uint) {
+func (category1shape *Category1Shape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category1Shapes[category1shape]; !ok {
 		stage.Category1Shapes[category1shape] = struct{}{}
@@ -1023,12 +1023,12 @@ func (category2 *Category2) Stage(stage *Stage) *Category2 {
 	return category2
 }
 
-// StageForceOrder puts category2 to the model stage, and if the astrtuct
+// StagePreserveOrder puts category2 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category2Order
 // - update stage.Category2Order accordingly
-func (category2 *Category2) StageForceOrder(stage *Stage, order uint) {
+func (category2 *Category2) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category2s[category2]; !ok {
 		stage.Category2s[category2] = struct{}{}
@@ -1107,12 +1107,12 @@ func (category2shape *Category2Shape) Stage(stage *Stage) *Category2Shape {
 	return category2shape
 }
 
-// StageForceOrder puts category2shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts category2shape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category2ShapeOrder
 // - update stage.Category2ShapeOrder accordingly
-func (category2shape *Category2Shape) StageForceOrder(stage *Stage, order uint) {
+func (category2shape *Category2Shape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category2Shapes[category2shape]; !ok {
 		stage.Category2Shapes[category2shape] = struct{}{}
@@ -1191,12 +1191,12 @@ func (category3 *Category3) Stage(stage *Stage) *Category3 {
 	return category3
 }
 
-// StageForceOrder puts category3 to the model stage, and if the astrtuct
+// StagePreserveOrder puts category3 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category3Order
 // - update stage.Category3Order accordingly
-func (category3 *Category3) StageForceOrder(stage *Stage, order uint) {
+func (category3 *Category3) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category3s[category3]; !ok {
 		stage.Category3s[category3] = struct{}{}
@@ -1275,12 +1275,12 @@ func (category3shape *Category3Shape) Stage(stage *Stage) *Category3Shape {
 	return category3shape
 }
 
-// StageForceOrder puts category3shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts category3shape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Category3ShapeOrder
 // - update stage.Category3ShapeOrder accordingly
-func (category3shape *Category3Shape) StageForceOrder(stage *Stage, order uint) {
+func (category3shape *Category3Shape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Category3Shapes[category3shape]; !ok {
 		stage.Category3Shapes[category3shape] = struct{}{}
@@ -1359,12 +1359,12 @@ func (controlpointshape *ControlPointShape) Stage(stage *Stage) *ControlPointSha
 	return controlpointshape
 }
 
-// StageForceOrder puts controlpointshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts controlpointshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ControlPointShapeOrder
 // - update stage.ControlPointShapeOrder accordingly
-func (controlpointshape *ControlPointShape) StageForceOrder(stage *Stage, order uint) {
+func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
 		stage.ControlPointShapes[controlpointshape] = struct{}{}
@@ -1443,12 +1443,12 @@ func (desk *Desk) Stage(stage *Stage) *Desk {
 	return desk
 }
 
-// StageForceOrder puts desk to the model stage, and if the astrtuct
+// StagePreserveOrder puts desk to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DeskOrder
 // - update stage.DeskOrder accordingly
-func (desk *Desk) StageForceOrder(stage *Stage, order uint) {
+func (desk *Desk) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Desks[desk]; !ok {
 		stage.Desks[desk] = struct{}{}
@@ -1527,12 +1527,12 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	return diagram
 }
 
-// StageForceOrder puts diagram to the model stage, and if the astrtuct
+// StagePreserveOrder puts diagram to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DiagramOrder
 // - update stage.DiagramOrder accordingly
-func (diagram *Diagram) StageForceOrder(stage *Stage, order uint) {
+func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
@@ -1611,12 +1611,12 @@ func (influence *Influence) Stage(stage *Stage) *Influence {
 	return influence
 }
 
-// StageForceOrder puts influence to the model stage, and if the astrtuct
+// StagePreserveOrder puts influence to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.InfluenceOrder
 // - update stage.InfluenceOrder accordingly
-func (influence *Influence) StageForceOrder(stage *Stage, order uint) {
+func (influence *Influence) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Influences[influence]; !ok {
 		stage.Influences[influence] = struct{}{}
@@ -1695,12 +1695,12 @@ func (influenceshape *InfluenceShape) Stage(stage *Stage) *InfluenceShape {
 	return influenceshape
 }
 
-// StageForceOrder puts influenceshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts influenceshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.InfluenceShapeOrder
 // - update stage.InfluenceShapeOrder accordingly
-func (influenceshape *InfluenceShape) StageForceOrder(stage *Stage, order uint) {
+func (influenceshape *InfluenceShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.InfluenceShapes[influenceshape]; !ok {
 		stage.InfluenceShapes[influenceshape] = struct{}{}

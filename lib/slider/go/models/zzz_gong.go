@@ -564,12 +564,12 @@ func (checkbox *Checkbox) Stage(stage *Stage) *Checkbox {
 	return checkbox
 }
 
-// StageForceOrder puts checkbox to the model stage, and if the astrtuct
+// StagePreserveOrder puts checkbox to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CheckboxOrder
 // - update stage.CheckboxOrder accordingly
-func (checkbox *Checkbox) StageForceOrder(stage *Stage, order uint) {
+func (checkbox *Checkbox) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Checkboxs[checkbox]; !ok {
 		stage.Checkboxs[checkbox] = struct{}{}
@@ -648,12 +648,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 	return group
 }
 
-// StageForceOrder puts group to the model stage, and if the astrtuct
+// StagePreserveOrder puts group to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
-func (group *Group) StageForceOrder(stage *Stage, order uint) {
+func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
@@ -732,12 +732,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	return layout
 }
 
-// StageForceOrder puts layout to the model stage, and if the astrtuct
+// StagePreserveOrder puts layout to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LayoutOrder
 // - update stage.LayoutOrder accordingly
-func (layout *Layout) StageForceOrder(stage *Stage, order uint) {
+func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = struct{}{}
@@ -816,12 +816,12 @@ func (slider *Slider) Stage(stage *Stage) *Slider {
 	return slider
 }
 
-// StageForceOrder puts slider to the model stage, and if the astrtuct
+// StagePreserveOrder puts slider to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SliderOrder
 // - update stage.SliderOrder accordingly
-func (slider *Slider) StageForceOrder(stage *Stage, order uint) {
+func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Sliders[slider]; !ok {
 		stage.Sliders[slider] = struct{}{}

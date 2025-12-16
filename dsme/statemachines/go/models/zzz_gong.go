@@ -1037,12 +1037,12 @@ func (action *Action) Stage(stage *Stage) *Action {
 	return action
 }
 
-// StageForceOrder puts action to the model stage, and if the astrtuct
+// StagePreserveOrder puts action to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ActionOrder
 // - update stage.ActionOrder accordingly
-func (action *Action) StageForceOrder(stage *Stage, order uint) {
+func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Actions[action]; !ok {
 		stage.Actions[action] = struct{}{}
@@ -1121,12 +1121,12 @@ func (activities *Activities) Stage(stage *Stage) *Activities {
 	return activities
 }
 
-// StageForceOrder puts activities to the model stage, and if the astrtuct
+// StagePreserveOrder puts activities to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ActivitiesOrder
 // - update stage.ActivitiesOrder accordingly
-func (activities *Activities) StageForceOrder(stage *Stage, order uint) {
+func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Activitiess[activities]; !ok {
 		stage.Activitiess[activities] = struct{}{}
@@ -1205,12 +1205,12 @@ func (architecture *Architecture) Stage(stage *Stage) *Architecture {
 	return architecture
 }
 
-// StageForceOrder puts architecture to the model stage, and if the astrtuct
+// StagePreserveOrder puts architecture to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ArchitectureOrder
 // - update stage.ArchitectureOrder accordingly
-func (architecture *Architecture) StageForceOrder(stage *Stage, order uint) {
+func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Architectures[architecture]; !ok {
 		stage.Architectures[architecture] = struct{}{}
@@ -1289,12 +1289,12 @@ func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 	return diagram
 }
 
-// StageForceOrder puts diagram to the model stage, and if the astrtuct
+// StagePreserveOrder puts diagram to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DiagramOrder
 // - update stage.DiagramOrder accordingly
-func (diagram *Diagram) StageForceOrder(stage *Stage, order uint) {
+func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Diagrams[diagram]; !ok {
 		stage.Diagrams[diagram] = struct{}{}
@@ -1373,12 +1373,12 @@ func (guard *Guard) Stage(stage *Stage) *Guard {
 	return guard
 }
 
-// StageForceOrder puts guard to the model stage, and if the astrtuct
+// StagePreserveOrder puts guard to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GuardOrder
 // - update stage.GuardOrder accordingly
-func (guard *Guard) StageForceOrder(stage *Stage, order uint) {
+func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Guards[guard]; !ok {
 		stage.Guards[guard] = struct{}{}
@@ -1457,12 +1457,12 @@ func (kill *Kill) Stage(stage *Stage) *Kill {
 	return kill
 }
 
-// StageForceOrder puts kill to the model stage, and if the astrtuct
+// StagePreserveOrder puts kill to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.KillOrder
 // - update stage.KillOrder accordingly
-func (kill *Kill) StageForceOrder(stage *Stage, order uint) {
+func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Kills[kill]; !ok {
 		stage.Kills[kill] = struct{}{}
@@ -1541,12 +1541,12 @@ func (message *Message) Stage(stage *Stage) *Message {
 	return message
 }
 
-// StageForceOrder puts message to the model stage, and if the astrtuct
+// StagePreserveOrder puts message to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.MessageOrder
 // - update stage.MessageOrder accordingly
-func (message *Message) StageForceOrder(stage *Stage, order uint) {
+func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Messages[message]; !ok {
 		stage.Messages[message] = struct{}{}
@@ -1625,12 +1625,12 @@ func (messagetype *MessageType) Stage(stage *Stage) *MessageType {
 	return messagetype
 }
 
-// StageForceOrder puts messagetype to the model stage, and if the astrtuct
+// StagePreserveOrder puts messagetype to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.MessageTypeOrder
 // - update stage.MessageTypeOrder accordingly
-func (messagetype *MessageType) StageForceOrder(stage *Stage, order uint) {
+func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.MessageTypes[messagetype]; !ok {
 		stage.MessageTypes[messagetype] = struct{}{}
@@ -1709,12 +1709,12 @@ func (object *Object) Stage(stage *Stage) *Object {
 	return object
 }
 
-// StageForceOrder puts object to the model stage, and if the astrtuct
+// StagePreserveOrder puts object to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ObjectOrder
 // - update stage.ObjectOrder accordingly
-func (object *Object) StageForceOrder(stage *Stage, order uint) {
+func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Objects[object]; !ok {
 		stage.Objects[object] = struct{}{}
@@ -1793,12 +1793,12 @@ func (role *Role) Stage(stage *Stage) *Role {
 	return role
 }
 
-// StageForceOrder puts role to the model stage, and if the astrtuct
+// StagePreserveOrder puts role to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.RoleOrder
 // - update stage.RoleOrder accordingly
-func (role *Role) StageForceOrder(stage *Stage, order uint) {
+func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Roles[role]; !ok {
 		stage.Roles[role] = struct{}{}
@@ -1877,12 +1877,12 @@ func (state *State) Stage(stage *Stage) *State {
 	return state
 }
 
-// StageForceOrder puts state to the model stage, and if the astrtuct
+// StagePreserveOrder puts state to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.StateOrder
 // - update stage.StateOrder accordingly
-func (state *State) StageForceOrder(stage *Stage, order uint) {
+func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.States[state]; !ok {
 		stage.States[state] = struct{}{}
@@ -1961,12 +1961,12 @@ func (statemachine *StateMachine) Stage(stage *Stage) *StateMachine {
 	return statemachine
 }
 
-// StageForceOrder puts statemachine to the model stage, and if the astrtuct
+// StagePreserveOrder puts statemachine to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.StateMachineOrder
 // - update stage.StateMachineOrder accordingly
-func (statemachine *StateMachine) StageForceOrder(stage *Stage, order uint) {
+func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.StateMachines[statemachine]; !ok {
 		stage.StateMachines[statemachine] = struct{}{}
@@ -2045,12 +2045,12 @@ func (stateshape *StateShape) Stage(stage *Stage) *StateShape {
 	return stateshape
 }
 
-// StageForceOrder puts stateshape to the model stage, and if the astrtuct
+// StagePreserveOrder puts stateshape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.StateShapeOrder
 // - update stage.StateShapeOrder accordingly
-func (stateshape *StateShape) StageForceOrder(stage *Stage, order uint) {
+func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.StateShapes[stateshape]; !ok {
 		stage.StateShapes[stateshape] = struct{}{}
@@ -2129,12 +2129,12 @@ func (transition *Transition) Stage(stage *Stage) *Transition {
 	return transition
 }
 
-// StageForceOrder puts transition to the model stage, and if the astrtuct
+// StagePreserveOrder puts transition to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.TransitionOrder
 // - update stage.TransitionOrder accordingly
-func (transition *Transition) StageForceOrder(stage *Stage, order uint) {
+func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Transitions[transition]; !ok {
 		stage.Transitions[transition] = struct{}{}
@@ -2213,12 +2213,12 @@ func (transition_shape *Transition_Shape) Stage(stage *Stage) *Transition_Shape 
 	return transition_shape
 }
 
-// StageForceOrder puts transition_shape to the model stage, and if the astrtuct
+// StagePreserveOrder puts transition_shape to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.Transition_ShapeOrder
 // - update stage.Transition_ShapeOrder accordingly
-func (transition_shape *Transition_Shape) StageForceOrder(stage *Stage, order uint) {
+func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Transition_Shapes[transition_shape]; !ok {
 		stage.Transition_Shapes[transition_shape] = struct{}{}
