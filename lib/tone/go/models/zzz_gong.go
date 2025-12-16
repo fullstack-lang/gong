@@ -158,9 +158,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -175,18 +172,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -412,9 +397,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -531,12 +513,6 @@ func (freqency *Freqency) Stage(stage *Stage) *Freqency {
 		stage.Freqencys[freqency] = struct{}{}
 		stage.FreqencyMap_Staged_Order[freqency] = stage.FreqencyOrder
 		stage.FreqencyOrder++
-		stage.new[freqency] = struct{}{}
-		delete(stage.deleted, freqency)
-	} else {
-		if _, ok := stage.new[freqency]; !ok {
-			stage.modified[freqency] = struct{}{}
-		}
 	}
 	stage.Freqencys_mapString[freqency.Name] = freqency
 
@@ -548,11 +524,6 @@ func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 	delete(stage.Freqencys, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 
-	if _, ok := stage.reference[freqency]; ok {
-		stage.deleted[freqency] = struct{}{}
-	} else {
-		delete(stage.new, freqency)
-	}
 	return freqency
 }
 
@@ -607,12 +578,6 @@ func (note *Note) Stage(stage *Stage) *Note {
 		stage.Notes[note] = struct{}{}
 		stage.NoteMap_Staged_Order[note] = stage.NoteOrder
 		stage.NoteOrder++
-		stage.new[note] = struct{}{}
-		delete(stage.deleted, note)
-	} else {
-		if _, ok := stage.new[note]; !ok {
-			stage.modified[note] = struct{}{}
-		}
 	}
 	stage.Notes_mapString[note.Name] = note
 
@@ -624,11 +589,6 @@ func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
 	delete(stage.Notes_mapString, note.Name)
 
-	if _, ok := stage.reference[note]; ok {
-		stage.deleted[note] = struct{}{}
-	} else {
-		delete(stage.new, note)
-	}
 	return note
 }
 
@@ -683,12 +643,6 @@ func (player *Player) Stage(stage *Stage) *Player {
 		stage.Players[player] = struct{}{}
 		stage.PlayerMap_Staged_Order[player] = stage.PlayerOrder
 		stage.PlayerOrder++
-		stage.new[player] = struct{}{}
-		delete(stage.deleted, player)
-	} else {
-		if _, ok := stage.new[player]; !ok {
-			stage.modified[player] = struct{}{}
-		}
 	}
 	stage.Players_mapString[player.Name] = player
 
@@ -700,11 +654,6 @@ func (player *Player) Unstage(stage *Stage) *Player {
 	delete(stage.Players, player)
 	delete(stage.Players_mapString, player.Name)
 
-	if _, ok := stage.reference[player]; ok {
-		stage.deleted[player] = struct{}{}
-	} else {
-		delete(stage.new, player)
-	}
 	return player
 }
 

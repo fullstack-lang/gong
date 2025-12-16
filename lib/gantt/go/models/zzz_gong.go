@@ -218,9 +218,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -235,18 +232,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -568,9 +553,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -707,12 +689,6 @@ func (arrow *Arrow) Stage(stage *Stage) *Arrow {
 		stage.Arrows[arrow] = struct{}{}
 		stage.ArrowMap_Staged_Order[arrow] = stage.ArrowOrder
 		stage.ArrowOrder++
-		stage.new[arrow] = struct{}{}
-		delete(stage.deleted, arrow)
-	} else {
-		if _, ok := stage.new[arrow]; !ok {
-			stage.modified[arrow] = struct{}{}
-		}
 	}
 	stage.Arrows_mapString[arrow.Name] = arrow
 
@@ -724,11 +700,6 @@ func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 	delete(stage.Arrows, arrow)
 	delete(stage.Arrows_mapString, arrow.Name)
 
-	if _, ok := stage.reference[arrow]; ok {
-		stage.deleted[arrow] = struct{}{}
-	} else {
-		delete(stage.new, arrow)
-	}
 	return arrow
 }
 
@@ -783,12 +754,6 @@ func (bar *Bar) Stage(stage *Stage) *Bar {
 		stage.Bars[bar] = struct{}{}
 		stage.BarMap_Staged_Order[bar] = stage.BarOrder
 		stage.BarOrder++
-		stage.new[bar] = struct{}{}
-		delete(stage.deleted, bar)
-	} else {
-		if _, ok := stage.new[bar]; !ok {
-			stage.modified[bar] = struct{}{}
-		}
 	}
 	stage.Bars_mapString[bar.Name] = bar
 
@@ -800,11 +765,6 @@ func (bar *Bar) Unstage(stage *Stage) *Bar {
 	delete(stage.Bars, bar)
 	delete(stage.Bars_mapString, bar.Name)
 
-	if _, ok := stage.reference[bar]; ok {
-		stage.deleted[bar] = struct{}{}
-	} else {
-		delete(stage.new, bar)
-	}
 	return bar
 }
 
@@ -859,12 +819,6 @@ func (gantt *Gantt) Stage(stage *Stage) *Gantt {
 		stage.Gantts[gantt] = struct{}{}
 		stage.GanttMap_Staged_Order[gantt] = stage.GanttOrder
 		stage.GanttOrder++
-		stage.new[gantt] = struct{}{}
-		delete(stage.deleted, gantt)
-	} else {
-		if _, ok := stage.new[gantt]; !ok {
-			stage.modified[gantt] = struct{}{}
-		}
 	}
 	stage.Gantts_mapString[gantt.Name] = gantt
 
@@ -876,11 +830,6 @@ func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 	delete(stage.Gantts, gantt)
 	delete(stage.Gantts_mapString, gantt.Name)
 
-	if _, ok := stage.reference[gantt]; ok {
-		stage.deleted[gantt] = struct{}{}
-	} else {
-		delete(stage.new, gantt)
-	}
 	return gantt
 }
 
@@ -935,12 +884,6 @@ func (group *Group) Stage(stage *Stage) *Group {
 		stage.Groups[group] = struct{}{}
 		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
 		stage.GroupOrder++
-		stage.new[group] = struct{}{}
-		delete(stage.deleted, group)
-	} else {
-		if _, ok := stage.new[group]; !ok {
-			stage.modified[group] = struct{}{}
-		}
 	}
 	stage.Groups_mapString[group.Name] = group
 
@@ -952,11 +895,6 @@ func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
 	delete(stage.Groups_mapString, group.Name)
 
-	if _, ok := stage.reference[group]; ok {
-		stage.deleted[group] = struct{}{}
-	} else {
-		delete(stage.new, group)
-	}
 	return group
 }
 
@@ -1011,12 +949,6 @@ func (lane *Lane) Stage(stage *Stage) *Lane {
 		stage.Lanes[lane] = struct{}{}
 		stage.LaneMap_Staged_Order[lane] = stage.LaneOrder
 		stage.LaneOrder++
-		stage.new[lane] = struct{}{}
-		delete(stage.deleted, lane)
-	} else {
-		if _, ok := stage.new[lane]; !ok {
-			stage.modified[lane] = struct{}{}
-		}
 	}
 	stage.Lanes_mapString[lane.Name] = lane
 
@@ -1028,11 +960,6 @@ func (lane *Lane) Unstage(stage *Stage) *Lane {
 	delete(stage.Lanes, lane)
 	delete(stage.Lanes_mapString, lane.Name)
 
-	if _, ok := stage.reference[lane]; ok {
-		stage.deleted[lane] = struct{}{}
-	} else {
-		delete(stage.new, lane)
-	}
 	return lane
 }
 
@@ -1087,12 +1014,6 @@ func (laneuse *LaneUse) Stage(stage *Stage) *LaneUse {
 		stage.LaneUses[laneuse] = struct{}{}
 		stage.LaneUseMap_Staged_Order[laneuse] = stage.LaneUseOrder
 		stage.LaneUseOrder++
-		stage.new[laneuse] = struct{}{}
-		delete(stage.deleted, laneuse)
-	} else {
-		if _, ok := stage.new[laneuse]; !ok {
-			stage.modified[laneuse] = struct{}{}
-		}
 	}
 	stage.LaneUses_mapString[laneuse.Name] = laneuse
 
@@ -1104,11 +1025,6 @@ func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 	delete(stage.LaneUses, laneuse)
 	delete(stage.LaneUses_mapString, laneuse.Name)
 
-	if _, ok := stage.reference[laneuse]; ok {
-		stage.deleted[laneuse] = struct{}{}
-	} else {
-		delete(stage.new, laneuse)
-	}
 	return laneuse
 }
 
@@ -1163,12 +1079,6 @@ func (milestone *Milestone) Stage(stage *Stage) *Milestone {
 		stage.Milestones[milestone] = struct{}{}
 		stage.MilestoneMap_Staged_Order[milestone] = stage.MilestoneOrder
 		stage.MilestoneOrder++
-		stage.new[milestone] = struct{}{}
-		delete(stage.deleted, milestone)
-	} else {
-		if _, ok := stage.new[milestone]; !ok {
-			stage.modified[milestone] = struct{}{}
-		}
 	}
 	stage.Milestones_mapString[milestone.Name] = milestone
 
@@ -1180,11 +1090,6 @@ func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
 	delete(stage.Milestones, milestone)
 	delete(stage.Milestones_mapString, milestone.Name)
 
-	if _, ok := stage.reference[milestone]; ok {
-		stage.deleted[milestone] = struct{}{}
-	} else {
-		delete(stage.new, milestone)
-	}
 	return milestone
 }
 
