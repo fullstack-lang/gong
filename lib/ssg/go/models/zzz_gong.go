@@ -521,6 +521,25 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 	return chapter
 }
 
+// StageForceOrder puts chapter to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ChapterOrder
+// - update stage.ChapterOrder accordingly
+func (chapter *Chapter) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Chapters[chapter]; !ok {
+		stage.Chapters[chapter] = struct{}{}
+
+		if order > stage.ChapterOrder {
+			stage.ChapterOrder = order
+		}
+		stage.ChapterMap_Staged_Order[chapter] = stage.ChapterOrder
+		stage.ChapterOrder++
+	}
+	stage.Chapters_mapString[chapter.Name] = chapter
+}
+
 // Unstage removes chapter off the model stage
 func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 	delete(stage.Chapters, chapter)
@@ -586,6 +605,25 @@ func (content *Content) Stage(stage *Stage) *Content {
 	return content
 }
 
+// StageForceOrder puts content to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ContentOrder
+// - update stage.ContentOrder accordingly
+func (content *Content) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Contents[content]; !ok {
+		stage.Contents[content] = struct{}{}
+
+		if order > stage.ContentOrder {
+			stage.ContentOrder = order
+		}
+		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
+		stage.ContentOrder++
+	}
+	stage.Contents_mapString[content.Name] = content
+}
+
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
@@ -649,6 +687,25 @@ func (page *Page) Stage(stage *Stage) *Page {
 	stage.Pages_mapString[page.Name] = page
 
 	return page
+}
+
+// StageForceOrder puts page to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PageOrder
+// - update stage.PageOrder accordingly
+func (page *Page) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Pages[page]; !ok {
+		stage.Pages[page] = struct{}{}
+
+		if order > stage.PageOrder {
+			stage.PageOrder = order
+		}
+		stage.PageMap_Staged_Order[page] = stage.PageOrder
+		stage.PageOrder++
+	}
+	stage.Pages_mapString[page.Name] = page
 }
 
 // Unstage removes page off the model stage

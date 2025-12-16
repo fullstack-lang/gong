@@ -1351,6 +1351,25 @@ func (cell *Cell) Stage(stage *Stage) *Cell {
 	return cell
 }
 
+// StageForceOrder puts cell to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellOrder
+// - update stage.CellOrder accordingly
+func (cell *Cell) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Cells[cell]; !ok {
+		stage.Cells[cell] = struct{}{}
+
+		if order > stage.CellOrder {
+			stage.CellOrder = order
+		}
+		stage.CellMap_Staged_Order[cell] = stage.CellOrder
+		stage.CellOrder++
+	}
+	stage.Cells_mapString[cell.Name] = cell
+}
+
 // Unstage removes cell off the model stage
 func (cell *Cell) Unstage(stage *Stage) *Cell {
 	delete(stage.Cells, cell)
@@ -1414,6 +1433,25 @@ func (cellboolean *CellBoolean) Stage(stage *Stage) *CellBoolean {
 	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
 
 	return cellboolean
+}
+
+// StageForceOrder puts cellboolean to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellBooleanOrder
+// - update stage.CellBooleanOrder accordingly
+func (cellboolean *CellBoolean) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CellBooleans[cellboolean]; !ok {
+		stage.CellBooleans[cellboolean] = struct{}{}
+
+		if order > stage.CellBooleanOrder {
+			stage.CellBooleanOrder = order
+		}
+		stage.CellBooleanMap_Staged_Order[cellboolean] = stage.CellBooleanOrder
+		stage.CellBooleanOrder++
+	}
+	stage.CellBooleans_mapString[cellboolean.Name] = cellboolean
 }
 
 // Unstage removes cellboolean off the model stage
@@ -1481,6 +1519,25 @@ func (cellfloat64 *CellFloat64) Stage(stage *Stage) *CellFloat64 {
 	return cellfloat64
 }
 
+// StageForceOrder puts cellfloat64 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellFloat64Order
+// - update stage.CellFloat64Order accordingly
+func (cellfloat64 *CellFloat64) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
+		stage.CellFloat64s[cellfloat64] = struct{}{}
+
+		if order > stage.CellFloat64Order {
+			stage.CellFloat64Order = order
+		}
+		stage.CellFloat64Map_Staged_Order[cellfloat64] = stage.CellFloat64Order
+		stage.CellFloat64Order++
+	}
+	stage.CellFloat64s_mapString[cellfloat64.Name] = cellfloat64
+}
+
 // Unstage removes cellfloat64 off the model stage
 func (cellfloat64 *CellFloat64) Unstage(stage *Stage) *CellFloat64 {
 	delete(stage.CellFloat64s, cellfloat64)
@@ -1544,6 +1601,25 @@ func (cellicon *CellIcon) Stage(stage *Stage) *CellIcon {
 	stage.CellIcons_mapString[cellicon.Name] = cellicon
 
 	return cellicon
+}
+
+// StageForceOrder puts cellicon to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellIconOrder
+// - update stage.CellIconOrder accordingly
+func (cellicon *CellIcon) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CellIcons[cellicon]; !ok {
+		stage.CellIcons[cellicon] = struct{}{}
+
+		if order > stage.CellIconOrder {
+			stage.CellIconOrder = order
+		}
+		stage.CellIconMap_Staged_Order[cellicon] = stage.CellIconOrder
+		stage.CellIconOrder++
+	}
+	stage.CellIcons_mapString[cellicon.Name] = cellicon
 }
 
 // Unstage removes cellicon off the model stage
@@ -1611,6 +1687,25 @@ func (cellint *CellInt) Stage(stage *Stage) *CellInt {
 	return cellint
 }
 
+// StageForceOrder puts cellint to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellIntOrder
+// - update stage.CellIntOrder accordingly
+func (cellint *CellInt) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CellInts[cellint]; !ok {
+		stage.CellInts[cellint] = struct{}{}
+
+		if order > stage.CellIntOrder {
+			stage.CellIntOrder = order
+		}
+		stage.CellIntMap_Staged_Order[cellint] = stage.CellIntOrder
+		stage.CellIntOrder++
+	}
+	stage.CellInts_mapString[cellint.Name] = cellint
+}
+
 // Unstage removes cellint off the model stage
 func (cellint *CellInt) Unstage(stage *Stage) *CellInt {
 	delete(stage.CellInts, cellint)
@@ -1674,6 +1769,25 @@ func (cellstring *CellString) Stage(stage *Stage) *CellString {
 	stage.CellStrings_mapString[cellstring.Name] = cellstring
 
 	return cellstring
+}
+
+// StageForceOrder puts cellstring to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CellStringOrder
+// - update stage.CellStringOrder accordingly
+func (cellstring *CellString) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CellStrings[cellstring]; !ok {
+		stage.CellStrings[cellstring] = struct{}{}
+
+		if order > stage.CellStringOrder {
+			stage.CellStringOrder = order
+		}
+		stage.CellStringMap_Staged_Order[cellstring] = stage.CellStringOrder
+		stage.CellStringOrder++
+	}
+	stage.CellStrings_mapString[cellstring.Name] = cellstring
 }
 
 // Unstage removes cellstring off the model stage
@@ -1741,6 +1855,25 @@ func (checkbox *CheckBox) Stage(stage *Stage) *CheckBox {
 	return checkbox
 }
 
+// StageForceOrder puts checkbox to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CheckBoxOrder
+// - update stage.CheckBoxOrder accordingly
+func (checkbox *CheckBox) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CheckBoxs[checkbox]; !ok {
+		stage.CheckBoxs[checkbox] = struct{}{}
+
+		if order > stage.CheckBoxOrder {
+			stage.CheckBoxOrder = order
+		}
+		stage.CheckBoxMap_Staged_Order[checkbox] = stage.CheckBoxOrder
+		stage.CheckBoxOrder++
+	}
+	stage.CheckBoxs_mapString[checkbox.Name] = checkbox
+}
+
 // Unstage removes checkbox off the model stage
 func (checkbox *CheckBox) Unstage(stage *Stage) *CheckBox {
 	delete(stage.CheckBoxs, checkbox)
@@ -1804,6 +1937,25 @@ func (displayedcolumn *DisplayedColumn) Stage(stage *Stage) *DisplayedColumn {
 	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
 
 	return displayedcolumn
+}
+
+// StageForceOrder puts displayedcolumn to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DisplayedColumnOrder
+// - update stage.DisplayedColumnOrder accordingly
+func (displayedcolumn *DisplayedColumn) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
+		stage.DisplayedColumns[displayedcolumn] = struct{}{}
+
+		if order > stage.DisplayedColumnOrder {
+			stage.DisplayedColumnOrder = order
+		}
+		stage.DisplayedColumnMap_Staged_Order[displayedcolumn] = stage.DisplayedColumnOrder
+		stage.DisplayedColumnOrder++
+	}
+	stage.DisplayedColumns_mapString[displayedcolumn.Name] = displayedcolumn
 }
 
 // Unstage removes displayedcolumn off the model stage
@@ -1871,6 +2023,25 @@ func (formdiv *FormDiv) Stage(stage *Stage) *FormDiv {
 	return formdiv
 }
 
+// StageForceOrder puts formdiv to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormDivOrder
+// - update stage.FormDivOrder accordingly
+func (formdiv *FormDiv) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormDivs[formdiv]; !ok {
+		stage.FormDivs[formdiv] = struct{}{}
+
+		if order > stage.FormDivOrder {
+			stage.FormDivOrder = order
+		}
+		stage.FormDivMap_Staged_Order[formdiv] = stage.FormDivOrder
+		stage.FormDivOrder++
+	}
+	stage.FormDivs_mapString[formdiv.Name] = formdiv
+}
+
 // Unstage removes formdiv off the model stage
 func (formdiv *FormDiv) Unstage(stage *Stage) *FormDiv {
 	delete(stage.FormDivs, formdiv)
@@ -1934,6 +2105,25 @@ func (formeditassocbutton *FormEditAssocButton) Stage(stage *Stage) *FormEditAss
 	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
 
 	return formeditassocbutton
+}
+
+// StageForceOrder puts formeditassocbutton to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormEditAssocButtonOrder
+// - update stage.FormEditAssocButtonOrder accordingly
+func (formeditassocbutton *FormEditAssocButton) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
+		stage.FormEditAssocButtons[formeditassocbutton] = struct{}{}
+
+		if order > stage.FormEditAssocButtonOrder {
+			stage.FormEditAssocButtonOrder = order
+		}
+		stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton] = stage.FormEditAssocButtonOrder
+		stage.FormEditAssocButtonOrder++
+	}
+	stage.FormEditAssocButtons_mapString[formeditassocbutton.Name] = formeditassocbutton
 }
 
 // Unstage removes formeditassocbutton off the model stage
@@ -2001,6 +2191,25 @@ func (formfield *FormField) Stage(stage *Stage) *FormField {
 	return formfield
 }
 
+// StageForceOrder puts formfield to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldOrder
+// - update stage.FormFieldOrder accordingly
+func (formfield *FormField) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFields[formfield]; !ok {
+		stage.FormFields[formfield] = struct{}{}
+
+		if order > stage.FormFieldOrder {
+			stage.FormFieldOrder = order
+		}
+		stage.FormFieldMap_Staged_Order[formfield] = stage.FormFieldOrder
+		stage.FormFieldOrder++
+	}
+	stage.FormFields_mapString[formfield.Name] = formfield
+}
+
 // Unstage removes formfield off the model stage
 func (formfield *FormField) Unstage(stage *Stage) *FormField {
 	delete(stage.FormFields, formfield)
@@ -2064,6 +2273,25 @@ func (formfielddate *FormFieldDate) Stage(stage *Stage) *FormFieldDate {
 	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
 
 	return formfielddate
+}
+
+// StageForceOrder puts formfielddate to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldDateOrder
+// - update stage.FormFieldDateOrder accordingly
+func (formfielddate *FormFieldDate) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldDates[formfielddate]; !ok {
+		stage.FormFieldDates[formfielddate] = struct{}{}
+
+		if order > stage.FormFieldDateOrder {
+			stage.FormFieldDateOrder = order
+		}
+		stage.FormFieldDateMap_Staged_Order[formfielddate] = stage.FormFieldDateOrder
+		stage.FormFieldDateOrder++
+	}
+	stage.FormFieldDates_mapString[formfielddate.Name] = formfielddate
 }
 
 // Unstage removes formfielddate off the model stage
@@ -2131,6 +2359,25 @@ func (formfielddatetime *FormFieldDateTime) Stage(stage *Stage) *FormFieldDateTi
 	return formfielddatetime
 }
 
+// StageForceOrder puts formfielddatetime to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldDateTimeOrder
+// - update stage.FormFieldDateTimeOrder accordingly
+func (formfielddatetime *FormFieldDateTime) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
+		stage.FormFieldDateTimes[formfielddatetime] = struct{}{}
+
+		if order > stage.FormFieldDateTimeOrder {
+			stage.FormFieldDateTimeOrder = order
+		}
+		stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime] = stage.FormFieldDateTimeOrder
+		stage.FormFieldDateTimeOrder++
+	}
+	stage.FormFieldDateTimes_mapString[formfielddatetime.Name] = formfielddatetime
+}
+
 // Unstage removes formfielddatetime off the model stage
 func (formfielddatetime *FormFieldDateTime) Unstage(stage *Stage) *FormFieldDateTime {
 	delete(stage.FormFieldDateTimes, formfielddatetime)
@@ -2194,6 +2441,25 @@ func (formfieldfloat64 *FormFieldFloat64) Stage(stage *Stage) *FormFieldFloat64 
 	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
 
 	return formfieldfloat64
+}
+
+// StageForceOrder puts formfieldfloat64 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldFloat64Order
+// - update stage.FormFieldFloat64Order accordingly
+func (formfieldfloat64 *FormFieldFloat64) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
+		stage.FormFieldFloat64s[formfieldfloat64] = struct{}{}
+
+		if order > stage.FormFieldFloat64Order {
+			stage.FormFieldFloat64Order = order
+		}
+		stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64] = stage.FormFieldFloat64Order
+		stage.FormFieldFloat64Order++
+	}
+	stage.FormFieldFloat64s_mapString[formfieldfloat64.Name] = formfieldfloat64
 }
 
 // Unstage removes formfieldfloat64 off the model stage
@@ -2261,6 +2527,25 @@ func (formfieldint *FormFieldInt) Stage(stage *Stage) *FormFieldInt {
 	return formfieldint
 }
 
+// StageForceOrder puts formfieldint to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldIntOrder
+// - update stage.FormFieldIntOrder accordingly
+func (formfieldint *FormFieldInt) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldInts[formfieldint]; !ok {
+		stage.FormFieldInts[formfieldint] = struct{}{}
+
+		if order > stage.FormFieldIntOrder {
+			stage.FormFieldIntOrder = order
+		}
+		stage.FormFieldIntMap_Staged_Order[formfieldint] = stage.FormFieldIntOrder
+		stage.FormFieldIntOrder++
+	}
+	stage.FormFieldInts_mapString[formfieldint.Name] = formfieldint
+}
+
 // Unstage removes formfieldint off the model stage
 func (formfieldint *FormFieldInt) Unstage(stage *Stage) *FormFieldInt {
 	delete(stage.FormFieldInts, formfieldint)
@@ -2324,6 +2609,25 @@ func (formfieldselect *FormFieldSelect) Stage(stage *Stage) *FormFieldSelect {
 	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
 
 	return formfieldselect
+}
+
+// StageForceOrder puts formfieldselect to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldSelectOrder
+// - update stage.FormFieldSelectOrder accordingly
+func (formfieldselect *FormFieldSelect) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
+		stage.FormFieldSelects[formfieldselect] = struct{}{}
+
+		if order > stage.FormFieldSelectOrder {
+			stage.FormFieldSelectOrder = order
+		}
+		stage.FormFieldSelectMap_Staged_Order[formfieldselect] = stage.FormFieldSelectOrder
+		stage.FormFieldSelectOrder++
+	}
+	stage.FormFieldSelects_mapString[formfieldselect.Name] = formfieldselect
 }
 
 // Unstage removes formfieldselect off the model stage
@@ -2391,6 +2695,25 @@ func (formfieldstring *FormFieldString) Stage(stage *Stage) *FormFieldString {
 	return formfieldstring
 }
 
+// StageForceOrder puts formfieldstring to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldStringOrder
+// - update stage.FormFieldStringOrder accordingly
+func (formfieldstring *FormFieldString) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
+		stage.FormFieldStrings[formfieldstring] = struct{}{}
+
+		if order > stage.FormFieldStringOrder {
+			stage.FormFieldStringOrder = order
+		}
+		stage.FormFieldStringMap_Staged_Order[formfieldstring] = stage.FormFieldStringOrder
+		stage.FormFieldStringOrder++
+	}
+	stage.FormFieldStrings_mapString[formfieldstring.Name] = formfieldstring
+}
+
 // Unstage removes formfieldstring off the model stage
 func (formfieldstring *FormFieldString) Unstage(stage *Stage) *FormFieldString {
 	delete(stage.FormFieldStrings, formfieldstring)
@@ -2454,6 +2777,25 @@ func (formfieldtime *FormFieldTime) Stage(stage *Stage) *FormFieldTime {
 	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
 
 	return formfieldtime
+}
+
+// StageForceOrder puts formfieldtime to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormFieldTimeOrder
+// - update stage.FormFieldTimeOrder accordingly
+func (formfieldtime *FormFieldTime) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
+		stage.FormFieldTimes[formfieldtime] = struct{}{}
+
+		if order > stage.FormFieldTimeOrder {
+			stage.FormFieldTimeOrder = order
+		}
+		stage.FormFieldTimeMap_Staged_Order[formfieldtime] = stage.FormFieldTimeOrder
+		stage.FormFieldTimeOrder++
+	}
+	stage.FormFieldTimes_mapString[formfieldtime.Name] = formfieldtime
 }
 
 // Unstage removes formfieldtime off the model stage
@@ -2521,6 +2863,25 @@ func (formgroup *FormGroup) Stage(stage *Stage) *FormGroup {
 	return formgroup
 }
 
+// StageForceOrder puts formgroup to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormGroupOrder
+// - update stage.FormGroupOrder accordingly
+func (formgroup *FormGroup) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormGroups[formgroup]; !ok {
+		stage.FormGroups[formgroup] = struct{}{}
+
+		if order > stage.FormGroupOrder {
+			stage.FormGroupOrder = order
+		}
+		stage.FormGroupMap_Staged_Order[formgroup] = stage.FormGroupOrder
+		stage.FormGroupOrder++
+	}
+	stage.FormGroups_mapString[formgroup.Name] = formgroup
+}
+
 // Unstage removes formgroup off the model stage
 func (formgroup *FormGroup) Unstage(stage *Stage) *FormGroup {
 	delete(stage.FormGroups, formgroup)
@@ -2584,6 +2945,25 @@ func (formsortassocbutton *FormSortAssocButton) Stage(stage *Stage) *FormSortAss
 	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
 
 	return formsortassocbutton
+}
+
+// StageForceOrder puts formsortassocbutton to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.FormSortAssocButtonOrder
+// - update stage.FormSortAssocButtonOrder accordingly
+func (formsortassocbutton *FormSortAssocButton) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
+		stage.FormSortAssocButtons[formsortassocbutton] = struct{}{}
+
+		if order > stage.FormSortAssocButtonOrder {
+			stage.FormSortAssocButtonOrder = order
+		}
+		stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton] = stage.FormSortAssocButtonOrder
+		stage.FormSortAssocButtonOrder++
+	}
+	stage.FormSortAssocButtons_mapString[formsortassocbutton.Name] = formsortassocbutton
 }
 
 // Unstage removes formsortassocbutton off the model stage
@@ -2651,6 +3031,25 @@ func (option *Option) Stage(stage *Stage) *Option {
 	return option
 }
 
+// StageForceOrder puts option to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.OptionOrder
+// - update stage.OptionOrder accordingly
+func (option *Option) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Options[option]; !ok {
+		stage.Options[option] = struct{}{}
+
+		if order > stage.OptionOrder {
+			stage.OptionOrder = order
+		}
+		stage.OptionMap_Staged_Order[option] = stage.OptionOrder
+		stage.OptionOrder++
+	}
+	stage.Options_mapString[option.Name] = option
+}
+
 // Unstage removes option off the model stage
 func (option *Option) Unstage(stage *Stage) *Option {
 	delete(stage.Options, option)
@@ -2716,6 +3115,25 @@ func (row *Row) Stage(stage *Stage) *Row {
 	return row
 }
 
+// StageForceOrder puts row to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RowOrder
+// - update stage.RowOrder accordingly
+func (row *Row) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Rows[row]; !ok {
+		stage.Rows[row] = struct{}{}
+
+		if order > stage.RowOrder {
+			stage.RowOrder = order
+		}
+		stage.RowMap_Staged_Order[row] = stage.RowOrder
+		stage.RowOrder++
+	}
+	stage.Rows_mapString[row.Name] = row
+}
+
 // Unstage removes row off the model stage
 func (row *Row) Unstage(stage *Stage) *Row {
 	delete(stage.Rows, row)
@@ -2779,6 +3197,25 @@ func (table *Table) Stage(stage *Stage) *Table {
 	stage.Tables_mapString[table.Name] = table
 
 	return table
+}
+
+// StageForceOrder puts table to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TableOrder
+// - update stage.TableOrder accordingly
+func (table *Table) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Tables[table]; !ok {
+		stage.Tables[table] = struct{}{}
+
+		if order > stage.TableOrder {
+			stage.TableOrder = order
+		}
+		stage.TableMap_Staged_Order[table] = stage.TableOrder
+		stage.TableOrder++
+	}
+	stage.Tables_mapString[table.Name] = table
 }
 
 // Unstage removes table off the model stage

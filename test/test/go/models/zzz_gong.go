@@ -764,7 +764,7 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astruct *Astruct) SetName(name string) {
+func (astruct *Astruct) SetName(name string) (){
 	astruct.Name = name
 }
 
@@ -779,6 +779,25 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
 	return astructbstruct2use
+}
+
+// StageForceOrder puts astructbstruct2use to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AstructBstruct2UseOrder
+// - update stage.AstructBstruct2UseOrder accordingly
+func (astructbstruct2use *AstructBstruct2Use) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
+		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
+
+		if order > stage.AstructBstruct2UseOrder {
+			stage.AstructBstruct2UseOrder = order
+		}
+		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
+		stage.AstructBstruct2UseOrder++
+	}
+	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 }
 
 // Unstage removes astructbstruct2use off the model stage
@@ -829,7 +848,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
 	astructbstruct2use.Name = name
 }
 
@@ -844,6 +863,25 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
 	return astructbstructuse
+}
+
+// StageForceOrder puts astructbstructuse to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AstructBstructUseOrder
+// - update stage.AstructBstructUseOrder accordingly
+func (astructbstructuse *AstructBstructUse) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
+		stage.AstructBstructUses[astructbstructuse] = struct{}{}
+
+		if order > stage.AstructBstructUseOrder {
+			stage.AstructBstructUseOrder = order
+		}
+		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
+		stage.AstructBstructUseOrder++
+	}
+	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 }
 
 // Unstage removes astructbstructuse off the model stage
@@ -894,7 +932,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstructuse *AstructBstructUse) SetName(name string) {
+func (astructbstructuse *AstructBstructUse) SetName(name string) (){
 	astructbstructuse.Name = name
 }
 
@@ -909,6 +947,25 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
 	return bstruct
+}
+
+// StageForceOrder puts bstruct to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.BstructOrder
+// - update stage.BstructOrder accordingly
+func (bstruct *Bstruct) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Bstructs[bstruct]; !ok {
+		stage.Bstructs[bstruct] = struct{}{}
+
+		if order > stage.BstructOrder {
+			stage.BstructOrder = order
+		}
+		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
+		stage.BstructOrder++
+	}
+	stage.Bstructs_mapString[bstruct.Name] = bstruct
 }
 
 // Unstage removes bstruct off the model stage
@@ -959,7 +1016,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bstruct *Bstruct) SetName(name string) {
+func (bstruct *Bstruct) SetName(name string) (){
 	bstruct.Name = name
 }
 
@@ -974,6 +1031,25 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
 	return dstruct
+}
+
+// StageForceOrder puts dstruct to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DstructOrder
+// - update stage.DstructOrder accordingly
+func (dstruct *Dstruct) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Dstructs[dstruct]; !ok {
+		stage.Dstructs[dstruct] = struct{}{}
+
+		if order > stage.DstructOrder {
+			stage.DstructOrder = order
+		}
+		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
+		stage.DstructOrder++
+	}
+	stage.Dstructs_mapString[dstruct.Name] = dstruct
 }
 
 // Unstage removes dstruct off the model stage
@@ -1024,7 +1100,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dstruct *Dstruct) SetName(name string) {
+func (dstruct *Dstruct) SetName(name string) (){
 	dstruct.Name = name
 }
 
@@ -1039,6 +1115,25 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
 
 	return f0123456789012345678901234567890
+}
+
+// StageForceOrder puts f0123456789012345678901234567890 to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.F0123456789012345678901234567890Order
+// - update stage.F0123456789012345678901234567890Order accordingly
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
+		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
+
+		if order > stage.F0123456789012345678901234567890Order {
+			stage.F0123456789012345678901234567890Order = order
+		}
+		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
+		stage.F0123456789012345678901234567890Order++
+	}
+	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
 }
 
 // Unstage removes f0123456789012345678901234567890 off the model stage
@@ -1089,7 +1184,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 }
 
 // for satisfaction of GongStruct interface
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
 	f0123456789012345678901234567890.Name = name
 }
 
@@ -1104,6 +1199,25 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
 
 	return gstruct
+}
+
+// StageForceOrder puts gstruct to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GstructOrder
+// - update stage.GstructOrder accordingly
+func (gstruct *Gstruct) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Gstructs[gstruct]; !ok {
+		stage.Gstructs[gstruct] = struct{}{}
+
+		if order > stage.GstructOrder {
+			stage.GstructOrder = order
+		}
+		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
+		stage.GstructOrder++
+	}
+	stage.Gstructs_mapString[gstruct.Name] = gstruct
 }
 
 // Unstage removes gstruct off the model stage
@@ -1154,7 +1268,7 @@ func (gstruct *Gstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gstruct *Gstruct) SetName(name string) {
+func (gstruct *Gstruct) SetName(name string) (){
 	gstruct.Name = name
 }
 
@@ -3082,5 +3196,4 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
-
 // Last line of the template
