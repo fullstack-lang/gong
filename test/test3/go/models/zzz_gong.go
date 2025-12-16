@@ -146,9 +146,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -163,18 +160,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -376,9 +361,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -490,12 +472,6 @@ func (a *A) Stage(stage *Stage) *A {
 		stage.As[a] = struct{}{}
 		stage.AMap_Staged_Order[a] = stage.AOrder
 		stage.AOrder++
-		stage.new[a] = struct{}{}
-		delete(stage.deleted, a)
-	} else {
-		if _, ok := stage.new[a]; !ok {
-			stage.modified[a] = struct{}{}
-		}
 	}
 	stage.As_mapString[a.Name] = a
 
@@ -507,11 +483,6 @@ func (a *A) Unstage(stage *Stage) *A {
 	delete(stage.As, a)
 	delete(stage.As_mapString, a.Name)
 
-	if _, ok := stage.reference[a]; ok {
-		stage.deleted[a] = struct{}{}
-	} else {
-		delete(stage.new, a)
-	}
 	return a
 }
 
@@ -566,12 +537,6 @@ func (b *B) Stage(stage *Stage) *B {
 		stage.Bs[b] = struct{}{}
 		stage.BMap_Staged_Order[b] = stage.BOrder
 		stage.BOrder++
-		stage.new[b] = struct{}{}
-		delete(stage.deleted, b)
-	} else {
-		if _, ok := stage.new[b]; !ok {
-			stage.modified[b] = struct{}{}
-		}
 	}
 	stage.Bs_mapString[b.Name] = b
 
@@ -583,11 +548,6 @@ func (b *B) Unstage(stage *Stage) *B {
 	delete(stage.Bs, b)
 	delete(stage.Bs_mapString, b.Name)
 
-	if _, ok := stage.reference[b]; ok {
-		stage.deleted[b] = struct{}{}
-	} else {
-		delete(stage.new, b)
-	}
 	return b
 }
 

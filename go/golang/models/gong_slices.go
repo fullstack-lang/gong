@@ -35,9 +35,6 @@ func (stage *Stage) ComputeReference() {
 	for _, instance := range stage.GetInstances() {
 		stage.reference[instance] = instance.GongCopy()
 	}
-	stage.new = make(map[GongstructIF]struct{})
-	stage.modified = make(map[GongstructIF]struct{})
-	stage.deleted = make(map[GongstructIF]struct{})
 }
 `
 

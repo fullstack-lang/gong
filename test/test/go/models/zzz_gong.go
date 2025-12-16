@@ -702,11 +702,6 @@ func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 	delete(stage.Astructs, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
 
-	if _, ok := stage.reference[astruct]; ok {
-		stage.deleted[astruct] = struct{}{}
-	} else {
-		delete(stage.new, astruct)
-	}
 	return astruct
 }
 
@@ -750,7 +745,7 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astruct *Astruct) SetName(name string) {
+func (astruct *Astruct) SetName(name string) (){
 	astruct.Name = name
 }
 
@@ -761,12 +756,6 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
 		stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use] = stage.AstructBstruct2UseOrder
 		stage.AstructBstruct2UseOrder++
-		stage.new[astructbstruct2use] = struct{}{}
-		delete(stage.deleted, astructbstruct2use)
-	} else {
-		if _, ok := stage.new[astructbstruct2use]; !ok {
-			stage.modified[astructbstruct2use] = struct{}{}
-		}
 	}
 	stage.AstructBstruct2Uses_mapString[astructbstruct2use.Name] = astructbstruct2use
 
@@ -778,11 +767,6 @@ func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstr
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 
-	if _, ok := stage.reference[astructbstruct2use]; ok {
-		stage.deleted[astructbstruct2use] = struct{}{}
-	} else {
-		delete(stage.new, astructbstruct2use)
-	}
 	return astructbstruct2use
 }
 
@@ -826,7 +810,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
 	astructbstruct2use.Name = name
 }
 
@@ -837,12 +821,6 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 		stage.AstructBstructUses[astructbstructuse] = struct{}{}
 		stage.AstructBstructUseMap_Staged_Order[astructbstructuse] = stage.AstructBstructUseOrder
 		stage.AstructBstructUseOrder++
-		stage.new[astructbstructuse] = struct{}{}
-		delete(stage.deleted, astructbstructuse)
-	} else {
-		if _, ok := stage.new[astructbstructuse]; !ok {
-			stage.modified[astructbstructuse] = struct{}{}
-		}
 	}
 	stage.AstructBstructUses_mapString[astructbstructuse.Name] = astructbstructuse
 
@@ -854,11 +832,6 @@ func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstruc
 	delete(stage.AstructBstructUses, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 
-	if _, ok := stage.reference[astructbstructuse]; ok {
-		stage.deleted[astructbstructuse] = struct{}{}
-	} else {
-		delete(stage.new, astructbstructuse)
-	}
 	return astructbstructuse
 }
 
@@ -902,7 +875,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstructuse *AstructBstructUse) SetName(name string) {
+func (astructbstructuse *AstructBstructUse) SetName(name string) (){
 	astructbstructuse.Name = name
 }
 
@@ -913,12 +886,6 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 		stage.Bstructs[bstruct] = struct{}{}
 		stage.BstructMap_Staged_Order[bstruct] = stage.BstructOrder
 		stage.BstructOrder++
-		stage.new[bstruct] = struct{}{}
-		delete(stage.deleted, bstruct)
-	} else {
-		if _, ok := stage.new[bstruct]; !ok {
-			stage.modified[bstruct] = struct{}{}
-		}
 	}
 	stage.Bstructs_mapString[bstruct.Name] = bstruct
 
@@ -930,11 +897,6 @@ func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 	delete(stage.Bstructs, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
 
-	if _, ok := stage.reference[bstruct]; ok {
-		stage.deleted[bstruct] = struct{}{}
-	} else {
-		delete(stage.new, bstruct)
-	}
 	return bstruct
 }
 
@@ -978,7 +940,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bstruct *Bstruct) SetName(name string) {
+func (bstruct *Bstruct) SetName(name string) (){
 	bstruct.Name = name
 }
 
@@ -989,12 +951,6 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 		stage.Dstructs[dstruct] = struct{}{}
 		stage.DstructMap_Staged_Order[dstruct] = stage.DstructOrder
 		stage.DstructOrder++
-		stage.new[dstruct] = struct{}{}
-		delete(stage.deleted, dstruct)
-	} else {
-		if _, ok := stage.new[dstruct]; !ok {
-			stage.modified[dstruct] = struct{}{}
-		}
 	}
 	stage.Dstructs_mapString[dstruct.Name] = dstruct
 
@@ -1006,11 +962,6 @@ func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 	delete(stage.Dstructs, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 
-	if _, ok := stage.reference[dstruct]; ok {
-		stage.deleted[dstruct] = struct{}{}
-	} else {
-		delete(stage.new, dstruct)
-	}
 	return dstruct
 }
 
@@ -1054,7 +1005,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dstruct *Dstruct) SetName(name string) {
+func (dstruct *Dstruct) SetName(name string) (){
 	dstruct.Name = name
 }
 
@@ -1065,12 +1016,6 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
 		stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890] = stage.F0123456789012345678901234567890Order
 		stage.F0123456789012345678901234567890Order++
-		stage.new[f0123456789012345678901234567890] = struct{}{}
-		delete(stage.deleted, f0123456789012345678901234567890)
-	} else {
-		if _, ok := stage.new[f0123456789012345678901234567890]; !ok {
-			stage.modified[f0123456789012345678901234567890] = struct{}{}
-		}
 	}
 	stage.F0123456789012345678901234567890s_mapString[f0123456789012345678901234567890.Name] = f0123456789012345678901234567890
 
@@ -1082,11 +1027,6 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstag
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 
-	if _, ok := stage.reference[f0123456789012345678901234567890]; ok {
-		stage.deleted[f0123456789012345678901234567890] = struct{}{}
-	} else {
-		delete(stage.new, f0123456789012345678901234567890)
-	}
 	return f0123456789012345678901234567890
 }
 
@@ -1130,7 +1070,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 }
 
 // for satisfaction of GongStruct interface
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
 	f0123456789012345678901234567890.Name = name
 }
 
@@ -1141,12 +1081,6 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 		stage.Gstructs[gstruct] = struct{}{}
 		stage.GstructMap_Staged_Order[gstruct] = stage.GstructOrder
 		stage.GstructOrder++
-		stage.new[gstruct] = struct{}{}
-		delete(stage.deleted, gstruct)
-	} else {
-		if _, ok := stage.new[gstruct]; !ok {
-			stage.modified[gstruct] = struct{}{}
-		}
 	}
 	stage.Gstructs_mapString[gstruct.Name] = gstruct
 
@@ -1158,11 +1092,6 @@ func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 	delete(stage.Gstructs, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
 
-	if _, ok := stage.reference[gstruct]; ok {
-		stage.deleted[gstruct] = struct{}{}
-	} else {
-		delete(stage.new, gstruct)
-	}
 	return gstruct
 }
 
@@ -1206,7 +1135,7 @@ func (gstruct *Gstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gstruct *Gstruct) SetName(name string) {
+func (gstruct *Gstruct) SetName(name string) (){
 	gstruct.Name = name
 }
 
@@ -3134,5 +3063,4 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
-
 // Last line of the template

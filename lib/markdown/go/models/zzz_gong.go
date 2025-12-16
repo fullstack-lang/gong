@@ -168,9 +168,6 @@ type Stage struct {
 
 	// for the computation of the diff at each commit we need
 	reference map[GongstructIF]GongstructIF
-	modified  map[GongstructIF]struct{}
-	new       map[GongstructIF]struct{}
-	deleted   map[GongstructIF]struct{}
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -185,18 +182,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 
 func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
 	return stage.reference
-}
-
-func (stage *Stage) GetModified() map[GongstructIF]struct{} {
-	return stage.modified
-}
-
-func (stage *Stage) GetNew() map[GongstructIF]struct{} {
-	return stage.new
-}
-
-func (stage *Stage) GetDeleted() map[GongstructIF]struct{} {
-	return stage.deleted
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -446,9 +431,6 @@ func NewStage(name string) (stage *Stage) {
 		}, // end of insertion point
 
 		reference: make(map[GongstructIF]GongstructIF),
-		new:       make(map[GongstructIF]struct{}),
-		modified:  make(map[GongstructIF]struct{}),
-		deleted:   make(map[GongstructIF]struct{}),
 	}
 
 	return
@@ -570,12 +552,6 @@ func (content *Content) Stage(stage *Stage) *Content {
 		stage.Contents[content] = struct{}{}
 		stage.ContentMap_Staged_Order[content] = stage.ContentOrder
 		stage.ContentOrder++
-		stage.new[content] = struct{}{}
-		delete(stage.deleted, content)
-	} else {
-		if _, ok := stage.new[content]; !ok {
-			stage.modified[content] = struct{}{}
-		}
 	}
 	stage.Contents_mapString[content.Name] = content
 
@@ -587,11 +563,6 @@ func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
 	delete(stage.Contents_mapString, content.Name)
 
-	if _, ok := stage.reference[content]; ok {
-		stage.deleted[content] = struct{}{}
-	} else {
-		delete(stage.new, content)
-	}
 	return content
 }
 
@@ -646,12 +617,6 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 		stage.JpgImages[jpgimage] = struct{}{}
 		stage.JpgImageMap_Staged_Order[jpgimage] = stage.JpgImageOrder
 		stage.JpgImageOrder++
-		stage.new[jpgimage] = struct{}{}
-		delete(stage.deleted, jpgimage)
-	} else {
-		if _, ok := stage.new[jpgimage]; !ok {
-			stage.modified[jpgimage] = struct{}{}
-		}
 	}
 	stage.JpgImages_mapString[jpgimage.Name] = jpgimage
 
@@ -663,11 +628,6 @@ func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 	delete(stage.JpgImages, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
 
-	if _, ok := stage.reference[jpgimage]; ok {
-		stage.deleted[jpgimage] = struct{}{}
-	} else {
-		delete(stage.new, jpgimage)
-	}
 	return jpgimage
 }
 
@@ -722,12 +682,6 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 		stage.PngImages[pngimage] = struct{}{}
 		stage.PngImageMap_Staged_Order[pngimage] = stage.PngImageOrder
 		stage.PngImageOrder++
-		stage.new[pngimage] = struct{}{}
-		delete(stage.deleted, pngimage)
-	} else {
-		if _, ok := stage.new[pngimage]; !ok {
-			stage.modified[pngimage] = struct{}{}
-		}
 	}
 	stage.PngImages_mapString[pngimage.Name] = pngimage
 
@@ -739,11 +693,6 @@ func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 	delete(stage.PngImages, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
 
-	if _, ok := stage.reference[pngimage]; ok {
-		stage.deleted[pngimage] = struct{}{}
-	} else {
-		delete(stage.new, pngimage)
-	}
 	return pngimage
 }
 
@@ -798,12 +747,6 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 		stage.SvgImages[svgimage] = struct{}{}
 		stage.SvgImageMap_Staged_Order[svgimage] = stage.SvgImageOrder
 		stage.SvgImageOrder++
-		stage.new[svgimage] = struct{}{}
-		delete(stage.deleted, svgimage)
-	} else {
-		if _, ok := stage.new[svgimage]; !ok {
-			stage.modified[svgimage] = struct{}{}
-		}
 	}
 	stage.SvgImages_mapString[svgimage.Name] = svgimage
 
@@ -815,11 +758,6 @@ func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 	delete(stage.SvgImages, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
 
-	if _, ok := stage.reference[svgimage]; ok {
-		stage.deleted[svgimage] = struct{}{}
-	} else {
-		delete(stage.new, svgimage)
-	}
 	return svgimage
 }
 
