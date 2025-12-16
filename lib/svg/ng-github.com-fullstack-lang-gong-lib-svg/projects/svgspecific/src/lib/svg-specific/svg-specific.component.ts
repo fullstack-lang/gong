@@ -336,6 +336,17 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
           return
         }
 
+        if (this.svg.OverrideWidth == true) {
+          this.svgWidth = this.svg.OverriddenWidth
+        } else {
+          this.svgWidth = 3000
+        }
+        if (this.svg.OverrideHeight == true) {
+          this.svgHeight = this.svg.OverriddenHeight
+        } else {
+          this.svgHeight = 4000
+        }
+
         // compute segments for links
         this.map_Link_Segment.clear()
         this.map_Rect_ConnectedLinks.clear()

@@ -24,6 +24,10 @@ export class SVG {
 	IsSVGBackEndFileGenerated: boolean = false
 	DefaultDirectoryForGeneratedImages: string = ""
 	IsControlBannerHidden: boolean = false
+	OverrideWidth: boolean = false
+	OverriddenWidth: number = 0
+	OverrideHeight: boolean = false
+	OverriddenHeight: number = 0
 
 	// insertion point for pointers and slices of pointers declarations
 	Layers: Array<Layer> = []
@@ -50,6 +54,10 @@ export function CopySVGToSVGAPI(svg: SVG, svgAPI: SVGAPI) {
 	svgAPI.IsSVGBackEndFileGenerated = svg.IsSVGBackEndFileGenerated
 	svgAPI.DefaultDirectoryForGeneratedImages = svg.DefaultDirectoryForGeneratedImages
 	svgAPI.IsControlBannerHidden = svg.IsControlBannerHidden
+	svgAPI.OverrideWidth = svg.OverrideWidth
+	svgAPI.OverriddenWidth = svg.OverriddenWidth
+	svgAPI.OverrideHeight = svg.OverrideHeight
+	svgAPI.OverriddenHeight = svg.OverriddenHeight
 
 	// insertion point for pointer fields encoding
 	svgAPI.SVGPointersEncoding.StartRectID.Valid = true
@@ -93,6 +101,10 @@ export function CopySVGAPIToSVG(svgAPI: SVGAPI, svg: SVG, frontRepo: FrontRepo) 
 	svg.IsSVGBackEndFileGenerated = svgAPI.IsSVGBackEndFileGenerated
 	svg.DefaultDirectoryForGeneratedImages = svgAPI.DefaultDirectoryForGeneratedImages
 	svg.IsControlBannerHidden = svgAPI.IsControlBannerHidden
+	svg.OverrideWidth = svgAPI.OverrideWidth
+	svg.OverriddenWidth = svgAPI.OverriddenWidth
+	svg.OverrideHeight = svgAPI.OverrideHeight
+	svg.OverriddenHeight = svgAPI.OverriddenHeight
 
 	// insertion point for pointer fields encoding
 	svg.StartRect = frontRepo.map_ID_Rect.get(svgAPI.SVGPointersEncoding.StartRectID.Int64)

@@ -2636,6 +2636,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_SVG[identifier].DefaultDirectoryForGeneratedImages = fielValue
+				case "OverriddenWidth":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_SVG[identifier].OverriddenWidth = exprSign * fielValue
+				case "OverriddenHeight":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_SVG[identifier].OverriddenHeight = exprSign * fielValue
 				}
 			case "SvgText":
 				switch fieldName {
@@ -3036,6 +3050,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_SVG[identifier].IsControlBannerHidden = fielValue
+				case "OverrideWidth":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_SVG[identifier].OverrideWidth = fielValue
+				case "OverrideHeight":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_SVG[identifier].OverrideHeight = fielValue
 				}
 			case "SvgText":
 				switch fieldName {
