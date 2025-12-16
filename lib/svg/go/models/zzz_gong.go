@@ -1313,6 +1313,25 @@ func (animate *Animate) Stage(stage *Stage) *Animate {
 	return animate
 }
 
+// StageForceOrder puts animate to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AnimateOrder
+// - update stage.AnimateOrder accordingly
+func (animate *Animate) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Animates[animate]; !ok {
+		stage.Animates[animate] = struct{}{}
+
+		if order > stage.AnimateOrder {
+			stage.AnimateOrder = order
+		}
+		stage.AnimateMap_Staged_Order[animate] = stage.AnimateOrder
+		stage.AnimateOrder++
+	}
+	stage.Animates_mapString[animate.Name] = animate
+}
+
 // Unstage removes animate off the model stage
 func (animate *Animate) Unstage(stage *Stage) *Animate {
 	delete(stage.Animates, animate)
@@ -1376,6 +1395,25 @@ func (circle *Circle) Stage(stage *Stage) *Circle {
 	stage.Circles_mapString[circle.Name] = circle
 
 	return circle
+}
+
+// StageForceOrder puts circle to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CircleOrder
+// - update stage.CircleOrder accordingly
+func (circle *Circle) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Circles[circle]; !ok {
+		stage.Circles[circle] = struct{}{}
+
+		if order > stage.CircleOrder {
+			stage.CircleOrder = order
+		}
+		stage.CircleMap_Staged_Order[circle] = stage.CircleOrder
+		stage.CircleOrder++
+	}
+	stage.Circles_mapString[circle.Name] = circle
 }
 
 // Unstage removes circle off the model stage
@@ -1443,6 +1481,25 @@ func (condition *Condition) Stage(stage *Stage) *Condition {
 	return condition
 }
 
+// StageForceOrder puts condition to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ConditionOrder
+// - update stage.ConditionOrder accordingly
+func (condition *Condition) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Conditions[condition]; !ok {
+		stage.Conditions[condition] = struct{}{}
+
+		if order > stage.ConditionOrder {
+			stage.ConditionOrder = order
+		}
+		stage.ConditionMap_Staged_Order[condition] = stage.ConditionOrder
+		stage.ConditionOrder++
+	}
+	stage.Conditions_mapString[condition.Name] = condition
+}
+
 // Unstage removes condition off the model stage
 func (condition *Condition) Unstage(stage *Stage) *Condition {
 	delete(stage.Conditions, condition)
@@ -1506,6 +1563,25 @@ func (controlpoint *ControlPoint) Stage(stage *Stage) *ControlPoint {
 	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
 
 	return controlpoint
+}
+
+// StageForceOrder puts controlpoint to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ControlPointOrder
+// - update stage.ControlPointOrder accordingly
+func (controlpoint *ControlPoint) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.ControlPoints[controlpoint]; !ok {
+		stage.ControlPoints[controlpoint] = struct{}{}
+
+		if order > stage.ControlPointOrder {
+			stage.ControlPointOrder = order
+		}
+		stage.ControlPointMap_Staged_Order[controlpoint] = stage.ControlPointOrder
+		stage.ControlPointOrder++
+	}
+	stage.ControlPoints_mapString[controlpoint.Name] = controlpoint
 }
 
 // Unstage removes controlpoint off the model stage
@@ -1573,6 +1649,25 @@ func (ellipse *Ellipse) Stage(stage *Stage) *Ellipse {
 	return ellipse
 }
 
+// StageForceOrder puts ellipse to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.EllipseOrder
+// - update stage.EllipseOrder accordingly
+func (ellipse *Ellipse) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Ellipses[ellipse]; !ok {
+		stage.Ellipses[ellipse] = struct{}{}
+
+		if order > stage.EllipseOrder {
+			stage.EllipseOrder = order
+		}
+		stage.EllipseMap_Staged_Order[ellipse] = stage.EllipseOrder
+		stage.EllipseOrder++
+	}
+	stage.Ellipses_mapString[ellipse.Name] = ellipse
+}
+
 // Unstage removes ellipse off the model stage
 func (ellipse *Ellipse) Unstage(stage *Stage) *Ellipse {
 	delete(stage.Ellipses, ellipse)
@@ -1636,6 +1731,25 @@ func (layer *Layer) Stage(stage *Stage) *Layer {
 	stage.Layers_mapString[layer.Name] = layer
 
 	return layer
+}
+
+// StageForceOrder puts layer to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LayerOrder
+// - update stage.LayerOrder accordingly
+func (layer *Layer) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Layers[layer]; !ok {
+		stage.Layers[layer] = struct{}{}
+
+		if order > stage.LayerOrder {
+			stage.LayerOrder = order
+		}
+		stage.LayerMap_Staged_Order[layer] = stage.LayerOrder
+		stage.LayerOrder++
+	}
+	stage.Layers_mapString[layer.Name] = layer
 }
 
 // Unstage removes layer off the model stage
@@ -1703,6 +1817,25 @@ func (line *Line) Stage(stage *Stage) *Line {
 	return line
 }
 
+// StageForceOrder puts line to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LineOrder
+// - update stage.LineOrder accordingly
+func (line *Line) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Lines[line]; !ok {
+		stage.Lines[line] = struct{}{}
+
+		if order > stage.LineOrder {
+			stage.LineOrder = order
+		}
+		stage.LineMap_Staged_Order[line] = stage.LineOrder
+		stage.LineOrder++
+	}
+	stage.Lines_mapString[line.Name] = line
+}
+
 // Unstage removes line off the model stage
 func (line *Line) Unstage(stage *Stage) *Line {
 	delete(stage.Lines, line)
@@ -1766,6 +1899,25 @@ func (link *Link) Stage(stage *Stage) *Link {
 	stage.Links_mapString[link.Name] = link
 
 	return link
+}
+
+// StageForceOrder puts link to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LinkOrder
+// - update stage.LinkOrder accordingly
+func (link *Link) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Links[link]; !ok {
+		stage.Links[link] = struct{}{}
+
+		if order > stage.LinkOrder {
+			stage.LinkOrder = order
+		}
+		stage.LinkMap_Staged_Order[link] = stage.LinkOrder
+		stage.LinkOrder++
+	}
+	stage.Links_mapString[link.Name] = link
 }
 
 // Unstage removes link off the model stage
@@ -1833,6 +1985,25 @@ func (linkanchoredtext *LinkAnchoredText) Stage(stage *Stage) *LinkAnchoredText 
 	return linkanchoredtext
 }
 
+// StageForceOrder puts linkanchoredtext to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LinkAnchoredTextOrder
+// - update stage.LinkAnchoredTextOrder accordingly
+func (linkanchoredtext *LinkAnchoredText) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
+		stage.LinkAnchoredTexts[linkanchoredtext] = struct{}{}
+
+		if order > stage.LinkAnchoredTextOrder {
+			stage.LinkAnchoredTextOrder = order
+		}
+		stage.LinkAnchoredTextMap_Staged_Order[linkanchoredtext] = stage.LinkAnchoredTextOrder
+		stage.LinkAnchoredTextOrder++
+	}
+	stage.LinkAnchoredTexts_mapString[linkanchoredtext.Name] = linkanchoredtext
+}
+
 // Unstage removes linkanchoredtext off the model stage
 func (linkanchoredtext *LinkAnchoredText) Unstage(stage *Stage) *LinkAnchoredText {
 	delete(stage.LinkAnchoredTexts, linkanchoredtext)
@@ -1896,6 +2067,25 @@ func (path *Path) Stage(stage *Stage) *Path {
 	stage.Paths_mapString[path.Name] = path
 
 	return path
+}
+
+// StageForceOrder puts path to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PathOrder
+// - update stage.PathOrder accordingly
+func (path *Path) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Paths[path]; !ok {
+		stage.Paths[path] = struct{}{}
+
+		if order > stage.PathOrder {
+			stage.PathOrder = order
+		}
+		stage.PathMap_Staged_Order[path] = stage.PathOrder
+		stage.PathOrder++
+	}
+	stage.Paths_mapString[path.Name] = path
 }
 
 // Unstage removes path off the model stage
@@ -1963,6 +2153,25 @@ func (point *Point) Stage(stage *Stage) *Point {
 	return point
 }
 
+// StageForceOrder puts point to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PointOrder
+// - update stage.PointOrder accordingly
+func (point *Point) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Points[point]; !ok {
+		stage.Points[point] = struct{}{}
+
+		if order > stage.PointOrder {
+			stage.PointOrder = order
+		}
+		stage.PointMap_Staged_Order[point] = stage.PointOrder
+		stage.PointOrder++
+	}
+	stage.Points_mapString[point.Name] = point
+}
+
 // Unstage removes point off the model stage
 func (point *Point) Unstage(stage *Stage) *Point {
 	delete(stage.Points, point)
@@ -2026,6 +2235,25 @@ func (polygone *Polygone) Stage(stage *Stage) *Polygone {
 	stage.Polygones_mapString[polygone.Name] = polygone
 
 	return polygone
+}
+
+// StageForceOrder puts polygone to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PolygoneOrder
+// - update stage.PolygoneOrder accordingly
+func (polygone *Polygone) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Polygones[polygone]; !ok {
+		stage.Polygones[polygone] = struct{}{}
+
+		if order > stage.PolygoneOrder {
+			stage.PolygoneOrder = order
+		}
+		stage.PolygoneMap_Staged_Order[polygone] = stage.PolygoneOrder
+		stage.PolygoneOrder++
+	}
+	stage.Polygones_mapString[polygone.Name] = polygone
 }
 
 // Unstage removes polygone off the model stage
@@ -2093,6 +2321,25 @@ func (polyline *Polyline) Stage(stage *Stage) *Polyline {
 	return polyline
 }
 
+// StageForceOrder puts polyline to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.PolylineOrder
+// - update stage.PolylineOrder accordingly
+func (polyline *Polyline) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Polylines[polyline]; !ok {
+		stage.Polylines[polyline] = struct{}{}
+
+		if order > stage.PolylineOrder {
+			stage.PolylineOrder = order
+		}
+		stage.PolylineMap_Staged_Order[polyline] = stage.PolylineOrder
+		stage.PolylineOrder++
+	}
+	stage.Polylines_mapString[polyline.Name] = polyline
+}
+
 // Unstage removes polyline off the model stage
 func (polyline *Polyline) Unstage(stage *Stage) *Polyline {
 	delete(stage.Polylines, polyline)
@@ -2156,6 +2403,25 @@ func (rect *Rect) Stage(stage *Stage) *Rect {
 	stage.Rects_mapString[rect.Name] = rect
 
 	return rect
+}
+
+// StageForceOrder puts rect to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectOrder
+// - update stage.RectOrder accordingly
+func (rect *Rect) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Rects[rect]; !ok {
+		stage.Rects[rect] = struct{}{}
+
+		if order > stage.RectOrder {
+			stage.RectOrder = order
+		}
+		stage.RectMap_Staged_Order[rect] = stage.RectOrder
+		stage.RectOrder++
+	}
+	stage.Rects_mapString[rect.Name] = rect
 }
 
 // Unstage removes rect off the model stage
@@ -2223,6 +2489,25 @@ func (rectanchoredpath *RectAnchoredPath) Stage(stage *Stage) *RectAnchoredPath 
 	return rectanchoredpath
 }
 
+// StageForceOrder puts rectanchoredpath to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectAnchoredPathOrder
+// - update stage.RectAnchoredPathOrder accordingly
+func (rectanchoredpath *RectAnchoredPath) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
+		stage.RectAnchoredPaths[rectanchoredpath] = struct{}{}
+
+		if order > stage.RectAnchoredPathOrder {
+			stage.RectAnchoredPathOrder = order
+		}
+		stage.RectAnchoredPathMap_Staged_Order[rectanchoredpath] = stage.RectAnchoredPathOrder
+		stage.RectAnchoredPathOrder++
+	}
+	stage.RectAnchoredPaths_mapString[rectanchoredpath.Name] = rectanchoredpath
+}
+
 // Unstage removes rectanchoredpath off the model stage
 func (rectanchoredpath *RectAnchoredPath) Unstage(stage *Stage) *RectAnchoredPath {
 	delete(stage.RectAnchoredPaths, rectanchoredpath)
@@ -2286,6 +2571,25 @@ func (rectanchoredrect *RectAnchoredRect) Stage(stage *Stage) *RectAnchoredRect 
 	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
 
 	return rectanchoredrect
+}
+
+// StageForceOrder puts rectanchoredrect to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectAnchoredRectOrder
+// - update stage.RectAnchoredRectOrder accordingly
+func (rectanchoredrect *RectAnchoredRect) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
+		stage.RectAnchoredRects[rectanchoredrect] = struct{}{}
+
+		if order > stage.RectAnchoredRectOrder {
+			stage.RectAnchoredRectOrder = order
+		}
+		stage.RectAnchoredRectMap_Staged_Order[rectanchoredrect] = stage.RectAnchoredRectOrder
+		stage.RectAnchoredRectOrder++
+	}
+	stage.RectAnchoredRects_mapString[rectanchoredrect.Name] = rectanchoredrect
 }
 
 // Unstage removes rectanchoredrect off the model stage
@@ -2353,6 +2657,25 @@ func (rectanchoredtext *RectAnchoredText) Stage(stage *Stage) *RectAnchoredText 
 	return rectanchoredtext
 }
 
+// StageForceOrder puts rectanchoredtext to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectAnchoredTextOrder
+// - update stage.RectAnchoredTextOrder accordingly
+func (rectanchoredtext *RectAnchoredText) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
+		stage.RectAnchoredTexts[rectanchoredtext] = struct{}{}
+
+		if order > stage.RectAnchoredTextOrder {
+			stage.RectAnchoredTextOrder = order
+		}
+		stage.RectAnchoredTextMap_Staged_Order[rectanchoredtext] = stage.RectAnchoredTextOrder
+		stage.RectAnchoredTextOrder++
+	}
+	stage.RectAnchoredTexts_mapString[rectanchoredtext.Name] = rectanchoredtext
+}
+
 // Unstage removes rectanchoredtext off the model stage
 func (rectanchoredtext *RectAnchoredText) Unstage(stage *Stage) *RectAnchoredText {
 	delete(stage.RectAnchoredTexts, rectanchoredtext)
@@ -2416,6 +2739,25 @@ func (rectlinklink *RectLinkLink) Stage(stage *Stage) *RectLinkLink {
 	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
 
 	return rectlinklink
+}
+
+// StageForceOrder puts rectlinklink to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.RectLinkLinkOrder
+// - update stage.RectLinkLinkOrder accordingly
+func (rectlinklink *RectLinkLink) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
+		stage.RectLinkLinks[rectlinklink] = struct{}{}
+
+		if order > stage.RectLinkLinkOrder {
+			stage.RectLinkLinkOrder = order
+		}
+		stage.RectLinkLinkMap_Staged_Order[rectlinklink] = stage.RectLinkLinkOrder
+		stage.RectLinkLinkOrder++
+	}
+	stage.RectLinkLinks_mapString[rectlinklink.Name] = rectlinklink
 }
 
 // Unstage removes rectlinklink off the model stage
@@ -2483,6 +2825,25 @@ func (svg *SVG) Stage(stage *Stage) *SVG {
 	return svg
 }
 
+// StageForceOrder puts svg to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SVGOrder
+// - update stage.SVGOrder accordingly
+func (svg *SVG) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.SVGs[svg]; !ok {
+		stage.SVGs[svg] = struct{}{}
+
+		if order > stage.SVGOrder {
+			stage.SVGOrder = order
+		}
+		stage.SVGMap_Staged_Order[svg] = stage.SVGOrder
+		stage.SVGOrder++
+	}
+	stage.SVGs_mapString[svg.Name] = svg
+}
+
 // Unstage removes svg off the model stage
 func (svg *SVG) Unstage(stage *Stage) *SVG {
 	delete(stage.SVGs, svg)
@@ -2548,6 +2909,25 @@ func (svgtext *SvgText) Stage(stage *Stage) *SvgText {
 	return svgtext
 }
 
+// StageForceOrder puts svgtext to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.SvgTextOrder
+// - update stage.SvgTextOrder accordingly
+func (svgtext *SvgText) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.SvgTexts[svgtext]; !ok {
+		stage.SvgTexts[svgtext] = struct{}{}
+
+		if order > stage.SvgTextOrder {
+			stage.SvgTextOrder = order
+		}
+		stage.SvgTextMap_Staged_Order[svgtext] = stage.SvgTextOrder
+		stage.SvgTextOrder++
+	}
+	stage.SvgTexts_mapString[svgtext.Name] = svgtext
+}
+
 // Unstage removes svgtext off the model stage
 func (svgtext *SvgText) Unstage(stage *Stage) *SvgText {
 	delete(stage.SvgTexts, svgtext)
@@ -2611,6 +2991,25 @@ func (text *Text) Stage(stage *Stage) *Text {
 	stage.Texts_mapString[text.Name] = text
 
 	return text
+}
+
+// StageForceOrder puts text to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TextOrder
+// - update stage.TextOrder accordingly
+func (text *Text) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Texts[text]; !ok {
+		stage.Texts[text] = struct{}{}
+
+		if order > stage.TextOrder {
+			stage.TextOrder = order
+		}
+		stage.TextMap_Staged_Order[text] = stage.TextOrder
+		stage.TextOrder++
+	}
+	stage.Texts_mapString[text.Name] = text
 }
 
 // Unstage removes text off the model stage

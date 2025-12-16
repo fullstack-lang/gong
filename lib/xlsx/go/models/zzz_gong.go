@@ -607,6 +607,25 @@ func (displayselection *DisplaySelection) Stage(stage *Stage) *DisplaySelection 
 	return displayselection
 }
 
+// StageForceOrder puts displayselection to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DisplaySelectionOrder
+// - update stage.DisplaySelectionOrder accordingly
+func (displayselection *DisplaySelection) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.DisplaySelections[displayselection]; !ok {
+		stage.DisplaySelections[displayselection] = struct{}{}
+
+		if order > stage.DisplaySelectionOrder {
+			stage.DisplaySelectionOrder = order
+		}
+		stage.DisplaySelectionMap_Staged_Order[displayselection] = stage.DisplaySelectionOrder
+		stage.DisplaySelectionOrder++
+	}
+	stage.DisplaySelections_mapString[displayselection.Name] = displayselection
+}
+
 // Unstage removes displayselection off the model stage
 func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelection {
 	delete(stage.DisplaySelections, displayselection)
@@ -670,6 +689,25 @@ func (xlcell *XLCell) Stage(stage *Stage) *XLCell {
 	stage.XLCells_mapString[xlcell.Name] = xlcell
 
 	return xlcell
+}
+
+// StageForceOrder puts xlcell to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XLCellOrder
+// - update stage.XLCellOrder accordingly
+func (xlcell *XLCell) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.XLCells[xlcell]; !ok {
+		stage.XLCells[xlcell] = struct{}{}
+
+		if order > stage.XLCellOrder {
+			stage.XLCellOrder = order
+		}
+		stage.XLCellMap_Staged_Order[xlcell] = stage.XLCellOrder
+		stage.XLCellOrder++
+	}
+	stage.XLCells_mapString[xlcell.Name] = xlcell
 }
 
 // Unstage removes xlcell off the model stage
@@ -737,6 +775,25 @@ func (xlfile *XLFile) Stage(stage *Stage) *XLFile {
 	return xlfile
 }
 
+// StageForceOrder puts xlfile to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XLFileOrder
+// - update stage.XLFileOrder accordingly
+func (xlfile *XLFile) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.XLFiles[xlfile]; !ok {
+		stage.XLFiles[xlfile] = struct{}{}
+
+		if order > stage.XLFileOrder {
+			stage.XLFileOrder = order
+		}
+		stage.XLFileMap_Staged_Order[xlfile] = stage.XLFileOrder
+		stage.XLFileOrder++
+	}
+	stage.XLFiles_mapString[xlfile.Name] = xlfile
+}
+
 // Unstage removes xlfile off the model stage
 func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 	delete(stage.XLFiles, xlfile)
@@ -802,6 +859,25 @@ func (xlrow *XLRow) Stage(stage *Stage) *XLRow {
 	return xlrow
 }
 
+// StageForceOrder puts xlrow to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XLRowOrder
+// - update stage.XLRowOrder accordingly
+func (xlrow *XLRow) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.XLRows[xlrow]; !ok {
+		stage.XLRows[xlrow] = struct{}{}
+
+		if order > stage.XLRowOrder {
+			stage.XLRowOrder = order
+		}
+		stage.XLRowMap_Staged_Order[xlrow] = stage.XLRowOrder
+		stage.XLRowOrder++
+	}
+	stage.XLRows_mapString[xlrow.Name] = xlrow
+}
+
 // Unstage removes xlrow off the model stage
 func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 	delete(stage.XLRows, xlrow)
@@ -865,6 +941,25 @@ func (xlsheet *XLSheet) Stage(stage *Stage) *XLSheet {
 	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
 
 	return xlsheet
+}
+
+// StageForceOrder puts xlsheet to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.XLSheetOrder
+// - update stage.XLSheetOrder accordingly
+func (xlsheet *XLSheet) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.XLSheets[xlsheet]; !ok {
+		stage.XLSheets[xlsheet] = struct{}{}
+
+		if order > stage.XLSheetOrder {
+			stage.XLSheetOrder = order
+		}
+		stage.XLSheetMap_Staged_Order[xlsheet] = stage.XLSheetOrder
+		stage.XLSheetOrder++
+	}
+	stage.XLSheets_mapString[xlsheet.Name] = xlsheet
 }
 
 // Unstage removes xlsheet off the model stage
