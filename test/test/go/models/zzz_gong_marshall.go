@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, astruct := range astructOrdered {
+	for _, astruct := range astructOrdered {
 
-		id = generatesIdentifier("Astruct", idx, astruct.Name)
+		id = generatesIdentifier("Astruct", int(stage.AstructMap_Staged_Order[astruct]), astruct.Name)
 		map_Astruct_Identifiers[astruct] = id
 
 		decl = IdentifiersDecls
@@ -270,9 +270,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructbstruct2useOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, astructbstruct2use := range astructbstruct2useOrdered {
+	for _, astructbstruct2use := range astructbstruct2useOrdered {
 
-		id = generatesIdentifier("AstructBstruct2Use", idx, astructbstruct2use.Name)
+		id = generatesIdentifier("AstructBstruct2Use", int(stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use]), astructbstruct2use.Name)
 		map_AstructBstruct2Use_Identifiers[astructbstruct2use] = id
 
 		decl = IdentifiersDecls
@@ -311,9 +311,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructbstructuseOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, astructbstructuse := range astructbstructuseOrdered {
+	for _, astructbstructuse := range astructbstructuseOrdered {
 
-		id = generatesIdentifier("AstructBstructUse", idx, astructbstructuse.Name)
+		id = generatesIdentifier("AstructBstructUse", int(stage.AstructBstructUseMap_Staged_Order[astructbstructuse]), astructbstructuse.Name)
 		map_AstructBstructUse_Identifiers[astructbstructuse] = id
 
 		decl = IdentifiersDecls
@@ -352,9 +352,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(bstructOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, bstruct := range bstructOrdered {
+	for _, bstruct := range bstructOrdered {
 
-		id = generatesIdentifier("Bstruct", idx, bstruct.Name)
+		id = generatesIdentifier("Bstruct", int(stage.BstructMap_Staged_Order[bstruct]), bstruct.Name)
 		map_Bstruct_Identifiers[bstruct] = id
 
 		decl = IdentifiersDecls
@@ -411,9 +411,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(dstructOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, dstruct := range dstructOrdered {
+	for _, dstruct := range dstructOrdered {
 
-		id = generatesIdentifier("Dstruct", idx, dstruct.Name)
+		id = generatesIdentifier("Dstruct", int(stage.DstructMap_Staged_Order[dstruct]), dstruct.Name)
 		map_Dstruct_Identifiers[dstruct] = id
 
 		decl = IdentifiersDecls
@@ -452,9 +452,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(f0123456789012345678901234567890Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
+	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
 
-		id = generatesIdentifier("F0123456789012345678901234567890", idx, f0123456789012345678901234567890.Name)
+		id = generatesIdentifier("F0123456789012345678901234567890", int(stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890]), f0123456789012345678901234567890.Name)
 		map_F0123456789012345678901234567890_Identifiers[f0123456789012345678901234567890] = id
 
 		decl = IdentifiersDecls
@@ -499,9 +499,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gstructOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gstruct := range gstructOrdered {
+	for _, gstruct := range gstructOrdered {
 
-		id = generatesIdentifier("Gstruct", idx, gstruct.Name)
+		id = generatesIdentifier("Gstruct", int(stage.GstructMap_Staged_Order[gstruct]), gstruct.Name)
 		map_Gstruct_Identifiers[gstruct] = id
 
 		decl = IdentifiersDecls
@@ -854,7 +854,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

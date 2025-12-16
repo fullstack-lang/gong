@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(contentOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, content := range contentOrdered {
+	for _, content := range contentOrdered {
 
-		id = generatesIdentifier("Content", idx, content.Name)
+		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
 		map_Content_Identifiers[content] = id
 
 		decl = IdentifiersDecls
@@ -172,9 +172,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(jpgimageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, jpgimage := range jpgimageOrdered {
+	for _, jpgimage := range jpgimageOrdered {
 
-		id = generatesIdentifier("JpgImage", idx, jpgimage.Name)
+		id = generatesIdentifier("JpgImage", int(stage.JpgImageMap_Staged_Order[jpgimage]), jpgimage.Name)
 		map_JpgImage_Identifiers[jpgimage] = id
 
 		decl = IdentifiersDecls
@@ -219,9 +219,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pngimageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, pngimage := range pngimageOrdered {
+	for _, pngimage := range pngimageOrdered {
 
-		id = generatesIdentifier("PngImage", idx, pngimage.Name)
+		id = generatesIdentifier("PngImage", int(stage.PngImageMap_Staged_Order[pngimage]), pngimage.Name)
 		map_PngImage_Identifiers[pngimage] = id
 
 		decl = IdentifiersDecls
@@ -266,9 +266,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(svgimageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, svgimage := range svgimageOrdered {
+	for _, svgimage := range svgimageOrdered {
 
-		id = generatesIdentifier("SvgImage", idx, svgimage.Name)
+		id = generatesIdentifier("SvgImage", int(stage.SvgImageMap_Staged_Order[svgimage]), svgimage.Name)
 		map_SvgImage_Identifiers[svgimage] = id
 
 		decl = IdentifiersDecls
@@ -410,7 +410,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

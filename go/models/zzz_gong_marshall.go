@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongbasicfieldOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongbasicfield := range gongbasicfieldOrdered {
+	for _, gongbasicfield := range gongbasicfieldOrdered {
 
-		id = generatesIdentifier("GongBasicField", idx, gongbasicfield.Name)
+		id = generatesIdentifier("GongBasicField", int(stage.GongBasicFieldMap_Staged_Order[gongbasicfield]), gongbasicfield.Name)
 		map_GongBasicField_Identifiers[gongbasicfield] = id
 
 		decl = IdentifiersDecls
@@ -220,9 +220,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongenum := range gongenumOrdered {
+	for _, gongenum := range gongenumOrdered {
 
-		id = generatesIdentifier("GongEnum", idx, gongenum.Name)
+		id = generatesIdentifier("GongEnum", int(stage.GongEnumMap_Staged_Order[gongenum]), gongenum.Name)
 		map_GongEnum_Identifiers[gongenum] = id
 
 		decl = IdentifiersDecls
@@ -267,9 +267,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumvalueOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongenumvalue := range gongenumvalueOrdered {
+	for _, gongenumvalue := range gongenumvalueOrdered {
 
-		id = generatesIdentifier("GongEnumValue", idx, gongenumvalue.Name)
+		id = generatesIdentifier("GongEnumValue", int(stage.GongEnumValueMap_Staged_Order[gongenumvalue]), gongenumvalue.Name)
 		map_GongEnumValue_Identifiers[gongenumvalue] = id
 
 		decl = IdentifiersDecls
@@ -314,9 +314,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gonglinkOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gonglink := range gonglinkOrdered {
+	for _, gonglink := range gonglinkOrdered {
 
-		id = generatesIdentifier("GongLink", idx, gonglink.Name)
+		id = generatesIdentifier("GongLink", int(stage.GongLinkMap_Staged_Order[gonglink]), gonglink.Name)
 		map_GongLink_Identifiers[gonglink] = id
 
 		decl = IdentifiersDecls
@@ -367,9 +367,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongnoteOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongnote := range gongnoteOrdered {
+	for _, gongnote := range gongnoteOrdered {
 
-		id = generatesIdentifier("GongNote", idx, gongnote.Name)
+		id = generatesIdentifier("GongNote", int(stage.GongNoteMap_Staged_Order[gongnote]), gongnote.Name)
 		map_GongNote_Identifiers[gongnote] = id
 
 		decl = IdentifiersDecls
@@ -420,9 +420,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongstructOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongstruct := range gongstructOrdered {
+	for _, gongstruct := range gongstructOrdered {
 
-		id = generatesIdentifier("GongStruct", idx, gongstruct.Name)
+		id = generatesIdentifier("GongStruct", int(stage.GongStructMap_Staged_Order[gongstruct]), gongstruct.Name)
 		map_GongStruct_Identifiers[gongstruct] = id
 
 		decl = IdentifiersDecls
@@ -473,9 +473,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongtimefieldOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongtimefield := range gongtimefieldOrdered {
+	for _, gongtimefield := range gongtimefieldOrdered {
 
-		id = generatesIdentifier("GongTimeField", idx, gongtimefield.Name)
+		id = generatesIdentifier("GongTimeField", int(stage.GongTimeFieldMap_Staged_Order[gongtimefield]), gongtimefield.Name)
 		map_GongTimeField_Identifiers[gongtimefield] = id
 
 		decl = IdentifiersDecls
@@ -532,9 +532,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(metareferenceOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, metareference := range metareferenceOrdered {
+	for _, metareference := range metareferenceOrdered {
 
-		id = generatesIdentifier("MetaReference", idx, metareference.Name)
+		id = generatesIdentifier("MetaReference", int(stage.MetaReferenceMap_Staged_Order[metareference]), metareference.Name)
 		map_MetaReference_Identifiers[metareference] = id
 
 		decl = IdentifiersDecls
@@ -573,9 +573,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(modelpkgOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, modelpkg := range modelpkgOrdered {
+	for _, modelpkg := range modelpkgOrdered {
 
-		id = generatesIdentifier("ModelPkg", idx, modelpkg.Name)
+		id = generatesIdentifier("ModelPkg", int(stage.ModelPkgMap_Staged_Order[modelpkg]), modelpkg.Name)
 		map_ModelPkg_Identifiers[modelpkg] = id
 
 		decl = IdentifiersDecls
@@ -716,9 +716,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pointertogongstructfieldOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, pointertogongstructfield := range pointertogongstructfieldOrdered {
+	for _, pointertogongstructfield := range pointertogongstructfieldOrdered {
 
-		id = generatesIdentifier("PointerToGongStructField", idx, pointertogongstructfield.Name)
+		id = generatesIdentifier("PointerToGongStructField", int(stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield]), pointertogongstructfield.Name)
 		map_PointerToGongStructField_Identifiers[pointertogongstructfield] = id
 
 		decl = IdentifiersDecls
@@ -775,9 +775,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(sliceofpointertogongstructfieldOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
+	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 
-		id = generatesIdentifier("SliceOfPointerToGongStructField", idx, sliceofpointertogongstructfield.Name)
+		id = generatesIdentifier("SliceOfPointerToGongStructField", int(stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield]), sliceofpointertogongstructfield.Name)
 		map_SliceOfPointerToGongStructField_Identifiers[sliceofpointertogongstructfield] = id
 
 		decl = IdentifiersDecls
@@ -1088,7 +1088,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

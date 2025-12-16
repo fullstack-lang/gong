@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(arrowOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, arrow := range arrowOrdered {
+	for _, arrow := range arrowOrdered {
 
-		id = generatesIdentifier("Arrow", idx, arrow.Name)
+		id = generatesIdentifier("Arrow", int(stage.ArrowMap_Staged_Order[arrow]), arrow.Name)
 		map_Arrow_Identifiers[arrow] = id
 
 		decl = IdentifiersDecls
@@ -178,9 +178,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(barOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, bar := range barOrdered {
+	for _, bar := range barOrdered {
 
-		id = generatesIdentifier("Bar", idx, bar.Name)
+		id = generatesIdentifier("Bar", int(stage.BarMap_Staged_Order[bar]), bar.Name)
 		map_Bar_Identifiers[bar] = id
 
 		decl = IdentifiersDecls
@@ -267,9 +267,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(ganttOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gantt := range ganttOrdered {
+	for _, gantt := range ganttOrdered {
 
-		id = generatesIdentifier("Gantt", idx, gantt.Name)
+		id = generatesIdentifier("Gantt", int(stage.GanttMap_Staged_Order[gantt]), gantt.Name)
 		map_Gantt_Identifiers[gantt] = id
 
 		decl = IdentifiersDecls
@@ -452,9 +452,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		decl = IdentifiersDecls
@@ -493,9 +493,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(laneOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, lane := range laneOrdered {
+	for _, lane := range laneOrdered {
 
-		id = generatesIdentifier("Lane", idx, lane.Name)
+		id = generatesIdentifier("Lane", int(stage.LaneMap_Staged_Order[lane]), lane.Name)
 		map_Lane_Identifiers[lane] = id
 
 		decl = IdentifiersDecls
@@ -540,9 +540,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(laneuseOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, laneuse := range laneuseOrdered {
+	for _, laneuse := range laneuseOrdered {
 
-		id = generatesIdentifier("LaneUse", idx, laneuse.Name)
+		id = generatesIdentifier("LaneUse", int(stage.LaneUseMap_Staged_Order[laneuse]), laneuse.Name)
 		map_LaneUse_Identifiers[laneuse] = id
 
 		decl = IdentifiersDecls
@@ -581,9 +581,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(milestoneOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, milestone := range milestoneOrdered {
+	for _, milestone := range milestoneOrdered {
 
-		id = generatesIdentifier("Milestone", idx, milestone.Name)
+		id = generatesIdentifier("Milestone", int(stage.MilestoneMap_Staged_Order[milestone]), milestone.Name)
 		map_Milestone_Identifiers[milestone] = id
 
 		decl = IdentifiersDecls
@@ -850,7 +850,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category1Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category1 := range category1Ordered {
+	for _, category1 := range category1Ordered {
 
-		id = generatesIdentifier("Category1", idx, category1.Name)
+		id = generatesIdentifier("Category1", int(stage.Category1Map_Staged_Order[category1]), category1.Name)
 		map_Category1_Identifiers[category1] = id
 
 		decl = IdentifiersDecls
@@ -166,9 +166,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category1shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category1shape := range category1shapeOrdered {
+	for _, category1shape := range category1shapeOrdered {
 
-		id = generatesIdentifier("Category1Shape", idx, category1shape.Name)
+		id = generatesIdentifier("Category1Shape", int(stage.Category1ShapeMap_Staged_Order[category1shape]), category1shape.Name)
 		map_Category1Shape_Identifiers[category1shape] = id
 
 		decl = IdentifiersDecls
@@ -231,9 +231,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category2Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category2 := range category2Ordered {
+	for _, category2 := range category2Ordered {
 
-		id = generatesIdentifier("Category2", idx, category2.Name)
+		id = generatesIdentifier("Category2", int(stage.Category2Map_Staged_Order[category2]), category2.Name)
 		map_Category2_Identifiers[category2] = id
 
 		decl = IdentifiersDecls
@@ -272,9 +272,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category2shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category2shape := range category2shapeOrdered {
+	for _, category2shape := range category2shapeOrdered {
 
-		id = generatesIdentifier("Category2Shape", idx, category2shape.Name)
+		id = generatesIdentifier("Category2Shape", int(stage.Category2ShapeMap_Staged_Order[category2shape]), category2shape.Name)
 		map_Category2Shape_Identifiers[category2shape] = id
 
 		decl = IdentifiersDecls
@@ -337,9 +337,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category3Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category3 := range category3Ordered {
+	for _, category3 := range category3Ordered {
 
-		id = generatesIdentifier("Category3", idx, category3.Name)
+		id = generatesIdentifier("Category3", int(stage.Category3Map_Staged_Order[category3]), category3.Name)
 		map_Category3_Identifiers[category3] = id
 
 		decl = IdentifiersDecls
@@ -378,9 +378,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(category3shapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, category3shape := range category3shapeOrdered {
+	for _, category3shape := range category3shapeOrdered {
 
-		id = generatesIdentifier("Category3Shape", idx, category3shape.Name)
+		id = generatesIdentifier("Category3Shape", int(stage.Category3ShapeMap_Staged_Order[category3shape]), category3shape.Name)
 		map_Category3Shape_Identifiers[category3shape] = id
 
 		decl = IdentifiersDecls
@@ -443,9 +443,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(controlpointshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, controlpointshape := range controlpointshapeOrdered {
+	for _, controlpointshape := range controlpointshapeOrdered {
 
-		id = generatesIdentifier("ControlPointShape", idx, controlpointshape.Name)
+		id = generatesIdentifier("ControlPointShape", int(stage.ControlPointShapeMap_Staged_Order[controlpointshape]), controlpointshape.Name)
 		map_ControlPointShape_Identifiers[controlpointshape] = id
 
 		decl = IdentifiersDecls
@@ -502,9 +502,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(deskOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, desk := range deskOrdered {
+	for _, desk := range deskOrdered {
 
-		id = generatesIdentifier("Desk", idx, desk.Name)
+		id = generatesIdentifier("Desk", int(stage.DeskMap_Staged_Order[desk]), desk.Name)
 		map_Desk_Identifiers[desk] = id
 
 		decl = IdentifiersDecls
@@ -543,9 +543,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(diagramOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, diagram := range diagramOrdered {
+	for _, diagram := range diagramOrdered {
 
-		id = generatesIdentifier("Diagram", idx, diagram.Name)
+		id = generatesIdentifier("Diagram", int(stage.DiagramMap_Staged_Order[diagram]), diagram.Name)
 		map_Diagram_Identifiers[diagram] = id
 
 		decl = IdentifiersDecls
@@ -894,9 +894,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(influenceOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, influence := range influenceOrdered {
+	for _, influence := range influenceOrdered {
 
-		id = generatesIdentifier("Influence", idx, influence.Name)
+		id = generatesIdentifier("Influence", int(stage.InfluenceMap_Staged_Order[influence]), influence.Name)
 		map_Influence_Identifiers[influence] = id
 
 		decl = IdentifiersDecls
@@ -947,9 +947,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(influenceshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, influenceshape := range influenceshapeOrdered {
+	for _, influenceshape := range influenceshapeOrdered {
 
-		id = generatesIdentifier("InfluenceShape", idx, influenceshape.Name)
+		id = generatesIdentifier("InfluenceShape", int(stage.InfluenceShapeMap_Staged_Order[influenceshape]), influenceshape.Name)
 		map_InfluenceShape_Identifiers[influenceshape] = id
 
 		decl = IdentifiersDecls
@@ -1304,7 +1304,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }
