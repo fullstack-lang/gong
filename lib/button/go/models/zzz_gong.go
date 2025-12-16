@@ -607,12 +607,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 	return button
 }
 
-// StageForceOrder puts button to the model stage, and if the astrtuct
+// StagePreserveOrder puts button to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ButtonOrder
 // - update stage.ButtonOrder accordingly
-func (button *Button) StageForceOrder(stage *Stage, order uint) {
+func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
@@ -691,12 +691,12 @@ func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 	return buttontoggle
 }
 
-// StageForceOrder puts buttontoggle to the model stage, and if the astrtuct
+// StagePreserveOrder puts buttontoggle to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ButtonToggleOrder
 // - update stage.ButtonToggleOrder accordingly
-func (buttontoggle *ButtonToggle) StageForceOrder(stage *Stage, order uint) {
+func (buttontoggle *ButtonToggle) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
 		stage.ButtonToggles[buttontoggle] = struct{}{}
@@ -775,12 +775,12 @@ func (group *Group) Stage(stage *Stage) *Group {
 	return group
 }
 
-// StageForceOrder puts group to the model stage, and if the astrtuct
+// StagePreserveOrder puts group to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GroupOrder
 // - update stage.GroupOrder accordingly
-func (group *Group) StageForceOrder(stage *Stage, order uint) {
+func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Groups[group]; !ok {
 		stage.Groups[group] = struct{}{}
@@ -859,12 +859,12 @@ func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 	return grouptoogle
 }
 
-// StageForceOrder puts grouptoogle to the model stage, and if the astrtuct
+// StagePreserveOrder puts grouptoogle to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GroupToogleOrder
 // - update stage.GroupToogleOrder accordingly
-func (grouptoogle *GroupToogle) StageForceOrder(stage *Stage, order uint) {
+func (grouptoogle *GroupToogle) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
 		stage.GroupToogles[grouptoogle] = struct{}{}
@@ -943,12 +943,12 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	return layout
 }
 
-// StageForceOrder puts layout to the model stage, and if the astrtuct
+// StagePreserveOrder puts layout to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.LayoutOrder
 // - update stage.LayoutOrder accordingly
-func (layout *Layout) StageForceOrder(stage *Stage, order uint) {
+func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Layouts[layout]; !ok {
 		stage.Layouts[layout] = struct{}{}

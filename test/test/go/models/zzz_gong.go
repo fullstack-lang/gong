@@ -697,12 +697,12 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 	return astruct
 }
 
-// StageForceOrder puts astruct to the model stage, and if the astrtuct
+// StagePreserveOrder puts astruct to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AstructOrder
 // - update stage.AstructOrder accordingly
-func (astruct *Astruct) StageForceOrder(stage *Stage, order uint) {
+func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Astructs[astruct]; !ok {
 		stage.Astructs[astruct] = struct{}{}
@@ -781,12 +781,12 @@ func (astructbstruct2use *AstructBstruct2Use) Stage(stage *Stage) *AstructBstruc
 	return astructbstruct2use
 }
 
-// StageForceOrder puts astructbstruct2use to the model stage, and if the astrtuct
+// StagePreserveOrder puts astructbstruct2use to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AstructBstruct2UseOrder
 // - update stage.AstructBstruct2UseOrder accordingly
-func (astructbstruct2use *AstructBstruct2Use) StageForceOrder(stage *Stage, order uint) {
+func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 		stage.AstructBstruct2Uses[astructbstruct2use] = struct{}{}
@@ -865,12 +865,12 @@ func (astructbstructuse *AstructBstructUse) Stage(stage *Stage) *AstructBstructU
 	return astructbstructuse
 }
 
-// StageForceOrder puts astructbstructuse to the model stage, and if the astrtuct
+// StagePreserveOrder puts astructbstructuse to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AstructBstructUseOrder
 // - update stage.AstructBstructUseOrder accordingly
-func (astructbstructuse *AstructBstructUse) StageForceOrder(stage *Stage, order uint) {
+func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
 		stage.AstructBstructUses[astructbstructuse] = struct{}{}
@@ -949,12 +949,12 @@ func (bstruct *Bstruct) Stage(stage *Stage) *Bstruct {
 	return bstruct
 }
 
-// StageForceOrder puts bstruct to the model stage, and if the astrtuct
+// StagePreserveOrder puts bstruct to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.BstructOrder
 // - update stage.BstructOrder accordingly
-func (bstruct *Bstruct) StageForceOrder(stage *Stage, order uint) {
+func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Bstructs[bstruct]; !ok {
 		stage.Bstructs[bstruct] = struct{}{}
@@ -1033,12 +1033,12 @@ func (dstruct *Dstruct) Stage(stage *Stage) *Dstruct {
 	return dstruct
 }
 
-// StageForceOrder puts dstruct to the model stage, and if the astrtuct
+// StagePreserveOrder puts dstruct to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.DstructOrder
 // - update stage.DstructOrder accordingly
-func (dstruct *Dstruct) StageForceOrder(stage *Stage, order uint) {
+func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Dstructs[dstruct]; !ok {
 		stage.Dstructs[dstruct] = struct{}{}
@@ -1117,12 +1117,12 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Stage(
 	return f0123456789012345678901234567890
 }
 
-// StageForceOrder puts f0123456789012345678901234567890 to the model stage, and if the astrtuct
+// StagePreserveOrder puts f0123456789012345678901234567890 to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.F0123456789012345678901234567890Order
 // - update stage.F0123456789012345678901234567890Order accordingly
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageForceOrder(stage *Stage, order uint) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
 		stage.F0123456789012345678901234567890s[f0123456789012345678901234567890] = struct{}{}
@@ -1201,12 +1201,12 @@ func (gstruct *Gstruct) Stage(stage *Stage) *Gstruct {
 	return gstruct
 }
 
-// StageForceOrder puts gstruct to the model stage, and if the astrtuct
+// StagePreserveOrder puts gstruct to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.GstructOrder
 // - update stage.GstructOrder accordingly
-func (gstruct *Gstruct) StageForceOrder(stage *Stage, order uint) {
+func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Gstructs[gstruct]; !ok {
 		stage.Gstructs[gstruct] = struct{}{}

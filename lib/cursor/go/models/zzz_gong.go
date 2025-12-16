@@ -435,12 +435,12 @@ func (cursor *Cursor) Stage(stage *Stage) *Cursor {
 	return cursor
 }
 
-// StageForceOrder puts cursor to the model stage, and if the astrtuct
+// StagePreserveOrder puts cursor to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.CursorOrder
 // - update stage.CursorOrder accordingly
-func (cursor *Cursor) StageForceOrder(stage *Stage, order uint) {
+func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Cursors[cursor]; !ok {
 		stage.Cursors[cursor] = struct{}{}

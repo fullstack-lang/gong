@@ -521,12 +521,12 @@ func (chapter *Chapter) Stage(stage *Stage) *Chapter {
 	return chapter
 }
 
-// StageForceOrder puts chapter to the model stage, and if the astrtuct
+// StagePreserveOrder puts chapter to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ChapterOrder
 // - update stage.ChapterOrder accordingly
-func (chapter *Chapter) StageForceOrder(stage *Stage, order uint) {
+func (chapter *Chapter) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Chapters[chapter]; !ok {
 		stage.Chapters[chapter] = struct{}{}
@@ -605,12 +605,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 	return content
 }
 
-// StageForceOrder puts content to the model stage, and if the astrtuct
+// StagePreserveOrder puts content to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ContentOrder
 // - update stage.ContentOrder accordingly
-func (content *Content) StageForceOrder(stage *Stage, order uint) {
+func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Contents[content]; !ok {
 		stage.Contents[content] = struct{}{}
@@ -689,12 +689,12 @@ func (page *Page) Stage(stage *Stage) *Page {
 	return page
 }
 
-// StageForceOrder puts page to the model stage, and if the astrtuct
+// StagePreserveOrder puts page to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PageOrder
 // - update stage.PageOrder accordingly
-func (page *Page) StageForceOrder(stage *Stage, order uint) {
+func (page *Page) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Pages[page]; !ok {
 		stage.Pages[page] = struct{}{}

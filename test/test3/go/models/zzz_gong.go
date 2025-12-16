@@ -478,12 +478,12 @@ func (a *A) Stage(stage *Stage) *A {
 	return a
 }
 
-// StageForceOrder puts a to the model stage, and if the astrtuct
+// StagePreserveOrder puts a to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.AOrder
 // - update stage.AOrder accordingly
-func (a *A) StageForceOrder(stage *Stage, order uint) {
+func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.As[a]; !ok {
 		stage.As[a] = struct{}{}
@@ -562,12 +562,12 @@ func (b *B) Stage(stage *Stage) *B {
 	return b
 }
 
-// StageForceOrder puts b to the model stage, and if the astrtuct
+// StagePreserveOrder puts b to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.BOrder
 // - update stage.BOrder accordingly
-func (b *B) StageForceOrder(stage *Stage, order uint) {
+func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Bs[b]; !ok {
 		stage.Bs[b] = struct{}{}

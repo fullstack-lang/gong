@@ -558,12 +558,12 @@ func (content *Content) Stage(stage *Stage) *Content {
 	return content
 }
 
-// StageForceOrder puts content to the model stage, and if the astrtuct
+// StagePreserveOrder puts content to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ContentOrder
 // - update stage.ContentOrder accordingly
-func (content *Content) StageForceOrder(stage *Stage, order uint) {
+func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Contents[content]; !ok {
 		stage.Contents[content] = struct{}{}
@@ -642,12 +642,12 @@ func (jpgimage *JpgImage) Stage(stage *Stage) *JpgImage {
 	return jpgimage
 }
 
-// StageForceOrder puts jpgimage to the model stage, and if the astrtuct
+// StagePreserveOrder puts jpgimage to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.JpgImageOrder
 // - update stage.JpgImageOrder accordingly
-func (jpgimage *JpgImage) StageForceOrder(stage *Stage, order uint) {
+func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.JpgImages[jpgimage]; !ok {
 		stage.JpgImages[jpgimage] = struct{}{}
@@ -726,12 +726,12 @@ func (pngimage *PngImage) Stage(stage *Stage) *PngImage {
 	return pngimage
 }
 
-// StageForceOrder puts pngimage to the model stage, and if the astrtuct
+// StagePreserveOrder puts pngimage to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.PngImageOrder
 // - update stage.PngImageOrder accordingly
-func (pngimage *PngImage) StageForceOrder(stage *Stage, order uint) {
+func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.PngImages[pngimage]; !ok {
 		stage.PngImages[pngimage] = struct{}{}
@@ -810,12 +810,12 @@ func (svgimage *SvgImage) Stage(stage *Stage) *SvgImage {
 	return svgimage
 }
 
-// StageForceOrder puts svgimage to the model stage, and if the astrtuct
+// StagePreserveOrder puts svgimage to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SvgImageOrder
 // - update stage.SvgImageOrder accordingly
-func (svgimage *SvgImage) StageForceOrder(stage *Stage, order uint) {
+func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.SvgImages[svgimage]; !ok {
 		stage.SvgImages[svgimage] = struct{}{}

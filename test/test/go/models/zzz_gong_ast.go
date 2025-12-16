@@ -547,7 +547,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceAstruct.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceAstruct.Stage(stage)
 											} else {
@@ -562,7 +562,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceAstructBstruct2Use.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceAstructBstruct2Use.Stage(stage)
 											} else {
@@ -577,7 +577,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceAstructBstructUse.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceAstructBstructUse.Stage(stage)
 											} else {
@@ -592,7 +592,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceBstruct.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceBstruct.Stage(stage)
 											} else {
@@ -607,7 +607,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceDstruct.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceDstruct.Stage(stage)
 											} else {
@@ -622,7 +622,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceF0123456789012345678901234567890.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceF0123456789012345678901234567890.Stage(stage)
 											} else {
@@ -637,7 +637,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										if !preserveOrder {
 											instanceGstruct.Stage(stage)
 										} else {
-											if newOrder, err := ExtractMiddleInt(identifier); err != nil {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
 												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
 												instanceGstruct.Stage(stage)
 											} else {
@@ -1358,8 +1358,8 @@ func ReplaceOldDeclarationsInFile(pathToFile string) error {
 	return writer.Flush()
 }
 
-// ExtractMiddleInt takes a formatted string and returns the extracted integer.
-func ExtractMiddleInt(input string) (int, error) {
+// ExtractMiddleUint takes a formatted string and returns the extracted integer.
+func ExtractMiddleUint(input string) (uint, error) {
 	// Compile the Regex Pattern
 	re := regexp.MustCompile(`__.*?__(\d+)_.*`)
 
@@ -1380,5 +1380,5 @@ func ExtractMiddleInt(input string) (int, error) {
 		return 0, fmt.Errorf("failed to convert %s to int: %v", numberStr, err)
 	}
 
-	return result, nil
+	return uint(result), nil
 }

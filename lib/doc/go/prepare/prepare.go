@@ -66,7 +66,7 @@ func Prepare(
 	stage.MetaPackageImportPath = `"` + splits[0] + `/models"`
 
 	if !embeddedDiagrams {
-		err := models.ParseAstFile(stage, "../../diagrams/diagrams.go")
+		err := models.ParseAstFile(stage, "../../diagrams/diagrams.go", false)
 
 		// if the application is run with -unmarshallFromCode=xxx.go -marshallOnCommit
 		// xxx.go might be absent the first time. However, this shall not be a show stopper.

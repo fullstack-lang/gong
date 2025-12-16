@@ -564,12 +564,12 @@ func (button *Button) Stage(stage *Stage) *Button {
 	return button
 }
 
-// StageForceOrder puts button to the model stage, and if the astrtuct
+// StagePreserveOrder puts button to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.ButtonOrder
 // - update stage.ButtonOrder accordingly
-func (button *Button) StageForceOrder(stage *Stage, order uint) {
+func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Buttons[button]; !ok {
 		stage.Buttons[button] = struct{}{}
@@ -648,12 +648,12 @@ func (node *Node) Stage(stage *Stage) *Node {
 	return node
 }
 
-// StageForceOrder puts node to the model stage, and if the astrtuct
+// StagePreserveOrder puts node to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.NodeOrder
 // - update stage.NodeOrder accordingly
-func (node *Node) StageForceOrder(stage *Stage, order uint) {
+func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Nodes[node]; !ok {
 		stage.Nodes[node] = struct{}{}
@@ -732,12 +732,12 @@ func (svgicon *SVGIcon) Stage(stage *Stage) *SVGIcon {
 	return svgicon
 }
 
-// StageForceOrder puts svgicon to the model stage, and if the astrtuct
+// StagePreserveOrder puts svgicon to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.SVGIconOrder
 // - update stage.SVGIconOrder accordingly
-func (svgicon *SVGIcon) StageForceOrder(stage *Stage, order uint) {
+func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.SVGIcons[svgicon]; !ok {
 		stage.SVGIcons[svgicon] = struct{}{}
@@ -816,12 +816,12 @@ func (tree *Tree) Stage(stage *Stage) *Tree {
 	return tree
 }
 
-// StageForceOrder puts tree to the model stage, and if the astrtuct
+// StagePreserveOrder puts tree to the model stage, and if the astrtuct
 // was not staged before:
 //
 // - force the order if the order is equal or greater than the stage.TreeOrder
 // - update stage.TreeOrder accordingly
-func (tree *Tree) StageForceOrder(stage *Stage, order uint) {
+func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 
 	if _, ok := stage.Trees[tree]; !ok {
 		stage.Trees[tree] = struct{}{}
