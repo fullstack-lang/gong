@@ -38,6 +38,14 @@ type SVG struct {
 	// IsControlBannerHidden control the appearance of the control banner on top of the svg
 	// it can be usefull if one does not need to control the zoom, shift x and shift y, ...
 	IsControlBannerHidden bool
+
+	// default width is 3000, but it can be overrriden
+	OverrideWidth   bool
+	OverriddenWidth float64
+
+	// default height is 4000, but it can be overrriden
+	OverrideHeight   bool
+	OverriddenHeight float64
 }
 
 // OnAfterUpdate, notice that rect == stagedRect

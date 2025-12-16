@@ -886,6 +886,14 @@ type SVG_WOP struct {
 	DefaultDirectoryForGeneratedImages string
 
 	IsControlBannerHidden bool
+
+	OverrideWidth bool
+
+	OverriddenWidth float64
+
+	OverrideHeight bool
+
+	OverriddenHeight float64
 }
 
 func (from *SVG) CopyBasicFields(to *SVG) {
@@ -897,6 +905,10 @@ func (from *SVG) CopyBasicFields(to *SVG) {
 	to.IsSVGBackEndFileGenerated = from.IsSVGBackEndFileGenerated
 	to.DefaultDirectoryForGeneratedImages = from.DefaultDirectoryForGeneratedImages
 	to.IsControlBannerHidden = from.IsControlBannerHidden
+	to.OverrideWidth = from.OverrideWidth
+	to.OverriddenWidth = from.OverriddenWidth
+	to.OverrideHeight = from.OverrideHeight
+	to.OverriddenHeight = from.OverriddenHeight
 }
 
 type SvgText_WOP struct {

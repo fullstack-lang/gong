@@ -19,6 +19,10 @@ export class SVGAPI {
 	IsSVGBackEndFileGenerated: boolean = false
 	DefaultDirectoryForGeneratedImages: string = ""
 	IsControlBannerHidden: boolean = false
+	OverrideWidth: boolean = false
+	OverriddenWidth: number = 0
+	OverrideHeight: boolean = false
+	OverriddenHeight: number = 0
 
 	// insertion point for other decls
 

@@ -1198,6 +1198,14 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("IsControlBannerHidden", instanceWithInferedType.IsControlBannerHidden, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("OverrideWidth", instanceWithInferedType.OverrideWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("OverriddenWidth", instanceWithInferedType.OverriddenWidth, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("OverrideHeight", instanceWithInferedType.OverrideHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("OverriddenHeight", instanceWithInferedType.OverriddenHeight, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.SvgText:
 		// insertion point
