@@ -41,6 +41,18 @@
       "group": "build"
     },
     {
+      "label": "00 - go install statemachines",
+      "type": "shell",
+      "options": {
+        "cwd": "dsme/statemachines/go/cmd/statemachines"
+      },
+      "command": "go",
+      "args": [
+        "install"
+      ],
+      "group": "build"
+    },
+    {
       "label": "00 - go mod vendor",
       "type": "shell",
       "group": "build",
