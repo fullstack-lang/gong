@@ -697,6 +697,25 @@ func (astruct *Astruct) Stage(stage *Stage) *Astruct {
 	return astruct
 }
 
+// StageForceOrder puts astruct to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AstructOrder
+// - update stage.AstructOrder accordingly
+func (astruct *Astruct) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Astructs[astruct]; !ok {
+		stage.Astructs[astruct] = struct{}{}
+
+		if order > stage.AstructOrder {
+			stage.AstructOrder = order
+		}
+		stage.AstructMap_Staged_Order[astruct] = stage.AstructOrder
+		stage.AstructOrder++
+	}
+	stage.Astructs_mapString[astruct.Name] = astruct
+}
+
 // Unstage removes astruct off the model stage
 func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 	delete(stage.Astructs, astruct)
@@ -745,7 +764,7 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astruct *Astruct) SetName(name string) (){
+func (astruct *Astruct) SetName(name string) {
 	astruct.Name = name
 }
 
@@ -810,7 +829,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
 	astructbstruct2use.Name = name
 }
 
@@ -875,7 +894,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstructuse *AstructBstructUse) SetName(name string) (){
+func (astructbstructuse *AstructBstructUse) SetName(name string) {
 	astructbstructuse.Name = name
 }
 
@@ -940,7 +959,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bstruct *Bstruct) SetName(name string) (){
+func (bstruct *Bstruct) SetName(name string) {
 	bstruct.Name = name
 }
 
@@ -1005,7 +1024,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dstruct *Dstruct) SetName(name string) (){
+func (dstruct *Dstruct) SetName(name string) {
 	dstruct.Name = name
 }
 
@@ -1070,7 +1089,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 }
 
 // for satisfaction of GongStruct interface
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) {
 	f0123456789012345678901234567890.Name = name
 }
 
@@ -1135,7 +1154,7 @@ func (gstruct *Gstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gstruct *Gstruct) SetName(name string) (){
+func (gstruct *Gstruct) SetName(name string) {
 	gstruct.Name = name
 }
 
@@ -3063,4 +3082,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template
