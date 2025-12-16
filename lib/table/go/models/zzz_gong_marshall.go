@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cellOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cell := range cellOrdered {
+	for _, cell := range cellOrdered {
 
-		id = generatesIdentifier("Cell", idx, cell.Name)
+		id = generatesIdentifier("Cell", int(stage.CellMap_Staged_Order[cell]), cell.Name)
 		map_Cell_Identifiers[cell] = id
 
 		decl = IdentifiersDecls
@@ -166,9 +166,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cellbooleanOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cellboolean := range cellbooleanOrdered {
+	for _, cellboolean := range cellbooleanOrdered {
 
-		id = generatesIdentifier("CellBoolean", idx, cellboolean.Name)
+		id = generatesIdentifier("CellBoolean", int(stage.CellBooleanMap_Staged_Order[cellboolean]), cellboolean.Name)
 		map_CellBoolean_Identifiers[cellboolean] = id
 
 		decl = IdentifiersDecls
@@ -213,9 +213,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cellfloat64Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cellfloat64 := range cellfloat64Ordered {
+	for _, cellfloat64 := range cellfloat64Ordered {
 
-		id = generatesIdentifier("CellFloat64", idx, cellfloat64.Name)
+		id = generatesIdentifier("CellFloat64", int(stage.CellFloat64Map_Staged_Order[cellfloat64]), cellfloat64.Name)
 		map_CellFloat64_Identifiers[cellfloat64] = id
 
 		decl = IdentifiersDecls
@@ -260,9 +260,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(celliconOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cellicon := range celliconOrdered {
+	for _, cellicon := range celliconOrdered {
 
-		id = generatesIdentifier("CellIcon", idx, cellicon.Name)
+		id = generatesIdentifier("CellIcon", int(stage.CellIconMap_Staged_Order[cellicon]), cellicon.Name)
 		map_CellIcon_Identifiers[cellicon] = id
 
 		decl = IdentifiersDecls
@@ -319,9 +319,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cellintOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cellint := range cellintOrdered {
+	for _, cellint := range cellintOrdered {
 
-		id = generatesIdentifier("CellInt", idx, cellint.Name)
+		id = generatesIdentifier("CellInt", int(stage.CellIntMap_Staged_Order[cellint]), cellint.Name)
 		map_CellInt_Identifiers[cellint] = id
 
 		decl = IdentifiersDecls
@@ -366,9 +366,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cellstringOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cellstring := range cellstringOrdered {
+	for _, cellstring := range cellstringOrdered {
 
-		id = generatesIdentifier("CellString", idx, cellstring.Name)
+		id = generatesIdentifier("CellString", int(stage.CellStringMap_Staged_Order[cellstring]), cellstring.Name)
 		map_CellString_Identifiers[cellstring] = id
 
 		decl = IdentifiersDecls
@@ -413,9 +413,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(checkboxOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, checkbox := range checkboxOrdered {
+	for _, checkbox := range checkboxOrdered {
 
-		id = generatesIdentifier("CheckBox", idx, checkbox.Name)
+		id = generatesIdentifier("CheckBox", int(stage.CheckBoxMap_Staged_Order[checkbox]), checkbox.Name)
 		map_CheckBox_Identifiers[checkbox] = id
 
 		decl = IdentifiersDecls
@@ -460,9 +460,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(displayedcolumnOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, displayedcolumn := range displayedcolumnOrdered {
+	for _, displayedcolumn := range displayedcolumnOrdered {
 
-		id = generatesIdentifier("DisplayedColumn", idx, displayedcolumn.Name)
+		id = generatesIdentifier("DisplayedColumn", int(stage.DisplayedColumnMap_Staged_Order[displayedcolumn]), displayedcolumn.Name)
 		map_DisplayedColumn_Identifiers[displayedcolumn] = id
 
 		decl = IdentifiersDecls
@@ -501,9 +501,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formdivOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formdiv := range formdivOrdered {
+	for _, formdiv := range formdivOrdered {
 
-		id = generatesIdentifier("FormDiv", idx, formdiv.Name)
+		id = generatesIdentifier("FormDiv", int(stage.FormDivMap_Staged_Order[formdiv]), formdiv.Name)
 		map_FormDiv_Identifiers[formdiv] = id
 
 		decl = IdentifiersDecls
@@ -542,9 +542,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formeditassocbuttonOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formeditassocbutton := range formeditassocbuttonOrdered {
+	for _, formeditassocbutton := range formeditassocbuttonOrdered {
 
-		id = generatesIdentifier("FormEditAssocButton", idx, formeditassocbutton.Name)
+		id = generatesIdentifier("FormEditAssocButton", int(stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton]), formeditassocbutton.Name)
 		map_FormEditAssocButton_Identifiers[formeditassocbutton] = id
 
 		decl = IdentifiersDecls
@@ -625,9 +625,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfield := range formfieldOrdered {
+	for _, formfield := range formfieldOrdered {
 
-		id = generatesIdentifier("FormField", idx, formfield.Name)
+		id = generatesIdentifier("FormField", int(stage.FormFieldMap_Staged_Order[formfield]), formfield.Name)
 		map_FormField_Identifiers[formfield] = id
 
 		decl = IdentifiersDecls
@@ -710,9 +710,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfielddateOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfielddate := range formfielddateOrdered {
+	for _, formfielddate := range formfielddateOrdered {
 
-		id = generatesIdentifier("FormFieldDate", idx, formfielddate.Name)
+		id = generatesIdentifier("FormFieldDate", int(stage.FormFieldDateMap_Staged_Order[formfielddate]), formfielddate.Name)
 		map_FormFieldDate_Identifiers[formfielddate] = id
 
 		decl = IdentifiersDecls
@@ -757,9 +757,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfielddatetimeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfielddatetime := range formfielddatetimeOrdered {
+	for _, formfielddatetime := range formfielddatetimeOrdered {
 
-		id = generatesIdentifier("FormFieldDateTime", idx, formfielddatetime.Name)
+		id = generatesIdentifier("FormFieldDateTime", int(stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime]), formfielddatetime.Name)
 		map_FormFieldDateTime_Identifiers[formfielddatetime] = id
 
 		decl = IdentifiersDecls
@@ -804,9 +804,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldfloat64Ordered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfieldfloat64 := range formfieldfloat64Ordered {
+	for _, formfieldfloat64 := range formfieldfloat64Ordered {
 
-		id = generatesIdentifier("FormFieldFloat64", idx, formfieldfloat64.Name)
+		id = generatesIdentifier("FormFieldFloat64", int(stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64]), formfieldfloat64.Name)
 		map_FormFieldFloat64_Identifiers[formfieldfloat64] = id
 
 		decl = IdentifiersDecls
@@ -875,9 +875,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldintOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfieldint := range formfieldintOrdered {
+	for _, formfieldint := range formfieldintOrdered {
 
-		id = generatesIdentifier("FormFieldInt", idx, formfieldint.Name)
+		id = generatesIdentifier("FormFieldInt", int(stage.FormFieldIntMap_Staged_Order[formfieldint]), formfieldint.Name)
 		map_FormFieldInt_Identifiers[formfieldint] = id
 
 		decl = IdentifiersDecls
@@ -946,9 +946,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldselectOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfieldselect := range formfieldselectOrdered {
+	for _, formfieldselect := range formfieldselectOrdered {
 
-		id = generatesIdentifier("FormFieldSelect", idx, formfieldselect.Name)
+		id = generatesIdentifier("FormFieldSelect", int(stage.FormFieldSelectMap_Staged_Order[formfieldselect]), formfieldselect.Name)
 		map_FormFieldSelect_Identifiers[formfieldselect] = id
 
 		decl = IdentifiersDecls
@@ -999,9 +999,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldstringOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfieldstring := range formfieldstringOrdered {
+	for _, formfieldstring := range formfieldstringOrdered {
 
-		id = generatesIdentifier("FormFieldString", idx, formfieldstring.Name)
+		id = generatesIdentifier("FormFieldString", int(stage.FormFieldStringMap_Staged_Order[formfieldstring]), formfieldstring.Name)
 		map_FormFieldString_Identifiers[formfieldstring] = id
 
 		decl = IdentifiersDecls
@@ -1052,9 +1052,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formfieldtimeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formfieldtime := range formfieldtimeOrdered {
+	for _, formfieldtime := range formfieldtimeOrdered {
 
-		id = generatesIdentifier("FormFieldTime", idx, formfieldtime.Name)
+		id = generatesIdentifier("FormFieldTime", int(stage.FormFieldTimeMap_Staged_Order[formfieldtime]), formfieldtime.Name)
 		map_FormFieldTime_Identifiers[formfieldtime] = id
 
 		decl = IdentifiersDecls
@@ -1105,9 +1105,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formgroupOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formgroup := range formgroupOrdered {
+	for _, formgroup := range formgroupOrdered {
 
-		id = generatesIdentifier("FormGroup", idx, formgroup.Name)
+		id = generatesIdentifier("FormGroup", int(stage.FormGroupMap_Staged_Order[formgroup]), formgroup.Name)
 		map_FormGroup_Identifiers[formgroup] = id
 
 		decl = IdentifiersDecls
@@ -1164,9 +1164,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(formsortassocbuttonOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, formsortassocbutton := range formsortassocbuttonOrdered {
+	for _, formsortassocbutton := range formsortassocbuttonOrdered {
 
-		id = generatesIdentifier("FormSortAssocButton", idx, formsortassocbutton.Name)
+		id = generatesIdentifier("FormSortAssocButton", int(stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton]), formsortassocbutton.Name)
 		map_FormSortAssocButton_Identifiers[formsortassocbutton] = id
 
 		decl = IdentifiersDecls
@@ -1229,9 +1229,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(optionOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, option := range optionOrdered {
+	for _, option := range optionOrdered {
 
-		id = generatesIdentifier("Option", idx, option.Name)
+		id = generatesIdentifier("Option", int(stage.OptionMap_Staged_Order[option]), option.Name)
 		map_Option_Identifiers[option] = id
 
 		decl = IdentifiersDecls
@@ -1270,9 +1270,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(rowOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, row := range rowOrdered {
+	for _, row := range rowOrdered {
 
-		id = generatesIdentifier("Row", idx, row.Name)
+		id = generatesIdentifier("Row", int(stage.RowMap_Staged_Order[row]), row.Name)
 		map_Row_Identifiers[row] = id
 
 		decl = IdentifiersDecls
@@ -1317,9 +1317,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(tableOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, table := range tableOrdered {
+	for _, table := range tableOrdered {
 
-		id = generatesIdentifier("Table", idx, table.Name)
+		id = generatesIdentifier("Table", int(stage.TableMap_Staged_Order[table]), table.Name)
 		map_Table_Identifiers[table] = id
 
 		decl = IdentifiersDecls
@@ -1946,7 +1946,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

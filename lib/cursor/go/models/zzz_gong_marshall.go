@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cursorOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, cursor := range cursorOrdered {
+	for _, cursor := range cursorOrdered {
 
-		id = generatesIdentifier("Cursor", idx, cursor.Name)
+		id = generatesIdentifier("Cursor", int(stage.CursorMap_Staged_Order[cursor]), cursor.Name)
 		map_Cursor_Identifiers[cursor] = id
 
 		decl = IdentifiersDecls
@@ -308,7 +308,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

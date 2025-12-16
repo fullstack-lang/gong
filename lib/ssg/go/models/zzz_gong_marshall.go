@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(chapterOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, chapter := range chapterOrdered {
+	for _, chapter := range chapterOrdered {
 
-		id = generatesIdentifier("Chapter", idx, chapter.Name)
+		id = generatesIdentifier("Chapter", int(stage.ChapterMap_Staged_Order[chapter]), chapter.Name)
 		map_Chapter_Identifiers[chapter] = id
 
 		decl = IdentifiersDecls
@@ -172,9 +172,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(contentOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, content := range contentOrdered {
+	for _, content := range contentOrdered {
 
-		id = generatesIdentifier("Content", idx, content.Name)
+		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
 		map_Content_Identifiers[content] = id
 
 		decl = IdentifiersDecls
@@ -281,9 +281,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, page := range pageOrdered {
+	for _, page := range pageOrdered {
 
-		id = generatesIdentifier("Page", idx, page.Name)
+		id = generatesIdentifier("Page", int(stage.PageMap_Staged_Order[page]), page.Name)
 		map_Page_Identifiers[page] = id
 
 		decl = IdentifiersDecls
@@ -428,7 +428,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(attributeshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, attributeshape := range attributeshapeOrdered {
+	for _, attributeshape := range attributeshapeOrdered {
 
-		id = generatesIdentifier("AttributeShape", idx, attributeshape.Name)
+		id = generatesIdentifier("AttributeShape", int(stage.AttributeShapeMap_Staged_Order[attributeshape]), attributeshape.Name)
 		map_AttributeShape_Identifiers[attributeshape] = id
 
 		decl = IdentifiersDecls
@@ -192,9 +192,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(classdiagramOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, classdiagram := range classdiagramOrdered {
+	for _, classdiagram := range classdiagramOrdered {
 
-		id = generatesIdentifier("Classdiagram", idx, classdiagram.Name)
+		id = generatesIdentifier("Classdiagram", int(stage.ClassdiagramMap_Staged_Order[classdiagram]), classdiagram.Name)
 		map_Classdiagram_Identifiers[classdiagram] = id
 
 		decl = IdentifiersDecls
@@ -311,9 +311,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(diagrampackageOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, diagrampackage := range diagrampackageOrdered {
+	for _, diagrampackage := range diagrampackageOrdered {
 
-		id = generatesIdentifier("DiagramPackage", idx, diagrampackage.Name)
+		id = generatesIdentifier("DiagramPackage", int(stage.DiagramPackageMap_Staged_Order[diagrampackage]), diagrampackage.Name)
 		map_DiagramPackage_Identifiers[diagrampackage] = id
 
 		decl = IdentifiersDecls
@@ -370,9 +370,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongenumshape := range gongenumshapeOrdered {
+	for _, gongenumshape := range gongenumshapeOrdered {
 
-		id = generatesIdentifier("GongEnumShape", idx, gongenumshape.Name)
+		id = generatesIdentifier("GongEnumShape", int(stage.GongEnumShapeMap_Staged_Order[gongenumshape]), gongenumshape.Name)
 		map_GongEnumShape_Identifiers[gongenumshape] = id
 
 		decl = IdentifiersDecls
@@ -449,9 +449,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumvalueshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongenumvalueshape := range gongenumvalueshapeOrdered {
+	for _, gongenumvalueshape := range gongenumvalueshapeOrdered {
 
-		id = generatesIdentifier("GongEnumValueShape", idx, gongenumvalueshape.Name)
+		id = generatesIdentifier("GongEnumValueShape", int(stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape]), gongenumvalueshape.Name)
 		map_GongEnumValueShape_Identifiers[gongenumvalueshape] = id
 
 		decl = IdentifiersDecls
@@ -498,9 +498,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongnotelinkshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongnotelinkshape := range gongnotelinkshapeOrdered {
+	for _, gongnotelinkshape := range gongnotelinkshapeOrdered {
 
-		id = generatesIdentifier("GongNoteLinkShape", idx, gongnotelinkshape.Name)
+		id = generatesIdentifier("GongNoteLinkShape", int(stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape]), gongnotelinkshape.Name)
 		map_GongNoteLinkShape_Identifiers[gongnotelinkshape] = id
 
 		decl = IdentifiersDecls
@@ -553,9 +553,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongnoteshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongnoteshape := range gongnoteshapeOrdered {
+	for _, gongnoteshape := range gongnoteshapeOrdered {
 
-		id = generatesIdentifier("GongNoteShape", idx, gongnoteshape.Name)
+		id = generatesIdentifier("GongNoteShape", int(stage.GongNoteShapeMap_Staged_Order[gongnoteshape]), gongnoteshape.Name)
 		map_GongNoteShape_Identifiers[gongnoteshape] = id
 
 		decl = IdentifiersDecls
@@ -648,9 +648,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongstructshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, gongstructshape := range gongstructshapeOrdered {
+	for _, gongstructshape := range gongstructshapeOrdered {
 
-		id = generatesIdentifier("GongStructShape", idx, gongstructshape.Name)
+		id = generatesIdentifier("GongStructShape", int(stage.GongStructShapeMap_Staged_Order[gongstructshape]), gongstructshape.Name)
 		map_GongStructShape_Identifiers[gongstructshape] = id
 
 		decl = IdentifiersDecls
@@ -727,9 +727,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(linkshapeOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, linkshape := range linkshapeOrdered {
+	for _, linkshape := range linkshapeOrdered {
 
-		id = generatesIdentifier("LinkShape", idx, linkshape.Name)
+		id = generatesIdentifier("LinkShape", int(stage.LinkShapeMap_Staged_Order[linkshape]), linkshape.Name)
 		map_LinkShape_Identifiers[linkshape] = id
 
 		decl = IdentifiersDecls
@@ -1116,7 +1116,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

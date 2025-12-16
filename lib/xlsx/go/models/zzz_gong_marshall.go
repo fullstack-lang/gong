@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(displayselectionOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, displayselection := range displayselectionOrdered {
+	for _, displayselection := range displayselectionOrdered {
 
-		id = generatesIdentifier("DisplaySelection", idx, displayselection.Name)
+		id = generatesIdentifier("DisplaySelection", int(stage.DisplaySelectionMap_Staged_Order[displayselection]), displayselection.Name)
 		map_DisplaySelection_Identifiers[displayselection] = id
 
 		decl = IdentifiersDecls
@@ -166,9 +166,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlcellOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, xlcell := range xlcellOrdered {
+	for _, xlcell := range xlcellOrdered {
 
-		id = generatesIdentifier("XLCell", idx, xlcell.Name)
+		id = generatesIdentifier("XLCell", int(stage.XLCellMap_Staged_Order[xlcell]), xlcell.Name)
 		map_XLCell_Identifiers[xlcell] = id
 
 		decl = IdentifiersDecls
@@ -219,9 +219,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlfileOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, xlfile := range xlfileOrdered {
+	for _, xlfile := range xlfileOrdered {
 
-		id = generatesIdentifier("XLFile", idx, xlfile.Name)
+		id = generatesIdentifier("XLFile", int(stage.XLFileMap_Staged_Order[xlfile]), xlfile.Name)
 		map_XLFile_Identifiers[xlfile] = id
 
 		decl = IdentifiersDecls
@@ -266,9 +266,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlrowOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, xlrow := range xlrowOrdered {
+	for _, xlrow := range xlrowOrdered {
 
-		id = generatesIdentifier("XLRow", idx, xlrow.Name)
+		id = generatesIdentifier("XLRow", int(stage.XLRowMap_Staged_Order[xlrow]), xlrow.Name)
 		map_XLRow_Identifiers[xlrow] = id
 
 		decl = IdentifiersDecls
@@ -313,9 +313,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlsheetOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, xlsheet := range xlsheetOrdered {
+	for _, xlsheet := range xlsheetOrdered {
 
-		id = generatesIdentifier("XLSheet", idx, xlsheet.Name)
+		id = generatesIdentifier("XLSheet", int(stage.XLSheetMap_Staged_Order[xlsheet]), xlsheet.Name)
 		map_XLSheet_Identifiers[xlsheet] = id
 
 		decl = IdentifiersDecls
@@ -530,7 +530,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

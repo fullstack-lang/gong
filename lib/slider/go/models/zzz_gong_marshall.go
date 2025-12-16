@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(checkboxOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, checkbox := range checkboxOrdered {
+	for _, checkbox := range checkboxOrdered {
 
-		id = generatesIdentifier("Checkbox", idx, checkbox.Name)
+		id = generatesIdentifier("Checkbox", int(stage.CheckboxMap_Staged_Order[checkbox]), checkbox.Name)
 		map_Checkbox_Identifiers[checkbox] = id
 
 		decl = IdentifiersDecls
@@ -184,9 +184,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		decl = IdentifiersDecls
@@ -231,9 +231,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(layoutOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, layout := range layoutOrdered {
+	for _, layout := range layoutOrdered {
 
-		id = generatesIdentifier("Layout", idx, layout.Name)
+		id = generatesIdentifier("Layout", int(stage.LayoutMap_Staged_Order[layout]), layout.Name)
 		map_Layout_Identifiers[layout] = id
 
 		decl = IdentifiersDecls
@@ -272,9 +272,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(sliderOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, slider := range sliderOrdered {
+	for _, slider := range sliderOrdered {
 
-		id = generatesIdentifier("Slider", idx, slider.Name)
+		id = generatesIdentifier("Slider", int(stage.SliderMap_Staged_Order[slider]), slider.Name)
 		map_Slider_Identifiers[slider] = id
 
 		decl = IdentifiersDecls
@@ -494,7 +494,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }

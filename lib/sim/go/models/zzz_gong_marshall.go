@@ -125,9 +125,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(commandOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, command := range commandOrdered {
+	for _, command := range commandOrdered {
 
-		id = generatesIdentifier("Command", idx, command.Name)
+		id = generatesIdentifier("Command", int(stage.CommandMap_Staged_Order[command]), command.Name)
 		map_Command_Identifiers[command] = id
 
 		decl = IdentifiersDecls
@@ -180,9 +180,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(dummyagentOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, dummyagent := range dummyagentOrdered {
+	for _, dummyagent := range dummyagentOrdered {
 
-		id = generatesIdentifier("DummyAgent", idx, dummyagent.Name)
+		id = generatesIdentifier("DummyAgent", int(stage.DummyAgentMap_Staged_Order[dummyagent]), dummyagent.Name)
 		map_DummyAgent_Identifiers[dummyagent] = id
 
 		decl = IdentifiersDecls
@@ -227,9 +227,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(engineOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, engine := range engineOrdered {
+	for _, engine := range engineOrdered {
 
-		id = generatesIdentifier("Engine", idx, engine.Name)
+		id = generatesIdentifier("Engine", int(stage.EngineMap_Staged_Order[engine]), engine.Name)
 		map_Engine_Identifiers[engine] = id
 
 		decl = IdentifiersDecls
@@ -320,9 +320,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(eventOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, event := range eventOrdered {
+	for _, event := range eventOrdered {
 
-		id = generatesIdentifier("Event", idx, event.Name)
+		id = generatesIdentifier("Event", int(stage.EventMap_Staged_Order[event]), event.Name)
 		map_Event_Identifiers[event] = id
 
 		decl = IdentifiersDecls
@@ -367,9 +367,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(statusOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, status := range statusOrdered {
+	for _, status := range statusOrdered {
 
-		id = generatesIdentifier("Status", idx, status.Name)
+		id = generatesIdentifier("Status", int(stage.StatusMap_Staged_Order[status]), status.Name)
 		map_Status_Identifiers[status] = id
 
 		decl = IdentifiersDecls
@@ -436,9 +436,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(updatestateOrdered) > 0 {
 		identifiersDecl += "\n"
 	}
-	for idx, updatestate := range updatestateOrdered {
+	for _, updatestate := range updatestateOrdered {
 
-		id = generatesIdentifier("UpdateState", idx, updatestate.Name)
+		id = generatesIdentifier("UpdateState", int(stage.UpdateStateMap_Staged_Order[updatestate]), updatestate.Name)
 		map_UpdateState_Identifiers[updatestate] = id
 
 		decl = IdentifiersDecls
@@ -620,7 +620,7 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
 
-	identifier = fmt.Sprintf("__%s__%06d_%s", gongStructName, idx, processedString)
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
 
 	return
 }
