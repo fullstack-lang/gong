@@ -25,8 +25,8 @@ func _(stage *models.Stage) {
 
 	__Astruct__00000000_A0 := (&models.Astruct{}).Stage(stage)
 	__Astruct__00000001_A1 := (&models.Astruct{}).Stage(stage)
-	__Astruct__00000002_A2 := (&models.Astruct{}).Stage(stage)
 	__Astruct__00000005_A5 := (&models.Astruct{}).Stage(stage)
+	__Astruct__00000006_A6 := (&models.Astruct{}).Stage(stage)
 
 	__AstructBstruct2Use__00000000_ := (&models.AstructBstruct2Use{}).Stage(stage)
 	__AstructBstruct2Use__00000001_ := (&models.AstructBstruct2Use{}).Stage(stage)
@@ -89,21 +89,6 @@ sqd
 	__Astruct__00000001_A1.TextFieldBespokeSize = ``
 	__Astruct__00000001_A1.TextArea = ``
 
-	__Astruct__00000002_A2.Name = `A2`
-	__Astruct__00000002_A2.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2024-01-28 11:16:35 +0000 UTC")
-	__Astruct__00000002_A2.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
-	__Astruct__00000002_A2.Booleanfield = true
-	__Astruct__00000002_A2.Benum = models.BENUM_VAL2
-	__Astruct__00000002_A2.CEnum = models.CENUM_VAL1
-	__Astruct__00000002_A2.CName = ``
-	__Astruct__00000002_A2.CFloatfield = 4.900000
-	__Astruct__00000002_A2.Floatfield = 2.000000
-	__Astruct__00000002_A2.Intfield = 0
-	__Astruct__00000002_A2.Anotherbooleanfield = false
-	__Astruct__00000002_A2.Duration1 = -79653000000000
-	__Astruct__00000002_A2.TextFieldBespokeSize = ``
-	__Astruct__00000002_A2.TextArea = ``
-
 	__Astruct__00000005_A5.Name = `A5`
 	__Astruct__00000005_A5.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
 	__Astruct__00000005_A5.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
@@ -117,6 +102,20 @@ sqd
 	__Astruct__00000005_A5.Duration1 = 0
 	__Astruct__00000005_A5.TextFieldBespokeSize = ``
 	__Astruct__00000005_A5.TextArea = ``
+
+	__Astruct__00000006_A6.Name = `A6`
+	__Astruct__00000006_A6.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000006_A6.Date2, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "0001-01-01 00:00:00 +0000 UTC")
+	__Astruct__00000006_A6.Booleanfield = false
+	__Astruct__00000006_A6.CEnum = models.CENUM_VAL1
+	__Astruct__00000006_A6.CName = ``
+	__Astruct__00000006_A6.CFloatfield = 0.000000
+	__Astruct__00000006_A6.Floatfield = 0.000000
+	__Astruct__00000006_A6.Intfield = 0
+	__Astruct__00000006_A6.Anotherbooleanfield = false
+	__Astruct__00000006_A6.Duration1 = 0
+	__Astruct__00000006_A6.TextFieldBespokeSize = ``
+	__Astruct__00000006_A6.TextArea = ``
 
 	__AstructBstruct2Use__00000000_.Name = ``
 
