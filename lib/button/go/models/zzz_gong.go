@@ -607,6 +607,25 @@ func (button *Button) Stage(stage *Stage) *Button {
 	return button
 }
 
+// StageForceOrder puts button to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ButtonOrder
+// - update stage.ButtonOrder accordingly
+func (button *Button) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Buttons[button]; !ok {
+		stage.Buttons[button] = struct{}{}
+
+		if order > stage.ButtonOrder {
+			stage.ButtonOrder = order
+		}
+		stage.ButtonMap_Staged_Order[button] = stage.ButtonOrder
+		stage.ButtonOrder++
+	}
+	stage.Buttons_mapString[button.Name] = button
+}
+
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
@@ -670,6 +689,25 @@ func (buttontoggle *ButtonToggle) Stage(stage *Stage) *ButtonToggle {
 	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
 
 	return buttontoggle
+}
+
+// StageForceOrder puts buttontoggle to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ButtonToggleOrder
+// - update stage.ButtonToggleOrder accordingly
+func (buttontoggle *ButtonToggle) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
+		stage.ButtonToggles[buttontoggle] = struct{}{}
+
+		if order > stage.ButtonToggleOrder {
+			stage.ButtonToggleOrder = order
+		}
+		stage.ButtonToggleMap_Staged_Order[buttontoggle] = stage.ButtonToggleOrder
+		stage.ButtonToggleOrder++
+	}
+	stage.ButtonToggles_mapString[buttontoggle.Name] = buttontoggle
 }
 
 // Unstage removes buttontoggle off the model stage
@@ -737,6 +775,25 @@ func (group *Group) Stage(stage *Stage) *Group {
 	return group
 }
 
+// StageForceOrder puts group to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GroupOrder
+// - update stage.GroupOrder accordingly
+func (group *Group) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Groups[group]; !ok {
+		stage.Groups[group] = struct{}{}
+
+		if order > stage.GroupOrder {
+			stage.GroupOrder = order
+		}
+		stage.GroupMap_Staged_Order[group] = stage.GroupOrder
+		stage.GroupOrder++
+	}
+	stage.Groups_mapString[group.Name] = group
+}
+
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
@@ -802,6 +859,25 @@ func (grouptoogle *GroupToogle) Stage(stage *Stage) *GroupToogle {
 	return grouptoogle
 }
 
+// StageForceOrder puts grouptoogle to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GroupToogleOrder
+// - update stage.GroupToogleOrder accordingly
+func (grouptoogle *GroupToogle) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GroupToogles[grouptoogle]; !ok {
+		stage.GroupToogles[grouptoogle] = struct{}{}
+
+		if order > stage.GroupToogleOrder {
+			stage.GroupToogleOrder = order
+		}
+		stage.GroupToogleMap_Staged_Order[grouptoogle] = stage.GroupToogleOrder
+		stage.GroupToogleOrder++
+	}
+	stage.GroupToogles_mapString[grouptoogle.Name] = grouptoogle
+}
+
 // Unstage removes grouptoogle off the model stage
 func (grouptoogle *GroupToogle) Unstage(stage *Stage) *GroupToogle {
 	delete(stage.GroupToogles, grouptoogle)
@@ -865,6 +941,25 @@ func (layout *Layout) Stage(stage *Stage) *Layout {
 	stage.Layouts_mapString[layout.Name] = layout
 
 	return layout
+}
+
+// StageForceOrder puts layout to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LayoutOrder
+// - update stage.LayoutOrder accordingly
+func (layout *Layout) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Layouts[layout]; !ok {
+		stage.Layouts[layout] = struct{}{}
+
+		if order > stage.LayoutOrder {
+			stage.LayoutOrder = order
+		}
+		stage.LayoutMap_Staged_Order[layout] = stage.LayoutOrder
+		stage.LayoutOrder++
+	}
+	stage.Layouts_mapString[layout.Name] = layout
 }
 
 // Unstage removes layout off the model stage

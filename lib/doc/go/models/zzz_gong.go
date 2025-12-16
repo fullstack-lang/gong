@@ -779,6 +779,25 @@ func (attributeshape *AttributeShape) Stage(stage *Stage) *AttributeShape {
 	return attributeshape
 }
 
+// StageForceOrder puts attributeshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.AttributeShapeOrder
+// - update stage.AttributeShapeOrder accordingly
+func (attributeshape *AttributeShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.AttributeShapes[attributeshape]; !ok {
+		stage.AttributeShapes[attributeshape] = struct{}{}
+
+		if order > stage.AttributeShapeOrder {
+			stage.AttributeShapeOrder = order
+		}
+		stage.AttributeShapeMap_Staged_Order[attributeshape] = stage.AttributeShapeOrder
+		stage.AttributeShapeOrder++
+	}
+	stage.AttributeShapes_mapString[attributeshape.Name] = attributeshape
+}
+
 // Unstage removes attributeshape off the model stage
 func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 	delete(stage.AttributeShapes, attributeshape)
@@ -842,6 +861,25 @@ func (classdiagram *Classdiagram) Stage(stage *Stage) *Classdiagram {
 	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
 
 	return classdiagram
+}
+
+// StageForceOrder puts classdiagram to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.ClassdiagramOrder
+// - update stage.ClassdiagramOrder accordingly
+func (classdiagram *Classdiagram) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.Classdiagrams[classdiagram]; !ok {
+		stage.Classdiagrams[classdiagram] = struct{}{}
+
+		if order > stage.ClassdiagramOrder {
+			stage.ClassdiagramOrder = order
+		}
+		stage.ClassdiagramMap_Staged_Order[classdiagram] = stage.ClassdiagramOrder
+		stage.ClassdiagramOrder++
+	}
+	stage.Classdiagrams_mapString[classdiagram.Name] = classdiagram
 }
 
 // Unstage removes classdiagram off the model stage
@@ -909,6 +947,25 @@ func (diagrampackage *DiagramPackage) Stage(stage *Stage) *DiagramPackage {
 	return diagrampackage
 }
 
+// StageForceOrder puts diagrampackage to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.DiagramPackageOrder
+// - update stage.DiagramPackageOrder accordingly
+func (diagrampackage *DiagramPackage) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.DiagramPackages[diagrampackage]; !ok {
+		stage.DiagramPackages[diagrampackage] = struct{}{}
+
+		if order > stage.DiagramPackageOrder {
+			stage.DiagramPackageOrder = order
+		}
+		stage.DiagramPackageMap_Staged_Order[diagrampackage] = stage.DiagramPackageOrder
+		stage.DiagramPackageOrder++
+	}
+	stage.DiagramPackages_mapString[diagrampackage.Name] = diagrampackage
+}
+
 // Unstage removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 	delete(stage.DiagramPackages, diagrampackage)
@@ -972,6 +1029,25 @@ func (gongenumshape *GongEnumShape) Stage(stage *Stage) *GongEnumShape {
 	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
 
 	return gongenumshape
+}
+
+// StageForceOrder puts gongenumshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GongEnumShapeOrder
+// - update stage.GongEnumShapeOrder accordingly
+func (gongenumshape *GongEnumShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GongEnumShapes[gongenumshape]; !ok {
+		stage.GongEnumShapes[gongenumshape] = struct{}{}
+
+		if order > stage.GongEnumShapeOrder {
+			stage.GongEnumShapeOrder = order
+		}
+		stage.GongEnumShapeMap_Staged_Order[gongenumshape] = stage.GongEnumShapeOrder
+		stage.GongEnumShapeOrder++
+	}
+	stage.GongEnumShapes_mapString[gongenumshape.Name] = gongenumshape
 }
 
 // Unstage removes gongenumshape off the model stage
@@ -1039,6 +1115,25 @@ func (gongenumvalueshape *GongEnumValueShape) Stage(stage *Stage) *GongEnumValue
 	return gongenumvalueshape
 }
 
+// StageForceOrder puts gongenumvalueshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GongEnumValueShapeOrder
+// - update stage.GongEnumValueShapeOrder accordingly
+func (gongenumvalueshape *GongEnumValueShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GongEnumValueShapes[gongenumvalueshape]; !ok {
+		stage.GongEnumValueShapes[gongenumvalueshape] = struct{}{}
+
+		if order > stage.GongEnumValueShapeOrder {
+			stage.GongEnumValueShapeOrder = order
+		}
+		stage.GongEnumValueShapeMap_Staged_Order[gongenumvalueshape] = stage.GongEnumValueShapeOrder
+		stage.GongEnumValueShapeOrder++
+	}
+	stage.GongEnumValueShapes_mapString[gongenumvalueshape.Name] = gongenumvalueshape
+}
+
 // Unstage removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
@@ -1102,6 +1197,25 @@ func (gongnotelinkshape *GongNoteLinkShape) Stage(stage *Stage) *GongNoteLinkSha
 	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
 
 	return gongnotelinkshape
+}
+
+// StageForceOrder puts gongnotelinkshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GongNoteLinkShapeOrder
+// - update stage.GongNoteLinkShapeOrder accordingly
+func (gongnotelinkshape *GongNoteLinkShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GongNoteLinkShapes[gongnotelinkshape]; !ok {
+		stage.GongNoteLinkShapes[gongnotelinkshape] = struct{}{}
+
+		if order > stage.GongNoteLinkShapeOrder {
+			stage.GongNoteLinkShapeOrder = order
+		}
+		stage.GongNoteLinkShapeMap_Staged_Order[gongnotelinkshape] = stage.GongNoteLinkShapeOrder
+		stage.GongNoteLinkShapeOrder++
+	}
+	stage.GongNoteLinkShapes_mapString[gongnotelinkshape.Name] = gongnotelinkshape
 }
 
 // Unstage removes gongnotelinkshape off the model stage
@@ -1169,6 +1283,25 @@ func (gongnoteshape *GongNoteShape) Stage(stage *Stage) *GongNoteShape {
 	return gongnoteshape
 }
 
+// StageForceOrder puts gongnoteshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GongNoteShapeOrder
+// - update stage.GongNoteShapeOrder accordingly
+func (gongnoteshape *GongNoteShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GongNoteShapes[gongnoteshape]; !ok {
+		stage.GongNoteShapes[gongnoteshape] = struct{}{}
+
+		if order > stage.GongNoteShapeOrder {
+			stage.GongNoteShapeOrder = order
+		}
+		stage.GongNoteShapeMap_Staged_Order[gongnoteshape] = stage.GongNoteShapeOrder
+		stage.GongNoteShapeOrder++
+	}
+	stage.GongNoteShapes_mapString[gongnoteshape.Name] = gongnoteshape
+}
+
 // Unstage removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 	delete(stage.GongNoteShapes, gongnoteshape)
@@ -1234,6 +1367,25 @@ func (gongstructshape *GongStructShape) Stage(stage *Stage) *GongStructShape {
 	return gongstructshape
 }
 
+// StageForceOrder puts gongstructshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.GongStructShapeOrder
+// - update stage.GongStructShapeOrder accordingly
+func (gongstructshape *GongStructShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.GongStructShapes[gongstructshape]; !ok {
+		stage.GongStructShapes[gongstructshape] = struct{}{}
+
+		if order > stage.GongStructShapeOrder {
+			stage.GongStructShapeOrder = order
+		}
+		stage.GongStructShapeMap_Staged_Order[gongstructshape] = stage.GongStructShapeOrder
+		stage.GongStructShapeOrder++
+	}
+	stage.GongStructShapes_mapString[gongstructshape.Name] = gongstructshape
+}
+
 // Unstage removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 	delete(stage.GongStructShapes, gongstructshape)
@@ -1297,6 +1449,25 @@ func (linkshape *LinkShape) Stage(stage *Stage) *LinkShape {
 	stage.LinkShapes_mapString[linkshape.Name] = linkshape
 
 	return linkshape
+}
+
+// StageForceOrder puts linkshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.LinkShapeOrder
+// - update stage.LinkShapeOrder accordingly
+func (linkshape *LinkShape) StageForceOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.LinkShapes[linkshape]; !ok {
+		stage.LinkShapes[linkshape] = struct{}{}
+
+		if order > stage.LinkShapeOrder {
+			stage.LinkShapeOrder = order
+		}
+		stage.LinkShapeMap_Staged_Order[linkshape] = stage.LinkShapeOrder
+		stage.LinkShapeOrder++
+	}
+	stage.LinkShapes_mapString[linkshape.Name] = linkshape
 }
 
 // Unstage removes linkshape off the model stage
