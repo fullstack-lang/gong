@@ -160,6 +160,7 @@ func ({{structname}} *{{Structname}}) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 	delete(stage.{{Structname}}s, {{structname}})
+	delete(stage.{{Structname}}Map_Staged_Order, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 
 	return {{structname}}
@@ -168,6 +169,7 @@ func ({{structname}} *{{Structname}}) Unstage(stage *Stage) *{{Structname}} {
 // UnstageVoid removes {{structname}} off the model stage
 func ({{structname}} *{{Structname}}) UnstageVoid(stage *Stage) {
 	delete(stage.{{Structname}}s, {{structname}})
+	delete(stage.{{Structname}}Map_Staged_Order, {{structname}})
 	delete(stage.{{Structname}}s_mapString, {{structname}}.Name)
 }
 
@@ -259,9 +261,9 @@ func ({{structname}} *{{Structname}}) SetName(name string) (){
 	sort.Slice({{structname}}Ordered[:], func(i, j int) bool {
 		return {{structname}}Ordered[i].Name < {{structname}}Ordered[j].Name
 	})
-	for idx, {{structname}} := range {{structname}}Ordered {
+	for _, {{structname}} := range {{structname}}Ordered {
 
-		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
+		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		decl = IdentifiersDecls
@@ -275,11 +277,11 @@ func ({{structname}} *{{Structname}}) SetName(name string) (){
 `,
 
 	ModelGongStructInsertionUnmarshallPointersInitializations: `
-	for idx, {{structname}} := range {{structname}}Ordered {
+	for _, {{structname}} := range {{structname}}Ordered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("{{Structname}}", idx, {{structname}}.Name)
+		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		// Initialisation of values{{PointersInitialization}}
