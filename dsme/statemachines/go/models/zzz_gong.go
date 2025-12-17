@@ -1059,6 +1059,7 @@ func (action *Action) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes action off the model stage
 func (action *Action) Unstage(stage *Stage) *Action {
 	delete(stage.Actions, action)
+	delete(stage.ActionMap_Staged_Order, action)
 	delete(stage.Actions_mapString, action.Name)
 
 	return action
@@ -1067,6 +1068,7 @@ func (action *Action) Unstage(stage *Stage) *Action {
 // UnstageVoid removes action off the model stage
 func (action *Action) UnstageVoid(stage *Stage) {
 	delete(stage.Actions, action)
+	delete(stage.ActionMap_Staged_Order, action)
 	delete(stage.Actions_mapString, action.Name)
 }
 
@@ -1143,6 +1145,7 @@ func (activities *Activities) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes activities off the model stage
 func (activities *Activities) Unstage(stage *Stage) *Activities {
 	delete(stage.Activitiess, activities)
+	delete(stage.ActivitiesMap_Staged_Order, activities)
 	delete(stage.Activitiess_mapString, activities.Name)
 
 	return activities
@@ -1151,6 +1154,7 @@ func (activities *Activities) Unstage(stage *Stage) *Activities {
 // UnstageVoid removes activities off the model stage
 func (activities *Activities) UnstageVoid(stage *Stage) {
 	delete(stage.Activitiess, activities)
+	delete(stage.ActivitiesMap_Staged_Order, activities)
 	delete(stage.Activitiess_mapString, activities.Name)
 }
 
@@ -1227,6 +1231,7 @@ func (architecture *Architecture) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes architecture off the model stage
 func (architecture *Architecture) Unstage(stage *Stage) *Architecture {
 	delete(stage.Architectures, architecture)
+	delete(stage.ArchitectureMap_Staged_Order, architecture)
 	delete(stage.Architectures_mapString, architecture.Name)
 
 	return architecture
@@ -1235,6 +1240,7 @@ func (architecture *Architecture) Unstage(stage *Stage) *Architecture {
 // UnstageVoid removes architecture off the model stage
 func (architecture *Architecture) UnstageVoid(stage *Stage) {
 	delete(stage.Architectures, architecture)
+	delete(stage.ArchitectureMap_Staged_Order, architecture)
 	delete(stage.Architectures_mapString, architecture.Name)
 }
 
@@ -1311,6 +1317,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
+	delete(stage.DiagramMap_Staged_Order, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1319,6 +1326,7 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
+	delete(stage.DiagramMap_Staged_Order, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -1395,6 +1403,7 @@ func (guard *Guard) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes guard off the model stage
 func (guard *Guard) Unstage(stage *Stage) *Guard {
 	delete(stage.Guards, guard)
+	delete(stage.GuardMap_Staged_Order, guard)
 	delete(stage.Guards_mapString, guard.Name)
 
 	return guard
@@ -1403,6 +1412,7 @@ func (guard *Guard) Unstage(stage *Stage) *Guard {
 // UnstageVoid removes guard off the model stage
 func (guard *Guard) UnstageVoid(stage *Stage) {
 	delete(stage.Guards, guard)
+	delete(stage.GuardMap_Staged_Order, guard)
 	delete(stage.Guards_mapString, guard.Name)
 }
 
@@ -1479,6 +1489,7 @@ func (kill *Kill) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes kill off the model stage
 func (kill *Kill) Unstage(stage *Stage) *Kill {
 	delete(stage.Kills, kill)
+	delete(stage.KillMap_Staged_Order, kill)
 	delete(stage.Kills_mapString, kill.Name)
 
 	return kill
@@ -1487,6 +1498,7 @@ func (kill *Kill) Unstage(stage *Stage) *Kill {
 // UnstageVoid removes kill off the model stage
 func (kill *Kill) UnstageVoid(stage *Stage) {
 	delete(stage.Kills, kill)
+	delete(stage.KillMap_Staged_Order, kill)
 	delete(stage.Kills_mapString, kill.Name)
 }
 
@@ -1563,6 +1575,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
+	delete(stage.MessageMap_Staged_Order, message)
 	delete(stage.Messages_mapString, message.Name)
 
 	return message
@@ -1571,6 +1584,7 @@ func (message *Message) Unstage(stage *Stage) *Message {
 // UnstageVoid removes message off the model stage
 func (message *Message) UnstageVoid(stage *Stage) {
 	delete(stage.Messages, message)
+	delete(stage.MessageMap_Staged_Order, message)
 	delete(stage.Messages_mapString, message.Name)
 }
 
@@ -1647,6 +1661,7 @@ func (messagetype *MessageType) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes messagetype off the model stage
 func (messagetype *MessageType) Unstage(stage *Stage) *MessageType {
 	delete(stage.MessageTypes, messagetype)
+	delete(stage.MessageTypeMap_Staged_Order, messagetype)
 	delete(stage.MessageTypes_mapString, messagetype.Name)
 
 	return messagetype
@@ -1655,6 +1670,7 @@ func (messagetype *MessageType) Unstage(stage *Stage) *MessageType {
 // UnstageVoid removes messagetype off the model stage
 func (messagetype *MessageType) UnstageVoid(stage *Stage) {
 	delete(stage.MessageTypes, messagetype)
+	delete(stage.MessageTypeMap_Staged_Order, messagetype)
 	delete(stage.MessageTypes_mapString, messagetype.Name)
 }
 
@@ -1731,6 +1747,7 @@ func (object *Object) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes object off the model stage
 func (object *Object) Unstage(stage *Stage) *Object {
 	delete(stage.Objects, object)
+	delete(stage.ObjectMap_Staged_Order, object)
 	delete(stage.Objects_mapString, object.Name)
 
 	return object
@@ -1739,6 +1756,7 @@ func (object *Object) Unstage(stage *Stage) *Object {
 // UnstageVoid removes object off the model stage
 func (object *Object) UnstageVoid(stage *Stage) {
 	delete(stage.Objects, object)
+	delete(stage.ObjectMap_Staged_Order, object)
 	delete(stage.Objects_mapString, object.Name)
 }
 
@@ -1815,6 +1833,7 @@ func (role *Role) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes role off the model stage
 func (role *Role) Unstage(stage *Stage) *Role {
 	delete(stage.Roles, role)
+	delete(stage.RoleMap_Staged_Order, role)
 	delete(stage.Roles_mapString, role.Name)
 
 	return role
@@ -1823,6 +1842,7 @@ func (role *Role) Unstage(stage *Stage) *Role {
 // UnstageVoid removes role off the model stage
 func (role *Role) UnstageVoid(stage *Stage) {
 	delete(stage.Roles, role)
+	delete(stage.RoleMap_Staged_Order, role)
 	delete(stage.Roles_mapString, role.Name)
 }
 
@@ -1899,6 +1919,7 @@ func (state *State) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes state off the model stage
 func (state *State) Unstage(stage *Stage) *State {
 	delete(stage.States, state)
+	delete(stage.StateMap_Staged_Order, state)
 	delete(stage.States_mapString, state.Name)
 
 	return state
@@ -1907,6 +1928,7 @@ func (state *State) Unstage(stage *Stage) *State {
 // UnstageVoid removes state off the model stage
 func (state *State) UnstageVoid(stage *Stage) {
 	delete(stage.States, state)
+	delete(stage.StateMap_Staged_Order, state)
 	delete(stage.States_mapString, state.Name)
 }
 
@@ -1983,6 +2005,7 @@ func (statemachine *StateMachine) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes statemachine off the model stage
 func (statemachine *StateMachine) Unstage(stage *Stage) *StateMachine {
 	delete(stage.StateMachines, statemachine)
+	delete(stage.StateMachineMap_Staged_Order, statemachine)
 	delete(stage.StateMachines_mapString, statemachine.Name)
 
 	return statemachine
@@ -1991,6 +2014,7 @@ func (statemachine *StateMachine) Unstage(stage *Stage) *StateMachine {
 // UnstageVoid removes statemachine off the model stage
 func (statemachine *StateMachine) UnstageVoid(stage *Stage) {
 	delete(stage.StateMachines, statemachine)
+	delete(stage.StateMachineMap_Staged_Order, statemachine)
 	delete(stage.StateMachines_mapString, statemachine.Name)
 }
 
@@ -2067,6 +2091,7 @@ func (stateshape *StateShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes stateshape off the model stage
 func (stateshape *StateShape) Unstage(stage *Stage) *StateShape {
 	delete(stage.StateShapes, stateshape)
+	delete(stage.StateShapeMap_Staged_Order, stateshape)
 	delete(stage.StateShapes_mapString, stateshape.Name)
 
 	return stateshape
@@ -2075,6 +2100,7 @@ func (stateshape *StateShape) Unstage(stage *Stage) *StateShape {
 // UnstageVoid removes stateshape off the model stage
 func (stateshape *StateShape) UnstageVoid(stage *Stage) {
 	delete(stage.StateShapes, stateshape)
+	delete(stage.StateShapeMap_Staged_Order, stateshape)
 	delete(stage.StateShapes_mapString, stateshape.Name)
 }
 
@@ -2151,6 +2177,7 @@ func (transition *Transition) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes transition off the model stage
 func (transition *Transition) Unstage(stage *Stage) *Transition {
 	delete(stage.Transitions, transition)
+	delete(stage.TransitionMap_Staged_Order, transition)
 	delete(stage.Transitions_mapString, transition.Name)
 
 	return transition
@@ -2159,6 +2186,7 @@ func (transition *Transition) Unstage(stage *Stage) *Transition {
 // UnstageVoid removes transition off the model stage
 func (transition *Transition) UnstageVoid(stage *Stage) {
 	delete(stage.Transitions, transition)
+	delete(stage.TransitionMap_Staged_Order, transition)
 	delete(stage.Transitions_mapString, transition.Name)
 }
 
@@ -2235,6 +2263,7 @@ func (transition_shape *Transition_Shape) StagePreserveOrder(stage *Stage, order
 // Unstage removes transition_shape off the model stage
 func (transition_shape *Transition_Shape) Unstage(stage *Stage) *Transition_Shape {
 	delete(stage.Transition_Shapes, transition_shape)
+	delete(stage.Transition_ShapeMap_Staged_Order, transition_shape)
 	delete(stage.Transition_Shapes_mapString, transition_shape.Name)
 
 	return transition_shape
@@ -2243,6 +2272,7 @@ func (transition_shape *Transition_Shape) Unstage(stage *Stage) *Transition_Shap
 // UnstageVoid removes transition_shape off the model stage
 func (transition_shape *Transition_Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Transition_Shapes, transition_shape)
+	delete(stage.Transition_ShapeMap_Staged_Order, transition_shape)
 	delete(stage.Transition_Shapes_mapString, transition_shape.Name)
 }
 

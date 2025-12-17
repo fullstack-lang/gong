@@ -717,6 +717,7 @@ func (arrow *Arrow) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes arrow off the model stage
 func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 	delete(stage.Arrows, arrow)
+	delete(stage.ArrowMap_Staged_Order, arrow)
 	delete(stage.Arrows_mapString, arrow.Name)
 
 	return arrow
@@ -725,6 +726,7 @@ func (arrow *Arrow) Unstage(stage *Stage) *Arrow {
 // UnstageVoid removes arrow off the model stage
 func (arrow *Arrow) UnstageVoid(stage *Stage) {
 	delete(stage.Arrows, arrow)
+	delete(stage.ArrowMap_Staged_Order, arrow)
 	delete(stage.Arrows_mapString, arrow.Name)
 }
 
@@ -801,6 +803,7 @@ func (bar *Bar) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes bar off the model stage
 func (bar *Bar) Unstage(stage *Stage) *Bar {
 	delete(stage.Bars, bar)
+	delete(stage.BarMap_Staged_Order, bar)
 	delete(stage.Bars_mapString, bar.Name)
 
 	return bar
@@ -809,6 +812,7 @@ func (bar *Bar) Unstage(stage *Stage) *Bar {
 // UnstageVoid removes bar off the model stage
 func (bar *Bar) UnstageVoid(stage *Stage) {
 	delete(stage.Bars, bar)
+	delete(stage.BarMap_Staged_Order, bar)
 	delete(stage.Bars_mapString, bar.Name)
 }
 
@@ -885,6 +889,7 @@ func (gantt *Gantt) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gantt off the model stage
 func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 	delete(stage.Gantts, gantt)
+	delete(stage.GanttMap_Staged_Order, gantt)
 	delete(stage.Gantts_mapString, gantt.Name)
 
 	return gantt
@@ -893,6 +898,7 @@ func (gantt *Gantt) Unstage(stage *Stage) *Gantt {
 // UnstageVoid removes gantt off the model stage
 func (gantt *Gantt) UnstageVoid(stage *Stage) {
 	delete(stage.Gantts, gantt)
+	delete(stage.GanttMap_Staged_Order, gantt)
 	delete(stage.Gantts_mapString, gantt.Name)
 }
 
@@ -969,6 +975,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 
 	return group
@@ -977,6 +984,7 @@ func (group *Group) Unstage(stage *Stage) *Group {
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 }
 
@@ -1053,6 +1061,7 @@ func (lane *Lane) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes lane off the model stage
 func (lane *Lane) Unstage(stage *Stage) *Lane {
 	delete(stage.Lanes, lane)
+	delete(stage.LaneMap_Staged_Order, lane)
 	delete(stage.Lanes_mapString, lane.Name)
 
 	return lane
@@ -1061,6 +1070,7 @@ func (lane *Lane) Unstage(stage *Stage) *Lane {
 // UnstageVoid removes lane off the model stage
 func (lane *Lane) UnstageVoid(stage *Stage) {
 	delete(stage.Lanes, lane)
+	delete(stage.LaneMap_Staged_Order, lane)
 	delete(stage.Lanes_mapString, lane.Name)
 }
 
@@ -1137,6 +1147,7 @@ func (laneuse *LaneUse) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes laneuse off the model stage
 func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 	delete(stage.LaneUses, laneuse)
+	delete(stage.LaneUseMap_Staged_Order, laneuse)
 	delete(stage.LaneUses_mapString, laneuse.Name)
 
 	return laneuse
@@ -1145,6 +1156,7 @@ func (laneuse *LaneUse) Unstage(stage *Stage) *LaneUse {
 // UnstageVoid removes laneuse off the model stage
 func (laneuse *LaneUse) UnstageVoid(stage *Stage) {
 	delete(stage.LaneUses, laneuse)
+	delete(stage.LaneUseMap_Staged_Order, laneuse)
 	delete(stage.LaneUses_mapString, laneuse.Name)
 }
 
@@ -1221,6 +1233,7 @@ func (milestone *Milestone) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes milestone off the model stage
 func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
 	delete(stage.Milestones, milestone)
+	delete(stage.MilestoneMap_Staged_Order, milestone)
 	delete(stage.Milestones_mapString, milestone.Name)
 
 	return milestone
@@ -1229,6 +1242,7 @@ func (milestone *Milestone) Unstage(stage *Stage) *Milestone {
 // UnstageVoid removes milestone off the model stage
 func (milestone *Milestone) UnstageVoid(stage *Stage) {
 	delete(stage.Milestones, milestone)
+	delete(stage.MilestoneMap_Staged_Order, milestone)
 	delete(stage.Milestones_mapString, milestone.Name)
 }
 

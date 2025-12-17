@@ -580,6 +580,7 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
+	delete(stage.ContentMap_Staged_Order, content)
 	delete(stage.Contents_mapString, content.Name)
 
 	return content
@@ -588,6 +589,7 @@ func (content *Content) Unstage(stage *Stage) *Content {
 // UnstageVoid removes content off the model stage
 func (content *Content) UnstageVoid(stage *Stage) {
 	delete(stage.Contents, content)
+	delete(stage.ContentMap_Staged_Order, content)
 	delete(stage.Contents_mapString, content.Name)
 }
 
@@ -664,6 +666,7 @@ func (jpgimage *JpgImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes jpgimage off the model stage
 func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 	delete(stage.JpgImages, jpgimage)
+	delete(stage.JpgImageMap_Staged_Order, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
 
 	return jpgimage
@@ -672,6 +675,7 @@ func (jpgimage *JpgImage) Unstage(stage *Stage) *JpgImage {
 // UnstageVoid removes jpgimage off the model stage
 func (jpgimage *JpgImage) UnstageVoid(stage *Stage) {
 	delete(stage.JpgImages, jpgimage)
+	delete(stage.JpgImageMap_Staged_Order, jpgimage)
 	delete(stage.JpgImages_mapString, jpgimage.Name)
 }
 
@@ -748,6 +752,7 @@ func (pngimage *PngImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes pngimage off the model stage
 func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 	delete(stage.PngImages, pngimage)
+	delete(stage.PngImageMap_Staged_Order, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
 
 	return pngimage
@@ -756,6 +761,7 @@ func (pngimage *PngImage) Unstage(stage *Stage) *PngImage {
 // UnstageVoid removes pngimage off the model stage
 func (pngimage *PngImage) UnstageVoid(stage *Stage) {
 	delete(stage.PngImages, pngimage)
+	delete(stage.PngImageMap_Staged_Order, pngimage)
 	delete(stage.PngImages_mapString, pngimage.Name)
 }
 
@@ -832,6 +838,7 @@ func (svgimage *SvgImage) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svgimage off the model stage
 func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 	delete(stage.SvgImages, svgimage)
+	delete(stage.SvgImageMap_Staged_Order, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
 
 	return svgimage
@@ -840,6 +847,7 @@ func (svgimage *SvgImage) Unstage(stage *Stage) *SvgImage {
 // UnstageVoid removes svgimage off the model stage
 func (svgimage *SvgImage) UnstageVoid(stage *Stage) {
 	delete(stage.SvgImages, svgimage)
+	delete(stage.SvgImageMap_Staged_Order, svgimage)
 	delete(stage.SvgImages_mapString, svgimage.Name)
 }
 

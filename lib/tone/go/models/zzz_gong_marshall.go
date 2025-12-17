@@ -264,11 +264,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(freqencyOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Freqency instances pointers"
 	}
-	for idx, freqency := range freqencyOrdered {
+	for _, freqency := range freqencyOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Freqency", idx, freqency.Name)
+		id = generatesIdentifier("Freqency", int(stage.FreqencyMap_Staged_Order[freqency]), freqency.Name)
 		map_Freqency_Identifiers[freqency] = id
 
 		// Initialisation of values
@@ -277,11 +277,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(noteOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Note instances pointers"
 	}
-	for idx, note := range noteOrdered {
+	for _, note := range noteOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Note", idx, note.Name)
+		id = generatesIdentifier("Note", int(stage.NoteMap_Staged_Order[note]), note.Name)
 		map_Note_Identifiers[note] = id
 
 		// Initialisation of values
@@ -298,11 +298,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(playerOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Player instances pointers"
 	}
-	for idx, player := range playerOrdered {
+	for _, player := range playerOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Player", idx, player.Name)
+		id = generatesIdentifier("Player", int(stage.PlayerMap_Staged_Order[player]), player.Name)
 		map_Player_Identifiers[player] = id
 
 		// Initialisation of values

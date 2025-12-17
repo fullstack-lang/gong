@@ -543,6 +543,7 @@ func (chapter *Chapter) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes chapter off the model stage
 func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 	delete(stage.Chapters, chapter)
+	delete(stage.ChapterMap_Staged_Order, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
 
 	return chapter
@@ -551,6 +552,7 @@ func (chapter *Chapter) Unstage(stage *Stage) *Chapter {
 // UnstageVoid removes chapter off the model stage
 func (chapter *Chapter) UnstageVoid(stage *Stage) {
 	delete(stage.Chapters, chapter)
+	delete(stage.ChapterMap_Staged_Order, chapter)
 	delete(stage.Chapters_mapString, chapter.Name)
 }
 
@@ -627,6 +629,7 @@ func (content *Content) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes content off the model stage
 func (content *Content) Unstage(stage *Stage) *Content {
 	delete(stage.Contents, content)
+	delete(stage.ContentMap_Staged_Order, content)
 	delete(stage.Contents_mapString, content.Name)
 
 	return content
@@ -635,6 +638,7 @@ func (content *Content) Unstage(stage *Stage) *Content {
 // UnstageVoid removes content off the model stage
 func (content *Content) UnstageVoid(stage *Stage) {
 	delete(stage.Contents, content)
+	delete(stage.ContentMap_Staged_Order, content)
 	delete(stage.Contents_mapString, content.Name)
 }
 
@@ -711,6 +715,7 @@ func (page *Page) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes page off the model stage
 func (page *Page) Unstage(stage *Stage) *Page {
 	delete(stage.Pages, page)
+	delete(stage.PageMap_Staged_Order, page)
 	delete(stage.Pages_mapString, page.Name)
 
 	return page
@@ -719,6 +724,7 @@ func (page *Page) Unstage(stage *Stage) *Page {
 // UnstageVoid removes page off the model stage
 func (page *Page) UnstageVoid(stage *Stage) {
 	delete(stage.Pages, page)
+	delete(stage.PageMap_Staged_Order, page)
 	delete(stage.Pages_mapString, page.Name)
 }
 

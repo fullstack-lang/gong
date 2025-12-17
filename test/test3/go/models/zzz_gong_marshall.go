@@ -191,11 +191,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(aOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of A instances pointers"
 	}
-	for idx, a := range aOrdered {
+	for _, a := range aOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("A", idx, a.Name)
+		id = generatesIdentifier("A", int(stage.AMap_Staged_Order[a]), a.Name)
 		map_A_Identifiers[a] = id
 
 		// Initialisation of values
@@ -212,11 +212,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(bOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of B instances pointers"
 	}
-	for idx, b := range bOrdered {
+	for _, b := range bOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("B", idx, b.Name)
+		id = generatesIdentifier("B", int(stage.BMap_Staged_Order[b]), b.Name)
 		map_B_Identifiers[b] = id
 
 		// Initialisation of values

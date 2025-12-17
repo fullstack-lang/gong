@@ -356,11 +356,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(displayselectionOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of DisplaySelection instances pointers"
 	}
-	for idx, displayselection := range displayselectionOrdered {
+	for _, displayselection := range displayselectionOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("DisplaySelection", idx, displayselection.Name)
+		id = generatesIdentifier("DisplaySelection", int(stage.DisplaySelectionMap_Staged_Order[displayselection]), displayselection.Name)
 		map_DisplaySelection_Identifiers[displayselection] = id
 
 		// Initialisation of values
@@ -385,11 +385,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlcellOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of XLCell instances pointers"
 	}
-	for idx, xlcell := range xlcellOrdered {
+	for _, xlcell := range xlcellOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("XLCell", idx, xlcell.Name)
+		id = generatesIdentifier("XLCell", int(stage.XLCellMap_Staged_Order[xlcell]), xlcell.Name)
 		map_XLCell_Identifiers[xlcell] = id
 
 		// Initialisation of values
@@ -398,11 +398,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlfileOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of XLFile instances pointers"
 	}
-	for idx, xlfile := range xlfileOrdered {
+	for _, xlfile := range xlfileOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("XLFile", idx, xlfile.Name)
+		id = generatesIdentifier("XLFile", int(stage.XLFileMap_Staged_Order[xlfile]), xlfile.Name)
 		map_XLFile_Identifiers[xlfile] = id
 
 		// Initialisation of values
@@ -419,11 +419,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlrowOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of XLRow instances pointers"
 	}
-	for idx, xlrow := range xlrowOrdered {
+	for _, xlrow := range xlrowOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("XLRow", idx, xlrow.Name)
+		id = generatesIdentifier("XLRow", int(stage.XLRowMap_Staged_Order[xlrow]), xlrow.Name)
 		map_XLRow_Identifiers[xlrow] = id
 
 		// Initialisation of values
@@ -440,11 +440,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(xlsheetOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of XLSheet instances pointers"
 	}
-	for idx, xlsheet := range xlsheetOrdered {
+	for _, xlsheet := range xlsheetOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("XLSheet", idx, xlsheet.Name)
+		id = generatesIdentifier("XLSheet", int(stage.XLSheetMap_Staged_Order[xlsheet]), xlsheet.Name)
 		map_XLSheet_Identifiers[xlsheet] = id
 
 		// Initialisation of values

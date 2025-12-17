@@ -586,6 +586,7 @@ func (checkbox *Checkbox) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes checkbox off the model stage
 func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
 	delete(stage.Checkboxs, checkbox)
+	delete(stage.CheckboxMap_Staged_Order, checkbox)
 	delete(stage.Checkboxs_mapString, checkbox.Name)
 
 	return checkbox
@@ -594,6 +595,7 @@ func (checkbox *Checkbox) Unstage(stage *Stage) *Checkbox {
 // UnstageVoid removes checkbox off the model stage
 func (checkbox *Checkbox) UnstageVoid(stage *Stage) {
 	delete(stage.Checkboxs, checkbox)
+	delete(stage.CheckboxMap_Staged_Order, checkbox)
 	delete(stage.Checkboxs_mapString, checkbox.Name)
 }
 
@@ -670,6 +672,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 
 	return group
@@ -678,6 +681,7 @@ func (group *Group) Unstage(stage *Stage) *Group {
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 }
 
@@ -754,6 +758,7 @@ func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes layout off the model stage
 func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
+	delete(stage.LayoutMap_Staged_Order, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 
 	return layout
@@ -762,6 +767,7 @@ func (layout *Layout) Unstage(stage *Stage) *Layout {
 // UnstageVoid removes layout off the model stage
 func (layout *Layout) UnstageVoid(stage *Stage) {
 	delete(stage.Layouts, layout)
+	delete(stage.LayoutMap_Staged_Order, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 }
 
@@ -838,6 +844,7 @@ func (slider *Slider) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes slider off the model stage
 func (slider *Slider) Unstage(stage *Stage) *Slider {
 	delete(stage.Sliders, slider)
+	delete(stage.SliderMap_Staged_Order, slider)
 	delete(stage.Sliders_mapString, slider.Name)
 
 	return slider
@@ -846,6 +853,7 @@ func (slider *Slider) Unstage(stage *Stage) *Slider {
 // UnstageVoid removes slider off the model stage
 func (slider *Slider) UnstageVoid(stage *Stage) {
 	delete(stage.Sliders, slider)
+	delete(stage.SliderMap_Staged_Order, slider)
 	delete(stage.Sliders_mapString, slider.Name)
 }
 

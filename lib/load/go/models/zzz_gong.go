@@ -539,6 +539,7 @@ func (filetodownload *FileToDownload) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes filetodownload off the model stage
 func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 	delete(stage.FileToDownloads, filetodownload)
+	delete(stage.FileToDownloadMap_Staged_Order, filetodownload)
 	delete(stage.FileToDownloads_mapString, filetodownload.Name)
 
 	return filetodownload
@@ -547,6 +548,7 @@ func (filetodownload *FileToDownload) Unstage(stage *Stage) *FileToDownload {
 // UnstageVoid removes filetodownload off the model stage
 func (filetodownload *FileToDownload) UnstageVoid(stage *Stage) {
 	delete(stage.FileToDownloads, filetodownload)
+	delete(stage.FileToDownloadMap_Staged_Order, filetodownload)
 	delete(stage.FileToDownloads_mapString, filetodownload.Name)
 }
 
@@ -623,6 +625,7 @@ func (filetoupload *FileToUpload) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes filetoupload off the model stage
 func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 	delete(stage.FileToUploads, filetoupload)
+	delete(stage.FileToUploadMap_Staged_Order, filetoupload)
 	delete(stage.FileToUploads_mapString, filetoupload.Name)
 
 	return filetoupload
@@ -631,6 +634,7 @@ func (filetoupload *FileToUpload) Unstage(stage *Stage) *FileToUpload {
 // UnstageVoid removes filetoupload off the model stage
 func (filetoupload *FileToUpload) UnstageVoid(stage *Stage) {
 	delete(stage.FileToUploads, filetoupload)
+	delete(stage.FileToUploadMap_Staged_Order, filetoupload)
 	delete(stage.FileToUploads_mapString, filetoupload.Name)
 }
 
@@ -707,6 +711,7 @@ func (message *Message) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes message off the model stage
 func (message *Message) Unstage(stage *Stage) *Message {
 	delete(stage.Messages, message)
+	delete(stage.MessageMap_Staged_Order, message)
 	delete(stage.Messages_mapString, message.Name)
 
 	return message
@@ -715,6 +720,7 @@ func (message *Message) Unstage(stage *Stage) *Message {
 // UnstageVoid removes message off the model stage
 func (message *Message) UnstageVoid(stage *Stage) {
 	delete(stage.Messages, message)
+	delete(stage.MessageMap_Staged_Order, message)
 	delete(stage.Messages_mapString, message.Name)
 }
 

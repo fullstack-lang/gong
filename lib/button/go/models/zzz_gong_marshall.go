@@ -404,11 +404,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(buttonOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Button instances pointers"
 	}
-	for idx, button := range buttonOrdered {
+	for _, button := range buttonOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Button", idx, button.Name)
+		id = generatesIdentifier("Button", int(stage.ButtonMap_Staged_Order[button]), button.Name)
 		map_Button_Identifiers[button] = id
 
 		// Initialisation of values
@@ -417,11 +417,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(buttontoggleOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of ButtonToggle instances pointers"
 	}
-	for idx, buttontoggle := range buttontoggleOrdered {
+	for _, buttontoggle := range buttontoggleOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ButtonToggle", idx, buttontoggle.Name)
+		id = generatesIdentifier("ButtonToggle", int(stage.ButtonToggleMap_Staged_Order[buttontoggle]), buttontoggle.Name)
 		map_ButtonToggle_Identifiers[buttontoggle] = id
 
 		// Initialisation of values
@@ -430,11 +430,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Group instances pointers"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		// Initialisation of values
@@ -451,11 +451,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(grouptoogleOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GroupToogle instances pointers"
 	}
-	for idx, grouptoogle := range grouptoogleOrdered {
+	for _, grouptoogle := range grouptoogleOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GroupToogle", idx, grouptoogle.Name)
+		id = generatesIdentifier("GroupToogle", int(stage.GroupToogleMap_Staged_Order[grouptoogle]), grouptoogle.Name)
 		map_GroupToogle_Identifiers[grouptoogle] = id
 
 		// Initialisation of values
@@ -472,11 +472,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(layoutOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Layout instances pointers"
 	}
-	for idx, layout := range layoutOrdered {
+	for _, layout := range layoutOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Layout", idx, layout.Name)
+		id = generatesIdentifier("Layout", int(stage.LayoutMap_Staged_Order[layout]), layout.Name)
 		map_Layout_Identifiers[layout] = id
 
 		// Initialisation of values

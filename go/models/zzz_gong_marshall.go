@@ -812,11 +812,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongbasicfieldOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongBasicField instances pointers"
 	}
-	for idx, gongbasicfield := range gongbasicfieldOrdered {
+	for _, gongbasicfield := range gongbasicfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongBasicField", idx, gongbasicfield.Name)
+		id = generatesIdentifier("GongBasicField", int(stage.GongBasicFieldMap_Staged_Order[gongbasicfield]), gongbasicfield.Name)
 		map_GongBasicField_Identifiers[gongbasicfield] = id
 
 		// Initialisation of values
@@ -833,11 +833,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongEnum instances pointers"
 	}
-	for idx, gongenum := range gongenumOrdered {
+	for _, gongenum := range gongenumOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongEnum", idx, gongenum.Name)
+		id = generatesIdentifier("GongEnum", int(stage.GongEnumMap_Staged_Order[gongenum]), gongenum.Name)
 		map_GongEnum_Identifiers[gongenum] = id
 
 		// Initialisation of values
@@ -854,11 +854,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongenumvalueOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongEnumValue instances pointers"
 	}
-	for idx, gongenumvalue := range gongenumvalueOrdered {
+	for _, gongenumvalue := range gongenumvalueOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongEnumValue", idx, gongenumvalue.Name)
+		id = generatesIdentifier("GongEnumValue", int(stage.GongEnumValueMap_Staged_Order[gongenumvalue]), gongenumvalue.Name)
 		map_GongEnumValue_Identifiers[gongenumvalue] = id
 
 		// Initialisation of values
@@ -867,11 +867,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gonglinkOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongLink instances pointers"
 	}
-	for idx, gonglink := range gonglinkOrdered {
+	for _, gonglink := range gonglinkOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongLink", idx, gonglink.Name)
+		id = generatesIdentifier("GongLink", int(stage.GongLinkMap_Staged_Order[gonglink]), gonglink.Name)
 		map_GongLink_Identifiers[gonglink] = id
 
 		// Initialisation of values
@@ -880,11 +880,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongnoteOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongNote instances pointers"
 	}
-	for idx, gongnote := range gongnoteOrdered {
+	for _, gongnote := range gongnoteOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongNote", idx, gongnote.Name)
+		id = generatesIdentifier("GongNote", int(stage.GongNoteMap_Staged_Order[gongnote]), gongnote.Name)
 		map_GongNote_Identifiers[gongnote] = id
 
 		// Initialisation of values
@@ -901,11 +901,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongstructOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongStruct instances pointers"
 	}
-	for idx, gongstruct := range gongstructOrdered {
+	for _, gongstruct := range gongstructOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongStruct", idx, gongstruct.Name)
+		id = generatesIdentifier("GongStruct", int(stage.GongStructMap_Staged_Order[gongstruct]), gongstruct.Name)
 		map_GongStruct_Identifiers[gongstruct] = id
 
 		// Initialisation of values
@@ -946,11 +946,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gongtimefieldOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of GongTimeField instances pointers"
 	}
-	for idx, gongtimefield := range gongtimefieldOrdered {
+	for _, gongtimefield := range gongtimefieldOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongTimeField", idx, gongtimefield.Name)
+		id = generatesIdentifier("GongTimeField", int(stage.GongTimeFieldMap_Staged_Order[gongtimefield]), gongtimefield.Name)
 		map_GongTimeField_Identifiers[gongtimefield] = id
 
 		// Initialisation of values
@@ -959,11 +959,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(metareferenceOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of MetaReference instances pointers"
 	}
-	for idx, metareference := range metareferenceOrdered {
+	for _, metareference := range metareferenceOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("MetaReference", idx, metareference.Name)
+		id = generatesIdentifier("MetaReference", int(stage.MetaReferenceMap_Staged_Order[metareference]), metareference.Name)
 		map_MetaReference_Identifiers[metareference] = id
 
 		// Initialisation of values
@@ -972,11 +972,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(modelpkgOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of ModelPkg instances pointers"
 	}
-	for idx, modelpkg := range modelpkgOrdered {
+	for _, modelpkg := range modelpkgOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ModelPkg", idx, modelpkg.Name)
+		id = generatesIdentifier("ModelPkg", int(stage.ModelPkgMap_Staged_Order[modelpkg]), modelpkg.Name)
 		map_ModelPkg_Identifiers[modelpkg] = id
 
 		// Initialisation of values
@@ -985,11 +985,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pointertogongstructfieldOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of PointerToGongStructField instances pointers"
 	}
-	for idx, pointertogongstructfield := range pointertogongstructfieldOrdered {
+	for _, pointertogongstructfield := range pointertogongstructfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("PointerToGongStructField", idx, pointertogongstructfield.Name)
+		id = generatesIdentifier("PointerToGongStructField", int(stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield]), pointertogongstructfield.Name)
 		map_PointerToGongStructField_Identifiers[pointertogongstructfield] = id
 
 		// Initialisation of values
@@ -1006,11 +1006,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(sliceofpointertogongstructfieldOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of SliceOfPointerToGongStructField instances pointers"
 	}
-	for idx, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
+	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SliceOfPointerToGongStructField", idx, sliceofpointertogongstructfield.Name)
+		id = generatesIdentifier("SliceOfPointerToGongStructField", int(stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield]), sliceofpointertogongstructfield.Name)
 		map_SliceOfPointerToGongStructField_Identifiers[sliceofpointertogongstructfield] = id
 
 		// Initialisation of values

@@ -629,6 +629,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
+	delete(stage.ButtonMap_Staged_Order, button)
 	delete(stage.Buttons_mapString, button.Name)
 
 	return button
@@ -637,6 +638,7 @@ func (button *Button) Unstage(stage *Stage) *Button {
 // UnstageVoid removes button off the model stage
 func (button *Button) UnstageVoid(stage *Stage) {
 	delete(stage.Buttons, button)
+	delete(stage.ButtonMap_Staged_Order, button)
 	delete(stage.Buttons_mapString, button.Name)
 }
 
@@ -713,6 +715,7 @@ func (buttontoggle *ButtonToggle) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes buttontoggle off the model stage
 func (buttontoggle *ButtonToggle) Unstage(stage *Stage) *ButtonToggle {
 	delete(stage.ButtonToggles, buttontoggle)
+	delete(stage.ButtonToggleMap_Staged_Order, buttontoggle)
 	delete(stage.ButtonToggles_mapString, buttontoggle.Name)
 
 	return buttontoggle
@@ -721,6 +724,7 @@ func (buttontoggle *ButtonToggle) Unstage(stage *Stage) *ButtonToggle {
 // UnstageVoid removes buttontoggle off the model stage
 func (buttontoggle *ButtonToggle) UnstageVoid(stage *Stage) {
 	delete(stage.ButtonToggles, buttontoggle)
+	delete(stage.ButtonToggleMap_Staged_Order, buttontoggle)
 	delete(stage.ButtonToggles_mapString, buttontoggle.Name)
 }
 
@@ -797,6 +801,7 @@ func (group *Group) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes group off the model stage
 func (group *Group) Unstage(stage *Stage) *Group {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 
 	return group
@@ -805,6 +810,7 @@ func (group *Group) Unstage(stage *Stage) *Group {
 // UnstageVoid removes group off the model stage
 func (group *Group) UnstageVoid(stage *Stage) {
 	delete(stage.Groups, group)
+	delete(stage.GroupMap_Staged_Order, group)
 	delete(stage.Groups_mapString, group.Name)
 }
 
@@ -881,6 +887,7 @@ func (grouptoogle *GroupToogle) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes grouptoogle off the model stage
 func (grouptoogle *GroupToogle) Unstage(stage *Stage) *GroupToogle {
 	delete(stage.GroupToogles, grouptoogle)
+	delete(stage.GroupToogleMap_Staged_Order, grouptoogle)
 	delete(stage.GroupToogles_mapString, grouptoogle.Name)
 
 	return grouptoogle
@@ -889,6 +896,7 @@ func (grouptoogle *GroupToogle) Unstage(stage *Stage) *GroupToogle {
 // UnstageVoid removes grouptoogle off the model stage
 func (grouptoogle *GroupToogle) UnstageVoid(stage *Stage) {
 	delete(stage.GroupToogles, grouptoogle)
+	delete(stage.GroupToogleMap_Staged_Order, grouptoogle)
 	delete(stage.GroupToogles_mapString, grouptoogle.Name)
 }
 
@@ -965,6 +973,7 @@ func (layout *Layout) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes layout off the model stage
 func (layout *Layout) Unstage(stage *Stage) *Layout {
 	delete(stage.Layouts, layout)
+	delete(stage.LayoutMap_Staged_Order, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 
 	return layout
@@ -973,6 +982,7 @@ func (layout *Layout) Unstage(stage *Stage) *Layout {
 // UnstageVoid removes layout off the model stage
 func (layout *Layout) UnstageVoid(stage *Stage) {
 	delete(stage.Layouts, layout)
+	delete(stage.LayoutMap_Staged_Order, layout)
 	delete(stage.Layouts_mapString, layout.Name)
 }
 
