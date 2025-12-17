@@ -90,7 +90,7 @@ func (stager *Stager) svgGenerateRect(
 		rect.RectAnchoredTexts = append(rect.RectAnchoredTexts, stateTitleText)
 	}
 
-	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(1+strings.Count(stateTitleText.Content, "\n")))
+	currentY_Offset := stateTitleText.Y_Offset + float64(HeightBetween2AttributeShapes*(2+strings.Count(stateTitleText.Content, "\n")))
 
 	x_offset := 10.0 // on the left of the state
 
