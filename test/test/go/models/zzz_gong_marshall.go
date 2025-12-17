@@ -542,11 +542,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Astruct instances pointers"
 	}
-	for idx, astruct := range astructOrdered {
+	for _, astruct := range astructOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Astruct", idx, astruct.Name)
+		id = generatesIdentifier("Astruct", int(stage.AstructMap_Staged_Order[astruct]), astruct.Name)
 		map_Astruct_Identifiers[astruct] = id
 
 		// Initialisation of values
@@ -675,11 +675,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructbstruct2useOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of AstructBstruct2Use instances pointers"
 	}
-	for idx, astructbstruct2use := range astructbstruct2useOrdered {
+	for _, astructbstruct2use := range astructbstruct2useOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("AstructBstruct2Use", idx, astructbstruct2use.Name)
+		id = generatesIdentifier("AstructBstruct2Use", int(stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use]), astructbstruct2use.Name)
 		map_AstructBstruct2Use_Identifiers[astructbstruct2use] = id
 
 		// Initialisation of values
@@ -696,11 +696,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(astructbstructuseOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of AstructBstructUse instances pointers"
 	}
-	for idx, astructbstructuse := range astructbstructuseOrdered {
+	for _, astructbstructuse := range astructbstructuseOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("AstructBstructUse", idx, astructbstructuse.Name)
+		id = generatesIdentifier("AstructBstructUse", int(stage.AstructBstructUseMap_Staged_Order[astructbstructuse]), astructbstructuse.Name)
 		map_AstructBstructUse_Identifiers[astructbstructuse] = id
 
 		// Initialisation of values
@@ -717,11 +717,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(bstructOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Bstruct instances pointers"
 	}
-	for idx, bstruct := range bstructOrdered {
+	for _, bstruct := range bstructOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Bstruct", idx, bstruct.Name)
+		id = generatesIdentifier("Bstruct", int(stage.BstructMap_Staged_Order[bstruct]), bstruct.Name)
 		map_Bstruct_Identifiers[bstruct] = id
 
 		// Initialisation of values
@@ -730,11 +730,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(dstructOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Dstruct instances pointers"
 	}
-	for idx, dstruct := range dstructOrdered {
+	for _, dstruct := range dstructOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Dstruct", idx, dstruct.Name)
+		id = generatesIdentifier("Dstruct", int(stage.DstructMap_Staged_Order[dstruct]), dstruct.Name)
 		map_Dstruct_Identifiers[dstruct] = id
 
 		// Initialisation of values
@@ -767,11 +767,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(f0123456789012345678901234567890Ordered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of F0123456789012345678901234567890 instances pointers"
 	}
-	for idx, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
+	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("F0123456789012345678901234567890", idx, f0123456789012345678901234567890.Name)
+		id = generatesIdentifier("F0123456789012345678901234567890", int(stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890]), f0123456789012345678901234567890.Name)
 		map_F0123456789012345678901234567890_Identifiers[f0123456789012345678901234567890] = id
 
 		// Initialisation of values
@@ -780,11 +780,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(gstructOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Gstruct instances pointers"
 	}
-	for idx, gstruct := range gstructOrdered {
+	for _, gstruct := range gstructOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Gstruct", idx, gstruct.Name)
+		id = generatesIdentifier("Gstruct", int(stage.GstructMap_Staged_Order[gstruct]), gstruct.Name)
 		map_Gstruct_Identifiers[gstruct] = id
 
 		// Initialisation of values
