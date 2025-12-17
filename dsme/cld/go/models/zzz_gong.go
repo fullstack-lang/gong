@@ -877,6 +877,7 @@ func (category1 *Category1) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category1 off the model stage
 func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 	delete(stage.Category1s, category1)
+	delete(stage.Category1Map_Staged_Order, category1)
 	delete(stage.Category1s_mapString, category1.Name)
 
 	return category1
@@ -885,6 +886,7 @@ func (category1 *Category1) Unstage(stage *Stage) *Category1 {
 // UnstageVoid removes category1 off the model stage
 func (category1 *Category1) UnstageVoid(stage *Stage) {
 	delete(stage.Category1s, category1)
+	delete(stage.Category1Map_Staged_Order, category1)
 	delete(stage.Category1s_mapString, category1.Name)
 }
 
@@ -961,6 +963,7 @@ func (category1shape *Category1Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category1shape off the model stage
 func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
 	delete(stage.Category1Shapes, category1shape)
+	delete(stage.Category1ShapeMap_Staged_Order, category1shape)
 	delete(stage.Category1Shapes_mapString, category1shape.Name)
 
 	return category1shape
@@ -969,6 +972,7 @@ func (category1shape *Category1Shape) Unstage(stage *Stage) *Category1Shape {
 // UnstageVoid removes category1shape off the model stage
 func (category1shape *Category1Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category1Shapes, category1shape)
+	delete(stage.Category1ShapeMap_Staged_Order, category1shape)
 	delete(stage.Category1Shapes_mapString, category1shape.Name)
 }
 
@@ -1045,6 +1049,7 @@ func (category2 *Category2) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category2 off the model stage
 func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 	delete(stage.Category2s, category2)
+	delete(stage.Category2Map_Staged_Order, category2)
 	delete(stage.Category2s_mapString, category2.Name)
 
 	return category2
@@ -1053,6 +1058,7 @@ func (category2 *Category2) Unstage(stage *Stage) *Category2 {
 // UnstageVoid removes category2 off the model stage
 func (category2 *Category2) UnstageVoid(stage *Stage) {
 	delete(stage.Category2s, category2)
+	delete(stage.Category2Map_Staged_Order, category2)
 	delete(stage.Category2s_mapString, category2.Name)
 }
 
@@ -1129,6 +1135,7 @@ func (category2shape *Category2Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category2shape off the model stage
 func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
 	delete(stage.Category2Shapes, category2shape)
+	delete(stage.Category2ShapeMap_Staged_Order, category2shape)
 	delete(stage.Category2Shapes_mapString, category2shape.Name)
 
 	return category2shape
@@ -1137,6 +1144,7 @@ func (category2shape *Category2Shape) Unstage(stage *Stage) *Category2Shape {
 // UnstageVoid removes category2shape off the model stage
 func (category2shape *Category2Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category2Shapes, category2shape)
+	delete(stage.Category2ShapeMap_Staged_Order, category2shape)
 	delete(stage.Category2Shapes_mapString, category2shape.Name)
 }
 
@@ -1213,6 +1221,7 @@ func (category3 *Category3) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes category3 off the model stage
 func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 	delete(stage.Category3s, category3)
+	delete(stage.Category3Map_Staged_Order, category3)
 	delete(stage.Category3s_mapString, category3.Name)
 
 	return category3
@@ -1221,6 +1230,7 @@ func (category3 *Category3) Unstage(stage *Stage) *Category3 {
 // UnstageVoid removes category3 off the model stage
 func (category3 *Category3) UnstageVoid(stage *Stage) {
 	delete(stage.Category3s, category3)
+	delete(stage.Category3Map_Staged_Order, category3)
 	delete(stage.Category3s_mapString, category3.Name)
 }
 
@@ -1297,6 +1307,7 @@ func (category3shape *Category3Shape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes category3shape off the model stage
 func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
 	delete(stage.Category3Shapes, category3shape)
+	delete(stage.Category3ShapeMap_Staged_Order, category3shape)
 	delete(stage.Category3Shapes_mapString, category3shape.Name)
 
 	return category3shape
@@ -1305,6 +1316,7 @@ func (category3shape *Category3Shape) Unstage(stage *Stage) *Category3Shape {
 // UnstageVoid removes category3shape off the model stage
 func (category3shape *Category3Shape) UnstageVoid(stage *Stage) {
 	delete(stage.Category3Shapes, category3shape)
+	delete(stage.Category3ShapeMap_Staged_Order, category3shape)
 	delete(stage.Category3Shapes_mapString, category3shape.Name)
 }
 
@@ -1381,6 +1393,7 @@ func (controlpointshape *ControlPointShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes controlpointshape off the model stage
 func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointShape {
 	delete(stage.ControlPointShapes, controlpointshape)
+	delete(stage.ControlPointShapeMap_Staged_Order, controlpointshape)
 	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
 
 	return controlpointshape
@@ -1389,6 +1402,7 @@ func (controlpointshape *ControlPointShape) Unstage(stage *Stage) *ControlPointS
 // UnstageVoid removes controlpointshape off the model stage
 func (controlpointshape *ControlPointShape) UnstageVoid(stage *Stage) {
 	delete(stage.ControlPointShapes, controlpointshape)
+	delete(stage.ControlPointShapeMap_Staged_Order, controlpointshape)
 	delete(stage.ControlPointShapes_mapString, controlpointshape.Name)
 }
 
@@ -1465,6 +1479,7 @@ func (desk *Desk) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes desk off the model stage
 func (desk *Desk) Unstage(stage *Stage) *Desk {
 	delete(stage.Desks, desk)
+	delete(stage.DeskMap_Staged_Order, desk)
 	delete(stage.Desks_mapString, desk.Name)
 
 	return desk
@@ -1473,6 +1488,7 @@ func (desk *Desk) Unstage(stage *Stage) *Desk {
 // UnstageVoid removes desk off the model stage
 func (desk *Desk) UnstageVoid(stage *Stage) {
 	delete(stage.Desks, desk)
+	delete(stage.DeskMap_Staged_Order, desk)
 	delete(stage.Desks_mapString, desk.Name)
 }
 
@@ -1549,6 +1565,7 @@ func (diagram *Diagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes diagram off the model stage
 func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 	delete(stage.Diagrams, diagram)
+	delete(stage.DiagramMap_Staged_Order, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 
 	return diagram
@@ -1557,6 +1574,7 @@ func (diagram *Diagram) Unstage(stage *Stage) *Diagram {
 // UnstageVoid removes diagram off the model stage
 func (diagram *Diagram) UnstageVoid(stage *Stage) {
 	delete(stage.Diagrams, diagram)
+	delete(stage.DiagramMap_Staged_Order, diagram)
 	delete(stage.Diagrams_mapString, diagram.Name)
 }
 
@@ -1633,6 +1651,7 @@ func (influence *Influence) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes influence off the model stage
 func (influence *Influence) Unstage(stage *Stage) *Influence {
 	delete(stage.Influences, influence)
+	delete(stage.InfluenceMap_Staged_Order, influence)
 	delete(stage.Influences_mapString, influence.Name)
 
 	return influence
@@ -1641,6 +1660,7 @@ func (influence *Influence) Unstage(stage *Stage) *Influence {
 // UnstageVoid removes influence off the model stage
 func (influence *Influence) UnstageVoid(stage *Stage) {
 	delete(stage.Influences, influence)
+	delete(stage.InfluenceMap_Staged_Order, influence)
 	delete(stage.Influences_mapString, influence.Name)
 }
 
@@ -1717,6 +1737,7 @@ func (influenceshape *InfluenceShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes influenceshape off the model stage
 func (influenceshape *InfluenceShape) Unstage(stage *Stage) *InfluenceShape {
 	delete(stage.InfluenceShapes, influenceshape)
+	delete(stage.InfluenceShapeMap_Staged_Order, influenceshape)
 	delete(stage.InfluenceShapes_mapString, influenceshape.Name)
 
 	return influenceshape
@@ -1725,6 +1746,7 @@ func (influenceshape *InfluenceShape) Unstage(stage *Stage) *InfluenceShape {
 // UnstageVoid removes influenceshape off the model stage
 func (influenceshape *InfluenceShape) UnstageVoid(stage *Stage) {
 	delete(stage.InfluenceShapes, influenceshape)
+	delete(stage.InfluenceShapeMap_Staged_Order, influenceshape)
 	delete(stage.InfluenceShapes_mapString, influenceshape.Name)
 }
 

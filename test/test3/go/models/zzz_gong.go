@@ -500,6 +500,7 @@ func (a *A) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes a off the model stage
 func (a *A) Unstage(stage *Stage) *A {
 	delete(stage.As, a)
+	delete(stage.AMap_Staged_Order, a)
 	delete(stage.As_mapString, a.Name)
 
 	return a
@@ -508,6 +509,7 @@ func (a *A) Unstage(stage *Stage) *A {
 // UnstageVoid removes a off the model stage
 func (a *A) UnstageVoid(stage *Stage) {
 	delete(stage.As, a)
+	delete(stage.AMap_Staged_Order, a)
 	delete(stage.As_mapString, a.Name)
 }
 
@@ -584,6 +586,7 @@ func (b *B) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes b off the model stage
 func (b *B) Unstage(stage *Stage) *B {
 	delete(stage.Bs, b)
+	delete(stage.BMap_Staged_Order, b)
 	delete(stage.Bs_mapString, b.Name)
 
 	return b
@@ -592,6 +595,7 @@ func (b *B) Unstage(stage *Stage) *B {
 // UnstageVoid removes b off the model stage
 func (b *B) UnstageVoid(stage *Stage) {
 	delete(stage.Bs, b)
+	delete(stage.BMap_Staged_Order, b)
 	delete(stage.Bs_mapString, b.Name)
 }
 

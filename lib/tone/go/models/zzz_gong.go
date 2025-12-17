@@ -541,6 +541,7 @@ func (freqency *Freqency) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes freqency off the model stage
 func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 	delete(stage.Freqencys, freqency)
+	delete(stage.FreqencyMap_Staged_Order, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 
 	return freqency
@@ -549,6 +550,7 @@ func (freqency *Freqency) Unstage(stage *Stage) *Freqency {
 // UnstageVoid removes freqency off the model stage
 func (freqency *Freqency) UnstageVoid(stage *Stage) {
 	delete(stage.Freqencys, freqency)
+	delete(stage.FreqencyMap_Staged_Order, freqency)
 	delete(stage.Freqencys_mapString, freqency.Name)
 }
 
@@ -625,6 +627,7 @@ func (note *Note) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes note off the model stage
 func (note *Note) Unstage(stage *Stage) *Note {
 	delete(stage.Notes, note)
+	delete(stage.NoteMap_Staged_Order, note)
 	delete(stage.Notes_mapString, note.Name)
 
 	return note
@@ -633,6 +636,7 @@ func (note *Note) Unstage(stage *Stage) *Note {
 // UnstageVoid removes note off the model stage
 func (note *Note) UnstageVoid(stage *Stage) {
 	delete(stage.Notes, note)
+	delete(stage.NoteMap_Staged_Order, note)
 	delete(stage.Notes_mapString, note.Name)
 }
 
@@ -709,6 +713,7 @@ func (player *Player) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes player off the model stage
 func (player *Player) Unstage(stage *Stage) *Player {
 	delete(stage.Players, player)
+	delete(stage.PlayerMap_Staged_Order, player)
 	delete(stage.Players_mapString, player.Name)
 
 	return player
@@ -717,6 +722,7 @@ func (player *Player) Unstage(stage *Stage) *Player {
 // UnstageVoid removes player off the model stage
 func (player *Player) UnstageVoid(stage *Stage) {
 	delete(stage.Players, player)
+	delete(stage.PlayerMap_Staged_Order, player)
 	delete(stage.Players_mapString, player.Name)
 }
 

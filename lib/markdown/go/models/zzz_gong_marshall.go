@@ -297,11 +297,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(contentOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Content instances pointers"
 	}
-	for idx, content := range contentOrdered {
+	for _, content := range contentOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Content", idx, content.Name)
+		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
 		map_Content_Identifiers[content] = id
 
 		// Initialisation of values
@@ -310,11 +310,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(jpgimageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of JpgImage instances pointers"
 	}
-	for idx, jpgimage := range jpgimageOrdered {
+	for _, jpgimage := range jpgimageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("JpgImage", idx, jpgimage.Name)
+		id = generatesIdentifier("JpgImage", int(stage.JpgImageMap_Staged_Order[jpgimage]), jpgimage.Name)
 		map_JpgImage_Identifiers[jpgimage] = id
 
 		// Initialisation of values
@@ -323,11 +323,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pngimageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of PngImage instances pointers"
 	}
-	for idx, pngimage := range pngimageOrdered {
+	for _, pngimage := range pngimageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("PngImage", idx, pngimage.Name)
+		id = generatesIdentifier("PngImage", int(stage.PngImageMap_Staged_Order[pngimage]), pngimage.Name)
 		map_PngImage_Identifiers[pngimage] = id
 
 		// Initialisation of values
@@ -336,11 +336,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(svgimageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of SvgImage instances pointers"
 	}
-	for idx, svgimage := range svgimageOrdered {
+	for _, svgimage := range svgimageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SvgImage", idx, svgimage.Name)
+		id = generatesIdentifier("SvgImage", int(stage.SvgImageMap_Staged_Order[svgimage]), svgimage.Name)
 		map_SvgImage_Identifiers[svgimage] = id
 
 		// Initialisation of values

@@ -457,11 +457,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(buttonOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Button instances pointers"
 	}
-	for idx, button := range buttonOrdered {
+	for _, button := range buttonOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Button", idx, button.Name)
+		id = generatesIdentifier("Button", int(stage.ButtonMap_Staged_Order[button]), button.Name)
 		map_Button_Identifiers[button] = id
 
 		// Initialisation of values
@@ -478,11 +478,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(nodeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Node instances pointers"
 	}
-	for idx, node := range nodeOrdered {
+	for _, node := range nodeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Node", idx, node.Name)
+		id = generatesIdentifier("Node", int(stage.NodeMap_Staged_Order[node]), node.Name)
 		map_Node_Identifiers[node] = id
 
 		// Initialisation of values
@@ -515,11 +515,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(svgiconOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of SVGIcon instances pointers"
 	}
-	for idx, svgicon := range svgiconOrdered {
+	for _, svgicon := range svgiconOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SVGIcon", idx, svgicon.Name)
+		id = generatesIdentifier("SVGIcon", int(stage.SVGIconMap_Staged_Order[svgicon]), svgicon.Name)
 		map_SVGIcon_Identifiers[svgicon] = id
 
 		// Initialisation of values
@@ -528,11 +528,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(treeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Tree instances pointers"
 	}
-	for idx, tree := range treeOrdered {
+	for _, tree := range treeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Tree", idx, tree.Name)
+		id = generatesIdentifier("Tree", int(stage.TreeMap_Staged_Order[tree]), tree.Name)
 		map_Tree_Identifiers[tree] = id
 
 		// Initialisation of values

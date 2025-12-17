@@ -586,6 +586,7 @@ func (button *Button) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes button off the model stage
 func (button *Button) Unstage(stage *Stage) *Button {
 	delete(stage.Buttons, button)
+	delete(stage.ButtonMap_Staged_Order, button)
 	delete(stage.Buttons_mapString, button.Name)
 
 	return button
@@ -594,6 +595,7 @@ func (button *Button) Unstage(stage *Stage) *Button {
 // UnstageVoid removes button off the model stage
 func (button *Button) UnstageVoid(stage *Stage) {
 	delete(stage.Buttons, button)
+	delete(stage.ButtonMap_Staged_Order, button)
 	delete(stage.Buttons_mapString, button.Name)
 }
 
@@ -670,6 +672,7 @@ func (node *Node) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes node off the model stage
 func (node *Node) Unstage(stage *Stage) *Node {
 	delete(stage.Nodes, node)
+	delete(stage.NodeMap_Staged_Order, node)
 	delete(stage.Nodes_mapString, node.Name)
 
 	return node
@@ -678,6 +681,7 @@ func (node *Node) Unstage(stage *Stage) *Node {
 // UnstageVoid removes node off the model stage
 func (node *Node) UnstageVoid(stage *Stage) {
 	delete(stage.Nodes, node)
+	delete(stage.NodeMap_Staged_Order, node)
 	delete(stage.Nodes_mapString, node.Name)
 }
 
@@ -754,6 +758,7 @@ func (svgicon *SVGIcon) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes svgicon off the model stage
 func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 	delete(stage.SVGIcons, svgicon)
+	delete(stage.SVGIconMap_Staged_Order, svgicon)
 	delete(stage.SVGIcons_mapString, svgicon.Name)
 
 	return svgicon
@@ -762,6 +767,7 @@ func (svgicon *SVGIcon) Unstage(stage *Stage) *SVGIcon {
 // UnstageVoid removes svgicon off the model stage
 func (svgicon *SVGIcon) UnstageVoid(stage *Stage) {
 	delete(stage.SVGIcons, svgicon)
+	delete(stage.SVGIconMap_Staged_Order, svgicon)
 	delete(stage.SVGIcons_mapString, svgicon.Name)
 }
 
@@ -838,6 +844,7 @@ func (tree *Tree) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes tree off the model stage
 func (tree *Tree) Unstage(stage *Stage) *Tree {
 	delete(stage.Trees, tree)
+	delete(stage.TreeMap_Staged_Order, tree)
 	delete(stage.Trees_mapString, tree.Name)
 
 	return tree
@@ -846,6 +853,7 @@ func (tree *Tree) Unstage(stage *Stage) *Tree {
 // UnstageVoid removes tree off the model stage
 func (tree *Tree) UnstageVoid(stage *Stage) {
 	delete(stage.Trees, tree)
+	delete(stage.TreeMap_Staged_Order, tree)
 	delete(stage.Trees_mapString, tree.Name)
 }
 
