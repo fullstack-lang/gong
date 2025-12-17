@@ -312,11 +312,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(chapterOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Chapter instances pointers"
 	}
-	for idx, chapter := range chapterOrdered {
+	for _, chapter := range chapterOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Chapter", idx, chapter.Name)
+		id = generatesIdentifier("Chapter", int(stage.ChapterMap_Staged_Order[chapter]), chapter.Name)
 		map_Chapter_Identifiers[chapter] = id
 
 		// Initialisation of values
@@ -333,11 +333,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(contentOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Content instances pointers"
 	}
-	for idx, content := range contentOrdered {
+	for _, content := range contentOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Content", idx, content.Name)
+		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
 		map_Content_Identifiers[content] = id
 
 		// Initialisation of values
@@ -354,11 +354,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(pageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Page instances pointers"
 	}
-	for idx, page := range pageOrdered {
+	for _, page := range pageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Page", idx, page.Name)
+		id = generatesIdentifier("Page", int(stage.PageMap_Staged_Order[page]), page.Name)
 		map_Page_Identifiers[page] = id
 
 		// Initialisation of values

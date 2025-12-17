@@ -629,6 +629,7 @@ func (displayselection *DisplaySelection) StagePreserveOrder(stage *Stage, order
 // Unstage removes displayselection off the model stage
 func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelection {
 	delete(stage.DisplaySelections, displayselection)
+	delete(stage.DisplaySelectionMap_Staged_Order, displayselection)
 	delete(stage.DisplaySelections_mapString, displayselection.Name)
 
 	return displayselection
@@ -637,6 +638,7 @@ func (displayselection *DisplaySelection) Unstage(stage *Stage) *DisplaySelectio
 // UnstageVoid removes displayselection off the model stage
 func (displayselection *DisplaySelection) UnstageVoid(stage *Stage) {
 	delete(stage.DisplaySelections, displayselection)
+	delete(stage.DisplaySelectionMap_Staged_Order, displayselection)
 	delete(stage.DisplaySelections_mapString, displayselection.Name)
 }
 
@@ -713,6 +715,7 @@ func (xlcell *XLCell) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlcell off the model stage
 func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
 	delete(stage.XLCells, xlcell)
+	delete(stage.XLCellMap_Staged_Order, xlcell)
 	delete(stage.XLCells_mapString, xlcell.Name)
 
 	return xlcell
@@ -721,6 +724,7 @@ func (xlcell *XLCell) Unstage(stage *Stage) *XLCell {
 // UnstageVoid removes xlcell off the model stage
 func (xlcell *XLCell) UnstageVoid(stage *Stage) {
 	delete(stage.XLCells, xlcell)
+	delete(stage.XLCellMap_Staged_Order, xlcell)
 	delete(stage.XLCells_mapString, xlcell.Name)
 }
 
@@ -797,6 +801,7 @@ func (xlfile *XLFile) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlfile off the model stage
 func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 	delete(stage.XLFiles, xlfile)
+	delete(stage.XLFileMap_Staged_Order, xlfile)
 	delete(stage.XLFiles_mapString, xlfile.Name)
 
 	return xlfile
@@ -805,6 +810,7 @@ func (xlfile *XLFile) Unstage(stage *Stage) *XLFile {
 // UnstageVoid removes xlfile off the model stage
 func (xlfile *XLFile) UnstageVoid(stage *Stage) {
 	delete(stage.XLFiles, xlfile)
+	delete(stage.XLFileMap_Staged_Order, xlfile)
 	delete(stage.XLFiles_mapString, xlfile.Name)
 }
 
@@ -881,6 +887,7 @@ func (xlrow *XLRow) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlrow off the model stage
 func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 	delete(stage.XLRows, xlrow)
+	delete(stage.XLRowMap_Staged_Order, xlrow)
 	delete(stage.XLRows_mapString, xlrow.Name)
 
 	return xlrow
@@ -889,6 +896,7 @@ func (xlrow *XLRow) Unstage(stage *Stage) *XLRow {
 // UnstageVoid removes xlrow off the model stage
 func (xlrow *XLRow) UnstageVoid(stage *Stage) {
 	delete(stage.XLRows, xlrow)
+	delete(stage.XLRowMap_Staged_Order, xlrow)
 	delete(stage.XLRows_mapString, xlrow.Name)
 }
 
@@ -965,6 +973,7 @@ func (xlsheet *XLSheet) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes xlsheet off the model stage
 func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
 	delete(stage.XLSheets, xlsheet)
+	delete(stage.XLSheetMap_Staged_Order, xlsheet)
 	delete(stage.XLSheets_mapString, xlsheet.Name)
 
 	return xlsheet
@@ -973,6 +982,7 @@ func (xlsheet *XLSheet) Unstage(stage *Stage) *XLSheet {
 // UnstageVoid removes xlsheet off the model stage
 func (xlsheet *XLSheet) UnstageVoid(stage *Stage) {
 	delete(stage.XLSheets, xlsheet)
+	delete(stage.XLSheetMap_Staged_Order, xlsheet)
 	delete(stage.XLSheets_mapString, xlsheet.Name)
 }
 

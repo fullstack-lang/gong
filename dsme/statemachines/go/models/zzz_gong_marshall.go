@@ -894,11 +894,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(actionOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Action instances pointers"
 	}
-	for idx, action := range actionOrdered {
+	for _, action := range actionOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Action", idx, action.Name)
+		id = generatesIdentifier("Action", int(stage.ActionMap_Staged_Order[action]), action.Name)
 		map_Action_Identifiers[action] = id
 
 		// Initialisation of values
@@ -907,11 +907,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(activitiesOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Activities instances pointers"
 	}
-	for idx, activities := range activitiesOrdered {
+	for _, activities := range activitiesOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Activities", idx, activities.Name)
+		id = generatesIdentifier("Activities", int(stage.ActivitiesMap_Staged_Order[activities]), activities.Name)
 		map_Activities_Identifiers[activities] = id
 
 		// Initialisation of values
@@ -920,11 +920,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(architectureOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Architecture instances pointers"
 	}
-	for idx, architecture := range architectureOrdered {
+	for _, architecture := range architectureOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Architecture", idx, architecture.Name)
+		id = generatesIdentifier("Architecture", int(stage.ArchitectureMap_Staged_Order[architecture]), architecture.Name)
 		map_Architecture_Identifiers[architecture] = id
 
 		// Initialisation of values
@@ -949,11 +949,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(diagramOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Diagram instances pointers"
 	}
-	for idx, diagram := range diagramOrdered {
+	for _, diagram := range diagramOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Diagram", idx, diagram.Name)
+		id = generatesIdentifier("Diagram", int(stage.DiagramMap_Staged_Order[diagram]), diagram.Name)
 		map_Diagram_Identifiers[diagram] = id
 
 		// Initialisation of values
@@ -978,11 +978,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(guardOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Guard instances pointers"
 	}
-	for idx, guard := range guardOrdered {
+	for _, guard := range guardOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Guard", idx, guard.Name)
+		id = generatesIdentifier("Guard", int(stage.GuardMap_Staged_Order[guard]), guard.Name)
 		map_Guard_Identifiers[guard] = id
 
 		// Initialisation of values
@@ -991,11 +991,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(killOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Kill instances pointers"
 	}
-	for idx, kill := range killOrdered {
+	for _, kill := range killOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Kill", idx, kill.Name)
+		id = generatesIdentifier("Kill", int(stage.KillMap_Staged_Order[kill]), kill.Name)
 		map_Kill_Identifiers[kill] = id
 
 		// Initialisation of values
@@ -1004,11 +1004,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(messageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Message instances pointers"
 	}
-	for idx, message := range messageOrdered {
+	for _, message := range messageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Message", idx, message.Name)
+		id = generatesIdentifier("Message", int(stage.MessageMap_Staged_Order[message]), message.Name)
 		map_Message_Identifiers[message] = id
 
 		// Initialisation of values
@@ -1033,11 +1033,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(messagetypeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of MessageType instances pointers"
 	}
-	for idx, messagetype := range messagetypeOrdered {
+	for _, messagetype := range messagetypeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("MessageType", idx, messagetype.Name)
+		id = generatesIdentifier("MessageType", int(stage.MessageTypeMap_Staged_Order[messagetype]), messagetype.Name)
 		map_MessageType_Identifiers[messagetype] = id
 
 		// Initialisation of values
@@ -1046,11 +1046,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(objectOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Object instances pointers"
 	}
-	for idx, object := range objectOrdered {
+	for _, object := range objectOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Object", idx, object.Name)
+		id = generatesIdentifier("Object", int(stage.ObjectMap_Staged_Order[object]), object.Name)
 		map_Object_Identifiers[object] = id
 
 		// Initialisation of values
@@ -1075,11 +1075,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(roleOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Role instances pointers"
 	}
-	for idx, role := range roleOrdered {
+	for _, role := range roleOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Role", idx, role.Name)
+		id = generatesIdentifier("Role", int(stage.RoleMap_Staged_Order[role]), role.Name)
 		map_Role_Identifiers[role] = id
 
 		// Initialisation of values
@@ -1096,11 +1096,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(stateOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of State instances pointers"
 	}
-	for idx, state := range stateOrdered {
+	for _, state := range stateOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("State", idx, state.Name)
+		id = generatesIdentifier("State", int(stage.StateMap_Staged_Order[state]), state.Name)
 		map_State_Identifiers[state] = id
 
 		// Initialisation of values
@@ -1157,11 +1157,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(statemachineOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of StateMachine instances pointers"
 	}
-	for idx, statemachine := range statemachineOrdered {
+	for _, statemachine := range statemachineOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("StateMachine", idx, statemachine.Name)
+		id = generatesIdentifier("StateMachine", int(stage.StateMachineMap_Staged_Order[statemachine]), statemachine.Name)
 		map_StateMachine_Identifiers[statemachine] = id
 
 		// Initialisation of values
@@ -1194,11 +1194,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(stateshapeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of StateShape instances pointers"
 	}
-	for idx, stateshape := range stateshapeOrdered {
+	for _, stateshape := range stateshapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("StateShape", idx, stateshape.Name)
+		id = generatesIdentifier("StateShape", int(stage.StateShapeMap_Staged_Order[stateshape]), stateshape.Name)
 		map_StateShape_Identifiers[stateshape] = id
 
 		// Initialisation of values
@@ -1215,11 +1215,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(transitionOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Transition instances pointers"
 	}
-	for idx, transition := range transitionOrdered {
+	for _, transition := range transitionOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Transition", idx, transition.Name)
+		id = generatesIdentifier("Transition", int(stage.TransitionMap_Staged_Order[transition]), transition.Name)
 		map_Transition_Identifiers[transition] = id
 
 		// Initialisation of values
@@ -1276,11 +1276,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(transition_shapeOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Transition_Shape instances pointers"
 	}
-	for idx, transition_shape := range transition_shapeOrdered {
+	for _, transition_shape := range transition_shapeOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Transition_Shape", idx, transition_shape.Name)
+		id = generatesIdentifier("Transition_Shape", int(stage.Transition_ShapeMap_Staged_Order[transition_shape]), transition_shape.Name)
 		map_Transition_Shape_Identifiers[transition_shape] = id
 
 		// Initialisation of values

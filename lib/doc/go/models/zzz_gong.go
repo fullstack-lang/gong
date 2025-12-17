@@ -801,6 +801,7 @@ func (attributeshape *AttributeShape) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes attributeshape off the model stage
 func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 	delete(stage.AttributeShapes, attributeshape)
+	delete(stage.AttributeShapeMap_Staged_Order, attributeshape)
 	delete(stage.AttributeShapes_mapString, attributeshape.Name)
 
 	return attributeshape
@@ -809,6 +810,7 @@ func (attributeshape *AttributeShape) Unstage(stage *Stage) *AttributeShape {
 // UnstageVoid removes attributeshape off the model stage
 func (attributeshape *AttributeShape) UnstageVoid(stage *Stage) {
 	delete(stage.AttributeShapes, attributeshape)
+	delete(stage.AttributeShapeMap_Staged_Order, attributeshape)
 	delete(stage.AttributeShapes_mapString, attributeshape.Name)
 }
 
@@ -885,6 +887,7 @@ func (classdiagram *Classdiagram) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes classdiagram off the model stage
 func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 	delete(stage.Classdiagrams, classdiagram)
+	delete(stage.ClassdiagramMap_Staged_Order, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 
 	return classdiagram
@@ -893,6 +896,7 @@ func (classdiagram *Classdiagram) Unstage(stage *Stage) *Classdiagram {
 // UnstageVoid removes classdiagram off the model stage
 func (classdiagram *Classdiagram) UnstageVoid(stage *Stage) {
 	delete(stage.Classdiagrams, classdiagram)
+	delete(stage.ClassdiagramMap_Staged_Order, classdiagram)
 	delete(stage.Classdiagrams_mapString, classdiagram.Name)
 }
 
@@ -969,6 +973,7 @@ func (diagrampackage *DiagramPackage) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 	delete(stage.DiagramPackages, diagrampackage)
+	delete(stage.DiagramPackageMap_Staged_Order, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 
 	return diagrampackage
@@ -977,6 +982,7 @@ func (diagrampackage *DiagramPackage) Unstage(stage *Stage) *DiagramPackage {
 // UnstageVoid removes diagrampackage off the model stage
 func (diagrampackage *DiagramPackage) UnstageVoid(stage *Stage) {
 	delete(stage.DiagramPackages, diagrampackage)
+	delete(stage.DiagramPackageMap_Staged_Order, diagrampackage)
 	delete(stage.DiagramPackages_mapString, diagrampackage.Name)
 }
 
@@ -1053,6 +1059,7 @@ func (gongenumshape *GongEnumShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 	delete(stage.GongEnumShapes, gongenumshape)
+	delete(stage.GongEnumShapeMap_Staged_Order, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 
 	return gongenumshape
@@ -1061,6 +1068,7 @@ func (gongenumshape *GongEnumShape) Unstage(stage *Stage) *GongEnumShape {
 // UnstageVoid removes gongenumshape off the model stage
 func (gongenumshape *GongEnumShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumShapes, gongenumshape)
+	delete(stage.GongEnumShapeMap_Staged_Order, gongenumshape)
 	delete(stage.GongEnumShapes_mapString, gongenumshape.Name)
 }
 
@@ -1137,6 +1145,7 @@ func (gongenumvalueshape *GongEnumValueShape) StagePreserveOrder(stage *Stage, o
 // Unstage removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumValueShape {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
+	delete(stage.GongEnumValueShapeMap_Staged_Order, gongenumvalueshape)
 	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
 
 	return gongenumvalueshape
@@ -1145,6 +1154,7 @@ func (gongenumvalueshape *GongEnumValueShape) Unstage(stage *Stage) *GongEnumVal
 // UnstageVoid removes gongenumvalueshape off the model stage
 func (gongenumvalueshape *GongEnumValueShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumValueShapes, gongenumvalueshape)
+	delete(stage.GongEnumValueShapeMap_Staged_Order, gongenumvalueshape)
 	delete(stage.GongEnumValueShapes_mapString, gongenumvalueshape.Name)
 }
 
@@ -1221,6 +1231,7 @@ func (gongnotelinkshape *GongNoteLinkShape) StagePreserveOrder(stage *Stage, ord
 // Unstage removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkShape {
 	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
+	delete(stage.GongNoteLinkShapeMap_Staged_Order, gongnotelinkshape)
 	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
 
 	return gongnotelinkshape
@@ -1229,6 +1240,7 @@ func (gongnotelinkshape *GongNoteLinkShape) Unstage(stage *Stage) *GongNoteLinkS
 // UnstageVoid removes gongnotelinkshape off the model stage
 func (gongnotelinkshape *GongNoteLinkShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongNoteLinkShapes, gongnotelinkshape)
+	delete(stage.GongNoteLinkShapeMap_Staged_Order, gongnotelinkshape)
 	delete(stage.GongNoteLinkShapes_mapString, gongnotelinkshape.Name)
 }
 
@@ -1305,6 +1317,7 @@ func (gongnoteshape *GongNoteShape) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 	delete(stage.GongNoteShapes, gongnoteshape)
+	delete(stage.GongNoteShapeMap_Staged_Order, gongnoteshape)
 	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
 
 	return gongnoteshape
@@ -1313,6 +1326,7 @@ func (gongnoteshape *GongNoteShape) Unstage(stage *Stage) *GongNoteShape {
 // UnstageVoid removes gongnoteshape off the model stage
 func (gongnoteshape *GongNoteShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongNoteShapes, gongnoteshape)
+	delete(stage.GongNoteShapeMap_Staged_Order, gongnoteshape)
 	delete(stage.GongNoteShapes_mapString, gongnoteshape.Name)
 }
 
@@ -1389,6 +1403,7 @@ func (gongstructshape *GongStructShape) StagePreserveOrder(stage *Stage, order u
 // Unstage removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 	delete(stage.GongStructShapes, gongstructshape)
+	delete(stage.GongStructShapeMap_Staged_Order, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 
 	return gongstructshape
@@ -1397,6 +1412,7 @@ func (gongstructshape *GongStructShape) Unstage(stage *Stage) *GongStructShape {
 // UnstageVoid removes gongstructshape off the model stage
 func (gongstructshape *GongStructShape) UnstageVoid(stage *Stage) {
 	delete(stage.GongStructShapes, gongstructshape)
+	delete(stage.GongStructShapeMap_Staged_Order, gongstructshape)
 	delete(stage.GongStructShapes_mapString, gongstructshape.Name)
 }
 
@@ -1473,6 +1489,7 @@ func (linkshape *LinkShape) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes linkshape off the model stage
 func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
 	delete(stage.LinkShapes, linkshape)
+	delete(stage.LinkShapeMap_Staged_Order, linkshape)
 	delete(stage.LinkShapes_mapString, linkshape.Name)
 
 	return linkshape
@@ -1481,6 +1498,7 @@ func (linkshape *LinkShape) Unstage(stage *Stage) *LinkShape {
 // UnstageVoid removes linkshape off the model stage
 func (linkshape *LinkShape) UnstageVoid(stage *Stage) {
 	delete(stage.LinkShapes, linkshape)
+	delete(stage.LinkShapeMap_Staged_Order, linkshape)
 	delete(stage.LinkShapes_mapString, linkshape.Name)
 }
 

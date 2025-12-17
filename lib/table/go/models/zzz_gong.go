@@ -1373,6 +1373,7 @@ func (cell *Cell) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cell off the model stage
 func (cell *Cell) Unstage(stage *Stage) *Cell {
 	delete(stage.Cells, cell)
+	delete(stage.CellMap_Staged_Order, cell)
 	delete(stage.Cells_mapString, cell.Name)
 
 	return cell
@@ -1381,6 +1382,7 @@ func (cell *Cell) Unstage(stage *Stage) *Cell {
 // UnstageVoid removes cell off the model stage
 func (cell *Cell) UnstageVoid(stage *Stage) {
 	delete(stage.Cells, cell)
+	delete(stage.CellMap_Staged_Order, cell)
 	delete(stage.Cells_mapString, cell.Name)
 }
 
@@ -1457,6 +1459,7 @@ func (cellboolean *CellBoolean) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cellboolean off the model stage
 func (cellboolean *CellBoolean) Unstage(stage *Stage) *CellBoolean {
 	delete(stage.CellBooleans, cellboolean)
+	delete(stage.CellBooleanMap_Staged_Order, cellboolean)
 	delete(stage.CellBooleans_mapString, cellboolean.Name)
 
 	return cellboolean
@@ -1465,6 +1468,7 @@ func (cellboolean *CellBoolean) Unstage(stage *Stage) *CellBoolean {
 // UnstageVoid removes cellboolean off the model stage
 func (cellboolean *CellBoolean) UnstageVoid(stage *Stage) {
 	delete(stage.CellBooleans, cellboolean)
+	delete(stage.CellBooleanMap_Staged_Order, cellboolean)
 	delete(stage.CellBooleans_mapString, cellboolean.Name)
 }
 
@@ -1541,6 +1545,7 @@ func (cellfloat64 *CellFloat64) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cellfloat64 off the model stage
 func (cellfloat64 *CellFloat64) Unstage(stage *Stage) *CellFloat64 {
 	delete(stage.CellFloat64s, cellfloat64)
+	delete(stage.CellFloat64Map_Staged_Order, cellfloat64)
 	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
 
 	return cellfloat64
@@ -1549,6 +1554,7 @@ func (cellfloat64 *CellFloat64) Unstage(stage *Stage) *CellFloat64 {
 // UnstageVoid removes cellfloat64 off the model stage
 func (cellfloat64 *CellFloat64) UnstageVoid(stage *Stage) {
 	delete(stage.CellFloat64s, cellfloat64)
+	delete(stage.CellFloat64Map_Staged_Order, cellfloat64)
 	delete(stage.CellFloat64s_mapString, cellfloat64.Name)
 }
 
@@ -1625,6 +1631,7 @@ func (cellicon *CellIcon) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cellicon off the model stage
 func (cellicon *CellIcon) Unstage(stage *Stage) *CellIcon {
 	delete(stage.CellIcons, cellicon)
+	delete(stage.CellIconMap_Staged_Order, cellicon)
 	delete(stage.CellIcons_mapString, cellicon.Name)
 
 	return cellicon
@@ -1633,6 +1640,7 @@ func (cellicon *CellIcon) Unstage(stage *Stage) *CellIcon {
 // UnstageVoid removes cellicon off the model stage
 func (cellicon *CellIcon) UnstageVoid(stage *Stage) {
 	delete(stage.CellIcons, cellicon)
+	delete(stage.CellIconMap_Staged_Order, cellicon)
 	delete(stage.CellIcons_mapString, cellicon.Name)
 }
 
@@ -1709,6 +1717,7 @@ func (cellint *CellInt) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cellint off the model stage
 func (cellint *CellInt) Unstage(stage *Stage) *CellInt {
 	delete(stage.CellInts, cellint)
+	delete(stage.CellIntMap_Staged_Order, cellint)
 	delete(stage.CellInts_mapString, cellint.Name)
 
 	return cellint
@@ -1717,6 +1726,7 @@ func (cellint *CellInt) Unstage(stage *Stage) *CellInt {
 // UnstageVoid removes cellint off the model stage
 func (cellint *CellInt) UnstageVoid(stage *Stage) {
 	delete(stage.CellInts, cellint)
+	delete(stage.CellIntMap_Staged_Order, cellint)
 	delete(stage.CellInts_mapString, cellint.Name)
 }
 
@@ -1793,6 +1803,7 @@ func (cellstring *CellString) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cellstring off the model stage
 func (cellstring *CellString) Unstage(stage *Stage) *CellString {
 	delete(stage.CellStrings, cellstring)
+	delete(stage.CellStringMap_Staged_Order, cellstring)
 	delete(stage.CellStrings_mapString, cellstring.Name)
 
 	return cellstring
@@ -1801,6 +1812,7 @@ func (cellstring *CellString) Unstage(stage *Stage) *CellString {
 // UnstageVoid removes cellstring off the model stage
 func (cellstring *CellString) UnstageVoid(stage *Stage) {
 	delete(stage.CellStrings, cellstring)
+	delete(stage.CellStringMap_Staged_Order, cellstring)
 	delete(stage.CellStrings_mapString, cellstring.Name)
 }
 
@@ -1877,6 +1889,7 @@ func (checkbox *CheckBox) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes checkbox off the model stage
 func (checkbox *CheckBox) Unstage(stage *Stage) *CheckBox {
 	delete(stage.CheckBoxs, checkbox)
+	delete(stage.CheckBoxMap_Staged_Order, checkbox)
 	delete(stage.CheckBoxs_mapString, checkbox.Name)
 
 	return checkbox
@@ -1885,6 +1898,7 @@ func (checkbox *CheckBox) Unstage(stage *Stage) *CheckBox {
 // UnstageVoid removes checkbox off the model stage
 func (checkbox *CheckBox) UnstageVoid(stage *Stage) {
 	delete(stage.CheckBoxs, checkbox)
+	delete(stage.CheckBoxMap_Staged_Order, checkbox)
 	delete(stage.CheckBoxs_mapString, checkbox.Name)
 }
 
@@ -1961,6 +1975,7 @@ func (displayedcolumn *DisplayedColumn) StagePreserveOrder(stage *Stage, order u
 // Unstage removes displayedcolumn off the model stage
 func (displayedcolumn *DisplayedColumn) Unstage(stage *Stage) *DisplayedColumn {
 	delete(stage.DisplayedColumns, displayedcolumn)
+	delete(stage.DisplayedColumnMap_Staged_Order, displayedcolumn)
 	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
 
 	return displayedcolumn
@@ -1969,6 +1984,7 @@ func (displayedcolumn *DisplayedColumn) Unstage(stage *Stage) *DisplayedColumn {
 // UnstageVoid removes displayedcolumn off the model stage
 func (displayedcolumn *DisplayedColumn) UnstageVoid(stage *Stage) {
 	delete(stage.DisplayedColumns, displayedcolumn)
+	delete(stage.DisplayedColumnMap_Staged_Order, displayedcolumn)
 	delete(stage.DisplayedColumns_mapString, displayedcolumn.Name)
 }
 
@@ -2045,6 +2061,7 @@ func (formdiv *FormDiv) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes formdiv off the model stage
 func (formdiv *FormDiv) Unstage(stage *Stage) *FormDiv {
 	delete(stage.FormDivs, formdiv)
+	delete(stage.FormDivMap_Staged_Order, formdiv)
 	delete(stage.FormDivs_mapString, formdiv.Name)
 
 	return formdiv
@@ -2053,6 +2070,7 @@ func (formdiv *FormDiv) Unstage(stage *Stage) *FormDiv {
 // UnstageVoid removes formdiv off the model stage
 func (formdiv *FormDiv) UnstageVoid(stage *Stage) {
 	delete(stage.FormDivs, formdiv)
+	delete(stage.FormDivMap_Staged_Order, formdiv)
 	delete(stage.FormDivs_mapString, formdiv.Name)
 }
 
@@ -2129,6 +2147,7 @@ func (formeditassocbutton *FormEditAssocButton) StagePreserveOrder(stage *Stage,
 // Unstage removes formeditassocbutton off the model stage
 func (formeditassocbutton *FormEditAssocButton) Unstage(stage *Stage) *FormEditAssocButton {
 	delete(stage.FormEditAssocButtons, formeditassocbutton)
+	delete(stage.FormEditAssocButtonMap_Staged_Order, formeditassocbutton)
 	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
 
 	return formeditassocbutton
@@ -2137,6 +2156,7 @@ func (formeditassocbutton *FormEditAssocButton) Unstage(stage *Stage) *FormEditA
 // UnstageVoid removes formeditassocbutton off the model stage
 func (formeditassocbutton *FormEditAssocButton) UnstageVoid(stage *Stage) {
 	delete(stage.FormEditAssocButtons, formeditassocbutton)
+	delete(stage.FormEditAssocButtonMap_Staged_Order, formeditassocbutton)
 	delete(stage.FormEditAssocButtons_mapString, formeditassocbutton.Name)
 }
 
@@ -2213,6 +2233,7 @@ func (formfield *FormField) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes formfield off the model stage
 func (formfield *FormField) Unstage(stage *Stage) *FormField {
 	delete(stage.FormFields, formfield)
+	delete(stage.FormFieldMap_Staged_Order, formfield)
 	delete(stage.FormFields_mapString, formfield.Name)
 
 	return formfield
@@ -2221,6 +2242,7 @@ func (formfield *FormField) Unstage(stage *Stage) *FormField {
 // UnstageVoid removes formfield off the model stage
 func (formfield *FormField) UnstageVoid(stage *Stage) {
 	delete(stage.FormFields, formfield)
+	delete(stage.FormFieldMap_Staged_Order, formfield)
 	delete(stage.FormFields_mapString, formfield.Name)
 }
 
@@ -2297,6 +2319,7 @@ func (formfielddate *FormFieldDate) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes formfielddate off the model stage
 func (formfielddate *FormFieldDate) Unstage(stage *Stage) *FormFieldDate {
 	delete(stage.FormFieldDates, formfielddate)
+	delete(stage.FormFieldDateMap_Staged_Order, formfielddate)
 	delete(stage.FormFieldDates_mapString, formfielddate.Name)
 
 	return formfielddate
@@ -2305,6 +2328,7 @@ func (formfielddate *FormFieldDate) Unstage(stage *Stage) *FormFieldDate {
 // UnstageVoid removes formfielddate off the model stage
 func (formfielddate *FormFieldDate) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldDates, formfielddate)
+	delete(stage.FormFieldDateMap_Staged_Order, formfielddate)
 	delete(stage.FormFieldDates_mapString, formfielddate.Name)
 }
 
@@ -2381,6 +2405,7 @@ func (formfielddatetime *FormFieldDateTime) StagePreserveOrder(stage *Stage, ord
 // Unstage removes formfielddatetime off the model stage
 func (formfielddatetime *FormFieldDateTime) Unstage(stage *Stage) *FormFieldDateTime {
 	delete(stage.FormFieldDateTimes, formfielddatetime)
+	delete(stage.FormFieldDateTimeMap_Staged_Order, formfielddatetime)
 	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
 
 	return formfielddatetime
@@ -2389,6 +2414,7 @@ func (formfielddatetime *FormFieldDateTime) Unstage(stage *Stage) *FormFieldDate
 // UnstageVoid removes formfielddatetime off the model stage
 func (formfielddatetime *FormFieldDateTime) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldDateTimes, formfielddatetime)
+	delete(stage.FormFieldDateTimeMap_Staged_Order, formfielddatetime)
 	delete(stage.FormFieldDateTimes_mapString, formfielddatetime.Name)
 }
 
@@ -2465,6 +2491,7 @@ func (formfieldfloat64 *FormFieldFloat64) StagePreserveOrder(stage *Stage, order
 // Unstage removes formfieldfloat64 off the model stage
 func (formfieldfloat64 *FormFieldFloat64) Unstage(stage *Stage) *FormFieldFloat64 {
 	delete(stage.FormFieldFloat64s, formfieldfloat64)
+	delete(stage.FormFieldFloat64Map_Staged_Order, formfieldfloat64)
 	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
 
 	return formfieldfloat64
@@ -2473,6 +2500,7 @@ func (formfieldfloat64 *FormFieldFloat64) Unstage(stage *Stage) *FormFieldFloat6
 // UnstageVoid removes formfieldfloat64 off the model stage
 func (formfieldfloat64 *FormFieldFloat64) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldFloat64s, formfieldfloat64)
+	delete(stage.FormFieldFloat64Map_Staged_Order, formfieldfloat64)
 	delete(stage.FormFieldFloat64s_mapString, formfieldfloat64.Name)
 }
 
@@ -2549,6 +2577,7 @@ func (formfieldint *FormFieldInt) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes formfieldint off the model stage
 func (formfieldint *FormFieldInt) Unstage(stage *Stage) *FormFieldInt {
 	delete(stage.FormFieldInts, formfieldint)
+	delete(stage.FormFieldIntMap_Staged_Order, formfieldint)
 	delete(stage.FormFieldInts_mapString, formfieldint.Name)
 
 	return formfieldint
@@ -2557,6 +2586,7 @@ func (formfieldint *FormFieldInt) Unstage(stage *Stage) *FormFieldInt {
 // UnstageVoid removes formfieldint off the model stage
 func (formfieldint *FormFieldInt) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldInts, formfieldint)
+	delete(stage.FormFieldIntMap_Staged_Order, formfieldint)
 	delete(stage.FormFieldInts_mapString, formfieldint.Name)
 }
 
@@ -2633,6 +2663,7 @@ func (formfieldselect *FormFieldSelect) StagePreserveOrder(stage *Stage, order u
 // Unstage removes formfieldselect off the model stage
 func (formfieldselect *FormFieldSelect) Unstage(stage *Stage) *FormFieldSelect {
 	delete(stage.FormFieldSelects, formfieldselect)
+	delete(stage.FormFieldSelectMap_Staged_Order, formfieldselect)
 	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
 
 	return formfieldselect
@@ -2641,6 +2672,7 @@ func (formfieldselect *FormFieldSelect) Unstage(stage *Stage) *FormFieldSelect {
 // UnstageVoid removes formfieldselect off the model stage
 func (formfieldselect *FormFieldSelect) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldSelects, formfieldselect)
+	delete(stage.FormFieldSelectMap_Staged_Order, formfieldselect)
 	delete(stage.FormFieldSelects_mapString, formfieldselect.Name)
 }
 
@@ -2717,6 +2749,7 @@ func (formfieldstring *FormFieldString) StagePreserveOrder(stage *Stage, order u
 // Unstage removes formfieldstring off the model stage
 func (formfieldstring *FormFieldString) Unstage(stage *Stage) *FormFieldString {
 	delete(stage.FormFieldStrings, formfieldstring)
+	delete(stage.FormFieldStringMap_Staged_Order, formfieldstring)
 	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
 
 	return formfieldstring
@@ -2725,6 +2758,7 @@ func (formfieldstring *FormFieldString) Unstage(stage *Stage) *FormFieldString {
 // UnstageVoid removes formfieldstring off the model stage
 func (formfieldstring *FormFieldString) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldStrings, formfieldstring)
+	delete(stage.FormFieldStringMap_Staged_Order, formfieldstring)
 	delete(stage.FormFieldStrings_mapString, formfieldstring.Name)
 }
 
@@ -2801,6 +2835,7 @@ func (formfieldtime *FormFieldTime) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes formfieldtime off the model stage
 func (formfieldtime *FormFieldTime) Unstage(stage *Stage) *FormFieldTime {
 	delete(stage.FormFieldTimes, formfieldtime)
+	delete(stage.FormFieldTimeMap_Staged_Order, formfieldtime)
 	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
 
 	return formfieldtime
@@ -2809,6 +2844,7 @@ func (formfieldtime *FormFieldTime) Unstage(stage *Stage) *FormFieldTime {
 // UnstageVoid removes formfieldtime off the model stage
 func (formfieldtime *FormFieldTime) UnstageVoid(stage *Stage) {
 	delete(stage.FormFieldTimes, formfieldtime)
+	delete(stage.FormFieldTimeMap_Staged_Order, formfieldtime)
 	delete(stage.FormFieldTimes_mapString, formfieldtime.Name)
 }
 
@@ -2885,6 +2921,7 @@ func (formgroup *FormGroup) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes formgroup off the model stage
 func (formgroup *FormGroup) Unstage(stage *Stage) *FormGroup {
 	delete(stage.FormGroups, formgroup)
+	delete(stage.FormGroupMap_Staged_Order, formgroup)
 	delete(stage.FormGroups_mapString, formgroup.Name)
 
 	return formgroup
@@ -2893,6 +2930,7 @@ func (formgroup *FormGroup) Unstage(stage *Stage) *FormGroup {
 // UnstageVoid removes formgroup off the model stage
 func (formgroup *FormGroup) UnstageVoid(stage *Stage) {
 	delete(stage.FormGroups, formgroup)
+	delete(stage.FormGroupMap_Staged_Order, formgroup)
 	delete(stage.FormGroups_mapString, formgroup.Name)
 }
 
@@ -2969,6 +3007,7 @@ func (formsortassocbutton *FormSortAssocButton) StagePreserveOrder(stage *Stage,
 // Unstage removes formsortassocbutton off the model stage
 func (formsortassocbutton *FormSortAssocButton) Unstage(stage *Stage) *FormSortAssocButton {
 	delete(stage.FormSortAssocButtons, formsortassocbutton)
+	delete(stage.FormSortAssocButtonMap_Staged_Order, formsortassocbutton)
 	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
 
 	return formsortassocbutton
@@ -2977,6 +3016,7 @@ func (formsortassocbutton *FormSortAssocButton) Unstage(stage *Stage) *FormSortA
 // UnstageVoid removes formsortassocbutton off the model stage
 func (formsortassocbutton *FormSortAssocButton) UnstageVoid(stage *Stage) {
 	delete(stage.FormSortAssocButtons, formsortassocbutton)
+	delete(stage.FormSortAssocButtonMap_Staged_Order, formsortassocbutton)
 	delete(stage.FormSortAssocButtons_mapString, formsortassocbutton.Name)
 }
 
@@ -3053,6 +3093,7 @@ func (option *Option) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes option off the model stage
 func (option *Option) Unstage(stage *Stage) *Option {
 	delete(stage.Options, option)
+	delete(stage.OptionMap_Staged_Order, option)
 	delete(stage.Options_mapString, option.Name)
 
 	return option
@@ -3061,6 +3102,7 @@ func (option *Option) Unstage(stage *Stage) *Option {
 // UnstageVoid removes option off the model stage
 func (option *Option) UnstageVoid(stage *Stage) {
 	delete(stage.Options, option)
+	delete(stage.OptionMap_Staged_Order, option)
 	delete(stage.Options_mapString, option.Name)
 }
 
@@ -3137,6 +3179,7 @@ func (row *Row) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes row off the model stage
 func (row *Row) Unstage(stage *Stage) *Row {
 	delete(stage.Rows, row)
+	delete(stage.RowMap_Staged_Order, row)
 	delete(stage.Rows_mapString, row.Name)
 
 	return row
@@ -3145,6 +3188,7 @@ func (row *Row) Unstage(stage *Stage) *Row {
 // UnstageVoid removes row off the model stage
 func (row *Row) UnstageVoid(stage *Stage) {
 	delete(stage.Rows, row)
+	delete(stage.RowMap_Staged_Order, row)
 	delete(stage.Rows_mapString, row.Name)
 }
 
@@ -3221,6 +3265,7 @@ func (table *Table) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes table off the model stage
 func (table *Table) Unstage(stage *Stage) *Table {
 	delete(stage.Tables, table)
+	delete(stage.TableMap_Staged_Order, table)
 	delete(stage.Tables_mapString, table.Name)
 
 	return table
@@ -3229,6 +3274,7 @@ func (table *Table) Unstage(stage *Stage) *Table {
 // UnstageVoid removes table off the model stage
 func (table *Table) UnstageVoid(stage *Stage) {
 	delete(stage.Tables, table)
+	delete(stage.TableMap_Staged_Order, table)
 	delete(stage.Tables_mapString, table.Name)
 }
 

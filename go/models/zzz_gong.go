@@ -879,6 +879,7 @@ func (gongbasicfield *GongBasicField) StagePreserveOrder(stage *Stage, order uin
 // Unstage removes gongbasicfield off the model stage
 func (gongbasicfield *GongBasicField) Unstage(stage *Stage) *GongBasicField {
 	delete(stage.GongBasicFields, gongbasicfield)
+	delete(stage.GongBasicFieldMap_Staged_Order, gongbasicfield)
 	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
 
 	return gongbasicfield
@@ -887,6 +888,7 @@ func (gongbasicfield *GongBasicField) Unstage(stage *Stage) *GongBasicField {
 // UnstageVoid removes gongbasicfield off the model stage
 func (gongbasicfield *GongBasicField) UnstageVoid(stage *Stage) {
 	delete(stage.GongBasicFields, gongbasicfield)
+	delete(stage.GongBasicFieldMap_Staged_Order, gongbasicfield)
 	delete(stage.GongBasicFields_mapString, gongbasicfield.Name)
 }
 
@@ -963,6 +965,7 @@ func (gongenum *GongEnum) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gongenum off the model stage
 func (gongenum *GongEnum) Unstage(stage *Stage) *GongEnum {
 	delete(stage.GongEnums, gongenum)
+	delete(stage.GongEnumMap_Staged_Order, gongenum)
 	delete(stage.GongEnums_mapString, gongenum.Name)
 
 	return gongenum
@@ -971,6 +974,7 @@ func (gongenum *GongEnum) Unstage(stage *Stage) *GongEnum {
 // UnstageVoid removes gongenum off the model stage
 func (gongenum *GongEnum) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnums, gongenum)
+	delete(stage.GongEnumMap_Staged_Order, gongenum)
 	delete(stage.GongEnums_mapString, gongenum.Name)
 }
 
@@ -1047,6 +1051,7 @@ func (gongenumvalue *GongEnumValue) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongenumvalue off the model stage
 func (gongenumvalue *GongEnumValue) Unstage(stage *Stage) *GongEnumValue {
 	delete(stage.GongEnumValues, gongenumvalue)
+	delete(stage.GongEnumValueMap_Staged_Order, gongenumvalue)
 	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
 
 	return gongenumvalue
@@ -1055,6 +1060,7 @@ func (gongenumvalue *GongEnumValue) Unstage(stage *Stage) *GongEnumValue {
 // UnstageVoid removes gongenumvalue off the model stage
 func (gongenumvalue *GongEnumValue) UnstageVoid(stage *Stage) {
 	delete(stage.GongEnumValues, gongenumvalue)
+	delete(stage.GongEnumValueMap_Staged_Order, gongenumvalue)
 	delete(stage.GongEnumValues_mapString, gongenumvalue.Name)
 }
 
@@ -1131,6 +1137,7 @@ func (gonglink *GongLink) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gonglink off the model stage
 func (gonglink *GongLink) Unstage(stage *Stage) *GongLink {
 	delete(stage.GongLinks, gonglink)
+	delete(stage.GongLinkMap_Staged_Order, gonglink)
 	delete(stage.GongLinks_mapString, gonglink.Name)
 
 	return gonglink
@@ -1139,6 +1146,7 @@ func (gonglink *GongLink) Unstage(stage *Stage) *GongLink {
 // UnstageVoid removes gonglink off the model stage
 func (gonglink *GongLink) UnstageVoid(stage *Stage) {
 	delete(stage.GongLinks, gonglink)
+	delete(stage.GongLinkMap_Staged_Order, gonglink)
 	delete(stage.GongLinks_mapString, gonglink.Name)
 }
 
@@ -1215,6 +1223,7 @@ func (gongnote *GongNote) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gongnote off the model stage
 func (gongnote *GongNote) Unstage(stage *Stage) *GongNote {
 	delete(stage.GongNotes, gongnote)
+	delete(stage.GongNoteMap_Staged_Order, gongnote)
 	delete(stage.GongNotes_mapString, gongnote.Name)
 
 	return gongnote
@@ -1223,6 +1232,7 @@ func (gongnote *GongNote) Unstage(stage *Stage) *GongNote {
 // UnstageVoid removes gongnote off the model stage
 func (gongnote *GongNote) UnstageVoid(stage *Stage) {
 	delete(stage.GongNotes, gongnote)
+	delete(stage.GongNoteMap_Staged_Order, gongnote)
 	delete(stage.GongNotes_mapString, gongnote.Name)
 }
 
@@ -1299,6 +1309,7 @@ func (gongstruct *GongStruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gongstruct off the model stage
 func (gongstruct *GongStruct) Unstage(stage *Stage) *GongStruct {
 	delete(stage.GongStructs, gongstruct)
+	delete(stage.GongStructMap_Staged_Order, gongstruct)
 	delete(stage.GongStructs_mapString, gongstruct.Name)
 
 	return gongstruct
@@ -1307,6 +1318,7 @@ func (gongstruct *GongStruct) Unstage(stage *Stage) *GongStruct {
 // UnstageVoid removes gongstruct off the model stage
 func (gongstruct *GongStruct) UnstageVoid(stage *Stage) {
 	delete(stage.GongStructs, gongstruct)
+	delete(stage.GongStructMap_Staged_Order, gongstruct)
 	delete(stage.GongStructs_mapString, gongstruct.Name)
 }
 
@@ -1383,6 +1395,7 @@ func (gongtimefield *GongTimeField) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes gongtimefield off the model stage
 func (gongtimefield *GongTimeField) Unstage(stage *Stage) *GongTimeField {
 	delete(stage.GongTimeFields, gongtimefield)
+	delete(stage.GongTimeFieldMap_Staged_Order, gongtimefield)
 	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
 
 	return gongtimefield
@@ -1391,6 +1404,7 @@ func (gongtimefield *GongTimeField) Unstage(stage *Stage) *GongTimeField {
 // UnstageVoid removes gongtimefield off the model stage
 func (gongtimefield *GongTimeField) UnstageVoid(stage *Stage) {
 	delete(stage.GongTimeFields, gongtimefield)
+	delete(stage.GongTimeFieldMap_Staged_Order, gongtimefield)
 	delete(stage.GongTimeFields_mapString, gongtimefield.Name)
 }
 
@@ -1467,6 +1481,7 @@ func (metareference *MetaReference) StagePreserveOrder(stage *Stage, order uint)
 // Unstage removes metareference off the model stage
 func (metareference *MetaReference) Unstage(stage *Stage) *MetaReference {
 	delete(stage.MetaReferences, metareference)
+	delete(stage.MetaReferenceMap_Staged_Order, metareference)
 	delete(stage.MetaReferences_mapString, metareference.Name)
 
 	return metareference
@@ -1475,6 +1490,7 @@ func (metareference *MetaReference) Unstage(stage *Stage) *MetaReference {
 // UnstageVoid removes metareference off the model stage
 func (metareference *MetaReference) UnstageVoid(stage *Stage) {
 	delete(stage.MetaReferences, metareference)
+	delete(stage.MetaReferenceMap_Staged_Order, metareference)
 	delete(stage.MetaReferences_mapString, metareference.Name)
 }
 
@@ -1551,6 +1567,7 @@ func (modelpkg *ModelPkg) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes modelpkg off the model stage
 func (modelpkg *ModelPkg) Unstage(stage *Stage) *ModelPkg {
 	delete(stage.ModelPkgs, modelpkg)
+	delete(stage.ModelPkgMap_Staged_Order, modelpkg)
 	delete(stage.ModelPkgs_mapString, modelpkg.Name)
 
 	return modelpkg
@@ -1559,6 +1576,7 @@ func (modelpkg *ModelPkg) Unstage(stage *Stage) *ModelPkg {
 // UnstageVoid removes modelpkg off the model stage
 func (modelpkg *ModelPkg) UnstageVoid(stage *Stage) {
 	delete(stage.ModelPkgs, modelpkg)
+	delete(stage.ModelPkgMap_Staged_Order, modelpkg)
 	delete(stage.ModelPkgs_mapString, modelpkg.Name)
 }
 
@@ -1635,6 +1653,7 @@ func (pointertogongstructfield *PointerToGongStructField) StagePreserveOrder(sta
 // Unstage removes pointertogongstructfield off the model stage
 func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *Stage) *PointerToGongStructField {
 	delete(stage.PointerToGongStructFields, pointertogongstructfield)
+	delete(stage.PointerToGongStructFieldMap_Staged_Order, pointertogongstructfield)
 	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
 
 	return pointertogongstructfield
@@ -1643,6 +1662,7 @@ func (pointertogongstructfield *PointerToGongStructField) Unstage(stage *Stage) 
 // UnstageVoid removes pointertogongstructfield off the model stage
 func (pointertogongstructfield *PointerToGongStructField) UnstageVoid(stage *Stage) {
 	delete(stage.PointerToGongStructFields, pointertogongstructfield)
+	delete(stage.PointerToGongStructFieldMap_Staged_Order, pointertogongstructfield)
 	delete(stage.PointerToGongStructFields_mapString, pointertogongstructfield.Name)
 }
 
@@ -1719,6 +1739,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) StagePre
 // Unstage removes sliceofpointertogongstructfield off the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(stage *Stage) *SliceOfPointerToGongStructField {
 	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
+	delete(stage.SliceOfPointerToGongStructFieldMap_Staged_Order, sliceofpointertogongstructfield)
 	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 
 	return sliceofpointertogongstructfield
@@ -1727,6 +1748,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) Unstage(
 // UnstageVoid removes sliceofpointertogongstructfield off the model stage
 func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) UnstageVoid(stage *Stage) {
 	delete(stage.SliceOfPointerToGongStructFields, sliceofpointertogongstructfield)
+	delete(stage.SliceOfPointerToGongStructFieldMap_Staged_Order, sliceofpointertogongstructfield)
 	delete(stage.SliceOfPointerToGongStructFields_mapString, sliceofpointertogongstructfield.Name)
 }
 

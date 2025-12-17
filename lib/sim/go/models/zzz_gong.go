@@ -662,6 +662,7 @@ func (command *Command) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes command off the model stage
 func (command *Command) Unstage(stage *Stage) *Command {
 	delete(stage.Commands, command)
+	delete(stage.CommandMap_Staged_Order, command)
 	delete(stage.Commands_mapString, command.Name)
 
 	return command
@@ -670,6 +671,7 @@ func (command *Command) Unstage(stage *Stage) *Command {
 // UnstageVoid removes command off the model stage
 func (command *Command) UnstageVoid(stage *Stage) {
 	delete(stage.Commands, command)
+	delete(stage.CommandMap_Staged_Order, command)
 	delete(stage.Commands_mapString, command.Name)
 }
 
@@ -746,6 +748,7 @@ func (dummyagent *DummyAgent) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes dummyagent off the model stage
 func (dummyagent *DummyAgent) Unstage(stage *Stage) *DummyAgent {
 	delete(stage.DummyAgents, dummyagent)
+	delete(stage.DummyAgentMap_Staged_Order, dummyagent)
 	delete(stage.DummyAgents_mapString, dummyagent.Name)
 
 	return dummyagent
@@ -754,6 +757,7 @@ func (dummyagent *DummyAgent) Unstage(stage *Stage) *DummyAgent {
 // UnstageVoid removes dummyagent off the model stage
 func (dummyagent *DummyAgent) UnstageVoid(stage *Stage) {
 	delete(stage.DummyAgents, dummyagent)
+	delete(stage.DummyAgentMap_Staged_Order, dummyagent)
 	delete(stage.DummyAgents_mapString, dummyagent.Name)
 }
 
@@ -830,6 +834,7 @@ func (engine *Engine) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes engine off the model stage
 func (engine *Engine) Unstage(stage *Stage) *Engine {
 	delete(stage.Engines, engine)
+	delete(stage.EngineMap_Staged_Order, engine)
 	delete(stage.Engines_mapString, engine.Name)
 
 	return engine
@@ -838,6 +843,7 @@ func (engine *Engine) Unstage(stage *Stage) *Engine {
 // UnstageVoid removes engine off the model stage
 func (engine *Engine) UnstageVoid(stage *Stage) {
 	delete(stage.Engines, engine)
+	delete(stage.EngineMap_Staged_Order, engine)
 	delete(stage.Engines_mapString, engine.Name)
 }
 
@@ -914,6 +920,7 @@ func (event *Event) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes event off the model stage
 func (event *Event) Unstage(stage *Stage) *Event {
 	delete(stage.Events, event)
+	delete(stage.EventMap_Staged_Order, event)
 	delete(stage.Events_mapString, event.Name)
 
 	return event
@@ -922,6 +929,7 @@ func (event *Event) Unstage(stage *Stage) *Event {
 // UnstageVoid removes event off the model stage
 func (event *Event) UnstageVoid(stage *Stage) {
 	delete(stage.Events, event)
+	delete(stage.EventMap_Staged_Order, event)
 	delete(stage.Events_mapString, event.Name)
 }
 
@@ -998,6 +1006,7 @@ func (status *Status) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes status off the model stage
 func (status *Status) Unstage(stage *Stage) *Status {
 	delete(stage.Statuss, status)
+	delete(stage.StatusMap_Staged_Order, status)
 	delete(stage.Statuss_mapString, status.Name)
 
 	return status
@@ -1006,6 +1015,7 @@ func (status *Status) Unstage(stage *Stage) *Status {
 // UnstageVoid removes status off the model stage
 func (status *Status) UnstageVoid(stage *Stage) {
 	delete(stage.Statuss, status)
+	delete(stage.StatusMap_Staged_Order, status)
 	delete(stage.Statuss_mapString, status.Name)
 }
 
@@ -1082,6 +1092,7 @@ func (updatestate *UpdateState) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes updatestate off the model stage
 func (updatestate *UpdateState) Unstage(stage *Stage) *UpdateState {
 	delete(stage.UpdateStates, updatestate)
+	delete(stage.UpdateStateMap_Staged_Order, updatestate)
 	delete(stage.UpdateStates_mapString, updatestate.Name)
 
 	return updatestate
@@ -1090,6 +1101,7 @@ func (updatestate *UpdateState) Unstage(stage *Stage) *UpdateState {
 // UnstageVoid removes updatestate off the model stage
 func (updatestate *UpdateState) UnstageVoid(stage *Stage) {
 	delete(stage.UpdateStates, updatestate)
+	delete(stage.UpdateStateMap_Staged_Order, updatestate)
 	delete(stage.UpdateStates_mapString, updatestate.Name)
 }
 

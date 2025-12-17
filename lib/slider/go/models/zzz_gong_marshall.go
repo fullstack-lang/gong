@@ -357,11 +357,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(checkboxOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Checkbox instances pointers"
 	}
-	for idx, checkbox := range checkboxOrdered {
+	for _, checkbox := range checkboxOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Checkbox", idx, checkbox.Name)
+		id = generatesIdentifier("Checkbox", int(stage.CheckboxMap_Staged_Order[checkbox]), checkbox.Name)
 		map_Checkbox_Identifiers[checkbox] = id
 
 		// Initialisation of values
@@ -370,11 +370,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Group instances pointers"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		// Initialisation of values
@@ -399,11 +399,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(layoutOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Layout instances pointers"
 	}
-	for idx, layout := range layoutOrdered {
+	for _, layout := range layoutOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Layout", idx, layout.Name)
+		id = generatesIdentifier("Layout", int(stage.LayoutMap_Staged_Order[layout]), layout.Name)
 		map_Layout_Identifiers[layout] = id
 
 		// Initialisation of values
@@ -420,11 +420,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(sliderOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Slider instances pointers"
 	}
-	for idx, slider := range sliderOrdered {
+	for _, slider := range sliderOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Slider", idx, slider.Name)
+		id = generatesIdentifier("Slider", int(stage.SliderMap_Staged_Order[slider]), slider.Name)
 		map_Slider_Identifiers[slider] = id
 
 		// Initialisation of values

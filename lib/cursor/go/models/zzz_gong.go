@@ -457,6 +457,7 @@ func (cursor *Cursor) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes cursor off the model stage
 func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
 	delete(stage.Cursors, cursor)
+	delete(stage.CursorMap_Staged_Order, cursor)
 	delete(stage.Cursors_mapString, cursor.Name)
 
 	return cursor
@@ -465,6 +466,7 @@ func (cursor *Cursor) Unstage(stage *Stage) *Cursor {
 // UnstageVoid removes cursor off the model stage
 func (cursor *Cursor) UnstageVoid(stage *Stage) {
 	delete(stage.Cursors, cursor)
+	delete(stage.CursorMap_Staged_Order, cursor)
 	delete(stage.Cursors_mapString, cursor.Name)
 }
 

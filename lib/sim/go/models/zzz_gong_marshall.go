@@ -473,11 +473,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(commandOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Command instances pointers"
 	}
-	for idx, command := range commandOrdered {
+	for _, command := range commandOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Command", idx, command.Name)
+		id = generatesIdentifier("Command", int(stage.CommandMap_Staged_Order[command]), command.Name)
 		map_Command_Identifiers[command] = id
 
 		// Initialisation of values
@@ -494,11 +494,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(dummyagentOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of DummyAgent instances pointers"
 	}
-	for idx, dummyagent := range dummyagentOrdered {
+	for _, dummyagent := range dummyagentOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("DummyAgent", idx, dummyagent.Name)
+		id = generatesIdentifier("DummyAgent", int(stage.DummyAgentMap_Staged_Order[dummyagent]), dummyagent.Name)
 		map_DummyAgent_Identifiers[dummyagent] = id
 
 		// Initialisation of values
@@ -507,11 +507,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(engineOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Engine instances pointers"
 	}
-	for idx, engine := range engineOrdered {
+	for _, engine := range engineOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Engine", idx, engine.Name)
+		id = generatesIdentifier("Engine", int(stage.EngineMap_Staged_Order[engine]), engine.Name)
 		map_Engine_Identifiers[engine] = id
 
 		// Initialisation of values
@@ -520,11 +520,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(eventOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Event instances pointers"
 	}
-	for idx, event := range eventOrdered {
+	for _, event := range eventOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Event", idx, event.Name)
+		id = generatesIdentifier("Event", int(stage.EventMap_Staged_Order[event]), event.Name)
 		map_Event_Identifiers[event] = id
 
 		// Initialisation of values
@@ -533,11 +533,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(statusOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Status instances pointers"
 	}
-	for idx, status := range statusOrdered {
+	for _, status := range statusOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Status", idx, status.Name)
+		id = generatesIdentifier("Status", int(stage.StatusMap_Staged_Order[status]), status.Name)
 		map_Status_Identifiers[status] = id
 
 		// Initialisation of values
@@ -546,11 +546,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(updatestateOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of UpdateState instances pointers"
 	}
-	for idx, updatestate := range updatestateOrdered {
+	for _, updatestate := range updatestateOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("UpdateState", idx, updatestate.Name)
+		id = generatesIdentifier("UpdateState", int(stage.UpdateStateMap_Staged_Order[updatestate]), updatestate.Name)
 		map_UpdateState_Identifiers[updatestate] = id
 
 		// Initialisation of values

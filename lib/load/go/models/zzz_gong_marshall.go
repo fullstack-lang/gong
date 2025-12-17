@@ -244,11 +244,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(filetodownloadOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of FileToDownload instances pointers"
 	}
-	for idx, filetodownload := range filetodownloadOrdered {
+	for _, filetodownload := range filetodownloadOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("FileToDownload", idx, filetodownload.Name)
+		id = generatesIdentifier("FileToDownload", int(stage.FileToDownloadMap_Staged_Order[filetodownload]), filetodownload.Name)
 		map_FileToDownload_Identifiers[filetodownload] = id
 
 		// Initialisation of values
@@ -257,11 +257,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(filetouploadOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of FileToUpload instances pointers"
 	}
-	for idx, filetoupload := range filetouploadOrdered {
+	for _, filetoupload := range filetouploadOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("FileToUpload", idx, filetoupload.Name)
+		id = generatesIdentifier("FileToUpload", int(stage.FileToUploadMap_Staged_Order[filetoupload]), filetoupload.Name)
 		map_FileToUpload_Identifiers[filetoupload] = id
 
 		// Initialisation of values
@@ -270,11 +270,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(messageOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Message instances pointers"
 	}
-	for idx, message := range messageOrdered {
+	for _, message := range messageOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Message", idx, message.Name)
+		id = generatesIdentifier("Message", int(stage.MessageMap_Staged_Order[message]), message.Name)
 		map_Message_Identifiers[message] = id
 
 		// Initialisation of values

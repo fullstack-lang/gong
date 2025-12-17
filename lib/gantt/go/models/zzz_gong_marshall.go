@@ -618,11 +618,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(arrowOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Arrow instances pointers"
 	}
-	for idx, arrow := range arrowOrdered {
+	for _, arrow := range arrowOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Arrow", idx, arrow.Name)
+		id = generatesIdentifier("Arrow", int(stage.ArrowMap_Staged_Order[arrow]), arrow.Name)
 		map_Arrow_Identifiers[arrow] = id
 
 		// Initialisation of values
@@ -647,11 +647,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(barOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Bar instances pointers"
 	}
-	for idx, bar := range barOrdered {
+	for _, bar := range barOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Bar", idx, bar.Name)
+		id = generatesIdentifier("Bar", int(stage.BarMap_Staged_Order[bar]), bar.Name)
 		map_Bar_Identifiers[bar] = id
 
 		// Initialisation of values
@@ -660,11 +660,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(ganttOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Gantt instances pointers"
 	}
-	for idx, gantt := range ganttOrdered {
+	for _, gantt := range ganttOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Gantt", idx, gantt.Name)
+		id = generatesIdentifier("Gantt", int(stage.GanttMap_Staged_Order[gantt]), gantt.Name)
 		map_Gantt_Identifiers[gantt] = id
 
 		// Initialisation of values
@@ -705,11 +705,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(groupOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Group instances pointers"
 	}
-	for idx, group := range groupOrdered {
+	for _, group := range groupOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Group", idx, group.Name)
+		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
 		map_Group_Identifiers[group] = id
 
 		// Initialisation of values
@@ -726,11 +726,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(laneOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Lane instances pointers"
 	}
-	for idx, lane := range laneOrdered {
+	for _, lane := range laneOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Lane", idx, lane.Name)
+		id = generatesIdentifier("Lane", int(stage.LaneMap_Staged_Order[lane]), lane.Name)
 		map_Lane_Identifiers[lane] = id
 
 		// Initialisation of values
@@ -747,11 +747,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(laneuseOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of LaneUse instances pointers"
 	}
-	for idx, laneuse := range laneuseOrdered {
+	for _, laneuse := range laneuseOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("LaneUse", idx, laneuse.Name)
+		id = generatesIdentifier("LaneUse", int(stage.LaneUseMap_Staged_Order[laneuse]), laneuse.Name)
 		map_LaneUse_Identifiers[laneuse] = id
 
 		// Initialisation of values
@@ -768,11 +768,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(milestoneOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Milestone instances pointers"
 	}
-	for idx, milestone := range milestoneOrdered {
+	for _, milestone := range milestoneOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Milestone", idx, milestone.Name)
+		id = generatesIdentifier("Milestone", int(stage.MilestoneMap_Staged_Order[milestone]), milestone.Name)
 		map_Milestone_Identifiers[milestone] = id
 
 		// Initialisation of values

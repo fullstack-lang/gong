@@ -234,11 +234,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	if len(cursorOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Cursor instances pointers"
 	}
-	for idx, cursor := range cursorOrdered {
+	for _, cursor := range cursorOrdered {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Cursor", idx, cursor.Name)
+		id = generatesIdentifier("Cursor", int(stage.CursorMap_Staged_Order[cursor]), cursor.Name)
 		map_Cursor_Identifiers[cursor] = id
 
 		// Initialisation of values
