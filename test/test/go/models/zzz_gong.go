@@ -719,6 +719,7 @@ func (astruct *Astruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes astruct off the model stage
 func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 	delete(stage.Astructs, astruct)
+	delete(stage.AstructMap_Staged_Order, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
 
 	return astruct
@@ -727,6 +728,7 @@ func (astruct *Astruct) Unstage(stage *Stage) *Astruct {
 // UnstageVoid removes astruct off the model stage
 func (astruct *Astruct) UnstageVoid(stage *Stage) {
 	delete(stage.Astructs, astruct)
+	delete(stage.AstructMap_Staged_Order, astruct)
 	delete(stage.Astructs_mapString, astruct.Name)
 }
 
@@ -803,6 +805,7 @@ func (astructbstruct2use *AstructBstruct2Use) StagePreserveOrder(stage *Stage, o
 // Unstage removes astructbstruct2use off the model stage
 func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstruct2Use {
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
+	delete(stage.AstructBstruct2UseMap_Staged_Order, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 
 	return astructbstruct2use
@@ -811,6 +814,7 @@ func (astructbstruct2use *AstructBstruct2Use) Unstage(stage *Stage) *AstructBstr
 // UnstageVoid removes astructbstruct2use off the model stage
 func (astructbstruct2use *AstructBstruct2Use) UnstageVoid(stage *Stage) {
 	delete(stage.AstructBstruct2Uses, astructbstruct2use)
+	delete(stage.AstructBstruct2UseMap_Staged_Order, astructbstruct2use)
 	delete(stage.AstructBstruct2Uses_mapString, astructbstruct2use.Name)
 }
 
@@ -887,6 +891,7 @@ func (astructbstructuse *AstructBstructUse) StagePreserveOrder(stage *Stage, ord
 // Unstage removes astructbstructuse off the model stage
 func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstructUse {
 	delete(stage.AstructBstructUses, astructbstructuse)
+	delete(stage.AstructBstructUseMap_Staged_Order, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 
 	return astructbstructuse
@@ -895,6 +900,7 @@ func (astructbstructuse *AstructBstructUse) Unstage(stage *Stage) *AstructBstruc
 // UnstageVoid removes astructbstructuse off the model stage
 func (astructbstructuse *AstructBstructUse) UnstageVoid(stage *Stage) {
 	delete(stage.AstructBstructUses, astructbstructuse)
+	delete(stage.AstructBstructUseMap_Staged_Order, astructbstructuse)
 	delete(stage.AstructBstructUses_mapString, astructbstructuse.Name)
 }
 
@@ -971,6 +977,7 @@ func (bstruct *Bstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes bstruct off the model stage
 func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 	delete(stage.Bstructs, bstruct)
+	delete(stage.BstructMap_Staged_Order, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
 
 	return bstruct
@@ -979,6 +986,7 @@ func (bstruct *Bstruct) Unstage(stage *Stage) *Bstruct {
 // UnstageVoid removes bstruct off the model stage
 func (bstruct *Bstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Bstructs, bstruct)
+	delete(stage.BstructMap_Staged_Order, bstruct)
 	delete(stage.Bstructs_mapString, bstruct.Name)
 }
 
@@ -1055,6 +1063,7 @@ func (dstruct *Dstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes dstruct off the model stage
 func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 	delete(stage.Dstructs, dstruct)
+	delete(stage.DstructMap_Staged_Order, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 
 	return dstruct
@@ -1063,6 +1072,7 @@ func (dstruct *Dstruct) Unstage(stage *Stage) *Dstruct {
 // UnstageVoid removes dstruct off the model stage
 func (dstruct *Dstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Dstructs, dstruct)
+	delete(stage.DstructMap_Staged_Order, dstruct)
 	delete(stage.Dstructs_mapString, dstruct.Name)
 }
 
@@ -1139,6 +1149,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) StageP
 // Unstage removes f0123456789012345678901234567890 off the model stage
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstage(stage *Stage) *F0123456789012345678901234567890 {
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
+	delete(stage.F0123456789012345678901234567890Map_Staged_Order, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 
 	return f0123456789012345678901234567890
@@ -1147,6 +1158,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) Unstag
 // UnstageVoid removes f0123456789012345678901234567890 off the model stage
 func (f0123456789012345678901234567890 *F0123456789012345678901234567890) UnstageVoid(stage *Stage) {
 	delete(stage.F0123456789012345678901234567890s, f0123456789012345678901234567890)
+	delete(stage.F0123456789012345678901234567890Map_Staged_Order, f0123456789012345678901234567890)
 	delete(stage.F0123456789012345678901234567890s_mapString, f0123456789012345678901234567890.Name)
 }
 
@@ -1223,6 +1235,7 @@ func (gstruct *Gstruct) StagePreserveOrder(stage *Stage, order uint) {
 // Unstage removes gstruct off the model stage
 func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 	delete(stage.Gstructs, gstruct)
+	delete(stage.GstructMap_Staged_Order, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
 
 	return gstruct
@@ -1231,6 +1244,7 @@ func (gstruct *Gstruct) Unstage(stage *Stage) *Gstruct {
 // UnstageVoid removes gstruct off the model stage
 func (gstruct *Gstruct) UnstageVoid(stage *Stage) {
 	delete(stage.Gstructs, gstruct)
+	delete(stage.GstructMap_Staged_Order, gstruct)
 	delete(stage.Gstructs_mapString, gstruct.Name)
 }
 
