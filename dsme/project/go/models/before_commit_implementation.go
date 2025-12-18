@@ -6,4 +6,5 @@ type BeforeCommitImplementation struct {
 
 func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
 	c.stager.enforceSemantic()
+	c.stager.updateProductTreeStage()
 }
