@@ -1,0 +1,65 @@
+// generated code - do not edit
+package models
+
+// GongCleanSlice removes unstaged elements from a slice of pointers of type T.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanSlice[T PointerToGongstruct](stage *Stage, slice []T) []T {
+	if slice == nil {
+		return nil
+	}
+
+	var cleanedSlice []T
+	for _, element := range slice {
+		if IsStagedPointerToGongstruct(stage, element) {
+			cleanedSlice = append(cleanedSlice, element)
+		}
+	}
+	return cleanedSlice
+}
+
+// GongCleanPointer sets the pointer to nil if the referenced element is not staged.
+// T must be a pointer to a struct that implements PointerToGongstruct.
+func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
+	if !IsStagedPointerToGongstruct(stage, element) {
+		var zero T
+		return zero
+	}
+	return element
+}
+
+// insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Product
+func (product *Product) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	product.ParentProduct = GongCleanPointer(stage, product.ParentProduct)
+}
+
+// Clean garbage collect unstaged instances that are referenced by Project
+func (project *Project) GongClean(stage *Stage) {
+	// insertion point per field
+	project.RootTasks = GongCleanSlice(stage, project.RootTasks)
+	project.RootProducts = GongCleanSlice(stage, project.RootProducts)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Root
+func (root *Root) GongClean(stage *Stage) {
+	// insertion point per field
+	root.Projects = GongCleanSlice(stage, root.Projects)
+	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by Task
+func (task *Task) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	task.ParentTask = GongCleanPointer(stage, task.ParentTask)
+}
+
+// Clean garbage collect unstaged instances that are referenced by staged elements
+func (stage *Stage) Clean() {
+	for _, instance := range stage.GetInstances() {
+		instance.GongClean(stage)
+	}
+}

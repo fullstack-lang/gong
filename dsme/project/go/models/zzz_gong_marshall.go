@@ -1,0 +1,432 @@
+// generated code - do not edit
+package models
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"regexp"
+	"sort"
+	"strings"
+)
+
+const marshallRes = `package {{PackageName}}
+
+import (
+	"time"
+
+	"{{ModelsPackageName}}"
+	// injection point for ident package import declaration{{ImportPackageDeclaration}}
+)
+
+// generated in order to avoid error in the package import
+// if there are no elements in the stage to marshall
+var _ time.Time
+
+// _ point for meta package dummy declaration{{ImportPackageDummyDeclaration}}
+
+// When parsed, those maps will help with the renaming process
+var _ map[string]any = map[string]any{
+	// injection point for docLink to identifiers{{EntriesDocLinkStringDocLinkIdentifier}}
+}
+
+// function will stage objects
+func _(stage *models.Stage) {
+
+	// Declaration of instances to stage{{Identifiers}}
+
+	// Setup of values{{ValueInitializers}}
+
+	// Setup of pointers{{PointersInitializers}}
+}
+`
+
+const IdentifiersDecls = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)`
+
+const StringInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
+
+const MetaFieldStructInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = ` + `{{GeneratedFieldNameValue}}`
+
+const StringEnumInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const NumberInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const PointerFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = {{GeneratedFieldNameValue}}`
+
+const SliceOfPointersFieldInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}} = append({{Identifier}}.{{GeneratedFieldName}}, {{GeneratedFieldNameValue}})`
+
+const TimeInitStatement = `
+	{{Identifier}}.{{GeneratedFieldName}}, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "{{GeneratedFieldNameValue}}")`
+
+// Marshall marshall the stage content into the file as an instanciation into a stage
+func (stage *Stage) Marshall(file *os.File, modelsPackageName, packageName string) {
+
+	name := file.Name()
+
+	if !strings.HasSuffix(name, ".go") {
+		log.Println(name + " is not a go filename")
+	}
+
+	log.Printf("Marshalling %s", name)
+
+	res, err := stage.MarshallToString(modelsPackageName, packageName)
+	if err != nil {
+		log.Fatalln("Error marshalling to string:", err)
+	}
+
+	fmt.Fprintln(file, res)
+}
+
+// MarshallToString marshall the stage content into a string
+func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res string, err error) {
+
+	res = marshallRes
+	res = strings.ReplaceAll(res, "{{PackageName}}", packageName)
+	res = strings.ReplaceAll(res, "{{ModelsPackageName}}", modelsPackageName)
+
+	// map of identifiers
+	// var StageMapDstructIds map[*Dstruct]string
+	identifiersDecl := ""
+	initializerStatements := ""
+	pointersInitializesStatements := ""
+
+	id := ""
+	_ = id
+	decl := ""
+	_ = decl
+	setValueField := ""
+	_ = setValueField
+
+	// insertion initialization of objects to stage
+	map_Product_Identifiers := make(map[*Product]string)
+	_ = map_Product_Identifiers
+
+	productOrdered := []*Product{}
+	for product := range stage.Products {
+		productOrdered = append(productOrdered, product)
+	}
+	sort.Slice(productOrdered[:], func(i, j int) bool {
+		producti := productOrdered[i]
+		productj := productOrdered[j]
+		producti_order, oki := stage.ProductMap_Staged_Order[producti]
+		productj_order, okj := stage.ProductMap_Staged_Order[productj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return producti_order < productj_order
+	})
+	if len(productOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, product := range productOrdered {
+
+		id = generatesIdentifier("Product", int(stage.ProductMap_Staged_Order[product]), product.Name)
+		map_Product_Identifiers[product] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Product")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", product.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(product.Name))
+		initializerStatements += setValueField
+
+	}
+
+	map_Project_Identifiers := make(map[*Project]string)
+	_ = map_Project_Identifiers
+
+	projectOrdered := []*Project{}
+	for project := range stage.Projects {
+		projectOrdered = append(projectOrdered, project)
+	}
+	sort.Slice(projectOrdered[:], func(i, j int) bool {
+		projecti := projectOrdered[i]
+		projectj := projectOrdered[j]
+		projecti_order, oki := stage.ProjectMap_Staged_Order[projecti]
+		projectj_order, okj := stage.ProjectMap_Staged_Order[projectj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return projecti_order < projectj_order
+	})
+	if len(projectOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, project := range projectOrdered {
+
+		id = generatesIdentifier("Project", int(stage.ProjectMap_Staged_Order[project]), project.Name)
+		map_Project_Identifiers[project] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Project")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", project.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(project.Name))
+		initializerStatements += setValueField
+
+	}
+
+	map_Root_Identifiers := make(map[*Root]string)
+	_ = map_Root_Identifiers
+
+	rootOrdered := []*Root{}
+	for root := range stage.Roots {
+		rootOrdered = append(rootOrdered, root)
+	}
+	sort.Slice(rootOrdered[:], func(i, j int) bool {
+		rooti := rootOrdered[i]
+		rootj := rootOrdered[j]
+		rooti_order, oki := stage.RootMap_Staged_Order[rooti]
+		rootj_order, okj := stage.RootMap_Staged_Order[rootj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return rooti_order < rootj_order
+	})
+	if len(rootOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, root := range rootOrdered {
+
+		id = generatesIdentifier("Root", int(stage.RootMap_Staged_Order[root]), root.Name)
+		map_Root_Identifiers[root] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Root")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", root.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(root.Name))
+		initializerStatements += setValueField
+
+	}
+
+	map_Task_Identifiers := make(map[*Task]string)
+	_ = map_Task_Identifiers
+
+	taskOrdered := []*Task{}
+	for task := range stage.Tasks {
+		taskOrdered = append(taskOrdered, task)
+	}
+	sort.Slice(taskOrdered[:], func(i, j int) bool {
+		taski := taskOrdered[i]
+		taskj := taskOrdered[j]
+		taski_order, oki := stage.TaskMap_Staged_Order[taski]
+		taskj_order, okj := stage.TaskMap_Staged_Order[taskj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taski_order < taskj_order
+	})
+	if len(taskOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, task := range taskOrdered {
+
+		id = generatesIdentifier("Task", int(stage.TaskMap_Staged_Order[task]), task.Name)
+		map_Task_Identifiers[task] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Task")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", task.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(task.Name))
+		initializerStatements += setValueField
+
+	}
+
+	// insertion initialization of objects to stage
+	if len(productOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Product instances pointers"
+	}
+	for _, product := range productOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Product", int(stage.ProductMap_Staged_Order[product]), product.Name)
+		map_Product_Identifiers[product] = id
+
+		// Initialisation of values
+		if product.ParentProduct != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ParentProduct")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[product.ParentProduct])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(projectOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Project instances pointers"
+	}
+	for _, project := range projectOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Project", int(stage.ProjectMap_Staged_Order[project]), project.Name)
+		map_Project_Identifiers[project] = id
+
+		// Initialisation of values
+		for _, _task := range project.RootTasks {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootTasks")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Task_Identifiers[_task])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _product := range project.RootProducts {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootProducts")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(rootOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Root instances pointers"
+	}
+	for _, root := range rootOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Root", int(stage.RootMap_Staged_Order[root]), root.Name)
+		map_Root_Identifiers[root] = id
+
+		// Initialisation of values
+		for _, _project := range root.Projects {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Projects")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Project_Identifiers[_project])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(taskOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Task instances pointers"
+	}
+	for _, task := range taskOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Task", int(stage.TaskMap_Staged_Order[task]), task.Name)
+		map_Task_Identifiers[task] = id
+
+		// Initialisation of values
+		if task.ParentTask != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ParentTask")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Task_Identifiers[task.ParentTask])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
+	res = strings.ReplaceAll(res, "{{ValueInitializers}}", initializerStatements)
+	res = strings.ReplaceAll(res, "{{PointersInitializers}}", pointersInitializesStatements)
+
+	if stage.MetaPackageImportAlias != "" {
+		res = strings.ReplaceAll(res, "{{ImportPackageDeclaration}}",
+			fmt.Sprintf("\n\t%s %s", stage.MetaPackageImportAlias, stage.MetaPackageImportPath))
+
+		res = strings.ReplaceAll(res, "{{ImportPackageDummyDeclaration}}",
+			fmt.Sprintf("\nvar _ %s.Stage",
+				stage.MetaPackageImportAlias))
+
+		var entries string
+
+		// regenerate the map of doc link renaming
+		// the key and value are set to the value because
+		// if it has been renamed, this is the new value that matters
+		valuesOrdered := make([]GONG__Identifier, 0)
+		for _, value := range stage.Map_DocLink_Renaming {
+			valuesOrdered = append(valuesOrdered, value)
+		}
+		sort.Slice(valuesOrdered[:], func(i, j int) bool {
+			return valuesOrdered[i].Ident < valuesOrdered[j].Ident
+		})
+		for _, value := range valuesOrdered {
+
+			// get the number of points in the value to find if it is a field
+			// or a struct
+
+			switch value.Type {
+			case GONG__ENUM_CAST_INT:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s(0),", value.Ident, value.Ident)
+			case GONG__ENUM_CAST_STRING:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s(\"\"),", value.Ident, value.Ident)
+			case GONG__FIELD_VALUE:
+				// substitute the second point with "{})."
+				joker := "__substitute_for_first_point__"
+				valueIdentifier := strings.Replace(value.Ident, ".", joker, 1)
+				valueIdentifier = strings.Replace(valueIdentifier, ".", "{}).", 1)
+				valueIdentifier = strings.Replace(valueIdentifier, joker, ".", 1)
+				entries += fmt.Sprintf("\n\n\t\"%s\": (%s,", value.Ident, valueIdentifier)
+			case GONG__IDENTIFIER_CONST:
+				entries += fmt.Sprintf("\n\n\t\"%s\": %s,", value.Ident, value.Ident)
+			case GONG__STRUCT_INSTANCE:
+				entries += fmt.Sprintf("\n\n\t\"%s\": &(%s{}),", value.Ident, value.Ident)
+			}
+		}
+
+		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+	}
+	return
+}
+
+// unique identifier per struct
+func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+
+	identifier = instanceName
+	// Make a Regex to say we only want letters and numbers
+	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
+	if err != nil {
+		log.Fatal(err)
+	}
+	processedString := reg.ReplaceAllString(instanceName, "_")
+
+	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
+
+	return
+}
