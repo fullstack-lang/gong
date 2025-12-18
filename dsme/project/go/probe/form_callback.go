@@ -66,6 +66,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
 		case "ParentProduct":
 			FormDivSelectFieldToField(&(product_.ParentProduct), productFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "Project:RootProducts":
 			// WARNING : this form deals with the N-N association "Project.RootProducts []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

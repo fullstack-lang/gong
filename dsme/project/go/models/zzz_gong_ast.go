@@ -872,6 +872,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "ParentProduct":
 					targetIdentifier := ident.Name
 					__gong__map_Product[identifier].ParentProduct = __gong__map_Product[targetIdentifier]
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Product[identifier].IsExpanded = fielValue
 				}
 			case "Project":
 				switch fieldName {

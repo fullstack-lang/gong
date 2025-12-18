@@ -10,6 +10,8 @@ type Product struct {
 	Name string
 
 	ParentProduct *Product
+
+	IsExpanded bool
 }
 
 type Project struct {
