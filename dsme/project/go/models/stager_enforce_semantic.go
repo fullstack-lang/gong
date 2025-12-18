@@ -1,5 +1,7 @@
 package models
 
+import "slices"
+
 func (stager *Stager) enforceSemantic() {
 
 	stage := stager.stage
@@ -27,6 +29,17 @@ func (stager *Stager) enforceSemantic() {
 			for _, root := range roots[1:] {
 				root.Unstage(stage)
 			}
+		}
+	}
+
+	root := stager.root
+
+	// Enforce that all projects are appended to the [root]
+	// if one project is not appended, append it
+	for _, project := range GetGongstrucsSorted[*Project](stage) {
+
+		if slices.Index(root.Projects, project) == -1 {
+			root.Projects = append(root.Projects, project)
 		}
 	}
 

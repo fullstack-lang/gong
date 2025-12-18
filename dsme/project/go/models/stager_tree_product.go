@@ -32,9 +32,13 @@ func (stager *Stager) updateProductTreeStage() {
 		for _, product := range project.RootProducts {
 			nodeProduct := new(tree.Node).Stage(stager.treeProductsStage)
 			nodeProduct.Name = product.Name
-			nodeProduct.HasCheckboxButton = true
 			nodeProduct.IsExpanded = true
 
+			nodeProduct.Impl = &expandableNodeProxy{
+				node:           nodeProduct,
+				stager:         stager,
+				isNodeExpanded: &nodeProduct.IsExpanded,
+			}
 			treeInstance.RootNodes = append(treeInstance.RootNodes, nodeProduct)
 		}
 	}
