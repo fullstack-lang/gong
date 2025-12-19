@@ -48,6 +48,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	if stager.enforceComputedPrefix() {
+		needCommit = true
+	}
+
 	if needCommit {
 		stager.stage.Clean()
 		stager.stage.CommitWithSuspendedCallbacks()

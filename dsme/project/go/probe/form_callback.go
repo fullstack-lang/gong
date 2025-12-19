@@ -64,6 +64,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
 		case "SubProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](productFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)

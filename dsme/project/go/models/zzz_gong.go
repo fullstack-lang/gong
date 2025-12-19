@@ -1394,6 +1394,10 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:                 "SubProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
@@ -1536,6 +1540,8 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = product.Name
+	case "ComputedPrefix":
+		res.valueString = product.ComputedPrefix
 	case "SubProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range product.SubProducts {
@@ -1657,6 +1663,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		product.Name = value.GetValueString()
+	case "ComputedPrefix":
+		product.ComputedPrefix = value.GetValueString()
 	case "SubProducts":
 		product.SubProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
