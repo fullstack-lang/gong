@@ -15,7 +15,7 @@ func (stager *Stager) updateProductTreeStage() {
 	treeInstance := &tree.Tree{Name: "PBS"}
 
 	allProjectsNode := &tree.Node{
-		Name:       "Projects",
+		Name:       "** Tree of Projects **",
 		IsExpanded: true,
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
