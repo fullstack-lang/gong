@@ -29,18 +29,20 @@ func _(stage *models.Stage) {
 	__Product__00000004_PBS_tree := (&models.Product{}).Stage(stage)
 	__Product__00000005_views := (&models.Product{}).Stage(stage)
 	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
+	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
+	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
 
 	__Root__00000000_Root := (&models.Root{}).Stage(stage)
 
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
-	__Product__00000000_UX.IsExpanded = false
+	__Product__00000000_UX.IsExpanded = true
 
 	__Product__00000001_Backend.Name = `Backend`
-	__Product__00000001_Backend.IsExpanded = false
+	__Product__00000001_Backend.IsExpanded = true
 
 	__Product__00000002_WBS_tree.Name = `WBS tree`
 	__Product__00000002_WBS_tree.IsExpanded = false
@@ -54,8 +56,14 @@ func _(stage *models.Stage) {
 	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
 	__Product__00000006_Semantic_Enforcer.IsExpanded = false
 
+	__Product__00000009_Docx_Backend.Name = `Docx Backend`
+	__Product__00000009_Docx_Backend.IsExpanded = false
+
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsExpanded = true
+
+	__Project__00000001_DSME_Docx.Name = `DSME Docx`
+	__Project__00000001_DSME_Docx.IsExpanded = true
 
 	__Root__00000000_Root.Name = `Root`
 
@@ -68,7 +76,9 @@ func _(stage *models.Stage) {
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
+	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000009_Docx_Backend)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
+	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
 }
 
