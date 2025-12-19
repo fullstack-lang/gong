@@ -56,6 +56,8 @@ func (root *Root) GongClean(stage *Stage) {
 func (task *Task) GongClean(stage *Stage) {
 	// insertion point per field
 	task.SubTasks = GongCleanSlice(stage, task.SubTasks)
+	task.InputProducts = GongCleanSlice(stage, task.InputProducts)
+	task.OutputProducts = GongCleanSlice(stage, task.OutputProducts)
 	// insertion point per field
 }
 

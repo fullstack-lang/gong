@@ -3,45 +3,114 @@ package models
 import "slices"
 
 // EnforceDAG
-// All [models.Product] are within at least one DAG
-// This function checks that there is no cycles within the DAG.
-// If a cycle is found the culprit association is deleted
+// Check for cycles in the combined graph of Tasks and Products
+//
+// The edges are:
+// - Task -> SubTask
+// - Product -> SubProduct
+// - Task -> Product (OutputProducts)
+// - Product -> Task (InputProducts)
 func (stager *Stager) enforceDAG() (needCommit bool) {
+
+	// 1. Build a map of Product -> Tasks that consume it (InputProducts)
+	// This allows us to traverse the "Product -> Task" edge efficiently
+	productConsumers := make(map[*Product][]*Task)
+	tasks := GetGongstrucsSorted[*Task](stager.stage)
+	for _, task := range tasks {
+		for _, inputProd := range task.InputProducts {
+			productConsumers[inputProd] = append(productConsumers[inputProd], task)
+		}
+	}
 
 	products := GetGongstrucsSorted[*Product](stager.stage)
 
-	// 2. Call the generic EnforceDAG
-	needCommit = needCommit || EnforceDAG(
-		products,
-		// getChildren: How to access sub-products
-		func(p *Product) []*Product {
-			return p.SubProducts
-		},
-		// removeChild: How to remove a sub-product link
-		func(parent, child *Product) {
-			for j, p := range parent.SubProducts {
-				if p == child {
-					parent.SubProducts = slices.Delete(parent.SubProducts, j, j+1)
-					break
+	// Define a wrapper node for the mixed graph because EnforceDAG expects a single type T
+	type DAGNode struct {
+		Product *Product
+		Task    *Task
+	}
+
+	// Create the list of all nodes in the graph
+	allNodes := make([]DAGNode, 0, len(tasks)+len(products))
+	for _, t := range tasks {
+		allNodes = append(allNodes, DAGNode{Task: t})
+	}
+	for _, p := range products {
+		allNodes = append(allNodes, DAGNode{Product: p})
+	}
+
+	// 2. Call the generic EnforceDAG on the unified graph
+	needCommit = EnforceDAG(
+		allNodes,
+		// getChildren: Returns all nodes that 'n' depends on / points to
+		func(n DAGNode) []DAGNode {
+			children := []DAGNode{}
+
+			if n.Task != nil {
+				// Edge: Task -> SubTasks
+				for _, subTask := range n.Task.SubTasks {
+					children = append(children, DAGNode{Task: subTask})
+				}
+				// Edge: Task -> OutputProducts
+				for _, outProd := range n.Task.OutputProducts {
+					children = append(children, DAGNode{Product: outProd})
+				}
+			} else if n.Product != nil {
+				// Edge: Product -> SubProducts
+				for _, subProd := range n.Product.SubProducts {
+					children = append(children, DAGNode{Product: subProd})
+				}
+				// Edge: Product -> Consuming Tasks (InputProducts)
+				if consumers, ok := productConsumers[n.Product]; ok {
+					for _, consumerTask := range consumers {
+						children = append(children, DAGNode{Task: consumerTask})
+					}
 				}
 			}
+			return children
 		},
-	)
-
-	tasks := GetGongstrucsSorted[*Task](stager.stage)
-
-	needCommit = needCommit || EnforceDAG(
-		tasks,
-		// getChildren: How to access sub-tasks
-		func(p *Task) []*Task {
-			return p.SubTasks
-		},
-		// removeChild: How to remove a sub-task link
-		func(parent, child *Task) {
-			for j, p := range parent.SubTasks {
-				if p == child {
-					parent.SubTasks = slices.Delete(parent.SubTasks, j, j+1)
-					break
+		// removeChild: Breaks the cycle by removing the specific edge
+		func(parent, child DAGNode) {
+			if parent.Task != nil && child.Task != nil {
+				// Break Task -> SubTask
+				p := parent.Task
+				c := child.Task
+				for j, sub := range p.SubTasks {
+					if sub == c {
+						p.SubTasks = slices.Delete(p.SubTasks, j, j+1)
+						break
+					}
+				}
+			} else if parent.Task != nil && child.Product != nil {
+				// Break Task -> OutputProduct
+				p := parent.Task
+				c := child.Product
+				for j, out := range p.OutputProducts {
+					if out == c {
+						p.OutputProducts = slices.Delete(p.OutputProducts, j, j+1)
+						break
+					}
+				}
+			} else if parent.Product != nil && child.Product != nil {
+				// Break Product -> SubProduct
+				p := parent.Product
+				c := child.Product
+				for j, sub := range p.SubProducts {
+					if sub == c {
+						p.SubProducts = slices.Delete(p.SubProducts, j, j+1)
+						break
+					}
+				}
+			} else if parent.Product != nil && child.Task != nil {
+				// Break Product -> Task (InputProduct)
+				// Note: The pointer is stored in the Task (Child), so we remove the Product (Parent) from there
+				p := parent.Product
+				c := child.Task
+				for j, inp := range c.InputProducts {
+					if inp == p {
+						c.InputProducts = slices.Delete(c.InputProducts, j, j+1)
+						break
+					}
 				}
 			}
 		},

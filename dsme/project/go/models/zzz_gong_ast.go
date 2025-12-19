@@ -798,6 +798,26 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
 								instanceWhoseFieldIsAppended.SubTasks = append(instanceWhoseFieldIsAppended.SubTasks, instanceToAppend)
 							}
+						case "InputProducts":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
+								instanceWhoseFieldIsAppended.InputProducts = append(instanceWhoseFieldIsAppended.InputProducts, instanceToAppend)
+							}
+						case "OutputProducts":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
+								instanceWhoseFieldIsAppended.OutputProducts = append(instanceWhoseFieldIsAppended.OutputProducts, instanceToAppend)
+							}
 						}
 					}
 				}
@@ -878,6 +898,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Project[identifier].Name = fielValue
+				case "ComputedPrefix":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Project[identifier].ComputedPrefix = fielValue
 				}
 			case "Root":
 				switch fieldName {
@@ -894,6 +918,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Task[identifier].Name = fielValue
+				case "ComputedPrefix":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Task[identifier].ComputedPrefix = fielValue
 				}
 			}
 		case *ast.Ident:
@@ -946,6 +974,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Task[identifier].IsExpanded = fielValue
+				case "IsInputProducsNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Task[identifier].IsInputProducsNodeExpanded = fielValue
+				case "IsOutputProducsNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Task[identifier].IsOutputProducsNodeExpanded = fielValue
 				}
 			}
 		case *ast.SelectorExpr:
