@@ -2,7 +2,7 @@ package models
 
 import "slices"
 
-func (stager *Stager) enforceSemantic() {
+func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	stage := stager.stage
 
@@ -11,8 +11,6 @@ func (stager *Stager) enforceSemantic() {
 	// them. If the checkout is not performed, the stage might be dirty
 	// with slices of pointer or pointer to unstaged instance
 	stage.Clean()
-
-	needCommit := false
 
 	// Ensures that there is one and only one root
 	// prune the other
@@ -47,4 +45,10 @@ func (stager *Stager) enforceSemantic() {
 		stager.stage.Clean()
 		stager.stage.CommitWithSuspendedCallbacks()
 	}
+
+	if stager.enforceDAG() {
+		needCommit = true
+	}
+
+	return
 }
