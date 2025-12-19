@@ -32,3 +32,29 @@ type Product struct {
 
 	IsExpanded bool
 }
+
+type NodeType interface {
+	GongstructIF
+	GetIsExpanded() bool
+	SetIsExpanded(bool)
+}
+
+func (product *Product) GetIsExpanded() bool {
+	return product.IsExpanded
+}
+
+func (product *Product) SetIsExpanded(isExpanded bool) {
+	product.IsExpanded = isExpanded
+}
+
+var _ NodeType = (*Product)(nil)
+
+func (project *Project) GetIsExpanded() bool {
+	return project.IsExpanded
+}
+
+func (project *Project) SetIsExpanded(isExpanded bool) {
+	project.IsExpanded = isExpanded
+}
+
+var _ NodeType = (*Project)(nil)
