@@ -59,7 +59,7 @@ func (stager *Stager) updateProductTreeStage() {
 func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.Node) {
 
 	productNode := &tree.Node{
-		Name:            product.Name,
+		Name:            product.ComputedPrefix + " " + product.Name,
 		IsExpanded:      true,
 		IsNodeClickable: true,
 	}
