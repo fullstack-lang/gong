@@ -737,7 +737,7 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 // GetPointerToGongstructName returns the name of the Gongstruct
 // this can be usefull if one want program robust to refactoring
-func GetPointerToGongstructName[Type PointerToGongstruct]() (res string) {
+func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	var ret Type
 
@@ -754,7 +754,7 @@ type ReverseField struct {
 	Fieldname      string
 }
 
-func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
+func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 
 	res = make([]ReverseField, 0)
 
