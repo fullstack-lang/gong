@@ -62,10 +62,10 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 
-	productNode.Impl = &ProductNodeProxy{
-		stager:  stager,
-		node:    productNode,
-		product: product,
+	productNode.Impl = &NodeProxy[*Product]{
+		stager:   stager,
+		node:     productNode,
+		instance: product,
 	}
 
 	stager.addAddProductButton(productNode, &product.SubProducts)
@@ -103,44 +103,6 @@ func (p *AddProductButtonNodeProxy) ButtonUpdated(stage *tree.Stage, button *tre
 	}).Stage(p.stager.stage)
 
 	*p.products = append(*p.products, product)
-
-	p.stager.stage.Commit()
-}
-
-type ProjectNodeProxy struct {
-	stager  *Stager
-	node    *tree.Node
-	project *Project
-}
-
-// OnAfterUpdate implements models.NodeImplInterface.
-func (p *ProjectNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
-	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		p.project.IsExpanded = !p.project.IsExpanded
-		return
-	}
-
-	p.stager.probeForm.FillUpFormFromGongstruct(p.project, GetPointerToGongstructName[*Product]())
-
-	p.stager.stage.Commit()
-}
-
-type ProductNodeProxy struct {
-	stager  *Stager
-	node    *tree.Node
-	product *Product
-}
-
-// OnAfterUpdate implements models.NodeImplInterface.
-func (p *ProductNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
-	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		p.product.IsExpanded = !p.product.IsExpanded
-		return
-	}
-
-	p.stager.probeForm.FillUpFormFromGongstruct(p.product, GetPointerToGongstructName[*Product]())
 
 	p.stager.stage.Commit()
 }
