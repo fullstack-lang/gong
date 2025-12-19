@@ -301,13 +301,19 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.StateMachine](architectureFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			architecture_.StateMachines = instanceSlice
 
@@ -326,13 +332,19 @@ func (architectureFormCallback *ArchitectureFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Role](architectureFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			architecture_.Roles = instanceSlice
 
@@ -437,13 +449,19 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.StateShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			diagram_.State_Shapes = instanceSlice
 
@@ -462,13 +480,19 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Transition_Shape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			diagram_.Transition_Shapes = instanceSlice
 
@@ -1213,13 +1237,19 @@ func (objectFormCallback *ObjectFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Message](objectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			object_.Messages = instanceSlice
 
@@ -1316,13 +1346,19 @@ func (roleFormCallback *RoleFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Role](roleFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			role_.RolesWithSamePermissions = instanceSlice
 
@@ -1623,13 +1659,19 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.State](stateFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			state_.SubStates = instanceSlice
 
@@ -1648,13 +1690,19 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](stateFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			state_.Diagrams = instanceSlice
 
@@ -1675,13 +1723,19 @@ func (stateFormCallback *StateFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Activities](stateFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			state_.Activities = instanceSlice
 
@@ -1912,13 +1966,19 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.State](statemachineFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			statemachine_.States = instanceSlice
 
@@ -1937,13 +1997,19 @@ func (statemachineFormCallback *StateMachineFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](statemachineFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			statemachine_.Diagrams = instanceSlice
 
@@ -2264,13 +2330,19 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Role](transitionFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			transition_.RolesWithPermissions = instanceSlice
 
@@ -2289,13 +2361,19 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.MessageType](transitionFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			transition_.GeneratedMessages = instanceSlice
 
@@ -2316,13 +2394,19 @@ func (transitionFormCallback *TransitionFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](transitionFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			transition_.Diagrams = instanceSlice
 

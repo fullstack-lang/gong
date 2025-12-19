@@ -160,6 +160,7 @@ sqd
 	__Astruct__00000000_A0.Anarrayofb2Use = append(__Astruct__00000000_A0.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
 	__Astruct__00000001_A1.Anarrayofb = append(__Astruct__00000001_A1.Anarrayofb, __Bstruct__00000000_B0)
 	__Astruct__00000001_A1.Anarrayofb = append(__Astruct__00000001_A1.Anarrayofb, __Bstruct__00000004_B4)
+	__Astruct__00000001_A1.Anarrayofb = append(__Astruct__00000001_A1.Anarrayofb, __Bstruct__00000003_B3)
 	// setup of AstructBstruct2Use instances pointers
 	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_B0
 	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_B0

@@ -144,13 +144,19 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Dstruct](astructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			astruct_.Dstruct4s = instanceSlice
 
@@ -177,13 +183,19 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Astruct](astructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			astruct_.Anarrayofa = instanceSlice
 
@@ -202,13 +214,19 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Bstruct](astructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			astruct_.Anotherarrayofb = instanceSlice
 
@@ -227,13 +245,19 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.AstructBstructUse](astructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			astruct_.AnarrayofbUse = instanceSlice
 
@@ -252,13 +276,19 @@ func (astructFormCallback *AstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.AstructBstruct2Use](astructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			astruct_.Anarrayofb2Use = instanceSlice
 
@@ -993,13 +1023,19 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Bstruct](dstructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			dstruct_.Anarrayofb = instanceSlice
 
@@ -1020,13 +1056,19 @@ func (dstructFormCallback *DstructFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.Gstruct](dstructFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			dstruct_.Gstructs = instanceSlice
 
