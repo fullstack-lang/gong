@@ -6,7 +6,7 @@ type Project struct {
 	RootTasks    []*Task
 	RootProducts []*Product
 
-	isExpanded bool
+	IsExpanded bool
 }
 
 // singloton
@@ -30,5 +30,5 @@ type Product struct {
 
 	SubProducts []*Product
 
-	isExpanded bool
+	IsExpanded bool
 }

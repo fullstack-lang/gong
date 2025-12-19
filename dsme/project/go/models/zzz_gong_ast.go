@@ -889,10 +889,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Product":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Product[identifier].IsExpanded = fielValue
 				}
 			case "Project":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Project[identifier].IsExpanded = fielValue
 				}
 			case "Root":
 				switch fieldName {
