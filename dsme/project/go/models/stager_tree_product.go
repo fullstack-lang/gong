@@ -84,19 +84,21 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 func addAddItemButton[T Gongstruct, PT interface {
 	*T
 	GongstructIF
-}](stager *Stager, productNode *tree.Node, items *[]*T, appendItem func(items *[]*T, item *T)) {
+}](stager *Stager, node *tree.Node, items *[]*T, appendItem func(items *[]*T, item *T)) {
+
+	var item PT
 	addButton := &tree.Button{
-		Name:            "Product" + " " + string(buttons.BUTTON_add),
+		Name:            GetGongstructNameFromPointer(item) + " " + string(buttons.BUTTON_add),
 		Icon:            string(buttons.BUTTON_add),
-		ToolTipText:     "Add a product to \"" + productNode.Name + "\"",
+		ToolTipText:     "Add a " + GetGongstructNameFromPointer(item) + " to \"" + node.Name + "\"",
 		HasToolTip:      true,
 		ToolTipPosition: tree.Right,
 	}
-	productNode.Buttons = append(productNode.Buttons, addButton)
+	node.Buttons = append(node.Buttons, addButton)
 	addButton.Impl = &tree.FunctionalButtonProxy{
 		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 			item := PT(new(T))
-			item.SetName("New Product")
+			item.SetName("New" + GetGongstructNameFromPointer(item))
 			item.StageVoid(stager.stage)
 			appendItem(items, item)
 

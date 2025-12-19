@@ -128,12 +128,15 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Projects", instanceWithInferedType, &instanceWithInferedType.Projects, formGroup, probe)
 		AssociationSliceToForm("OrphanedProducts", instanceWithInferedType, &instanceWithInferedType.OrphanedProducts, formGroup, probe)
+		AssociationSliceToForm("OrphanedTasks", instanceWithInferedType, &instanceWithInferedType.OrphanedTasks, formGroup, probe)
 
 	case *models.Task:
 		// insertion point
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationFieldToForm("ParentTask", instanceWithInferedType.ParentTask, formGroup, probe)
+		AssociationSliceToForm("SubTasks", instanceWithInferedType, &instanceWithInferedType.SubTasks, formGroup, probe)
+		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -151,6 +154,50 @@ func FillUpForm(
 				AssociationReverseFieldToForm[*models.Project](
 					nil,
 					"RootTasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Root"
+			rf.Fieldname = "OrphanedTasks"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Root),
+					"OrphanedTasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Root](
+					nil,
+					"OrphanedTasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Task"
+			rf.Fieldname = "SubTasks"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Task),
+					"SubTasks",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Task](
+					nil,
+					"SubTasks",
 					instanceWithInferedType,
 					formGroup,
 					probe)

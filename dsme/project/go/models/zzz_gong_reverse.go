@@ -69,6 +69,20 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 					res = _project.Name
 				}
 			}
+		case "Root":
+			switch reverseField.Fieldname {
+			case "OrphanedTasks":
+				if _root, ok := stage.Root_OrphanedTasks_reverseMap[inst]; ok {
+					res = _root.Name
+				}
+			}
+		case "Task":
+			switch reverseField.Fieldname {
+			case "SubTasks":
+				if _task, ok := stage.Task_SubTasks_reverseMap[inst]; ok {
+					res = _task.Name
+				}
+			}
 	}
 	return
 }
@@ -131,6 +145,16 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 			switch reverseField.Fieldname {
 			case "RootTasks":
 				res = stage.Project_RootTasks_reverseMap[inst]
+			}
+		case "Root":
+			switch reverseField.Fieldname {
+			case "OrphanedTasks":
+				res = stage.Root_OrphanedTasks_reverseMap[inst]
+			}
+		case "Task":
+			switch reverseField.Fieldname {
+			case "SubTasks":
+				res = stage.Task_SubTasks_reverseMap[inst]
 			}
 	}
 	return res
