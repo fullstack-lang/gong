@@ -14,6 +14,9 @@ type Root struct {
 	Name string
 
 	Projects []*Project
+
+	// product that do not belong to projects
+	OrphanedProducts []*Product
 }
 
 type Task struct {
