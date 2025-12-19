@@ -89,6 +89,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			}
 			product_.SubProducts = instanceSlice
 
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "Product:SubProducts":
 			// WARNING : this form deals with the N-N association "Product.SubProducts []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -413,6 +415,8 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 			project_.RootProducts = instanceSlice
 
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(project_.IsExpanded), formDiv)
 		case "Root:Projects":
 			// WARNING : this form deals with the N-N association "Root.Projects []*Project" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

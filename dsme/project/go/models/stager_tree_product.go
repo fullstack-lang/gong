@@ -23,7 +23,7 @@ func (stager *Stager) updateProductTreeStage() {
 	for _, project := range root.Projects {
 		projectNode := &tree.Node{
 			Name:            project.Name,
-			IsExpanded:      project.isExpanded,
+			IsExpanded:      project.IsExpanded,
 			IsNodeClickable: true,
 		}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, projectNode)
@@ -114,7 +114,7 @@ type ProjectNodeProxy struct {
 func (p *ProjectNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
 
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		p.project.isExpanded = !p.project.isExpanded
+		p.project.IsExpanded = !p.project.IsExpanded
 		return
 	}
 
@@ -133,7 +133,7 @@ type ProductNodeProxy struct {
 func (p *ProductNodeProxy) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
 
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
-		p.product.isExpanded = !p.product.isExpanded
+		p.product.IsExpanded = !p.product.IsExpanded
 		return
 	}
 
