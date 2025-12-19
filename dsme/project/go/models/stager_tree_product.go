@@ -96,6 +96,8 @@ func addAddItemButton[T Gongstruct, PT interface {
 	addButton.Impl = &tree.FunctionalButtonProxy{
 		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 			item := PT(new(T))
+			item.SetName("New Product")
+			item.StageVoid(stager.stage)
 			appendItem(items, item)
 
 			stager.stage.Commit()
