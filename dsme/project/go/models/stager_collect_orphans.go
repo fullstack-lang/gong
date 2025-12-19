@@ -4,47 +4,68 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 
 	root := stager.root
 
-	// 1. Find all reachable products
-	reachableProducts := make(map[*Product]struct{})
-	var collectReachableProducts func(product *Product)
-	collectReachableProducts = func(product *Product) {
-		if product == nil {
+	return CollectOrphans(
+		GetGongstrucsSorted[*Product](stager.stage),
+		func() []*Product {
+			roots := make([]*Product, 0)
+			for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, project.RootProducts...)
+			}
+			return roots
+		},
+		func(product *Product) []*Product {
+			return product.SubProducts
+		},
+		&root.OrphanedProducts,
+	)
+}
+
+func CollectOrphans[T comparable](
+	allNodes []T,
+	getRoots func() []T,
+	getChildren func(T) []T,
+	orphanedSlice *[]T,
+) (needCommit bool) {
+
+	// 1. Find all reachable nodes
+	reachable := make(map[T]struct{})
+	var collectReachable func(node T)
+	collectReachable = func(node T) {
+		var zero T
+		if node == zero {
 			return
 		}
-		if _, ok := reachableProducts[product]; ok {
+		if _, ok := reachable[node]; ok {
 			return // already visited
 		}
-		reachableProducts[product] = struct{}{}
+		reachable[node] = struct{}{}
 
-		for _, subProduct := range product.SubProducts {
-			collectReachableProducts(subProduct)
+		for _, child := range getChildren(node) {
+			collectReachable(child)
 		}
 	}
 
-	for _, project := range GetGongstrucsSorted[*Project](stager.stage) {
-		for _, rootProduct := range project.RootProducts {
-			collectReachableProducts(rootProduct)
-		}
+	for _, root := range getRoots() {
+		collectReachable(root)
 	}
 
-	// 2. Find all products and check for orphans
-	orphanProducts := make([]*Product, 0)
-	allProducts := GetGongstrucsSorted[*Product](stager.stage) // to have a deterministic order
-	for _, product := range allProducts {
-		if _, ok := reachableProducts[product]; !ok {
-			orphanProducts = append(orphanProducts, product)
+	// 2. Find all nodes and check for orphans
+	orphanNodes := make([]T, 0)
+	for _, node := range allNodes {
+		if _, ok := reachable[node]; !ok {
+			orphanNodes = append(orphanNodes, node)
 		}
 	}
 
 	// 3. check if the slice has changed (order does not matter)
-	if len(orphanProducts) != len(root.OrphanedProducts) {
+	if len(orphanNodes) != len(*orphanedSlice) {
 		needCommit = true
 	} else {
-		currentOrphansMap := make(map[*Product]struct{})
-		for _, p := range root.OrphanedProducts {
+		currentOrphansMap := make(map[T]struct{})
+		for _, p := range *orphanedSlice {
 			currentOrphansMap[p] = struct{}{}
 		}
-		for _, p := range orphanProducts {
+		for _, p := range orphanNodes {
 			if _, ok := currentOrphansMap[p]; !ok {
 				needCommit = true
 				break
@@ -53,8 +74,8 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 	}
 
 	if needCommit {
-		root.OrphanedProducts = root.OrphanedProducts[:0]
-		root.OrphanedProducts = append(root.OrphanedProducts, orphanProducts...)
+		*orphanedSlice = (*orphanedSlice)[:0]
+		*orphanedSlice = append(*orphanedSlice, orphanNodes...)
 	}
 
 	return
