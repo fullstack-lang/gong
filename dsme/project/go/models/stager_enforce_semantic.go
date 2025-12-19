@@ -41,16 +41,16 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 	}
 
-	if needCommit {
-		stager.stage.Clean()
-		stager.stage.CommitWithSuspendedCallbacks()
-	}
-
 	if stager.enforceDAG() {
 		needCommit = true
 	}
 	if stager.collectOrphans() {
 		needCommit = true
+	}
+
+	if needCommit {
+		stager.stage.Clean()
+		stager.stage.CommitWithSuspendedCallbacks()
 	}
 
 	return
