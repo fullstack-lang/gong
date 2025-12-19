@@ -65,7 +65,7 @@ func _(stage *models.Stage) {
 	__Product__00000006_Semantic_Enforcer.IsExpanded = false
 
 	__Product__00000009_Docx_Backend.Name = `Docx Backend`
-	__Product__00000009_Docx_Backend.ComputedPrefix = `1`
+	__Product__00000009_Docx_Backend.ComputedPrefix = `1.3.1`
 	__Product__00000009_Docx_Backend.IsExpanded = false
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
@@ -89,10 +89,10 @@ func _(stage *models.Stage) {
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000000_Develop_Semantic_Enforcer)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
-	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000009_Docx_Backend)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
+	__Root__00000000_Root.OrphanedProducts = append(__Root__00000000_Root.OrphanedProducts, __Product__00000009_Docx_Backend)
 	// setup of Task instances pointers
 }
 
