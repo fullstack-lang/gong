@@ -84,27 +84,21 @@ func (stager *Stager) addAddProductButton(productNode *tree.Node, products *[]*P
 		ToolTipPosition: tree.Right,
 	}
 	productNode.Buttons = append(productNode.Buttons, addButton)
-	addButton.Impl = &AddProductButtonNodeProxy{
-		stager:   stager,
-		products: products,
+	// Use the generic proxy and define logic inline
+	addButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+			// "stager" and "products" are captured from the surrounding scope
+			product := (&Product{
+				Name: "New Product",
+			}).Stage(stager.stage) // using captured 'stager'
+
+			// Note: Since 'products' is a slice captured by value,
+			// appending updates the closure's local copy.
+			*products = append(*products, product)
+
+			stager.stage.Commit()
+		},
 	}
-}
-
-type AddProductButtonNodeProxy struct {
-	stager   *Stager
-	products *[]*Product
-}
-
-// ButtonUpdated implements models.ButtonImplInterface.
-func (p *AddProductButtonNodeProxy) ButtonUpdated(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-
-	product := (&Product{
-		Name: "New Product",
-	}).Stage(p.stager.stage)
-
-	*p.products = append(*p.products, product)
-
-	p.stager.stage.Commit()
 }
 
 type NodeProxy[T NodeType] struct {
