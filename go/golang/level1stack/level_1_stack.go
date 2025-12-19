@@ -129,6 +129,7 @@ func NewLevel1Stack(
 			log.Println("no file to read " + err.Error())
 		}
 
+		stage.ComputeReverseMaps()
 		stage.ComputeInstancesNb()
 	} else {
 		// in case the database is used, checkout the content to the stage
