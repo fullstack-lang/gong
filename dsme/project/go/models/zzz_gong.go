@@ -133,6 +133,10 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Task_SubTasks_reverseMap map[*Task]*Task
 
+	Task_InputProducts_reverseMap map[*Product]*Task
+
+	Task_OutputProducts_reverseMap map[*Product]*Task
+
 	OnAfterTaskCreateCallback OnAfterCreateInterface[Task]
 	OnAfterTaskUpdateCallback OnAfterUpdateInterface[Task]
 	OnAfterTaskDeleteCallback OnAfterDeleteInterface[Task]
@@ -1179,6 +1183,10 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
 			SubTasks: []*Task{{Name: "SubTasks"}},
+			// field is initialized with an instance of Product with the name of the field
+			InputProducts: []*Product{{Name: "InputProducts"}},
+			// field is initialized with an instance of Product with the name of the field
+			OutputProducts: []*Product{{Name: "OutputProducts"}},
 		}).(*Type)
 	default:
 		return nil
@@ -1309,6 +1317,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "InputProducts":
+			res := make(map[*Product][]*Task)
+			for task := range stage.Tasks {
+				for _, product_ := range task.InputProducts {
+					res[product_] = append(res[product_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "OutputProducts":
+			res := make(map[*Product][]*Task)
+			for task := range stage.Tasks {
+				for _, product_ := range task.OutputProducts {
+					res[product_] = append(res[product_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -1360,6 +1384,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Root"
 		rf.Fieldname = "OrphanedProducts"
 		res = append(res, rf)
+		rf.GongstructName = "Task"
+		rf.Fieldname = "InputProducts"
+		res = append(res, rf)
+		rf.GongstructName = "Task"
+		rf.Fieldname = "OutputProducts"
+		res = append(res, rf)
 	case *Project:
 		var rf ReverseField
 		_ = rf
@@ -1394,16 +1424,16 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "ComputedPrefix",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
 			Name:                 "SubProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
 		},
 		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -1429,6 +1459,10 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -1475,6 +1509,28 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "InputProducts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "IsInputProducsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "OutputProducts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "IsOutputProducsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -1540,8 +1596,6 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = product.Name
-	case "ComputedPrefix":
-		res.valueString = product.ComputedPrefix
 	case "SubProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range product.SubProducts {
@@ -1556,6 +1610,8 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
 		res.valueBool = product.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = product.ComputedPrefix
 	}
 	return
 }
@@ -1588,6 +1644,8 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", project.IsExpanded)
 		res.valueBool = project.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = project.ComputedPrefix
 	}
 	return
 }
@@ -1648,6 +1706,36 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
 		res.valueBool = task.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = task.ComputedPrefix
+	case "InputProducts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.InputProducts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsInputProducsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsInputProducsNodeExpanded)
+		res.valueBool = task.IsInputProducsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "OutputProducts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.OutputProducts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsOutputProducsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsOutputProducsNodeExpanded)
+		res.valueBool = task.IsOutputProducsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -1663,8 +1751,6 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		product.Name = value.GetValueString()
-	case "ComputedPrefix":
-		product.ComputedPrefix = value.GetValueString()
 	case "SubProducts":
 		product.SubProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -1681,6 +1767,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsExpanded":
 		product.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		product.ComputedPrefix = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -1722,6 +1810,8 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsExpanded":
 		project.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		project.ComputedPrefix = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -1802,6 +1892,40 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsExpanded":
 		task.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		task.ComputedPrefix = value.GetValueString()
+	case "InputProducts":
+		task.InputProducts = make([]*Product, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Products {
+					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+						task.InputProducts = append(task.InputProducts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsInputProducsNodeExpanded":
+		task.IsInputProducsNodeExpanded = value.GetValueBool()
+	case "OutputProducts":
+		task.OutputProducts = make([]*Product, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Products {
+					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+						task.OutputProducts = append(task.OutputProducts, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsOutputProducsNodeExpanded":
+		task.IsOutputProducsNodeExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

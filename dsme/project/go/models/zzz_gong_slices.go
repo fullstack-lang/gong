@@ -65,6 +65,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Task_SubTasks_reverseMap[_task] = task
 		}
 	}
+	stage.Task_InputProducts_reverseMap = make(map[*Product]*Task)
+	for task := range stage.Tasks {
+		_ = task
+		for _, _product := range task.InputProducts {
+			stage.Task_InputProducts_reverseMap[_product] = task
+		}
+	}
+	stage.Task_OutputProducts_reverseMap = make(map[*Product]*Task)
+	for task := range stage.Tasks {
+		_ = task
+		for _, _product := range task.OutputProducts {
+			stage.Task_OutputProducts_reverseMap[_product] = task
+		}
+	}
 
 }
 

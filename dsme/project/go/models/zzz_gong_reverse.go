@@ -28,6 +28,17 @@ func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 					res = _root.Name
 				}
 			}
+		case "Task":
+			switch reverseField.Fieldname {
+			case "InputProducts":
+				if _task, ok := stage.Task_InputProducts_reverseMap[inst]; ok {
+					res = _task.Name
+				}
+			case "OutputProducts":
+				if _task, ok := stage.Task_OutputProducts_reverseMap[inst]; ok {
+					res = _task.Name
+				}
+			}
 	}
 	return
 }
@@ -108,6 +119,13 @@ func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 			switch reverseField.Fieldname {
 			case "OrphanedProducts":
 				res = stage.Root_OrphanedProducts_reverseMap[inst]
+			}
+		case "Task":
+			switch reverseField.Fieldname {
+			case "InputProducts":
+				res = stage.Task_InputProducts_reverseMap[inst]
+			case "OutputProducts":
+				res = stage.Task_OutputProducts_reverseMap[inst]
 			}
 	}
 	return res

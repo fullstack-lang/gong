@@ -35,6 +35,12 @@ type Task struct {
 	SubTasks []*Task
 
 	ExpandableNodeObject
+
+	InputProducts              []*Product
+	IsInputProducsNodeExpanded bool
+
+	OutputProducts              []*Product
+	IsOutputProducsNodeExpanded bool
 }
 
 type Product struct {
