@@ -39,6 +39,30 @@ func DecodeStringToIntSlice(str string) ([]uint, error) {
 	return decodedData, nil
 }
 
+func GetMap_ID_RowID[FieldType models.PointerToGongstruct](stageOfInterest *models.Stage) (map_ID_rowID map[uint]int) {
+	map_ID_rowID = make(map[uint]int)
+	{
+		orderedByIdInstance := models.GetStructInstancesByOrderAuto[FieldType](stageOfInterest)
+		for rowID, instance := range orderedByIdInstance {
+			id := models.GetOrderPointerGongstruct(stageOfInterest, instance)
+			map_ID_rowID[id] = rowID
+		}
+	}
+	return
+}
+
+func GetMap_RowID_ID[FieldType models.PointerToGongstruct](stageOfInterest *models.Stage) (map_RowID_ID map[int]uint) {
+	map_RowID_ID = make(map[int]uint)
+	{
+		orderedByIdInstance := models.GetStructInstancesByOrderAuto[FieldType](stageOfInterest)
+		for rowID, instance := range orderedByIdInstance {
+			id := models.GetOrderPointerGongstruct(stageOfInterest, instance)
+			map_RowID_ID[rowID] = id
+		}
+	}
+	return
+}
+
 // AssociationSliceToForm add a form div with 2 buttons
 // - one for selection
 // - one for sorting
@@ -55,17 +79,18 @@ func AssociationSliceToForm[InstanceType models.PointerToGongstruct, FieldType m
 	}).Stage(probe.formStage)
 	formGroup.FormDivs = append(formGroup.FormDivs, formDiv)
 
-	// here,  it is supposed that the table presented to the user for choosing
-	// associations  of all instances is ordered by IDs
-	instanceSliceID := make([]uint, 0)
-	for _, instance := range *field {
-		id := uint(models.GetOrderPointerGongstruct(
-			probe.stageOfInterest,
-			instance,
-		))
-		instanceSliceID = append(instanceSliceID, id)
+	map_ID_RowID := GetMap_ID_RowID[FieldType](probe.stageOfInterest)
+
+	rowIDsOfInstancesInField := make([]uint, 0)
+	{
+		for _, instance := range *field {
+			id := models.GetOrderPointerGongstruct(probe.stageOfInterest, instance)
+			rowIDsOfInstancesInField = append(rowIDsOfInstancesInField,
+				uint(map_ID_RowID[id]))
+		}
 	}
-	storage, err := EncodeIntSliceToString(instanceSliceID)
+
+	storage, err := EncodeIntSliceToString(rowIDsOfInstancesInField)
 	if err != nil {
 		log.Panic("Unable to encode association")
 	}
@@ -148,12 +173,6 @@ func (onAssocEditon *OnAssocEditon[InstanceType, FieldType]) OnButtonPressed() {
 	column := new(table.DisplayedColumn).Stage(tableStageForSelection)
 	column.Name = "ID"
 	instancesTable.DisplayedColumns = append(instancesTable.DisplayedColumns, column)
-
-	// filterdInstanceSet is the set of instance that are part of the field
-	filterdInstanceSet := make(map[FieldType]any, 0)
-	for _, instance := range *onAssocEditon.field {
-		filterdInstanceSet[instance] = nil
-	}
 
 	for _, fieldName := range models.GetFieldsFromPointer[FieldType]() {
 		column := new(table.DisplayedColumn).Stage(tableStageForSelection)
