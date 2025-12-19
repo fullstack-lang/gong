@@ -52,12 +52,16 @@ ng-github.com-fullstack-lang-gong
 lib/doc/ng-github.com-fullstack-lang-gong-lib-doc
 lib/gantt/ng-github.com-fullstack-lang-gong-lib-gantt
 lib/xlsx/ng-github.com-fullstack-lang-gong-lib-xlsx
+
 test/test/go/tests/stage_tests/Astructs.xlsx
 test/test/go/tests/stage_tests/~$Astructs.xlsx
 test/test/go/tests/stage_tests/~$test.xlsx
 test/test/go/tests/stage_tests/test.xlsx
 test/test/go/tests/stage_tests/test_withIDs.xlsx
 test/test/go/tests/stage_tests/~$test_withIDs.xlsx
+
 dsme/statemachines/go/cmd/statemachines/statemachines
 dsme/cld/go/cmd/cld/cld
 dsme/project/go/cmd/project/project
+
+pkg/docx/go/cmd/docx/docx
