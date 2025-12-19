@@ -716,6 +716,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Product":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "SubProducts":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Product[identifier]
+								instanceWhoseFieldIsAppended.SubProducts = append(instanceWhoseFieldIsAppended.SubProducts, instanceToAppend)
+							}
 						}
 					case "Project":
 						switch fieldName {
@@ -869,16 +879,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Product":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "ParentProduct":
-					targetIdentifier := ident.Name
-					__gong__map_Product[identifier].ParentProduct = __gong__map_Product[targetIdentifier]
-				case "IsExpanded":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Product[identifier].IsExpanded = fielValue
 				}
 			case "Project":
 				switch fieldName {

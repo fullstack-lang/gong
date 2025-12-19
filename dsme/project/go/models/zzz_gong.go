@@ -92,6 +92,8 @@ type Stage struct {
 	Products_mapString map[string]*Product
 
 	// insertion point for slice of pointers maps
+	Product_SubProducts_reverseMap map[*Product]*Product
+
 	OnAfterProductCreateCallback OnAfterCreateInterface[Product]
 	OnAfterProductUpdateCallback OnAfterUpdateInterface[Product]
 	OnAfterProductDeleteCallback OnAfterDeleteInterface[Product]
@@ -1146,7 +1148,7 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&Product{
 			// Initialisation of associations
 			// field is initialized with an instance of Product with the name of the field
-			ParentProduct: &Product{Name: "ParentProduct"},
+			SubProducts: []*Product{{Name: "SubProducts"}},
 		}).(*Type)
 	case Project:
 		return any(&Project{
@@ -1190,23 +1192,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Product:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "ParentProduct":
-			res := make(map[*Product][]*Product)
-			for product := range stage.Products {
-				if product.ParentProduct != nil {
-					product_ := product.ParentProduct
-					var products []*Product
-					_, ok := res[product_]
-					if ok {
-						products = res[product_]
-					} else {
-						products = make([]*Product, 0)
-					}
-					products = append(products, product)
-					res[product_] = products
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Project
 	case Project:
@@ -1260,6 +1245,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 	case Product:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SubProducts":
+			res := make(map[*Product][]*Product)
+			for product := range stage.Products {
+				for _, product_ := range product.SubProducts {
+					res[product_] = append(res[product_], product)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Project
 	case Project:
@@ -1341,6 +1334,9 @@ func GetReverseFields[Type PointerToGongstruct]() (res []ReverseField) {
 	case *Product:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Product"
+		rf.Fieldname = "SubProducts"
+		res = append(res, rf)
 		rf.GongstructName = "Project"
 		rf.Fieldname = "RootProducts"
 		res = append(res, rf)
@@ -1372,13 +1368,9 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:                 "ParentProduct",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			Name:                 "SubProducts",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
-		},
-		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
 	return
@@ -1496,16 +1488,16 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = product.Name
-	case "ParentProduct":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if product.ParentProduct != nil {
-			res.valueString = product.ParentProduct.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, product.ParentProduct))
+	case "SubProducts":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range product.SubProducts {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", product.IsExpanded)
-		res.valueBool = product.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -1581,19 +1573,20 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		product.Name = value.GetValueString()
-	case "ParentProduct":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			product.ParentProduct = nil
-			for __instance__ := range stage.Products {
-				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
-					product.ParentProduct = __instance__
-					break
+	case "SubProducts":
+		product.SubProducts = make([]*Product, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Products {
+					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+						product.SubProducts = append(product.SubProducts, __instance__)
+						break
+					}
 				}
 			}
 		}
-	case "IsExpanded":
-		product.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

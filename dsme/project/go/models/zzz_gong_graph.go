@@ -110,11 +110,11 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 	product.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if product.ParentProduct != nil {
-		StageBranch(stage, product.ParentProduct)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range product.SubProducts {
+		StageBranch(stage, _product)
+	}
 
 }
 
@@ -222,11 +222,11 @@ func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo
 	productFrom.CopyBasicFields(productTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if productFrom.ParentProduct != nil {
-		productTo.ParentProduct = CopyBranchProduct(mapOrigCopy, productFrom.ParentProduct)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range productFrom.SubProducts {
+		productTo.SubProducts = append(productTo.SubProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
 
 	return
 }
@@ -336,11 +336,11 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 	product.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if product.ParentProduct != nil {
-		UnstageBranch(stage, product.ParentProduct)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range product.SubProducts {
+		UnstageBranch(stage, _product)
+	}
 
 }
 

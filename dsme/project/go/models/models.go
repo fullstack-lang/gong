@@ -1,5 +1,21 @@
 package models
 
+type Project struct {
+	Name string
+
+	RootTasks    []*Task
+	RootProducts []*Product
+
+	isExpanded bool
+}
+
+// singloton
+type Root struct {
+	Name string
+
+	Projects []*Project
+}
+
 type Task struct {
 	Name string
 
@@ -9,21 +25,7 @@ type Task struct {
 type Product struct {
 	Name string
 
-	ParentProduct *Product
+	SubProducts []*Product
 
-	IsExpanded bool
-}
-
-type Project struct {
-	Name string
-
-	RootTasks    []*Task
-	RootProducts []*Product
-}
-
-// singloton
-type Root struct {
-	Name string
-
-	Projects []*Project
+	isExpanded bool
 }

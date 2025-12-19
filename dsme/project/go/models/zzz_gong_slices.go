@@ -7,6 +7,13 @@ func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
 	// Compute reverse map for named struct Product
 	// insertion point per field
+	stage.Product_SubProducts_reverseMap = make(map[*Product]*Product)
+	for product := range stage.Products {
+		_ = product
+		for _, _product := range product.SubProducts {
+			stage.Product_SubProducts_reverseMap[_product] = product
+		}
+	}
 
 	// Compute reverse map for named struct Project
 	// insertion point per field

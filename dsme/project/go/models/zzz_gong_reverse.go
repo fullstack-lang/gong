@@ -7,6 +7,13 @@ func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Product":
+			switch reverseField.Fieldname {
+			case "SubProducts":
+				if _product, ok := stage.Product_SubProducts_reverseMap[inst]; ok {
+					res = _product.Name
+				}
+			}
 		case "Project":
 			switch reverseField.Fieldname {
 			case "RootProducts":
@@ -66,6 +73,11 @@ func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Product":
+			switch reverseField.Fieldname {
+			case "SubProducts":
+				res = stage.Product_SubProducts_reverseMap[inst]
+			}
 		case "Project":
 			switch reverseField.Fieldname {
 			case "RootProducts":

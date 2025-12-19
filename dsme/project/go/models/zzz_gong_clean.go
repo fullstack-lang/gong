@@ -31,8 +31,8 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 // Clean garbage collect unstaged instances that are referenced by Product
 func (product *Product) GongClean(stage *Stage) {
 	// insertion point per field
+	product.SubProducts = GongCleanSlice(stage, product.SubProducts)
 	// insertion point per field
-	product.ParentProduct = GongCleanPointer(stage, product.ParentProduct)
 }
 
 // Clean garbage collect unstaged instances that are referenced by Project
