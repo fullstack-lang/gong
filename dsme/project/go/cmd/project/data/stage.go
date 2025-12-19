@@ -36,9 +36,10 @@ func _(stage *models.Stage) {
 
 	__Root__00000000_Root := (&models.Root{}).Stage(stage)
 
-	__Task__00000000_Develop_Semantic_Enforcer := (&models.Task{}).Stage(stage)
-	__Task__00000001_NewTask := (&models.Task{}).Stage(stage)
-	__Task__00000002_NewTask := (&models.Task{}).Stage(stage)
+	__Task__00000000_Develop_Backend := (&models.Task{}).Stage(stage)
+	__Task__00000001_Dev_WBS_Tree := (&models.Task{}).Stage(stage)
+	__Task__00000002_Dev_PBS_Tree := (&models.Task{}).Stage(stage)
+	__Task__00000003_Dev_docx_Backend := (&models.Task{}).Stage(stage)
 
 	// Setup of values
 
@@ -78,14 +79,17 @@ func _(stage *models.Stage) {
 
 	__Root__00000000_Root.Name = `Root`
 
-	__Task__00000000_Develop_Semantic_Enforcer.Name = `Develop Semantic Enforcer`
-	__Task__00000000_Develop_Semantic_Enforcer.IsExpanded = false
+	__Task__00000000_Develop_Backend.Name = `Develop Backend`
+	__Task__00000000_Develop_Backend.IsExpanded = false
 
-	__Task__00000001_NewTask.Name = `NewTask`
-	__Task__00000001_NewTask.IsExpanded = false
+	__Task__00000001_Dev_WBS_Tree.Name = `Dev WBS Tree`
+	__Task__00000001_Dev_WBS_Tree.IsExpanded = false
 
-	__Task__00000002_NewTask.Name = `NewTask`
-	__Task__00000002_NewTask.IsExpanded = false
+	__Task__00000002_Dev_PBS_Tree.Name = `Dev PBS Tree`
+	__Task__00000002_Dev_PBS_Tree.IsExpanded = false
+
+	__Task__00000003_Dev_docx_Backend.Name = `Dev docx Backend`
+	__Task__00000003_Dev_docx_Backend.IsExpanded = false
 
 	// Setup of pointers
 	// setup of Product instances pointers
@@ -94,11 +98,12 @@ func _(stage *models.Stage) {
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000005_views)
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
 	// setup of Project instances pointers
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000000_Develop_Semantic_Enforcer)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_NewTask)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_NewTask)
+	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000000_Develop_Backend)
+	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_Dev_WBS_Tree)
+	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_Dev_PBS_Tree)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
+	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Dev_docx_Backend)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)

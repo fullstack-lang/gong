@@ -57,7 +57,7 @@ func (stager *Stager) updateTaskTreeStage() {
 func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 
 	taskNode := &tree.Node{
-		Name:            task.Name,
+		Name:            task.ComputedPrefix + " " + task.Name,
 		IsExpanded:      true,
 		IsNodeClickable: true,
 	}
