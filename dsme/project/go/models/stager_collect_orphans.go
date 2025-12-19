@@ -4,7 +4,7 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 
 	root := stager.root
 
-	return CollectOrphans(
+	needCommit = CollectOrphans(
 		GetGongstrucsSorted[*Product](stager.stage),
 		func() []*Product {
 			roots := make([]*Product, 0)
@@ -18,6 +18,8 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 		},
 		&root.OrphanedProducts,
 	)
+
+	return
 }
 
 func CollectOrphans[T comparable](

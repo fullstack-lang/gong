@@ -11,7 +11,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 	products := GetGongstrucsSorted[*Product](stager.stage)
 
 	// 2. Call the generic EnforceDAG
-	return EnforceDAG(
+	EnforceDAG(
 		products,
 		// getChildren: How to access sub-products
 		func(p *Product) []*Product {
@@ -27,6 +27,8 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 			}
 		},
 	)
+
+	return
 }
 
 // EnforceDAG checks for cycles in a graph of nodes of type T.
