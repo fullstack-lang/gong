@@ -8,11 +8,7 @@ import "slices"
 // If a cycle is found the culprit association is deleted
 func (stager *Stager) enforceDAG() (needCommit bool) {
 
-	// 1. Prepare the list of all products
-	products := make([]*Product, 0, len(stager.stage.Products))
-	for product := range stager.stage.Products {
-		products = append(products, product)
-	}
+	products := GetGongstrucsSorted[*Product](stager.stage)
 
 	// 2. Call the generic EnforceDAG
 	return EnforceDAG(

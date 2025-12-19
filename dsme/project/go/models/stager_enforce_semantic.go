@@ -49,6 +49,9 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	if stager.enforceDAG() {
 		needCommit = true
 	}
+	if stager.collectOrphans() {
+		needCommit = true
+	}
 
 	return
 }

@@ -25,9 +25,9 @@ func _(stage *models.Stage) {
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
-	__Product__00000002_tree_of_tasks_WBS_ := (&models.Product{}).Stage(stage)
-	__Product__00000004_tree_products_PBS_ := (&models.Product{}).Stage(stage)
-	__Product__00000005_New_Product := (&models.Product{}).Stage(stage)
+	__Product__00000002_WBS_tree := (&models.Product{}).Stage(stage)
+	__Product__00000004_PBS_tree := (&models.Product{}).Stage(stage)
+	__Product__00000005_views := (&models.Product{}).Stage(stage)
 	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
@@ -42,14 +42,14 @@ func _(stage *models.Stage) {
 	__Product__00000001_Backend.Name = `Backend`
 	__Product__00000001_Backend.IsExpanded = false
 
-	__Product__00000002_tree_of_tasks_WBS_.Name = `tree of tasks (WBS)`
-	__Product__00000002_tree_of_tasks_WBS_.IsExpanded = false
+	__Product__00000002_WBS_tree.Name = `WBS tree`
+	__Product__00000002_WBS_tree.IsExpanded = false
 
-	__Product__00000004_tree_products_PBS_.Name = `tree - products (PBS)`
-	__Product__00000004_tree_products_PBS_.IsExpanded = false
+	__Product__00000004_PBS_tree.Name = `PBS tree`
+	__Product__00000004_PBS_tree.IsExpanded = false
 
-	__Product__00000005_New_Product.Name = `New Product`
-	__Product__00000005_New_Product.IsExpanded = false
+	__Product__00000005_views.Name = `views`
+	__Product__00000005_views.IsExpanded = false
 
 	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
 	__Product__00000006_Semantic_Enforcer.IsExpanded = false
@@ -61,10 +61,10 @@ func _(stage *models.Stage) {
 
 	// Setup of pointers
 	// setup of Product instances pointers
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_tree_products_PBS_)
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_tree_of_tasks_WBS_)
+	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
+	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
+	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000005_views)
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
-	__Product__00000004_tree_products_PBS_.SubProducts = append(__Product__00000004_tree_products_PBS_.SubProducts, __Product__00000000_UX)
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
