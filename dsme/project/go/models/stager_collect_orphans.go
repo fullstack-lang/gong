@@ -19,6 +19,21 @@ func (stager *Stager) collectOrphans() (needCommit bool) {
 		&root.OrphanedProducts,
 	)
 
+	needCommit = needCommit || CollectOrphans(
+		GetGongstrucsSorted[*Task](stager.stage),
+		func() []*Task {
+			roots := make([]*Task, 0)
+			for _, task := range GetGongstrucsSorted[*Project](stager.stage) {
+				roots = append(roots, task.RootTasks...)
+			}
+			return roots
+		},
+		func(product *Task) []*Task {
+			return product.SubTasks
+		},
+		&root.OrphanedTasks,
+	)
+
 	return
 }
 
