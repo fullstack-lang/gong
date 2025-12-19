@@ -11,7 +11,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 	products := GetGongstrucsSorted[*Product](stager.stage)
 
 	// 2. Call the generic EnforceDAG
-	EnforceDAG(
+	needCommit = needCommit || EnforceDAG(
 		products,
 		// getChildren: How to access sub-products
 		func(p *Product) []*Product {
@@ -22,6 +22,25 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 			for j, p := range parent.SubProducts {
 				if p == child {
 					parent.SubProducts = slices.Delete(parent.SubProducts, j, j+1)
+					break
+				}
+			}
+		},
+	)
+
+	tasks := GetGongstrucsSorted[*Task](stager.stage)
+
+	needCommit = needCommit || EnforceDAG(
+		tasks,
+		// getChildren: How to access sub-tasks
+		func(p *Task) []*Task {
+			return p.SubTasks
+		},
+		// removeChild: How to remove a sub-task link
+		func(parent, child *Task) {
+			for j, p := range parent.SubTasks {
+				if p == child {
+					parent.SubTasks = slices.Delete(parent.SubTasks, j, j+1)
 					break
 				}
 			}

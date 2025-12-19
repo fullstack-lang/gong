@@ -61,3 +61,4 @@ func (r *ExpandableNodeObject) SetIsExpanded(isExpanded bool) {
 
 var _ NodeType = (*Product)(nil)
 var _ NodeType = (*Project)(nil)
+var _ NodeType = (*Task)(nil)
