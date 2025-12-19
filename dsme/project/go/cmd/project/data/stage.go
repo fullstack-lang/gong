@@ -41,24 +41,31 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
+	__Product__00000000_UX.ComputedPrefix = `1`
 	__Product__00000000_UX.IsExpanded = true
 
 	__Product__00000001_Backend.Name = `Backend`
+	__Product__00000001_Backend.ComputedPrefix = `2`
 	__Product__00000001_Backend.IsExpanded = true
 
 	__Product__00000002_WBS_tree.Name = `WBS tree`
+	__Product__00000002_WBS_tree.ComputedPrefix = `1.1`
 	__Product__00000002_WBS_tree.IsExpanded = false
 
 	__Product__00000004_PBS_tree.Name = `PBS tree`
+	__Product__00000004_PBS_tree.ComputedPrefix = `1.2`
 	__Product__00000004_PBS_tree.IsExpanded = false
 
 	__Product__00000005_views.Name = `views`
+	__Product__00000005_views.ComputedPrefix = `1.3`
 	__Product__00000005_views.IsExpanded = false
 
 	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
+	__Product__00000006_Semantic_Enforcer.ComputedPrefix = `2.1`
 	__Product__00000006_Semantic_Enforcer.IsExpanded = false
 
 	__Product__00000009_Docx_Backend.Name = `Docx Backend`
+	__Product__00000009_Docx_Backend.ComputedPrefix = `1`
 	__Product__00000009_Docx_Backend.IsExpanded = false
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
