@@ -48,14 +48,15 @@ func (root *Root) GongClean(stage *Stage) {
 	// insertion point per field
 	root.Projects = GongCleanSlice(stage, root.Projects)
 	root.OrphanedProducts = GongCleanSlice(stage, root.OrphanedProducts)
+	root.OrphanedTasks = GongCleanSlice(stage, root.OrphanedTasks)
 	// insertion point per field
 }
 
 // Clean garbage collect unstaged instances that are referenced by Task
 func (task *Task) GongClean(stage *Stage) {
 	// insertion point per field
+	task.SubTasks = GongCleanSlice(stage, task.SubTasks)
 	// insertion point per field
-	task.ParentTask = GongCleanPointer(stage, task.ParentTask)
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements

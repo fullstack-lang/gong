@@ -120,6 +120,8 @@ type Stage struct {
 
 	Root_OrphanedProducts_reverseMap map[*Product]*Root
 
+	Root_OrphanedTasks_reverseMap map[*Task]*Root
+
 	OnAfterRootCreateCallback OnAfterCreateInterface[Root]
 	OnAfterRootUpdateCallback OnAfterUpdateInterface[Root]
 	OnAfterRootDeleteCallback OnAfterDeleteInterface[Root]
@@ -129,6 +131,8 @@ type Stage struct {
 	Tasks_mapString map[string]*Task
 
 	// insertion point for slice of pointers maps
+	Task_SubTasks_reverseMap map[*Task]*Task
+
 	OnAfterTaskCreateCallback OnAfterCreateInterface[Task]
 	OnAfterTaskUpdateCallback OnAfterUpdateInterface[Task]
 	OnAfterTaskDeleteCallback OnAfterDeleteInterface[Task]
@@ -1167,12 +1171,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Projects: []*Project{{Name: "Projects"}},
 			// field is initialized with an instance of Product with the name of the field
 			OrphanedProducts: []*Product{{Name: "OrphanedProducts"}},
+			// field is initialized with an instance of Task with the name of the field
+			OrphanedTasks: []*Task{{Name: "OrphanedTasks"}},
 		}).(*Type)
 	case Task:
 		return any(&Task{
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
-			ParentTask: &Task{Name: "ParentTask"},
+			SubTasks: []*Task{{Name: "SubTasks"}},
 		}).(*Type)
 	default:
 		return nil
@@ -1211,23 +1217,6 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
-		case "ParentTask":
-			res := make(map[*Task][]*Task)
-			for task := range stage.Tasks {
-				if task.ParentTask != nil {
-					task_ := task.ParentTask
-					var tasks []*Task
-					_, ok := res[task_]
-					if ok {
-						tasks = res[task_]
-					} else {
-						tasks = make([]*Task, 0)
-					}
-					tasks = append(tasks, task)
-					res[task_] = tasks
-				}
-			}
-			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -1299,11 +1288,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "OrphanedTasks":
+			res := make(map[*Task][]*Root)
+			for root := range stage.Roots {
+				for _, task_ := range root.OrphanedTasks {
+					res[task_] = append(res[task_], root)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Task
 	case Task:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "SubTasks":
+			res := make(map[*Task][]*Task)
+			for task := range stage.Tasks {
+				for _, task_ := range task.SubTasks {
+					res[task_] = append(res[task_], task)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	}
 	return nil
@@ -1369,6 +1374,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Project"
 		rf.Fieldname = "RootTasks"
+		res = append(res, rf)
+		rf.GongstructName = "Root"
+		rf.Fieldname = "OrphanedTasks"
+		res = append(res, rf)
+		rf.GongstructName = "Task"
+		rf.Fieldname = "SubTasks"
 		res = append(res, rf)
 	}
 	return
@@ -1437,6 +1448,11 @@ func (root *Root) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
 		},
+		{
+			Name:                 "OrphanedTasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
 	}
 	return
 }
@@ -1449,9 +1465,13 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:                 "ParentTask",
-			GongFieldValueType:   GongFieldValueTypePointer,
+			Name:                 "SubTasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
 	return
@@ -1590,6 +1610,16 @@ func (root *Root) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "OrphanedTasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range root.OrphanedTasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
@@ -1598,12 +1628,20 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = task.Name
-	case "ParentTask":
-		res.GongFieldValueType = GongFieldValueTypePointer
-		if task.ParentTask != nil {
-			res.valueString = task.ParentTask.Name
-			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, task.ParentTask))
+	case "SubTasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range task.SubTasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", task.IsExpanded)
+		res.valueBool = task.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	}
 	return
 }
@@ -1715,6 +1753,20 @@ func (root *Root) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "OrphanedTasks":
+		root.OrphanedTasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+						root.OrphanedTasks = append(root.OrphanedTasks, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -1726,17 +1778,22 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		task.Name = value.GetValueString()
-	case "ParentTask":
-		var id int
-		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
-			task.ParentTask = nil
-			for __instance__ := range stage.Tasks {
-				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
-					task.ParentTask = __instance__
-					break
+	case "SubTasks":
+		task.SubTasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+						task.SubTasks = append(task.SubTasks, __instance__)
+						break
+					}
 				}
 			}
 		}
+	case "IsExpanded":
+		task.IsExpanded = value.GetValueBool()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

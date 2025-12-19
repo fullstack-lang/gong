@@ -52,10 +52,13 @@ type Task_WOP struct {
 	// insertion point
 
 	Name string
+
+	IsExpanded bool
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
 }
 

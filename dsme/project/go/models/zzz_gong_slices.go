@@ -48,9 +48,23 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Root_OrphanedProducts_reverseMap[_product] = root
 		}
 	}
+	stage.Root_OrphanedTasks_reverseMap = make(map[*Task]*Root)
+	for root := range stage.Roots {
+		_ = root
+		for _, _task := range root.OrphanedTasks {
+			stage.Root_OrphanedTasks_reverseMap[_task] = root
+		}
+	}
 
 	// Compute reverse map for named struct Task
 	// insertion point per field
+	stage.Task_SubTasks_reverseMap = make(map[*Task]*Task)
+	for task := range stage.Tasks {
+		_ = task
+		for _, _task := range task.SubTasks {
+			stage.Task_SubTasks_reverseMap[_task] = task
+		}
+	}
 
 }
 

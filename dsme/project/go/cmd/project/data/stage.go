@@ -36,6 +36,8 @@ func _(stage *models.Stage) {
 
 	__Root__00000000_Root := (&models.Root{}).Stage(stage)
 
+	__Task__00000000_Develop_Semantic_Enforcer := (&models.Task{}).Stage(stage)
+
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
@@ -67,6 +69,9 @@ func _(stage *models.Stage) {
 
 	__Root__00000000_Root.Name = `Root`
 
+	__Task__00000000_Develop_Semantic_Enforcer.Name = `Develop Semantic Enforcer`
+	__Task__00000000_Develop_Semantic_Enforcer.IsExpanded = false
+
 	// Setup of pointers
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
@@ -74,11 +79,13 @@ func _(stage *models.Stage) {
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000005_views)
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
 	// setup of Project instances pointers
+	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000000_Develop_Semantic_Enforcer)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
 	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000009_Docx_Backend)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
+	// setup of Task instances pointers
 }
 

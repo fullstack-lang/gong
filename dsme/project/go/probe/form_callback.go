@@ -639,6 +639,37 @@ func (rootFormCallback *RootFormCallback) OnSave() {
 			}
 			root_.OrphanedProducts = instanceSlice
 
+		case "OrphanedTasks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](rootFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rootFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](rootFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			root_.OrphanedTasks = instanceSlice
+
 		}
 	}
 
@@ -715,8 +746,39 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
-		case "ParentTask":
-			FormDivSelectFieldToField(&(task_.ParentTask), taskFormCallback.probe.stageOfInterest, formDiv)
+		case "SubTasks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					taskFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](taskFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			task_.SubTasks = instanceSlice
+
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
 		case "Project:RootTasks":
 			// WARNING : this form deals with the N-N association "Project.RootTasks []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -783,6 +845,138 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.RootTasks = append(newSource.RootTasks, task_)
+		case "Root:OrphanedTasks":
+			// WARNING : this form deals with the N-N association "Root.OrphanedTasks []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Root
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Root"
+				rf.Fieldname = "OrphanedTasks"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Root)
+					if !ok {
+						log.Fatalln("Source of Root.OrphanedTasks []*Task, is not an Root instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.OrphanedTasks, task_)
+					formerSource.OrphanedTasks = slices.Delete(formerSource.OrphanedTasks, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Root
+			for _root := range *models.GetGongstructInstancesSet[models.Root](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _root.GetName() == newSourceName.GetName() {
+					newSource = _root // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Root.OrphanedTasks []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.OrphanedTasks = append(newSource.OrphanedTasks, task_)
+		case "Task:SubTasks":
+			// WARNING : this form deals with the N-N association "Task.SubTasks []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Task
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Task"
+				rf.Fieldname = "SubTasks"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Task)
+					if !ok {
+						log.Fatalln("Source of Task.SubTasks []*Task, is not an Task instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.SubTasks, task_)
+					formerSource.SubTasks = slices.Delete(formerSource.SubTasks, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Task
+			for _task := range *models.GetGongstructInstancesSet[models.Task](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _task.GetName() == newSourceName.GetName() {
+					newSource = _task // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Task.SubTasks []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.SubTasks = append(newSource.SubTasks, task_)
 		}
 	}
 
