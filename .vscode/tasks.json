@@ -53,6 +53,18 @@
       "group": "build"
     },
     {
+      "label": "00 - go install project",
+      "type": "shell",
+      "options": {
+        "cwd": "dsme/project/go/cmd/project"
+      },
+      "command": "go",
+      "args": [
+        "install"
+      ],
+      "group": "build"
+    },
+    {
       "label": "00 - go mod vendor",
       "type": "shell",
       "group": "build",
@@ -395,6 +407,20 @@
       "type": "shell",
       "options": {
         "cwd": "${workspaceFolder}/dsme/statemachines/go/models"
+      },
+      "command": "gong",
+      "group": "build",
+      "args": [
+        "generate",
+        "--skipGoModCommands",
+        "--level1",
+      ]
+    },
+    {
+      "label": "01 - gong generate project",
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/dsme/project/go/models"
       },
       "command": "gong",
       "group": "build",

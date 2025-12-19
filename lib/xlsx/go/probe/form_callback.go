@@ -373,13 +373,19 @@ func (xlfileFormCallback *XLFileFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.XLSheet](xlfileFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			xlfile_.Sheets = instanceSlice
 
@@ -476,13 +482,19 @@ func (xlrowFormCallback *XLRowFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.XLCell](xlrowFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			xlrow_.Cells = instanceSlice
 
@@ -649,13 +661,19 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.XLRow](xlsheetFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			xlsheet_.Rows = instanceSlice
 
@@ -674,13 +692,19 @@ func (xlsheetFormCallback *XLSheetFormCallback) OnSave() {
 				map_id_instances[id] = instance
 			}
 
-			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
 
 			if err != nil {
 				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
 			}
-			for _, id := range ids {
-				instanceSlice = append(instanceSlice, map_id_instances[id])
+			map_RowID_ID := GetMap_RowID_ID[*models.XLCell](xlsheetFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
 			}
 			xlsheet_.SheetCells = instanceSlice
 
