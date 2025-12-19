@@ -178,6 +178,12 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	for _, _task := range task.SubTasks {
 		StageBranch(stage, _task)
 	}
+	for _, _product := range task.InputProducts {
+		StageBranch(stage, _product)
+	}
+	for _, _product := range task.OutputProducts {
+		StageBranch(stage, _product)
+	}
 
 }
 
@@ -308,6 +314,12 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	for _, _task := range taskFrom.SubTasks {
 		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
+	for _, _product := range taskFrom.InputProducts {
+		taskTo.InputProducts = append(taskTo.InputProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
+	for _, _product := range taskFrom.OutputProducts {
+		taskTo.OutputProducts = append(taskTo.OutputProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
 
 	return
 }
@@ -415,6 +427,12 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _task := range task.SubTasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _product := range task.InputProducts {
+		UnstageBranch(stage, _product)
+	}
+	for _, _product := range task.OutputProducts {
+		UnstageBranch(stage, _product)
 	}
 
 }

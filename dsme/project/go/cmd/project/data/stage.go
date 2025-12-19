@@ -40,56 +40,84 @@ func _(stage *models.Stage) {
 	__Task__00000001_Dev_WBS_Tree := (&models.Task{}).Stage(stage)
 	__Task__00000002_Dev_PBS_Tree := (&models.Task{}).Stage(stage)
 	__Task__00000003_Dev_docx_Backend := (&models.Task{}).Stage(stage)
+	__Task__00000004_Dev_views := (&models.Task{}).Stage(stage)
+	__Task__00000005_Dev_UXx := (&models.Task{}).Stage(stage)
 
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
+	__Product__00000000_UX.IsExpanded = false
 	__Product__00000000_UX.ComputedPrefix = `1`
-	__Product__00000000_UX.IsExpanded = true
 
 	__Product__00000001_Backend.Name = `Backend`
+	__Product__00000001_Backend.IsExpanded = false
 	__Product__00000001_Backend.ComputedPrefix = `2`
-	__Product__00000001_Backend.IsExpanded = true
 
 	__Product__00000002_WBS_tree.Name = `WBS tree`
-	__Product__00000002_WBS_tree.ComputedPrefix = `1.1`
 	__Product__00000002_WBS_tree.IsExpanded = false
+	__Product__00000002_WBS_tree.ComputedPrefix = `1.1`
 
 	__Product__00000004_PBS_tree.Name = `PBS tree`
-	__Product__00000004_PBS_tree.ComputedPrefix = `1.2`
 	__Product__00000004_PBS_tree.IsExpanded = false
+	__Product__00000004_PBS_tree.ComputedPrefix = `1.2`
 
 	__Product__00000005_views.Name = `views`
-	__Product__00000005_views.ComputedPrefix = `1.3`
 	__Product__00000005_views.IsExpanded = false
+	__Product__00000005_views.ComputedPrefix = `1.3`
 
 	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
-	__Product__00000006_Semantic_Enforcer.ComputedPrefix = `2.1`
 	__Product__00000006_Semantic_Enforcer.IsExpanded = false
+	__Product__00000006_Semantic_Enforcer.ComputedPrefix = `2.1`
 
 	__Product__00000009_Docx_Backend.Name = `Docx Backend`
-	__Product__00000009_Docx_Backend.ComputedPrefix = `1.3.1`
 	__Product__00000009_Docx_Backend.IsExpanded = false
+	__Product__00000009_Docx_Backend.ComputedPrefix = `1.3.1`
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsExpanded = true
+	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
 	__Project__00000001_DSME_Docx.IsExpanded = true
+	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
 	__Root__00000000_Root.Name = `Root`
 
 	__Task__00000000_Develop_Backend.Name = `Develop Backend`
 	__Task__00000000_Develop_Backend.IsExpanded = false
+	__Task__00000000_Develop_Backend.ComputedPrefix = `1`
+	__Task__00000000_Develop_Backend.IsInputProducsNodeExpanded = false
+	__Task__00000000_Develop_Backend.IsOutputProducsNodeExpanded = false
 
 	__Task__00000001_Dev_WBS_Tree.Name = `Dev WBS Tree`
 	__Task__00000001_Dev_WBS_Tree.IsExpanded = false
+	__Task__00000001_Dev_WBS_Tree.ComputedPrefix = `2`
+	__Task__00000001_Dev_WBS_Tree.IsInputProducsNodeExpanded = false
+	__Task__00000001_Dev_WBS_Tree.IsOutputProducsNodeExpanded = false
 
 	__Task__00000002_Dev_PBS_Tree.Name = `Dev PBS Tree`
 	__Task__00000002_Dev_PBS_Tree.IsExpanded = false
+	__Task__00000002_Dev_PBS_Tree.ComputedPrefix = `3`
+	__Task__00000002_Dev_PBS_Tree.IsInputProducsNodeExpanded = false
+	__Task__00000002_Dev_PBS_Tree.IsOutputProducsNodeExpanded = false
 
 	__Task__00000003_Dev_docx_Backend.Name = `Dev docx Backend`
-	__Task__00000003_Dev_docx_Backend.IsExpanded = false
+	__Task__00000003_Dev_docx_Backend.IsExpanded = true
+	__Task__00000003_Dev_docx_Backend.ComputedPrefix = `1`
+	__Task__00000003_Dev_docx_Backend.IsInputProducsNodeExpanded = true
+	__Task__00000003_Dev_docx_Backend.IsOutputProducsNodeExpanded = false
+
+	__Task__00000004_Dev_views.Name = `Dev views`
+	__Task__00000004_Dev_views.IsExpanded = false
+	__Task__00000004_Dev_views.ComputedPrefix = `1.1`
+	__Task__00000004_Dev_views.IsInputProducsNodeExpanded = false
+	__Task__00000004_Dev_views.IsOutputProducsNodeExpanded = false
+
+	__Task__00000005_Dev_UXx.Name = `Dev UXx`
+	__Task__00000005_Dev_UXx.IsExpanded = false
+	__Task__00000005_Dev_UXx.ComputedPrefix = `1.2`
+	__Task__00000005_Dev_UXx.IsInputProducsNodeExpanded = false
+	__Task__00000005_Dev_UXx.IsOutputProducsNodeExpanded = true
 
 	// Setup of pointers
 	// setup of Product instances pointers
@@ -109,5 +137,13 @@ func _(stage *models.Stage) {
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
 	__Root__00000000_Root.OrphanedProducts = append(__Root__00000000_Root.OrphanedProducts, __Product__00000009_Docx_Backend)
 	// setup of Task instances pointers
+	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000004_Dev_views)
+	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000005_Dev_UXx)
+	__Task__00000003_Dev_docx_Backend.InputProducts = append(__Task__00000003_Dev_docx_Backend.InputProducts, __Product__00000001_Backend)
+	__Task__00000003_Dev_docx_Backend.OutputProducts = append(__Task__00000003_Dev_docx_Backend.OutputProducts, __Product__00000009_Docx_Backend)
+	__Task__00000003_Dev_docx_Backend.OutputProducts = append(__Task__00000003_Dev_docx_Backend.OutputProducts, __Product__00000006_Semantic_Enforcer)
+	__Task__00000005_Dev_UXx.OutputProducts = append(__Task__00000005_Dev_UXx.OutputProducts, __Product__00000002_WBS_tree)
+	__Task__00000005_Dev_UXx.OutputProducts = append(__Task__00000005_Dev_UXx.OutputProducts, __Product__00000004_PBS_tree)
+	__Task__00000005_Dev_UXx.OutputProducts = append(__Task__00000005_Dev_UXx.OutputProducts, __Product__00000005_views)
 }
 
