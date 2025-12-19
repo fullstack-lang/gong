@@ -25,13 +25,12 @@ func _(stage *models.Stage) {
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
-	__Product__00000002_CI_1_1 := (&models.Product{}).Stage(stage)
-	__Product__00000003_New_Product := (&models.Product{}).Stage(stage)
+	__Product__00000002_tree_of_tasks_WBS_ := (&models.Product{}).Stage(stage)
 	__Product__00000004_tree_products_PBS_ := (&models.Product{}).Stage(stage)
 	__Product__00000005_New_Product := (&models.Product{}).Stage(stage)
-	__Product__00000006_New_Product := (&models.Product{}).Stage(stage)
+	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
 
-	__Project__00000000_Project_1 := (&models.Project{}).Stage(stage)
+	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 
 	__Root__00000000_Root := (&models.Root{}).Stage(stage)
 
@@ -43,11 +42,8 @@ func _(stage *models.Stage) {
 	__Product__00000001_Backend.Name = `Backend`
 	__Product__00000001_Backend.IsExpanded = false
 
-	__Product__00000002_CI_1_1.Name = `CI 1.1`
-	__Product__00000002_CI_1_1.IsExpanded = false
-
-	__Product__00000003_New_Product.Name = `New Product`
-	__Product__00000003_New_Product.IsExpanded = false
+	__Product__00000002_tree_of_tasks_WBS_.Name = `tree of tasks (WBS)`
+	__Product__00000002_tree_of_tasks_WBS_.IsExpanded = false
 
 	__Product__00000004_tree_products_PBS_.Name = `tree - products (PBS)`
 	__Product__00000004_tree_products_PBS_.IsExpanded = false
@@ -55,24 +51,23 @@ func _(stage *models.Stage) {
 	__Product__00000005_New_Product.Name = `New Product`
 	__Product__00000005_New_Product.IsExpanded = false
 
-	__Product__00000006_New_Product.Name = `New Product`
-	__Product__00000006_New_Product.IsExpanded = false
+	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
+	__Product__00000006_Semantic_Enforcer.IsExpanded = false
 
-	__Project__00000000_Project_1.Name = `Project 1`
-	__Project__00000000_Project_1.IsExpanded = true
+	__Project__00000000_Project_Editor.Name = `Project Editor`
+	__Project__00000000_Project_Editor.IsExpanded = true
 
 	__Root__00000000_Root.Name = `Root`
 
 	// Setup of pointers
 	// setup of Product instances pointers
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_CI_1_1)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_tree_products_PBS_)
-	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_New_Product)
+	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_tree_of_tasks_WBS_)
+	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
 	// setup of Project instances pointers
-	__Project__00000000_Project_1.RootProducts = append(__Project__00000000_Project_1.RootProducts, __Product__00000000_UX)
-	__Project__00000000_Project_1.RootProducts = append(__Project__00000000_Project_1.RootProducts, __Product__00000001_Backend)
-	__Project__00000000_Project_1.RootProducts = append(__Project__00000000_Project_1.RootProducts, __Product__00000003_New_Product)
+	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
+	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
 	// setup of Root instances pointers
-	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_1)
+	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 }
 

@@ -77,8 +77,11 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 
 func (stager *Stager) addAddProductButton(productNode *tree.Node, products *[]*Product) {
 	addButton := &tree.Button{
-		Name: "Product" + " " + string(buttons.BUTTON_add),
-		Icon: string(buttons.BUTTON_add),
+		Name:            "Product" + " " + string(buttons.BUTTON_add),
+		Icon:            string(buttons.BUTTON_add),
+		ToolTipText:     "Add a product to \"" + productNode.Name + "\"",
+		HasToolTip:      true,
+		ToolTipPosition: tree.Right,
 	}
 	productNode.Buttons = append(productNode.Buttons, addButton)
 	addButton.Impl = &AddProductButtonNodeProxy{
