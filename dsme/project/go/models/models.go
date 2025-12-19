@@ -24,6 +24,9 @@ type Root struct {
 
 type ExpandableNodeObject struct {
 	IsExpanded bool
+
+	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
+	ComputedPrefix string
 }
 
 type Task struct {
@@ -37,9 +40,6 @@ type Task struct {
 type Product struct {
 	Name string
 
-	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
-	ComputedPrefix string
-
 	SubProducts []*Product
 
 	ExpandableNodeObject
@@ -49,6 +49,8 @@ type NodeType interface {
 	GongstructIF
 	GetIsExpanded() bool
 	SetIsExpanded(bool)
+	GetComputedPrefix() string
+	SetComputedPrefix(string)
 }
 
 func (r *ExpandableNodeObject) GetIsExpanded() bool {
@@ -57,6 +59,14 @@ func (r *ExpandableNodeObject) GetIsExpanded() bool {
 
 func (r *ExpandableNodeObject) SetIsExpanded(isExpanded bool) {
 	r.IsExpanded = isExpanded
+}
+
+func (r *ExpandableNodeObject) GetComputedPrefix() string {
+	return r.ComputedPrefix
+}
+
+func (r *ExpandableNodeObject) SetComputedPrefix(ComputedPrefix string) {
+	r.ComputedPrefix = ComputedPrefix
 }
 
 var _ NodeType = (*Product)(nil)
