@@ -13,14 +13,11 @@ type Product_WOP struct {
 	// insertion point
 
 	Name string
-
-	IsExpanded bool
 }
 
 func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
-	to.IsExpanded = from.IsExpanded
 }
 
 type Project_WOP struct {

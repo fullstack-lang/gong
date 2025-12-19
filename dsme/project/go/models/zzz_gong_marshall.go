@@ -144,12 +144,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(product.Name))
 		initializerStatements += setValueField
 
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsExpanded))
-		initializerStatements += setValueField
-
 	}
 
 	map_Project_Identifiers := make(map[*Project]string)
@@ -287,11 +281,11 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		map_Product_Identifiers[product] = id
 
 		// Initialisation of values
-		if product.ParentProduct != nil {
-			setPointerField = PointerFieldInitStatement
+		for _, _product := range product.SubProducts {
+			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ParentProduct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[product.ParentProduct])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SubProducts")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
 			pointersInitializesStatements += setPointerField
 		}
 
