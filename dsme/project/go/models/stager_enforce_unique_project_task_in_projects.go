@@ -2,12 +2,12 @@ package models
 
 import "slices"
 
-// enforceUniqueProductInProjects ensures that a Product is not referenced
+// enforceUniqueProductTaskInProjects ensures that a Product is not referenced
 // by more than one Project.
 //
 // The rule is "First Come, First Served": the first Project (in the order of root.Projects)
 // that claims a Product keeps it. Subsequent Projects lose the reference.
-func (stager *Stager) enforceUniqueProductInProjects() (needCommit bool) {
+func (stager *Stager) enforceUniqueProductTaskInProjects() (needCommit bool) {
 
 	root := stager.root
 
