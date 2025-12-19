@@ -157,6 +157,9 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 	for _, _product := range root.OrphanedProducts {
 		StageBranch(stage, _product)
 	}
+	for _, _task := range root.OrphanedTasks {
+		StageBranch(stage, _task)
+	}
 
 }
 
@@ -170,11 +173,11 @@ func (stage *Stage) StageBranchTask(task *Task) {
 	task.Stage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if task.ParentTask != nil {
-		StageBranch(stage, task.ParentTask)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range task.SubTasks {
+		StageBranch(stage, _task)
+	}
 
 }
 
@@ -280,6 +283,9 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 	for _, _product := range rootFrom.OrphanedProducts {
 		rootTo.OrphanedProducts = append(rootTo.OrphanedProducts, CopyBranchProduct(mapOrigCopy, _product))
 	}
+	for _, _task := range rootFrom.OrphanedTasks {
+		rootTo.OrphanedTasks = append(rootTo.OrphanedTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
 
 	return
 }
@@ -297,11 +303,11 @@ func CopyBranchTask(mapOrigCopy map[any]any, taskFrom *Task) (taskTo *Task) {
 	taskFrom.CopyBasicFields(taskTo)
 
 	//insertion point for the staging of instances referenced by pointers
-	if taskFrom.ParentTask != nil {
-		taskTo.ParentTask = CopyBranchTask(mapOrigCopy, taskFrom.ParentTask)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range taskFrom.SubTasks {
+		taskTo.SubTasks = append(taskTo.SubTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
 
 	return
 }
@@ -389,6 +395,9 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 	for _, _product := range root.OrphanedProducts {
 		UnstageBranch(stage, _product)
 	}
+	for _, _task := range root.OrphanedTasks {
+		UnstageBranch(stage, _task)
+	}
 
 }
 
@@ -402,10 +411,10 @@ func (stage *Stage) UnstageBranchTask(task *Task) {
 	task.Unstage(stage)
 
 	//insertion point for the staging of instances referenced by pointers
-	if task.ParentTask != nil {
-		UnstageBranch(stage, task.ParentTask)
-	}
 
 	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _task := range task.SubTasks {
+		UnstageBranch(stage, _task)
+	}
 
 }

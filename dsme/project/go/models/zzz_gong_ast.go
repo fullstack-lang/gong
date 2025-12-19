@@ -774,10 +774,30 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
 								instanceWhoseFieldIsAppended.OrphanedProducts = append(instanceWhoseFieldIsAppended.OrphanedProducts, instanceToAppend)
 							}
+						case "OrphanedTasks":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
+								instanceWhoseFieldIsAppended.OrphanedTasks = append(instanceWhoseFieldIsAppended.OrphanedTasks, instanceToAppend)
+							}
 						}
 					case "Task":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
+						case "SubTasks":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
+								instanceWhoseFieldIsAppended.SubTasks = append(instanceWhoseFieldIsAppended.SubTasks, instanceToAppend)
+							}
 						}
 					}
 				}
@@ -915,9 +935,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Task":
 				switch fieldName {
 				// insertion point for field dependant code
-				case "ParentTask":
-					targetIdentifier := ident.Name
-					__gong__map_Task[identifier].ParentTask = __gong__map_Task[targetIdentifier]
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Task[identifier].IsExpanded = fielValue
 				}
 			}
 		case *ast.SelectorExpr:

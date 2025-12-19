@@ -6,7 +6,7 @@ type Project struct {
 	RootTasks    []*Task
 	RootProducts []*Product
 
-	IsExpanded bool
+	ExpandableNodeObject
 }
 
 // singloton
@@ -17,12 +17,21 @@ type Root struct {
 
 	// product that do not belong to projects
 	OrphanedProducts []*Product
+
+	// task that do not belong to projects
+	OrphanedTasks []*Task
+}
+
+type ExpandableNodeObject struct {
+	IsExpanded bool
 }
 
 type Task struct {
 	Name string
 
-	ParentTask *Task
+	SubTasks []*Task
+
+	ExpandableNodeObject
 }
 
 type Product struct {
@@ -30,7 +39,7 @@ type Product struct {
 
 	SubProducts []*Product
 
-	IsExpanded bool
+	ExpandableNodeObject
 }
 
 type NodeType interface {
@@ -39,22 +48,13 @@ type NodeType interface {
 	SetIsExpanded(bool)
 }
 
-func (product *Product) GetIsExpanded() bool {
-	return product.IsExpanded
+func (r *ExpandableNodeObject) GetIsExpanded() bool {
+	return r.IsExpanded
 }
 
-func (product *Product) SetIsExpanded(isExpanded bool) {
-	product.IsExpanded = isExpanded
+func (r *ExpandableNodeObject) SetIsExpanded(isExpanded bool) {
+	r.IsExpanded = isExpanded
 }
 
 var _ NodeType = (*Product)(nil)
-
-func (project *Project) GetIsExpanded() bool {
-	return project.IsExpanded
-}
-
-func (project *Project) SetIsExpanded(isExpanded bool) {
-	project.IsExpanded = isExpanded
-}
-
 var _ NodeType = (*Project)(nil)
