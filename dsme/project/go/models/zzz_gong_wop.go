@@ -14,12 +14,15 @@ type Product_WOP struct {
 
 	Name string
 
+	ComputedPrefix string
+
 	IsExpanded bool
 }
 
 func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
+	to.ComputedPrefix = from.ComputedPrefix
 	to.IsExpanded = from.IsExpanded
 }
 

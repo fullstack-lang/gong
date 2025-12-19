@@ -37,6 +37,9 @@ type Task struct {
 type Product struct {
 	Name string
 
+	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
+	ComputedPrefix string
+
 	SubProducts []*Product
 
 	ExpandableNodeObject
