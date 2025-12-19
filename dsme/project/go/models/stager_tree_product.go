@@ -33,7 +33,10 @@ func (stager *Stager) updateProductTreeStage() {
 			instance: project,
 		}
 
-		stager.addAddProductButton(projectNode, &project.RootProducts)
+		addAddItemButton(stager, projectNode, &project.RootProducts,
+			func(items *[]*Product, item *Product) {
+				*items = append(*items, item)
+			})
 
 		for _, product := range project.RootProducts {
 			stager.generateTreeOfProduct(product, projectNode)
@@ -68,14 +71,20 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 		instance: product,
 	}
 
-	stager.addAddProductButton(productNode, &product.SubProducts)
+	addAddItemButton(stager, productNode, &product.SubProducts,
+		func(items *[]*Product, item *Product) {
+			*items = append(*items, item)
+		})
 
 	for _, product := range product.SubProducts {
 		stager.generateTreeOfProduct(product, productNode)
 	}
 }
 
-func (stager *Stager) addAddProductButton(productNode *tree.Node, products *[]*Product) {
+func addAddItemButton[T Gongstruct, PT interface {
+	*T
+	GongstructIF
+}](stager *Stager, productNode *tree.Node, items *[]*T, appendItem func(items *[]*T, item *T)) {
 	addButton := &tree.Button{
 		Name:            "Product" + " " + string(buttons.BUTTON_add),
 		Icon:            string(buttons.BUTTON_add),
@@ -86,10 +95,8 @@ func (stager *Stager) addAddProductButton(productNode *tree.Node, products *[]*P
 	productNode.Buttons = append(productNode.Buttons, addButton)
 	addButton.Impl = &tree.FunctionalButtonProxy{
 		OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-			product := (&Product{
-				Name: "New Product",
-			}).Stage(stager.stage)
-			*products = append(*products, product)
+			item := PT(new(T))
+			appendItem(items, item)
 
 			stager.stage.Commit()
 		},
