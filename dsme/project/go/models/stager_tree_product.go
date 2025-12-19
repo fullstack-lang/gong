@@ -12,7 +12,7 @@ func (stager *Stager) updateProductTreeStage() {
 
 	root := stager.root
 
-	treeInstance := (&tree.Tree{Name: "PBS"})
+	treeInstance := &tree.Tree{Name: "PBS"}
 
 	allProjectsNode := &tree.Node{
 		Name:       "Projects",
@@ -37,6 +37,14 @@ func (stager *Stager) updateProductTreeStage() {
 
 		for _, product := range project.RootProducts {
 			stager.generateTreeOfProduct(product, projectNode)
+		}
+	}
+
+	if len(root.OrphanedProducts) > 0 {
+		orphansProductNode := &tree.Node{Name: "Orphans Products", IsExpanded: true}
+		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansProductNode)
+		for _, product := range root.OrphanedProducts {
+			stager.generateTreeOfProduct(product, orphansProductNode)
 		}
 	}
 

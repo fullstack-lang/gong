@@ -154,6 +154,9 @@ func (stage *Stage) StageBranchRoot(root *Root) {
 	for _, _project := range root.Projects {
 		StageBranch(stage, _project)
 	}
+	for _, _product := range root.OrphanedProducts {
+		StageBranch(stage, _product)
+	}
 
 }
 
@@ -274,6 +277,9 @@ func CopyBranchRoot(mapOrigCopy map[any]any, rootFrom *Root) (rootTo *Root) {
 	for _, _project := range rootFrom.Projects {
 		rootTo.Projects = append(rootTo.Projects, CopyBranchProject(mapOrigCopy, _project))
 	}
+	for _, _product := range rootFrom.OrphanedProducts {
+		rootTo.OrphanedProducts = append(rootTo.OrphanedProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
 
 	return
 }
@@ -379,6 +385,9 @@ func (stage *Stage) UnstageBranchRoot(root *Root) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _project := range root.Projects {
 		UnstageBranch(stage, _project)
+	}
+	for _, _product := range root.OrphanedProducts {
+		UnstageBranch(stage, _product)
 	}
 
 }

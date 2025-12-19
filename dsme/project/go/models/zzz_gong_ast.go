@@ -764,6 +764,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
 								instanceWhoseFieldIsAppended.Projects = append(instanceWhoseFieldIsAppended.Projects, instanceToAppend)
 							}
+						case "OrphanedProducts":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Root[identifier]
+								instanceWhoseFieldIsAppended.OrphanedProducts = append(instanceWhoseFieldIsAppended.OrphanedProducts, instanceToAppend)
+							}
 						}
 					case "Task":
 						switch fieldName {

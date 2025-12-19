@@ -221,6 +221,72 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.RootProducts = append(newSource.RootProducts, product_)
+		case "Root:OrphanedProducts":
+			// WARNING : this form deals with the N-N association "Root.OrphanedProducts []*Product" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Product). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Root
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Root"
+				rf.Fieldname = "OrphanedProducts"
+				formerAssociationSource := product_.GongGetReverseFieldOwner(
+					productFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Root)
+					if !ok {
+						log.Fatalln("Source of Root.OrphanedProducts []*Product, is not an Root instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.OrphanedProducts, product_)
+					formerSource.OrphanedProducts = slices.Delete(formerSource.OrphanedProducts, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Root
+			for _root := range *models.GetGongstructInstancesSet[models.Root](productFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _root.GetName() == newSourceName.GetName() {
+					newSource = _root // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Root.OrphanedProducts []*Product, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.OrphanedProducts = append(newSource.OrphanedProducts, product_)
 		}
 	}
 
@@ -513,6 +579,31 @@ func (rootFormCallback *RootFormCallback) OnSave() {
 				instanceSlice = append(instanceSlice, map_id_instances[id])
 			}
 			root_.Projects = instanceSlice
+
+		case "OrphanedProducts":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](rootFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Product, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Product)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					rootFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			ids, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			for _, id := range ids {
+				instanceSlice = append(instanceSlice, map_id_instances[id])
+			}
+			root_.OrphanedProducts = instanceSlice
 
 		}
 	}

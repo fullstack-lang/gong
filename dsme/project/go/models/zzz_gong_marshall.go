@@ -339,6 +339,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
+		for _, _product := range root.OrphanedProducts {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "OrphanedProducts")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	if len(taskOrdered) > 0 {

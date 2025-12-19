@@ -66,6 +66,28 @@ func FillUpForm(
 					probe)
 			}
 		}
+		{
+			var rf models.ReverseField
+			_ = rf
+			rf.GongstructName = "Root"
+			rf.Fieldname = "OrphanedProducts"
+			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
+			if reverseFieldOwner != nil {
+				AssociationReverseFieldToForm(
+					reverseFieldOwner.(*models.Root),
+					"OrphanedProducts",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			} else {
+				AssociationReverseFieldToForm[*models.Root](
+					nil,
+					"OrphanedProducts",
+					instanceWithInferedType,
+					formGroup,
+					probe)
+			}
+		}
 
 	case *models.Project:
 		// insertion point
@@ -101,6 +123,7 @@ func FillUpForm(
 		BasicFieldtoForm("Name", instanceWithInferedType.Name, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Projects", instanceWithInferedType, &instanceWithInferedType.Projects, formGroup, probe)
+		AssociationSliceToForm("OrphanedProducts", instanceWithInferedType, &instanceWithInferedType.OrphanedProducts, formGroup, probe)
 
 	case *models.Task:
 		// insertion point
