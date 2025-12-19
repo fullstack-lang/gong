@@ -45,7 +45,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
-	if stager.enforceUniqueProductTaskInProjects() {
+	if stager.enforceUniquenessInProjects() {
 		needCommit = true
 	}
 
