@@ -26,6 +26,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
+		BasicFieldtoForm("IsProducersNodeExpanded", instanceWithInferedType.IsProducersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsConsumersNodeExpanded", instanceWithInferedType.IsConsumersNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
 			_ = rf
@@ -96,19 +100,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Task"
-			rf.Fieldname = "InputProducts"
+			rf.Fieldname = "Inputs"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Task),
-					"InputProducts",
+					"Inputs",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Task](
 					nil,
-					"InputProducts",
+					"Inputs",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -118,19 +122,19 @@ func FillUpForm(
 			var rf models.ReverseField
 			_ = rf
 			rf.GongstructName = "Task"
-			rf.Fieldname = "OutputProducts"
+			rf.Fieldname = "Outputs"
 			reverseFieldOwner := instanceWithInferedType.GongGetReverseFieldOwner(probe.stageOfInterest, &rf)
 			if reverseFieldOwner != nil {
 				AssociationReverseFieldToForm(
 					reverseFieldOwner.(*models.Task),
-					"OutputProducts",
+					"Outputs",
 					instanceWithInferedType,
 					formGroup,
 					probe)
 			} else {
 				AssociationReverseFieldToForm[*models.Task](
 					nil,
-					"OutputProducts",
+					"Outputs",
 					instanceWithInferedType,
 					formGroup,
 					probe)
@@ -187,11 +191,11 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		BasicFieldtoForm("ComputedPrefix", instanceWithInferedType.ComputedPrefix, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("InputProducts", instanceWithInferedType, &instanceWithInferedType.InputProducts, formGroup, probe)
-		BasicFieldtoForm("IsInputProducsNodeExpanded", instanceWithInferedType.IsInputProducsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		AssociationSliceToForm("Inputs", instanceWithInferedType, &instanceWithInferedType.Inputs, formGroup, probe)
+		BasicFieldtoForm("IsInputsNodeExpanded", instanceWithInferedType.IsInputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
-		AssociationSliceToForm("OutputProducts", instanceWithInferedType, &instanceWithInferedType.OutputProducts, formGroup, probe)
-		BasicFieldtoForm("IsOutputProducsNodeExpanded", instanceWithInferedType.IsOutputProducsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+		AssociationSliceToForm("Outputs", instanceWithInferedType, &instanceWithInferedType.Outputs, formGroup, probe)
+		BasicFieldtoForm("IsOutputsNodeExpanded", instanceWithInferedType.IsOutputsNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
 		{
 			var rf models.ReverseField
