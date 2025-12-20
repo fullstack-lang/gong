@@ -46,7 +46,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
-	__Product__00000000_UX.IsExpanded = false
+	__Product__00000000_UX.IsExpanded = true
 	__Product__00000000_UX.ComputedPrefix = `1`
 	__Product__00000000_UX.IsProducersNodeExpanded = false
 	__Product__00000000_UX.IsConsumersNodeExpanded = false
@@ -98,7 +98,7 @@ func _(stage *models.Stage) {
 	__Root__00000000_Root.Name = `Root`
 
 	__Task__00000000_Develop_Backend.Name = `Develop Backend`
-	__Task__00000000_Develop_Backend.IsExpanded = false
+	__Task__00000000_Develop_Backend.IsExpanded = true
 	__Task__00000000_Develop_Backend.ComputedPrefix = `1`
 	__Task__00000000_Develop_Backend.IsInputsNodeExpanded = false
 	__Task__00000000_Develop_Backend.IsOutputsNodeExpanded = false
