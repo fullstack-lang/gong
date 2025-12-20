@@ -130,11 +130,11 @@ func (stage *Stage) StageBranchProject(project *Project) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range project.RootTasks {
-		StageBranch(stage, _task)
-	}
 	for _, _product := range project.RootProducts {
 		StageBranch(stage, _product)
+	}
+	for _, _task := range project.RootTasks {
+		StageBranch(stage, _task)
 	}
 
 }
@@ -258,11 +258,11 @@ func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range projectFrom.RootTasks {
-		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
-	}
 	for _, _product := range projectFrom.RootProducts {
 		projectTo.RootProducts = append(projectTo.RootProducts, CopyBranchProduct(mapOrigCopy, _product))
+	}
+	for _, _task := range projectFrom.RootTasks {
+		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
 
 	return
@@ -380,11 +380,11 @@ func (stage *Stage) UnstageBranchProject(project *Project) {
 	//insertion point for the staging of instances referenced by pointers
 
 	//insertion point for the staging of instances referenced by slice of pointers
-	for _, _task := range project.RootTasks {
-		UnstageBranch(stage, _task)
-	}
 	for _, _product := range project.RootProducts {
 		UnstageBranch(stage, _product)
+	}
+	for _, _task := range project.RootTasks {
+		UnstageBranch(stage, _task)
 	}
 
 }
