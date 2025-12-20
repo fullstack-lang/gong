@@ -509,37 +509,8 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(project_.Name), formDiv)
-		case "RootTasks":
-			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](projectFormCallback.probe.stageOfInterest)
-			instanceSlice := make([]*models.Task, 0)
-
-			// make a map of all instances by their ID
-			map_id_instances := make(map[uint]*models.Task)
-
-			for instance := range instanceSet {
-				id := models.GetOrderPointerGongstruct(
-					projectFormCallback.probe.stageOfInterest,
-					instance,
-				)
-				map_id_instances[id] = instance
-			}
-
-			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
-
-			if err != nil {
-				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
-			}
-			map_RowID_ID := GetMap_RowID_ID[*models.Task](projectFormCallback.probe.stageOfInterest)
-
-			for _, rowID := range rowIDs {
-				if id, ok := map_RowID_ID[int(rowID)]; ok {
-					instanceSlice = append(instanceSlice, map_id_instances[id])
-				} else {
-					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
-				}
-			}
-			project_.RootTasks = instanceSlice
-
+		case "IsPBSNodeExpanded":
+			FormDivBasicFieldToField(&(project_.IsPBSNodeExpanded), formDiv)
 		case "RootProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](projectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -570,6 +541,39 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 				}
 			}
 			project_.RootProducts = instanceSlice
+
+		case "IsWBSNodeExpanded":
+			FormDivBasicFieldToField(&(project_.IsWBSNodeExpanded), formDiv)
+		case "RootTasks":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](projectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					projectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](projectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			project_.RootTasks = instanceSlice
 
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(project_.IsExpanded), formDiv)

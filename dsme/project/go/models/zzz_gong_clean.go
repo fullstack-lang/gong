@@ -38,8 +38,8 @@ func (product *Product) GongClean(stage *Stage) {
 // Clean garbage collect unstaged instances that are referenced by Project
 func (project *Project) GongClean(stage *Stage) {
 	// insertion point per field
-	project.RootTasks = GongCleanSlice(stage, project.RootTasks)
 	project.RootProducts = GongCleanSlice(stage, project.RootProducts)
+	project.RootTasks = GongCleanSlice(stage, project.RootTasks)
 	// insertion point per field
 }
 

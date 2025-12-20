@@ -46,7 +46,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Product__00000000_UX.Name = `UX`
-	__Product__00000000_UX.IsExpanded = true
+	__Product__00000000_UX.IsExpanded = false
 	__Product__00000000_UX.ComputedPrefix = `1`
 	__Product__00000000_UX.IsProducersNodeExpanded = false
 	__Product__00000000_UX.IsConsumersNodeExpanded = false
@@ -88,10 +88,14 @@ func _(stage *models.Stage) {
 	__Product__00000009_Docx_Backend.IsConsumersNodeExpanded = false
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
+	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
+	__Project__00000000_Project_Editor.IsWBSNodeExpanded = true
 	__Project__00000000_Project_Editor.IsExpanded = true
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
+	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
+	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsExpanded = true
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 

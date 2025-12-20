@@ -1,14 +1,5 @@
 package models
 
-type Project struct {
-	Name string
-
-	RootTasks    []*Task
-	RootProducts []*Product
-
-	ExpandableNodeObject
-}
-
 // singloton
 type Root struct {
 	Name string
@@ -20,6 +11,18 @@ type Root struct {
 
 	// task that do not belong to projects
 	OrphanedTasks []*Task
+}
+
+type Project struct {
+	Name string
+
+	IsPBSNodeExpanded bool
+	RootProducts      []*Product
+
+	IsWBSNodeExpanded bool
+	RootTasks         []*Task
+
+	ExpandableNodeObject
 }
 
 type ExpandableNodeObject struct {

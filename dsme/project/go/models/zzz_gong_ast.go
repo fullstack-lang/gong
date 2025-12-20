@@ -730,16 +730,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					case "Project":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
-						case "RootTasks":
-							// perform the append only when the loop is processing the second argument
-							if argNb == 0 {
-								break
-							}
-							identifierOfInstanceToAppend := ident.Name
-							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
-								instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
-								instanceWhoseFieldIsAppended.RootTasks = append(instanceWhoseFieldIsAppended.RootTasks, instanceToAppend)
-							}
 						case "RootProducts":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
@@ -749,6 +739,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
 								instanceWhoseFieldIsAppended.RootProducts = append(instanceWhoseFieldIsAppended.RootProducts, instanceToAppend)
+							}
+						case "RootTasks":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
+								instanceWhoseFieldIsAppended.RootTasks = append(instanceWhoseFieldIsAppended.RootTasks, instanceToAppend)
 							}
 						}
 					case "Root":
@@ -966,6 +966,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			case "Project":
 				switch fieldName {
 				// insertion point for field dependant code
+				case "IsPBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Project[identifier].IsPBSNodeExpanded = fielValue
+				case "IsWBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Project[identifier].IsWBSNodeExpanded = fielValue
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
