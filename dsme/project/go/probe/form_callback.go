@@ -99,6 +99,10 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(product_.ComputedPrefix), formDiv)
+		case "IsProducersNodeExpanded":
+			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
+		case "IsConsumersNodeExpanded":
+			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
 		case "Product:SubProducts":
 			// WARNING : this form deals with the N-N association "Product.SubProducts []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -297,8 +301,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.OrphanedProducts = append(newSource.OrphanedProducts, product_)
-		case "Task:InputProducts":
-			// WARNING : this form deals with the N-N association "Task.InputProducts []*Product" but
+		case "Task:Inputs":
+			// WARNING : this form deals with the N-N association "Task.Inputs []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -313,7 +317,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "Task"
-				rf.Fieldname = "InputProducts"
+				rf.Fieldname = "Inputs"
 				formerAssociationSource := product_.GongGetReverseFieldOwner(
 					productFormCallback.probe.stageOfInterest,
 					&rf)
@@ -322,7 +326,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.Task)
 					if !ok {
-						log.Fatalln("Source of Task.InputProducts []*Product, is not an Task instance")
+						log.Fatalln("Source of Task.Inputs []*Product, is not an Task instance")
 					}
 				}
 			}
@@ -333,8 +337,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.InputProducts, product_)
-					formerSource.InputProducts = slices.Delete(formerSource.InputProducts, idx, idx+1)
+					idx := slices.Index(formerSource.Inputs, product_)
+					formerSource.Inputs = slices.Delete(formerSource.Inputs, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -357,14 +361,14 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of Task.InputProducts []*Product, with name", newSourceName, ", does not exist")
+				log.Println("Source of Task.Inputs []*Product, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.InputProducts = append(newSource.InputProducts, product_)
-		case "Task:OutputProducts":
-			// WARNING : this form deals with the N-N association "Task.OutputProducts []*Product" but
+			newSource.Inputs = append(newSource.Inputs, product_)
+		case "Task:Outputs":
+			// WARNING : this form deals with the N-N association "Task.Outputs []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
 			//
 			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
@@ -379,7 +383,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				var rf models.ReverseField
 				_ = rf
 				rf.GongstructName = "Task"
-				rf.Fieldname = "OutputProducts"
+				rf.Fieldname = "Outputs"
 				formerAssociationSource := product_.GongGetReverseFieldOwner(
 					productFormCallback.probe.stageOfInterest,
 					&rf)
@@ -388,7 +392,7 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				if formerAssociationSource != nil {
 					formerSource, ok = formerAssociationSource.(*models.Task)
 					if !ok {
-						log.Fatalln("Source of Task.OutputProducts []*Product, is not an Task instance")
+						log.Fatalln("Source of Task.Outputs []*Product, is not an Task instance")
 					}
 				}
 			}
@@ -399,8 +403,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			if newSourceName == nil {
 				// That could mean we clear the assocation for all source instances
 				if formerSource != nil {
-					idx := slices.Index(formerSource.OutputProducts, product_)
-					formerSource.OutputProducts = slices.Delete(formerSource.OutputProducts, idx, idx+1)
+					idx := slices.Index(formerSource.Outputs, product_)
+					formerSource.Outputs = slices.Delete(formerSource.Outputs, idx, idx+1)
 				}
 				break // nothing else to do for this field
 			}
@@ -423,12 +427,12 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 				}
 			}
 			if newSource == nil {
-				log.Println("Source of Task.OutputProducts []*Product, with name", newSourceName, ", does not exist")
+				log.Println("Source of Task.Outputs []*Product, with name", newSourceName, ", does not exist")
 				break
 			}
 
 			// (3) append the new value to the new source field
-			newSource.OutputProducts = append(newSource.OutputProducts, product_)
+			newSource.Outputs = append(newSource.Outputs, product_)
 		}
 	}
 
@@ -917,7 +921,7 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(task_.IsExpanded), formDiv)
 		case "ComputedPrefix":
 			FormDivBasicFieldToField(&(task_.ComputedPrefix), formDiv)
-		case "InputProducts":
+		case "Inputs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -946,11 +950,11 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			task_.InputProducts = instanceSlice
+			task_.Inputs = instanceSlice
 
-		case "IsInputProducsNodeExpanded":
-			FormDivBasicFieldToField(&(task_.IsInputProducsNodeExpanded), formDiv)
-		case "OutputProducts":
+		case "IsInputsNodeExpanded":
+			FormDivBasicFieldToField(&(task_.IsInputsNodeExpanded), formDiv)
+		case "Outputs":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
 
@@ -979,10 +983,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
 				}
 			}
-			task_.OutputProducts = instanceSlice
+			task_.Outputs = instanceSlice
 
-		case "IsOutputProducsNodeExpanded":
-			FormDivBasicFieldToField(&(task_.IsOutputProducsNodeExpanded), formDiv)
+		case "IsOutputsNodeExpanded":
+			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
 		case "Project:RootTasks":
 			// WARNING : this form deals with the N-N association "Project.RootTasks []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

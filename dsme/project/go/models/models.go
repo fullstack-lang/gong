@@ -28,7 +28,6 @@ type ExpandableNodeObject struct {
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
 }
-
 type Task struct {
 	Name string
 
@@ -36,11 +35,11 @@ type Task struct {
 
 	ExpandableNodeObject
 
-	InputProducts              []*Product
-	IsInputProducsNodeExpanded bool
+	Inputs               []*Product
+	IsInputsNodeExpanded bool
 
-	OutputProducts              []*Product
-	IsOutputProducsNodeExpanded bool
+	Outputs               []*Product
+	IsOutputsNodeExpanded bool
 }
 
 type Product struct {
@@ -49,6 +48,16 @@ type Product struct {
 	SubProducts []*Product
 
 	ExpandableNodeObject
+
+	// producers are computed from [models.Task.Outputs]
+	// this is a computed field, therefore, not exported
+	producers               []*Task
+	IsProducersNodeExpanded bool
+
+	// consumers are computed from [models.Task.Inputs]
+	// this is a computed field, therefore, not exported
+	consumers               []*Task
+	IsConsumersNodeExpanded bool
 }
 
 type NodeType interface {
