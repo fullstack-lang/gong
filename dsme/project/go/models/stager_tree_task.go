@@ -62,7 +62,7 @@ func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 
 	taskNode := &tree.Node{
 		Name:            task.ComputedPrefix + " " + task.Name,
-		IsExpanded:      true,
+		IsExpanded:      task.IsExpanded,
 		IsNodeClickable: true,
 	}
 	parentNode.Children = append(parentNode.Children, taskNode)

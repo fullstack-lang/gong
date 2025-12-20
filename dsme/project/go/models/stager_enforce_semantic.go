@@ -57,6 +57,8 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	stager.enforceProducersConsumers()
+
 	if needCommit {
 		stager.stage.Clean()
 		stager.stage.CommitWithSuspendedCallbacks()
