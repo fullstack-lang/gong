@@ -8,7 +8,7 @@ import (
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 )
 
-func (stager *Stager) updateProductTreeStage() {
+func (stager *Stager) tree() {
 
 	stager.treeProductsStage.Reset()
 
@@ -35,13 +35,46 @@ func (stager *Stager) updateProductTreeStage() {
 			instance: project,
 		}
 
-		addAddItemButton(stager, projectNode, &project.RootProducts,
+		pbsNode := &tree.Node{
+			Name:            "PBS",
+			IsExpanded:      project.IsPBSNodeExpanded,
+			IsNodeClickable: true,
+		}
+		projectNode.Children = append(projectNode.Children, pbsNode)
+		pbsNode.Impl = &expandableNodeProxy{
+			node:           pbsNode,
+			stager:         stager,
+			isNodeExpanded: &project.IsPBSNodeExpanded,
+		}
+
+		addAddItemButton(stager, pbsNode, &project.RootProducts,
 			func(items *[]*Product, item *Product) {
 				*items = append(*items, item)
 			})
 
 		for _, product := range project.RootProducts {
-			stager.generateTreeOfProduct(product, projectNode)
+			stager.generateTreeOfProduct(product, pbsNode)
+		}
+
+		wbsNode := &tree.Node{
+			Name:            "WBS",
+			IsExpanded:      project.IsWBSNodeExpanded,
+			IsNodeClickable: true,
+		}
+		projectNode.Children = append(projectNode.Children, wbsNode)
+		wbsNode.Impl = &expandableNodeProxy{
+			node:           wbsNode,
+			stager:         stager,
+			isNodeExpanded: &project.IsWBSNodeExpanded,
+		}
+
+		addAddItemButton(stager, wbsNode, &project.RootTasks,
+			func(items *[]*Task, item *Task) {
+				*items = append(*items, item)
+			})
+
+		for _, task := range project.RootTasks {
+			stager.generateTreeOfTask(task, wbsNode)
 		}
 	}
 
@@ -50,6 +83,14 @@ func (stager *Stager) updateProductTreeStage() {
 		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansProductNode)
 		for _, product := range root.OrphanedProducts {
 			stager.generateTreeOfProduct(product, orphansProductNode)
+		}
+	}
+
+	if len(root.OrphanedTasks) > 0 {
+		orphansTaskNode := &tree.Node{Name: "Orphans Tasks", IsExpanded: true}
+		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansTaskNode)
+		for _, task := range root.OrphanedTasks {
+			stager.generateTreeOfTask(task, orphansTaskNode)
 		}
 	}
 
@@ -138,6 +179,133 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 				stager:   stager,
 				node:     outputTaskNode,
 				instance: task,
+			}
+		}
+	}
+}
+
+func (stager *Stager) updateTaskTreeStage() {
+
+	stager.treeTasksStage.Reset()
+
+	root := stager.root
+
+	treeInstance := &tree.Tree{Name: "PBS"}
+
+	allProjectsNode := &tree.Node{
+		Name:       "** Tree of Projects **",
+		IsExpanded: true,
+	}
+	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
+
+	for _, project := range root.Projects {
+		projectNode := &tree.Node{
+			Name:            project.Name,
+			IsExpanded:      project.IsExpanded,
+			IsNodeClickable: true,
+		}
+		treeInstance.RootNodes = append(treeInstance.RootNodes, projectNode)
+		projectNode.Impl = &NodeProxy[*Project]{
+			stager:   stager,
+			node:     projectNode,
+			instance: project,
+		}
+
+		addAddItemButton(stager, projectNode, &project.RootTasks,
+			func(items *[]*Task, item *Task) {
+				*items = append(*items, item)
+			})
+
+		for _, task := range project.RootTasks {
+			stager.generateTreeOfTask(task, projectNode)
+		}
+	}
+
+	tree.StageBranch(stager.treeTasksStage, treeInstance)
+
+	stager.treeTasksStage.Commit()
+}
+
+func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
+
+	taskNode := &tree.Node{
+		Name:            task.ComputedPrefix + " " + task.Name,
+		IsExpanded:      task.IsExpanded,
+		IsNodeClickable: true,
+	}
+	parentNode.Children = append(parentNode.Children, taskNode)
+
+	taskNode.Impl = &NodeProxy[*Task]{
+		stager:   stager,
+		node:     taskNode,
+		instance: task,
+	}
+
+	addAddItemButton(stager, taskNode, &task.SubTasks,
+		func(items *[]*Task, item *Task) {
+			*items = append(*items, item)
+		})
+
+	for _, task := range task.SubTasks {
+		stager.generateTreeOfTask(task, taskNode)
+	}
+
+	if len(task.Inputs) > 0 {
+		inputProductsNode := &tree.Node{
+			Name:                 fmt.Sprintf("(%d)", len(task.Inputs)),
+			IsExpanded:           task.IsInputsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_input),
+		}
+		taskNode.Children = append(taskNode.Children, inputProductsNode)
+		inputProductsNode.Impl = &expandableNodeProxy{
+			node:           inputProductsNode,
+			stager:         stager,
+			isNodeExpanded: &task.IsInputsNodeExpanded,
+		}
+
+		for _, product := range task.Inputs {
+			inputProductNode := &tree.Node{
+				Name:            product.GetName(),
+				IsExpanded:      true,
+				IsNodeClickable: true,
+			}
+			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
+			inputProductNode.Impl = &NodeProxy[*Product]{
+				stager:   stager,
+				node:     inputProductNode,
+				instance: product,
+			}
+		}
+	}
+
+	if len(task.Outputs) > 0 {
+		outputProductsNode := &tree.Node{
+			Name:                 fmt.Sprintf("(%d)", len(task.Outputs)),
+			IsExpanded:           task.IsOutputsNodeExpanded,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_output),
+		}
+		taskNode.Children = append(taskNode.Children, outputProductsNode)
+		outputProductsNode.Impl = &expandableNodeProxy{
+			node:           outputProductsNode,
+			stager:         stager,
+			isNodeExpanded: &task.IsOutputsNodeExpanded,
+		}
+
+		for _, product := range task.Outputs {
+			outputProductNode := &tree.Node{
+				Name:            product.GetName(),
+				IsExpanded:      true,
+				IsNodeClickable: true,
+			}
+			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
+			outputProductNode.Impl = &NodeProxy[*Product]{
+				stager:   stager,
+				node:     outputProductNode,
+				instance: product,
 			}
 		}
 	}
