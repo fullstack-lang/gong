@@ -17,7 +17,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 	productConsumers := make(map[*Product][]*Task)
 	tasks := GetGongstrucsSorted[*Task](stager.stage)
 	for _, task := range tasks {
-		for _, inputProd := range task.InputProducts {
+		for _, inputProd := range task.Inputs {
 			productConsumers[inputProd] = append(productConsumers[inputProd], task)
 		}
 	}
@@ -52,7 +52,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 					children = append(children, DAGNode{Task: subTask})
 				}
 				// Edge: Task -> OutputProducts
-				for _, outProd := range n.Task.OutputProducts {
+				for _, outProd := range n.Task.Outputs {
 					children = append(children, DAGNode{Product: outProd})
 				}
 			} else if n.Product != nil {
@@ -85,9 +85,9 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 				// Break Task -> OutputProduct
 				p := parent.Task
 				c := child.Product
-				for j, out := range p.OutputProducts {
+				for j, out := range p.Outputs {
 					if out == c {
-						p.OutputProducts = slices.Delete(p.OutputProducts, j, j+1)
+						p.Outputs = slices.Delete(p.Outputs, j, j+1)
 						break
 					}
 				}
@@ -106,9 +106,9 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 				// Note: The pointer is stored in the Task (Child), so we remove the Product (Parent) from there
 				p := parent.Product
 				c := child.Task
-				for j, inp := range c.InputProducts {
+				for j, inp := range c.Inputs {
 					if inp == p {
-						c.InputProducts = slices.Delete(c.InputProducts, j, j+1)
+						c.Inputs = slices.Delete(c.Inputs, j, j+1)
 						break
 					}
 				}

@@ -798,7 +798,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
 								instanceWhoseFieldIsAppended.SubTasks = append(instanceWhoseFieldIsAppended.SubTasks, instanceToAppend)
 							}
-						case "InputProducts":
+						case "Inputs":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
@@ -806,9 +806,9 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							identifierOfInstanceToAppend := ident.Name
 							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
-								instanceWhoseFieldIsAppended.InputProducts = append(instanceWhoseFieldIsAppended.InputProducts, instanceToAppend)
+								instanceWhoseFieldIsAppended.Inputs = append(instanceWhoseFieldIsAppended.Inputs, instanceToAppend)
 							}
-						case "OutputProducts":
+						case "Outputs":
 							// perform the append only when the loop is processing the second argument
 							if argNb == 0 {
 								break
@@ -816,7 +816,7 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							identifierOfInstanceToAppend := ident.Name
 							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Task[identifier]
-								instanceWhoseFieldIsAppended.OutputProducts = append(instanceWhoseFieldIsAppended.OutputProducts, instanceToAppend)
+								instanceWhoseFieldIsAppended.Outputs = append(instanceWhoseFieldIsAppended.Outputs, instanceToAppend)
 							}
 						}
 					}
@@ -948,6 +948,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Product[identifier].IsExpanded = fielValue
+				case "IsProducersNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Product[identifier].IsProducersNodeExpanded = fielValue
+				case "IsConsumersNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Product[identifier].IsConsumersNodeExpanded = fielValue
 				}
 			case "Project":
 				switch fieldName {
@@ -974,20 +988,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Task[identifier].IsExpanded = fielValue
-				case "IsInputProducsNodeExpanded":
+				case "IsInputsNodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Task[identifier].IsInputProducsNodeExpanded = fielValue
-				case "IsOutputProducsNodeExpanded":
+					__gong__map_Task[identifier].IsInputsNodeExpanded = fielValue
+				case "IsOutputsNodeExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
 					if err != nil {
 						log.Fatalln(err)
 					}
-					__gong__map_Task[identifier].IsOutputProducsNodeExpanded = fielValue
+					__gong__map_Task[identifier].IsOutputsNodeExpanded = fielValue
 				}
 			}
 		case *ast.SelectorExpr:

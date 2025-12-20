@@ -17,6 +17,10 @@ type Product_WOP struct {
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsProducersNodeExpanded bool
+
+	IsConsumersNodeExpanded bool
 }
 
 func (from *Product) CopyBasicFields(to *Product) {
@@ -24,6 +28,8 @@ func (from *Product) CopyBasicFields(to *Product) {
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
+	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
 }
 
 type Project_WOP struct {
@@ -63,9 +69,9 @@ type Task_WOP struct {
 
 	ComputedPrefix string
 
-	IsInputProducsNodeExpanded bool
+	IsInputsNodeExpanded bool
 
-	IsOutputProducsNodeExpanded bool
+	IsOutputsNodeExpanded bool
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
@@ -73,7 +79,7 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.Name = from.Name
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
-	to.IsInputProducsNodeExpanded = from.IsInputProducsNodeExpanded
-	to.IsOutputProducsNodeExpanded = from.IsOutputProducsNodeExpanded
+	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
+	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
 }
 

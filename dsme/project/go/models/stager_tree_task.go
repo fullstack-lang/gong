@@ -82,10 +82,10 @@ func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 		stager.generateTreeOfTask(task, taskNode)
 	}
 
-	if len(task.InputProducts) > 0 {
+	if len(task.Inputs) > 0 {
 		inputProductsNode := &tree.Node{
-			Name:                 fmt.Sprintf("(%d)", len(task.InputProducts)),
-			IsExpanded:           task.IsInputProducsNodeExpanded,
+			Name:                 fmt.Sprintf("(%d)", len(task.Inputs)),
+			IsExpanded:           task.IsInputsNodeExpanded,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_input),
@@ -94,10 +94,10 @@ func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 		inputProductsNode.Impl = &expandableNodeProxy{
 			node:           inputProductsNode,
 			stager:         stager,
-			isNodeExpanded: &task.IsInputProducsNodeExpanded,
+			isNodeExpanded: &task.IsInputsNodeExpanded,
 		}
 
-		for _, product := range task.InputProducts {
+		for _, product := range task.Inputs {
 			inputProductNode := &tree.Node{
 				Name:            product.GetName(),
 				IsExpanded:      true,
@@ -112,10 +112,10 @@ func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 		}
 	}
 
-	if len(task.OutputProducts) > 0 {
+	if len(task.Outputs) > 0 {
 		outputProductsNode := &tree.Node{
-			Name:                 fmt.Sprintf("(%d)", len(task.OutputProducts)),
-			IsExpanded:           task.IsOutputProducsNodeExpanded,
+			Name:                 fmt.Sprintf("(%d)", len(task.Outputs)),
+			IsExpanded:           task.IsOutputsNodeExpanded,
 			IsNodeClickable:      true,
 			IsWithPreceedingIcon: true,
 			PreceedingIcon:       string(buttons.BUTTON_output),
@@ -124,10 +124,10 @@ func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {
 		outputProductsNode.Impl = &expandableNodeProxy{
 			node:           outputProductsNode,
 			stager:         stager,
-			isNodeExpanded: &task.IsOutputProducsNodeExpanded,
+			isNodeExpanded: &task.IsOutputsNodeExpanded,
 		}
 
-		for _, product := range task.OutputProducts {
+		for _, product := range task.Outputs {
 			outputProductNode := &tree.Node{
 				Name:            product.GetName(),
 				IsExpanded:      true,
