@@ -10,7 +10,7 @@ import (
 
 func (stager *Stager) tree() {
 
-	stager.treeProductsStage.Reset()
+	stager.treeStage.Reset()
 
 	root := stager.root
 
@@ -94,9 +94,9 @@ func (stager *Stager) tree() {
 		}
 	}
 
-	tree.StageBranch(stager.treeProductsStage, treeInstance)
+	tree.StageBranch(stager.treeStage, treeInstance)
 
-	stager.treeProductsStage.Commit()
+	stager.treeStage.Commit()
 }
 
 func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.Node) {
@@ -182,48 +182,6 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 			}
 		}
 	}
-}
-
-func (stager *Stager) updateTaskTreeStage() {
-
-	stager.treeTasksStage.Reset()
-
-	root := stager.root
-
-	treeInstance := &tree.Tree{Name: "PBS"}
-
-	allProjectsNode := &tree.Node{
-		Name:       "** Tree of Projects **",
-		IsExpanded: true,
-	}
-	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
-
-	for _, project := range root.Projects {
-		projectNode := &tree.Node{
-			Name:            project.Name,
-			IsExpanded:      project.IsExpanded,
-			IsNodeClickable: true,
-		}
-		treeInstance.RootNodes = append(treeInstance.RootNodes, projectNode)
-		projectNode.Impl = &NodeProxy[*Project]{
-			stager:   stager,
-			node:     projectNode,
-			instance: project,
-		}
-
-		addAddItemButton(stager, projectNode, &project.RootTasks,
-			func(items *[]*Task, item *Task) {
-				*items = append(*items, item)
-			})
-
-		for _, task := range project.RootTasks {
-			stager.generateTreeOfTask(task, projectNode)
-		}
-	}
-
-	tree.StageBranch(stager.treeTasksStage, treeInstance)
-
-	stager.treeTasksStage.Commit()
 }
 
 func (stager *Stager) generateTreeOfTask(task *Task, parentNode *tree.Node) {

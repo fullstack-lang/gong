@@ -23,8 +23,7 @@ type Stager struct {
 
 	root *Root
 
-	treeProductsStage *tree.Stage
-	treeTasksStage    *tree.Stage
+	treeStage *tree.Stage
 
 	svgStage *svg.Stage
 }
@@ -41,8 +40,7 @@ func NewStager(
 	stager.probeForm = probeForm
 
 	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
-	stager.treeProductsStage = tree_stack.NewStack(r, "products", "", "", "", true, true).Stage
-	stager.treeTasksStage = tree_stack.NewStack(r, "tasks", "", "", "", true, true).Stage
+	stager.treeStage = tree_stack.NewStack(r, "", "", "", "", true, true).Stage
 
 	stager.svgStage = svg_stack.NewStack(r, "", "", "", "", true, true).Stage
 

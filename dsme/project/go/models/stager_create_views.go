@@ -21,19 +21,11 @@ func createViews(stager *Stager, stage *Stage) {
 								Direction: split.Vertical,
 								AsSplitAreas: []*split.AsSplitArea{
 									{
-										Name:             "Bottom",
-										Size:             50,
+										Name:             "Projects",
+										Size:             100,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
-											StackName: stager.treeProductsStage.GetName(),
-										},
-									},
-									{
-										Name:             "Top",
-										Size:             50,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeTasksStage.GetName(),
+											StackName: stager.treeStage.GetName(),
 										},
 									},
 								},
@@ -76,18 +68,10 @@ func createViews(stager *Stager, stage *Stage) {
 								AsSplitAreas: []*split.AsSplitArea{
 									{
 										Name:             "Bottom",
-										Size:             50,
+										Size:             100,
 										ShowNameInHeader: false,
 										Tree: &split.Tree{
-											StackName: stager.treeProductsStage.GetName(),
-										},
-									},
-									{
-										Name:             "Top",
-										Size:             50,
-										ShowNameInHeader: false,
-										Tree: &split.Tree{
-											StackName: stager.treeTasksStage.GetName(),
+											StackName: stager.treeStage.GetName(),
 										},
 									},
 								},
@@ -116,7 +100,7 @@ func createViews(stager *Stager, stage *Stage) {
 		RootAsSplitAreas: []*split.AsSplitArea{
 			{
 				Split: &split.Split{
-					StackName: stager.treeProductsStage.GetProbeSplitStageName(),
+					StackName: stager.treeStage.GetProbeSplitStageName(),
 				},
 			},
 		},
