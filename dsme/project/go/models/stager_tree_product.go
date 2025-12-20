@@ -62,7 +62,7 @@ func (stager *Stager) generateTreeOfProduct(product *Product, parentNode *tree.N
 
 	productNode := &tree.Node{
 		Name:            product.ComputedPrefix + " " + product.Name,
-		IsExpanded:      true,
+		IsExpanded:      product.IsExpanded,
 		IsNodeClickable: true,
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
@@ -179,6 +179,7 @@ type NodeProxy[T NodeType] struct {
 func (p *NodeProxy[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
 
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
+		stagedNode.IsExpanded = frontNode.IsExpanded
 		p.instance.SetIsExpanded(!p.instance.GetIsExpanded())
 		return
 	}
