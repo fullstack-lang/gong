@@ -19,6 +19,121 @@ var _ = slices.Delete([]string{"a"}, 0, 1)
 var _ = log.Panicf
 
 // insertion point
+func __gong__New__DiagramFormCallback(
+	diagram *models.Diagram,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (diagramFormCallback *DiagramFormCallback) {
+	diagramFormCallback = new(DiagramFormCallback)
+	diagramFormCallback.probe = probe
+	diagramFormCallback.diagram = diagram
+	diagramFormCallback.formGroup = formGroup
+
+	diagramFormCallback.CreationMode = (diagram == nil)
+
+	return
+}
+
+type DiagramFormCallback struct {
+	diagram *models.Diagram
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (diagramFormCallback *DiagramFormCallback) OnSave() {
+
+	// log.Println("DiagramFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	diagramFormCallback.probe.formStage.Checkout()
+
+	if diagramFormCallback.diagram == nil {
+		diagramFormCallback.diagram = new(models.Diagram).Stage(diagramFormCallback.probe.stageOfInterest)
+	}
+	diagram_ := diagramFormCallback.diagram
+	_ = diagram_
+
+	for _, formDiv := range diagramFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
+		case "IsChecked":
+			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+		case "IsEditable_":
+			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
+		case "IsInRenameMode":
+			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
+		case "Product_Shapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.ProductShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.ProductShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.ProductShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.Product_Shapes = instanceSlice
+
+		}
+	}
+
+	// manage the suppress operation
+	if diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagram_.Unstage(diagramFormCallback.probe.stageOfInterest)
+	}
+
+	diagramFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.Diagram](
+		diagramFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if diagramFormCallback.CreationMode || diagramFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		diagramFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(diagramFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__DiagramFormCallback(
+			nil,
+			diagramFormCallback.probe,
+			newFormGroup,
+		)
+		diagram := new(models.Diagram)
+		FillUpForm(diagram, newFormGroup, diagramFormCallback.probe)
+		diagramFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(diagramFormCallback.probe)
+}
 func __gong__New__ProductFormCallback(
 	product *models.Product,
 	probe *Probe,
@@ -463,6 +578,160 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 	}
 
 	updateAndCommitTree(productFormCallback.probe)
+}
+func __gong__New__ProductShapeFormCallback(
+	productshape *models.ProductShape,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (productshapeFormCallback *ProductShapeFormCallback) {
+	productshapeFormCallback = new(ProductShapeFormCallback)
+	productshapeFormCallback.probe = probe
+	productshapeFormCallback.productshape = productshape
+	productshapeFormCallback.formGroup = formGroup
+
+	productshapeFormCallback.CreationMode = (productshape == nil)
+
+	return
+}
+
+type ProductShapeFormCallback struct {
+	productshape *models.ProductShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (productshapeFormCallback *ProductShapeFormCallback) OnSave() {
+
+	// log.Println("ProductShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	productshapeFormCallback.probe.formStage.Checkout()
+
+	if productshapeFormCallback.productshape == nil {
+		productshapeFormCallback.productshape = new(models.ProductShape).Stage(productshapeFormCallback.probe.stageOfInterest)
+	}
+	productshape_ := productshapeFormCallback.productshape
+	_ = productshape_
+
+	for _, formDiv := range productshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(productshape_.Name), formDiv)
+		case "Product":
+			FormDivSelectFieldToField(&(productshape_.Product), productshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(productshape_.IsExpanded), formDiv)
+		case "X":
+			FormDivBasicFieldToField(&(productshape_.X), formDiv)
+		case "Y":
+			FormDivBasicFieldToField(&(productshape_.Y), formDiv)
+		case "Width":
+			FormDivBasicFieldToField(&(productshape_.Width), formDiv)
+		case "Height":
+			FormDivBasicFieldToField(&(productshape_.Height), formDiv)
+		case "Diagram:Product_Shapes":
+			// WARNING : this form deals with the N-N association "Diagram.Product_Shapes []*ProductShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of ProductShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "Product_Shapes"
+				formerAssociationSource := productshape_.GongGetReverseFieldOwner(
+					productshapeFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.Product_Shapes []*ProductShape, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Product_Shapes, productshape_)
+					formerSource.Product_Shapes = slices.Delete(formerSource.Product_Shapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](productshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.Product_Shapes []*ProductShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Product_Shapes = append(newSource.Product_Shapes, productshape_)
+		}
+	}
+
+	// manage the suppress operation
+	if productshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		productshape_.Unstage(productshapeFormCallback.probe.stageOfInterest)
+	}
+
+	productshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.ProductShape](
+		productshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if productshapeFormCallback.CreationMode || productshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		productshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(productshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__ProductShapeFormCallback(
+			nil,
+			productshapeFormCallback.probe,
+			newFormGroup,
+		)
+		productshape := new(models.ProductShape)
+		FillUpForm(productshape, newFormGroup, productshapeFormCallback.probe)
+		productshapeFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(productshapeFormCallback.probe)
 }
 func __gong__New__ProjectFormCallback(
 	project *models.Project,

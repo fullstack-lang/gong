@@ -80,6 +80,16 @@ func updateAndCommitTree(
 
 		switch gongStruct.Name {
 		// insertion point
+		case "Diagram":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
+			for _diagram := range set {
+				nodeInstance := &tree.Node{Name: _diagram.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_diagram, "Diagram", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Product":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Product](probe.stageOfInterest)
@@ -87,6 +97,16 @@ func updateAndCommitTree(
 				nodeInstance := &tree.Node{Name: _product.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_product, "Product", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "ProductShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ProductShape](probe.stageOfInterest)
+			for _productshape := range set {
+				nodeInstance := &tree.Node{Name: _productshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_productshape, "ProductShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

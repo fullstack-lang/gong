@@ -9,6 +9,29 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type Diagram_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsChecked bool
+
+	IsExpanded bool
+
+	IsEditable_ bool
+
+	IsInRenameMode bool
+}
+
+func (from *Diagram) CopyBasicFields(to *Diagram) {
+	// insertion point
+	to.Name = from.Name
+	to.IsChecked = from.IsChecked
+	to.IsExpanded = from.IsExpanded
+	to.IsEditable_ = from.IsEditable_
+	to.IsInRenameMode = from.IsInRenameMode
+}
+
 type Product_WOP struct {
 	// insertion point
 
@@ -30,6 +53,32 @@ func (from *Product) CopyBasicFields(to *Product) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
 	to.IsConsumersNodeExpanded = from.IsConsumersNodeExpanded
+}
+
+type ProductShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *ProductShape) CopyBasicFields(to *ProductShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
 }
 
 type Project_WOP struct {

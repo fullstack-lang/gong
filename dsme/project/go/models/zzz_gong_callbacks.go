@@ -6,9 +6,17 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramCreateCallback != nil {
+			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Product:
 		if stage.OnAfterProductCreateCallback != nil {
 			stage.OnAfterProductCreateCallback.OnAfterCreate(stage, target)
+		}
+	case *ProductShape:
+		if stage.OnAfterProductShapeCreateCallback != nil {
+			stage.OnAfterProductShapeCreateCallback.OnAfterCreate(stage, target)
 		}
 	case *Project:
 		if stage.OnAfterProjectCreateCallback != nil {
@@ -36,10 +44,20 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *Diagram:
+		newTarget := any(new).(*Diagram)
+		if stage.OnAfterDiagramUpdateCallback != nil {
+			stage.OnAfterDiagramUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Product:
 		newTarget := any(new).(*Product)
 		if stage.OnAfterProductUpdateCallback != nil {
 			stage.OnAfterProductUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
+	case *ProductShape:
+		newTarget := any(new).(*ProductShape)
+		if stage.OnAfterProductShapeUpdateCallback != nil {
+			stage.OnAfterProductShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
 		}
 	case *Project:
 		newTarget := any(new).(*Project)
@@ -66,10 +84,20 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramDeleteCallback != nil {
+			staged := any(staged).(*Diagram)
+			stage.OnAfterDiagramDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Product:
 		if stage.OnAfterProductDeleteCallback != nil {
 			staged := any(staged).(*Product)
 			stage.OnAfterProductDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
+	case *ProductShape:
+		if stage.OnAfterProductShapeDeleteCallback != nil {
+			staged := any(staged).(*ProductShape)
+			stage.OnAfterProductShapeDeleteCallback.OnAfterDelete(stage, staged, front)
 		}
 	case *Project:
 		if stage.OnAfterProjectDeleteCallback != nil {
@@ -96,9 +124,17 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *Diagram:
+		if stage.OnAfterDiagramReadCallback != nil {
+			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
+		}
 	case *Product:
 		if stage.OnAfterProductReadCallback != nil {
 			stage.OnAfterProductReadCallback.OnAfterRead(stage, target)
+		}
+	case *ProductShape:
+		if stage.OnAfterProductShapeReadCallback != nil {
+			stage.OnAfterProductShapeReadCallback.OnAfterRead(stage, target)
 		}
 	case *Project:
 		if stage.OnAfterProjectReadCallback != nil {
@@ -123,8 +159,14 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
+	
 	case *Product:
 		stage.OnAfterProductUpdateCallback = any(callback).(OnAfterUpdateInterface[Product])
+	
+	case *ProductShape:
+		stage.OnAfterProductShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductShape])
 	
 	case *Project:
 		stage.OnAfterProjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Project])
@@ -142,8 +184,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
+	
 	case *Product:
 		stage.OnAfterProductCreateCallback = any(callback).(OnAfterCreateInterface[Product])
+	
+	case *ProductShape:
+		stage.OnAfterProductShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductShape])
 	
 	case *Project:
 		stage.OnAfterProjectCreateCallback = any(callback).(OnAfterCreateInterface[Project])
@@ -161,8 +209,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
+	
 	case *Product:
 		stage.OnAfterProductDeleteCallback = any(callback).(OnAfterDeleteInterface[Product])
+	
+	case *ProductShape:
+		stage.OnAfterProductShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductShape])
 	
 	case *Project:
 		stage.OnAfterProjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Project])
@@ -180,8 +234,14 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *Diagram:
+		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
+	
 	case *Product:
 		stage.OnAfterProductReadCallback = any(callback).(OnAfterReadInterface[Product])
+	
+	case *ProductShape:
+		stage.OnAfterProductShapeReadCallback = any(callback).(OnAfterReadInterface[ProductShape])
 	
 	case *Project:
 		stage.OnAfterProjectReadCallback = any(callback).(OnAfterReadInterface[Project])
