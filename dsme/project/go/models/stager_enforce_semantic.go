@@ -32,6 +32,11 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	root := stager.root
 
+	if root.NbPixPerCharacter == 0 {
+		root.NbPixPerCharacter = 8
+		needCommit = true
+	}
+
 	// Enforce that all projects are appended to the [root]
 	// if one project is not appended, append it
 	for _, project := range GetGongstrucsSorted[*Project](stage) {

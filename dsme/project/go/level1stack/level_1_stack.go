@@ -103,7 +103,9 @@ func NewLevel1Stack(
 
 	// add orchestration
 	// insertion point
+	models.SetOrchestratorOnAfterUpdate[models.Diagram](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Product](stage)
+	models.SetOrchestratorOnAfterUpdate[models.ProductShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Project](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Root](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Task](stage)

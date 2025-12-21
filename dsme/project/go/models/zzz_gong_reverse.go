@@ -2,6 +2,15 @@
 package models
 
 // insertion point
+func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return
+}
+
 func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -37,6 +46,22 @@ func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 			case "Outputs":
 				if _task, ok := stage.Task_Outputs_reverseMap[inst]; ok {
 					res = _task.Name
+				}
+			}
+	}
+	return
+}
+
+func (inst *ProductShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Product_Shapes":
+				if _diagram, ok := stage.Diagram_Product_Shapes_reverseMap[inst]; ok {
+					res = _diagram.Name
 				}
 			}
 	}
@@ -100,6 +125,15 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 
 
 // insertion point
+func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+	}
+	return res
+}
+
 func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -126,6 +160,20 @@ func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 				res = stage.Task_Inputs_reverseMap[inst]
 			case "Outputs":
 				res = stage.Task_Outputs_reverseMap[inst]
+			}
+	}
+	return res
+}
+
+func (inst *ProductShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Product_Shapes":
+				res = stage.Diagram_Product_Shapes_reverseMap[inst]
 			}
 	}
 	return res
