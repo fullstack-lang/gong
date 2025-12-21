@@ -28,11 +28,25 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct
+// Clean garbage collect unstaged instances that are referenced by Diagram
+func (diagram *Diagram) GongClean(stage *Stage) {
+	// insertion point per field
+	diagram.Product_Shapes = GongCleanSlice(stage, diagram.Product_Shapes)
+	// insertion point per field
+}
+
 // Clean garbage collect unstaged instances that are referenced by Product
 func (product *Product) GongClean(stage *Stage) {
 	// insertion point per field
 	product.SubProducts = GongCleanSlice(stage, product.SubProducts)
 	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProductShape
+func (productshape *ProductShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	productshape.Product = GongCleanPointer(stage, productshape.Product)
 }
 
 // Clean garbage collect unstaged instances that are referenced by Project

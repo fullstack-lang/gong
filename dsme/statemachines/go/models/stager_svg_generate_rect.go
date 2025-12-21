@@ -6,6 +6,8 @@ import (
 	"strings"
 
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+
+	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 const HeightBetween2AttributeShapes = 20
@@ -73,7 +75,7 @@ func (stager *Stager) svgGenerateRect(
 		stateTitleText.Content = state.Name
 
 		if rect.Width > 0 {
-			stateTitleText.Content = WrapString(stateShape.State.Name, int(rect.Width/stager.architecture.NbPixPerCharacter))
+			stateTitleText.Content = strutils.WrapString(stateShape.State.Name, int(rect.Width/stager.architecture.NbPixPerCharacter))
 		}
 		stateTitleText.Stroke = svg.Black.ToString()
 		stateTitleText.StrokeWidth = 1
@@ -101,7 +103,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/entry " + action.Name
 
 		if rect.Width > 0 {
-			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()
@@ -134,7 +136,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/do " + activity.Name
 
 		if rect.Width > 0 {
-			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()
@@ -167,7 +169,7 @@ func (stager *Stager) svgGenerateRect(
 		content := "/exit " + action.Name
 
 		if rect.Width > 0 {
-			content = WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(rect.Width/stager.architecture.NbPixPerCharacter))
 		}
 		text.Content = content
 		text.Stroke = svg.Black.ToString()

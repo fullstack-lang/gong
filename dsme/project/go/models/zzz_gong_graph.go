@@ -5,8 +5,14 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Diagram:
+		ok = stage.IsStagedDiagram(target)
+
 	case *Product:
 		ok = stage.IsStagedProduct(target)
+
+	case *ProductShape:
+		ok = stage.IsStagedProductShape(target)
 
 	case *Project:
 		ok = stage.IsStagedProject(target)
@@ -27,8 +33,14 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *Diagram:
+		ok = stage.IsStagedDiagram(target)
+
 	case *Product:
 		ok = stage.IsStagedProduct(target)
+
+	case *ProductShape:
+		ok = stage.IsStagedProductShape(target)
 
 	case *Project:
 		ok = stage.IsStagedProject(target)
@@ -46,9 +58,23 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
+
+	_, ok = stage.Diagrams[diagram]
+
+	return
+}
+
 func (stage *Stage) IsStagedProduct(product *Product) (ok bool) {
 
 	_, ok = stage.Products[product]
+
+	return
+}
+
+func (stage *Stage) IsStagedProductShape(productshape *ProductShape) (ok bool) {
+
+	_, ok = stage.ProductShapes[productshape]
 
 	return
 }
@@ -82,8 +108,14 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *Diagram:
+		stage.StageBranchDiagram(target)
+
 	case *Product:
 		stage.StageBranchProduct(target)
+
+	case *ProductShape:
+		stage.StageBranchProductShape(target)
 
 	case *Project:
 		stage.StageBranchProject(target)
@@ -100,6 +132,24 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
+
+	// check if instance is already staged
+	if IsStaged(stage, diagram) {
+		return
+	}
+
+	diagram.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _productshape := range diagram.Product_Shapes {
+		StageBranch(stage, _productshape)
+	}
+
+}
+
 func (stage *Stage) StageBranchProduct(product *Product) {
 
 	// check if instance is already staged
@@ -115,6 +165,24 @@ func (stage *Stage) StageBranchProduct(product *Product) {
 	for _, _product := range product.SubProducts {
 		StageBranch(stage, _product)
 	}
+
+}
+
+func (stage *Stage) StageBranchProductShape(productshape *ProductShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, productshape) {
+		return
+	}
+
+	productshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productshape.Product != nil {
+		StageBranch(stage, productshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -198,8 +266,16 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *Diagram:
+		toT := CopyBranchDiagram(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Product:
 		toT := CopyBranchProduct(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *ProductShape:
+		toT := CopyBranchProductShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
 	case *Project:
@@ -221,6 +297,28 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
+
+	// diagramFrom has already been copied
+	if _diagramTo, ok := mapOrigCopy[diagramFrom]; ok {
+		diagramTo = _diagramTo.(*Diagram)
+		return
+	}
+
+	diagramTo = new(Diagram)
+	mapOrigCopy[diagramFrom] = diagramTo
+	diagramFrom.CopyBasicFields(diagramTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _productshape := range diagramFrom.Product_Shapes {
+		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
+	}
+
+	return
+}
+
 func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo *Product) {
 
 	// productFrom has already been copied
@@ -239,6 +337,28 @@ func CopyBranchProduct(mapOrigCopy map[any]any, productFrom *Product) (productTo
 	for _, _product := range productFrom.SubProducts {
 		productTo.SubProducts = append(productTo.SubProducts, CopyBranchProduct(mapOrigCopy, _product))
 	}
+
+	return
+}
+
+func CopyBranchProductShape(mapOrigCopy map[any]any, productshapeFrom *ProductShape) (productshapeTo *ProductShape) {
+
+	// productshapeFrom has already been copied
+	if _productshapeTo, ok := mapOrigCopy[productshapeFrom]; ok {
+		productshapeTo = _productshapeTo.(*ProductShape)
+		return
+	}
+
+	productshapeTo = new(ProductShape)
+	mapOrigCopy[productshapeFrom] = productshapeTo
+	productshapeFrom.CopyBasicFields(productshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productshapeFrom.Product != nil {
+		productshapeTo.Product = CopyBranchProduct(mapOrigCopy, productshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -332,8 +452,14 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *Diagram:
+		stage.UnstageBranchDiagram(target)
+
 	case *Product:
 		stage.UnstageBranchProduct(target)
+
+	case *ProductShape:
+		stage.UnstageBranchProductShape(target)
 
 	case *Project:
 		stage.UnstageBranchProject(target)
@@ -350,6 +476,24 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, diagram) {
+		return
+	}
+
+	diagram.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _productshape := range diagram.Product_Shapes {
+		UnstageBranch(stage, _productshape)
+	}
+
+}
+
 func (stage *Stage) UnstageBranchProduct(product *Product) {
 
 	// check if instance is already staged
@@ -365,6 +509,24 @@ func (stage *Stage) UnstageBranchProduct(product *Product) {
 	for _, _product := range product.SubProducts {
 		UnstageBranch(stage, _product)
 	}
+
+}
+
+func (stage *Stage) UnstageBranchProductShape(productshape *ProductShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, productshape) {
+		return
+	}
+
+	productshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if productshape.Product != nil {
+		UnstageBranch(stage, productshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 

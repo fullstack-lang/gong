@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	svg_models "github.com/fullstack-lang/gong/lib/svg/go/models"
+	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 const SVGName string = `SVG`
@@ -482,7 +483,7 @@ func (stager *Stager) UpdateAndCommitSVGStage() {
 		// nbPixPerCharacter is an approximation for the width of a character in the SVG font
 		const nbPixPerCharacter = 8.0
 		if rect.Width > 0 {
-			content.Content = WrapString(noteContent, int(rect.Width/nbPixPerCharacter))
+			content.Content = strutils.WrapString(noteContent, int(rect.Width/nbPixPerCharacter))
 		} else {
 			content.Content = noteContent
 		}

@@ -105,6 +105,71 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
+	map_Diagram_Identifiers := make(map[*Diagram]string)
+	_ = map_Diagram_Identifiers
+
+	diagramOrdered := []*Diagram{}
+	for diagram := range stage.Diagrams {
+		diagramOrdered = append(diagramOrdered, diagram)
+	}
+	sort.Slice(diagramOrdered[:], func(i, j int) bool {
+		diagrami := diagramOrdered[i]
+		diagramj := diagramOrdered[j]
+		diagrami_order, oki := stage.DiagramMap_Staged_Order[diagrami]
+		diagramj_order, okj := stage.DiagramMap_Staged_Order[diagramj]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return diagrami_order < diagramj_order
+	})
+	if len(diagramOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, diagram := range diagramOrdered {
+
+		id = generatesIdentifier("Diagram", int(stage.DiagramMap_Staged_Order[diagram]), diagram.Name)
+		map_Diagram_Identifiers[diagram] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsChecked")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsChecked))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsEditable_")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsEditable_))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInRenameMode")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsInRenameMode))
+		initializerStatements += setValueField
+
+	}
+
 	map_Product_Identifiers := make(map[*Product]string)
 	_ = map_Product_Identifiers
 
@@ -166,6 +231,77 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsConsumersNodeExpanded")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsConsumersNodeExpanded))
+		initializerStatements += setValueField
+
+	}
+
+	map_ProductShape_Identifiers := make(map[*ProductShape]string)
+	_ = map_ProductShape_Identifiers
+
+	productshapeOrdered := []*ProductShape{}
+	for productshape := range stage.ProductShapes {
+		productshapeOrdered = append(productshapeOrdered, productshape)
+	}
+	sort.Slice(productshapeOrdered[:], func(i, j int) bool {
+		productshapei := productshapeOrdered[i]
+		productshapej := productshapeOrdered[j]
+		productshapei_order, oki := stage.ProductShapeMap_Staged_Order[productshapei]
+		productshapej_order, okj := stage.ProductShapeMap_Staged_Order[productshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return productshapei_order < productshapej_order
+	})
+	if len(productshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, productshape := range productshapeOrdered {
+
+		id = generatesIdentifier("ProductShape", int(stage.ProductShapeMap_Staged_Order[productshape]), productshape.Name)
+		map_ProductShape_Identifiers[productshape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", productshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(productshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", productshape.IsExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Y))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Width))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productshape.Height))
 		initializerStatements += setValueField
 
 	}
@@ -342,6 +478,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 
 	// insertion initialization of objects to stage
+	if len(diagramOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of Diagram instances pointers"
+	}
+	for _, diagram := range diagramOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("Diagram", int(stage.DiagramMap_Staged_Order[diagram]), diagram.Name)
+		map_Diagram_Identifiers[diagram] = id
+
+		// Initialisation of values
+		for _, _productshape := range diagram.Product_Shapes {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Product_Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ProductShape_Identifiers[_productshape])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
 	if len(productOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Product instances pointers"
 	}
@@ -358,6 +515,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SubProducts")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(productshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of ProductShape instances pointers"
+	}
+	for _, productshape := range productshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("ProductShape", int(stage.ProductShapeMap_Staged_Order[productshape]), productshape.Name)
+		map_ProductShape_Identifiers[productshape] = id
+
+		// Initialisation of values
+		if productshape.Product != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Product")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[productshape.Product])
 			pointersInitializesStatements += setPointerField
 		}
 

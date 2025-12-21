@@ -5,6 +5,16 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct Diagram
+	// insertion point per field
+	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _productshape := range diagram.Product_Shapes {
+			stage.Diagram_Product_Shapes_reverseMap[_productshape] = diagram
+		}
+	}
+
 	// Compute reverse map for named struct Product
 	// insertion point per field
 	stage.Product_SubProducts_reverseMap = make(map[*Product]*Product)
@@ -14,6 +24,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Product_SubProducts_reverseMap[_product] = product
 		}
 	}
+
+	// Compute reverse map for named struct ProductShape
+	// insertion point per field
 
 	// Compute reverse map for named struct Project
 	// insertion point per field
@@ -85,7 +98,15 @@ func (stage *Stage) ComputeReverseMaps() {
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
+	for instance := range stage.Diagrams {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Products {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ProductShapes {
 		res = append(res, instance)
 	}
 
@@ -105,8 +126,18 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (diagram *Diagram) GongCopy() GongstructIF {
+	newInstance := *diagram
+	return &newInstance
+}
+
 func (product *Product) GongCopy() GongstructIF {
 	newInstance := *product
+	return &newInstance
+}
+
+func (productshape *ProductShape) GongCopy() GongstructIF {
+	newInstance := *productshape
 	return &newInstance
 }
 

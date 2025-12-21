@@ -11,6 +11,8 @@ type Root struct {
 
 	// task that do not belong to projects
 	OrphanedTasks []*Task
+
+	NbPixPerCharacter float64
 }
 
 type Project struct {
@@ -63,7 +65,7 @@ type Product struct {
 	IsConsumersNodeExpanded bool
 }
 
-type NodeType interface {
+type ProjectElementType interface {
 	GongstructIF
 	GetIsExpanded() bool
 	SetIsExpanded(bool)
@@ -87,6 +89,6 @@ func (r *ExpandableNodeObject) SetComputedPrefix(ComputedPrefix string) {
 	r.ComputedPrefix = ComputedPrefix
 }
 
-var _ NodeType = (*Product)(nil)
-var _ NodeType = (*Project)(nil)
-var _ NodeType = (*Task)(nil)
+var _ ProjectElementType = (*Product)(nil)
+var _ ProjectElementType = (*Project)(nil)
+var _ ProjectElementType = (*Task)(nil)
