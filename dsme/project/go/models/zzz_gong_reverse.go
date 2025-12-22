@@ -7,6 +7,13 @@ func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Project":
+			switch reverseField.Fieldname {
+			case "Diagrams":
+				if _project, ok := stage.Project_Diagrams_reverseMap[inst]; ok {
+					res = _project.Name
+				}
+			}
 	}
 	return
 }
@@ -130,6 +137,11 @@ func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Project":
+			switch reverseField.Fieldname {
+			case "Diagrams":
+				res = stage.Project_Diagrams_reverseMap[inst]
+			}
 	}
 	return res
 }
