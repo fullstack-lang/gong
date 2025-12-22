@@ -54,6 +54,7 @@ func (project *Project) GongClean(stage *Stage) {
 	// insertion point per field
 	project.RootProducts = GongCleanSlice(stage, project.RootProducts)
 	project.RootTasks = GongCleanSlice(stage, project.RootTasks)
+	project.Diagrams = GongCleanSlice(stage, project.Diagrams)
 	// insertion point per field
 }
 
