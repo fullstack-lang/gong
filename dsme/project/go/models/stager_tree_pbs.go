@@ -9,7 +9,6 @@ import (
 )
 
 func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
-
 	productNode := &tree.Node{
 		Name:            product.ComputedPrefix + " " + product.Name,
 		IsExpanded:      product.IsExpanded,
@@ -91,21 +90,21 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 }
 
 func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
-
 	productNode := &tree.Node{
-		Name:            product.ComputedPrefix + " " + product.Name,
-		IsExpanded:      slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
-		IsNodeClickable: true,
-		HasCheckboxButton: true,
-					HasToolTip:      true,
-			ToolTipPosition: tree.Above,
-			ToolTipText:     "Add product to diagram",
+		Name:               product.ComputedPrefix + " " + product.Name,
+		IsExpanded:         slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
+		IsNodeClickable:    true,
+		HasCheckboxButton:  true,
+		IsCheckboxDisabled: !diagram.IsChecked,
+		HasToolTip:         true,
+		ToolTipPosition:    tree.Above,
+		ToolTipText:        "Add product to diagram",
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 
 	productNode.Impl = &ProductNodeProxyInDiagram[*Product]{
-		stager:   stager,
-		node:     productNode,
+		stager:  stager,
+		node:    productNode,
 		product: product,
 		diagram: diagram,
 	}
@@ -116,18 +115,17 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 }
 
 type ProductNodeProxyInDiagram[T ProjectElementType] struct {
-	stager   *Stager
-	node     *tree.Node
+	stager  *Stager
+	node    *tree.Node
 	product *Product
-	diagram *Diagram	
+	diagram *Diagram
 }
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (p *ProductNodeProxyInDiagram[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
 		stagedNode.IsExpanded = frontNode.IsExpanded
-		
+
 		if frontNode.IsExpanded {
 			if slices.Index(p.diagram.ProductsWhoseNodeIsExpanded, p.product) == -1 {
 				p.diagram.ProductsWhoseNodeIsExpanded = append(p.diagram.ProductsWhoseNodeIsExpanded, p.product)
