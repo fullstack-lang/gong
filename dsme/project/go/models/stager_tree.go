@@ -99,6 +99,9 @@ func (stager *Stager) tree() {
 				instance: diagram,
 			}
 
+			for _, product := range project.RootProducts {
+				stager.treePBSinDiagram(diagram, product, diagramNode)
+			}
 		}
 	}
 
@@ -122,10 +125,6 @@ func (stager *Stager) tree() {
 
 	stager.treeStage.Commit()
 }
-
-
-
-
 
 func addAddItemButton[T Gongstruct, PT interface {
 	*T

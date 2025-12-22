@@ -31,7 +31,7 @@ type Project struct {
 }
 
 type ExpandableNodeObject struct {
-	IsExpanded bool
+	IsExpanded bool // to be made private once in production (no need to persist)
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string

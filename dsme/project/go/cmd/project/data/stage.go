@@ -50,24 +50,26 @@ func _(stage *models.Stage) {
 
 	__Diagram__00000000_diagram_1.Name = `diagram 1`
 	__Diagram__00000000_diagram_1.IsChecked = false
-	__Diagram__00000000_diagram_1.IsExpanded = false
 	__Diagram__00000000_diagram_1.IsEditable_ = false
 	__Diagram__00000000_diagram_1.IsInRenameMode = false
+	__Diagram__00000000_diagram_1.IsExpanded = true
+	__Diagram__00000000_diagram_1.ComputedPrefix = ``
 
 	__Diagram__00000001_diagram_2.Name = `diagram 2`
 	__Diagram__00000001_diagram_2.IsChecked = false
-	__Diagram__00000001_diagram_2.IsExpanded = false
 	__Diagram__00000001_diagram_2.IsEditable_ = false
 	__Diagram__00000001_diagram_2.IsInRenameMode = false
+	__Diagram__00000001_diagram_2.IsExpanded = false
+	__Diagram__00000001_diagram_2.ComputedPrefix = ``
 
 	__Product__00000000_UX.Name = `UX`
-	__Product__00000000_UX.IsExpanded = false
+	__Product__00000000_UX.IsExpanded = true
 	__Product__00000000_UX.ComputedPrefix = `1`
 	__Product__00000000_UX.IsProducersNodeExpanded = false
 	__Product__00000000_UX.IsConsumersNodeExpanded = false
 
 	__Product__00000001_Backend.Name = `Backend`
-	__Product__00000001_Backend.IsExpanded = true
+	__Product__00000001_Backend.IsExpanded = false
 	__Product__00000001_Backend.ComputedPrefix = `2`
 	__Product__00000001_Backend.IsProducersNodeExpanded = false
 	__Product__00000001_Backend.IsConsumersNodeExpanded = false
@@ -157,6 +159,8 @@ func _(stage *models.Stage) {
 
 	// Setup of pointers
 	// setup of Diagram instances pointers
+	__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
+	__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded, __Product__00000001_Backend)
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)

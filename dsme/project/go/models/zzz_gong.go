@@ -94,6 +94,8 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
+	Diagram_ProductsWhoseNodeIsExpanded_reverseMap map[*Product]*Diagram
+
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
@@ -1465,6 +1467,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of ProductShape with the name of the field
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
+			// field is initialized with an instance of Product with the name of the field
+			ProductsWhoseNodeIsExpanded: []*Product{{Name: "ProductsWhoseNodeIsExpanded"}},
 		}).(*Type)
 	case Product:
 		return any(&Product{
@@ -1598,6 +1602,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagram := range stage.Diagrams {
 				for _, productshape_ := range diagram.Product_Shapes {
 					res[productshape_] = append(res[productshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "ProductsWhoseNodeIsExpanded":
+			res := make(map[*Product][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, product_ := range diagram.ProductsWhoseNodeIsExpanded {
+					res[product_] = append(res[product_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -1758,6 +1770,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Product:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "ProductsWhoseNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Product"
 		rf.Fieldname = "SubProducts"
 		res = append(res, rf)
@@ -1817,10 +1832,6 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "IsExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
 			Name:               "IsEditable_",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -1832,6 +1843,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "Product_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "ProductShape",
+		},
+		{
+			Name:                 "ProductsWhoseNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "ComputedPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
 	return
@@ -2086,10 +2110,6 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsChecked)
 		res.valueBool = diagram.IsChecked
 		res.GongFieldValueType = GongFieldValueTypeBool
-	case "IsExpanded":
-		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
-		res.valueBool = diagram.IsExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsEditable_":
 		res.valueString = fmt.Sprintf("%t", diagram.IsEditable_)
 		res.valueBool = diagram.IsEditable_
@@ -2108,6 +2128,22 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "ProductsWhoseNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
+		res.valueBool = diagram.IsExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ComputedPrefix":
+		res.valueString = diagram.ComputedPrefix
 	}
 	return
 }
@@ -2341,8 +2377,6 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.Name = value.GetValueString()
 	case "IsChecked":
 		diagram.IsChecked = value.GetValueBool()
-	case "IsExpanded":
-		diagram.IsExpanded = value.GetValueBool()
 	case "IsEditable_":
 		diagram.IsEditable_ = value.GetValueBool()
 	case "IsInRenameMode":
@@ -2361,6 +2395,24 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "ProductsWhoseNodeIsExpanded":
+		diagram.ProductsWhoseNodeIsExpanded = make([]*Product, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Products {
+					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsExpanded":
+		diagram.IsExpanded = value.GetValueBool()
+	case "ComputedPrefix":
+		diagram.ComputedPrefix = value.GetValueString()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}

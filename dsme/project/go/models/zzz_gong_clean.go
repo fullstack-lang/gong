@@ -32,6 +32,7 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
 	diagram.Product_Shapes = GongCleanSlice(stage, diagram.Product_Shapes)
+	diagram.ProductsWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.ProductsWhoseNodeIsExpanded)
 	// insertion point per field
 }
 
