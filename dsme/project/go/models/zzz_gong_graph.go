@@ -147,6 +147,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _productshape := range diagram.Product_Shapes {
 		StageBranch(stage, _productshape)
 	}
+	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+		StageBranch(stage, _product)
+	}
 
 }
 
@@ -203,6 +206,9 @@ func (stage *Stage) StageBranchProject(project *Project) {
 	}
 	for _, _task := range project.RootTasks {
 		StageBranch(stage, _task)
+	}
+	for _, _diagram := range project.Diagrams {
+		StageBranch(stage, _diagram)
 	}
 
 }
@@ -315,6 +321,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _productshape := range diagramFrom.Product_Shapes {
 		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
 	}
+	for _, _product := range diagramFrom.ProductsWhoseNodeIsExpanded {
+		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
+	}
 
 	return
 }
@@ -383,6 +392,9 @@ func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo
 	}
 	for _, _task := range projectFrom.RootTasks {
 		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _diagram := range projectFrom.Diagrams {
+		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
 	}
 
 	return
@@ -491,6 +503,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _productshape := range diagram.Product_Shapes {
 		UnstageBranch(stage, _productshape)
 	}
+	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _product)
+	}
 
 }
 
@@ -547,6 +562,9 @@ func (stage *Stage) UnstageBranchProject(project *Project) {
 	}
 	for _, _task := range project.RootTasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _diagram := range project.Diagrams {
+		UnstageBranch(stage, _diagram)
 	}
 
 }

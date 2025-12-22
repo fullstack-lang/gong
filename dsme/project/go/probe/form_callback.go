@@ -66,8 +66,6 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.Name), formDiv)
 		case "IsChecked":
 			FormDivBasicFieldToField(&(diagram_.IsChecked), formDiv)
-		case "IsExpanded":
-			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "IsEditable_":
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
 		case "IsInRenameMode":
@@ -103,6 +101,107 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.Product_Shapes = instanceSlice
 
+		case "ProductsWhoseNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Product, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Product)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Product](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.ProductsWhoseNodeIsExpanded = instanceSlice
+
+		case "IsExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
+		case "ComputedPrefix":
+			FormDivBasicFieldToField(&(diagram_.ComputedPrefix), formDiv)
+		case "Project:Diagrams":
+			// WARNING : this form deals with the N-N association "Project.Diagrams []*Diagram" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Diagram). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Project
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Project"
+				rf.Fieldname = "Diagrams"
+				formerAssociationSource := diagram_.GongGetReverseFieldOwner(
+					diagramFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Project)
+					if !ok {
+						log.Fatalln("Source of Project.Diagrams []*Diagram, is not an Project instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.Diagrams, diagram_)
+					formerSource.Diagrams = slices.Delete(formerSource.Diagrams, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Project
+			for _project := range *models.GetGongstructInstancesSet[models.Project](diagramFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _project.GetName() == newSourceName.GetName() {
+					newSource = _project // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Project.Diagrams []*Diagram, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.Diagrams = append(newSource.Diagrams, diagram_)
 		}
 	}
 
@@ -218,6 +317,72 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(product_.IsProducersNodeExpanded), formDiv)
 		case "IsConsumersNodeExpanded":
 			FormDivBasicFieldToField(&(product_.IsConsumersNodeExpanded), formDiv)
+		case "Diagram:ProductsWhoseNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Diagram.ProductsWhoseNodeIsExpanded []*Product" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Product). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "ProductsWhoseNodeIsExpanded"
+				formerAssociationSource := product_.GongGetReverseFieldOwner(
+					productFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.ProductsWhoseNodeIsExpanded []*Product, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.ProductsWhoseNodeIsExpanded, product_)
+					formerSource.ProductsWhoseNodeIsExpanded = slices.Delete(formerSource.ProductsWhoseNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](productFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.ProductsWhoseNodeIsExpanded []*Product, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.ProductsWhoseNodeIsExpanded = append(newSource.ProductsWhoseNodeIsExpanded, product_)
 		case "Product:SubProducts":
 			// WARNING : this form deals with the N-N association "Product.SubProducts []*Product" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -778,8 +943,6 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(project_.Name), formDiv)
-		case "IsPBSNodeExpanded":
-			FormDivBasicFieldToField(&(project_.IsPBSNodeExpanded), formDiv)
 		case "RootProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](projectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -811,8 +974,8 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 			project_.RootProducts = instanceSlice
 
-		case "IsWBSNodeExpanded":
-			FormDivBasicFieldToField(&(project_.IsWBSNodeExpanded), formDiv)
+		case "IsPBSNodeExpanded":
+			FormDivBasicFieldToField(&(project_.IsPBSNodeExpanded), formDiv)
 		case "RootTasks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](projectFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
@@ -844,6 +1007,41 @@ func (projectFormCallback *ProjectFormCallback) OnSave() {
 			}
 			project_.RootTasks = instanceSlice
 
+		case "IsWBSNodeExpanded":
+			FormDivBasicFieldToField(&(project_.IsWBSNodeExpanded), formDiv)
+		case "Diagrams":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](projectFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Diagram, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Diagram)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					projectFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Diagram](projectFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			project_.Diagrams = instanceSlice
+
+		case "IsDiagramsNodeExpanded":
+			FormDivBasicFieldToField(&(project_.IsDiagramsNodeExpanded), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(project_.IsExpanded), formDiv)
 		case "ComputedPrefix":

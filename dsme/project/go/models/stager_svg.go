@@ -4,7 +4,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) updateSvgStage() {
+func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 
 	map_Product_Rect := make(map[*Product]*svg.Rect)

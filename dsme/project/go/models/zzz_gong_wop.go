@@ -16,20 +16,23 @@ type Diagram_WOP struct {
 
 	IsChecked bool
 
-	IsExpanded bool
-
 	IsEditable_ bool
 
 	IsInRenameMode bool
+
+	IsExpanded bool
+
+	ComputedPrefix string
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
 	// insertion point
 	to.Name = from.Name
 	to.IsChecked = from.IsChecked
-	to.IsExpanded = from.IsExpanded
 	to.IsEditable_ = from.IsEditable_
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsExpanded = from.IsExpanded
+	to.ComputedPrefix = from.ComputedPrefix
 }
 
 type Product_WOP struct {
@@ -90,6 +93,8 @@ type Project_WOP struct {
 
 	IsWBSNodeExpanded bool
 
+	IsDiagramsNodeExpanded bool
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -100,6 +105,7 @@ func (from *Project) CopyBasicFields(to *Project) {
 	to.Name = from.Name
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
+	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 }

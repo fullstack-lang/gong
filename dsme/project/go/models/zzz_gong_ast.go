@@ -766,6 +766,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
 								instanceWhoseFieldIsAppended.Product_Shapes = append(instanceWhoseFieldIsAppended.Product_Shapes, instanceToAppend)
 							}
+						case "ProductsWhoseNodeIsExpanded":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+								instanceWhoseFieldIsAppended.ProductsWhoseNodeIsExpanded = append(instanceWhoseFieldIsAppended.ProductsWhoseNodeIsExpanded, instanceToAppend)
+							}
 						}
 					case "Product":
 						switch fieldName {
@@ -807,6 +817,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
 								instanceWhoseFieldIsAppended.RootTasks = append(instanceWhoseFieldIsAppended.RootTasks, instanceToAppend)
+							}
+						case "Diagrams":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Diagram[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Project[identifier]
+								instanceWhoseFieldIsAppended.Diagrams = append(instanceWhoseFieldIsAppended.Diagrams, instanceToAppend)
 							}
 						}
 					case "Root":
@@ -944,6 +964,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].Name = fielValue
+				case "ComputedPrefix":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Diagram[identifier].ComputedPrefix = fielValue
 				}
 			case "Product":
 				switch fieldName {
@@ -1057,13 +1081,6 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsChecked = fielValue
-				case "IsExpanded":
-					// convert string to boolean
-					fielValue, err := strconv.ParseBool(ident.Name)
-					if err != nil {
-						log.Fatalln(err)
-					}
-					__gong__map_Diagram[identifier].IsExpanded = fielValue
 				case "IsEditable_":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1078,6 +1095,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsInRenameMode = fielValue
+				case "IsExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].IsExpanded = fielValue
 				}
 			case "Product":
 				switch fieldName {
@@ -1135,6 +1159,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Project[identifier].IsWBSNodeExpanded = fielValue
+				case "IsDiagramsNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Project[identifier].IsDiagramsNodeExpanded = fielValue
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
