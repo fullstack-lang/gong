@@ -23,6 +23,8 @@ import (
 
 	"github.com/bytedance/sonic/internal/native/types"
 	"github.com/bytedance/sonic/internal/rt"
+	"github.com/bytedance/sonic/internal/utils"
+	"github.com/bytedance/sonic/unquote"
 )
 
 const (
@@ -113,13 +115,13 @@ func (self *Parser) array() types.ParsingError {
 
 func (self *Parser) lspace(sp int) int {
     ns := len(self.s)
-    for ; sp<ns && isSpace(self.s[sp]); sp+=1 {}
+    for ; sp<ns && utils.IsSpace(self.s[sp]); sp+=1 {}
 
     return sp
 }
 
 func (self *Parser) backward() {
-    for ; self.p >= 0 && isSpace(self.s[self.p]); self.p-=1 {}
+    for ; self.p >= 0 && utils.IsSpace(self.s[self.p]); self.p-=1 {}
 }
 
 func (self *Parser) decodeArray(ret *linkedNodes) (Node, types.ParsingError) {
@@ -217,7 +219,7 @@ func (self *Parser) decodeObject(ret *linkedPairs) (Node, types.ParsingError) {
 
         /* check for escape sequence */
         if njs.Ep != -1 {
-            if key, err = unquote(key); err != 0 {
+            if key, err = unquote.String(key); err != 0 {
                 return Node{}, err
             }
         }
@@ -282,7 +284,7 @@ func (self *Parser) decodeString(iv int64, ep int) (Node, types.ParsingError) {
     }
 
     /* unquote the string */
-    out, err := unquote(s)
+    out, err := unquote.String(s)
 
     /* check for errors */
     if err != 0 {
@@ -392,7 +394,7 @@ func (self *Parser) searchKey(match string) types.ParsingError {
 
         /* check for escape sequence */
         if njs.Ep != -1 {
-            if key, err = unquote(key); err != 0 {
+            if key, err = unquote.String(key); err != 0 {
                 return err
             }
         }
@@ -573,7 +575,7 @@ func (self *Node) skipNextPair() (*Pair) {
 
     /* check for escape sequence */
     if njs.Ep != -1 {
-        if key, err = unquote(key); err != 0 {
+        if key, err = unquote.String(key); err != 0 {
             return newErrorPair(parser.syntaxError(err))
         }
     }
@@ -692,7 +694,7 @@ func (self *Parser) ExportError(err types.ParsingError) error {
 }
 
 func backward(src string, i int) int {
-    for ; i>=0 && isSpace(src[i]); i-- {}
+    for ; i>=0 && utils.IsSpace(src[i]); i-- {}
     return i
 }
 
