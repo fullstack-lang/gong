@@ -8,6 +8,19 @@ import (
 	"strconv"
 )
 
+type readFloatResult struct {
+	mantissa uint64
+	exp      int8
+	neg      bool
+	trunc    bool
+	bad      bool // bad decimal string
+	hardexp  bool // exponent is hard to handle (> 2 digits, etc)
+	ok       bool
+	// sawdot   bool
+	// sawexp   bool
+	//_ [2]bool // padding
+}
+
 // Per go spec, floats are represented in memory as
 // IEEE single or double precision floating point values.
 //
@@ -360,19 +373,6 @@ func parseNumber(b []byte, z *fauxUnion, preferSignedInt bool) (err error) {
 	return
 }
 
-type readFloatResult struct {
-	mantissa uint64
-	exp      int8
-	neg      bool
-	trunc    bool
-	bad      bool // bad decimal string
-	hardexp  bool // exponent is hard to handle (> 2 digits, etc)
-	ok       bool
-	// sawdot   bool
-	// sawexp   bool
-	//_ [2]bool // padding
-}
-
 func readFloat(s []byte, y floatinfo) (r readFloatResult) {
 	var i uint // uint, so that we eliminate bounds checking
 	var slen = uint(len(s))
@@ -508,6 +508,7 @@ LOOP:
 		}
 	}
 
+	_ = i // no-op
 	r.ok = true
 	return
 }
