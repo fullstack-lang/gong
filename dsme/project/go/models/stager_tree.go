@@ -99,6 +99,14 @@ func (stager *Stager) tree() {
 				diagram: diagram,
 			}
 
+			// computes all products presents in the diagram
+			diagram.map_Product_ProductShape = make(map[*Product]*ProductShape)
+			for _, shape := range diagram.Product_Shapes {
+				if shape.Product != nil {
+					diagram.map_Product_ProductShape[shape.Product] = shape
+				}
+			}
+
 			for _, product := range project.RootProducts {
 				stager.treePBSinDiagram(diagram, product, diagramNode)
 			}

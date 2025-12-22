@@ -9,6 +9,8 @@ type Diagram struct {
 	Product_Shapes              []*ProductShape
 	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
 
+	map_Product_ProductShape map[*Product]*ProductShape // to be made private once in production (no need to persist)
+
 	ExpandableNodeObject
 }
 
