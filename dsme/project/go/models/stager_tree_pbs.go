@@ -96,6 +96,10 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 		Name:            product.ComputedPrefix + " " + product.Name,
 		IsExpanded:      slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
 		IsNodeClickable: true,
+		HasCheckboxButton: true,
+					HasToolTip:      true,
+			ToolTipPosition: tree.Above,
+			ToolTipText:     "Add product to diagram",
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 

@@ -49,7 +49,7 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__Diagram__00000000_diagram_1.Name = `diagram 1`
-	__Diagram__00000000_diagram_1.IsChecked = false
+	__Diagram__00000000_diagram_1.IsChecked = true
 	__Diagram__00000000_diagram_1.IsEditable_ = false
 	__Diagram__00000000_diagram_1.IsInRenameMode = false
 	__Diagram__00000000_diagram_1.IsExpanded = true
