@@ -3,11 +3,11 @@ package models
 type Diagram struct {
 	Name           string
 	IsChecked      bool
-	IsExpanded     bool
 	IsEditable_    bool
 	IsInRenameMode bool
 
-	Product_Shapes []*ProductShape
+	Product_Shapes              []*ProductShape
+	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
 
 	ExpandableNodeObject
 }

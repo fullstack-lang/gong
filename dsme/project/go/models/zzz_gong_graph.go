@@ -147,6 +147,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _productshape := range diagram.Product_Shapes {
 		StageBranch(stage, _productshape)
 	}
+	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+		StageBranch(stage, _product)
+	}
 
 }
 
@@ -317,6 +320,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagramFrom.Product_Shapes {
 		diagramTo.Product_Shapes = append(diagramTo.Product_Shapes, CopyBranchProductShape(mapOrigCopy, _productshape))
+	}
+	for _, _product := range diagramFrom.ProductsWhoseNodeIsExpanded {
+		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
 	}
 
 	return
@@ -496,6 +502,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	//insertion point for the staging of instances referenced by slice of pointers
 	for _, _productshape := range diagram.Product_Shapes {
 		UnstageBranch(stage, _productshape)
+	}
+	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+		UnstageBranch(stage, _product)
 	}
 
 }
