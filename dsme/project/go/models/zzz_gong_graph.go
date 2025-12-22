@@ -204,6 +204,9 @@ func (stage *Stage) StageBranchProject(project *Project) {
 	for _, _task := range project.RootTasks {
 		StageBranch(stage, _task)
 	}
+	for _, _diagram := range project.Diagrams {
+		StageBranch(stage, _diagram)
+	}
 
 }
 
@@ -384,6 +387,9 @@ func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo
 	for _, _task := range projectFrom.RootTasks {
 		projectTo.RootTasks = append(projectTo.RootTasks, CopyBranchTask(mapOrigCopy, _task))
 	}
+	for _, _diagram := range projectFrom.Diagrams {
+		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
 
 	return
 }
@@ -547,6 +553,9 @@ func (stage *Stage) UnstageBranchProject(project *Project) {
 	}
 	for _, _task := range project.RootTasks {
 		UnstageBranch(stage, _task)
+	}
+	for _, _diagram := range project.Diagrams {
+		UnstageBranch(stage, _diagram)
 	}
 
 }

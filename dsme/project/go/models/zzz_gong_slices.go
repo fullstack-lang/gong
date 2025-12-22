@@ -44,6 +44,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Project_RootTasks_reverseMap[_task] = project
 		}
 	}
+	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _diagram := range project.Diagrams {
+			stage.Project_Diagrams_reverseMap[_diagram] = project
+		}
+	}
 
 	// Compute reverse map for named struct Root
 	// insertion point per field

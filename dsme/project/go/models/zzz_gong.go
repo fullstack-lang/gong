@@ -127,6 +127,8 @@ type Stage struct {
 
 	Project_RootTasks_reverseMap map[*Task]*Project
 
+	Project_Diagrams_reverseMap map[*Diagram]*Project
+
 	OnAfterProjectCreateCallback OnAfterCreateInterface[Project]
 	OnAfterProjectUpdateCallback OnAfterUpdateInterface[Project]
 	OnAfterProjectDeleteCallback OnAfterDeleteInterface[Project]
@@ -1483,6 +1485,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			RootProducts: []*Product{{Name: "RootProducts"}},
 			// field is initialized with an instance of Task with the name of the field
 			RootTasks: []*Task{{Name: "RootTasks"}},
+			// field is initialized with an instance of Diagram with the name of the field
+			Diagrams: []*Diagram{{Name: "Diagrams"}},
 		}).(*Type)
 	case Root:
 		return any(&Root{
@@ -1636,6 +1640,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Diagrams":
+			res := make(map[*Diagram][]*Project)
+			for project := range stage.Projects {
+				for _, diagram_ := range project.Diagrams {
+					res[diagram_] = append(res[diagram_], project)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Root
 	case Root:
@@ -1740,6 +1752,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	case *Diagram:
 		var rf ReverseField
 		_ = rf
+		rf.GongstructName = "Project"
+		rf.Fieldname = "Diagrams"
+		res = append(res, rf)
 	case *Product:
 		var rf ReverseField
 		_ = rf
@@ -1898,22 +1913,31 @@ func (project *Project) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
-			Name:               "IsPBSNodeExpanded",
-			GongFieldValueType: GongFieldValueTypeBasicKind,
-		},
-		{
 			Name:                 "RootProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
 		},
 		{
-			Name:               "IsWBSNodeExpanded",
+			Name:               "IsPBSNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
 			Name:                 "RootTasks",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "IsWBSNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Diagrams",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Diagram",
+		},
+		{
+			Name:               "IsDiagramsNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
 			Name:               "IsExpanded",
@@ -2158,10 +2182,6 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = project.Name
-	case "IsPBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", project.IsPBSNodeExpanded)
-		res.valueBool = project.IsPBSNodeExpanded
-		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RootProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range project.RootProducts {
@@ -2172,9 +2192,9 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
-	case "IsWBSNodeExpanded":
-		res.valueString = fmt.Sprintf("%t", project.IsWBSNodeExpanded)
-		res.valueBool = project.IsWBSNodeExpanded
+	case "IsPBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", project.IsPBSNodeExpanded)
+		res.valueBool = project.IsPBSNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "RootTasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
@@ -2186,6 +2206,24 @@ func (project *Project) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "IsWBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", project.IsWBSNodeExpanded)
+		res.valueBool = project.IsWBSNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Diagrams":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range project.Diagrams {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "IsDiagramsNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", project.IsDiagramsNodeExpanded)
+		res.valueBool = project.IsDiagramsNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", project.IsExpanded)
 		res.valueBool = project.IsExpanded
@@ -2399,8 +2437,6 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		project.Name = value.GetValueString()
-	case "IsPBSNodeExpanded":
-		project.IsPBSNodeExpanded = value.GetValueBool()
 	case "RootProducts":
 		project.RootProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2415,8 +2451,8 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
-	case "IsWBSNodeExpanded":
-		project.IsWBSNodeExpanded = value.GetValueBool()
+	case "IsPBSNodeExpanded":
+		project.IsPBSNodeExpanded = value.GetValueBool()
 	case "RootTasks":
 		project.RootTasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")
@@ -2431,6 +2467,24 @@ func (project *Project) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsWBSNodeExpanded":
+		project.IsWBSNodeExpanded = value.GetValueBool()
+	case "Diagrams":
+		project.Diagrams = make([]*Diagram, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Diagrams {
+					if stage.DiagramMap_Staged_Order[__instance__] == uint(id) {
+						project.Diagrams = append(project.Diagrams, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "IsDiagramsNodeExpanded":
+		project.IsDiagramsNodeExpanded = value.GetValueBool()
 	case "IsExpanded":
 		project.IsExpanded = value.GetValueBool()
 	case "ComputedPrefix":

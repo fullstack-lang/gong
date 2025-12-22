@@ -90,6 +90,8 @@ type Project_WOP struct {
 
 	IsWBSNodeExpanded bool
 
+	IsDiagramsNodeExpanded bool
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -100,6 +102,7 @@ func (from *Project) CopyBasicFields(to *Project) {
 	to.Name = from.Name
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
+	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 }
