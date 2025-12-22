@@ -52,7 +52,7 @@ func _(stage *models.Stage) {
 	__Product__00000000_UX.IsConsumersNodeExpanded = false
 
 	__Product__00000001_Backend.Name = `Backend`
-	__Product__00000001_Backend.IsExpanded = false
+	__Product__00000001_Backend.IsExpanded = true
 	__Product__00000001_Backend.ComputedPrefix = `2`
 	__Product__00000001_Backend.IsProducersNodeExpanded = false
 	__Product__00000001_Backend.IsConsumersNodeExpanded = false
@@ -76,7 +76,7 @@ func _(stage *models.Stage) {
 	__Product__00000005_views.IsConsumersNodeExpanded = false
 
 	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
-	__Product__00000006_Semantic_Enforcer.IsExpanded = false
+	__Product__00000006_Semantic_Enforcer.IsExpanded = true
 	__Product__00000006_Semantic_Enforcer.ComputedPrefix = `2.1`
 	__Product__00000006_Semantic_Enforcer.IsProducersNodeExpanded = false
 	__Product__00000006_Semantic_Enforcer.IsConsumersNodeExpanded = false
@@ -100,6 +100,7 @@ func _(stage *models.Stage) {
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
 	__Root__00000000_Root.Name = `Root`
+	__Root__00000000_Root.NbPixPerCharacter = 8.000000
 
 	__Task__00000000_Develop_Backend.Name = `Develop Backend`
 	__Task__00000000_Develop_Backend.IsExpanded = true

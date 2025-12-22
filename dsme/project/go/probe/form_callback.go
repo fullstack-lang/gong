@@ -1083,6 +1083,8 @@ func (rootFormCallback *RootFormCallback) OnSave() {
 			}
 			root_.OrphanedTasks = instanceSlice
 
+		case "NbPixPerCharacter":
+			FormDivBasicFieldToField(&(root_.NbPixPerCharacter), formDiv)
 		}
 	}
 
