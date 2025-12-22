@@ -7,7 +7,6 @@ import (
 )
 
 func (stager *Stager) tree() {
-
 	stager.treeStage.Reset()
 
 	root := stager.root
@@ -35,7 +34,7 @@ func (stager *Stager) tree() {
 
 		pbsNode := &tree.Node{
 			Name:            "PBS",
-			FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsPBSNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -54,7 +53,7 @@ func (stager *Stager) tree() {
 
 		wbsNode := &tree.Node{
 			Name:            "WBS",
-						FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsWBSNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -73,7 +72,7 @@ func (stager *Stager) tree() {
 
 		diagramsNode := &tree.Node{
 			Name:            "Diagrams",
-			FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsDiagramsNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -88,15 +87,15 @@ func (stager *Stager) tree() {
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
-				Name:            diagram.Name,
-				IsExpanded:      diagram.IsExpanded,
-				IsNodeClickable: true,
+				Name:              diagram.Name,
+				IsExpanded:        diagram.IsExpanded,
+				IsNodeClickable:   true,
 				HasCheckboxButton: true,
-				IsChecked: diagram.IsChecked,
+				IsChecked:         diagram.IsChecked,
 			}
 			diagramsNode.Children = append(diagramsNode.Children, diagramNode)
 			diagramNode.Impl = &Diagram_Tree_DiagramProxy{
-				stager:   stager,
+				stager:  stager,
 				diagram: diagram,
 			}
 
@@ -131,7 +130,6 @@ func addAddItemButton[T Gongstruct, PT interface {
 	*T
 	GongstructIF
 }](stager *Stager, node *tree.Node, items *[]*T) {
-
 	var item PT
 	addButton := &tree.Button{
 		Name:            GetGongstructNameFromPointer(item) + " " + string(buttons.BUTTON_add),
@@ -161,7 +159,6 @@ type NodeProxy[T ProjectElementType] struct {
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (p *NodeProxy[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
 		stagedNode.IsExpanded = frontNode.IsExpanded
 		p.instance.SetIsExpanded(!p.instance.GetIsExpanded())
@@ -175,5 +172,5 @@ func (p *NodeProxy[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, f
 
 // Append is a generic helper that appends an item to a slice via a pointer
 func Append[T any](slice *[]T, item T) {
-    *slice = append(*slice, item)
+	*slice = append(*slice, item)
 }
