@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
@@ -87,4 +88,56 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 			}
 		}
 	}
+}
+
+func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
+
+	productNode := &tree.Node{
+		Name:            product.ComputedPrefix + " " + product.Name,
+		IsExpanded:      slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
+		IsNodeClickable: true,
+	}
+	parentNode.Children = append(parentNode.Children, productNode)
+
+	productNode.Impl = &ProductNodeProxyInDiagram[*Product]{
+		stager:   stager,
+		node:     productNode,
+		product: product,
+		diagram: diagram,
+	}
+
+	for _, product := range product.SubProducts {
+		stager.treePBSinDiagram(diagram, product, productNode)
+	}
+}
+
+type ProductNodeProxyInDiagram[T ProjectElementType] struct {
+	stager   *Stager
+	node     *tree.Node
+	product *Product
+	diagram *Diagram	
+}
+
+// OnAfterUpdate implements models.NodeImplInterface.
+func (p *ProductNodeProxyInDiagram[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
+
+	if frontNode.IsExpanded != stagedNode.IsExpanded {
+		stagedNode.IsExpanded = frontNode.IsExpanded
+		
+		if frontNode.IsExpanded {
+			if slices.Index(p.diagram.ProductsWhoseNodeIsExpanded, p.product) == -1 {
+				p.diagram.ProductsWhoseNodeIsExpanded = append(p.diagram.ProductsWhoseNodeIsExpanded, p.product)
+			}
+		} else {
+			if idx := slices.Index(p.diagram.ProductsWhoseNodeIsExpanded, p.product); idx != -1 {
+				p.diagram.ProductsWhoseNodeIsExpanded = slices.Delete(p.diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
+			}
+		}
+
+		return
+	}
+
+	p.stager.probeForm.FillUpFormFromGongstruct(p.product, GetPointerToGongstructName[*Product]())
+
+	p.stager.stage.Commit()
 }
