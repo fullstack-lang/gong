@@ -18,17 +18,20 @@ type Root struct {
 type Project struct {
 	Name string
 
-	IsPBSNodeExpanded bool
 	RootProducts      []*Product
+	IsPBSNodeExpanded bool
 
-	IsWBSNodeExpanded bool
 	RootTasks         []*Task
+	IsWBSNodeExpanded bool
+
+	Diagrams               []*Diagram
+	IsDiagramsNodeExpanded bool
 
 	ExpandableNodeObject
 }
 
 type ExpandableNodeObject struct {
-	IsExpanded bool
+	IsExpanded bool // to be made private once in production (no need to persist)
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string

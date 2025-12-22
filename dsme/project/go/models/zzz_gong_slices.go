@@ -14,6 +14,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_Product_Shapes_reverseMap[_productshape] = diagram
 		}
 	}
+	stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap = make(map[*Product]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
+			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_product] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Product
 	// insertion point per field
@@ -42,6 +49,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = project
 		for _, _task := range project.RootTasks {
 			stage.Project_RootTasks_reverseMap[_task] = project
+		}
+	}
+	stage.Project_Diagrams_reverseMap = make(map[*Diagram]*Project)
+	for project := range stage.Projects {
+		_ = project
+		for _, _diagram := range project.Diagrams {
+			stage.Project_Diagrams_reverseMap[_diagram] = project
 		}
 	}
 
