@@ -91,12 +91,13 @@ func (stager *Stager) tree() {
 				Name:            diagram.Name,
 				IsExpanded:      diagram.IsExpanded,
 				IsNodeClickable: true,
+				HasCheckboxButton: true,
+				IsChecked: diagram.IsChecked,
 			}
 			diagramsNode.Children = append(diagramsNode.Children, diagramNode)
-			diagramNode.Impl = &NodeProxy[*Diagram]{
+			diagramNode.Impl = &Diagram_Tree_DiagramProxy{
 				stager:   stager,
-				node:     diagramNode,
-				instance: diagram,
+				diagram: diagram,
 			}
 
 			for _, product := range project.RootProducts {
