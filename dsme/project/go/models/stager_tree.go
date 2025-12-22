@@ -14,7 +14,7 @@ func (stager *Stager) tree() {
 
 	root := stager.root
 
-	treeInstance := &tree.Tree{Name: "PBS"}
+	treeInstance := &tree.Tree{Name: "Project Tree"}
 
 	allProjectsNode := &tree.Node{
 		Name:       "** Tree of Projects **",
@@ -37,6 +37,7 @@ func (stager *Stager) tree() {
 
 		pbsNode := &tree.Node{
 			Name:            "PBS",
+			FontStyle: tree.ITALIC,
 			IsExpanded:      project.IsPBSNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -58,6 +59,7 @@ func (stager *Stager) tree() {
 
 		wbsNode := &tree.Node{
 			Name:            "WBS",
+						FontStyle: tree.ITALIC,
 			IsExpanded:      project.IsWBSNodeExpanded,
 			IsNodeClickable: true,
 		}

@@ -108,11 +108,14 @@ type Root_WOP struct {
 	// insertion point
 
 	Name string
+
+	NbPixPerCharacter float64
 }
 
 func (from *Root) CopyBasicFields(to *Root) {
 	// insertion point
 	to.Name = from.Name
+	to.NbPixPerCharacter = from.NbPixPerCharacter
 }
 
 type Task_WOP struct {

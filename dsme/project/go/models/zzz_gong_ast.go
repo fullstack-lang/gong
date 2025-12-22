@@ -1012,6 +1012,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Root[identifier].Name = fielValue
+				case "NbPixPerCharacter":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Root[identifier].NbPixPerCharacter = exprSign * fielValue
 				}
 			case "Task":
 				switch fieldName {

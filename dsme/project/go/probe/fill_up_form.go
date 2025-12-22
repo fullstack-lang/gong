@@ -237,6 +237,8 @@ func FillUpForm(
 		AssociationSliceToForm("Projects", instanceWithInferedType, &instanceWithInferedType.Projects, formGroup, probe)
 		AssociationSliceToForm("OrphanedProducts", instanceWithInferedType, &instanceWithInferedType.OrphanedProducts, formGroup, probe)
 		AssociationSliceToForm("OrphanedTasks", instanceWithInferedType, &instanceWithInferedType.OrphanedTasks, formGroup, probe)
+		BasicFieldtoForm("NbPixPerCharacter", instanceWithInferedType.NbPixPerCharacter, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 
 	case *models.Task:
 		// insertion point

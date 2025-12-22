@@ -1949,6 +1949,10 @@ func (root *Root) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Task",
 		},
+		{
+			Name:               "NbPixPerCharacter",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -2226,6 +2230,10 @@ func (root *Root) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "NbPixPerCharacter":
+		res.valueString = fmt.Sprintf("%f", root.NbPixPerCharacter)
+		res.valueFloat = root.NbPixPerCharacter
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -2480,6 +2488,8 @@ func (root *Root) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "NbPixPerCharacter":
+		root.NbPixPerCharacter = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
