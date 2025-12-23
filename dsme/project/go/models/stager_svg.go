@@ -1,6 +1,8 @@
 package models
 
 import (
+	"log"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -63,20 +65,21 @@ func (stager *Stager) svg() {
 		// svgImpl.map_SvgRect_ProductShape[rect] = ProductShape
 	}
 
-	for _, transtionShape := range diagram.Composition_Shapes {
-		_ = transtionShape
-		// subProduct := transtionShape.Product
+	for _, compositionShape := range diagram.Composition_Shapes {
+		_ = compositionShape
+		subProduct := compositionShape.Product
+		parentProduct := subProduct.parentProduct
 
-		// if subProduct == nil || subProduct.Start == nil || subProduct.End == nil {
-		// 	continue
-		// }
+		if subProduct == nil || parentProduct == nil {
+			log.Panic("There should be a subProduct and a parentProduct")
+		}
 
-		// startRect := map_Product_Rect[subProduct.Start]
-		// endRect := map_Product_Rect[subProduct]
+		startRect := map_Product_Rect[parentProduct]
+		endRect := map_Product_Rect[subProduct]
 
-		// stager.svgGenerateLink(
-		// 	startRect, endRect,
-		// 	&transtionShape.LinkShape, subProduct, layer, false)
+		stager.svgGenerateLink(
+			startRect, endRect,
+			&compositionShape.LinkShape, subProduct, layer, false)
 	}
 
 	svg.StageBranch(svgStage, svgObject)
