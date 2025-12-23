@@ -90,7 +90,7 @@ type Product struct {
 	parentProduct *Product
 }
 
-type ProjectElementType interface {
+type AbstractType interface {
 	GongstructIF
 	GetIsExpanded() bool
 	SetIsExpanded(bool)
@@ -115,7 +115,7 @@ func (r *ExpandableNodeObject) SetComputedPrefix(ComputedPrefix string) {
 }
 
 var (
-	_ ProjectElementType = (*Product)(nil)
-	_ ProjectElementType = (*Project)(nil)
-	_ ProjectElementType = (*Task)(nil)
+	_ AbstractType = (*Product)(nil)
+	_ AbstractType = (*Project)(nil)
+	_ AbstractType = (*Task)(nil)
 )

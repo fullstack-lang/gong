@@ -128,6 +128,13 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "TasksWhoseNodeIsExpanded":
+				if _diagram, ok := stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
 		case "Project":
 			switch reverseField.Fieldname {
 			case "RootTasks":
@@ -147,6 +154,22 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 			case "SubTasks":
 				if _task, ok := stage.Task_SubTasks_reverseMap[inst]; ok {
 					res = _task.Name
+				}
+			}
+	}
+	return
+}
+
+func (inst *TaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Task_Shapes":
+				if _diagram, ok := stage.Diagram_Task_Shapes_reverseMap[inst]; ok {
+					res = _diagram.Name
 				}
 			}
 	}
@@ -261,6 +284,11 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "TasksWhoseNodeIsExpanded":
+				res = stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[inst]
+			}
 		case "Project":
 			switch reverseField.Fieldname {
 			case "RootTasks":
@@ -275,6 +303,20 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 			switch reverseField.Fieldname {
 			case "SubTasks":
 				res = stage.Task_SubTasks_reverseMap[inst]
+			}
+	}
+	return res
+}
+
+func (inst *TaskShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Task_Shapes":
+				res = stage.Diagram_Task_Shapes_reverseMap[inst]
 			}
 	}
 	return res

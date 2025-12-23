@@ -71,6 +71,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "Task" {
 		updateProbeTable[*models.Task](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "TaskShape" {
+		updateProbeTable[*models.TaskShape](nodeImplGongstruct.probe)
+	}
 
 	// set color for node and reset all other nodes color
 	for node := range *gongtree_models.GetGongstructInstancesSet[gongtree_models.Node](gongtreeStage) {
