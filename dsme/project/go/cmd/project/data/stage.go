@@ -34,11 +34,11 @@ func _(stage *models.Stage) {
 	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
 
 	__ProductCompositionShape__00000003_UX_to_WBS_tree := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000004_UX_to_PBS_tree := (&models.ProductCompositionShape{}).Stage(stage)
+	__ProductCompositionShape__00000005_UX_to_PBS_tree := (&models.ProductCompositionShape{}).Stage(stage)
 
 	__ProductShape__00000002_WBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000003_PBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000004_UX_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000005_PBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -112,12 +112,12 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000003_UX_to_WBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000003_UX_to_WBS_tree.CornerOffsetRatio = 1.680000
 
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.Name = `UX to PBS tree`
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.StartRatio = 0.500000
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.EndRatio = 0.500000
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.CornerOffsetRatio = 1.680000
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.Name = `UX to PBS tree`
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.StartRatio = 0.500000
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.EndRatio = 0.500000
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.CornerOffsetRatio = 1.680000
 
 	__ProductShape__00000002_WBS_tree_NewDiagram.Name = `WBS tree-NewDiagram`
 	__ProductShape__00000002_WBS_tree_NewDiagram.IsExpanded = false
@@ -126,19 +126,19 @@ func _(stage *models.Stage) {
 	__ProductShape__00000002_WBS_tree_NewDiagram.Width = 200.000000
 	__ProductShape__00000002_WBS_tree_NewDiagram.Height = 80.000000
 
-	__ProductShape__00000003_PBS_tree_NewDiagram.Name = `PBS tree-NewDiagram`
-	__ProductShape__00000003_PBS_tree_NewDiagram.IsExpanded = false
-	__ProductShape__00000003_PBS_tree_NewDiagram.X = 672.994578
-	__ProductShape__00000003_PBS_tree_NewDiagram.Y = 527.987868
-	__ProductShape__00000003_PBS_tree_NewDiagram.Width = 200.000000
-	__ProductShape__00000003_PBS_tree_NewDiagram.Height = 80.000000
-
 	__ProductShape__00000004_UX_NewDiagram.Name = `UX-NewDiagram`
 	__ProductShape__00000004_UX_NewDiagram.IsExpanded = false
 	__ProductShape__00000004_UX_NewDiagram.X = 457.575064
 	__ProductShape__00000004_UX_NewDiagram.Y = 286.316429
 	__ProductShape__00000004_UX_NewDiagram.Width = 200.000000
 	__ProductShape__00000004_UX_NewDiagram.Height = 80.000000
+
+	__ProductShape__00000005_PBS_tree_NewDiagram.Name = `PBS tree-NewDiagram`
+	__ProductShape__00000005_PBS_tree_NewDiagram.IsExpanded = false
+	__ProductShape__00000005_PBS_tree_NewDiagram.X = 716.532973
+	__ProductShape__00000005_PBS_tree_NewDiagram.Y = 539.239329
+	__ProductShape__00000005_PBS_tree_NewDiagram.Width = 200.000000
+	__ProductShape__00000005_PBS_tree_NewDiagram.Height = 80.000000
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
@@ -196,11 +196,11 @@ func _(stage *models.Stage) {
 	// Setup of pointers
 	// setup of Diagram instances pointers
 	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000002_WBS_tree_NewDiagram)
-	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000003_PBS_tree_NewDiagram)
 	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000004_UX_NewDiagram)
+	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000005_PBS_tree_NewDiagram)
 	__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
 	__Diagram__00000000_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000000_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000003_UX_to_WBS_tree)
-	__Diagram__00000000_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000000_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000004_UX_to_PBS_tree)
+	__Diagram__00000000_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000000_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000005_UX_to_PBS_tree)
 	__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000000_Develop_Backend)
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
@@ -210,11 +210,11 @@ func _(stage *models.Stage) {
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000009_Docx_Backend)
 	// setup of ProductCompositionShape instances pointers
 	__ProductCompositionShape__00000003_UX_to_WBS_tree.Product = __Product__00000002_WBS_tree
-	__ProductCompositionShape__00000004_UX_to_PBS_tree.Product = __Product__00000004_PBS_tree
+	__ProductCompositionShape__00000005_UX_to_PBS_tree.Product = __Product__00000004_PBS_tree
 	// setup of ProductShape instances pointers
 	__ProductShape__00000002_WBS_tree_NewDiagram.Product = __Product__00000002_WBS_tree
-	__ProductShape__00000003_PBS_tree_NewDiagram.Product = __Product__00000004_PBS_tree
 	__ProductShape__00000004_UX_NewDiagram.Product = __Product__00000000_UX
+	__ProductShape__00000005_PBS_tree_NewDiagram.Product = __Product__00000004_PBS_tree
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
