@@ -50,6 +50,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	// log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point
+	if nodeImplGongstruct.gongStruct.GetName() == "CompositionShape" {
+		updateProbeTable[*models.CompositionShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Diagram" {
 		updateProbeTable[*models.Diagram](nodeImplGongstruct.probe)
 	}

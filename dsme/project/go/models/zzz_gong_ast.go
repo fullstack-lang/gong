@@ -362,6 +362,7 @@ func ParseAstFileFromAst(stage *Stage, inFile *ast.File, fset *token.FileSet, pr
 var __gong__map_Indentifiers_gongstructName = make(map[string]string)
 
 // insertion point for identifiers maps
+var __gong__map_CompositionShape = make(map[string]*CompositionShape)
 var __gong__map_Diagram = make(map[string]*Diagram)
 var __gong__map_Product = make(map[string]*Product)
 var __gong__map_ProductShape = make(map[string]*ProductShape)
@@ -540,6 +541,21 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 									// this is the place where an instance is created
 									switch gongstructName {
 									// insertion point for identifiers
+									case "CompositionShape":
+										instanceCompositionShape := new(CompositionShape)
+										instanceCompositionShape.Name = instanceName
+										if !preserveOrder {
+											instanceCompositionShape.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceCompositionShape.Stage(stage)
+											} else {
+												instanceCompositionShape.StagePreserveOrder(stage, newOrder)
+											}
+										}
+										instance = any(instanceCompositionShape)
+										__gong__map_CompositionShape[identifier] = instanceCompositionShape
 									case "Diagram":
 										instanceDiagram := new(Diagram)
 										instanceDiagram.Name = instanceName
@@ -667,6 +683,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						}
 						switch gongstructName {
 						// insertion point for basic lit assignments
+						case "CompositionShape":
+							switch fieldName {
+							// insertion point for date assign code
+							}
 						case "Diagram":
 							switch fieldName {
 							// insertion point for date assign code
@@ -753,6 +773,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					switch gongstructName {
 					// insertion point for slice of pointers assignments
+					case "CompositionShape":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
 					case "Diagram":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
@@ -775,6 +799,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							if instanceToAppend, ok := __gong__map_Product[identifierOfInstanceToAppend]; ok {
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
 								instanceWhoseFieldIsAppended.ProductsWhoseNodeIsExpanded = append(instanceWhoseFieldIsAppended.ProductsWhoseNodeIsExpanded, instanceToAppend)
+							}
+						case "Composition_Shapes":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_CompositionShape[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+								instanceWhoseFieldIsAppended.Composition_Shapes = append(instanceWhoseFieldIsAppended.Composition_Shapes, instanceToAppend)
 							}
 						}
 					case "Product":
@@ -957,6 +991,35 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 
 			switch gongstructName {
 			// insertion point for basic lit assignments
+			case "CompositionShape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_CompositionShape[identifier].Name = fielValue
+				case "StartRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_CompositionShape[identifier].StartRatio = exprSign * fielValue
+				case "EndRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_CompositionShape[identifier].EndRatio = exprSign * fielValue
+				case "CornerOffsetRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_CompositionShape[identifier].CornerOffsetRatio = exprSign * fielValue
+				}
 			case "Diagram":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1071,6 +1134,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 			}
 			switch gongstructName {
 			// insertion point for bool & pointers assignments
+			case "CompositionShape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Product":
+					targetIdentifier := ident.Name
+					__gong__map_CompositionShape[identifier].Product = __gong__map_Product[targetIdentifier]
+				}
 			case "Diagram":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1095,6 +1165,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsInRenameMode = fielValue
+				case "IsPBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].IsPBSNodeExpanded = fielValue
+				case "IsWBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].IsWBSNodeExpanded = fielValue
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)
@@ -1261,6 +1345,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				_ = enumValue
 				switch gongstructName {
 				// insertion point for selector expr assignments
+				case "CompositionShape":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					case "StartOrientation":
+						var val OrientationType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_CompositionShape[identifier].StartOrientation = OrientationType(val)
+					case "EndOrientation":
+						var val OrientationType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_CompositionShape[identifier].EndOrientation = OrientationType(val)
+					}
 				case "Diagram":
 					switch fieldName {
 					// insertion point for selector expr assign code

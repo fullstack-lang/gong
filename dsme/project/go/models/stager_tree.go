@@ -7,7 +7,6 @@ import (
 )
 
 func (stager *Stager) tree() {
-
 	stager.treeStage.Reset()
 
 	root := stager.root
@@ -35,7 +34,7 @@ func (stager *Stager) tree() {
 
 		pbsNode := &tree.Node{
 			Name:            "PBS",
-			FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsPBSNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -54,7 +53,7 @@ func (stager *Stager) tree() {
 
 		wbsNode := &tree.Node{
 			Name:            "WBS",
-						FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsWBSNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -73,7 +72,7 @@ func (stager *Stager) tree() {
 
 		diagramsNode := &tree.Node{
 			Name:            "Diagrams",
-			FontStyle: tree.ITALIC,
+			FontStyle:       tree.ITALIC,
 			IsExpanded:      project.IsDiagramsNodeExpanded,
 			IsNodeClickable: true,
 		}
@@ -88,21 +87,67 @@ func (stager *Stager) tree() {
 
 		for _, diagram := range project.Diagrams {
 			diagramNode := &tree.Node{
-				Name:            diagram.Name,
-				IsExpanded:      diagram.IsExpanded,
-				IsNodeClickable: true,
+				Name:              diagram.Name,
+				IsExpanded:        diagram.IsExpanded,
+				IsNodeClickable:   true,
 				HasCheckboxButton: true,
-				IsChecked: diagram.IsChecked,
+				IsChecked:         diagram.IsChecked,
 			}
 			diagramsNode.Children = append(diagramsNode.Children, diagramNode)
 			diagramNode.Impl = &Diagram_Tree_DiagramProxy{
-				stager:   stager,
+				stager:  stager,
 				diagram: diagram,
 			}
 
-			for _, product := range project.RootProducts {
-				stager.treePBSinDiagram(diagram, product, diagramNode)
+			// computes all products presents in the diagram
+			diagram.map_Product_ProductShape = make(map[*Product]*ProductShape)
+			for _, shape := range diagram.Product_Shapes {
+				if shape.Product != nil {
+					diagram.map_Product_ProductShape[shape.Product] = shape
+				}
 			}
+
+			diagram.map_Product_CompositionShape = make(map[*Product]*CompositionShape)
+			for _, shape := range diagram.Composition_Shapes {
+				if shape.Product != nil {
+					diagram.map_Product_CompositionShape[shape.Product] = shape
+				}
+			}
+
+			pbsNode := &tree.Node{
+				Name:            "PBS",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagram.IsPBSNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, pbsNode)
+			pbsNode.Impl = &expandableNodeProxy{
+				node:           pbsNode,
+				stager:         stager,
+				isNodeExpanded: &diagram.IsPBSNodeExpanded,
+			}
+
+			for _, product := range project.RootProducts {
+				stager.treePBSinDiagram(diagram, product, pbsNode)
+			}
+
+			wbsNode := &tree.Node{
+				Name:            "WBS",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagram.IsWBSNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, wbsNode)
+			wbsNode.Impl = &expandableNodeProxy{
+				node:           wbsNode,
+				stager:         stager,
+				isNodeExpanded: &diagram.IsWBSNodeExpanded,
+			}
+
+			// for _, task := range project.RootTasks {
+			// 	stager.treeWBSinDiagram(diagram, task, pbsNode)
+			// }
+
 		}
 	}
 
@@ -131,7 +176,6 @@ func addAddItemButton[T Gongstruct, PT interface {
 	*T
 	GongstructIF
 }](stager *Stager, node *tree.Node, items *[]*T) {
-
 	var item PT
 	addButton := &tree.Button{
 		Name:            GetGongstructNameFromPointer(item) + " " + string(buttons.BUTTON_add),
@@ -148,6 +192,11 @@ func addAddItemButton[T Gongstruct, PT interface {
 			item.StageVoid(stager.stage)
 			*items = append(*items, item)
 
+			// check if the item is a diagram, if so, set the IsEditable_ field to true
+			if diagram, ok := any(item).(*Diagram); ok {
+				diagram.IsEditable_ = true
+			}
+
 			stager.stage.Commit()
 		},
 	}
@@ -161,7 +210,6 @@ type NodeProxy[T ProjectElementType] struct {
 
 // OnAfterUpdate implements models.NodeImplInterface.
 func (p *NodeProxy[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
-
 	if frontNode.IsExpanded != stagedNode.IsExpanded {
 		stagedNode.IsExpanded = frontNode.IsExpanded
 		p.instance.SetIsExpanded(!p.instance.GetIsExpanded())
@@ -175,5 +223,5 @@ func (p *NodeProxy[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, f
 
 // Append is a generic helper that appends an item to a slice via a pointer
 func Append[T any](slice *[]T, item T) {
-    *slice = append(*slice, item)
+	*slice = append(*slice, item)
 }
