@@ -34,7 +34,7 @@ func _(stage *models.Stage) {
 	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
 
 	__ProductShape__00000000_UX_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000001_WBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000002_WBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -52,8 +52,8 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views := (&models.TaskCompositionShape{}).Stage(stage)
 
 	__TaskShape__00000000_Develop_Backend_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000001_Dev_views_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000002_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000003_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000004_Dev_views_NewDiagram := (&models.TaskShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -115,12 +115,12 @@ func _(stage *models.Stage) {
 	__ProductShape__00000000_UX_NewDiagram.Width = 200.000000
 	__ProductShape__00000000_UX_NewDiagram.Height = 80.000000
 
-	__ProductShape__00000001_WBS_tree_NewDiagram.Name = `WBS tree-NewDiagram`
-	__ProductShape__00000001_WBS_tree_NewDiagram.IsExpanded = false
-	__ProductShape__00000001_WBS_tree_NewDiagram.X = 1001.741545
-	__ProductShape__00000001_WBS_tree_NewDiagram.Y = 189.496546
-	__ProductShape__00000001_WBS_tree_NewDiagram.Width = 200.000000
-	__ProductShape__00000001_WBS_tree_NewDiagram.Height = 80.000000
+	__ProductShape__00000002_WBS_tree_NewDiagram.Name = `WBS tree-NewDiagram`
+	__ProductShape__00000002_WBS_tree_NewDiagram.IsExpanded = false
+	__ProductShape__00000002_WBS_tree_NewDiagram.X = 127.710110
+	__ProductShape__00000002_WBS_tree_NewDiagram.Y = 169.165475
+	__ProductShape__00000002_WBS_tree_NewDiagram.Width = 200.000000
+	__ProductShape__00000002_WBS_tree_NewDiagram.Height = 80.000000
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
@@ -196,28 +196,28 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Width = 200.000000
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Height = 80.000000
 
-	__TaskShape__00000001_Dev_views_NewDiagram.Name = `Dev views-NewDiagram`
-	__TaskShape__00000001_Dev_views_NewDiagram.IsExpanded = false
-	__TaskShape__00000001_Dev_views_NewDiagram.X = 127.589778
-	__TaskShape__00000001_Dev_views_NewDiagram.Y = 393.273383
-	__TaskShape__00000001_Dev_views_NewDiagram.Width = 200.000000
-	__TaskShape__00000001_Dev_views_NewDiagram.Height = 80.000000
+	__TaskShape__00000003_Dev_UXx_NewDiagram.Name = `Dev UXx-NewDiagram`
+	__TaskShape__00000003_Dev_UXx_NewDiagram.IsExpanded = false
+	__TaskShape__00000003_Dev_UXx_NewDiagram.X = 662.847753
+	__TaskShape__00000003_Dev_UXx_NewDiagram.Y = 384.863228
+	__TaskShape__00000003_Dev_UXx_NewDiagram.Width = 200.000000
+	__TaskShape__00000003_Dev_UXx_NewDiagram.Height = 80.000000
 
-	__TaskShape__00000002_Dev_UXx_NewDiagram.Name = `Dev UXx-NewDiagram`
-	__TaskShape__00000002_Dev_UXx_NewDiagram.IsExpanded = false
-	__TaskShape__00000002_Dev_UXx_NewDiagram.X = 637.063875
-	__TaskShape__00000002_Dev_UXx_NewDiagram.Y = 416.923773
-	__TaskShape__00000002_Dev_UXx_NewDiagram.Width = 200.000000
-	__TaskShape__00000002_Dev_UXx_NewDiagram.Height = 80.000000
+	__TaskShape__00000004_Dev_views_NewDiagram.Name = `Dev views-NewDiagram`
+	__TaskShape__00000004_Dev_views_NewDiagram.IsExpanded = false
+	__TaskShape__00000004_Dev_views_NewDiagram.X = 80.168086
+	__TaskShape__00000004_Dev_views_NewDiagram.Y = 411.143075
+	__TaskShape__00000004_Dev_views_NewDiagram.Width = 200.000000
+	__TaskShape__00000004_Dev_views_NewDiagram.Height = 80.000000
 
 	// Setup of pointers
 	// setup of Diagram instances pointers
 	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000000_UX_NewDiagram)
-	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000001_WBS_tree_NewDiagram)
+	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000002_WBS_tree_NewDiagram)
 	__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
 	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000000_Develop_Backend_NewDiagram)
-	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000001_Dev_views_NewDiagram)
-	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000002_Dev_UXx_NewDiagram)
+	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000003_Dev_UXx_NewDiagram)
+	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000004_Dev_views_NewDiagram)
 	__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000000_Develop_Backend)
 	__Diagram__00000000_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000000_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx)
 	__Diagram__00000000_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000000_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000009_Develop_Backend_to_Dev_views)
@@ -229,7 +229,7 @@ func _(stage *models.Stage) {
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000009_Docx_Backend)
 	// setup of ProductShape instances pointers
 	__ProductShape__00000000_UX_NewDiagram.Product = __Product__00000000_UX
-	__ProductShape__00000001_WBS_tree_NewDiagram.Product = __Product__00000002_WBS_tree
+	__ProductShape__00000002_WBS_tree_NewDiagram.Product = __Product__00000002_WBS_tree
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
@@ -254,7 +254,7 @@ func _(stage *models.Stage) {
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.Task = __Task__00000004_Dev_views
 	// setup of TaskShape instances pointers
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Task = __Task__00000000_Develop_Backend
-	__TaskShape__00000001_Dev_views_NewDiagram.Task = __Task__00000004_Dev_views
-	__TaskShape__00000002_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
+	__TaskShape__00000003_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
+	__TaskShape__00000004_Dev_views_NewDiagram.Task = __Task__00000004_Dev_views
 }
 

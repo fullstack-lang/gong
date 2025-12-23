@@ -9,6 +9,10 @@ func (s *RectShape) Stage(stage *Stage) {
 	s.receiver.StageVoid(stage)
 }
 
+func (s *RectShape) StageVoid(stage *Stage) {
+	s.receiver.StageVoid(stage)
+}
+
 func (s *RectShape) SetHeight(height float64) {
 	s.Height = height
 }
@@ -52,5 +56,5 @@ type RectShapeInterface interface {
 	GetWidth() float64
 	GetHeight() float64
 
-	Stage(stage *Stage)
+	StageVoid(stage *Stage)
 }
