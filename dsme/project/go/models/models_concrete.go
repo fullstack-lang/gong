@@ -140,6 +140,24 @@ type TaskCompositionShape struct {
 	LinkShape
 }
 
+func (s *TaskCompositionShape) GetAbstractChildElement() AbstractType {
+	return s.Task
+}
+
+func (s *TaskCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *TaskCompositionShape) GetAbstractParentElement() AbstractType {
+	return s.Task.parentTask
+}
+
+func (s *TaskCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
+	s.Task.parentTask = abstractElement.(*Task)
+}
+
+var _ CompositionConcreteType = (*TaskCompositionShape)(nil)
+
 func newShapeToDiagram[AT AbstractType, CT interface {
 	*S
 	RectShapeInterface
