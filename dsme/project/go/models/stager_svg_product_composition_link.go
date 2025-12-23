@@ -6,7 +6,7 @@ import (
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
-func (stager *Stager) svgGenerateLink(
+func (stager *Stager) svgProductCompositionLink(
 	startRect *svg.Rect,
 	endRect *svg.Rect,
 	compositionShape *LinkShape,
@@ -43,7 +43,7 @@ func (stager *Stager) svgGenerateLink(
 		link.StrokeDashArray = "5 5"
 	}
 
-	link.Impl = NewStateComposition_LinkShapeProxy(
+	link.Impl = NewProductComposition_LinkShapeProxy(
 		compositionShape,
 		subProduct,
 		stager,
@@ -52,26 +52,26 @@ func (stager *Stager) svgGenerateLink(
 	layer.Links = append(layer.Links, link)
 }
 
-func NewStateComposition_LinkShapeProxy(
-	stateShapeCompositionInterface LinkShapeInterface,
+func NewProductComposition_LinkShapeProxy(
+	productShapeCompositionInterface LinkShapeInterface,
 	subProduct *Product,
 	stager *Stager,
-) (proxy *StateComposition_LinkShapeProxy) {
-	proxy = new(StateComposition_LinkShapeProxy)
-	proxy.linkShapeInterface = stateShapeCompositionInterface
+) (proxy *ProductComposition_LinkShapeProxy) {
+	proxy = new(ProductComposition_LinkShapeProxy)
+	proxy.linkShapeInterface = productShapeCompositionInterface
 	proxy.subProduct = subProduct
 	proxy.stager = stager
 	return
 }
 
-type StateComposition_LinkShapeProxy struct {
+type ProductComposition_LinkShapeProxy struct {
 	linkShapeInterface LinkShapeInterface
 	subProduct         *Product
 	stager             *Stager
 }
 
 // LinkUpdated implements models.LinkImplInterface.
-func (p *StateComposition_LinkShapeProxy) LinkUpdated(updatedLink *svg.Link) {
+func (p *ProductComposition_LinkShapeProxy) LinkUpdated(updatedLink *svg.Link) {
 	diff := p.linkShapeInterface.GetStartRatio() != updatedLink.StartRatio ||
 		p.linkShapeInterface.GetEndRatio() != updatedLink.EndRatio ||
 		p.linkShapeInterface.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||

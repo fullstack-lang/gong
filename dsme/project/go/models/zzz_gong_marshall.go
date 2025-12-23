@@ -105,81 +105,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_CompositionShape_Identifiers := make(map[*CompositionShape]string)
-	_ = map_CompositionShape_Identifiers
-
-	compositionshapeOrdered := []*CompositionShape{}
-	for compositionshape := range stage.CompositionShapes {
-		compositionshapeOrdered = append(compositionshapeOrdered, compositionshape)
-	}
-	sort.Slice(compositionshapeOrdered[:], func(i, j int) bool {
-		compositionshapei := compositionshapeOrdered[i]
-		compositionshapej := compositionshapeOrdered[j]
-		compositionshapei_order, oki := stage.CompositionShapeMap_Staged_Order[compositionshapei]
-		compositionshapej_order, okj := stage.CompositionShapeMap_Staged_Order[compositionshapej]
-		if !oki || !okj {
-			log.Fatalln("unknown pointers")
-		}
-		return compositionshapei_order < compositionshapej_order
-	})
-	if len(compositionshapeOrdered) > 0 {
-		identifiersDecl += "\n"
-	}
-	for _, compositionshape := range compositionshapeOrdered {
-
-		id = generatesIdentifier("CompositionShape", int(stage.CompositionShapeMap_Staged_Order[compositionshape]), compositionshape.Name)
-		map_CompositionShape_Identifiers[compositionshape] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CompositionShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", compositionshape.Name)
-		identifiersDecl += decl
-
-		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(compositionshape.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compositionshape.StartRatio))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compositionshape.EndRatio))
-		initializerStatements += setValueField
-
-		if compositionshape.StartOrientation != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartOrientation")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+compositionshape.StartOrientation.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if compositionshape.EndOrientation != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndOrientation")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+compositionshape.EndOrientation.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CornerOffsetRatio")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", compositionshape.CornerOffsetRatio))
-		initializerStatements += setValueField
-
-	}
-
 	map_Diagram_Identifiers := make(map[*Diagram]string)
 	_ = map_Diagram_Identifiers
 
@@ -239,18 +164,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		setValueField = NumberInitStatement
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsPBSNodeExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsPBSNodeExpanded))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsWBSNodeExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsWBSNodeExpanded))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsExpanded))
 		initializerStatements += setValueField
@@ -259,6 +172,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ComputedPrefix")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(diagram.ComputedPrefix))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsPBSNodeExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsPBSNodeExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsWBSNodeExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", diagram.IsWBSNodeExpanded))
 		initializerStatements += setValueField
 
 	}
@@ -324,6 +249,81 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsConsumersNodeExpanded")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", product.IsConsumersNodeExpanded))
+		initializerStatements += setValueField
+
+	}
+
+	map_ProductCompositionShape_Identifiers := make(map[*ProductCompositionShape]string)
+	_ = map_ProductCompositionShape_Identifiers
+
+	productcompositionshapeOrdered := []*ProductCompositionShape{}
+	for productcompositionshape := range stage.ProductCompositionShapes {
+		productcompositionshapeOrdered = append(productcompositionshapeOrdered, productcompositionshape)
+	}
+	sort.Slice(productcompositionshapeOrdered[:], func(i, j int) bool {
+		productcompositionshapei := productcompositionshapeOrdered[i]
+		productcompositionshapej := productcompositionshapeOrdered[j]
+		productcompositionshapei_order, oki := stage.ProductCompositionShapeMap_Staged_Order[productcompositionshapei]
+		productcompositionshapej_order, okj := stage.ProductCompositionShapeMap_Staged_Order[productcompositionshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return productcompositionshapei_order < productcompositionshapej_order
+	})
+	if len(productcompositionshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, productcompositionshape := range productcompositionshapeOrdered {
+
+		id = generatesIdentifier("ProductCompositionShape", int(stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]), productcompositionshape.Name)
+		map_ProductCompositionShape_Identifiers[productcompositionshape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductCompositionShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", productcompositionshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(productcompositionshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.StartRatio))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.EndRatio))
+		initializerStatements += setValueField
+
+		if productcompositionshape.StartOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+productcompositionshape.StartOrientation.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		if productcompositionshape.EndOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+productcompositionshape.EndOrientation.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", productcompositionshape.CornerOffsetRatio))
 		initializerStatements += setValueField
 
 	}
@@ -582,28 +582,153 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
-	// insertion initialization of objects to stage
-	if len(compositionshapeOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of CompositionShape instances pointers"
+	map_TaskCompositionShape_Identifiers := make(map[*TaskCompositionShape]string)
+	_ = map_TaskCompositionShape_Identifiers
+
+	taskcompositionshapeOrdered := []*TaskCompositionShape{}
+	for taskcompositionshape := range stage.TaskCompositionShapes {
+		taskcompositionshapeOrdered = append(taskcompositionshapeOrdered, taskcompositionshape)
 	}
-	for _, compositionshape := range compositionshapeOrdered {
-		var setPointerField string
-		_ = setPointerField
+	sort.Slice(taskcompositionshapeOrdered[:], func(i, j int) bool {
+		taskcompositionshapei := taskcompositionshapeOrdered[i]
+		taskcompositionshapej := taskcompositionshapeOrdered[j]
+		taskcompositionshapei_order, oki := stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshapei]
+		taskcompositionshapej_order, okj := stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taskcompositionshapei_order < taskcompositionshapej_order
+	})
+	if len(taskcompositionshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, taskcompositionshape := range taskcompositionshapeOrdered {
 
-		id = generatesIdentifier("CompositionShape", int(stage.CompositionShapeMap_Staged_Order[compositionshape]), compositionshape.Name)
-		map_CompositionShape_Identifiers[compositionshape] = id
+		id = generatesIdentifier("TaskCompositionShape", int(stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]), taskcompositionshape.Name)
+		map_TaskCompositionShape_Identifiers[taskcompositionshape] = id
 
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskCompositionShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskcompositionshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
 		// Initialisation of values
-		if compositionshape.Product != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Product")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[compositionshape.Product])
-			pointersInitializesStatements += setPointerField
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(taskcompositionshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.StartRatio))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.EndRatio))
+		initializerStatements += setValueField
+
+		if taskcompositionshape.StartOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+taskcompositionshape.StartOrientation.ToCodeString())
+			initializerStatements += setValueField
 		}
 
+		if taskcompositionshape.EndOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+taskcompositionshape.EndOrientation.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskcompositionshape.CornerOffsetRatio))
+		initializerStatements += setValueField
+
 	}
 
+	map_TaskShape_Identifiers := make(map[*TaskShape]string)
+	_ = map_TaskShape_Identifiers
+
+	taskshapeOrdered := []*TaskShape{}
+	for taskshape := range stage.TaskShapes {
+		taskshapeOrdered = append(taskshapeOrdered, taskshape)
+	}
+	sort.Slice(taskshapeOrdered[:], func(i, j int) bool {
+		taskshapei := taskshapeOrdered[i]
+		taskshapej := taskshapeOrdered[j]
+		taskshapei_order, oki := stage.TaskShapeMap_Staged_Order[taskshapei]
+		taskshapej_order, okj := stage.TaskShapeMap_Staged_Order[taskshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return taskshapei_order < taskshapej_order
+	})
+	if len(taskshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, taskshape := range taskshapeOrdered {
+
+		id = generatesIdentifier("TaskShape", int(stage.TaskShapeMap_Staged_Order[taskshape]), taskshape.Name)
+		map_TaskShape_Identifiers[taskshape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(taskshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", taskshape.IsExpanded))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.X))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Y))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Width")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Width))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Height")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", taskshape.Height))
+		initializerStatements += setValueField
+
+	}
+
+	// insertion initialization of objects to stage
 	if len(diagramOrdered) > 0 {
 		pointersInitializesStatements += "\n\t// setup of Diagram instances pointers"
 	}
@@ -631,11 +756,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
-		for _, _compositionshape := range diagram.Composition_Shapes {
+		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
 			setPointerField = SliceOfPointersFieldInitStatement
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Composition_Shapes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_CompositionShape_Identifiers[_compositionshape])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "ProductComposition_Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_ProductCompositionShape_Identifiers[_productcompositionshape])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _taskshape := range diagram.Task_Shapes {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Task_Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_TaskShape_Identifiers[_taskshape])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _task := range diagram.TasksWhoseNodeIsExpanded {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TasksWhoseNodeIsExpanded")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Task_Identifiers[_task])
+			pointersInitializesStatements += setPointerField
+		}
+
+		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "TaskComposition_Shapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_TaskCompositionShape_Identifiers[_taskcompositionshape])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -657,6 +806,27 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SubProducts")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(productcompositionshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of ProductCompositionShape instances pointers"
+	}
+	for _, productcompositionshape := range productcompositionshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("ProductCompositionShape", int(stage.ProductCompositionShapeMap_Staged_Order[productcompositionshape]), productcompositionshape.Name)
+		map_ProductCompositionShape_Identifiers[productcompositionshape] = id
+
+		// Initialisation of values
+		if productcompositionshape.Product != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Product")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[productcompositionshape.Product])
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -789,6 +959,48 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Outputs")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(taskcompositionshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of TaskCompositionShape instances pointers"
+	}
+	for _, taskcompositionshape := range taskcompositionshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("TaskCompositionShape", int(stage.TaskCompositionShapeMap_Staged_Order[taskcompositionshape]), taskcompositionshape.Name)
+		map_TaskCompositionShape_Identifiers[taskcompositionshape] = id
+
+		// Initialisation of values
+		if taskcompositionshape.Task != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Task")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Task_Identifiers[taskcompositionshape.Task])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(taskshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of TaskShape instances pointers"
+	}
+	for _, taskshape := range taskshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("TaskShape", int(stage.TaskShapeMap_Staged_Order[taskshape]), taskshape.Name)
+		map_TaskShape_Identifiers[taskshape] = id
+
+		// Initialisation of values
+		if taskshape.Task != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Task")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Task_Identifiers[taskshape.Task])
 			pointersInitializesStatements += setPointerField
 		}
 
