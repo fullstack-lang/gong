@@ -17,10 +17,8 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 
-	productNode.Impl = &NodeProxy[*Product]{
-		stager:   stager,
-		node:     productNode,
-		instance: product,
+	productNode.Impl = &tree.FunctionalNodeProxy{
+		OnUpdate: stager.OnUpdateProduct(product),
 	}
 
 	addAddItemButton(stager, productNode, &product.SubProducts)
@@ -38,10 +36,8 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 			PreceedingIcon:       string(buttons.BUTTON_input),
 		}
 		productNode.Children = append(productNode.Children, producersNode)
-		producersNode.Impl = &expandableNodeProxy{
-			node:           producersNode,
-			stager:         stager,
-			isNodeExpanded: &product.IsProducersNodeExpanded,
+		producersNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: stager.OnUpdateExpansion(&product.IsProducersNodeExpanded),
 		}
 
 		for _, task := range product.producers {
@@ -51,10 +47,8 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 				IsNodeClickable: true,
 			}
 			producersNode.Children = append(producersNode.Children, inputProductNode)
-			inputProductNode.Impl = &NodeProxy[*Task]{
-				stager:   stager,
-				node:     inputProductNode,
-				instance: task,
+			inputProductNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateTask(task),
 			}
 		}
 	}
@@ -68,10 +62,8 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 			PreceedingIcon:       string(buttons.BUTTON_output),
 		}
 		productNode.Children = append(productNode.Children, consumersNode)
-		consumersNode.Impl = &expandableNodeProxy{
-			node:           consumersNode,
-			stager:         stager,
-			isNodeExpanded: &product.IsConsumersNodeExpanded,
+		consumersNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: stager.OnUpdateExpansion(&product.IsConsumersNodeExpanded),
 		}
 
 		for _, task := range product.consumers {
@@ -81,10 +73,8 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 				IsNodeClickable: true,
 			}
 			consumersNode.Children = append(consumersNode.Children, outputTaskNode)
-			outputTaskNode.Impl = &NodeProxy[*Task]{
-				stager:   stager,
-				node:     outputTaskNode,
-				instance: task,
+			outputTaskNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateTask(task),
 			}
 		}
 	}
@@ -106,64 +96,13 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
 
-	var productShape *ProductShape
-	var ok bool
-	if productShape, ok = diagram.map_Product_ProductShape[product]; ok {
+	if _, ok := diagram.map_Product_ProductShape[product]; ok {
 		productNode.IsChecked = true
 	}
 
 	// what to do when the product node is clicked
 	productNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-			if frontNode.IsChecked && !stagedNode.IsChecked {
-				stagedNode.IsChecked = frontNode.IsChecked
-
-				// add the Product_Shape
-				if productShape != nil {
-					log.Panic("adding a shape to an already product shape")
-				}
-
-				productShape = newProductShapeToDiagram(product, diagram).Stage(stager.stage)
-
-				stager.stage.Commit()
-				return
-			}
-			if !frontNode.IsChecked && stagedNode.IsChecked {
-				stagedNode.IsChecked = frontNode.IsChecked
-
-				// one need to remove the Product_Shape
-				if productShape == nil {
-					log.Panic("remove a non existing shape to product")
-				}
-
-				productShape.Unstage(stager.stage)
-
-				idx := slices.Index(diagram.Product_Shapes, productShape)
-				diagram.Product_Shapes = slices.Delete(diagram.Product_Shapes, idx, idx+1)
-
-				stager.stage.Commit()
-				return
-			}
-
-			if frontNode.IsExpanded != stagedNode.IsExpanded {
-				stagedNode.IsExpanded = frontNode.IsExpanded
-
-				if frontNode.IsExpanded {
-					if slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) == -1 {
-						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, product)
-					}
-				} else {
-					if idx := slices.Index(diagram.ProductsWhoseNodeIsExpanded, product); idx != -1 {
-						diagram.ProductsWhoseNodeIsExpanded = slices.Delete(diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
-					}
-				}
-				return
-			}
-
-			stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
-
-			stager.stage.Commit()
-		},
+		OnUpdate: stager.OnUpdateProductInDiagram(diagram, product),
 	}
 
 	// if product has a parent product, add a button to show/hide the link to the parent
@@ -184,19 +123,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							compositionShape := new(CompositionShape).Stage(stager.stage)
-							compositionShape.Name = parentProduct.Name + " to " + product.Name
-							compositionShape.Product = product
-							compositionShape.StartOrientation = ORIENTATION_VERTICAL
-							compositionShape.EndOrientation = ORIENTATION_VERTICAL
-							compositionShape.CornerOffsetRatio = 1.68 // near the golden ratio
-							compositionShape.StartRatio = 0.5
-							compositionShape.EndRatio = 0.5
-
-							diagram.Composition_Shapes = append(diagram.Composition_Shapes, compositionShape)
-							stager.stage.Commit()
-						},
+						OnUpdated: stager.OnAddCompositionShape(diagram, parentProduct, product),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -204,12 +131,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-							compositionShape.Unstage(stager.stage)
-							idx := slices.Index(diagram.Composition_Shapes, compositionShape)
-							diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, idx, idx+1)
-							stager.stage.Commit()
-						},
+						OnUpdated: stager.OnRemoveCompositionShape(diagram, compositionShape),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
@@ -219,5 +141,107 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 
 	for _, product := range product.SubProducts {
 		stager.treePBSinDiagram(diagram, product, productNode)
+	}
+}
+
+// Helper callbacks
+
+func (stager *Stager) OnUpdateProduct(product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			stagedNode.IsExpanded = frontNode.IsExpanded
+			product.IsExpanded = frontNode.IsExpanded
+		} else {
+			stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
+		}
+		stager.stage.Commit()
+	}
+}
+
+func (stager *Stager) OnUpdateTask(task *Task) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			stagedNode.IsExpanded = frontNode.IsExpanded
+			task.IsExpanded = frontNode.IsExpanded
+		} else {
+			stager.probeForm.FillUpFormFromGongstruct(task, GetPointerToGongstructName[*Task]())
+		}
+		stager.stage.Commit()
+	}
+}
+
+func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		// find the shape (if any)
+		var productShape *ProductShape
+		for _, shape := range diagram.Product_Shapes {
+			if shape.Product == product {
+				productShape = shape
+				break
+			}
+		}
+
+		if frontNode.IsChecked && !stagedNode.IsChecked {
+			stagedNode.IsChecked = frontNode.IsChecked
+			if productShape != nil {
+				log.Panic("adding a shape to an already product shape")
+			}
+			productShape = newProductShapeToDiagram(product, diagram).Stage(stager.stage)
+			stager.stage.Commit()
+			return
+		}
+		if !frontNode.IsChecked && stagedNode.IsChecked {
+			stagedNode.IsChecked = frontNode.IsChecked
+			if productShape == nil {
+				log.Panic("remove a non existing shape to product")
+			}
+			productShape.Unstage(stager.stage)
+			idx := slices.Index(diagram.Product_Shapes, productShape)
+			diagram.Product_Shapes = slices.Delete(diagram.Product_Shapes, idx, idx+1)
+			stager.stage.Commit()
+			return
+		}
+
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			stagedNode.IsExpanded = frontNode.IsExpanded
+			if frontNode.IsExpanded {
+				if slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) == -1 {
+					diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, product)
+				}
+			} else {
+				if idx := slices.Index(diagram.ProductsWhoseNodeIsExpanded, product); idx != -1 {
+					diagram.ProductsWhoseNodeIsExpanded = slices.Delete(diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
+				}
+			}
+			return
+		}
+
+		stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
+		stager.stage.Commit()
+	}
+}
+
+func (stager *Stager) OnAddCompositionShape(diagram *Diagram, parentProduct, product *Product) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		compositionShape := new(CompositionShape).Stage(stager.stage)
+		compositionShape.Name = parentProduct.Name + " to " + product.Name
+		compositionShape.Product = product
+		compositionShape.StartOrientation = ORIENTATION_VERTICAL
+		compositionShape.EndOrientation = ORIENTATION_VERTICAL
+		compositionShape.CornerOffsetRatio = 1.68 // near the golden ratio
+		compositionShape.StartRatio = 0.5
+		compositionShape.EndRatio = 0.5
+
+		diagram.Composition_Shapes = append(diagram.Composition_Shapes, compositionShape)
+		stager.stage.Commit()
+	}
+}
+
+func (stager *Stager) OnRemoveCompositionShape(diagram *Diagram, compositionShape *CompositionShape) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		compositionShape.Unstage(stager.stage)
+		idx := slices.Index(diagram.Composition_Shapes, compositionShape)
+		diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, idx, idx+1)
+		stager.stage.Commit()
 	}
 }
