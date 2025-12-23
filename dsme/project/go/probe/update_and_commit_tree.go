@@ -80,16 +80,6 @@ func updateAndCommitTree(
 
 		switch gongStruct.Name {
 		// insertion point
-		case "CompositionShape":
-			nodeGongstruct.Name = name
-			set := *models.GetGongstructInstancesSetFromPointerType[*models.CompositionShape](probe.stageOfInterest)
-			for _compositionshape := range set {
-				nodeInstance := &tree.Node{Name: _compositionshape.GetName()}
-				nodeInstance.IsNodeClickable = true
-				nodeInstance.Impl = NewInstanceNodeCallback(_compositionshape, "CompositionShape", probe)
-
-				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
-			}
 		case "Diagram":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
@@ -107,6 +97,16 @@ func updateAndCommitTree(
 				nodeInstance := &tree.Node{Name: _product.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_product, "Product", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "ProductCompositionShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.ProductCompositionShape](probe.stageOfInterest)
+			for _productcompositionshape := range set {
+				nodeInstance := &tree.Node{Name: _productcompositionshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_productcompositionshape, "ProductCompositionShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
@@ -147,6 +147,26 @@ func updateAndCommitTree(
 				nodeInstance := &tree.Node{Name: _task.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_task, "Task", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "TaskCompositionShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](probe.stageOfInterest)
+			for _taskcompositionshape := range set {
+				nodeInstance := &tree.Node{Name: _taskcompositionshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_taskcompositionshape, "TaskCompositionShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "TaskShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](probe.stageOfInterest)
+			for _taskshape := range set {
+				nodeInstance := &tree.Node{Name: _taskshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_taskshape, "TaskShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

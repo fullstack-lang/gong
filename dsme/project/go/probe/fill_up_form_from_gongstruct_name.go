@@ -25,19 +25,6 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
-	case "CompositionShape":
-		formGroup := (&form.FormGroup{
-			Name:  FormName,
-			Label: prefix + "CompositionShape Form",
-		}).Stage(formStage)
-		formGroup.OnSave = __gong__New__CompositionShapeFormCallback(
-			nil,
-			probe,
-			formGroup,
-		)
-		compositionshape := new(models.CompositionShape)
-		formGroup.HasSuppressButton = !isNewInstance
-		FillUpForm(compositionshape, formGroup, probe)
 	case "Diagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -64,6 +51,19 @@ func FillUpFormFromGongstructName(
 		product := new(models.Product)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(product, formGroup, probe)
+	case "ProductCompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "ProductCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__ProductCompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		productcompositionshape := new(models.ProductCompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(productcompositionshape, formGroup, probe)
 	case "ProductShape":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,
@@ -116,6 +116,32 @@ func FillUpFormFromGongstructName(
 		task := new(models.Task)
 		formGroup.HasSuppressButton = !isNewInstance
 		FillUpForm(task, formGroup, probe)
+	case "TaskCompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TaskCompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskCompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		taskcompositionshape := new(models.TaskCompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(taskcompositionshape, formGroup, probe)
+	case "TaskShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "TaskShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__TaskShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		taskshape := new(models.TaskShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(taskshape, formGroup, probe)
 	}
 	formStage.Commit()
 }
