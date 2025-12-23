@@ -127,7 +127,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnAddTaskCompositionShape(diagram, parentTask, task),
+						OnUpdated: OnAddCompositionShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -135,7 +135,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnRemoveTaskCompositionShape(diagram, compositionShape),
+						OnUpdated: OnRemoveCompositionShape(stager, diagram, compositionShape, &diagram.TaskComposition_Shapes),
 					}
 				}
 				taskNode.Buttons = append(taskNode.Buttons, showHideCompositionButton)
@@ -189,31 +189,6 @@ func (stager *Stager) OnUpdateTaskInDiagram(diagram *Diagram, task *Task) func(s
 		}
 
 		stager.probeForm.FillUpFormFromGongstruct(task, GetPointerToGongstructName[*Task]())
-		stager.stage.Commit()
-	}
-}
-
-func (stager *Stager) OnAddTaskCompositionShape(diagram *Diagram, parentTask, task *Task) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := new(TaskCompositionShape).Stage(stager.stage)
-		compositionShape.Name = parentTask.Name + " to " + task.Name
-		compositionShape.Task = task
-		compositionShape.StartOrientation = ORIENTATION_VERTICAL
-		compositionShape.EndOrientation = ORIENTATION_VERTICAL
-		compositionShape.CornerOffsetRatio = 1.68 // near the golden ratio
-		compositionShape.StartRatio = 0.5
-		compositionShape.EndRatio = 0.5
-
-		diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, compositionShape)
-		stager.stage.Commit()
-	}
-}
-
-func (stager *Stager) OnRemoveTaskCompositionShape(diagram *Diagram, compositionShape *TaskCompositionShape) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape.Unstage(stager.stage)
-		idx := slices.Index(diagram.TaskComposition_Shapes, compositionShape)
-		diagram.TaskComposition_Shapes = slices.Delete(diagram.TaskComposition_Shapes, idx, idx+1)
 		stager.stage.Commit()
 	}
 }
