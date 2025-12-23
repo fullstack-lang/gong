@@ -48,7 +48,23 @@ type Task struct {
 
 	Outputs               []*Product
 	IsOutputsNodeExpanded bool
+
+	// parentTask is a computed field
+	// since a Task belongs to at most one WBS,
+	// a parentTask is computed at each UX look. It can be null if the
+	// task is a root task or an orphaned task
+	parentTask *Task
 }
+
+// GONGDOC(NoteSemantic): Note on the models semantic
+//
+// [models.Product] and [models.Task] are in Product Breakdown Structure (PBS)
+// and Work Breakdown Structure (WBS)
+// PBS/WBS have 2 invariants that are enforced at each UX loop:
+// - They are Directed Acyclic Graph (DAG)
+// - A [models.Product]/[models.Task] belongs to at most one PBS/WBS.
+// Those invariants allow prefix and parent to be computed at each UX loop
+const NoteSemantic = ""
 
 type Product struct {
 	Name string
@@ -66,6 +82,12 @@ type Product struct {
 	// this is a computed field, therefore, not exported
 	consumers               []*Task
 	IsConsumersNodeExpanded bool
+
+	// parentProduct is a computed field
+	// since a Product belongs to at most one WBS,
+	// a parentProduct is computed at each UX look. It can be null if the
+	// product is a root product or an orphaned product
+	parentProduct *Product
 }
 
 type ProjectElementType interface {
@@ -92,6 +114,8 @@ func (r *ExpandableNodeObject) SetComputedPrefix(ComputedPrefix string) {
 	r.ComputedPrefix = ComputedPrefix
 }
 
-var _ ProjectElementType = (*Product)(nil)
-var _ ProjectElementType = (*Project)(nil)
-var _ ProjectElementType = (*Task)(nil)
+var (
+	_ ProjectElementType = (*Product)(nil)
+	_ ProjectElementType = (*Project)(nil)
+	_ ProjectElementType = (*Task)(nil)
+)
