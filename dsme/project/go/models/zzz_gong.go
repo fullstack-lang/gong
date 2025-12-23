@@ -88,6 +88,15 @@ type Stage struct {
 	name string
 
 	// insertion point for definition of arrays registering instances
+	CompositionShapes           map[*CompositionShape]struct{}
+	CompositionShapes_mapString map[string]*CompositionShape
+
+	// insertion point for slice of pointers maps
+	OnAfterCompositionShapeCreateCallback OnAfterCreateInterface[CompositionShape]
+	OnAfterCompositionShapeUpdateCallback OnAfterUpdateInterface[CompositionShape]
+	OnAfterCompositionShapeDeleteCallback OnAfterDeleteInterface[CompositionShape]
+	OnAfterCompositionShapeReadCallback   OnAfterReadInterface[CompositionShape]
+
 	Diagrams           map[*Diagram]struct{}
 	Diagrams_mapString map[string]*Diagram
 
@@ -95,6 +104,8 @@ type Stage struct {
 	Diagram_Product_Shapes_reverseMap map[*ProductShape]*Diagram
 
 	Diagram_ProductsWhoseNodeIsExpanded_reverseMap map[*Product]*Diagram
+
+	Diagram_Composition_Shapes_reverseMap map[*CompositionShape]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
@@ -192,6 +203,9 @@ type Stage struct {
 	// store the stage order of each instance in order to
 	// preserve this order when serializing them
 	// insertion point for order fields declaration
+	CompositionShapeOrder            uint
+	CompositionShapeMap_Staged_Order map[*CompositionShape]uint
+
 	DiagramOrder            uint
 	DiagramMap_Staged_Order map[*Diagram]uint
 
@@ -260,6 +274,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 	var t T
 	switch any(t).(type) {
 	// insertion point for case
+	case *CompositionShape:
+		tmp := GetStructInstancesByOrder(stage.CompositionShapes, stage.CompositionShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *CompositionShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *Diagram:
 		tmp := GetStructInstancesByOrder(stage.Diagrams, stage.DiagramMap_Staged_Order)
 
@@ -375,6 +403,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 
 	switch namedStructName {
 	// insertion point for case
+	case "CompositionShape":
+		res = GetNamedStructInstances(stage.CompositionShapes, stage.CompositionShapeMap_Staged_Order)
 	case "Diagram":
 		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
 	case "Product":
@@ -456,6 +486,8 @@ type BackRepoInterface interface {
 	BackupXL(stage *Stage, dirPath string)
 	RestoreXL(stage *Stage, dirPath string)
 	// insertion point for Commit and Checkout signatures
+	CommitCompositionShape(compositionshape *CompositionShape)
+	CheckoutCompositionShape(compositionshape *CompositionShape)
 	CommitDiagram(diagram *Diagram)
 	CheckoutDiagram(diagram *Diagram)
 	CommitProduct(product *Product)
@@ -475,6 +507,9 @@ type BackRepoInterface interface {
 func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
+		CompositionShapes:           make(map[*CompositionShape]struct{}),
+		CompositionShapes_mapString: make(map[string]*CompositionShape),
+
 		Diagrams:           make(map[*Diagram]struct{}),
 		Diagrams_mapString: make(map[string]*Diagram),
 
@@ -503,6 +538,8 @@ func NewStage(name string) (stage *Stage) {
 		// the to be removed stops here
 
 		// insertion point for order map initialisations
+		CompositionShapeMap_Staged_Order: make(map[*CompositionShape]uint),
+
 		DiagramMap_Staged_Order: make(map[*Diagram]uint),
 
 		ProductMap_Staged_Order: make(map[*Product]uint),
@@ -518,6 +555,7 @@ func NewStage(name string) (stage *Stage) {
 		// end of insertion point
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
+			{name: "CompositionShape"},
 			{name: "Diagram"},
 			{name: "Product"},
 			{name: "ProductShape"},
@@ -536,6 +574,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *CompositionShape:
+		return stage.CompositionShapeMap_Staged_Order[instance]
 	case *Diagram:
 		return stage.DiagramMap_Staged_Order[instance]
 	case *Product:
@@ -557,6 +597,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 
 	switch instance := any(instance).(type) {
 	// insertion point for order map initialisations
+	case *CompositionShape:
+		return stage.CompositionShapeMap_Staged_Order[instance]
 	case *Diagram:
 		return stage.DiagramMap_Staged_Order[instance]
 	case *Product:
@@ -605,6 +647,7 @@ func (stage *Stage) Commit() {
 
 func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
+	stage.Map_GongStructName_InstancesNb["CompositionShape"] = len(stage.CompositionShapes)
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Product"] = len(stage.Products)
 	stage.Map_GongStructName_InstancesNb["ProductShape"] = len(stage.ProductShapes)
@@ -651,6 +694,92 @@ func (stage *Stage) RestoreXL(dirPath string) {
 }
 
 // insertion point for cumulative sub template with model space calls
+// Stage puts compositionshape to the model stage
+func (compositionshape *CompositionShape) Stage(stage *Stage) *CompositionShape {
+
+	if _, ok := stage.CompositionShapes[compositionshape]; !ok {
+		stage.CompositionShapes[compositionshape] = struct{}{}
+		stage.CompositionShapeMap_Staged_Order[compositionshape] = stage.CompositionShapeOrder
+		stage.CompositionShapeOrder++
+	}
+	stage.CompositionShapes_mapString[compositionshape.Name] = compositionshape
+
+	return compositionshape
+}
+
+// StagePreserveOrder puts compositionshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.CompositionShapeOrder
+// - update stage.CompositionShapeOrder accordingly
+func (compositionshape *CompositionShape) StagePreserveOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.CompositionShapes[compositionshape]; !ok {
+		stage.CompositionShapes[compositionshape] = struct{}{}
+
+		if order > stage.CompositionShapeOrder {
+			stage.CompositionShapeOrder = order
+		}
+		stage.CompositionShapeMap_Staged_Order[compositionshape] = stage.CompositionShapeOrder
+		stage.CompositionShapeOrder++
+	}
+	stage.CompositionShapes_mapString[compositionshape.Name] = compositionshape
+}
+
+// Unstage removes compositionshape off the model stage
+func (compositionshape *CompositionShape) Unstage(stage *Stage) *CompositionShape {
+	delete(stage.CompositionShapes, compositionshape)
+	delete(stage.CompositionShapeMap_Staged_Order, compositionshape)
+	delete(stage.CompositionShapes_mapString, compositionshape.Name)
+
+	return compositionshape
+}
+
+// UnstageVoid removes compositionshape off the model stage
+func (compositionshape *CompositionShape) UnstageVoid(stage *Stage) {
+	delete(stage.CompositionShapes, compositionshape)
+	delete(stage.CompositionShapeMap_Staged_Order, compositionshape)
+	delete(stage.CompositionShapes_mapString, compositionshape.Name)
+}
+
+// commit compositionshape to the back repo (if it is already staged)
+func (compositionshape *CompositionShape) Commit(stage *Stage) *CompositionShape {
+	if _, ok := stage.CompositionShapes[compositionshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitCompositionShape(compositionshape)
+		}
+	}
+	return compositionshape
+}
+
+func (compositionshape *CompositionShape) CommitVoid(stage *Stage) {
+	compositionshape.Commit(stage)
+}
+
+func (compositionshape *CompositionShape) StageVoid(stage *Stage) {
+	compositionshape.Stage(stage)
+}
+
+// Checkout compositionshape to the back repo (if it is already staged)
+func (compositionshape *CompositionShape) Checkout(stage *Stage) *CompositionShape {
+	if _, ok := stage.CompositionShapes[compositionshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutCompositionShape(compositionshape)
+		}
+	}
+	return compositionshape
+}
+
+// for satisfaction of GongStruct interface
+func (compositionshape *CompositionShape) GetName() (res string) {
+	return compositionshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (compositionshape *CompositionShape) SetName(name string) (){
+	compositionshape.Name = name
+}
+
 // Stage puts diagram to the model stage
 func (diagram *Diagram) Stage(stage *Stage) *Diagram {
 
@@ -1169,6 +1298,7 @@ func (task *Task) SetName(name string) (){
 
 // swagger:ignore
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
+	CreateORMCompositionShape(CompositionShape *CompositionShape)
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMProduct(Product *Product)
 	CreateORMProductShape(ProductShape *ProductShape)
@@ -1178,6 +1308,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 }
 
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
+	DeleteORMCompositionShape(CompositionShape *CompositionShape)
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMProduct(Product *Product)
 	DeleteORMProductShape(ProductShape *ProductShape)
@@ -1187,6 +1318,11 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 }
 
 func (stage *Stage) Reset() { // insertion point for array reset
+	stage.CompositionShapes = make(map[*CompositionShape]struct{})
+	stage.CompositionShapes_mapString = make(map[string]*CompositionShape)
+	stage.CompositionShapeMap_Staged_Order = make(map[*CompositionShape]uint)
+	stage.CompositionShapeOrder = 0
+
 	stage.Diagrams = make(map[*Diagram]struct{})
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	stage.DiagramMap_Staged_Order = make(map[*Diagram]uint)
@@ -1221,6 +1357,9 @@ func (stage *Stage) Reset() { // insertion point for array reset
 }
 
 func (stage *Stage) Nil() { // insertion point for array nil
+	stage.CompositionShapes = nil
+	stage.CompositionShapes_mapString = nil
+
 	stage.Diagrams = nil
 	stage.Diagrams_mapString = nil
 
@@ -1242,6 +1381,10 @@ func (stage *Stage) Nil() { // insertion point for array nil
 }
 
 func (stage *Stage) Unstage() { // insertion point for array nil
+	for compositionshape := range stage.CompositionShapes {
+		compositionshape.Unstage(stage)
+	}
+
 	for diagram := range stage.Diagrams {
 		diagram.Unstage(stage)
 	}
@@ -1340,6 +1483,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case map[*CompositionShape]any:
+		return any(&stage.CompositionShapes).(*Type)
 	case map[*Diagram]any:
 		return any(&stage.Diagrams).(*Type)
 	case map[*Product]any:
@@ -1364,6 +1509,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *CompositionShape:
+		return any(stage.CompositionShapes_mapString).(map[string]Type)
 	case *Diagram:
 		return any(stage.Diagrams_mapString).(map[string]Type)
 	case *Product:
@@ -1388,6 +1535,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case CompositionShape:
+		return any(&stage.CompositionShapes).(*map[*Type]struct{})
 	case Diagram:
 		return any(&stage.Diagrams).(*map[*Type]struct{})
 	case Product:
@@ -1412,6 +1561,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case *CompositionShape:
+		return any(&stage.CompositionShapes).(*map[Type]struct{})
 	case *Diagram:
 		return any(&stage.Diagrams).(*map[Type]struct{})
 	case *Product:
@@ -1436,6 +1587,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 
 	switch any(ret).(type) {
 	// insertion point for generic get functions
+	case CompositionShape:
+		return any(&stage.CompositionShapes_mapString).(*map[string]*Type)
 	case Diagram:
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
 	case Product:
@@ -1462,6 +1615,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 
 	switch any(ret).(type) {
 	// insertion point for instance with special fields
+	case CompositionShape:
+		return any(&CompositionShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Product with the name of the field
+			Product: &Product{Name: "Product"},
+		}).(*Type)
 	case Diagram:
 		return any(&Diagram{
 			// Initialisation of associations
@@ -1469,6 +1628,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Product_Shapes: []*ProductShape{{Name: "Product_Shapes"}},
 			// field is initialized with an instance of Product with the name of the field
 			ProductsWhoseNodeIsExpanded: []*Product{{Name: "ProductsWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of CompositionShape with the name of the field
+			Composition_Shapes: []*CompositionShape{{Name: "Composition_Shapes"}},
 		}).(*Type)
 	case Product:
 		return any(&Product{
@@ -1530,6 +1691,28 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of CompositionShape
+	case CompositionShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Product":
+			res := make(map[*Product][]*CompositionShape)
+			for compositionshape := range stage.CompositionShapes {
+				if compositionshape.Product != nil {
+					product_ := compositionshape.Product
+					var compositionshapes []*CompositionShape
+					_, ok := res[product_]
+					if ok {
+						compositionshapes = res[product_]
+					} else {
+						compositionshapes = make([]*CompositionShape, 0)
+					}
+					compositionshapes = append(compositionshapes, compositionshape)
+					res[product_] = compositionshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
 		switch fieldname {
@@ -1593,6 +1776,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 
 	switch any(ret).(type) {
 	// insertion point of functions that provide maps for reverse associations
+	// reverse maps of direct associations of CompositionShape
+	case CompositionShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of Diagram
 	case Diagram:
 		switch fieldname {
@@ -1610,6 +1798,14 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 			for diagram := range stage.Diagrams {
 				for _, product_ := range diagram.ProductsWhoseNodeIsExpanded {
 					res[product_] = append(res[product_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Composition_Shapes":
+			res := make(map[*CompositionShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, compositionshape_ := range diagram.Composition_Shapes {
+					res[compositionshape_] = append(res[compositionshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -1731,6 +1927,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 
 	switch any(ret).(type) {
 	// insertion point for generic get gongstruct name
+	case *CompositionShape:
+		res = "CompositionShape"
 	case *Diagram:
 		res = "Diagram"
 	case *Product:
@@ -1761,6 +1959,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 	switch any(ret).(type) {
 
 	// insertion point for generic get gongstruct name
+	case *CompositionShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "Composition_Shapes"
+		res = append(res, rf)
 	case *Diagram:
 		var rf ReverseField
 		_ = rf
@@ -1820,6 +2024,42 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 }
 
 // insertion point for get fields header method
+func (compositionshape *CompositionShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Product",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StartOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
 func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -1848,6 +2088,11 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:                 "ProductsWhoseNodeIsExpanded",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
+		},
+		{
+			Name:                 "Composition_Shapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "CompositionShape",
 		},
 		{
 			Name:               "IsExpanded",
@@ -2101,6 +2346,38 @@ func (gongValueField *GongFieldValue) GetValueBool() bool {
 }
 
 // insertion point for generic get gongstruct field value
+func (compositionshape *CompositionShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = compositionshape.Name
+	case "Product":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if compositionshape.Product != nil {
+			res.valueString = compositionshape.Product.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, compositionshape.Product))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", compositionshape.StartRatio)
+		res.valueFloat = compositionshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", compositionshape.EndRatio)
+		res.valueFloat = compositionshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := compositionshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := compositionshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", compositionshape.CornerOffsetRatio)
+		res.valueFloat = compositionshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
 func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -2131,6 +2408,16 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "ProductsWhoseNodeIsExpanded":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.ProductsWhoseNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "Composition_Shapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.Composition_Shapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -2370,6 +2657,38 @@ func GetFieldStringValueFromPointer(instance GongstructIF, fieldName string, sta
 }
 
 // insertion point for generic set gongstruct field value
+func (compositionshape *CompositionShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		compositionshape.Name = value.GetValueString()
+	case "Product":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			compositionshape.Product = nil
+			for __instance__ := range stage.Products {
+				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					compositionshape.Product = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		compositionshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		compositionshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		compositionshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		compositionshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		compositionshape.CornerOffsetRatio = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -2404,6 +2723,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.Products {
 					if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
 						diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "Composition_Shapes":
+		diagram.Composition_Shapes = make([]*CompositionShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.CompositionShapes {
+					if stage.CompositionShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.Composition_Shapes = append(diagram.Composition_Shapes, __instance__)
 						break
 					}
 				}
@@ -2668,6 +3001,10 @@ func SetFieldStringValueFromPointer(instance GongstructIF, fieldName string, val
 }
 
 // insertion point for generic get gongstruct name
+func (compositionshape *CompositionShape) GongGetGongstructName() string {
+	return "CompositionShape"
+}
+
 func (diagram *Diagram) GongGetGongstructName() string {
 	return "Diagram"
 }
@@ -2700,6 +3037,11 @@ func GetGongstructNameFromPointer(instance GongstructIF) (res string) {
 func (stage *Stage) ResetMapStrings() {
 
 	// insertion point for generic get gongstruct name
+	stage.CompositionShapes_mapString = make(map[string]*CompositionShape)
+	for compositionshape := range stage.CompositionShapes {
+		stage.CompositionShapes_mapString[compositionshape.Name] = compositionshape
+	}
+
 	stage.Diagrams_mapString = make(map[string]*Diagram)
 	for diagram := range stage.Diagrams {
 		stage.Diagrams_mapString[diagram.Name] = diagram

@@ -7,9 +7,11 @@ type Diagram struct {
 	IsInRenameMode bool
 
 	Product_Shapes              []*ProductShape
+	map_Product_ProductShape    map[*Product]*ProductShape
 	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
 
-	map_Product_ProductShape map[*Product]*ProductShape // to be made private once in production (no need to persist)
+	Composition_Shapes           []*CompositionShape
+	map_Product_CompositionShape map[*Product]*CompositionShape
 
 	ExpandableNodeObject
 }
@@ -39,4 +41,14 @@ func newProductShapeToDiagram(product *Product, diagram *Diagram) (shape *Produc
 	diagram.Product_Shapes = append(diagram.Product_Shapes, shape)
 
 	return shape
+}
+
+// A CompositionShape is the link between a product
+// and its parent product
+type CompositionShape struct {
+	Name string
+
+	Product *Product
+
+	LinkShape
 }
