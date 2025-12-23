@@ -68,6 +68,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	if stager.enforceShapeOrphans() {
+		needCommit = true
+	}
+
 	stager.enforceProducersConsumers()
 
 	if needCommit {
