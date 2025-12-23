@@ -5,9 +5,6 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
-	// Compute reverse map for named struct CompositionShape
-	// insertion point per field
-
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
 	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
@@ -24,11 +21,11 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_product] = diagram
 		}
 	}
-	stage.Diagram_Composition_Shapes_reverseMap = make(map[*CompositionShape]*Diagram)
+	stage.Diagram_ProductComposition_Shapes_reverseMap = make(map[*ProductCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
-		for _, _compositionshape := range diagram.Composition_Shapes {
-			stage.Diagram_Composition_Shapes_reverseMap[_compositionshape] = diagram
+		for _, _productcompositionshape := range diagram.ProductComposition_Shapes {
+			stage.Diagram_ProductComposition_Shapes_reverseMap[_productcompositionshape] = diagram
 		}
 	}
 	stage.Diagram_Task_Shapes_reverseMap = make(map[*TaskShape]*Diagram)
@@ -45,6 +42,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagram
 		}
 	}
+	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
+			stage.Diagram_TaskComposition_Shapes_reverseMap[_taskcompositionshape] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Product
 	// insertion point per field
@@ -55,6 +59,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Product_SubProducts_reverseMap[_product] = product
 		}
 	}
+
+	// Compute reverse map for named struct ProductCompositionShape
+	// insertion point per field
 
 	// Compute reverse map for named struct ProductShape
 	// insertion point per field
@@ -131,6 +138,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct TaskCompositionShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TaskShape
 	// insertion point per field
 
@@ -139,15 +149,15 @@ func (stage *Stage) ComputeReverseMaps() {
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
-	for instance := range stage.CompositionShapes {
-		res = append(res, instance)
-	}
-
 	for instance := range stage.Diagrams {
 		res = append(res, instance)
 	}
 
 	for instance := range stage.Products {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.ProductCompositionShapes {
 		res = append(res, instance)
 	}
 
@@ -167,6 +177,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.TaskCompositionShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.TaskShapes {
 		res = append(res, instance)
 	}
@@ -175,11 +189,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
-func (compositionshape *CompositionShape) GongCopy() GongstructIF {
-	newInstance := *compositionshape
-	return &newInstance
-}
-
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := *diagram
 	return &newInstance
@@ -187,6 +196,11 @@ func (diagram *Diagram) GongCopy() GongstructIF {
 
 func (product *Product) GongCopy() GongstructIF {
 	newInstance := *product
+	return &newInstance
+}
+
+func (productcompositionshape *ProductCompositionShape) GongCopy() GongstructIF {
+	newInstance := *productcompositionshape
 	return &newInstance
 }
 
@@ -207,6 +221,11 @@ func (root *Root) GongCopy() GongstructIF {
 
 func (task *Task) GongCopy() GongstructIF {
 	newInstance := *task
+	return &newInstance
+}
+
+func (taskcompositionshape *TaskCompositionShape) GongCopy() GongstructIF {
+	newInstance := *taskcompositionshape
 	return &newInstance
 }
 

@@ -97,11 +97,17 @@ func (stager *Stager) tree() {
 					diagram.map_Product_ProductShape[shape.Product] = shape
 				}
 			}
+			diagram.map_Task_TaskShape = make(map[*Task]*TaskShape)
+			for _, shape := range diagram.Task_Shapes {
+				if shape.Task != nil {
+					diagram.map_Task_TaskShape[shape.Task] = shape
+				}
+			}
 
-			diagram.map_Product_CompositionShape = make(map[*Product]*CompositionShape)
-			for _, shape := range diagram.Composition_Shapes {
+			diagram.map_Product_ProductCompositionShape = make(map[*Product]*ProductCompositionShape)
+			for _, shape := range diagram.ProductComposition_Shapes {
 				if shape.Product != nil {
-					diagram.map_Product_CompositionShape[shape.Product] = shape
+					diagram.map_Product_ProductCompositionShape[shape.Product] = shape
 				}
 			}
 
@@ -131,9 +137,9 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
 			}
 
-			// for _, task := range project.RootTasks {
-			// 	stager.treeWBSinDiagram(diagram, task, pbsNode)
-			// }
+			for _, task := range project.RootTasks {
+				stager.treeWBSinDiagram(diagram, task, wbsNode)
+			}
 
 		}
 	}
