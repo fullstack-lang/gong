@@ -1,7 +1,10 @@
 package models
 
+// enforceProducersConsumers computes the producers and consumers for each product
+// based on the inputs and outputs of all tasks.
+// It first clears existing producer/consumer relationships, then rebuilds them
+// by iterating through the tasks in the stage.
 func (stager *Stager) enforceProducersConsumers() {
-
 	stage := stager.stage
 
 	// reset producers and consumers
