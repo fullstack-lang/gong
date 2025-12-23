@@ -80,6 +80,16 @@ func updateAndCommitTree(
 
 		switch gongStruct.Name {
 		// insertion point
+		case "CompositionShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.CompositionShape](probe.stageOfInterest)
+			for _compositionshape := range set {
+				nodeInstance := &tree.Node{Name: _compositionshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_compositionshape, "CompositionShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "Diagram":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.Diagram](probe.stageOfInterest)
