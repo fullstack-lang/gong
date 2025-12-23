@@ -134,7 +134,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnRemoveProductCompositionShape(diagram, compositionShape),
+						OnUpdated: OnRemoveCompositionShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
@@ -218,31 +218,6 @@ func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Produc
 	}
 }
 
-func (stager *Stager) OnAddProductCompositionShape(diagram *Diagram, parentProduct, product *Product) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := new(ProductCompositionShape).Stage(stager.stage)
-		compositionShape.Name = parentProduct.Name + " to " + product.Name
-		compositionShape.Product = product
-		compositionShape.StartOrientation = ORIENTATION_VERTICAL
-		compositionShape.EndOrientation = ORIENTATION_VERTICAL
-		compositionShape.CornerOffsetRatio = 1.68 // near the golden ratio
-		compositionShape.StartRatio = 0.5
-		compositionShape.EndRatio = 0.5
-
-		diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, compositionShape)
-		stager.stage.Commit()
-	}
-}
-
-func (stager *Stager) OnRemoveProductCompositionShape(diagram *Diagram, compositionShape *ProductCompositionShape) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape.Unstage(stager.stage)
-		idx := slices.Index(diagram.ProductComposition_Shapes, compositionShape)
-		diagram.ProductComposition_Shapes = slices.Delete(diagram.ProductComposition_Shapes, idx, idx+1)
-		stager.stage.Commit()
-	}
-}
-
 func OnAddCompositionShape[
 	AT AbstractType,
 	CCT interface {
@@ -265,6 +240,22 @@ func OnAddCompositionShape[
 		compositionShape.SetEndRatio(0.5)
 
 		*shapes = append(*shapes, compositionShape)
+		stager.stage.Commit()
+	}
+}
+
+func OnRemoveCompositionShape[
+	CCT interface {
+		*CCT_
+		LinkShapeInterface
+		CompositionConcreteType
+	},
+	CCT_ Gongstruct](stager *Stager, diagram *Diagram, compositionShape CCT, shapes *[]CCT) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		compositionShape.UnstageVoid(stager.stage)
+		idx := slices.Index(*shapes, compositionShape)
+		*shapes = slices.Delete(*shapes, idx, idx+1)
 		stager.stage.Commit()
 	}
 }
