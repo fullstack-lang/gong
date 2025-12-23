@@ -108,6 +108,57 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 		productNode.IsChecked = true
 	}
 
+	// if product has a parent product, add a button to show/hide the link to the parent
+	if parentProduct := product.parentProduct; parentProduct != nil {
+		if _, ok := diagram.map_Product_ProductShape[parentProduct]; ok {
+			if _, ok := diagram.map_Product_ProductShape[product]; ok {
+
+				showHideCompositionButton := &tree.Button{
+					Name: GetGongstructNameFromPointer(product) + " " + string(buttons.BUTTON_add),
+
+					HasToolTip:      true,
+					ToolTipPosition: tree.Right,
+				}
+
+				if compositionShape, ok := diagram.map_Product_CompositionShape[product]; !ok {
+					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_more)
+					showHideCompositionButton.ToolTipText = "Show link from \"" + parentProduct.Name +
+						"\" to \"" + product.Name + "\""
+
+					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							compositionShape := new(CompositionShape).Stage(stager.stage)
+							compositionShape.Name = parentProduct.Name + " to " + product.Name
+							compositionShape.Product = product
+							compositionShape.StartOrientation = ORIENTATION_VERTICAL
+							compositionShape.EndOrientation = ORIENTATION_VERTICAL
+							compositionShape.CornerOffsetRatio = 1.68 // near the golden ratio
+							compositionShape.StartRatio = 0.5
+							compositionShape.EndRatio = 0.5
+
+							diagram.Composition_Shapes = append(diagram.Composition_Shapes, compositionShape)
+							stager.stage.Commit()
+						},
+					}
+				} else {
+					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
+					showHideCompositionButton.ToolTipText = "Hide link from \"" + parentProduct.Name +
+						"\" to \"" + product.Name + "\""
+
+					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+							compositionShape.Unstage(stager.stage)
+							idx := slices.Index(diagram.Composition_Shapes, compositionShape)
+							diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, idx, idx+1)
+							stager.stage.Commit()
+						},
+					}
+				}
+				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
+			}
+		}
+	}
+
 	productNode.Impl = &ProductNodeProxyInDiagram[*Product]{
 		stager:       stager,
 		node:         productNode,

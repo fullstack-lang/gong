@@ -107,6 +107,13 @@ func (stager *Stager) tree() {
 				}
 			}
 
+			diagram.map_Product_CompositionShape = make(map[*Product]*CompositionShape)
+			for _, shape := range diagram.Composition_Shapes {
+				if shape.Product != nil {
+					diagram.map_Product_CompositionShape[shape.Product] = shape
+				}
+			}
+
 			for _, product := range project.RootProducts {
 				stager.treePBSinDiagram(diagram, product, diagramNode)
 			}
