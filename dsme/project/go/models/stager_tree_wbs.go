@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -106,7 +105,13 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 	// what to do when the task node is clicked
 	taskNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: stager.OnUpdateTaskInDiagram(diagram, task),
+		OnUpdate: OnUpdateElementInDiagram(
+			stager,
+			diagram,
+			task,
+			&diagram.TasksWhoseNodeIsExpanded,
+			&diagram.Task_Shapes,
+			&diagram.map_Task_TaskShape),
 	}
 
 	// if task has a parent task, add a button to show/hide the link to the parent
@@ -145,50 +150,5 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 	for _, task := range task.SubTasks {
 		stager.treeWBSinDiagram(diagram, task, taskNode)
-	}
-}
-
-func (stager *Stager) OnUpdateTaskInDiagram(diagram *Diagram, task *Task) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		// find the shape (if any)
-		taskShape := diagram.map_Task_TaskShape[task]
-
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
-			if taskShape != nil {
-				log.Panic("adding a shape to an already task shape")
-			}
-			taskShape = newTaskShapeToDiagram(task, diagram).Stage(stager.stage)
-			stager.stage.Commit()
-			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
-			if taskShape == nil {
-				log.Panic("remove a non existing shape to task")
-			}
-			taskShape.Unstage(stager.stage)
-			idx := slices.Index(diagram.Task_Shapes, taskShape)
-			diagram.Task_Shapes = slices.Delete(diagram.Task_Shapes, idx, idx+1)
-			stager.stage.Commit()
-			return
-		}
-
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			if frontNode.IsExpanded {
-				if slices.Index(diagram.TasksWhoseNodeIsExpanded, task) == -1 {
-					diagram.TasksWhoseNodeIsExpanded = append(diagram.TasksWhoseNodeIsExpanded, task)
-				}
-			} else {
-				if idx := slices.Index(diagram.TasksWhoseNodeIsExpanded, task); idx != -1 {
-					diagram.TasksWhoseNodeIsExpanded = slices.Delete(diagram.TasksWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			return
-		}
-
-		stager.probeForm.FillUpFormFromGongstruct(task, GetPointerToGongstructName[*Task]())
-		stager.stage.Commit()
 	}
 }

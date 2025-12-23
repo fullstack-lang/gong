@@ -66,14 +66,6 @@ func (s *ProductShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*ProductShape)(nil)
 
-func newProductShapeToDiagram(product *Product, diagram *Diagram) (shape *ProductShape) {
-	return newShapeToDiagram(
-		product,
-		diagram,
-		&diagram.Product_Shapes,
-	)
-}
-
 // A ProductCompositionShape is the link between a product
 // and its parent product
 type ProductCompositionShape struct {
@@ -122,14 +114,6 @@ func (s *TaskShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*TaskShape)(nil)
 
-func newTaskShapeToDiagram(task *Task, diagram *Diagram) (shape *TaskShape) {
-	return newShapeToDiagram(
-		task,
-		diagram,
-		&diagram.Task_Shapes,
-	)
-}
-
 // A TaskCompositionShape is the link between a task
 // and its parent task
 type TaskCompositionShape struct {
@@ -166,8 +150,10 @@ func newShapeToDiagram[AT AbstractType, CT interface {
 	abstractElement AT,
 	diagram *Diagram,
 	shapes *[]CT,
+	stage *Stage,
 ) CT {
 	shape := CT(new(S))
+	shape.StageVoid(stage)
 	shape.SetAbstractElement(abstractElement)
 	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
 	shape.SetHeight(80)
