@@ -159,7 +159,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 		}
 	}
 
-	productNode.Impl = &ProductNodeProxyInDiagram[*Product]{
+	productNode.Impl = &ProductNodeProxyInDiagram{
 		stager:       stager,
 		node:         productNode,
 		product:      product,
@@ -172,7 +172,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 	}
 }
 
-type ProductNodeProxyInDiagram[T ProjectElementType] struct {
+type ProductNodeProxyInDiagram struct {
 	stager       *Stager
 	node         *tree.Node
 	product      *Product
@@ -181,7 +181,7 @@ type ProductNodeProxyInDiagram[T ProjectElementType] struct {
 }
 
 // OnAfterUpdate implements models.NodeImplInterface.
-func (p *ProductNodeProxyInDiagram[T]) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
+func (p *ProductNodeProxyInDiagram) OnAfterUpdate(stage *tree.Stage, stagedNode *tree.Node, frontNode *tree.Node) {
 	if frontNode.IsChecked && !stagedNode.IsChecked {
 		stagedNode.IsChecked = frontNode.IsChecked
 

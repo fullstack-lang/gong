@@ -202,7 +202,7 @@ func addAddItemButton[T Gongstruct, PT interface {
 	}
 }
 
-type NodeProxy[T ProjectElementType] struct {
+type NodeProxy[T AbstractType] struct {
 	stager   *Stager
 	node     *tree.Node
 	instance T
