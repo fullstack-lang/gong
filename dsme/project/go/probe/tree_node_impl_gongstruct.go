@@ -50,14 +50,14 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	// log.Println("NodeImplGongstruct:OnAfterUpdate with: ", nodeImplGongstruct.gongStruct.GetName())
 
 	// insertion point
-	if nodeImplGongstruct.gongStruct.GetName() == "CompositionShape" {
-		updateProbeTable[*models.CompositionShape](nodeImplGongstruct.probe)
-	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Diagram" {
 		updateProbeTable[*models.Diagram](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Product" {
 		updateProbeTable[*models.Product](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "ProductCompositionShape" {
+		updateProbeTable[*models.ProductCompositionShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "ProductShape" {
 		updateProbeTable[*models.ProductShape](nodeImplGongstruct.probe)
@@ -70,6 +70,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "Task" {
 		updateProbeTable[*models.Task](nodeImplGongstruct.probe)
+	}
+	if nodeImplGongstruct.gongStruct.GetName() == "TaskCompositionShape" {
+		updateProbeTable[*models.TaskCompositionShape](nodeImplGongstruct.probe)
 	}
 	if nodeImplGongstruct.gongStruct.GetName() == "TaskShape" {
 		updateProbeTable[*models.TaskShape](nodeImplGongstruct.probe)

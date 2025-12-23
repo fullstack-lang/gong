@@ -42,30 +42,14 @@ func (stager *Stager) svg() {
 	layer := (&svg.Layer{Name: "Layer 1"})
 	svgObject.Layers = append(svgObject.Layers, layer)
 
-	ProductsSet := make(map[*Product]any)
-
-	for _, ProductShape_ := range diagram.Product_Shapes {
-		ProductsSet[ProductShape_.Product] = true
-	}
-
-	for _, ProductShape := range diagram.Product_Shapes {
-
-		if ProductShape.Product == nil {
-			continue
-		}
-		Product := ProductShape.Product
-
-		rect := stager.svgGenerateRect(
+	for _, productShape := range diagram.Product_Shapes {
+		stager.svgGenerateProductRect(
 			diagram,
-			ProductShape,
+			productShape,
 			layer)
-		map_Product_Rect[Product] = rect
-
-		// To be implemented when drawing compositions between Products
-		// svgImpl.map_SvgRect_ProductShape[rect] = ProductShape
 	}
 
-	for _, compositionShape := range diagram.Composition_Shapes {
+	for _, compositionShape := range diagram.ProductComposition_Shapes {
 		_ = compositionShape
 		subProduct := compositionShape.Product
 		parentProduct := subProduct.parentProduct
@@ -80,6 +64,13 @@ func (stager *Stager) svg() {
 		stager.svgGenerateLink(
 			startRect, endRect,
 			&compositionShape.LinkShape, subProduct, layer, false)
+	}
+
+	for _, taskShape := range diagram.Task_Shapes {
+		stager.svgGenerateTaskRect(
+			diagram,
+			taskShape,
+			layer)
 	}
 
 	svg.StageBranch(svgStage, svgObject)
