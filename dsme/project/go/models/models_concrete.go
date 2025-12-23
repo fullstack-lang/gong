@@ -38,6 +38,14 @@ type ConcreteType interface {
 	SetAbstractElement(AbstractType)
 }
 
+type CompositionConcreteType interface {
+	GongstructIF
+	GetAbstractParentElement() AbstractType
+	SetAbstractParentElement(AbstractType)
+	GetAbstractChildElement() AbstractType
+	SetAbstractChildElement(AbstractType)
+}
+
 // ProductShape
 type ProductShape struct {
 	Name    string
@@ -75,6 +83,24 @@ type ProductCompositionShape struct {
 
 	LinkShape
 }
+
+func (s *ProductCompositionShape) GetAbstractChildElement() AbstractType {
+	return s.Product
+}
+
+func (s *ProductCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+func (s *ProductCompositionShape) GetAbstractParentElement() AbstractType {
+	return s.Product.parentProduct
+}
+
+func (s *ProductCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
+	s.Product.parentProduct = abstractElement.(*Product)
+}
+
+var _ CompositionConcreteType = (*ProductCompositionShape)(nil)
 
 // TaskShape is for both Task
 type TaskShape struct {

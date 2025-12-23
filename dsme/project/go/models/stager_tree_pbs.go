@@ -122,8 +122,11 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 					showHideCompositionButton.ToolTipText = "Show link from \"" + parentProduct.Name +
 						"\" to \"" + product.Name + "\""
 
+					// showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
+					// 	OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
+					// }
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
+						OnUpdated: OnAddCompositionShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -236,6 +239,32 @@ func (stager *Stager) OnRemoveProductCompositionShape(diagram *Diagram, composit
 		compositionShape.Unstage(stager.stage)
 		idx := slices.Index(diagram.ProductComposition_Shapes, compositionShape)
 		diagram.ProductComposition_Shapes = slices.Delete(diagram.ProductComposition_Shapes, idx, idx+1)
+		stager.stage.Commit()
+	}
+}
+
+func OnAddCompositionShape[
+	AT AbstractType,
+	CCT interface {
+		*CCT_
+		LinkShapeInterface
+		CompositionConcreteType
+	},
+	CCT_ Gongstruct](
+	stager *Stager, diagram *Diagram, parent, child AT, shapes *[]CCT) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		compositionShape := CCT(new(CCT_))
+		compositionShape.StageVoid(stager.stage)
+		compositionShape.SetName(parent.GetName() + " to " + child.GetName())
+		compositionShape.SetAbstractChildElement(child)
+		compositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+		compositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+		compositionShape.SetCornerOffsetRatio(1.68)
+		compositionShape.SetStartRatio(0.5)
+		compositionShape.SetEndRatio(0.5)
+
+		*shapes = append(*shapes, compositionShape)
 		stager.stage.Commit()
 	}
 }
