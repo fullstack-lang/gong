@@ -7,7 +7,7 @@ import (
 	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
-func (stager *Stager) svgGenerateProductRect(
+func (stager *Stager) svgProductRect(
 	diagram diagramInterface, // might be ni
 	ProductShape *ProductShape,
 	layer *svg.Layer,
