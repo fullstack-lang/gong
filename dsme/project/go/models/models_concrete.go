@@ -32,6 +32,20 @@ func (d *Diagram) IsEditable() bool {
 	return d.IsEditable_
 }
 
+type ConcreteType interface {
+	GongstructIF
+	GetAbstractElement() AbstractType
+	SetAbstractElement(AbstractType)
+}
+
+type CompositionConcreteType interface {
+	GongstructIF
+	GetAbstractParentElement() AbstractType
+	SetAbstractParentElement(AbstractType)
+	GetAbstractChildElement() AbstractType
+	SetAbstractChildElement(AbstractType)
+}
+
 // ProductShape
 type ProductShape struct {
 	Name    string
@@ -42,18 +56,15 @@ type ProductShape struct {
 	RectShape
 }
 
-func newProductShapeToDiagram(product *Product, diagram *Diagram) (shape *ProductShape) {
-	shape = new(ProductShape)
-	shape.Product = product
-	shape.Name = product.GetName() + "-" + diagram.GetName()
-	shape.Height = 80
-	shape.Width = 200
-	shape.X = 100 + rand.Float64()*100.0
-	shape.Y = 100 + rand.Float64()*100.0
-	diagram.Product_Shapes = append(diagram.Product_Shapes, shape)
-
-	return shape
+func (s *ProductShape) GetAbstractElement() AbstractType {
+	return s.Product
 }
+
+func (s *ProductShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+var _ ConcreteType = (*ProductShape)(nil)
 
 // A ProductCompositionShape is the link between a product
 // and its parent product
@@ -65,6 +76,24 @@ type ProductCompositionShape struct {
 	LinkShape
 }
 
+func (s *ProductCompositionShape) GetAbstractChildElement() AbstractType {
+	return s.Product
+}
+
+func (s *ProductCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+func (s *ProductCompositionShape) GetAbstractParentElement() AbstractType {
+	return s.Product.parentProduct
+}
+
+func (s *ProductCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
+	s.Product.parentProduct = abstractElement.(*Product)
+}
+
+var _ CompositionConcreteType = (*ProductCompositionShape)(nil)
+
 // TaskShape is for both Task
 type TaskShape struct {
 	Name string
@@ -75,18 +104,15 @@ type TaskShape struct {
 	RectShape
 }
 
-func newTaskShapeToDiagram(task *Task, diagram *Diagram) (shape *TaskShape) {
-	shape = new(TaskShape)
-	shape.Task = task
-	shape.Name = task.GetName() + "-" + diagram.GetName()
-	shape.Height = 80
-	shape.Width = 200
-	shape.X = 100 + rand.Float64()*100.0
-	shape.Y = 100 + rand.Float64()*100.0
-	diagram.Task_Shapes = append(diagram.Task_Shapes, shape)
-
-	return shape
+func (s *TaskShape) GetAbstractElement() AbstractType {
+	return s.Task
 }
+
+func (s *TaskShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+var _ ConcreteType = (*TaskShape)(nil)
 
 // A TaskCompositionShape is the link between a task
 // and its parent task
@@ -96,4 +122,45 @@ type TaskCompositionShape struct {
 	Task *Task
 
 	LinkShape
+}
+
+func (s *TaskCompositionShape) GetAbstractChildElement() AbstractType {
+	return s.Task
+}
+
+func (s *TaskCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *TaskCompositionShape) GetAbstractParentElement() AbstractType {
+	return s.Task.parentTask
+}
+
+func (s *TaskCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
+	s.Task.parentTask = abstractElement.(*Task)
+}
+
+var _ CompositionConcreteType = (*TaskCompositionShape)(nil)
+
+func newShapeToDiagram[AT AbstractType, CT interface {
+	*S
+	RectShapeInterface
+	ConcreteType
+}, S Gongstruct](
+	abstractElement AT,
+	diagram *Diagram,
+	shapes *[]CT,
+	stage *Stage,
+) CT {
+	shape := CT(new(S))
+	shape.StageVoid(stage)
+	shape.SetAbstractElement(abstractElement)
+	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
+	shape.SetHeight(80)
+	shape.SetWidth(200)
+	shape.SetX(100 + rand.Float64()*100.0)
+	shape.SetY(100 + rand.Float64()*100.0)
+	*shapes = append(*shapes, shape)
+
+	return shape
 }
