@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"log"
 	"slices"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -102,7 +101,13 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 
 	// what to do when the product node is clicked
 	productNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: stager.OnUpdateProductInDiagram(diagram, product),
+		OnUpdate: OnUpdateElementInDiagram(
+			stager,
+			diagram,
+			product,
+			&diagram.ProductsWhoseNodeIsExpanded,
+			&diagram.Product_Shapes,
+			&diagram.map_Product_ProductShape),
 	}
 
 	// if product has a parent product, add a button to show/hide the link to the parent
@@ -144,52 +149,5 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 
 	for _, product := range product.SubProducts {
 		stager.treePBSinDiagram(diagram, product, productNode)
-	}
-}
-
-// Helper callbacks
-
-func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		// find the shape (if any)
-		productShape := diagram.map_Product_ProductShape[product]
-
-		if frontNode.IsChecked && !stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
-			if productShape != nil {
-				log.Panic("adding a shape to an already product shape")
-			}
-			productShape = newProductShapeToDiagram(product, diagram).Stage(stager.stage)
-			stager.stage.Commit()
-			return
-		}
-		if !frontNode.IsChecked && stagedNode.IsChecked {
-			stagedNode.IsChecked = frontNode.IsChecked
-			if productShape == nil {
-				log.Panic("remove a non existing shape to product")
-			}
-			productShape.Unstage(stager.stage)
-			idx := slices.Index(diagram.Product_Shapes, productShape)
-			diagram.Product_Shapes = slices.Delete(diagram.Product_Shapes, idx, idx+1)
-			stager.stage.Commit()
-			return
-		}
-
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			if frontNode.IsExpanded {
-				if slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) == -1 {
-					diagram.ProductsWhoseNodeIsExpanded = append(diagram.ProductsWhoseNodeIsExpanded, product)
-				}
-			} else {
-				if idx := slices.Index(diagram.ProductsWhoseNodeIsExpanded, product); idx != -1 {
-					diagram.ProductsWhoseNodeIsExpanded = slices.Delete(diagram.ProductsWhoseNodeIsExpanded, idx, idx+1)
-				}
-			}
-			return
-		}
-
-		stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
-		stager.stage.Commit()
 	}
 }
