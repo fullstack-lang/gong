@@ -126,6 +126,13 @@ func (stager *Stager) tree() {
 				stager.treePBSinDiagram(diagram, product, pbsNode)
 			}
 
+			diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
+			for _, shape := range diagram.TaskComposition_Shapes {
+				if shape.Task != nil {
+					diagram.map_Task_TaskCompositionShape[shape.Task] = shape
+				}
+			}
+
 			wbsNode := &tree.Node{
 				Name:            "WBS",
 				FontStyle:       tree.ITALIC,

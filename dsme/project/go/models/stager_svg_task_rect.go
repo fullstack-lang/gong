@@ -13,7 +13,7 @@ type diagramInterface interface {
 	IsEditable() bool
 }
 
-func (stager *Stager) svgGenerateTaskRect(
+func (stager *Stager) svgTaskRect(
 	diagram diagramInterface, // might be ni
 	TaskShape *TaskShape,
 	layer *svg.Layer,
