@@ -64,7 +64,11 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
-	if stager.enforceCompositionShapes() {
+	if stager.enforceProductCompositionShapes() {
+		needCommit = true
+	}
+
+	if stager.enforceTaskCompositionShapes() {
 		needCommit = true
 	}
 
