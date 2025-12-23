@@ -110,6 +110,7 @@ func NewLevel1Stack(
 	models.SetOrchestratorOnAfterUpdate[models.Project](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Root](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Task](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TaskShape](stage)
 
 	return
 }

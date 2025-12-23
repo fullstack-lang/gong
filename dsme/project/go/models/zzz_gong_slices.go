@@ -31,6 +31,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_Composition_Shapes_reverseMap[_compositionshape] = diagram
 		}
 	}
+	stage.Diagram_Task_Shapes_reverseMap = make(map[*TaskShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskshape := range diagram.Task_Shapes {
+			stage.Diagram_Task_Shapes_reverseMap[_taskshape] = diagram
+		}
+	}
+	stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _task := range diagram.TasksWhoseNodeIsExpanded {
+			stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Product
 	// insertion point per field
@@ -117,6 +131,9 @@ func (stage *Stage) ComputeReverseMaps() {
 		}
 	}
 
+	// Compute reverse map for named struct TaskShape
+	// insertion point per field
+
 }
 
 func (stage *Stage) GetInstances() (res []GongstructIF) {
@@ -147,6 +164,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.Tasks {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TaskShapes {
 		res = append(res, instance)
 	}
 
@@ -186,6 +207,11 @@ func (root *Root) GongCopy() GongstructIF {
 
 func (task *Task) GongCopy() GongstructIF {
 	newInstance := *task
+	return &newInstance
+}
+
+func (taskshape *TaskShape) GongCopy() GongstructIF {
+	newInstance := *taskshape
 	return &newInstance
 }
 

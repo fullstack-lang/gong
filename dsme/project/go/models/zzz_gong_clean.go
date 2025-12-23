@@ -41,6 +41,8 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 	diagram.Product_Shapes = GongCleanSlice(stage, diagram.Product_Shapes)
 	diagram.ProductsWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.ProductsWhoseNodeIsExpanded)
 	diagram.Composition_Shapes = GongCleanSlice(stage, diagram.Composition_Shapes)
+	diagram.Task_Shapes = GongCleanSlice(stage, diagram.Task_Shapes)
+	diagram.TasksWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.TasksWhoseNodeIsExpanded)
 	// insertion point per field
 }
 
@@ -83,6 +85,13 @@ func (task *Task) GongClean(stage *Stage) {
 	task.Inputs = GongCleanSlice(stage, task.Inputs)
 	task.Outputs = GongCleanSlice(stage, task.Outputs)
 	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by TaskShape
+func (taskshape *TaskShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	taskshape.Task = GongCleanPointer(stage, taskshape.Task)
 }
 
 // Clean garbage collect unstaged instances that are referenced by staged elements

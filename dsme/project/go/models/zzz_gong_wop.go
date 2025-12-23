@@ -46,13 +46,13 @@ type Diagram_WOP struct {
 
 	IsInRenameMode bool
 
-	IsPBSNodeExpanded bool
-
-	IsWBSNodeExpanded bool
-
 	IsExpanded bool
 
 	ComputedPrefix string
+
+	IsPBSNodeExpanded bool
+
+	IsWBSNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -61,10 +61,10 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsInRenameMode = from.IsInRenameMode
-	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
-	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
+	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
+	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 }
 
 type Product_WOP struct {
@@ -177,5 +177,31 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
+}
+
+type TaskShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *TaskShape) CopyBasicFields(to *TaskShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
 }
 
