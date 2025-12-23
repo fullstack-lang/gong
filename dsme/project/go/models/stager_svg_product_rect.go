@@ -1,14 +1,12 @@
 package models
 
 import (
-	"reflect"
-
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 func (stager *Stager) svgProductRect(
-	diagram diagramInterface, // might be ni
+	diagram *Diagram, // might be ni
 	ProductShape *ProductShape,
 	layer *svg.Layer,
 ) *svg.Rect {
@@ -25,27 +23,26 @@ func (stager *Stager) svgProductRect(
 	rect.Y = ProductShape.Y
 	rect.Width = ProductShape.Width
 	rect.Height = ProductShape.Height
-	rect.RX = 15
+	rect.RX = 3
 
 	// rect is editable if diagram is not null
-	if !reflect.ValueOf(diagram).IsNil() {
-		if diagram.IsEditable() {
-			rect.CanHaveBottomHandle = true
-			rect.CanHaveLeftHandle = true
-			rect.CanHaveRightHandle = true
-			rect.CanHaveTopHandle = true
 
-			rect.CanMoveHorizontaly = true
-			rect.CanMoveVerticaly = true
+	if diagram.IsEditable() {
+		rect.CanHaveBottomHandle = true
+		rect.CanHaveLeftHandle = true
+		rect.CanHaveRightHandle = true
+		rect.CanHaveTopHandle = true
 
-			rect.Impl = NewRectShape_ProductProxy(
-				&ProductShape.RectShape,
-				Product,
-				stager,
-			)
-			// for allowing later Stage() on the rect shape
-			ProductShape.receiver = ProductShape
-		}
+		rect.CanMoveHorizontaly = true
+		rect.CanMoveVerticaly = true
+
+		rect.Impl = NewRectShape_ProductProxy(
+			&ProductShape.RectShape,
+			Product,
+			stager,
+		)
+		// for allowing later Stage() on the rect shape
+		ProductShape.receiver = ProductShape
 	}
 
 	ProductTitleText := new(svg.RectAnchoredText)
