@@ -10,6 +10,7 @@ func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 
 	map_Product_Rect := make(map[*Product]*svg.Rect)
+	map_Task_Rect := make(map[*Task]*svg.Rect)
 
 	svgStage := stager.svgStage
 	svgObject := (&svg.SVG{Name: `SVG`})
@@ -43,15 +44,15 @@ func (stager *Stager) svg() {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
-		stager.svgGenerateProductRect(
+		map_Product_Rect[productShape.Product] = stager.svgProductRect(
 			diagram,
 			productShape,
 			layer)
 	}
 
-	for _, compositionShape := range diagram.ProductComposition_Shapes {
-		_ = compositionShape
-		subProduct := compositionShape.Product
+	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
+		_ = productCompositionShape
+		subProduct := productCompositionShape.Product
 		parentProduct := subProduct.parentProduct
 
 		if subProduct == nil || parentProduct == nil {
@@ -61,16 +62,33 @@ func (stager *Stager) svg() {
 		startRect := map_Product_Rect[parentProduct]
 		endRect := map_Product_Rect[subProduct]
 
-		stager.svgGenerateLink(
+		stager.svgProductCompositionLink(
 			startRect, endRect,
-			&compositionShape.LinkShape, subProduct, layer, false)
+			&productCompositionShape.LinkShape, subProduct, layer, false)
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {
-		stager.svgGenerateTaskRect(
+		map_Task_Rect[taskShape.Task] = stager.svgTaskRect(
 			diagram,
 			taskShape,
 			layer)
+	}
+
+	for _, taskCompositionShape := range diagram.TaskComposition_Shapes {
+		_ = taskCompositionShape
+		subTask := taskCompositionShape.Task
+		parentTask := subTask.parentTask
+
+		if subTask == nil || parentTask == nil {
+			log.Panic("There should be a subTask and a parentTask")
+		}
+
+		startRect := map_Task_Rect[parentTask]
+		endRect := map_Task_Rect[subTask]
+
+		stager.svgTaskCompositionLink(
+			startRect, endRect,
+			&taskCompositionShape.LinkShape, subTask, layer, false)
 	}
 
 	svg.StageBranch(svgStage, svgObject)
