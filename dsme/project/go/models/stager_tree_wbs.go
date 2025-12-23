@@ -15,10 +15,8 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 	}
 	parentNode.Children = append(parentNode.Children, taskNode)
 
-	taskNode.Impl = &NodeProxy[*Task]{
-		stager:   stager,
-		node:     taskNode,
-		instance: task,
+	taskNode.Impl = &tree.FunctionalNodeProxy{
+		OnUpdate: stager.OnUpdateTask(task),
 	}
 
 	addAddItemButton(stager, taskNode, &task.SubTasks)
@@ -36,10 +34,9 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 			PreceedingIcon:       string(buttons.BUTTON_input),
 		}
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
-		inputProductsNode.Impl = &expandableNodeProxy{
-			node:           inputProductsNode,
-			stager:         stager,
-			isNodeExpanded: &task.IsInputsNodeExpanded,
+
+		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: stager.OnUpdateExpansion(&task.IsInputsNodeExpanded),
 		}
 
 		for _, product := range task.Inputs {
@@ -49,10 +46,9 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 				IsNodeClickable: true,
 			}
 			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
-			inputProductNode.Impl = &NodeProxy[*Product]{
-				stager:   stager,
-				node:     inputProductNode,
-				instance: product,
+
+			inputProductNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateProduct(product),
 			}
 		}
 	}
@@ -66,10 +62,9 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 			PreceedingIcon:       string(buttons.BUTTON_output),
 		}
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
-		outputProductsNode.Impl = &expandableNodeProxy{
-			node:           outputProductsNode,
-			stager:         stager,
-			isNodeExpanded: &task.IsOutputsNodeExpanded,
+
+		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: stager.OnUpdateExpansion(&task.IsOutputsNodeExpanded),
 		}
 
 		for _, product := range task.Outputs {
@@ -79,10 +74,9 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 				IsNodeClickable: true,
 			}
 			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
-			outputProductNode.Impl = &NodeProxy[*Product]{
-				stager:   stager,
-				node:     outputProductNode,
-				instance: product,
+
+			outputProductNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateProduct(product),
 			}
 		}
 	}
