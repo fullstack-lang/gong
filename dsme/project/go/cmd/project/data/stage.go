@@ -48,12 +48,12 @@ func _(stage *models.Stage) {
 	__Task__00000004_Dev_views := (&models.Task{}).Stage(stage)
 	__Task__00000005_Dev_UXx := (&models.Task{}).Stage(stage)
 
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx := (&models.TaskCompositionShape{}).Stage(stage)
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views := (&models.TaskCompositionShape{}).Stage(stage)
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx := (&models.TaskCompositionShape{}).Stage(stage)
 
 	__TaskShape__00000000_Develop_Backend_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000003_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000004_Dev_views_NewDiagram := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000005_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -175,19 +175,19 @@ func _(stage *models.Stage) {
 	__Task__00000005_Dev_UXx.IsInputsNodeExpanded = false
 	__Task__00000005_Dev_UXx.IsOutputsNodeExpanded = false
 
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.Name = `Develop Backend to Dev UXx`
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.StartRatio = 0.500000
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.EndRatio = 0.500000
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.CornerOffsetRatio = 1.680000
-
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.Name = `Develop Backend to Dev views`
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.StartRatio = 0.500000
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.EndRatio = 0.500000
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.CornerOffsetRatio = 1.680000
+
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.Name = `Develop Backend to Dev UXx`
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.StartRatio = 0.500000
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.EndRatio = 0.500000
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.CornerOffsetRatio = 1.680000
 
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Name = `Develop Backend-NewDiagram`
 	__TaskShape__00000000_Develop_Backend_NewDiagram.IsExpanded = false
@@ -196,13 +196,6 @@ func _(stage *models.Stage) {
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Width = 200.000000
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Height = 80.000000
 
-	__TaskShape__00000003_Dev_UXx_NewDiagram.Name = `Dev UXx-NewDiagram`
-	__TaskShape__00000003_Dev_UXx_NewDiagram.IsExpanded = false
-	__TaskShape__00000003_Dev_UXx_NewDiagram.X = 662.847753
-	__TaskShape__00000003_Dev_UXx_NewDiagram.Y = 384.863228
-	__TaskShape__00000003_Dev_UXx_NewDiagram.Width = 200.000000
-	__TaskShape__00000003_Dev_UXx_NewDiagram.Height = 80.000000
-
 	__TaskShape__00000004_Dev_views_NewDiagram.Name = `Dev views-NewDiagram`
 	__TaskShape__00000004_Dev_views_NewDiagram.IsExpanded = false
 	__TaskShape__00000004_Dev_views_NewDiagram.X = 80.168086
@@ -210,17 +203,24 @@ func _(stage *models.Stage) {
 	__TaskShape__00000004_Dev_views_NewDiagram.Width = 200.000000
 	__TaskShape__00000004_Dev_views_NewDiagram.Height = 80.000000
 
+	__TaskShape__00000005_Dev_UXx_NewDiagram.Name = `Dev UXx-NewDiagram`
+	__TaskShape__00000005_Dev_UXx_NewDiagram.IsExpanded = false
+	__TaskShape__00000005_Dev_UXx_NewDiagram.X = 596.586245
+	__TaskShape__00000005_Dev_UXx_NewDiagram.Y = 405.654157
+	__TaskShape__00000005_Dev_UXx_NewDiagram.Width = 200.000000
+	__TaskShape__00000005_Dev_UXx_NewDiagram.Height = 80.000000
+
 	// Setup of pointers
 	// setup of Diagram instances pointers
 	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000000_UX_NewDiagram)
 	__Diagram__00000000_NewDiagram.Product_Shapes = append(__Diagram__00000000_NewDiagram.Product_Shapes, __ProductShape__00000002_WBS_tree_NewDiagram)
 	__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
 	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000000_Develop_Backend_NewDiagram)
-	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000003_Dev_UXx_NewDiagram)
 	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000004_Dev_views_NewDiagram)
+	__Diagram__00000000_NewDiagram.Task_Shapes = append(__Diagram__00000000_NewDiagram.Task_Shapes, __TaskShape__00000005_Dev_UXx_NewDiagram)
 	__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000000_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000000_Develop_Backend)
-	__Diagram__00000000_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000000_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx)
 	__Diagram__00000000_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000000_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000009_Develop_Backend_to_Dev_views)
+	__Diagram__00000000_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000000_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx)
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
@@ -250,11 +250,11 @@ func _(stage *models.Stage) {
 	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000004_PBS_tree)
 	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000005_views)
 	// setup of TaskCompositionShape instances pointers
-	__TaskCompositionShape__00000007_Develop_Backend_to_Dev_UXx.Task = __Task__00000005_Dev_UXx
 	__TaskCompositionShape__00000009_Develop_Backend_to_Dev_views.Task = __Task__00000004_Dev_views
+	__TaskCompositionShape__00000010_Develop_Backend_to_Dev_UXx.Task = __Task__00000005_Dev_UXx
 	// setup of TaskShape instances pointers
 	__TaskShape__00000000_Develop_Backend_NewDiagram.Task = __Task__00000000_Develop_Backend
-	__TaskShape__00000003_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
 	__TaskShape__00000004_Dev_views_NewDiagram.Task = __Task__00000004_Dev_views
+	__TaskShape__00000005_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
 }
 

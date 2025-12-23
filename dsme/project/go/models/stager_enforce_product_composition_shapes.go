@@ -3,11 +3,11 @@ package models
 
 import "slices"
 
-// enforceCompositionShapes iterates through all diagrams and removes any
-// CompositionShape whose associated Product or parent Product is not present
+// enforceProductCompositionShapes iterates through all diagrams and removes any
+// ProductCompositionShape whose associated Product or parent Product is not present
 // in the diagram's Product_Shapes. This ensures that links are only displayed
 // when both connected nodes are visible.
-func (stager *Stager) enforceCompositionShapes() (needCommit bool) {
+func (stager *Stager) enforceProductCompositionShapes() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
 		// map of products present in the diagram
