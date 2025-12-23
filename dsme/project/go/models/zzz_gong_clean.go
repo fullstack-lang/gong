@@ -28,21 +28,15 @@ func GongCleanPointer[T PointerToGongstruct](stage *Stage, element T) T {
 }
 
 // insertion point per named struct
-// Clean garbage collect unstaged instances that are referenced by CompositionShape
-func (compositionshape *CompositionShape) GongClean(stage *Stage) {
-	// insertion point per field
-	// insertion point per field
-	compositionshape.Product = GongCleanPointer(stage, compositionshape.Product)
-}
-
 // Clean garbage collect unstaged instances that are referenced by Diagram
 func (diagram *Diagram) GongClean(stage *Stage) {
 	// insertion point per field
 	diagram.Product_Shapes = GongCleanSlice(stage, diagram.Product_Shapes)
 	diagram.ProductsWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.ProductsWhoseNodeIsExpanded)
-	diagram.Composition_Shapes = GongCleanSlice(stage, diagram.Composition_Shapes)
+	diagram.ProductComposition_Shapes = GongCleanSlice(stage, diagram.ProductComposition_Shapes)
 	diagram.Task_Shapes = GongCleanSlice(stage, diagram.Task_Shapes)
 	diagram.TasksWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.TasksWhoseNodeIsExpanded)
+	diagram.TaskComposition_Shapes = GongCleanSlice(stage, diagram.TaskComposition_Shapes)
 	// insertion point per field
 }
 
@@ -51,6 +45,13 @@ func (product *Product) GongClean(stage *Stage) {
 	// insertion point per field
 	product.SubProducts = GongCleanSlice(stage, product.SubProducts)
 	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by ProductCompositionShape
+func (productcompositionshape *ProductCompositionShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	productcompositionshape.Product = GongCleanPointer(stage, productcompositionshape.Product)
 }
 
 // Clean garbage collect unstaged instances that are referenced by ProductShape
@@ -85,6 +86,13 @@ func (task *Task) GongClean(stage *Stage) {
 	task.Inputs = GongCleanSlice(stage, task.Inputs)
 	task.Outputs = GongCleanSlice(stage, task.Outputs)
 	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by TaskCompositionShape
+func (taskcompositionshape *TaskCompositionShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	taskcompositionshape.Task = GongCleanPointer(stage, taskcompositionshape.Task)
 }
 
 // Clean garbage collect unstaged instances that are referenced by TaskShape

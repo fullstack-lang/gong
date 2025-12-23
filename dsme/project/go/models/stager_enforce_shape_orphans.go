@@ -3,14 +3,14 @@ package models
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
 	reachableProductShapes := make(map[*ProductShape]struct{})
-	reachableCompositionShapes := make(map[*CompositionShape]struct{})
+	reachableCompositionShapes := make(map[*ProductCompositionShape]struct{})
 	reachableTaskShapes := make(map[*TaskShape]struct{})
 
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 		for _, shape := range diagram.Product_Shapes {
 			reachableProductShapes[shape] = struct{}{}
 		}
-		for _, shape := range diagram.Composition_Shapes {
+		for _, shape := range diagram.ProductComposition_Shapes {
 			reachableCompositionShapes[shape] = struct{}{}
 		}
 		for _, shape := range diagram.Task_Shapes {
@@ -26,7 +26,7 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 		}
 	}
 
-	for _, shape := range GetGongstrucsSorted[*CompositionShape](stager.stage) {
+	for _, shape := range GetGongstrucsSorted[*ProductCompositionShape](stager.stage) {
 		if _, ok := reachableCompositionShapes[shape]; !ok {
 			shape.Unstage(stager.stage)
 			needCommit = true

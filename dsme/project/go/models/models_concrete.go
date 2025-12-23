@@ -15,14 +15,17 @@ type Diagram struct {
 	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
 	IsPBSNodeExpanded           bool
 
-	Composition_Shapes           []*CompositionShape
-	map_Product_CompositionShape map[*Product]*CompositionShape
+	ProductComposition_Shapes           []*ProductCompositionShape
+	map_Product_ProductCompositionShape map[*Product]*ProductCompositionShape
 
 	IsWBSNodeExpanded bool
 
 	Task_Shapes              []*TaskShape
 	map_Task_TaskShape       map[*Task]*TaskShape
 	TasksWhoseNodeIsExpanded []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
+
+	TaskComposition_Shapes        []*TaskCompositionShape
+	map_Task_TaskCompositionShape map[*Task]*TaskCompositionShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -52,9 +55,9 @@ func newProductShapeToDiagram(product *Product, diagram *Diagram) (shape *Produc
 	return shape
 }
 
-// A CompositionShape is the link between a product
+// A ProductCompositionShape is the link between a product
 // and its parent product
-type CompositionShape struct {
+type ProductCompositionShape struct {
 	Name string
 
 	Product *Product
@@ -83,4 +86,14 @@ func newTaskShapeToDiagram(task *Task, diagram *Diagram) (shape *TaskShape) {
 	diagram.Task_Shapes = append(diagram.Task_Shapes, shape)
 
 	return shape
+}
+
+// A TaskCompositionShape is the link between a task
+// and its parent task
+type TaskCompositionShape struct {
+	Name string
+
+	Task *Task
+
+	LinkShape
 }

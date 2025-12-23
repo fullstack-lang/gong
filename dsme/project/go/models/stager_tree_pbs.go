@@ -117,13 +117,13 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 					ToolTipPosition: tree.Right,
 				}
 
-				if compositionShape, ok := diagram.map_Product_CompositionShape[product]; !ok {
+				if compositionShape, ok := diagram.map_Product_ProductCompositionShape[product]; !ok {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_more)
 					showHideCompositionButton.ToolTipText = "Show link from \"" + parentProduct.Name +
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnAddCompositionShape(diagram, parentProduct, product),
+						OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -131,7 +131,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: stager.OnRemoveCompositionShape(diagram, compositionShape),
+						OnUpdated: stager.OnRemoveProductCompositionShape(diagram, compositionShape),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
@@ -173,13 +173,7 @@ func (stager *Stager) OnUpdateTask(task *Task) func(stage *tree.Stage, stagedNod
 func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		// find the shape (if any)
-		var productShape *ProductShape
-		for _, shape := range diagram.Product_Shapes {
-			if shape.Product == product {
-				productShape = shape
-				break
-			}
-		}
+		productShape := diagram.map_Product_ProductShape[product]
 
 		if frontNode.IsChecked && !stagedNode.IsChecked {
 			stagedNode.IsChecked = frontNode.IsChecked
@@ -221,9 +215,9 @@ func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Produc
 	}
 }
 
-func (stager *Stager) OnAddCompositionShape(diagram *Diagram, parentProduct, product *Product) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+func (stager *Stager) OnAddProductCompositionShape(diagram *Diagram, parentProduct, product *Product) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := new(CompositionShape).Stage(stager.stage)
+		compositionShape := new(ProductCompositionShape).Stage(stager.stage)
 		compositionShape.Name = parentProduct.Name + " to " + product.Name
 		compositionShape.Product = product
 		compositionShape.StartOrientation = ORIENTATION_VERTICAL
@@ -232,16 +226,16 @@ func (stager *Stager) OnAddCompositionShape(diagram *Diagram, parentProduct, pro
 		compositionShape.StartRatio = 0.5
 		compositionShape.EndRatio = 0.5
 
-		diagram.Composition_Shapes = append(diagram.Composition_Shapes, compositionShape)
+		diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, compositionShape)
 		stager.stage.Commit()
 	}
 }
 
-func (stager *Stager) OnRemoveCompositionShape(diagram *Diagram, compositionShape *CompositionShape) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+func (stager *Stager) OnRemoveProductCompositionShape(diagram *Diagram, compositionShape *ProductCompositionShape) func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		compositionShape.Unstage(stager.stage)
-		idx := slices.Index(diagram.Composition_Shapes, compositionShape)
-		diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, idx, idx+1)
+		idx := slices.Index(diagram.ProductComposition_Shapes, compositionShape)
+		diagram.ProductComposition_Shapes = slices.Delete(diagram.ProductComposition_Shapes, idx, idx+1)
 		stager.stage.Commit()
 	}
 }

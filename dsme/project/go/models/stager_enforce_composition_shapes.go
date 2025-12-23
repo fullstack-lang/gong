@@ -19,14 +19,14 @@ func (stager *Stager) enforceCompositionShapes() (needCommit bool) {
 		}
 
 		// check that the composition shape is valid
-		for i := len(diagram.Composition_Shapes) - 1; i >= 0; i-- {
-			compositionShape := diagram.Composition_Shapes[i]
+		for i := len(diagram.ProductComposition_Shapes) - 1; i >= 0; i-- {
+			compositionShape := diagram.ProductComposition_Shapes[i]
 			product := compositionShape.Product
 
 			// check if the product is present in the diagram
 			// if not, remove the composition shape
 			if _, ok := set_Product[product]; !ok {
-				diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, i, i+1)
+				diagram.ProductComposition_Shapes = slices.Delete(diagram.ProductComposition_Shapes, i, i+1)
 				compositionShape.Unstage(stager.stage)
 				needCommit = true
 				continue
@@ -36,7 +36,7 @@ func (stager *Stager) enforceCompositionShapes() (needCommit bool) {
 			// if not, remove the composition shape
 			parentProduct := product.parentProduct
 			if _, ok := set_Product[parentProduct]; !ok {
-				diagram.Composition_Shapes = slices.Delete(diagram.Composition_Shapes, i, i+1)
+				diagram.ProductComposition_Shapes = slices.Delete(diagram.ProductComposition_Shapes, i, i+1)
 				compositionShape.Unstage(stager.stage)
 				needCommit = true
 				continue
