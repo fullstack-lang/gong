@@ -23,8 +23,14 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer := (&models.CompositionShape{}).Stage(stage)
+	__CompositionShape__00000012_Backend_to_Docx_Backend := (&models.CompositionShape{}).Stage(stage)
+	__CompositionShape__00000013_UX_to_WBS_tree := (&models.CompositionShape{}).Stage(stage)
+	__CompositionShape__00000014_UX_to_PBS_tree := (&models.CompositionShape{}).Stage(stage)
+	__CompositionShape__00000017_UX_to_views := (&models.CompositionShape{}).Stage(stage)
+
 	__Diagram__00000000_diagram_1 := (&models.Diagram{}).Stage(stage)
-	__Diagram__00000001_diagram_2 := (&models.Diagram{}).Stage(stage)
+	__Diagram__00000003_NewDiagram := (&models.Diagram{}).Stage(stage)
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
@@ -33,6 +39,19 @@ func _(stage *models.Stage) {
 	__Product__00000005_views := (&models.Product{}).Stage(stage)
 	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
 	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
+
+	__ProductShape__00000000_UX_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000001_WBS_tree_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000002_PBS_tree_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000007_Docx_Backend_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000008_Backend_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000010_views_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000011_NewProduct_diagram_1 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000012_UX_diagram_2 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000013_WBS_tree_diagram_2 := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000020_UX_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000021_WBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -48,19 +67,58 @@ func _(stage *models.Stage) {
 
 	// Setup of values
 
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.Name = `Backend to Semantic Enforcer`
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.StartRatio = 0.500000
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.EndRatio = 0.500000
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.StartOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.EndOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.CornerOffsetRatio = 2.000000
+
+	__CompositionShape__00000012_Backend_to_Docx_Backend.Name = `Backend to Docx Backend`
+	__CompositionShape__00000012_Backend_to_Docx_Backend.StartRatio = 0.500000
+	__CompositionShape__00000012_Backend_to_Docx_Backend.EndRatio = 0.500000
+	__CompositionShape__00000012_Backend_to_Docx_Backend.StartOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000012_Backend_to_Docx_Backend.EndOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000012_Backend_to_Docx_Backend.CornerOffsetRatio = 2.000000
+
+	__CompositionShape__00000013_UX_to_WBS_tree.Name = `UX to WBS tree`
+	__CompositionShape__00000013_UX_to_WBS_tree.StartRatio = 0.500000
+	__CompositionShape__00000013_UX_to_WBS_tree.EndRatio = 0.500000
+	__CompositionShape__00000013_UX_to_WBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000013_UX_to_WBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000013_UX_to_WBS_tree.CornerOffsetRatio = 1.680000
+
+	__CompositionShape__00000014_UX_to_PBS_tree.Name = `UX to PBS tree`
+	__CompositionShape__00000014_UX_to_PBS_tree.StartRatio = 0.500000
+	__CompositionShape__00000014_UX_to_PBS_tree.EndRatio = 0.500000
+	__CompositionShape__00000014_UX_to_PBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000014_UX_to_PBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000014_UX_to_PBS_tree.CornerOffsetRatio = 1.680000
+
+	__CompositionShape__00000017_UX_to_views.Name = `UX to views`
+	__CompositionShape__00000017_UX_to_views.StartRatio = 0.500000
+	__CompositionShape__00000017_UX_to_views.EndRatio = 0.500000
+	__CompositionShape__00000017_UX_to_views.StartOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000017_UX_to_views.EndOrientation = models.ORIENTATION_VERTICAL
+	__CompositionShape__00000017_UX_to_views.CornerOffsetRatio = 1.680000
+
 	__Diagram__00000000_diagram_1.Name = `diagram 1`
-	__Diagram__00000000_diagram_1.IsChecked = true
-	__Diagram__00000000_diagram_1.IsEditable_ = false
+	__Diagram__00000000_diagram_1.IsChecked = false
+	__Diagram__00000000_diagram_1.IsEditable_ = true
 	__Diagram__00000000_diagram_1.IsInRenameMode = false
+	__Diagram__00000000_diagram_1.IsPBSNodeExpanded = false
+	__Diagram__00000000_diagram_1.IsWBSNodeExpanded = false
 	__Diagram__00000000_diagram_1.IsExpanded = true
 	__Diagram__00000000_diagram_1.ComputedPrefix = ``
 
-	__Diagram__00000001_diagram_2.Name = `diagram 2`
-	__Diagram__00000001_diagram_2.IsChecked = false
-	__Diagram__00000001_diagram_2.IsEditable_ = false
-	__Diagram__00000001_diagram_2.IsInRenameMode = false
-	__Diagram__00000001_diagram_2.IsExpanded = false
-	__Diagram__00000001_diagram_2.ComputedPrefix = ``
+	__Diagram__00000003_NewDiagram.Name = `NewDiagram`
+	__Diagram__00000003_NewDiagram.IsChecked = true
+	__Diagram__00000003_NewDiagram.IsEditable_ = true
+	__Diagram__00000003_NewDiagram.IsInRenameMode = false
+	__Diagram__00000003_NewDiagram.IsPBSNodeExpanded = true
+	__Diagram__00000003_NewDiagram.IsWBSNodeExpanded = false
+	__Diagram__00000003_NewDiagram.IsExpanded = true
+	__Diagram__00000003_NewDiagram.ComputedPrefix = ``
 
 	__Product__00000000_UX.Name = `UX`
 	__Product__00000000_UX.IsExpanded = true
@@ -87,7 +145,7 @@ func _(stage *models.Stage) {
 	__Product__00000004_PBS_tree.IsConsumersNodeExpanded = false
 
 	__Product__00000005_views.Name = `views`
-	__Product__00000005_views.IsExpanded = false
+	__Product__00000005_views.IsExpanded = true
 	__Product__00000005_views.ComputedPrefix = `1.3`
 	__Product__00000005_views.IsProducersNodeExpanded = false
 	__Product__00000005_views.IsConsumersNodeExpanded = false
@@ -103,6 +161,90 @@ func _(stage *models.Stage) {
 	__Product__00000009_Docx_Backend.ComputedPrefix = `2.2`
 	__Product__00000009_Docx_Backend.IsProducersNodeExpanded = false
 	__Product__00000009_Docx_Backend.IsConsumersNodeExpanded = false
+
+	__ProductShape__00000000_UX_diagram_1.Name = `UX-diagram 1`
+	__ProductShape__00000000_UX_diagram_1.IsExpanded = false
+	__ProductShape__00000000_UX_diagram_1.X = 72.000000
+	__ProductShape__00000000_UX_diagram_1.Y = 134.000000
+	__ProductShape__00000000_UX_diagram_1.Width = 810.000000
+	__ProductShape__00000000_UX_diagram_1.Height = 66.000015
+
+	__ProductShape__00000001_WBS_tree_diagram_1.Name = `WBS tree-diagram 1`
+	__ProductShape__00000001_WBS_tree_diagram_1.IsExpanded = false
+	__ProductShape__00000001_WBS_tree_diagram_1.X = 666.000000
+	__ProductShape__00000001_WBS_tree_diagram_1.Y = 344.999985
+	__ProductShape__00000001_WBS_tree_diagram_1.Width = 200.000000
+	__ProductShape__00000001_WBS_tree_diagram_1.Height = 80.000000
+
+	__ProductShape__00000002_PBS_tree_diagram_1.Name = `PBS tree-diagram 1`
+	__ProductShape__00000002_PBS_tree_diagram_1.IsExpanded = false
+	__ProductShape__00000002_PBS_tree_diagram_1.X = 384.000000
+	__ProductShape__00000002_PBS_tree_diagram_1.Y = 353.999985
+	__ProductShape__00000002_PBS_tree_diagram_1.Width = 200.000000
+	__ProductShape__00000002_PBS_tree_diagram_1.Height = 80.000000
+
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.Name = `Semantic Enforcer-diagram 1`
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.IsExpanded = false
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.X = 95.000000
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.Y = 708.999985
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.Width = 200.000000
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.Height = 80.000000
+
+	__ProductShape__00000007_Docx_Backend_diagram_1.Name = `Docx Backend-diagram 1`
+	__ProductShape__00000007_Docx_Backend_diagram_1.IsExpanded = false
+	__ProductShape__00000007_Docx_Backend_diagram_1.X = 521.000000
+	__ProductShape__00000007_Docx_Backend_diagram_1.Y = 690.999985
+	__ProductShape__00000007_Docx_Backend_diagram_1.Width = 200.000000
+	__ProductShape__00000007_Docx_Backend_diagram_1.Height = 80.000000
+
+	__ProductShape__00000008_Backend_diagram_1.Name = `Backend-diagram 1`
+	__ProductShape__00000008_Backend_diagram_1.IsExpanded = false
+	__ProductShape__00000008_Backend_diagram_1.X = 336.000000
+	__ProductShape__00000008_Backend_diagram_1.Y = 514.999985
+	__ProductShape__00000008_Backend_diagram_1.Width = 200.000000
+	__ProductShape__00000008_Backend_diagram_1.Height = 80.000000
+
+	__ProductShape__00000010_views_diagram_1.Name = `views-diagram 1`
+	__ProductShape__00000010_views_diagram_1.IsExpanded = false
+	__ProductShape__00000010_views_diagram_1.X = 69.000000
+	__ProductShape__00000010_views_diagram_1.Y = 366.999985
+	__ProductShape__00000010_views_diagram_1.Width = 200.000000
+	__ProductShape__00000010_views_diagram_1.Height = 80.000000
+
+	__ProductShape__00000011_NewProduct_diagram_1.Name = `NewProduct-diagram 1`
+	__ProductShape__00000011_NewProduct_diagram_1.IsExpanded = false
+	__ProductShape__00000011_NewProduct_diagram_1.X = 938.999939
+	__ProductShape__00000011_NewProduct_diagram_1.Y = 351.999985
+	__ProductShape__00000011_NewProduct_diagram_1.Width = 200.000000
+	__ProductShape__00000011_NewProduct_diagram_1.Height = 80.000000
+
+	__ProductShape__00000012_UX_diagram_2.Name = `UX-diagram 2`
+	__ProductShape__00000012_UX_diagram_2.IsExpanded = false
+	__ProductShape__00000012_UX_diagram_2.X = 130.000000
+	__ProductShape__00000012_UX_diagram_2.Y = 207.999985
+	__ProductShape__00000012_UX_diagram_2.Width = 200.000000
+	__ProductShape__00000012_UX_diagram_2.Height = 80.000000
+
+	__ProductShape__00000013_WBS_tree_diagram_2.Name = `WBS tree-diagram 2`
+	__ProductShape__00000013_WBS_tree_diagram_2.IsExpanded = false
+	__ProductShape__00000013_WBS_tree_diagram_2.X = 282.000000
+	__ProductShape__00000013_WBS_tree_diagram_2.Y = 340.999985
+	__ProductShape__00000013_WBS_tree_diagram_2.Width = 200.000000
+	__ProductShape__00000013_WBS_tree_diagram_2.Height = 80.000000
+
+	__ProductShape__00000020_UX_NewDiagram.Name = `UX-NewDiagram`
+	__ProductShape__00000020_UX_NewDiagram.IsExpanded = false
+	__ProductShape__00000020_UX_NewDiagram.X = 195.196313
+	__ProductShape__00000020_UX_NewDiagram.Y = 100.000000
+	__ProductShape__00000020_UX_NewDiagram.Width = 200.000000
+	__ProductShape__00000020_UX_NewDiagram.Height = 80.000000
+
+	__ProductShape__00000021_WBS_tree_NewDiagram.Name = `WBS tree-NewDiagram`
+	__ProductShape__00000021_WBS_tree_NewDiagram.IsExpanded = false
+	__ProductShape__00000021_WBS_tree_NewDiagram.X = 134.156414
+	__ProductShape__00000021_WBS_tree_NewDiagram.Y = 100.000000
+	__ProductShape__00000021_WBS_tree_NewDiagram.Width = 200.000000
+	__ProductShape__00000021_WBS_tree_NewDiagram.Height = 80.000000
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
@@ -158,15 +300,49 @@ func _(stage *models.Stage) {
 	__Task__00000005_Dev_UXx.IsOutputsNodeExpanded = false
 
 	// Setup of pointers
+	// setup of CompositionShape instances pointers
+	__CompositionShape__00000011_Backend_to_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
+	__CompositionShape__00000012_Backend_to_Docx_Backend.Product = __Product__00000009_Docx_Backend
+	__CompositionShape__00000013_UX_to_WBS_tree.Product = __Product__00000002_WBS_tree
+	__CompositionShape__00000014_UX_to_PBS_tree.Product = __Product__00000004_PBS_tree
+	__CompositionShape__00000017_UX_to_views.Product = __Product__00000005_views
 	// setup of Diagram instances pointers
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000000_UX_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000001_WBS_tree_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000002_PBS_tree_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000005_Semantic_Enforcer_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000007_Docx_Backend_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000008_Backend_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000010_views_diagram_1)
+	__Diagram__00000000_diagram_1.Product_Shapes = append(__Diagram__00000000_diagram_1.Product_Shapes, __ProductShape__00000011_NewProduct_diagram_1)
 	__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
 	__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded = append(__Diagram__00000000_diagram_1.ProductsWhoseNodeIsExpanded, __Product__00000001_Backend)
+	__Diagram__00000000_diagram_1.Composition_Shapes = append(__Diagram__00000000_diagram_1.Composition_Shapes, __CompositionShape__00000011_Backend_to_Semantic_Enforcer)
+	__Diagram__00000000_diagram_1.Composition_Shapes = append(__Diagram__00000000_diagram_1.Composition_Shapes, __CompositionShape__00000012_Backend_to_Docx_Backend)
+	__Diagram__00000000_diagram_1.Composition_Shapes = append(__Diagram__00000000_diagram_1.Composition_Shapes, __CompositionShape__00000013_UX_to_WBS_tree)
+	__Diagram__00000000_diagram_1.Composition_Shapes = append(__Diagram__00000000_diagram_1.Composition_Shapes, __CompositionShape__00000014_UX_to_PBS_tree)
+	__Diagram__00000000_diagram_1.Composition_Shapes = append(__Diagram__00000000_diagram_1.Composition_Shapes, __CompositionShape__00000017_UX_to_views)
+	__Diagram__00000003_NewDiagram.Product_Shapes = append(__Diagram__00000003_NewDiagram.Product_Shapes, __ProductShape__00000020_UX_NewDiagram)
+	__Diagram__00000003_NewDiagram.Product_Shapes = append(__Diagram__00000003_NewDiagram.Product_Shapes, __ProductShape__00000021_WBS_tree_NewDiagram)
+	__Diagram__00000003_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000003_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000005_views)
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
 	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000009_Docx_Backend)
+	// setup of ProductShape instances pointers
+	__ProductShape__00000000_UX_diagram_1.Product = __Product__00000000_UX
+	__ProductShape__00000001_WBS_tree_diagram_1.Product = __Product__00000002_WBS_tree
+	__ProductShape__00000002_PBS_tree_diagram_1.Product = __Product__00000004_PBS_tree
+	__ProductShape__00000005_Semantic_Enforcer_diagram_1.Product = __Product__00000006_Semantic_Enforcer
+	__ProductShape__00000007_Docx_Backend_diagram_1.Product = __Product__00000009_Docx_Backend
+	__ProductShape__00000008_Backend_diagram_1.Product = __Product__00000001_Backend
+	__ProductShape__00000010_views_diagram_1.Product = __Product__00000005_views
+	__ProductShape__00000012_UX_diagram_2.Product = __Product__00000000_UX
+	__ProductShape__00000013_WBS_tree_diagram_2.Product = __Product__00000002_WBS_tree
+	__ProductShape__00000020_UX_NewDiagram.Product = __Product__00000000_UX
+	__ProductShape__00000021_WBS_tree_NewDiagram.Product = __Product__00000002_WBS_tree
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
@@ -174,7 +350,7 @@ func _(stage *models.Stage) {
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_Dev_WBS_Tree)
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_Dev_PBS_Tree)
 	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000000_diagram_1)
-	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000001_diagram_2)
+	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000003_NewDiagram)
 	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Dev_docx_Backend)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)

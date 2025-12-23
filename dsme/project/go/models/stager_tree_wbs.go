@@ -8,7 +8,6 @@ import (
 )
 
 func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
-
 	taskNode := &tree.Node{
 		Name:            task.ComputedPrefix + " " + task.Name,
 		IsExpanded:      task.IsExpanded,
