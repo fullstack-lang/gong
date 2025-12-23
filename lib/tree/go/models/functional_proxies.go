@@ -17,7 +17,6 @@ package models
 			...
 		},
 	}
-
 */
 // Define a function signature that matches the interface method logic
 type ButtonUpdatedFunc func(stage *Stage, button *Button, updatedButton *Button)
@@ -31,5 +30,19 @@ type FunctionalButtonProxy struct {
 func (p *FunctionalButtonProxy) ButtonUpdated(stage *Stage, button *Button, updatedButton *Button) {
 	if p.OnUpdated != nil {
 		p.OnUpdated(stage, button, updatedButton)
+	}
+}
+
+// Define a function signature that matches the interface method logic
+type NodeOnAfterUpdateFunc func(stage *Stage, stagedNode *Node, frontNode *Node)
+
+type FunctionalNodeProxy struct {
+	OnUpdate NodeOnAfterUpdateFunc
+}
+
+// Implement the interface method
+func (p *FunctionalNodeProxy) OnAfterUpdate(stage *Stage, stagedNode *Node, frontNode *Node) {
+	if p.OnUpdate != nil {
+		p.OnUpdate(stage, stagedNode, frontNode)
 	}
 }
