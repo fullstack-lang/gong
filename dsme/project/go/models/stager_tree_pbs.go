@@ -18,7 +18,7 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 	parentNode.Children = append(parentNode.Children, productNode)
 
 	productNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: stager.OnUpdateProduct(product),
+		OnUpdate: OnUpdateAbstractElement(stager, product),
 	}
 
 	addAddItemButton(stager, productNode, &product.SubProducts)
@@ -48,7 +48,7 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 			}
 			producersNode.Children = append(producersNode.Children, inputProductNode)
 			inputProductNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateTask(task),
+				OnUpdate: OnUpdateAbstractElement(stager, task),
 			}
 		}
 	}
@@ -74,7 +74,7 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 			}
 			consumersNode.Children = append(consumersNode.Children, outputTaskNode)
 			outputTaskNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateTask(task),
+				OnUpdate: OnUpdateAbstractElement(stager, task),
 			}
 		}
 	}
@@ -149,30 +149,6 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 
 // Helper callbacks
 
-func (stager *Stager) OnUpdateProduct(product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			product.IsExpanded = frontNode.IsExpanded
-		} else {
-			stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
-		}
-		stager.stage.Commit()
-	}
-}
-
-func (stager *Stager) OnUpdateTask(task *Task) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-		if frontNode.IsExpanded != stagedNode.IsExpanded {
-			stagedNode.IsExpanded = frontNode.IsExpanded
-			task.IsExpanded = frontNode.IsExpanded
-		} else {
-			stager.probeForm.FillUpFormFromGongstruct(task, GetPointerToGongstructName[*Task]())
-		}
-		stager.stage.Commit()
-	}
-}
-
 func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Product) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
 		// find the shape (if any)
@@ -214,6 +190,18 @@ func (stager *Stager) OnUpdateProductInDiagram(diagram *Diagram, product *Produc
 		}
 
 		stager.probeForm.FillUpFormFromGongstruct(product, GetPointerToGongstructName[*Product]())
+		stager.stage.Commit()
+	}
+}
+
+func OnUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+	return func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+		if frontNode.IsExpanded != stagedNode.IsExpanded {
+			stagedNode.IsExpanded = frontNode.IsExpanded
+			element.SetIsExpanded(frontNode.IsExpanded)
+		} else {
+			stager.probeForm.FillUpFormFromGongstruct(element, GetPointerToGongstructName[AT]())
+		}
 		stager.stage.Commit()
 	}
 }
