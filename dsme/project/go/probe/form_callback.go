@@ -286,6 +286,10 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.ProductsWhoseNodeIsExpanded = instanceSlice
 
+		case "IsPBSNodeExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsPBSNodeExpanded), formDiv)
+		case "IsWBSNodeExpanded":
+			FormDivBasicFieldToField(&(diagram_.IsWBSNodeExpanded), formDiv)
 		case "Composition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.CompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.CompositionShape, 0)
