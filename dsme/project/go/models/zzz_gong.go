@@ -2090,6 +2090,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Product",
 		},
 		{
+			Name:               "IsPBSNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "IsWBSNodeExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:                 "Composition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "CompositionShape",
@@ -2415,6 +2423,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "IsPBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsPBSNodeExpanded)
+		res.valueBool = diagram.IsPBSNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsWBSNodeExpanded":
+		res.valueString = fmt.Sprintf("%t", diagram.IsWBSNodeExpanded)
+		res.valueBool = diagram.IsWBSNodeExpanded
+		res.GongFieldValueType = GongFieldValueTypeBool
 	case "Composition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.Composition_Shapes {
@@ -2728,6 +2744,10 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "IsPBSNodeExpanded":
+		diagram.IsPBSNodeExpanded = value.GetValueBool()
+	case "IsWBSNodeExpanded":
+		diagram.IsWBSNodeExpanded = value.GetValueBool()
 	case "Composition_Shapes":
 		diagram.Composition_Shapes = make([]*CompositionShape, 0)
 		ids := strings.Split(value.ids, ";")

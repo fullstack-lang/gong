@@ -1165,6 +1165,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Diagram[identifier].IsInRenameMode = fielValue
+				case "IsPBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].IsPBSNodeExpanded = fielValue
+				case "IsWBSNodeExpanded":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].IsWBSNodeExpanded = fielValue
 				case "IsExpanded":
 					// convert string to boolean
 					fielValue, err := strconv.ParseBool(ident.Name)

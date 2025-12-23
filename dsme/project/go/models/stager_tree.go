@@ -114,9 +114,40 @@ func (stager *Stager) tree() {
 				}
 			}
 
-			for _, product := range project.RootProducts {
-				stager.treePBSinDiagram(diagram, product, diagramNode)
+			pbsNode := &tree.Node{
+				Name:            "PBS",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagram.IsPBSNodeExpanded,
+				IsNodeClickable: true,
 			}
+			diagramNode.Children = append(diagramNode.Children, pbsNode)
+			pbsNode.Impl = &expandableNodeProxy{
+				node:           pbsNode,
+				stager:         stager,
+				isNodeExpanded: &diagram.IsPBSNodeExpanded,
+			}
+
+			for _, product := range project.RootProducts {
+				stager.treePBSinDiagram(diagram, product, pbsNode)
+			}
+
+			wbsNode := &tree.Node{
+				Name:            "WBS",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      diagram.IsWBSNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, wbsNode)
+			wbsNode.Impl = &expandableNodeProxy{
+				node:           wbsNode,
+				stager:         stager,
+				isNodeExpanded: &diagram.IsWBSNodeExpanded,
+			}
+
+			// for _, task := range project.RootTasks {
+			// 	stager.treeWBSinDiagram(diagram, task, pbsNode)
+			// }
+
 		}
 	}
 
@@ -160,6 +191,11 @@ func addAddItemButton[T Gongstruct, PT interface {
 			item.SetName("New" + GetGongstructNameFromPointer(item))
 			item.StageVoid(stager.stage)
 			*items = append(*items, item)
+
+			// check if the item is a diagram, if so, set the IsEditable_ field to true
+			if diagram, ok := any(item).(*Diagram); ok {
+				diagram.IsEditable_ = true
+			}
 
 			stager.stage.Commit()
 		},

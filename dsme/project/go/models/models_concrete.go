@@ -1,5 +1,7 @@
 package models
 
+import "math/rand"
+
 type Diagram struct {
 	Name           string
 	IsChecked      bool
@@ -9,6 +11,8 @@ type Diagram struct {
 	Product_Shapes              []*ProductShape
 	map_Product_ProductShape    map[*Product]*ProductShape
 	ProductsWhoseNodeIsExpanded []*Product // to be made private once in production (no need to persist)
+	IsPBSNodeExpanded           bool
+	IsWBSNodeExpanded           bool
 
 	Composition_Shapes           []*CompositionShape
 	map_Product_CompositionShape map[*Product]*CompositionShape
@@ -36,8 +40,8 @@ func newProductShapeToDiagram(product *Product, diagram *Diagram) (shape *Produc
 	shape.Name = product.GetName() + "-" + diagram.GetName()
 	shape.Height = 80
 	shape.Width = 200
-	shape.X = 100
-	shape.Y = 100
+	shape.X = 100 + rand.Float64()*100.0
+	shape.Y = 100 + rand.Float64()*100.0
 	diagram.Product_Shapes = append(diagram.Product_Shapes, shape)
 
 	return shape
