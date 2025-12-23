@@ -65,6 +65,10 @@ func FillUpForm(
 			false, false, 0, false, 0)
 		AssociationSliceToForm("Product_Shapes", instanceWithInferedType, &instanceWithInferedType.Product_Shapes, formGroup, probe)
 		AssociationSliceToForm("ProductsWhoseNodeIsExpanded", instanceWithInferedType, &instanceWithInferedType.ProductsWhoseNodeIsExpanded, formGroup, probe)
+		BasicFieldtoForm("IsPBSNodeExpanded", instanceWithInferedType.IsPBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
+		BasicFieldtoForm("IsWBSNodeExpanded", instanceWithInferedType.IsWBSNodeExpanded, instanceWithInferedType, probe.formStage, formGroup,
+			false, false, 0, false, 0)
 		AssociationSliceToForm("Composition_Shapes", instanceWithInferedType, &instanceWithInferedType.Composition_Shapes, formGroup, probe)
 		BasicFieldtoForm("IsExpanded", instanceWithInferedType.IsExpanded, instanceWithInferedType, probe.formStage, formGroup,
 			false, false, 0, false, 0)
