@@ -5,6 +5,9 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *CompositionShape:
+		ok = stage.IsStagedCompositionShape(target)
+
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
@@ -33,6 +36,9 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage
+	case *CompositionShape:
+		ok = stage.IsStagedCompositionShape(target)
+
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
@@ -58,6 +64,13 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 }
 
 // insertion point for stage per struct
+func (stage *Stage) IsStagedCompositionShape(compositionshape *CompositionShape) (ok bool) {
+
+	_, ok = stage.CompositionShapes[compositionshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
@@ -108,6 +121,9 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for stage branch
+	case *CompositionShape:
+		stage.StageBranchCompositionShape(target)
+
 	case *Diagram:
 		stage.StageBranchDiagram(target)
 
@@ -132,6 +148,24 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for stage branch per struct
+func (stage *Stage) StageBranchCompositionShape(compositionshape *CompositionShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, compositionshape) {
+		return
+	}
+
+	compositionshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compositionshape.Product != nil {
+		StageBranch(stage, compositionshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
@@ -149,6 +183,9 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
 		StageBranch(stage, _product)
+	}
+	for _, _compositionshape := range diagram.Composition_Shapes {
+		StageBranch(stage, _compositionshape)
 	}
 
 }
@@ -272,6 +309,10 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 
 	switch fromT := any(from).(type) {
 	// insertion point for stage branch
+	case *CompositionShape:
+		toT := CopyBranchCompositionShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Diagram:
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -303,6 +344,28 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 }
 
 // insertion point for stage branch per struct
+func CopyBranchCompositionShape(mapOrigCopy map[any]any, compositionshapeFrom *CompositionShape) (compositionshapeTo *CompositionShape) {
+
+	// compositionshapeFrom has already been copied
+	if _compositionshapeTo, ok := mapOrigCopy[compositionshapeFrom]; ok {
+		compositionshapeTo = _compositionshapeTo.(*CompositionShape)
+		return
+	}
+
+	compositionshapeTo = new(CompositionShape)
+	mapOrigCopy[compositionshapeFrom] = compositionshapeTo
+	compositionshapeFrom.CopyBasicFields(compositionshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compositionshapeFrom.Product != nil {
+		compositionshapeTo.Product = CopyBranchProduct(mapOrigCopy, compositionshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo *Diagram) {
 
 	// diagramFrom has already been copied
@@ -323,6 +386,9 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	}
 	for _, _product := range diagramFrom.ProductsWhoseNodeIsExpanded {
 		diagramTo.ProductsWhoseNodeIsExpanded = append(diagramTo.ProductsWhoseNodeIsExpanded, CopyBranchProduct(mapOrigCopy, _product))
+	}
+	for _, _compositionshape := range diagramFrom.Composition_Shapes {
+		diagramTo.Composition_Shapes = append(diagramTo.Composition_Shapes, CopyBranchCompositionShape(mapOrigCopy, _compositionshape))
 	}
 
 	return
@@ -464,6 +530,9 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point for unstage branch
+	case *CompositionShape:
+		stage.UnstageBranchCompositionShape(target)
+
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
 
@@ -488,6 +557,24 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct
+func (stage *Stage) UnstageBranchCompositionShape(compositionshape *CompositionShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, compositionshape) {
+		return
+	}
+
+	compositionshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if compositionshape.Product != nil {
+		UnstageBranch(stage, compositionshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 
 	// check if instance is already staged
@@ -505,6 +592,9 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	}
 	for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
 		UnstageBranch(stage, _product)
+	}
+	for _, _compositionshape := range diagram.Composition_Shapes {
+		UnstageBranch(stage, _compositionshape)
 	}
 
 }

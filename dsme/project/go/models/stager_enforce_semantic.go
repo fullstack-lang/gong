@@ -3,7 +3,6 @@ package models
 import "slices"
 
 func (stager *Stager) enforceSemantic() (needCommit bool) {
-
 	stage := stager.stage
 
 	// VERY important because the probe only unstages objects
@@ -40,13 +39,16 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	// Enforce that all projects are appended to the [root]
 	// if one project is not appended, append it
 	for _, project := range GetGongstrucsSorted[*Project](stage) {
-
 		if slices.Index(root.Projects, project) == -1 {
 			root.Projects = append(root.Projects, project)
 		}
 	}
 
 	if stager.enforceDAG() {
+		needCommit = true
+	}
+
+	if stager.enforceHierarchy() {
 		needCommit = true
 	}
 
@@ -59,6 +61,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 	}
 
 	if stager.enforceComputedPrefix() {
+		needCommit = true
+	}
+
+	if stager.enforceCompositionShapes() {
 		needCommit = true
 	}
 

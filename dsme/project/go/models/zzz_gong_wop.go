@@ -9,6 +9,32 @@ var __GONG_time_The_fool_doth_think_he_is_wise__ = time.Hour
 var _ = __GONG_time_The_fool_doth_think_he_is_wise__
 
 // insertion point
+type CompositionShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *CompositionShape) CopyBasicFields(to *CompositionShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type Diagram_WOP struct {
 	// insertion point
 
@@ -19,6 +45,10 @@ type Diagram_WOP struct {
 	IsEditable_ bool
 
 	IsInRenameMode bool
+
+	IsPBSNodeExpanded bool
+
+	IsWBSNodeExpanded bool
 
 	IsExpanded bool
 
@@ -31,6 +61,8 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsInRenameMode = from.IsInRenameMode
+	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
+	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 }
