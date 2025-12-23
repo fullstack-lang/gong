@@ -5,6 +5,9 @@ package models
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
 	// insertion point per named struct
+	// Compute reverse map for named struct CompositionShape
+	// insertion point per field
+
 	// Compute reverse map for named struct Diagram
 	// insertion point per field
 	stage.Diagram_Product_Shapes_reverseMap = make(map[*ProductShape]*Diagram)
@@ -19,6 +22,13 @@ func (stage *Stage) ComputeReverseMaps() {
 		_ = diagram
 		for _, _product := range diagram.ProductsWhoseNodeIsExpanded {
 			stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[_product] = diagram
+		}
+	}
+	stage.Diagram_Composition_Shapes_reverseMap = make(map[*CompositionShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _compositionshape := range diagram.Composition_Shapes {
+			stage.Diagram_Composition_Shapes_reverseMap[_compositionshape] = diagram
 		}
 	}
 
@@ -112,6 +122,10 @@ func (stage *Stage) ComputeReverseMaps() {
 func (stage *Stage) GetInstances() (res []GongstructIF) {
 
 	// insertion point per named struct
+	for instance := range stage.CompositionShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.Diagrams {
 		res = append(res, instance)
 	}
@@ -140,6 +154,11 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct
+func (compositionshape *CompositionShape) GongCopy() GongstructIF {
+	newInstance := *compositionshape
+	return &newInstance
+}
+
 func (diagram *Diagram) GongCopy() GongstructIF {
 	newInstance := *diagram
 	return &newInstance

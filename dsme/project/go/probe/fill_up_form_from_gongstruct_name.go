@@ -25,6 +25,19 @@ func FillUpFormFromGongstructName(
 
 	switch gongstructName {
 	// insertion point
+	case "CompositionShape":
+		formGroup := (&form.FormGroup{
+			Name:  FormName,
+			Label: prefix + "CompositionShape Form",
+		}).Stage(formStage)
+		formGroup.OnSave = __gong__New__CompositionShapeFormCallback(
+			nil,
+			probe,
+			formGroup,
+		)
+		compositionshape := new(models.CompositionShape)
+		formGroup.HasSuppressButton = !isNewInstance
+		FillUpForm(compositionshape, formGroup, probe)
 	case "Diagram":
 		formGroup := (&form.FormGroup{
 			Name:  FormName,

@@ -63,20 +63,21 @@ func (stager *Stager) svg() {
 		// svgImpl.map_SvgRect_ProductShape[rect] = ProductShape
 	}
 
-	// for _, transtionShape := range diagram.Transition_Shapes {
-	// 	transition := transtionShape.Transition
+	for _, transtionShape := range diagram.Composition_Shapes {
+		_ = transtionShape
+		// subProduct := transtionShape.Product
 
-	// 	if transition == nil || transition.Start == nil || transition.End == nil {
-	// 		continue
-	// 	}
+		// if subProduct == nil || subProduct.Start == nil || subProduct.End == nil {
+		// 	continue
+		// }
 
-	// 	startRect := map_Product_Rect[transition.Start]
-	// 	endRect := map_Product_Rect[transition.End]
+		// startRect := map_Product_Rect[subProduct.Start]
+		// endRect := map_Product_Rect[subProduct]
 
-	// 	stager.svgGenerateLink(
-	// 		startRect, endRect,
-	// 		&transtionShape.LinkShape, transition, layer, false)
-	// }
+		// stager.svgGenerateLink(
+		// 	startRect, endRect,
+		// 	&transtionShape.LinkShape, subProduct, layer, false)
+	}
 
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()

@@ -6,6 +6,10 @@ func AfterCreateFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *CompositionShape:
+		if stage.OnAfterCompositionShapeCreateCallback != nil {
+			stage.OnAfterCompositionShapeCreateCallback.OnAfterCreate(stage, target)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramCreateCallback != nil {
 			stage.OnAfterDiagramCreateCallback.OnAfterCreate(stage, target)
@@ -44,6 +48,11 @@ func OnAfterUpdateFromFront[Type Gongstruct](stage *Stage, old, new *Type) {
 
 	switch oldTarget := any(old).(type) {
 	// insertion point
+	case *CompositionShape:
+		newTarget := any(new).(*CompositionShape)
+		if stage.OnAfterCompositionShapeUpdateCallback != nil {
+			stage.OnAfterCompositionShapeUpdateCallback.OnAfterUpdate(stage, oldTarget, newTarget)
+		}
 	case *Diagram:
 		newTarget := any(new).(*Diagram)
 		if stage.OnAfterDiagramUpdateCallback != nil {
@@ -84,6 +93,11 @@ func AfterDeleteFromFront[Type Gongstruct](stage *Stage, staged, front *Type) {
 
 	switch front := any(front).(type) {
 	// insertion point
+	case *CompositionShape:
+		if stage.OnAfterCompositionShapeDeleteCallback != nil {
+			staged := any(staged).(*CompositionShape)
+			stage.OnAfterCompositionShapeDeleteCallback.OnAfterDelete(stage, staged, front)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramDeleteCallback != nil {
 			staged := any(staged).(*Diagram)
@@ -124,6 +138,10 @@ func AfterReadFromFront[Type Gongstruct](stage *Stage, instance *Type) {
 
 	switch target := any(instance).(type) {
 	// insertion point
+	case *CompositionShape:
+		if stage.OnAfterCompositionShapeReadCallback != nil {
+			stage.OnAfterCompositionShapeReadCallback.OnAfterRead(stage, target)
+		}
 	case *Diagram:
 		if stage.OnAfterDiagramReadCallback != nil {
 			stage.OnAfterDiagramReadCallback.OnAfterRead(stage, target)
@@ -159,6 +177,9 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *CompositionShape:
+		stage.OnAfterCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[CompositionShape])
+	
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
 	
@@ -184,6 +205,9 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *CompositionShape:
+		stage.OnAfterCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[CompositionShape])
+	
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
 	
@@ -209,6 +233,9 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *CompositionShape:
+		stage.OnAfterCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[CompositionShape])
+	
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
 	
@@ -234,6 +261,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 	var instance Type
 	switch any(instance).(type) {
 		// insertion point
+	case *CompositionShape:
+		stage.OnAfterCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[CompositionShape])
+	
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
 	
