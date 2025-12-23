@@ -18,7 +18,7 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 	parentNode.Children = append(parentNode.Children, taskNode)
 
 	taskNode.Impl = &tree.FunctionalNodeProxy{
-		OnUpdate: stager.OnUpdateTask(task),
+		OnUpdate: OnUpdateAbstractElement(stager, task),
 	}
 
 	addAddItemButton(stager, taskNode, &task.SubTasks)
@@ -50,7 +50,7 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
 
 			inputProductNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateProduct(product),
+				OnUpdate: OnUpdateAbstractElement(stager, product),
 			}
 		}
 	}
@@ -78,7 +78,7 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
 
 			outputProductNode.Impl = &tree.FunctionalNodeProxy{
-				OnUpdate: stager.OnUpdateProduct(product),
+				OnUpdate: OnUpdateAbstractElement(stager, product),
 			}
 		}
 	}
