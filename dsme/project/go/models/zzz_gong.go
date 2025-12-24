@@ -102,7 +102,11 @@ type Stage struct {
 
 	Diagram_TasksWhoseNodeIsExpanded_reverseMap map[*Task]*Diagram
 
+	Diagram_TasksWhoseInputNodeIsExpanded_reverseMap map[*Task]*Diagram
+
 	Diagram_TaskComposition_Shapes_reverseMap map[*TaskCompositionShape]*Diagram
+
+	Diagram_TaskInputShapes_reverseMap map[*TaskInputShape]*Diagram
 
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
@@ -192,6 +196,15 @@ type Stage struct {
 	OnAfterTaskCompositionShapeDeleteCallback OnAfterDeleteInterface[TaskCompositionShape]
 	OnAfterTaskCompositionShapeReadCallback   OnAfterReadInterface[TaskCompositionShape]
 
+	TaskInputShapes           map[*TaskInputShape]struct{}
+	TaskInputShapes_mapString map[string]*TaskInputShape
+
+	// insertion point for slice of pointers maps
+	OnAfterTaskInputShapeCreateCallback OnAfterCreateInterface[TaskInputShape]
+	OnAfterTaskInputShapeUpdateCallback OnAfterUpdateInterface[TaskInputShape]
+	OnAfterTaskInputShapeDeleteCallback OnAfterDeleteInterface[TaskInputShape]
+	OnAfterTaskInputShapeReadCallback   OnAfterReadInterface[TaskInputShape]
+
 	TaskShapes           map[*TaskShape]struct{}
 	TaskShapes_mapString map[string]*TaskShape
 
@@ -250,6 +263,9 @@ type Stage struct {
 
 	TaskCompositionShapeOrder            uint
 	TaskCompositionShapeMap_Staged_Order map[*TaskCompositionShape]uint
+
+	TaskInputShapeOrder            uint
+	TaskInputShapeMap_Staged_Order map[*TaskInputShape]uint
 
 	TaskShapeOrder            uint
 	TaskShapeMap_Staged_Order map[*TaskShape]uint
@@ -416,6 +432,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *TaskInputShape:
+		tmp := GetStructInstancesByOrder(stage.TaskInputShapes, stage.TaskInputShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *TaskInputShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *TaskShape:
 		tmp := GetStructInstancesByOrder(stage.TaskShapes, stage.TaskShapeMap_Staged_Order)
 
@@ -477,6 +507,8 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Tasks, stage.TaskMap_Staged_Order)
 	case "TaskCompositionShape":
 		res = GetNamedStructInstances(stage.TaskCompositionShapes, stage.TaskCompositionShapeMap_Staged_Order)
+	case "TaskInputShape":
+		res = GetNamedStructInstances(stage.TaskInputShapes, stage.TaskInputShapeMap_Staged_Order)
 	case "TaskShape":
 		res = GetNamedStructInstances(stage.TaskShapes, stage.TaskShapeMap_Staged_Order)
 	}
@@ -564,6 +596,8 @@ type BackRepoInterface interface {
 	CheckoutTask(task *Task)
 	CommitTaskCompositionShape(taskcompositionshape *TaskCompositionShape)
 	CheckoutTaskCompositionShape(taskcompositionshape *TaskCompositionShape)
+	CommitTaskInputShape(taskinputshape *TaskInputShape)
+	CheckoutTaskInputShape(taskinputshape *TaskInputShape)
 	CommitTaskShape(taskshape *TaskShape)
 	CheckoutTaskShape(taskshape *TaskShape)
 	GetLastCommitFromBackNb() uint
@@ -597,6 +631,9 @@ func NewStage(name string) (stage *Stage) {
 		TaskCompositionShapes:           make(map[*TaskCompositionShape]struct{}),
 		TaskCompositionShapes_mapString: make(map[string]*TaskCompositionShape),
 
+		TaskInputShapes:           make(map[*TaskInputShape]struct{}),
+		TaskInputShapes_mapString: make(map[string]*TaskInputShape),
+
 		TaskShapes:           make(map[*TaskShape]struct{}),
 		TaskShapes_mapString: make(map[string]*TaskShape),
 
@@ -626,6 +663,8 @@ func NewStage(name string) (stage *Stage) {
 
 		TaskCompositionShapeMap_Staged_Order: make(map[*TaskCompositionShape]uint),
 
+		TaskInputShapeMap_Staged_Order: make(map[*TaskInputShape]uint),
+
 		TaskShapeMap_Staged_Order: make(map[*TaskShape]uint),
 
 		// end of insertion point
@@ -639,6 +678,7 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Root"},
 			{name: "Task"},
 			{name: "TaskCompositionShape"},
+			{name: "TaskInputShape"},
 			{name: "TaskShape"},
 		}, // end of insertion point
 
@@ -668,6 +708,8 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.TaskMap_Staged_Order[instance]
 	case *TaskCompositionShape:
 		return stage.TaskCompositionShapeMap_Staged_Order[instance]
+	case *TaskInputShape:
+		return stage.TaskInputShapeMap_Staged_Order[instance]
 	case *TaskShape:
 		return stage.TaskShapeMap_Staged_Order[instance]
 	default:
@@ -695,6 +737,8 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.TaskMap_Staged_Order[instance]
 	case *TaskCompositionShape:
 		return stage.TaskCompositionShapeMap_Staged_Order[instance]
+	case *TaskInputShape:
+		return stage.TaskInputShapeMap_Staged_Order[instance]
 	case *TaskShape:
 		return stage.TaskShapeMap_Staged_Order[instance]
 	default:
@@ -741,6 +785,7 @@ func (stage *Stage) ComputeInstancesNb() {
 	stage.Map_GongStructName_InstancesNb["Root"] = len(stage.Roots)
 	stage.Map_GongStructName_InstancesNb["Task"] = len(stage.Tasks)
 	stage.Map_GongStructName_InstancesNb["TaskCompositionShape"] = len(stage.TaskCompositionShapes)
+	stage.Map_GongStructName_InstancesNb["TaskInputShape"] = len(stage.TaskInputShapes)
 	stage.Map_GongStructName_InstancesNb["TaskShape"] = len(stage.TaskShapes)
 }
 
@@ -1470,6 +1515,92 @@ func (taskcompositionshape *TaskCompositionShape) SetName(name string) (){
 	taskcompositionshape.Name = name
 }
 
+// Stage puts taskinputshape to the model stage
+func (taskinputshape *TaskInputShape) Stage(stage *Stage) *TaskInputShape {
+
+	if _, ok := stage.TaskInputShapes[taskinputshape]; !ok {
+		stage.TaskInputShapes[taskinputshape] = struct{}{}
+		stage.TaskInputShapeMap_Staged_Order[taskinputshape] = stage.TaskInputShapeOrder
+		stage.TaskInputShapeOrder++
+	}
+	stage.TaskInputShapes_mapString[taskinputshape.Name] = taskinputshape
+
+	return taskinputshape
+}
+
+// StagePreserveOrder puts taskinputshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.TaskInputShapeOrder
+// - update stage.TaskInputShapeOrder accordingly
+func (taskinputshape *TaskInputShape) StagePreserveOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.TaskInputShapes[taskinputshape]; !ok {
+		stage.TaskInputShapes[taskinputshape] = struct{}{}
+
+		if order > stage.TaskInputShapeOrder {
+			stage.TaskInputShapeOrder = order
+		}
+		stage.TaskInputShapeMap_Staged_Order[taskinputshape] = stage.TaskInputShapeOrder
+		stage.TaskInputShapeOrder++
+	}
+	stage.TaskInputShapes_mapString[taskinputshape.Name] = taskinputshape
+}
+
+// Unstage removes taskinputshape off the model stage
+func (taskinputshape *TaskInputShape) Unstage(stage *Stage) *TaskInputShape {
+	delete(stage.TaskInputShapes, taskinputshape)
+	delete(stage.TaskInputShapeMap_Staged_Order, taskinputshape)
+	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
+
+	return taskinputshape
+}
+
+// UnstageVoid removes taskinputshape off the model stage
+func (taskinputshape *TaskInputShape) UnstageVoid(stage *Stage) {
+	delete(stage.TaskInputShapes, taskinputshape)
+	delete(stage.TaskInputShapeMap_Staged_Order, taskinputshape)
+	delete(stage.TaskInputShapes_mapString, taskinputshape.Name)
+}
+
+// commit taskinputshape to the back repo (if it is already staged)
+func (taskinputshape *TaskInputShape) Commit(stage *Stage) *TaskInputShape {
+	if _, ok := stage.TaskInputShapes[taskinputshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitTaskInputShape(taskinputshape)
+		}
+	}
+	return taskinputshape
+}
+
+func (taskinputshape *TaskInputShape) CommitVoid(stage *Stage) {
+	taskinputshape.Commit(stage)
+}
+
+func (taskinputshape *TaskInputShape) StageVoid(stage *Stage) {
+	taskinputshape.Stage(stage)
+}
+
+// Checkout taskinputshape to the back repo (if it is already staged)
+func (taskinputshape *TaskInputShape) Checkout(stage *Stage) *TaskInputShape {
+	if _, ok := stage.TaskInputShapes[taskinputshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutTaskInputShape(taskinputshape)
+		}
+	}
+	return taskinputshape
+}
+
+// for satisfaction of GongStruct interface
+func (taskinputshape *TaskInputShape) GetName() (res string) {
+	return taskinputshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (taskinputshape *TaskInputShape) SetName(name string) (){
+	taskinputshape.Name = name
+}
+
 // Stage puts taskshape to the model stage
 func (taskshape *TaskShape) Stage(stage *Stage) *TaskShape {
 
@@ -1566,6 +1697,7 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 	CreateORMRoot(Root *Root)
 	CreateORMTask(Task *Task)
 	CreateORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
+	CreateORMTaskInputShape(TaskInputShape *TaskInputShape)
 	CreateORMTaskShape(TaskShape *TaskShape)
 }
 
@@ -1578,6 +1710,7 @@ type AllModelsStructDeleteInterface interface { // insertion point for Callbacks
 	DeleteORMRoot(Root *Root)
 	DeleteORMTask(Task *Task)
 	DeleteORMTaskCompositionShape(TaskCompositionShape *TaskCompositionShape)
+	DeleteORMTaskInputShape(TaskInputShape *TaskInputShape)
 	DeleteORMTaskShape(TaskShape *TaskShape)
 }
 
@@ -1622,6 +1755,11 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.TaskCompositionShapeMap_Staged_Order = make(map[*TaskCompositionShape]uint)
 	stage.TaskCompositionShapeOrder = 0
 
+	stage.TaskInputShapes = make(map[*TaskInputShape]struct{})
+	stage.TaskInputShapes_mapString = make(map[string]*TaskInputShape)
+	stage.TaskInputShapeMap_Staged_Order = make(map[*TaskInputShape]uint)
+	stage.TaskInputShapeOrder = 0
+
 	stage.TaskShapes = make(map[*TaskShape]struct{})
 	stage.TaskShapes_mapString = make(map[string]*TaskShape)
 	stage.TaskShapeMap_Staged_Order = make(map[*TaskShape]uint)
@@ -1654,6 +1792,9 @@ func (stage *Stage) Nil() { // insertion point for array nil
 
 	stage.TaskCompositionShapes = nil
 	stage.TaskCompositionShapes_mapString = nil
+
+	stage.TaskInputShapes = nil
+	stage.TaskInputShapes_mapString = nil
 
 	stage.TaskShapes = nil
 	stage.TaskShapes_mapString = nil
@@ -1691,6 +1832,10 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 
 	for taskcompositionshape := range stage.TaskCompositionShapes {
 		taskcompositionshape.Unstage(stage)
+	}
+
+	for taskinputshape := range stage.TaskInputShapes {
+		taskinputshape.Unstage(stage)
 	}
 
 	for taskshape := range stage.TaskShapes {
@@ -1787,6 +1932,8 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Tasks).(*Type)
 	case map[*TaskCompositionShape]any:
 		return any(&stage.TaskCompositionShapes).(*Type)
+	case map[*TaskInputShape]any:
+		return any(&stage.TaskInputShapes).(*Type)
 	case map[*TaskShape]any:
 		return any(&stage.TaskShapes).(*Type)
 	default:
@@ -1817,6 +1964,8 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Tasks_mapString).(map[string]Type)
 	case *TaskCompositionShape:
 		return any(stage.TaskCompositionShapes_mapString).(map[string]Type)
+	case *TaskInputShape:
+		return any(stage.TaskInputShapes_mapString).(map[string]Type)
 	case *TaskShape:
 		return any(stage.TaskShapes_mapString).(map[string]Type)
 	default:
@@ -1847,6 +1996,8 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Tasks).(*map[*Type]struct{})
 	case TaskCompositionShape:
 		return any(&stage.TaskCompositionShapes).(*map[*Type]struct{})
+	case TaskInputShape:
+		return any(&stage.TaskInputShapes).(*map[*Type]struct{})
 	case TaskShape:
 		return any(&stage.TaskShapes).(*map[*Type]struct{})
 	default:
@@ -1877,6 +2028,8 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Tasks).(*map[Type]struct{})
 	case *TaskCompositionShape:
 		return any(&stage.TaskCompositionShapes).(*map[Type]struct{})
+	case *TaskInputShape:
+		return any(&stage.TaskInputShapes).(*map[Type]struct{})
 	case *TaskShape:
 		return any(&stage.TaskShapes).(*map[Type]struct{})
 	default:
@@ -1907,6 +2060,8 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Tasks_mapString).(*map[string]*Type)
 	case TaskCompositionShape:
 		return any(&stage.TaskCompositionShapes_mapString).(*map[string]*Type)
+	case TaskInputShape:
+		return any(&stage.TaskInputShapes_mapString).(*map[string]*Type)
 	case TaskShape:
 		return any(&stage.TaskShapes_mapString).(*map[string]*Type)
 	default:
@@ -1936,8 +2091,12 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Task_Shapes: []*TaskShape{{Name: "Task_Shapes"}},
 			// field is initialized with an instance of Task with the name of the field
 			TasksWhoseNodeIsExpanded: []*Task{{Name: "TasksWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of Task with the name of the field
+			TasksWhoseInputNodeIsExpanded: []*Task{{Name: "TasksWhoseInputNodeIsExpanded"}},
 			// field is initialized with an instance of TaskCompositionShape with the name of the field
 			TaskComposition_Shapes: []*TaskCompositionShape{{Name: "TaskComposition_Shapes"}},
+			// field is initialized with an instance of TaskInputShape with the name of the field
+			TaskInputShapes: []*TaskInputShape{{Name: "TaskInputShapes"}},
 		}).(*Type)
 	case Product:
 		return any(&Product{
@@ -1992,6 +2151,14 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			// Initialisation of associations
 			// field is initialized with an instance of Task with the name of the field
 			Task: &Task{Name: "Task"},
+		}).(*Type)
+	case TaskInputShape:
+		return any(&TaskInputShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Task with the name of the field
+			Task: &Task{Name: "Task"},
+			// field is initialized with an instance of Product with the name of the field
+			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case TaskShape:
 		return any(&TaskShape{
@@ -2108,6 +2275,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 			}
 			return any(res).(map[*End][]*Start)
 		}
+	// reverse maps of direct associations of TaskInputShape
+	case TaskInputShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Task":
+			res := make(map[*Task][]*TaskInputShape)
+			for taskinputshape := range stage.TaskInputShapes {
+				if taskinputshape.Task != nil {
+					task_ := taskinputshape.Task
+					var taskinputshapes []*TaskInputShape
+					_, ok := res[task_]
+					if ok {
+						taskinputshapes = res[task_]
+					} else {
+						taskinputshapes = make([]*TaskInputShape, 0)
+					}
+					taskinputshapes = append(taskinputshapes, taskinputshape)
+					res[task_] = taskinputshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Product":
+			res := make(map[*Product][]*TaskInputShape)
+			for taskinputshape := range stage.TaskInputShapes {
+				if taskinputshape.Product != nil {
+					product_ := taskinputshape.Product
+					var taskinputshapes []*TaskInputShape
+					_, ok := res[product_]
+					if ok {
+						taskinputshapes = res[product_]
+					} else {
+						taskinputshapes = make([]*TaskInputShape, 0)
+					}
+					taskinputshapes = append(taskinputshapes, taskinputshape)
+					res[product_] = taskinputshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of TaskShape
 	case TaskShape:
 		switch fieldname {
@@ -2190,11 +2396,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "TasksWhoseInputNodeIsExpanded":
+			res := make(map[*Task][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, task_ := range diagram.TasksWhoseInputNodeIsExpanded {
+					res[task_] = append(res[task_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		case "TaskComposition_Shapes":
 			res := make(map[*TaskCompositionShape][]*Diagram)
 			for diagram := range stage.Diagrams {
 				for _, taskcompositionshape_ := range diagram.TaskComposition_Shapes {
 					res[taskcompositionshape_] = append(res[taskcompositionshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "TaskInputShapes":
+			res := make(map[*TaskInputShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, taskinputshape_ := range diagram.TaskInputShapes {
+					res[taskinputshape_] = append(res[taskinputshape_], diagram)
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -2314,6 +2536,11 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of TaskInputShape
+	case TaskInputShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
 	// reverse maps of direct associations of TaskShape
 	case TaskShape:
 		switch fieldname {
@@ -2347,6 +2574,8 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Task"
 	case *TaskCompositionShape:
 		res = "TaskCompositionShape"
+	case *TaskInputShape:
+		res = "TaskInputShape"
 	case *TaskShape:
 		res = "TaskShape"
 	}
@@ -2421,6 +2650,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "TasksWhoseNodeIsExpanded"
 		res = append(res, rf)
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "TasksWhoseInputNodeIsExpanded"
+		res = append(res, rf)
 		rf.GongstructName = "Project"
 		rf.Fieldname = "RootTasks"
 		res = append(res, rf)
@@ -2435,6 +2667,12 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		_ = rf
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "TaskComposition_Shapes"
+		res = append(res, rf)
+	case *TaskInputShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "TaskInputShapes"
 		res = append(res, rf)
 	case *TaskShape:
 		var rf ReverseField
@@ -2508,9 +2746,19 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Task",
 		},
 		{
+			Name:                 "TasksWhoseInputNodeIsExpanded",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
 			Name:                 "TaskComposition_Shapes",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "TaskCompositionShape",
+		},
+		{
+			Name:                 "TaskInputShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "TaskInputShape",
 		},
 	}
 	return
@@ -2774,6 +3022,47 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldHeaders() (res []G
 	return
 }
 
+func (taskinputshape *TaskInputShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Task",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:                 "Product",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StartOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CornerOffsetRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
 func (taskshape *TaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 	// insertion point for list of field headers
 	res = []GongFieldHeader{
@@ -2945,9 +3234,29 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "TasksWhoseInputNodeIsExpanded":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TasksWhoseInputNodeIsExpanded {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	case "TaskComposition_Shapes":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range diagram.TaskComposition_Shapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "TaskInputShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.TaskInputShapes {
 			if idx > 0 {
 				res.valueString += "\n"
 				res.ids += ";"
@@ -3238,6 +3547,44 @@ func (taskcompositionshape *TaskCompositionShape) GongGetFieldValue(fieldName st
 	}
 	return
 }
+func (taskinputshape *TaskInputShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = taskinputshape.Name
+	case "Task":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if taskinputshape.Task != nil {
+			res.valueString = taskinputshape.Task.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Task))
+		}
+	case "Product":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if taskinputshape.Product != nil {
+			res.valueString = taskinputshape.Product.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, taskinputshape.Product))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", taskinputshape.StartRatio)
+		res.valueFloat = taskinputshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", taskinputshape.EndRatio)
+		res.valueFloat = taskinputshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := taskinputshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := taskinputshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", taskinputshape.CornerOffsetRatio)
+		res.valueFloat = taskinputshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
 func (taskshape *TaskShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
 	switch fieldName {
 	// string value of fields
@@ -3368,6 +3715,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				}
 			}
 		}
+	case "TasksWhoseInputNodeIsExpanded":
+		diagram.TasksWhoseInputNodeIsExpanded = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+						diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "TaskComposition_Shapes":
 		diagram.TaskComposition_Shapes = make([]*TaskCompositionShape, 0)
 		ids := strings.Split(value.ids, ";")
@@ -3377,6 +3738,20 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 				for __instance__ := range stage.TaskCompositionShapes {
 					if stage.TaskCompositionShapeMap_Staged_Order[__instance__] == uint(id) {
 						diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "TaskInputShapes":
+		diagram.TaskInputShapes = make([]*TaskInputShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.TaskInputShapes {
+					if stage.TaskInputShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.TaskInputShapes = append(diagram.TaskInputShapes, __instance__)
 						break
 					}
 				}
@@ -3696,6 +4071,49 @@ func (taskcompositionshape *TaskCompositionShape) GongSetFieldValue(fieldName st
 	return nil
 }
 
+func (taskinputshape *TaskInputShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		taskinputshape.Name = value.GetValueString()
+	case "Task":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			taskinputshape.Task = nil
+			for __instance__ := range stage.Tasks {
+				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					taskinputshape.Task = __instance__
+					break
+				}
+			}
+		}
+	case "Product":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			taskinputshape.Product = nil
+			for __instance__ := range stage.Products {
+				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					taskinputshape.Product = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		taskinputshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		taskinputshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		taskinputshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		taskinputshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		taskinputshape.CornerOffsetRatio = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
 func (taskshape *TaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
 	switch fieldName {
 	// insertion point for per field code
@@ -3765,6 +4183,10 @@ func (taskcompositionshape *TaskCompositionShape) GongGetGongstructName() string
 	return "TaskCompositionShape"
 }
 
+func (taskinputshape *TaskInputShape) GongGetGongstructName() string {
+	return "TaskInputShape"
+}
+
 func (taskshape *TaskShape) GongGetGongstructName() string {
 	return "TaskShape"
 }
@@ -3815,6 +4237,11 @@ func (stage *Stage) ResetMapStrings() {
 	stage.TaskCompositionShapes_mapString = make(map[string]*TaskCompositionShape)
 	for taskcompositionshape := range stage.TaskCompositionShapes {
 		stage.TaskCompositionShapes_mapString[taskcompositionshape.Name] = taskcompositionshape
+	}
+
+	stage.TaskInputShapes_mapString = make(map[string]*TaskInputShape)
+	for taskinputshape := range stage.TaskInputShapes {
+		stage.TaskInputShapes_mapString[taskinputshape.Name] = taskinputshape
 	}
 
 	stage.TaskShapes_mapString = make(map[string]*TaskShape)

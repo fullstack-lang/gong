@@ -91,6 +91,22 @@ func (stager *Stager) svg() {
 			&taskCompositionShape.LinkShape, subTask, layer, false)
 	}
 
+	for _, taskInputShape := range diagram.TaskInputShapes {
+		task := taskInputShape.Task
+		product := taskInputShape.Product
+
+		if task == nil || product == nil {
+			log.Panic("There should be a task and a product")
+		}
+
+		startRect := map_Task_Rect[task]
+		endRect := map_Product_Rect[product]
+
+		stager.svgTaskInputLink(
+			startRect, endRect,
+			&taskInputShape.LinkShape, task, layer, false)
+	}
+
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
 }
