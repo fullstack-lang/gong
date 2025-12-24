@@ -99,12 +99,28 @@ func (stager *Stager) svg() {
 			log.Panic("There should be a task and a product")
 		}
 
-		startRect := map_Task_Rect[task]
-		endRect := map_Product_Rect[product]
+		startRect := map_Product_Rect[product]
+		endRect := map_Task_Rect[task]
 
 		stager.svgTaskInputLink(
 			startRect, endRect,
 			&taskInputShape.LinkShape, task, layer, false)
+	}
+
+	for _, taskOutputShape := range diagram.TaskOutputShapes {
+		task := taskOutputShape.Task
+		product := taskOutputShape.Product
+
+		if task == nil || product == nil {
+			log.Panic("There should be a task and a product")
+		}
+
+		startRect := map_Task_Rect[task]
+		endRect := map_Product_Rect[product]
+
+		stager.svgTaskOutputLink(
+			startRect, endRect,
+			&taskOutputShape.LinkShape, task, layer, false)
 	}
 
 	svg.StageBranch(svgStage, svgObject)

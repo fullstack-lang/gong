@@ -2,7 +2,7 @@ package models
 
 import "slices"
 
-func (stager *Stager) enforceTaskInputShapes() (needCommit bool) {
+func (stager *Stager) enforceTaskInputOutputShapes() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
 		// map of tasks present in the diagram
@@ -40,6 +40,30 @@ func (stager *Stager) enforceTaskInputShapes() (needCommit bool) {
 			if _, ok := set_Product[product]; !ok {
 				diagram.TaskInputShapes = slices.Delete(diagram.TaskInputShapes, i, i+1)
 				taskInputShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+		}
+
+		for i := len(diagram.TaskOutputShapes) - 1; i >= 0; i-- {
+			taskOutputShape := diagram.TaskOutputShapes[i]
+			task := taskOutputShape.Task
+			product := taskOutputShape.Product
+
+			// check if the task is present in the diagram
+			// if not, remove the composition shape
+			if _, ok := set_Task[task]; !ok {
+				diagram.TaskOutputShapes = slices.Delete(diagram.TaskOutputShapes, i, i+1)
+				taskOutputShape.Unstage(stager.stage)
+				needCommit = true
+				continue
+			}
+
+			// check if the product is present in the diagram
+			// if not, remove the composition shape
+			if _, ok := set_Product[product]; !ok {
+				diagram.TaskOutputShapes = slices.Delete(diagram.TaskOutputShapes, i, i+1)
+				taskOutputShape.Unstage(stager.stage)
 				needCommit = true
 				continue
 			}

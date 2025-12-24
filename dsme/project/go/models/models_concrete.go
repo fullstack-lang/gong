@@ -20,16 +20,20 @@ type Diagram struct {
 
 	IsWBSNodeExpanded bool
 
-	Task_Shapes                   []*TaskShape
-	map_Task_TaskShape            map[*Task]*TaskShape
-	TasksWhoseNodeIsExpanded      []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
-	TasksWhoseInputNodeIsExpanded []*Task
+	Task_Shapes                    []*TaskShape
+	map_Task_TaskShape             map[*Task]*TaskShape
+	TasksWhoseNodeIsExpanded       []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
+	TasksWhoseInputNodeIsExpanded  []*Task
+	TasksWhoseOutputNodeIsExpanded []*Task
 
 	TaskComposition_Shapes        []*TaskCompositionShape
 	map_Task_TaskCompositionShape map[*Task]*TaskCompositionShape
 
 	TaskInputShapes         []*TaskInputShape
 	map_Task_TaskInputShape map[taskProductKey]*TaskInputShape
+
+	TaskOutputShapes         []*TaskOutputShape
+	map_Task_TaskOutputShape map[taskProductKey]*TaskOutputShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -206,3 +210,31 @@ func (s *TaskInputShape) GetAbstractStartElement() AbstractType {
 }
 
 var _ AssociationConcreteType = (*TaskInputShape)(nil)
+
+type TaskOutputShape struct {
+	Name string
+
+	Task *Task
+
+	Product *Product
+
+	LinkShape
+}
+
+func (s *TaskOutputShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *TaskOutputShape) GetAbstractEndElement() AbstractType {
+	return s.Task
+}
+
+func (s *TaskOutputShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+func (s *TaskOutputShape) GetAbstractStartElement() AbstractType {
+	return s.Task
+}
+
+var _ AssociationConcreteType = (*TaskOutputShape)(nil)
