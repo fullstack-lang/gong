@@ -162,22 +162,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		taskNode.Children = append(taskNode.Children, inputProductsNode)
 
 		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					stagedNode.IsExpanded = frontNode.IsExpanded
-					if frontNode.IsExpanded {
-						if slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task) == -1 {
-							diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, task)
-						}
-					} else {
-						if idx := slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task); idx != -1 {
-							diagram.TasksWhoseInputNodeIsExpanded = slices.Delete(diagram.TasksWhoseInputNodeIsExpanded, idx, idx+1)
-						}
-					}
-					stager.stage.Commit()
-					return
-				}
-			},
+			OnUpdate: OnUpdateExpandableNode(stager, task, &diagram.TasksWhoseInputNodeIsExpanded),
 		}
 
 		for _, product := range task.Inputs {
@@ -237,22 +222,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		taskNode.Children = append(taskNode.Children, outputProductsNode)
 
 		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
-			OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
-				if frontNode.IsExpanded != stagedNode.IsExpanded {
-					stagedNode.IsExpanded = frontNode.IsExpanded
-					if frontNode.IsExpanded {
-						if slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task) == -1 {
-							diagram.TasksWhoseOutputNodeIsExpanded = append(diagram.TasksWhoseOutputNodeIsExpanded, task)
-						}
-					} else {
-						if idx := slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task); idx != -1 {
-							diagram.TasksWhoseOutputNodeIsExpanded = slices.Delete(diagram.TasksWhoseOutputNodeIsExpanded, idx, idx+1)
-						}
-					}
-					stager.stage.Commit()
-					return
-				}
-			},
+			OnUpdate: OnUpdateExpandableNode(stager, task, &diagram.TasksWhoseOutputNodeIsExpanded),
 		}
 
 		for _, product := range task.Outputs {

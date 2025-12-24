@@ -111,3 +111,73 @@ func OnUpdateRectElement[CT interface {
 		}
 	}
 }
+
+func svgAssociationLink[AT AbstractType,
+	CCT interface {
+		*CCT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	CCT_ Gongstruct](
+	stager *Stager,
+	startRect *svg.Rect,
+	endRect *svg.Rect,
+	shape CCT,
+	productOfInterest AT,
+	layer *svg.Layer,
+	isDashed bool,
+) {
+	if startRect == nil || endRect == nil {
+		return
+	}
+
+	link := new(svg.Link)
+
+	link.Name = startRect.Name + " to " + endRect.Name
+	link.Stroke = svg.Black.ToString()
+	link.StrokeWidth = 1.5
+	link.StrokeOpacity = 1
+
+	link.Type = svg.LINK_TYPE_FLOATING_ORTHOGONAL
+
+	link.Start = startRect
+	link.StartOrientation = svg.OrientationType(shape.GetStartOrientation())
+	link.StartRatio = shape.GetStartRatio()
+
+	link.End = endRect
+	link.EndOrientation = svg.OrientationType(shape.GetEndOrientation())
+	link.EndRatio = shape.GetEndRatio()
+	link.HasEndArrow = true
+	link.EndArrowSize = 10
+
+	link.CornerOffsetRatio = shape.GetCornerOffsetRatio()
+	link.CornerRadius = 15
+	if isDashed {
+		link.StrokeDashArray = "5 5"
+	}
+
+	link.Impl = &svg.FunctionalSvgLinkProxy{
+		OnUpdated: func(updatedLink *svg.Link) {
+			diff := shape.GetStartRatio() != updatedLink.StartRatio ||
+				shape.GetEndRatio() != updatedLink.EndRatio ||
+				shape.GetStartOrientation() != OrientationType(updatedLink.StartOrientation) ||
+				shape.GetEndOrientation() != OrientationType(updatedLink.EndOrientation) ||
+				shape.GetCornerOffsetRatio() != updatedLink.CornerOffsetRatio
+
+			shape.SetStartRatio(updatedLink.StartRatio)
+			shape.SetEndRatio(updatedLink.EndRatio)
+			shape.SetCornerOffsetRatio(updatedLink.CornerOffsetRatio)
+			shape.SetStartOrientation(OrientationType(updatedLink.StartOrientation))
+			shape.SetEndOrientation(OrientationType(updatedLink.EndOrientation))
+
+			if !diff {
+				stager.stage.CommitWithSuspendedCallbacks()
+				stager.probeForm.FillUpFormFromGongstruct(productOfInterest, GetPointerToGongstructName[AT]())
+			} else {
+				stager.stage.Commit()
+			}
+		},
+	}
+
+	layer.Links = append(layer.Links, link)
+}
