@@ -72,11 +72,17 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	if stager.enforceTaskInputOutputShapes() {
+		needCommit = true
+	}
+
 	if stager.enforceShapeOrphans() {
 		needCommit = true
 	}
 
+	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
+	stager.enforceDiagramMaps()
 
 	if needCommit {
 		stager.stage.Clean()

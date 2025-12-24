@@ -29,6 +29,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *TaskCompositionShape:
 		ok = stage.IsStagedTaskCompositionShape(target)
 
+	case *TaskInputShape:
+		ok = stage.IsStagedTaskInputShape(target)
+
+	case *TaskOutputShape:
+		ok = stage.IsStagedTaskOutputShape(target)
+
 	case *TaskShape:
 		ok = stage.IsStagedTaskShape(target)
 
@@ -65,6 +71,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 
 	case *TaskCompositionShape:
 		ok = stage.IsStagedTaskCompositionShape(target)
+
+	case *TaskInputShape:
+		ok = stage.IsStagedTaskInputShape(target)
+
+	case *TaskOutputShape:
+		ok = stage.IsStagedTaskOutputShape(target)
 
 	case *TaskShape:
 		ok = stage.IsStagedTaskShape(target)
@@ -132,6 +144,20 @@ func (stage *Stage) IsStagedTaskCompositionShape(taskcompositionshape *TaskCompo
 	return
 }
 
+func (stage *Stage) IsStagedTaskInputShape(taskinputshape *TaskInputShape) (ok bool) {
+
+	_, ok = stage.TaskInputShapes[taskinputshape]
+
+	return
+}
+
+func (stage *Stage) IsStagedTaskOutputShape(taskoutputshape *TaskOutputShape) (ok bool) {
+
+	_, ok = stage.TaskOutputShapes[taskoutputshape]
+
+	return
+}
+
 func (stage *Stage) IsStagedTaskShape(taskshape *TaskShape) (ok bool) {
 
 	_, ok = stage.TaskShapes[taskshape]
@@ -171,6 +197,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TaskCompositionShape:
 		stage.StageBranchTaskCompositionShape(target)
 
+	case *TaskInputShape:
+		stage.StageBranchTaskInputShape(target)
+
+	case *TaskOutputShape:
+		stage.StageBranchTaskOutputShape(target)
+
 	case *TaskShape:
 		stage.StageBranchTaskShape(target)
 
@@ -207,8 +239,20 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
 		StageBranch(stage, _task)
 	}
+	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+		StageBranch(stage, _task)
+	}
+	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+		StageBranch(stage, _task)
+	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		StageBranch(stage, _taskcompositionshape)
+	}
+	for _, _taskinputshape := range diagram.TaskInputShapes {
+		StageBranch(stage, _taskinputshape)
+	}
+	for _, _taskoutputshape := range diagram.TaskOutputShapes {
+		StageBranch(stage, _taskoutputshape)
 	}
 
 }
@@ -357,6 +401,48 @@ func (stage *Stage) StageBranchTaskCompositionShape(taskcompositionshape *TaskCo
 
 }
 
+func (stage *Stage) StageBranchTaskInputShape(taskinputshape *TaskInputShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, taskinputshape) {
+		return
+	}
+
+	taskinputshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskinputshape.Task != nil {
+		StageBranch(stage, taskinputshape.Task)
+	}
+	if taskinputshape.Product != nil {
+		StageBranch(stage, taskinputshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) StageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, taskoutputshape) {
+		return
+	}
+
+	taskoutputshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskoutputshape.Task != nil {
+		StageBranch(stage, taskoutputshape.Task)
+	}
+	if taskoutputshape.Product != nil {
+		StageBranch(stage, taskoutputshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
 func (stage *Stage) StageBranchTaskShape(taskshape *TaskShape) {
 
 	// check if instance is already staged
@@ -418,6 +504,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchTaskCompositionShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *TaskInputShape:
+		toT := CopyBranchTaskInputShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *TaskOutputShape:
+		toT := CopyBranchTaskOutputShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *TaskShape:
 		toT := CopyBranchTaskShape(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -459,8 +553,20 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _task := range diagramFrom.TasksWhoseNodeIsExpanded {
 		diagramTo.TasksWhoseNodeIsExpanded = append(diagramTo.TasksWhoseNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
 	}
+	for _, _task := range diagramFrom.TasksWhoseInputNodeIsExpanded {
+		diagramTo.TasksWhoseInputNodeIsExpanded = append(diagramTo.TasksWhoseInputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	}
+	for _, _task := range diagramFrom.TasksWhoseOutputNodeIsExpanded {
+		diagramTo.TasksWhoseOutputNodeIsExpanded = append(diagramTo.TasksWhoseOutputNodeIsExpanded, CopyBranchTask(mapOrigCopy, _task))
+	}
 	for _, _taskcompositionshape := range diagramFrom.TaskComposition_Shapes {
 		diagramTo.TaskComposition_Shapes = append(diagramTo.TaskComposition_Shapes, CopyBranchTaskCompositionShape(mapOrigCopy, _taskcompositionshape))
+	}
+	for _, _taskinputshape := range diagramFrom.TaskInputShapes {
+		diagramTo.TaskInputShapes = append(diagramTo.TaskInputShapes, CopyBranchTaskInputShape(mapOrigCopy, _taskinputshape))
+	}
+	for _, _taskoutputshape := range diagramFrom.TaskOutputShapes {
+		diagramTo.TaskOutputShapes = append(diagramTo.TaskOutputShapes, CopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
 	}
 
 	return
@@ -638,6 +744,56 @@ func CopyBranchTaskCompositionShape(mapOrigCopy map[any]any, taskcompositionshap
 	return
 }
 
+func CopyBranchTaskInputShape(mapOrigCopy map[any]any, taskinputshapeFrom *TaskInputShape) (taskinputshapeTo *TaskInputShape) {
+
+	// taskinputshapeFrom has already been copied
+	if _taskinputshapeTo, ok := mapOrigCopy[taskinputshapeFrom]; ok {
+		taskinputshapeTo = _taskinputshapeTo.(*TaskInputShape)
+		return
+	}
+
+	taskinputshapeTo = new(TaskInputShape)
+	mapOrigCopy[taskinputshapeFrom] = taskinputshapeTo
+	taskinputshapeFrom.CopyBasicFields(taskinputshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskinputshapeFrom.Task != nil {
+		taskinputshapeTo.Task = CopyBranchTask(mapOrigCopy, taskinputshapeFrom.Task)
+	}
+	if taskinputshapeFrom.Product != nil {
+		taskinputshapeTo.Product = CopyBranchProduct(mapOrigCopy, taskinputshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
+func CopyBranchTaskOutputShape(mapOrigCopy map[any]any, taskoutputshapeFrom *TaskOutputShape) (taskoutputshapeTo *TaskOutputShape) {
+
+	// taskoutputshapeFrom has already been copied
+	if _taskoutputshapeTo, ok := mapOrigCopy[taskoutputshapeFrom]; ok {
+		taskoutputshapeTo = _taskoutputshapeTo.(*TaskOutputShape)
+		return
+	}
+
+	taskoutputshapeTo = new(TaskOutputShape)
+	mapOrigCopy[taskoutputshapeFrom] = taskoutputshapeTo
+	taskoutputshapeFrom.CopyBasicFields(taskoutputshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskoutputshapeFrom.Task != nil {
+		taskoutputshapeTo.Task = CopyBranchTask(mapOrigCopy, taskoutputshapeFrom.Task)
+	}
+	if taskoutputshapeFrom.Product != nil {
+		taskoutputshapeTo.Product = CopyBranchProduct(mapOrigCopy, taskoutputshapeFrom.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+	return
+}
+
 func CopyBranchTaskShape(mapOrigCopy map[any]any, taskshapeFrom *TaskShape) (taskshapeTo *TaskShape) {
 
 	// taskshapeFrom has already been copied
@@ -692,6 +848,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *TaskCompositionShape:
 		stage.UnstageBranchTaskCompositionShape(target)
 
+	case *TaskInputShape:
+		stage.UnstageBranchTaskInputShape(target)
+
+	case *TaskOutputShape:
+		stage.UnstageBranchTaskOutputShape(target)
+
 	case *TaskShape:
 		stage.UnstageBranchTaskShape(target)
 
@@ -728,8 +890,20 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _task := range diagram.TasksWhoseNodeIsExpanded {
 		UnstageBranch(stage, _task)
 	}
+	for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+		UnstageBranch(stage, _task)
+	}
+	for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+		UnstageBranch(stage, _task)
+	}
 	for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 		UnstageBranch(stage, _taskcompositionshape)
+	}
+	for _, _taskinputshape := range diagram.TaskInputShapes {
+		UnstageBranch(stage, _taskinputshape)
+	}
+	for _, _taskoutputshape := range diagram.TaskOutputShapes {
+		UnstageBranch(stage, _taskoutputshape)
 	}
 
 }
@@ -872,6 +1046,48 @@ func (stage *Stage) UnstageBranchTaskCompositionShape(taskcompositionshape *Task
 	//insertion point for the staging of instances referenced by pointers
 	if taskcompositionshape.Task != nil {
 		UnstageBranch(stage, taskcompositionshape.Task)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTaskInputShape(taskinputshape *TaskInputShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, taskinputshape) {
+		return
+	}
+
+	taskinputshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskinputshape.Task != nil {
+		UnstageBranch(stage, taskinputshape.Task)
+	}
+	if taskinputshape.Product != nil {
+		UnstageBranch(stage, taskinputshape.Product)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
+
+}
+
+func (stage *Stage) UnstageBranchTaskOutputShape(taskoutputshape *TaskOutputShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, taskoutputshape) {
+		return
+	}
+
+	taskoutputshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if taskoutputshape.Task != nil {
+		UnstageBranch(stage, taskoutputshape.Task)
+	}
+	if taskoutputshape.Product != nil {
+		UnstageBranch(stage, taskoutputshape.Product)
 	}
 
 	//insertion point for the staging of instances referenced by slice of pointers

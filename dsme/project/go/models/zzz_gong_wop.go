@@ -205,6 +205,58 @@ func (from *TaskCompositionShape) CopyBasicFields(to *TaskCompositionShape) {
 	to.CornerOffsetRatio = from.CornerOffsetRatio
 }
 
+type TaskInputShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *TaskInputShape) CopyBasicFields(to *TaskInputShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
+type TaskOutputShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *TaskOutputShape) CopyBasicFields(to *TaskOutputShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type TaskShape_WOP struct {
 	// insertion point
 

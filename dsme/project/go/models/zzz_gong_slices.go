@@ -42,11 +42,39 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[_task] = diagram
 		}
 	}
+	stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _task := range diagram.TasksWhoseInputNodeIsExpanded {
+			stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap[_task] = diagram
+		}
+	}
+	stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap = make(map[*Task]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _task := range diagram.TasksWhoseOutputNodeIsExpanded {
+			stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[_task] = diagram
+		}
+	}
 	stage.Diagram_TaskComposition_Shapes_reverseMap = make(map[*TaskCompositionShape]*Diagram)
 	for diagram := range stage.Diagrams {
 		_ = diagram
 		for _, _taskcompositionshape := range diagram.TaskComposition_Shapes {
 			stage.Diagram_TaskComposition_Shapes_reverseMap[_taskcompositionshape] = diagram
+		}
+	}
+	stage.Diagram_TaskInputShapes_reverseMap = make(map[*TaskInputShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskinputshape := range diagram.TaskInputShapes {
+			stage.Diagram_TaskInputShapes_reverseMap[_taskinputshape] = diagram
+		}
+	}
+	stage.Diagram_TaskOutputShapes_reverseMap = make(map[*TaskOutputShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _taskoutputshape := range diagram.TaskOutputShapes {
+			stage.Diagram_TaskOutputShapes_reverseMap[_taskoutputshape] = diagram
 		}
 	}
 
@@ -141,6 +169,12 @@ func (stage *Stage) ComputeReverseMaps() {
 	// Compute reverse map for named struct TaskCompositionShape
 	// insertion point per field
 
+	// Compute reverse map for named struct TaskInputShape
+	// insertion point per field
+
+	// Compute reverse map for named struct TaskOutputShape
+	// insertion point per field
+
 	// Compute reverse map for named struct TaskShape
 	// insertion point per field
 
@@ -178,6 +212,14 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	}
 
 	for instance := range stage.TaskCompositionShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TaskInputShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.TaskOutputShapes {
 		res = append(res, instance)
 	}
 
@@ -226,6 +268,16 @@ func (task *Task) GongCopy() GongstructIF {
 
 func (taskcompositionshape *TaskCompositionShape) GongCopy() GongstructIF {
 	newInstance := *taskcompositionshape
+	return &newInstance
+}
+
+func (taskinputshape *TaskInputShape) GongCopy() GongstructIF {
+	newInstance := *taskinputshape
+	return &newInstance
+}
+
+func (taskoutputshape *TaskOutputShape) GongCopy() GongstructIF {
+	newInstance := *taskoutputshape
 	return &newInstance
 }
 

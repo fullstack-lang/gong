@@ -160,6 +160,26 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "TaskInputShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TaskInputShape](probe.stageOfInterest)
+			for _taskinputshape := range set {
+				nodeInstance := &tree.Node{Name: _taskinputshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_taskinputshape, "TaskInputShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "TaskOutputShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.TaskOutputShape](probe.stageOfInterest)
+			for _taskoutputshape := range set {
+				nodeInstance := &tree.Node{Name: _taskoutputshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_taskoutputshape, "TaskOutputShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "TaskShape":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.TaskShape](probe.stageOfInterest)
