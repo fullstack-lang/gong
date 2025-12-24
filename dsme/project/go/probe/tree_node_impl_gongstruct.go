@@ -74,6 +74,9 @@ func (nodeImplGongstruct *TreeNodeImplGongstruct) OnAfterUpdate(
 	if nodeImplGongstruct.gongStruct.GetName() == "TaskCompositionShape" {
 		updateProbeTable[*models.TaskCompositionShape](nodeImplGongstruct.probe)
 	}
+	if nodeImplGongstruct.gongStruct.GetName() == "TaskInputShape" {
+		updateProbeTable[*models.TaskInputShape](nodeImplGongstruct.probe)
+	}
 	if nodeImplGongstruct.gongStruct.GetName() == "TaskShape" {
 		updateProbeTable[*models.TaskShape](nodeImplGongstruct.probe)
 	}

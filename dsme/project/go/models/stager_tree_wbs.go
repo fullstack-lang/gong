@@ -120,8 +120,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 			if _, ok := diagram.map_Task_TaskShape[task]; ok {
 
 				showHideCompositionButton := &tree.Button{
-					Name: GetGongstructNameFromPointer(task) + " " + string(buttons.BUTTON_add),
-
+					Name:            task.GetName() + " add parent relation",
 					HasToolTip:      true,
 					ToolTipPosition: tree.Right,
 				}
@@ -132,7 +131,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnAddCompositionShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
+						OnUpdated: OnAddAssociationShape(stager, diagram, parentTask, task, &diagram.TaskComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -140,7 +139,7 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 						"\" to \"" + task.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnRemoveCompositionShape(stager, diagram, compositionShape, &diagram.TaskComposition_Shapes),
+						OnUpdated: OnRemoveAssociationShape(stager, diagram, compositionShape, &diagram.TaskComposition_Shapes),
 					}
 				}
 				taskNode.Buttons = append(taskNode.Buttons, showHideCompositionButton)
@@ -150,5 +149,80 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 
 	for _, task := range task.SubTasks {
 		stager.treeWBSinDiagram(diagram, task, taskNode)
+	}
+
+	if len(task.Inputs) > 0 {
+		inputProductsNode := &tree.Node{
+			Name:                 fmt.Sprintf("(%d)", len(task.Inputs)),
+			IsExpanded:           slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task) != -1,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_input),
+		}
+		taskNode.Children = append(taskNode.Children, inputProductsNode)
+
+		inputProductsNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					if frontNode.IsExpanded {
+						if slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task) == -1 {
+							diagram.TasksWhoseInputNodeIsExpanded = append(diagram.TasksWhoseInputNodeIsExpanded, task)
+						}
+					} else {
+						if idx := slices.Index(diagram.TasksWhoseInputNodeIsExpanded, task); idx != -1 {
+							diagram.TasksWhoseInputNodeIsExpanded = slices.Delete(diagram.TasksWhoseInputNodeIsExpanded, idx, idx+1)
+						}
+					}
+					stager.stage.Commit()
+					return
+				}
+			},
+		}
+
+		for _, product := range task.Inputs {
+			inputProductNode := &tree.Node{
+				Name:            product.GetName(),
+				IsExpanded:      true,
+				IsNodeClickable: true,
+			}
+			inputProductsNode.Children = append(inputProductsNode.Children, inputProductNode)
+
+			// if input task is present in diagram as well as the input product
+			// display the show/hide input relation button
+			if _, ok := diagram.map_Product_ProductShape[product]; ok {
+				if _, ok := diagram.map_Task_TaskShape[task]; ok {
+
+					showHideTaskInputButton := &tree.Button{
+						Name:            task.GetName() + " add input relation from " + product.GetName(),
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+					}
+					inputProductNode.Buttons = append(inputProductNode.Buttons, showHideTaskInputButton)
+
+					taskProductKey := taskProductKey{
+						Task:    task,
+						Product: product,
+					}
+					if taskInputShape, ok := diagram.map_Task_TaskInputShape[taskProductKey]; ok {
+						showHideTaskInputButton.Icon = string(buttons.BUTTON_unfold_less)
+						showHideTaskInputButton.ToolTipText = "Hide link from \"" + task.Name +
+							"\" to \"" + product.Name + "\""
+
+						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
+							OnUpdated: OnRemoveAssociationShape(stager, diagram, taskInputShape, &diagram.TaskInputShapes),
+						}
+					} else {
+						showHideTaskInputButton.Icon = string(buttons.BUTTON_unfold_more)
+						showHideTaskInputButton.ToolTipText = "Show link from \"" + task.Name +
+							"\" to \"" + product.Name + "\""
+
+						showHideTaskInputButton.Impl = &tree.FunctionalButtonProxy{
+							OnUpdated: OnAddAssociationShape(stager, diagram, task, product, &diagram.TaskInputShapes),
+						}
+					}
+				}
+			}
+		}
 	}
 }

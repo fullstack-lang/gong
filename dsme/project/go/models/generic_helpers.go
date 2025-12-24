@@ -19,23 +19,31 @@ func OnUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(s
 	}
 }
 
-func OnAddCompositionShape[
-	AT AbstractType,
+func OnAddAssociationShape[
+	ATstart AbstractType,
+	ATend AbstractType,
 	CCT interface {
 		*CCT_
 		LinkShapeInterface
-		CompositionConcreteType
+		AssociationConcreteType
 	},
 	CCT_ Gongstruct](
-	stager *Stager, diagram *Diagram, parent, child AT, shapes *[]CCT) func(
+	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]CCT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		compositionShape := CCT(new(CCT_))
 		compositionShape.StageVoid(stager.stage)
-		compositionShape.SetName(parent.GetName() + " to " + child.GetName())
-		compositionShape.SetAbstractChildElement(child)
+		compositionShape.SetName(start.GetName() + " to " + end.GetName())
+		compositionShape.SetAbstractStartElement(start)
+		compositionShape.SetAbstractEndElement(end)
 		compositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
 		compositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+
+		if taskInputShape, ok := any(compositionShape).(*TaskInputShape); ok {
+			taskInputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			taskInputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+		}
+
 		compositionShape.SetCornerOffsetRatio(1.68)
 		compositionShape.SetStartRatio(0.5)
 		compositionShape.SetEndRatio(0.5)
@@ -45,11 +53,11 @@ func OnAddCompositionShape[
 	}
 }
 
-func OnRemoveCompositionShape[
+func OnRemoveAssociationShape[
 	CCT interface {
 		*CCT_
 		LinkShapeInterface
-		CompositionConcreteType
+		AssociationConcreteType
 	},
 	CCT_ Gongstruct](stager *Stager, diagram *Diagram, compositionShape CCT, shapes *[]CCT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {

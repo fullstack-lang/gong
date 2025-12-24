@@ -111,6 +111,7 @@ func NewLevel1Stack(
 	models.SetOrchestratorOnAfterUpdate[models.Root](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Task](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TaskCompositionShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.TaskInputShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.TaskShape](stage)
 
 	return
