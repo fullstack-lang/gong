@@ -20,12 +20,16 @@ type Diagram struct {
 
 	IsWBSNodeExpanded bool
 
-	Task_Shapes              []*TaskShape
-	map_Task_TaskShape       map[*Task]*TaskShape
-	TasksWhoseNodeIsExpanded []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
+	Task_Shapes                   []*TaskShape
+	map_Task_TaskShape            map[*Task]*TaskShape
+	TasksWhoseNodeIsExpanded      []*Task // to be made private once in production (no need to persist)ExpandableNodeObject
+	TasksWhoseInputNodeIsExpanded []*Task
 
 	TaskComposition_Shapes        []*TaskCompositionShape
 	map_Task_TaskCompositionShape map[*Task]*TaskCompositionShape
+
+	TaskInputShapes         []*TaskInputShape
+	map_Task_TaskInputShape map[taskProductKey]*TaskInputShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -38,12 +42,12 @@ type ConcreteType interface {
 	SetAbstractElement(AbstractType)
 }
 
-type CompositionConcreteType interface {
+type AssociationConcreteType interface {
 	GongstructIF
-	GetAbstractParentElement() AbstractType
-	SetAbstractParentElement(AbstractType)
-	GetAbstractChildElement() AbstractType
-	SetAbstractChildElement(AbstractType)
+	GetAbstractStartElement() AbstractType
+	SetAbstractStartElement(AbstractType)
+	GetAbstractEndElement() AbstractType
+	SetAbstractEndElement(AbstractType)
 }
 
 // ProductShape
@@ -76,23 +80,25 @@ type ProductCompositionShape struct {
 	LinkShape
 }
 
-func (s *ProductCompositionShape) GetAbstractChildElement() AbstractType {
+func (s *ProductCompositionShape) GetAbstractEndElement() AbstractType {
 	return s.Product
 }
 
-func (s *ProductCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+func (s *ProductCompositionShape) SetAbstractEndElement(abstractElement AbstractType) {
 	s.Product = abstractElement.(*Product)
 }
 
-func (s *ProductCompositionShape) GetAbstractParentElement() AbstractType {
+func (s *ProductCompositionShape) GetAbstractStartElement() AbstractType {
 	return s.Product.parentProduct
 }
 
-func (s *ProductCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
-	s.Product.parentProduct = abstractElement.(*Product)
+func (s *ProductCompositionShape) SetAbstractStartElement(abstractElement AbstractType) {
+	// the parent element shall not be set by the concrete element, because it is computed
+	// elsewhere
+	// s.Product.parentProduct = abstractElement.(*Product)
 }
 
-var _ CompositionConcreteType = (*ProductCompositionShape)(nil)
+var _ AssociationConcreteType = (*ProductCompositionShape)(nil)
 
 // TaskShape is for both Task
 type TaskShape struct {
@@ -124,23 +130,25 @@ type TaskCompositionShape struct {
 	LinkShape
 }
 
-func (s *TaskCompositionShape) GetAbstractChildElement() AbstractType {
+func (s *TaskCompositionShape) GetAbstractEndElement() AbstractType {
 	return s.Task
 }
 
-func (s *TaskCompositionShape) SetAbstractChildElement(abstractElement AbstractType) {
+func (s *TaskCompositionShape) SetAbstractEndElement(abstractElement AbstractType) {
 	s.Task = abstractElement.(*Task)
 }
 
-func (s *TaskCompositionShape) GetAbstractParentElement() AbstractType {
+func (s *TaskCompositionShape) GetAbstractStartElement() AbstractType {
 	return s.Task.parentTask
 }
 
-func (s *TaskCompositionShape) SetAbstractParentElement(abstractElement AbstractType) {
-	s.Task.parentTask = abstractElement.(*Task)
+func (s *TaskCompositionShape) SetAbstractStartElement(abstractElement AbstractType) {
+	// the parent element shall not be set by the concrete element because it is computed
+	// elsewhere
+	// s.Task.parentTask = abstractElement.(*Task)
 }
 
-var _ CompositionConcreteType = (*TaskCompositionShape)(nil)
+var _ AssociationConcreteType = (*TaskCompositionShape)(nil)
 
 func newShapeToDiagram[AT AbstractType, CT interface {
 	*S
@@ -164,3 +172,37 @@ func newShapeToDiagram[AT AbstractType, CT interface {
 
 	return shape
 }
+
+// A taskProductKey allows mapping of [TaskInputShape] within a diagram
+type taskProductKey struct {
+	Task    *Task
+	Product *Product
+}
+
+type TaskInputShape struct {
+	Name string
+
+	Task *Task
+
+	Product *Product
+
+	LinkShape
+}
+
+func (s *TaskInputShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *TaskInputShape) GetAbstractEndElement() AbstractType {
+	return s.Task
+}
+
+func (s *TaskInputShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Product = abstractElement.(*Product)
+}
+
+func (s *TaskInputShape) GetAbstractStartElement() AbstractType {
+	return s.Task
+}
+
+var _ AssociationConcreteType = (*TaskInputShape)(nil)

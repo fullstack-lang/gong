@@ -131,7 +131,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 					// 	OnUpdated: stager.OnAddProductCompositionShape(diagram, parentProduct, product),
 					// }
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnAddCompositionShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
+						OnUpdated: OnAddAssociationShape(stager, diagram, parentProduct, product, &diagram.ProductComposition_Shapes),
 					}
 				} else {
 					showHideCompositionButton.Icon = string(buttons.BUTTON_unfold_less)
@@ -139,7 +139,7 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 						"\" to \"" + product.Name + "\""
 
 					showHideCompositionButton.Impl = &tree.FunctionalButtonProxy{
-						OnUpdated: OnRemoveCompositionShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
+						OnUpdated: OnRemoveAssociationShape(stager, diagram, compositionShape, &diagram.ProductComposition_Shapes),
 					}
 				}
 				productNode.Buttons = append(productNode.Buttons, showHideCompositionButton)
