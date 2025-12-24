@@ -44,10 +44,13 @@ func (stager *Stager) svg() {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
-		map_Product_Rect[productShape.Product] = stager.svgProductRect(
+		rect := svgRect(
+			stager,
 			diagram,
 			productShape,
 			layer)
+		rect.RX = 3
+		map_Product_Rect[productShape.Product] = rect
 	}
 
 	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
@@ -68,7 +71,8 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {
-		map_Task_Rect[taskShape.Task] = stager.svgTaskRect(
+		map_Task_Rect[taskShape.Task] = svgRect(
+			stager,
 			diagram,
 			taskShape,
 			layer)
