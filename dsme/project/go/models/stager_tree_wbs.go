@@ -224,5 +224,80 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 				}
 			}
 		}
+
+	}
+	if len(task.Outputs) > 0 {
+		outputProductsNode := &tree.Node{
+			Name:                 fmt.Sprintf("(%d)", len(task.Outputs)),
+			IsExpanded:           slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task) != -1,
+			IsNodeClickable:      true,
+			IsWithPreceedingIcon: true,
+			PreceedingIcon:       string(buttons.BUTTON_output),
+		}
+		taskNode.Children = append(taskNode.Children, outputProductsNode)
+
+		outputProductsNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+				if frontNode.IsExpanded != stagedNode.IsExpanded {
+					stagedNode.IsExpanded = frontNode.IsExpanded
+					if frontNode.IsExpanded {
+						if slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task) == -1 {
+							diagram.TasksWhoseOutputNodeIsExpanded = append(diagram.TasksWhoseOutputNodeIsExpanded, task)
+						}
+					} else {
+						if idx := slices.Index(diagram.TasksWhoseOutputNodeIsExpanded, task); idx != -1 {
+							diagram.TasksWhoseOutputNodeIsExpanded = slices.Delete(diagram.TasksWhoseOutputNodeIsExpanded, idx, idx+1)
+						}
+					}
+					stager.stage.Commit()
+					return
+				}
+			},
+		}
+
+		for _, product := range task.Outputs {
+			outputProductNode := &tree.Node{
+				Name:            product.GetName(),
+				IsExpanded:      true,
+				IsNodeClickable: true,
+			}
+			outputProductsNode.Children = append(outputProductsNode.Children, outputProductNode)
+
+			// if output task is present in diagram as well as the output product
+			// display the show/hide output relation button
+			if _, ok := diagram.map_Product_ProductShape[product]; ok {
+				if _, ok := diagram.map_Task_TaskShape[task]; ok {
+
+					showHideTaskOutputButton := &tree.Button{
+						Name:            task.GetName() + " add output relation from " + product.GetName(),
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+					}
+					outputProductNode.Buttons = append(outputProductNode.Buttons, showHideTaskOutputButton)
+
+					taskProductKey := taskProductKey{
+						Task:    task,
+						Product: product,
+					}
+					if taskOutputShape, ok := diagram.map_Task_TaskOutputShape[taskProductKey]; ok {
+						showHideTaskOutputButton.Icon = string(buttons.BUTTON_unfold_less)
+						showHideTaskOutputButton.ToolTipText = "Hide link from \"" + task.Name +
+							"\" to \"" + product.Name + "\""
+
+						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
+							OnUpdated: OnRemoveAssociationShape(stager, diagram, taskOutputShape, &diagram.TaskOutputShapes),
+						}
+					} else {
+						showHideTaskOutputButton.Icon = string(buttons.BUTTON_unfold_more)
+						showHideTaskOutputButton.ToolTipText = "Show link from \"" + task.Name +
+							"\" to \"" + product.Name + "\""
+
+						showHideTaskOutputButton.Impl = &tree.FunctionalButtonProxy{
+							OnUpdated: OnAddAssociationShape(stager, diagram, task, product, &diagram.TaskOutputShapes),
+						}
+					}
+				}
+			}
+		}
 	}
 }

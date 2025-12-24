@@ -72,7 +72,7 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
-	if stager.enforceTaskInputShapes() {
+	if stager.enforceTaskInputOutputShapes() {
 		needCommit = true
 	}
 

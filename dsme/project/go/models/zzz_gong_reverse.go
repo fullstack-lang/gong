@@ -138,6 +138,10 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 				if _diagram, ok := stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap[inst]; ok {
 					res = _diagram.Name
 				}
+			case "TasksWhoseOutputNodeIsExpanded":
+				if _diagram, ok := stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
 			}
 		case "Project":
 			switch reverseField.Fieldname {
@@ -189,6 +193,22 @@ func (inst *TaskInputShape) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 			switch reverseField.Fieldname {
 			case "TaskInputShapes":
 				if _diagram, ok := stage.Diagram_TaskInputShapes_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
+	}
+	return
+}
+
+func (inst *TaskOutputShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "TaskOutputShapes":
+				if _diagram, ok := stage.Diagram_TaskOutputShapes_reverseMap[inst]; ok {
 					res = _diagram.Name
 				}
 			}
@@ -326,6 +346,8 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 				res = stage.Diagram_TasksWhoseNodeIsExpanded_reverseMap[inst]
 			case "TasksWhoseInputNodeIsExpanded":
 				res = stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap[inst]
+			case "TasksWhoseOutputNodeIsExpanded":
+				res = stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[inst]
 			}
 		case "Project":
 			switch reverseField.Fieldname {
@@ -369,6 +391,20 @@ func (inst *TaskInputShape) GongGetReverseFieldOwner(stage *Stage, reverseField 
 			switch reverseField.Fieldname {
 			case "TaskInputShapes":
 				res = stage.Diagram_TaskInputShapes_reverseMap[inst]
+			}
+	}
+	return res
+}
+
+func (inst *TaskOutputShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "TaskOutputShapes":
+				res = stage.Diagram_TaskOutputShapes_reverseMap[inst]
 			}
 	}
 	return res
