@@ -43,6 +43,10 @@ func OnAddAssociationShape[
 			taskInputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
 			taskInputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
 		}
+		if taskOutputShape, ok := any(compositionShape).(*TaskOutputShape); ok {
+			taskOutputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+			taskOutputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+		}
 
 		compositionShape.SetCornerOffsetRatio(1.68)
 		compositionShape.SetStartRatio(0.5)

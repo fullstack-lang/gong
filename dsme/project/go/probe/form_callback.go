@@ -264,6 +264,37 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			}
 			diagram_.TasksWhoseInputNodeIsExpanded = instanceSlice
 
+		case "TasksWhoseOutputNodeIsExpanded":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.Task, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.Task)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.Task](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.TasksWhoseOutputNodeIsExpanded = instanceSlice
+
 		case "TaskComposition_Shapes":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskCompositionShape](diagramFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.TaskCompositionShape, 0)
@@ -325,6 +356,37 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 				}
 			}
 			diagram_.TaskInputShapes = instanceSlice
+
+		case "TaskOutputShapes":
+			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.TaskOutputShape](diagramFormCallback.probe.stageOfInterest)
+			instanceSlice := make([]*models.TaskOutputShape, 0)
+
+			// make a map of all instances by their ID
+			map_id_instances := make(map[uint]*models.TaskOutputShape)
+
+			for instance := range instanceSet {
+				id := models.GetOrderPointerGongstruct(
+					diagramFormCallback.probe.stageOfInterest,
+					instance,
+				)
+				map_id_instances[id] = instance
+			}
+
+			rowIDs, err := DecodeStringToIntSlice(formDiv.FormEditAssocButton.AssociationStorage)
+
+			if err != nil {
+				log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage)
+			}
+			map_RowID_ID := GetMap_RowID_ID[*models.TaskOutputShape](diagramFormCallback.probe.stageOfInterest)
+
+			for _, rowID := range rowIDs {
+				if id, ok := map_RowID_ID[int(rowID)]; ok {
+					instanceSlice = append(instanceSlice, map_id_instances[id])
+				} else {
+					log.Panic("not a good storage", formDiv.FormEditAssocButton.AssociationStorage, "unkown row id", rowID)
+				}
+			}
+			diagram_.TaskOutputShapes = instanceSlice
 
 		case "Project:Diagrams":
 			// WARNING : this form deals with the N-N association "Project.Diagrams []*Diagram" but
@@ -1936,6 +1998,72 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 			// (3) append the new value to the new source field
 			newSource.TasksWhoseInputNodeIsExpanded = append(newSource.TasksWhoseInputNodeIsExpanded, task_)
+		case "Diagram:TasksWhoseOutputNodeIsExpanded":
+			// WARNING : this form deals with the N-N association "Diagram.TasksWhoseOutputNodeIsExpanded []*Task" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of Task). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "TasksWhoseOutputNodeIsExpanded"
+				formerAssociationSource := task_.GongGetReverseFieldOwner(
+					taskFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.TasksWhoseOutputNodeIsExpanded []*Task, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TasksWhoseOutputNodeIsExpanded, task_)
+					formerSource.TasksWhoseOutputNodeIsExpanded = slices.Delete(formerSource.TasksWhoseOutputNodeIsExpanded, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.TasksWhoseOutputNodeIsExpanded []*Task, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TasksWhoseOutputNodeIsExpanded = append(newSource.TasksWhoseOutputNodeIsExpanded, task_)
 		case "Project:RootTasks":
 			// WARNING : this form deals with the N-N association "Project.RootTasks []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
@@ -2474,6 +2602,162 @@ func (taskinputshapeFormCallback *TaskInputShapeFormCallback) OnSave() {
 	}
 
 	updateAndCommitTree(taskinputshapeFormCallback.probe)
+}
+func __gong__New__TaskOutputShapeFormCallback(
+	taskoutputshape *models.TaskOutputShape,
+	probe *Probe,
+	formGroup *table.FormGroup,
+) (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) {
+	taskoutputshapeFormCallback = new(TaskOutputShapeFormCallback)
+	taskoutputshapeFormCallback.probe = probe
+	taskoutputshapeFormCallback.taskoutputshape = taskoutputshape
+	taskoutputshapeFormCallback.formGroup = formGroup
+
+	taskoutputshapeFormCallback.CreationMode = (taskoutputshape == nil)
+
+	return
+}
+
+type TaskOutputShapeFormCallback struct {
+	taskoutputshape *models.TaskOutputShape
+
+	// If the form call is called on the creation of a new instnace
+	CreationMode bool
+
+	probe *Probe
+
+	formGroup *table.FormGroup
+}
+
+func (taskoutputshapeFormCallback *TaskOutputShapeFormCallback) OnSave() {
+
+	// log.Println("TaskOutputShapeFormCallback, OnSave")
+
+	// checkout formStage to have the form group on the stage synchronized with the
+	// back repo (and front repo)
+	taskoutputshapeFormCallback.probe.formStage.Checkout()
+
+	if taskoutputshapeFormCallback.taskoutputshape == nil {
+		taskoutputshapeFormCallback.taskoutputshape = new(models.TaskOutputShape).Stage(taskoutputshapeFormCallback.probe.stageOfInterest)
+	}
+	taskoutputshape_ := taskoutputshapeFormCallback.taskoutputshape
+	_ = taskoutputshape_
+
+	for _, formDiv := range taskoutputshapeFormCallback.formGroup.FormDivs {
+		switch formDiv.Name {
+		// insertion point per field
+		case "Name":
+			FormDivBasicFieldToField(&(taskoutputshape_.Name), formDiv)
+		case "Task":
+			FormDivSelectFieldToField(&(taskoutputshape_.Task), taskoutputshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "Product":
+			FormDivSelectFieldToField(&(taskoutputshape_.Product), taskoutputshapeFormCallback.probe.stageOfInterest, formDiv)
+		case "StartRatio":
+			FormDivBasicFieldToField(&(taskoutputshape_.StartRatio), formDiv)
+		case "EndRatio":
+			FormDivBasicFieldToField(&(taskoutputshape_.EndRatio), formDiv)
+		case "StartOrientation":
+			FormDivEnumStringFieldToField(&(taskoutputshape_.StartOrientation), formDiv)
+		case "EndOrientation":
+			FormDivEnumStringFieldToField(&(taskoutputshape_.EndOrientation), formDiv)
+		case "CornerOffsetRatio":
+			FormDivBasicFieldToField(&(taskoutputshape_.CornerOffsetRatio), formDiv)
+		case "Diagram:TaskOutputShapes":
+			// WARNING : this form deals with the N-N association "Diagram.TaskOutputShapes []*TaskOutputShape" but
+			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)
+			//
+			// In many use cases, for instance tree structures, the assocation is semanticaly a 1-N
+			// association. For those use cases, it is handy to set the source of the assocation with
+			// the form of the target source (when editing an instance of TaskOutputShape). Setting up a value
+			// will discard the former value is there is one.
+			//
+			// Therefore, the forms works only in ONE particular case:
+			// - there was no association to this target
+			var formerSource *models.Diagram
+			{
+				var rf models.ReverseField
+				_ = rf
+				rf.GongstructName = "Diagram"
+				rf.Fieldname = "TaskOutputShapes"
+				formerAssociationSource := taskoutputshape_.GongGetReverseFieldOwner(
+					taskoutputshapeFormCallback.probe.stageOfInterest,
+					&rf)
+
+				var ok bool
+				if formerAssociationSource != nil {
+					formerSource, ok = formerAssociationSource.(*models.Diagram)
+					if !ok {
+						log.Fatalln("Source of Diagram.TaskOutputShapes []*TaskOutputShape, is not an Diagram instance")
+					}
+				}
+			}
+
+			newSourceName := formDiv.FormFields[0].FormFieldSelect.Value
+
+			// case when the user set empty for the source value
+			if newSourceName == nil {
+				// That could mean we clear the assocation for all source instances
+				if formerSource != nil {
+					idx := slices.Index(formerSource.TaskOutputShapes, taskoutputshape_)
+					formerSource.TaskOutputShapes = slices.Delete(formerSource.TaskOutputShapes, idx, idx+1)
+				}
+				break // nothing else to do for this field
+			}
+
+			// the former source is not empty. the new value could
+			// be different but there mught more that one source thet
+			// points to this target
+			if formerSource != nil {
+				break // nothing else to do for this field
+			}
+
+			// (2) find the source
+			var newSource *models.Diagram
+			for _diagram := range *models.GetGongstructInstancesSet[models.Diagram](taskoutputshapeFormCallback.probe.stageOfInterest) {
+
+				// the match is base on the name
+				if _diagram.GetName() == newSourceName.GetName() {
+					newSource = _diagram // we have a match
+					break
+				}
+			}
+			if newSource == nil {
+				log.Println("Source of Diagram.TaskOutputShapes []*TaskOutputShape, with name", newSourceName, ", does not exist")
+				break
+			}
+
+			// (3) append the new value to the new source field
+			newSource.TaskOutputShapes = append(newSource.TaskOutputShapes, taskoutputshape_)
+		}
+	}
+
+	// manage the suppress operation
+	if taskoutputshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		taskoutputshape_.Unstage(taskoutputshapeFormCallback.probe.stageOfInterest)
+	}
+
+	taskoutputshapeFormCallback.probe.stageOfInterest.Commit()
+	updateProbeTable[*models.TaskOutputShape](
+		taskoutputshapeFormCallback.probe,
+	)
+
+	// display a new form by reset the form stage
+	if taskoutputshapeFormCallback.CreationMode || taskoutputshapeFormCallback.formGroup.HasSuppressButtonBeenPressed {
+		taskoutputshapeFormCallback.probe.formStage.Reset()
+		newFormGroup := (&table.FormGroup{
+			Name: FormName,
+		}).Stage(taskoutputshapeFormCallback.probe.formStage)
+		newFormGroup.OnSave = __gong__New__TaskOutputShapeFormCallback(
+			nil,
+			taskoutputshapeFormCallback.probe,
+			newFormGroup,
+		)
+		taskoutputshape := new(models.TaskOutputShape)
+		FillUpForm(taskoutputshape, newFormGroup, taskoutputshapeFormCallback.probe)
+		taskoutputshapeFormCallback.probe.formStage.Commit()
+	}
+
+	updateAndCommitTree(taskoutputshapeFormCallback.probe)
 }
 func __gong__New__TaskShapeFormCallback(
 	taskshape *models.TaskShape,
