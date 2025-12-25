@@ -26,6 +26,9 @@ type Stager struct {
 	treeStage *tree.Stage
 
 	svgStage *svg.Stage
+
+	productToProject map[*Product]*Project
+	taskToProject    map[*Task]*Project
 }
 
 func NewStager(
@@ -33,7 +36,6 @@ func NewStager(
 	stage *Stage,
 	probeForm ProbeIF,
 ) (stager *Stager) {
-
 	stager = new(Stager)
 
 	stager.stage = stage
