@@ -70,6 +70,8 @@ func (diagramFormCallback *DiagramFormCallback) OnSave() {
 			FormDivBasicFieldToField(&(diagram_.IsEditable_), formDiv)
 		case "IsInRenameMode":
 			FormDivBasicFieldToField(&(diagram_.IsInRenameMode), formDiv)
+		case "ShowPrefix":
+			FormDivBasicFieldToField(&(diagram_.ShowPrefix), formDiv)
 		case "IsExpanded":
 			FormDivBasicFieldToField(&(diagram_.IsExpanded), formDiv)
 		case "ComputedPrefix":

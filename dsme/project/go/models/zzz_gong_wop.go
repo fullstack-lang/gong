@@ -20,6 +20,8 @@ type Diagram_WOP struct {
 
 	IsInRenameMode bool
 
+	ShowPrefix bool
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -35,6 +37,7 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.IsChecked = from.IsChecked
 	to.IsEditable_ = from.IsEditable_
 	to.IsInRenameMode = from.IsInRenameMode
+	to.ShowPrefix = from.ShowPrefix
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded

@@ -2943,6 +2943,10 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "ShowPrefix",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3458,6 +3462,10 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	case "IsInRenameMode":
 		res.valueString = fmt.Sprintf("%t", diagram.IsInRenameMode)
 		res.valueBool = diagram.IsInRenameMode
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "ShowPrefix":
+		res.valueString = fmt.Sprintf("%t", diagram.ShowPrefix)
+		res.valueBool = diagram.ShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
@@ -3984,6 +3992,8 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsEditable_ = value.GetValueBool()
 	case "IsInRenameMode":
 		diagram.IsInRenameMode = value.GetValueBool()
+	case "ShowPrefix":
+		diagram.ShowPrefix = value.GetValueBool()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
 	case "ComputedPrefix":

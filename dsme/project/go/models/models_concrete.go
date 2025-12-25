@@ -7,6 +7,7 @@ type Diagram struct {
 	IsChecked      bool
 	IsEditable_    bool
 	IsInRenameMode bool
+	ShowPrefix     bool // display shapes with their prefix
 
 	ExpandableNodeObject
 

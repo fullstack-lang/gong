@@ -129,6 +129,29 @@ func (stager *Stager) tree() {
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Prefix",
+					Icon:            string(buttons.BUTTON_show_chart),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							diagram.ShowPrefix = !diagram.ShowPrefix
+							stager.stage.Commit()
+						},
+					},
+				}
+				if !diagram.ShowPrefix {
+					showAllButton.Icon = string(buttons.BUTTON_hide_source)
+					showAllButton.ToolTipText = "Show Prefix"
+				} else {
+					showAllButton.Icon = string(buttons.BUTTON_show_chart)
+					showAllButton.ToolTipText = "Hide Prefix"
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
 
 			pbsNode := &tree.Node{
 				Name:            "PBS",
