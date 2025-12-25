@@ -36,7 +36,12 @@ type ExpandableNodeObject struct {
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
 	computedPrefix []int
+
+	// When the full PBS is displayed, the computedWidth is the number of node
+	// aligned below. A leaf node has a computedWidth of 1
+	computedWidth int
 }
+
 type Task struct {
 	Name string
 
