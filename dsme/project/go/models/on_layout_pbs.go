@@ -4,57 +4,81 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-// OnLayoutPBS resets the diagram, creates and add all all possible product related concrete instances to the diagram,
+var (
+	leftOffset = 10.0
+	topOffset  = 10.0
+)
+
+// onLayoutPBS resets the diagram, creates and add all all possible product related concrete instances to the diagram,
 // and organize them in a breakdown structure
-func OnLayoutPBS(stager *Stager, diagram *Diagram) func(
+func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		for _, shape := range diagram.Product_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.Product_Shapes = nil
-
-		for _, shape := range diagram.Task_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.Task_Shapes = nil
-
-		for _, shape := range diagram.ProductComposition_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.ProductComposition_Shapes = nil
-
-		for _, shape := range diagram.TaskComposition_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskComposition_Shapes = nil
-
-		for _, shape := range diagram.TaskInputShapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskInputShapes = nil
-
-		for _, shape := range diagram.TaskOutputShapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskOutputShapes = nil
+		stager.removeAllShapes(diagram)
 
 		// 2. Compute the rank of each node (Product or Task)
 		// The rank is determined by the longest path from a root node.
 		// Rank 0 = Root. Rank N = Dependencies have Max(Rank) = N-1.
 		map_Node_Rank := make(map[any]int)
 
-		products := GetGongstrucsSorted[*Product](stager.stage)
-		for _, product := range products {
+		allProducts := GetGongstrucsSorted[*Product](stager.stage)
+		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		var products []*Product
+		for _, product := range allProducts {
+			if stager.productToProject[product] != project {
+				continue
+			}
+			products = append(products, product)
 			map_Node_Rank[product] = 0
 		}
-		tasks := GetGongstrucsSorted[*Task](stager.stage)
-		for _, task := range tasks {
-			map_Node_Rank[task] = 0
+
+		// 3. Propagate ranks to children (Products and Tasks)
+		// We use a fixed-point iteration to handle the depth propagation
+		iterations := 0
+		maxIterations := len(products) + 1 // Safe limit to prevent infinite loops in cyclic graphs
+		for iterations < maxIterations {
+			changed := false
+			for _, product := range products {
+				currentRank := map_Node_Rank[product]
+				for _, subProduct := range product.SubProducts {
+					if map_Node_Rank[subProduct] <= currentRank {
+						map_Node_Rank[subProduct] = currentRank + 1
+						changed = true
+					}
+				}
+			}
+			if !changed {
+				break
+			}
+			iterations++
 		}
 
-		// to be coded
+		// 4. Create and position shapes
+
+		// Track X position for each rank to prevent overlap
+		map_Rank_NextX := make(map[int]float64)
+
+		// Create Product Shapes
+		for _, product := range products {
+			rank := map_Node_Rank[product]
+
+			// Position
+			x := map_Rank_NextX[rank] * defaultBoxWidth * 1.5
+			map_Rank_NextX[rank] += 1.0
+			y := float64(rank) * defaultBoxHeigth * 2.0
+
+			// Create Shape
+			shape := newShapeToDiagram(product, diagram, &diagram.Product_Shapes, stager.stage)
+			shape.X = x + leftOffset
+			shape.Y = y + topOffset
+
+			// Create Composition Shapes (Links to children)
+			for _, subProduct := range product.SubProducts {
+				compositionShape := newConcreteAssociation(product, subProduct, &diagram.ProductComposition_Shapes)
+				_ = compositionShape
+			}
+		}
 
 		// 5. Unstage the diagram and re-stage it with StageBranch to include all new shapes recursively
 		diagram.Unstage(stager.stage)
