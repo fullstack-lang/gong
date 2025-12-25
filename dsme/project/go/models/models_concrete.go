@@ -9,6 +9,9 @@ type Diagram struct {
 	IsInRenameMode bool
 	ShowPrefix     bool // display shapes with their prefix
 
+	DefaultBoxWidth  float64
+	DefaultBoxHeigth float64
+
 	ExpandableNodeObject
 
 	Product_Shapes              []*ProductShape
@@ -155,11 +158,6 @@ func (s *TaskCompositionShape) SetAbstractStartElement(abstractElement AbstractT
 
 var _ AssociationConcreteType = (*TaskCompositionShape)(nil)
 
-const (
-	defaultBoxWidth  = 250.0
-	defaultBoxHeigth = 100.0
-)
-
 func newShapeToDiagram[AT AbstractType, CT interface {
 	*S
 	RectShapeInterface
@@ -174,8 +172,8 @@ func newShapeToDiagram[AT AbstractType, CT interface {
 	shape.StageVoid(stage)
 	shape.SetAbstractElement(abstractElement)
 	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
-	shape.SetHeight(defaultBoxHeigth)
-	shape.SetWidth(defaultBoxWidth)
+	shape.SetHeight(diagram.DefaultBoxHeigth)
+	shape.SetWidth(diagram.DefaultBoxWidth)
 	shape.SetX(100 + rand.Float64()*100.0)
 	shape.SetY(100 + rand.Float64()*100.0)
 	*shapes = append(*shapes, shape)

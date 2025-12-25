@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/pkg/strutils"
 )
@@ -54,7 +56,8 @@ func svgRect[CT interface {
 
 		content := shape.GetAbstractElement().GetName()
 		if diagram.ShowPrefix {
-			content = abstractElement.GetComputedPrefix() + " " + content
+			content = abstractElement.GetComputedPrefix() + " " + content +
+				fmt.Sprintf(" (%d)", abstractElement.GetComputedWidth())
 		}
 
 		if rect.Width > 0 {

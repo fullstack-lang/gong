@@ -2947,6 +2947,14 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "DefaultBoxWidth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "DefaultBoxHeigth",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:               "IsExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
@@ -3467,6 +3475,14 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.ShowPrefix)
 		res.valueBool = diagram.ShowPrefix
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "DefaultBoxWidth":
+		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxWidth)
+		res.valueFloat = diagram.DefaultBoxWidth
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "DefaultBoxHeigth":
+		res.valueString = fmt.Sprintf("%f", diagram.DefaultBoxHeigth)
+		res.valueFloat = diagram.DefaultBoxHeigth
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", diagram.IsExpanded)
 		res.valueBool = diagram.IsExpanded
@@ -3994,6 +4010,10 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		diagram.IsInRenameMode = value.GetValueBool()
 	case "ShowPrefix":
 		diagram.ShowPrefix = value.GetValueBool()
+	case "DefaultBoxWidth":
+		diagram.DefaultBoxWidth = value.GetValueFloat()
+	case "DefaultBoxHeigth":
+		diagram.DefaultBoxHeigth = value.GetValueFloat()
 	case "IsExpanded":
 		diagram.IsExpanded = value.GetValueBool()
 	case "ComputedPrefix":
