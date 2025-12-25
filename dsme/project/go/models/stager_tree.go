@@ -90,6 +90,20 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateDiagram(diagram),
 			}
 
+			{
+				copyButton := &tree.Button{
+					Name:            "Diagram Copy" + " " + string(buttons.BUTTON_copy_all),
+					Icon:            string(buttons.BUTTON_copy_all),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Copy Diagram",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: OnCopyDiagram(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+			}
+
 			pbsNode := &tree.Node{
 				Name:            "PBS",
 				FontStyle:       tree.ITALIC,
@@ -245,4 +259,55 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 // Append is a generic helper that appends an item to a slice via a pointer
 func Append[T any](slice *[]T, item T) {
 	*slice = append(*slice, item)
+}
+
+func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		newDiagram := new(Diagram)
+		newDiagram.Name = diagram.Name + " copy"
+		newDiagram.IsEditable_ = true
+
+		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		Append(&project.Diagrams, newDiagram)
+
+		for _, s := range diagram.Product_Shapes {
+			newShape := s.GongCopy().(*ProductShape)
+			newShape.Stage(stager.stage)
+			newDiagram.Product_Shapes = append(newDiagram.Product_Shapes, newShape)
+		}
+
+		for _, s := range diagram.ProductComposition_Shapes {
+			newShape := s.GongCopy().(*ProductCompositionShape)
+			newShape.Stage(stager.stage)
+			newDiagram.ProductComposition_Shapes = append(newDiagram.ProductComposition_Shapes, newShape)
+		}
+
+		for _, s := range diagram.Task_Shapes {
+			newShape := s.GongCopy().(*TaskShape)
+			newShape.Stage(stager.stage)
+			newDiagram.Task_Shapes = append(newDiagram.Task_Shapes, newShape)
+		}
+
+		for _, s := range diagram.TaskComposition_Shapes {
+			newShape := s.GongCopy().(*TaskCompositionShape)
+			newShape.Stage(stager.stage)
+			newDiagram.TaskComposition_Shapes = append(newDiagram.TaskComposition_Shapes, newShape)
+		}
+
+		for _, s := range diagram.TaskInputShapes {
+			newShape := s.GongCopy().(*TaskInputShape)
+			newShape.Stage(stager.stage)
+			newDiagram.TaskInputShapes = append(newDiagram.TaskInputShapes, newShape)
+		}
+
+		for _, s := range diagram.TaskOutputShapes {
+			newShape := s.GongCopy().(*TaskOutputShape)
+			newShape.Stage(stager.stage)
+			newDiagram.TaskOutputShapes = append(newDiagram.TaskOutputShapes, newShape)
+		}
+
+		newDiagram.Stage(stager.stage)
+		stager.stage.Commit()
+	}
 }
