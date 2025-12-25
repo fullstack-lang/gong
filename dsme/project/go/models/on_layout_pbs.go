@@ -9,8 +9,8 @@ var (
 	topOffset  = 10.0
 )
 
-// onLayoutPBS resets the diagram, creates and add all all possible product related concrete instances to the diagram,
-// and organize them in a breakdown structure
+// onLayoutPBS resets the diagram, creates and adds all possible product-related concrete instances to the diagram,
+// and organizes them in a breakdown structure
 func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
@@ -20,67 +20,43 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 		// 2. Identify Project
 		project := stager.stage.Project_Diagrams_reverseMap[diagram]
 
-		// 3. Algorithm: Recursive Tree Layout using Computed Width
-		map_Product_X := make(map[*Product]float64)
-		map_Product_Level := make(map[*Product]int)
-
-		// recursive layout function
-		var layout func(p *Product, startX float64, level int)
-		layout = func(p *Product, startX float64, level int) {
-			map_Product_Level[p] = level
-
-			// If leaf (no sub-products), center in the 1-unit slot
-			if len(p.SubProducts) == 0 {
-				map_Product_X[p] = startX + 0.5
-				return
-			}
-
-			// If parent, layout children sequentially
-			currentChildX := startX
-			for _, sub := range p.SubProducts {
-				layout(sub, currentChildX, level+1)
-				// Increment offset by the pre-computed width of the child's subtree
-				currentChildX += float64(sub.GetComputedWidth())
-			}
-
-			// Center parent over its children
-			// We align the parent with the visual center of its immediate children
-			firstChildX := map_Product_X[p.SubProducts[0]]
-			lastChildX := map_Product_X[p.SubProducts[len(p.SubProducts)-1]]
-			map_Product_X[p] = (firstChildX + lastChildX) / 2.0
-		}
-
-		// Apply layout iterating over the defined RootProducts of the project
-		// This respects the user-defined order of trees
-		var currentRootStartSlot float64 = 0.0
-		for _, root := range project.RootProducts {
-			layout(root, currentRootStartSlot, 0)
-			// Advance by the root's total width plus a gap
-			currentRootStartSlot += float64(root.GetComputedWidth()) + 0.5
-		}
-
-		// 4. Create Shapes
-		// We iterate over the mapped products, which ensures we only create shapes for
-		// reachable nodes in the project's hierarchy.
-		for product, x_slot := range map_Product_X {
-			level := map_Product_Level[product]
-
-			// Position mapping
-			// X: slot * box_width * spacing_factor
-			// Y: level * box_height * spacing_factor
-			x := x_slot * diagram.DefaultBoxWidth * 1.5
-			y := float64(level) * diagram.DefaultBoxHeigth * 2.0
-
+		// layout is the function that
+		// - layout the product at startX and level
+		// - returns the startX for the next product at the same level
+		// - call layout on all subProducts
+		var layout func(p *Product, startX float64, level int) float64
+		layout = func(product *Product, startX float64, level int) float64 {
 			// Create Shape
 			shape := newShapeToDiagram(product, diagram, &diagram.Product_Shapes, stager.stage)
+			x := (startX + float64(product.GetComputedWidth()-1)/2.0) * diagram.DefaultBoxWidth * 1.5
+			y := float64(level) * diagram.DefaultBoxHeigth * 2.0
 			shape.X = x + leftOffset
 			shape.Y = y + topOffset
 
-			// Create Composition Shapes (Links to children)
+			// Base Case: Leaf Node (no sub-products)
+			if len(product.SubProducts) == 0 {
+				return 1.0
+			}
+
+			// Recursive Step: Layout Children
+			// We stack children horizontally starting from startX
+			currentChildX := startX
 			for _, subProduct := range product.SubProducts {
+				// Recursively layout the child and get its actual visual width
+				childWidth := layout(subProduct, currentChildX, level+1)
+
+				// Advance the X cursor by the child's width for the next sibling
+				currentChildX += childWidth
+
 				compositionShape := newConcreteAssociation(product, subProduct, &diagram.ProductComposition_Shapes)
+				compositionShape.CornerOffsetRatio = 1.5
 				_ = compositionShape
 			}
+			return float64(product.GetComputedWidth())
+		}
+		width := 0.0
+		for _, subProduct := range project.RootProducts {
+			width += layout(subProduct, width, 0)
 		}
 
 		// 5. Unstage the diagram and re-stage it with StageBranch to include all new shapes recursively
