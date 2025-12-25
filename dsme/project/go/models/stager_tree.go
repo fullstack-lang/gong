@@ -106,12 +106,25 @@ func (stager *Stager) tree() {
 			{
 				showAllButton := &tree.Button{
 					Name:            "Diagram Show All",
-					Icon:            string(buttons.BUTTON_show_chart),
+					Icon:            string(buttons.BUTTON_all_out),
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Show All Elements in the Diagram",
 					Impl: &tree.FunctionalButtonProxy{
-						OnUpdated: OnShowAllInDiagram(stager, diagram),
+						OnUpdated: onShowAllInDiagram(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Show As PBS Tree",
+					Icon:            string(buttons.BUTTON_account_tree),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show Show As PBS Tree",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: onLayoutPBS(stager, diagram),
 					},
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)

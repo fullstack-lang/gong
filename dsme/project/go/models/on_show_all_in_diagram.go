@@ -4,41 +4,13 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-// OnShowAllInDiagram resets the diagram, creates and add all all possible concrete instances to the diagram,
+// onShowAllInDiagram resets the diagram, creates and add all all possible concrete instances to the diagram,
 // and organize them in a pseudo pert diagram
-func OnShowAllInDiagram(stager *Stager, diagram *Diagram) func(
+func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		for _, shape := range diagram.Product_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.Product_Shapes = nil
-
-		for _, shape := range diagram.Task_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.Task_Shapes = nil
-
-		for _, shape := range diagram.ProductComposition_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.ProductComposition_Shapes = nil
-
-		for _, shape := range diagram.TaskComposition_Shapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskComposition_Shapes = nil
-
-		for _, shape := range diagram.TaskInputShapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskInputShapes = nil
-
-		for _, shape := range diagram.TaskOutputShapes {
-			shape.Unstage(stager.stage)
-		}
-		diagram.TaskOutputShapes = nil
+		stager.removeAllShapes(diagram)
 
 		// 2. Compute the rank of each node (Product or Task)
 		// The rank is determined by the longest path from a root node.
