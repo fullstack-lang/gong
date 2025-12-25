@@ -80,6 +80,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	if stager.enforceTaskInputOutputProjectConsistency() {
+		needCommit = true
+	}
+
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
 	stager.enforceDiagramMaps()

@@ -24,6 +24,7 @@ func _(stage *models.Stage) {
 	// Declaration of instances to stage
 
 	__Diagram__00000012_NewDiagram := (&models.Diagram{}).Stage(stage)
+	__Diagram__00000013_NewDiagram := (&models.Diagram{}).Stage(stage)
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
@@ -33,6 +34,7 @@ func _(stage *models.Stage) {
 	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
 	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
 	__Product__00000010_Specifications := (&models.Product{}).Stage(stage)
+	__Product__00000011_Product_1 := (&models.Product{}).Stage(stage)
 
 	__ProductCompositionShape__00000064_Backend_to_Semantic_Enforcer := (&models.ProductCompositionShape{}).Stage(stage)
 	__ProductCompositionShape__00000065_Backend_to_Docx_Backend := (&models.ProductCompositionShape{}).Stage(stage)
@@ -48,6 +50,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000113_UX := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000114_WBS_tree := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000115_views := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000116_Product_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -57,7 +60,7 @@ func _(stage *models.Stage) {
 	__Task__00000000_Develop_Backend := (&models.Task{}).Stage(stage)
 	__Task__00000001_Dev_WBS_Tree := (&models.Task{}).Stage(stage)
 	__Task__00000002_Dev_PBS_Tree := (&models.Task{}).Stage(stage)
-	__Task__00000003_Dev_docx_Backend := (&models.Task{}).Stage(stage)
+	__Task__00000003_Task_1 := (&models.Task{}).Stage(stage)
 	__Task__00000004_Dev_views := (&models.Task{}).Stage(stage)
 	__Task__00000005_Dev_UXx := (&models.Task{}).Stage(stage)
 	__Task__00000006_Write_Specs := (&models.Task{}).Stage(stage)
@@ -102,17 +105,27 @@ func _(stage *models.Stage) {
 	__TaskShape__00000091_Dev_views := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000092_Develop_Backend := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000093_Write_Specs := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000094_Task_1_NewDiagram := (&models.TaskShape{}).Stage(stage)
 
 	// Setup of values
 
 	__Diagram__00000012_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000012_NewDiagram.IsChecked = true
+	__Diagram__00000012_NewDiagram.IsChecked = false
 	__Diagram__00000012_NewDiagram.IsEditable_ = true
 	__Diagram__00000012_NewDiagram.IsInRenameMode = false
 	__Diagram__00000012_NewDiagram.IsExpanded = false
 	__Diagram__00000012_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000012_NewDiagram.IsPBSNodeExpanded = false
 	__Diagram__00000012_NewDiagram.IsWBSNodeExpanded = false
+
+	__Diagram__00000013_NewDiagram.Name = `NewDiagram`
+	__Diagram__00000013_NewDiagram.IsChecked = true
+	__Diagram__00000013_NewDiagram.IsEditable_ = true
+	__Diagram__00000013_NewDiagram.IsInRenameMode = false
+	__Diagram__00000013_NewDiagram.IsExpanded = true
+	__Diagram__00000013_NewDiagram.ComputedPrefix = ``
+	__Diagram__00000013_NewDiagram.IsPBSNodeExpanded = true
+	__Diagram__00000013_NewDiagram.IsWBSNodeExpanded = true
 
 	__Product__00000000_UX.Name = `UX`
 	__Product__00000000_UX.IsExpanded = false
@@ -161,6 +174,12 @@ func _(stage *models.Stage) {
 	__Product__00000010_Specifications.ComputedPrefix = `1`
 	__Product__00000010_Specifications.IsProducersNodeExpanded = false
 	__Product__00000010_Specifications.IsConsumersNodeExpanded = false
+
+	__Product__00000011_Product_1.Name = `Product 1`
+	__Product__00000011_Product_1.IsExpanded = false
+	__Product__00000011_Product_1.ComputedPrefix = `1`
+	__Product__00000011_Product_1.IsProducersNodeExpanded = false
+	__Product__00000011_Product_1.IsConsumersNodeExpanded = false
 
 	__ProductCompositionShape__00000064_Backend_to_Semantic_Enforcer.Name = `Backend to Semantic Enforcer`
 	__ProductCompositionShape__00000064_Backend_to_Semantic_Enforcer.StartRatio = 0.500000
@@ -253,6 +272,13 @@ func _(stage *models.Stage) {
 	__ProductShape__00000115_views.Width = 200.000000
 	__ProductShape__00000115_views.Height = 60.000000
 
+	__ProductShape__00000116_Product_1_NewDiagram.Name = `Product 1-NewDiagram`
+	__ProductShape__00000116_Product_1_NewDiagram.IsExpanded = false
+	__ProductShape__00000116_Product_1_NewDiagram.X = 643.082410
+	__ProductShape__00000116_Product_1_NewDiagram.Y = 327.618492
+	__ProductShape__00000116_Product_1_NewDiagram.Width = 200.000000
+	__ProductShape__00000116_Product_1_NewDiagram.Height = 80.000000
+
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
 	__Project__00000000_Project_Editor.IsWBSNodeExpanded = true
@@ -261,9 +287,9 @@ func _(stage *models.Stage) {
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
-	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
+	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = true
-	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = false
+	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsExpanded = true
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
@@ -288,11 +314,11 @@ func _(stage *models.Stage) {
 	__Task__00000002_Dev_PBS_Tree.IsInputsNodeExpanded = false
 	__Task__00000002_Dev_PBS_Tree.IsOutputsNodeExpanded = false
 
-	__Task__00000003_Dev_docx_Backend.Name = `Dev docx Backend`
-	__Task__00000003_Dev_docx_Backend.IsExpanded = true
-	__Task__00000003_Dev_docx_Backend.ComputedPrefix = `1`
-	__Task__00000003_Dev_docx_Backend.IsInputsNodeExpanded = true
-	__Task__00000003_Dev_docx_Backend.IsOutputsNodeExpanded = true
+	__Task__00000003_Task_1.Name = `Task 1`
+	__Task__00000003_Task_1.IsExpanded = true
+	__Task__00000003_Task_1.ComputedPrefix = `1`
+	__Task__00000003_Task_1.IsInputsNodeExpanded = true
+	__Task__00000003_Task_1.IsOutputsNodeExpanded = true
 
 	__Task__00000004_Dev_views.Name = `Dev views`
 	__Task__00000004_Dev_views.IsExpanded = false
@@ -549,6 +575,13 @@ func _(stage *models.Stage) {
 	__TaskShape__00000093_Write_Specs.Width = 200.000000
 	__TaskShape__00000093_Write_Specs.Height = 60.000000
 
+	__TaskShape__00000094_Task_1_NewDiagram.Name = `Task 1-NewDiagram`
+	__TaskShape__00000094_Task_1_NewDiagram.IsExpanded = false
+	__TaskShape__00000094_Task_1_NewDiagram.X = 114.592214
+	__TaskShape__00000094_Task_1_NewDiagram.Y = 298.090551
+	__TaskShape__00000094_Task_1_NewDiagram.Width = 200.000000
+	__TaskShape__00000094_Task_1_NewDiagram.Height = 80.000000
+
 	// Setup of pointers
 	// setup of Diagram instances pointers
 	__Diagram__00000012_NewDiagram.Product_Shapes = append(__Diagram__00000012_NewDiagram.Product_Shapes, __ProductShape__00000108_Backend)
@@ -578,6 +611,8 @@ func _(stage *models.Stage) {
 	__Diagram__00000012_NewDiagram.TaskOutputShapes = append(__Diagram__00000012_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000066_Dev_UXx_to_PBS_tree)
 	__Diagram__00000012_NewDiagram.TaskOutputShapes = append(__Diagram__00000012_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000067_Dev_UXx_to_views)
 	__Diagram__00000012_NewDiagram.TaskOutputShapes = append(__Diagram__00000012_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000068_Write_Specs_to_Specifications)
+	__Diagram__00000013_NewDiagram.Product_Shapes = append(__Diagram__00000013_NewDiagram.Product_Shapes, __ProductShape__00000116_Product_1_NewDiagram)
+	__Diagram__00000013_NewDiagram.Task_Shapes = append(__Diagram__00000013_NewDiagram.Task_Shapes, __TaskShape__00000094_Task_1_NewDiagram)
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
@@ -599,6 +634,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000113_UX.Product = __Product__00000000_UX
 	__ProductShape__00000114_WBS_tree.Product = __Product__00000002_WBS_tree
 	__ProductShape__00000115_views.Product = __Product__00000005_views
+	__ProductShape__00000116_Product_1_NewDiagram.Product = __Product__00000011_Product_1
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000010_Specifications)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
@@ -608,7 +644,9 @@ func _(stage *models.Stage) {
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_Dev_WBS_Tree)
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_Dev_PBS_Tree)
 	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000012_NewDiagram)
-	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Dev_docx_Backend)
+	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000011_Product_1)
+	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Task_1)
+	__Project__00000001_DSME_Docx.Diagrams = append(__Project__00000001_DSME_Docx.Diagrams, __Diagram__00000013_NewDiagram)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
@@ -633,9 +671,9 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000007_Dev_UXx_PBS_tree.Product = __Product__00000004_PBS_tree
 	__TaskOutputShape__00000008_Dev_UXx_views.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000008_Dev_UXx_views.Product = __Product__00000005_views
-	__TaskOutputShape__00000009_Dev_docx_Backend_Docx_Backend.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000009_Dev_docx_Backend_Docx_Backend.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000009_Dev_docx_Backend_Docx_Backend.Product = __Product__00000009_Docx_Backend
-	__TaskOutputShape__00000010_Dev_docx_Backend_Semantic_Enforcer.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000010_Dev_docx_Backend_Semantic_Enforcer.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000010_Dev_docx_Backend_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
 	__TaskOutputShape__00000011_Write_Specs_Specifications.Task = __Task__00000006_Write_Specs
 	__TaskOutputShape__00000011_Write_Specs_Specifications.Product = __Product__00000010_Specifications
@@ -645,9 +683,9 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000019_Dev_UXx_PBS_tree.Product = __Product__00000004_PBS_tree
 	__TaskOutputShape__00000020_Dev_UXx_views.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000020_Dev_UXx_views.Product = __Product__00000005_views
-	__TaskOutputShape__00000021_Dev_docx_Backend_Docx_Backend.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000021_Dev_docx_Backend_Docx_Backend.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000021_Dev_docx_Backend_Docx_Backend.Product = __Product__00000009_Docx_Backend
-	__TaskOutputShape__00000022_Dev_docx_Backend_Semantic_Enforcer.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000022_Dev_docx_Backend_Semantic_Enforcer.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000022_Dev_docx_Backend_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
 	__TaskOutputShape__00000041_Dev_UXx_to_WBS_tree.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000041_Dev_UXx_to_WBS_tree.Product = __Product__00000002_WBS_tree
@@ -655,9 +693,9 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000042_Dev_UXx_to_PBS_tree.Product = __Product__00000004_PBS_tree
 	__TaskOutputShape__00000043_Dev_UXx_to_views.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000043_Dev_UXx_to_views.Product = __Product__00000005_views
-	__TaskOutputShape__00000044_Dev_docx_Backend_to_Docx_Backend.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000044_Dev_docx_Backend_to_Docx_Backend.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000044_Dev_docx_Backend_to_Docx_Backend.Product = __Product__00000009_Docx_Backend
-	__TaskOutputShape__00000045_Dev_docx_Backend_to_Semantic_Enforcer.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000045_Dev_docx_Backend_to_Semantic_Enforcer.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000045_Dev_docx_Backend_to_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
 	__TaskOutputShape__00000046_Write_Specs_to_Specifications.Task = __Task__00000006_Write_Specs
 	__TaskOutputShape__00000046_Write_Specs_to_Specifications.Product = __Product__00000010_Specifications
@@ -667,9 +705,9 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000054_Dev_UXx_to_PBS_tree.Product = __Product__00000004_PBS_tree
 	__TaskOutputShape__00000055_Dev_UXx_to_views.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000055_Dev_UXx_to_views.Product = __Product__00000005_views
-	__TaskOutputShape__00000056_Dev_docx_Backend_to_Docx_Backend.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000056_Dev_docx_Backend_to_Docx_Backend.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000056_Dev_docx_Backend_to_Docx_Backend.Product = __Product__00000009_Docx_Backend
-	__TaskOutputShape__00000057_Dev_docx_Backend_to_Semantic_Enforcer.Task = __Task__00000003_Dev_docx_Backend
+	__TaskOutputShape__00000057_Dev_docx_Backend_to_Semantic_Enforcer.Task = __Task__00000003_Task_1
 	__TaskOutputShape__00000057_Dev_docx_Backend_to_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
 	__TaskOutputShape__00000058_Write_Specs_to_Specifications.Task = __Task__00000006_Write_Specs
 	__TaskOutputShape__00000058_Write_Specs_to_Specifications.Product = __Product__00000010_Specifications
@@ -685,9 +723,10 @@ func _(stage *models.Stage) {
 	__TaskShape__00000087_Dev_PBS_Tree.Task = __Task__00000002_Dev_PBS_Tree
 	__TaskShape__00000088_Dev_UXx.Task = __Task__00000005_Dev_UXx
 	__TaskShape__00000089_Dev_WBS_Tree.Task = __Task__00000001_Dev_WBS_Tree
-	__TaskShape__00000090_Dev_docx_Backend.Task = __Task__00000003_Dev_docx_Backend
+	__TaskShape__00000090_Dev_docx_Backend.Task = __Task__00000003_Task_1
 	__TaskShape__00000091_Dev_views.Task = __Task__00000004_Dev_views
 	__TaskShape__00000092_Develop_Backend.Task = __Task__00000000_Develop_Backend
 	__TaskShape__00000093_Write_Specs.Task = __Task__00000006_Write_Specs
+	__TaskShape__00000094_Task_1_NewDiagram.Task = __Task__00000003_Task_1
 }
 
