@@ -56,16 +56,63 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 
 		// 4. Create and position shapes
 
-		// Track X position for each rank to prevent overlap
-		map_Rank_NextX := make(map[int]float64)
+		// Use a tree layout algorithm for X positions
+		map_Product_X := make(map[*Product]float64)
+		var currentX float64 = 0
+		visited := make(map[*Product]bool)
+
+		// position recursively calculates the X coordinate
+		var position func(p *Product)
+		position = func(p *Product) {
+			if visited[p] {
+				return
+			}
+			visited[p] = true
+
+			// Identify children that are part of the current project diagram
+			var validChildren []*Product
+			for _, sub := range p.SubProducts {
+				if _, ok := map_Node_Rank[sub]; ok {
+					validChildren = append(validChildren, sub)
+				}
+			}
+
+			if len(validChildren) == 0 {
+				// Leaf node: take the next available slot
+				map_Product_X[p] = currentX
+				currentX += 1.0
+			} else {
+				// Internal node: layout children first
+				for _, child := range validChildren {
+					position(child)
+				}
+				// Center parent over children
+				minX := map_Product_X[validChildren[0]]
+				maxX := map_Product_X[validChildren[len(validChildren)-1]]
+				map_Product_X[p] = (minX + maxX) / 2.0
+			}
+		}
+
+		// Apply layout starting from Roots (Rank 0)
+		for _, product := range products {
+			if map_Node_Rank[product] == 0 {
+				position(product)
+			}
+		}
+
+		// Handle any disconnected components or cycles not reached via roots
+		for _, product := range products {
+			if !visited[product] {
+				position(product)
+			}
+		}
 
 		// Create Product Shapes
 		for _, product := range products {
 			rank := map_Node_Rank[product]
 
 			// Position
-			x := map_Rank_NextX[rank] * defaultBoxWidth * 1.5
-			map_Rank_NextX[rank] += 1.0
+			x := map_Product_X[product] * defaultBoxWidth * 1.5
 			y := float64(rank) * defaultBoxHeigth * 2.0
 
 			// Create Shape
