@@ -17,103 +17,59 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		stager.removeAllShapes(diagram)
 
-		// 2. Compute the rank of each node (Product or Task)
-		// The rank is determined by the longest path from a root node.
-		// Rank 0 = Root. Rank N = Dependencies have Max(Rank) = N-1.
-		map_Node_Rank := make(map[any]int)
-
-		allProducts := GetGongstrucsSorted[*Product](stager.stage)
+		// 2. Identify Project
 		project := stager.stage.Project_Diagrams_reverseMap[diagram]
-		var products []*Product
-		for _, product := range allProducts {
-			if stager.productToProject[product] != project {
-				continue
-			}
-			products = append(products, product)
-			map_Node_Rank[product] = 0
-		}
 
-		// 3. Propagate ranks to children (Products and Tasks)
-		// We use a fixed-point iteration to handle the depth propagation
-		iterations := 0
-		maxIterations := len(products) + 1 // Safe limit to prevent infinite loops in cyclic graphs
-		for iterations < maxIterations {
-			changed := false
-			for _, product := range products {
-				currentRank := map_Node_Rank[product]
-				for _, subProduct := range product.SubProducts {
-					if map_Node_Rank[subProduct] <= currentRank {
-						map_Node_Rank[subProduct] = currentRank + 1
-						changed = true
-					}
-				}
-			}
-			if !changed {
-				break
-			}
-			iterations++
-		}
-
-		// 4. Create and position shapes
-
-		// Use a tree layout algorithm for X positions
+		// 3. Algorithm: Recursive Tree Layout using Computed Width
 		map_Product_X := make(map[*Product]float64)
-		var currentX float64 = 0
-		visited := make(map[*Product]bool)
+		map_Product_Level := make(map[*Product]int)
 
-		// position recursively calculates the X coordinate
-		var position func(p *Product)
-		position = func(p *Product) {
-			if visited[p] {
+		// recursive layout function
+		var layout func(p *Product, startX float64, level int)
+		layout = func(p *Product, startX float64, level int) {
+			map_Product_Level[p] = level
+
+			// If leaf (no sub-products), center in the 1-unit slot
+			if len(p.SubProducts) == 0 {
+				map_Product_X[p] = startX + 0.5
 				return
 			}
-			visited[p] = true
 
-			// Identify children that are part of the current project diagram
-			var validChildren []*Product
+			// If parent, layout children sequentially
+			currentChildX := startX
 			for _, sub := range p.SubProducts {
-				if _, ok := map_Node_Rank[sub]; ok {
-					validChildren = append(validChildren, sub)
-				}
+				layout(sub, currentChildX, level+1)
+				// Increment offset by the pre-computed width of the child's subtree
+				currentChildX += float64(sub.GetComputedWidth())
 			}
 
-			if len(validChildren) == 0 {
-				// Leaf node: take the next available slot
-				map_Product_X[p] = currentX
-				currentX += 1.0
-			} else {
-				// Internal node: layout children first
-				for _, child := range validChildren {
-					position(child)
-				}
-				// Center parent over children
-				minX := map_Product_X[validChildren[0]]
-				maxX := map_Product_X[validChildren[len(validChildren)-1]]
-				map_Product_X[p] = (minX + maxX) / 2.0
-			}
+			// Center parent over its children
+			// We align the parent with the visual center of its immediate children
+			firstChildX := map_Product_X[p.SubProducts[0]]
+			lastChildX := map_Product_X[p.SubProducts[len(p.SubProducts)-1]]
+			map_Product_X[p] = (firstChildX + lastChildX) / 2.0
 		}
 
-		// Apply layout starting from Roots (Rank 0)
-		for _, product := range products {
-			if map_Node_Rank[product] == 0 {
-				position(product)
-			}
+		// Apply layout iterating over the defined RootProducts of the project
+		// This respects the user-defined order of trees
+		var currentRootStartSlot float64 = 0.0
+		for _, root := range project.RootProducts {
+			layout(root, currentRootStartSlot, 0)
+			// Advance by the root's total width plus a gap
+			currentRootStartSlot += float64(root.GetComputedWidth()) + 0.5
 		}
 
-		// Handle any disconnected components or cycles not reached via roots
-		for _, product := range products {
-			if !visited[product] {
-				position(product)
-			}
-		}
+		// 4. Create Shapes
+		// We iterate over the mapped products, which ensures we only create shapes for
+		// reachable nodes in the project's hierarchy.
+		for product, x_slot := range map_Product_X {
+			level := map_Product_Level[product]
 
-		// Create Product Shapes
-		for _, product := range products {
-			rank := map_Node_Rank[product]
-
-			// Position
-			x := map_Product_X[product] * defaultBoxWidth * 1.5
-			y := float64(rank) * defaultBoxHeigth * 2.0
+			// Position mapping
+			// X: slot * box_width * spacing_factor
+			// Y: level * box_height * spacing_factor
+			x := x_slot * diagram.DefaultBoxWidth * 1.5
+			y := float64(level) * diagram.DefaultBoxHeigth * 2.0
 
 			// Create Shape
 			shape := newShapeToDiagram(product, diagram, &diagram.Product_Shapes, stager.stage)

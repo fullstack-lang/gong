@@ -42,6 +42,10 @@ type ExpandableNodeObject struct {
 	computedWidth int
 }
 
+func (r *ExpandableNodeObject) GetComputedWidth() int {
+	return r.computedWidth
+}
+
 type Task struct {
 	Name string
 
@@ -102,6 +106,7 @@ type AbstractType interface {
 	SetIsExpanded(bool)
 	GetComputedPrefix() string
 	SetComputedPrefix(string)
+	GetComputedWidth() int
 }
 
 func (r *ExpandableNodeObject) GetIsExpanded() bool {

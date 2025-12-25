@@ -1164,6 +1164,20 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Diagram[identifier].Name = fielValue
+				case "DefaultBoxWidth":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].DefaultBoxWidth = exprSign * fielValue
+				case "DefaultBoxHeigth":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Diagram[identifier].DefaultBoxHeigth = exprSign * fielValue
 				case "ComputedPrefix":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
