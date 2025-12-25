@@ -44,10 +44,13 @@ func (stager *Stager) svg() {
 	svgObject.Layers = append(svgObject.Layers, layer)
 
 	for _, productShape := range diagram.Product_Shapes {
-		map_Product_Rect[productShape.Product] = stager.svgProductRect(
+		rect := svgRect(
+			stager,
 			diagram,
 			productShape,
 			layer)
+		rect.RX = 3
+		map_Product_Rect[productShape.Product] = rect
 	}
 
 	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
@@ -62,13 +65,19 @@ func (stager *Stager) svg() {
 		startRect := map_Product_Rect[parentProduct]
 		endRect := map_Product_Rect[subProduct]
 
-		stager.svgProductCompositionLink(
+		svgAssociationLink(
+			stager,
 			startRect, endRect,
-			&productCompositionShape.LinkShape, subProduct, layer, false)
+			productCompositionShape,
+			// when one clicks on the link, this is the form of the parent product
+			parentProduct,
+			layer,
+			false)
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {
-		map_Task_Rect[taskShape.Task] = stager.svgTaskRect(
+		map_Task_Rect[taskShape.Task] = svgRect(
+			stager,
 			diagram,
 			taskShape,
 			layer)
@@ -86,9 +95,13 @@ func (stager *Stager) svg() {
 		startRect := map_Task_Rect[parentTask]
 		endRect := map_Task_Rect[subTask]
 
-		stager.svgTaskCompositionLink(
+		svgAssociationLink(
+			stager,
 			startRect, endRect,
-			&taskCompositionShape.LinkShape, subTask, layer, false)
+			taskCompositionShape,
+			parentTask,
+			layer,
+			false)
 	}
 
 	for _, taskInputShape := range diagram.TaskInputShapes {
@@ -102,9 +115,14 @@ func (stager *Stager) svg() {
 		startRect := map_Product_Rect[product]
 		endRect := map_Task_Rect[task]
 
-		stager.svgTaskInputLink(
+		svgAssociationLink(
+			stager,
 			startRect, endRect,
-			&taskInputShape.LinkShape, task, layer, false)
+			taskInputShape,
+			task,
+			layer,
+			true,
+		)
 	}
 
 	for _, taskOutputShape := range diagram.TaskOutputShapes {
@@ -118,9 +136,14 @@ func (stager *Stager) svg() {
 		startRect := map_Task_Rect[task]
 		endRect := map_Product_Rect[product]
 
-		stager.svgTaskOutputLink(
+		svgAssociationLink(
+			stager,
 			startRect, endRect,
-			&taskOutputShape.LinkShape, task, layer, false)
+			taskOutputShape,
+			task,
+			layer,
+			true,
+		)
 	}
 
 	svg.StageBranch(svgStage, svgObject)
