@@ -97,6 +97,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000013_NewDiagram.IsChecked = false
 	__Diagram__00000013_NewDiagram.IsEditable_ = true
 	__Diagram__00000013_NewDiagram.IsInRenameMode = false
+	__Diagram__00000013_NewDiagram.ShowPrefix = false
 	__Diagram__00000013_NewDiagram.IsExpanded = true
 	__Diagram__00000013_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000013_NewDiagram.IsPBSNodeExpanded = true
@@ -106,6 +107,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000019_NewDiagram.IsChecked = true
 	__Diagram__00000019_NewDiagram.IsEditable_ = true
 	__Diagram__00000019_NewDiagram.IsInRenameMode = false
+	__Diagram__00000019_NewDiagram.ShowPrefix = true
 	__Diagram__00000019_NewDiagram.IsExpanded = false
 	__Diagram__00000019_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000019_NewDiagram.IsPBSNodeExpanded = false
