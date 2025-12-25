@@ -51,11 +51,16 @@ func svgRect[CT interface {
 	title := new(svg.RectAnchoredText)
 	{
 		title.Name = abstractElement.GetName()
-		title.Content = abstractElement.GetName()
+
+		content := shape.GetAbstractElement().GetName()
+		if diagram.ShowPrefix {
+			content = abstractElement.GetComputedPrefix() + " " + content
+		}
 
 		if rect.Width > 0 {
-			title.Content = strutils.WrapString(shape.GetAbstractElement().GetName(), int(rect.Width/root.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(rect.Width/root.NbPixPerCharacter))
 		}
+		title.Content = content
 		title.Stroke = svg.Black.ToString()
 		title.StrokeWidth = 1
 		title.StrokeOpacity = 1
