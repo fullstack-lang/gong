@@ -113,16 +113,16 @@ func OnUpdateRectElement[CT interface {
 }
 
 func svgAssociationLink[AT AbstractType,
-	CCT interface {
-		*CCT_
+	ACT interface {
+		*ACT_
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	CCT_ Gongstruct](
+	ACT_ Gongstruct](
 	stager *Stager,
 	startRect *svg.Rect,
 	endRect *svg.Rect,
-	shape CCT,
+	shape ACT,
 	productOfInterest AT,
 	layer *svg.Layer,
 	isDashed bool,
