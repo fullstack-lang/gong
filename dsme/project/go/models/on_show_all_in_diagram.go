@@ -9,8 +9,7 @@ import (
 func OnShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		// 1. Reset the diagram: remove all shapes to start fresh
-		// We unstage existing shapes to ensure they are removed from the stage
+		// 1. Reset the diagram: remove all shapes from the stage to start fresh
 		for _, shape := range diagram.Product_Shapes {
 			shape.Unstage(stager.stage)
 		}
@@ -155,34 +154,34 @@ func OnShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 		// Product Composition
 		for _, product := range products {
 			for _, subProduct := range product.SubProducts {
-				link := newConcreteAssociation[*Product, *Product, *ProductCompositionShape, ProductCompositionShape](product, subProduct)
-				diagram.ProductComposition_Shapes = append(diagram.ProductComposition_Shapes, link)
+				newConcreteAssociation[*Product, *Product, *ProductCompositionShape, ProductCompositionShape](
+					product, subProduct, &diagram.ProductComposition_Shapes)
 			}
 		}
 
 		// Task Composition
 		for _, task := range tasks {
 			for _, subTask := range task.SubTasks {
-				link := newConcreteAssociation[*Task, *Task, *TaskCompositionShape, TaskCompositionShape](task, subTask)
-				diagram.TaskComposition_Shapes = append(diagram.TaskComposition_Shapes, link)
+				newConcreteAssociation(
+					task, subTask, &diagram.TaskComposition_Shapes)
 			}
 		}
 
-		// Task Inputs (Product -> Task)
+		// Task Inputs (Product -> Task) and Outputs (Task -> Product)
 		for _, task := range tasks {
+			// Task Inputs: Task is the concrete start, Product is the concrete end
 			for _, input := range task.Inputs {
-				// Start: Task, End: Product (as per Gong struct definition for TaskInputShape)
-				link := newConcreteAssociation[*Task, *Product, *TaskInputShape, TaskInputShape](task, input)
-				diagram.TaskInputShapes = append(diagram.TaskInputShapes, link)
+				newConcreteAssociation(
+					task, input, &diagram.TaskInputShapes)
 			}
+			// Task Outputs: Task is the concrete start, Product is the concrete end
 			for _, output := range task.Outputs {
-				// Start: Task, End: Product
-				link := newConcreteAssociation[*Task, *Product, *TaskOutputShape, TaskOutputShape](task, output)
-				diagram.TaskOutputShapes = append(diagram.TaskOutputShapes, link)
+				newConcreteAssociation(
+					task, output, &diagram.TaskOutputShapes)
 			}
 		}
 
-		// 5. Unstage the diagram and re-stage it with StageBranch to include all new shapes
+		// 5. Unstage the diagram and re-stage it with StageBranch to include all new shapes recursively
 		diagram.Unstage(stager.stage)
 		StageBranch(stager.stage, diagram)
 
