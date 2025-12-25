@@ -31,10 +31,8 @@ func OnAddAssociationShape[
 	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := newConcreteAssociation[ATstart, ATend, ACT](start, end)
-
+		compositionShape := newConcreteAssociation[ATstart, ATend, ACT](start, end, shapes)
 		compositionShape.StageVoid(stager.stage)
-		*shapes = append(*shapes, compositionShape)
 		stager.stage.Commit()
 	}
 }
@@ -47,7 +45,7 @@ func newConcreteAssociation[
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	ACT_ Gongstruct](start ATstart, end ATend) ACT {
+	ACT_ Gongstruct](start ATstart, end ATend, shapes *[]ACT) ACT {
 	compositionShape := ACT(new(ACT_))
 	compositionShape.SetName(start.GetName() + " to " + end.GetName())
 	compositionShape.SetAbstractStartElement(start)
@@ -69,6 +67,8 @@ func newConcreteAssociation[
 	compositionShape.SetCornerOffsetRatio(1.68)
 	compositionShape.SetStartRatio(0.5)
 	compositionShape.SetEndRatio(0.5)
+	*shapes = append(*shapes, compositionShape)
+
 	return compositionShape
 }
 
