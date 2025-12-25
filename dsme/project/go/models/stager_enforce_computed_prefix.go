@@ -9,11 +9,10 @@ import "fmt"
 //
 // if a ComputedPrefix has to be changed, returns true
 func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
-
 	root := stager.root
 
 	for _, project := range root.Projects {
-		if stager.numberProductNodes(project.RootProducts, "") {
+		if stager.numberProductNodes(project.RootProducts, "", []int{}) {
 			needCommit = true
 		}
 		if stager.numberTaskNodes(project.RootTasks, "") {
@@ -24,22 +23,22 @@ func (stager *Stager) enforceComputedPrefix() (needCommit bool) {
 	return
 }
 
-func (stager *Stager) numberProductNodes(nodes []*Product, prefix string) (needCommit bool) {
-
+func (stager *Stager) numberProductNodes(nodes []*Product, stringPrefix string, intPrefix []int) (needCommit bool) {
 	for i, node := range nodes {
 		var nodePrefix string
-		if prefix == "" {
+		if stringPrefix == "" {
 			nodePrefix = fmt.Sprintf("%d", i+1)
 		} else {
-			nodePrefix = fmt.Sprintf("%s.%d", prefix, i+1)
+			nodePrefix = fmt.Sprintf("%s.%d", stringPrefix, i+1)
 		}
+		intPrefix = append(intPrefix, i)
 
 		if node.ComputedPrefix != nodePrefix {
 			node.ComputedPrefix = nodePrefix
 			needCommit = true
 		}
 
-		if stager.numberProductNodes(node.SubProducts, nodePrefix) {
+		if stager.numberProductNodes(node.SubProducts, nodePrefix, intPrefix) {
 			needCommit = true
 		}
 	}
@@ -47,7 +46,6 @@ func (stager *Stager) numberProductNodes(nodes []*Product, prefix string) (needC
 }
 
 func (stager *Stager) numberTaskNodes(nodes []*Task, prefix string) (needCommit bool) {
-
 	for i, node := range nodes {
 		var nodePrefix string
 		if prefix == "" {

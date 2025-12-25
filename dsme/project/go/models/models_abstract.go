@@ -35,6 +35,7 @@ type ExpandableNodeObject struct {
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
+	computedPrefix []int
 }
 type Task struct {
 	Name string
