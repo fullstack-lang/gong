@@ -92,7 +92,7 @@ func (stager *Stager) tree() {
 
 			{
 				copyButton := &tree.Button{
-					Name:            "Diagram Copy" + " " + string(buttons.BUTTON_copy_all),
+					Name:            "Diagram Copy",
 					Icon:            string(buttons.BUTTON_copy_all),
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
@@ -102,6 +102,19 @@ func (stager *Stager) tree() {
 					},
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Show All",
+					Icon:            string(buttons.BUTTON_show_chart),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show All Elements in the Diagram",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: OnShowAllInDiagram(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
 			}
 
 			pbsNode := &tree.Node{
@@ -273,41 +286,35 @@ func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 
 		for _, s := range diagram.Product_Shapes {
 			newShape := s.GongCopy().(*ProductShape)
-			newShape.Stage(stager.stage)
 			newDiagram.Product_Shapes = append(newDiagram.Product_Shapes, newShape)
 		}
 
 		for _, s := range diagram.ProductComposition_Shapes {
 			newShape := s.GongCopy().(*ProductCompositionShape)
-			newShape.Stage(stager.stage)
 			newDiagram.ProductComposition_Shapes = append(newDiagram.ProductComposition_Shapes, newShape)
 		}
 
 		for _, s := range diagram.Task_Shapes {
 			newShape := s.GongCopy().(*TaskShape)
-			newShape.Stage(stager.stage)
 			newDiagram.Task_Shapes = append(newDiagram.Task_Shapes, newShape)
 		}
 
 		for _, s := range diagram.TaskComposition_Shapes {
 			newShape := s.GongCopy().(*TaskCompositionShape)
-			newShape.Stage(stager.stage)
 			newDiagram.TaskComposition_Shapes = append(newDiagram.TaskComposition_Shapes, newShape)
 		}
 
 		for _, s := range diagram.TaskInputShapes {
 			newShape := s.GongCopy().(*TaskInputShape)
-			newShape.Stage(stager.stage)
 			newDiagram.TaskInputShapes = append(newDiagram.TaskInputShapes, newShape)
 		}
 
 		for _, s := range diagram.TaskOutputShapes {
 			newShape := s.GongCopy().(*TaskOutputShape)
-			newShape.Stage(stager.stage)
 			newDiagram.TaskOutputShapes = append(newDiagram.TaskOutputShapes, newShape)
 		}
 
-		newDiagram.Stage(stager.stage)
+		StageBranch(stager.stage, newDiagram)
 		stager.stage.Commit()
 	}
 }
