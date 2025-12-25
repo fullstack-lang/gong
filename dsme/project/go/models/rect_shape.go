@@ -45,6 +45,10 @@ func (s *RectShape) GetHeight() float64 {
 	return s.Height
 }
 
+func (s *RectShape) SetReceiver(receiver GongstructIF) {
+	s.receiver = receiver
+}
+
 type RectShapeInterface interface {
 	SetX(x float64)
 	SetY(x float64)
@@ -57,4 +61,6 @@ type RectShapeInterface interface {
 	GetHeight() float64
 
 	StageVoid(stage *Stage)
+
+	SetReceiver(receiver GongstructIF)
 }
