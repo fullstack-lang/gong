@@ -44,6 +44,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		}
 	}
 
+	if stager.enforceObjectValues() {
+		needCommit = true
+	}
+
 	if stager.enforceDAG() {
 		needCommit = true
 	}
