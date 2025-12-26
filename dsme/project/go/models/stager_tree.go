@@ -44,7 +44,7 @@ func (stager *Stager) tree() {
 		addAddItemButton(stager, pbsNode, &project.RootProducts)
 
 		for _, product := range project.RootProducts {
-			stager.treePBS(product, pbsNode)
+			stager.treePBSRecursive(product, pbsNode)
 		}
 
 		wbsNode := &tree.Node{
@@ -61,7 +61,7 @@ func (stager *Stager) tree() {
 		addAddItemButton(stager, wbsNode, &project.RootTasks)
 
 		for _, task := range project.RootTasks {
-			stager.treeWBS(task, wbsNode)
+			stager.treeWBSRecursive(task, wbsNode)
 		}
 
 		diagramsNode := &tree.Node{
@@ -90,6 +90,82 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateDiagram(diagram),
 			}
 
+			{
+				copyButton := &tree.Button{
+					Name:            "Diagram Copy",
+					Icon:            string(buttons.BUTTON_copy_all),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Copy Diagram",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: OnCopyDiagram(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, copyButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Show All",
+					Icon:            string(buttons.BUTTON_all_out),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show All Elements in the Diagram",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: onShowAllInDiagram(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Show As PBS Tree",
+					Icon:            string(buttons.BUTTON_account_tree),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show Show As PBS Tree",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: onLayoutPBS(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Show As WBS Tree",
+					Icon:            string(buttons.BUTTON_account_circle),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show Show As WBS Tree",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: onLayoutWBS(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+			{
+				showAllButton := &tree.Button{
+					Name:            "Diagram Prefix",
+					Icon:            string(buttons.BUTTON_show_chart),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: func(stage *tree.Stage, button, updatedButton *tree.Button) {
+							diagram.ShowPrefix = !diagram.ShowPrefix
+							stager.stage.Commit()
+						},
+					},
+				}
+				if !diagram.ShowPrefix {
+					showAllButton.Icon = string(buttons.BUTTON_label)
+					showAllButton.ToolTipText = "Show Prefix"
+				} else {
+					showAllButton.Icon = string(buttons.BUTTON_label_off)
+					showAllButton.ToolTipText = "Hide Prefix"
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+
 			pbsNode := &tree.Node{
 				Name:            "PBS",
 				FontStyle:       tree.ITALIC,
@@ -102,7 +178,7 @@ func (stager *Stager) tree() {
 			}
 
 			for _, product := range project.RootProducts {
-				stager.treePBSinDiagram(diagram, product, pbsNode)
+				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
 			}
 
 			diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
@@ -134,7 +210,7 @@ func (stager *Stager) tree() {
 		orphansProductNode := &tree.Node{Name: "Orphans Products", IsExpanded: true}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansProductNode)
 		for _, product := range root.OrphanedProducts {
-			stager.treePBS(product, orphansProductNode)
+			stager.treePBSRecursive(product, orphansProductNode)
 		}
 	}
 
@@ -142,7 +218,7 @@ func (stager *Stager) tree() {
 		orphansTaskNode := &tree.Node{Name: "Orphans Tasks", IsExpanded: true}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansTaskNode)
 		for _, task := range root.OrphanedTasks {
-			stager.treeWBS(task, orphansTaskNode)
+			stager.treeWBSRecursive(task, orphansTaskNode)
 		}
 	}
 
@@ -245,4 +321,49 @@ func (stager *Stager) OnUpdateDiagram(diagram *Diagram) func(stage *tree.Stage, 
 // Append is a generic helper that appends an item to a slice via a pointer
 func Append[T any](slice *[]T, item T) {
 	*slice = append(*slice, item)
+}
+
+func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
+	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
+		newDiagram := new(Diagram)
+		newDiagram.Name = diagram.Name + " copy"
+		newDiagram.IsEditable_ = true
+
+		project := stager.stage.Project_Diagrams_reverseMap[diagram]
+		Append(&project.Diagrams, newDiagram)
+
+		for _, s := range diagram.Product_Shapes {
+			newShape := s.GongCopy().(*ProductShape)
+			newDiagram.Product_Shapes = append(newDiagram.Product_Shapes, newShape)
+		}
+
+		for _, s := range diagram.ProductComposition_Shapes {
+			newShape := s.GongCopy().(*ProductCompositionShape)
+			newDiagram.ProductComposition_Shapes = append(newDiagram.ProductComposition_Shapes, newShape)
+		}
+
+		for _, s := range diagram.Task_Shapes {
+			newShape := s.GongCopy().(*TaskShape)
+			newDiagram.Task_Shapes = append(newDiagram.Task_Shapes, newShape)
+		}
+
+		for _, s := range diagram.TaskComposition_Shapes {
+			newShape := s.GongCopy().(*TaskCompositionShape)
+			newDiagram.TaskComposition_Shapes = append(newDiagram.TaskComposition_Shapes, newShape)
+		}
+
+		for _, s := range diagram.TaskInputShapes {
+			newShape := s.GongCopy().(*TaskInputShape)
+			newDiagram.TaskInputShapes = append(newDiagram.TaskInputShapes, newShape)
+		}
+
+		for _, s := range diagram.TaskOutputShapes {
+			newShape := s.GongCopy().(*TaskOutputShape)
+			newDiagram.TaskOutputShapes = append(newDiagram.TaskOutputShapes, newShape)
+		}
+
+		StageBranch(stager.stage, newDiagram)
+		stager.stage.Commit()
+	}
 }

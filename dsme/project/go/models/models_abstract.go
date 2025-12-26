@@ -35,7 +35,17 @@ type ExpandableNodeObject struct {
 
 	// ComputedPrefix is automaticaly computed by the semantic enforcing mechanism
 	ComputedPrefix string
+	computedPrefix []int
+
+	// When the full PBS is displayed, the computedWidth is the number of node
+	// aligned below. A leaf node has a computedWidth of 1
+	computedWidth int
 }
+
+func (r *ExpandableNodeObject) GetComputedWidth() int {
+	return r.computedWidth
+}
+
 type Task struct {
 	Name string
 
@@ -96,6 +106,7 @@ type AbstractType interface {
 	SetIsExpanded(bool)
 	GetComputedPrefix() string
 	SetComputedPrefix(string)
+	GetComputedWidth() int
 }
 
 func (r *ExpandableNodeObject) GetIsExpanded() bool {

@@ -72,14 +72,15 @@ func _(stage *models.Stage) {
 	__Transition__00000000_Submit := (&models.Transition{}).Stage(stage)
 	__Transition__00000001_ := (&models.Transition{}).Stage(stage)
 	__Transition__00000002__Model_Updated := (&models.Transition{}).Stage(stage)
-	__Transition__00000003_UX_1_updated := (&models.Transition{}).Stage(stage)
-	__Transition__00000004_UX_2_updated := (&models.Transition{}).Stage(stage)
+	__Transition__00000003_ := (&models.Transition{}).Stage(stage)
+	__Transition__00000004_ := (&models.Transition{}).Stage(stage)
 	__Transition__00000005__Stage_loaded := (&models.Transition{}).Stage(stage)
 	__Transition__00000006__Stage_persisted := (&models.Transition{}).Stage(stage)
 	__Transition__00000007_Yes := (&models.Transition{}).Stage(stage)
 	__Transition__00000008_Yes := (&models.Transition{}).Stage(stage)
 	__Transition__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage := (&models.Transition{}).Stage(stage)
 	__Transition__00000010_ := (&models.Transition{}).Stage(stage)
+	__Transition__00000011_Stage_Modified_to_Probe_Form := (&models.Transition{}).Stage(stage)
 
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic := (&models.Transition_Shape{}).Stage(stage)
@@ -92,6 +93,7 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000008_Update_UX_to_UX_1_Update_UX := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage := (&models.Transition_Shape{}).Stage(stage)
 	__Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic := (&models.Transition_Shape{}).Stage(stage)
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form := (&models.Transition_Shape{}).Stage(stage)
 
 	// Setup of values
 
@@ -196,36 +198,36 @@ func _(stage *models.Stage) {
 
 	__StateShape__00000000_Probe_Form.Name = `Probe Form`
 	__StateShape__00000000_Probe_Form.IsExpanded = false
-	__StateShape__00000000_Probe_Form.X = 360.000000
-	__StateShape__00000000_Probe_Form.Y = 154.000000
+	__StateShape__00000000_Probe_Form.X = 314.000000
+	__StateShape__00000000_Probe_Form.Y = 152.000000
 	__StateShape__00000000_Probe_Form.Width = 221.000000
 	__StateShape__00000000_Probe_Form.Height = 80.000000
 
 	__StateShape__00000001_Probe_Tree.Name = `Probe Tree`
 	__StateShape__00000001_Probe_Tree.IsExpanded = false
-	__StateShape__00000001_Probe_Tree.X = 601.000000
-	__StateShape__00000001_Probe_Tree.Y = 152.000000
+	__StateShape__00000001_Probe_Tree.X = 559.000000
+	__StateShape__00000001_Probe_Tree.Y = 242.000000
 	__StateShape__00000001_Probe_Tree.Width = 200.000000
 	__StateShape__00000001_Probe_Tree.Height = 80.000000
 
 	__StateShape__00000002_Probe_Table.Name = `Probe Table`
 	__StateShape__00000002_Probe_Table.IsExpanded = false
-	__StateShape__00000002_Probe_Table.X = 821.000000
-	__StateShape__00000002_Probe_Table.Y = 151.000000
+	__StateShape__00000002_Probe_Table.X = 782.000000
+	__StateShape__00000002_Probe_Table.Y = 246.000000
 	__StateShape__00000002_Probe_Table.Width = 200.000000
 	__StateShape__00000002_Probe_Table.Height = 80.000000
 
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.Name = `Form - Update Stage Of Interest`
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.IsExpanded = false
-	__StateShape__00000003_Form_Update_Stage_Of_Interest.X = 379.000000
-	__StateShape__00000003_Form_Update_Stage_Of_Interest.Y = 404.999985
+	__StateShape__00000003_Form_Update_Stage_Of_Interest.X = 333.000000
+	__StateShape__00000003_Form_Update_Stage_Of_Interest.Y = 402.999985
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.Width = 200.000000
 	__StateShape__00000003_Form_Update_Stage_Of_Interest.Height = 125.000031
 
 	__StateShape__00000004_Enforce_Model_Semantic.Name = `Enforce Model Semantic`
 	__StateShape__00000004_Enforce_Model_Semantic.IsExpanded = false
-	__StateShape__00000004_Enforce_Model_Semantic.X = 380.000000
-	__StateShape__00000004_Enforce_Model_Semantic.Y = 677.000015
+	__StateShape__00000004_Enforce_Model_Semantic.X = 332.000000
+	__StateShape__00000004_Enforce_Model_Semantic.Y = 629.000015
 	__StateShape__00000004_Enforce_Model_Semantic.Width = 646.000000
 	__StateShape__00000004_Enforce_Model_Semantic.Height = 121.000000
 
@@ -266,8 +268,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__00000010_Stage_Modified_.Name = `Stage Modified ?`
 	__StateShape__00000010_Stage_Modified_.IsExpanded = false
-	__StateShape__00000010_Stage_Modified_.X = 585.000000
-	__StateShape__00000010_Stage_Modified_.Y = 821.999954
+	__StateShape__00000010_Stage_Modified_.X = 539.000000
+	__StateShape__00000010_Stage_Modified_.Y = 826.999954
 	__StateShape__00000010_Stage_Modified_.Width = 153.000000
 	__StateShape__00000010_Stage_Modified_.Height = 50.000000
 
@@ -280,8 +282,8 @@ func _(stage *models.Stage) {
 
 	__StateShape__00000012_Clean_Stage.Name = `Clean Stage`
 	__StateShape__00000012_Clean_Stage.IsExpanded = false
-	__StateShape__00000012_Clean_Stage.X = 786.000000
-	__StateShape__00000012_Clean_Stage.Y = 411.000000
+	__StateShape__00000012_Clean_Stage.X = 740.000000
+	__StateShape__00000012_Clean_Stage.Y = 409.000000
 	__StateShape__00000012_Clean_Stage.Width = 200.000000
 	__StateShape__00000012_Clean_Stage.Height = 87.000000
 
@@ -291,9 +293,9 @@ func _(stage *models.Stage) {
 
 	__Transition__00000002__Model_Updated.Name = `/Model Updated`
 
-	__Transition__00000003_UX_1_updated.Name = `UX 1 updated`
+	__Transition__00000003_.Name = ``
 
-	__Transition__00000004_UX_2_updated.Name = `UX 2 updated`
+	__Transition__00000004_.Name = ``
 
 	__Transition__00000005__Stage_loaded.Name = `/Stage loaded`
 
@@ -307,6 +309,8 @@ func _(stage *models.Stage) {
 
 	__Transition__00000010_.Name = ``
 
+	__Transition__00000011_Stage_Modified_to_Probe_Form.Name = `Stage Modified ? to Probe Form`
+
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.Name = `UX 1 - Waiting for User Input to UX 1 - Update Stage`
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.StartRatio = 0.815760
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.EndRatio = 0.866415
@@ -315,18 +319,18 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.CornerOffsetRatio = 2.175087
 
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.Name = `UX 1 - Update Stage to Enforce Model Semantic`
-	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartRatio = 0.557656
+	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartRatio = 0.540885
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.EndRatio = 0.166852
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.EndOrientation = models.ORIENTATION_VERTICAL
-	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.CornerOffsetRatio = 1.912587
+	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.CornerOffsetRatio = 1.413333
 
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.Name = `Enforce Model Semantic to UX 1 - Update UX`
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.StartRatio = 0.512053
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.EndRatio = 0.831915
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.EndOrientation = models.ORIENTATION_VERTICAL
-	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.CornerOffsetRatio = 1.612587
+	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.CornerOffsetRatio = 1.407713
 
 	__Transition_Shape__00000003_Enforce_Model_Semantic_to_UX_2_Update_UX.Name = `Enforce Model Semantic to UX 2 - Update UX`
 	__Transition_Shape__00000003_Enforce_Model_Semantic_to_UX_2_Update_UX.StartRatio = 0.821415
@@ -358,7 +362,7 @@ func _(stage *models.Stage) {
 
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.Name = `Stage Modified ? to Persist Stage`
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.StartRatio = 0.831915
-	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.EndRatio = 0.350087
+	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.EndRatio = 0.383333
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.CornerOffsetRatio = 1.100139
@@ -383,6 +387,13 @@ func _(stage *models.Stage) {
 	__Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic.StartOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic.EndOrientation = models.ORIENTATION_VERTICAL
 	__Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic.CornerOffsetRatio = 1.950087
+
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.Name = `Stage Modified ? to Probe Form`
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.StartRatio = 0.500000
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.EndRatio = 0.500000
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.CornerOffsetRatio = 3.046909
 
 	// Setup of pointers
 	// setup of Action instances pointers
@@ -414,6 +425,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__00000008_Update_UX_to_UX_1_Update_UX)
 	__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage)
 	__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic)
+	__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes = append(__Diagram__00000000_UX_Loop_Diagram.Transition_Shapes, __Transition_Shape__00000011_Stage_Modified_to_Probe_Form)
 	// setup of Guard instances pointers
 	// setup of State instances pointers
 	__State__00000000_Probe_Form.Diagrams = append(__State__00000000_Probe_Form.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
@@ -475,12 +487,12 @@ func _(stage *models.Stage) {
 	__Transition__00000002__Model_Updated.Start = __State__00000004_Enforce_Model_Semantic
 	__Transition__00000002__Model_Updated.End = __State__00000010_Stage_Modified_
 	__Transition__00000002__Model_Updated.Diagrams = append(__Transition__00000002__Model_Updated.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
-	__Transition__00000003_UX_1_updated.Start = __State__00000005_Update_Probe_Form
-	__Transition__00000003_UX_1_updated.End = __State__00000006_Update_Probe_Table
-	__Transition__00000003_UX_1_updated.Diagrams = append(__Transition__00000003_UX_1_updated.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
-	__Transition__00000004_UX_2_updated.Start = __State__00000006_Update_Probe_Table
-	__Transition__00000004_UX_2_updated.End = __State__00000007_Update_Probe_Tree
-	__Transition__00000004_UX_2_updated.Diagrams = append(__Transition__00000004_UX_2_updated.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
+	__Transition__00000003_.Start = __State__00000005_Update_Probe_Form
+	__Transition__00000003_.End = __State__00000006_Update_Probe_Table
+	__Transition__00000003_.Diagrams = append(__Transition__00000003_.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
+	__Transition__00000004_.Start = __State__00000006_Update_Probe_Table
+	__Transition__00000004_.End = __State__00000007_Update_Probe_Tree
+	__Transition__00000004_.Diagrams = append(__Transition__00000004_.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
 	__Transition__00000005__Stage_loaded.Start = __State__00000008_Load_Stage
 	__Transition__00000005__Stage_loaded.End = __State__00000004_Enforce_Model_Semantic
 	__Transition__00000005__Stage_loaded.Diagrams = append(__Transition__00000005__Stage_loaded.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
@@ -489,9 +501,11 @@ func _(stage *models.Stage) {
 	__Transition__00000006__Stage_persisted.Diagrams = append(__Transition__00000006__Stage_persisted.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
 	__Transition__00000007_Yes.Start = __State__00000010_Stage_Modified_
 	__Transition__00000007_Yes.End = __State__00000009_Persist_Stage
+	__Transition__00000007_Yes.Guard = __Guard__00000000_yes
 	__Transition__00000007_Yes.Diagrams = append(__Transition__00000007_Yes.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
 	__Transition__00000008_Yes.Start = __State__00000011_Update_UX_
 	__Transition__00000008_Yes.End = __State__00000005_Update_Probe_Form
+	__Transition__00000008_Yes.Guard = __Guard__00000000_yes
 	__Transition__00000008_Yes.Diagrams = append(__Transition__00000008_Yes.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
 	__Transition__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Start = __State__00000003_Form_Update_Stage_Of_Interest
 	__Transition__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.End = __State__00000012_Clean_Stage
@@ -500,17 +514,21 @@ func _(stage *models.Stage) {
 	__Transition__00000010_.Start = __State__00000012_Clean_Stage
 	__Transition__00000010_.End = __State__00000004_Enforce_Model_Semantic
 	__Transition__00000010_.Diagrams = append(__Transition__00000010_.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
+	__Transition__00000011_Stage_Modified_to_Probe_Form.Start = __State__00000010_Stage_Modified_
+	__Transition__00000011_Stage_Modified_to_Probe_Form.End = __State__00000000_Probe_Form
+	__Transition__00000011_Stage_Modified_to_Probe_Form.Diagrams = append(__Transition__00000011_Stage_Modified_to_Probe_Form.Diagrams, __Diagram__00000000_UX_Loop_Diagram)
 	// setup of Transition_Shape instances pointers
 	__Transition_Shape__00000000_UX_1_Waiting_for_User_Input_to_UX_1_Update_Stage.Transition = __Transition__00000000_Submit
 	__Transition_Shape__00000001_UX_1_Update_Stage_to_Enforce_Model_Semantic.Transition = __Transition__00000001_
 	__Transition_Shape__00000002_Enforce_Model_Semantic_to_UX_1_Update_UX.Transition = __Transition__00000002__Model_Updated
-	__Transition_Shape__00000003_Enforce_Model_Semantic_to_UX_2_Update_UX.Transition = __Transition__00000003_UX_1_updated
-	__Transition_Shape__00000004_Enforce_Model_Semantic_to_UX_n_Update_UX.Transition = __Transition__00000004_UX_2_updated
+	__Transition_Shape__00000003_Enforce_Model_Semantic_to_UX_2_Update_UX.Transition = __Transition__00000003_
+	__Transition_Shape__00000004_Enforce_Model_Semantic_to_UX_n_Update_UX.Transition = __Transition__00000004_
 	__Transition_Shape__00000005_Load_Stage_to_Enforce_Model_Semantic.Transition = __Transition__00000005__Stage_loaded
 	__Transition_Shape__00000006_Persist_Stage_to_UX_1_Update_UX.Transition = __Transition__00000006__Stage_persisted
 	__Transition_Shape__00000007_Stage_Modified_to_Persist_Stage.Transition = __Transition__00000007_Yes
 	__Transition_Shape__00000008_Update_UX_to_UX_1_Update_UX.Transition = __Transition__00000008_Yes
 	__Transition_Shape__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage.Transition = __Transition__00000009_Form_Update_Stage_Of_Interest_to_Clean_Stage
 	__Transition_Shape__00000010_Clean_Stage_to_Enforce_Model_Semantic.Transition = __Transition__00000010_
+	__Transition_Shape__00000011_Stage_Modified_to_Probe_Form.Transition = __Transition__00000011_Stage_Modified_to_Probe_Form
 }
 
