@@ -44,7 +44,7 @@ func (stager *Stager) tree() {
 		addAddItemButton(stager, pbsNode, &project.RootProducts)
 
 		for _, product := range project.RootProducts {
-			stager.treePBS(product, pbsNode)
+			stager.treePBSRecursive(product, pbsNode)
 		}
 
 		wbsNode := &tree.Node{
@@ -61,7 +61,7 @@ func (stager *Stager) tree() {
 		addAddItemButton(stager, wbsNode, &project.RootTasks)
 
 		for _, task := range project.RootTasks {
-			stager.treeWBS(task, wbsNode)
+			stager.treeWBSRecursive(task, wbsNode)
 		}
 
 		diagramsNode := &tree.Node{
@@ -144,10 +144,10 @@ func (stager *Stager) tree() {
 					},
 				}
 				if !diagram.ShowPrefix {
-					showAllButton.Icon = string(buttons.BUTTON_hide_source)
+					showAllButton.Icon = string(buttons.BUTTON_label)
 					showAllButton.ToolTipText = "Show Prefix"
 				} else {
-					showAllButton.Icon = string(buttons.BUTTON_show_chart)
+					showAllButton.Icon = string(buttons.BUTTON_label_off)
 					showAllButton.ToolTipText = "Hide Prefix"
 				}
 				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
@@ -165,7 +165,7 @@ func (stager *Stager) tree() {
 			}
 
 			for _, product := range project.RootProducts {
-				stager.treePBSinDiagram(diagram, product, pbsNode)
+				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
 			}
 
 			diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
@@ -197,7 +197,7 @@ func (stager *Stager) tree() {
 		orphansProductNode := &tree.Node{Name: "Orphans Products", IsExpanded: true}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansProductNode)
 		for _, product := range root.OrphanedProducts {
-			stager.treePBS(product, orphansProductNode)
+			stager.treePBSRecursive(product, orphansProductNode)
 		}
 	}
 
@@ -205,7 +205,7 @@ func (stager *Stager) tree() {
 		orphansTaskNode := &tree.Node{Name: "Orphans Tasks", IsExpanded: true}
 		treeInstance.RootNodes = append(treeInstance.RootNodes, orphansTaskNode)
 		for _, task := range root.OrphanedTasks {
-			stager.treeWBS(task, orphansTaskNode)
+			stager.treeWBSRecursive(task, orphansTaskNode)
 		}
 	}
 

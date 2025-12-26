@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
+func (stager *Stager) treeWBSRecursive(task *Task, parentNode *tree.Node) {
 	taskNode := &tree.Node{
 		Name:            task.ComputedPrefix + " " + task.Name,
 		IsExpanded:      task.IsExpanded,
@@ -23,7 +23,7 @@ func (stager *Stager) treeWBS(task *Task, parentNode *tree.Node) {
 	addAddItemButton(stager, taskNode, &task.SubTasks)
 
 	for _, task := range task.SubTasks {
-		stager.treeWBS(task, taskNode)
+		stager.treeWBSRecursive(task, taskNode)
 	}
 
 	if len(task.Inputs) > 0 {
@@ -98,6 +98,8 @@ func (stager *Stager) treeWBSinDiagram(diagram *Diagram, task *Task, parentNode 
 		IsNodeClickable: true,
 	}
 	parentNode.Children = append(parentNode.Children, taskNode)
+
+	addAddItemButton(stager, taskNode, &task.SubTasks)
 
 	if _, ok := diagram.map_Task_TaskShape[task]; ok {
 		taskNode.IsChecked = true
