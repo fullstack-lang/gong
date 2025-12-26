@@ -18,6 +18,45 @@ func (inst *Diagram) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
+func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NotesWhoseNodeIsExpanded":
+				if _diagram, ok := stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
+		case "Project":
+			switch reverseField.Fieldname {
+			case "Notes":
+				if _project, ok := stage.Project_Notes_reverseMap[inst]; ok {
+					res = _project.Name
+				}
+			}
+	}
+	return
+}
+
+func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Note_Shapes":
+				if _diagram, ok := stage.Diagram_Note_Shapes_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
+	}
+	return
+}
+
 func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -28,6 +67,13 @@ func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 			case "ProductsWhoseNodeIsExpanded":
 				if _diagram, ok := stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[inst]; ok {
 					res = _diagram.Name
+				}
+			}
+		case "Note":
+			switch reverseField.Fieldname {
+			case "Products":
+				if _note, ok := stage.Note_Products_reverseMap[inst]; ok {
+					res = _note.Name
 				}
 			}
 		case "Product":
@@ -248,6 +294,39 @@ func (inst *Diagram) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	return res
 }
 
+func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NotesWhoseNodeIsExpanded":
+				res = stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[inst]
+			}
+		case "Project":
+			switch reverseField.Fieldname {
+			case "Notes":
+				res = stage.Project_Notes_reverseMap[inst]
+			}
+	}
+	return res
+}
+
+func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "Note_Shapes":
+				res = stage.Diagram_Note_Shapes_reverseMap[inst]
+			}
+	}
+	return res
+}
+
 func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -257,6 +336,11 @@ func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 			switch reverseField.Fieldname {
 			case "ProductsWhoseNodeIsExpanded":
 				res = stage.Diagram_ProductsWhoseNodeIsExpanded_reverseMap[inst]
+			}
+		case "Note":
+			switch reverseField.Fieldname {
+			case "Products":
+				res = stage.Note_Products_reverseMap[inst]
 			}
 		case "Product":
 			switch reverseField.Fieldname {

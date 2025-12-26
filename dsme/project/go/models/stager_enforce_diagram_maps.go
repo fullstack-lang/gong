@@ -34,5 +34,19 @@ func (stager *Stager) enforceDiagramMaps() {
 				diagram.map_Product_ProductCompositionShape[shape.Product] = shape
 			}
 		}
+
+		diagram.map_Task_TaskCompositionShape = make(map[*Task]*TaskCompositionShape)
+		for _, shape := range diagram.TaskComposition_Shapes {
+			if shape.Task != nil {
+				diagram.map_Task_TaskCompositionShape[shape.Task] = shape
+			}
+		}
+
+		diagram.map_Note_NoteShape = make(map[*Note]*NoteShape)
+		for _, shape := range diagram.Note_Shapes {
+			if shape.Note != nil {
+				diagram.map_Note_NoteShape[shape.Note] = shape
+			}
+		}
 	}
 }
