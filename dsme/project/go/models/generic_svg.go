@@ -51,11 +51,16 @@ func svgRect[CT interface {
 	title := new(svg.RectAnchoredText)
 	{
 		title.Name = abstractElement.GetName()
-		title.Content = abstractElement.GetName()
+
+		content := shape.GetAbstractElement().GetName()
+		if diagram.ShowPrefix {
+			content = abstractElement.GetComputedPrefix() + " " + content
+		}
 
 		if rect.Width > 0 {
-			title.Content = strutils.WrapString(shape.GetAbstractElement().GetName(), int(rect.Width/root.NbPixPerCharacter))
+			content = strutils.WrapString(content, int(rect.Width/root.NbPixPerCharacter))
 		}
+		title.Content = content
 		title.Stroke = svg.Black.ToString()
 		title.StrokeWidth = 1
 		title.StrokeOpacity = 1
@@ -113,16 +118,16 @@ func OnUpdateRectElement[CT interface {
 }
 
 func svgAssociationLink[AT AbstractType,
-	CCT interface {
-		*CCT_
+	ACT interface {
+		*ACT_
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	CCT_ Gongstruct](
+	ACT_ Gongstruct](
 	stager *Stager,
 	startRect *svg.Rect,
 	endRect *svg.Rect,
-	shape CCT,
+	shape ACT,
 	productOfInterest AT,
 	layer *svg.Layer,
 	isDashed bool,
@@ -151,7 +156,7 @@ func svgAssociationLink[AT AbstractType,
 	link.EndArrowSize = 10
 
 	link.CornerOffsetRatio = shape.GetCornerOffsetRatio()
-	link.CornerRadius = 15
+	link.CornerRadius = 5
 	if isDashed {
 		link.StrokeDashArray = "5 5"
 	}

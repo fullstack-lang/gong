@@ -22,48 +22,63 @@ func OnUpdateAbstractElement[AT AbstractType](stager *Stager, element AT) func(s
 func OnAddAssociationShape[
 	ATstart AbstractType,
 	ATend AbstractType,
-	CCT interface {
-		*CCT_
+	ACT interface {
+		*ACT_
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	CCT_ Gongstruct](
-	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]CCT) func(
+	ACT_ Gongstruct](
+	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := CCT(new(CCT_))
+		compositionShape := newConcreteAssociation[ATstart, ATend, ACT](start, end, shapes)
 		compositionShape.StageVoid(stager.stage)
-		compositionShape.SetName(start.GetName() + " to " + end.GetName())
-		compositionShape.SetAbstractStartElement(start)
-		compositionShape.SetAbstractEndElement(end)
-		compositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
-		compositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
-
-		if taskInputShape, ok := any(compositionShape).(*TaskInputShape); ok {
-			taskInputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-			taskInputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-		}
-		if taskOutputShape, ok := any(compositionShape).(*TaskOutputShape); ok {
-			taskOutputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
-			taskOutputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
-		}
-
-		compositionShape.SetCornerOffsetRatio(1.68)
-		compositionShape.SetStartRatio(0.5)
-		compositionShape.SetEndRatio(0.5)
-
-		*shapes = append(*shapes, compositionShape)
 		stager.stage.Commit()
 	}
 }
 
-func OnRemoveAssociationShape[
-	CCT interface {
-		*CCT_
+func newConcreteAssociation[
+	ATstart AbstractType,
+	ATend AbstractType,
+	ACT interface {
+		*ACT_
 		LinkShapeInterface
 		AssociationConcreteType
 	},
-	CCT_ Gongstruct](stager *Stager, diagram *Diagram, compositionShape CCT, shapes *[]CCT) func(
+	ACT_ Gongstruct](start ATstart, end ATend, shapes *[]ACT) ACT {
+	compositionShape := ACT(new(ACT_))
+	compositionShape.SetName(start.GetName() + " to " + end.GetName())
+	compositionShape.SetAbstractStartElement(start)
+	compositionShape.SetAbstractEndElement(end)
+	compositionShape.SetStartOrientation(ORIENTATION_VERTICAL)
+	compositionShape.SetEndOrientation(ORIENTATION_VERTICAL)
+
+	if taskInputShape, ok := any(compositionShape).(*TaskInputShape); ok {
+		taskInputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+		taskInputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+		taskInputShape.CornerOffsetRatio = 0.2
+	}
+	if taskOutputShape, ok := any(compositionShape).(*TaskOutputShape); ok {
+		taskOutputShape.SetStartOrientation(ORIENTATION_HORIZONTAL)
+		taskOutputShape.SetEndOrientation(ORIENTATION_HORIZONTAL)
+		taskOutputShape.CornerOffsetRatio = 0.2
+	}
+
+	compositionShape.SetCornerOffsetRatio(1.68)
+	compositionShape.SetStartRatio(0.5)
+	compositionShape.SetEndRatio(0.5)
+	*shapes = append(*shapes, compositionShape)
+
+	return compositionShape
+}
+
+func OnRemoveAssociationShape[
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct](stager *Stager, diagram *Diagram, compositionShape ACT, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		compositionShape.UnstageVoid(stager.stage)
