@@ -7,6 +7,10 @@ type Diagram struct {
 	IsChecked      bool
 	IsEditable_    bool
 	IsInRenameMode bool
+	ShowPrefix     bool // display shapes with their prefix
+
+	DefaultBoxWidth  float64
+	DefaultBoxHeigth float64
 
 	ExpandableNodeObject
 
@@ -168,8 +172,8 @@ func newShapeToDiagram[AT AbstractType, CT interface {
 	shape.StageVoid(stage)
 	shape.SetAbstractElement(abstractElement)
 	shape.SetName(abstractElement.GetName() + "-" + diagram.GetName())
-	shape.SetHeight(80)
-	shape.SetWidth(200)
+	shape.SetHeight(diagram.DefaultBoxHeigth)
+	shape.SetWidth(diagram.DefaultBoxWidth)
 	shape.SetX(100 + rand.Float64()*100.0)
 	shape.SetY(100 + rand.Float64()*100.0)
 	*shapes = append(*shapes, shape)
