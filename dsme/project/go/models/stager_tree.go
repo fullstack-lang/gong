@@ -131,6 +131,19 @@ func (stager *Stager) tree() {
 			}
 			{
 				showAllButton := &tree.Button{
+					Name:            "Diagram Show As WBS Tree",
+					Icon:            string(buttons.BUTTON_account_circle),
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Show Show As WBS Tree",
+					Impl: &tree.FunctionalButtonProxy{
+						OnUpdated: onLayoutWBS(stager, diagram),
+					},
+				}
+				diagramNode.Buttons = append(diagramNode.Buttons, showAllButton)
+			}
+			{
+				showAllButton := &tree.Button{
 					Name:            "Diagram Prefix",
 					Icon:            string(buttons.BUTTON_show_chart),
 					HasToolTip:      true,
