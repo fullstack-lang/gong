@@ -8,7 +8,7 @@ import (
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 )
 
-func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
+func (stager *Stager) treePBSRecursive(product *Product, parentNode *tree.Node) {
 	productNode := &tree.Node{
 		Name:            product.ComputedPrefix + " " + product.Name,
 		IsExpanded:      product.IsExpanded,
@@ -23,7 +23,7 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 	addAddItemButton(stager, productNode, &product.SubProducts)
 
 	for _, product := range product.SubProducts {
-		stager.treePBS(product, productNode)
+		stager.treePBSRecursive(product, productNode)
 	}
 
 	if len(product.producers) > 0 {
@@ -79,7 +79,7 @@ func (stager *Stager) treePBS(product *Product, parentNode *tree.Node) {
 	}
 }
 
-func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
+func (stager *Stager) treePBSRecusriveInDiagram(diagram *Diagram, product *Product, parentNode *tree.Node) {
 	productNode := &tree.Node{
 		Name:       product.ComputedPrefix + " " + product.Name,
 		IsExpanded: slices.Index(diagram.ProductsWhoseNodeIsExpanded, product) != -1,
@@ -94,6 +94,8 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 		IsNodeClickable: true,
 	}
 	parentNode.Children = append(parentNode.Children, productNode)
+
+	addAddItemButton(stager, productNode, &product.SubProducts)
 
 	if _, ok := diagram.map_Product_ProductShape[product]; ok {
 		productNode.IsChecked = true
@@ -148,6 +150,6 @@ func (stager *Stager) treePBSinDiagram(diagram *Diagram, product *Product, paren
 	}
 
 	for _, product := range product.SubProducts {
-		stager.treePBSinDiagram(diagram, product, productNode)
+		stager.treePBSRecusriveInDiagram(diagram, product, productNode)
 	}
 }

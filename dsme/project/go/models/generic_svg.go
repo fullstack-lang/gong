@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 	"github.com/fullstack-lang/gong/pkg/strutils"
 )
@@ -56,8 +54,7 @@ func svgRect[CT interface {
 
 		content := shape.GetAbstractElement().GetName()
 		if diagram.ShowPrefix {
-			content = abstractElement.GetComputedPrefix() + " " + content +
-				fmt.Sprintf(" (%d)", abstractElement.GetComputedWidth())
+			content = abstractElement.GetComputedPrefix() + " " + content
 		}
 
 		if rect.Width > 0 {
@@ -159,7 +156,7 @@ func svgAssociationLink[AT AbstractType,
 	link.EndArrowSize = 10
 
 	link.CornerOffsetRatio = shape.GetCornerOffsetRatio()
-	link.CornerRadius = 15
+	link.CornerRadius = 5
 	if isDashed {
 		link.StrokeDashArray = "5 5"
 	}
