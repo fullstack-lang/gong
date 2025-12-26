@@ -447,14 +447,14 @@ func _(stage *models.Stage) {
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = true
 	__Project__00000000_Project_Editor.IsWBSNodeExpanded = false
 	__Project__00000000_Project_Editor.IsDiagramsNodeExpanded = true
-	__Project__00000000_Project_Editor.IsExpanded = true
+	__Project__00000000_Project_Editor.IsExpanded = false
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
 	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
-	__Project__00000001_DSME_Docx.IsExpanded = true
+	__Project__00000001_DSME_Docx.IsExpanded = false
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
 	__Root__00000000_Root.Name = `Root`

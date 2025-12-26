@@ -10,7 +10,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		stager.removeAllShapes(diagram)
+		stager.deletePBSShapes(diagram)
 
 		// 2. Compute the rank of each node (Product or Task)
 		// The rank is determined by the longest path from a root node.
