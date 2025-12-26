@@ -15,7 +15,7 @@ func onLayoutPBS(stager *Stager, diagram *Diagram) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 		// 1. Reset the diagram: remove all shapes from the stage to start fresh
-		stager.removeAllShapes(diagram)
+		stager.deletePBSShapes(diagram)
 
 		// 2. Identify Project
 		project := stager.stage.Project_Diagrams_reverseMap[diagram]
