@@ -102,7 +102,20 @@ func updateProbeTable[T models.PointerToGongstruct](
 			NeedsConfirmation:   true,
 			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
 		}
-		cellIcon.Impl = NewCellDeleteIconImplPointerToGongstruct(structInstance, probe)
+		cellIcon.Impl = &gongtable.FunctionalCellIconProxy{
+			OnUpdated: func(stage *gongtable.Stage, cellIcon, updatedCellIcon *gongtable.CellIcon) {
+				structInstance.UnstageVoid(probe.stageOfInterest)
+
+				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+				// reference the deleted instance.
+				// therefore, it is mandatory to clean the stage of interest
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+
+				updateProbeTable[T](probe)
+				updateAndCommitTree(probe)
+			},
+		}
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {

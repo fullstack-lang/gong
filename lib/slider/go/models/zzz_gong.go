@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -633,7 +638,7 @@ func (checkbox *Checkbox) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (checkbox *Checkbox) SetName(name string) (){
+func (checkbox *Checkbox) SetName(name string) {
 	checkbox.Name = name
 }
 
@@ -719,7 +724,7 @@ func (group *Group) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (group *Group) SetName(name string) (){
+func (group *Group) SetName(name string) {
 	group.Name = name
 }
 
@@ -805,7 +810,7 @@ func (layout *Layout) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (layout *Layout) SetName(name string) (){
+func (layout *Layout) SetName(name string) {
 	layout.Name = name
 }
 
@@ -891,7 +896,7 @@ func (slider *Slider) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (slider *Slider) SetName(name string) (){
+func (slider *Slider) SetName(name string) {
 	slider.Name = name
 }
 
