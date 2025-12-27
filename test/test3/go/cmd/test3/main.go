@@ -66,6 +66,8 @@ Car j’ignore où tu fuis, tu ne sais où je vais,
 O toi que j’eusse aimée, ô toi qui le savais!`,
 	})
 
+	stack.Probe.UpdateAndCommitNotificationTable()
+
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := stack.R.Run(":" + strconv.Itoa(*port))
 	if err != nil {
