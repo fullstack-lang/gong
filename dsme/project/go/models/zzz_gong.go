@@ -116,6 +116,10 @@ type Stage struct {
 
 	Diagram_NotesWhoseNodeIsExpanded_reverseMap map[*Note]*Diagram
 
+	Diagram_NoteProductShapes_reverseMap map[*NoteProductShape]*Diagram
+
+	Diagram_NoteTaskShapes_reverseMap map[*NoteTaskShape]*Diagram
+
 	OnAfterDiagramCreateCallback OnAfterCreateInterface[Diagram]
 	OnAfterDiagramUpdateCallback OnAfterUpdateInterface[Diagram]
 	OnAfterDiagramDeleteCallback OnAfterDeleteInterface[Diagram]
@@ -127,10 +131,21 @@ type Stage struct {
 	// insertion point for slice of pointers maps
 	Note_Products_reverseMap map[*Product]*Note
 
+	Note_Tasks_reverseMap map[*Task]*Note
+
 	OnAfterNoteCreateCallback OnAfterCreateInterface[Note]
 	OnAfterNoteUpdateCallback OnAfterUpdateInterface[Note]
 	OnAfterNoteDeleteCallback OnAfterDeleteInterface[Note]
 	OnAfterNoteReadCallback   OnAfterReadInterface[Note]
+
+	NoteProductShapes           map[*NoteProductShape]struct{}
+	NoteProductShapes_mapString map[string]*NoteProductShape
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteProductShapeCreateCallback OnAfterCreateInterface[NoteProductShape]
+	OnAfterNoteProductShapeUpdateCallback OnAfterUpdateInterface[NoteProductShape]
+	OnAfterNoteProductShapeDeleteCallback OnAfterDeleteInterface[NoteProductShape]
+	OnAfterNoteProductShapeReadCallback   OnAfterReadInterface[NoteProductShape]
 
 	NoteShapes           map[*NoteShape]struct{}
 	NoteShapes_mapString map[string]*NoteShape
@@ -140,6 +155,15 @@ type Stage struct {
 	OnAfterNoteShapeUpdateCallback OnAfterUpdateInterface[NoteShape]
 	OnAfterNoteShapeDeleteCallback OnAfterDeleteInterface[NoteShape]
 	OnAfterNoteShapeReadCallback   OnAfterReadInterface[NoteShape]
+
+	NoteTaskShapes           map[*NoteTaskShape]struct{}
+	NoteTaskShapes_mapString map[string]*NoteTaskShape
+
+	// insertion point for slice of pointers maps
+	OnAfterNoteTaskShapeCreateCallback OnAfterCreateInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeUpdateCallback OnAfterUpdateInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeDeleteCallback OnAfterDeleteInterface[NoteTaskShape]
+	OnAfterNoteTaskShapeReadCallback   OnAfterReadInterface[NoteTaskShape]
 
 	Products           map[*Product]struct{}
 	Products_mapString map[string]*Product
@@ -285,8 +309,14 @@ type Stage struct {
 	NoteOrder            uint
 	NoteMap_Staged_Order map[*Note]uint
 
+	NoteProductShapeOrder            uint
+	NoteProductShapeMap_Staged_Order map[*NoteProductShape]uint
+
 	NoteShapeOrder            uint
 	NoteShapeMap_Staged_Order map[*NoteShape]uint
+
+	NoteTaskShapeOrder            uint
+	NoteTaskShapeMap_Staged_Order map[*NoteTaskShape]uint
 
 	ProductOrder            uint
 	ProductMap_Staged_Order map[*Product]uint
@@ -396,6 +426,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			res = append(res, any(v).(T))
 		}
 		return res
+	case *NoteProductShape:
+		tmp := GetStructInstancesByOrder(stage.NoteProductShapes, stage.NoteProductShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NoteProductShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
 	case *NoteShape:
 		tmp := GetStructInstancesByOrder(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
 
@@ -407,6 +451,20 @@ func GetStructInstancesByOrderAuto[T PointerToGongstruct](stage *Stage) (res []T
 			// Assert that the element 'v' can be treated as type 'T'.
 			// Note: This relies on the constraint that PointerToGongstruct
 			// is an interface that *NoteShape implements.
+			res = append(res, any(v).(T))
+		}
+		return res
+	case *NoteTaskShape:
+		tmp := GetStructInstancesByOrder(stage.NoteTaskShapes, stage.NoteTaskShapeMap_Staged_Order)
+
+		// Create a new slice of the generic type T with the same capacity.
+		res = make([]T, 0, len(tmp))
+
+		// Iterate over the source slice and perform a type assertion on each element.
+		for _, v := range tmp {
+			// Assert that the element 'v' can be treated as type 'T'.
+			// Note: This relies on the constraint that PointerToGongstruct
+			// is an interface that *NoteTaskShape implements.
 			res = append(res, any(v).(T))
 		}
 		return res
@@ -585,8 +643,12 @@ func (stage *Stage) GetNamedStructNamesByOrder(namedStructName string) (res []st
 		res = GetNamedStructInstances(stage.Diagrams, stage.DiagramMap_Staged_Order)
 	case "Note":
 		res = GetNamedStructInstances(stage.Notes, stage.NoteMap_Staged_Order)
+	case "NoteProductShape":
+		res = GetNamedStructInstances(stage.NoteProductShapes, stage.NoteProductShapeMap_Staged_Order)
 	case "NoteShape":
 		res = GetNamedStructInstances(stage.NoteShapes, stage.NoteShapeMap_Staged_Order)
+	case "NoteTaskShape":
+		res = GetNamedStructInstances(stage.NoteTaskShapes, stage.NoteTaskShapeMap_Staged_Order)
 	case "Product":
 		res = GetNamedStructInstances(stage.Products, stage.ProductMap_Staged_Order)
 	case "ProductCompositionShape":
@@ -680,8 +742,12 @@ type BackRepoInterface interface {
 	CheckoutDiagram(diagram *Diagram)
 	CommitNote(note *Note)
 	CheckoutNote(note *Note)
+	CommitNoteProductShape(noteproductshape *NoteProductShape)
+	CheckoutNoteProductShape(noteproductshape *NoteProductShape)
 	CommitNoteShape(noteshape *NoteShape)
 	CheckoutNoteShape(noteshape *NoteShape)
+	CommitNoteTaskShape(notetaskshape *NoteTaskShape)
+	CheckoutNoteTaskShape(notetaskshape *NoteTaskShape)
 	CommitProduct(product *Product)
 	CheckoutProduct(product *Product)
 	CommitProductCompositionShape(productcompositionshape *ProductCompositionShape)
@@ -715,8 +781,14 @@ func NewStage(name string) (stage *Stage) {
 		Notes:           make(map[*Note]struct{}),
 		Notes_mapString: make(map[string]*Note),
 
+		NoteProductShapes:           make(map[*NoteProductShape]struct{}),
+		NoteProductShapes_mapString: make(map[string]*NoteProductShape),
+
 		NoteShapes:           make(map[*NoteShape]struct{}),
 		NoteShapes_mapString: make(map[string]*NoteShape),
+
+		NoteTaskShapes:           make(map[*NoteTaskShape]struct{}),
+		NoteTaskShapes_mapString: make(map[string]*NoteTaskShape),
 
 		Products:           make(map[*Product]struct{}),
 		Products_mapString: make(map[string]*Product),
@@ -762,7 +834,11 @@ func NewStage(name string) (stage *Stage) {
 
 		NoteMap_Staged_Order: make(map[*Note]uint),
 
+		NoteProductShapeMap_Staged_Order: make(map[*NoteProductShape]uint),
+
 		NoteShapeMap_Staged_Order: make(map[*NoteShape]uint),
+
+		NoteTaskShapeMap_Staged_Order: make(map[*NoteTaskShape]uint),
 
 		ProductMap_Staged_Order: make(map[*Product]uint),
 
@@ -789,7 +865,9 @@ func NewStage(name string) (stage *Stage) {
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations
 			{name: "Diagram"},
 			{name: "Note"},
+			{name: "NoteProductShape"},
 			{name: "NoteShape"},
+			{name: "NoteTaskShape"},
 			{name: "Product"},
 			{name: "ProductCompositionShape"},
 			{name: "ProductShape"},
@@ -816,8 +894,12 @@ func GetOrder[Type Gongstruct](stage *Stage, instance *Type) uint {
 		return stage.DiagramMap_Staged_Order[instance]
 	case *Note:
 		return stage.NoteMap_Staged_Order[instance]
+	case *NoteProductShape:
+		return stage.NoteProductShapeMap_Staged_Order[instance]
 	case *NoteShape:
 		return stage.NoteShapeMap_Staged_Order[instance]
+	case *NoteTaskShape:
+		return stage.NoteTaskShapeMap_Staged_Order[instance]
 	case *Product:
 		return stage.ProductMap_Staged_Order[instance]
 	case *ProductCompositionShape:
@@ -851,8 +933,12 @@ func GetOrderPointerGongstruct[Type PointerToGongstruct](stage *Stage, instance 
 		return stage.DiagramMap_Staged_Order[instance]
 	case *Note:
 		return stage.NoteMap_Staged_Order[instance]
+	case *NoteProductShape:
+		return stage.NoteProductShapeMap_Staged_Order[instance]
 	case *NoteShape:
 		return stage.NoteShapeMap_Staged_Order[instance]
+	case *NoteTaskShape:
+		return stage.NoteTaskShapeMap_Staged_Order[instance]
 	case *Product:
 		return stage.ProductMap_Staged_Order[instance]
 	case *ProductCompositionShape:
@@ -911,7 +997,9 @@ func (stage *Stage) ComputeInstancesNb() {
 	// insertion point for computing the map of number of instances per gongstruct
 	stage.Map_GongStructName_InstancesNb["Diagram"] = len(stage.Diagrams)
 	stage.Map_GongStructName_InstancesNb["Note"] = len(stage.Notes)
+	stage.Map_GongStructName_InstancesNb["NoteProductShape"] = len(stage.NoteProductShapes)
 	stage.Map_GongStructName_InstancesNb["NoteShape"] = len(stage.NoteShapes)
+	stage.Map_GongStructName_InstancesNb["NoteTaskShape"] = len(stage.NoteTaskShapes)
 	stage.Map_GongStructName_InstancesNb["Product"] = len(stage.Products)
 	stage.Map_GongStructName_InstancesNb["ProductCompositionShape"] = len(stage.ProductCompositionShapes)
 	stage.Map_GongStructName_InstancesNb["ProductShape"] = len(stage.ProductShapes)
@@ -1134,6 +1222,92 @@ func (note *Note) SetName(name string) (){
 	note.Name = name
 }
 
+// Stage puts noteproductshape to the model stage
+func (noteproductshape *NoteProductShape) Stage(stage *Stage) *NoteProductShape {
+
+	if _, ok := stage.NoteProductShapes[noteproductshape]; !ok {
+		stage.NoteProductShapes[noteproductshape] = struct{}{}
+		stage.NoteProductShapeMap_Staged_Order[noteproductshape] = stage.NoteProductShapeOrder
+		stage.NoteProductShapeOrder++
+	}
+	stage.NoteProductShapes_mapString[noteproductshape.Name] = noteproductshape
+
+	return noteproductshape
+}
+
+// StagePreserveOrder puts noteproductshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteProductShapeOrder
+// - update stage.NoteProductShapeOrder accordingly
+func (noteproductshape *NoteProductShape) StagePreserveOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.NoteProductShapes[noteproductshape]; !ok {
+		stage.NoteProductShapes[noteproductshape] = struct{}{}
+
+		if order > stage.NoteProductShapeOrder {
+			stage.NoteProductShapeOrder = order
+		}
+		stage.NoteProductShapeMap_Staged_Order[noteproductshape] = stage.NoteProductShapeOrder
+		stage.NoteProductShapeOrder++
+	}
+	stage.NoteProductShapes_mapString[noteproductshape.Name] = noteproductshape
+}
+
+// Unstage removes noteproductshape off the model stage
+func (noteproductshape *NoteProductShape) Unstage(stage *Stage) *NoteProductShape {
+	delete(stage.NoteProductShapes, noteproductshape)
+	delete(stage.NoteProductShapeMap_Staged_Order, noteproductshape)
+	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
+
+	return noteproductshape
+}
+
+// UnstageVoid removes noteproductshape off the model stage
+func (noteproductshape *NoteProductShape) UnstageVoid(stage *Stage) {
+	delete(stage.NoteProductShapes, noteproductshape)
+	delete(stage.NoteProductShapeMap_Staged_Order, noteproductshape)
+	delete(stage.NoteProductShapes_mapString, noteproductshape.Name)
+}
+
+// commit noteproductshape to the back repo (if it is already staged)
+func (noteproductshape *NoteProductShape) Commit(stage *Stage) *NoteProductShape {
+	if _, ok := stage.NoteProductShapes[noteproductshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNoteProductShape(noteproductshape)
+		}
+	}
+	return noteproductshape
+}
+
+func (noteproductshape *NoteProductShape) CommitVoid(stage *Stage) {
+	noteproductshape.Commit(stage)
+}
+
+func (noteproductshape *NoteProductShape) StageVoid(stage *Stage) {
+	noteproductshape.Stage(stage)
+}
+
+// Checkout noteproductshape to the back repo (if it is already staged)
+func (noteproductshape *NoteProductShape) Checkout(stage *Stage) *NoteProductShape {
+	if _, ok := stage.NoteProductShapes[noteproductshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNoteProductShape(noteproductshape)
+		}
+	}
+	return noteproductshape
+}
+
+// for satisfaction of GongStruct interface
+func (noteproductshape *NoteProductShape) GetName() (res string) {
+	return noteproductshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (noteproductshape *NoteProductShape) SetName(name string) (){
+	noteproductshape.Name = name
+}
+
 // Stage puts noteshape to the model stage
 func (noteshape *NoteShape) Stage(stage *Stage) *NoteShape {
 
@@ -1218,6 +1392,92 @@ func (noteshape *NoteShape) GetName() (res string) {
 // for satisfaction of GongStruct interface
 func (noteshape *NoteShape) SetName(name string) (){
 	noteshape.Name = name
+}
+
+// Stage puts notetaskshape to the model stage
+func (notetaskshape *NoteTaskShape) Stage(stage *Stage) *NoteTaskShape {
+
+	if _, ok := stage.NoteTaskShapes[notetaskshape]; !ok {
+		stage.NoteTaskShapes[notetaskshape] = struct{}{}
+		stage.NoteTaskShapeMap_Staged_Order[notetaskshape] = stage.NoteTaskShapeOrder
+		stage.NoteTaskShapeOrder++
+	}
+	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
+
+	return notetaskshape
+}
+
+// StagePreserveOrder puts notetaskshape to the model stage, and if the astrtuct
+// was not staged before:
+//
+// - force the order if the order is equal or greater than the stage.NoteTaskShapeOrder
+// - update stage.NoteTaskShapeOrder accordingly
+func (notetaskshape *NoteTaskShape) StagePreserveOrder(stage *Stage, order uint) {
+
+	if _, ok := stage.NoteTaskShapes[notetaskshape]; !ok {
+		stage.NoteTaskShapes[notetaskshape] = struct{}{}
+
+		if order > stage.NoteTaskShapeOrder {
+			stage.NoteTaskShapeOrder = order
+		}
+		stage.NoteTaskShapeMap_Staged_Order[notetaskshape] = stage.NoteTaskShapeOrder
+		stage.NoteTaskShapeOrder++
+	}
+	stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
+}
+
+// Unstage removes notetaskshape off the model stage
+func (notetaskshape *NoteTaskShape) Unstage(stage *Stage) *NoteTaskShape {
+	delete(stage.NoteTaskShapes, notetaskshape)
+	delete(stage.NoteTaskShapeMap_Staged_Order, notetaskshape)
+	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
+
+	return notetaskshape
+}
+
+// UnstageVoid removes notetaskshape off the model stage
+func (notetaskshape *NoteTaskShape) UnstageVoid(stage *Stage) {
+	delete(stage.NoteTaskShapes, notetaskshape)
+	delete(stage.NoteTaskShapeMap_Staged_Order, notetaskshape)
+	delete(stage.NoteTaskShapes_mapString, notetaskshape.Name)
+}
+
+// commit notetaskshape to the back repo (if it is already staged)
+func (notetaskshape *NoteTaskShape) Commit(stage *Stage) *NoteTaskShape {
+	if _, ok := stage.NoteTaskShapes[notetaskshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CommitNoteTaskShape(notetaskshape)
+		}
+	}
+	return notetaskshape
+}
+
+func (notetaskshape *NoteTaskShape) CommitVoid(stage *Stage) {
+	notetaskshape.Commit(stage)
+}
+
+func (notetaskshape *NoteTaskShape) StageVoid(stage *Stage) {
+	notetaskshape.Stage(stage)
+}
+
+// Checkout notetaskshape to the back repo (if it is already staged)
+func (notetaskshape *NoteTaskShape) Checkout(stage *Stage) *NoteTaskShape {
+	if _, ok := stage.NoteTaskShapes[notetaskshape]; ok {
+		if stage.BackRepo != nil {
+			stage.BackRepo.CheckoutNoteTaskShape(notetaskshape)
+		}
+	}
+	return notetaskshape
+}
+
+// for satisfaction of GongStruct interface
+func (notetaskshape *NoteTaskShape) GetName() (res string) {
+	return notetaskshape.Name
+}
+
+// for satisfaction of GongStruct interface
+func (notetaskshape *NoteTaskShape) SetName(name string) (){
+	notetaskshape.Name = name
 }
 
 // Stage puts product to the model stage
@@ -2084,7 +2344,9 @@ func (taskshape *TaskShape) SetName(name string) (){
 type AllModelsStructCreateInterface interface { // insertion point for Callbacks on creation
 	CreateORMDiagram(Diagram *Diagram)
 	CreateORMNote(Note *Note)
+	CreateORMNoteProductShape(NoteProductShape *NoteProductShape)
 	CreateORMNoteShape(NoteShape *NoteShape)
+	CreateORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
 	CreateORMProduct(Product *Product)
 	CreateORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	CreateORMProductShape(ProductShape *ProductShape)
@@ -2100,7 +2362,9 @@ type AllModelsStructCreateInterface interface { // insertion point for Callbacks
 type AllModelsStructDeleteInterface interface { // insertion point for Callbacks on deletion
 	DeleteORMDiagram(Diagram *Diagram)
 	DeleteORMNote(Note *Note)
+	DeleteORMNoteProductShape(NoteProductShape *NoteProductShape)
 	DeleteORMNoteShape(NoteShape *NoteShape)
+	DeleteORMNoteTaskShape(NoteTaskShape *NoteTaskShape)
 	DeleteORMProduct(Product *Product)
 	DeleteORMProductCompositionShape(ProductCompositionShape *ProductCompositionShape)
 	DeleteORMProductShape(ProductShape *ProductShape)
@@ -2124,10 +2388,20 @@ func (stage *Stage) Reset() { // insertion point for array reset
 	stage.NoteMap_Staged_Order = make(map[*Note]uint)
 	stage.NoteOrder = 0
 
+	stage.NoteProductShapes = make(map[*NoteProductShape]struct{})
+	stage.NoteProductShapes_mapString = make(map[string]*NoteProductShape)
+	stage.NoteProductShapeMap_Staged_Order = make(map[*NoteProductShape]uint)
+	stage.NoteProductShapeOrder = 0
+
 	stage.NoteShapes = make(map[*NoteShape]struct{})
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 	stage.NoteShapeMap_Staged_Order = make(map[*NoteShape]uint)
 	stage.NoteShapeOrder = 0
+
+	stage.NoteTaskShapes = make(map[*NoteTaskShape]struct{})
+	stage.NoteTaskShapes_mapString = make(map[string]*NoteTaskShape)
+	stage.NoteTaskShapeMap_Staged_Order = make(map[*NoteTaskShape]uint)
+	stage.NoteTaskShapeOrder = 0
 
 	stage.Products = make(map[*Product]struct{})
 	stage.Products_mapString = make(map[string]*Product)
@@ -2189,8 +2463,14 @@ func (stage *Stage) Nil() { // insertion point for array nil
 	stage.Notes = nil
 	stage.Notes_mapString = nil
 
+	stage.NoteProductShapes = nil
+	stage.NoteProductShapes_mapString = nil
+
 	stage.NoteShapes = nil
 	stage.NoteShapes_mapString = nil
+
+	stage.NoteTaskShapes = nil
+	stage.NoteTaskShapes_mapString = nil
 
 	stage.Products = nil
 	stage.Products_mapString = nil
@@ -2233,8 +2513,16 @@ func (stage *Stage) Unstage() { // insertion point for array nil
 		note.Unstage(stage)
 	}
 
+	for noteproductshape := range stage.NoteProductShapes {
+		noteproductshape.Unstage(stage)
+	}
+
 	for noteshape := range stage.NoteShapes {
 		noteshape.Unstage(stage)
+	}
+
+	for notetaskshape := range stage.NoteTaskShapes {
+		notetaskshape.Unstage(stage)
 	}
 
 	for product := range stage.Products {
@@ -2355,8 +2643,12 @@ func GongGetSet[Type GongstructSet](stage *Stage) *Type {
 		return any(&stage.Diagrams).(*Type)
 	case map[*Note]any:
 		return any(&stage.Notes).(*Type)
+	case map[*NoteProductShape]any:
+		return any(&stage.NoteProductShapes).(*Type)
 	case map[*NoteShape]any:
 		return any(&stage.NoteShapes).(*Type)
+	case map[*NoteTaskShape]any:
+		return any(&stage.NoteTaskShapes).(*Type)
 	case map[*Product]any:
 		return any(&stage.Products).(*Type)
 	case map[*ProductCompositionShape]any:
@@ -2393,8 +2685,12 @@ func GongGetMap[Type GongstructIF](stage *Stage) map[string]Type {
 		return any(stage.Diagrams_mapString).(map[string]Type)
 	case *Note:
 		return any(stage.Notes_mapString).(map[string]Type)
+	case *NoteProductShape:
+		return any(stage.NoteProductShapes_mapString).(map[string]Type)
 	case *NoteShape:
 		return any(stage.NoteShapes_mapString).(map[string]Type)
+	case *NoteTaskShape:
+		return any(stage.NoteTaskShapes_mapString).(map[string]Type)
 	case *Product:
 		return any(stage.Products_mapString).(map[string]Type)
 	case *ProductCompositionShape:
@@ -2431,8 +2727,12 @@ func GetGongstructInstancesSet[Type Gongstruct](stage *Stage) *map[*Type]struct{
 		return any(&stage.Diagrams).(*map[*Type]struct{})
 	case Note:
 		return any(&stage.Notes).(*map[*Type]struct{})
+	case NoteProductShape:
+		return any(&stage.NoteProductShapes).(*map[*Type]struct{})
 	case NoteShape:
 		return any(&stage.NoteShapes).(*map[*Type]struct{})
+	case NoteTaskShape:
+		return any(&stage.NoteTaskShapes).(*map[*Type]struct{})
 	case Product:
 		return any(&stage.Products).(*map[*Type]struct{})
 	case ProductCompositionShape:
@@ -2469,8 +2769,12 @@ func GetGongstructInstancesSetFromPointerType[Type PointerToGongstruct](stage *S
 		return any(&stage.Diagrams).(*map[Type]struct{})
 	case *Note:
 		return any(&stage.Notes).(*map[Type]struct{})
+	case *NoteProductShape:
+		return any(&stage.NoteProductShapes).(*map[Type]struct{})
 	case *NoteShape:
 		return any(&stage.NoteShapes).(*map[Type]struct{})
+	case *NoteTaskShape:
+		return any(&stage.NoteTaskShapes).(*map[Type]struct{})
 	case *Product:
 		return any(&stage.Products).(*map[Type]struct{})
 	case *ProductCompositionShape:
@@ -2507,8 +2811,12 @@ func GetGongstructInstancesMap[Type Gongstruct](stage *Stage) *map[string]*Type 
 		return any(&stage.Diagrams_mapString).(*map[string]*Type)
 	case Note:
 		return any(&stage.Notes_mapString).(*map[string]*Type)
+	case NoteProductShape:
+		return any(&stage.NoteProductShapes_mapString).(*map[string]*Type)
 	case NoteShape:
 		return any(&stage.NoteShapes_mapString).(*map[string]*Type)
+	case NoteTaskShape:
+		return any(&stage.NoteTaskShapes_mapString).(*map[string]*Type)
 	case Product:
 		return any(&stage.Products_mapString).(*map[string]*Type)
 	case ProductCompositionShape:
@@ -2570,18 +2878,40 @@ func GetAssociationName[Type Gongstruct]() *Type {
 			Note_Shapes: []*NoteShape{{Name: "Note_Shapes"}},
 			// field is initialized with an instance of Note with the name of the field
 			NotesWhoseNodeIsExpanded: []*Note{{Name: "NotesWhoseNodeIsExpanded"}},
+			// field is initialized with an instance of NoteProductShape with the name of the field
+			NoteProductShapes: []*NoteProductShape{{Name: "NoteProductShapes"}},
+			// field is initialized with an instance of NoteTaskShape with the name of the field
+			NoteTaskShapes: []*NoteTaskShape{{Name: "NoteTaskShapes"}},
 		}).(*Type)
 	case Note:
 		return any(&Note{
 			// Initialisation of associations
 			// field is initialized with an instance of Product with the name of the field
 			Products: []*Product{{Name: "Products"}},
+			// field is initialized with an instance of Task with the name of the field
+			Tasks: []*Task{{Name: "Tasks"}},
+		}).(*Type)
+	case NoteProductShape:
+		return any(&NoteProductShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+			// field is initialized with an instance of Product with the name of the field
+			Product: &Product{Name: "Product"},
 		}).(*Type)
 	case NoteShape:
 		return any(&NoteShape{
 			// Initialisation of associations
 			// field is initialized with an instance of Note with the name of the field
 			Note: &Note{Name: "Note"},
+		}).(*Type)
+	case NoteTaskShape:
+		return any(&NoteTaskShape{
+			// Initialisation of associations
+			// field is initialized with an instance of Note with the name of the field
+			Note: &Note{Name: "Note"},
+			// field is initialized with an instance of Task with the name of the field
+			Task: &Task{Name: "Task"},
 		}).(*Type)
 	case Product:
 		return any(&Product{
@@ -2689,6 +3019,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 		switch fieldname {
 		// insertion point for per direct association field
 		}
+	// reverse maps of direct associations of NoteProductShape
+	case NoteProductShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteProductShape)
+			for noteproductshape := range stage.NoteProductShapes {
+				if noteproductshape.Note != nil {
+					note_ := noteproductshape.Note
+					var noteproductshapes []*NoteProductShape
+					_, ok := res[note_]
+					if ok {
+						noteproductshapes = res[note_]
+					} else {
+						noteproductshapes = make([]*NoteProductShape, 0)
+					}
+					noteproductshapes = append(noteproductshapes, noteproductshape)
+					res[note_] = noteproductshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Product":
+			res := make(map[*Product][]*NoteProductShape)
+			for noteproductshape := range stage.NoteProductShapes {
+				if noteproductshape.Product != nil {
+					product_ := noteproductshape.Product
+					var noteproductshapes []*NoteProductShape
+					_, ok := res[product_]
+					if ok {
+						noteproductshapes = res[product_]
+					} else {
+						noteproductshapes = make([]*NoteProductShape, 0)
+					}
+					noteproductshapes = append(noteproductshapes, noteproductshape)
+					res[product_] = noteproductshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
 		switch fieldname {
@@ -2707,6 +3076,45 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 					}
 					noteshapes = append(noteshapes, noteshape)
 					res[note_] = noteshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteTaskShape
+	case NoteTaskShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		case "Note":
+			res := make(map[*Note][]*NoteTaskShape)
+			for notetaskshape := range stage.NoteTaskShapes {
+				if notetaskshape.Note != nil {
+					note_ := notetaskshape.Note
+					var notetaskshapes []*NoteTaskShape
+					_, ok := res[note_]
+					if ok {
+						notetaskshapes = res[note_]
+					} else {
+						notetaskshapes = make([]*NoteTaskShape, 0)
+					}
+					notetaskshapes = append(notetaskshapes, notetaskshape)
+					res[note_] = notetaskshapes
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "Task":
+			res := make(map[*Task][]*NoteTaskShape)
+			for notetaskshape := range stage.NoteTaskShapes {
+				if notetaskshape.Task != nil {
+					task_ := notetaskshape.Task
+					var notetaskshapes []*NoteTaskShape
+					_, ok := res[task_]
+					if ok {
+						notetaskshapes = res[task_]
+					} else {
+						notetaskshapes = make([]*NoteTaskShape, 0)
+					}
+					notetaskshapes = append(notetaskshapes, notetaskshape)
+					res[task_] = notetaskshapes
 				}
 			}
 			return any(res).(map[*End][]*Start)
@@ -3013,6 +3421,22 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "NoteProductShapes":
+			res := make(map[*NoteProductShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, noteproductshape_ := range diagram.NoteProductShapes {
+					res[noteproductshape_] = append(res[noteproductshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		case "NoteTaskShapes":
+			res := make(map[*NoteTaskShape][]*Diagram)
+			for diagram := range stage.Diagrams {
+				for _, notetaskshape_ := range diagram.NoteTaskShapes {
+					res[notetaskshape_] = append(res[notetaskshape_], diagram)
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of Note
 	case Note:
@@ -3026,9 +3450,27 @@ func GetSliceOfPointersReverseMap[Start, End Gongstruct](fieldname string, stage
 				}
 			}
 			return any(res).(map[*End][]*Start)
+		case "Tasks":
+			res := make(map[*Task][]*Note)
+			for note := range stage.Notes {
+				for _, task_ := range note.Tasks {
+					res[task_] = append(res[task_], note)
+				}
+			}
+			return any(res).(map[*End][]*Start)
+		}
+	// reverse maps of direct associations of NoteProductShape
+	case NoteProductShape:
+		switch fieldname {
+		// insertion point for per direct association field
 		}
 	// reverse maps of direct associations of NoteShape
 	case NoteShape:
+		switch fieldname {
+		// insertion point for per direct association field
+		}
+	// reverse maps of direct associations of NoteTaskShape
+	case NoteTaskShape:
 		switch fieldname {
 		// insertion point for per direct association field
 		}
@@ -3186,8 +3628,12 @@ func GetPointerToGongstructName[Type GongstructIF]() (res string) {
 		res = "Diagram"
 	case *Note:
 		res = "Note"
+	case *NoteProductShape:
+		res = "NoteProductShape"
 	case *NoteShape:
 		res = "NoteShape"
+	case *NoteTaskShape:
+		res = "NoteTaskShape"
 	case *Product:
 		res = "Product"
 	case *ProductCompositionShape:
@@ -3241,11 +3687,23 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		rf.GongstructName = "Project"
 		rf.Fieldname = "Notes"
 		res = append(res, rf)
+	case *NoteProductShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "NoteProductShapes"
+		res = append(res, rf)
 	case *NoteShape:
 		var rf ReverseField
 		_ = rf
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "Note_Shapes"
+		res = append(res, rf)
+	case *NoteTaskShape:
+		var rf ReverseField
+		_ = rf
+		rf.GongstructName = "Diagram"
+		rf.Fieldname = "NoteTaskShapes"
 		res = append(res, rf)
 	case *Product:
 		var rf ReverseField
@@ -3303,6 +3761,9 @@ func GetReverseFields[Type GongstructIF]() (res []ReverseField) {
 		res = append(res, rf)
 		rf.GongstructName = "Diagram"
 		rf.Fieldname = "TasksWhoseOutputNodeIsExpanded"
+		res = append(res, rf)
+		rf.GongstructName = "Note"
+		rf.Fieldname = "Tasks"
 		res = append(res, rf)
 		rf.GongstructName = "Project"
 		rf.Fieldname = "RootTasks"
@@ -3453,6 +3914,16 @@ func (diagram *Diagram) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsNotesNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:                 "NoteProductShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteProductShape",
+		},
+		{
+			Name:                 "NoteTaskShapes",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "NoteTaskShape",
+		},
 	}
 	return
 }
@@ -3470,7 +3941,53 @@ func (note *Note) GongGetFieldHeaders() (res []GongFieldHeader) {
 			TargetGongstructName: "Product",
 		},
 		{
+			Name:                 "Tasks",
+			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
+			TargetGongstructName: "Task",
+		},
+		{
 			Name:               "IsExpanded",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (noteproductshape *NoteProductShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "Product",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Product",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StartOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CornerOffsetRatio",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -3507,6 +4024,47 @@ func (noteshape *NoteShape) GongGetFieldHeaders() (res []GongFieldHeader) {
 		},
 		{
 			Name:               "Height",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+	}
+	return
+}
+
+func (notetaskshape *NoteTaskShape) GongGetFieldHeaders() (res []GongFieldHeader) {
+	// insertion point for list of field headers
+	res = []GongFieldHeader{
+		{
+			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:                 "Note",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Note",
+		},
+		{
+			Name:                 "Task",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "Task",
+		},
+		{
+			Name:               "StartRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndRatio",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "StartOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "EndOrientation",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "CornerOffsetRatio",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 	}
@@ -4119,6 +4677,26 @@ func (diagram *Diagram) GongGetFieldValue(fieldName string, stage *Stage) (res G
 		res.valueString = fmt.Sprintf("%t", diagram.IsNotesNodeExpanded)
 		res.valueBool = diagram.IsNotesNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "NoteProductShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteProductShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
+	case "NoteTaskShapes":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range diagram.NoteTaskShapes {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	}
 	return
 }
@@ -4137,10 +4715,58 @@ func (note *Note) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 			res.valueString += __instance__.Name
 			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
 		}
+	case "Tasks":
+		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
+		for idx, __instance__ := range note.Tasks {
+			if idx > 0 {
+				res.valueString += "\n"
+				res.ids += ";"
+			}
+			res.valueString += __instance__.Name
+			res.ids += fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, __instance__))
+		}
 	case "IsExpanded":
 		res.valueString = fmt.Sprintf("%t", note.IsExpanded)
 		res.valueBool = note.IsExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	}
+	return
+}
+func (noteproductshape *NoteProductShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = noteproductshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if noteproductshape.Note != nil {
+			res.valueString = noteproductshape.Note.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteproductshape.Note))
+		}
+	case "Product":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if noteproductshape.Product != nil {
+			res.valueString = noteproductshape.Product.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, noteproductshape.Product))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", noteproductshape.StartRatio)
+		res.valueFloat = noteproductshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", noteproductshape.EndRatio)
+		res.valueFloat = noteproductshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := noteproductshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := noteproductshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", noteproductshape.CornerOffsetRatio)
+		res.valueFloat = noteproductshape.CornerOffsetRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
 }
@@ -4174,6 +4800,44 @@ func (noteshape *NoteShape) GongGetFieldValue(fieldName string, stage *Stage) (r
 	case "Height":
 		res.valueString = fmt.Sprintf("%f", noteshape.Height)
 		res.valueFloat = noteshape.Height
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	}
+	return
+}
+func (notetaskshape *NoteTaskShape) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValue) {
+	switch fieldName {
+	// string value of fields
+	case "Name":
+		res.valueString = notetaskshape.Name
+	case "Note":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notetaskshape.Note != nil {
+			res.valueString = notetaskshape.Note.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, notetaskshape.Note))
+		}
+	case "Task":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if notetaskshape.Task != nil {
+			res.valueString = notetaskshape.Task.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, notetaskshape.Task))
+		}
+	case "StartRatio":
+		res.valueString = fmt.Sprintf("%f", notetaskshape.StartRatio)
+		res.valueFloat = notetaskshape.StartRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "EndRatio":
+		res.valueString = fmt.Sprintf("%f", notetaskshape.EndRatio)
+		res.valueFloat = notetaskshape.EndRatio
+		res.GongFieldValueType = GongFieldValueTypeFloat
+	case "StartOrientation":
+		enum := notetaskshape.StartOrientation
+		res.valueString = enum.ToCodeString()
+	case "EndOrientation":
+		enum := notetaskshape.EndOrientation
+		res.valueString = enum.ToCodeString()
+	case "CornerOffsetRatio":
+		res.valueString = fmt.Sprintf("%f", notetaskshape.CornerOffsetRatio)
+		res.valueFloat = notetaskshape.CornerOffsetRatio
 		res.GongFieldValueType = GongFieldValueTypeFloat
 	}
 	return
@@ -4784,6 +5448,34 @@ func (diagram *Diagram) GongSetFieldValue(fieldName string, value GongFieldValue
 		}
 	case "IsNotesNodeExpanded":
 		diagram.IsNotesNodeExpanded = value.GetValueBool()
+	case "NoteProductShapes":
+		diagram.NoteProductShapes = make([]*NoteProductShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.NoteProductShapes {
+					if stage.NoteProductShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.NoteProductShapes = append(diagram.NoteProductShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
+	case "NoteTaskShapes":
+		diagram.NoteTaskShapes = make([]*NoteTaskShape, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.NoteTaskShapes {
+					if stage.NoteTaskShapeMap_Staged_Order[__instance__] == uint(id) {
+						diagram.NoteTaskShapes = append(diagram.NoteTaskShapes, __instance__)
+						break
+					}
+				}
+			}
+		}
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4809,8 +5501,65 @@ func (note *Note) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 				}
 			}
 		}
+	case "Tasks":
+		note.Tasks = make([]*Task, 0)
+		ids := strings.Split(value.ids, ";")
+		for _, idStr := range ids {
+			var id int
+			if _, err := fmt.Sscanf(idStr, "%d", &id); err == nil {
+				for __instance__ := range stage.Tasks {
+					if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+						note.Tasks = append(note.Tasks, __instance__)
+						break
+					}
+				}
+			}
+		}
 	case "IsExpanded":
 		note.IsExpanded = value.GetValueBool()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (noteproductshape *NoteProductShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		noteproductshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			noteproductshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+					noteproductshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "Product":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			noteproductshape.Product = nil
+			for __instance__ := range stage.Products {
+				if stage.ProductMap_Staged_Order[__instance__] == uint(id) {
+					noteproductshape.Product = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		noteproductshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		noteproductshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		noteproductshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		noteproductshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		noteproductshape.CornerOffsetRatio = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -4843,6 +5592,49 @@ func (noteshape *NoteShape) GongSetFieldValue(fieldName string, value GongFieldV
 		noteshape.Width = value.GetValueFloat()
 	case "Height":
 		noteshape.Height = value.GetValueFloat()
+	default:
+		return fmt.Errorf("unknown field %s", fieldName)
+	}
+	return nil
+}
+
+func (notetaskshape *NoteTaskShape) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error {
+	switch fieldName {
+	// insertion point for per field code
+	case "Name":
+		notetaskshape.Name = value.GetValueString()
+	case "Note":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notetaskshape.Note = nil
+			for __instance__ := range stage.Notes {
+				if stage.NoteMap_Staged_Order[__instance__] == uint(id) {
+					notetaskshape.Note = __instance__
+					break
+				}
+			}
+		}
+	case "Task":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			notetaskshape.Task = nil
+			for __instance__ := range stage.Tasks {
+				if stage.TaskMap_Staged_Order[__instance__] == uint(id) {
+					notetaskshape.Task = __instance__
+					break
+				}
+			}
+		}
+	case "StartRatio":
+		notetaskshape.StartRatio = value.GetValueFloat()
+	case "EndRatio":
+		notetaskshape.EndRatio = value.GetValueFloat()
+	case "StartOrientation":
+		notetaskshape.StartOrientation.FromCodeString(value.GetValueString())
+	case "EndOrientation":
+		notetaskshape.EndOrientation.FromCodeString(value.GetValueString())
+	case "CornerOffsetRatio":
+		notetaskshape.CornerOffsetRatio = value.GetValueFloat()
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
@@ -5304,8 +6096,16 @@ func (note *Note) GongGetGongstructName() string {
 	return "Note"
 }
 
+func (noteproductshape *NoteProductShape) GongGetGongstructName() string {
+	return "NoteProductShape"
+}
+
 func (noteshape *NoteShape) GongGetGongstructName() string {
 	return "NoteShape"
+}
+
+func (notetaskshape *NoteTaskShape) GongGetGongstructName() string {
+	return "NoteTaskShape"
 }
 
 func (product *Product) GongGetGongstructName() string {
@@ -5366,9 +6166,19 @@ func (stage *Stage) ResetMapStrings() {
 		stage.Notes_mapString[note.Name] = note
 	}
 
+	stage.NoteProductShapes_mapString = make(map[string]*NoteProductShape)
+	for noteproductshape := range stage.NoteProductShapes {
+		stage.NoteProductShapes_mapString[noteproductshape.Name] = noteproductshape
+	}
+
 	stage.NoteShapes_mapString = make(map[string]*NoteShape)
 	for noteshape := range stage.NoteShapes {
 		stage.NoteShapes_mapString[noteshape.Name] = noteshape
+	}
+
+	stage.NoteTaskShapes_mapString = make(map[string]*NoteTaskShape)
+	for notetaskshape := range stage.NoteTaskShapes {
+		stage.NoteTaskShapes_mapString[notetaskshape.Name] = notetaskshape
 	}
 
 	stage.Products_mapString = make(map[string]*Product)
