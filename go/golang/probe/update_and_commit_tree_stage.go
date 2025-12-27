@@ -37,8 +37,7 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s",
-	probe.stageOfInterest.GetName())}
+	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", probe.stageOfInterest.GetName())}
 
 	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 	refreshButton := &tree.Button{

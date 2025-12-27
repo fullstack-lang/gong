@@ -173,6 +173,9 @@ func (probe *Probe) Refresh() {
 	probe.docStager.UpdateAndCommitSVGStage()
 }
 
+func (probe *Probe) Notification() {
+}
+
 func (probe *Probe) GetFormStage() *form.Stage {
 	return probe.formStage
 }
