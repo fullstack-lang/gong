@@ -313,6 +313,42 @@ func (stager *Stager) tree() {
 					}
 				}
 
+				for _, task := range note.Tasks {
+					nodeTask := &tree.Node{
+						Name:            task.Name,
+						IsNodeClickable: true,
+					}
+					noteNode.Children = append(noteNode.Children, nodeTask)
+					showHideRelationButton := &tree.Button{
+						Name:            GetGongstructNameFromPointer(task),
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+					}
+					nodeTask.Buttons = append(nodeTask.Buttons, showHideRelationButton)
+					if _, ok := diagram.map_Task_TaskShape[task]; ok {
+						if _, ok := diagram.map_Note_NoteShape[note]; ok {
+							noteTaskShape, ok := diagram.map_Note_NoteTaskShape[noteTaskKey{Note: note, Task: task}]
+							nodeTask.IsChecked = ok
+
+							if ok {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_less)
+								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+									"\" to task \"" + task.Name + "\""
+								// what to do when the product node is clicked
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnRemoveAssociationShape(stager, diagram, noteTaskShape, &diagram.NoteTaskShapes),
+								}
+							} else {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
+								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+									"\" to task \"" + task.Name + "\""
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnAddAssociationShape(stager, diagram, note, task, &diagram.NoteTaskShapes),
+								}
+							}
+						}
+					}
+				}
 			}
 
 		}
@@ -484,6 +520,11 @@ func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 		for _, s := range diagram.NoteProductShapes {
 			newShape := s.GongCopy().(*NoteProductShape)
 			newDiagram.NoteProductShapes = append(newDiagram.NoteProductShapes, newShape)
+		}
+
+		for _, s := range diagram.NoteTaskShapes {
+			newShape := s.GongCopy().(*NoteTaskShape)
+			newDiagram.NoteTaskShapes = append(newDiagram.NoteTaskShapes, newShape)
 		}
 
 		StageBranch(stager.stage, newDiagram)

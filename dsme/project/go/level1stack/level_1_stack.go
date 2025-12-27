@@ -107,6 +107,7 @@ func NewLevel1Stack(
 	models.SetOrchestratorOnAfterUpdate[models.Note](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteProductShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.NoteShape](stage)
+	models.SetOrchestratorOnAfterUpdate[models.NoteTaskShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.Product](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProductCompositionShape](stage)
 	models.SetOrchestratorOnAfterUpdate[models.ProductShape](stage)
