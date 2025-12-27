@@ -1143,5 +1143,4 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
-
 // Last line of the template
