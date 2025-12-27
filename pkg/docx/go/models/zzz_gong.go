@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -1135,7 +1140,7 @@ func (body *Body) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (body *Body) SetName(name string) (){
+func (body *Body) SetName(name string) {
 	body.Name = name
 }
 
@@ -1221,7 +1226,7 @@ func (document *Document) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (document *Document) SetName(name string) (){
+func (document *Document) SetName(name string) {
 	document.Name = name
 }
 
@@ -1307,7 +1312,7 @@ func (docx *Docx) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (docx *Docx) SetName(name string) (){
+func (docx *Docx) SetName(name string) {
 	docx.Name = name
 }
 
@@ -1393,7 +1398,7 @@ func (file *File) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (file *File) SetName(name string) (){
+func (file *File) SetName(name string) {
 	file.Name = name
 }
 
@@ -1479,7 +1484,7 @@ func (node *Node) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (node *Node) SetName(name string) (){
+func (node *Node) SetName(name string) {
 	node.Name = name
 }
 
@@ -1565,7 +1570,7 @@ func (paragraph *Paragraph) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (paragraph *Paragraph) SetName(name string) (){
+func (paragraph *Paragraph) SetName(name string) {
 	paragraph.Name = name
 }
 
@@ -1651,7 +1656,7 @@ func (paragraphproperties *ParagraphProperties) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (paragraphproperties *ParagraphProperties) SetName(name string) (){
+func (paragraphproperties *ParagraphProperties) SetName(name string) {
 	paragraphproperties.Name = name
 }
 
@@ -1737,7 +1742,7 @@ func (paragraphstyle *ParagraphStyle) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (paragraphstyle *ParagraphStyle) SetName(name string) (){
+func (paragraphstyle *ParagraphStyle) SetName(name string) {
 	paragraphstyle.Name = name
 }
 
@@ -1823,7 +1828,7 @@ func (rune *Rune) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rune *Rune) SetName(name string) (){
+func (rune *Rune) SetName(name string) {
 	rune.Name = name
 }
 
@@ -1909,7 +1914,7 @@ func (runeproperties *RuneProperties) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (runeproperties *RuneProperties) SetName(name string) (){
+func (runeproperties *RuneProperties) SetName(name string) {
 	runeproperties.Name = name
 }
 
@@ -1995,7 +2000,7 @@ func (table *Table) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (table *Table) SetName(name string) (){
+func (table *Table) SetName(name string) {
 	table.Name = name
 }
 
@@ -2081,7 +2086,7 @@ func (tablecolumn *TableColumn) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tablecolumn *TableColumn) SetName(name string) (){
+func (tablecolumn *TableColumn) SetName(name string) {
 	tablecolumn.Name = name
 }
 
@@ -2167,7 +2172,7 @@ func (tableproperties *TableProperties) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tableproperties *TableProperties) SetName(name string) (){
+func (tableproperties *TableProperties) SetName(name string) {
 	tableproperties.Name = name
 }
 
@@ -2253,7 +2258,7 @@ func (tablerow *TableRow) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tablerow *TableRow) SetName(name string) (){
+func (tablerow *TableRow) SetName(name string) {
 	tablerow.Name = name
 }
 
@@ -2339,7 +2344,7 @@ func (tablestyle *TableStyle) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tablestyle *TableStyle) SetName(name string) (){
+func (tablestyle *TableStyle) SetName(name string) {
 	tablestyle.Name = name
 }
 
@@ -2425,7 +2430,7 @@ func (text *Text) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (text *Text) SetName(name string) (){
+func (text *Text) SetName(name string) {
 	text.Name = name
 }
 
