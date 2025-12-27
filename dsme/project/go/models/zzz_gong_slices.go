@@ -91,6 +91,13 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagram
 		}
 	}
+	stage.Diagram_NoteProductShapes_reverseMap = make(map[*NoteProductShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _noteproductshape := range diagram.NoteProductShapes {
+			stage.Diagram_NoteProductShapes_reverseMap[_noteproductshape] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -101,6 +108,9 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Note_Products_reverseMap[_product] = note
 		}
 	}
+
+	// Compute reverse map for named struct NoteProductShape
+	// insertion point per field
 
 	// Compute reverse map for named struct NoteShape
 	// insertion point per field
@@ -225,6 +235,10 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.NoteProductShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.NoteShapes {
 		res = append(res, instance)
 	}
@@ -280,6 +294,11 @@ func (diagram *Diagram) GongCopy() GongstructIF {
 
 func (note *Note) GongCopy() GongstructIF {
 	newInstance := *note
+	return &newInstance
+}
+
+func (noteproductshape *NoteProductShape) GongCopy() GongstructIF {
+	newInstance := *noteproductshape
 	return &newInstance
 }
 

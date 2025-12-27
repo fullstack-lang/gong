@@ -21,6 +21,7 @@ func SerializeStage2(stage *Stage, filename string, addIDs bool) {
 		// insertion point
 		SerializeExcelizePointerToGongstruct2[*Diagram](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Note](stage, f, addIDs)
+		SerializeExcelizePointerToGongstruct2[*NoteProductShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*NoteShape](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*Product](stage, f, addIDs)
 		SerializeExcelizePointerToGongstruct2[*ProductCompositionShape](stage, f, addIDs)
