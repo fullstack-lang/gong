@@ -59,5 +59,12 @@ func (stager *Stager) enforceDiagramMaps() {
 			}
 		}
 
+		diagram.map_Note_NoteTaskShape = make(map[noteTaskKey]*NoteTaskShape)
+		for _, shape := range diagram.NoteTaskShapes {
+			if shape.Note != nil && shape.Task != nil {
+				diagram.map_Note_NoteTaskShape[noteTaskKey{Note: shape.Note, Task: shape.Task}] = shape
+			}
+		}
+
 	}
 }

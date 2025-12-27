@@ -46,6 +46,9 @@ type Diagram struct {
 
 	NoteProductShapes         []*NoteProductShape
 	map_Note_NoteProductShape map[noteProductKey]*NoteProductShape
+
+	NoteTaskShapes         []*NoteTaskShape
+	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -200,6 +203,11 @@ type noteProductKey struct {
 	Product *Product
 }
 
+type noteTaskKey struct {
+	Note *Note
+	Task *Task
+}
+
 type TaskInputShape struct {
 	Name string
 
@@ -306,3 +314,31 @@ func (noteproductshape *NoteProductShape) SetAbstractStartElement(note AbstractT
 }
 
 var _ AssociationConcreteType = (*NoteProductShape)(nil)
+
+type NoteTaskShape struct {
+	Name string
+
+	Note *Note
+
+	Task *Task
+
+	LinkShape
+}
+
+func (s *NoteTaskShape) GetAbstractEndElement() AbstractType {
+	return s.Task
+}
+
+func (s *NoteTaskShape) SetAbstractEndElement(abstractElement AbstractType) {
+	s.Task = abstractElement.(*Task)
+}
+
+func (s *NoteTaskShape) GetAbstractStartElement() AbstractType {
+	return s.Note
+}
+
+func (s *NoteTaskShape) SetAbstractStartElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+var _ AssociationConcreteType = (*NoteTaskShape)(nil)
