@@ -38,6 +38,11 @@ type Diagram struct {
 
 	TaskOutputShapes         []*TaskOutputShape
 	map_Task_TaskOutputShape map[taskProductKey]*TaskOutputShape
+
+	Note_Shapes              []*NoteShape
+	map_Note_NoteShape       map[*Note]*NoteShape
+	NotesWhoseNodeIsExpanded []*Note
+	IsNotesNodeExpanded      bool
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -242,3 +247,25 @@ func (s *TaskOutputShape) GetAbstractStartElement() AbstractType {
 }
 
 var _ AssociationConcreteType = (*TaskOutputShape)(nil)
+
+// NoteShape
+type NoteShape struct {
+	Name string
+	Note *Note
+
+	IsExpanded bool
+
+	RectShape
+}
+
+func (s *NoteShape) GetAbstractElement() AbstractType {
+	return s.Note
+}
+
+func (s *NoteShape) SetAbstractElement(abstractElement AbstractType) {
+	s.Note = abstractElement.(*Note)
+}
+
+var _ ConcreteType = (*NoteShape)(nil)
+
+//

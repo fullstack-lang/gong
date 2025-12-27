@@ -27,6 +27,9 @@ type Project struct {
 	Diagrams               []*Diagram
 	IsDiagramsNodeExpanded bool
 
+	Notes               []*Note
+	IsNotesNodeExpanded bool
+
 	ExpandableNodeObject
 }
 
@@ -40,6 +43,44 @@ type ExpandableNodeObject struct {
 	// When the full PBS is displayed, the computedWidth is the number of node
 	// aligned below. A leaf node has a computedWidth of 1
 	computedWidth int
+}
+
+// Note brings information to a diagram
+type Note struct {
+	//gong:text width:300 height:300
+	Name string
+
+	Products []*Product
+
+	IsExpanded bool
+}
+
+// GetComputedPrefix implements [AbstractType].
+func (note *Note) GetComputedPrefix() string {
+	return ""
+}
+
+// GetComputedWidth implements [AbstractType].
+func (note *Note) GetComputedWidth() int {
+	return 0
+}
+
+// GetIsExpanded implements [AbstractType].
+func (note *Note) GetIsExpanded() bool {
+	return note.IsExpanded
+}
+
+// SetComputedPrefix implements [AbstractType].
+func (note *Note) SetComputedPrefix(string) {
+}
+
+// SetIsExpanded implements [AbstractType].
+func (note *Note) SetIsExpanded(val bool) {
+	note.IsExpanded = val
+}
+
+// SetComputedWidth implements [AbstractType].
+func (note *Note) SetComputedWidth(int) {
 }
 
 func (r *ExpandableNodeObject) GetComputedWidth() int {
@@ -129,4 +170,5 @@ var (
 	_ AbstractType = (*Product)(nil)
 	_ AbstractType = (*Project)(nil)
 	_ AbstractType = (*Task)(nil)
+	_ AbstractType = (*Note)(nil)
 )

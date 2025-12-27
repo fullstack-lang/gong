@@ -8,6 +8,12 @@ func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instanc
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *Note:
+		ok = stage.IsStagedNote(target)
+
+	case *NoteShape:
+		ok = stage.IsStagedNoteShape(target)
+
 	case *Product:
 		ok = stage.IsStagedProduct(target)
 
@@ -51,6 +57,12 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 	case *Diagram:
 		ok = stage.IsStagedDiagram(target)
 
+	case *Note:
+		ok = stage.IsStagedNote(target)
+
+	case *NoteShape:
+		ok = stage.IsStagedNoteShape(target)
+
 	case *Product:
 		ok = stage.IsStagedProduct(target)
 
@@ -91,6 +103,20 @@ func IsStaged[Type Gongstruct](stage *Stage, instance *Type) (ok bool) {
 func (stage *Stage) IsStagedDiagram(diagram *Diagram) (ok bool) {
 
 	_, ok = stage.Diagrams[diagram]
+
+	return
+}
+
+func (stage *Stage) IsStagedNote(note *Note) (ok bool) {
+
+	_, ok = stage.Notes[note]
+
+	return
+}
+
+func (stage *Stage) IsStagedNoteShape(noteshape *NoteShape) (ok bool) {
+
+	_, ok = stage.NoteShapes[noteshape]
 
 	return
 }
@@ -176,6 +202,12 @@ func StageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Diagram:
 		stage.StageBranchDiagram(target)
 
+	case *Note:
+		stage.StageBranchNote(target)
+
+	case *NoteShape:
+		stage.StageBranchNoteShape(target)
+
 	case *Product:
 		stage.StageBranchProduct(target)
 
@@ -254,6 +286,48 @@ func (stage *Stage) StageBranchDiagram(diagram *Diagram) {
 	for _, _taskoutputshape := range diagram.TaskOutputShapes {
 		StageBranch(stage, _taskoutputshape)
 	}
+	for _, _noteshape := range diagram.Note_Shapes {
+		StageBranch(stage, _noteshape)
+	}
+	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+		StageBranch(stage, _note)
+	}
+
+}
+
+func (stage *Stage) StageBranchNote(note *Note) {
+
+	// check if instance is already staged
+	if IsStaged(stage, note) {
+		return
+	}
+
+	note.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range note.Products {
+		StageBranch(stage, _product)
+	}
+
+}
+
+func (stage *Stage) StageBranchNoteShape(noteshape *NoteShape) {
+
+	// check if instance is already staged
+	if IsStaged(stage, noteshape) {
+		return
+	}
+
+	noteshape.Stage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshape.Note != nil {
+		StageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -331,6 +405,9 @@ func (stage *Stage) StageBranchProject(project *Project) {
 	}
 	for _, _diagram := range project.Diagrams {
 		StageBranch(stage, _diagram)
+	}
+	for _, _note := range project.Notes {
+		StageBranch(stage, _note)
 	}
 
 }
@@ -476,6 +553,14 @@ func CopyBranch[Type Gongstruct](from *Type) (to *Type) {
 		toT := CopyBranchDiagram(mapOrigCopy, fromT)
 		return any(toT).(*Type)
 
+	case *Note:
+		toT := CopyBranchNote(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
+	case *NoteShape:
+		toT := CopyBranchNoteShape(mapOrigCopy, fromT)
+		return any(toT).(*Type)
+
 	case *Product:
 		toT := CopyBranchProduct(mapOrigCopy, fromT)
 		return any(toT).(*Type)
@@ -568,6 +653,56 @@ func CopyBranchDiagram(mapOrigCopy map[any]any, diagramFrom *Diagram) (diagramTo
 	for _, _taskoutputshape := range diagramFrom.TaskOutputShapes {
 		diagramTo.TaskOutputShapes = append(diagramTo.TaskOutputShapes, CopyBranchTaskOutputShape(mapOrigCopy, _taskoutputshape))
 	}
+	for _, _noteshape := range diagramFrom.Note_Shapes {
+		diagramTo.Note_Shapes = append(diagramTo.Note_Shapes, CopyBranchNoteShape(mapOrigCopy, _noteshape))
+	}
+	for _, _note := range diagramFrom.NotesWhoseNodeIsExpanded {
+		diagramTo.NotesWhoseNodeIsExpanded = append(diagramTo.NotesWhoseNodeIsExpanded, CopyBranchNote(mapOrigCopy, _note))
+	}
+
+	return
+}
+
+func CopyBranchNote(mapOrigCopy map[any]any, noteFrom *Note) (noteTo *Note) {
+
+	// noteFrom has already been copied
+	if _noteTo, ok := mapOrigCopy[noteFrom]; ok {
+		noteTo = _noteTo.(*Note)
+		return
+	}
+
+	noteTo = new(Note)
+	mapOrigCopy[noteFrom] = noteTo
+	noteFrom.CopyBasicFields(noteTo)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range noteFrom.Products {
+		noteTo.Products = append(noteTo.Products, CopyBranchProduct(mapOrigCopy, _product))
+	}
+
+	return
+}
+
+func CopyBranchNoteShape(mapOrigCopy map[any]any, noteshapeFrom *NoteShape) (noteshapeTo *NoteShape) {
+
+	// noteshapeFrom has already been copied
+	if _noteshapeTo, ok := mapOrigCopy[noteshapeFrom]; ok {
+		noteshapeTo = _noteshapeTo.(*NoteShape)
+		return
+	}
+
+	noteshapeTo = new(NoteShape)
+	mapOrigCopy[noteshapeFrom] = noteshapeTo
+	noteshapeFrom.CopyBasicFields(noteshapeTo)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshapeFrom.Note != nil {
+		noteshapeTo.Note = CopyBranchNote(mapOrigCopy, noteshapeFrom.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 	return
 }
@@ -661,6 +796,9 @@ func CopyBranchProject(mapOrigCopy map[any]any, projectFrom *Project) (projectTo
 	}
 	for _, _diagram := range projectFrom.Diagrams {
 		projectTo.Diagrams = append(projectTo.Diagrams, CopyBranchDiagram(mapOrigCopy, _diagram))
+	}
+	for _, _note := range projectFrom.Notes {
+		projectTo.Notes = append(projectTo.Notes, CopyBranchNote(mapOrigCopy, _note))
 	}
 
 	return
@@ -827,6 +965,12 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	case *Diagram:
 		stage.UnstageBranchDiagram(target)
 
+	case *Note:
+		stage.UnstageBranchNote(target)
+
+	case *NoteShape:
+		stage.UnstageBranchNoteShape(target)
+
 	case *Product:
 		stage.UnstageBranchProduct(target)
 
@@ -905,6 +1049,48 @@ func (stage *Stage) UnstageBranchDiagram(diagram *Diagram) {
 	for _, _taskoutputshape := range diagram.TaskOutputShapes {
 		UnstageBranch(stage, _taskoutputshape)
 	}
+	for _, _noteshape := range diagram.Note_Shapes {
+		UnstageBranch(stage, _noteshape)
+	}
+	for _, _note := range diagram.NotesWhoseNodeIsExpanded {
+		UnstageBranch(stage, _note)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchNote(note *Note) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, note) {
+		return
+	}
+
+	note.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+
+	//insertion point for the staging of instances referenced by slice of pointers
+	for _, _product := range note.Products {
+		UnstageBranch(stage, _product)
+	}
+
+}
+
+func (stage *Stage) UnstageBranchNoteShape(noteshape *NoteShape) {
+
+	// check if instance is already staged
+	if !IsStaged(stage, noteshape) {
+		return
+	}
+
+	noteshape.Unstage(stage)
+
+	//insertion point for the staging of instances referenced by pointers
+	if noteshape.Note != nil {
+		UnstageBranch(stage, noteshape.Note)
+	}
+
+	//insertion point for the staging of instances referenced by slice of pointers
 
 }
 
@@ -982,6 +1168,9 @@ func (stage *Stage) UnstageBranchProject(project *Project) {
 	}
 	for _, _diagram := range project.Diagrams {
 		UnstageBranch(stage, _diagram)
+	}
+	for _, _note := range project.Notes {
+		UnstageBranch(stage, _note)
 	}
 
 }

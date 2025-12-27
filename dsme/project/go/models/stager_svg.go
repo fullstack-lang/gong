@@ -146,6 +146,35 @@ func (stager *Stager) svg() {
 		)
 	}
 
+	for _, noteShape := range diagram.Note_Shapes {
+		note := noteShape.Note
+
+		if note == nil {
+			log.Panic("There should be a note")
+		}
+
+		rect := svgRect(
+			stager,
+			diagram,
+			noteShape,
+			layer)
+		rect.RX = 6
+
+		penLogo := new(svg.RectAnchoredPath)
+		penLogo.Stroke = svg.Black.ToString()
+		penLogo.StrokeWidth = 2
+		penLogo.StrokeOpacity = 1
+		penLogo.ScalePropotionnally = true
+		penLogo.AppliedScaling = 1
+
+		penLogo.Definition = "M 12 43 L 7 38 L 33 12 L 42 8 L 38 17 Z"
+		penLogo.X_Offset = 0
+		penLogo.Y_Offset = -45
+		penLogo.RectAnchorType = svg.RECT_LEFT
+		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
+		_ = rect
+	}
+
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
 }
