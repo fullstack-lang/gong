@@ -19,6 +19,8 @@ func (stager *Stager) tree() {
 	}
 	treeInstance.RootNodes = append(treeInstance.RootNodes, allProjectsNode)
 
+	addAddItemButton(stager, allProjectsNode, &root.Projects)
+
 	for _, project := range root.Projects {
 		projectNode := &tree.Node{
 			Name:            project.Name,
@@ -203,6 +205,8 @@ func (stager *Stager) tree() {
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsPBSNodeExpanded),
 			}
 
+			addAddItemButton(stager, pbsNode, &project.RootProducts)
+
 			for _, product := range project.RootProducts {
 				stager.treePBSRecusriveInDiagram(diagram, product, pbsNode)
 			}
@@ -224,6 +228,8 @@ func (stager *Stager) tree() {
 			wbsNode.Impl = &tree.FunctionalNodeProxy{
 				OnUpdate: stager.OnUpdateExpansion(&diagram.IsWBSNodeExpanded),
 			}
+
+			addAddItemButton(stager, wbsNode, &project.RootTasks)
 
 			for _, task := range project.RootTasks {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
