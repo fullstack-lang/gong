@@ -32,6 +32,7 @@ func _(stage *models.Stage) {
 	__Note__00000001_Second_Note := (&models.Note{}).Stage(stage)
 	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage := (&models.Note{}).Stage(stage)
 	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff := (&models.Note{}).Stage(stage)
+	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998 := (&models.Note{}).Stage(stage)
 
 	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications := (&models.NoteProductShape{}).Stage(stage)
 
@@ -39,9 +40,11 @@ func _(stage *models.Stage) {
 	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram := (&models.NoteShape{}).Stage(stage)
 	__NoteShape__00000002_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
 	__NoteShape__00000003_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
+	__NoteShape__00000004_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
 
 	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs := (&models.NoteTaskShape{}).Stage(stage)
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff := (&models.NoteTaskShape{}).Stage(stage)
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications := (&models.NoteTaskShape{}).Stage(stage)
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
@@ -68,6 +71,9 @@ func _(stage *models.Stage) {
 	__Product__00000028_New_Umarshall_code := (&models.Product{}).Stage(stage)
 	__Product__00000029_Probe_Undo := (&models.Product{}).Stage(stage)
 	__Product__00000030_Probe_Redo := (&models.Product{}).Stage(stage)
+	__Product__00000031_New_Probe := (&models.Product{}).Stage(stage)
+	__Product__00000033_Reverse_Commit_log_Code := (&models.Product{}).Stage(stage)
+	__Product__00000034_Rebase_Log_Commits := (&models.Product{}).Stage(stage)
 
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1 := (&models.ProductCompositionShape{}).Stage(stage)
 	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1 := (&models.ProductCompositionShape{}).Stage(stage)
@@ -82,6 +88,10 @@ func _(stage *models.Stage) {
 	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer := (&models.ProductCompositionShape{}).Stage(stage)
 	__ProductCompositionShape__00000297_Backend_to_Docx_Backend := (&models.ProductCompositionShape{}).Stage(stage)
 	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage := (&models.ProductCompositionShape{}).Stage(stage)
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo := (&models.ProductCompositionShape{}).Stage(stage)
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo := (&models.ProductCompositionShape{}).Stage(stage)
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct := (&models.ProductCompositionShape{}).Stage(stage)
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits := (&models.ProductCompositionShape{}).Stage(stage)
 
 	__ProductShape__00000330_Product_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000331_Product_1_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
@@ -109,6 +119,9 @@ func _(stage *models.Stage) {
 	__ProductShape__00000471_New_Umarshall_code_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000472_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000473_Probe_Redo_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000474_New_Probe_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000475_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -141,6 +154,7 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage := (&models.TaskOutputShape{}).Stage(stage)
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table := (&models.TaskOutputShape{}).Stage(stage)
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_ := (&models.TaskOutputShape{}).Stage(stage)
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code := (&models.TaskOutputShape{}).Stage(stage)
 
 	__TaskShape__00000012_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000013_Develop_Backend_NewDiagram := (&models.TaskShape{}).Stage(stage)
@@ -223,6 +237,9 @@ another line`
 	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff.Name = `The probe Notfication Table Allows the verification of commit diff`
 	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff.IsExpanded = false
 
+	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Name = `https://github.com/fullstack-lang/gong/issues/998`
+	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.IsExpanded = false
+
 	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
@@ -258,8 +275,8 @@ another line-NewDiagram`
 
 	__NoteShape__00000002_NewNote_NewDiagram.Name = `NewNote-NewDiagram`
 	__NoteShape__00000002_NewNote_NewDiagram.IsExpanded = false
-	__NoteShape__00000002_NewNote_NewDiagram.X = 458.404861
-	__NoteShape__00000002_NewNote_NewDiagram.Y = 764.960749
+	__NoteShape__00000002_NewNote_NewDiagram.X = 235.404861
+	__NoteShape__00000002_NewNote_NewDiagram.Y = 699.960749
 	__NoteShape__00000002_NewNote_NewDiagram.Width = 250.000000
 	__NoteShape__00000002_NewNote_NewDiagram.Height = 100.000000
 
@@ -269,6 +286,13 @@ another line-NewDiagram`
 	__NoteShape__00000003_NewNote_NewDiagram.Y = 205.370815
 	__NoteShape__00000003_NewNote_NewDiagram.Width = 250.000000
 	__NoteShape__00000003_NewNote_NewDiagram.Height = 100.000000
+
+	__NoteShape__00000004_NewNote_NewDiagram.Name = `NewNote-NewDiagram`
+	__NoteShape__00000004_NewNote_NewDiagram.IsExpanded = false
+	__NoteShape__00000004_NewNote_NewDiagram.X = 62.079720
+	__NoteShape__00000004_NewNote_NewDiagram.Y = 546.901476
+	__NoteShape__00000004_NewNote_NewDiagram.Width = 411.000000
+	__NoteShape__00000004_NewNote_NewDiagram.Height = 53.000000
 
 	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Name = `This is an example to explain a particular product
 
@@ -287,6 +311,13 @@ another line to Write Specs`
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.StartOrientation = models.ORIENTATION_VERTICAL
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.EndOrientation = models.ORIENTATION_VERTICAL
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.CornerOffsetRatio = 1.680000
+
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Name = `https://github.com/fullstack-lang/gong/issues/998 to Develop Probe Notifications`
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.StartRatio = 0.500000
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.EndRatio = 0.500000
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.CornerOffsetRatio = 1.680000
 
 	__Product__00000000_UX.Name = `UX`
 	__Product__00000000_UX.IsExpanded = true
@@ -428,15 +459,33 @@ another line to Write Specs`
 
 	__Product__00000029_Probe_Undo.Name = `Probe Undo`
 	__Product__00000029_Probe_Undo.IsExpanded = false
-	__Product__00000029_Probe_Undo.ComputedPrefix = `6`
+	__Product__00000029_Probe_Undo.ComputedPrefix = `6.1`
 	__Product__00000029_Probe_Undo.IsProducersNodeExpanded = false
 	__Product__00000029_Probe_Undo.IsConsumersNodeExpanded = false
 
 	__Product__00000030_Probe_Redo.Name = `Probe Redo`
 	__Product__00000030_Probe_Redo.IsExpanded = false
-	__Product__00000030_Probe_Redo.ComputedPrefix = `7`
+	__Product__00000030_Probe_Redo.ComputedPrefix = `6.2`
 	__Product__00000030_Probe_Redo.IsProducersNodeExpanded = false
 	__Product__00000030_Probe_Redo.IsConsumersNodeExpanded = false
+
+	__Product__00000031_New_Probe.Name = `New Probe`
+	__Product__00000031_New_Probe.IsExpanded = true
+	__Product__00000031_New_Probe.ComputedPrefix = `6`
+	__Product__00000031_New_Probe.IsProducersNodeExpanded = false
+	__Product__00000031_New_Probe.IsConsumersNodeExpanded = false
+
+	__Product__00000033_Reverse_Commit_log_Code.Name = `Reverse Commit log Code`
+	__Product__00000033_Reverse_Commit_log_Code.IsExpanded = false
+	__Product__00000033_Reverse_Commit_log_Code.ComputedPrefix = `1.2`
+	__Product__00000033_Reverse_Commit_log_Code.IsProducersNodeExpanded = false
+	__Product__00000033_Reverse_Commit_log_Code.IsConsumersNodeExpanded = false
+
+	__Product__00000034_Rebase_Log_Commits.Name = `Rebase Log Commits`
+	__Product__00000034_Rebase_Log_Commits.IsExpanded = false
+	__Product__00000034_Rebase_Log_Commits.ComputedPrefix = `6.3`
+	__Product__00000034_Rebase_Log_Commits.IsProducersNodeExpanded = false
+	__Product__00000034_Rebase_Log_Commits.IsConsumersNodeExpanded = false
 
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.Name = `Product 1 to Product 1.1`
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.StartRatio = 0.500000
@@ -528,6 +577,34 @@ another line to Write Specs`
 	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.StartOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.EndOrientation = models.ORIENTATION_VERTICAL
 	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.Name = `New Probe to Probe Undo`
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.StartRatio = 0.500000
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.EndRatio = 0.500000
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.Name = `New Probe to Probe Redo`
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.StartRatio = 0.500000
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.EndRatio = 0.500000
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.Name = `New Commit code to NewProduct`
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.StartRatio = 0.500000
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.EndRatio = 0.500000
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.Name = `New Probe to Rebase Log Commits`
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.StartRatio = 0.500000
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.EndRatio = 0.500000
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.CornerOffsetRatio = 1.680000
 
 	__ProductShape__00000330_Product_1_NewDiagram.Name = `Product 1-NewDiagram`
 	__ProductShape__00000330_Product_1_NewDiagram.IsExpanded = false
@@ -699,17 +776,38 @@ another line to Write Specs`
 
 	__ProductShape__00000472_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000472_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000472_NewProduct_NewDiagram.X = 1411.696003
-	__ProductShape__00000472_NewProduct_NewDiagram.Y = 815.377332
+	__ProductShape__00000472_NewProduct_NewDiagram.X = 868.696003
+	__ProductShape__00000472_NewProduct_NewDiagram.Y = 958.377332
 	__ProductShape__00000472_NewProduct_NewDiagram.Width = 122.000000
 	__ProductShape__00000472_NewProduct_NewDiagram.Height = 55.000000
 
 	__ProductShape__00000473_Probe_Redo_NewDiagram.Name = `Probe Redo-NewDiagram`
 	__ProductShape__00000473_Probe_Redo_NewDiagram.IsExpanded = false
-	__ProductShape__00000473_Probe_Redo_NewDiagram.X = 1413.554776
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Y = 898.390410
+	__ProductShape__00000473_Probe_Redo_NewDiagram.X = 1085.554776
+	__ProductShape__00000473_Probe_Redo_NewDiagram.Y = 955.390410
 	__ProductShape__00000473_Probe_Redo_NewDiagram.Width = 116.000000
 	__ProductShape__00000473_Probe_Redo_NewDiagram.Height = 63.000000
+
+	__ProductShape__00000474_New_Probe_NewDiagram.Name = `New Probe-NewDiagram`
+	__ProductShape__00000474_New_Probe_NewDiagram.IsExpanded = false
+	__ProductShape__00000474_New_Probe_NewDiagram.X = 984.621771
+	__ProductShape__00000474_New_Probe_NewDiagram.Y = 831.569774
+	__ProductShape__00000474_New_Probe_NewDiagram.Width = 122.000000
+	__ProductShape__00000474_New_Probe_NewDiagram.Height = 53.000000
+
+	__ProductShape__00000475_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000475_NewProduct_NewDiagram.IsExpanded = false
+	__ProductShape__00000475_NewProduct_NewDiagram.X = 1090.724901
+	__ProductShape__00000475_NewProduct_NewDiagram.Y = 723.341831
+	__ProductShape__00000475_NewProduct_NewDiagram.Width = 141.000000
+	__ProductShape__00000475_NewProduct_NewDiagram.Height = 66.000000
+
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Name = `Rebase Log Commits-NewDiagram`
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.IsExpanded = false
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.X = 1289.656434
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Y = 958.230597
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Width = 126.000000
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Height = 65.000000
 
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = false
@@ -869,7 +967,7 @@ another line to Write Specs`
 	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.CornerOffsetRatio = 1.268543
 
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.Name = `Develop Probe Notifications to Probe Notification Table`
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.StartRatio = 0.500000
+	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.StartRatio = 0.576061
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.EndRatio = 0.524585
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.EndOrientation = models.ORIENTATION_HORIZONTAL
@@ -881,6 +979,13 @@ another line to Write Specs`
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.CornerOffsetRatio = 1.527224
+
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Name = `Compute all Instance Diff to Reverse Commit log Code`
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.StartRatio = 0.592847
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.EndRatio = 0.500000
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.CornerOffsetRatio = 1.013411
 
 	__TaskShape__00000012_Write_Specs_NewDiagram.Name = `Write Specs-NewDiagram`
 	__TaskShape__00000012_Write_Specs_NewDiagram.IsExpanded = false
@@ -947,9 +1052,9 @@ another line to Write Specs`
 
 	__TaskShape__00000021_NewTask_NewDiagram.Name = `NewTask-NewDiagram`
 	__TaskShape__00000021_NewTask_NewDiagram.IsExpanded = false
-	__TaskShape__00000021_NewTask_NewDiagram.X = 67.662171
-	__TaskShape__00000021_NewTask_NewDiagram.Y = 242.681593
-	__TaskShape__00000021_NewTask_NewDiagram.Width = 160.000000
+	__TaskShape__00000021_NewTask_NewDiagram.X = 122.662171
+	__TaskShape__00000021_NewTask_NewDiagram.Y = 302.681593
+	__TaskShape__00000021_NewTask_NewDiagram.Width = 140.000000
 	__TaskShape__00000021_NewTask_NewDiagram.Height = 70.000000
 
 	// Setup of pointers
@@ -1018,8 +1123,16 @@ another line to Write Specs`
 	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000471_New_Umarshall_code_NewDiagram)
 	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000472_NewProduct_NewDiagram)
 	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000473_Probe_Redo_NewDiagram)
+	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000474_New_Probe_NewDiagram)
+	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000475_NewProduct_NewDiagram)
+	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000476_Rebase_Log_Commits_NewDiagram)
 	__Diagram__00000061_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000022_New_Commit_code)
+	__Diagram__00000061_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000031_New_Probe)
 	__Diagram__00000061_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000061_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage)
+	__Diagram__00000061_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000061_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000300_New_Probe_to_Probe_Undo)
+	__Diagram__00000061_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000061_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000301_New_Probe_to_Probe_Redo)
+	__Diagram__00000061_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000061_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000302_New_Commit_code_to_NewProduct)
+	__Diagram__00000061_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000061_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits)
 	__Diagram__00000061_NewDiagram.Task_Shapes = append(__Diagram__00000061_NewDiagram.Task_Shapes, __TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram)
 	__Diagram__00000061_NewDiagram.Task_Shapes = append(__Diagram__00000061_NewDiagram.Task_Shapes, __TaskShape__00000020_NewTask_NewDiagram)
 	__Diagram__00000061_NewDiagram.Task_Shapes = append(__Diagram__00000061_NewDiagram.Task_Shapes, __TaskShape__00000021_NewTask_NewDiagram)
@@ -1031,14 +1144,18 @@ another line to Write Specs`
 	__Diagram__00000061_NewDiagram.TaskOutputShapes = append(__Diagram__00000061_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage)
 	__Diagram__00000061_NewDiagram.TaskOutputShapes = append(__Diagram__00000061_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table)
 	__Diagram__00000061_NewDiagram.TaskOutputShapes = append(__Diagram__00000061_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_)
+	__Diagram__00000061_NewDiagram.TaskOutputShapes = append(__Diagram__00000061_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code)
 	__Diagram__00000061_NewDiagram.Note_Shapes = append(__Diagram__00000061_NewDiagram.Note_Shapes, __NoteShape__00000002_NewNote_NewDiagram)
 	__Diagram__00000061_NewDiagram.Note_Shapes = append(__Diagram__00000061_NewDiagram.Note_Shapes, __NoteShape__00000003_NewNote_NewDiagram)
+	__Diagram__00000061_NewDiagram.Note_Shapes = append(__Diagram__00000061_NewDiagram.Note_Shapes, __NoteShape__00000004_NewNote_NewDiagram)
 	__Diagram__00000061_NewDiagram.NotesWhoseNodeIsExpanded = append(__Diagram__00000061_NewDiagram.NotesWhoseNodeIsExpanded, __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage)
 	__Diagram__00000061_NewDiagram.NoteTaskShapes = append(__Diagram__00000061_NewDiagram.NoteTaskShapes, __NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff)
+	__Diagram__00000061_NewDiagram.NoteTaskShapes = append(__Diagram__00000061_NewDiagram.NoteTaskShapes, __NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications)
 	// setup of Note instances pointers
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products, __Product__00000010_Specifications)
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks, __Task__00000006_Write_Specs)
 	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.Tasks = append(__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.Tasks, __Task__00000007_Compute_all_Instance_Diff)
+	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Tasks = append(__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Tasks, __Task__00000009_Develop_Probe_Notifications)
 	// setup of NoteProductShape instances pointers
 	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
 	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Product = __Product__00000010_Specifications
@@ -1047,11 +1164,14 @@ another line to Write Specs`
 	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
 	__NoteShape__00000002_NewNote_NewDiagram.Note = __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage
 	__NoteShape__00000003_NewNote_NewDiagram.Note = __Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff
+	__NoteShape__00000004_NewNote_NewDiagram.Note = __Note__00000004_https_github_com_fullstack_lang_gong_issues_998
 	// setup of NoteTaskShape instances pointers
 	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
 	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Task = __Task__00000006_Write_Specs
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.Note = __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage
 	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.Task = __Task__00000007_Compute_all_Instance_Diff
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Note = __Note__00000004_https_github_com_fullstack_lang_gong_issues_998
+	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Task = __Task__00000009_Develop_Probe_Notifications
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
@@ -1066,6 +1186,10 @@ another line to Write Specs`
 	__Product__00000015_Product_2.SubProducts = append(__Product__00000015_Product_2.SubProducts, __Product__00000017_Product_2_1)
 	__Product__00000015_Product_2.SubProducts = append(__Product__00000015_Product_2.SubProducts, __Product__00000018_Product_2_2)
 	__Product__00000022_New_Commit_code.SubProducts = append(__Product__00000022_New_Commit_code.SubProducts, __Product__00000021_String_of_all_New_Stage_Updated_Unstage)
+	__Product__00000022_New_Commit_code.SubProducts = append(__Product__00000022_New_Commit_code.SubProducts, __Product__00000033_Reverse_Commit_log_Code)
+	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000029_Probe_Undo)
+	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000030_Probe_Redo)
+	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000034_Rebase_Log_Commits)
 	// setup of ProductCompositionShape instances pointers
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.Product = __Product__00000013_Product_1_1
 	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.Product = __Product__00000016_Product_1_2_1
@@ -1080,6 +1204,10 @@ another line to Write Specs`
 	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
 	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.Product = __Product__00000009_Docx_Backend
 	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.Product = __Product__00000021_String_of_all_New_Stage_Updated_Unstage
+	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.Product = __Product__00000029_Probe_Undo
+	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.Product = __Product__00000030_Probe_Redo
+	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.Product = __Product__00000033_Reverse_Commit_log_Code
+	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.Product = __Product__00000034_Rebase_Log_Commits
 	// setup of ProductShape instances pointers
 	__ProductShape__00000330_Product_1_NewDiagram.Product = __Product__00000011_Product_1
 	__ProductShape__00000331_Product_1_1_NewDiagram.Product = __Product__00000013_Product_1_1
@@ -1107,6 +1235,9 @@ another line to Write Specs`
 	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Product = __Product__00000028_New_Umarshall_code
 	__ProductShape__00000472_NewProduct_NewDiagram.Product = __Product__00000029_Probe_Undo
 	__ProductShape__00000473_Probe_Redo_NewDiagram.Product = __Product__00000030_Probe_Redo
+	__ProductShape__00000474_New_Probe_NewDiagram.Product = __Product__00000031_New_Probe
+	__ProductShape__00000475_NewProduct_NewDiagram.Product = __Product__00000033_Reverse_Commit_log_Code
+	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Product = __Product__00000034_Rebase_Log_Commits
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000010_Specifications)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
@@ -1128,14 +1259,14 @@ another line to Write Specs`
 	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000026__instance_GongDiff_another_instance_)
 	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000027_append_log_when_marshalling)
 	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000028_New_Umarshall_code)
-	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000029_Probe_Undo)
-	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000030_Probe_Redo)
+	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000031_New_Probe)
 	__Project__00000002_log_as_serie_of_Commits.RootTasks = append(__Project__00000002_log_as_serie_of_Commits.RootTasks, __Task__00000008_code_GongDiff_per_instance)
 	__Project__00000002_log_as_serie_of_Commits.RootTasks = append(__Project__00000002_log_as_serie_of_Commits.RootTasks, __Task__00000009_Develop_Probe_Notifications)
 	__Project__00000002_log_as_serie_of_Commits.RootTasks = append(__Project__00000002_log_as_serie_of_Commits.RootTasks, __Task__00000007_Compute_all_Instance_Diff)
 	__Project__00000002_log_as_serie_of_Commits.Diagrams = append(__Project__00000002_log_as_serie_of_Commits.Diagrams, __Diagram__00000061_NewDiagram)
 	__Project__00000002_log_as_serie_of_Commits.Notes = append(__Project__00000002_log_as_serie_of_Commits.Notes, __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage)
 	__Project__00000002_log_as_serie_of_Commits.Notes = append(__Project__00000002_log_as_serie_of_Commits.Notes, __Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff)
+	__Project__00000002_log_as_serie_of_Commits.Notes = append(__Project__00000002_log_as_serie_of_Commits.Notes, __Note__00000004_https_github_com_fullstack_lang_gong_issues_998)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
@@ -1151,6 +1282,7 @@ another line to Write Specs`
 	__Task__00000007_Compute_all_Instance_Diff.Inputs = append(__Task__00000007_Compute_all_Instance_Diff.Inputs, __Product__00000025_Probe_Notification_Table)
 	__Task__00000007_Compute_all_Instance_Diff.Inputs = append(__Task__00000007_Compute_all_Instance_Diff.Inputs, __Product__00000026__instance_GongDiff_another_instance_)
 	__Task__00000007_Compute_all_Instance_Diff.Outputs = append(__Task__00000007_Compute_all_Instance_Diff.Outputs, __Product__00000021_String_of_all_New_Stage_Updated_Unstage)
+	__Task__00000007_Compute_all_Instance_Diff.Outputs = append(__Task__00000007_Compute_all_Instance_Diff.Outputs, __Product__00000033_Reverse_Commit_log_Code)
 	__Task__00000008_code_GongDiff_per_instance.Inputs = append(__Task__00000008_code_GongDiff_per_instance.Inputs, __Product__00000025_Probe_Notification_Table)
 	__Task__00000008_code_GongDiff_per_instance.Outputs = append(__Task__00000008_code_GongDiff_per_instance.Outputs, __Product__00000026__instance_GongDiff_another_instance_)
 	__Task__00000009_Develop_Probe_Notifications.Outputs = append(__Task__00000009_Develop_Probe_Notifications.Outputs, __Product__00000025_Probe_Notification_Table)
@@ -1179,6 +1311,8 @@ another line to Write Specs`
 	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.Product = __Product__00000025_Probe_Notification_Table
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.Task = __Task__00000008_code_GongDiff_per_instance
 	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.Product = __Product__00000026__instance_GongDiff_another_instance_
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Task = __Task__00000007_Compute_all_Instance_Diff
+	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Product = __Product__00000033_Reverse_Commit_log_Code
 	// setup of TaskShape instances pointers
 	__TaskShape__00000012_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
 	__TaskShape__00000013_Develop_Backend_NewDiagram.Task = __Task__00000000_Develop_Backend
