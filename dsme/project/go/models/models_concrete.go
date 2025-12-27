@@ -43,6 +43,9 @@ type Diagram struct {
 	map_Note_NoteShape       map[*Note]*NoteShape
 	NotesWhoseNodeIsExpanded []*Note
 	IsNotesNodeExpanded      bool
+
+	NoteProductShapes         []*NoteProductShape
+	map_Note_NoteProductShape map[noteProductKey]*NoteProductShape
 }
 
 func (d *Diagram) IsEditable() bool {
@@ -192,6 +195,11 @@ type taskProductKey struct {
 	Product *Product
 }
 
+type noteProductKey struct {
+	Note    *Note
+	Product *Product
+}
+
 type TaskInputShape struct {
 	Name string
 
@@ -268,4 +276,33 @@ func (s *NoteShape) SetAbstractElement(abstractElement AbstractType) {
 
 var _ ConcreteType = (*NoteShape)(nil)
 
-//
+type NoteProductShape struct {
+	Name string
+
+	Note    *Note
+	Product *Product
+
+	LinkShape
+}
+
+// GetAbstractEndElement implements [AssociationConcreteType].
+func (noteproductshape *NoteProductShape) GetAbstractEndElement() AbstractType {
+	return noteproductshape.Product
+}
+
+// GetAbstractStartElement implements [AssociationConcreteType].
+func (noteproductshape *NoteProductShape) GetAbstractStartElement() AbstractType {
+	return noteproductshape.Note
+}
+
+// SetAbstractEndElement implements [AssociationConcreteType].
+func (noteproductshape *NoteProductShape) SetAbstractEndElement(product AbstractType) {
+	noteproductshape.Product = product.(*Product)
+}
+
+// SetAbstractStartElement implements [AssociationConcreteType].
+func (noteproductshape *NoteProductShape) SetAbstractStartElement(note AbstractType) {
+	noteproductshape.Note = note.(*Note)
+}
+
+var _ AssociationConcreteType = (*NoteProductShape)(nil)

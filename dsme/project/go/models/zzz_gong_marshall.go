@@ -259,6 +259,81 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 	}
 
+	map_NoteProductShape_Identifiers := make(map[*NoteProductShape]string)
+	_ = map_NoteProductShape_Identifiers
+
+	noteproductshapeOrdered := []*NoteProductShape{}
+	for noteproductshape := range stage.NoteProductShapes {
+		noteproductshapeOrdered = append(noteproductshapeOrdered, noteproductshape)
+	}
+	sort.Slice(noteproductshapeOrdered[:], func(i, j int) bool {
+		noteproductshapei := noteproductshapeOrdered[i]
+		noteproductshapej := noteproductshapeOrdered[j]
+		noteproductshapei_order, oki := stage.NoteProductShapeMap_Staged_Order[noteproductshapei]
+		noteproductshapej_order, okj := stage.NoteProductShapeMap_Staged_Order[noteproductshapej]
+		if !oki || !okj {
+			log.Fatalln("unknown pointers")
+		}
+		return noteproductshapei_order < noteproductshapej_order
+	})
+	if len(noteproductshapeOrdered) > 0 {
+		identifiersDecl += "\n"
+	}
+	for _, noteproductshape := range noteproductshapeOrdered {
+
+		id = generatesIdentifier("NoteProductShape", int(stage.NoteProductShapeMap_Staged_Order[noteproductshape]), noteproductshape.Name)
+		map_NoteProductShape_Identifiers[noteproductshape] = id
+
+		decl = IdentifiersDecls
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteProductShape")
+		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteproductshape.Name)
+		identifiersDecl += decl
+
+		initializerStatements += "\n"
+		// Initialisation of values
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(noteproductshape.Name))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.StartRatio))
+		initializerStatements += setValueField
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.EndRatio))
+		initializerStatements += setValueField
+
+		if noteproductshape.StartOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+noteproductshape.StartOrientation.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		if noteproductshape.EndOrientation != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndOrientation")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+noteproductshape.EndOrientation.ToCodeString())
+			initializerStatements += setValueField
+		}
+
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CornerOffsetRatio")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", noteproductshape.CornerOffsetRatio))
+		initializerStatements += setValueField
+
+	}
+
 	map_NoteShape_Identifiers := make(map[*NoteShape]string)
 	_ = map_NoteShape_Identifiers
 
@@ -1134,6 +1209,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			pointersInitializesStatements += setPointerField
 		}
 
+		for _, _noteproductshape := range diagram.NoteProductShapes {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "NoteProductShapes")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_NoteProductShape_Identifiers[_noteproductshape])
+			pointersInitializesStatements += setPointerField
+		}
+
 	}
 
 	if len(noteOrdered) > 0 {
@@ -1152,6 +1235,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Products")
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[_product])
+			pointersInitializesStatements += setPointerField
+		}
+
+	}
+
+	if len(noteproductshapeOrdered) > 0 {
+		pointersInitializesStatements += "\n\t// setup of NoteProductShape instances pointers"
+	}
+	for _, noteproductshape := range noteproductshapeOrdered {
+		var setPointerField string
+		_ = setPointerField
+
+		id = generatesIdentifier("NoteProductShape", int(stage.NoteProductShapeMap_Staged_Order[noteproductshape]), noteproductshape.Name)
+		map_NoteProductShape_Identifiers[noteproductshape] = id
+
+		// Initialisation of values
+		if noteproductshape.Note != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Note")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Note_Identifiers[noteproductshape.Note])
+			pointersInitializesStatements += setPointerField
+		}
+
+		if noteproductshape.Product != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Product")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Product_Identifiers[noteproductshape.Product])
 			pointersInitializesStatements += setPointerField
 		}
 

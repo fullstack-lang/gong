@@ -41,6 +41,22 @@ func (inst *Note) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
+func (inst *NoteProductShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NoteProductShapes":
+				if _diagram, ok := stage.Diagram_NoteProductShapes_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
+	}
+	return
+}
+
 func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -308,6 +324,20 @@ func (inst *Note) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 			switch reverseField.Fieldname {
 			case "Notes":
 				res = stage.Project_Notes_reverseMap[inst]
+			}
+	}
+	return res
+}
+
+func (inst *NoteProductShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NoteProductShapes":
+				res = stage.Diagram_NoteProductShapes_reverseMap[inst]
 			}
 	}
 	return res
