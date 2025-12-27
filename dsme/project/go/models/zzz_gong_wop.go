@@ -33,6 +33,8 @@ type Diagram_WOP struct {
 	IsPBSNodeExpanded bool
 
 	IsWBSNodeExpanded bool
+
+	IsNotesNodeExpanded bool
 }
 
 func (from *Diagram) CopyBasicFields(to *Diagram) {
@@ -48,6 +50,47 @@ func (from *Diagram) CopyBasicFields(to *Diagram) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
+}
+
+type Note_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+}
+
+func (from *Note) CopyBasicFields(to *Note) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+}
+
+type NoteShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	IsExpanded bool
+
+	X float64
+
+	Y float64
+
+	Width float64
+
+	Height float64
+}
+
+func (from *NoteShape) CopyBasicFields(to *NoteShape) {
+	// insertion point
+	to.Name = from.Name
+	to.IsExpanded = from.IsExpanded
+	to.X = from.X
+	to.Y = from.Y
+	to.Width = from.Width
+	to.Height = from.Height
 }
 
 type Product_WOP struct {
@@ -136,6 +179,8 @@ type Project_WOP struct {
 
 	IsDiagramsNodeExpanded bool
 
+	IsNotesNodeExpanded bool
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -147,6 +192,7 @@ func (from *Project) CopyBasicFields(to *Project) {
 	to.IsPBSNodeExpanded = from.IsPBSNodeExpanded
 	to.IsWBSNodeExpanded = from.IsWBSNodeExpanded
 	to.IsDiagramsNodeExpanded = from.IsDiagramsNodeExpanded
+	to.IsNotesNodeExpanded = from.IsNotesNodeExpanded
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 }
