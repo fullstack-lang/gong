@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -1420,7 +1425,7 @@ func (cell *Cell) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cell *Cell) SetName(name string) (){
+func (cell *Cell) SetName(name string) {
 	cell.Name = name
 }
 
@@ -1506,7 +1511,7 @@ func (cellboolean *CellBoolean) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cellboolean *CellBoolean) SetName(name string) (){
+func (cellboolean *CellBoolean) SetName(name string) {
 	cellboolean.Name = name
 }
 
@@ -1592,7 +1597,7 @@ func (cellfloat64 *CellFloat64) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cellfloat64 *CellFloat64) SetName(name string) (){
+func (cellfloat64 *CellFloat64) SetName(name string) {
 	cellfloat64.Name = name
 }
 
@@ -1678,7 +1683,7 @@ func (cellicon *CellIcon) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cellicon *CellIcon) SetName(name string) (){
+func (cellicon *CellIcon) SetName(name string) {
 	cellicon.Name = name
 }
 
@@ -1764,7 +1769,7 @@ func (cellint *CellInt) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cellint *CellInt) SetName(name string) (){
+func (cellint *CellInt) SetName(name string) {
 	cellint.Name = name
 }
 
@@ -1850,7 +1855,7 @@ func (cellstring *CellString) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cellstring *CellString) SetName(name string) (){
+func (cellstring *CellString) SetName(name string) {
 	cellstring.Name = name
 }
 
@@ -1936,7 +1941,7 @@ func (checkbox *CheckBox) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (checkbox *CheckBox) SetName(name string) (){
+func (checkbox *CheckBox) SetName(name string) {
 	checkbox.Name = name
 }
 
@@ -2022,7 +2027,7 @@ func (displayedcolumn *DisplayedColumn) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (displayedcolumn *DisplayedColumn) SetName(name string) (){
+func (displayedcolumn *DisplayedColumn) SetName(name string) {
 	displayedcolumn.Name = name
 }
 
@@ -2108,7 +2113,7 @@ func (formdiv *FormDiv) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formdiv *FormDiv) SetName(name string) (){
+func (formdiv *FormDiv) SetName(name string) {
 	formdiv.Name = name
 }
 
@@ -2194,7 +2199,7 @@ func (formeditassocbutton *FormEditAssocButton) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formeditassocbutton *FormEditAssocButton) SetName(name string) (){
+func (formeditassocbutton *FormEditAssocButton) SetName(name string) {
 	formeditassocbutton.Name = name
 }
 
@@ -2280,7 +2285,7 @@ func (formfield *FormField) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfield *FormField) SetName(name string) (){
+func (formfield *FormField) SetName(name string) {
 	formfield.Name = name
 }
 
@@ -2366,7 +2371,7 @@ func (formfielddate *FormFieldDate) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfielddate *FormFieldDate) SetName(name string) (){
+func (formfielddate *FormFieldDate) SetName(name string) {
 	formfielddate.Name = name
 }
 
@@ -2452,7 +2457,7 @@ func (formfielddatetime *FormFieldDateTime) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfielddatetime *FormFieldDateTime) SetName(name string) (){
+func (formfielddatetime *FormFieldDateTime) SetName(name string) {
 	formfielddatetime.Name = name
 }
 
@@ -2538,7 +2543,7 @@ func (formfieldfloat64 *FormFieldFloat64) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfieldfloat64 *FormFieldFloat64) SetName(name string) (){
+func (formfieldfloat64 *FormFieldFloat64) SetName(name string) {
 	formfieldfloat64.Name = name
 }
 
@@ -2624,7 +2629,7 @@ func (formfieldint *FormFieldInt) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfieldint *FormFieldInt) SetName(name string) (){
+func (formfieldint *FormFieldInt) SetName(name string) {
 	formfieldint.Name = name
 }
 
@@ -2710,7 +2715,7 @@ func (formfieldselect *FormFieldSelect) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfieldselect *FormFieldSelect) SetName(name string) (){
+func (formfieldselect *FormFieldSelect) SetName(name string) {
 	formfieldselect.Name = name
 }
 
@@ -2796,7 +2801,7 @@ func (formfieldstring *FormFieldString) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfieldstring *FormFieldString) SetName(name string) (){
+func (formfieldstring *FormFieldString) SetName(name string) {
 	formfieldstring.Name = name
 }
 
@@ -2882,7 +2887,7 @@ func (formfieldtime *FormFieldTime) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formfieldtime *FormFieldTime) SetName(name string) (){
+func (formfieldtime *FormFieldTime) SetName(name string) {
 	formfieldtime.Name = name
 }
 
@@ -2968,7 +2973,7 @@ func (formgroup *FormGroup) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formgroup *FormGroup) SetName(name string) (){
+func (formgroup *FormGroup) SetName(name string) {
 	formgroup.Name = name
 }
 
@@ -3054,7 +3059,7 @@ func (formsortassocbutton *FormSortAssocButton) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (formsortassocbutton *FormSortAssocButton) SetName(name string) (){
+func (formsortassocbutton *FormSortAssocButton) SetName(name string) {
 	formsortassocbutton.Name = name
 }
 
@@ -3140,7 +3145,7 @@ func (option *Option) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (option *Option) SetName(name string) (){
+func (option *Option) SetName(name string) {
 	option.Name = name
 }
 
@@ -3226,7 +3231,7 @@ func (row *Row) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (row *Row) SetName(name string) (){
+func (row *Row) SetName(name string) {
 	row.Name = name
 }
 
@@ -3312,7 +3317,7 @@ func (table *Table) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (table *Table) SetName(name string) (){
+func (table *Table) SetName(name string) {
 	table.Name = name
 }
 

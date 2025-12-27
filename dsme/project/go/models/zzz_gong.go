@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -1132,7 +1137,7 @@ func (diagram *Diagram) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (diagram *Diagram) SetName(name string) (){
+func (diagram *Diagram) SetName(name string) {
 	diagram.Name = name
 }
 
@@ -1218,7 +1223,7 @@ func (note *Note) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (note *Note) SetName(name string) (){
+func (note *Note) SetName(name string) {
 	note.Name = name
 }
 
@@ -1304,7 +1309,7 @@ func (noteproductshape *NoteProductShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (noteproductshape *NoteProductShape) SetName(name string) (){
+func (noteproductshape *NoteProductShape) SetName(name string) {
 	noteproductshape.Name = name
 }
 
@@ -1390,7 +1395,7 @@ func (noteshape *NoteShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (noteshape *NoteShape) SetName(name string) (){
+func (noteshape *NoteShape) SetName(name string) {
 	noteshape.Name = name
 }
 
@@ -1476,7 +1481,7 @@ func (notetaskshape *NoteTaskShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (notetaskshape *NoteTaskShape) SetName(name string) (){
+func (notetaskshape *NoteTaskShape) SetName(name string) {
 	notetaskshape.Name = name
 }
 
@@ -1562,7 +1567,7 @@ func (product *Product) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (product *Product) SetName(name string) (){
+func (product *Product) SetName(name string) {
 	product.Name = name
 }
 
@@ -1648,7 +1653,7 @@ func (productcompositionshape *ProductCompositionShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (productcompositionshape *ProductCompositionShape) SetName(name string) (){
+func (productcompositionshape *ProductCompositionShape) SetName(name string) {
 	productcompositionshape.Name = name
 }
 
@@ -1734,7 +1739,7 @@ func (productshape *ProductShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (productshape *ProductShape) SetName(name string) (){
+func (productshape *ProductShape) SetName(name string) {
 	productshape.Name = name
 }
 
@@ -1820,7 +1825,7 @@ func (project *Project) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (project *Project) SetName(name string) (){
+func (project *Project) SetName(name string) {
 	project.Name = name
 }
 
@@ -1906,7 +1911,7 @@ func (root *Root) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (root *Root) SetName(name string) (){
+func (root *Root) SetName(name string) {
 	root.Name = name
 }
 
@@ -1992,7 +1997,7 @@ func (task *Task) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (task *Task) SetName(name string) (){
+func (task *Task) SetName(name string) {
 	task.Name = name
 }
 
@@ -2078,7 +2083,7 @@ func (taskcompositionshape *TaskCompositionShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (taskcompositionshape *TaskCompositionShape) SetName(name string) (){
+func (taskcompositionshape *TaskCompositionShape) SetName(name string) {
 	taskcompositionshape.Name = name
 }
 
@@ -2164,7 +2169,7 @@ func (taskinputshape *TaskInputShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (taskinputshape *TaskInputShape) SetName(name string) (){
+func (taskinputshape *TaskInputShape) SetName(name string) {
 	taskinputshape.Name = name
 }
 
@@ -2250,7 +2255,7 @@ func (taskoutputshape *TaskOutputShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (taskoutputshape *TaskOutputShape) SetName(name string) (){
+func (taskoutputshape *TaskOutputShape) SetName(name string) {
 	taskoutputshape.Name = name
 }
 
@@ -2336,7 +2341,7 @@ func (taskshape *TaskShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (taskshape *TaskShape) SetName(name string) (){
+func (taskshape *TaskShape) SetName(name string) {
 	taskshape.Name = name
 }
 

@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -924,7 +929,7 @@ func (category1 *Category1) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category1 *Category1) SetName(name string) (){
+func (category1 *Category1) SetName(name string) {
 	category1.Name = name
 }
 
@@ -1010,7 +1015,7 @@ func (category1shape *Category1Shape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category1shape *Category1Shape) SetName(name string) (){
+func (category1shape *Category1Shape) SetName(name string) {
 	category1shape.Name = name
 }
 
@@ -1096,7 +1101,7 @@ func (category2 *Category2) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category2 *Category2) SetName(name string) (){
+func (category2 *Category2) SetName(name string) {
 	category2.Name = name
 }
 
@@ -1182,7 +1187,7 @@ func (category2shape *Category2Shape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category2shape *Category2Shape) SetName(name string) (){
+func (category2shape *Category2Shape) SetName(name string) {
 	category2shape.Name = name
 }
 
@@ -1268,7 +1273,7 @@ func (category3 *Category3) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category3 *Category3) SetName(name string) (){
+func (category3 *Category3) SetName(name string) {
 	category3.Name = name
 }
 
@@ -1354,7 +1359,7 @@ func (category3shape *Category3Shape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (category3shape *Category3Shape) SetName(name string) (){
+func (category3shape *Category3Shape) SetName(name string) {
 	category3shape.Name = name
 }
 
@@ -1440,7 +1445,7 @@ func (controlpointshape *ControlPointShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (controlpointshape *ControlPointShape) SetName(name string) (){
+func (controlpointshape *ControlPointShape) SetName(name string) {
 	controlpointshape.Name = name
 }
 
@@ -1526,7 +1531,7 @@ func (desk *Desk) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (desk *Desk) SetName(name string) (){
+func (desk *Desk) SetName(name string) {
 	desk.Name = name
 }
 
@@ -1612,7 +1617,7 @@ func (diagram *Diagram) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (diagram *Diagram) SetName(name string) (){
+func (diagram *Diagram) SetName(name string) {
 	diagram.Name = name
 }
 
@@ -1698,7 +1703,7 @@ func (influence *Influence) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (influence *Influence) SetName(name string) (){
+func (influence *Influence) SetName(name string) {
 	influence.Name = name
 }
 
@@ -1784,7 +1789,7 @@ func (influenceshape *InfluenceShape) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (influenceshape *InfluenceShape) SetName(name string) (){
+func (influenceshape *InfluenceShape) SetName(name string) {
 	influenceshape.Name = name
 }
 

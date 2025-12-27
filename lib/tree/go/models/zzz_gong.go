@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -633,7 +638,7 @@ func (button *Button) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (button *Button) SetName(name string) (){
+func (button *Button) SetName(name string) {
 	button.Name = name
 }
 
@@ -719,7 +724,7 @@ func (node *Node) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (node *Node) SetName(name string) (){
+func (node *Node) SetName(name string) {
 	node.Name = name
 }
 
@@ -805,7 +810,7 @@ func (svgicon *SVGIcon) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (svgicon *SVGIcon) SetName(name string) (){
+func (svgicon *SVGIcon) SetName(name string) {
 	svgicon.Name = name
 }
 
@@ -891,7 +896,7 @@ func (tree *Tree) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tree *Tree) SetName(name string) (){
+func (tree *Tree) SetName(name string) {
 	tree.Name = name
 }
 

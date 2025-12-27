@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -676,7 +681,7 @@ func (button *Button) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (button *Button) SetName(name string) (){
+func (button *Button) SetName(name string) {
 	button.Name = name
 }
 
@@ -762,7 +767,7 @@ func (buttontoggle *ButtonToggle) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (buttontoggle *ButtonToggle) SetName(name string) (){
+func (buttontoggle *ButtonToggle) SetName(name string) {
 	buttontoggle.Name = name
 }
 
@@ -848,7 +853,7 @@ func (group *Group) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (group *Group) SetName(name string) (){
+func (group *Group) SetName(name string) {
 	group.Name = name
 }
 
@@ -934,7 +939,7 @@ func (grouptoogle *GroupToogle) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (grouptoogle *GroupToogle) SetName(name string) (){
+func (grouptoogle *GroupToogle) SetName(name string) {
 	grouptoogle.Name = name
 }
 
@@ -1020,7 +1025,7 @@ func (layout *Layout) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (layout *Layout) SetName(name string) (){
+func (layout *Layout) SetName(name string) {
 	layout.Name = name
 }
 

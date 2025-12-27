@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -766,7 +771,7 @@ func (astruct *Astruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astruct *Astruct) SetName(name string) (){
+func (astruct *Astruct) SetName(name string) {
 	astruct.Name = name
 }
 
@@ -852,7 +857,7 @@ func (astructbstruct2use *AstructBstruct2Use) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstruct2use *AstructBstruct2Use) SetName(name string) (){
+func (astructbstruct2use *AstructBstruct2Use) SetName(name string) {
 	astructbstruct2use.Name = name
 }
 
@@ -938,7 +943,7 @@ func (astructbstructuse *AstructBstructUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (astructbstructuse *AstructBstructUse) SetName(name string) (){
+func (astructbstructuse *AstructBstructUse) SetName(name string) {
 	astructbstructuse.Name = name
 }
 
@@ -1024,7 +1029,7 @@ func (bstruct *Bstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bstruct *Bstruct) SetName(name string) (){
+func (bstruct *Bstruct) SetName(name string) {
 	bstruct.Name = name
 }
 
@@ -1110,7 +1115,7 @@ func (dstruct *Dstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dstruct *Dstruct) SetName(name string) (){
+func (dstruct *Dstruct) SetName(name string) {
 	dstruct.Name = name
 }
 
@@ -1196,7 +1201,7 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GetNam
 }
 
 // for satisfaction of GongStruct interface
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) (){
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) SetName(name string) {
 	f0123456789012345678901234567890.Name = name
 }
 
@@ -1282,7 +1287,7 @@ func (gstruct *Gstruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gstruct *Gstruct) SetName(name string) (){
+func (gstruct *Gstruct) SetName(name string) {
 	gstruct.Name = name
 }
 
