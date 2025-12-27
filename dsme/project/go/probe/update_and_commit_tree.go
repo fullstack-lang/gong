@@ -100,6 +100,16 @@ func updateAndCommitTree(
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}
+		case "NoteProductShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.NoteProductShape](probe.stageOfInterest)
+			for _noteproductshape := range set {
+				nodeInstance := &tree.Node{Name: _noteproductshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_noteproductshape, "NoteProductShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
 		case "NoteShape":
 			nodeGongstruct.Name = name
 			set := *models.GetGongstructInstancesSetFromPointerType[*models.NoteShape](probe.stageOfInterest)
@@ -107,6 +117,16 @@ func updateAndCommitTree(
 				nodeInstance := &tree.Node{Name: _noteshape.GetName()}
 				nodeInstance.IsNodeClickable = true
 				nodeInstance.Impl = NewInstanceNodeCallback(_noteshape, "NoteShape", probe)
+
+				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
+			}
+		case "NoteTaskShape":
+			nodeGongstruct.Name = name
+			set := *models.GetGongstructInstancesSetFromPointerType[*models.NoteTaskShape](probe.stageOfInterest)
+			for _notetaskshape := range set {
+				nodeInstance := &tree.Node{Name: _notetaskshape.GetName()}
+				nodeInstance.IsNodeClickable = true
+				nodeInstance.Impl = NewInstanceNodeCallback(_notetaskshape, "NoteTaskShape", probe)
 
 				nodeGongstruct.Children = append(nodeGongstruct.Children, nodeInstance)
 			}

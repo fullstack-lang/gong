@@ -270,6 +270,85 @@ func (stager *Stager) tree() {
 						&diagram.Note_Shapes,
 						&diagram.map_Note_NoteShape),
 				}
+
+				// allow display of associations note to products
+				for _, product := range note.Products {
+					nodeProduct := &tree.Node{
+						Name:            product.Name,
+						IsNodeClickable: true,
+					}
+					noteNode.Children = append(noteNode.Children, nodeProduct)
+
+					showHideRelationButton := &tree.Button{
+						Name: GetGongstructNameFromPointer(product),
+
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+					}
+					nodeProduct.Buttons = append(nodeProduct.Buttons, showHideRelationButton)
+
+					if _, ok := diagram.map_Product_ProductShape[product]; ok {
+						if _, ok := diagram.map_Note_NoteShape[note]; ok {
+
+							noteProductShape, ok := diagram.map_Note_NoteProductShape[noteProductKey{Note: note, Product: product}]
+							nodeProduct.IsChecked = ok
+
+							if ok {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_less)
+								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+									"\" to product \"" + product.Name + "\""
+								// what to do when the product node is clicked
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnRemoveAssociationShape(stager, diagram, noteProductShape, &diagram.NoteProductShapes),
+								}
+							} else {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
+								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+									"\" to product \"" + product.Name + "\""
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnAddAssociationShape(stager, diagram, note, product, &diagram.NoteProductShapes),
+								}
+							}
+						}
+					}
+				}
+
+				for _, task := range note.Tasks {
+					nodeTask := &tree.Node{
+						Name:            task.Name,
+						IsNodeClickable: true,
+					}
+					noteNode.Children = append(noteNode.Children, nodeTask)
+					showHideRelationButton := &tree.Button{
+						Name:            GetGongstructNameFromPointer(task),
+						HasToolTip:      true,
+						ToolTipPosition: tree.Right,
+					}
+					nodeTask.Buttons = append(nodeTask.Buttons, showHideRelationButton)
+					if _, ok := diagram.map_Task_TaskShape[task]; ok {
+						if _, ok := diagram.map_Note_NoteShape[note]; ok {
+							noteTaskShape, ok := diagram.map_Note_NoteTaskShape[noteTaskKey{Note: note, Task: task}]
+							nodeTask.IsChecked = ok
+
+							if ok {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_less)
+								showHideRelationButton.ToolTipText = "Hide link from note \"" + note.Name +
+									"\" to task \"" + task.Name + "\""
+								// what to do when the product node is clicked
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnRemoveAssociationShape(stager, diagram, noteTaskShape, &diagram.NoteTaskShapes),
+								}
+							} else {
+								showHideRelationButton.Icon = string(buttons.BUTTON_unfold_more)
+								showHideRelationButton.ToolTipText = "Show link from note \"" + note.Name +
+									"\" to task \"" + task.Name + "\""
+								showHideRelationButton.Impl = &tree.FunctionalButtonProxy{
+									OnUpdated: OnAddAssociationShape(stager, diagram, note, task, &diagram.NoteTaskShapes),
+								}
+							}
+						}
+					}
+				}
 			}
 
 		}
@@ -431,6 +510,21 @@ func OnCopyDiagram(stager *Stager, diagram *Diagram) func(
 		for _, s := range diagram.TaskOutputShapes {
 			newShape := s.GongCopy().(*TaskOutputShape)
 			newDiagram.TaskOutputShapes = append(newDiagram.TaskOutputShapes, newShape)
+		}
+
+		for _, s := range diagram.Note_Shapes {
+			newShape := s.GongCopy().(*NoteShape)
+			newDiagram.Note_Shapes = append(newDiagram.Note_Shapes, newShape)
+		}
+
+		for _, s := range diagram.NoteProductShapes {
+			newShape := s.GongCopy().(*NoteProductShape)
+			newDiagram.NoteProductShapes = append(newDiagram.NoteProductShapes, newShape)
+		}
+
+		for _, s := range diagram.NoteTaskShapes {
+			newShape := s.GongCopy().(*NoteTaskShape)
+			newDiagram.NoteTaskShapes = append(newDiagram.NoteTaskShapes, newShape)
 		}
 
 		StageBranch(stager.stage, newDiagram)

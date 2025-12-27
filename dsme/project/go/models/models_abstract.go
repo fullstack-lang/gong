@@ -52,6 +52,8 @@ type Note struct {
 
 	Products []*Product
 
+	Tasks []*Task
+
 	IsExpanded bool
 }
 
