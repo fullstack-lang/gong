@@ -88,6 +88,10 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
+	if stager.enforceDuplicateRemove() {
+		needCommit = true
+	}
+
 	// computes fields that are not persisted
 	stager.enforceProducersConsumers()
 	stager.enforceDiagramMaps()

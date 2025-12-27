@@ -26,6 +26,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000042_NewDiagram := (&models.Diagram{}).Stage(stage)
 	__Diagram__00000057_NewDiagram := (&models.Diagram{}).Stage(stage)
 	__Diagram__00000058_NewDiagram := (&models.Diagram{}).Stage(stage)
+	__Diagram__00000061_NewDiagram := (&models.Diagram{}).Stage(stage)
 
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line := (&models.Note{}).Stage(stage)
 	__Note__00000001_Second_Note := (&models.Note{}).Stage(stage)
@@ -54,6 +55,7 @@ func _(stage *models.Stage) {
 	__Product__00000018_Product_2_2 := (&models.Product{}).Stage(stage)
 	__Product__00000019_Probe_Views := (&models.Product{}).Stage(stage)
 	__Product__00000020_Application_Views := (&models.Product{}).Stage(stage)
+	__Product__00000021_String_of_New_Stage_Updated_Unstage := (&models.Product{}).Stage(stage)
 
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1 := (&models.ProductCompositionShape{}).Stage(stage)
 	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1 := (&models.ProductCompositionShape{}).Stage(stage)
@@ -86,9 +88,11 @@ func _(stage *models.Stage) {
 	__ProductShape__00000463_Semantic_Enforcer_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000464_Docx_Backend_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000465_Specifications_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
+	__Project__00000002_log_as_serie_of_Commits := (&models.Project{}).Stage(stage)
 
 	__Root__00000000_Root := (&models.Root{}).Stage(stage)
 
@@ -99,6 +103,8 @@ func _(stage *models.Stage) {
 	__Task__00000004_Dev_views := (&models.Task{}).Stage(stage)
 	__Task__00000005_Dev_UXx := (&models.Task{}).Stage(stage)
 	__Task__00000006_Write_Specs := (&models.Task{}).Stage(stage)
+	__Task__00000007_Compute_Instance_Diff := (&models.Task{}).Stage(stage)
+	__Task__00000008_NewTask := (&models.Task{}).Stage(stage)
 
 	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx := (&models.TaskCompositionShape{}).Stage(stage)
 	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views := (&models.TaskCompositionShape{}).Stage(stage)
@@ -108,6 +114,7 @@ func _(stage *models.Stage) {
 	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree := (&models.TaskOutputShape{}).Stage(stage)
 	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree := (&models.TaskOutputShape{}).Stage(stage)
 	__TaskOutputShape__00000061_Dev_UXx_to_views := (&models.TaskOutputShape{}).Stage(stage)
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage := (&models.TaskOutputShape{}).Stage(stage)
 
 	__TaskShape__00000012_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000013_Develop_Backend_NewDiagram := (&models.TaskShape{}).Stage(stage)
@@ -116,6 +123,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000018_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram := (&models.TaskShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -146,17 +154,30 @@ func _(stage *models.Stage) {
 	__Diagram__00000057_NewDiagram.IsNotesNodeExpanded = false
 
 	__Diagram__00000058_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000058_NewDiagram.IsChecked = true
+	__Diagram__00000058_NewDiagram.IsChecked = false
 	__Diagram__00000058_NewDiagram.IsEditable_ = true
 	__Diagram__00000058_NewDiagram.IsInRenameMode = false
 	__Diagram__00000058_NewDiagram.ShowPrefix = false
 	__Diagram__00000058_NewDiagram.DefaultBoxWidth = 250.000000
 	__Diagram__00000058_NewDiagram.DefaultBoxHeigth = 100.000000
-	__Diagram__00000058_NewDiagram.IsExpanded = true
+	__Diagram__00000058_NewDiagram.IsExpanded = false
 	__Diagram__00000058_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000058_NewDiagram.IsPBSNodeExpanded = false
 	__Diagram__00000058_NewDiagram.IsWBSNodeExpanded = true
 	__Diagram__00000058_NewDiagram.IsNotesNodeExpanded = false
+
+	__Diagram__00000061_NewDiagram.Name = `NewDiagram`
+	__Diagram__00000061_NewDiagram.IsChecked = true
+	__Diagram__00000061_NewDiagram.IsEditable_ = true
+	__Diagram__00000061_NewDiagram.IsInRenameMode = false
+	__Diagram__00000061_NewDiagram.ShowPrefix = false
+	__Diagram__00000061_NewDiagram.DefaultBoxWidth = 250.000000
+	__Diagram__00000061_NewDiagram.DefaultBoxHeigth = 100.000000
+	__Diagram__00000061_NewDiagram.IsExpanded = true
+	__Diagram__00000061_NewDiagram.ComputedPrefix = ``
+	__Diagram__00000061_NewDiagram.IsPBSNodeExpanded = true
+	__Diagram__00000061_NewDiagram.IsWBSNodeExpanded = true
+	__Diagram__00000061_NewDiagram.IsNotesNodeExpanded = false
 
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Name = `This is an example to explain a particular product
 
@@ -313,6 +334,12 @@ another line to Write Specs`
 	__Product__00000020_Application_Views.ComputedPrefix = `2.3.2`
 	__Product__00000020_Application_Views.IsProducersNodeExpanded = false
 	__Product__00000020_Application_Views.IsConsumersNodeExpanded = false
+
+	__Product__00000021_String_of_New_Stage_Updated_Unstage.Name = `String of New+Stage/Updated/Unstage`
+	__Product__00000021_String_of_New_Stage_Updated_Unstage.IsExpanded = false
+	__Product__00000021_String_of_New_Stage_Updated_Unstage.ComputedPrefix = `1`
+	__Product__00000021_String_of_New_Stage_Updated_Unstage.IsProducersNodeExpanded = false
+	__Product__00000021_String_of_New_Stage_Updated_Unstage.IsConsumersNodeExpanded = false
 
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.Name = `Product 1 to Product 1.1`
 	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.StartRatio = 0.500000
@@ -524,21 +551,36 @@ another line to Write Specs`
 	__ProductShape__00000465_Specifications_NewDiagram.Width = 250.000000
 	__ProductShape__00000465_Specifications_NewDiagram.Height = 100.000000
 
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Name = `String of New+Stage/Updated/Unstage-NewDiagram`
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.IsExpanded = false
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.X = 500.183991
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Y = 266.413298
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Width = 250.000000
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Height = 100.000000
+
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = false
 	__Project__00000000_Project_Editor.IsWBSNodeExpanded = false
 	__Project__00000000_Project_Editor.IsDiagramsNodeExpanded = true
 	__Project__00000000_Project_Editor.IsNotesNodeExpanded = true
-	__Project__00000000_Project_Editor.IsExpanded = true
+	__Project__00000000_Project_Editor.IsExpanded = false
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
-	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
+	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsNotesNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsExpanded = false
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
+
+	__Project__00000002_log_as_serie_of_Commits.Name = `log as serie of Commits`
+	__Project__00000002_log_as_serie_of_Commits.IsPBSNodeExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsWBSNodeExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsDiagramsNodeExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsNotesNodeExpanded = false
+	__Project__00000002_log_as_serie_of_Commits.IsExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.ComputedPrefix = ``
 
 	__Root__00000000_Root.Name = `Root`
 	__Root__00000000_Root.NbPixPerCharacter = 8.000000
@@ -585,6 +627,18 @@ another line to Write Specs`
 	__Task__00000006_Write_Specs.IsInputsNodeExpanded = false
 	__Task__00000006_Write_Specs.IsOutputsNodeExpanded = false
 
+	__Task__00000007_Compute_Instance_Diff.Name = `Compute Instance Diff`
+	__Task__00000007_Compute_Instance_Diff.IsExpanded = false
+	__Task__00000007_Compute_Instance_Diff.ComputedPrefix = `1`
+	__Task__00000007_Compute_Instance_Diff.IsInputsNodeExpanded = false
+	__Task__00000007_Compute_Instance_Diff.IsOutputsNodeExpanded = false
+
+	__Task__00000008_NewTask.Name = `NewTask`
+	__Task__00000008_NewTask.IsExpanded = false
+	__Task__00000008_NewTask.ComputedPrefix = `2`
+	__Task__00000008_NewTask.IsInputsNodeExpanded = false
+	__Task__00000008_NewTask.IsOutputsNodeExpanded = false
+
 	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.StartRatio = 0.500000
 	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.EndRatio = 0.500000
@@ -626,6 +680,13 @@ another line to Write Specs`
 	__TaskOutputShape__00000061_Dev_UXx_to_views.StartOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskOutputShape__00000061_Dev_UXx_to_views.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000061_Dev_UXx_to_views.CornerOffsetRatio = -0.214007
+
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Name = `Compute Instance Diff to String of New+Stage/Updated/Unstage`
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.StartRatio = 0.500000
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.EndRatio = 0.500000
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.CornerOffsetRatio = 1.268543
 
 	__TaskShape__00000012_Write_Specs_NewDiagram.Name = `Write Specs-NewDiagram`
 	__TaskShape__00000012_Write_Specs_NewDiagram.IsExpanded = false
@@ -675,6 +736,13 @@ another line to Write Specs`
 	__TaskShape__00000018_Write_Specs_NewDiagram.Y = 239.889513
 	__TaskShape__00000018_Write_Specs_NewDiagram.Width = 250.000000
 	__TaskShape__00000018_Write_Specs_NewDiagram.Height = 100.000000
+
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Name = `zzz_gong : compute instance.GongDiff(another_instance)-NewDiagram`
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.IsExpanded = false
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.X = 48.000000
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Y = 102.000000
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Width = 243.000000
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Height = 75.000000
 
 	// Setup of pointers
 	// setup of Diagram instances pointers
@@ -734,6 +802,11 @@ another line to Write Specs`
 	__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded = append(__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded, __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line)
 	__Diagram__00000058_NewDiagram.NoteProductShapes = append(__Diagram__00000058_NewDiagram.NoteProductShapes, __NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications)
 	__Diagram__00000058_NewDiagram.NoteTaskShapes = append(__Diagram__00000058_NewDiagram.NoteTaskShapes, __NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs)
+	__Diagram__00000061_NewDiagram.Product_Shapes = append(__Diagram__00000061_NewDiagram.Product_Shapes, __ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram)
+	__Diagram__00000061_NewDiagram.Task_Shapes = append(__Diagram__00000061_NewDiagram.Task_Shapes, __TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram)
+	__Diagram__00000061_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000007_Compute_Instance_Diff)
+	__Diagram__00000061_NewDiagram.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_NewDiagram.TasksWhoseOutputNodeIsExpanded, __Task__00000007_Compute_Instance_Diff)
+	__Diagram__00000061_NewDiagram.TaskOutputShapes = append(__Diagram__00000061_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage)
 	// setup of Note instances pointers
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products, __Product__00000010_Specifications)
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks, __Task__00000006_Write_Specs)
@@ -791,6 +864,7 @@ another line to Write Specs`
 	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Product = __Product__00000006_Semantic_Enforcer
 	__ProductShape__00000464_Docx_Backend_NewDiagram.Product = __Product__00000009_Docx_Backend
 	__ProductShape__00000465_Specifications_NewDiagram.Product = __Product__00000010_Specifications
+	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Product = __Product__00000021_String_of_New_Stage_Updated_Unstage
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000010_Specifications)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
@@ -807,9 +881,14 @@ another line to Write Specs`
 	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000015_Product_2)
 	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Task_1)
 	__Project__00000001_DSME_Docx.Diagrams = append(__Project__00000001_DSME_Docx.Diagrams, __Diagram__00000042_NewDiagram)
+	__Project__00000002_log_as_serie_of_Commits.RootProducts = append(__Project__00000002_log_as_serie_of_Commits.RootProducts, __Product__00000021_String_of_New_Stage_Updated_Unstage)
+	__Project__00000002_log_as_serie_of_Commits.RootTasks = append(__Project__00000002_log_as_serie_of_Commits.RootTasks, __Task__00000007_Compute_Instance_Diff)
+	__Project__00000002_log_as_serie_of_Commits.RootTasks = append(__Project__00000002_log_as_serie_of_Commits.RootTasks, __Task__00000008_NewTask)
+	__Project__00000002_log_as_serie_of_Commits.Diagrams = append(__Project__00000002_log_as_serie_of_Commits.Diagrams, __Diagram__00000061_NewDiagram)
 	// setup of Root instances pointers
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
 	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
+	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000002_log_as_serie_of_Commits)
 	// setup of Task instances pointers
 	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000004_Dev_views)
 	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000005_Dev_UXx)
@@ -818,6 +897,7 @@ another line to Write Specs`
 	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000004_PBS_tree)
 	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000005_views)
 	__Task__00000006_Write_Specs.Outputs = append(__Task__00000006_Write_Specs.Outputs, __Product__00000010_Specifications)
+	__Task__00000007_Compute_Instance_Diff.Outputs = append(__Task__00000007_Compute_Instance_Diff.Outputs, __Product__00000021_String_of_New_Stage_Updated_Unstage)
 	// setup of TaskCompositionShape instances pointers
 	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.Task = __Task__00000005_Dev_UXx
 	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.Task = __Task__00000004_Dev_views
@@ -831,6 +911,8 @@ another line to Write Specs`
 	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.Product = __Product__00000004_PBS_tree
 	__TaskOutputShape__00000061_Dev_UXx_to_views.Task = __Task__00000005_Dev_UXx
 	__TaskOutputShape__00000061_Dev_UXx_to_views.Product = __Product__00000005_views
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Task = __Task__00000007_Compute_Instance_Diff
+	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Product = __Product__00000021_String_of_New_Stage_Updated_Unstage
 	// setup of TaskShape instances pointers
 	__TaskShape__00000012_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
 	__TaskShape__00000013_Develop_Backend_NewDiagram.Task = __Task__00000000_Develop_Backend
@@ -839,5 +921,6 @@ another line to Write Specs`
 	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Task = __Task__00000001_Dev_WBS_Tree
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Task = __Task__00000002_Dev_PBS_Tree
 	__TaskShape__00000018_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
+	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Task = __Task__00000007_Compute_Instance_Diff
 }
 

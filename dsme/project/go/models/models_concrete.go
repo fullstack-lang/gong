@@ -1,6 +1,10 @@
 package models
 
-import "math/rand"
+import (
+	"math/rand"
+
+	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+)
 
 type Diagram struct {
 	Name           string
@@ -49,6 +53,14 @@ type Diagram struct {
 
 	NoteTaskShapes         []*NoteTaskShape
 	map_Note_NoteTaskShape map[noteTaskKey]*NoteTaskShape
+
+	map_Product_Rect map[*Product]*svg.Rect
+	map_Task_Rect    map[*Task]*svg.Rect
+	map_Note_Rect    map[*Note]*svg.Rect
+
+	map_SvgRect_ProductShape map[*svg.Rect]*ProductShape
+	map_SvgRect_TaskShape    map[*svg.Rect]*TaskShape
+	map_SvgRect_NoteShape    map[*svg.Rect]*NoteShape
 }
 
 func (d *Diagram) IsEditable() bool {
