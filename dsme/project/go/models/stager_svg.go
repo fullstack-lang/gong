@@ -9,10 +9,6 @@ import (
 func (stager *Stager) svg() {
 	stager.svgStage.Reset()
 
-	map_Product_Rect := make(map[*Product]*svg.Rect)
-	map_Task_Rect := make(map[*Task]*svg.Rect)
-	map_Note_Rect := make(map[*Note]*svg.Rect)
-
 	svgStage := stager.svgStage
 	svgObject := (&svg.SVG{Name: `SVG`})
 
@@ -30,13 +26,19 @@ func (stager *Stager) svg() {
 		return
 	}
 
-	// To be implemented when drawing compositions between Products
-	// svgImpl := &svgProxy{
-	// 	stager:                   stager,
-	// 	diagram:                  diagram,
-	// 	map_SvgRect_ProductShape: make(map[*svg.Rect]*ProductShape),
-	// }
-	// svgObject.Impl = svgImpl
+	diagram.map_Product_Rect = make(map[*Product]*svg.Rect)
+	diagram.map_Task_Rect = make(map[*Task]*svg.Rect)
+	diagram.map_Note_Rect = make(map[*Note]*svg.Rect)
+	diagram.map_SvgRect_ProductShape = make(map[*svg.Rect]*ProductShape)
+	diagram.map_SvgRect_TaskShape = make(map[*svg.Rect]*TaskShape)
+	diagram.map_SvgRect_NoteShape = make(map[*svg.Rect]*NoteShape)
+
+	// to implement association between abstract elements by mouse drag
+	svgImpl := &svgProxy{
+		stager:  stager,
+		diagram: diagram,
+	}
+	svgObject.Impl = svgImpl
 
 	svgObject.Name = diagram.Name
 	svgObject.IsEditable = diagram.IsEditable()
@@ -51,7 +53,8 @@ func (stager *Stager) svg() {
 			productShape,
 			layer)
 		rect.RX = 3
-		map_Product_Rect[productShape.Product] = rect
+		diagram.map_Product_Rect[productShape.Product] = rect
+		diagram.map_SvgRect_ProductShape[rect] = productShape
 	}
 
 	for _, productCompositionShape := range diagram.ProductComposition_Shapes {
@@ -63,8 +66,8 @@ func (stager *Stager) svg() {
 			log.Panic("There should be a subProduct and a parentProduct")
 		}
 
-		startRect := map_Product_Rect[parentProduct]
-		endRect := map_Product_Rect[subProduct]
+		startRect := diagram.map_Product_Rect[parentProduct]
+		endRect := diagram.map_Product_Rect[subProduct]
 
 		svgAssociationLink(
 			stager,
@@ -77,11 +80,13 @@ func (stager *Stager) svg() {
 	}
 
 	for _, taskShape := range diagram.Task_Shapes {
-		map_Task_Rect[taskShape.Task] = svgRect(
+		rect := svgRect(
 			stager,
 			diagram,
 			taskShape,
 			layer)
+		diagram.map_Task_Rect[taskShape.Task] = rect
+		diagram.map_SvgRect_TaskShape[rect] = taskShape
 	}
 
 	for _, taskCompositionShape := range diagram.TaskComposition_Shapes {
@@ -93,8 +98,8 @@ func (stager *Stager) svg() {
 			log.Panic("There should be a subTask and a parentTask")
 		}
 
-		startRect := map_Task_Rect[parentTask]
-		endRect := map_Task_Rect[subTask]
+		startRect := diagram.map_Task_Rect[parentTask]
+		endRect := diagram.map_Task_Rect[subTask]
 
 		svgAssociationLink(
 			stager,
@@ -113,8 +118,8 @@ func (stager *Stager) svg() {
 			log.Panic("There should be a task and a product")
 		}
 
-		startRect := map_Product_Rect[product]
-		endRect := map_Task_Rect[task]
+		startRect := diagram.map_Product_Rect[product]
+		endRect := diagram.map_Task_Rect[task]
 
 		svgAssociationLink(
 			stager,
@@ -134,8 +139,8 @@ func (stager *Stager) svg() {
 			log.Panic("There should be a task and a product")
 		}
 
-		startRect := map_Task_Rect[task]
-		endRect := map_Product_Rect[product]
+		startRect := diagram.map_Task_Rect[task]
+		endRect := diagram.map_Product_Rect[product]
 
 		svgAssociationLink(
 			stager,
@@ -160,7 +165,8 @@ func (stager *Stager) svg() {
 			noteShape,
 			layer)
 		rect.RX = 6
-		map_Note_Rect[note] = rect
+		diagram.map_Note_Rect[note] = rect
+		diagram.map_SvgRect_NoteShape[rect] = noteShape
 
 		penLogo := new(svg.RectAnchoredPath)
 		penLogo.Stroke = svg.Black.ToString()
@@ -181,8 +187,8 @@ func (stager *Stager) svg() {
 		note := noteProductShape.Note
 		product := noteProductShape.Product
 
-		startRect := map_Note_Rect[note]
-		endRect := map_Product_Rect[product]
+		startRect := diagram.map_Note_Rect[note]
+		endRect := diagram.map_Product_Rect[product]
 
 		link := svgAssociationLink(
 			stager,
@@ -201,8 +207,8 @@ func (stager *Stager) svg() {
 	for _, noteTaskShape := range diagram.NoteTaskShapes {
 		note := noteTaskShape.Note
 		task := noteTaskShape.Task
-		startRect := map_Note_Rect[note]
-		endRect := map_Task_Rect[task]
+		startRect := diagram.map_Note_Rect[note]
+		endRect := diagram.map_Task_Rect[task]
 
 		link := svgAssociationLink(
 			stager,

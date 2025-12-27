@@ -31,10 +31,22 @@ func OnAddAssociationShape[
 	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := newConcreteAssociation(start, end, shapes)
-		compositionShape.StageVoid(stager.stage)
-		stager.stage.Commit()
+		addShapeToDiagram(stager, start, end, shapes)
 	}
+}
+
+func addShapeToDiagram[
+	ATstart AbstractType,
+	ATend AbstractType,
+	ACT interface {
+		*ACT_
+		LinkShapeInterface
+		AssociationConcreteType
+	},
+	ACT_ Gongstruct](stager *Stager, start ATstart, end ATend, shapes *[]ACT) {
+	compositionShape := newConcreteAssociation(start, end, shapes)
+	compositionShape.StageVoid(stager.stage)
+	stager.stage.Commit()
 }
 
 func newConcreteAssociation[
