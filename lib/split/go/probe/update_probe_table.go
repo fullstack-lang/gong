@@ -202,3 +202,48 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRo
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
 }
+
+func (probe *Probe) UpdateAndCommitNotificationTable() {
+	probe.notificationTableStage.Reset()
+
+	table := new(gongtable.Table)
+	table.Name = TableName
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+	table.HasCheckableRows = false
+	table.HasSaveButton = false
+
+	column := new(gongtable.DisplayedColumn)
+	column.Name = "Date"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	column = new(gongtable.DisplayedColumn)
+	column.Name = "Message"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	for _, notification := range probe.notification {
+		row := new(gongtable.Row)
+		table.Rows = append(table.Rows, row)
+
+		{
+			cell := new(gongtable.Cell)
+			cellString := new(gongtable.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Date.Format("2006-01-02 15:04:05")
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := new(gongtable.Cell)
+			cellString := new(gongtable.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Message
+			row.Cells = append(row.Cells, cell)
+		}
+	}
+
+	gongtable.StageBranch(probe.notificationTableStage, table)
+
+	probe.notificationTableStage.Commit()
+}
