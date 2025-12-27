@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -676,7 +681,7 @@ func (displayselection *DisplaySelection) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (displayselection *DisplaySelection) SetName(name string) (){
+func (displayselection *DisplaySelection) SetName(name string) {
 	displayselection.Name = name
 }
 
@@ -762,7 +767,7 @@ func (xlcell *XLCell) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlcell *XLCell) SetName(name string) (){
+func (xlcell *XLCell) SetName(name string) {
 	xlcell.Name = name
 }
 
@@ -848,7 +853,7 @@ func (xlfile *XLFile) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlfile *XLFile) SetName(name string) (){
+func (xlfile *XLFile) SetName(name string) {
 	xlfile.Name = name
 }
 
@@ -934,7 +939,7 @@ func (xlrow *XLRow) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlrow *XLRow) SetName(name string) (){
+func (xlrow *XLRow) SetName(name string) {
 	xlrow.Name = name
 }
 
@@ -1020,7 +1025,7 @@ func (xlsheet *XLSheet) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlsheet *XLSheet) SetName(name string) (){
+func (xlsheet *XLSheet) SetName(name string) {
 	xlsheet.Name = name
 }
 

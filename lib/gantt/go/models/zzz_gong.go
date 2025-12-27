@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -764,7 +769,7 @@ func (arrow *Arrow) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (arrow *Arrow) SetName(name string) (){
+func (arrow *Arrow) SetName(name string) {
 	arrow.Name = name
 }
 
@@ -850,7 +855,7 @@ func (bar *Bar) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (bar *Bar) SetName(name string) (){
+func (bar *Bar) SetName(name string) {
 	bar.Name = name
 }
 
@@ -936,7 +941,7 @@ func (gantt *Gantt) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gantt *Gantt) SetName(name string) (){
+func (gantt *Gantt) SetName(name string) {
 	gantt.Name = name
 }
 
@@ -1022,7 +1027,7 @@ func (group *Group) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (group *Group) SetName(name string) (){
+func (group *Group) SetName(name string) {
 	group.Name = name
 }
 
@@ -1108,7 +1113,7 @@ func (lane *Lane) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (lane *Lane) SetName(name string) (){
+func (lane *Lane) SetName(name string) {
 	lane.Name = name
 }
 
@@ -1194,7 +1199,7 @@ func (laneuse *LaneUse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (laneuse *LaneUse) SetName(name string) (){
+func (laneuse *LaneUse) SetName(name string) {
 	laneuse.Name = name
 }
 
@@ -1280,7 +1285,7 @@ func (milestone *Milestone) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (milestone *Milestone) SetName(name string) (){
+func (milestone *Milestone) SetName(name string) {
 	milestone.Name = name
 }
 

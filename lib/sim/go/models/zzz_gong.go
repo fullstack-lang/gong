@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -709,7 +714,7 @@ func (command *Command) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (command *Command) SetName(name string) (){
+func (command *Command) SetName(name string) {
 	command.Name = name
 }
 
@@ -795,7 +800,7 @@ func (dummyagent *DummyAgent) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (dummyagent *DummyAgent) SetName(name string) (){
+func (dummyagent *DummyAgent) SetName(name string) {
 	dummyagent.Name = name
 }
 
@@ -881,7 +886,7 @@ func (engine *Engine) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (engine *Engine) SetName(name string) (){
+func (engine *Engine) SetName(name string) {
 	engine.Name = name
 }
 
@@ -967,7 +972,7 @@ func (event *Event) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (event *Event) SetName(name string) (){
+func (event *Event) SetName(name string) {
 	event.Name = name
 }
 
@@ -1053,7 +1058,7 @@ func (status *Status) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (status *Status) SetName(name string) (){
+func (status *Status) SetName(name string) {
 	status.Name = name
 }
 
@@ -1139,7 +1144,7 @@ func (updatestate *UpdateState) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (updatestate *UpdateState) SetName(name string) (){
+func (updatestate *UpdateState) SetName(name string) {
 	updatestate.Name = name
 }
 
