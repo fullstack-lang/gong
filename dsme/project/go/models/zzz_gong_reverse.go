@@ -73,6 +73,22 @@ func (inst *NoteShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	return
 }
 
+func (inst *NoteTaskShape) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
+
+	res = ""
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NoteTaskShapes":
+				if _diagram, ok := stage.Diagram_NoteTaskShapes_reverseMap[inst]; ok {
+					res = _diagram.Name
+				}
+			}
+	}
+	return
+}
+
 func (inst *Product) GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) (res string) {
 
 	res = ""
@@ -203,6 +219,13 @@ func (inst *Task) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 			case "TasksWhoseOutputNodeIsExpanded":
 				if _diagram, ok := stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[inst]; ok {
 					res = _diagram.Name
+				}
+			}
+		case "Note":
+			switch reverseField.Fieldname {
+			case "Tasks":
+				if _note, ok := stage.Note_Tasks_reverseMap[inst]; ok {
+					res = _note.Name
 				}
 			}
 		case "Project":
@@ -357,6 +380,20 @@ func (inst *NoteShape) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	return res
 }
 
+func (inst *NoteTaskShape) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
+
+	res = nil
+	switch reverseField.GongstructName {
+	// insertion point
+		case "Diagram":
+			switch reverseField.Fieldname {
+			case "NoteTaskShapes":
+				res = stage.Diagram_NoteTaskShapes_reverseMap[inst]
+			}
+	}
+	return res
+}
+
 func (inst *Product) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
@@ -462,6 +499,11 @@ func (inst *Task) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 				res = stage.Diagram_TasksWhoseInputNodeIsExpanded_reverseMap[inst]
 			case "TasksWhoseOutputNodeIsExpanded":
 				res = stage.Diagram_TasksWhoseOutputNodeIsExpanded_reverseMap[inst]
+			}
+		case "Note":
+			switch reverseField.Fieldname {
+			case "Tasks":
+				res = stage.Note_Tasks_reverseMap[inst]
 			}
 		case "Project":
 			switch reverseField.Fieldname {

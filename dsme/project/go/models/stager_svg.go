@@ -198,6 +198,26 @@ func (stager *Stager) svg() {
 		link.HasEndArrow = false
 	}
 
+	for _, noteTaskShape := range diagram.NoteTaskShapes {
+		note := noteTaskShape.Note
+		task := noteTaskShape.Task
+		startRect := map_Note_Rect[note]
+		endRect := map_Task_Rect[task]
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteTaskShape,
+			note,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
+	}
+
 	svg.StageBranch(svgStage, svgObject)
 	stager.svgStage.Commit()
 }

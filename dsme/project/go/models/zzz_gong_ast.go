@@ -366,6 +366,7 @@ var __gong__map_Diagram = make(map[string]*Diagram)
 var __gong__map_Note = make(map[string]*Note)
 var __gong__map_NoteProductShape = make(map[string]*NoteProductShape)
 var __gong__map_NoteShape = make(map[string]*NoteShape)
+var __gong__map_NoteTaskShape = make(map[string]*NoteTaskShape)
 var __gong__map_Product = make(map[string]*Product)
 var __gong__map_ProductCompositionShape = make(map[string]*ProductCompositionShape)
 var __gong__map_ProductShape = make(map[string]*ProductShape)
@@ -608,6 +609,21 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 										}
 										instance = any(instanceNoteShape)
 										__gong__map_NoteShape[identifier] = instanceNoteShape
+									case "NoteTaskShape":
+										instanceNoteTaskShape := new(NoteTaskShape)
+										instanceNoteTaskShape.Name = instanceName
+										if !preserveOrder {
+											instanceNoteTaskShape.Stage(stage)
+										} else {
+											if newOrder, err := ExtractMiddleUint(identifier); err != nil {
+												log.Println("UnmarshallGongstructStaging: Problem with parsing identifer", identifier)
+												instanceNoteTaskShape.Stage(stage)
+											} else {
+												instanceNoteTaskShape.StagePreserveOrder(stage, newOrder)
+											}
+										}
+										instance = any(instanceNoteTaskShape)
+										__gong__map_NoteTaskShape[identifier] = instanceNoteTaskShape
 									case "Product":
 										instanceProduct := new(Product)
 										instanceProduct.Name = instanceName
@@ -808,6 +824,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 							// insertion point for date assign code
 							}
 						case "NoteShape":
+							switch fieldName {
+							// insertion point for date assign code
+							}
+						case "NoteTaskShape":
 							switch fieldName {
 							// insertion point for date assign code
 							}
@@ -1046,6 +1066,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
 								instanceWhoseFieldIsAppended.NoteProductShapes = append(instanceWhoseFieldIsAppended.NoteProductShapes, instanceToAppend)
 							}
+						case "NoteTaskShapes":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_NoteTaskShape[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Diagram[identifier]
+								instanceWhoseFieldIsAppended.NoteTaskShapes = append(instanceWhoseFieldIsAppended.NoteTaskShapes, instanceToAppend)
+							}
 						}
 					case "Note":
 						switch fieldName {
@@ -1060,12 +1090,26 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 								instanceWhoseFieldIsAppended := __gong__map_Note[identifier]
 								instanceWhoseFieldIsAppended.Products = append(instanceWhoseFieldIsAppended.Products, instanceToAppend)
 							}
+						case "Tasks":
+							// perform the append only when the loop is processing the second argument
+							if argNb == 0 {
+								break
+							}
+							identifierOfInstanceToAppend := ident.Name
+							if instanceToAppend, ok := __gong__map_Task[identifierOfInstanceToAppend]; ok {
+								instanceWhoseFieldIsAppended := __gong__map_Note[identifier]
+								instanceWhoseFieldIsAppended.Tasks = append(instanceWhoseFieldIsAppended.Tasks, instanceToAppend)
+							}
 						}
 					case "NoteProductShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
 					case "NoteShape":
+						switch fieldName {
+						// insertion point for slice of pointers assign code
+						}
+					case "NoteTaskShape":
 						switch fieldName {
 						// insertion point for slice of pointers assign code
 						}
@@ -1377,6 +1421,35 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_NoteShape[identifier].Height = exprSign * fielValue
+				}
+			case "NoteTaskShape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Name":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_NoteTaskShape[identifier].Name = fielValue
+				case "StartRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_NoteTaskShape[identifier].StartRatio = exprSign * fielValue
+				case "EndRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_NoteTaskShape[identifier].EndRatio = exprSign * fielValue
+				case "CornerOffsetRatio":
+					// convert string to float64
+					fielValue, err := strconv.ParseFloat(basicLit.Value, 64)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_NoteTaskShape[identifier].CornerOffsetRatio = exprSign * fielValue
 				}
 			case "Product":
 				switch fieldName {
@@ -1727,6 +1800,16 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					}
 					__gong__map_NoteShape[identifier].IsExpanded = fielValue
 				}
+			case "NoteTaskShape":
+				switch fieldName {
+				// insertion point for field dependant code
+				case "Note":
+					targetIdentifier := ident.Name
+					__gong__map_NoteTaskShape[identifier].Note = __gong__map_Note[targetIdentifier]
+				case "Task":
+					targetIdentifier := ident.Name
+					__gong__map_NoteTaskShape[identifier].Task = __gong__map_Task[targetIdentifier]
+				}
 			case "Product":
 				switch fieldName {
 				// insertion point for field dependant code
@@ -1969,6 +2052,24 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "NoteShape":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					}
+				case "NoteTaskShape":
+					switch fieldName {
+					// insertion point for selector expr assign code
+					case "StartOrientation":
+						var val OrientationType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_NoteTaskShape[identifier].StartOrientation = OrientationType(val)
+					case "EndOrientation":
+						var val OrientationType
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_NoteTaskShape[identifier].EndOrientation = OrientationType(val)
 					}
 				case "Product":
 					switch fieldName {
