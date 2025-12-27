@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -588,7 +593,7 @@ func (freqency *Freqency) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (freqency *Freqency) SetName(name string) (){
+func (freqency *Freqency) SetName(name string) {
 	freqency.Name = name
 }
 
@@ -674,7 +679,7 @@ func (note *Note) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (note *Note) SetName(name string) (){
+func (note *Note) SetName(name string) {
 	note.Name = name
 }
 
@@ -760,7 +765,7 @@ func (player *Player) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (player *Player) SetName(name string) (){
+func (player *Player) SetName(name string) {
 	player.Name = name
 }
 

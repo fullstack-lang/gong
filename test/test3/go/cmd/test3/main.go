@@ -4,10 +4,12 @@ import (
 	"flag"
 	"log"
 	"strconv"
+	"time"
 
 	// insertion point for models import
 	test3_level1stack "github.com/fullstack-lang/gong/test/test3/go/level1stack"
 	test3_models "github.com/fullstack-lang/gong/test/test3/go/models"
+	"github.com/fullstack-lang/gong/test/test3/go/probe"
 
 	// static
 
@@ -42,6 +44,29 @@ func main() {
 	splitStage := split_stack.NewStack(stack.R, "", "", "", "", false, false).Stage
 
 	test3_models.NewStager(stack.R, stack.Stage, splitStage)
+
+	stack.Probe.AddNotification(probe.Notification{
+		Date: time.Now(),
+		Message: `La rue assourdissante autour de moi hurlait.
+Longue, mince, en grand deuil, douleur majestueuse,
+Une femme passa, d’une main fastueuse
+Soulevant, balançant le feston et l’ourlet;
+
+Agile et noble, avec sa jambe de statue.
+Moi, je buvais, crispé comme un extravagant,
+Dans son oeil, ciel livide où germe l’ouragan,
+La douceur qui fascine et le plaisir qui tue.
+
+Un éclair… puis la nuit! – Fugitive beauté
+Dont le regard m’a fait soudainement renaître,
+Ne te verrai-je plus que dans l’éternité?
+
+Ailleurs, bien loin d’ici! trop tard! jamais peut-être!
+Car j’ignore où tu fuis, tu ne sais où je vais,
+O toi que j’eusse aimée, ô toi qui le savais!`,
+	})
+
+	stack.Probe.UpdateAndCommitNotificationTable()
 
 	log.Println("Server ready serve on localhost:" + strconv.Itoa(*port))
 	err := stack.R.Run(":" + strconv.Itoa(*port))

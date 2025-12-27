@@ -35,10 +35,9 @@ func updateAndCommitTree(
 	// create tree
 	sidebar := &tree.Tree{Name: "Sidebar"}
 
-	nodeRefreshButton := &tree.Node{Name: fmt.Sprintf("Stage %s",
-		probe.stageOfInterest.GetName())}
+	topNode := &tree.Node{Name: fmt.Sprintf("Stage %s", probe.stageOfInterest.GetName())}
 
-	sidebar.RootNodes = append(sidebar.RootNodes, nodeRefreshButton)
+	sidebar.RootNodes = append(sidebar.RootNodes, topNode)
 	refreshButton := &tree.Button{
 		Name:            "RefreshButton" + " " + string(gongtree_buttons.BUTTON_refresh),
 		Icon:            string(gongtree_buttons.BUTTON_refresh),
@@ -46,9 +45,51 @@ func updateAndCommitTree(
 		ToolTipText:     "Refresh probe",
 		ToolTipPosition: tree.Left,
 	}
+	topNode.Buttons = append(topNode.Buttons, refreshButton)
+	refreshButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button) {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Refresh()
+		},
+	}
 
-	nodeRefreshButton.Buttons = append(nodeRefreshButton.Buttons, refreshButton)
-	refreshButton.Impl = NewButtonImplRefresh(probe)
+	notificationButton := &tree.Button{
+		Name:            "NotificationButton",
+		Icon:            string(gongtree_buttons.BUTTON_notifications),
+		HasToolTip:      true,
+		ToolTipText:     "Update notification probe",
+		ToolTipPosition: tree.Left,
+	}
+	topNode.Buttons = append(topNode.Buttons, notificationButton)
+	notificationButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button) {
+			probe.stageOfInterest.ComputeInstancesNb()
+			probe.docStager.SetMap_GongStructName_InstancesNb(
+				probe.stageOfInterest.Map_GongStructName_InstancesNb,
+			)
+			probe.Notification()
+		},
+	}
+
+	notificationsResetButton := &tree.Button{
+		Name:            "NotificationsResetButton",
+		Icon:            string(gongtree_buttons.BUTTON_reset_tv),
+		HasToolTip:      true,
+		ToolTipText:     "Reset notification table",
+		ToolTipPosition: tree.Left,
+	}
+	topNode.Buttons = append(topNode.Buttons, notificationsResetButton)
+	notificationsResetButton.Impl = &tree.FunctionalButtonProxy{
+		OnUpdated: func(stage *tree.Stage,
+			stagedButton, frontButton *tree.Button) {
+			probe.ResetNotifications()
+		},
+	}
 
 	// collect all gong struct to construe the true
 	setOfGongStructs := *gong_models.GetGongstructInstancesSetFromPointerType[*gong_models.GongStruct](probe.gongStage)
@@ -284,11 +325,15 @@ func updateAndCommitTree(
 			ToolTipPosition: tree.Right,
 		}
 		nodeGongstruct.Buttons = append(nodeGongstruct.Buttons, addButton)
-		addButton.Impl = NewButtonImplGongstruct(
-			gongStruct,
-			gongtree_buttons.BUTTON_add,
-			probe,
-		)
+		addButton.Impl = &tree.FunctionalButtonProxy{
+			OnUpdated: func(stage *tree.Stage, stagedButton, frontButton *tree.Button) {
+				FillUpFormFromGongstructName(
+					probe,
+					gongStruct.Name,
+					true,
+				)
+			},
+		}
 
 		sidebar.RootNodes = append(sidebar.RootNodes, nodeGongstruct)
 	}
