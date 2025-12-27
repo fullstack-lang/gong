@@ -167,7 +167,7 @@ func (stager *Stager) svg() {
 		penLogo.ScalePropotionnally = true
 		penLogo.AppliedScaling = 1
 
-		penLogo.Definition = "M 12 43 L 7 38 L 33 12 L 42 8 L 38 17 Z"
+		penLogo.Definition = "M 5 16 L 9 20 L 20 9 L 25 0 L 16 5 Z"
 		penLogo.X_Offset = 0
 		penLogo.Y_Offset = -45
 		penLogo.RectAnchorType = svg.RECT_LEFT
