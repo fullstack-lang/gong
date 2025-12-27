@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -547,7 +552,7 @@ func (a *A) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (a *A) SetName(name string) (){
+func (a *A) SetName(name string) {
 	a.Name = name
 }
 
@@ -633,7 +638,7 @@ func (b *B) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (b *B) SetName(name string) (){
+func (b *B) SetName(name string) {
 	b.Name = name
 }
 
@@ -1138,4 +1143,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template
