@@ -207,7 +207,7 @@ func ({{structname}} *{{Structname}}) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func ({{structname}} *{{Structname}}) SetName(name string) (){
+func ({{structname}} *{{Structname}}) SetName(name string) {
 	{{structname}}.Name = name
 }
 `,
