@@ -64,6 +64,32 @@ func (stager *Stager) tree() {
 			stager.treeWBSRecursive(task, wbsNode)
 		}
 
+		notesNode := &tree.Node{
+			Name:            "Notes",
+			FontStyle:       tree.ITALIC,
+			IsExpanded:      project.IsNotesNodeExpanded,
+			IsNodeClickable: true,
+		}
+		projectNode.Children = append(projectNode.Children, notesNode)
+		notesNode.Impl = &tree.FunctionalNodeProxy{
+			OnUpdate: stager.OnUpdateExpansion(&project.IsNotesNodeExpanded),
+		}
+
+		addAddItemButton(stager, notesNode, &project.Notes)
+
+		for _, note := range project.Notes {
+			noteNode := &tree.Node{
+				Name:            note.Name,
+				IsNodeClickable: true,
+			}
+			notesNode.Children = append(notesNode.Children, noteNode)
+			noteNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: func(stage *tree.Stage, stagedNode, frontNode *tree.Node) {
+					stager.probeForm.FillUpFormFromGongstruct(note, GetPointerToGongstructName[*Note]())
+				},
+			}
+		}
+
 		diagramsNode := &tree.Node{
 			Name:            "Diagrams",
 			FontStyle:       tree.ITALIC,
@@ -203,7 +229,51 @@ func (stager *Stager) tree() {
 				stager.treeWBSinDiagram(diagram, task, wbsNode)
 			}
 
+			notesNode := &tree.Node{
+				Name:            "Notes",
+				FontStyle:       tree.ITALIC,
+				IsExpanded:      project.IsNotesNodeExpanded,
+				IsNodeClickable: true,
+			}
+			diagramNode.Children = append(diagramNode.Children, notesNode)
+			notesNode.Impl = &tree.FunctionalNodeProxy{
+				OnUpdate: stager.OnUpdateExpansion(&project.IsNotesNodeExpanded),
+			}
+
+			addAddItemButton(stager, notesNode, &project.Notes)
+
+			for _, note := range project.Notes {
+				noteNode := &tree.Node{
+					Name:            note.Name,
+					IsNodeClickable: true,
+
+					HasCheckboxButton:  true,
+					IsCheckboxDisabled: !diagram.IsChecked,
+
+					HasToolTip:      true,
+					ToolTipPosition: tree.Above,
+					ToolTipText:     "Add note to diagram",
+				}
+				notesNode.Children = append(notesNode.Children, noteNode)
+
+				if _, ok := diagram.map_Note_NoteShape[note]; ok {
+					noteNode.IsChecked = true
+				}
+
+				// what to do when the note node is clicked
+				noteNode.Impl = &tree.FunctionalNodeProxy{
+					OnUpdate: OnUpdateElementInDiagram(
+						stager,
+						diagram,
+						note,
+						&diagram.NotesWhoseNodeIsExpanded,
+						&diagram.Note_Shapes,
+						&diagram.map_Note_NoteShape),
+				}
+			}
+
 		}
+
 	}
 
 	if len(root.OrphanedProducts) > 0 {
