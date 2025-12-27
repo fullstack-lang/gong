@@ -26,3 +26,17 @@ func (cellIcon *CellIcon) OnAfterUpdate(stage *Stage, stagedInstance, frontCellI
 		cellIcon.Impl.CellIconUpdated(stage, cellIcon, frontCellIcon)
 	}
 }
+
+type CellIconUpdatedFunc func(stage *Stage, cellIcon *CellIcon, updatedCellIcon *CellIcon)
+
+// Generic Proxy that implements models.CellImplInterface
+type FunctionalCellIconProxy struct {
+	OnUpdated CellIconUpdatedFunc
+}
+
+// Implement the interface method
+func (p *FunctionalCellIconProxy) CellIconUpdated(stage *Stage, cellIcon *CellIcon, updatedCellIcon *CellIcon) {
+	if p.OnUpdated != nil {
+		p.OnUpdated(stage, cellIcon, updatedCellIcon)
+	}
+}
