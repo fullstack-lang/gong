@@ -67,6 +67,32 @@ func (from *Note) CopyBasicFields(to *Note) {
 	to.IsExpanded = from.IsExpanded
 }
 
+type NoteProductShape_WOP struct {
+	// insertion point
+
+	Name string
+
+	StartRatio float64
+
+	EndRatio float64
+
+	StartOrientation OrientationType
+
+	EndOrientation OrientationType
+
+	CornerOffsetRatio float64
+}
+
+func (from *NoteProductShape) CopyBasicFields(to *NoteProductShape) {
+	// insertion point
+	to.Name = from.Name
+	to.StartRatio = from.StartRatio
+	to.EndRatio = from.EndRatio
+	to.StartOrientation = from.StartOrientation
+	to.EndOrientation = from.EndOrientation
+	to.CornerOffsetRatio = from.CornerOffsetRatio
+}
+
 type NoteShape_WOP struct {
 	// insertion point
 

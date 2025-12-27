@@ -131,12 +131,12 @@ func svgAssociationLink[AT AbstractType,
 	productOfInterest AT,
 	layer *svg.Layer,
 	isDashed bool,
-) {
+) (link *svg.Link) {
 	if startRect == nil || endRect == nil {
 		return
 	}
 
-	link := new(svg.Link)
+	link = new(svg.Link)
 
 	link.Name = startRect.Name + " to " + endRect.Name
 	link.Stroke = svg.Black.ToString()
@@ -185,4 +185,6 @@ func svgAssociationLink[AT AbstractType,
 	}
 
 	layer.Links = append(layer.Links, link)
+
+	return
 }

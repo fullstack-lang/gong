@@ -11,6 +11,7 @@ func (stager *Stager) svg() {
 
 	map_Product_Rect := make(map[*Product]*svg.Rect)
 	map_Task_Rect := make(map[*Task]*svg.Rect)
+	map_Note_Rect := make(map[*Note]*svg.Rect)
 
 	svgStage := stager.svgStage
 	svgObject := (&svg.SVG{Name: `SVG`})
@@ -159,6 +160,7 @@ func (stager *Stager) svg() {
 			noteShape,
 			layer)
 		rect.RX = 6
+		map_Note_Rect[note] = rect
 
 		penLogo := new(svg.RectAnchoredPath)
 		penLogo.Stroke = svg.Black.ToString()
@@ -173,6 +175,27 @@ func (stager *Stager) svg() {
 		penLogo.RectAnchorType = svg.RECT_LEFT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
 		_ = rect
+	}
+
+	for _, noteProductShape := range diagram.NoteProductShapes {
+		note := noteProductShape.Note
+		product := noteProductShape.Product
+
+		startRect := map_Note_Rect[note]
+		endRect := map_Product_Rect[product]
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteProductShape,
+			note,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
 	}
 
 	svg.StageBranch(svgStage, svgObject)

@@ -43,6 +43,7 @@ func (diagram *Diagram) GongClean(stage *Stage) {
 	diagram.TaskOutputShapes = GongCleanSlice(stage, diagram.TaskOutputShapes)
 	diagram.Note_Shapes = GongCleanSlice(stage, diagram.Note_Shapes)
 	diagram.NotesWhoseNodeIsExpanded = GongCleanSlice(stage, diagram.NotesWhoseNodeIsExpanded)
+	diagram.NoteProductShapes = GongCleanSlice(stage, diagram.NoteProductShapes)
 	// insertion point per field
 }
 
@@ -51,6 +52,14 @@ func (note *Note) GongClean(stage *Stage) {
 	// insertion point per field
 	note.Products = GongCleanSlice(stage, note.Products)
 	// insertion point per field
+}
+
+// Clean garbage collect unstaged instances that are referenced by NoteProductShape
+func (noteproductshape *NoteProductShape) GongClean(stage *Stage) {
+	// insertion point per field
+	// insertion point per field
+	noteproductshape.Note = GongCleanPointer(stage, noteproductshape.Note)
+	noteproductshape.Product = GongCleanPointer(stage, noteproductshape.Product)
 }
 
 // Clean garbage collect unstaged instances that are referenced by NoteShape
