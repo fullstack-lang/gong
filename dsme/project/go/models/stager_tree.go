@@ -407,6 +407,8 @@ func addAddItemButton[T Gongstruct, PT interface {
 				diagram.IsEditable_ = true
 			}
 
+			stager.probeForm.FillUpFormFromGongstruct(item, GetPointerToGongstructName[PT]())
+
 			stager.stage.Commit()
 		},
 	}
