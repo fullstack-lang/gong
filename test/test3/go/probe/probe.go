@@ -3,6 +3,7 @@ package probe
 
 import (
 	"embed"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -40,6 +41,8 @@ type Probe struct {
 	diagramEditor *split.AsSplitArea
 
 	docStager *doc.Stager
+
+	notification []*Notification
 }
 
 func NewProbe(
@@ -122,7 +125,7 @@ func NewProbe(
 					AsSplitAreas: []*split.AsSplitArea{
 						{
 							Name: "table",
-							Size: 80,
+							Size: 50,
 							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.tableStage.GetName(),
@@ -130,7 +133,7 @@ func NewProbe(
 						},
 						{
 							Name: "notification table",
-							Size: 20,
+							Size: 50,
 							Table: &split.Table{
 								Name:      "Table",
 								StackName: probe.notificationTableStage.GetName(),
@@ -174,6 +177,17 @@ func (probe *Probe) Refresh() {
 }
 
 func (probe *Probe) Notification() {
+	probe.UpdateAndCommitNotificationTable()
+}
+
+func (probe *Probe) AddNotification(notification Notification) {
+	probe.notification = append(probe.notification, &notification)
+	probe.UpdateAndCommitNotificationTable()
+}
+
+func (probe *Probe) ResetNotifications() {
+	probe.notification = make([]*Notification, 0)
+	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {
@@ -190,4 +204,9 @@ func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
 
 func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
 	FillUpFormFromGongstruct(instance, probe)
+}
+
+type Notification struct {
+	Date    time.Time
+	Message string
 }
