@@ -24,13 +24,18 @@ func _(stage *models.Stage) {
 	// Declaration of instances to stage
 
 	__Diagram__00000042_NewDiagram := (&models.Diagram{}).Stage(stage)
-	__Diagram__00000056_NewDiagram := (&models.Diagram{}).Stage(stage)
 	__Diagram__00000057_NewDiagram := (&models.Diagram{}).Stage(stage)
+	__Diagram__00000058_NewDiagram := (&models.Diagram{}).Stage(stage)
 
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line := (&models.Note{}).Stage(stage)
 	__Note__00000001_Second_Note := (&models.Note{}).Stage(stage)
 
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications := (&models.NoteProductShape{}).Stage(stage)
+
 	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram := (&models.NoteShape{}).Stage(stage)
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram := (&models.NoteShape{}).Stage(stage)
+
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs := (&models.NoteTaskShape{}).Stage(stage)
 
 	__Product__00000000_UX := (&models.Product{}).Stage(stage)
 	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
@@ -80,6 +85,7 @@ func _(stage *models.Stage) {
 	__ProductShape__00000462_Backend_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000463_Semantic_Enforcer_NewDiagram := (&models.ProductShape{}).Stage(stage)
 	__ProductShape__00000464_Docx_Backend_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__ProductShape__00000465_Specifications_NewDiagram := (&models.ProductShape{}).Stage(stage)
 
 	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
 	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
@@ -109,6 +115,7 @@ func _(stage *models.Stage) {
 	__TaskShape__00000015_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
+	__TaskShape__00000018_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
 
 	// Setup of values
 
@@ -125,31 +132,31 @@ func _(stage *models.Stage) {
 	__Diagram__00000042_NewDiagram.IsWBSNodeExpanded = true
 	__Diagram__00000042_NewDiagram.IsNotesNodeExpanded = false
 
-	__Diagram__00000056_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000056_NewDiagram.IsChecked = false
-	__Diagram__00000056_NewDiagram.IsEditable_ = true
-	__Diagram__00000056_NewDiagram.IsInRenameMode = false
-	__Diagram__00000056_NewDiagram.ShowPrefix = false
-	__Diagram__00000056_NewDiagram.DefaultBoxWidth = 250.000000
-	__Diagram__00000056_NewDiagram.DefaultBoxHeigth = 100.000000
-	__Diagram__00000056_NewDiagram.IsExpanded = false
-	__Diagram__00000056_NewDiagram.ComputedPrefix = ``
-	__Diagram__00000056_NewDiagram.IsPBSNodeExpanded = false
-	__Diagram__00000056_NewDiagram.IsWBSNodeExpanded = false
-	__Diagram__00000056_NewDiagram.IsNotesNodeExpanded = false
-
 	__Diagram__00000057_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000057_NewDiagram.IsChecked = true
+	__Diagram__00000057_NewDiagram.IsChecked = false
 	__Diagram__00000057_NewDiagram.IsEditable_ = true
 	__Diagram__00000057_NewDiagram.IsInRenameMode = false
 	__Diagram__00000057_NewDiagram.ShowPrefix = false
 	__Diagram__00000057_NewDiagram.DefaultBoxWidth = 150.000000
 	__Diagram__00000057_NewDiagram.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_NewDiagram.IsExpanded = true
+	__Diagram__00000057_NewDiagram.IsExpanded = false
 	__Diagram__00000057_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000057_NewDiagram.IsPBSNodeExpanded = true
 	__Diagram__00000057_NewDiagram.IsWBSNodeExpanded = false
 	__Diagram__00000057_NewDiagram.IsNotesNodeExpanded = false
+
+	__Diagram__00000058_NewDiagram.Name = `NewDiagram`
+	__Diagram__00000058_NewDiagram.IsChecked = true
+	__Diagram__00000058_NewDiagram.IsEditable_ = true
+	__Diagram__00000058_NewDiagram.IsInRenameMode = false
+	__Diagram__00000058_NewDiagram.ShowPrefix = false
+	__Diagram__00000058_NewDiagram.DefaultBoxWidth = 250.000000
+	__Diagram__00000058_NewDiagram.DefaultBoxHeigth = 100.000000
+	__Diagram__00000058_NewDiagram.IsExpanded = true
+	__Diagram__00000058_NewDiagram.ComputedPrefix = ``
+	__Diagram__00000058_NewDiagram.IsPBSNodeExpanded = false
+	__Diagram__00000058_NewDiagram.IsWBSNodeExpanded = true
+	__Diagram__00000058_NewDiagram.IsNotesNodeExpanded = false
 
 	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Name = `This is an example to explain a particular product
 
@@ -161,16 +168,49 @@ another line`
 	__Note__00000001_Second_Note.Name = `Second Note`
 	__Note__00000001_Second_Note.IsExpanded = false
 
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Name = `This is an example to explain a particular product
+
+This has lot of lines of explaining
+
+another line to Specifications`
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.StartRatio = 0.500000
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.EndRatio = 0.500000
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.CornerOffsetRatio = 1.680000
+
 	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
 
 another line-NewDiagram`
 	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.IsExpanded = false
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.X = 532.108494
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Y = 133.407017
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Width = 334.000000
+	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.X = 421.108494
+	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Y = 147.407017
+	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Width = 394.000000
 	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Height = 87.000000
+
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Name = `This is an example to explain a particular product
+
+This has lot of lines of explaining
+
+another line-NewDiagram`
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.IsExpanded = false
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.X = 593.993664
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Y = 146.586415
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Width = 406.000000
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Height = 100.000000
+
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Name = `This is an example to explain a particular product
+
+This has lot of lines of explaining
+
+another line to Write Specs`
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.StartRatio = 0.500000
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.EndRatio = 0.500000
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.CornerOffsetRatio = 1.680000
 
 	__Product__00000000_UX.Name = `UX`
 	__Product__00000000_UX.IsExpanded = true
@@ -477,6 +517,13 @@ another line-NewDiagram`
 	__ProductShape__00000464_Docx_Backend_NewDiagram.Width = 150.000000
 	__ProductShape__00000464_Docx_Backend_NewDiagram.Height = 70.000000
 
+	__ProductShape__00000465_Specifications_NewDiagram.Name = `Specifications-NewDiagram`
+	__ProductShape__00000465_Specifications_NewDiagram.IsExpanded = false
+	__ProductShape__00000465_Specifications_NewDiagram.X = 464.316495
+	__ProductShape__00000465_Specifications_NewDiagram.Y = 455.964161
+	__ProductShape__00000465_Specifications_NewDiagram.Width = 250.000000
+	__ProductShape__00000465_Specifications_NewDiagram.Height = 100.000000
+
 	__Project__00000000_Project_Editor.Name = `Project Editor`
 	__Project__00000000_Project_Editor.IsPBSNodeExpanded = false
 	__Project__00000000_Project_Editor.IsWBSNodeExpanded = false
@@ -622,6 +669,13 @@ another line-NewDiagram`
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Width = 150.000000
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Height = 70.000000
 
+	__TaskShape__00000018_Write_Specs_NewDiagram.Name = `Write Specs-NewDiagram`
+	__TaskShape__00000018_Write_Specs_NewDiagram.IsExpanded = false
+	__TaskShape__00000018_Write_Specs_NewDiagram.X = 110.625134
+	__TaskShape__00000018_Write_Specs_NewDiagram.Y = 239.889513
+	__TaskShape__00000018_Write_Specs_NewDiagram.Width = 250.000000
+	__TaskShape__00000018_Write_Specs_NewDiagram.Height = 100.000000
+
 	// Setup of pointers
 	// setup of Diagram instances pointers
 	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000330_Product_1_NewDiagram)
@@ -674,9 +728,24 @@ another line-NewDiagram`
 	__Diagram__00000057_NewDiagram.TaskOutputShapes = append(__Diagram__00000057_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000060_Dev_UXx_to_PBS_tree)
 	__Diagram__00000057_NewDiagram.TaskOutputShapes = append(__Diagram__00000057_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000061_Dev_UXx_to_views)
 	__Diagram__00000057_NewDiagram.Note_Shapes = append(__Diagram__00000057_NewDiagram.Note_Shapes, __NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram)
+	__Diagram__00000058_NewDiagram.Product_Shapes = append(__Diagram__00000058_NewDiagram.Product_Shapes, __ProductShape__00000465_Specifications_NewDiagram)
+	__Diagram__00000058_NewDiagram.Task_Shapes = append(__Diagram__00000058_NewDiagram.Task_Shapes, __TaskShape__00000018_Write_Specs_NewDiagram)
+	__Diagram__00000058_NewDiagram.Note_Shapes = append(__Diagram__00000058_NewDiagram.Note_Shapes, __NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram)
+	__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded = append(__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded, __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line)
+	__Diagram__00000058_NewDiagram.NoteProductShapes = append(__Diagram__00000058_NewDiagram.NoteProductShapes, __NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications)
+	__Diagram__00000058_NewDiagram.NoteTaskShapes = append(__Diagram__00000058_NewDiagram.NoteTaskShapes, __NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs)
 	// setup of Note instances pointers
+	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products, __Product__00000010_Specifications)
+	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks, __Task__00000006_Write_Specs)
+	// setup of NoteProductShape instances pointers
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
+	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Product = __Product__00000010_Specifications
 	// setup of NoteShape instances pointers
 	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
+	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
+	// setup of NoteTaskShape instances pointers
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
+	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Task = __Task__00000006_Write_Specs
 	// setup of Product instances pointers
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
 	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
@@ -721,6 +790,7 @@ another line-NewDiagram`
 	__ProductShape__00000462_Backend_NewDiagram.Product = __Product__00000001_Backend
 	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Product = __Product__00000006_Semantic_Enforcer
 	__ProductShape__00000464_Docx_Backend_NewDiagram.Product = __Product__00000009_Docx_Backend
+	__ProductShape__00000465_Specifications_NewDiagram.Product = __Product__00000010_Specifications
 	// setup of Project instances pointers
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000010_Specifications)
 	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
@@ -730,7 +800,7 @@ another line-NewDiagram`
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_Dev_WBS_Tree)
 	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_Dev_PBS_Tree)
 	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000057_NewDiagram)
-	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000056_NewDiagram)
+	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000058_NewDiagram)
 	__Project__00000000_Project_Editor.Notes = append(__Project__00000000_Project_Editor.Notes, __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line)
 	__Project__00000000_Project_Editor.Notes = append(__Project__00000000_Project_Editor.Notes, __Note__00000001_Second_Note)
 	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000011_Product_1)
@@ -768,5 +838,6 @@ another line-NewDiagram`
 	__TaskShape__00000015_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
 	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Task = __Task__00000001_Dev_WBS_Tree
 	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Task = __Task__00000002_Dev_PBS_Tree
+	__TaskShape__00000018_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
 }
 

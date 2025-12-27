@@ -91,6 +91,20 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Diagram_NotesWhoseNodeIsExpanded_reverseMap[_note] = diagram
 		}
 	}
+	stage.Diagram_NoteProductShapes_reverseMap = make(map[*NoteProductShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _noteproductshape := range diagram.NoteProductShapes {
+			stage.Diagram_NoteProductShapes_reverseMap[_noteproductshape] = diagram
+		}
+	}
+	stage.Diagram_NoteTaskShapes_reverseMap = make(map[*NoteTaskShape]*Diagram)
+	for diagram := range stage.Diagrams {
+		_ = diagram
+		for _, _notetaskshape := range diagram.NoteTaskShapes {
+			stage.Diagram_NoteTaskShapes_reverseMap[_notetaskshape] = diagram
+		}
+	}
 
 	// Compute reverse map for named struct Note
 	// insertion point per field
@@ -101,8 +115,21 @@ func (stage *Stage) ComputeReverseMaps() {
 			stage.Note_Products_reverseMap[_product] = note
 		}
 	}
+	stage.Note_Tasks_reverseMap = make(map[*Task]*Note)
+	for note := range stage.Notes {
+		_ = note
+		for _, _task := range note.Tasks {
+			stage.Note_Tasks_reverseMap[_task] = note
+		}
+	}
+
+	// Compute reverse map for named struct NoteProductShape
+	// insertion point per field
 
 	// Compute reverse map for named struct NoteShape
+	// insertion point per field
+
+	// Compute reverse map for named struct NoteTaskShape
 	// insertion point per field
 
 	// Compute reverse map for named struct Product
@@ -225,7 +252,15 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 		res = append(res, instance)
 	}
 
+	for instance := range stage.NoteProductShapes {
+		res = append(res, instance)
+	}
+
 	for instance := range stage.NoteShapes {
+		res = append(res, instance)
+	}
+
+	for instance := range stage.NoteTaskShapes {
 		res = append(res, instance)
 	}
 
@@ -283,8 +318,18 @@ func (note *Note) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+func (noteproductshape *NoteProductShape) GongCopy() GongstructIF {
+	newInstance := *noteproductshape
+	return &newInstance
+}
+
 func (noteshape *NoteShape) GongCopy() GongstructIF {
 	newInstance := *noteshape
+	return &newInstance
+}
+
+func (notetaskshape *NoteTaskShape) GongCopy() GongstructIF {
+	newInstance := *notetaskshape
 	return &newInstance
 }
 

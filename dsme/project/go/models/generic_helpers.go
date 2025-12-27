@@ -31,7 +31,7 @@ func OnAddAssociationShape[
 	stager *Stager, diagram *Diagram, start ATstart, end ATend, shapes *[]ACT) func(
 	stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
 	return func(stage *tree.Stage, button *tree.Button, updatedButton *tree.Button) {
-		compositionShape := newConcreteAssociation[ATstart, ATend, ACT](start, end, shapes)
+		compositionShape := newConcreteAssociation(start, end, shapes)
 		compositionShape.StageVoid(stager.stage)
 		stager.stage.Commit()
 	}

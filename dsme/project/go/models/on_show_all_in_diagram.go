@@ -126,7 +126,7 @@ func onShowAllInDiagram(stager *Stager, diagram *Diagram) func(
 		// Product Composition
 		for _, product := range products {
 			for _, subProduct := range product.SubProducts {
-				newConcreteAssociation[*Product, *Product, *ProductCompositionShape, ProductCompositionShape](
+				newConcreteAssociation(
 					product, subProduct, &diagram.ProductComposition_Shapes)
 			}
 		}

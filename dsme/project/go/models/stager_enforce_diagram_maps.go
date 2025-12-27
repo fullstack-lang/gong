@@ -9,18 +9,21 @@ func (stager *Stager) enforceDiagramMaps() {
 				diagram.map_Product_ProductShape[shape.Product] = shape
 			}
 		}
+
 		diagram.map_Task_TaskShape = make(map[*Task]*TaskShape)
 		for _, shape := range diagram.Task_Shapes {
 			if shape.Task != nil {
 				diagram.map_Task_TaskShape[shape.Task] = shape
 			}
 		}
+
 		diagram.map_Task_TaskInputShape = make(map[taskProductKey]*TaskInputShape)
 		for _, shape := range diagram.TaskInputShapes {
 			if shape.Task != nil && shape.Product != nil {
 				diagram.map_Task_TaskInputShape[taskProductKey{Task: shape.Task, Product: shape.Product}] = shape
 			}
 		}
+
 		diagram.map_Task_TaskOutputShape = make(map[taskProductKey]*TaskOutputShape)
 		for _, shape := range diagram.TaskOutputShapes {
 			if shape.Task != nil && shape.Product != nil {
@@ -48,5 +51,20 @@ func (stager *Stager) enforceDiagramMaps() {
 				diagram.map_Note_NoteShape[shape.Note] = shape
 			}
 		}
+
+		diagram.map_Note_NoteProductShape = make(map[noteProductKey]*NoteProductShape)
+		for _, shape := range diagram.NoteProductShapes {
+			if shape.Note != nil {
+				diagram.map_Note_NoteProductShape[noteProductKey{Note: shape.Note, Product: shape.Product}] = shape
+			}
+		}
+
+		diagram.map_Note_NoteTaskShape = make(map[noteTaskKey]*NoteTaskShape)
+		for _, shape := range diagram.NoteTaskShapes {
+			if shape.Note != nil && shape.Task != nil {
+				diagram.map_Note_NoteTaskShape[noteTaskKey{Note: shape.Note, Task: shape.Task}] = shape
+			}
+		}
+
 	}
 }

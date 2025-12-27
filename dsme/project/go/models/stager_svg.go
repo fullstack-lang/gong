@@ -11,6 +11,7 @@ func (stager *Stager) svg() {
 
 	map_Product_Rect := make(map[*Product]*svg.Rect)
 	map_Task_Rect := make(map[*Task]*svg.Rect)
+	map_Note_Rect := make(map[*Note]*svg.Rect)
 
 	svgStage := stager.svgStage
 	svgObject := (&svg.SVG{Name: `SVG`})
@@ -159,6 +160,7 @@ func (stager *Stager) svg() {
 			noteShape,
 			layer)
 		rect.RX = 6
+		map_Note_Rect[note] = rect
 
 		penLogo := new(svg.RectAnchoredPath)
 		penLogo.Stroke = svg.Black.ToString()
@@ -167,12 +169,53 @@ func (stager *Stager) svg() {
 		penLogo.ScalePropotionnally = true
 		penLogo.AppliedScaling = 1
 
-		penLogo.Definition = "M 12 43 L 7 38 L 33 12 L 42 8 L 38 17 Z"
+		penLogo.Definition = "M 5 16 L 9 20 L 20 9 L 25 0 L 16 5 Z"
 		penLogo.X_Offset = 0
 		penLogo.Y_Offset = -45
 		penLogo.RectAnchorType = svg.RECT_LEFT
 		rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, penLogo)
 		_ = rect
+	}
+
+	for _, noteProductShape := range diagram.NoteProductShapes {
+		note := noteProductShape.Note
+		product := noteProductShape.Product
+
+		startRect := map_Note_Rect[note]
+		endRect := map_Product_Rect[product]
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteProductShape,
+			note,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
+	}
+
+	for _, noteTaskShape := range diagram.NoteTaskShapes {
+		note := noteTaskShape.Note
+		task := noteTaskShape.Task
+		startRect := map_Note_Rect[note]
+		endRect := map_Task_Rect[task]
+
+		link := svgAssociationLink(
+			stager,
+			startRect, endRect,
+			noteTaskShape,
+			note,
+			layer,
+			true,
+		)
+		link.Type = svg.LINK_TYPE_LINE_WITH_CONTROL_POINTS
+		link.StartAnchorType = svg.ANCHOR_CENTER
+		link.EndAnchorType = svg.ANCHOR_CENTER
+		link.HasEndArrow = false
 	}
 
 	svg.StageBranch(svgStage, svgObject)
