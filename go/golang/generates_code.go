@@ -445,21 +445,6 @@ func GeneratesGoCode(modelPkg *gong_models.ModelPkg,
 		modelPkg.PkgPath, filepath.Join(pkgPath, "../probe/tree_node_impl_gongstruct.go"),
 		probe.TreeNodeImplGongstructFileTemplate, probe.TreeNodeImplGongstructSubTemplateCode)
 
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, "../probe/button_impl_gongstruct.go"),
-		probe.ButtonImplGongstructFileTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, "../probe/button_impl_refresh.go"),
-		probe.ButtonImplRefreshFileTemplate)
-
-	gong_models.VerySimpleCodeGenerator(
-		modelPkg,
-		filepath.Join(pkgPath, "../probe/cell_delete_icon_impl.go"),
-		probe.CellDeleteIconImplTemplate)
-
 	gong_models.SimpleCodeGenerator(
 		modelPkg,
 		caserEnglish.String(modelPkg.Name),

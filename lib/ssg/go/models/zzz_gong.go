@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -590,7 +595,7 @@ func (chapter *Chapter) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (chapter *Chapter) SetName(name string) (){
+func (chapter *Chapter) SetName(name string) {
 	chapter.Name = name
 }
 
@@ -676,7 +681,7 @@ func (content *Content) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (content *Content) SetName(name string) (){
+func (content *Content) SetName(name string) {
 	content.Name = name
 }
 
@@ -762,7 +767,7 @@ func (page *Page) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (page *Page) SetName(name string) (){
+func (page *Page) SetName(name string) {
 	page.Name = name
 }
 

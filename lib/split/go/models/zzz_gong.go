@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -1246,7 +1251,7 @@ func (assplit *AsSplit) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (assplit *AsSplit) SetName(name string) (){
+func (assplit *AsSplit) SetName(name string) {
 	assplit.Name = name
 }
 
@@ -1332,7 +1337,7 @@ func (assplitarea *AsSplitArea) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (assplitarea *AsSplitArea) SetName(name string) (){
+func (assplitarea *AsSplitArea) SetName(name string) {
 	assplitarea.Name = name
 }
 
@@ -1418,7 +1423,7 @@ func (button *Button) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (button *Button) SetName(name string) (){
+func (button *Button) SetName(name string) {
 	button.Name = name
 }
 
@@ -1504,7 +1509,7 @@ func (cursor *Cursor) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cursor *Cursor) SetName(name string) (){
+func (cursor *Cursor) SetName(name string) {
 	cursor.Name = name
 }
 
@@ -1590,7 +1595,7 @@ func (favicon *FavIcon) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (favicon *FavIcon) SetName(name string) (){
+func (favicon *FavIcon) SetName(name string) {
 	favicon.Name = name
 }
 
@@ -1676,7 +1681,7 @@ func (form *Form) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (form *Form) SetName(name string) (){
+func (form *Form) SetName(name string) {
 	form.Name = name
 }
 
@@ -1762,7 +1767,7 @@ func (load *Load) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (load *Load) SetName(name string) (){
+func (load *Load) SetName(name string) {
 	load.Name = name
 }
 
@@ -1848,7 +1853,7 @@ func (logoontheleft *LogoOnTheLeft) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (logoontheleft *LogoOnTheLeft) SetName(name string) (){
+func (logoontheleft *LogoOnTheLeft) SetName(name string) {
 	logoontheleft.Name = name
 }
 
@@ -1934,7 +1939,7 @@ func (logoontheright *LogoOnTheRight) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (logoontheright *LogoOnTheRight) SetName(name string) (){
+func (logoontheright *LogoOnTheRight) SetName(name string) {
 	logoontheright.Name = name
 }
 
@@ -2020,7 +2025,7 @@ func (markdown *Markdown) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (markdown *Markdown) SetName(name string) (){
+func (markdown *Markdown) SetName(name string) {
 	markdown.Name = name
 }
 
@@ -2106,7 +2111,7 @@ func (slider *Slider) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (slider *Slider) SetName(name string) (){
+func (slider *Slider) SetName(name string) {
 	slider.Name = name
 }
 
@@ -2192,7 +2197,7 @@ func (split *Split) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (split *Split) SetName(name string) (){
+func (split *Split) SetName(name string) {
 	split.Name = name
 }
 
@@ -2278,7 +2283,7 @@ func (svg *Svg) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (svg *Svg) SetName(name string) (){
+func (svg *Svg) SetName(name string) {
 	svg.Name = name
 }
 
@@ -2364,7 +2369,7 @@ func (table *Table) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (table *Table) SetName(name string) (){
+func (table *Table) SetName(name string) {
 	table.Name = name
 }
 
@@ -2450,7 +2455,7 @@ func (title *Title) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (title *Title) SetName(name string) (){
+func (title *Title) SetName(name string) {
 	title.Name = name
 }
 
@@ -2536,7 +2541,7 @@ func (tone *Tone) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tone *Tone) SetName(name string) (){
+func (tone *Tone) SetName(name string) {
 	tone.Name = name
 }
 
@@ -2622,7 +2627,7 @@ func (tree *Tree) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tree *Tree) SetName(name string) (){
+func (tree *Tree) SetName(name string) {
 	tree.Name = name
 }
 
@@ -2708,7 +2713,7 @@ func (view *View) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (view *View) SetName(name string) (){
+func (view *View) SetName(name string) {
 	view.Name = name
 }
 
@@ -2794,7 +2799,7 @@ func (xlsx *Xlsx) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlsx *Xlsx) SetName(name string) (){
+func (xlsx *Xlsx) SetName(name string) {
 	xlsx.Name = name
 }
 

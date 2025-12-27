@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -926,7 +931,7 @@ func (gongbasicfield *GongBasicField) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongbasicfield *GongBasicField) SetName(name string) (){
+func (gongbasicfield *GongBasicField) SetName(name string) {
 	gongbasicfield.Name = name
 }
 
@@ -1012,7 +1017,7 @@ func (gongenum *GongEnum) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongenum *GongEnum) SetName(name string) (){
+func (gongenum *GongEnum) SetName(name string) {
 	gongenum.Name = name
 }
 
@@ -1098,7 +1103,7 @@ func (gongenumvalue *GongEnumValue) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongenumvalue *GongEnumValue) SetName(name string) (){
+func (gongenumvalue *GongEnumValue) SetName(name string) {
 	gongenumvalue.Name = name
 }
 
@@ -1184,7 +1189,7 @@ func (gonglink *GongLink) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gonglink *GongLink) SetName(name string) (){
+func (gonglink *GongLink) SetName(name string) {
 	gonglink.Name = name
 }
 
@@ -1270,7 +1275,7 @@ func (gongnote *GongNote) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongnote *GongNote) SetName(name string) (){
+func (gongnote *GongNote) SetName(name string) {
 	gongnote.Name = name
 }
 
@@ -1356,7 +1361,7 @@ func (gongstruct *GongStruct) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongstruct *GongStruct) SetName(name string) (){
+func (gongstruct *GongStruct) SetName(name string) {
 	gongstruct.Name = name
 }
 
@@ -1442,7 +1447,7 @@ func (gongtimefield *GongTimeField) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (gongtimefield *GongTimeField) SetName(name string) (){
+func (gongtimefield *GongTimeField) SetName(name string) {
 	gongtimefield.Name = name
 }
 
@@ -1528,7 +1533,7 @@ func (metareference *MetaReference) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (metareference *MetaReference) SetName(name string) (){
+func (metareference *MetaReference) SetName(name string) {
 	metareference.Name = name
 }
 
@@ -1614,7 +1619,7 @@ func (modelpkg *ModelPkg) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (modelpkg *ModelPkg) SetName(name string) (){
+func (modelpkg *ModelPkg) SetName(name string) {
 	modelpkg.Name = name
 }
 
@@ -1700,7 +1705,7 @@ func (pointertogongstructfield *PointerToGongStructField) GetName() (res string)
 }
 
 // for satisfaction of GongStruct interface
-func (pointertogongstructfield *PointerToGongStructField) SetName(name string) (){
+func (pointertogongstructfield *PointerToGongStructField) SetName(name string) {
 	pointertogongstructfield.Name = name
 }
 
@@ -1786,7 +1791,7 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GetName(
 }
 
 // for satisfaction of GongStruct interface
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) SetName(name string) (){
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) SetName(name string) {
 	sliceofpointertogongstructfield.Name = name
 }
 

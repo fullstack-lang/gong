@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -1382,7 +1387,7 @@ func (animate *Animate) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (animate *Animate) SetName(name string) (){
+func (animate *Animate) SetName(name string) {
 	animate.Name = name
 }
 
@@ -1468,7 +1473,7 @@ func (circle *Circle) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (circle *Circle) SetName(name string) (){
+func (circle *Circle) SetName(name string) {
 	circle.Name = name
 }
 
@@ -1554,7 +1559,7 @@ func (condition *Condition) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (condition *Condition) SetName(name string) (){
+func (condition *Condition) SetName(name string) {
 	condition.Name = name
 }
 
@@ -1640,7 +1645,7 @@ func (controlpoint *ControlPoint) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (controlpoint *ControlPoint) SetName(name string) (){
+func (controlpoint *ControlPoint) SetName(name string) {
 	controlpoint.Name = name
 }
 
@@ -1726,7 +1731,7 @@ func (ellipse *Ellipse) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (ellipse *Ellipse) SetName(name string) (){
+func (ellipse *Ellipse) SetName(name string) {
 	ellipse.Name = name
 }
 
@@ -1812,7 +1817,7 @@ func (layer *Layer) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (layer *Layer) SetName(name string) (){
+func (layer *Layer) SetName(name string) {
 	layer.Name = name
 }
 
@@ -1898,7 +1903,7 @@ func (line *Line) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (line *Line) SetName(name string) (){
+func (line *Line) SetName(name string) {
 	line.Name = name
 }
 
@@ -1984,7 +1989,7 @@ func (link *Link) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (link *Link) SetName(name string) (){
+func (link *Link) SetName(name string) {
 	link.Name = name
 }
 
@@ -2070,7 +2075,7 @@ func (linkanchoredtext *LinkAnchoredText) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (linkanchoredtext *LinkAnchoredText) SetName(name string) (){
+func (linkanchoredtext *LinkAnchoredText) SetName(name string) {
 	linkanchoredtext.Name = name
 }
 
@@ -2156,7 +2161,7 @@ func (path *Path) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (path *Path) SetName(name string) (){
+func (path *Path) SetName(name string) {
 	path.Name = name
 }
 
@@ -2242,7 +2247,7 @@ func (point *Point) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (point *Point) SetName(name string) (){
+func (point *Point) SetName(name string) {
 	point.Name = name
 }
 
@@ -2328,7 +2333,7 @@ func (polygone *Polygone) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (polygone *Polygone) SetName(name string) (){
+func (polygone *Polygone) SetName(name string) {
 	polygone.Name = name
 }
 
@@ -2414,7 +2419,7 @@ func (polyline *Polyline) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (polyline *Polyline) SetName(name string) (){
+func (polyline *Polyline) SetName(name string) {
 	polyline.Name = name
 }
 
@@ -2500,7 +2505,7 @@ func (rect *Rect) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rect *Rect) SetName(name string) (){
+func (rect *Rect) SetName(name string) {
 	rect.Name = name
 }
 
@@ -2586,7 +2591,7 @@ func (rectanchoredpath *RectAnchoredPath) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rectanchoredpath *RectAnchoredPath) SetName(name string) (){
+func (rectanchoredpath *RectAnchoredPath) SetName(name string) {
 	rectanchoredpath.Name = name
 }
 
@@ -2672,7 +2677,7 @@ func (rectanchoredrect *RectAnchoredRect) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rectanchoredrect *RectAnchoredRect) SetName(name string) (){
+func (rectanchoredrect *RectAnchoredRect) SetName(name string) {
 	rectanchoredrect.Name = name
 }
 
@@ -2758,7 +2763,7 @@ func (rectanchoredtext *RectAnchoredText) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rectanchoredtext *RectAnchoredText) SetName(name string) (){
+func (rectanchoredtext *RectAnchoredText) SetName(name string) {
 	rectanchoredtext.Name = name
 }
 
@@ -2844,7 +2849,7 @@ func (rectlinklink *RectLinkLink) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (rectlinklink *RectLinkLink) SetName(name string) (){
+func (rectlinklink *RectLinkLink) SetName(name string) {
 	rectlinklink.Name = name
 }
 
@@ -2930,7 +2935,7 @@ func (svg *SVG) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (svg *SVG) SetName(name string) (){
+func (svg *SVG) SetName(name string) {
 	svg.Name = name
 }
 
@@ -3016,7 +3021,7 @@ func (svgtext *SvgText) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (svgtext *SvgText) SetName(name string) (){
+func (svgtext *SvgText) SetName(name string) {
 	svgtext.Name = name
 }
 
@@ -3102,7 +3107,7 @@ func (text *Text) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (text *Text) SetName(name string) (){
+func (text *Text) SetName(name string) {
 	text.Name = name
 }
 
