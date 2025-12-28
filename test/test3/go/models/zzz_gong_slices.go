@@ -1,8 +1,6 @@
 // generated code - do not edit
 package models
 
-import "time"
-
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -36,6 +34,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (a *A) GongCopy() GongstructIF {
 	newInstance := *a
@@ -47,78 +46,50 @@ func (b *B) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-// ComputeReference will creates a deep copy of each of the staged elements
+
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var as_newInstances []*A
+	var as_deletedInstances []*A
 
-	var As_newInstances []*A
 	// parse all staged instances and check if they have a reference
-	for instance := range stage.As {
-		if _, ok := stage.As_reference[instance]; ok {
-
-		} else {
-			As_newInstances = append(As_newInstances, instance)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Instance \""+instance.GetName()+"\" added. "+"Type; "+instance.GongGetGongstructName(),
-				)
-			}
+	for a := range stage.As {
+		if _, ok := stage.As_reference[a]; !ok {
+			as_newInstances = append(as_newInstances, a)
 		}
 	}
-	lenNewInstances += len(As_newInstances)
 
-	var As_deletedInstances []*A
-	// parse all referenced instances and check if they are still staged
-	for instance := range stage.As_reference {
-		if _, ok := stage.As[instance]; ok {
-
-		} else {
-			As_deletedInstances = append(As_deletedInstances, instance)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Instance \""+instance.GetName()+"\" deleted. "+"Type; "+instance.GongGetGongstructName(),
-				)
-			}
+	// parse all reference instances and check if they are still staged
+	for a := range stage.As_reference {
+		if _, ok := stage.As[a]; !ok {
+			as_deletedInstances = append(as_deletedInstances, a)
 		}
 	}
-	lenDeletedInstances += len(As_deletedInstances)
 
-	var Bs_newInstances []*B
+	lenNewInstances += len(as_newInstances)
+	lenDeletedInstances += len(as_deletedInstances)
+	var bs_newInstances []*B
+	var bs_deletedInstances []*B
+
 	// parse all staged instances and check if they have a reference
-	for instance := range stage.Bs {
-		if _, ok := stage.Bs_reference[instance]; ok {
-
-		} else {
-			Bs_newInstances = append(Bs_newInstances, instance)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Instance \""+instance.GetName()+"\" added. "+"Type; "+instance.GongGetGongstructName(),
-				)
-			}
+	for b := range stage.Bs {
+		if _, ok := stage.Bs_reference[b]; !ok {
+			bs_newInstances = append(bs_newInstances, b)
 		}
 	}
-	lenNewInstances += len(Bs_newInstances)
 
-	var Bs_deletedInstances []*B
-	// parse all referenced instances and check if they are still staged
-	for instance := range stage.Bs_reference {
-		if _, ok := stage.Bs[instance]; ok {
-
-		} else {
-			Bs_deletedInstances = append(Bs_deletedInstances, instance)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Instance \""+instance.GetName()+"\" deleted. "+"Type; "+instance.GongGetGongstructName(),
-				)
-			}
+	// parse all reference instances and check if they are still staged
+	for b := range stage.Bs_reference {
+		if _, ok := stage.Bs[b]; !ok {
+			bs_deletedInstances = append(bs_deletedInstances, b)
 		}
 	}
-	lenDeletedInstances += len(Bs_deletedInstances)
+
+	lenNewInstances += len(bs_newInstances)
+	lenDeletedInstances += len(bs_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 {
 		if stage.GetProbeIF() != nil {
@@ -127,7 +98,10 @@ func (stage *Stage) ComputeDifference() {
 	}
 }
 
+// ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
+
+	// insertion point per named struct
 	stage.As_reference = make(map[*A]*A)
 	for instance := range stage.As {
 		stage.As_reference[instance] = instance
@@ -137,4 +111,5 @@ func (stage *Stage) ComputeReference() {
 	for instance := range stage.Bs {
 		stage.Bs_reference[instance] = instance
 	}
+
 }

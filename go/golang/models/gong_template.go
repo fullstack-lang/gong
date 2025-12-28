@@ -125,8 +125,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -137,10 +146,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -292,8 +297,6 @@ func NewStage(name string) (stage *Stage) {
 
 		NamedStructs: []*NamedStruct{ // insertion point for order map initialisations{{` + string(rune(ModelGongNamedStructsSliceInit)) + `}}
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

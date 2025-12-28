@@ -346,11 +346,9 @@ func NewStage(name string) (stage *Stage) {
 
 	stage = &Stage{ // insertion point for array initiatialisation
 		As:           make(map[*A]struct{}),
-		As_reference: make(map[*A]*A),
 		As_mapString: make(map[string]*A),
 
 		Bs:           make(map[*B]struct{}),
-		Bs_reference: make(map[*B]*B),
 		Bs_mapString: make(map[string]*B),
 
 		// end of insertion point
@@ -430,12 +428,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
-	stage.ComputeDifference()
 	stage.ComputeReference()
-
-	if stage.GetProbeIF() != nil {
-		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
-	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1155,5 +1148,4 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
-
 // Last line of the template
