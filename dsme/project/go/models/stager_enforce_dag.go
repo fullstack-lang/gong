@@ -173,10 +173,8 @@ func EnforceDAG[T comparable](
 			// If child is in gray set, we found a back edge -> CYCLE
 			if _, ok := graySet[child]; ok {
 				removeChild(node, child)
-				if stager.probeForm != nil {
-					stager.probeForm.AddNotification(time.Now(),
-						fmt.Sprintf("Found loop involving %s, breaking edge with %s", getName(node), getName(child)))
-				}
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Found loop involving %s, breaking edge with %s", getName(node), getName(child)))
 				needCommit = true
 				continue
 			}

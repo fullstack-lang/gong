@@ -54,9 +54,7 @@ func unstageOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struc
 		if _, ok := reachable[shape]; !ok {
 			shape.UnstageVoid(stager.stage)
 			needCommit = true
-			if stager.probeForm != nil {
-				stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape %s", shape.GetName()))
-			}
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape %s", shape.GetName()))
 		}
 	}
 	return
