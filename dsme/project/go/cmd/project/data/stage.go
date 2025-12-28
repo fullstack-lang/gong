@@ -209,7 +209,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000058_NewDiagram.IsNotesNodeExpanded = false
 
 	__Diagram__00000061_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000061_NewDiagram.IsChecked = true
+	__Diagram__00000061_NewDiagram.IsChecked = false
 	__Diagram__00000061_NewDiagram.IsEditable_ = true
 	__Diagram__00000061_NewDiagram.IsInRenameMode = false
 	__Diagram__00000061_NewDiagram.ShowPrefix = false
@@ -818,11 +818,11 @@ another line to Write Specs`
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
-	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = true
+	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsNotesNodeExpanded = false
-	__Project__00000001_DSME_Docx.IsExpanded = false
+	__Project__00000001_DSME_Docx.IsExpanded = true
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
 	__Project__00000002_log_as_serie_of_Commits.Name = `log as serie of Commits`
@@ -830,7 +830,7 @@ another line to Write Specs`
 	__Project__00000002_log_as_serie_of_Commits.IsWBSNodeExpanded = true
 	__Project__00000002_log_as_serie_of_Commits.IsDiagramsNodeExpanded = true
 	__Project__00000002_log_as_serie_of_Commits.IsNotesNodeExpanded = true
-	__Project__00000002_log_as_serie_of_Commits.IsExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsExpanded = false
 	__Project__00000002_log_as_serie_of_Commits.ComputedPrefix = ``
 
 	__Root__00000000_Root.Name = `Root`
