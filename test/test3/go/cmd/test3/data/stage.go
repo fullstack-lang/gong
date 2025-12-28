@@ -23,7 +23,8 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__A__00000000_ := (&models.A{}).Stage(stage)
+	__A__00000000_A0 := (&models.A{}).Stage(stage)
+	__A__00000003_A1 := (&models.A{}).Stage(stage)
 
 	__B__00000001_1 := (&models.B{}).Stage(stage)
 	__B__00000002_2 := (&models.B{}).Stage(stage)
@@ -5027,7 +5028,9 @@ func _(stage *models.Stage) {
 
 	// Setup of values
 
-	__A__00000000_.Name = ``
+	__A__00000000_A0.Name = `A0`
+
+	__A__00000003_A1.Name = `A1`
 
 	__B__00000001_1.Name = `1`
 
@@ -15029,7 +15032,7 @@ func _(stage *models.Stage) {
 
 	// Setup of pointers
 	// setup of A instances pointers
-	__A__00000000_.Bs = append(__A__00000000_.Bs, __B__00000001_1)
+	__A__00000000_A0.Bs = append(__A__00000000_A0.Bs, __B__00000001_1)
 	// setup of B instances pointers
 }
 

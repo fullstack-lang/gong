@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "time"
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -46,9 +48,58 @@ func (b *B) GongCopy() GongstructIF {
 }
 
 // ComputeReference will creates a deep copy of each of the staged elements
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+
+	var As_newInstances []*A
+	// parse all staged instances and check if they have a reference
+	for instance := range stage.As {
+		if _, ok := stage.As_reference[instance]; ok {
+
+		} else {
+			As_newInstances = append(As_newInstances, instance)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Instance \""+instance.GetName()+"\" added. "+"Type; "+instance.GongGetGongstructName(),
+				)
+			}
+		}
+	}
+	lenNewInstances += len(As_newInstances)
+
+	var Bs_newInstances []*B
+	// parse all staged instances and check if they have a reference
+	for instance := range stage.Bs {
+		if _, ok := stage.Bs_reference[instance]; ok {
+
+		} else {
+			Bs_newInstances = append(Bs_newInstances, instance)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Instance \""+instance.GetName()+"\" added. "+"Type; "+instance.GongGetGongstructName(),
+				)
+			}
+		}
+	}
+	lenNewInstances += len(Bs_newInstances)
+
+	if lenNewInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+	stage.As_reference = make(map[*A]*A)
+	for instance := range stage.As {
+		stage.As_reference[instance] = instance
+	}
+
+	stage.Bs_reference = make(map[*B]*B)
+	for instance := range stage.Bs {
+		stage.Bs_reference[instance] = instance
 	}
 }
