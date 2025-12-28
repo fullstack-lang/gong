@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Astructs           map[*Astruct]struct{}
+	Astructs_reference map[*Astruct]*Astruct
 	Astructs_mapString map[string]*Astruct
 
 	// insertion point for slice of pointers maps
@@ -115,6 +116,7 @@ type Stage struct {
 	OnAfterAstructReadCallback   OnAfterReadInterface[Astruct]
 
 	AstructBstruct2Uses           map[*AstructBstruct2Use]struct{}
+	AstructBstruct2Uses_reference map[*AstructBstruct2Use]*AstructBstruct2Use
 	AstructBstruct2Uses_mapString map[string]*AstructBstruct2Use
 
 	// insertion point for slice of pointers maps
@@ -124,6 +126,7 @@ type Stage struct {
 	OnAfterAstructBstruct2UseReadCallback   OnAfterReadInterface[AstructBstruct2Use]
 
 	AstructBstructUses           map[*AstructBstructUse]struct{}
+	AstructBstructUses_reference map[*AstructBstructUse]*AstructBstructUse
 	AstructBstructUses_mapString map[string]*AstructBstructUse
 
 	// insertion point for slice of pointers maps
@@ -133,6 +136,7 @@ type Stage struct {
 	OnAfterAstructBstructUseReadCallback   OnAfterReadInterface[AstructBstructUse]
 
 	Bstructs           map[*Bstruct]struct{}
+	Bstructs_reference map[*Bstruct]*Bstruct
 	Bstructs_mapString map[string]*Bstruct
 
 	// insertion point for slice of pointers maps
@@ -142,6 +146,7 @@ type Stage struct {
 	OnAfterBstructReadCallback   OnAfterReadInterface[Bstruct]
 
 	Dstructs           map[*Dstruct]struct{}
+	Dstructs_reference map[*Dstruct]*Dstruct
 	Dstructs_mapString map[string]*Dstruct
 
 	// insertion point for slice of pointers maps
@@ -155,6 +160,7 @@ type Stage struct {
 	OnAfterDstructReadCallback   OnAfterReadInterface[Dstruct]
 
 	F0123456789012345678901234567890s           map[*F0123456789012345678901234567890]struct{}
+	F0123456789012345678901234567890s_reference map[*F0123456789012345678901234567890]*F0123456789012345678901234567890
 	F0123456789012345678901234567890s_mapString map[string]*F0123456789012345678901234567890
 
 	// insertion point for slice of pointers maps
@@ -164,6 +170,7 @@ type Stage struct {
 	OnAfterF0123456789012345678901234567890ReadCallback   OnAfterReadInterface[F0123456789012345678901234567890]
 
 	Gstructs           map[*Gstruct]struct{}
+	Gstructs_reference map[*Gstruct]*Gstruct
 	Gstructs_mapString map[string]*Gstruct
 
 	// insertion point for slice of pointers maps
@@ -223,8 +230,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -235,10 +251,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -558,8 +570,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "F0123456789012345678901234567890"},
 			{name: "Gstruct"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

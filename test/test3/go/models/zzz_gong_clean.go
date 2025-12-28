@@ -33,6 +33,7 @@ func (a *A) GongClean(stage *Stage) {
 	// insertion point per field
 	a.Bs = GongCleanSlice(stage, a.Bs)
 	// insertion point per field
+	a.B = GongCleanPointer(stage, a.B)
 }
 
 // Clean garbage collect unstaged instances that are referenced by B
