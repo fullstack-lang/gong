@@ -180,7 +180,11 @@ func (probe *Probe) Notification() {
 	probe.UpdateAndCommitNotificationTable()
 }
 
-func (probe *Probe) AddNotification(notification Notification) {
+func (probe *Probe) AddNotification(date time.Time, message string) {
+	notification := Notification{
+		Date:    date,
+		Message: message,
+	}
 	probe.notification = append(probe.notification, &notification)
 	probe.UpdateAndCommitNotificationTable()
 }
