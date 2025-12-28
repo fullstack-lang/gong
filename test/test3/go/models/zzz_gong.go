@@ -850,6 +850,8 @@ func GetAssociationName[Type Gongstruct]() *Type {
 		return any(&A{
 			// Initialisation of associations
 			// field is initialized with an instance of B with the name of the field
+			B: &B{Name: "B"},
+			// field is initialized with an instance of B with the name of the field
 			Bs: []*B{{Name: "Bs"}},
 		}).(*Type)
 	case B:
@@ -878,6 +880,23 @@ func GetPointerReverseMap[Start, End Gongstruct](fieldname string, stage *Stage)
 	case A:
 		switch fieldname {
 		// insertion point for per direct association field
+		case "B":
+			res := make(map[*B][]*A)
+			for a := range stage.As {
+				if a.B != nil {
+					b_ := a.B
+					var as []*A
+					_, ok := res[b_]
+					if ok {
+						as = res[b_]
+					} else {
+						as = make([]*A, 0)
+					}
+					as = append(as, a)
+					res[b_] = as
+				}
+			}
+			return any(res).(map[*End][]*Start)
 		}
 	// reverse maps of direct associations of B
 	case B:
@@ -974,6 +993,11 @@ func (a *A) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:                 "B",
+			GongFieldValueType:   GongFieldValueTypePointer,
+			TargetGongstructName: "B",
+		},
+		{
 			Name:                 "Bs",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "B",
@@ -1052,6 +1076,12 @@ func (a *A) GongGetFieldValue(fieldName string, stage *Stage) (res GongFieldValu
 	// string value of fields
 	case "Name":
 		res.valueString = a.Name
+	case "B":
+		res.GongFieldValueType = GongFieldValueTypePointer
+		if a.B != nil {
+			res.valueString = a.B.Name
+			res.ids = fmt.Sprintf("%d", GetOrderPointerGongstruct(stage, a.B))
+		}
 	case "Bs":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range a.Bs {
@@ -1085,6 +1115,17 @@ func (a *A) GongSetFieldValue(fieldName string, value GongFieldValue, stage *Sta
 	// insertion point for per field code
 	case "Name":
 		a.Name = value.GetValueString()
+	case "B":
+		var id int
+		if _, err := fmt.Sscanf(value.ids, "%d", &id); err == nil {
+			a.B = nil
+			for __instance__ := range stage.Bs {
+				if stage.BMap_Staged_Order[__instance__] == uint(id) {
+					a.B = __instance__
+					break
+				}
+			}
+		}
 	case "Bs":
 		a.Bs = make([]*B, 0)
 		ids := strings.Split(value.ids, ";")
