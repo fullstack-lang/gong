@@ -189,9 +189,12 @@ func (probe *Probe) AddNotification(date time.Time, message string) {
 	probe.UpdateAndCommitNotificationTable()
 }
 
+func (probe *Probe) CommitNotificationTable() {
+	probe.UpdateAndCommitNotificationTable()
+}
+
 func (probe *Probe) ResetNotifications() {
 	probe.notification = make([]*Notification, 0)
-	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {
