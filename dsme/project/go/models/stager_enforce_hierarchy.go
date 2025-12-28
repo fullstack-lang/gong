@@ -1,6 +1,10 @@
 package models
 
-import "slices"
+import (
+	"fmt"
+	"slices"
+	"time"
+)
 
 // enforceHierarchy checks that for every [models.Product] and [models.Task] present
 // in a DAG attached to the root, they are unique (belong to one PBS/WBS only once max)
@@ -27,6 +31,8 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 			if _, ok := visitedProducts[product]; ok {
 				// already present in the hierarchy, remove it
 				*products = slices.Delete(*products, i, i+1)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Product %s is already present in the hierarchy, removing it", product.Name))
 				needCommit = true
 			} else {
 				visitedProducts[product] = struct{}{}
@@ -45,6 +51,8 @@ func (stager *Stager) enforceHierarchy() (needCommit bool) {
 			if _, ok := visitedTasks[task]; ok {
 				// already present in the hierarchy, remove it
 				*tasks = slices.Delete(*tasks, i, i+1)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Task %s is already present in the hierarchy, removing it", task.Name))
 				needCommit = true
 			} else {
 				visitedTasks[task] = struct{}{}
