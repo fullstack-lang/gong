@@ -176,7 +176,7 @@ func _(stage *models.Stage) {
 	__Diagram__00000042_NewDiagram.ShowPrefix = true
 	__Diagram__00000042_NewDiagram.DefaultBoxWidth = 150.000000
 	__Diagram__00000042_NewDiagram.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_NewDiagram.IsExpanded = true
+	__Diagram__00000042_NewDiagram.IsExpanded = false
 	__Diagram__00000042_NewDiagram.ComputedPrefix = ``
 	__Diagram__00000042_NewDiagram.IsPBSNodeExpanded = true
 	__Diagram__00000042_NewDiagram.IsWBSNodeExpanded = true
@@ -818,18 +818,18 @@ another line to Write Specs`
 	__Project__00000000_Project_Editor.ComputedPrefix = ``
 
 	__Project__00000001_DSME_Docx.Name = `DSME Docx`
-	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = true
+	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
 	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
 	__Project__00000001_DSME_Docx.IsNotesNodeExpanded = false
-	__Project__00000001_DSME_Docx.IsExpanded = false
+	__Project__00000001_DSME_Docx.IsExpanded = true
 	__Project__00000001_DSME_Docx.ComputedPrefix = ``
 
 	__Project__00000002_log_as_serie_of_Commits.Name = `log as serie of Commits`
-	__Project__00000002_log_as_serie_of_Commits.IsPBSNodeExpanded = true
-	__Project__00000002_log_as_serie_of_Commits.IsWBSNodeExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsPBSNodeExpanded = false
+	__Project__00000002_log_as_serie_of_Commits.IsWBSNodeExpanded = false
 	__Project__00000002_log_as_serie_of_Commits.IsDiagramsNodeExpanded = true
-	__Project__00000002_log_as_serie_of_Commits.IsNotesNodeExpanded = true
+	__Project__00000002_log_as_serie_of_Commits.IsNotesNodeExpanded = false
 	__Project__00000002_log_as_serie_of_Commits.IsExpanded = true
 	__Project__00000002_log_as_serie_of_Commits.ComputedPrefix = ``
 
