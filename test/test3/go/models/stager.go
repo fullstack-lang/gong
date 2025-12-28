@@ -3,64 +3,79 @@
 package models
 
 import (
-	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 
 	split "github.com/fullstack-lang/gong/lib/split/go/models"
+	split_stack "github.com/fullstack-lang/gong/lib/split/go/stack"
 )
 
 type Stager struct {
-	stage       *Stage
-	splitStage  *split.Stage
-	asSplitArea *split.AsSplitArea
+	stage      *Stage
+	splitStage *split.Stage
+	probeForm  ProbeIF
 }
 
-func NewStager(r *gin.Engine, stage *Stage, splitStage *split.Stage) (stager *Stager) {
+func NewStager(
+	r *gin.Engine,
+	stage *Stage,
+	probeForm ProbeIF,
+) (stager *Stager) {
 
 	stager = new(Stager)
 
 	stager.stage = stage
-	stager.splitStage = splitStage
+	stager.probeForm = probeForm
 
-	stager.asSplitArea = &split.AsSplitArea{}
+	// the root split name is "" by convention. Is is the same for all gong applications
+	// that do not develop their specific angular component
+	stager.splitStage = split_stack.NewStack(r, "", "", "", "", false, false).Stage
 
-	// one for the probe of the
-	split.StageBranch(splitStage, &split.View{
-		Name: stage.GetName() + "with Probe",
+	split.StageBranch(stager.splitStage, &split.View{
+		Name: "Data Probe & Data Model",
 		RootAsSplitAreas: []*split.AsSplitArea{
-			(&split.AsSplitArea{
-				Size: 50,
-				AsSplit: (&split.AsSplit{
-					Direction: split.Horizontal,
-					AsSplitAreas: []*split.AsSplitArea{
-						stager.GetAsSplitArea(),
-					},
-				}),
-			}),
-			(&split.AsSplitArea{
-				Size: 50,
-				Split: (&split.Split{
+			{
+				Split: &split.Split{
 					StackName: stage.GetProbeSplitStageName(),
-				}),
-			}),
+				},
+			},
 		},
 	})
 
-	// commit the split stage (this will initiate the front components)
-	splitStage.Commit()
+	stager.splitStage.Commit()
 
-	// While there are less than 5000 instances of Bs
-	nbBs := len(*GetGongstructInstancesSetFromPointerType[*B](stage))
-	for nbBs < 5000 {
-		(&B{Name: fmt.Sprintf("%d", nbBs)}).Stage(stage)
-		nbBs = len(*GetGongstructInstancesSetFromPointerType[*B](stage))
+	stager.probeForm.AddNotification(time.Now(), `La rue assourdissante autour de moi hurlait.
+Longue, mince, en grand deuil, douleur majestueuse,
+Une femme passa, d’une main fastueuse
+Soulevant, balançant le feston et l’ourlet;
+
+Agile et noble, avec sa jambe de statue.
+Moi, je buvais, crispé comme un extravagant,
+Dans son oeil, ciel livide où germe l’ouragan,
+La douceur qui fascine et le plaisir qui tue.
+
+Un éclair… puis la nuit! – Fugitive beauté
+Dont le regard m’a fait soudainement renaître,
+Ne te verrai-je plus que dans l’éternité?
+
+Ailleurs, bien loin d’ici! trop tard! jamais peut-être!
+Car j’ignore où tu fuis, tu ne sais où je vais,
+O toi que j’eusse aimée, ô toi qui le savais!`)
+
+	callbacks := &BeforeCommitImplementation{
+		stager: stager,
 	}
+	stager.stage.OnInitCommitFromBackCallback = callbacks
+	callbacks.BeforeCommit(stage)
 
 	return
 }
 
-func (stager *Stager) GetAsSplitArea() (asSplitArea *split.AsSplitArea) {
-	asSplitArea = stager.asSplitArea
-	return
+type BeforeCommitImplementation struct {
+	stager *Stager
+}
+
+func (c *BeforeCommitImplementation) BeforeCommit(stage *Stage) {
+
 }

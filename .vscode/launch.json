@@ -765,7 +765,7 @@
                 "generate",
                 "--skipGoModCommands",
                 "--level1",
-                "--debouncedMarshall=true"
+                // "--debouncedMarshall=true"
             ]
         },
         {
