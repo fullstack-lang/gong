@@ -28,13 +28,26 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
-	}
+
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 }
 `
 
@@ -45,6 +58,8 @@ const (
 	GongSliceReverseMapCompute
 	GongSliceGetInstances
 	GongSliceGongCopy
+	GongSliceGongComputeDifference
+	GongSliceGongComputeReference
 	GongSliceGongstructInsertionNb
 )
 
@@ -68,6 +83,33 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	newInstance := *{{structname}}
 	return &newInstance
 }
+`,
+	GongSliceGongComputeDifference: `
+	var {{structname}}s_newInstances []*{{Structname}}
+	var {{structname}}s_deletedInstances []*{{Structname}}
+
+	// parse all staged instances and check if they have a reference
+	for {{structname}} := range stage.{{Structname}}s {
+		if _, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
+			{{structname}}s_newInstances = append({{structname}}s_newInstances, {{structname}})
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for {{structname}} := range stage.{{Structname}}s_reference {
+		if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
+			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, {{structname}})
+		}
+	}
+
+	lenNewInstances += len({{structname}}s_newInstances)
+	lenDeletedInstances += len({{structname}}s_deletedInstances)`,
+
+	GongSliceGongComputeReference: `
+	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
+	for instance := range stage.{{Structname}}s {
+		stage.{{Structname}}s_reference[instance] = instance
+	}
 `,
 }
 
