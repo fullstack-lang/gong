@@ -50,6 +50,7 @@ func (b *B) GongCopy() GongstructIF {
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenDeletedInstances int
 
 	var As_newInstances []*A
 	// parse all staged instances and check if they have a reference
@@ -68,6 +69,23 @@ func (stage *Stage) ComputeDifference() {
 	}
 	lenNewInstances += len(As_newInstances)
 
+	var As_deletedInstances []*A
+	// parse all referenced instances and check if they are still staged
+	for instance := range stage.As_reference {
+		if _, ok := stage.As[instance]; ok {
+
+		} else {
+			As_deletedInstances = append(As_deletedInstances, instance)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Instance \""+instance.GetName()+"\" deleted. "+"Type; "+instance.GongGetGongstructName(),
+				)
+			}
+		}
+	}
+	lenDeletedInstances += len(As_deletedInstances)
+
 	var Bs_newInstances []*B
 	// parse all staged instances and check if they have a reference
 	for instance := range stage.Bs {
@@ -85,7 +103,24 @@ func (stage *Stage) ComputeDifference() {
 	}
 	lenNewInstances += len(Bs_newInstances)
 
-	if lenNewInstances > 0 {
+	var Bs_deletedInstances []*B
+	// parse all referenced instances and check if they are still staged
+	for instance := range stage.Bs_reference {
+		if _, ok := stage.Bs[instance]; ok {
+
+		} else {
+			Bs_deletedInstances = append(Bs_deletedInstances, instance)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Instance \""+instance.GetName()+"\" deleted. "+"Type; "+instance.GongGetGongstructName(),
+				)
+			}
+		}
+	}
+	lenDeletedInstances += len(Bs_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
