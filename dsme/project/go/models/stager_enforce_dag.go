@@ -1,6 +1,10 @@
 package models
 
-import "slices"
+import (
+	"fmt"
+	"slices"
+	"time"
+)
 
 // EnforceDAG
 // Check for cycles in the combined graph of Tasks and Products
@@ -41,6 +45,7 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 
 	// 2. Call the generic EnforceDAG on the unified graph
 	needCommit = EnforceDAG(
+		stager,
 		allNodes,
 		// getChildren: Returns all nodes that 'n' depends on / points to
 		func(n DAGNode) []DAGNode {
@@ -114,6 +119,14 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 				}
 			}
 		},
+		func(n DAGNode) string {
+			if n.Task != nil {
+				return "Task " + n.Task.Name
+			} else if n.Product != nil {
+				return "Product " + n.Product.Name
+			}
+			return ""
+		},
 	)
 
 	return
@@ -127,9 +140,11 @@ func (stager *Stager) enforceDAG() (needCommit bool) {
 // getChildren: a function that returns the children/neighbors of a given node.
 // removeChild: a function that removes a specific child from a parent node.
 func EnforceDAG[T comparable](
+	stager *Stager,
 	nodes []T,
 	getChildren func(T) []T,
 	removeChild func(parent T, child T),
+	getName func(T) string,
 ) (needCommit bool) {
 
 	// Sets for DFS cycle detection
@@ -158,6 +173,8 @@ func EnforceDAG[T comparable](
 			// If child is in gray set, we found a back edge -> CYCLE
 			if _, ok := graySet[child]; ok {
 				removeChild(node, child)
+				stager.probeForm.AddNotification(time.Now(),
+					fmt.Sprintf("Found loop involving %s, breaking edge with %s", getName(node), getName(child)))
 				needCommit = true
 				continue
 			}

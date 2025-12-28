@@ -1,5 +1,10 @@
 package models
 
+import (
+	"fmt"
+	"time"
+)
+
 func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	// 1. collect all shapes that are attached to a diagram
 	reachableProductShapes := make(map[*ProductShape]struct{})
@@ -25,15 +30,15 @@ func (stager *Stager) enforceShapeOrphans() (needCommit bool) {
 	}
 
 	// 2. unstage shapes that are not attached to a diagram
-	needCommit = unstageOrphans(stager.stage, reachableProductShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableProductCompositionShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableTaskShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableTaskCompositionShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableTaskInputShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableTaskOutputShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableNoteShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableNoteProductShapes) || needCommit
-	needCommit = unstageOrphans(stager.stage, reachableNoteTaskShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableProductShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableProductCompositionShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableTaskShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableTaskCompositionShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableTaskInputShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableTaskOutputShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableNoteShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableNoteProductShapes) || needCommit
+	needCommit = unstageOrphans(stager, reachableNoteTaskShapes) || needCommit
 
 	return
 }
@@ -44,11 +49,12 @@ func collectShapes[T comparable](shapes []T, reachable map[T]struct{}) {
 	}
 }
 
-func unstageOrphans[T PointerToGongstruct](stage *Stage, reachable map[T]struct{}) (needCommit bool) {
-	for _, shape := range GetGongstrucsSorted[T](stage) {
+func unstageOrphans[T PointerToGongstruct](stager *Stager, reachable map[T]struct{}) (needCommit bool) {
+	for _, shape := range GetGongstrucsSorted[T](stager.stage) {
 		if _, ok := reachable[shape]; !ok {
-			shape.UnstageVoid(stage)
+			shape.UnstageVoid(stager.stage)
 			needCommit = true
+			stager.probeForm.AddNotification(time.Now(), fmt.Sprintf("Unstaging orphan shape %s", shape.GetName()))
 		}
 	}
 	return
