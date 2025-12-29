@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -483,6 +487,12 @@ func (stage *Stage) ComputeDifference() {
 	for animate := range stage.Animates {
 		if _, ok := stage.Animates_reference[animate]; !ok {
 			animates_newInstances = append(animates_newInstances, animate)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Animate "+animate.Name,
+				)
+			}
 		}
 	}
 
@@ -490,6 +500,12 @@ func (stage *Stage) ComputeDifference() {
 	for animate := range stage.Animates_reference {
 		if _, ok := stage.Animates[animate]; !ok {
 			animates_deletedInstances = append(animates_deletedInstances, animate)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Animate "+animate.Name,
+				)
+			}
 		}
 	}
 
@@ -502,6 +518,12 @@ func (stage *Stage) ComputeDifference() {
 	for circle := range stage.Circles {
 		if _, ok := stage.Circles_reference[circle]; !ok {
 			circles_newInstances = append(circles_newInstances, circle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Circle "+circle.Name,
+				)
+			}
 		}
 	}
 
@@ -509,6 +531,12 @@ func (stage *Stage) ComputeDifference() {
 	for circle := range stage.Circles_reference {
 		if _, ok := stage.Circles[circle]; !ok {
 			circles_deletedInstances = append(circles_deletedInstances, circle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Circle "+circle.Name,
+				)
+			}
 		}
 	}
 
@@ -521,6 +549,12 @@ func (stage *Stage) ComputeDifference() {
 	for condition := range stage.Conditions {
 		if _, ok := stage.Conditions_reference[condition]; !ok {
 			conditions_newInstances = append(conditions_newInstances, condition)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Condition "+condition.Name,
+				)
+			}
 		}
 	}
 
@@ -528,6 +562,12 @@ func (stage *Stage) ComputeDifference() {
 	for condition := range stage.Conditions_reference {
 		if _, ok := stage.Conditions[condition]; !ok {
 			conditions_deletedInstances = append(conditions_deletedInstances, condition)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Condition "+condition.Name,
+				)
+			}
 		}
 	}
 
@@ -540,6 +580,12 @@ func (stage *Stage) ComputeDifference() {
 	for controlpoint := range stage.ControlPoints {
 		if _, ok := stage.ControlPoints_reference[controlpoint]; !ok {
 			controlpoints_newInstances = append(controlpoints_newInstances, controlpoint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of ControlPoint "+controlpoint.Name,
+				)
+			}
 		}
 	}
 
@@ -547,6 +593,12 @@ func (stage *Stage) ComputeDifference() {
 	for controlpoint := range stage.ControlPoints_reference {
 		if _, ok := stage.ControlPoints[controlpoint]; !ok {
 			controlpoints_deletedInstances = append(controlpoints_deletedInstances, controlpoint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of ControlPoint "+controlpoint.Name,
+				)
+			}
 		}
 	}
 
@@ -559,6 +611,12 @@ func (stage *Stage) ComputeDifference() {
 	for ellipse := range stage.Ellipses {
 		if _, ok := stage.Ellipses_reference[ellipse]; !ok {
 			ellipses_newInstances = append(ellipses_newInstances, ellipse)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Ellipse "+ellipse.Name,
+				)
+			}
 		}
 	}
 
@@ -566,6 +624,12 @@ func (stage *Stage) ComputeDifference() {
 	for ellipse := range stage.Ellipses_reference {
 		if _, ok := stage.Ellipses[ellipse]; !ok {
 			ellipses_deletedInstances = append(ellipses_deletedInstances, ellipse)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Ellipse "+ellipse.Name,
+				)
+			}
 		}
 	}
 
@@ -578,6 +642,12 @@ func (stage *Stage) ComputeDifference() {
 	for layer := range stage.Layers {
 		if _, ok := stage.Layers_reference[layer]; !ok {
 			layers_newInstances = append(layers_newInstances, layer)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Layer "+layer.Name,
+				)
+			}
 		}
 	}
 
@@ -585,6 +655,12 @@ func (stage *Stage) ComputeDifference() {
 	for layer := range stage.Layers_reference {
 		if _, ok := stage.Layers[layer]; !ok {
 			layers_deletedInstances = append(layers_deletedInstances, layer)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Layer "+layer.Name,
+				)
+			}
 		}
 	}
 
@@ -597,6 +673,12 @@ func (stage *Stage) ComputeDifference() {
 	for line := range stage.Lines {
 		if _, ok := stage.Lines_reference[line]; !ok {
 			lines_newInstances = append(lines_newInstances, line)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Line "+line.Name,
+				)
+			}
 		}
 	}
 
@@ -604,6 +686,12 @@ func (stage *Stage) ComputeDifference() {
 	for line := range stage.Lines_reference {
 		if _, ok := stage.Lines[line]; !ok {
 			lines_deletedInstances = append(lines_deletedInstances, line)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Line "+line.Name,
+				)
+			}
 		}
 	}
 
@@ -616,6 +704,12 @@ func (stage *Stage) ComputeDifference() {
 	for link := range stage.Links {
 		if _, ok := stage.Links_reference[link]; !ok {
 			links_newInstances = append(links_newInstances, link)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Link "+link.Name,
+				)
+			}
 		}
 	}
 
@@ -623,6 +717,12 @@ func (stage *Stage) ComputeDifference() {
 	for link := range stage.Links_reference {
 		if _, ok := stage.Links[link]; !ok {
 			links_deletedInstances = append(links_deletedInstances, link)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Link "+link.Name,
+				)
+			}
 		}
 	}
 
@@ -635,6 +735,12 @@ func (stage *Stage) ComputeDifference() {
 	for linkanchoredtext := range stage.LinkAnchoredTexts {
 		if _, ok := stage.LinkAnchoredTexts_reference[linkanchoredtext]; !ok {
 			linkanchoredtexts_newInstances = append(linkanchoredtexts_newInstances, linkanchoredtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of LinkAnchoredText "+linkanchoredtext.Name,
+				)
+			}
 		}
 	}
 
@@ -642,6 +748,12 @@ func (stage *Stage) ComputeDifference() {
 	for linkanchoredtext := range stage.LinkAnchoredTexts_reference {
 		if _, ok := stage.LinkAnchoredTexts[linkanchoredtext]; !ok {
 			linkanchoredtexts_deletedInstances = append(linkanchoredtexts_deletedInstances, linkanchoredtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of LinkAnchoredText "+linkanchoredtext.Name,
+				)
+			}
 		}
 	}
 
@@ -654,6 +766,12 @@ func (stage *Stage) ComputeDifference() {
 	for path := range stage.Paths {
 		if _, ok := stage.Paths_reference[path]; !ok {
 			paths_newInstances = append(paths_newInstances, path)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Path "+path.Name,
+				)
+			}
 		}
 	}
 
@@ -661,6 +779,12 @@ func (stage *Stage) ComputeDifference() {
 	for path := range stage.Paths_reference {
 		if _, ok := stage.Paths[path]; !ok {
 			paths_deletedInstances = append(paths_deletedInstances, path)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Path "+path.Name,
+				)
+			}
 		}
 	}
 
@@ -673,6 +797,12 @@ func (stage *Stage) ComputeDifference() {
 	for point := range stage.Points {
 		if _, ok := stage.Points_reference[point]; !ok {
 			points_newInstances = append(points_newInstances, point)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Point "+point.Name,
+				)
+			}
 		}
 	}
 
@@ -680,6 +810,12 @@ func (stage *Stage) ComputeDifference() {
 	for point := range stage.Points_reference {
 		if _, ok := stage.Points[point]; !ok {
 			points_deletedInstances = append(points_deletedInstances, point)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Point "+point.Name,
+				)
+			}
 		}
 	}
 
@@ -692,6 +828,12 @@ func (stage *Stage) ComputeDifference() {
 	for polygone := range stage.Polygones {
 		if _, ok := stage.Polygones_reference[polygone]; !ok {
 			polygones_newInstances = append(polygones_newInstances, polygone)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Polygone "+polygone.Name,
+				)
+			}
 		}
 	}
 
@@ -699,6 +841,12 @@ func (stage *Stage) ComputeDifference() {
 	for polygone := range stage.Polygones_reference {
 		if _, ok := stage.Polygones[polygone]; !ok {
 			polygones_deletedInstances = append(polygones_deletedInstances, polygone)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Polygone "+polygone.Name,
+				)
+			}
 		}
 	}
 
@@ -711,6 +859,12 @@ func (stage *Stage) ComputeDifference() {
 	for polyline := range stage.Polylines {
 		if _, ok := stage.Polylines_reference[polyline]; !ok {
 			polylines_newInstances = append(polylines_newInstances, polyline)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Polyline "+polyline.Name,
+				)
+			}
 		}
 	}
 
@@ -718,6 +872,12 @@ func (stage *Stage) ComputeDifference() {
 	for polyline := range stage.Polylines_reference {
 		if _, ok := stage.Polylines[polyline]; !ok {
 			polylines_deletedInstances = append(polylines_deletedInstances, polyline)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Polyline "+polyline.Name,
+				)
+			}
 		}
 	}
 
@@ -730,6 +890,12 @@ func (stage *Stage) ComputeDifference() {
 	for rect := range stage.Rects {
 		if _, ok := stage.Rects_reference[rect]; !ok {
 			rects_newInstances = append(rects_newInstances, rect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Rect "+rect.Name,
+				)
+			}
 		}
 	}
 
@@ -737,6 +903,12 @@ func (stage *Stage) ComputeDifference() {
 	for rect := range stage.Rects_reference {
 		if _, ok := stage.Rects[rect]; !ok {
 			rects_deletedInstances = append(rects_deletedInstances, rect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Rect "+rect.Name,
+				)
+			}
 		}
 	}
 
@@ -749,6 +921,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredpath := range stage.RectAnchoredPaths {
 		if _, ok := stage.RectAnchoredPaths_reference[rectanchoredpath]; !ok {
 			rectanchoredpaths_newInstances = append(rectanchoredpaths_newInstances, rectanchoredpath)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of RectAnchoredPath "+rectanchoredpath.Name,
+				)
+			}
 		}
 	}
 
@@ -756,6 +934,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredpath := range stage.RectAnchoredPaths_reference {
 		if _, ok := stage.RectAnchoredPaths[rectanchoredpath]; !ok {
 			rectanchoredpaths_deletedInstances = append(rectanchoredpaths_deletedInstances, rectanchoredpath)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of RectAnchoredPath "+rectanchoredpath.Name,
+				)
+			}
 		}
 	}
 
@@ -768,6 +952,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredrect := range stage.RectAnchoredRects {
 		if _, ok := stage.RectAnchoredRects_reference[rectanchoredrect]; !ok {
 			rectanchoredrects_newInstances = append(rectanchoredrects_newInstances, rectanchoredrect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of RectAnchoredRect "+rectanchoredrect.Name,
+				)
+			}
 		}
 	}
 
@@ -775,6 +965,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredrect := range stage.RectAnchoredRects_reference {
 		if _, ok := stage.RectAnchoredRects[rectanchoredrect]; !ok {
 			rectanchoredrects_deletedInstances = append(rectanchoredrects_deletedInstances, rectanchoredrect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of RectAnchoredRect "+rectanchoredrect.Name,
+				)
+			}
 		}
 	}
 
@@ -787,6 +983,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredtext := range stage.RectAnchoredTexts {
 		if _, ok := stage.RectAnchoredTexts_reference[rectanchoredtext]; !ok {
 			rectanchoredtexts_newInstances = append(rectanchoredtexts_newInstances, rectanchoredtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of RectAnchoredText "+rectanchoredtext.Name,
+				)
+			}
 		}
 	}
 
@@ -794,6 +996,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectanchoredtext := range stage.RectAnchoredTexts_reference {
 		if _, ok := stage.RectAnchoredTexts[rectanchoredtext]; !ok {
 			rectanchoredtexts_deletedInstances = append(rectanchoredtexts_deletedInstances, rectanchoredtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of RectAnchoredText "+rectanchoredtext.Name,
+				)
+			}
 		}
 	}
 
@@ -806,6 +1014,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectlinklink := range stage.RectLinkLinks {
 		if _, ok := stage.RectLinkLinks_reference[rectlinklink]; !ok {
 			rectlinklinks_newInstances = append(rectlinklinks_newInstances, rectlinklink)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of RectLinkLink "+rectlinklink.Name,
+				)
+			}
 		}
 	}
 
@@ -813,6 +1027,12 @@ func (stage *Stage) ComputeDifference() {
 	for rectlinklink := range stage.RectLinkLinks_reference {
 		if _, ok := stage.RectLinkLinks[rectlinklink]; !ok {
 			rectlinklinks_deletedInstances = append(rectlinklinks_deletedInstances, rectlinklink)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of RectLinkLink "+rectlinklink.Name,
+				)
+			}
 		}
 	}
 
@@ -825,6 +1045,12 @@ func (stage *Stage) ComputeDifference() {
 	for svg := range stage.SVGs {
 		if _, ok := stage.SVGs_reference[svg]; !ok {
 			svgs_newInstances = append(svgs_newInstances, svg)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of SVG "+svg.Name,
+				)
+			}
 		}
 	}
 
@@ -832,6 +1058,12 @@ func (stage *Stage) ComputeDifference() {
 	for svg := range stage.SVGs_reference {
 		if _, ok := stage.SVGs[svg]; !ok {
 			svgs_deletedInstances = append(svgs_deletedInstances, svg)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of SVG "+svg.Name,
+				)
+			}
 		}
 	}
 
@@ -844,6 +1076,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgtext := range stage.SvgTexts {
 		if _, ok := stage.SvgTexts_reference[svgtext]; !ok {
 			svgtexts_newInstances = append(svgtexts_newInstances, svgtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of SvgText "+svgtext.Name,
+				)
+			}
 		}
 	}
 
@@ -851,6 +1089,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgtext := range stage.SvgTexts_reference {
 		if _, ok := stage.SvgTexts[svgtext]; !ok {
 			svgtexts_deletedInstances = append(svgtexts_deletedInstances, svgtext)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of SvgText "+svgtext.Name,
+				)
+			}
 		}
 	}
 
@@ -863,6 +1107,12 @@ func (stage *Stage) ComputeDifference() {
 	for text := range stage.Texts {
 		if _, ok := stage.Texts_reference[text]; !ok {
 			texts_newInstances = append(texts_newInstances, text)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Text "+text.Name,
+				)
+			}
 		}
 	}
 
@@ -870,6 +1120,12 @@ func (stage *Stage) ComputeDifference() {
 	for text := range stage.Texts_reference {
 		if _, ok := stage.Texts[text]; !ok {
 			texts_deletedInstances = append(texts_deletedInstances, text)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Text "+text.Name,
+				)
+			}
 		}
 	}
 

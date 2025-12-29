@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -76,6 +80,12 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents {
 		if _, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Content "+content.Name,
+				)
+			}
 		}
 	}
 
@@ -83,6 +93,12 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents_reference {
 		if _, ok := stage.Contents[content]; !ok {
 			contents_deletedInstances = append(contents_deletedInstances, content)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Content "+content.Name,
+				)
+			}
 		}
 	}
 
@@ -95,6 +111,12 @@ func (stage *Stage) ComputeDifference() {
 	for jpgimage := range stage.JpgImages {
 		if _, ok := stage.JpgImages_reference[jpgimage]; !ok {
 			jpgimages_newInstances = append(jpgimages_newInstances, jpgimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of JpgImage "+jpgimage.Name,
+				)
+			}
 		}
 	}
 
@@ -102,6 +124,12 @@ func (stage *Stage) ComputeDifference() {
 	for jpgimage := range stage.JpgImages_reference {
 		if _, ok := stage.JpgImages[jpgimage]; !ok {
 			jpgimages_deletedInstances = append(jpgimages_deletedInstances, jpgimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of JpgImage "+jpgimage.Name,
+				)
+			}
 		}
 	}
 
@@ -114,6 +142,12 @@ func (stage *Stage) ComputeDifference() {
 	for pngimage := range stage.PngImages {
 		if _, ok := stage.PngImages_reference[pngimage]; !ok {
 			pngimages_newInstances = append(pngimages_newInstances, pngimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of PngImage "+pngimage.Name,
+				)
+			}
 		}
 	}
 
@@ -121,6 +155,12 @@ func (stage *Stage) ComputeDifference() {
 	for pngimage := range stage.PngImages_reference {
 		if _, ok := stage.PngImages[pngimage]; !ok {
 			pngimages_deletedInstances = append(pngimages_deletedInstances, pngimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of PngImage "+pngimage.Name,
+				)
+			}
 		}
 	}
 
@@ -133,6 +173,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgimage := range stage.SvgImages {
 		if _, ok := stage.SvgImages_reference[svgimage]; !ok {
 			svgimages_newInstances = append(svgimages_newInstances, svgimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of SvgImage "+svgimage.Name,
+				)
+			}
 		}
 	}
 
@@ -140,6 +186,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgimage := range stage.SvgImages_reference {
 		if _, ok := stage.SvgImages[svgimage]; !ok {
 			svgimages_deletedInstances = append(svgimages_deletedInstances, svgimage)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of SvgImage "+svgimage.Name,
+				)
+			}
 		}
 	}
 

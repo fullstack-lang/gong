@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -116,6 +120,12 @@ func (stage *Stage) ComputeDifference() {
 	for button := range stage.Buttons {
 		if _, ok := stage.Buttons_reference[button]; !ok {
 			buttons_newInstances = append(buttons_newInstances, button)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Button "+button.Name,
+				)
+			}
 		}
 	}
 
@@ -123,6 +133,12 @@ func (stage *Stage) ComputeDifference() {
 	for button := range stage.Buttons_reference {
 		if _, ok := stage.Buttons[button]; !ok {
 			buttons_deletedInstances = append(buttons_deletedInstances, button)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Button "+button.Name,
+				)
+			}
 		}
 	}
 
@@ -135,6 +151,12 @@ func (stage *Stage) ComputeDifference() {
 	for buttontoggle := range stage.ButtonToggles {
 		if _, ok := stage.ButtonToggles_reference[buttontoggle]; !ok {
 			buttontoggles_newInstances = append(buttontoggles_newInstances, buttontoggle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of ButtonToggle "+buttontoggle.Name,
+				)
+			}
 		}
 	}
 
@@ -142,6 +164,12 @@ func (stage *Stage) ComputeDifference() {
 	for buttontoggle := range stage.ButtonToggles_reference {
 		if _, ok := stage.ButtonToggles[buttontoggle]; !ok {
 			buttontoggles_deletedInstances = append(buttontoggles_deletedInstances, buttontoggle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of ButtonToggle "+buttontoggle.Name,
+				)
+			}
 		}
 	}
 
@@ -154,6 +182,12 @@ func (stage *Stage) ComputeDifference() {
 	for group := range stage.Groups {
 		if _, ok := stage.Groups_reference[group]; !ok {
 			groups_newInstances = append(groups_newInstances, group)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Group "+group.Name,
+				)
+			}
 		}
 	}
 
@@ -161,6 +195,12 @@ func (stage *Stage) ComputeDifference() {
 	for group := range stage.Groups_reference {
 		if _, ok := stage.Groups[group]; !ok {
 			groups_deletedInstances = append(groups_deletedInstances, group)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Group "+group.Name,
+				)
+			}
 		}
 	}
 
@@ -173,6 +213,12 @@ func (stage *Stage) ComputeDifference() {
 	for grouptoogle := range stage.GroupToogles {
 		if _, ok := stage.GroupToogles_reference[grouptoogle]; !ok {
 			grouptoogles_newInstances = append(grouptoogles_newInstances, grouptoogle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GroupToogle "+grouptoogle.Name,
+				)
+			}
 		}
 	}
 
@@ -180,6 +226,12 @@ func (stage *Stage) ComputeDifference() {
 	for grouptoogle := range stage.GroupToogles_reference {
 		if _, ok := stage.GroupToogles[grouptoogle]; !ok {
 			grouptoogles_deletedInstances = append(grouptoogles_deletedInstances, grouptoogle)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GroupToogle "+grouptoogle.Name,
+				)
+			}
 		}
 	}
 
@@ -192,6 +244,12 @@ func (stage *Stage) ComputeDifference() {
 	for layout := range stage.Layouts {
 		if _, ok := stage.Layouts_reference[layout]; !ok {
 			layouts_newInstances = append(layouts_newInstances, layout)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Layout "+layout.Name,
+				)
+			}
 		}
 	}
 
@@ -199,6 +257,12 @@ func (stage *Stage) ComputeDifference() {
 	for layout := range stage.Layouts_reference {
 		if _, ok := stage.Layouts[layout]; !ok {
 			layouts_deletedInstances = append(layouts_deletedInstances, layout)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Layout "+layout.Name,
+				)
+			}
 		}
 	}
 

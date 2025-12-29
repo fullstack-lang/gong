@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -353,6 +357,12 @@ func (stage *Stage) ComputeDifference() {
 	for cell := range stage.Cells {
 		if _, ok := stage.Cells_reference[cell]; !ok {
 			cells_newInstances = append(cells_newInstances, cell)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Cell "+cell.Name,
+				)
+			}
 		}
 	}
 
@@ -360,6 +370,12 @@ func (stage *Stage) ComputeDifference() {
 	for cell := range stage.Cells_reference {
 		if _, ok := stage.Cells[cell]; !ok {
 			cells_deletedInstances = append(cells_deletedInstances, cell)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Cell "+cell.Name,
+				)
+			}
 		}
 	}
 
@@ -372,6 +388,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellboolean := range stage.CellBooleans {
 		if _, ok := stage.CellBooleans_reference[cellboolean]; !ok {
 			cellbooleans_newInstances = append(cellbooleans_newInstances, cellboolean)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CellBoolean "+cellboolean.Name,
+				)
+			}
 		}
 	}
 
@@ -379,6 +401,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellboolean := range stage.CellBooleans_reference {
 		if _, ok := stage.CellBooleans[cellboolean]; !ok {
 			cellbooleans_deletedInstances = append(cellbooleans_deletedInstances, cellboolean)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CellBoolean "+cellboolean.Name,
+				)
+			}
 		}
 	}
 
@@ -391,6 +419,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellfloat64 := range stage.CellFloat64s {
 		if _, ok := stage.CellFloat64s_reference[cellfloat64]; !ok {
 			cellfloat64s_newInstances = append(cellfloat64s_newInstances, cellfloat64)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CellFloat64 "+cellfloat64.Name,
+				)
+			}
 		}
 	}
 
@@ -398,6 +432,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellfloat64 := range stage.CellFloat64s_reference {
 		if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 			cellfloat64s_deletedInstances = append(cellfloat64s_deletedInstances, cellfloat64)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CellFloat64 "+cellfloat64.Name,
+				)
+			}
 		}
 	}
 
@@ -410,6 +450,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellicon := range stage.CellIcons {
 		if _, ok := stage.CellIcons_reference[cellicon]; !ok {
 			cellicons_newInstances = append(cellicons_newInstances, cellicon)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CellIcon "+cellicon.Name,
+				)
+			}
 		}
 	}
 
@@ -417,6 +463,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellicon := range stage.CellIcons_reference {
 		if _, ok := stage.CellIcons[cellicon]; !ok {
 			cellicons_deletedInstances = append(cellicons_deletedInstances, cellicon)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CellIcon "+cellicon.Name,
+				)
+			}
 		}
 	}
 
@@ -429,6 +481,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellint := range stage.CellInts {
 		if _, ok := stage.CellInts_reference[cellint]; !ok {
 			cellints_newInstances = append(cellints_newInstances, cellint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CellInt "+cellint.Name,
+				)
+			}
 		}
 	}
 
@@ -436,6 +494,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellint := range stage.CellInts_reference {
 		if _, ok := stage.CellInts[cellint]; !ok {
 			cellints_deletedInstances = append(cellints_deletedInstances, cellint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CellInt "+cellint.Name,
+				)
+			}
 		}
 	}
 
@@ -448,6 +512,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellstring := range stage.CellStrings {
 		if _, ok := stage.CellStrings_reference[cellstring]; !ok {
 			cellstrings_newInstances = append(cellstrings_newInstances, cellstring)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CellString "+cellstring.Name,
+				)
+			}
 		}
 	}
 
@@ -455,6 +525,12 @@ func (stage *Stage) ComputeDifference() {
 	for cellstring := range stage.CellStrings_reference {
 		if _, ok := stage.CellStrings[cellstring]; !ok {
 			cellstrings_deletedInstances = append(cellstrings_deletedInstances, cellstring)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CellString "+cellstring.Name,
+				)
+			}
 		}
 	}
 
@@ -467,6 +543,12 @@ func (stage *Stage) ComputeDifference() {
 	for checkbox := range stage.CheckBoxs {
 		if _, ok := stage.CheckBoxs_reference[checkbox]; !ok {
 			checkboxs_newInstances = append(checkboxs_newInstances, checkbox)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of CheckBox "+checkbox.Name,
+				)
+			}
 		}
 	}
 
@@ -474,6 +556,12 @@ func (stage *Stage) ComputeDifference() {
 	for checkbox := range stage.CheckBoxs_reference {
 		if _, ok := stage.CheckBoxs[checkbox]; !ok {
 			checkboxs_deletedInstances = append(checkboxs_deletedInstances, checkbox)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of CheckBox "+checkbox.Name,
+				)
+			}
 		}
 	}
 
@@ -486,6 +574,12 @@ func (stage *Stage) ComputeDifference() {
 	for displayedcolumn := range stage.DisplayedColumns {
 		if _, ok := stage.DisplayedColumns_reference[displayedcolumn]; !ok {
 			displayedcolumns_newInstances = append(displayedcolumns_newInstances, displayedcolumn)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of DisplayedColumn "+displayedcolumn.Name,
+				)
+			}
 		}
 	}
 
@@ -493,6 +587,12 @@ func (stage *Stage) ComputeDifference() {
 	for displayedcolumn := range stage.DisplayedColumns_reference {
 		if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 			displayedcolumns_deletedInstances = append(displayedcolumns_deletedInstances, displayedcolumn)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of DisplayedColumn "+displayedcolumn.Name,
+				)
+			}
 		}
 	}
 
@@ -505,6 +605,12 @@ func (stage *Stage) ComputeDifference() {
 	for formdiv := range stage.FormDivs {
 		if _, ok := stage.FormDivs_reference[formdiv]; !ok {
 			formdivs_newInstances = append(formdivs_newInstances, formdiv)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormDiv "+formdiv.Name,
+				)
+			}
 		}
 	}
 
@@ -512,6 +618,12 @@ func (stage *Stage) ComputeDifference() {
 	for formdiv := range stage.FormDivs_reference {
 		if _, ok := stage.FormDivs[formdiv]; !ok {
 			formdivs_deletedInstances = append(formdivs_deletedInstances, formdiv)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormDiv "+formdiv.Name,
+				)
+			}
 		}
 	}
 
@@ -524,6 +636,12 @@ func (stage *Stage) ComputeDifference() {
 	for formeditassocbutton := range stage.FormEditAssocButtons {
 		if _, ok := stage.FormEditAssocButtons_reference[formeditassocbutton]; !ok {
 			formeditassocbuttons_newInstances = append(formeditassocbuttons_newInstances, formeditassocbutton)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormEditAssocButton "+formeditassocbutton.Name,
+				)
+			}
 		}
 	}
 
@@ -531,6 +649,12 @@ func (stage *Stage) ComputeDifference() {
 	for formeditassocbutton := range stage.FormEditAssocButtons_reference {
 		if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 			formeditassocbuttons_deletedInstances = append(formeditassocbuttons_deletedInstances, formeditassocbutton)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormEditAssocButton "+formeditassocbutton.Name,
+				)
+			}
 		}
 	}
 
@@ -543,6 +667,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfield := range stage.FormFields {
 		if _, ok := stage.FormFields_reference[formfield]; !ok {
 			formfields_newInstances = append(formfields_newInstances, formfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormField "+formfield.Name,
+				)
+			}
 		}
 	}
 
@@ -550,6 +680,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfield := range stage.FormFields_reference {
 		if _, ok := stage.FormFields[formfield]; !ok {
 			formfields_deletedInstances = append(formfields_deletedInstances, formfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormField "+formfield.Name,
+				)
+			}
 		}
 	}
 
@@ -562,6 +698,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddate := range stage.FormFieldDates {
 		if _, ok := stage.FormFieldDates_reference[formfielddate]; !ok {
 			formfielddates_newInstances = append(formfielddates_newInstances, formfielddate)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldDate "+formfielddate.Name,
+				)
+			}
 		}
 	}
 
@@ -569,6 +711,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddate := range stage.FormFieldDates_reference {
 		if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 			formfielddates_deletedInstances = append(formfielddates_deletedInstances, formfielddate)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldDate "+formfielddate.Name,
+				)
+			}
 		}
 	}
 
@@ -581,6 +729,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddatetime := range stage.FormFieldDateTimes {
 		if _, ok := stage.FormFieldDateTimes_reference[formfielddatetime]; !ok {
 			formfielddatetimes_newInstances = append(formfielddatetimes_newInstances, formfielddatetime)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldDateTime "+formfielddatetime.Name,
+				)
+			}
 		}
 	}
 
@@ -588,6 +742,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddatetime := range stage.FormFieldDateTimes_reference {
 		if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 			formfielddatetimes_deletedInstances = append(formfielddatetimes_deletedInstances, formfielddatetime)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldDateTime "+formfielddatetime.Name,
+				)
+			}
 		}
 	}
 
@@ -600,6 +760,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldfloat64 := range stage.FormFieldFloat64s {
 		if _, ok := stage.FormFieldFloat64s_reference[formfieldfloat64]; !ok {
 			formfieldfloat64s_newInstances = append(formfieldfloat64s_newInstances, formfieldfloat64)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldFloat64 "+formfieldfloat64.Name,
+				)
+			}
 		}
 	}
 
@@ -607,6 +773,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldfloat64 := range stage.FormFieldFloat64s_reference {
 		if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 			formfieldfloat64s_deletedInstances = append(formfieldfloat64s_deletedInstances, formfieldfloat64)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldFloat64 "+formfieldfloat64.Name,
+				)
+			}
 		}
 	}
 
@@ -619,6 +791,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldint := range stage.FormFieldInts {
 		if _, ok := stage.FormFieldInts_reference[formfieldint]; !ok {
 			formfieldints_newInstances = append(formfieldints_newInstances, formfieldint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldInt "+formfieldint.Name,
+				)
+			}
 		}
 	}
 
@@ -626,6 +804,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldint := range stage.FormFieldInts_reference {
 		if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 			formfieldints_deletedInstances = append(formfieldints_deletedInstances, formfieldint)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldInt "+formfieldint.Name,
+				)
+			}
 		}
 	}
 
@@ -638,6 +822,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldselect := range stage.FormFieldSelects {
 		if _, ok := stage.FormFieldSelects_reference[formfieldselect]; !ok {
 			formfieldselects_newInstances = append(formfieldselects_newInstances, formfieldselect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldSelect "+formfieldselect.Name,
+				)
+			}
 		}
 	}
 
@@ -645,6 +835,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldselect := range stage.FormFieldSelects_reference {
 		if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 			formfieldselects_deletedInstances = append(formfieldselects_deletedInstances, formfieldselect)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldSelect "+formfieldselect.Name,
+				)
+			}
 		}
 	}
 
@@ -657,6 +853,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldstring := range stage.FormFieldStrings {
 		if _, ok := stage.FormFieldStrings_reference[formfieldstring]; !ok {
 			formfieldstrings_newInstances = append(formfieldstrings_newInstances, formfieldstring)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldString "+formfieldstring.Name,
+				)
+			}
 		}
 	}
 
@@ -664,6 +866,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldstring := range stage.FormFieldStrings_reference {
 		if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 			formfieldstrings_deletedInstances = append(formfieldstrings_deletedInstances, formfieldstring)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldString "+formfieldstring.Name,
+				)
+			}
 		}
 	}
 
@@ -676,6 +884,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldtime := range stage.FormFieldTimes {
 		if _, ok := stage.FormFieldTimes_reference[formfieldtime]; !ok {
 			formfieldtimes_newInstances = append(formfieldtimes_newInstances, formfieldtime)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormFieldTime "+formfieldtime.Name,
+				)
+			}
 		}
 	}
 
@@ -683,6 +897,12 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldtime := range stage.FormFieldTimes_reference {
 		if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 			formfieldtimes_deletedInstances = append(formfieldtimes_deletedInstances, formfieldtime)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormFieldTime "+formfieldtime.Name,
+				)
+			}
 		}
 	}
 
@@ -695,6 +915,12 @@ func (stage *Stage) ComputeDifference() {
 	for formgroup := range stage.FormGroups {
 		if _, ok := stage.FormGroups_reference[formgroup]; !ok {
 			formgroups_newInstances = append(formgroups_newInstances, formgroup)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormGroup "+formgroup.Name,
+				)
+			}
 		}
 	}
 
@@ -702,6 +928,12 @@ func (stage *Stage) ComputeDifference() {
 	for formgroup := range stage.FormGroups_reference {
 		if _, ok := stage.FormGroups[formgroup]; !ok {
 			formgroups_deletedInstances = append(formgroups_deletedInstances, formgroup)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormGroup "+formgroup.Name,
+				)
+			}
 		}
 	}
 
@@ -714,6 +946,12 @@ func (stage *Stage) ComputeDifference() {
 	for formsortassocbutton := range stage.FormSortAssocButtons {
 		if _, ok := stage.FormSortAssocButtons_reference[formsortassocbutton]; !ok {
 			formsortassocbuttons_newInstances = append(formsortassocbuttons_newInstances, formsortassocbutton)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FormSortAssocButton "+formsortassocbutton.Name,
+				)
+			}
 		}
 	}
 
@@ -721,6 +959,12 @@ func (stage *Stage) ComputeDifference() {
 	for formsortassocbutton := range stage.FormSortAssocButtons_reference {
 		if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 			formsortassocbuttons_deletedInstances = append(formsortassocbuttons_deletedInstances, formsortassocbutton)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FormSortAssocButton "+formsortassocbutton.Name,
+				)
+			}
 		}
 	}
 
@@ -733,6 +977,12 @@ func (stage *Stage) ComputeDifference() {
 	for option := range stage.Options {
 		if _, ok := stage.Options_reference[option]; !ok {
 			options_newInstances = append(options_newInstances, option)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Option "+option.Name,
+				)
+			}
 		}
 	}
 
@@ -740,6 +990,12 @@ func (stage *Stage) ComputeDifference() {
 	for option := range stage.Options_reference {
 		if _, ok := stage.Options[option]; !ok {
 			options_deletedInstances = append(options_deletedInstances, option)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Option "+option.Name,
+				)
+			}
 		}
 	}
 
@@ -752,6 +1008,12 @@ func (stage *Stage) ComputeDifference() {
 	for row := range stage.Rows {
 		if _, ok := stage.Rows_reference[row]; !ok {
 			rows_newInstances = append(rows_newInstances, row)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Row "+row.Name,
+				)
+			}
 		}
 	}
 
@@ -759,6 +1021,12 @@ func (stage *Stage) ComputeDifference() {
 	for row := range stage.Rows_reference {
 		if _, ok := stage.Rows[row]; !ok {
 			rows_deletedInstances = append(rows_deletedInstances, row)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Row "+row.Name,
+				)
+			}
 		}
 	}
 
@@ -771,6 +1039,12 @@ func (stage *Stage) ComputeDifference() {
 	for table := range stage.Tables {
 		if _, ok := stage.Tables_reference[table]; !ok {
 			tables_newInstances = append(tables_newInstances, table)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Table "+table.Name,
+				)
+			}
 		}
 	}
 
@@ -778,6 +1052,12 @@ func (stage *Stage) ComputeDifference() {
 	for table := range stage.Tables_reference {
 		if _, ok := stage.Tables[table]; !ok {
 			tables_deletedInstances = append(tables_deletedInstances, table)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Table "+table.Name,
+				)
+			}
 		}
 	}
 
