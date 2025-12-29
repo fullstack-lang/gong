@@ -187,7 +187,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Astruct "+astruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Astruct \""+astruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -229,7 +229,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of AstructBstruct2Use "+astructbstruct2use.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of AstructBstruct2Use \""+astructbstruct2use.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -271,7 +271,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of AstructBstructUse "+astructbstructuse.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of AstructBstructUse \""+astructbstructuse.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -313,7 +313,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Bstruct "+bstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Bstruct \""+bstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -355,7 +355,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Dstruct "+dstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Dstruct \""+dstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -397,7 +397,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of F0123456789012345678901234567890 \""+f0123456789012345678901234567890.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -439,7 +439,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Gstruct "+gstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Gstruct \""+gstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -464,9 +464,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(gstructs_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().CommitNotificationTable()
-		}
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
 	}
 }
 

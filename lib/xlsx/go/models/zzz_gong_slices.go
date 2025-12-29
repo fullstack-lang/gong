@@ -135,7 +135,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of DisplaySelection "+displayselection.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of DisplaySelection \""+displayselection.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -177,7 +177,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of XLCell "+xlcell.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of XLCell \""+xlcell.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -219,7 +219,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of XLFile "+xlfile.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of XLFile \""+xlfile.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -261,7 +261,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of XLRow "+xlrow.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of XLRow \""+xlrow.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -303,7 +303,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of XLSheet "+xlsheet.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of XLSheet \""+xlsheet.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -328,9 +328,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().CommitNotificationTable()
-		}
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
 	}
 }
 
