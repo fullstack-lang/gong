@@ -46,12 +46,8 @@ map[ModelGongMarshallStructInsertionId]string{
 		identifiersDecl += "\n"
 	}
 	for _, {{structname}} := range {{structname}}Ordered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += {{structname}}.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values{{ValuesInitialization}}

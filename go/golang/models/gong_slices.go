@@ -71,6 +71,9 @@ func (stage *Stage) ComputeReference() {
 // in the staging area
 // It is used to identify instances across sessions
 // insertion point per named struct{{` + string(rune(GongSliceGongGetIdentifier)) + `}}
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -84,6 +87,7 @@ const (
 	GongSliceGongComputeReference
 	GongSliceGongGetOrder
 	GongSliceGongGetIdentifier
+	GongSliceMarshallDeclaration
 	GongSliceGongstructInsertionNb
 )
 
@@ -169,6 +173,14 @@ func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
 }
 `,
+	GongSliceMarshallDeclaration: `
+func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+	return
+}`,
 }
 
 type GongSliceSubTemplateId int
