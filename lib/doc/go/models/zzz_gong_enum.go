@@ -561,7 +561,7 @@ type GongstructEnumIntField interface {
 }
 
 type PointerToGongstructEnumIntField interface {
-	*ButtonType | *GongEnumShapeType
+	//insertion point for pointers to enum int types | *ButtonType | *GongEnumShapeType
 	FromCodeString(input string) (err error)
 }
 

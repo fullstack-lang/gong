@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -136,7 +140,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (gongbasicfield *GongBasicField) GongCopy() GongstructIF {
 	newInstance := *gongbasicfield
@@ -193,24 +196,35 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongCopy
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var gongbasicfields_newInstances []*GongBasicField
 	var gongbasicfields_deletedInstances []*GongBasicField
 
 	// parse all staged instances and check if they have a reference
 	for gongbasicfield := range stage.GongBasicFields {
-		if _, ok := stage.GongBasicFields_reference[gongbasicfield]; !ok {
+		if ref, ok := stage.GongBasicFields_reference[gongbasicfield]; !ok {
 			gongbasicfields_newInstances = append(gongbasicfields_newInstances, gongbasicfield)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongBasicField "+gongbasicfield.Name,
+					"Commit detected new instance of GongBasicField "+gongbasicfield.Name,
 				)
+			}
+		} else {
+			diffs := gongbasicfield.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongBasicField "+gongbasicfield.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -222,7 +236,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongBasicField "+gongbasicfield.Name,
+					"Commit detected deleted instance of GongBasicField "+gongbasicfield.Name,
 				)
 			}
 		}
@@ -235,13 +249,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongenum := range stage.GongEnums {
-		if _, ok := stage.GongEnums_reference[gongenum]; !ok {
+		if ref, ok := stage.GongEnums_reference[gongenum]; !ok {
 			gongenums_newInstances = append(gongenums_newInstances, gongenum)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongEnum "+gongenum.Name,
+					"Commit detected new instance of GongEnum "+gongenum.Name,
 				)
+			}
+		} else {
+			diffs := gongenum.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongEnum "+gongenum.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -253,7 +278,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongEnum "+gongenum.Name,
+					"Commit detected deleted instance of GongEnum "+gongenum.Name,
 				)
 			}
 		}
@@ -266,13 +291,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongenumvalue := range stage.GongEnumValues {
-		if _, ok := stage.GongEnumValues_reference[gongenumvalue]; !ok {
+		if ref, ok := stage.GongEnumValues_reference[gongenumvalue]; !ok {
 			gongenumvalues_newInstances = append(gongenumvalues_newInstances, gongenumvalue)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongEnumValue "+gongenumvalue.Name,
+					"Commit detected new instance of GongEnumValue "+gongenumvalue.Name,
 				)
+			}
+		} else {
+			diffs := gongenumvalue.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongEnumValue "+gongenumvalue.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -284,7 +320,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongEnumValue "+gongenumvalue.Name,
+					"Commit detected deleted instance of GongEnumValue "+gongenumvalue.Name,
 				)
 			}
 		}
@@ -297,13 +333,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gonglink := range stage.GongLinks {
-		if _, ok := stage.GongLinks_reference[gonglink]; !ok {
+		if ref, ok := stage.GongLinks_reference[gonglink]; !ok {
 			gonglinks_newInstances = append(gonglinks_newInstances, gonglink)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongLink "+gonglink.Name,
+					"Commit detected new instance of GongLink "+gonglink.Name,
 				)
+			}
+		} else {
+			diffs := gonglink.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongLink "+gonglink.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -315,7 +362,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongLink "+gonglink.Name,
+					"Commit detected deleted instance of GongLink "+gonglink.Name,
 				)
 			}
 		}
@@ -328,13 +375,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongnote := range stage.GongNotes {
-		if _, ok := stage.GongNotes_reference[gongnote]; !ok {
+		if ref, ok := stage.GongNotes_reference[gongnote]; !ok {
 			gongnotes_newInstances = append(gongnotes_newInstances, gongnote)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongNote "+gongnote.Name,
+					"Commit detected new instance of GongNote "+gongnote.Name,
 				)
+			}
+		} else {
+			diffs := gongnote.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongNote "+gongnote.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -346,7 +404,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongNote "+gongnote.Name,
+					"Commit detected deleted instance of GongNote "+gongnote.Name,
 				)
 			}
 		}
@@ -359,13 +417,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongstruct := range stage.GongStructs {
-		if _, ok := stage.GongStructs_reference[gongstruct]; !ok {
+		if ref, ok := stage.GongStructs_reference[gongstruct]; !ok {
 			gongstructs_newInstances = append(gongstructs_newInstances, gongstruct)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongStruct "+gongstruct.Name,
+					"Commit detected new instance of GongStruct "+gongstruct.Name,
 				)
+			}
+		} else {
+			diffs := gongstruct.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongStruct "+gongstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -377,7 +446,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongStruct "+gongstruct.Name,
+					"Commit detected deleted instance of GongStruct "+gongstruct.Name,
 				)
 			}
 		}
@@ -390,13 +459,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongtimefield := range stage.GongTimeFields {
-		if _, ok := stage.GongTimeFields_reference[gongtimefield]; !ok {
+		if ref, ok := stage.GongTimeFields_reference[gongtimefield]; !ok {
 			gongtimefields_newInstances = append(gongtimefields_newInstances, gongtimefield)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongTimeField "+gongtimefield.Name,
+					"Commit detected new instance of GongTimeField "+gongtimefield.Name,
 				)
+			}
+		} else {
+			diffs := gongtimefield.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongTimeField "+gongtimefield.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -408,7 +488,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongTimeField "+gongtimefield.Name,
+					"Commit detected deleted instance of GongTimeField "+gongtimefield.Name,
 				)
 			}
 		}
@@ -421,13 +501,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for metareference := range stage.MetaReferences {
-		if _, ok := stage.MetaReferences_reference[metareference]; !ok {
+		if ref, ok := stage.MetaReferences_reference[metareference]; !ok {
 			metareferences_newInstances = append(metareferences_newInstances, metareference)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of MetaReference "+metareference.Name,
+					"Commit detected new instance of MetaReference "+metareference.Name,
 				)
+			}
+		} else {
+			diffs := metareference.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of MetaReference "+metareference.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -439,7 +530,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of MetaReference "+metareference.Name,
+					"Commit detected deleted instance of MetaReference "+metareference.Name,
 				)
 			}
 		}
@@ -452,13 +543,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for modelpkg := range stage.ModelPkgs {
-		if _, ok := stage.ModelPkgs_reference[modelpkg]; !ok {
+		if ref, ok := stage.ModelPkgs_reference[modelpkg]; !ok {
 			modelpkgs_newInstances = append(modelpkgs_newInstances, modelpkg)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of ModelPkg "+modelpkg.Name,
+					"Commit detected new instance of ModelPkg "+modelpkg.Name,
 				)
+			}
+		} else {
+			diffs := modelpkg.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of ModelPkg "+modelpkg.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -470,7 +572,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of ModelPkg "+modelpkg.Name,
+					"Commit detected deleted instance of ModelPkg "+modelpkg.Name,
 				)
 			}
 		}
@@ -483,13 +585,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for pointertogongstructfield := range stage.PointerToGongStructFields {
-		if _, ok := stage.PointerToGongStructFields_reference[pointertogongstructfield]; !ok {
+		if ref, ok := stage.PointerToGongStructFields_reference[pointertogongstructfield]; !ok {
 			pointertogongstructfields_newInstances = append(pointertogongstructfields_newInstances, pointertogongstructfield)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of PointerToGongStructField "+pointertogongstructfield.Name,
+					"Commit detected new instance of PointerToGongStructField "+pointertogongstructfield.Name,
 				)
+			}
+		} else {
+			diffs := pointertogongstructfield.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of PointerToGongStructField "+pointertogongstructfield.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -501,7 +614,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of PointerToGongStructField "+pointertogongstructfield.Name,
+					"Commit detected deleted instance of PointerToGongStructField "+pointertogongstructfield.Name,
 				)
 			}
 		}
@@ -514,13 +627,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
-		if _, ok := stage.SliceOfPointerToGongStructFields_reference[sliceofpointertogongstructfield]; !ok {
+		if ref, ok := stage.SliceOfPointerToGongStructFields_reference[sliceofpointertogongstructfield]; !ok {
 			sliceofpointertogongstructfields_newInstances = append(sliceofpointertogongstructfields_newInstances, sliceofpointertogongstructfield)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
+					"Commit detected new instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
 				)
+			}
+		} else {
+			diffs := sliceofpointertogongstructfield.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -532,7 +656,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
+					"Commit detected deleted instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
 				)
 			}
 		}
@@ -541,7 +665,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(sliceofpointertogongstructfields_newInstances)
 	lenDeletedInstances += len(sliceofpointertogongstructfields_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -554,57 +678,57 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.GongBasicFields_reference = make(map[*GongBasicField]*GongBasicField)
 	for instance := range stage.GongBasicFields {
-		stage.GongBasicFields_reference[instance] = instance
+		stage.GongBasicFields_reference[instance] = instance.GongCopy().(*GongBasicField)
 	}
 
 	stage.GongEnums_reference = make(map[*GongEnum]*GongEnum)
 	for instance := range stage.GongEnums {
-		stage.GongEnums_reference[instance] = instance
+		stage.GongEnums_reference[instance] = instance.GongCopy().(*GongEnum)
 	}
 
 	stage.GongEnumValues_reference = make(map[*GongEnumValue]*GongEnumValue)
 	for instance := range stage.GongEnumValues {
-		stage.GongEnumValues_reference[instance] = instance
+		stage.GongEnumValues_reference[instance] = instance.GongCopy().(*GongEnumValue)
 	}
 
 	stage.GongLinks_reference = make(map[*GongLink]*GongLink)
 	for instance := range stage.GongLinks {
-		stage.GongLinks_reference[instance] = instance
+		stage.GongLinks_reference[instance] = instance.GongCopy().(*GongLink)
 	}
 
 	stage.GongNotes_reference = make(map[*GongNote]*GongNote)
 	for instance := range stage.GongNotes {
-		stage.GongNotes_reference[instance] = instance
+		stage.GongNotes_reference[instance] = instance.GongCopy().(*GongNote)
 	}
 
 	stage.GongStructs_reference = make(map[*GongStruct]*GongStruct)
 	for instance := range stage.GongStructs {
-		stage.GongStructs_reference[instance] = instance
+		stage.GongStructs_reference[instance] = instance.GongCopy().(*GongStruct)
 	}
 
 	stage.GongTimeFields_reference = make(map[*GongTimeField]*GongTimeField)
 	for instance := range stage.GongTimeFields {
-		stage.GongTimeFields_reference[instance] = instance
+		stage.GongTimeFields_reference[instance] = instance.GongCopy().(*GongTimeField)
 	}
 
 	stage.MetaReferences_reference = make(map[*MetaReference]*MetaReference)
 	for instance := range stage.MetaReferences {
-		stage.MetaReferences_reference[instance] = instance
+		stage.MetaReferences_reference[instance] = instance.GongCopy().(*MetaReference)
 	}
 
 	stage.ModelPkgs_reference = make(map[*ModelPkg]*ModelPkg)
 	for instance := range stage.ModelPkgs {
-		stage.ModelPkgs_reference[instance] = instance
+		stage.ModelPkgs_reference[instance] = instance.GongCopy().(*ModelPkg)
 	}
 
 	stage.PointerToGongStructFields_reference = make(map[*PointerToGongStructField]*PointerToGongStructField)
 	for instance := range stage.PointerToGongStructFields {
-		stage.PointerToGongStructFields_reference[instance] = instance
+		stage.PointerToGongStructFields_reference[instance] = instance.GongCopy().(*PointerToGongStructField)
 	}
 
 	stage.SliceOfPointerToGongStructFields_reference = make(map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField)
 	for instance := range stage.SliceOfPointerToGongStructFields {
-		stage.SliceOfPointerToGongStructFields_reference[instance] = instance
+		stage.SliceOfPointerToGongStructFields_reference[instance] = instance.GongCopy().(*SliceOfPointerToGongStructField)
 	}
 
 }

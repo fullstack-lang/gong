@@ -482,7 +482,6 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -537,24 +536,24 @@ func (xlfile *XLFile) GongDiff(xlfileOther *XLFile) (diffs []string) {
 		diffs = append(diffs, "NbSheets")
 	}
 	SheetsDifferent := false
-    if len(xlfile.Sheets) != len(xlfileOther.Sheets) {
-        SheetsDifferent = true
-    } else {
-        for i := range xlfile.Sheets {
-            if (xlfile.Sheets[i] == nil) != (xlfileOther.Sheets[i] == nil) {
-                SheetsDifferent = true
-                break
-            } else if xlfile.Sheets[i] != nil && xlfileOther.Sheets[i] != nil {
-                if len(xlfile.Sheets[i].GongDiff(xlfileOther.Sheets[i])) > 0 {
-                    SheetsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SheetsDifferent {
-        diffs = append(diffs, "Sheets")
-    }
+	if len(xlfile.Sheets) != len(xlfileOther.Sheets) {
+		SheetsDifferent = true
+	} else {
+		for i := range xlfile.Sheets {
+			if (xlfile.Sheets[i] == nil) != (xlfileOther.Sheets[i] == nil) {
+				SheetsDifferent = true
+				break
+			} else if xlfile.Sheets[i] != nil && xlfileOther.Sheets[i] != nil {
+				if len(xlfile.Sheets[i].GongDiff(xlfileOther.Sheets[i])) > 0 {
+					SheetsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SheetsDifferent {
+		diffs = append(diffs, "Sheets")
+	}
 
 	return
 }
@@ -570,24 +569,24 @@ func (xlrow *XLRow) GongDiff(xlrowOther *XLRow) (diffs []string) {
 		diffs = append(diffs, "RowIndex")
 	}
 	CellsDifferent := false
-    if len(xlrow.Cells) != len(xlrowOther.Cells) {
-        CellsDifferent = true
-    } else {
-        for i := range xlrow.Cells {
-            if (xlrow.Cells[i] == nil) != (xlrowOther.Cells[i] == nil) {
-                CellsDifferent = true
-                break
-            } else if xlrow.Cells[i] != nil && xlrowOther.Cells[i] != nil {
-                if len(xlrow.Cells[i].GongDiff(xlrowOther.Cells[i])) > 0 {
-                    CellsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if CellsDifferent {
-        diffs = append(diffs, "Cells")
-    }
+	if len(xlrow.Cells) != len(xlrowOther.Cells) {
+		CellsDifferent = true
+	} else {
+		for i := range xlrow.Cells {
+			if (xlrow.Cells[i] == nil) != (xlrowOther.Cells[i] == nil) {
+				CellsDifferent = true
+				break
+			} else if xlrow.Cells[i] != nil && xlrowOther.Cells[i] != nil {
+				if len(xlrow.Cells[i].GongDiff(xlrowOther.Cells[i])) > 0 {
+					CellsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CellsDifferent {
+		diffs = append(diffs, "Cells")
+	}
 
 	return
 }
@@ -609,43 +608,43 @@ func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
 		diffs = append(diffs, "NbRows")
 	}
 	RowsDifferent := false
-    if len(xlsheet.Rows) != len(xlsheetOther.Rows) {
-        RowsDifferent = true
-    } else {
-        for i := range xlsheet.Rows {
-            if (xlsheet.Rows[i] == nil) != (xlsheetOther.Rows[i] == nil) {
-                RowsDifferent = true
-                break
-            } else if xlsheet.Rows[i] != nil && xlsheetOther.Rows[i] != nil {
-                if len(xlsheet.Rows[i].GongDiff(xlsheetOther.Rows[i])) > 0 {
-                    RowsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RowsDifferent {
-        diffs = append(diffs, "Rows")
-    }
+	if len(xlsheet.Rows) != len(xlsheetOther.Rows) {
+		RowsDifferent = true
+	} else {
+		for i := range xlsheet.Rows {
+			if (xlsheet.Rows[i] == nil) != (xlsheetOther.Rows[i] == nil) {
+				RowsDifferent = true
+				break
+			} else if xlsheet.Rows[i] != nil && xlsheetOther.Rows[i] != nil {
+				if len(xlsheet.Rows[i].GongDiff(xlsheetOther.Rows[i])) > 0 {
+					RowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RowsDifferent {
+		diffs = append(diffs, "Rows")
+	}
 	SheetCellsDifferent := false
-    if len(xlsheet.SheetCells) != len(xlsheetOther.SheetCells) {
-        SheetCellsDifferent = true
-    } else {
-        for i := range xlsheet.SheetCells {
-            if (xlsheet.SheetCells[i] == nil) != (xlsheetOther.SheetCells[i] == nil) {
-                SheetCellsDifferent = true
-                break
-            } else if xlsheet.SheetCells[i] != nil && xlsheetOther.SheetCells[i] != nil {
-                if len(xlsheet.SheetCells[i].GongDiff(xlsheetOther.SheetCells[i])) > 0 {
-                    SheetCellsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SheetCellsDifferent {
-        diffs = append(diffs, "SheetCells")
-    }
+	if len(xlsheet.SheetCells) != len(xlsheetOther.SheetCells) {
+		SheetCellsDifferent = true
+	} else {
+		for i := range xlsheet.SheetCells {
+			if (xlsheet.SheetCells[i] == nil) != (xlsheetOther.SheetCells[i] == nil) {
+				SheetCellsDifferent = true
+				break
+			} else if xlsheet.SheetCells[i] != nil && xlsheetOther.SheetCells[i] != nil {
+				if len(xlsheet.SheetCells[i].GongDiff(xlsheetOther.SheetCells[i])) > 0 {
+					SheetCellsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SheetCellsDifferent {
+		diffs = append(diffs, "SheetCells")
+	}
 
 	return
 }

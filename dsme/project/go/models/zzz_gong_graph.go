@@ -1508,7 +1508,6 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1542,280 +1541,280 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		diffs = append(diffs, "ComputedPrefix")
 	}
 	Product_ShapesDifferent := false
-    if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
-        Product_ShapesDifferent = true
-    } else {
-        for i := range diagram.Product_Shapes {
-            if (diagram.Product_Shapes[i] == nil) != (diagramOther.Product_Shapes[i] == nil) {
-                Product_ShapesDifferent = true
-                break
-            } else if diagram.Product_Shapes[i] != nil && diagramOther.Product_Shapes[i] != nil {
-                if len(diagram.Product_Shapes[i].GongDiff(diagramOther.Product_Shapes[i])) > 0 {
-                    Product_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Product_ShapesDifferent {
-        diffs = append(diffs, "Product_Shapes")
-    }
+	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
+		Product_ShapesDifferent = true
+	} else {
+		for i := range diagram.Product_Shapes {
+			if (diagram.Product_Shapes[i] == nil) != (diagramOther.Product_Shapes[i] == nil) {
+				Product_ShapesDifferent = true
+				break
+			} else if diagram.Product_Shapes[i] != nil && diagramOther.Product_Shapes[i] != nil {
+				if len(diagram.Product_Shapes[i].GongDiff(diagramOther.Product_Shapes[i])) > 0 {
+					Product_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Product_ShapesDifferent {
+		diffs = append(diffs, "Product_Shapes")
+	}
 	ProductsWhoseNodeIsExpandedDifferent := false
-    if len(diagram.ProductsWhoseNodeIsExpanded) != len(diagramOther.ProductsWhoseNodeIsExpanded) {
-        ProductsWhoseNodeIsExpandedDifferent = true
-    } else {
-        for i := range diagram.ProductsWhoseNodeIsExpanded {
-            if (diagram.ProductsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ProductsWhoseNodeIsExpanded[i] == nil) {
-                ProductsWhoseNodeIsExpandedDifferent = true
-                break
-            } else if diagram.ProductsWhoseNodeIsExpanded[i] != nil && diagramOther.ProductsWhoseNodeIsExpanded[i] != nil {
-                if len(diagram.ProductsWhoseNodeIsExpanded[i].GongDiff(diagramOther.ProductsWhoseNodeIsExpanded[i])) > 0 {
-                    ProductsWhoseNodeIsExpandedDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ProductsWhoseNodeIsExpandedDifferent {
-        diffs = append(diffs, "ProductsWhoseNodeIsExpanded")
-    }
+	if len(diagram.ProductsWhoseNodeIsExpanded) != len(diagramOther.ProductsWhoseNodeIsExpanded) {
+		ProductsWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.ProductsWhoseNodeIsExpanded {
+			if (diagram.ProductsWhoseNodeIsExpanded[i] == nil) != (diagramOther.ProductsWhoseNodeIsExpanded[i] == nil) {
+				ProductsWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.ProductsWhoseNodeIsExpanded[i] != nil && diagramOther.ProductsWhoseNodeIsExpanded[i] != nil {
+				if len(diagram.ProductsWhoseNodeIsExpanded[i].GongDiff(diagramOther.ProductsWhoseNodeIsExpanded[i])) > 0 {
+					ProductsWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProductsWhoseNodeIsExpandedDifferent {
+		diffs = append(diffs, "ProductsWhoseNodeIsExpanded")
+	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
 		diffs = append(diffs, "IsPBSNodeExpanded")
 	}
 	ProductComposition_ShapesDifferent := false
-    if len(diagram.ProductComposition_Shapes) != len(diagramOther.ProductComposition_Shapes) {
-        ProductComposition_ShapesDifferent = true
-    } else {
-        for i := range diagram.ProductComposition_Shapes {
-            if (diagram.ProductComposition_Shapes[i] == nil) != (diagramOther.ProductComposition_Shapes[i] == nil) {
-                ProductComposition_ShapesDifferent = true
-                break
-            } else if diagram.ProductComposition_Shapes[i] != nil && diagramOther.ProductComposition_Shapes[i] != nil {
-                if len(diagram.ProductComposition_Shapes[i].GongDiff(diagramOther.ProductComposition_Shapes[i])) > 0 {
-                    ProductComposition_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ProductComposition_ShapesDifferent {
-        diffs = append(diffs, "ProductComposition_Shapes")
-    }
+	if len(diagram.ProductComposition_Shapes) != len(diagramOther.ProductComposition_Shapes) {
+		ProductComposition_ShapesDifferent = true
+	} else {
+		for i := range diagram.ProductComposition_Shapes {
+			if (diagram.ProductComposition_Shapes[i] == nil) != (diagramOther.ProductComposition_Shapes[i] == nil) {
+				ProductComposition_ShapesDifferent = true
+				break
+			} else if diagram.ProductComposition_Shapes[i] != nil && diagramOther.ProductComposition_Shapes[i] != nil {
+				if len(diagram.ProductComposition_Shapes[i].GongDiff(diagramOther.ProductComposition_Shapes[i])) > 0 {
+					ProductComposition_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProductComposition_ShapesDifferent {
+		diffs = append(diffs, "ProductComposition_Shapes")
+	}
 	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
 		diffs = append(diffs, "IsWBSNodeExpanded")
 	}
 	Task_ShapesDifferent := false
-    if len(diagram.Task_Shapes) != len(diagramOther.Task_Shapes) {
-        Task_ShapesDifferent = true
-    } else {
-        for i := range diagram.Task_Shapes {
-            if (diagram.Task_Shapes[i] == nil) != (diagramOther.Task_Shapes[i] == nil) {
-                Task_ShapesDifferent = true
-                break
-            } else if diagram.Task_Shapes[i] != nil && diagramOther.Task_Shapes[i] != nil {
-                if len(diagram.Task_Shapes[i].GongDiff(diagramOther.Task_Shapes[i])) > 0 {
-                    Task_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Task_ShapesDifferent {
-        diffs = append(diffs, "Task_Shapes")
-    }
+	if len(diagram.Task_Shapes) != len(diagramOther.Task_Shapes) {
+		Task_ShapesDifferent = true
+	} else {
+		for i := range diagram.Task_Shapes {
+			if (diagram.Task_Shapes[i] == nil) != (diagramOther.Task_Shapes[i] == nil) {
+				Task_ShapesDifferent = true
+				break
+			} else if diagram.Task_Shapes[i] != nil && diagramOther.Task_Shapes[i] != nil {
+				if len(diagram.Task_Shapes[i].GongDiff(diagramOther.Task_Shapes[i])) > 0 {
+					Task_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Task_ShapesDifferent {
+		diffs = append(diffs, "Task_Shapes")
+	}
 	TasksWhoseNodeIsExpandedDifferent := false
-    if len(diagram.TasksWhoseNodeIsExpanded) != len(diagramOther.TasksWhoseNodeIsExpanded) {
-        TasksWhoseNodeIsExpandedDifferent = true
-    } else {
-        for i := range diagram.TasksWhoseNodeIsExpanded {
-            if (diagram.TasksWhoseNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseNodeIsExpanded[i] == nil) {
-                TasksWhoseNodeIsExpandedDifferent = true
-                break
-            } else if diagram.TasksWhoseNodeIsExpanded[i] != nil && diagramOther.TasksWhoseNodeIsExpanded[i] != nil {
-                if len(diagram.TasksWhoseNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseNodeIsExpanded[i])) > 0 {
-                    TasksWhoseNodeIsExpandedDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TasksWhoseNodeIsExpandedDifferent {
-        diffs = append(diffs, "TasksWhoseNodeIsExpanded")
-    }
+	if len(diagram.TasksWhoseNodeIsExpanded) != len(diagramOther.TasksWhoseNodeIsExpanded) {
+		TasksWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.TasksWhoseNodeIsExpanded {
+			if (diagram.TasksWhoseNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseNodeIsExpanded[i] == nil) {
+				TasksWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.TasksWhoseNodeIsExpanded[i] != nil && diagramOther.TasksWhoseNodeIsExpanded[i] != nil {
+				if len(diagram.TasksWhoseNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseNodeIsExpanded[i])) > 0 {
+					TasksWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksWhoseNodeIsExpandedDifferent {
+		diffs = append(diffs, "TasksWhoseNodeIsExpanded")
+	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
-    if len(diagram.TasksWhoseInputNodeIsExpanded) != len(diagramOther.TasksWhoseInputNodeIsExpanded) {
-        TasksWhoseInputNodeIsExpandedDifferent = true
-    } else {
-        for i := range diagram.TasksWhoseInputNodeIsExpanded {
-            if (diagram.TasksWhoseInputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseInputNodeIsExpanded[i] == nil) {
-                TasksWhoseInputNodeIsExpandedDifferent = true
-                break
-            } else if diagram.TasksWhoseInputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseInputNodeIsExpanded[i] != nil {
-                if len(diagram.TasksWhoseInputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseInputNodeIsExpanded[i])) > 0 {
-                    TasksWhoseInputNodeIsExpandedDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TasksWhoseInputNodeIsExpandedDifferent {
-        diffs = append(diffs, "TasksWhoseInputNodeIsExpanded")
-    }
+	if len(diagram.TasksWhoseInputNodeIsExpanded) != len(diagramOther.TasksWhoseInputNodeIsExpanded) {
+		TasksWhoseInputNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.TasksWhoseInputNodeIsExpanded {
+			if (diagram.TasksWhoseInputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseInputNodeIsExpanded[i] == nil) {
+				TasksWhoseInputNodeIsExpandedDifferent = true
+				break
+			} else if diagram.TasksWhoseInputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseInputNodeIsExpanded[i] != nil {
+				if len(diagram.TasksWhoseInputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseInputNodeIsExpanded[i])) > 0 {
+					TasksWhoseInputNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksWhoseInputNodeIsExpandedDifferent {
+		diffs = append(diffs, "TasksWhoseInputNodeIsExpanded")
+	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
-    if len(diagram.TasksWhoseOutputNodeIsExpanded) != len(diagramOther.TasksWhoseOutputNodeIsExpanded) {
-        TasksWhoseOutputNodeIsExpandedDifferent = true
-    } else {
-        for i := range diagram.TasksWhoseOutputNodeIsExpanded {
-            if (diagram.TasksWhoseOutputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseOutputNodeIsExpanded[i] == nil) {
-                TasksWhoseOutputNodeIsExpandedDifferent = true
-                break
-            } else if diagram.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
-                if len(diagram.TasksWhoseOutputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseOutputNodeIsExpanded[i])) > 0 {
-                    TasksWhoseOutputNodeIsExpandedDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TasksWhoseOutputNodeIsExpandedDifferent {
-        diffs = append(diffs, "TasksWhoseOutputNodeIsExpanded")
-    }
+	if len(diagram.TasksWhoseOutputNodeIsExpanded) != len(diagramOther.TasksWhoseOutputNodeIsExpanded) {
+		TasksWhoseOutputNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.TasksWhoseOutputNodeIsExpanded {
+			if (diagram.TasksWhoseOutputNodeIsExpanded[i] == nil) != (diagramOther.TasksWhoseOutputNodeIsExpanded[i] == nil) {
+				TasksWhoseOutputNodeIsExpandedDifferent = true
+				break
+			} else if diagram.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
+				if len(diagram.TasksWhoseOutputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseOutputNodeIsExpanded[i])) > 0 {
+					TasksWhoseOutputNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksWhoseOutputNodeIsExpandedDifferent {
+		diffs = append(diffs, "TasksWhoseOutputNodeIsExpanded")
+	}
 	TaskComposition_ShapesDifferent := false
-    if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
-        TaskComposition_ShapesDifferent = true
-    } else {
-        for i := range diagram.TaskComposition_Shapes {
-            if (diagram.TaskComposition_Shapes[i] == nil) != (diagramOther.TaskComposition_Shapes[i] == nil) {
-                TaskComposition_ShapesDifferent = true
-                break
-            } else if diagram.TaskComposition_Shapes[i] != nil && diagramOther.TaskComposition_Shapes[i] != nil {
-                if len(diagram.TaskComposition_Shapes[i].GongDiff(diagramOther.TaskComposition_Shapes[i])) > 0 {
-                    TaskComposition_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TaskComposition_ShapesDifferent {
-        diffs = append(diffs, "TaskComposition_Shapes")
-    }
+	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
+		TaskComposition_ShapesDifferent = true
+	} else {
+		for i := range diagram.TaskComposition_Shapes {
+			if (diagram.TaskComposition_Shapes[i] == nil) != (diagramOther.TaskComposition_Shapes[i] == nil) {
+				TaskComposition_ShapesDifferent = true
+				break
+			} else if diagram.TaskComposition_Shapes[i] != nil && diagramOther.TaskComposition_Shapes[i] != nil {
+				if len(diagram.TaskComposition_Shapes[i].GongDiff(diagramOther.TaskComposition_Shapes[i])) > 0 {
+					TaskComposition_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskComposition_ShapesDifferent {
+		diffs = append(diffs, "TaskComposition_Shapes")
+	}
 	TaskInputShapesDifferent := false
-    if len(diagram.TaskInputShapes) != len(diagramOther.TaskInputShapes) {
-        TaskInputShapesDifferent = true
-    } else {
-        for i := range diagram.TaskInputShapes {
-            if (diagram.TaskInputShapes[i] == nil) != (diagramOther.TaskInputShapes[i] == nil) {
-                TaskInputShapesDifferent = true
-                break
-            } else if diagram.TaskInputShapes[i] != nil && diagramOther.TaskInputShapes[i] != nil {
-                if len(diagram.TaskInputShapes[i].GongDiff(diagramOther.TaskInputShapes[i])) > 0 {
-                    TaskInputShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TaskInputShapesDifferent {
-        diffs = append(diffs, "TaskInputShapes")
-    }
+	if len(diagram.TaskInputShapes) != len(diagramOther.TaskInputShapes) {
+		TaskInputShapesDifferent = true
+	} else {
+		for i := range diagram.TaskInputShapes {
+			if (diagram.TaskInputShapes[i] == nil) != (diagramOther.TaskInputShapes[i] == nil) {
+				TaskInputShapesDifferent = true
+				break
+			} else if diagram.TaskInputShapes[i] != nil && diagramOther.TaskInputShapes[i] != nil {
+				if len(diagram.TaskInputShapes[i].GongDiff(diagramOther.TaskInputShapes[i])) > 0 {
+					TaskInputShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskInputShapesDifferent {
+		diffs = append(diffs, "TaskInputShapes")
+	}
 	TaskOutputShapesDifferent := false
-    if len(diagram.TaskOutputShapes) != len(diagramOther.TaskOutputShapes) {
-        TaskOutputShapesDifferent = true
-    } else {
-        for i := range diagram.TaskOutputShapes {
-            if (diagram.TaskOutputShapes[i] == nil) != (diagramOther.TaskOutputShapes[i] == nil) {
-                TaskOutputShapesDifferent = true
-                break
-            } else if diagram.TaskOutputShapes[i] != nil && diagramOther.TaskOutputShapes[i] != nil {
-                if len(diagram.TaskOutputShapes[i].GongDiff(diagramOther.TaskOutputShapes[i])) > 0 {
-                    TaskOutputShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TaskOutputShapesDifferent {
-        diffs = append(diffs, "TaskOutputShapes")
-    }
+	if len(diagram.TaskOutputShapes) != len(diagramOther.TaskOutputShapes) {
+		TaskOutputShapesDifferent = true
+	} else {
+		for i := range diagram.TaskOutputShapes {
+			if (diagram.TaskOutputShapes[i] == nil) != (diagramOther.TaskOutputShapes[i] == nil) {
+				TaskOutputShapesDifferent = true
+				break
+			} else if diagram.TaskOutputShapes[i] != nil && diagramOther.TaskOutputShapes[i] != nil {
+				if len(diagram.TaskOutputShapes[i].GongDiff(diagramOther.TaskOutputShapes[i])) > 0 {
+					TaskOutputShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TaskOutputShapesDifferent {
+		diffs = append(diffs, "TaskOutputShapes")
+	}
 	Note_ShapesDifferent := false
-    if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
-        Note_ShapesDifferent = true
-    } else {
-        for i := range diagram.Note_Shapes {
-            if (diagram.Note_Shapes[i] == nil) != (diagramOther.Note_Shapes[i] == nil) {
-                Note_ShapesDifferent = true
-                break
-            } else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
-                if len(diagram.Note_Shapes[i].GongDiff(diagramOther.Note_Shapes[i])) > 0 {
-                    Note_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Note_ShapesDifferent {
-        diffs = append(diffs, "Note_Shapes")
-    }
+	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
+		Note_ShapesDifferent = true
+	} else {
+		for i := range diagram.Note_Shapes {
+			if (diagram.Note_Shapes[i] == nil) != (diagramOther.Note_Shapes[i] == nil) {
+				Note_ShapesDifferent = true
+				break
+			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
+				if len(diagram.Note_Shapes[i].GongDiff(diagramOther.Note_Shapes[i])) > 0 {
+					Note_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Note_ShapesDifferent {
+		diffs = append(diffs, "Note_Shapes")
+	}
 	NotesWhoseNodeIsExpandedDifferent := false
-    if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
-        NotesWhoseNodeIsExpandedDifferent = true
-    } else {
-        for i := range diagram.NotesWhoseNodeIsExpanded {
-            if (diagram.NotesWhoseNodeIsExpanded[i] == nil) != (diagramOther.NotesWhoseNodeIsExpanded[i] == nil) {
-                NotesWhoseNodeIsExpandedDifferent = true
-                break
-            } else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
-                if len(diagram.NotesWhoseNodeIsExpanded[i].GongDiff(diagramOther.NotesWhoseNodeIsExpanded[i])) > 0 {
-                    NotesWhoseNodeIsExpandedDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if NotesWhoseNodeIsExpandedDifferent {
-        diffs = append(diffs, "NotesWhoseNodeIsExpanded")
-    }
+	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
+		NotesWhoseNodeIsExpandedDifferent = true
+	} else {
+		for i := range diagram.NotesWhoseNodeIsExpanded {
+			if (diagram.NotesWhoseNodeIsExpanded[i] == nil) != (diagramOther.NotesWhoseNodeIsExpanded[i] == nil) {
+				NotesWhoseNodeIsExpandedDifferent = true
+				break
+			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
+				if len(diagram.NotesWhoseNodeIsExpanded[i].GongDiff(diagramOther.NotesWhoseNodeIsExpanded[i])) > 0 {
+					NotesWhoseNodeIsExpandedDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesWhoseNodeIsExpandedDifferent {
+		diffs = append(diffs, "NotesWhoseNodeIsExpanded")
+	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
 		diffs = append(diffs, "IsNotesNodeExpanded")
 	}
 	NoteProductShapesDifferent := false
-    if len(diagram.NoteProductShapes) != len(diagramOther.NoteProductShapes) {
-        NoteProductShapesDifferent = true
-    } else {
-        for i := range diagram.NoteProductShapes {
-            if (diagram.NoteProductShapes[i] == nil) != (diagramOther.NoteProductShapes[i] == nil) {
-                NoteProductShapesDifferent = true
-                break
-            } else if diagram.NoteProductShapes[i] != nil && diagramOther.NoteProductShapes[i] != nil {
-                if len(diagram.NoteProductShapes[i].GongDiff(diagramOther.NoteProductShapes[i])) > 0 {
-                    NoteProductShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if NoteProductShapesDifferent {
-        diffs = append(diffs, "NoteProductShapes")
-    }
+	if len(diagram.NoteProductShapes) != len(diagramOther.NoteProductShapes) {
+		NoteProductShapesDifferent = true
+	} else {
+		for i := range diagram.NoteProductShapes {
+			if (diagram.NoteProductShapes[i] == nil) != (diagramOther.NoteProductShapes[i] == nil) {
+				NoteProductShapesDifferent = true
+				break
+			} else if diagram.NoteProductShapes[i] != nil && diagramOther.NoteProductShapes[i] != nil {
+				if len(diagram.NoteProductShapes[i].GongDiff(diagramOther.NoteProductShapes[i])) > 0 {
+					NoteProductShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteProductShapesDifferent {
+		diffs = append(diffs, "NoteProductShapes")
+	}
 	NoteTaskShapesDifferent := false
-    if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
-        NoteTaskShapesDifferent = true
-    } else {
-        for i := range diagram.NoteTaskShapes {
-            if (diagram.NoteTaskShapes[i] == nil) != (diagramOther.NoteTaskShapes[i] == nil) {
-                NoteTaskShapesDifferent = true
-                break
-            } else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
-                if len(diagram.NoteTaskShapes[i].GongDiff(diagramOther.NoteTaskShapes[i])) > 0 {
-                    NoteTaskShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if NoteTaskShapesDifferent {
-        diffs = append(diffs, "NoteTaskShapes")
-    }
+	if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
+		NoteTaskShapesDifferent = true
+	} else {
+		for i := range diagram.NoteTaskShapes {
+			if (diagram.NoteTaskShapes[i] == nil) != (diagramOther.NoteTaskShapes[i] == nil) {
+				NoteTaskShapesDifferent = true
+				break
+			} else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
+				if len(diagram.NoteTaskShapes[i].GongDiff(diagramOther.NoteTaskShapes[i])) > 0 {
+					NoteTaskShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NoteTaskShapesDifferent {
+		diffs = append(diffs, "NoteTaskShapes")
+	}
 
 	return
 }
@@ -1828,43 +1827,43 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	ProductsDifferent := false
-    if len(note.Products) != len(noteOther.Products) {
-        ProductsDifferent = true
-    } else {
-        for i := range note.Products {
-            if (note.Products[i] == nil) != (noteOther.Products[i] == nil) {
-                ProductsDifferent = true
-                break
-            } else if note.Products[i] != nil && noteOther.Products[i] != nil {
-                if len(note.Products[i].GongDiff(noteOther.Products[i])) > 0 {
-                    ProductsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ProductsDifferent {
-        diffs = append(diffs, "Products")
-    }
+	if len(note.Products) != len(noteOther.Products) {
+		ProductsDifferent = true
+	} else {
+		for i := range note.Products {
+			if (note.Products[i] == nil) != (noteOther.Products[i] == nil) {
+				ProductsDifferent = true
+				break
+			} else if note.Products[i] != nil && noteOther.Products[i] != nil {
+				if len(note.Products[i].GongDiff(noteOther.Products[i])) > 0 {
+					ProductsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProductsDifferent {
+		diffs = append(diffs, "Products")
+	}
 	TasksDifferent := false
-    if len(note.Tasks) != len(noteOther.Tasks) {
-        TasksDifferent = true
-    } else {
-        for i := range note.Tasks {
-            if (note.Tasks[i] == nil) != (noteOther.Tasks[i] == nil) {
-                TasksDifferent = true
-                break
-            } else if note.Tasks[i] != nil && noteOther.Tasks[i] != nil {
-                if len(note.Tasks[i].GongDiff(noteOther.Tasks[i])) > 0 {
-                    TasksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TasksDifferent {
-        diffs = append(diffs, "Tasks")
-    }
+	if len(note.Tasks) != len(noteOther.Tasks) {
+		TasksDifferent = true
+	} else {
+		for i := range note.Tasks {
+			if (note.Tasks[i] == nil) != (noteOther.Tasks[i] == nil) {
+				TasksDifferent = true
+				break
+			} else if note.Tasks[i] != nil && noteOther.Tasks[i] != nil {
+				if len(note.Tasks[i].GongDiff(noteOther.Tasks[i])) > 0 {
+					TasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TasksDifferent {
+		diffs = append(diffs, "Tasks")
+	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, "IsExpanded")
 	}
@@ -1993,24 +1992,24 @@ func (product *Product) GongDiff(productOther *Product) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	SubProductsDifferent := false
-    if len(product.SubProducts) != len(productOther.SubProducts) {
-        SubProductsDifferent = true
-    } else {
-        for i := range product.SubProducts {
-            if (product.SubProducts[i] == nil) != (productOther.SubProducts[i] == nil) {
-                SubProductsDifferent = true
-                break
-            } else if product.SubProducts[i] != nil && productOther.SubProducts[i] != nil {
-                if len(product.SubProducts[i].GongDiff(productOther.SubProducts[i])) > 0 {
-                    SubProductsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SubProductsDifferent {
-        diffs = append(diffs, "SubProducts")
-    }
+	if len(product.SubProducts) != len(productOther.SubProducts) {
+		SubProductsDifferent = true
+	} else {
+		for i := range product.SubProducts {
+			if (product.SubProducts[i] == nil) != (productOther.SubProducts[i] == nil) {
+				SubProductsDifferent = true
+				break
+			} else if product.SubProducts[i] != nil && productOther.SubProducts[i] != nil {
+				if len(product.SubProducts[i].GongDiff(productOther.SubProducts[i])) > 0 {
+					SubProductsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubProductsDifferent {
+		diffs = append(diffs, "SubProducts")
+	}
 	if product.IsExpanded != productOther.IsExpanded {
 		diffs = append(diffs, "IsExpanded")
 	}
@@ -2101,90 +2100,90 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	RootProductsDifferent := false
-    if len(project.RootProducts) != len(projectOther.RootProducts) {
-        RootProductsDifferent = true
-    } else {
-        for i := range project.RootProducts {
-            if (project.RootProducts[i] == nil) != (projectOther.RootProducts[i] == nil) {
-                RootProductsDifferent = true
-                break
-            } else if project.RootProducts[i] != nil && projectOther.RootProducts[i] != nil {
-                if len(project.RootProducts[i].GongDiff(projectOther.RootProducts[i])) > 0 {
-                    RootProductsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RootProductsDifferent {
-        diffs = append(diffs, "RootProducts")
-    }
+	if len(project.RootProducts) != len(projectOther.RootProducts) {
+		RootProductsDifferent = true
+	} else {
+		for i := range project.RootProducts {
+			if (project.RootProducts[i] == nil) != (projectOther.RootProducts[i] == nil) {
+				RootProductsDifferent = true
+				break
+			} else if project.RootProducts[i] != nil && projectOther.RootProducts[i] != nil {
+				if len(project.RootProducts[i].GongDiff(projectOther.RootProducts[i])) > 0 {
+					RootProductsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootProductsDifferent {
+		diffs = append(diffs, "RootProducts")
+	}
 	if project.IsPBSNodeExpanded != projectOther.IsPBSNodeExpanded {
 		diffs = append(diffs, "IsPBSNodeExpanded")
 	}
 	RootTasksDifferent := false
-    if len(project.RootTasks) != len(projectOther.RootTasks) {
-        RootTasksDifferent = true
-    } else {
-        for i := range project.RootTasks {
-            if (project.RootTasks[i] == nil) != (projectOther.RootTasks[i] == nil) {
-                RootTasksDifferent = true
-                break
-            } else if project.RootTasks[i] != nil && projectOther.RootTasks[i] != nil {
-                if len(project.RootTasks[i].GongDiff(projectOther.RootTasks[i])) > 0 {
-                    RootTasksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RootTasksDifferent {
-        diffs = append(diffs, "RootTasks")
-    }
+	if len(project.RootTasks) != len(projectOther.RootTasks) {
+		RootTasksDifferent = true
+	} else {
+		for i := range project.RootTasks {
+			if (project.RootTasks[i] == nil) != (projectOther.RootTasks[i] == nil) {
+				RootTasksDifferent = true
+				break
+			} else if project.RootTasks[i] != nil && projectOther.RootTasks[i] != nil {
+				if len(project.RootTasks[i].GongDiff(projectOther.RootTasks[i])) > 0 {
+					RootTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootTasksDifferent {
+		diffs = append(diffs, "RootTasks")
+	}
 	if project.IsWBSNodeExpanded != projectOther.IsWBSNodeExpanded {
 		diffs = append(diffs, "IsWBSNodeExpanded")
 	}
 	DiagramsDifferent := false
-    if len(project.Diagrams) != len(projectOther.Diagrams) {
-        DiagramsDifferent = true
-    } else {
-        for i := range project.Diagrams {
-            if (project.Diagrams[i] == nil) != (projectOther.Diagrams[i] == nil) {
-                DiagramsDifferent = true
-                break
-            } else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
-                if len(project.Diagrams[i].GongDiff(projectOther.Diagrams[i])) > 0 {
-                    DiagramsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DiagramsDifferent {
-        diffs = append(diffs, "Diagrams")
-    }
+	if len(project.Diagrams) != len(projectOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range project.Diagrams {
+			if (project.Diagrams[i] == nil) != (projectOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
+				if len(project.Diagrams[i].GongDiff(projectOther.Diagrams[i])) > 0 {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		diffs = append(diffs, "Diagrams")
+	}
 	if project.IsDiagramsNodeExpanded != projectOther.IsDiagramsNodeExpanded {
 		diffs = append(diffs, "IsDiagramsNodeExpanded")
 	}
 	NotesDifferent := false
-    if len(project.Notes) != len(projectOther.Notes) {
-        NotesDifferent = true
-    } else {
-        for i := range project.Notes {
-            if (project.Notes[i] == nil) != (projectOther.Notes[i] == nil) {
-                NotesDifferent = true
-                break
-            } else if project.Notes[i] != nil && projectOther.Notes[i] != nil {
-                if len(project.Notes[i].GongDiff(projectOther.Notes[i])) > 0 {
-                    NotesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if NotesDifferent {
-        diffs = append(diffs, "Notes")
-    }
+	if len(project.Notes) != len(projectOther.Notes) {
+		NotesDifferent = true
+	} else {
+		for i := range project.Notes {
+			if (project.Notes[i] == nil) != (projectOther.Notes[i] == nil) {
+				NotesDifferent = true
+				break
+			} else if project.Notes[i] != nil && projectOther.Notes[i] != nil {
+				if len(project.Notes[i].GongDiff(projectOther.Notes[i])) > 0 {
+					NotesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NotesDifferent {
+		diffs = append(diffs, "Notes")
+	}
 	if project.IsNotesNodeExpanded != projectOther.IsNotesNodeExpanded {
 		diffs = append(diffs, "IsNotesNodeExpanded")
 	}
@@ -2206,62 +2205,62 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	ProjectsDifferent := false
-    if len(root.Projects) != len(rootOther.Projects) {
-        ProjectsDifferent = true
-    } else {
-        for i := range root.Projects {
-            if (root.Projects[i] == nil) != (rootOther.Projects[i] == nil) {
-                ProjectsDifferent = true
-                break
-            } else if root.Projects[i] != nil && rootOther.Projects[i] != nil {
-                if len(root.Projects[i].GongDiff(rootOther.Projects[i])) > 0 {
-                    ProjectsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ProjectsDifferent {
-        diffs = append(diffs, "Projects")
-    }
+	if len(root.Projects) != len(rootOther.Projects) {
+		ProjectsDifferent = true
+	} else {
+		for i := range root.Projects {
+			if (root.Projects[i] == nil) != (rootOther.Projects[i] == nil) {
+				ProjectsDifferent = true
+				break
+			} else if root.Projects[i] != nil && rootOther.Projects[i] != nil {
+				if len(root.Projects[i].GongDiff(rootOther.Projects[i])) > 0 {
+					ProjectsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ProjectsDifferent {
+		diffs = append(diffs, "Projects")
+	}
 	OrphanedProductsDifferent := false
-    if len(root.OrphanedProducts) != len(rootOther.OrphanedProducts) {
-        OrphanedProductsDifferent = true
-    } else {
-        for i := range root.OrphanedProducts {
-            if (root.OrphanedProducts[i] == nil) != (rootOther.OrphanedProducts[i] == nil) {
-                OrphanedProductsDifferent = true
-                break
-            } else if root.OrphanedProducts[i] != nil && rootOther.OrphanedProducts[i] != nil {
-                if len(root.OrphanedProducts[i].GongDiff(rootOther.OrphanedProducts[i])) > 0 {
-                    OrphanedProductsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if OrphanedProductsDifferent {
-        diffs = append(diffs, "OrphanedProducts")
-    }
+	if len(root.OrphanedProducts) != len(rootOther.OrphanedProducts) {
+		OrphanedProductsDifferent = true
+	} else {
+		for i := range root.OrphanedProducts {
+			if (root.OrphanedProducts[i] == nil) != (rootOther.OrphanedProducts[i] == nil) {
+				OrphanedProductsDifferent = true
+				break
+			} else if root.OrphanedProducts[i] != nil && rootOther.OrphanedProducts[i] != nil {
+				if len(root.OrphanedProducts[i].GongDiff(rootOther.OrphanedProducts[i])) > 0 {
+					OrphanedProductsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if OrphanedProductsDifferent {
+		diffs = append(diffs, "OrphanedProducts")
+	}
 	OrphanedTasksDifferent := false
-    if len(root.OrphanedTasks) != len(rootOther.OrphanedTasks) {
-        OrphanedTasksDifferent = true
-    } else {
-        for i := range root.OrphanedTasks {
-            if (root.OrphanedTasks[i] == nil) != (rootOther.OrphanedTasks[i] == nil) {
-                OrphanedTasksDifferent = true
-                break
-            } else if root.OrphanedTasks[i] != nil && rootOther.OrphanedTasks[i] != nil {
-                if len(root.OrphanedTasks[i].GongDiff(rootOther.OrphanedTasks[i])) > 0 {
-                    OrphanedTasksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if OrphanedTasksDifferent {
-        diffs = append(diffs, "OrphanedTasks")
-    }
+	if len(root.OrphanedTasks) != len(rootOther.OrphanedTasks) {
+		OrphanedTasksDifferent = true
+	} else {
+		for i := range root.OrphanedTasks {
+			if (root.OrphanedTasks[i] == nil) != (rootOther.OrphanedTasks[i] == nil) {
+				OrphanedTasksDifferent = true
+				break
+			} else if root.OrphanedTasks[i] != nil && rootOther.OrphanedTasks[i] != nil {
+				if len(root.OrphanedTasks[i].GongDiff(rootOther.OrphanedTasks[i])) > 0 {
+					OrphanedTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if OrphanedTasksDifferent {
+		diffs = append(diffs, "OrphanedTasks")
+	}
 	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {
 		diffs = append(diffs, "NbPixPerCharacter")
 	}
@@ -2277,24 +2276,24 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	SubTasksDifferent := false
-    if len(task.SubTasks) != len(taskOther.SubTasks) {
-        SubTasksDifferent = true
-    } else {
-        for i := range task.SubTasks {
-            if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
-                SubTasksDifferent = true
-                break
-            } else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-                if len(task.SubTasks[i].GongDiff(taskOther.SubTasks[i])) > 0 {
-                    SubTasksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SubTasksDifferent {
-        diffs = append(diffs, "SubTasks")
-    }
+	if len(task.SubTasks) != len(taskOther.SubTasks) {
+		SubTasksDifferent = true
+	} else {
+		for i := range task.SubTasks {
+			if (task.SubTasks[i] == nil) != (taskOther.SubTasks[i] == nil) {
+				SubTasksDifferent = true
+				break
+			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
+				if len(task.SubTasks[i].GongDiff(taskOther.SubTasks[i])) > 0 {
+					SubTasksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubTasksDifferent {
+		diffs = append(diffs, "SubTasks")
+	}
 	if task.IsExpanded != taskOther.IsExpanded {
 		diffs = append(diffs, "IsExpanded")
 	}
@@ -2302,46 +2301,46 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 		diffs = append(diffs, "ComputedPrefix")
 	}
 	InputsDifferent := false
-    if len(task.Inputs) != len(taskOther.Inputs) {
-        InputsDifferent = true
-    } else {
-        for i := range task.Inputs {
-            if (task.Inputs[i] == nil) != (taskOther.Inputs[i] == nil) {
-                InputsDifferent = true
-                break
-            } else if task.Inputs[i] != nil && taskOther.Inputs[i] != nil {
-                if len(task.Inputs[i].GongDiff(taskOther.Inputs[i])) > 0 {
-                    InputsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if InputsDifferent {
-        diffs = append(diffs, "Inputs")
-    }
+	if len(task.Inputs) != len(taskOther.Inputs) {
+		InputsDifferent = true
+	} else {
+		for i := range task.Inputs {
+			if (task.Inputs[i] == nil) != (taskOther.Inputs[i] == nil) {
+				InputsDifferent = true
+				break
+			} else if task.Inputs[i] != nil && taskOther.Inputs[i] != nil {
+				if len(task.Inputs[i].GongDiff(taskOther.Inputs[i])) > 0 {
+					InputsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if InputsDifferent {
+		diffs = append(diffs, "Inputs")
+	}
 	if task.IsInputsNodeExpanded != taskOther.IsInputsNodeExpanded {
 		diffs = append(diffs, "IsInputsNodeExpanded")
 	}
 	OutputsDifferent := false
-    if len(task.Outputs) != len(taskOther.Outputs) {
-        OutputsDifferent = true
-    } else {
-        for i := range task.Outputs {
-            if (task.Outputs[i] == nil) != (taskOther.Outputs[i] == nil) {
-                OutputsDifferent = true
-                break
-            } else if task.Outputs[i] != nil && taskOther.Outputs[i] != nil {
-                if len(task.Outputs[i].GongDiff(taskOther.Outputs[i])) > 0 {
-                    OutputsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if OutputsDifferent {
-        diffs = append(diffs, "Outputs")
-    }
+	if len(task.Outputs) != len(taskOther.Outputs) {
+		OutputsDifferent = true
+	} else {
+		for i := range task.Outputs {
+			if (task.Outputs[i] == nil) != (taskOther.Outputs[i] == nil) {
+				OutputsDifferent = true
+				break
+			} else if task.Outputs[i] != nil && taskOther.Outputs[i] != nil {
+				if len(task.Outputs[i].GongDiff(taskOther.Outputs[i])) > 0 {
+					OutputsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if OutputsDifferent {
+		diffs = append(diffs, "Outputs")
+	}
 	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
 		diffs = append(diffs, "IsOutputsNodeExpanded")
 	}

@@ -807,6 +807,11 @@ func (stage *Stage) Commit() {
 	stage.ComputeInstancesNb()
 	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -4276,4 +4281,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

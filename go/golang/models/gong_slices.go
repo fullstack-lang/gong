@@ -16,7 +16,10 @@ import (
 const GongSliceTemplate = `// generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
@@ -99,7 +102,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of {{Structname}} "+{{structname}}.Name,
+					"Commit detected new instance of {{Structname}} "+{{structname}}.Name,
 				)
 			}
 		} else {
@@ -108,7 +111,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Modified instance of {{Structname}} "+{{structname}}.Name,
+						"Commit detected modified instance of {{Structname}} "+{{structname}}.Name + " diffs on fields: "+strings.Join(diffs, ", "),
 					)
 				}
 				lenModifiedInstances++
@@ -123,7 +126,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of {{Structname}} "+{{structname}}.Name,
+					"Commit detected deleted instance of {{Structname}} "+{{structname}}.Name,
 				)
 			}
 		}

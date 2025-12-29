@@ -140,22 +140,17 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Button:
 		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
-	
 	case *ButtonToggle:
 		stage.OnAfterButtonToggleUpdateCallback = any(callback).(OnAfterUpdateInterface[ButtonToggle])
-	
 	case *Group:
 		stage.OnAfterGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[Group])
-	
 	case *GroupToogle:
 		stage.OnAfterGroupToogleUpdateCallback = any(callback).(OnAfterUpdateInterface[GroupToogle])
-	
 	case *Layout:
 		stage.OnAfterLayoutUpdateCallback = any(callback).(OnAfterUpdateInterface[Layout])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -165,19 +160,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
-	
 	case *ButtonToggle:
 		stage.OnAfterButtonToggleCreateCallback = any(callback).(OnAfterCreateInterface[ButtonToggle])
-	
 	case *Group:
 		stage.OnAfterGroupCreateCallback = any(callback).(OnAfterCreateInterface[Group])
-	
 	case *GroupToogle:
 		stage.OnAfterGroupToogleCreateCallback = any(callback).(OnAfterCreateInterface[GroupToogle])
-	
 	case *Layout:
 		stage.OnAfterLayoutCreateCallback = any(callback).(OnAfterCreateInterface[Layout])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -187,19 +177,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
-	
 	case *ButtonToggle:
 		stage.OnAfterButtonToggleDeleteCallback = any(callback).(OnAfterDeleteInterface[ButtonToggle])
-	
 	case *Group:
 		stage.OnAfterGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[Group])
-	
 	case *GroupToogle:
 		stage.OnAfterGroupToogleDeleteCallback = any(callback).(OnAfterDeleteInterface[GroupToogle])
-	
 	case *Layout:
 		stage.OnAfterLayoutDeleteCallback = any(callback).(OnAfterDeleteInterface[Layout])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -209,18 +194,13 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
-	
 	case *ButtonToggle:
 		stage.OnAfterButtonToggleReadCallback = any(callback).(OnAfterReadInterface[ButtonToggle])
-	
 	case *Group:
 		stage.OnAfterGroupReadCallback = any(callback).(OnAfterReadInterface[Group])
-	
 	case *GroupToogle:
 		stage.OnAfterGroupToogleReadCallback = any(callback).(OnAfterReadInterface[GroupToogle])
-	
 	case *Layout:
 		stage.OnAfterLayoutReadCallback = any(callback).(OnAfterReadInterface[Layout])
-	
 	}
 }

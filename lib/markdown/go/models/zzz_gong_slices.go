@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -45,7 +49,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (content *Content) GongCopy() GongstructIF {
 	newInstance := *content
@@ -67,24 +70,35 @@ func (svgimage *SvgImage) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var contents_newInstances []*Content
 	var contents_deletedInstances []*Content
 
 	// parse all staged instances and check if they have a reference
 	for content := range stage.Contents {
-		if _, ok := stage.Contents_reference[content]; !ok {
+		if ref, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Content "+content.Name,
+					"Commit detected new instance of Content "+content.Name,
 				)
+			}
+		} else {
+			diffs := content.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Content "+content.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -96,7 +110,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Content "+content.Name,
+					"Commit detected deleted instance of Content "+content.Name,
 				)
 			}
 		}
@@ -109,13 +123,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for jpgimage := range stage.JpgImages {
-		if _, ok := stage.JpgImages_reference[jpgimage]; !ok {
+		if ref, ok := stage.JpgImages_reference[jpgimage]; !ok {
 			jpgimages_newInstances = append(jpgimages_newInstances, jpgimage)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of JpgImage "+jpgimage.Name,
+					"Commit detected new instance of JpgImage "+jpgimage.Name,
 				)
+			}
+		} else {
+			diffs := jpgimage.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of JpgImage "+jpgimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -127,7 +152,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of JpgImage "+jpgimage.Name,
+					"Commit detected deleted instance of JpgImage "+jpgimage.Name,
 				)
 			}
 		}
@@ -140,13 +165,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for pngimage := range stage.PngImages {
-		if _, ok := stage.PngImages_reference[pngimage]; !ok {
+		if ref, ok := stage.PngImages_reference[pngimage]; !ok {
 			pngimages_newInstances = append(pngimages_newInstances, pngimage)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of PngImage "+pngimage.Name,
+					"Commit detected new instance of PngImage "+pngimage.Name,
 				)
+			}
+		} else {
+			diffs := pngimage.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of PngImage "+pngimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -158,7 +194,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of PngImage "+pngimage.Name,
+					"Commit detected deleted instance of PngImage "+pngimage.Name,
 				)
 			}
 		}
@@ -171,13 +207,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for svgimage := range stage.SvgImages {
-		if _, ok := stage.SvgImages_reference[svgimage]; !ok {
+		if ref, ok := stage.SvgImages_reference[svgimage]; !ok {
 			svgimages_newInstances = append(svgimages_newInstances, svgimage)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of SvgImage "+svgimage.Name,
+					"Commit detected new instance of SvgImage "+svgimage.Name,
 				)
+			}
+		} else {
+			diffs := svgimage.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of SvgImage "+svgimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -189,7 +236,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of SvgImage "+svgimage.Name,
+					"Commit detected deleted instance of SvgImage "+svgimage.Name,
 				)
 			}
 		}
@@ -198,7 +245,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(svgimages_newInstances)
 	lenDeletedInstances += len(svgimages_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -211,22 +258,22 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Contents_reference = make(map[*Content]*Content)
 	for instance := range stage.Contents {
-		stage.Contents_reference[instance] = instance
+		stage.Contents_reference[instance] = instance.GongCopy().(*Content)
 	}
 
 	stage.JpgImages_reference = make(map[*JpgImage]*JpgImage)
 	for instance := range stage.JpgImages {
-		stage.JpgImages_reference[instance] = instance
+		stage.JpgImages_reference[instance] = instance.GongCopy().(*JpgImage)
 	}
 
 	stage.PngImages_reference = make(map[*PngImage]*PngImage)
 	for instance := range stage.PngImages {
-		stage.PngImages_reference[instance] = instance
+		stage.PngImages_reference[instance] = instance.GongCopy().(*PngImage)
 	}
 
 	stage.SvgImages_reference = make(map[*SvgImage]*SvgImage)
 	for instance := range stage.SvgImages {
-		stage.SvgImages_reference[instance] = instance
+		stage.SvgImages_reference[instance] = instance.GongCopy().(*SvgImage)
 	}
 
 }
