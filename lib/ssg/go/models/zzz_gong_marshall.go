@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, chapter := range chapterOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Chapter")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", chapter.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += chapter.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -161,12 +157,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, content := range contentOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += content.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -264,12 +256,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, page := range pageOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", page.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += page.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

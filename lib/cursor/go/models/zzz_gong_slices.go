@@ -123,3 +123,13 @@ func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
+	return
+}

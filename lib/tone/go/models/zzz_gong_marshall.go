@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, freqency := range freqencyOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Freqency")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", freqency.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += freqency.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -155,12 +151,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, note := range noteOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += note.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -214,12 +206,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, player := range playerOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Player")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", player.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += player.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

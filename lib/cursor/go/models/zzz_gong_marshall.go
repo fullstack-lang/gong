@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, cursor := range cursorOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += cursor.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

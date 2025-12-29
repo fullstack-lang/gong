@@ -264,3 +264,27 @@ func (player *Player) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", player.GongGetGongstructName(), player.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (freqency *Freqency) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Freqency")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", freqency.Name)
+	return
+}
+func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
+	return
+}
+func (player *Player) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Player")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", player.Name)
+	return
+}
