@@ -17,7 +17,6 @@ const GongReverse = `// generated code - do not edit
 package models
 
 // insertion point{{` + string(rune(GongGetReverseFieldOwnerNameSwitch)) + `}}
-
 // insertion point{{` + string(rune(GongGetReverseFieldOwnerSwitch)) + `}}
 `
 
@@ -66,18 +65,18 @@ var GongGetReverseFieldOwnerNameSubSubTemplateCode map[GongGetReverseFieldOwnerN
 map[GongGetReverseFieldOwnerNameSubTemplateId]string{
 
 	GongGetReverseFieldOwnerNameMasterSwitchCodeStart: `
-		case "{{AssocStructName}}":
-			switch reverseField.Fieldname {`,
+	case "{{AssocStructName}}":
+		switch reverseField.Fieldname {`,
 	GongGetReverseFieldOwnerNameSwitchCode: `
-			case "{{FieldName}}":
-				if _{{assocStructName}}, ok := stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]; ok {
-					res = _{{assocStructName}}.Name
-				}`,
-	GongGetReverseFieldOwnerSwitchCode: `
-			case "{{FieldName}}":
-				res = stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]`,
-	GongGetReverseFieldOwnerNameMasterSwitchCodeEnd: `
+		case "{{FieldName}}":
+			if _{{assocStructName}}, ok := stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]; ok {
+				res = _{{assocStructName}}.Name
 			}`,
+	GongGetReverseFieldOwnerSwitchCode: `
+		case "{{FieldName}}":
+			res = stage.{{AssocStructName}}_{{FieldName}}_reverseMap[inst]`,
+	GongGetReverseFieldOwnerNameMasterSwitchCodeEnd: `
+		}`,
 }
 
 func CodeGeneratorGongReverse(
