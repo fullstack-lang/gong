@@ -419,3 +419,41 @@ func (layout *Layout) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (button *Button) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
+	return
+}
+func (buttontoggle *ButtonToggle) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", buttontoggle.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ButtonToggle")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", buttontoggle.Name)
+	return
+}
+func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
+	return
+}
+func (grouptoogle *GroupToogle) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", grouptoogle.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GroupToogle")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", grouptoogle.Name)
+	return
+}
+func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Layout")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", layout.Name)
+	return
+}

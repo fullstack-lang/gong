@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, diagram := range diagramOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += diagram.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -221,12 +217,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, note := range noteOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += note.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -262,12 +254,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, noteproductshape := range noteproductshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", noteproductshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteProductShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteproductshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += noteproductshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -331,12 +319,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, noteshape := range noteshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", noteshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", noteshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += noteshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -396,12 +380,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, notetaskshape := range notetaskshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", notetaskshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "NoteTaskShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", notetaskshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += notetaskshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -465,12 +445,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, product := range productOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", product.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Product")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", product.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += product.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -524,12 +500,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, productcompositionshape := range productcompositionshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", productcompositionshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductCompositionShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", productcompositionshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += productcompositionshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -593,12 +565,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, productshape := range productshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", productshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ProductShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", productshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += productshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -658,12 +626,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, project := range projectOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", project.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Project")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", project.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += project.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -729,12 +693,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, root := range rootOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", root.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Root")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", root.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += root.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -770,12 +730,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, task := range taskOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", task.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Task")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", task.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += task.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -829,12 +785,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, taskcompositionshape := range taskcompositionshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", taskcompositionshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskCompositionShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskcompositionshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += taskcompositionshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -898,12 +850,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, taskinputshape := range taskinputshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", taskinputshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskInputShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskinputshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += taskinputshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -967,12 +915,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, taskoutputshape := range taskoutputshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", taskoutputshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskOutputShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskoutputshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += taskoutputshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -1036,12 +980,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, taskshape := range taskshapeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", taskshape.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TaskShape")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", taskshape.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += taskshape.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

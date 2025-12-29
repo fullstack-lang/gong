@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astruct := range astructOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += astruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -259,12 +255,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstruct2use := range astructbstruct2useOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += astructbstruct2use.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -294,12 +286,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstructuse := range astructbstructuseOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += astructbstructuse.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -329,12 +317,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, bstruct := range bstructOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += bstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -382,12 +366,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, dstruct := range dstructOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += dstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -417,12 +397,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "F0123456789012345678901234567890")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += f0123456789012345678901234567890.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -458,12 +434,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, gstruct := range gstructOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gstruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gstruct.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += gstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

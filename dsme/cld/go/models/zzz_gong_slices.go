@@ -828,3 +828,83 @@ func (influenceshape *InfluenceShape) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", influenceshape.GongGetGongstructName(), influenceshape.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (category1 *Category1) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1.Name)
+	return
+}
+func (category1shape *Category1Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1shape.Name)
+	return
+}
+func (category2 *Category2) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2.Name)
+	return
+}
+func (category2shape *Category2Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2shape.Name)
+	return
+}
+func (category3 *Category3) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3.Name)
+	return
+}
+func (category3shape *Category3Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3shape.Name)
+	return
+}
+func (controlpointshape *ControlPointShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlPointShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", controlpointshape.Name)
+	return
+}
+func (desk *Desk) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", desk.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Desk")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", desk.Name)
+	return
+}
+func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
+	return
+}
+func (influence *Influence) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influence.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Influence")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influence.Name)
+	return
+}
+func (influenceshape *InfluenceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InfluenceShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influenceshape.Name)
+	return
+}

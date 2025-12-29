@@ -574,3 +574,55 @@ func (milestone *Milestone) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", milestone.GongGetGongstructName(), milestone.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (arrow *Arrow) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Arrow")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", arrow.Name)
+	return
+}
+func (bar *Bar) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", bar.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bar")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bar.Name)
+	return
+}
+func (gantt *Gantt) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gantt")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gantt.Name)
+	return
+}
+func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
+	return
+}
+func (lane *Lane) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", lane.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Lane")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", lane.Name)
+	return
+}
+func (laneuse *LaneUse) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LaneUse")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", laneuse.Name)
+	return
+}
+func (milestone *Milestone) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Milestone")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", milestone.Name)
+	return
+}

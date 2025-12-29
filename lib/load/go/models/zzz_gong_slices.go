@@ -257,3 +257,27 @@ func (message *Message) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetodownload.Name)
+	return
+}
+func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetoupload.Name)
+	return
+}
+func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", message.Name)
+	return
+}
