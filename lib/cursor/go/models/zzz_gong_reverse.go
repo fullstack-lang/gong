@@ -11,7 +11,6 @@ func (inst *Cursor) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
-
 // insertion point
 func (inst *Cursor) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -21,4 +20,3 @@ func (inst *Cursor) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	}
 	return res
 }
-

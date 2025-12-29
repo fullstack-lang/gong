@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Checkboxs           map[*Checkbox]struct{}
+	Checkboxs_reference map[*Checkbox]*Checkbox
 	Checkboxs_mapString map[string]*Checkbox
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterCheckboxReadCallback   OnAfterReadInterface[Checkbox]
 
 	Groups           map[*Group]struct{}
+	Groups_reference map[*Group]*Group
 	Groups_mapString map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -116,6 +118,7 @@ type Stage struct {
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
 	Layouts           map[*Layout]struct{}
+	Layouts_reference map[*Layout]*Layout
 	Layouts_mapString map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -127,6 +130,7 @@ type Stage struct {
 	OnAfterLayoutReadCallback   OnAfterReadInterface[Layout]
 
 	Sliders           map[*Slider]struct{}
+	Sliders_reference map[*Slider]*Slider
 	Sliders_mapString map[string]*Slider
 
 	// insertion point for slice of pointers maps
@@ -177,8 +181,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -189,10 +202,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -440,8 +449,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Layout"},
 			{name: "Slider"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -507,7 +514,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1785,4 +1798,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

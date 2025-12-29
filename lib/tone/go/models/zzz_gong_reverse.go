@@ -7,13 +7,13 @@ func (inst *Freqency) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Note":
-			switch reverseField.Fieldname {
-			case "Frequencies":
-				if _note, ok := stage.Note_Frequencies_reverseMap[inst]; ok {
-					res = _note.Name
-				}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Frequencies":
+			if _note, ok := stage.Note_Frequencies_reverseMap[inst]; ok {
+				res = _note.Name
 			}
+		}
 	}
 	return
 }
@@ -36,18 +36,17 @@ func (inst *Player) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
-
 // insertion point
 func (inst *Freqency) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Note":
-			switch reverseField.Fieldname {
-			case "Frequencies":
-				res = stage.Note_Frequencies_reverseMap[inst]
-			}
+	case "Note":
+		switch reverseField.Fieldname {
+		case "Frequencies":
+			res = stage.Note_Frequencies_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -69,4 +68,3 @@ func (inst *Player) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	}
 	return res
 }
-

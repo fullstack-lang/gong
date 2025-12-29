@@ -38,7 +38,6 @@ func (inst *SvgImage) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	return
 }
 
-
 // insertion point
 func (inst *Content) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -75,4 +74,3 @@ func (inst *SvgImage) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	}
 	return res
 }
-

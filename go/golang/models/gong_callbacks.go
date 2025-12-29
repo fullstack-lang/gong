@@ -52,7 +52,7 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point{{` + string(rune(ModelGongCallbacksSetFuncUpdate)) + `}}
+	// insertion point{{` + string(rune(ModelGongCallbacksSetFuncUpdate)) + `}}
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -117,18 +117,14 @@ map[string]string{
 		}`,
 	string(rune(ModelGongCallbacksSetFuncCreate)): `
 	case *{{Structname}}:
-		stage.OnAfter{{Structname}}CreateCallback = any(callback).(OnAfterCreateInterface[{{Structname}}])
-	`,
+		stage.OnAfter{{Structname}}CreateCallback = any(callback).(OnAfterCreateInterface[{{Structname}}])`,
 	string(rune(ModelGongCallbacksSetFuncUpdate)): `
 	case *{{Structname}}:
-		stage.OnAfter{{Structname}}UpdateCallback = any(callback).(OnAfterUpdateInterface[{{Structname}}])
-	`,
+		stage.OnAfter{{Structname}}UpdateCallback = any(callback).(OnAfterUpdateInterface[{{Structname}}])`,
 	string(rune(ModelGongCallbacksSetFuncRead)): `
 	case *{{Structname}}:
-		stage.OnAfter{{Structname}}ReadCallback = any(callback).(OnAfterReadInterface[{{Structname}}])
-	`,
+		stage.OnAfter{{Structname}}ReadCallback = any(callback).(OnAfterReadInterface[{{Structname}}])`,
 	string(rune(ModelGongCallbacksSetFuncDelete)): `
 	case *{{Structname}}:
-		stage.OnAfter{{Structname}}DeleteCallback = any(callback).(OnAfterDeleteInterface[{{Structname}}])
-	`,
+		stage.OnAfter{{Structname}}DeleteCallback = any(callback).(OnAfterDeleteInterface[{{Structname}}])`,
 }

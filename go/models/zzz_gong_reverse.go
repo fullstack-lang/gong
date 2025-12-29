@@ -7,13 +7,13 @@ func (inst *GongBasicField) GongGetReverseFieldOwnerName(stage *Stage, reverseFi
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "GongBasicFields":
-				if _gongstruct, ok := stage.GongStruct_GongBasicFields_reverseMap[inst]; ok {
-					res = _gongstruct.Name
-				}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "GongBasicFields":
+			if _gongstruct, ok := stage.GongStruct_GongBasicFields_reverseMap[inst]; ok {
+				res = _gongstruct.Name
 			}
+		}
 	}
 	return
 }
@@ -32,13 +32,13 @@ func (inst *GongEnumValue) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongEnum":
-			switch reverseField.Fieldname {
-			case "GongEnumValues":
-				if _gongenum, ok := stage.GongEnum_GongEnumValues_reverseMap[inst]; ok {
-					res = _gongenum.Name
-				}
+	case "GongEnum":
+		switch reverseField.Fieldname {
+		case "GongEnumValues":
+			if _gongenum, ok := stage.GongEnum_GongEnumValues_reverseMap[inst]; ok {
+				res = _gongenum.Name
 			}
+		}
 	}
 	return
 }
@@ -48,13 +48,13 @@ func (inst *GongLink) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongNote":
-			switch reverseField.Fieldname {
-			case "Links":
-				if _gongnote, ok := stage.GongNote_Links_reverseMap[inst]; ok {
-					res = _gongnote.Name
-				}
+	case "GongNote":
+		switch reverseField.Fieldname {
+		case "Links":
+			if _gongnote, ok := stage.GongNote_Links_reverseMap[inst]; ok {
+				res = _gongnote.Name
 			}
+		}
 	}
 	return
 }
@@ -82,13 +82,13 @@ func (inst *GongTimeField) GongGetReverseFieldOwnerName(stage *Stage, reverseFie
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "GongTimeFields":
-				if _gongstruct, ok := stage.GongStruct_GongTimeFields_reverseMap[inst]; ok {
-					res = _gongstruct.Name
-				}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "GongTimeFields":
+			if _gongstruct, ok := stage.GongStruct_GongTimeFields_reverseMap[inst]; ok {
+				res = _gongstruct.Name
 			}
+		}
 	}
 	return
 }
@@ -116,13 +116,13 @@ func (inst *PointerToGongStructField) GongGetReverseFieldOwnerName(stage *Stage,
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "PointerToGongStructFields":
-				if _gongstruct, ok := stage.GongStruct_PointerToGongStructFields_reverseMap[inst]; ok {
-					res = _gongstruct.Name
-				}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "PointerToGongStructFields":
+			if _gongstruct, ok := stage.GongStruct_PointerToGongStructFields_reverseMap[inst]; ok {
+				res = _gongstruct.Name
 			}
+		}
 	}
 	return
 }
@@ -132,17 +132,16 @@ func (inst *SliceOfPointerToGongStructField) GongGetReverseFieldOwnerName(stage 
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "SliceOfPointerToGongStructFields":
-				if _gongstruct, ok := stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]; ok {
-					res = _gongstruct.Name
-				}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "SliceOfPointerToGongStructFields":
+			if _gongstruct, ok := stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]; ok {
+				res = _gongstruct.Name
 			}
+		}
 	}
 	return
 }
-
 
 // insertion point
 func (inst *GongBasicField) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
@@ -150,11 +149,11 @@ func (inst *GongBasicField) GongGetReverseFieldOwner(stage *Stage, reverseField 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "GongBasicFields":
-				res = stage.GongStruct_GongBasicFields_reverseMap[inst]
-			}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "GongBasicFields":
+			res = stage.GongStruct_GongBasicFields_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -173,11 +172,11 @@ func (inst *GongEnumValue) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongEnum":
-			switch reverseField.Fieldname {
-			case "GongEnumValues":
-				res = stage.GongEnum_GongEnumValues_reverseMap[inst]
-			}
+	case "GongEnum":
+		switch reverseField.Fieldname {
+		case "GongEnumValues":
+			res = stage.GongEnum_GongEnumValues_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -187,11 +186,11 @@ func (inst *GongLink) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongNote":
-			switch reverseField.Fieldname {
-			case "Links":
-				res = stage.GongNote_Links_reverseMap[inst]
-			}
+	case "GongNote":
+		switch reverseField.Fieldname {
+		case "Links":
+			res = stage.GongNote_Links_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -219,11 +218,11 @@ func (inst *GongTimeField) GongGetReverseFieldOwner(stage *Stage, reverseField *
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "GongTimeFields":
-				res = stage.GongStruct_GongTimeFields_reverseMap[inst]
-			}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "GongTimeFields":
+			res = stage.GongStruct_GongTimeFields_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -251,11 +250,11 @@ func (inst *PointerToGongStructField) GongGetReverseFieldOwner(stage *Stage, rev
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "PointerToGongStructFields":
-				res = stage.GongStruct_PointerToGongStructFields_reverseMap[inst]
-			}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "PointerToGongStructFields":
+			res = stage.GongStruct_PointerToGongStructFields_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -265,12 +264,11 @@ func (inst *SliceOfPointerToGongStructField) GongGetReverseFieldOwner(stage *Sta
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GongStruct":
-			switch reverseField.Fieldname {
-			case "SliceOfPointerToGongStructFields":
-				res = stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]
-			}
+	case "GongStruct":
+		switch reverseField.Fieldname {
+		case "SliceOfPointerToGongStructFields":
+			res = stage.GongStruct_SliceOfPointerToGongStructFields_reverseMap[inst]
+		}
 	}
 	return res
 }
-

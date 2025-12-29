@@ -82,7 +82,8 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 	}
 }
 
-// insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}`
+// insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
+// insertion point for diff per struct{{` + string(rune(ModelGongGraphDiff)) + `}}`
 
 // insertion points are places where the code is
 // generated per gong struct
@@ -97,6 +98,7 @@ const (
 	ModelGongGraphStructInsertionCopyBranchPerStruct
 	ModelGongGraphStructInsertionUnstageBranch
 	ModelGongGraphStructInsertionUnstageBranchPerStruct
+	ModelGongGraphDiff
 	ModelGongGraphStructInsertionsNb
 )
 
@@ -180,6 +182,15 @@ func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) 
 
 }
 `,
+	ModelGongGraphDiff: `
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func ({{structname}} *{{Structname}}) GongDiff({{structname}}Other *{{Structname}}) (diffs []string) {
+	// insertion point for field diffs{{FieldDiff}}
+
+	return
+}
+`,
 }
 
 type GongGraphFilePerStructSubTemplateId int
@@ -192,6 +203,9 @@ const (
 	GongGraphFileFieldSubTmplCopySliceOfPointersField
 	GongGraphFileFieldSubTmplUnstagePointerField
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField
+	GongGraphBasicFieldDiff
+	GongGraphPointerFieldDiff
+	GongGraphSliceOfPointerFieldDiff
 )
 
 var GongGraphFileFieldFieldSubTemplateCode map[GongGraphFilePerStructSubTemplateId]string = // declaration of the sub templates
@@ -224,6 +238,38 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	GongGraphFileFieldSubTmplUnstageSliceOfPointersField: `
 	for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
 		UnstageBranch(stage, _{{assocstructname}})
+	}`,
+	GongGraphBasicFieldDiff: `
+	if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
+		diffs = append(diffs, "{{FieldName}}")
+	}`,
+	GongGraphPointerFieldDiff: `
+	if ({{structname}}.{{FieldName}} == nil) != ({{structname}}Other.{{FieldName}} == nil) {
+		diffs = append(diffs, "{{FieldName}}")
+	} else if {{structname}}.{{FieldName}} != nil && {{structname}}Other.{{FieldName}} != nil {
+		if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
+			diffs = append(diffs, "{{FieldName}}")
+		}
+	}`,
+	GongGraphSliceOfPointerFieldDiff: `
+	{{FieldName}}Different := false
+	if len({{structname}}.{{FieldName}}) != len({{structname}}Other.{{FieldName}}) {
+		{{FieldName}}Different = true
+	} else {
+		for i := range {{structname}}.{{FieldName}} {
+			if ({{structname}}.{{FieldName}}[i] == nil) != ({{structname}}Other.{{FieldName}}[i] == nil) {
+				{{FieldName}}Different = true
+				break
+			} else if {{structname}}.{{FieldName}}[i] != nil && {{structname}}Other.{{FieldName}}[i] != nil {
+				if len({{structname}}.{{FieldName}}[i].GongDiff({{structname}}Other.{{FieldName}}[i])) > 0 {
+					{{FieldName}}Different = true
+					break
+				}
+			}
+		}
+	}
+	if {{FieldName}}Different {
+		diffs = append(diffs, "{{FieldName}}")
 	}`,
 }
 
@@ -263,10 +309,15 @@ func CodeGeneratorModelGongGraph(
 			sliceOfPointerCopyingCode := ""
 			pointerUnstagingCode := ""
 			sliceOfPointerUnstagingCode := ""
+			fieldDiff := ""
 
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
+				case *models.GongBasicField:
+					fieldDiff += models.Replace1(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphBasicFieldDiff],
+						"{{FieldName}}", field.Name)
 				case *models.PointerToGongStructField:
 					pointerStagingCode += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],
@@ -288,6 +339,12 @@ func CodeGeneratorModelGongGraph(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplUnstagePointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
+
+					fieldDiff += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphPointerFieldDiff],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
+
 				case *models.SliceOfPointerToGongStructField:
 					sliceOfPointerStagingCode += models.Replace3(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStageSliceOfPointersField],
@@ -304,6 +361,10 @@ func CodeGeneratorModelGongGraph(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					fieldDiff += models.Replace2(
+						GongGraphFileFieldFieldSubTemplateCode[GongGraphSliceOfPointerFieldDiff],
+						"{{FieldName}}", field.Name,
+						"{{AssocStructName}}", field.GongStruct.Name)
 				default:
 					_ = field
 				}
@@ -334,7 +395,11 @@ func CodeGeneratorModelGongGraph(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace8(ModelGongGraphStructSubTemplateCode[subStructTemplate],
+			fieldDiff = models.Replace2(fieldDiff,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := models.Replace9(ModelGongGraphStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{StagingPointers}}", pointerStagingCode,
@@ -342,7 +407,9 @@ func CodeGeneratorModelGongGraph(
 				"{{CopyingPointers}}", pointerCopyingCode,
 				"{{CopyingSliceOfPointers}}", sliceOfPointerCopyingCode,
 				"{{UnstagingPointers}}", pointerUnstagingCode,
-				"{{UnstagingSliceOfPointers}}", sliceOfPointerUnstagingCode)
+				"{{UnstagingSliceOfPointers}}", sliceOfPointerUnstagingCode,
+				"{{FieldDiff}}", fieldDiff,
+			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}

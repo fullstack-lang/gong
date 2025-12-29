@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Actions           map[*Action]struct{}
+	Actions_reference map[*Action]*Action
 	Actions_mapString map[string]*Action
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterActionReadCallback   OnAfterReadInterface[Action]
 
 	Activitiess           map[*Activities]struct{}
+	Activitiess_reference map[*Activities]*Activities
 	Activitiess_mapString map[string]*Activities
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterActivitiesReadCallback   OnAfterReadInterface[Activities]
 
 	Architectures           map[*Architecture]struct{}
+	Architectures_reference map[*Architecture]*Architecture
 	Architectures_mapString map[string]*Architecture
 
 	// insertion point for slice of pointers maps
@@ -125,6 +128,7 @@ type Stage struct {
 	OnAfterArchitectureReadCallback   OnAfterReadInterface[Architecture]
 
 	Diagrams           map[*Diagram]struct{}
+	Diagrams_reference map[*Diagram]*Diagram
 	Diagrams_mapString map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -138,6 +142,7 @@ type Stage struct {
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
 	Guards           map[*Guard]struct{}
+	Guards_reference map[*Guard]*Guard
 	Guards_mapString map[string]*Guard
 
 	// insertion point for slice of pointers maps
@@ -147,6 +152,7 @@ type Stage struct {
 	OnAfterGuardReadCallback   OnAfterReadInterface[Guard]
 
 	Kills           map[*Kill]struct{}
+	Kills_reference map[*Kill]*Kill
 	Kills_mapString map[string]*Kill
 
 	// insertion point for slice of pointers maps
@@ -156,6 +162,7 @@ type Stage struct {
 	OnAfterKillReadCallback   OnAfterReadInterface[Kill]
 
 	Messages           map[*Message]struct{}
+	Messages_reference map[*Message]*Message
 	Messages_mapString map[string]*Message
 
 	// insertion point for slice of pointers maps
@@ -165,6 +172,7 @@ type Stage struct {
 	OnAfterMessageReadCallback   OnAfterReadInterface[Message]
 
 	MessageTypes           map[*MessageType]struct{}
+	MessageTypes_reference map[*MessageType]*MessageType
 	MessageTypes_mapString map[string]*MessageType
 
 	// insertion point for slice of pointers maps
@@ -174,6 +182,7 @@ type Stage struct {
 	OnAfterMessageTypeReadCallback   OnAfterReadInterface[MessageType]
 
 	Objects           map[*Object]struct{}
+	Objects_reference map[*Object]*Object
 	Objects_mapString map[string]*Object
 
 	// insertion point for slice of pointers maps
@@ -185,6 +194,7 @@ type Stage struct {
 	OnAfterObjectReadCallback   OnAfterReadInterface[Object]
 
 	Roles           map[*Role]struct{}
+	Roles_reference map[*Role]*Role
 	Roles_mapString map[string]*Role
 
 	// insertion point for slice of pointers maps
@@ -196,6 +206,7 @@ type Stage struct {
 	OnAfterRoleReadCallback   OnAfterReadInterface[Role]
 
 	States           map[*State]struct{}
+	States_reference map[*State]*State
 	States_mapString map[string]*State
 
 	// insertion point for slice of pointers maps
@@ -211,6 +222,7 @@ type Stage struct {
 	OnAfterStateReadCallback   OnAfterReadInterface[State]
 
 	StateMachines           map[*StateMachine]struct{}
+	StateMachines_reference map[*StateMachine]*StateMachine
 	StateMachines_mapString map[string]*StateMachine
 
 	// insertion point for slice of pointers maps
@@ -224,6 +236,7 @@ type Stage struct {
 	OnAfterStateMachineReadCallback   OnAfterReadInterface[StateMachine]
 
 	StateShapes           map[*StateShape]struct{}
+	StateShapes_reference map[*StateShape]*StateShape
 	StateShapes_mapString map[string]*StateShape
 
 	// insertion point for slice of pointers maps
@@ -233,6 +246,7 @@ type Stage struct {
 	OnAfterStateShapeReadCallback   OnAfterReadInterface[StateShape]
 
 	Transitions           map[*Transition]struct{}
+	Transitions_reference map[*Transition]*Transition
 	Transitions_mapString map[string]*Transition
 
 	// insertion point for slice of pointers maps
@@ -248,6 +262,7 @@ type Stage struct {
 	OnAfterTransitionReadCallback   OnAfterReadInterface[Transition]
 
 	Transition_Shapes           map[*Transition_Shape]struct{}
+	Transition_Shapes_reference map[*Transition_Shape]*Transition_Shape
 	Transition_Shapes_mapString map[string]*Transition_Shape
 
 	// insertion point for slice of pointers maps
@@ -331,8 +346,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -343,10 +367,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -858,8 +878,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Transition"},
 			{name: "Transition_Shape"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -969,7 +987,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -5182,4 +5206,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

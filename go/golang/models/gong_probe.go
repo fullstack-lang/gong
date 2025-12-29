@@ -17,6 +17,7 @@ type ProbeIF interface {
 	GetDiagramEditor() *split.AsSplitArea
 	FillUpFormFromGongstruct(instance any, formName string)
 	AddNotification(date time.Time, message string)
+	CommitNotificationTable()
 	ResetNotifications()
 }
 `
