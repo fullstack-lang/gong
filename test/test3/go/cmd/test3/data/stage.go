@@ -24,6 +24,7 @@ func _(stage *models.Stage) {
 	// Declaration of instances to stage
 
 	__A__00000000_A09 := (&models.A{}).Stage(stage)
+	__A__00000001_A091xxssfff := (&models.A{}).Stage(stage)
 
 	__B__00000001_1_0009 := (&models.B{}).Stage(stage)
 	__B__00000002_2gfsdfggf := (&models.B{}).Stage(stage)
@@ -5028,6 +5029,8 @@ func _(stage *models.Stage) {
 	// Setup of values
 
 	__A__00000000_A09.Name = `A09`
+
+	__A__00000001_A091xxssfff.Name = `A091xxssfff`
 
 	__B__00000001_1_0009.Name = `1___0009`
 

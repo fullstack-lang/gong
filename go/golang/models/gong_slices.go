@@ -17,6 +17,7 @@ const GongSliceTemplate = `// generated code - do not edit
 package models
 
 import "time"
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -32,16 +33,16 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
 
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
 	
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -94,13 +95,24 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 
 	// parse all staged instances and check if they have a reference
 	for {{structname}} := range stage.{{Structname}}s {
-		if _, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
+		if ref, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
 			{{structname}}s_newInstances = append({{structname}}s_newInstances, {{structname}})
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
 					"New instance of {{Structname}} "+{{structname}}.Name,
 				)
+			}
+		} else {
+			diffs := {{structname}}.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Modified instance of {{Structname}} "+{{structname}}.Name,
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -124,7 +136,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	GongSliceGongComputeReference: `
 	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
 	for instance := range stage.{{Structname}}s {
-		stage.{{Structname}}s_reference[instance] = instance
+		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
 	}
 `,
 }

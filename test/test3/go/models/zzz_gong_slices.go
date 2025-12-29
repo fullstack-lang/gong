@@ -50,11 +50,12 @@ func (b *B) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
-	var lenModeifiedInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-
+	
 	// insertion point per named struct
 	var as_newInstances []*A
 	var as_deletedInstances []*A
@@ -78,7 +79,7 @@ func (stage *Stage) ComputeDifference() {
 						"Modified instance of A "+a.Name,
 					)
 				}
-				lenModeifiedInstances++
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -103,13 +104,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for b := range stage.Bs {
-		if _, ok := stage.Bs_reference[b]; !ok {
+		if ref, ok := stage.Bs_reference[b]; !ok {
 			bs_newInstances = append(bs_newInstances, b)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
 					"New instance of B "+b.Name,
 				)
+			}
+		} else {
+			diffs := b.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Modified instance of B "+b.Name,
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -130,7 +142,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(bs_newInstances)
 	lenDeletedInstances += len(bs_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModeifiedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
