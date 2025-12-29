@@ -44,7 +44,11 @@ func _(stage *models.Stage) {
 ` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
+	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
+	`{{GeneratedFieldNameValue}}` +
+	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
+	`}).Stage(stage)` + "`" + `
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` +
@@ -174,8 +178,10 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 		log.Fatal(err)
 	}
 	processedString := reg.ReplaceAllString(instanceName, "_")
+	_ = processedString
 
-	identifier = fmt.Sprintf("__%s__%08d_%s", gongStructName, idx, processedString)
+	//#1030
+	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
 
 	return
 }
