@@ -120,7 +120,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
