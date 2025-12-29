@@ -56,6 +56,14 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct{{` + string(rune(GongSliceGongGetOrder)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -67,6 +75,7 @@ const (
 	GongSliceGongCopy
 	GongSliceGongComputeDifference
 	GongSliceGongComputeReference
+	GongSliceGongGetOrder
 	GongSliceGongstructInsertionNb
 )
 
@@ -140,6 +149,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	for instance := range stage.{{Structname}}s {
 		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
 	}
+`,
+
+	GongSliceGongGetOrder: `
+func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
+	return stage.{{Structname}}Map_Staged_Order[{{structname}}]
+}
 `,
 }
 
