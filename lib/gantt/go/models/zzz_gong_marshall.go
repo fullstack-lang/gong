@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, arrow := range arrowOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", arrow.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Arrow")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", arrow.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += arrow.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -167,12 +163,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, bar := range barOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", bar.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bar")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bar.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += bar.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -250,12 +242,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, gantt := range ganttOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", gantt.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gantt")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gantt.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += gantt.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -429,12 +417,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, group := range groupOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += group.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -464,12 +448,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, lane := range laneOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", lane.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Lane")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", lane.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += lane.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -505,12 +485,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, laneuse := range laneuseOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LaneUse")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", laneuse.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += laneuse.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -540,12 +516,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, milestone := range milestoneOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", milestone.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Milestone")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", milestone.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += milestone.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values

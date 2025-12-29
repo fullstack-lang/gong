@@ -197,3 +197,20 @@ func (b *B) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (a *A) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
+	return
+}
+func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
+	return
+}

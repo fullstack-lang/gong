@@ -324,3 +324,34 @@ func (svgimage *SvgImage) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", svgimage.GongGetGongstructName(), svgimage.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
+	return
+}
+func (jpgimage *JpgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "JpgImage")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", jpgimage.Name)
+	return
+}
+func (pngimage *PngImage) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pngimage.Name)
+	return
+}
+func (svgimage *SvgImage) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgimage.Name)
+	return
+}

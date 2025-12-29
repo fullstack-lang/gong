@@ -345,3 +345,34 @@ func (slider *Slider) GongGetIdentifier(stage *Stage) string {
 	return fmt.Sprintf("__%s__%08d_", slider.GongGetGongstructName(), slider.GongGetOrder(stage))
 }
 
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (checkbox *Checkbox) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Checkbox")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", checkbox.Name)
+	return
+}
+func (group *Group) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", group.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
+	return
+}
+func (layout *Layout) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", layout.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Layout")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", layout.Name)
+	return
+}
+func (slider *Slider) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", slider.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Slider")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", slider.Name)
+	return
+}

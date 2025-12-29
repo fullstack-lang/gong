@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, button := range buttonOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", button.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Button")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", button.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += button.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -187,12 +183,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, node := range nodeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += node.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -368,12 +360,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, svgicon := range svgiconOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SVGIcon")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgicon.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += svgicon.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -409,12 +397,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, tree := range treeOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", tree.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Tree")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tree.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += tree.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
