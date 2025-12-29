@@ -400,3 +400,207 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 	}
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+	// insertion point for field diffs
+	if button.Name != buttonOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if button.Icon != buttonOther.Icon {
+		diffs = append(diffs, "Icon")
+	}
+	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
+		diffs = append(diffs, "SVGIcon")
+	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
+		if button.SVGIcon != buttonOther.SVGIcon {
+			diffs = append(diffs, "SVGIcon")
+		}
+	}
+	if button.IsDisabled != buttonOther.IsDisabled {
+		diffs = append(diffs, "IsDisabled")
+	}
+	if button.HasToolTip != buttonOther.HasToolTip {
+		diffs = append(diffs, "HasToolTip")
+	}
+	if button.ToolTipText != buttonOther.ToolTipText {
+		diffs = append(diffs, "ToolTipText")
+	}
+	if button.ToolTipPosition != buttonOther.ToolTipPosition {
+		diffs = append(diffs, "ToolTipPosition")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
+	// insertion point for field diffs
+	if node.Name != nodeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if node.FontStyle != nodeOther.FontStyle {
+		diffs = append(diffs, "FontStyle")
+	}
+	if node.BackgroundColor != nodeOther.BackgroundColor {
+		diffs = append(diffs, "BackgroundColor")
+	}
+	if node.IsExpanded != nodeOther.IsExpanded {
+		diffs = append(diffs, "IsExpanded")
+	}
+	if node.HasCheckboxButton != nodeOther.HasCheckboxButton {
+		diffs = append(diffs, "HasCheckboxButton")
+	}
+	if node.IsChecked != nodeOther.IsChecked {
+		diffs = append(diffs, "IsChecked")
+	}
+	if node.IsCheckboxDisabled != nodeOther.IsCheckboxDisabled {
+		diffs = append(diffs, "IsCheckboxDisabled")
+	}
+	if node.CheckboxHasToolTip != nodeOther.CheckboxHasToolTip {
+		diffs = append(diffs, "CheckboxHasToolTip")
+	}
+	if node.CheckboxToolTipText != nodeOther.CheckboxToolTipText {
+		diffs = append(diffs, "CheckboxToolTipText")
+	}
+	if node.CheckboxToolTipPosition != nodeOther.CheckboxToolTipPosition {
+		diffs = append(diffs, "CheckboxToolTipPosition")
+	}
+	if node.HasSecondCheckboxButton != nodeOther.HasSecondCheckboxButton {
+		diffs = append(diffs, "HasSecondCheckboxButton")
+	}
+	if node.IsSecondCheckboxChecked != nodeOther.IsSecondCheckboxChecked {
+		diffs = append(diffs, "IsSecondCheckboxChecked")
+	}
+	if node.IsSecondCheckboxDisabled != nodeOther.IsSecondCheckboxDisabled {
+		diffs = append(diffs, "IsSecondCheckboxDisabled")
+	}
+	if node.SecondCheckboxHasToolTip != nodeOther.SecondCheckboxHasToolTip {
+		diffs = append(diffs, "SecondCheckboxHasToolTip")
+	}
+	if node.SecondCheckboxToolTipText != nodeOther.SecondCheckboxToolTipText {
+		diffs = append(diffs, "SecondCheckboxToolTipText")
+	}
+	if node.SecondCheckboxToolTipPosition != nodeOther.SecondCheckboxToolTipPosition {
+		diffs = append(diffs, "SecondCheckboxToolTipPosition")
+	}
+	if node.TextAfterSecondCheckbox != nodeOther.TextAfterSecondCheckbox {
+		diffs = append(diffs, "TextAfterSecondCheckbox")
+	}
+	if node.HasToolTip != nodeOther.HasToolTip {
+		diffs = append(diffs, "HasToolTip")
+	}
+	if node.ToolTipText != nodeOther.ToolTipText {
+		diffs = append(diffs, "ToolTipText")
+	}
+	if node.ToolTipPosition != nodeOther.ToolTipPosition {
+		diffs = append(diffs, "ToolTipPosition")
+	}
+	if node.IsInEditMode != nodeOther.IsInEditMode {
+		diffs = append(diffs, "IsInEditMode")
+	}
+	if node.IsNodeClickable != nodeOther.IsNodeClickable {
+		diffs = append(diffs, "IsNodeClickable")
+	}
+	if node.IsWithPreceedingIcon != nodeOther.IsWithPreceedingIcon {
+		diffs = append(diffs, "IsWithPreceedingIcon")
+	}
+	if node.PreceedingIcon != nodeOther.PreceedingIcon {
+		diffs = append(diffs, "PreceedingIcon")
+	}
+	if (node.PreceedingSVGIcon == nil) != (nodeOther.PreceedingSVGIcon == nil) {
+		diffs = append(diffs, "PreceedingSVGIcon")
+	} else if node.PreceedingSVGIcon != nil && nodeOther.PreceedingSVGIcon != nil {
+		if node.PreceedingSVGIcon != nodeOther.PreceedingSVGIcon {
+			diffs = append(diffs, "PreceedingSVGIcon")
+		}
+	}
+	ChildrenDifferent := false
+    if len(node.Children) != len(nodeOther.Children) {
+        ChildrenDifferent = true
+    } else {
+        for i := range node.Children {
+            if (node.Children[i] == nil) != (nodeOther.Children[i] == nil) {
+                ChildrenDifferent = true
+                break
+            } else if node.Children[i] != nil && nodeOther.Children[i] != nil {
+                if len(node.Children[i].GongDiff(nodeOther.Children[i])) > 0 {
+                    ChildrenDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ChildrenDifferent {
+        diffs = append(diffs, "Children")
+    }
+	ButtonsDifferent := false
+    if len(node.Buttons) != len(nodeOther.Buttons) {
+        ButtonsDifferent = true
+    } else {
+        for i := range node.Buttons {
+            if (node.Buttons[i] == nil) != (nodeOther.Buttons[i] == nil) {
+                ButtonsDifferent = true
+                break
+            } else if node.Buttons[i] != nil && nodeOther.Buttons[i] != nil {
+                if len(node.Buttons[i].GongDiff(nodeOther.Buttons[i])) > 0 {
+                    ButtonsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ButtonsDifferent {
+        diffs = append(diffs, "Buttons")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (svgicon *SVGIcon) GongDiff(svgiconOther *SVGIcon) (diffs []string) {
+	// insertion point for field diffs
+	if svgicon.Name != svgiconOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if svgicon.SVG != svgiconOther.SVG {
+		diffs = append(diffs, "SVG")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
+	// insertion point for field diffs
+	if tree.Name != treeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	RootNodesDifferent := false
+    if len(tree.RootNodes) != len(treeOther.RootNodes) {
+        RootNodesDifferent = true
+    } else {
+        for i := range tree.RootNodes {
+            if (tree.RootNodes[i] == nil) != (treeOther.RootNodes[i] == nil) {
+                RootNodesDifferent = true
+                break
+            } else if tree.RootNodes[i] != nil && treeOther.RootNodes[i] != nil {
+                if len(tree.RootNodes[i].GongDiff(treeOther.RootNodes[i])) > 0 {
+                    RootNodesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if RootNodesDifferent {
+        diffs = append(diffs, "RootNodes")
+    }
+
+	return
+}

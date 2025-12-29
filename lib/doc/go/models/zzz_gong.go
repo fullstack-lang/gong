@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	AttributeShapes           map[*AttributeShape]struct{}
+	AttributeShapes_reference map[*AttributeShape]*AttributeShape
 	AttributeShapes_mapString map[string]*AttributeShape
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterAttributeShapeReadCallback   OnAfterReadInterface[AttributeShape]
 
 	Classdiagrams           map[*Classdiagram]struct{}
+	Classdiagrams_reference map[*Classdiagram]*Classdiagram
 	Classdiagrams_mapString map[string]*Classdiagram
 
 	// insertion point for slice of pointers maps
@@ -118,6 +120,7 @@ type Stage struct {
 	OnAfterClassdiagramReadCallback   OnAfterReadInterface[Classdiagram]
 
 	DiagramPackages           map[*DiagramPackage]struct{}
+	DiagramPackages_reference map[*DiagramPackage]*DiagramPackage
 	DiagramPackages_mapString map[string]*DiagramPackage
 
 	// insertion point for slice of pointers maps
@@ -129,6 +132,7 @@ type Stage struct {
 	OnAfterDiagramPackageReadCallback   OnAfterReadInterface[DiagramPackage]
 
 	GongEnumShapes           map[*GongEnumShape]struct{}
+	GongEnumShapes_reference map[*GongEnumShape]*GongEnumShape
 	GongEnumShapes_mapString map[string]*GongEnumShape
 
 	// insertion point for slice of pointers maps
@@ -140,6 +144,7 @@ type Stage struct {
 	OnAfterGongEnumShapeReadCallback   OnAfterReadInterface[GongEnumShape]
 
 	GongEnumValueShapes           map[*GongEnumValueShape]struct{}
+	GongEnumValueShapes_reference map[*GongEnumValueShape]*GongEnumValueShape
 	GongEnumValueShapes_mapString map[string]*GongEnumValueShape
 
 	// insertion point for slice of pointers maps
@@ -149,6 +154,7 @@ type Stage struct {
 	OnAfterGongEnumValueShapeReadCallback   OnAfterReadInterface[GongEnumValueShape]
 
 	GongNoteLinkShapes           map[*GongNoteLinkShape]struct{}
+	GongNoteLinkShapes_reference map[*GongNoteLinkShape]*GongNoteLinkShape
 	GongNoteLinkShapes_mapString map[string]*GongNoteLinkShape
 
 	// insertion point for slice of pointers maps
@@ -158,6 +164,7 @@ type Stage struct {
 	OnAfterGongNoteLinkShapeReadCallback   OnAfterReadInterface[GongNoteLinkShape]
 
 	GongNoteShapes           map[*GongNoteShape]struct{}
+	GongNoteShapes_reference map[*GongNoteShape]*GongNoteShape
 	GongNoteShapes_mapString map[string]*GongNoteShape
 
 	// insertion point for slice of pointers maps
@@ -169,6 +176,7 @@ type Stage struct {
 	OnAfterGongNoteShapeReadCallback   OnAfterReadInterface[GongNoteShape]
 
 	GongStructShapes           map[*GongStructShape]struct{}
+	GongStructShapes_reference map[*GongStructShape]*GongStructShape
 	GongStructShapes_mapString map[string]*GongStructShape
 
 	// insertion point for slice of pointers maps
@@ -182,6 +190,7 @@ type Stage struct {
 	OnAfterGongStructShapeReadCallback   OnAfterReadInterface[GongStructShape]
 
 	LinkShapes           map[*LinkShape]struct{}
+	LinkShapes_reference map[*LinkShape]*LinkShape
 	LinkShapes_mapString map[string]*LinkShape
 
 	// insertion point for slice of pointers maps
@@ -247,8 +256,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -259,10 +277,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -630,8 +644,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GongStructShape"},
 			{name: "LinkShape"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

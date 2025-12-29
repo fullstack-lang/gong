@@ -111,6 +111,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (arrow *Arrow) GongCopy() GongstructIF {
 	newInstance := *arrow
@@ -147,10 +148,190 @@ func (milestone *Milestone) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var arrows_newInstances []*Arrow
+	var arrows_deletedInstances []*Arrow
+
+	// parse all staged instances and check if they have a reference
+	for arrow := range stage.Arrows {
+		if _, ok := stage.Arrows_reference[arrow]; !ok {
+			arrows_newInstances = append(arrows_newInstances, arrow)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for arrow := range stage.Arrows_reference {
+		if _, ok := stage.Arrows[arrow]; !ok {
+			arrows_deletedInstances = append(arrows_deletedInstances, arrow)
+		}
+	}
+
+	lenNewInstances += len(arrows_newInstances)
+	lenDeletedInstances += len(arrows_deletedInstances)
+	var bars_newInstances []*Bar
+	var bars_deletedInstances []*Bar
+
+	// parse all staged instances and check if they have a reference
+	for bar := range stage.Bars {
+		if _, ok := stage.Bars_reference[bar]; !ok {
+			bars_newInstances = append(bars_newInstances, bar)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for bar := range stage.Bars_reference {
+		if _, ok := stage.Bars[bar]; !ok {
+			bars_deletedInstances = append(bars_deletedInstances, bar)
+		}
+	}
+
+	lenNewInstances += len(bars_newInstances)
+	lenDeletedInstances += len(bars_deletedInstances)
+	var gantts_newInstances []*Gantt
+	var gantts_deletedInstances []*Gantt
+
+	// parse all staged instances and check if they have a reference
+	for gantt := range stage.Gantts {
+		if _, ok := stage.Gantts_reference[gantt]; !ok {
+			gantts_newInstances = append(gantts_newInstances, gantt)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for gantt := range stage.Gantts_reference {
+		if _, ok := stage.Gantts[gantt]; !ok {
+			gantts_deletedInstances = append(gantts_deletedInstances, gantt)
+		}
+	}
+
+	lenNewInstances += len(gantts_newInstances)
+	lenDeletedInstances += len(gantts_deletedInstances)
+	var groups_newInstances []*Group
+	var groups_deletedInstances []*Group
+
+	// parse all staged instances and check if they have a reference
+	for group := range stage.Groups {
+		if _, ok := stage.Groups_reference[group]; !ok {
+			groups_newInstances = append(groups_newInstances, group)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for group := range stage.Groups_reference {
+		if _, ok := stage.Groups[group]; !ok {
+			groups_deletedInstances = append(groups_deletedInstances, group)
+		}
+	}
+
+	lenNewInstances += len(groups_newInstances)
+	lenDeletedInstances += len(groups_deletedInstances)
+	var lanes_newInstances []*Lane
+	var lanes_deletedInstances []*Lane
+
+	// parse all staged instances and check if they have a reference
+	for lane := range stage.Lanes {
+		if _, ok := stage.Lanes_reference[lane]; !ok {
+			lanes_newInstances = append(lanes_newInstances, lane)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for lane := range stage.Lanes_reference {
+		if _, ok := stage.Lanes[lane]; !ok {
+			lanes_deletedInstances = append(lanes_deletedInstances, lane)
+		}
+	}
+
+	lenNewInstances += len(lanes_newInstances)
+	lenDeletedInstances += len(lanes_deletedInstances)
+	var laneuses_newInstances []*LaneUse
+	var laneuses_deletedInstances []*LaneUse
+
+	// parse all staged instances and check if they have a reference
+	for laneuse := range stage.LaneUses {
+		if _, ok := stage.LaneUses_reference[laneuse]; !ok {
+			laneuses_newInstances = append(laneuses_newInstances, laneuse)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for laneuse := range stage.LaneUses_reference {
+		if _, ok := stage.LaneUses[laneuse]; !ok {
+			laneuses_deletedInstances = append(laneuses_deletedInstances, laneuse)
+		}
+	}
+
+	lenNewInstances += len(laneuses_newInstances)
+	lenDeletedInstances += len(laneuses_deletedInstances)
+	var milestones_newInstances []*Milestone
+	var milestones_deletedInstances []*Milestone
+
+	// parse all staged instances and check if they have a reference
+	for milestone := range stage.Milestones {
+		if _, ok := stage.Milestones_reference[milestone]; !ok {
+			milestones_newInstances = append(milestones_newInstances, milestone)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for milestone := range stage.Milestones_reference {
+		if _, ok := stage.Milestones[milestone]; !ok {
+			milestones_deletedInstances = append(milestones_deletedInstances, milestone)
+		}
+	}
+
+	lenNewInstances += len(milestones_newInstances)
+	lenDeletedInstances += len(milestones_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Arrows_reference = make(map[*Arrow]*Arrow)
+	for instance := range stage.Arrows {
+		stage.Arrows_reference[instance] = instance
 	}
+
+	stage.Bars_reference = make(map[*Bar]*Bar)
+	for instance := range stage.Bars {
+		stage.Bars_reference[instance] = instance
+	}
+
+	stage.Gantts_reference = make(map[*Gantt]*Gantt)
+	for instance := range stage.Gantts {
+		stage.Gantts_reference[instance] = instance
+	}
+
+	stage.Groups_reference = make(map[*Group]*Group)
+	for instance := range stage.Groups {
+		stage.Groups_reference[instance] = instance
+	}
+
+	stage.Lanes_reference = make(map[*Lane]*Lane)
+	for instance := range stage.Lanes {
+		stage.Lanes_reference[instance] = instance
+	}
+
+	stage.LaneUses_reference = make(map[*LaneUse]*LaneUse)
+	for instance := range stage.LaneUses {
+		stage.LaneUses_reference[instance] = instance
+	}
+
+	stage.Milestones_reference = make(map[*Milestone]*Milestone)
+	for instance := range stage.Milestones {
+		stage.Milestones_reference[instance] = instance
+	}
+
 }

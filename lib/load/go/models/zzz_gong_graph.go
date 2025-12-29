@@ -283,3 +283,44 @@ func (stage *Stage) UnstageBranchMessage(message *Message) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (filetodownload *FileToDownload) GongDiff(filetodownloadOther *FileToDownload) (diffs []string) {
+	// insertion point for field diffs
+	if filetodownload.Name != filetodownloadOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if filetodownload.Base64EncodedContent != filetodownloadOther.Base64EncodedContent {
+		diffs = append(diffs, "Base64EncodedContent")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (filetoupload *FileToUpload) GongDiff(filetouploadOther *FileToUpload) (diffs []string) {
+	// insertion point for field diffs
+	if filetoupload.Name != filetouploadOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if filetoupload.Base64EncodedContent != filetouploadOther.Base64EncodedContent {
+		diffs = append(diffs, "Base64EncodedContent")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (message *Message) GongDiff(messageOther *Message) (diffs []string) {
+	// insertion point for field diffs
+	if message.Name != messageOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}

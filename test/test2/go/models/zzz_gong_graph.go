@@ -229,3 +229,56 @@ func (stage *Stage) UnstageBranchB(b *B) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (a *A) GongDiff(aOther *A) (diffs []string) {
+	// insertion point for field diffs
+	if a.Name != aOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if a.NumberField != aOther.NumberField {
+		diffs = append(diffs, "NumberField")
+	}
+	if (a.B == nil) != (aOther.B == nil) {
+		diffs = append(diffs, "B")
+	} else if a.B != nil && aOther.B != nil {
+		if a.B != aOther.B {
+			diffs = append(diffs, "B")
+		}
+	}
+	BsDifferent := false
+    if len(a.Bs) != len(aOther.Bs) {
+        BsDifferent = true
+    } else {
+        for i := range a.Bs {
+            if (a.Bs[i] == nil) != (aOther.Bs[i] == nil) {
+                BsDifferent = true
+                break
+            } else if a.Bs[i] != nil && aOther.Bs[i] != nil {
+                if len(a.Bs[i].GongDiff(aOther.Bs[i])) > 0 {
+                    BsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if BsDifferent {
+        diffs = append(diffs, "Bs")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (b *B) GongDiff(bOther *B) (diffs []string) {
+	// insertion point for field diffs
+	if b.Name != bOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}

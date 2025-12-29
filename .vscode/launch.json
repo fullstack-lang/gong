@@ -67,6 +67,19 @@
             ]
         },
         {
+            "name": "gong generate split -skipGoModCommands -level1",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "cwd": "${workspaceFolder}/lib/split/go/models",
+            "program": "${workspaceFolder}/go/cmd/gong",
+            "args": [
+                "generate",
+                "--skipGoModCommands",
+                "--level1"
+            ]
+        },
+        {
             "name": "gong generate gongreqif",
             "type": "go",
             "request": "launch",
