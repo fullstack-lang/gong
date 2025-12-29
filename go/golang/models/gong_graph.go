@@ -83,7 +83,6 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 }
 
 // insertion point for unstage branch per struct{{` + string(rune(ModelGongGraphStructInsertionUnstageBranchPerStruct)) + `}}
-
 // insertion point for diff per struct{{` + string(rune(ModelGongGraphDiff)) + `}}`
 
 // insertion points are places where the code is
@@ -254,24 +253,24 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	}`,
 	GongGraphSliceOfPointerFieldDiff: `
 	{{FieldName}}Different := false
-    if len({{structname}}.{{FieldName}}) != len({{structname}}Other.{{FieldName}}) {
-        {{FieldName}}Different = true
-    } else {
-        for i := range {{structname}}.{{FieldName}} {
-            if ({{structname}}.{{FieldName}}[i] == nil) != ({{structname}}Other.{{FieldName}}[i] == nil) {
-                {{FieldName}}Different = true
-                break
-            } else if {{structname}}.{{FieldName}}[i] != nil && {{structname}}Other.{{FieldName}}[i] != nil {
-                if len({{structname}}.{{FieldName}}[i].GongDiff({{structname}}Other.{{FieldName}}[i])) > 0 {
-                    {{FieldName}}Different = true
-                    break
-                }
-            }
-        }
-    }
-    if {{FieldName}}Different {
-        diffs = append(diffs, "{{FieldName}}")
-    }`,
+	if len({{structname}}.{{FieldName}}) != len({{structname}}Other.{{FieldName}}) {
+		{{FieldName}}Different = true
+	} else {
+		for i := range {{structname}}.{{FieldName}} {
+			if ({{structname}}.{{FieldName}}[i] == nil) != ({{structname}}Other.{{FieldName}}[i] == nil) {
+				{{FieldName}}Different = true
+				break
+			} else if {{structname}}.{{FieldName}}[i] != nil && {{structname}}Other.{{FieldName}}[i] != nil {
+				if len({{structname}}.{{FieldName}}[i].GongDiff({{structname}}Other.{{FieldName}}[i])) > 0 {
+					{{FieldName}}Different = true
+					break
+				}
+			}
+		}
+	}
+	if {{FieldName}}Different {
+		diffs = append(diffs, "{{FieldName}}")
+	}`,
 }
 
 func CodeGeneratorModelGongGraph(
