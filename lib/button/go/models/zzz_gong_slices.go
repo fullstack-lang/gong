@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -135,7 +136,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Button \""+button.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Button \""+button.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -177,7 +178,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of ButtonToggle \""+buttontoggle.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of ButtonToggle \""+buttontoggle.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -219,7 +220,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Group \""+group.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Group \""+group.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -261,7 +262,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of GroupToogle \""+grouptoogle.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of GroupToogle \""+grouptoogle.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -303,7 +304,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Layout \""+layout.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Layout \""+layout.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -364,3 +365,57 @@ func (stage *Stage) ComputeReference() {
 	}
 
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (button *Button) GongGetOrder(stage *Stage) uint {
+	return stage.ButtonMap_Staged_Order[button]
+}
+
+func (buttontoggle *ButtonToggle) GongGetOrder(stage *Stage) uint {
+	return stage.ButtonToggleMap_Staged_Order[buttontoggle]
+}
+
+func (group *Group) GongGetOrder(stage *Stage) uint {
+	return stage.GroupMap_Staged_Order[group]
+}
+
+func (grouptoogle *GroupToogle) GongGetOrder(stage *Stage) uint {
+	return stage.GroupToogleMap_Staged_Order[grouptoogle]
+}
+
+func (layout *Layout) GongGetOrder(stage *Stage) uint {
+	return stage.LayoutMap_Staged_Order[layout]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (button *Button) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", button.GongGetGongstructName(), button.GongGetOrder(stage))
+}
+
+func (buttontoggle *ButtonToggle) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", buttontoggle.GongGetGongstructName(), buttontoggle.GongGetOrder(stage))
+}
+
+func (group *Group) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
+}
+
+func (grouptoogle *GroupToogle) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", grouptoogle.GongGetGongstructName(), grouptoogle.GongGetOrder(stage))
+}
+
+func (layout *Layout) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", layout.GongGetGongstructName(), layout.GongGetOrder(stage))
+}
+

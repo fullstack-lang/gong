@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -180,7 +181,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Arrow \""+arrow.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Arrow \""+arrow.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -222,7 +223,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Bar \""+bar.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Bar \""+bar.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -264,7 +265,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Gantt \""+gantt.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Gantt \""+gantt.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -306,7 +307,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Group \""+group.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Group \""+group.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -348,7 +349,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Lane \""+lane.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Lane \""+lane.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -390,7 +391,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of LaneUse \""+laneuse.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of LaneUse \""+laneuse.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -432,7 +433,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Milestone \""+milestone.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Milestone \""+milestone.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -503,3 +504,73 @@ func (stage *Stage) ComputeReference() {
 	}
 
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (arrow *Arrow) GongGetOrder(stage *Stage) uint {
+	return stage.ArrowMap_Staged_Order[arrow]
+}
+
+func (bar *Bar) GongGetOrder(stage *Stage) uint {
+	return stage.BarMap_Staged_Order[bar]
+}
+
+func (gantt *Gantt) GongGetOrder(stage *Stage) uint {
+	return stage.GanttMap_Staged_Order[gantt]
+}
+
+func (group *Group) GongGetOrder(stage *Stage) uint {
+	return stage.GroupMap_Staged_Order[group]
+}
+
+func (lane *Lane) GongGetOrder(stage *Stage) uint {
+	return stage.LaneMap_Staged_Order[lane]
+}
+
+func (laneuse *LaneUse) GongGetOrder(stage *Stage) uint {
+	return stage.LaneUseMap_Staged_Order[laneuse]
+}
+
+func (milestone *Milestone) GongGetOrder(stage *Stage) uint {
+	return stage.MilestoneMap_Staged_Order[milestone]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (arrow *Arrow) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", arrow.GongGetGongstructName(), arrow.GongGetOrder(stage))
+}
+
+func (bar *Bar) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", bar.GongGetGongstructName(), bar.GongGetOrder(stage))
+}
+
+func (gantt *Gantt) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gantt.GongGetGongstructName(), gantt.GongGetOrder(stage))
+}
+
+func (group *Group) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", group.GongGetGongstructName(), group.GongGetOrder(stage))
+}
+
+func (lane *Lane) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", lane.GongGetGongstructName(), lane.GongGetOrder(stage))
+}
+
+func (laneuse *LaneUse) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", laneuse.GongGetGongstructName(), laneuse.GongGetOrder(stage))
+}
+
+func (milestone *Milestone) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", milestone.GongGetGongstructName(), milestone.GongGetOrder(stage))
+}
+

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -97,17 +96,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_A_Identifiers := make(map[*A]string)
-	_ = map_A_Identifiers
-
 	aOrdered := []*A{}
 	for a := range stage.As {
 		aOrdered = append(aOrdered, a)
@@ -127,11 +121,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, a := range aOrdered {
 
-		id = generatesIdentifier("A", int(stage.AMap_Staged_Order[a]), a.Name)
-		map_A_Identifiers[a] = id
-
 		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
 		identifiersDecl += decl
@@ -139,21 +130,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", a.GongGetIdentifier(stage))
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(a.Name))
 		initializerStatements += setValueField
 
 		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", a.GongGetIdentifier(stage))
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NumberField")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", a.NumberField))
 		initializerStatements += setValueField
 
 	}
-
-	map_B_Identifiers := make(map[*B]string)
-	_ = map_B_Identifiers
 
 	bOrdered := []*B{}
 	for b := range stage.Bs {
@@ -174,11 +162,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, b := range bOrdered {
 
-		id = generatesIdentifier("B", int(stage.BMap_Staged_Order[b]), b.Name)
-		map_B_Identifiers[b] = id
-
 		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
+		decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
 		identifiersDecl += decl
@@ -186,7 +171,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += "\n"
 		// Initialisation of values
 		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", b.GongGetIdentifier(stage))
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(b.Name))
 		initializerStatements += setValueField
@@ -198,26 +183,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements += "\n\t// setup of A instances pointers"
 	}
 	for _, a := range aOrdered {
+		_ = a
 		var setPointerField string
 		_ = setPointerField
-
-		id = generatesIdentifier("A", int(stage.AMap_Staged_Order[a]), a.Name)
-		map_A_Identifiers[a] = id
 
 		// Initialisation of values
 		if a.B != nil {
 			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", a.GongGetIdentifier(stage))
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "B")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_B_Identifiers[a.B])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", a.B.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
 
 		for _, _b := range a.Bs {
 			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", a.GongGetIdentifier(stage))
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bs")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_B_Identifiers[_b])
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _b.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
 
@@ -227,11 +210,9 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		pointersInitializesStatements += "\n\t// setup of B instances pointers"
 	}
 	for _, b := range bOrdered {
+		_ = b
 		var setPointerField string
 		_ = setPointerField
-
-		id = generatesIdentifier("B", int(stage.BMap_Staged_Order[b]), b.Name)
-		map_B_Identifiers[b] = id
 
 		// Initialisation of values
 	}
@@ -286,23 +267,5 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
 	}
-	return
-}
-
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
-
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
-	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
-
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
-
 	return
 }
