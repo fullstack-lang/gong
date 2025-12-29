@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -180,5 +181,19 @@ func (a *A) GongGetOrder(stage *Stage) uint {
 
 func (b *B) GongGetOrder(stage *Stage) uint {
 	return stage.BMap_Staged_Order[b]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (a *A) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", a.GongGetGongstructName(), a.GongGetOrder(stage))
+}
+
+func (b *B) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", b.GongGetGongstructName(), b.GongGetOrder(stage))
 }
 
