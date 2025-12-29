@@ -36,7 +36,7 @@ type GongstructEnumIntField interface {
 }
 
 type PointerToGongstructEnumIntField interface {
-	{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumIntTypes)) + `}}
+	//insertion point for pointers to enum int types{{` + string(rune(ModelGongStructInsertionGenericPointerToEnumIntTypes)) + `}}
 	FromCodeString(input string) (err error)
 }
 
