@@ -693,5 +693,6 @@ func (stage *Stage) ResetMapStrings() {
 
 	// insertion point for generic get gongstruct name{{` + string(rune(ModelGongStructInsertionMapStringReset)) + `}}
 }
+
 // Last line of the template
 `
