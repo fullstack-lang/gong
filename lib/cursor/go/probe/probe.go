@@ -176,22 +176,20 @@ func (probe *Probe) Refresh() {
 	probe.docStager.UpdateAndCommitSVGStage()
 }
 
-func (probe *Probe) Notification() {
-	probe.UpdateAndCommitNotificationTable()
-}
-
 func (probe *Probe) AddNotification(date time.Time, message string) {
 	notification := Notification{
 		Date:    date,
 		Message: message,
 	}
 	probe.notification = append(probe.notification, &notification)
+}
+
+func (probe *Probe) CommitNotificationTable() {
 	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) ResetNotifications() {
 	probe.notification = make([]*Notification, 0)
-	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {

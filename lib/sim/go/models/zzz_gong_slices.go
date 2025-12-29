@@ -55,6 +55,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (command *Command) GongCopy() GongstructIF {
 	newInstance := *command
@@ -86,10 +87,166 @@ func (updatestate *UpdateState) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var commands_newInstances []*Command
+	var commands_deletedInstances []*Command
+
+	// parse all staged instances and check if they have a reference
+	for command := range stage.Commands {
+		if _, ok := stage.Commands_reference[command]; !ok {
+			commands_newInstances = append(commands_newInstances, command)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for command := range stage.Commands_reference {
+		if _, ok := stage.Commands[command]; !ok {
+			commands_deletedInstances = append(commands_deletedInstances, command)
+		}
+	}
+
+	lenNewInstances += len(commands_newInstances)
+	lenDeletedInstances += len(commands_deletedInstances)
+	var dummyagents_newInstances []*DummyAgent
+	var dummyagents_deletedInstances []*DummyAgent
+
+	// parse all staged instances and check if they have a reference
+	for dummyagent := range stage.DummyAgents {
+		if _, ok := stage.DummyAgents_reference[dummyagent]; !ok {
+			dummyagents_newInstances = append(dummyagents_newInstances, dummyagent)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for dummyagent := range stage.DummyAgents_reference {
+		if _, ok := stage.DummyAgents[dummyagent]; !ok {
+			dummyagents_deletedInstances = append(dummyagents_deletedInstances, dummyagent)
+		}
+	}
+
+	lenNewInstances += len(dummyagents_newInstances)
+	lenDeletedInstances += len(dummyagents_deletedInstances)
+	var engines_newInstances []*Engine
+	var engines_deletedInstances []*Engine
+
+	// parse all staged instances and check if they have a reference
+	for engine := range stage.Engines {
+		if _, ok := stage.Engines_reference[engine]; !ok {
+			engines_newInstances = append(engines_newInstances, engine)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for engine := range stage.Engines_reference {
+		if _, ok := stage.Engines[engine]; !ok {
+			engines_deletedInstances = append(engines_deletedInstances, engine)
+		}
+	}
+
+	lenNewInstances += len(engines_newInstances)
+	lenDeletedInstances += len(engines_deletedInstances)
+	var events_newInstances []*Event
+	var events_deletedInstances []*Event
+
+	// parse all staged instances and check if they have a reference
+	for event := range stage.Events {
+		if _, ok := stage.Events_reference[event]; !ok {
+			events_newInstances = append(events_newInstances, event)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for event := range stage.Events_reference {
+		if _, ok := stage.Events[event]; !ok {
+			events_deletedInstances = append(events_deletedInstances, event)
+		}
+	}
+
+	lenNewInstances += len(events_newInstances)
+	lenDeletedInstances += len(events_deletedInstances)
+	var statuss_newInstances []*Status
+	var statuss_deletedInstances []*Status
+
+	// parse all staged instances and check if they have a reference
+	for status := range stage.Statuss {
+		if _, ok := stage.Statuss_reference[status]; !ok {
+			statuss_newInstances = append(statuss_newInstances, status)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for status := range stage.Statuss_reference {
+		if _, ok := stage.Statuss[status]; !ok {
+			statuss_deletedInstances = append(statuss_deletedInstances, status)
+		}
+	}
+
+	lenNewInstances += len(statuss_newInstances)
+	lenDeletedInstances += len(statuss_deletedInstances)
+	var updatestates_newInstances []*UpdateState
+	var updatestates_deletedInstances []*UpdateState
+
+	// parse all staged instances and check if they have a reference
+	for updatestate := range stage.UpdateStates {
+		if _, ok := stage.UpdateStates_reference[updatestate]; !ok {
+			updatestates_newInstances = append(updatestates_newInstances, updatestate)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for updatestate := range stage.UpdateStates_reference {
+		if _, ok := stage.UpdateStates[updatestate]; !ok {
+			updatestates_deletedInstances = append(updatestates_deletedInstances, updatestate)
+		}
+	}
+
+	lenNewInstances += len(updatestates_newInstances)
+	lenDeletedInstances += len(updatestates_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Commands_reference = make(map[*Command]*Command)
+	for instance := range stage.Commands {
+		stage.Commands_reference[instance] = instance
 	}
+
+	stage.DummyAgents_reference = make(map[*DummyAgent]*DummyAgent)
+	for instance := range stage.DummyAgents {
+		stage.DummyAgents_reference[instance] = instance
+	}
+
+	stage.Engines_reference = make(map[*Engine]*Engine)
+	for instance := range stage.Engines {
+		stage.Engines_reference[instance] = instance
+	}
+
+	stage.Events_reference = make(map[*Event]*Event)
+	for instance := range stage.Events {
+		stage.Events_reference[instance] = instance
+	}
+
+	stage.Statuss_reference = make(map[*Status]*Status)
+	for instance := range stage.Statuss {
+		stage.Statuss_reference[instance] = instance
+	}
+
+	stage.UpdateStates_reference = make(map[*UpdateState]*UpdateState)
+	for instance := range stage.UpdateStates {
+		stage.UpdateStates_reference[instance] = instance
+	}
+
 }

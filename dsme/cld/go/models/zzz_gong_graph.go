@@ -1003,3 +1003,496 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 	}
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category1 *Category1) GongDiff(category1Other *Category1) (diffs []string) {
+	// insertion point for field diffs
+	if category1.Name != category1Other.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category1shape *Category1Shape) GongDiff(category1shapeOther *Category1Shape) (diffs []string) {
+	// insertion point for field diffs
+	if category1shape.Name != category1shapeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (category1shape.Category1 == nil) != (category1shapeOther.Category1 == nil) {
+		diffs = append(diffs, "Category1")
+	} else if category1shape.Category1 != nil && category1shapeOther.Category1 != nil {
+		if category1shape.Category1 != category1shapeOther.Category1 {
+			diffs = append(diffs, "Category1")
+		}
+	}
+	if category1shape.X != category1shapeOther.X {
+		diffs = append(diffs, "X")
+	}
+	if category1shape.Y != category1shapeOther.Y {
+		diffs = append(diffs, "Y")
+	}
+	if category1shape.Width != category1shapeOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if category1shape.Height != category1shapeOther.Height {
+		diffs = append(diffs, "Height")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category2 *Category2) GongDiff(category2Other *Category2) (diffs []string) {
+	// insertion point for field diffs
+	if category2.Name != category2Other.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category2shape *Category2Shape) GongDiff(category2shapeOther *Category2Shape) (diffs []string) {
+	// insertion point for field diffs
+	if category2shape.Name != category2shapeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (category2shape.Category2 == nil) != (category2shapeOther.Category2 == nil) {
+		diffs = append(diffs, "Category2")
+	} else if category2shape.Category2 != nil && category2shapeOther.Category2 != nil {
+		if category2shape.Category2 != category2shapeOther.Category2 {
+			diffs = append(diffs, "Category2")
+		}
+	}
+	if category2shape.X != category2shapeOther.X {
+		diffs = append(diffs, "X")
+	}
+	if category2shape.Y != category2shapeOther.Y {
+		diffs = append(diffs, "Y")
+	}
+	if category2shape.Width != category2shapeOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if category2shape.Height != category2shapeOther.Height {
+		diffs = append(diffs, "Height")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category3 *Category3) GongDiff(category3Other *Category3) (diffs []string) {
+	// insertion point for field diffs
+	if category3.Name != category3Other.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (category3shape *Category3Shape) GongDiff(category3shapeOther *Category3Shape) (diffs []string) {
+	// insertion point for field diffs
+	if category3shape.Name != category3shapeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (category3shape.Category3 == nil) != (category3shapeOther.Category3 == nil) {
+		diffs = append(diffs, "Category3")
+	} else if category3shape.Category3 != nil && category3shapeOther.Category3 != nil {
+		if category3shape.Category3 != category3shapeOther.Category3 {
+			diffs = append(diffs, "Category3")
+		}
+	}
+	if category3shape.X != category3shapeOther.X {
+		diffs = append(diffs, "X")
+	}
+	if category3shape.Y != category3shapeOther.Y {
+		diffs = append(diffs, "Y")
+	}
+	if category3shape.Width != category3shapeOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if category3shape.Height != category3shapeOther.Height {
+		diffs = append(diffs, "Height")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (controlpointshape *ControlPointShape) GongDiff(controlpointshapeOther *ControlPointShape) (diffs []string) {
+	// insertion point for field diffs
+	if controlpointshape.Name != controlpointshapeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if controlpointshape.X_Relative != controlpointshapeOther.X_Relative {
+		diffs = append(diffs, "X_Relative")
+	}
+	if controlpointshape.Y_Relative != controlpointshapeOther.Y_Relative {
+		diffs = append(diffs, "Y_Relative")
+	}
+	if controlpointshape.IsStartShapeTheClosestShape != controlpointshapeOther.IsStartShapeTheClosestShape {
+		diffs = append(diffs, "IsStartShapeTheClosestShape")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (desk *Desk) GongDiff(deskOther *Desk) (diffs []string) {
+	// insertion point for field diffs
+	if desk.Name != deskOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (desk.SelectedDiagram == nil) != (deskOther.SelectedDiagram == nil) {
+		diffs = append(diffs, "SelectedDiagram")
+	} else if desk.SelectedDiagram != nil && deskOther.SelectedDiagram != nil {
+		if desk.SelectedDiagram != deskOther.SelectedDiagram {
+			diffs = append(diffs, "SelectedDiagram")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
+	// insertion point for field diffs
+	if diagram.Name != diagramOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	Category1ShapesDifferent := false
+    if len(diagram.Category1Shapes) != len(diagramOther.Category1Shapes) {
+        Category1ShapesDifferent = true
+    } else {
+        for i := range diagram.Category1Shapes {
+            if (diagram.Category1Shapes[i] == nil) != (diagramOther.Category1Shapes[i] == nil) {
+                Category1ShapesDifferent = true
+                break
+            } else if diagram.Category1Shapes[i] != nil && diagramOther.Category1Shapes[i] != nil {
+                if len(diagram.Category1Shapes[i].GongDiff(diagramOther.Category1Shapes[i])) > 0 {
+                    Category1ShapesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if Category1ShapesDifferent {
+        diffs = append(diffs, "Category1Shapes")
+    }
+	Category2ShapesDifferent := false
+    if len(diagram.Category2Shapes) != len(diagramOther.Category2Shapes) {
+        Category2ShapesDifferent = true
+    } else {
+        for i := range diagram.Category2Shapes {
+            if (diagram.Category2Shapes[i] == nil) != (diagramOther.Category2Shapes[i] == nil) {
+                Category2ShapesDifferent = true
+                break
+            } else if diagram.Category2Shapes[i] != nil && diagramOther.Category2Shapes[i] != nil {
+                if len(diagram.Category2Shapes[i].GongDiff(diagramOther.Category2Shapes[i])) > 0 {
+                    Category2ShapesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if Category2ShapesDifferent {
+        diffs = append(diffs, "Category2Shapes")
+    }
+	Category3ShapesDifferent := false
+    if len(diagram.Category3Shapes) != len(diagramOther.Category3Shapes) {
+        Category3ShapesDifferent = true
+    } else {
+        for i := range diagram.Category3Shapes {
+            if (diagram.Category3Shapes[i] == nil) != (diagramOther.Category3Shapes[i] == nil) {
+                Category3ShapesDifferent = true
+                break
+            } else if diagram.Category3Shapes[i] != nil && diagramOther.Category3Shapes[i] != nil {
+                if len(diagram.Category3Shapes[i].GongDiff(diagramOther.Category3Shapes[i])) > 0 {
+                    Category3ShapesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if Category3ShapesDifferent {
+        diffs = append(diffs, "Category3Shapes")
+    }
+	InfluenceShapesDifferent := false
+    if len(diagram.InfluenceShapes) != len(diagramOther.InfluenceShapes) {
+        InfluenceShapesDifferent = true
+    } else {
+        for i := range diagram.InfluenceShapes {
+            if (diagram.InfluenceShapes[i] == nil) != (diagramOther.InfluenceShapes[i] == nil) {
+                InfluenceShapesDifferent = true
+                break
+            } else if diagram.InfluenceShapes[i] != nil && diagramOther.InfluenceShapes[i] != nil {
+                if len(diagram.InfluenceShapes[i].GongDiff(diagramOther.InfluenceShapes[i])) > 0 {
+                    InfluenceShapesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if InfluenceShapesDifferent {
+        diffs = append(diffs, "InfluenceShapes")
+    }
+	if diagram.IsEditable != diagramOther.IsEditable {
+		diffs = append(diffs, "IsEditable")
+	}
+	if diagram.IsNodeExpanded != diagramOther.IsNodeExpanded {
+		diffs = append(diffs, "IsNodeExpanded")
+	}
+	if diagram.IsCategory1NodeExpanded != diagramOther.IsCategory1NodeExpanded {
+		diffs = append(diffs, "IsCategory1NodeExpanded")
+	}
+	if diagram.IsCategory2NodeExpanded != diagramOther.IsCategory2NodeExpanded {
+		diffs = append(diffs, "IsCategory2NodeExpanded")
+	}
+	if diagram.IsCategory3NodeExpanded != diagramOther.IsCategory3NodeExpanded {
+		diffs = append(diffs, "IsCategory3NodeExpanded")
+	}
+	if diagram.IsInfluenceCategoryNodeExpanded != diagramOther.IsInfluenceCategoryNodeExpanded {
+		diffs = append(diffs, "IsInfluenceCategoryNodeExpanded")
+	}
+	if diagram.IsCategory1Shown != diagramOther.IsCategory1Shown {
+		diffs = append(diffs, "IsCategory1Shown")
+	}
+	if diagram.IsCategory2Shown != diagramOther.IsCategory2Shown {
+		diffs = append(diffs, "IsCategory2Shown")
+	}
+	if diagram.IsCategory3Shown != diagramOther.IsCategory3Shown {
+		diffs = append(diffs, "IsCategory3Shown")
+	}
+	if diagram.IsInfluenceCategoryShown != diagramOther.IsInfluenceCategoryShown {
+		diffs = append(diffs, "IsInfluenceCategoryShown")
+	}
+	if diagram.XMargin != diagramOther.XMargin {
+		diffs = append(diffs, "XMargin")
+	}
+	if diagram.YMargin != diagramOther.YMargin {
+		diffs = append(diffs, "YMargin")
+	}
+	if diagram.Height != diagramOther.Height {
+		diffs = append(diffs, "Height")
+	}
+	if diagram.Width != diagramOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if diagram.NbPixPerCharacter != diagramOther.NbPixPerCharacter {
+		diffs = append(diffs, "NbPixPerCharacter")
+	}
+	if diagram.RedColorCode != diagramOther.RedColorCode {
+		diffs = append(diffs, "RedColorCode")
+	}
+	if diagram.BackgroundGreyColorCode != diagramOther.BackgroundGreyColorCode {
+		diffs = append(diffs, "BackgroundGreyColorCode")
+	}
+	if diagram.GrayColorCode != diagramOther.GrayColorCode {
+		diffs = append(diffs, "GrayColorCode")
+	}
+	if diagram.Category1RectAnchorType != diagramOther.Category1RectAnchorType {
+		diffs = append(diffs, "Category1RectAnchorType")
+	}
+	if diagram.Category1TextAnchorType != diagramOther.Category1TextAnchorType {
+		diffs = append(diffs, "Category1TextAnchorType")
+	}
+	if diagram.Category1DominantBaselineType != diagramOther.Category1DominantBaselineType {
+		diffs = append(diffs, "Category1DominantBaselineType")
+	}
+	if diagram.Category1FontSize != diagramOther.Category1FontSize {
+		diffs = append(diffs, "Category1FontSize")
+	}
+	if diagram.Category1FontWeigth != diagramOther.Category1FontWeigth {
+		diffs = append(diffs, "Category1FontWeigth")
+	}
+	if diagram.Category1FontFamily != diagramOther.Category1FontFamily {
+		diffs = append(diffs, "Category1FontFamily")
+	}
+	if diagram.Category1LetterSpacing != diagramOther.Category1LetterSpacing {
+		diffs = append(diffs, "Category1LetterSpacing")
+	}
+	if diagram.Category2TypeFontSize != diagramOther.Category2TypeFontSize {
+		diffs = append(diffs, "Category2TypeFontSize")
+	}
+	if diagram.Category2TypeFontWeigth != diagramOther.Category2TypeFontWeigth {
+		diffs = append(diffs, "Category2TypeFontWeigth")
+	}
+	if diagram.Category2TypeFontFamily != diagramOther.Category2TypeFontFamily {
+		diffs = append(diffs, "Category2TypeFontFamily")
+	}
+	if diagram.Category2TypeLetterSpacing != diagramOther.Category2TypeLetterSpacing {
+		diffs = append(diffs, "Category2TypeLetterSpacing")
+	}
+	if diagram.Category2TypeRectAnchorType != diagramOther.Category2TypeRectAnchorType {
+		diffs = append(diffs, "Category2TypeRectAnchorType")
+	}
+	if diagram.Category2DominantBaselineType != diagramOther.Category2DominantBaselineType {
+		diffs = append(diffs, "Category2DominantBaselineType")
+	}
+	if diagram.Category2StrokeWidth != diagramOther.Category2StrokeWidth {
+		diffs = append(diffs, "Category2StrokeWidth")
+	}
+	if diagram.Category3RectAnchorType != diagramOther.Category3RectAnchorType {
+		diffs = append(diffs, "Category3RectAnchorType")
+	}
+	if diagram.Category3TextAnchorType != diagramOther.Category3TextAnchorType {
+		diffs = append(diffs, "Category3TextAnchorType")
+	}
+	if diagram.Category3DominantBaselineType != diagramOther.Category3DominantBaselineType {
+		diffs = append(diffs, "Category3DominantBaselineType")
+	}
+	if diagram.Category3FontSize != diagramOther.Category3FontSize {
+		diffs = append(diffs, "Category3FontSize")
+	}
+	if diagram.Category3FontWeigth != diagramOther.Category3FontWeigth {
+		diffs = append(diffs, "Category3FontWeigth")
+	}
+	if diagram.Category3FontFamily != diagramOther.Category3FontFamily {
+		diffs = append(diffs, "Category3FontFamily")
+	}
+	if diagram.Category3LetterSpacing != diagramOther.Category3LetterSpacing {
+		diffs = append(diffs, "Category3LetterSpacing")
+	}
+	if diagram.InfluenceStrokeWidth != diagramOther.InfluenceStrokeWidth {
+		diffs = append(diffs, "InfluenceStrokeWidth")
+	}
+	if diagram.InfluenceArrowSize != diagramOther.InfluenceArrowSize {
+		diffs = append(diffs, "InfluenceArrowSize")
+	}
+	if diagram.InfluenceArrowStartOffset != diagramOther.InfluenceArrowStartOffset {
+		diffs = append(diffs, "InfluenceArrowStartOffset")
+	}
+	if diagram.InfluenceArrowEndOffset != diagramOther.InfluenceArrowEndOffset {
+		diffs = append(diffs, "InfluenceArrowEndOffset")
+	}
+	if diagram.InfluenceCornerRadius != diagramOther.InfluenceCornerRadius {
+		diffs = append(diffs, "InfluenceCornerRadius")
+	}
+	if diagram.InfluenceFontSize != diagramOther.InfluenceFontSize {
+		diffs = append(diffs, "InfluenceFontSize")
+	}
+	if diagram.InfluenceFontWeigth != diagramOther.InfluenceFontWeigth {
+		diffs = append(diffs, "InfluenceFontWeigth")
+	}
+	if diagram.InfluenceFontFamily != diagramOther.InfluenceFontFamily {
+		diffs = append(diffs, "InfluenceFontFamily")
+	}
+	if diagram.InfluenceLetterSpacing != diagramOther.InfluenceLetterSpacing {
+		diffs = append(diffs, "InfluenceLetterSpacing")
+	}
+	if diagram.InfluenceDashedLinePattern != diagramOther.InfluenceDashedLinePattern {
+		diffs = append(diffs, "InfluenceDashedLinePattern")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (influence *Influence) GongDiff(influenceOther *Influence) (diffs []string) {
+	// insertion point for field diffs
+	if influence.Name != influenceOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (influence.SourceCategory1 == nil) != (influenceOther.SourceCategory1 == nil) {
+		diffs = append(diffs, "SourceCategory1")
+	} else if influence.SourceCategory1 != nil && influenceOther.SourceCategory1 != nil {
+		if influence.SourceCategory1 != influenceOther.SourceCategory1 {
+			diffs = append(diffs, "SourceCategory1")
+		}
+	}
+	if (influence.SourceCategory2 == nil) != (influenceOther.SourceCategory2 == nil) {
+		diffs = append(diffs, "SourceCategory2")
+	} else if influence.SourceCategory2 != nil && influenceOther.SourceCategory2 != nil {
+		if influence.SourceCategory2 != influenceOther.SourceCategory2 {
+			diffs = append(diffs, "SourceCategory2")
+		}
+	}
+	if (influence.SourceCategory3 == nil) != (influenceOther.SourceCategory3 == nil) {
+		diffs = append(diffs, "SourceCategory3")
+	} else if influence.SourceCategory3 != nil && influenceOther.SourceCategory3 != nil {
+		if influence.SourceCategory3 != influenceOther.SourceCategory3 {
+			diffs = append(diffs, "SourceCategory3")
+		}
+	}
+	if (influence.TargetCategory1 == nil) != (influenceOther.TargetCategory1 == nil) {
+		diffs = append(diffs, "TargetCategory1")
+	} else if influence.TargetCategory1 != nil && influenceOther.TargetCategory1 != nil {
+		if influence.TargetCategory1 != influenceOther.TargetCategory1 {
+			diffs = append(diffs, "TargetCategory1")
+		}
+	}
+	if (influence.TargetCategory2 == nil) != (influenceOther.TargetCategory2 == nil) {
+		diffs = append(diffs, "TargetCategory2")
+	} else if influence.TargetCategory2 != nil && influenceOther.TargetCategory2 != nil {
+		if influence.TargetCategory2 != influenceOther.TargetCategory2 {
+			diffs = append(diffs, "TargetCategory2")
+		}
+	}
+	if (influence.TargetCategory3 == nil) != (influenceOther.TargetCategory3 == nil) {
+		diffs = append(diffs, "TargetCategory3")
+	} else if influence.TargetCategory3 != nil && influenceOther.TargetCategory3 != nil {
+		if influence.TargetCategory3 != influenceOther.TargetCategory3 {
+			diffs = append(diffs, "TargetCategory3")
+		}
+	}
+	if influence.IsHypothtical != influenceOther.IsHypothtical {
+		diffs = append(diffs, "IsHypothtical")
+	}
+	if influence.TextAtEndOfArrow != influenceOther.TextAtEndOfArrow {
+		diffs = append(diffs, "TextAtEndOfArrow")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (influenceshape *InfluenceShape) GongDiff(influenceshapeOther *InfluenceShape) (diffs []string) {
+	// insertion point for field diffs
+	if influenceshape.Name != influenceshapeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (influenceshape.Influence == nil) != (influenceshapeOther.Influence == nil) {
+		diffs = append(diffs, "Influence")
+	} else if influenceshape.Influence != nil && influenceshapeOther.Influence != nil {
+		if influenceshape.Influence != influenceshapeOther.Influence {
+			diffs = append(diffs, "Influence")
+		}
+	}
+	ControlPointShapesDifferent := false
+    if len(influenceshape.ControlPointShapes) != len(influenceshapeOther.ControlPointShapes) {
+        ControlPointShapesDifferent = true
+    } else {
+        for i := range influenceshape.ControlPointShapes {
+            if (influenceshape.ControlPointShapes[i] == nil) != (influenceshapeOther.ControlPointShapes[i] == nil) {
+                ControlPointShapesDifferent = true
+                break
+            } else if influenceshape.ControlPointShapes[i] != nil && influenceshapeOther.ControlPointShapes[i] != nil {
+                if len(influenceshape.ControlPointShapes[i].GongDiff(influenceshapeOther.ControlPointShapes[i])) > 0 {
+                    ControlPointShapesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ControlPointShapesDifferent {
+        diffs = append(diffs, "ControlPointShapes")
+    }
+
+	return
+}

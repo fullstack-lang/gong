@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Buttons           map[*Button]struct{}
+	Buttons_reference map[*Button]*Button
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
 	Nodes           map[*Node]struct{}
+	Nodes_reference map[*Node]*Node
 	Nodes_mapString map[string]*Node
 
 	// insertion point for slice of pointers maps
@@ -116,6 +118,7 @@ type Stage struct {
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
 	SVGIcons           map[*SVGIcon]struct{}
+	SVGIcons_reference map[*SVGIcon]*SVGIcon
 	SVGIcons_mapString map[string]*SVGIcon
 
 	// insertion point for slice of pointers maps
@@ -125,6 +128,7 @@ type Stage struct {
 	OnAfterSVGIconReadCallback   OnAfterReadInterface[SVGIcon]
 
 	Trees           map[*Tree]struct{}
+	Trees_reference map[*Tree]*Tree
 	Trees_mapString map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -177,8 +181,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -189,10 +202,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -440,8 +449,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "SVGIcon"},
 			{name: "Tree"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

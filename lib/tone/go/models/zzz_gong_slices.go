@@ -41,6 +41,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (freqency *Freqency) GongCopy() GongstructIF {
 	newInstance := *freqency
@@ -57,10 +58,94 @@ func (player *Player) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var freqencys_newInstances []*Freqency
+	var freqencys_deletedInstances []*Freqency
+
+	// parse all staged instances and check if they have a reference
+	for freqency := range stage.Freqencys {
+		if _, ok := stage.Freqencys_reference[freqency]; !ok {
+			freqencys_newInstances = append(freqencys_newInstances, freqency)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for freqency := range stage.Freqencys_reference {
+		if _, ok := stage.Freqencys[freqency]; !ok {
+			freqencys_deletedInstances = append(freqencys_deletedInstances, freqency)
+		}
+	}
+
+	lenNewInstances += len(freqencys_newInstances)
+	lenDeletedInstances += len(freqencys_deletedInstances)
+	var notes_newInstances []*Note
+	var notes_deletedInstances []*Note
+
+	// parse all staged instances and check if they have a reference
+	for note := range stage.Notes {
+		if _, ok := stage.Notes_reference[note]; !ok {
+			notes_newInstances = append(notes_newInstances, note)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for note := range stage.Notes_reference {
+		if _, ok := stage.Notes[note]; !ok {
+			notes_deletedInstances = append(notes_deletedInstances, note)
+		}
+	}
+
+	lenNewInstances += len(notes_newInstances)
+	lenDeletedInstances += len(notes_deletedInstances)
+	var players_newInstances []*Player
+	var players_deletedInstances []*Player
+
+	// parse all staged instances and check if they have a reference
+	for player := range stage.Players {
+		if _, ok := stage.Players_reference[player]; !ok {
+			players_newInstances = append(players_newInstances, player)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for player := range stage.Players_reference {
+		if _, ok := stage.Players[player]; !ok {
+			players_deletedInstances = append(players_deletedInstances, player)
+		}
+	}
+
+	lenNewInstances += len(players_newInstances)
+	lenDeletedInstances += len(players_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Freqencys_reference = make(map[*Freqency]*Freqency)
+	for instance := range stage.Freqencys {
+		stage.Freqencys_reference[instance] = instance
 	}
+
+	stage.Notes_reference = make(map[*Note]*Note)
+	for instance := range stage.Notes {
+		stage.Notes_reference[instance] = instance
+	}
+
+	stage.Players_reference = make(map[*Player]*Player)
+	for instance := range stage.Players {
+		stage.Players_reference[instance] = instance
+	}
+
 }

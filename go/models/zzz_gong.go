@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	GongBasicFields           map[*GongBasicField]struct{}
+	GongBasicFields_reference map[*GongBasicField]*GongBasicField
 	GongBasicFields_mapString map[string]*GongBasicField
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterGongBasicFieldReadCallback   OnAfterReadInterface[GongBasicField]
 
 	GongEnums           map[*GongEnum]struct{}
+	GongEnums_reference map[*GongEnum]*GongEnum
 	GongEnums_mapString map[string]*GongEnum
 
 	// insertion point for slice of pointers maps
@@ -114,6 +116,7 @@ type Stage struct {
 	OnAfterGongEnumReadCallback   OnAfterReadInterface[GongEnum]
 
 	GongEnumValues           map[*GongEnumValue]struct{}
+	GongEnumValues_reference map[*GongEnumValue]*GongEnumValue
 	GongEnumValues_mapString map[string]*GongEnumValue
 
 	// insertion point for slice of pointers maps
@@ -123,6 +126,7 @@ type Stage struct {
 	OnAfterGongEnumValueReadCallback   OnAfterReadInterface[GongEnumValue]
 
 	GongLinks           map[*GongLink]struct{}
+	GongLinks_reference map[*GongLink]*GongLink
 	GongLinks_mapString map[string]*GongLink
 
 	// insertion point for slice of pointers maps
@@ -132,6 +136,7 @@ type Stage struct {
 	OnAfterGongLinkReadCallback   OnAfterReadInterface[GongLink]
 
 	GongNotes           map[*GongNote]struct{}
+	GongNotes_reference map[*GongNote]*GongNote
 	GongNotes_mapString map[string]*GongNote
 
 	// insertion point for slice of pointers maps
@@ -143,6 +148,7 @@ type Stage struct {
 	OnAfterGongNoteReadCallback   OnAfterReadInterface[GongNote]
 
 	GongStructs           map[*GongStruct]struct{}
+	GongStructs_reference map[*GongStruct]*GongStruct
 	GongStructs_mapString map[string]*GongStruct
 
 	// insertion point for slice of pointers maps
@@ -160,6 +166,7 @@ type Stage struct {
 	OnAfterGongStructReadCallback   OnAfterReadInterface[GongStruct]
 
 	GongTimeFields           map[*GongTimeField]struct{}
+	GongTimeFields_reference map[*GongTimeField]*GongTimeField
 	GongTimeFields_mapString map[string]*GongTimeField
 
 	// insertion point for slice of pointers maps
@@ -169,6 +176,7 @@ type Stage struct {
 	OnAfterGongTimeFieldReadCallback   OnAfterReadInterface[GongTimeField]
 
 	MetaReferences           map[*MetaReference]struct{}
+	MetaReferences_reference map[*MetaReference]*MetaReference
 	MetaReferences_mapString map[string]*MetaReference
 
 	// insertion point for slice of pointers maps
@@ -178,6 +186,7 @@ type Stage struct {
 	OnAfterMetaReferenceReadCallback   OnAfterReadInterface[MetaReference]
 
 	ModelPkgs           map[*ModelPkg]struct{}
+	ModelPkgs_reference map[*ModelPkg]*ModelPkg
 	ModelPkgs_mapString map[string]*ModelPkg
 
 	// insertion point for slice of pointers maps
@@ -187,6 +196,7 @@ type Stage struct {
 	OnAfterModelPkgReadCallback   OnAfterReadInterface[ModelPkg]
 
 	PointerToGongStructFields           map[*PointerToGongStructField]struct{}
+	PointerToGongStructFields_reference map[*PointerToGongStructField]*PointerToGongStructField
 	PointerToGongStructFields_mapString map[string]*PointerToGongStructField
 
 	// insertion point for slice of pointers maps
@@ -196,6 +206,7 @@ type Stage struct {
 	OnAfterPointerToGongStructFieldReadCallback   OnAfterReadInterface[PointerToGongStructField]
 
 	SliceOfPointerToGongStructFields           map[*SliceOfPointerToGongStructField]struct{}
+	SliceOfPointerToGongStructFields_reference map[*SliceOfPointerToGongStructField]*SliceOfPointerToGongStructField
 	SliceOfPointerToGongStructFields_mapString map[string]*SliceOfPointerToGongStructField
 
 	// insertion point for slice of pointers maps
@@ -267,8 +278,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -279,10 +299,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -698,8 +714,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PointerToGongStructField"},
 			{name: "SliceOfPointerToGongStructField"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
