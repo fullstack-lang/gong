@@ -264,7 +264,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	})
 	for _, {{structname}} := range {{structname}}Ordered {
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
+		id = {{structname}}.GongGetIdentifier(stage)
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		decl = IdentifiersDecls
@@ -282,7 +282,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
+		id = {{structname}}.GongGetIdentifier(stage)
 		map_{{Structname}}_Identifiers[{{structname}}] = id
 
 		// Initialisation of values{{PointersInitialization}}

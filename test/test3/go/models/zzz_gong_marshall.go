@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -127,7 +126,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, a := range aOrdered {
 
-		id = generatesIdentifier("A", int(stage.AMap_Staged_Order[a]), a.Name)
+		id = a.GongGetIdentifier(stage)
 		map_A_Identifiers[a] = id
 
 		decl = IdentifiersDecls
@@ -168,7 +167,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, b := range bOrdered {
 
-		id = generatesIdentifier("B", int(stage.BMap_Staged_Order[b]), b.Name)
+		id = b.GongGetIdentifier(stage)
 		map_B_Identifiers[b] = id
 
 		decl = IdentifiersDecls
@@ -195,7 +194,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("A", int(stage.AMap_Staged_Order[a]), a.Name)
+		id = a.GongGetIdentifier(stage)
 		map_A_Identifiers[a] = id
 
 		// Initialisation of values
@@ -224,7 +223,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("B", int(stage.BMap_Staged_Order[b]), b.Name)
+		id = b.GongGetIdentifier(stage)
 		map_B_Identifiers[b] = id
 
 		// Initialisation of values
@@ -280,35 +279,5 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
 	}
-	return
-}
-
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
-
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
-	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
-
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
-
-	return
-}
-
-// unique identifier per struct
-func generatesIdentifier2[T GongstructIF](stage *Stage, instance T) (identifier string) {
-
-	name := instance.GongGetGongstructName()
-	idx := instance.GongGetOrder(stage)
-
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", name, idx)
-
 	return
 }

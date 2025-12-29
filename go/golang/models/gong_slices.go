@@ -17,6 +17,7 @@ const GongSliceTemplate = `// generated code - do not edit
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -64,6 +65,12 @@ func (stage *Stage) ComputeReference() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct{{` + string(rune(GongSliceGongGetOrder)) + `}}
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct{{` + string(rune(GongSliceGongGetIdentifier)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -76,6 +83,7 @@ const (
 	GongSliceGongComputeDifference
 	GongSliceGongComputeReference
 	GongSliceGongGetOrder
+	GongSliceGongGetIdentifier
 	GongSliceGongstructInsertionNb
 )
 
@@ -154,6 +162,11 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	GongSliceGongGetOrder: `
 func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
 	return stage.{{Structname}}Map_Staged_Order[{{structname}}]
+}
+`,
+	GongSliceGongGetIdentifier: `
+func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
 }
 `,
 }
