@@ -12,6 +12,7 @@ func (orchestrator *CellIconOrchestrator) OnAfterUpdate(
 
 	stagedCellIcon.OnAfterUpdate(gongsvgStage, stagedCellIcon, backRepoCellIcon)
 }
+
 // FormEditAssocButtonOrchestrator
 type FormEditAssocButtonOrchestrator struct {
 }
@@ -22,6 +23,7 @@ func (orchestrator *FormEditAssocButtonOrchestrator) OnAfterUpdate(
 
 	stagedFormEditAssocButton.OnAfterUpdate(gongsvgStage, stagedFormEditAssocButton, backRepoFormEditAssocButton)
 }
+
 // FormGroupOrchestrator
 type FormGroupOrchestrator struct {
 }
@@ -32,6 +34,7 @@ func (orchestrator *FormGroupOrchestrator) OnAfterUpdate(
 
 	stagedFormGroup.OnAfterUpdate(gongsvgStage, stagedFormGroup, backRepoFormGroup)
 }
+
 // FormSortAssocButtonOrchestrator
 type FormSortAssocButtonOrchestrator struct {
 }
@@ -42,6 +45,7 @@ func (orchestrator *FormSortAssocButtonOrchestrator) OnAfterUpdate(
 
 	stagedFormSortAssocButton.OnAfterUpdate(gongsvgStage, stagedFormSortAssocButton, backRepoFormSortAssocButton)
 }
+
 // RowOrchestrator
 type RowOrchestrator struct {
 }
@@ -52,6 +56,7 @@ func (orchestrator *RowOrchestrator) OnAfterUpdate(
 
 	stagedRow.OnAfterUpdate(gongsvgStage, stagedRow, backRepoRow)
 }
+
 // TableOrchestrator
 type TableOrchestrator struct {
 }

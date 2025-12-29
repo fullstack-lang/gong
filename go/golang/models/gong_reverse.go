@@ -17,8 +17,7 @@ const GongReverse = `// generated code - do not edit
 package models
 
 // insertion point{{` + string(rune(GongGetReverseFieldOwnerNameSwitch)) + `}}
-// insertion point{{` + string(rune(GongGetReverseFieldOwnerSwitch)) + `}}
-`
+// insertion point{{` + string(rune(GongGetReverseFieldOwnerSwitch)) + `}}`
 
 type GongGetReverseFieldOwnerNameId int
 
