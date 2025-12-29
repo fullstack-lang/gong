@@ -455,3 +455,199 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	return
 }
+
+// insertion initialization of objects to stage
+func (displayselection *DisplaySelection) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(displayselection.Name))
+		initializerStatements += setValueField
+
+	case "XLFile":
+		if displayselection.XLFile != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "XLFile")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", displayselection.XLFile.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "XLSheet":
+		if displayselection.XLSheet != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "XLSheet")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", displayselection.XLSheet.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DisplaySelection", fieldName)
+	}
+	return
+}
+
+func (xlcell *XLCell) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlcell.Name))
+		initializerStatements += setValueField
+	case "X":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "X")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlcell.X))
+		initializerStatements += setValueField
+	case "Y":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlcell.Y))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XLCell", fieldName)
+	}
+	return
+}
+
+func (xlfile *XLFile) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlfile.Name))
+		initializerStatements += setValueField
+	case "NbSheets":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbSheets")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlfile.NbSheets))
+		initializerStatements += setValueField
+
+	case "Sheets":
+		for _, _xlsheet := range xlfile.Sheets {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Sheets")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _xlsheet.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XLFile", fieldName)
+	}
+	return
+}
+
+func (xlrow *XLRow) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlrow.Name))
+		initializerStatements += setValueField
+	case "RowIndex":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "RowIndex")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlrow.RowIndex))
+		initializerStatements += setValueField
+
+	case "Cells":
+		for _, _xlcell := range xlrow.Cells {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Cells")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _xlcell.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XLRow", fieldName)
+	}
+	return
+}
+
+func (xlsheet *XLSheet) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(xlsheet.Name))
+		initializerStatements += setValueField
+	case "MaxRow":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxRow")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlsheet.MaxRow))
+		initializerStatements += setValueField
+	case "MaxCol":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxCol")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlsheet.MaxCol))
+		initializerStatements += setValueField
+	case "NbRows":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbRows")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", xlsheet.NbRows))
+		initializerStatements += setValueField
+
+	case "Rows":
+		for _, _xlrow := range xlsheet.Rows {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Rows")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _xlrow.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "SheetCells":
+		for _, _xlcell := range xlsheet.SheetCells {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SheetCells")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _xlcell.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct XLSheet", fieldName)
+	}
+	return
+}

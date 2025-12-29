@@ -1655,3 +1655,1021 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	return
 }
+
+// insertion initialization of objects to stage
+func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cell.Name))
+		initializerStatements += setValueField
+
+	case "CellString":
+		if cell.CellString != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CellString")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", cell.CellString.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "CellFloat64":
+		if cell.CellFloat64 != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CellFloat64")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", cell.CellFloat64.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "CellInt":
+		if cell.CellInt != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CellInt")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", cell.CellInt.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "CellBool":
+		if cell.CellBool != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CellBool")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", cell.CellBool.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "CellIcon":
+		if cell.CellIcon != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", cell.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CellIcon")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", cell.CellIcon.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Cell", fieldName)
+	}
+	return
+}
+
+func (cellboolean *CellBoolean) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellboolean.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", cellboolean.Value))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CellBoolean", fieldName)
+	}
+	return
+}
+
+func (cellfloat64 *CellFloat64) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellfloat64.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cellfloat64.Value))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CellFloat64", fieldName)
+	}
+	return
+}
+
+func (cellicon *CellIcon) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellicon.Name))
+		initializerStatements += setValueField
+	case "Icon":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Icon")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellicon.Icon))
+		initializerStatements += setValueField
+	case "NeedsConfirmation":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NeedsConfirmation")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", cellicon.NeedsConfirmation))
+		initializerStatements += setValueField
+	case "ConfirmationMessage":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ConfirmationMessage")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellicon.ConfirmationMessage))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CellIcon", fieldName)
+	}
+	return
+}
+
+func (cellint *CellInt) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellint.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", cellint.Value))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CellInt", fieldName)
+	}
+	return
+}
+
+func (cellstring *CellString) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellstring.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cellstring.Value))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CellString", fieldName)
+	}
+	return
+}
+
+func (checkbox *CheckBox) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(checkbox.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", checkbox.Value))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct CheckBox", fieldName)
+	}
+	return
+}
+
+func (displayedcolumn *DisplayedColumn) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(displayedcolumn.Name))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DisplayedColumn", fieldName)
+	}
+	return
+}
+
+func (formdiv *FormDiv) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formdiv.Name))
+		initializerStatements += setValueField
+
+	case "FormFields":
+		for _, _formfield := range formdiv.FormFields {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFields")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _formfield.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "CheckBoxs":
+		for _, _checkbox := range formdiv.CheckBoxs {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "CheckBoxs")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormEditAssocButton":
+		if formdiv.FormEditAssocButton != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormEditAssocButton")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formdiv.FormEditAssocButton.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormSortAssocButton":
+		if formdiv.FormSortAssocButton != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormSortAssocButton")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formdiv.FormSortAssocButton.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormDiv", fieldName)
+	}
+	return
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formeditassocbutton.Name))
+		initializerStatements += setValueField
+	case "Label":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Label")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formeditassocbutton.Label))
+		initializerStatements += setValueField
+	case "AssociationStorage":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AssociationStorage")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formeditassocbutton.AssociationStorage))
+		initializerStatements += setValueField
+	case "HasChanged":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasChanged")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.HasChanged))
+		initializerStatements += setValueField
+	case "IsForSavePurpose":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsForSavePurpose")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.IsForSavePurpose))
+		initializerStatements += setValueField
+	case "HasToolTip":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasToolTip")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formeditassocbutton.HasToolTip))
+		initializerStatements += setValueField
+	case "ToolTipText":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipText")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formeditassocbutton.ToolTipText))
+		initializerStatements += setValueField
+	case "MatTooltipShowDelay":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formeditassocbutton.MatTooltipShowDelay))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormEditAssocButton", fieldName)
+	}
+	return
+}
+
+func (formfield *FormField) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfield.Name))
+		initializerStatements += setValueField
+	case "InputTypeEnum":
+		if formfield.InputTypeEnum != "" {
+			setValueField = StringEnumInitStatement
+			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "InputTypeEnum")
+			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+formfield.InputTypeEnum.ToCodeString())
+			initializerStatements += setValueField
+		}
+	case "Label":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Label")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfield.Label))
+		initializerStatements += setValueField
+	case "Placeholder":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Placeholder")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfield.Placeholder))
+		initializerStatements += setValueField
+	case "HasBespokeWidth":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasBespokeWidth")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeWidth))
+		initializerStatements += setValueField
+	case "BespokeWidthPx":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeWidthPx")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeWidthPx))
+		initializerStatements += setValueField
+	case "HasBespokeHeight":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasBespokeHeight")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfield.HasBespokeHeight))
+		initializerStatements += setValueField
+	case "BespokeHeightPx":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeHeightPx")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfield.BespokeHeightPx))
+		initializerStatements += setValueField
+
+	case "FormFieldString":
+		if formfield.FormFieldString != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldString")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldString.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldFloat64":
+		if formfield.FormFieldFloat64 != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldFloat64")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldFloat64.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldInt":
+		if formfield.FormFieldInt != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldInt")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldInt.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldDate":
+		if formfield.FormFieldDate != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldDate")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldDate.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldTime":
+		if formfield.FormFieldTime != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldTime")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldTime.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldDateTime":
+		if formfield.FormFieldDateTime != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldDateTime")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldDateTime.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "FormFieldSelect":
+		if formfield.FormFieldSelect != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormFieldSelect")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfield.FormFieldSelect.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormField", fieldName)
+	}
+	return
+}
+
+func (formfielddate *FormFieldDate) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfielddate.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", formfielddate.Value.String())
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldDate", fieldName)
+	}
+	return
+}
+
+func (formfielddatetime *FormFieldDateTime) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfielddatetime.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", formfielddatetime.Value.String())
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldDateTime", fieldName)
+	}
+	return
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldfloat64.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.Value))
+		initializerStatements += setValueField
+	case "HasMinValidator":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasMinValidator")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMinValidator))
+		initializerStatements += setValueField
+	case "MinValue":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MinValue))
+		initializerStatements += setValueField
+	case "HasMaxValidator":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasMaxValidator")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldfloat64.HasMaxValidator))
+		initializerStatements += setValueField
+	case "MaxValue":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldfloat64.MaxValue))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldFloat64", fieldName)
+	}
+	return
+}
+
+func (formfieldint *FormFieldInt) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldint.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.Value))
+		initializerStatements += setValueField
+	case "HasMinValidator":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasMinValidator")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMinValidator))
+		initializerStatements += setValueField
+	case "MinValue":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MinValue))
+		initializerStatements += setValueField
+	case "HasMaxValidator":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasMaxValidator")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldint.HasMaxValidator))
+		initializerStatements += setValueField
+	case "MaxValue":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxValue")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", formfieldint.MaxValue))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldInt", fieldName)
+	}
+	return
+}
+
+func (formfieldselect *FormFieldSelect) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldselect.Name))
+		initializerStatements += setValueField
+	case "CanBeEmpty":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CanBeEmpty")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldselect.CanBeEmpty))
+		initializerStatements += setValueField
+	case "PreserveInitialOrder":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "PreserveInitialOrder")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldselect.PreserveInitialOrder))
+		initializerStatements += setValueField
+
+	case "Value":
+		if formfieldselect.Value != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Value")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formfieldselect.Value.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "Options":
+		for _, _option := range formfieldselect.Options {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Options")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _option.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldSelect", fieldName)
+	}
+	return
+}
+
+func (formfieldstring *FormFieldString) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldstring.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldstring.Value))
+		initializerStatements += setValueField
+	case "IsTextArea":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsTextArea")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formfieldstring.IsTextArea))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldString", fieldName)
+	}
+	return
+}
+
+func (formfieldtime *FormFieldTime) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formfieldtime.Name))
+		initializerStatements += setValueField
+	case "Value":
+		setValueField = TimeInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", formfieldtime.Value.String())
+		initializerStatements += setValueField
+	case "Step":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Step")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", formfieldtime.Step))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormFieldTime", fieldName)
+	}
+	return
+}
+
+func (formgroup *FormGroup) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formgroup.Name))
+		initializerStatements += setValueField
+	case "Label":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Label")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formgroup.Label))
+		initializerStatements += setValueField
+	case "HasSuppressButton":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasSuppressButton")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formgroup.HasSuppressButton))
+		initializerStatements += setValueField
+	case "HasSuppressButtonBeenPressed":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasSuppressButtonBeenPressed")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formgroup.HasSuppressButtonBeenPressed))
+		initializerStatements += setValueField
+
+	case "FormDivs":
+		for _, _formdiv := range formgroup.FormDivs {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormDivs")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _formdiv.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormGroup", fieldName)
+	}
+	return
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formsortassocbutton.Name))
+		initializerStatements += setValueField
+	case "Label":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Label")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formsortassocbutton.Label))
+		initializerStatements += setValueField
+	case "HasToolTip":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasToolTip")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", formsortassocbutton.HasToolTip))
+		initializerStatements += setValueField
+	case "ToolTipText":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipText")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formsortassocbutton.ToolTipText))
+		initializerStatements += setValueField
+	case "MatTooltipShowDelay":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MatTooltipShowDelay")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(formsortassocbutton.MatTooltipShowDelay))
+		initializerStatements += setValueField
+
+	case "FormEditAssocButton":
+		if formsortassocbutton.FormEditAssocButton != nil {
+			setPointerField = PointerFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "FormEditAssocButton")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", formsortassocbutton.FormEditAssocButton.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FormSortAssocButton", fieldName)
+	}
+	return
+}
+
+func (option *Option) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", option.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(option.Name))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Option", fieldName)
+	}
+	return
+}
+
+func (row *Row) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", row.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(row.Name))
+		initializerStatements += setValueField
+	case "IsChecked":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", row.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsChecked")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", row.IsChecked))
+		initializerStatements += setValueField
+
+	case "Cells":
+		for _, _cell := range row.Cells {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", row.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Cells")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _cell.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Row", fieldName)
+	}
+	return
+}
+
+func (table *Table) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(table.Name))
+		initializerStatements += setValueField
+	case "HasFiltering":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasFiltering")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasFiltering))
+		initializerStatements += setValueField
+	case "HasColumnSorting":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasColumnSorting")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasColumnSorting))
+		initializerStatements += setValueField
+	case "HasPaginator":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasPaginator")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasPaginator))
+		initializerStatements += setValueField
+	case "HasCheckableRows":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasCheckableRows")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasCheckableRows))
+		initializerStatements += setValueField
+	case "HasSaveButton":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasSaveButton")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasSaveButton))
+		initializerStatements += setValueField
+	case "SaveButtonLabel":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SaveButtonLabel")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(table.SaveButtonLabel))
+		initializerStatements += setValueField
+	case "CanDragDropRows":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CanDragDropRows")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.CanDragDropRows))
+		initializerStatements += setValueField
+	case "HasCloseButton":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasCloseButton")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.HasCloseButton))
+		initializerStatements += setValueField
+	case "SavingInProgress":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SavingInProgress")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", table.SavingInProgress))
+		initializerStatements += setValueField
+	case "NbOfStickyColumns":
+		setValueField = NumberInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", table.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NbOfStickyColumns")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", table.NbOfStickyColumns))
+		initializerStatements += setValueField
+
+	case "DisplayedColumns":
+		for _, _displayedcolumn := range table.DisplayedColumns {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", table.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "DisplayedColumns")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _displayedcolumn.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+	case "Rows":
+		for _, _row := range table.Rows {
+			setPointerField = SliceOfPointersFieldInitStatement
+			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", table.GongGetIdentifier(stage))
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Rows")
+			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _row.GongGetIdentifier(stage))
+			pointersInitializesStatements += setPointerField
+		}
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Table", fieldName)
+	}
+	return
+}

@@ -347,3 +347,112 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	return
 }
+
+// insertion initialization of objects to stage
+func (content *Content) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", content.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Name))
+		initializerStatements += setValueField
+	case "Content":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", content.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Content))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Content", fieldName)
+	}
+	return
+}
+
+func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
+		initializerStatements += setValueField
+	case "Base64Content":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct JpgImage", fieldName)
+	}
+	return
+}
+
+func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
+		initializerStatements += setValueField
+	case "Base64Content":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PngImage", fieldName)
+	}
+	return
+}
+
+func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+	initializerStatements := ""
+	_ = initializerStatements
+	pointersInitializesStatements := ""
+	_ = pointersInitializesStatements
+
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
+		initializerStatements += setValueField
+	case "Content":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
+		initializerStatements += setValueField
+
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)
+	}
+	return
+}
