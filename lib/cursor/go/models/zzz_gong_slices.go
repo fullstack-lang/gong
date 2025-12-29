@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -40,6 +44,12 @@ func (stage *Stage) ComputeDifference() {
 	for cursor := range stage.Cursors {
 		if _, ok := stage.Cursors_reference[cursor]; !ok {
 			cursors_newInstances = append(cursors_newInstances, cursor)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Cursor "+cursor.Name,
+				)
+			}
 		}
 	}
 
@@ -47,6 +57,12 @@ func (stage *Stage) ComputeDifference() {
 	for cursor := range stage.Cursors_reference {
 		if _, ok := stage.Cursors[cursor]; !ok {
 			cursors_deletedInstances = append(cursors_deletedInstances, cursor)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Cursor "+cursor.Name,
+				)
+			}
 		}
 	}
 

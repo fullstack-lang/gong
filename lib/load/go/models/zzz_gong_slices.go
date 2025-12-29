@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -64,6 +68,12 @@ func (stage *Stage) ComputeDifference() {
 	for filetodownload := range stage.FileToDownloads {
 		if _, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
 			filetodownloads_newInstances = append(filetodownloads_newInstances, filetodownload)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FileToDownload "+filetodownload.Name,
+				)
+			}
 		}
 	}
 
@@ -71,6 +81,12 @@ func (stage *Stage) ComputeDifference() {
 	for filetodownload := range stage.FileToDownloads_reference {
 		if _, ok := stage.FileToDownloads[filetodownload]; !ok {
 			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, filetodownload)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FileToDownload "+filetodownload.Name,
+				)
+			}
 		}
 	}
 
@@ -83,6 +99,12 @@ func (stage *Stage) ComputeDifference() {
 	for filetoupload := range stage.FileToUploads {
 		if _, ok := stage.FileToUploads_reference[filetoupload]; !ok {
 			filetouploads_newInstances = append(filetouploads_newInstances, filetoupload)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of FileToUpload "+filetoupload.Name,
+				)
+			}
 		}
 	}
 
@@ -90,6 +112,12 @@ func (stage *Stage) ComputeDifference() {
 	for filetoupload := range stage.FileToUploads_reference {
 		if _, ok := stage.FileToUploads[filetoupload]; !ok {
 			filetouploads_deletedInstances = append(filetouploads_deletedInstances, filetoupload)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of FileToUpload "+filetoupload.Name,
+				)
+			}
 		}
 	}
 
@@ -102,6 +130,12 @@ func (stage *Stage) ComputeDifference() {
 	for message := range stage.Messages {
 		if _, ok := stage.Messages_reference[message]; !ok {
 			messages_newInstances = append(messages_newInstances, message)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Message "+message.Name,
+				)
+			}
 		}
 	}
 
@@ -109,6 +143,12 @@ func (stage *Stage) ComputeDifference() {
 	for message := range stage.Messages_reference {
 		if _, ok := stage.Messages[message]; !ok {
 			messages_deletedInstances = append(messages_deletedInstances, message)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Message "+message.Name,
+				)
+			}
 		}
 	}
 

@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -71,6 +75,12 @@ func (stage *Stage) ComputeDifference() {
 	for freqency := range stage.Freqencys {
 		if _, ok := stage.Freqencys_reference[freqency]; !ok {
 			freqencys_newInstances = append(freqencys_newInstances, freqency)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Freqency "+freqency.Name,
+				)
+			}
 		}
 	}
 
@@ -78,6 +88,12 @@ func (stage *Stage) ComputeDifference() {
 	for freqency := range stage.Freqencys_reference {
 		if _, ok := stage.Freqencys[freqency]; !ok {
 			freqencys_deletedInstances = append(freqencys_deletedInstances, freqency)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Freqency "+freqency.Name,
+				)
+			}
 		}
 	}
 
@@ -90,6 +106,12 @@ func (stage *Stage) ComputeDifference() {
 	for note := range stage.Notes {
 		if _, ok := stage.Notes_reference[note]; !ok {
 			notes_newInstances = append(notes_newInstances, note)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Note "+note.Name,
+				)
+			}
 		}
 	}
 
@@ -97,6 +119,12 @@ func (stage *Stage) ComputeDifference() {
 	for note := range stage.Notes_reference {
 		if _, ok := stage.Notes[note]; !ok {
 			notes_deletedInstances = append(notes_deletedInstances, note)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Note "+note.Name,
+				)
+			}
 		}
 	}
 
@@ -109,6 +137,12 @@ func (stage *Stage) ComputeDifference() {
 	for player := range stage.Players {
 		if _, ok := stage.Players_reference[player]; !ok {
 			players_newInstances = append(players_newInstances, player)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Player "+player.Name,
+				)
+			}
 		}
 	}
 
@@ -116,6 +150,12 @@ func (stage *Stage) ComputeDifference() {
 	for player := range stage.Players_reference {
 		if _, ok := stage.Players[player]; !ok {
 			players_deletedInstances = append(players_deletedInstances, player)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Player "+player.Name,
+				)
+			}
 		}
 	}
 

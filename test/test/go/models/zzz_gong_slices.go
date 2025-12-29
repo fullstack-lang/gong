@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -168,6 +172,12 @@ func (stage *Stage) ComputeDifference() {
 	for astruct := range stage.Astructs {
 		if _, ok := stage.Astructs_reference[astruct]; !ok {
 			astructs_newInstances = append(astructs_newInstances, astruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Astruct "+astruct.Name,
+				)
+			}
 		}
 	}
 
@@ -175,6 +185,12 @@ func (stage *Stage) ComputeDifference() {
 	for astruct := range stage.Astructs_reference {
 		if _, ok := stage.Astructs[astruct]; !ok {
 			astructs_deletedInstances = append(astructs_deletedInstances, astruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Astruct "+astruct.Name,
+				)
+			}
 		}
 	}
 
@@ -187,6 +203,12 @@ func (stage *Stage) ComputeDifference() {
 	for astructbstruct2use := range stage.AstructBstruct2Uses {
 		if _, ok := stage.AstructBstruct2Uses_reference[astructbstruct2use]; !ok {
 			astructbstruct2uses_newInstances = append(astructbstruct2uses_newInstances, astructbstruct2use)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of AstructBstruct2Use "+astructbstruct2use.Name,
+				)
+			}
 		}
 	}
 
@@ -194,6 +216,12 @@ func (stage *Stage) ComputeDifference() {
 	for astructbstruct2use := range stage.AstructBstruct2Uses_reference {
 		if _, ok := stage.AstructBstruct2Uses[astructbstruct2use]; !ok {
 			astructbstruct2uses_deletedInstances = append(astructbstruct2uses_deletedInstances, astructbstruct2use)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of AstructBstruct2Use "+astructbstruct2use.Name,
+				)
+			}
 		}
 	}
 
@@ -206,6 +234,12 @@ func (stage *Stage) ComputeDifference() {
 	for astructbstructuse := range stage.AstructBstructUses {
 		if _, ok := stage.AstructBstructUses_reference[astructbstructuse]; !ok {
 			astructbstructuses_newInstances = append(astructbstructuses_newInstances, astructbstructuse)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of AstructBstructUse "+astructbstructuse.Name,
+				)
+			}
 		}
 	}
 
@@ -213,6 +247,12 @@ func (stage *Stage) ComputeDifference() {
 	for astructbstructuse := range stage.AstructBstructUses_reference {
 		if _, ok := stage.AstructBstructUses[astructbstructuse]; !ok {
 			astructbstructuses_deletedInstances = append(astructbstructuses_deletedInstances, astructbstructuse)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of AstructBstructUse "+astructbstructuse.Name,
+				)
+			}
 		}
 	}
 
@@ -225,6 +265,12 @@ func (stage *Stage) ComputeDifference() {
 	for bstruct := range stage.Bstructs {
 		if _, ok := stage.Bstructs_reference[bstruct]; !ok {
 			bstructs_newInstances = append(bstructs_newInstances, bstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Bstruct "+bstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -232,6 +278,12 @@ func (stage *Stage) ComputeDifference() {
 	for bstruct := range stage.Bstructs_reference {
 		if _, ok := stage.Bstructs[bstruct]; !ok {
 			bstructs_deletedInstances = append(bstructs_deletedInstances, bstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Bstruct "+bstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -244,6 +296,12 @@ func (stage *Stage) ComputeDifference() {
 	for dstruct := range stage.Dstructs {
 		if _, ok := stage.Dstructs_reference[dstruct]; !ok {
 			dstructs_newInstances = append(dstructs_newInstances, dstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Dstruct "+dstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -251,6 +309,12 @@ func (stage *Stage) ComputeDifference() {
 	for dstruct := range stage.Dstructs_reference {
 		if _, ok := stage.Dstructs[dstruct]; !ok {
 			dstructs_deletedInstances = append(dstructs_deletedInstances, dstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Dstruct "+dstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -263,6 +327,12 @@ func (stage *Stage) ComputeDifference() {
 	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
 		if _, ok := stage.F0123456789012345678901234567890s_reference[f0123456789012345678901234567890]; !ok {
 			f0123456789012345678901234567890s_newInstances = append(f0123456789012345678901234567890s_newInstances, f0123456789012345678901234567890)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
+				)
+			}
 		}
 	}
 
@@ -270,6 +340,12 @@ func (stage *Stage) ComputeDifference() {
 	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s_reference {
 		if _, ok := stage.F0123456789012345678901234567890s[f0123456789012345678901234567890]; !ok {
 			f0123456789012345678901234567890s_deletedInstances = append(f0123456789012345678901234567890s_deletedInstances, f0123456789012345678901234567890)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
+				)
+			}
 		}
 	}
 
@@ -282,6 +358,12 @@ func (stage *Stage) ComputeDifference() {
 	for gstruct := range stage.Gstructs {
 		if _, ok := stage.Gstructs_reference[gstruct]; !ok {
 			gstructs_newInstances = append(gstructs_newInstances, gstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Gstruct "+gstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -289,6 +371,12 @@ func (stage *Stage) ComputeDifference() {
 	for gstruct := range stage.Gstructs_reference {
 		if _, ok := stage.Gstructs[gstruct]; !ok {
 			gstructs_deletedInstances = append(gstructs_deletedInstances, gstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Gstruct "+gstruct.Name,
+				)
+			}
 		}
 	}
 

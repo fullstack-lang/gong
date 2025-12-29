@@ -471,6 +471,7 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
 }
 

@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -202,6 +206,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongbasicfield := range stage.GongBasicFields {
 		if _, ok := stage.GongBasicFields_reference[gongbasicfield]; !ok {
 			gongbasicfields_newInstances = append(gongbasicfields_newInstances, gongbasicfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongBasicField "+gongbasicfield.Name,
+				)
+			}
 		}
 	}
 
@@ -209,6 +219,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongbasicfield := range stage.GongBasicFields_reference {
 		if _, ok := stage.GongBasicFields[gongbasicfield]; !ok {
 			gongbasicfields_deletedInstances = append(gongbasicfields_deletedInstances, gongbasicfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongBasicField "+gongbasicfield.Name,
+				)
+			}
 		}
 	}
 
@@ -221,6 +237,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongenum := range stage.GongEnums {
 		if _, ok := stage.GongEnums_reference[gongenum]; !ok {
 			gongenums_newInstances = append(gongenums_newInstances, gongenum)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongEnum "+gongenum.Name,
+				)
+			}
 		}
 	}
 
@@ -228,6 +250,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongenum := range stage.GongEnums_reference {
 		if _, ok := stage.GongEnums[gongenum]; !ok {
 			gongenums_deletedInstances = append(gongenums_deletedInstances, gongenum)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongEnum "+gongenum.Name,
+				)
+			}
 		}
 	}
 
@@ -240,6 +268,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongenumvalue := range stage.GongEnumValues {
 		if _, ok := stage.GongEnumValues_reference[gongenumvalue]; !ok {
 			gongenumvalues_newInstances = append(gongenumvalues_newInstances, gongenumvalue)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongEnumValue "+gongenumvalue.Name,
+				)
+			}
 		}
 	}
 
@@ -247,6 +281,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongenumvalue := range stage.GongEnumValues_reference {
 		if _, ok := stage.GongEnumValues[gongenumvalue]; !ok {
 			gongenumvalues_deletedInstances = append(gongenumvalues_deletedInstances, gongenumvalue)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongEnumValue "+gongenumvalue.Name,
+				)
+			}
 		}
 	}
 
@@ -259,6 +299,12 @@ func (stage *Stage) ComputeDifference() {
 	for gonglink := range stage.GongLinks {
 		if _, ok := stage.GongLinks_reference[gonglink]; !ok {
 			gonglinks_newInstances = append(gonglinks_newInstances, gonglink)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongLink "+gonglink.Name,
+				)
+			}
 		}
 	}
 
@@ -266,6 +312,12 @@ func (stage *Stage) ComputeDifference() {
 	for gonglink := range stage.GongLinks_reference {
 		if _, ok := stage.GongLinks[gonglink]; !ok {
 			gonglinks_deletedInstances = append(gonglinks_deletedInstances, gonglink)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongLink "+gonglink.Name,
+				)
+			}
 		}
 	}
 
@@ -278,6 +330,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongnote := range stage.GongNotes {
 		if _, ok := stage.GongNotes_reference[gongnote]; !ok {
 			gongnotes_newInstances = append(gongnotes_newInstances, gongnote)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongNote "+gongnote.Name,
+				)
+			}
 		}
 	}
 
@@ -285,6 +343,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongnote := range stage.GongNotes_reference {
 		if _, ok := stage.GongNotes[gongnote]; !ok {
 			gongnotes_deletedInstances = append(gongnotes_deletedInstances, gongnote)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongNote "+gongnote.Name,
+				)
+			}
 		}
 	}
 
@@ -297,6 +361,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongstruct := range stage.GongStructs {
 		if _, ok := stage.GongStructs_reference[gongstruct]; !ok {
 			gongstructs_newInstances = append(gongstructs_newInstances, gongstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongStruct "+gongstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -304,6 +374,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongstruct := range stage.GongStructs_reference {
 		if _, ok := stage.GongStructs[gongstruct]; !ok {
 			gongstructs_deletedInstances = append(gongstructs_deletedInstances, gongstruct)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongStruct "+gongstruct.Name,
+				)
+			}
 		}
 	}
 
@@ -316,6 +392,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongtimefield := range stage.GongTimeFields {
 		if _, ok := stage.GongTimeFields_reference[gongtimefield]; !ok {
 			gongtimefields_newInstances = append(gongtimefields_newInstances, gongtimefield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of GongTimeField "+gongtimefield.Name,
+				)
+			}
 		}
 	}
 
@@ -323,6 +405,12 @@ func (stage *Stage) ComputeDifference() {
 	for gongtimefield := range stage.GongTimeFields_reference {
 		if _, ok := stage.GongTimeFields[gongtimefield]; !ok {
 			gongtimefields_deletedInstances = append(gongtimefields_deletedInstances, gongtimefield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of GongTimeField "+gongtimefield.Name,
+				)
+			}
 		}
 	}
 
@@ -335,6 +423,12 @@ func (stage *Stage) ComputeDifference() {
 	for metareference := range stage.MetaReferences {
 		if _, ok := stage.MetaReferences_reference[metareference]; !ok {
 			metareferences_newInstances = append(metareferences_newInstances, metareference)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of MetaReference "+metareference.Name,
+				)
+			}
 		}
 	}
 
@@ -342,6 +436,12 @@ func (stage *Stage) ComputeDifference() {
 	for metareference := range stage.MetaReferences_reference {
 		if _, ok := stage.MetaReferences[metareference]; !ok {
 			metareferences_deletedInstances = append(metareferences_deletedInstances, metareference)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of MetaReference "+metareference.Name,
+				)
+			}
 		}
 	}
 
@@ -354,6 +454,12 @@ func (stage *Stage) ComputeDifference() {
 	for modelpkg := range stage.ModelPkgs {
 		if _, ok := stage.ModelPkgs_reference[modelpkg]; !ok {
 			modelpkgs_newInstances = append(modelpkgs_newInstances, modelpkg)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of ModelPkg "+modelpkg.Name,
+				)
+			}
 		}
 	}
 
@@ -361,6 +467,12 @@ func (stage *Stage) ComputeDifference() {
 	for modelpkg := range stage.ModelPkgs_reference {
 		if _, ok := stage.ModelPkgs[modelpkg]; !ok {
 			modelpkgs_deletedInstances = append(modelpkgs_deletedInstances, modelpkg)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of ModelPkg "+modelpkg.Name,
+				)
+			}
 		}
 	}
 
@@ -373,6 +485,12 @@ func (stage *Stage) ComputeDifference() {
 	for pointertogongstructfield := range stage.PointerToGongStructFields {
 		if _, ok := stage.PointerToGongStructFields_reference[pointertogongstructfield]; !ok {
 			pointertogongstructfields_newInstances = append(pointertogongstructfields_newInstances, pointertogongstructfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of PointerToGongStructField "+pointertogongstructfield.Name,
+				)
+			}
 		}
 	}
 
@@ -380,6 +498,12 @@ func (stage *Stage) ComputeDifference() {
 	for pointertogongstructfield := range stage.PointerToGongStructFields_reference {
 		if _, ok := stage.PointerToGongStructFields[pointertogongstructfield]; !ok {
 			pointertogongstructfields_deletedInstances = append(pointertogongstructfields_deletedInstances, pointertogongstructfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of PointerToGongStructField "+pointertogongstructfield.Name,
+				)
+			}
 		}
 	}
 
@@ -392,6 +516,12 @@ func (stage *Stage) ComputeDifference() {
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
 		if _, ok := stage.SliceOfPointerToGongStructFields_reference[sliceofpointertogongstructfield]; !ok {
 			sliceofpointertogongstructfields_newInstances = append(sliceofpointertogongstructfields_newInstances, sliceofpointertogongstructfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
+				)
+			}
 		}
 	}
 
@@ -399,6 +529,12 @@ func (stage *Stage) ComputeDifference() {
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields_reference {
 		if _, ok := stage.SliceOfPointerToGongStructFields[sliceofpointertogongstructfield]; !ok {
 			sliceofpointertogongstructfields_deletedInstances = append(sliceofpointertogongstructfields_deletedInstances, sliceofpointertogongstructfield)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of SliceOfPointerToGongStructField "+sliceofpointertogongstructfield.Name,
+				)
+			}
 		}
 	}
 

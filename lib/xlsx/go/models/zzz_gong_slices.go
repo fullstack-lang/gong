@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -116,6 +120,12 @@ func (stage *Stage) ComputeDifference() {
 	for displayselection := range stage.DisplaySelections {
 		if _, ok := stage.DisplaySelections_reference[displayselection]; !ok {
 			displayselections_newInstances = append(displayselections_newInstances, displayselection)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of DisplaySelection "+displayselection.Name,
+				)
+			}
 		}
 	}
 
@@ -123,6 +133,12 @@ func (stage *Stage) ComputeDifference() {
 	for displayselection := range stage.DisplaySelections_reference {
 		if _, ok := stage.DisplaySelections[displayselection]; !ok {
 			displayselections_deletedInstances = append(displayselections_deletedInstances, displayselection)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of DisplaySelection "+displayselection.Name,
+				)
+			}
 		}
 	}
 
@@ -135,6 +151,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlcell := range stage.XLCells {
 		if _, ok := stage.XLCells_reference[xlcell]; !ok {
 			xlcells_newInstances = append(xlcells_newInstances, xlcell)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of XLCell "+xlcell.Name,
+				)
+			}
 		}
 	}
 
@@ -142,6 +164,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlcell := range stage.XLCells_reference {
 		if _, ok := stage.XLCells[xlcell]; !ok {
 			xlcells_deletedInstances = append(xlcells_deletedInstances, xlcell)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of XLCell "+xlcell.Name,
+				)
+			}
 		}
 	}
 
@@ -154,6 +182,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlfile := range stage.XLFiles {
 		if _, ok := stage.XLFiles_reference[xlfile]; !ok {
 			xlfiles_newInstances = append(xlfiles_newInstances, xlfile)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of XLFile "+xlfile.Name,
+				)
+			}
 		}
 	}
 
@@ -161,6 +195,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlfile := range stage.XLFiles_reference {
 		if _, ok := stage.XLFiles[xlfile]; !ok {
 			xlfiles_deletedInstances = append(xlfiles_deletedInstances, xlfile)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of XLFile "+xlfile.Name,
+				)
+			}
 		}
 	}
 
@@ -173,6 +213,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlrow := range stage.XLRows {
 		if _, ok := stage.XLRows_reference[xlrow]; !ok {
 			xlrows_newInstances = append(xlrows_newInstances, xlrow)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of XLRow "+xlrow.Name,
+				)
+			}
 		}
 	}
 
@@ -180,6 +226,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlrow := range stage.XLRows_reference {
 		if _, ok := stage.XLRows[xlrow]; !ok {
 			xlrows_deletedInstances = append(xlrows_deletedInstances, xlrow)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of XLRow "+xlrow.Name,
+				)
+			}
 		}
 	}
 
@@ -192,6 +244,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlsheet := range stage.XLSheets {
 		if _, ok := stage.XLSheets_reference[xlsheet]; !ok {
 			xlsheets_newInstances = append(xlsheets_newInstances, xlsheet)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of XLSheet "+xlsheet.Name,
+				)
+			}
 		}
 	}
 
@@ -199,6 +257,12 @@ func (stage *Stage) ComputeDifference() {
 	for xlsheet := range stage.XLSheets_reference {
 		if _, ok := stage.XLSheets[xlsheet]; !ok {
 			xlsheets_deletedInstances = append(xlsheets_deletedInstances, xlsheet)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of XLSheet "+xlsheet.Name,
+				)
+			}
 		}
 	}
 

@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -59,6 +63,12 @@ func (stage *Stage) ComputeDifference() {
 	for a := range stage.As {
 		if _, ok := stage.As_reference[a]; !ok {
 			as_newInstances = append(as_newInstances, a)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of A "+a.Name,
+				)
+			}
 		}
 	}
 
@@ -66,6 +76,12 @@ func (stage *Stage) ComputeDifference() {
 	for a := range stage.As_reference {
 		if _, ok := stage.As[a]; !ok {
 			as_deletedInstances = append(as_deletedInstances, a)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of A "+a.Name,
+				)
+			}
 		}
 	}
 
@@ -78,6 +94,12 @@ func (stage *Stage) ComputeDifference() {
 	for b := range stage.Bs {
 		if _, ok := stage.Bs_reference[b]; !ok {
 			bs_newInstances = append(bs_newInstances, b)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of B "+b.Name,
+				)
+			}
 		}
 	}
 
@@ -85,6 +107,12 @@ func (stage *Stage) ComputeDifference() {
 	for b := range stage.Bs_reference {
 		if _, ok := stage.Bs[b]; !ok {
 			bs_deletedInstances = append(bs_deletedInstances, b)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of B "+b.Name,
+				)
+			}
 		}
 	}
 

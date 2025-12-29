@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -97,6 +101,12 @@ func (stage *Stage) ComputeDifference() {
 	for button := range stage.Buttons {
 		if _, ok := stage.Buttons_reference[button]; !ok {
 			buttons_newInstances = append(buttons_newInstances, button)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Button "+button.Name,
+				)
+			}
 		}
 	}
 
@@ -104,6 +114,12 @@ func (stage *Stage) ComputeDifference() {
 	for button := range stage.Buttons_reference {
 		if _, ok := stage.Buttons[button]; !ok {
 			buttons_deletedInstances = append(buttons_deletedInstances, button)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Button "+button.Name,
+				)
+			}
 		}
 	}
 
@@ -116,6 +132,12 @@ func (stage *Stage) ComputeDifference() {
 	for node := range stage.Nodes {
 		if _, ok := stage.Nodes_reference[node]; !ok {
 			nodes_newInstances = append(nodes_newInstances, node)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Node "+node.Name,
+				)
+			}
 		}
 	}
 
@@ -123,6 +145,12 @@ func (stage *Stage) ComputeDifference() {
 	for node := range stage.Nodes_reference {
 		if _, ok := stage.Nodes[node]; !ok {
 			nodes_deletedInstances = append(nodes_deletedInstances, node)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Node "+node.Name,
+				)
+			}
 		}
 	}
 
@@ -135,6 +163,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgicon := range stage.SVGIcons {
 		if _, ok := stage.SVGIcons_reference[svgicon]; !ok {
 			svgicons_newInstances = append(svgicons_newInstances, svgicon)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of SVGIcon "+svgicon.Name,
+				)
+			}
 		}
 	}
 
@@ -142,6 +176,12 @@ func (stage *Stage) ComputeDifference() {
 	for svgicon := range stage.SVGIcons_reference {
 		if _, ok := stage.SVGIcons[svgicon]; !ok {
 			svgicons_deletedInstances = append(svgicons_deletedInstances, svgicon)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of SVGIcon "+svgicon.Name,
+				)
+			}
 		}
 	}
 
@@ -154,6 +194,12 @@ func (stage *Stage) ComputeDifference() {
 	for tree := range stage.Trees {
 		if _, ok := stage.Trees_reference[tree]; !ok {
 			trees_newInstances = append(trees_newInstances, tree)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Tree "+tree.Name,
+				)
+			}
 		}
 	}
 
@@ -161,6 +207,12 @@ func (stage *Stage) ComputeDifference() {
 	for tree := range stage.Trees_reference {
 		if _, ok := stage.Trees[tree]; !ok {
 			trees_deletedInstances = append(trees_deletedInstances, tree)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Tree "+tree.Name,
+				)
+			}
 		}
 	}
 
