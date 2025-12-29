@@ -1,6 +1,10 @@
 // generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -78,6 +82,12 @@ func (stage *Stage) ComputeDifference() {
 	for chapter := range stage.Chapters {
 		if _, ok := stage.Chapters_reference[chapter]; !ok {
 			chapters_newInstances = append(chapters_newInstances, chapter)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Chapter "+chapter.Name,
+				)
+			}
 		}
 	}
 
@@ -85,6 +95,12 @@ func (stage *Stage) ComputeDifference() {
 	for chapter := range stage.Chapters_reference {
 		if _, ok := stage.Chapters[chapter]; !ok {
 			chapters_deletedInstances = append(chapters_deletedInstances, chapter)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Chapter "+chapter.Name,
+				)
+			}
 		}
 	}
 
@@ -97,6 +113,12 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents {
 		if _, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Content "+content.Name,
+				)
+			}
 		}
 	}
 
@@ -104,6 +126,12 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents_reference {
 		if _, ok := stage.Contents[content]; !ok {
 			contents_deletedInstances = append(contents_deletedInstances, content)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Content "+content.Name,
+				)
+			}
 		}
 	}
 
@@ -116,6 +144,12 @@ func (stage *Stage) ComputeDifference() {
 	for page := range stage.Pages {
 		if _, ok := stage.Pages_reference[page]; !ok {
 			pages_newInstances = append(pages_newInstances, page)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of Page "+page.Name,
+				)
+			}
 		}
 	}
 
@@ -123,6 +157,12 @@ func (stage *Stage) ComputeDifference() {
 	for page := range stage.Pages_reference {
 		if _, ok := stage.Pages[page]; !ok {
 			pages_deletedInstances = append(pages_deletedInstances, page)
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of Page "+page.Name,
+				)
+			}
 		}
 	}
 

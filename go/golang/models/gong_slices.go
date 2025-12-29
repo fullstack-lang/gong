@@ -16,6 +16,10 @@ import (
 const GongSliceTemplate = `// generated code - do not edit
 package models
 
+import "time"
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -92,6 +96,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	for {{structname}} := range stage.{{Structname}}s {
 		if _, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
 			{{structname}}s_newInstances = append({{structname}}s_newInstances, {{structname}})
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"New instance of {{Structname}} "+{{structname}}.Name,
+				)
+			}
 		}
 	}
 
@@ -99,6 +109,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	for {{structname}} := range stage.{{Structname}}s_reference {
 		if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
 			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, {{structname}})
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Deleted instance of {{Structname}} "+{{structname}}.Name,
+				)
+			}
 		}
 	}
 
