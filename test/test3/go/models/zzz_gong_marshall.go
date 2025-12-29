@@ -120,12 +120,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, a := range aOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += a.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
@@ -155,12 +151,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, b := range bOrdered {
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
-		identifiersDecl += decl
+	
+		identifiersDecl += b.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
 		// Initialisation of values
