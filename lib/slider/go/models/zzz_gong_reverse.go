@@ -7,13 +7,13 @@ func (inst *Checkbox) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Checkboxes":
-				if _group, ok := stage.Group_Checkboxes_reverseMap[inst]; ok {
-					res = _group.Name
-				}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Checkboxes":
+			if _group, ok := stage.Group_Checkboxes_reverseMap[inst]; ok {
+				res = _group.Name
 			}
+		}
 	}
 	return
 }
@@ -23,13 +23,13 @@ func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "Groups":
-				if _layout, ok := stage.Layout_Groups_reverseMap[inst]; ok {
-					res = _layout.Name
-				}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "Groups":
+			if _layout, ok := stage.Layout_Groups_reverseMap[inst]; ok {
+				res = _layout.Name
 			}
+		}
 	}
 	return
 }
@@ -48,17 +48,16 @@ func (inst *Slider) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Sliders":
-				if _group, ok := stage.Group_Sliders_reverseMap[inst]; ok {
-					res = _group.Name
-				}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Sliders":
+			if _group, ok := stage.Group_Sliders_reverseMap[inst]; ok {
+				res = _group.Name
 			}
+		}
 	}
 	return
 }
-
 
 // insertion point
 func (inst *Checkbox) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
@@ -66,11 +65,11 @@ func (inst *Checkbox) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Checkboxes":
-				res = stage.Group_Checkboxes_reverseMap[inst]
-			}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Checkboxes":
+			res = stage.Group_Checkboxes_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -80,11 +79,11 @@ func (inst *Group) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseF
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "Groups":
-				res = stage.Layout_Groups_reverseMap[inst]
-			}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "Groups":
+			res = stage.Layout_Groups_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -103,12 +102,11 @@ func (inst *Slider) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Sliders":
-				res = stage.Group_Sliders_reverseMap[inst]
-			}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Sliders":
+			res = stage.Group_Sliders_reverseMap[inst]
+		}
 	}
 	return res
 }
-

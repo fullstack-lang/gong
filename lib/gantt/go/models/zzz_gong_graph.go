@@ -662,7 +662,6 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -792,81 +791,81 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 		diffs = append(diffs, "AlignOnStartEndOnYearStart")
 	}
 	LanesDifferent := false
-    if len(gantt.Lanes) != len(ganttOther.Lanes) {
-        LanesDifferent = true
-    } else {
-        for i := range gantt.Lanes {
-            if (gantt.Lanes[i] == nil) != (ganttOther.Lanes[i] == nil) {
-                LanesDifferent = true
-                break
-            } else if gantt.Lanes[i] != nil && ganttOther.Lanes[i] != nil {
-                if len(gantt.Lanes[i].GongDiff(ganttOther.Lanes[i])) > 0 {
-                    LanesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LanesDifferent {
-        diffs = append(diffs, "Lanes")
-    }
+	if len(gantt.Lanes) != len(ganttOther.Lanes) {
+		LanesDifferent = true
+	} else {
+		for i := range gantt.Lanes {
+			if (gantt.Lanes[i] == nil) != (ganttOther.Lanes[i] == nil) {
+				LanesDifferent = true
+				break
+			} else if gantt.Lanes[i] != nil && ganttOther.Lanes[i] != nil {
+				if len(gantt.Lanes[i].GongDiff(ganttOther.Lanes[i])) > 0 {
+					LanesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LanesDifferent {
+		diffs = append(diffs, "Lanes")
+	}
 	MilestonesDifferent := false
-    if len(gantt.Milestones) != len(ganttOther.Milestones) {
-        MilestonesDifferent = true
-    } else {
-        for i := range gantt.Milestones {
-            if (gantt.Milestones[i] == nil) != (ganttOther.Milestones[i] == nil) {
-                MilestonesDifferent = true
-                break
-            } else if gantt.Milestones[i] != nil && ganttOther.Milestones[i] != nil {
-                if len(gantt.Milestones[i].GongDiff(ganttOther.Milestones[i])) > 0 {
-                    MilestonesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if MilestonesDifferent {
-        diffs = append(diffs, "Milestones")
-    }
+	if len(gantt.Milestones) != len(ganttOther.Milestones) {
+		MilestonesDifferent = true
+	} else {
+		for i := range gantt.Milestones {
+			if (gantt.Milestones[i] == nil) != (ganttOther.Milestones[i] == nil) {
+				MilestonesDifferent = true
+				break
+			} else if gantt.Milestones[i] != nil && ganttOther.Milestones[i] != nil {
+				if len(gantt.Milestones[i].GongDiff(ganttOther.Milestones[i])) > 0 {
+					MilestonesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if MilestonesDifferent {
+		diffs = append(diffs, "Milestones")
+	}
 	GroupsDifferent := false
-    if len(gantt.Groups) != len(ganttOther.Groups) {
-        GroupsDifferent = true
-    } else {
-        for i := range gantt.Groups {
-            if (gantt.Groups[i] == nil) != (ganttOther.Groups[i] == nil) {
-                GroupsDifferent = true
-                break
-            } else if gantt.Groups[i] != nil && ganttOther.Groups[i] != nil {
-                if len(gantt.Groups[i].GongDiff(ganttOther.Groups[i])) > 0 {
-                    GroupsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GroupsDifferent {
-        diffs = append(diffs, "Groups")
-    }
+	if len(gantt.Groups) != len(ganttOther.Groups) {
+		GroupsDifferent = true
+	} else {
+		for i := range gantt.Groups {
+			if (gantt.Groups[i] == nil) != (ganttOther.Groups[i] == nil) {
+				GroupsDifferent = true
+				break
+			} else if gantt.Groups[i] != nil && ganttOther.Groups[i] != nil {
+				if len(gantt.Groups[i].GongDiff(ganttOther.Groups[i])) > 0 {
+					GroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupsDifferent {
+		diffs = append(diffs, "Groups")
+	}
 	ArrowsDifferent := false
-    if len(gantt.Arrows) != len(ganttOther.Arrows) {
-        ArrowsDifferent = true
-    } else {
-        for i := range gantt.Arrows {
-            if (gantt.Arrows[i] == nil) != (ganttOther.Arrows[i] == nil) {
-                ArrowsDifferent = true
-                break
-            } else if gantt.Arrows[i] != nil && ganttOther.Arrows[i] != nil {
-                if len(gantt.Arrows[i].GongDiff(ganttOther.Arrows[i])) > 0 {
-                    ArrowsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ArrowsDifferent {
-        diffs = append(diffs, "Arrows")
-    }
+	if len(gantt.Arrows) != len(ganttOther.Arrows) {
+		ArrowsDifferent = true
+	} else {
+		for i := range gantt.Arrows {
+			if (gantt.Arrows[i] == nil) != (ganttOther.Arrows[i] == nil) {
+				ArrowsDifferent = true
+				break
+			} else if gantt.Arrows[i] != nil && ganttOther.Arrows[i] != nil {
+				if len(gantt.Arrows[i].GongDiff(ganttOther.Arrows[i])) > 0 {
+					ArrowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ArrowsDifferent {
+		diffs = append(diffs, "Arrows")
+	}
 
 	return
 }
@@ -879,24 +878,24 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	GroupLanesDifferent := false
-    if len(group.GroupLanes) != len(groupOther.GroupLanes) {
-        GroupLanesDifferent = true
-    } else {
-        for i := range group.GroupLanes {
-            if (group.GroupLanes[i] == nil) != (groupOther.GroupLanes[i] == nil) {
-                GroupLanesDifferent = true
-                break
-            } else if group.GroupLanes[i] != nil && groupOther.GroupLanes[i] != nil {
-                if len(group.GroupLanes[i].GongDiff(groupOther.GroupLanes[i])) > 0 {
-                    GroupLanesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GroupLanesDifferent {
-        diffs = append(diffs, "GroupLanes")
-    }
+	if len(group.GroupLanes) != len(groupOther.GroupLanes) {
+		GroupLanesDifferent = true
+	} else {
+		for i := range group.GroupLanes {
+			if (group.GroupLanes[i] == nil) != (groupOther.GroupLanes[i] == nil) {
+				GroupLanesDifferent = true
+				break
+			} else if group.GroupLanes[i] != nil && groupOther.GroupLanes[i] != nil {
+				if len(group.GroupLanes[i].GongDiff(groupOther.GroupLanes[i])) > 0 {
+					GroupLanesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupLanesDifferent {
+		diffs = append(diffs, "GroupLanes")
+	}
 
 	return
 }
@@ -912,24 +911,24 @@ func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
 		diffs = append(diffs, "Order")
 	}
 	BarsDifferent := false
-    if len(lane.Bars) != len(laneOther.Bars) {
-        BarsDifferent = true
-    } else {
-        for i := range lane.Bars {
-            if (lane.Bars[i] == nil) != (laneOther.Bars[i] == nil) {
-                BarsDifferent = true
-                break
-            } else if lane.Bars[i] != nil && laneOther.Bars[i] != nil {
-                if len(lane.Bars[i].GongDiff(laneOther.Bars[i])) > 0 {
-                    BarsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if BarsDifferent {
-        diffs = append(diffs, "Bars")
-    }
+	if len(lane.Bars) != len(laneOther.Bars) {
+		BarsDifferent = true
+	} else {
+		for i := range lane.Bars {
+			if (lane.Bars[i] == nil) != (laneOther.Bars[i] == nil) {
+				BarsDifferent = true
+				break
+			} else if lane.Bars[i] != nil && laneOther.Bars[i] != nil {
+				if len(lane.Bars[i].GongDiff(laneOther.Bars[i])) > 0 {
+					BarsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if BarsDifferent {
+		diffs = append(diffs, "Bars")
+	}
 
 	return
 }
@@ -963,24 +962,24 @@ func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string)
 		diffs = append(diffs, "DisplayVerticalBar")
 	}
 	LanesToDisplayDifferent := false
-    if len(milestone.LanesToDisplay) != len(milestoneOther.LanesToDisplay) {
-        LanesToDisplayDifferent = true
-    } else {
-        for i := range milestone.LanesToDisplay {
-            if (milestone.LanesToDisplay[i] == nil) != (milestoneOther.LanesToDisplay[i] == nil) {
-                LanesToDisplayDifferent = true
-                break
-            } else if milestone.LanesToDisplay[i] != nil && milestoneOther.LanesToDisplay[i] != nil {
-                if len(milestone.LanesToDisplay[i].GongDiff(milestoneOther.LanesToDisplay[i])) > 0 {
-                    LanesToDisplayDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LanesToDisplayDifferent {
-        diffs = append(diffs, "LanesToDisplay")
-    }
+	if len(milestone.LanesToDisplay) != len(milestoneOther.LanesToDisplay) {
+		LanesToDisplayDifferent = true
+	} else {
+		for i := range milestone.LanesToDisplay {
+			if (milestone.LanesToDisplay[i] == nil) != (milestoneOther.LanesToDisplay[i] == nil) {
+				LanesToDisplayDifferent = true
+				break
+			} else if milestone.LanesToDisplay[i] != nil && milestoneOther.LanesToDisplay[i] != nil {
+				if len(milestone.LanesToDisplay[i].GongDiff(milestoneOther.LanesToDisplay[i])) > 0 {
+					LanesToDisplayDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LanesToDisplayDifferent {
+		diffs = append(diffs, "LanesToDisplay")
+	}
 
 	return
 }

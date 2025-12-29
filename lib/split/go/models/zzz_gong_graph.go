@@ -1571,7 +1571,6 @@ func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1584,24 +1583,24 @@ func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
 		diffs = append(diffs, "Direction")
 	}
 	AsSplitAreasDifferent := false
-    if len(assplit.AsSplitAreas) != len(assplitOther.AsSplitAreas) {
-        AsSplitAreasDifferent = true
-    } else {
-        for i := range assplit.AsSplitAreas {
-            if (assplit.AsSplitAreas[i] == nil) != (assplitOther.AsSplitAreas[i] == nil) {
-                AsSplitAreasDifferent = true
-                break
-            } else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
-                if len(assplit.AsSplitAreas[i].GongDiff(assplitOther.AsSplitAreas[i])) > 0 {
-                    AsSplitAreasDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AsSplitAreasDifferent {
-        diffs = append(diffs, "AsSplitAreas")
-    }
+	if len(assplit.AsSplitAreas) != len(assplitOther.AsSplitAreas) {
+		AsSplitAreasDifferent = true
+	} else {
+		for i := range assplit.AsSplitAreas {
+			if (assplit.AsSplitAreas[i] == nil) != (assplitOther.AsSplitAreas[i] == nil) {
+				AsSplitAreasDifferent = true
+				break
+			} else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
+				if len(assplit.AsSplitAreas[i].GongDiff(assplitOther.AsSplitAreas[i])) > 0 {
+					AsSplitAreasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AsSplitAreasDifferent {
+		diffs = append(diffs, "AsSplitAreas")
+	}
 
 	return
 }
@@ -1959,24 +1958,24 @@ func (view *View) GongDiff(viewOther *View) (diffs []string) {
 		diffs = append(diffs, "ShowViewName")
 	}
 	RootAsSplitAreasDifferent := false
-    if len(view.RootAsSplitAreas) != len(viewOther.RootAsSplitAreas) {
-        RootAsSplitAreasDifferent = true
-    } else {
-        for i := range view.RootAsSplitAreas {
-            if (view.RootAsSplitAreas[i] == nil) != (viewOther.RootAsSplitAreas[i] == nil) {
-                RootAsSplitAreasDifferent = true
-                break
-            } else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
-                if len(view.RootAsSplitAreas[i].GongDiff(viewOther.RootAsSplitAreas[i])) > 0 {
-                    RootAsSplitAreasDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RootAsSplitAreasDifferent {
-        diffs = append(diffs, "RootAsSplitAreas")
-    }
+	if len(view.RootAsSplitAreas) != len(viewOther.RootAsSplitAreas) {
+		RootAsSplitAreasDifferent = true
+	} else {
+		for i := range view.RootAsSplitAreas {
+			if (view.RootAsSplitAreas[i] == nil) != (viewOther.RootAsSplitAreas[i] == nil) {
+				RootAsSplitAreasDifferent = true
+				break
+			} else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
+				if len(view.RootAsSplitAreas[i].GongDiff(viewOther.RootAsSplitAreas[i])) > 0 {
+					RootAsSplitAreasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootAsSplitAreasDifferent {
+		diffs = append(diffs, "RootAsSplitAreas")
+	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
 		diffs = append(diffs, "IsSelectedView")
 	}

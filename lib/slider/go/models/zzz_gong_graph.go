@@ -383,7 +383,6 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -416,43 +415,43 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 		diffs = append(diffs, "Percentage")
 	}
 	SlidersDifferent := false
-    if len(group.Sliders) != len(groupOther.Sliders) {
-        SlidersDifferent = true
-    } else {
-        for i := range group.Sliders {
-            if (group.Sliders[i] == nil) != (groupOther.Sliders[i] == nil) {
-                SlidersDifferent = true
-                break
-            } else if group.Sliders[i] != nil && groupOther.Sliders[i] != nil {
-                if len(group.Sliders[i].GongDiff(groupOther.Sliders[i])) > 0 {
-                    SlidersDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SlidersDifferent {
-        diffs = append(diffs, "Sliders")
-    }
+	if len(group.Sliders) != len(groupOther.Sliders) {
+		SlidersDifferent = true
+	} else {
+		for i := range group.Sliders {
+			if (group.Sliders[i] == nil) != (groupOther.Sliders[i] == nil) {
+				SlidersDifferent = true
+				break
+			} else if group.Sliders[i] != nil && groupOther.Sliders[i] != nil {
+				if len(group.Sliders[i].GongDiff(groupOther.Sliders[i])) > 0 {
+					SlidersDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SlidersDifferent {
+		diffs = append(diffs, "Sliders")
+	}
 	CheckboxesDifferent := false
-    if len(group.Checkboxes) != len(groupOther.Checkboxes) {
-        CheckboxesDifferent = true
-    } else {
-        for i := range group.Checkboxes {
-            if (group.Checkboxes[i] == nil) != (groupOther.Checkboxes[i] == nil) {
-                CheckboxesDifferent = true
-                break
-            } else if group.Checkboxes[i] != nil && groupOther.Checkboxes[i] != nil {
-                if len(group.Checkboxes[i].GongDiff(groupOther.Checkboxes[i])) > 0 {
-                    CheckboxesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if CheckboxesDifferent {
-        diffs = append(diffs, "Checkboxes")
-    }
+	if len(group.Checkboxes) != len(groupOther.Checkboxes) {
+		CheckboxesDifferent = true
+	} else {
+		for i := range group.Checkboxes {
+			if (group.Checkboxes[i] == nil) != (groupOther.Checkboxes[i] == nil) {
+				CheckboxesDifferent = true
+				break
+			} else if group.Checkboxes[i] != nil && groupOther.Checkboxes[i] != nil {
+				if len(group.Checkboxes[i].GongDiff(groupOther.Checkboxes[i])) > 0 {
+					CheckboxesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CheckboxesDifferent {
+		diffs = append(diffs, "Checkboxes")
+	}
 
 	return
 }
@@ -465,24 +464,24 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	GroupsDifferent := false
-    if len(layout.Groups) != len(layoutOther.Groups) {
-        GroupsDifferent = true
-    } else {
-        for i := range layout.Groups {
-            if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
-                GroupsDifferent = true
-                break
-            } else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
-                if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
-                    GroupsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GroupsDifferent {
-        diffs = append(diffs, "Groups")
-    }
+	if len(layout.Groups) != len(layoutOther.Groups) {
+		GroupsDifferent = true
+	} else {
+		for i := range layout.Groups {
+			if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
+				GroupsDifferent = true
+				break
+			} else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
+				if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
+					GroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupsDifferent {
+		diffs = append(diffs, "Groups")
+	}
 
 	return
 }

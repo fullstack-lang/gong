@@ -104,16 +104,13 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Freqency:
 		stage.OnAfterFreqencyUpdateCallback = any(callback).(OnAfterUpdateInterface[Freqency])
-	
 	case *Note:
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
-	
 	case *Player:
 		stage.OnAfterPlayerUpdateCallback = any(callback).(OnAfterUpdateInterface[Player])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -123,13 +120,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Freqency:
 		stage.OnAfterFreqencyCreateCallback = any(callback).(OnAfterCreateInterface[Freqency])
-	
 	case *Note:
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
-	
 	case *Player:
 		stage.OnAfterPlayerCreateCallback = any(callback).(OnAfterCreateInterface[Player])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -139,13 +133,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Freqency:
 		stage.OnAfterFreqencyDeleteCallback = any(callback).(OnAfterDeleteInterface[Freqency])
-	
 	case *Note:
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
-	
 	case *Player:
 		stage.OnAfterPlayerDeleteCallback = any(callback).(OnAfterDeleteInterface[Player])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -155,12 +146,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Freqency:
 		stage.OnAfterFreqencyReadCallback = any(callback).(OnAfterReadInterface[Freqency])
-	
 	case *Note:
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
-	
 	case *Player:
 		stage.OnAfterPlayerReadCallback = any(callback).(OnAfterReadInterface[Player])
-	
 	}
 }

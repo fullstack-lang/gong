@@ -302,7 +302,6 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -315,24 +314,24 @@ func (chapter *Chapter) GongDiff(chapterOther *Chapter) (diffs []string) {
 		diffs = append(diffs, "MardownContent")
 	}
 	PagesDifferent := false
-    if len(chapter.Pages) != len(chapterOther.Pages) {
-        PagesDifferent = true
-    } else {
-        for i := range chapter.Pages {
-            if (chapter.Pages[i] == nil) != (chapterOther.Pages[i] == nil) {
-                PagesDifferent = true
-                break
-            } else if chapter.Pages[i] != nil && chapterOther.Pages[i] != nil {
-                if len(chapter.Pages[i].GongDiff(chapterOther.Pages[i])) > 0 {
-                    PagesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if PagesDifferent {
-        diffs = append(diffs, "Pages")
-    }
+	if len(chapter.Pages) != len(chapterOther.Pages) {
+		PagesDifferent = true
+	} else {
+		for i := range chapter.Pages {
+			if (chapter.Pages[i] == nil) != (chapterOther.Pages[i] == nil) {
+				PagesDifferent = true
+				break
+			} else if chapter.Pages[i] != nil && chapterOther.Pages[i] != nil {
+				if len(chapter.Pages[i].GongDiff(chapterOther.Pages[i])) > 0 {
+					PagesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PagesDifferent {
+		diffs = append(diffs, "Pages")
+	}
 
 	return
 }
@@ -375,24 +374,24 @@ func (content *Content) GongDiff(contentOther *Content) (diffs []string) {
 		diffs = append(diffs, "Target")
 	}
 	ChaptersDifferent := false
-    if len(content.Chapters) != len(contentOther.Chapters) {
-        ChaptersDifferent = true
-    } else {
-        for i := range content.Chapters {
-            if (content.Chapters[i] == nil) != (contentOther.Chapters[i] == nil) {
-                ChaptersDifferent = true
-                break
-            } else if content.Chapters[i] != nil && contentOther.Chapters[i] != nil {
-                if len(content.Chapters[i].GongDiff(contentOther.Chapters[i])) > 0 {
-                    ChaptersDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ChaptersDifferent {
-        diffs = append(diffs, "Chapters")
-    }
+	if len(content.Chapters) != len(contentOther.Chapters) {
+		ChaptersDifferent = true
+	} else {
+		for i := range content.Chapters {
+			if (content.Chapters[i] == nil) != (contentOther.Chapters[i] == nil) {
+				ChaptersDifferent = true
+				break
+			} else if content.Chapters[i] != nil && contentOther.Chapters[i] != nil {
+				if len(content.Chapters[i].GongDiff(contentOther.Chapters[i])) > 0 {
+					ChaptersDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ChaptersDifferent {
+		diffs = append(diffs, "Chapters")
+	}
 	if content.VersionInfo != contentOther.VersionInfo {
 		diffs = append(diffs, "VersionInfo")
 	}

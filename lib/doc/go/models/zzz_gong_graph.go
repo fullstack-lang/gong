@@ -797,7 +797,6 @@ func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -836,62 +835,62 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 		diffs = append(diffs, "IsIncludedInStaticWebSite")
 	}
 	GongStructShapesDifferent := false
-    if len(classdiagram.GongStructShapes) != len(classdiagramOther.GongStructShapes) {
-        GongStructShapesDifferent = true
-    } else {
-        for i := range classdiagram.GongStructShapes {
-            if (classdiagram.GongStructShapes[i] == nil) != (classdiagramOther.GongStructShapes[i] == nil) {
-                GongStructShapesDifferent = true
-                break
-            } else if classdiagram.GongStructShapes[i] != nil && classdiagramOther.GongStructShapes[i] != nil {
-                if len(classdiagram.GongStructShapes[i].GongDiff(classdiagramOther.GongStructShapes[i])) > 0 {
-                    GongStructShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongStructShapesDifferent {
-        diffs = append(diffs, "GongStructShapes")
-    }
+	if len(classdiagram.GongStructShapes) != len(classdiagramOther.GongStructShapes) {
+		GongStructShapesDifferent = true
+	} else {
+		for i := range classdiagram.GongStructShapes {
+			if (classdiagram.GongStructShapes[i] == nil) != (classdiagramOther.GongStructShapes[i] == nil) {
+				GongStructShapesDifferent = true
+				break
+			} else if classdiagram.GongStructShapes[i] != nil && classdiagramOther.GongStructShapes[i] != nil {
+				if len(classdiagram.GongStructShapes[i].GongDiff(classdiagramOther.GongStructShapes[i])) > 0 {
+					GongStructShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongStructShapesDifferent {
+		diffs = append(diffs, "GongStructShapes")
+	}
 	GongEnumShapesDifferent := false
-    if len(classdiagram.GongEnumShapes) != len(classdiagramOther.GongEnumShapes) {
-        GongEnumShapesDifferent = true
-    } else {
-        for i := range classdiagram.GongEnumShapes {
-            if (classdiagram.GongEnumShapes[i] == nil) != (classdiagramOther.GongEnumShapes[i] == nil) {
-                GongEnumShapesDifferent = true
-                break
-            } else if classdiagram.GongEnumShapes[i] != nil && classdiagramOther.GongEnumShapes[i] != nil {
-                if len(classdiagram.GongEnumShapes[i].GongDiff(classdiagramOther.GongEnumShapes[i])) > 0 {
-                    GongEnumShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongEnumShapesDifferent {
-        diffs = append(diffs, "GongEnumShapes")
-    }
+	if len(classdiagram.GongEnumShapes) != len(classdiagramOther.GongEnumShapes) {
+		GongEnumShapesDifferent = true
+	} else {
+		for i := range classdiagram.GongEnumShapes {
+			if (classdiagram.GongEnumShapes[i] == nil) != (classdiagramOther.GongEnumShapes[i] == nil) {
+				GongEnumShapesDifferent = true
+				break
+			} else if classdiagram.GongEnumShapes[i] != nil && classdiagramOther.GongEnumShapes[i] != nil {
+				if len(classdiagram.GongEnumShapes[i].GongDiff(classdiagramOther.GongEnumShapes[i])) > 0 {
+					GongEnumShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongEnumShapesDifferent {
+		diffs = append(diffs, "GongEnumShapes")
+	}
 	GongNoteShapesDifferent := false
-    if len(classdiagram.GongNoteShapes) != len(classdiagramOther.GongNoteShapes) {
-        GongNoteShapesDifferent = true
-    } else {
-        for i := range classdiagram.GongNoteShapes {
-            if (classdiagram.GongNoteShapes[i] == nil) != (classdiagramOther.GongNoteShapes[i] == nil) {
-                GongNoteShapesDifferent = true
-                break
-            } else if classdiagram.GongNoteShapes[i] != nil && classdiagramOther.GongNoteShapes[i] != nil {
-                if len(classdiagram.GongNoteShapes[i].GongDiff(classdiagramOther.GongNoteShapes[i])) > 0 {
-                    GongNoteShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongNoteShapesDifferent {
-        diffs = append(diffs, "GongNoteShapes")
-    }
+	if len(classdiagram.GongNoteShapes) != len(classdiagramOther.GongNoteShapes) {
+		GongNoteShapesDifferent = true
+	} else {
+		for i := range classdiagram.GongNoteShapes {
+			if (classdiagram.GongNoteShapes[i] == nil) != (classdiagramOther.GongNoteShapes[i] == nil) {
+				GongNoteShapesDifferent = true
+				break
+			} else if classdiagram.GongNoteShapes[i] != nil && classdiagramOther.GongNoteShapes[i] != nil {
+				if len(classdiagram.GongNoteShapes[i].GongDiff(classdiagramOther.GongNoteShapes[i])) > 0 {
+					GongNoteShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongNoteShapesDifferent {
+		diffs = append(diffs, "GongNoteShapes")
+	}
 	if classdiagram.ShowNbInstances != classdiagramOther.ShowNbInstances {
 		diffs = append(diffs, "ShowNbInstances")
 	}
@@ -943,24 +942,24 @@ func (diagrampackage *DiagramPackage) GongDiff(diagrampackageOther *DiagramPacka
 		diffs = append(diffs, "GongModelPath")
 	}
 	ClassdiagramsDifferent := false
-    if len(diagrampackage.Classdiagrams) != len(diagrampackageOther.Classdiagrams) {
-        ClassdiagramsDifferent = true
-    } else {
-        for i := range diagrampackage.Classdiagrams {
-            if (diagrampackage.Classdiagrams[i] == nil) != (diagrampackageOther.Classdiagrams[i] == nil) {
-                ClassdiagramsDifferent = true
-                break
-            } else if diagrampackage.Classdiagrams[i] != nil && diagrampackageOther.Classdiagrams[i] != nil {
-                if len(diagrampackage.Classdiagrams[i].GongDiff(diagrampackageOther.Classdiagrams[i])) > 0 {
-                    ClassdiagramsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ClassdiagramsDifferent {
-        diffs = append(diffs, "Classdiagrams")
-    }
+	if len(diagrampackage.Classdiagrams) != len(diagrampackageOther.Classdiagrams) {
+		ClassdiagramsDifferent = true
+	} else {
+		for i := range diagrampackage.Classdiagrams {
+			if (diagrampackage.Classdiagrams[i] == nil) != (diagrampackageOther.Classdiagrams[i] == nil) {
+				ClassdiagramsDifferent = true
+				break
+			} else if diagrampackage.Classdiagrams[i] != nil && diagrampackageOther.Classdiagrams[i] != nil {
+				if len(diagrampackage.Classdiagrams[i].GongDiff(diagrampackageOther.Classdiagrams[i])) > 0 {
+					ClassdiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ClassdiagramsDifferent {
+		diffs = append(diffs, "Classdiagrams")
+	}
 	if (diagrampackage.SelectedClassdiagram == nil) != (diagrampackageOther.SelectedClassdiagram == nil) {
 		diffs = append(diffs, "SelectedClassdiagram")
 	} else if diagrampackage.SelectedClassdiagram != nil && diagrampackageOther.SelectedClassdiagram != nil {
@@ -992,24 +991,24 @@ func (gongenumshape *GongEnumShape) GongDiff(gongenumshapeOther *GongEnumShape) 
 		diffs = append(diffs, "IdentifierMeta")
 	}
 	GongEnumValueShapesDifferent := false
-    if len(gongenumshape.GongEnumValueShapes) != len(gongenumshapeOther.GongEnumValueShapes) {
-        GongEnumValueShapesDifferent = true
-    } else {
-        for i := range gongenumshape.GongEnumValueShapes {
-            if (gongenumshape.GongEnumValueShapes[i] == nil) != (gongenumshapeOther.GongEnumValueShapes[i] == nil) {
-                GongEnumValueShapesDifferent = true
-                break
-            } else if gongenumshape.GongEnumValueShapes[i] != nil && gongenumshapeOther.GongEnumValueShapes[i] != nil {
-                if len(gongenumshape.GongEnumValueShapes[i].GongDiff(gongenumshapeOther.GongEnumValueShapes[i])) > 0 {
-                    GongEnumValueShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongEnumValueShapesDifferent {
-        diffs = append(diffs, "GongEnumValueShapes")
-    }
+	if len(gongenumshape.GongEnumValueShapes) != len(gongenumshapeOther.GongEnumValueShapes) {
+		GongEnumValueShapesDifferent = true
+	} else {
+		for i := range gongenumshape.GongEnumValueShapes {
+			if (gongenumshape.GongEnumValueShapes[i] == nil) != (gongenumshapeOther.GongEnumValueShapes[i] == nil) {
+				GongEnumValueShapesDifferent = true
+				break
+			} else if gongenumshape.GongEnumValueShapes[i] != nil && gongenumshapeOther.GongEnumValueShapes[i] != nil {
+				if len(gongenumshape.GongEnumValueShapes[i].GongDiff(gongenumshapeOther.GongEnumValueShapes[i])) > 0 {
+					GongEnumValueShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongEnumValueShapesDifferent {
+		diffs = append(diffs, "GongEnumValueShapes")
+	}
 	if gongenumshape.Width != gongenumshapeOther.Width {
 		diffs = append(diffs, "Width")
 	}
@@ -1086,24 +1085,24 @@ func (gongnoteshape *GongNoteShape) GongDiff(gongnoteshapeOther *GongNoteShape) 
 		diffs = append(diffs, "Matched")
 	}
 	GongNoteLinkShapesDifferent := false
-    if len(gongnoteshape.GongNoteLinkShapes) != len(gongnoteshapeOther.GongNoteLinkShapes) {
-        GongNoteLinkShapesDifferent = true
-    } else {
-        for i := range gongnoteshape.GongNoteLinkShapes {
-            if (gongnoteshape.GongNoteLinkShapes[i] == nil) != (gongnoteshapeOther.GongNoteLinkShapes[i] == nil) {
-                GongNoteLinkShapesDifferent = true
-                break
-            } else if gongnoteshape.GongNoteLinkShapes[i] != nil && gongnoteshapeOther.GongNoteLinkShapes[i] != nil {
-                if len(gongnoteshape.GongNoteLinkShapes[i].GongDiff(gongnoteshapeOther.GongNoteLinkShapes[i])) > 0 {
-                    GongNoteLinkShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongNoteLinkShapesDifferent {
-        diffs = append(diffs, "GongNoteLinkShapes")
-    }
+	if len(gongnoteshape.GongNoteLinkShapes) != len(gongnoteshapeOther.GongNoteLinkShapes) {
+		GongNoteLinkShapesDifferent = true
+	} else {
+		for i := range gongnoteshape.GongNoteLinkShapes {
+			if (gongnoteshape.GongNoteLinkShapes[i] == nil) != (gongnoteshapeOther.GongNoteLinkShapes[i] == nil) {
+				GongNoteLinkShapesDifferent = true
+				break
+			} else if gongnoteshape.GongNoteLinkShapes[i] != nil && gongnoteshapeOther.GongNoteLinkShapes[i] != nil {
+				if len(gongnoteshape.GongNoteLinkShapes[i].GongDiff(gongnoteshapeOther.GongNoteLinkShapes[i])) > 0 {
+					GongNoteLinkShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongNoteLinkShapesDifferent {
+		diffs = append(diffs, "GongNoteLinkShapes")
+	}
 	if gongnoteshape.IsExpanded != gongnoteshapeOther.IsExpanded {
 		diffs = append(diffs, "IsExpanded")
 	}
@@ -1128,43 +1127,43 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 		diffs = append(diffs, "IdentifierMeta")
 	}
 	AttributeShapesDifferent := false
-    if len(gongstructshape.AttributeShapes) != len(gongstructshapeOther.AttributeShapes) {
-        AttributeShapesDifferent = true
-    } else {
-        for i := range gongstructshape.AttributeShapes {
-            if (gongstructshape.AttributeShapes[i] == nil) != (gongstructshapeOther.AttributeShapes[i] == nil) {
-                AttributeShapesDifferent = true
-                break
-            } else if gongstructshape.AttributeShapes[i] != nil && gongstructshapeOther.AttributeShapes[i] != nil {
-                if len(gongstructshape.AttributeShapes[i].GongDiff(gongstructshapeOther.AttributeShapes[i])) > 0 {
-                    AttributeShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AttributeShapesDifferent {
-        diffs = append(diffs, "AttributeShapes")
-    }
+	if len(gongstructshape.AttributeShapes) != len(gongstructshapeOther.AttributeShapes) {
+		AttributeShapesDifferent = true
+	} else {
+		for i := range gongstructshape.AttributeShapes {
+			if (gongstructshape.AttributeShapes[i] == nil) != (gongstructshapeOther.AttributeShapes[i] == nil) {
+				AttributeShapesDifferent = true
+				break
+			} else if gongstructshape.AttributeShapes[i] != nil && gongstructshapeOther.AttributeShapes[i] != nil {
+				if len(gongstructshape.AttributeShapes[i].GongDiff(gongstructshapeOther.AttributeShapes[i])) > 0 {
+					AttributeShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AttributeShapesDifferent {
+		diffs = append(diffs, "AttributeShapes")
+	}
 	LinkShapesDifferent := false
-    if len(gongstructshape.LinkShapes) != len(gongstructshapeOther.LinkShapes) {
-        LinkShapesDifferent = true
-    } else {
-        for i := range gongstructshape.LinkShapes {
-            if (gongstructshape.LinkShapes[i] == nil) != (gongstructshapeOther.LinkShapes[i] == nil) {
-                LinkShapesDifferent = true
-                break
-            } else if gongstructshape.LinkShapes[i] != nil && gongstructshapeOther.LinkShapes[i] != nil {
-                if len(gongstructshape.LinkShapes[i].GongDiff(gongstructshapeOther.LinkShapes[i])) > 0 {
-                    LinkShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LinkShapesDifferent {
-        diffs = append(diffs, "LinkShapes")
-    }
+	if len(gongstructshape.LinkShapes) != len(gongstructshapeOther.LinkShapes) {
+		LinkShapesDifferent = true
+	} else {
+		for i := range gongstructshape.LinkShapes {
+			if (gongstructshape.LinkShapes[i] == nil) != (gongstructshapeOther.LinkShapes[i] == nil) {
+				LinkShapesDifferent = true
+				break
+			} else if gongstructshape.LinkShapes[i] != nil && gongstructshapeOther.LinkShapes[i] != nil {
+				if len(gongstructshape.LinkShapes[i].GongDiff(gongstructshapeOther.LinkShapes[i])) > 0 {
+					LinkShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LinkShapesDifferent {
+		diffs = append(diffs, "LinkShapes")
+	}
 	if gongstructshape.Width != gongstructshapeOther.Width {
 		diffs = append(diffs, "Width")
 	}

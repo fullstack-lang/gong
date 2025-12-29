@@ -293,7 +293,6 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -314,24 +313,24 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	FrequenciesDifferent := false
-    if len(note.Frequencies) != len(noteOther.Frequencies) {
-        FrequenciesDifferent = true
-    } else {
-        for i := range note.Frequencies {
-            if (note.Frequencies[i] == nil) != (noteOther.Frequencies[i] == nil) {
-                FrequenciesDifferent = true
-                break
-            } else if note.Frequencies[i] != nil && noteOther.Frequencies[i] != nil {
-                if len(note.Frequencies[i].GongDiff(noteOther.Frequencies[i])) > 0 {
-                    FrequenciesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if FrequenciesDifferent {
-        diffs = append(diffs, "Frequencies")
-    }
+	if len(note.Frequencies) != len(noteOther.Frequencies) {
+		FrequenciesDifferent = true
+	} else {
+		for i := range note.Frequencies {
+			if (note.Frequencies[i] == nil) != (noteOther.Frequencies[i] == nil) {
+				FrequenciesDifferent = true
+				break
+			} else if note.Frequencies[i] != nil && noteOther.Frequencies[i] != nil {
+				if len(note.Frequencies[i].GongDiff(noteOther.Frequencies[i])) > 0 {
+					FrequenciesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FrequenciesDifferent {
+		diffs = append(diffs, "Frequencies")
+	}
 	if note.Start != noteOther.Start {
 		diffs = append(diffs, "Start")
 	}

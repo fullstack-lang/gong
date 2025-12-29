@@ -122,19 +122,15 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Checkbox:
 		stage.OnAfterCheckboxUpdateCallback = any(callback).(OnAfterUpdateInterface[Checkbox])
-	
 	case *Group:
 		stage.OnAfterGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[Group])
-	
 	case *Layout:
 		stage.OnAfterLayoutUpdateCallback = any(callback).(OnAfterUpdateInterface[Layout])
-	
 	case *Slider:
 		stage.OnAfterSliderUpdateCallback = any(callback).(OnAfterUpdateInterface[Slider])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -144,16 +140,12 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Checkbox:
 		stage.OnAfterCheckboxCreateCallback = any(callback).(OnAfterCreateInterface[Checkbox])
-	
 	case *Group:
 		stage.OnAfterGroupCreateCallback = any(callback).(OnAfterCreateInterface[Group])
-	
 	case *Layout:
 		stage.OnAfterLayoutCreateCallback = any(callback).(OnAfterCreateInterface[Layout])
-	
 	case *Slider:
 		stage.OnAfterSliderCreateCallback = any(callback).(OnAfterCreateInterface[Slider])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -163,16 +155,12 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Checkbox:
 		stage.OnAfterCheckboxDeleteCallback = any(callback).(OnAfterDeleteInterface[Checkbox])
-	
 	case *Group:
 		stage.OnAfterGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[Group])
-	
 	case *Layout:
 		stage.OnAfterLayoutDeleteCallback = any(callback).(OnAfterDeleteInterface[Layout])
-	
 	case *Slider:
 		stage.OnAfterSliderDeleteCallback = any(callback).(OnAfterDeleteInterface[Slider])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -182,15 +170,11 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Checkbox:
 		stage.OnAfterCheckboxReadCallback = any(callback).(OnAfterReadInterface[Checkbox])
-	
 	case *Group:
 		stage.OnAfterGroupReadCallback = any(callback).(OnAfterReadInterface[Group])
-	
 	case *Layout:
 		stage.OnAfterLayoutReadCallback = any(callback).(OnAfterReadInterface[Layout])
-	
 	case *Slider:
 		stage.OnAfterSliderReadCallback = any(callback).(OnAfterReadInterface[Slider])
-	
 	}
 }

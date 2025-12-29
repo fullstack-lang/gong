@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -38,7 +42,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongCopy() GongstructIF {
 	newInstance := *filetodownload
@@ -55,24 +58,35 @@ func (message *Message) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var filetodownloads_newInstances []*FileToDownload
 	var filetodownloads_deletedInstances []*FileToDownload
 
 	// parse all staged instances and check if they have a reference
 	for filetodownload := range stage.FileToDownloads {
-		if _, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
+		if ref, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
 			filetodownloads_newInstances = append(filetodownloads_newInstances, filetodownload)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of FileToDownload "+filetodownload.Name,
+					"Commit detected new instance of FileToDownload "+filetodownload.Name,
 				)
+			}
+		} else {
+			diffs := filetodownload.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of FileToDownload "+filetodownload.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -84,7 +98,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of FileToDownload "+filetodownload.Name,
+					"Commit detected deleted instance of FileToDownload "+filetodownload.Name,
 				)
 			}
 		}
@@ -97,13 +111,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for filetoupload := range stage.FileToUploads {
-		if _, ok := stage.FileToUploads_reference[filetoupload]; !ok {
+		if ref, ok := stage.FileToUploads_reference[filetoupload]; !ok {
 			filetouploads_newInstances = append(filetouploads_newInstances, filetoupload)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of FileToUpload "+filetoupload.Name,
+					"Commit detected new instance of FileToUpload "+filetoupload.Name,
 				)
+			}
+		} else {
+			diffs := filetoupload.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of FileToUpload "+filetoupload.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -115,7 +140,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of FileToUpload "+filetoupload.Name,
+					"Commit detected deleted instance of FileToUpload "+filetoupload.Name,
 				)
 			}
 		}
@@ -128,13 +153,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for message := range stage.Messages {
-		if _, ok := stage.Messages_reference[message]; !ok {
+		if ref, ok := stage.Messages_reference[message]; !ok {
 			messages_newInstances = append(messages_newInstances, message)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Message "+message.Name,
+					"Commit detected new instance of Message "+message.Name,
 				)
+			}
+		} else {
+			diffs := message.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Message "+message.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -146,7 +182,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Message "+message.Name,
+					"Commit detected deleted instance of Message "+message.Name,
 				)
 			}
 		}
@@ -155,7 +191,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(messages_newInstances)
 	lenDeletedInstances += len(messages_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -168,17 +204,17 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.FileToDownloads_reference = make(map[*FileToDownload]*FileToDownload)
 	for instance := range stage.FileToDownloads {
-		stage.FileToDownloads_reference[instance] = instance
+		stage.FileToDownloads_reference[instance] = instance.GongCopy().(*FileToDownload)
 	}
 
 	stage.FileToUploads_reference = make(map[*FileToUpload]*FileToUpload)
 	for instance := range stage.FileToUploads {
-		stage.FileToUploads_reference[instance] = instance
+		stage.FileToUploads_reference[instance] = instance.GongCopy().(*FileToUpload)
 	}
 
 	stage.Messages_reference = make(map[*Message]*Message)
 	for instance := range stage.Messages {
-		stage.Messages_reference[instance] = instance
+		stage.Messages_reference[instance] = instance.GongCopy().(*Message)
 	}
 
 }

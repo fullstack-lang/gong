@@ -1544,7 +1544,6 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1554,43 +1553,43 @@ func (body *Body) GongDiff(bodyOther *Body) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	ParagraphsDifferent := false
-    if len(body.Paragraphs) != len(bodyOther.Paragraphs) {
-        ParagraphsDifferent = true
-    } else {
-        for i := range body.Paragraphs {
-            if (body.Paragraphs[i] == nil) != (bodyOther.Paragraphs[i] == nil) {
-                ParagraphsDifferent = true
-                break
-            } else if body.Paragraphs[i] != nil && bodyOther.Paragraphs[i] != nil {
-                if len(body.Paragraphs[i].GongDiff(bodyOther.Paragraphs[i])) > 0 {
-                    ParagraphsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ParagraphsDifferent {
-        diffs = append(diffs, "Paragraphs")
-    }
+	if len(body.Paragraphs) != len(bodyOther.Paragraphs) {
+		ParagraphsDifferent = true
+	} else {
+		for i := range body.Paragraphs {
+			if (body.Paragraphs[i] == nil) != (bodyOther.Paragraphs[i] == nil) {
+				ParagraphsDifferent = true
+				break
+			} else if body.Paragraphs[i] != nil && bodyOther.Paragraphs[i] != nil {
+				if len(body.Paragraphs[i].GongDiff(bodyOther.Paragraphs[i])) > 0 {
+					ParagraphsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ParagraphsDifferent {
+		diffs = append(diffs, "Paragraphs")
+	}
 	TablesDifferent := false
-    if len(body.Tables) != len(bodyOther.Tables) {
-        TablesDifferent = true
-    } else {
-        for i := range body.Tables {
-            if (body.Tables[i] == nil) != (bodyOther.Tables[i] == nil) {
-                TablesDifferent = true
-                break
-            } else if body.Tables[i] != nil && bodyOther.Tables[i] != nil {
-                if len(body.Tables[i].GongDiff(bodyOther.Tables[i])) > 0 {
-                    TablesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TablesDifferent {
-        diffs = append(diffs, "Tables")
-    }
+	if len(body.Tables) != len(bodyOther.Tables) {
+		TablesDifferent = true
+	} else {
+		for i := range body.Tables {
+			if (body.Tables[i] == nil) != (bodyOther.Tables[i] == nil) {
+				TablesDifferent = true
+				break
+			} else if body.Tables[i] != nil && bodyOther.Tables[i] != nil {
+				if len(body.Tables[i].GongDiff(bodyOther.Tables[i])) > 0 {
+					TablesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TablesDifferent {
+		diffs = append(diffs, "Tables")
+	}
 	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
 		diffs = append(diffs, "LastParagraph")
 	} else if body.LastParagraph != nil && bodyOther.LastParagraph != nil {
@@ -1642,24 +1641,24 @@ func (docx *Docx) GongDiff(docxOther *Docx) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	FilesDifferent := false
-    if len(docx.Files) != len(docxOther.Files) {
-        FilesDifferent = true
-    } else {
-        for i := range docx.Files {
-            if (docx.Files[i] == nil) != (docxOther.Files[i] == nil) {
-                FilesDifferent = true
-                break
-            } else if docx.Files[i] != nil && docxOther.Files[i] != nil {
-                if len(docx.Files[i].GongDiff(docxOther.Files[i])) > 0 {
-                    FilesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if FilesDifferent {
-        diffs = append(diffs, "Files")
-    }
+	if len(docx.Files) != len(docxOther.Files) {
+		FilesDifferent = true
+	} else {
+		for i := range docx.Files {
+			if (docx.Files[i] == nil) != (docxOther.Files[i] == nil) {
+				FilesDifferent = true
+				break
+			} else if docx.Files[i] != nil && docxOther.Files[i] != nil {
+				if len(docx.Files[i].GongDiff(docxOther.Files[i])) > 0 {
+					FilesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FilesDifferent {
+		diffs = append(diffs, "Files")
+	}
 	if (docx.Document == nil) != (docxOther.Document == nil) {
 		diffs = append(diffs, "Document")
 	} else if docx.Document != nil && docxOther.Document != nil {
@@ -1690,24 +1689,24 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	NodesDifferent := false
-    if len(node.Nodes) != len(nodeOther.Nodes) {
-        NodesDifferent = true
-    } else {
-        for i := range node.Nodes {
-            if (node.Nodes[i] == nil) != (nodeOther.Nodes[i] == nil) {
-                NodesDifferent = true
-                break
-            } else if node.Nodes[i] != nil && nodeOther.Nodes[i] != nil {
-                if len(node.Nodes[i].GongDiff(nodeOther.Nodes[i])) > 0 {
-                    NodesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if NodesDifferent {
-        diffs = append(diffs, "Nodes")
-    }
+	if len(node.Nodes) != len(nodeOther.Nodes) {
+		NodesDifferent = true
+	} else {
+		for i := range node.Nodes {
+			if (node.Nodes[i] == nil) != (nodeOther.Nodes[i] == nil) {
+				NodesDifferent = true
+				break
+			} else if node.Nodes[i] != nil && nodeOther.Nodes[i] != nil {
+				if len(node.Nodes[i].GongDiff(nodeOther.Nodes[i])) > 0 {
+					NodesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if NodesDifferent {
+		diffs = append(diffs, "Nodes")
+	}
 
 	return
 }
@@ -1737,24 +1736,24 @@ func (paragraph *Paragraph) GongDiff(paragraphOther *Paragraph) (diffs []string)
 		}
 	}
 	RunesDifferent := false
-    if len(paragraph.Runes) != len(paragraphOther.Runes) {
-        RunesDifferent = true
-    } else {
-        for i := range paragraph.Runes {
-            if (paragraph.Runes[i] == nil) != (paragraphOther.Runes[i] == nil) {
-                RunesDifferent = true
-                break
-            } else if paragraph.Runes[i] != nil && paragraphOther.Runes[i] != nil {
-                if len(paragraph.Runes[i].GongDiff(paragraphOther.Runes[i])) > 0 {
-                    RunesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RunesDifferent {
-        diffs = append(diffs, "Runes")
-    }
+	if len(paragraph.Runes) != len(paragraphOther.Runes) {
+		RunesDifferent = true
+	} else {
+		for i := range paragraph.Runes {
+			if (paragraph.Runes[i] == nil) != (paragraphOther.Runes[i] == nil) {
+				RunesDifferent = true
+				break
+			} else if paragraph.Runes[i] != nil && paragraphOther.Runes[i] != nil {
+				if len(paragraph.Runes[i].GongDiff(paragraphOther.Runes[i])) > 0 {
+					RunesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RunesDifferent {
+		diffs = append(diffs, "Runes")
+	}
 	if paragraph.Text != paragraphOther.Text {
 		diffs = append(diffs, "Text")
 	}
@@ -1939,24 +1938,24 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 		}
 	}
 	TableRowsDifferent := false
-    if len(table.TableRows) != len(tableOther.TableRows) {
-        TableRowsDifferent = true
-    } else {
-        for i := range table.TableRows {
-            if (table.TableRows[i] == nil) != (tableOther.TableRows[i] == nil) {
-                TableRowsDifferent = true
-                break
-            } else if table.TableRows[i] != nil && tableOther.TableRows[i] != nil {
-                if len(table.TableRows[i].GongDiff(tableOther.TableRows[i])) > 0 {
-                    TableRowsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TableRowsDifferent {
-        diffs = append(diffs, "TableRows")
-    }
+	if len(table.TableRows) != len(tableOther.TableRows) {
+		TableRowsDifferent = true
+	} else {
+		for i := range table.TableRows {
+			if (table.TableRows[i] == nil) != (tableOther.TableRows[i] == nil) {
+				TableRowsDifferent = true
+				break
+			} else if table.TableRows[i] != nil && tableOther.TableRows[i] != nil {
+				if len(table.TableRows[i].GongDiff(tableOther.TableRows[i])) > 0 {
+					TableRowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TableRowsDifferent {
+		diffs = append(diffs, "TableRows")
+	}
 
 	return
 }
@@ -1979,24 +1978,24 @@ func (tablecolumn *TableColumn) GongDiff(tablecolumnOther *TableColumn) (diffs [
 		}
 	}
 	ParagraphsDifferent := false
-    if len(tablecolumn.Paragraphs) != len(tablecolumnOther.Paragraphs) {
-        ParagraphsDifferent = true
-    } else {
-        for i := range tablecolumn.Paragraphs {
-            if (tablecolumn.Paragraphs[i] == nil) != (tablecolumnOther.Paragraphs[i] == nil) {
-                ParagraphsDifferent = true
-                break
-            } else if tablecolumn.Paragraphs[i] != nil && tablecolumnOther.Paragraphs[i] != nil {
-                if len(tablecolumn.Paragraphs[i].GongDiff(tablecolumnOther.Paragraphs[i])) > 0 {
-                    ParagraphsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ParagraphsDifferent {
-        diffs = append(diffs, "Paragraphs")
-    }
+	if len(tablecolumn.Paragraphs) != len(tablecolumnOther.Paragraphs) {
+		ParagraphsDifferent = true
+	} else {
+		for i := range tablecolumn.Paragraphs {
+			if (tablecolumn.Paragraphs[i] == nil) != (tablecolumnOther.Paragraphs[i] == nil) {
+				ParagraphsDifferent = true
+				break
+			} else if tablecolumn.Paragraphs[i] != nil && tablecolumnOther.Paragraphs[i] != nil {
+				if len(tablecolumn.Paragraphs[i].GongDiff(tablecolumnOther.Paragraphs[i])) > 0 {
+					ParagraphsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ParagraphsDifferent {
+		diffs = append(diffs, "Paragraphs")
+	}
 
 	return
 }
@@ -2047,24 +2046,24 @@ func (tablerow *TableRow) GongDiff(tablerowOther *TableRow) (diffs []string) {
 		}
 	}
 	TableColumnsDifferent := false
-    if len(tablerow.TableColumns) != len(tablerowOther.TableColumns) {
-        TableColumnsDifferent = true
-    } else {
-        for i := range tablerow.TableColumns {
-            if (tablerow.TableColumns[i] == nil) != (tablerowOther.TableColumns[i] == nil) {
-                TableColumnsDifferent = true
-                break
-            } else if tablerow.TableColumns[i] != nil && tablerowOther.TableColumns[i] != nil {
-                if len(tablerow.TableColumns[i].GongDiff(tablerowOther.TableColumns[i])) > 0 {
-                    TableColumnsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TableColumnsDifferent {
-        diffs = append(diffs, "TableColumns")
-    }
+	if len(tablerow.TableColumns) != len(tablerowOther.TableColumns) {
+		TableColumnsDifferent = true
+	} else {
+		for i := range tablerow.TableColumns {
+			if (tablerow.TableColumns[i] == nil) != (tablerowOther.TableColumns[i] == nil) {
+				TableColumnsDifferent = true
+				break
+			} else if tablerow.TableColumns[i] != nil && tablerowOther.TableColumns[i] != nil {
+				if len(tablerow.TableColumns[i].GongDiff(tablerowOther.TableColumns[i])) > 0 {
+					TableColumnsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TableColumnsDifferent {
+		diffs = append(diffs, "TableColumns")
+	}
 
 	return
 }

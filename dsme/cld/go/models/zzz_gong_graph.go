@@ -1004,7 +1004,6 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1175,81 +1174,81 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	Category1ShapesDifferent := false
-    if len(diagram.Category1Shapes) != len(diagramOther.Category1Shapes) {
-        Category1ShapesDifferent = true
-    } else {
-        for i := range diagram.Category1Shapes {
-            if (diagram.Category1Shapes[i] == nil) != (diagramOther.Category1Shapes[i] == nil) {
-                Category1ShapesDifferent = true
-                break
-            } else if diagram.Category1Shapes[i] != nil && diagramOther.Category1Shapes[i] != nil {
-                if len(diagram.Category1Shapes[i].GongDiff(diagramOther.Category1Shapes[i])) > 0 {
-                    Category1ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Category1ShapesDifferent {
-        diffs = append(diffs, "Category1Shapes")
-    }
+	if len(diagram.Category1Shapes) != len(diagramOther.Category1Shapes) {
+		Category1ShapesDifferent = true
+	} else {
+		for i := range diagram.Category1Shapes {
+			if (diagram.Category1Shapes[i] == nil) != (diagramOther.Category1Shapes[i] == nil) {
+				Category1ShapesDifferent = true
+				break
+			} else if diagram.Category1Shapes[i] != nil && diagramOther.Category1Shapes[i] != nil {
+				if len(diagram.Category1Shapes[i].GongDiff(diagramOther.Category1Shapes[i])) > 0 {
+					Category1ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Category1ShapesDifferent {
+		diffs = append(diffs, "Category1Shapes")
+	}
 	Category2ShapesDifferent := false
-    if len(diagram.Category2Shapes) != len(diagramOther.Category2Shapes) {
-        Category2ShapesDifferent = true
-    } else {
-        for i := range diagram.Category2Shapes {
-            if (diagram.Category2Shapes[i] == nil) != (diagramOther.Category2Shapes[i] == nil) {
-                Category2ShapesDifferent = true
-                break
-            } else if diagram.Category2Shapes[i] != nil && diagramOther.Category2Shapes[i] != nil {
-                if len(diagram.Category2Shapes[i].GongDiff(diagramOther.Category2Shapes[i])) > 0 {
-                    Category2ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Category2ShapesDifferent {
-        diffs = append(diffs, "Category2Shapes")
-    }
+	if len(diagram.Category2Shapes) != len(diagramOther.Category2Shapes) {
+		Category2ShapesDifferent = true
+	} else {
+		for i := range diagram.Category2Shapes {
+			if (diagram.Category2Shapes[i] == nil) != (diagramOther.Category2Shapes[i] == nil) {
+				Category2ShapesDifferent = true
+				break
+			} else if diagram.Category2Shapes[i] != nil && diagramOther.Category2Shapes[i] != nil {
+				if len(diagram.Category2Shapes[i].GongDiff(diagramOther.Category2Shapes[i])) > 0 {
+					Category2ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Category2ShapesDifferent {
+		diffs = append(diffs, "Category2Shapes")
+	}
 	Category3ShapesDifferent := false
-    if len(diagram.Category3Shapes) != len(diagramOther.Category3Shapes) {
-        Category3ShapesDifferent = true
-    } else {
-        for i := range diagram.Category3Shapes {
-            if (diagram.Category3Shapes[i] == nil) != (diagramOther.Category3Shapes[i] == nil) {
-                Category3ShapesDifferent = true
-                break
-            } else if diagram.Category3Shapes[i] != nil && diagramOther.Category3Shapes[i] != nil {
-                if len(diagram.Category3Shapes[i].GongDiff(diagramOther.Category3Shapes[i])) > 0 {
-                    Category3ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Category3ShapesDifferent {
-        diffs = append(diffs, "Category3Shapes")
-    }
+	if len(diagram.Category3Shapes) != len(diagramOther.Category3Shapes) {
+		Category3ShapesDifferent = true
+	} else {
+		for i := range diagram.Category3Shapes {
+			if (diagram.Category3Shapes[i] == nil) != (diagramOther.Category3Shapes[i] == nil) {
+				Category3ShapesDifferent = true
+				break
+			} else if diagram.Category3Shapes[i] != nil && diagramOther.Category3Shapes[i] != nil {
+				if len(diagram.Category3Shapes[i].GongDiff(diagramOther.Category3Shapes[i])) > 0 {
+					Category3ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Category3ShapesDifferent {
+		diffs = append(diffs, "Category3Shapes")
+	}
 	InfluenceShapesDifferent := false
-    if len(diagram.InfluenceShapes) != len(diagramOther.InfluenceShapes) {
-        InfluenceShapesDifferent = true
-    } else {
-        for i := range diagram.InfluenceShapes {
-            if (diagram.InfluenceShapes[i] == nil) != (diagramOther.InfluenceShapes[i] == nil) {
-                InfluenceShapesDifferent = true
-                break
-            } else if diagram.InfluenceShapes[i] != nil && diagramOther.InfluenceShapes[i] != nil {
-                if len(diagram.InfluenceShapes[i].GongDiff(diagramOther.InfluenceShapes[i])) > 0 {
-                    InfluenceShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if InfluenceShapesDifferent {
-        diffs = append(diffs, "InfluenceShapes")
-    }
+	if len(diagram.InfluenceShapes) != len(diagramOther.InfluenceShapes) {
+		InfluenceShapesDifferent = true
+	} else {
+		for i := range diagram.InfluenceShapes {
+			if (diagram.InfluenceShapes[i] == nil) != (diagramOther.InfluenceShapes[i] == nil) {
+				InfluenceShapesDifferent = true
+				break
+			} else if diagram.InfluenceShapes[i] != nil && diagramOther.InfluenceShapes[i] != nil {
+				if len(diagram.InfluenceShapes[i].GongDiff(diagramOther.InfluenceShapes[i])) > 0 {
+					InfluenceShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if InfluenceShapesDifferent {
+		diffs = append(diffs, "InfluenceShapes")
+	}
 	if diagram.IsEditable != diagramOther.IsEditable {
 		diffs = append(diffs, "IsEditable")
 	}
@@ -1475,24 +1474,24 @@ func (influenceshape *InfluenceShape) GongDiff(influenceshapeOther *InfluenceSha
 		}
 	}
 	ControlPointShapesDifferent := false
-    if len(influenceshape.ControlPointShapes) != len(influenceshapeOther.ControlPointShapes) {
-        ControlPointShapesDifferent = true
-    } else {
-        for i := range influenceshape.ControlPointShapes {
-            if (influenceshape.ControlPointShapes[i] == nil) != (influenceshapeOther.ControlPointShapes[i] == nil) {
-                ControlPointShapesDifferent = true
-                break
-            } else if influenceshape.ControlPointShapes[i] != nil && influenceshapeOther.ControlPointShapes[i] != nil {
-                if len(influenceshape.ControlPointShapes[i].GongDiff(influenceshapeOther.ControlPointShapes[i])) > 0 {
-                    ControlPointShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ControlPointShapesDifferent {
-        diffs = append(diffs, "ControlPointShapes")
-    }
+	if len(influenceshape.ControlPointShapes) != len(influenceshapeOther.ControlPointShapes) {
+		ControlPointShapesDifferent = true
+	} else {
+		for i := range influenceshape.ControlPointShapes {
+			if (influenceshape.ControlPointShapes[i] == nil) != (influenceshapeOther.ControlPointShapes[i] == nil) {
+				ControlPointShapesDifferent = true
+				break
+			} else if influenceshape.ControlPointShapes[i] != nil && influenceshapeOther.ControlPointShapes[i] != nil {
+				if len(influenceshape.ControlPointShapes[i].GongDiff(influenceshapeOther.ControlPointShapes[i])) > 0 {
+					ControlPointShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointShapesDifferent {
+		diffs = append(diffs, "ControlPointShapes")
+	}
 
 	return
 }

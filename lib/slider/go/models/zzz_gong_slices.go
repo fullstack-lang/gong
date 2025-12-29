@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -66,7 +70,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (checkbox *Checkbox) GongCopy() GongstructIF {
 	newInstance := *checkbox
@@ -88,24 +91,35 @@ func (slider *Slider) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var checkboxs_newInstances []*Checkbox
 	var checkboxs_deletedInstances []*Checkbox
 
 	// parse all staged instances and check if they have a reference
 	for checkbox := range stage.Checkboxs {
-		if _, ok := stage.Checkboxs_reference[checkbox]; !ok {
+		if ref, ok := stage.Checkboxs_reference[checkbox]; !ok {
 			checkboxs_newInstances = append(checkboxs_newInstances, checkbox)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Checkbox "+checkbox.Name,
+					"Commit detected new instance of Checkbox "+checkbox.Name,
 				)
+			}
+		} else {
+			diffs := checkbox.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Checkbox "+checkbox.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -117,7 +131,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Checkbox "+checkbox.Name,
+					"Commit detected deleted instance of Checkbox "+checkbox.Name,
 				)
 			}
 		}
@@ -130,13 +144,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for group := range stage.Groups {
-		if _, ok := stage.Groups_reference[group]; !ok {
+		if ref, ok := stage.Groups_reference[group]; !ok {
 			groups_newInstances = append(groups_newInstances, group)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Group "+group.Name,
+					"Commit detected new instance of Group "+group.Name,
 				)
+			}
+		} else {
+			diffs := group.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Group "+group.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -148,7 +173,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Group "+group.Name,
+					"Commit detected deleted instance of Group "+group.Name,
 				)
 			}
 		}
@@ -161,13 +186,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for layout := range stage.Layouts {
-		if _, ok := stage.Layouts_reference[layout]; !ok {
+		if ref, ok := stage.Layouts_reference[layout]; !ok {
 			layouts_newInstances = append(layouts_newInstances, layout)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Layout "+layout.Name,
+					"Commit detected new instance of Layout "+layout.Name,
 				)
+			}
+		} else {
+			diffs := layout.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Layout "+layout.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -179,7 +215,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Layout "+layout.Name,
+					"Commit detected deleted instance of Layout "+layout.Name,
 				)
 			}
 		}
@@ -192,13 +228,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for slider := range stage.Sliders {
-		if _, ok := stage.Sliders_reference[slider]; !ok {
+		if ref, ok := stage.Sliders_reference[slider]; !ok {
 			sliders_newInstances = append(sliders_newInstances, slider)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Slider "+slider.Name,
+					"Commit detected new instance of Slider "+slider.Name,
 				)
+			}
+		} else {
+			diffs := slider.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Slider "+slider.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -210,7 +257,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Slider "+slider.Name,
+					"Commit detected deleted instance of Slider "+slider.Name,
 				)
 			}
 		}
@@ -219,7 +266,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(sliders_newInstances)
 	lenDeletedInstances += len(sliders_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -232,22 +279,22 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Checkboxs_reference = make(map[*Checkbox]*Checkbox)
 	for instance := range stage.Checkboxs {
-		stage.Checkboxs_reference[instance] = instance
+		stage.Checkboxs_reference[instance] = instance.GongCopy().(*Checkbox)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
 	for instance := range stage.Groups {
-		stage.Groups_reference[instance] = instance
+		stage.Groups_reference[instance] = instance.GongCopy().(*Group)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
 	for instance := range stage.Layouts {
-		stage.Layouts_reference[instance] = instance
+		stage.Layouts_reference[instance] = instance.GongCopy().(*Layout)
 	}
 
 	stage.Sliders_reference = make(map[*Slider]*Slider)
 	for instance := range stage.Sliders {
-		stage.Sliders_reference[instance] = instance
+		stage.Sliders_reference[instance] = instance.GongCopy().(*Slider)
 	}
 
 }

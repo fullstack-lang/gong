@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -66,7 +70,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := *button
@@ -88,24 +91,35 @@ func (tree *Tree) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var buttons_newInstances []*Button
 	var buttons_deletedInstances []*Button
 
 	// parse all staged instances and check if they have a reference
 	for button := range stage.Buttons {
-		if _, ok := stage.Buttons_reference[button]; !ok {
+		if ref, ok := stage.Buttons_reference[button]; !ok {
 			buttons_newInstances = append(buttons_newInstances, button)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Button "+button.Name,
+					"Commit detected new instance of Button "+button.Name,
 				)
+			}
+		} else {
+			diffs := button.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Button "+button.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -117,7 +131,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Button "+button.Name,
+					"Commit detected deleted instance of Button "+button.Name,
 				)
 			}
 		}
@@ -130,13 +144,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for node := range stage.Nodes {
-		if _, ok := stage.Nodes_reference[node]; !ok {
+		if ref, ok := stage.Nodes_reference[node]; !ok {
 			nodes_newInstances = append(nodes_newInstances, node)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Node "+node.Name,
+					"Commit detected new instance of Node "+node.Name,
 				)
+			}
+		} else {
+			diffs := node.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Node "+node.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -148,7 +173,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Node "+node.Name,
+					"Commit detected deleted instance of Node "+node.Name,
 				)
 			}
 		}
@@ -161,13 +186,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for svgicon := range stage.SVGIcons {
-		if _, ok := stage.SVGIcons_reference[svgicon]; !ok {
+		if ref, ok := stage.SVGIcons_reference[svgicon]; !ok {
 			svgicons_newInstances = append(svgicons_newInstances, svgicon)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of SVGIcon "+svgicon.Name,
+					"Commit detected new instance of SVGIcon "+svgicon.Name,
 				)
+			}
+		} else {
+			diffs := svgicon.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of SVGIcon "+svgicon.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -179,7 +215,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of SVGIcon "+svgicon.Name,
+					"Commit detected deleted instance of SVGIcon "+svgicon.Name,
 				)
 			}
 		}
@@ -192,13 +228,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for tree := range stage.Trees {
-		if _, ok := stage.Trees_reference[tree]; !ok {
+		if ref, ok := stage.Trees_reference[tree]; !ok {
 			trees_newInstances = append(trees_newInstances, tree)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Tree "+tree.Name,
+					"Commit detected new instance of Tree "+tree.Name,
 				)
+			}
+		} else {
+			diffs := tree.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Tree "+tree.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -210,7 +257,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Tree "+tree.Name,
+					"Commit detected deleted instance of Tree "+tree.Name,
 				)
 			}
 		}
@@ -219,7 +266,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(trees_newInstances)
 	lenDeletedInstances += len(trees_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -232,22 +279,22 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Buttons_reference = make(map[*Button]*Button)
 	for instance := range stage.Buttons {
-		stage.Buttons_reference[instance] = instance
+		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
 	for instance := range stage.Nodes {
-		stage.Nodes_reference[instance] = instance
+		stage.Nodes_reference[instance] = instance.GongCopy().(*Node)
 	}
 
 	stage.SVGIcons_reference = make(map[*SVGIcon]*SVGIcon)
 	for instance := range stage.SVGIcons {
-		stage.SVGIcons_reference[instance] = instance
+		stage.SVGIcons_reference[instance] = instance.GongCopy().(*SVGIcon)
 	}
 
 	stage.Trees_reference = make(map[*Tree]*Tree)
 	for instance := range stage.Trees {
-		stage.Trees_reference[instance] = instance
+		stage.Trees_reference[instance] = instance.GongCopy().(*Tree)
 	}
 
 }

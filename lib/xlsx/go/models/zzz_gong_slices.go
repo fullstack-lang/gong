@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -80,7 +84,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongCopy() GongstructIF {
 	newInstance := *displayselection
@@ -107,24 +110,35 @@ func (xlsheet *XLSheet) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var displayselections_newInstances []*DisplaySelection
 	var displayselections_deletedInstances []*DisplaySelection
 
 	// parse all staged instances and check if they have a reference
 	for displayselection := range stage.DisplaySelections {
-		if _, ok := stage.DisplaySelections_reference[displayselection]; !ok {
+		if ref, ok := stage.DisplaySelections_reference[displayselection]; !ok {
 			displayselections_newInstances = append(displayselections_newInstances, displayselection)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of DisplaySelection "+displayselection.Name,
+					"Commit detected new instance of DisplaySelection "+displayselection.Name,
 				)
+			}
+		} else {
+			diffs := displayselection.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of DisplaySelection "+displayselection.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -136,7 +150,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of DisplaySelection "+displayselection.Name,
+					"Commit detected deleted instance of DisplaySelection "+displayselection.Name,
 				)
 			}
 		}
@@ -149,13 +163,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for xlcell := range stage.XLCells {
-		if _, ok := stage.XLCells_reference[xlcell]; !ok {
+		if ref, ok := stage.XLCells_reference[xlcell]; !ok {
 			xlcells_newInstances = append(xlcells_newInstances, xlcell)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of XLCell "+xlcell.Name,
+					"Commit detected new instance of XLCell "+xlcell.Name,
 				)
+			}
+		} else {
+			diffs := xlcell.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of XLCell "+xlcell.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -167,7 +192,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of XLCell "+xlcell.Name,
+					"Commit detected deleted instance of XLCell "+xlcell.Name,
 				)
 			}
 		}
@@ -180,13 +205,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for xlfile := range stage.XLFiles {
-		if _, ok := stage.XLFiles_reference[xlfile]; !ok {
+		if ref, ok := stage.XLFiles_reference[xlfile]; !ok {
 			xlfiles_newInstances = append(xlfiles_newInstances, xlfile)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of XLFile "+xlfile.Name,
+					"Commit detected new instance of XLFile "+xlfile.Name,
 				)
+			}
+		} else {
+			diffs := xlfile.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of XLFile "+xlfile.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -198,7 +234,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of XLFile "+xlfile.Name,
+					"Commit detected deleted instance of XLFile "+xlfile.Name,
 				)
 			}
 		}
@@ -211,13 +247,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for xlrow := range stage.XLRows {
-		if _, ok := stage.XLRows_reference[xlrow]; !ok {
+		if ref, ok := stage.XLRows_reference[xlrow]; !ok {
 			xlrows_newInstances = append(xlrows_newInstances, xlrow)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of XLRow "+xlrow.Name,
+					"Commit detected new instance of XLRow "+xlrow.Name,
 				)
+			}
+		} else {
+			diffs := xlrow.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of XLRow "+xlrow.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -229,7 +276,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of XLRow "+xlrow.Name,
+					"Commit detected deleted instance of XLRow "+xlrow.Name,
 				)
 			}
 		}
@@ -242,13 +289,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for xlsheet := range stage.XLSheets {
-		if _, ok := stage.XLSheets_reference[xlsheet]; !ok {
+		if ref, ok := stage.XLSheets_reference[xlsheet]; !ok {
 			xlsheets_newInstances = append(xlsheets_newInstances, xlsheet)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of XLSheet "+xlsheet.Name,
+					"Commit detected new instance of XLSheet "+xlsheet.Name,
 				)
+			}
+		} else {
+			diffs := xlsheet.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of XLSheet "+xlsheet.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -260,7 +318,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of XLSheet "+xlsheet.Name,
+					"Commit detected deleted instance of XLSheet "+xlsheet.Name,
 				)
 			}
 		}
@@ -269,7 +327,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(xlsheets_newInstances)
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -282,27 +340,27 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
 	for instance := range stage.DisplaySelections {
-		stage.DisplaySelections_reference[instance] = instance
+		stage.DisplaySelections_reference[instance] = instance.GongCopy().(*DisplaySelection)
 	}
 
 	stage.XLCells_reference = make(map[*XLCell]*XLCell)
 	for instance := range stage.XLCells {
-		stage.XLCells_reference[instance] = instance
+		stage.XLCells_reference[instance] = instance.GongCopy().(*XLCell)
 	}
 
 	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
 	for instance := range stage.XLFiles {
-		stage.XLFiles_reference[instance] = instance
+		stage.XLFiles_reference[instance] = instance.GongCopy().(*XLFile)
 	}
 
 	stage.XLRows_reference = make(map[*XLRow]*XLRow)
 	for instance := range stage.XLRows {
-		stage.XLRows_reference[instance] = instance
+		stage.XLRows_reference[instance] = instance.GongCopy().(*XLRow)
 	}
 
 	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
 	for instance := range stage.XLSheets {
-		stage.XLSheets_reference[instance] = instance
+		stage.XLSheets_reference[instance] = instance.GongCopy().(*XLSheet)
 	}
 
 }

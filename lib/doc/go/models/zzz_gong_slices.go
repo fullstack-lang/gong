@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -136,7 +140,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (attributeshape *AttributeShape) GongCopy() GongstructIF {
 	newInstance := *attributeshape
@@ -183,24 +186,35 @@ func (linkshape *LinkShape) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var attributeshapes_newInstances []*AttributeShape
 	var attributeshapes_deletedInstances []*AttributeShape
 
 	// parse all staged instances and check if they have a reference
 	for attributeshape := range stage.AttributeShapes {
-		if _, ok := stage.AttributeShapes_reference[attributeshape]; !ok {
+		if ref, ok := stage.AttributeShapes_reference[attributeshape]; !ok {
 			attributeshapes_newInstances = append(attributeshapes_newInstances, attributeshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of AttributeShape "+attributeshape.Name,
+					"Commit detected new instance of AttributeShape "+attributeshape.Name,
 				)
+			}
+		} else {
+			diffs := attributeshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of AttributeShape "+attributeshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -212,7 +226,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of AttributeShape "+attributeshape.Name,
+					"Commit detected deleted instance of AttributeShape "+attributeshape.Name,
 				)
 			}
 		}
@@ -225,13 +239,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for classdiagram := range stage.Classdiagrams {
-		if _, ok := stage.Classdiagrams_reference[classdiagram]; !ok {
+		if ref, ok := stage.Classdiagrams_reference[classdiagram]; !ok {
 			classdiagrams_newInstances = append(classdiagrams_newInstances, classdiagram)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Classdiagram "+classdiagram.Name,
+					"Commit detected new instance of Classdiagram "+classdiagram.Name,
 				)
+			}
+		} else {
+			diffs := classdiagram.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Classdiagram "+classdiagram.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -243,7 +268,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Classdiagram "+classdiagram.Name,
+					"Commit detected deleted instance of Classdiagram "+classdiagram.Name,
 				)
 			}
 		}
@@ -256,13 +281,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for diagrampackage := range stage.DiagramPackages {
-		if _, ok := stage.DiagramPackages_reference[diagrampackage]; !ok {
+		if ref, ok := stage.DiagramPackages_reference[diagrampackage]; !ok {
 			diagrampackages_newInstances = append(diagrampackages_newInstances, diagrampackage)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of DiagramPackage "+diagrampackage.Name,
+					"Commit detected new instance of DiagramPackage "+diagrampackage.Name,
 				)
+			}
+		} else {
+			diffs := diagrampackage.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of DiagramPackage "+diagrampackage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -274,7 +310,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of DiagramPackage "+diagrampackage.Name,
+					"Commit detected deleted instance of DiagramPackage "+diagrampackage.Name,
 				)
 			}
 		}
@@ -287,13 +323,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongenumshape := range stage.GongEnumShapes {
-		if _, ok := stage.GongEnumShapes_reference[gongenumshape]; !ok {
+		if ref, ok := stage.GongEnumShapes_reference[gongenumshape]; !ok {
 			gongenumshapes_newInstances = append(gongenumshapes_newInstances, gongenumshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongEnumShape "+gongenumshape.Name,
+					"Commit detected new instance of GongEnumShape "+gongenumshape.Name,
 				)
+			}
+		} else {
+			diffs := gongenumshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongEnumShape "+gongenumshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -305,7 +352,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongEnumShape "+gongenumshape.Name,
+					"Commit detected deleted instance of GongEnumShape "+gongenumshape.Name,
 				)
 			}
 		}
@@ -318,13 +365,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongenumvalueshape := range stage.GongEnumValueShapes {
-		if _, ok := stage.GongEnumValueShapes_reference[gongenumvalueshape]; !ok {
+		if ref, ok := stage.GongEnumValueShapes_reference[gongenumvalueshape]; !ok {
 			gongenumvalueshapes_newInstances = append(gongenumvalueshapes_newInstances, gongenumvalueshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongEnumValueShape "+gongenumvalueshape.Name,
+					"Commit detected new instance of GongEnumValueShape "+gongenumvalueshape.Name,
 				)
+			}
+		} else {
+			diffs := gongenumvalueshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongEnumValueShape "+gongenumvalueshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -336,7 +394,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongEnumValueShape "+gongenumvalueshape.Name,
+					"Commit detected deleted instance of GongEnumValueShape "+gongenumvalueshape.Name,
 				)
 			}
 		}
@@ -349,13 +407,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongnotelinkshape := range stage.GongNoteLinkShapes {
-		if _, ok := stage.GongNoteLinkShapes_reference[gongnotelinkshape]; !ok {
+		if ref, ok := stage.GongNoteLinkShapes_reference[gongnotelinkshape]; !ok {
 			gongnotelinkshapes_newInstances = append(gongnotelinkshapes_newInstances, gongnotelinkshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongNoteLinkShape "+gongnotelinkshape.Name,
+					"Commit detected new instance of GongNoteLinkShape "+gongnotelinkshape.Name,
 				)
+			}
+		} else {
+			diffs := gongnotelinkshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongNoteLinkShape "+gongnotelinkshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -367,7 +436,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongNoteLinkShape "+gongnotelinkshape.Name,
+					"Commit detected deleted instance of GongNoteLinkShape "+gongnotelinkshape.Name,
 				)
 			}
 		}
@@ -380,13 +449,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongnoteshape := range stage.GongNoteShapes {
-		if _, ok := stage.GongNoteShapes_reference[gongnoteshape]; !ok {
+		if ref, ok := stage.GongNoteShapes_reference[gongnoteshape]; !ok {
 			gongnoteshapes_newInstances = append(gongnoteshapes_newInstances, gongnoteshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongNoteShape "+gongnoteshape.Name,
+					"Commit detected new instance of GongNoteShape "+gongnoteshape.Name,
 				)
+			}
+		} else {
+			diffs := gongnoteshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongNoteShape "+gongnoteshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -398,7 +478,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongNoteShape "+gongnoteshape.Name,
+					"Commit detected deleted instance of GongNoteShape "+gongnoteshape.Name,
 				)
 			}
 		}
@@ -411,13 +491,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gongstructshape := range stage.GongStructShapes {
-		if _, ok := stage.GongStructShapes_reference[gongstructshape]; !ok {
+		if ref, ok := stage.GongStructShapes_reference[gongstructshape]; !ok {
 			gongstructshapes_newInstances = append(gongstructshapes_newInstances, gongstructshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GongStructShape "+gongstructshape.Name,
+					"Commit detected new instance of GongStructShape "+gongstructshape.Name,
 				)
+			}
+		} else {
+			diffs := gongstructshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GongStructShape "+gongstructshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -429,7 +520,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GongStructShape "+gongstructshape.Name,
+					"Commit detected deleted instance of GongStructShape "+gongstructshape.Name,
 				)
 			}
 		}
@@ -442,13 +533,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for linkshape := range stage.LinkShapes {
-		if _, ok := stage.LinkShapes_reference[linkshape]; !ok {
+		if ref, ok := stage.LinkShapes_reference[linkshape]; !ok {
 			linkshapes_newInstances = append(linkshapes_newInstances, linkshape)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of LinkShape "+linkshape.Name,
+					"Commit detected new instance of LinkShape "+linkshape.Name,
 				)
+			}
+		} else {
+			diffs := linkshape.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of LinkShape "+linkshape.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -460,7 +562,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of LinkShape "+linkshape.Name,
+					"Commit detected deleted instance of LinkShape "+linkshape.Name,
 				)
 			}
 		}
@@ -469,7 +571,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(linkshapes_newInstances)
 	lenDeletedInstances += len(linkshapes_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -482,47 +584,47 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.AttributeShapes_reference = make(map[*AttributeShape]*AttributeShape)
 	for instance := range stage.AttributeShapes {
-		stage.AttributeShapes_reference[instance] = instance
+		stage.AttributeShapes_reference[instance] = instance.GongCopy().(*AttributeShape)
 	}
 
 	stage.Classdiagrams_reference = make(map[*Classdiagram]*Classdiagram)
 	for instance := range stage.Classdiagrams {
-		stage.Classdiagrams_reference[instance] = instance
+		stage.Classdiagrams_reference[instance] = instance.GongCopy().(*Classdiagram)
 	}
 
 	stage.DiagramPackages_reference = make(map[*DiagramPackage]*DiagramPackage)
 	for instance := range stage.DiagramPackages {
-		stage.DiagramPackages_reference[instance] = instance
+		stage.DiagramPackages_reference[instance] = instance.GongCopy().(*DiagramPackage)
 	}
 
 	stage.GongEnumShapes_reference = make(map[*GongEnumShape]*GongEnumShape)
 	for instance := range stage.GongEnumShapes {
-		stage.GongEnumShapes_reference[instance] = instance
+		stage.GongEnumShapes_reference[instance] = instance.GongCopy().(*GongEnumShape)
 	}
 
 	stage.GongEnumValueShapes_reference = make(map[*GongEnumValueShape]*GongEnumValueShape)
 	for instance := range stage.GongEnumValueShapes {
-		stage.GongEnumValueShapes_reference[instance] = instance
+		stage.GongEnumValueShapes_reference[instance] = instance.GongCopy().(*GongEnumValueShape)
 	}
 
 	stage.GongNoteLinkShapes_reference = make(map[*GongNoteLinkShape]*GongNoteLinkShape)
 	for instance := range stage.GongNoteLinkShapes {
-		stage.GongNoteLinkShapes_reference[instance] = instance
+		stage.GongNoteLinkShapes_reference[instance] = instance.GongCopy().(*GongNoteLinkShape)
 	}
 
 	stage.GongNoteShapes_reference = make(map[*GongNoteShape]*GongNoteShape)
 	for instance := range stage.GongNoteShapes {
-		stage.GongNoteShapes_reference[instance] = instance
+		stage.GongNoteShapes_reference[instance] = instance.GongCopy().(*GongNoteShape)
 	}
 
 	stage.GongStructShapes_reference = make(map[*GongStructShape]*GongStructShape)
 	for instance := range stage.GongStructShapes {
-		stage.GongStructShapes_reference[instance] = instance
+		stage.GongStructShapes_reference[instance] = instance.GongCopy().(*GongStructShape)
 	}
 
 	stage.LinkShapes_reference = make(map[*LinkShape]*LinkShape)
 	for instance := range stage.LinkShapes {
-		stage.LinkShapes_reference[instance] = instance
+		stage.LinkShapes_reference[instance] = instance.GongCopy().(*LinkShape)
 	}
 
 }

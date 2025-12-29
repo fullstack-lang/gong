@@ -941,7 +941,6 @@ func (stage *Stage) UnstageBranchSliceOfPointerToGongStructField(sliceofpointert
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -999,24 +998,24 @@ func (gongenum *GongEnum) GongDiff(gongenumOther *GongEnum) (diffs []string) {
 		diffs = append(diffs, "Type")
 	}
 	GongEnumValuesDifferent := false
-    if len(gongenum.GongEnumValues) != len(gongenumOther.GongEnumValues) {
-        GongEnumValuesDifferent = true
-    } else {
-        for i := range gongenum.GongEnumValues {
-            if (gongenum.GongEnumValues[i] == nil) != (gongenumOther.GongEnumValues[i] == nil) {
-                GongEnumValuesDifferent = true
-                break
-            } else if gongenum.GongEnumValues[i] != nil && gongenumOther.GongEnumValues[i] != nil {
-                if len(gongenum.GongEnumValues[i].GongDiff(gongenumOther.GongEnumValues[i])) > 0 {
-                    GongEnumValuesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongEnumValuesDifferent {
-        diffs = append(diffs, "GongEnumValues")
-    }
+	if len(gongenum.GongEnumValues) != len(gongenumOther.GongEnumValues) {
+		GongEnumValuesDifferent = true
+	} else {
+		for i := range gongenum.GongEnumValues {
+			if (gongenum.GongEnumValues[i] == nil) != (gongenumOther.GongEnumValues[i] == nil) {
+				GongEnumValuesDifferent = true
+				break
+			} else if gongenum.GongEnumValues[i] != nil && gongenumOther.GongEnumValues[i] != nil {
+				if len(gongenum.GongEnumValues[i].GongDiff(gongenumOther.GongEnumValues[i])) > 0 {
+					GongEnumValuesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongEnumValuesDifferent {
+		diffs = append(diffs, "GongEnumValues")
+	}
 
 	return
 }
@@ -1066,24 +1065,24 @@ func (gongnote *GongNote) GongDiff(gongnoteOther *GongNote) (diffs []string) {
 		diffs = append(diffs, "BodyHTML")
 	}
 	LinksDifferent := false
-    if len(gongnote.Links) != len(gongnoteOther.Links) {
-        LinksDifferent = true
-    } else {
-        for i := range gongnote.Links {
-            if (gongnote.Links[i] == nil) != (gongnoteOther.Links[i] == nil) {
-                LinksDifferent = true
-                break
-            } else if gongnote.Links[i] != nil && gongnoteOther.Links[i] != nil {
-                if len(gongnote.Links[i].GongDiff(gongnoteOther.Links[i])) > 0 {
-                    LinksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LinksDifferent {
-        diffs = append(diffs, "Links")
-    }
+	if len(gongnote.Links) != len(gongnoteOther.Links) {
+		LinksDifferent = true
+	} else {
+		for i := range gongnote.Links {
+			if (gongnote.Links[i] == nil) != (gongnoteOther.Links[i] == nil) {
+				LinksDifferent = true
+				break
+			} else if gongnote.Links[i] != nil && gongnoteOther.Links[i] != nil {
+				if len(gongnote.Links[i].GongDiff(gongnoteOther.Links[i])) > 0 {
+					LinksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LinksDifferent {
+		diffs = append(diffs, "Links")
+	}
 
 	return
 }
@@ -1096,81 +1095,81 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 		diffs = append(diffs, "Name")
 	}
 	GongBasicFieldsDifferent := false
-    if len(gongstruct.GongBasicFields) != len(gongstructOther.GongBasicFields) {
-        GongBasicFieldsDifferent = true
-    } else {
-        for i := range gongstruct.GongBasicFields {
-            if (gongstruct.GongBasicFields[i] == nil) != (gongstructOther.GongBasicFields[i] == nil) {
-                GongBasicFieldsDifferent = true
-                break
-            } else if gongstruct.GongBasicFields[i] != nil && gongstructOther.GongBasicFields[i] != nil {
-                if len(gongstruct.GongBasicFields[i].GongDiff(gongstructOther.GongBasicFields[i])) > 0 {
-                    GongBasicFieldsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongBasicFieldsDifferent {
-        diffs = append(diffs, "GongBasicFields")
-    }
+	if len(gongstruct.GongBasicFields) != len(gongstructOther.GongBasicFields) {
+		GongBasicFieldsDifferent = true
+	} else {
+		for i := range gongstruct.GongBasicFields {
+			if (gongstruct.GongBasicFields[i] == nil) != (gongstructOther.GongBasicFields[i] == nil) {
+				GongBasicFieldsDifferent = true
+				break
+			} else if gongstruct.GongBasicFields[i] != nil && gongstructOther.GongBasicFields[i] != nil {
+				if len(gongstruct.GongBasicFields[i].GongDiff(gongstructOther.GongBasicFields[i])) > 0 {
+					GongBasicFieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongBasicFieldsDifferent {
+		diffs = append(diffs, "GongBasicFields")
+	}
 	GongTimeFieldsDifferent := false
-    if len(gongstruct.GongTimeFields) != len(gongstructOther.GongTimeFields) {
-        GongTimeFieldsDifferent = true
-    } else {
-        for i := range gongstruct.GongTimeFields {
-            if (gongstruct.GongTimeFields[i] == nil) != (gongstructOther.GongTimeFields[i] == nil) {
-                GongTimeFieldsDifferent = true
-                break
-            } else if gongstruct.GongTimeFields[i] != nil && gongstructOther.GongTimeFields[i] != nil {
-                if len(gongstruct.GongTimeFields[i].GongDiff(gongstructOther.GongTimeFields[i])) > 0 {
-                    GongTimeFieldsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GongTimeFieldsDifferent {
-        diffs = append(diffs, "GongTimeFields")
-    }
+	if len(gongstruct.GongTimeFields) != len(gongstructOther.GongTimeFields) {
+		GongTimeFieldsDifferent = true
+	} else {
+		for i := range gongstruct.GongTimeFields {
+			if (gongstruct.GongTimeFields[i] == nil) != (gongstructOther.GongTimeFields[i] == nil) {
+				GongTimeFieldsDifferent = true
+				break
+			} else if gongstruct.GongTimeFields[i] != nil && gongstructOther.GongTimeFields[i] != nil {
+				if len(gongstruct.GongTimeFields[i].GongDiff(gongstructOther.GongTimeFields[i])) > 0 {
+					GongTimeFieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GongTimeFieldsDifferent {
+		diffs = append(diffs, "GongTimeFields")
+	}
 	PointerToGongStructFieldsDifferent := false
-    if len(gongstruct.PointerToGongStructFields) != len(gongstructOther.PointerToGongStructFields) {
-        PointerToGongStructFieldsDifferent = true
-    } else {
-        for i := range gongstruct.PointerToGongStructFields {
-            if (gongstruct.PointerToGongStructFields[i] == nil) != (gongstructOther.PointerToGongStructFields[i] == nil) {
-                PointerToGongStructFieldsDifferent = true
-                break
-            } else if gongstruct.PointerToGongStructFields[i] != nil && gongstructOther.PointerToGongStructFields[i] != nil {
-                if len(gongstruct.PointerToGongStructFields[i].GongDiff(gongstructOther.PointerToGongStructFields[i])) > 0 {
-                    PointerToGongStructFieldsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if PointerToGongStructFieldsDifferent {
-        diffs = append(diffs, "PointerToGongStructFields")
-    }
+	if len(gongstruct.PointerToGongStructFields) != len(gongstructOther.PointerToGongStructFields) {
+		PointerToGongStructFieldsDifferent = true
+	} else {
+		for i := range gongstruct.PointerToGongStructFields {
+			if (gongstruct.PointerToGongStructFields[i] == nil) != (gongstructOther.PointerToGongStructFields[i] == nil) {
+				PointerToGongStructFieldsDifferent = true
+				break
+			} else if gongstruct.PointerToGongStructFields[i] != nil && gongstructOther.PointerToGongStructFields[i] != nil {
+				if len(gongstruct.PointerToGongStructFields[i].GongDiff(gongstructOther.PointerToGongStructFields[i])) > 0 {
+					PointerToGongStructFieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PointerToGongStructFieldsDifferent {
+		diffs = append(diffs, "PointerToGongStructFields")
+	}
 	SliceOfPointerToGongStructFieldsDifferent := false
-    if len(gongstruct.SliceOfPointerToGongStructFields) != len(gongstructOther.SliceOfPointerToGongStructFields) {
-        SliceOfPointerToGongStructFieldsDifferent = true
-    } else {
-        for i := range gongstruct.SliceOfPointerToGongStructFields {
-            if (gongstruct.SliceOfPointerToGongStructFields[i] == nil) != (gongstructOther.SliceOfPointerToGongStructFields[i] == nil) {
-                SliceOfPointerToGongStructFieldsDifferent = true
-                break
-            } else if gongstruct.SliceOfPointerToGongStructFields[i] != nil && gongstructOther.SliceOfPointerToGongStructFields[i] != nil {
-                if len(gongstruct.SliceOfPointerToGongStructFields[i].GongDiff(gongstructOther.SliceOfPointerToGongStructFields[i])) > 0 {
-                    SliceOfPointerToGongStructFieldsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SliceOfPointerToGongStructFieldsDifferent {
-        diffs = append(diffs, "SliceOfPointerToGongStructFields")
-    }
+	if len(gongstruct.SliceOfPointerToGongStructFields) != len(gongstructOther.SliceOfPointerToGongStructFields) {
+		SliceOfPointerToGongStructFieldsDifferent = true
+	} else {
+		for i := range gongstruct.SliceOfPointerToGongStructFields {
+			if (gongstruct.SliceOfPointerToGongStructFields[i] == nil) != (gongstructOther.SliceOfPointerToGongStructFields[i] == nil) {
+				SliceOfPointerToGongStructFieldsDifferent = true
+				break
+			} else if gongstruct.SliceOfPointerToGongStructFields[i] != nil && gongstructOther.SliceOfPointerToGongStructFields[i] != nil {
+				if len(gongstruct.SliceOfPointerToGongStructFields[i].GongDiff(gongstructOther.SliceOfPointerToGongStructFields[i])) > 0 {
+					SliceOfPointerToGongStructFieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SliceOfPointerToGongStructFieldsDifferent {
+		diffs = append(diffs, "SliceOfPointerToGongStructFields")
+	}
 	if gongstruct.HasOnAfterUpdateSignature != gongstructOther.HasOnAfterUpdateSignature {
 		diffs = append(diffs, "HasOnAfterUpdateSignature")
 	}

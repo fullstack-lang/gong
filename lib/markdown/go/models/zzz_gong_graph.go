@@ -356,7 +356,6 @@ func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings

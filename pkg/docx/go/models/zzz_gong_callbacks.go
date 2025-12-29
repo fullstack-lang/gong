@@ -338,55 +338,39 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Body:
 		stage.OnAfterBodyUpdateCallback = any(callback).(OnAfterUpdateInterface[Body])
-	
 	case *Document:
 		stage.OnAfterDocumentUpdateCallback = any(callback).(OnAfterUpdateInterface[Document])
-	
 	case *Docx:
 		stage.OnAfterDocxUpdateCallback = any(callback).(OnAfterUpdateInterface[Docx])
-	
 	case *File:
 		stage.OnAfterFileUpdateCallback = any(callback).(OnAfterUpdateInterface[File])
-	
 	case *Node:
 		stage.OnAfterNodeUpdateCallback = any(callback).(OnAfterUpdateInterface[Node])
-	
 	case *Paragraph:
 		stage.OnAfterParagraphUpdateCallback = any(callback).(OnAfterUpdateInterface[Paragraph])
-	
 	case *ParagraphProperties:
 		stage.OnAfterParagraphPropertiesUpdateCallback = any(callback).(OnAfterUpdateInterface[ParagraphProperties])
-	
 	case *ParagraphStyle:
 		stage.OnAfterParagraphStyleUpdateCallback = any(callback).(OnAfterUpdateInterface[ParagraphStyle])
-	
 	case *Rune:
 		stage.OnAfterRuneUpdateCallback = any(callback).(OnAfterUpdateInterface[Rune])
-	
 	case *RuneProperties:
 		stage.OnAfterRunePropertiesUpdateCallback = any(callback).(OnAfterUpdateInterface[RuneProperties])
-	
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
-	
 	case *TableColumn:
 		stage.OnAfterTableColumnUpdateCallback = any(callback).(OnAfterUpdateInterface[TableColumn])
-	
 	case *TableProperties:
 		stage.OnAfterTablePropertiesUpdateCallback = any(callback).(OnAfterUpdateInterface[TableProperties])
-	
 	case *TableRow:
 		stage.OnAfterTableRowUpdateCallback = any(callback).(OnAfterUpdateInterface[TableRow])
-	
 	case *TableStyle:
 		stage.OnAfterTableStyleUpdateCallback = any(callback).(OnAfterUpdateInterface[TableStyle])
-	
 	case *Text:
 		stage.OnAfterTextUpdateCallback = any(callback).(OnAfterUpdateInterface[Text])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -396,52 +380,36 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Body:
 		stage.OnAfterBodyCreateCallback = any(callback).(OnAfterCreateInterface[Body])
-	
 	case *Document:
 		stage.OnAfterDocumentCreateCallback = any(callback).(OnAfterCreateInterface[Document])
-	
 	case *Docx:
 		stage.OnAfterDocxCreateCallback = any(callback).(OnAfterCreateInterface[Docx])
-	
 	case *File:
 		stage.OnAfterFileCreateCallback = any(callback).(OnAfterCreateInterface[File])
-	
 	case *Node:
 		stage.OnAfterNodeCreateCallback = any(callback).(OnAfterCreateInterface[Node])
-	
 	case *Paragraph:
 		stage.OnAfterParagraphCreateCallback = any(callback).(OnAfterCreateInterface[Paragraph])
-	
 	case *ParagraphProperties:
 		stage.OnAfterParagraphPropertiesCreateCallback = any(callback).(OnAfterCreateInterface[ParagraphProperties])
-	
 	case *ParagraphStyle:
 		stage.OnAfterParagraphStyleCreateCallback = any(callback).(OnAfterCreateInterface[ParagraphStyle])
-	
 	case *Rune:
 		stage.OnAfterRuneCreateCallback = any(callback).(OnAfterCreateInterface[Rune])
-	
 	case *RuneProperties:
 		stage.OnAfterRunePropertiesCreateCallback = any(callback).(OnAfterCreateInterface[RuneProperties])
-	
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
-	
 	case *TableColumn:
 		stage.OnAfterTableColumnCreateCallback = any(callback).(OnAfterCreateInterface[TableColumn])
-	
 	case *TableProperties:
 		stage.OnAfterTablePropertiesCreateCallback = any(callback).(OnAfterCreateInterface[TableProperties])
-	
 	case *TableRow:
 		stage.OnAfterTableRowCreateCallback = any(callback).(OnAfterCreateInterface[TableRow])
-	
 	case *TableStyle:
 		stage.OnAfterTableStyleCreateCallback = any(callback).(OnAfterCreateInterface[TableStyle])
-	
 	case *Text:
 		stage.OnAfterTextCreateCallback = any(callback).(OnAfterCreateInterface[Text])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -451,52 +419,36 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Body:
 		stage.OnAfterBodyDeleteCallback = any(callback).(OnAfterDeleteInterface[Body])
-	
 	case *Document:
 		stage.OnAfterDocumentDeleteCallback = any(callback).(OnAfterDeleteInterface[Document])
-	
 	case *Docx:
 		stage.OnAfterDocxDeleteCallback = any(callback).(OnAfterDeleteInterface[Docx])
-	
 	case *File:
 		stage.OnAfterFileDeleteCallback = any(callback).(OnAfterDeleteInterface[File])
-	
 	case *Node:
 		stage.OnAfterNodeDeleteCallback = any(callback).(OnAfterDeleteInterface[Node])
-	
 	case *Paragraph:
 		stage.OnAfterParagraphDeleteCallback = any(callback).(OnAfterDeleteInterface[Paragraph])
-	
 	case *ParagraphProperties:
 		stage.OnAfterParagraphPropertiesDeleteCallback = any(callback).(OnAfterDeleteInterface[ParagraphProperties])
-	
 	case *ParagraphStyle:
 		stage.OnAfterParagraphStyleDeleteCallback = any(callback).(OnAfterDeleteInterface[ParagraphStyle])
-	
 	case *Rune:
 		stage.OnAfterRuneDeleteCallback = any(callback).(OnAfterDeleteInterface[Rune])
-	
 	case *RuneProperties:
 		stage.OnAfterRunePropertiesDeleteCallback = any(callback).(OnAfterDeleteInterface[RuneProperties])
-	
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
-	
 	case *TableColumn:
 		stage.OnAfterTableColumnDeleteCallback = any(callback).(OnAfterDeleteInterface[TableColumn])
-	
 	case *TableProperties:
 		stage.OnAfterTablePropertiesDeleteCallback = any(callback).(OnAfterDeleteInterface[TableProperties])
-	
 	case *TableRow:
 		stage.OnAfterTableRowDeleteCallback = any(callback).(OnAfterDeleteInterface[TableRow])
-	
 	case *TableStyle:
 		stage.OnAfterTableStyleDeleteCallback = any(callback).(OnAfterDeleteInterface[TableStyle])
-	
 	case *Text:
 		stage.OnAfterTextDeleteCallback = any(callback).(OnAfterDeleteInterface[Text])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -506,51 +458,35 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Body:
 		stage.OnAfterBodyReadCallback = any(callback).(OnAfterReadInterface[Body])
-	
 	case *Document:
 		stage.OnAfterDocumentReadCallback = any(callback).(OnAfterReadInterface[Document])
-	
 	case *Docx:
 		stage.OnAfterDocxReadCallback = any(callback).(OnAfterReadInterface[Docx])
-	
 	case *File:
 		stage.OnAfterFileReadCallback = any(callback).(OnAfterReadInterface[File])
-	
 	case *Node:
 		stage.OnAfterNodeReadCallback = any(callback).(OnAfterReadInterface[Node])
-	
 	case *Paragraph:
 		stage.OnAfterParagraphReadCallback = any(callback).(OnAfterReadInterface[Paragraph])
-	
 	case *ParagraphProperties:
 		stage.OnAfterParagraphPropertiesReadCallback = any(callback).(OnAfterReadInterface[ParagraphProperties])
-	
 	case *ParagraphStyle:
 		stage.OnAfterParagraphStyleReadCallback = any(callback).(OnAfterReadInterface[ParagraphStyle])
-	
 	case *Rune:
 		stage.OnAfterRuneReadCallback = any(callback).(OnAfterReadInterface[Rune])
-	
 	case *RuneProperties:
 		stage.OnAfterRunePropertiesReadCallback = any(callback).(OnAfterReadInterface[RuneProperties])
-	
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
-	
 	case *TableColumn:
 		stage.OnAfterTableColumnReadCallback = any(callback).(OnAfterReadInterface[TableColumn])
-	
 	case *TableProperties:
 		stage.OnAfterTablePropertiesReadCallback = any(callback).(OnAfterReadInterface[TableProperties])
-	
 	case *TableRow:
 		stage.OnAfterTableRowReadCallback = any(callback).(OnAfterReadInterface[TableRow])
-	
 	case *TableStyle:
 		stage.OnAfterTableStyleReadCallback = any(callback).(OnAfterReadInterface[TableStyle])
-	
 	case *Text:
 		stage.OnAfterTextReadCallback = any(callback).(OnAfterReadInterface[Text])
-	
 	}
 }

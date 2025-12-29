@@ -1931,7 +1931,6 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -2088,43 +2087,43 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	FormFieldsDifferent := false
-    if len(formdiv.FormFields) != len(formdivOther.FormFields) {
-        FormFieldsDifferent = true
-    } else {
-        for i := range formdiv.FormFields {
-            if (formdiv.FormFields[i] == nil) != (formdivOther.FormFields[i] == nil) {
-                FormFieldsDifferent = true
-                break
-            } else if formdiv.FormFields[i] != nil && formdivOther.FormFields[i] != nil {
-                if len(formdiv.FormFields[i].GongDiff(formdivOther.FormFields[i])) > 0 {
-                    FormFieldsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if FormFieldsDifferent {
-        diffs = append(diffs, "FormFields")
-    }
+	if len(formdiv.FormFields) != len(formdivOther.FormFields) {
+		FormFieldsDifferent = true
+	} else {
+		for i := range formdiv.FormFields {
+			if (formdiv.FormFields[i] == nil) != (formdivOther.FormFields[i] == nil) {
+				FormFieldsDifferent = true
+				break
+			} else if formdiv.FormFields[i] != nil && formdivOther.FormFields[i] != nil {
+				if len(formdiv.FormFields[i].GongDiff(formdivOther.FormFields[i])) > 0 {
+					FormFieldsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FormFieldsDifferent {
+		diffs = append(diffs, "FormFields")
+	}
 	CheckBoxsDifferent := false
-    if len(formdiv.CheckBoxs) != len(formdivOther.CheckBoxs) {
-        CheckBoxsDifferent = true
-    } else {
-        for i := range formdiv.CheckBoxs {
-            if (formdiv.CheckBoxs[i] == nil) != (formdivOther.CheckBoxs[i] == nil) {
-                CheckBoxsDifferent = true
-                break
-            } else if formdiv.CheckBoxs[i] != nil && formdivOther.CheckBoxs[i] != nil {
-                if len(formdiv.CheckBoxs[i].GongDiff(formdivOther.CheckBoxs[i])) > 0 {
-                    CheckBoxsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if CheckBoxsDifferent {
-        diffs = append(diffs, "CheckBoxs")
-    }
+	if len(formdiv.CheckBoxs) != len(formdivOther.CheckBoxs) {
+		CheckBoxsDifferent = true
+	} else {
+		for i := range formdiv.CheckBoxs {
+			if (formdiv.CheckBoxs[i] == nil) != (formdivOther.CheckBoxs[i] == nil) {
+				CheckBoxsDifferent = true
+				break
+			} else if formdiv.CheckBoxs[i] != nil && formdivOther.CheckBoxs[i] != nil {
+				if len(formdiv.CheckBoxs[i].GongDiff(formdivOther.CheckBoxs[i])) > 0 {
+					CheckBoxsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CheckBoxsDifferent {
+		diffs = append(diffs, "CheckBoxs")
+	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
 		diffs = append(diffs, "FormEditAssocButton")
 	} else if formdiv.FormEditAssocButton != nil && formdivOther.FormEditAssocButton != nil {
@@ -2345,24 +2344,24 @@ func (formfieldselect *FormFieldSelect) GongDiff(formfieldselectOther *FormField
 		}
 	}
 	OptionsDifferent := false
-    if len(formfieldselect.Options) != len(formfieldselectOther.Options) {
-        OptionsDifferent = true
-    } else {
-        for i := range formfieldselect.Options {
-            if (formfieldselect.Options[i] == nil) != (formfieldselectOther.Options[i] == nil) {
-                OptionsDifferent = true
-                break
-            } else if formfieldselect.Options[i] != nil && formfieldselectOther.Options[i] != nil {
-                if len(formfieldselect.Options[i].GongDiff(formfieldselectOther.Options[i])) > 0 {
-                    OptionsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if OptionsDifferent {
-        diffs = append(diffs, "Options")
-    }
+	if len(formfieldselect.Options) != len(formfieldselectOther.Options) {
+		OptionsDifferent = true
+	} else {
+		for i := range formfieldselect.Options {
+			if (formfieldselect.Options[i] == nil) != (formfieldselectOther.Options[i] == nil) {
+				OptionsDifferent = true
+				break
+			} else if formfieldselect.Options[i] != nil && formfieldselectOther.Options[i] != nil {
+				if len(formfieldselect.Options[i].GongDiff(formfieldselectOther.Options[i])) > 0 {
+					OptionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if OptionsDifferent {
+		diffs = append(diffs, "Options")
+	}
 	if formfieldselect.CanBeEmpty != formfieldselectOther.CanBeEmpty {
 		diffs = append(diffs, "CanBeEmpty")
 	}
@@ -2415,24 +2414,24 @@ func (formgroup *FormGroup) GongDiff(formgroupOther *FormGroup) (diffs []string)
 		diffs = append(diffs, "Label")
 	}
 	FormDivsDifferent := false
-    if len(formgroup.FormDivs) != len(formgroupOther.FormDivs) {
-        FormDivsDifferent = true
-    } else {
-        for i := range formgroup.FormDivs {
-            if (formgroup.FormDivs[i] == nil) != (formgroupOther.FormDivs[i] == nil) {
-                FormDivsDifferent = true
-                break
-            } else if formgroup.FormDivs[i] != nil && formgroupOther.FormDivs[i] != nil {
-                if len(formgroup.FormDivs[i].GongDiff(formgroupOther.FormDivs[i])) > 0 {
-                    FormDivsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if FormDivsDifferent {
-        diffs = append(diffs, "FormDivs")
-    }
+	if len(formgroup.FormDivs) != len(formgroupOther.FormDivs) {
+		FormDivsDifferent = true
+	} else {
+		for i := range formgroup.FormDivs {
+			if (formgroup.FormDivs[i] == nil) != (formgroupOther.FormDivs[i] == nil) {
+				FormDivsDifferent = true
+				break
+			} else if formgroup.FormDivs[i] != nil && formgroupOther.FormDivs[i] != nil {
+				if len(formgroup.FormDivs[i].GongDiff(formgroupOther.FormDivs[i])) > 0 {
+					FormDivsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FormDivsDifferent {
+		diffs = append(diffs, "FormDivs")
+	}
 	if formgroup.HasSuppressButton != formgroupOther.HasSuppressButton {
 		diffs = append(diffs, "HasSuppressButton")
 	}
@@ -2492,24 +2491,24 @@ func (row *Row) GongDiff(rowOther *Row) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	CellsDifferent := false
-    if len(row.Cells) != len(rowOther.Cells) {
-        CellsDifferent = true
-    } else {
-        for i := range row.Cells {
-            if (row.Cells[i] == nil) != (rowOther.Cells[i] == nil) {
-                CellsDifferent = true
-                break
-            } else if row.Cells[i] != nil && rowOther.Cells[i] != nil {
-                if len(row.Cells[i].GongDiff(rowOther.Cells[i])) > 0 {
-                    CellsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if CellsDifferent {
-        diffs = append(diffs, "Cells")
-    }
+	if len(row.Cells) != len(rowOther.Cells) {
+		CellsDifferent = true
+	} else {
+		for i := range row.Cells {
+			if (row.Cells[i] == nil) != (rowOther.Cells[i] == nil) {
+				CellsDifferent = true
+				break
+			} else if row.Cells[i] != nil && rowOther.Cells[i] != nil {
+				if len(row.Cells[i].GongDiff(rowOther.Cells[i])) > 0 {
+					CellsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CellsDifferent {
+		diffs = append(diffs, "Cells")
+	}
 	if row.IsChecked != rowOther.IsChecked {
 		diffs = append(diffs, "IsChecked")
 	}
@@ -2525,43 +2524,43 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	DisplayedColumnsDifferent := false
-    if len(table.DisplayedColumns) != len(tableOther.DisplayedColumns) {
-        DisplayedColumnsDifferent = true
-    } else {
-        for i := range table.DisplayedColumns {
-            if (table.DisplayedColumns[i] == nil) != (tableOther.DisplayedColumns[i] == nil) {
-                DisplayedColumnsDifferent = true
-                break
-            } else if table.DisplayedColumns[i] != nil && tableOther.DisplayedColumns[i] != nil {
-                if len(table.DisplayedColumns[i].GongDiff(tableOther.DisplayedColumns[i])) > 0 {
-                    DisplayedColumnsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DisplayedColumnsDifferent {
-        diffs = append(diffs, "DisplayedColumns")
-    }
+	if len(table.DisplayedColumns) != len(tableOther.DisplayedColumns) {
+		DisplayedColumnsDifferent = true
+	} else {
+		for i := range table.DisplayedColumns {
+			if (table.DisplayedColumns[i] == nil) != (tableOther.DisplayedColumns[i] == nil) {
+				DisplayedColumnsDifferent = true
+				break
+			} else if table.DisplayedColumns[i] != nil && tableOther.DisplayedColumns[i] != nil {
+				if len(table.DisplayedColumns[i].GongDiff(tableOther.DisplayedColumns[i])) > 0 {
+					DisplayedColumnsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DisplayedColumnsDifferent {
+		diffs = append(diffs, "DisplayedColumns")
+	}
 	RowsDifferent := false
-    if len(table.Rows) != len(tableOther.Rows) {
-        RowsDifferent = true
-    } else {
-        for i := range table.Rows {
-            if (table.Rows[i] == nil) != (tableOther.Rows[i] == nil) {
-                RowsDifferent = true
-                break
-            } else if table.Rows[i] != nil && tableOther.Rows[i] != nil {
-                if len(table.Rows[i].GongDiff(tableOther.Rows[i])) > 0 {
-                    RowsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RowsDifferent {
-        diffs = append(diffs, "Rows")
-    }
+	if len(table.Rows) != len(tableOther.Rows) {
+		RowsDifferent = true
+	} else {
+		for i := range table.Rows {
+			if (table.Rows[i] == nil) != (tableOther.Rows[i] == nil) {
+				RowsDifferent = true
+				break
+			} else if table.Rows[i] != nil && tableOther.Rows[i] != nil {
+				if len(table.Rows[i].GongDiff(tableOther.Rows[i])) > 0 {
+					RowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RowsDifferent {
+		diffs = append(diffs, "Rows")
+	}
 	if table.HasFiltering != tableOther.HasFiltering {
 		diffs = append(diffs, "HasFiltering")
 	}

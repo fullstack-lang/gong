@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -185,7 +189,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (body *Body) GongCopy() GongstructIF {
 	newInstance := *body
@@ -267,24 +270,35 @@ func (text *Text) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var bodys_newInstances []*Body
 	var bodys_deletedInstances []*Body
 
 	// parse all staged instances and check if they have a reference
 	for body := range stage.Bodys {
-		if _, ok := stage.Bodys_reference[body]; !ok {
+		if ref, ok := stage.Bodys_reference[body]; !ok {
 			bodys_newInstances = append(bodys_newInstances, body)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Body "+body.Name,
+					"Commit detected new instance of Body "+body.Name,
 				)
+			}
+		} else {
+			diffs := body.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Body "+body.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -296,7 +310,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Body "+body.Name,
+					"Commit detected deleted instance of Body "+body.Name,
 				)
 			}
 		}
@@ -309,13 +323,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for document := range stage.Documents {
-		if _, ok := stage.Documents_reference[document]; !ok {
+		if ref, ok := stage.Documents_reference[document]; !ok {
 			documents_newInstances = append(documents_newInstances, document)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Document "+document.Name,
+					"Commit detected new instance of Document "+document.Name,
 				)
+			}
+		} else {
+			diffs := document.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Document "+document.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -327,7 +352,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Document "+document.Name,
+					"Commit detected deleted instance of Document "+document.Name,
 				)
 			}
 		}
@@ -340,13 +365,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for docx := range stage.Docxs {
-		if _, ok := stage.Docxs_reference[docx]; !ok {
+		if ref, ok := stage.Docxs_reference[docx]; !ok {
 			docxs_newInstances = append(docxs_newInstances, docx)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Docx "+docx.Name,
+					"Commit detected new instance of Docx "+docx.Name,
 				)
+			}
+		} else {
+			diffs := docx.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Docx "+docx.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -358,7 +394,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Docx "+docx.Name,
+					"Commit detected deleted instance of Docx "+docx.Name,
 				)
 			}
 		}
@@ -371,13 +407,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for file := range stage.Files {
-		if _, ok := stage.Files_reference[file]; !ok {
+		if ref, ok := stage.Files_reference[file]; !ok {
 			files_newInstances = append(files_newInstances, file)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of File "+file.Name,
+					"Commit detected new instance of File "+file.Name,
 				)
+			}
+		} else {
+			diffs := file.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of File "+file.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -389,7 +436,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of File "+file.Name,
+					"Commit detected deleted instance of File "+file.Name,
 				)
 			}
 		}
@@ -402,13 +449,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for node := range stage.Nodes {
-		if _, ok := stage.Nodes_reference[node]; !ok {
+		if ref, ok := stage.Nodes_reference[node]; !ok {
 			nodes_newInstances = append(nodes_newInstances, node)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Node "+node.Name,
+					"Commit detected new instance of Node "+node.Name,
 				)
+			}
+		} else {
+			diffs := node.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Node "+node.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -420,7 +478,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Node "+node.Name,
+					"Commit detected deleted instance of Node "+node.Name,
 				)
 			}
 		}
@@ -433,13 +491,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for paragraph := range stage.Paragraphs {
-		if _, ok := stage.Paragraphs_reference[paragraph]; !ok {
+		if ref, ok := stage.Paragraphs_reference[paragraph]; !ok {
 			paragraphs_newInstances = append(paragraphs_newInstances, paragraph)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Paragraph "+paragraph.Name,
+					"Commit detected new instance of Paragraph "+paragraph.Name,
 				)
+			}
+		} else {
+			diffs := paragraph.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Paragraph "+paragraph.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -451,7 +520,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Paragraph "+paragraph.Name,
+					"Commit detected deleted instance of Paragraph "+paragraph.Name,
 				)
 			}
 		}
@@ -464,13 +533,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for paragraphproperties := range stage.ParagraphPropertiess {
-		if _, ok := stage.ParagraphPropertiess_reference[paragraphproperties]; !ok {
+		if ref, ok := stage.ParagraphPropertiess_reference[paragraphproperties]; !ok {
 			paragraphpropertiess_newInstances = append(paragraphpropertiess_newInstances, paragraphproperties)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of ParagraphProperties "+paragraphproperties.Name,
+					"Commit detected new instance of ParagraphProperties "+paragraphproperties.Name,
 				)
+			}
+		} else {
+			diffs := paragraphproperties.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of ParagraphProperties "+paragraphproperties.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -482,7 +562,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of ParagraphProperties "+paragraphproperties.Name,
+					"Commit detected deleted instance of ParagraphProperties "+paragraphproperties.Name,
 				)
 			}
 		}
@@ -495,13 +575,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for paragraphstyle := range stage.ParagraphStyles {
-		if _, ok := stage.ParagraphStyles_reference[paragraphstyle]; !ok {
+		if ref, ok := stage.ParagraphStyles_reference[paragraphstyle]; !ok {
 			paragraphstyles_newInstances = append(paragraphstyles_newInstances, paragraphstyle)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of ParagraphStyle "+paragraphstyle.Name,
+					"Commit detected new instance of ParagraphStyle "+paragraphstyle.Name,
 				)
+			}
+		} else {
+			diffs := paragraphstyle.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of ParagraphStyle "+paragraphstyle.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -513,7 +604,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of ParagraphStyle "+paragraphstyle.Name,
+					"Commit detected deleted instance of ParagraphStyle "+paragraphstyle.Name,
 				)
 			}
 		}
@@ -526,13 +617,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for rune := range stage.Runes {
-		if _, ok := stage.Runes_reference[rune]; !ok {
+		if ref, ok := stage.Runes_reference[rune]; !ok {
 			runes_newInstances = append(runes_newInstances, rune)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Rune "+rune.Name,
+					"Commit detected new instance of Rune "+rune.Name,
 				)
+			}
+		} else {
+			diffs := rune.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Rune "+rune.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -544,7 +646,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Rune "+rune.Name,
+					"Commit detected deleted instance of Rune "+rune.Name,
 				)
 			}
 		}
@@ -557,13 +659,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for runeproperties := range stage.RunePropertiess {
-		if _, ok := stage.RunePropertiess_reference[runeproperties]; !ok {
+		if ref, ok := stage.RunePropertiess_reference[runeproperties]; !ok {
 			runepropertiess_newInstances = append(runepropertiess_newInstances, runeproperties)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of RuneProperties "+runeproperties.Name,
+					"Commit detected new instance of RuneProperties "+runeproperties.Name,
 				)
+			}
+		} else {
+			diffs := runeproperties.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of RuneProperties "+runeproperties.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -575,7 +688,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of RuneProperties "+runeproperties.Name,
+					"Commit detected deleted instance of RuneProperties "+runeproperties.Name,
 				)
 			}
 		}
@@ -588,13 +701,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for table := range stage.Tables {
-		if _, ok := stage.Tables_reference[table]; !ok {
+		if ref, ok := stage.Tables_reference[table]; !ok {
 			tables_newInstances = append(tables_newInstances, table)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Table "+table.Name,
+					"Commit detected new instance of Table "+table.Name,
 				)
+			}
+		} else {
+			diffs := table.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Table "+table.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -606,7 +730,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Table "+table.Name,
+					"Commit detected deleted instance of Table "+table.Name,
 				)
 			}
 		}
@@ -619,13 +743,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for tablecolumn := range stage.TableColumns {
-		if _, ok := stage.TableColumns_reference[tablecolumn]; !ok {
+		if ref, ok := stage.TableColumns_reference[tablecolumn]; !ok {
 			tablecolumns_newInstances = append(tablecolumns_newInstances, tablecolumn)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of TableColumn "+tablecolumn.Name,
+					"Commit detected new instance of TableColumn "+tablecolumn.Name,
 				)
+			}
+		} else {
+			diffs := tablecolumn.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of TableColumn "+tablecolumn.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -637,7 +772,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of TableColumn "+tablecolumn.Name,
+					"Commit detected deleted instance of TableColumn "+tablecolumn.Name,
 				)
 			}
 		}
@@ -650,13 +785,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for tableproperties := range stage.TablePropertiess {
-		if _, ok := stage.TablePropertiess_reference[tableproperties]; !ok {
+		if ref, ok := stage.TablePropertiess_reference[tableproperties]; !ok {
 			tablepropertiess_newInstances = append(tablepropertiess_newInstances, tableproperties)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of TableProperties "+tableproperties.Name,
+					"Commit detected new instance of TableProperties "+tableproperties.Name,
 				)
+			}
+		} else {
+			diffs := tableproperties.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of TableProperties "+tableproperties.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -668,7 +814,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of TableProperties "+tableproperties.Name,
+					"Commit detected deleted instance of TableProperties "+tableproperties.Name,
 				)
 			}
 		}
@@ -681,13 +827,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for tablerow := range stage.TableRows {
-		if _, ok := stage.TableRows_reference[tablerow]; !ok {
+		if ref, ok := stage.TableRows_reference[tablerow]; !ok {
 			tablerows_newInstances = append(tablerows_newInstances, tablerow)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of TableRow "+tablerow.Name,
+					"Commit detected new instance of TableRow "+tablerow.Name,
 				)
+			}
+		} else {
+			diffs := tablerow.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of TableRow "+tablerow.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -699,7 +856,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of TableRow "+tablerow.Name,
+					"Commit detected deleted instance of TableRow "+tablerow.Name,
 				)
 			}
 		}
@@ -712,13 +869,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for tablestyle := range stage.TableStyles {
-		if _, ok := stage.TableStyles_reference[tablestyle]; !ok {
+		if ref, ok := stage.TableStyles_reference[tablestyle]; !ok {
 			tablestyles_newInstances = append(tablestyles_newInstances, tablestyle)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of TableStyle "+tablestyle.Name,
+					"Commit detected new instance of TableStyle "+tablestyle.Name,
 				)
+			}
+		} else {
+			diffs := tablestyle.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of TableStyle "+tablestyle.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -730,7 +898,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of TableStyle "+tablestyle.Name,
+					"Commit detected deleted instance of TableStyle "+tablestyle.Name,
 				)
 			}
 		}
@@ -743,13 +911,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for text := range stage.Texts {
-		if _, ok := stage.Texts_reference[text]; !ok {
+		if ref, ok := stage.Texts_reference[text]; !ok {
 			texts_newInstances = append(texts_newInstances, text)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Text "+text.Name,
+					"Commit detected new instance of Text "+text.Name,
 				)
+			}
+		} else {
+			diffs := text.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Text "+text.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -761,7 +940,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Text "+text.Name,
+					"Commit detected deleted instance of Text "+text.Name,
 				)
 			}
 		}
@@ -770,7 +949,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(texts_newInstances)
 	lenDeletedInstances += len(texts_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -783,82 +962,82 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Bodys_reference = make(map[*Body]*Body)
 	for instance := range stage.Bodys {
-		stage.Bodys_reference[instance] = instance
+		stage.Bodys_reference[instance] = instance.GongCopy().(*Body)
 	}
 
 	stage.Documents_reference = make(map[*Document]*Document)
 	for instance := range stage.Documents {
-		stage.Documents_reference[instance] = instance
+		stage.Documents_reference[instance] = instance.GongCopy().(*Document)
 	}
 
 	stage.Docxs_reference = make(map[*Docx]*Docx)
 	for instance := range stage.Docxs {
-		stage.Docxs_reference[instance] = instance
+		stage.Docxs_reference[instance] = instance.GongCopy().(*Docx)
 	}
 
 	stage.Files_reference = make(map[*File]*File)
 	for instance := range stage.Files {
-		stage.Files_reference[instance] = instance
+		stage.Files_reference[instance] = instance.GongCopy().(*File)
 	}
 
 	stage.Nodes_reference = make(map[*Node]*Node)
 	for instance := range stage.Nodes {
-		stage.Nodes_reference[instance] = instance
+		stage.Nodes_reference[instance] = instance.GongCopy().(*Node)
 	}
 
 	stage.Paragraphs_reference = make(map[*Paragraph]*Paragraph)
 	for instance := range stage.Paragraphs {
-		stage.Paragraphs_reference[instance] = instance
+		stage.Paragraphs_reference[instance] = instance.GongCopy().(*Paragraph)
 	}
 
 	stage.ParagraphPropertiess_reference = make(map[*ParagraphProperties]*ParagraphProperties)
 	for instance := range stage.ParagraphPropertiess {
-		stage.ParagraphPropertiess_reference[instance] = instance
+		stage.ParagraphPropertiess_reference[instance] = instance.GongCopy().(*ParagraphProperties)
 	}
 
 	stage.ParagraphStyles_reference = make(map[*ParagraphStyle]*ParagraphStyle)
 	for instance := range stage.ParagraphStyles {
-		stage.ParagraphStyles_reference[instance] = instance
+		stage.ParagraphStyles_reference[instance] = instance.GongCopy().(*ParagraphStyle)
 	}
 
 	stage.Runes_reference = make(map[*Rune]*Rune)
 	for instance := range stage.Runes {
-		stage.Runes_reference[instance] = instance
+		stage.Runes_reference[instance] = instance.GongCopy().(*Rune)
 	}
 
 	stage.RunePropertiess_reference = make(map[*RuneProperties]*RuneProperties)
 	for instance := range stage.RunePropertiess {
-		stage.RunePropertiess_reference[instance] = instance
+		stage.RunePropertiess_reference[instance] = instance.GongCopy().(*RuneProperties)
 	}
 
 	stage.Tables_reference = make(map[*Table]*Table)
 	for instance := range stage.Tables {
-		stage.Tables_reference[instance] = instance
+		stage.Tables_reference[instance] = instance.GongCopy().(*Table)
 	}
 
 	stage.TableColumns_reference = make(map[*TableColumn]*TableColumn)
 	for instance := range stage.TableColumns {
-		stage.TableColumns_reference[instance] = instance
+		stage.TableColumns_reference[instance] = instance.GongCopy().(*TableColumn)
 	}
 
 	stage.TablePropertiess_reference = make(map[*TableProperties]*TableProperties)
 	for instance := range stage.TablePropertiess {
-		stage.TablePropertiess_reference[instance] = instance
+		stage.TablePropertiess_reference[instance] = instance.GongCopy().(*TableProperties)
 	}
 
 	stage.TableRows_reference = make(map[*TableRow]*TableRow)
 	for instance := range stage.TableRows {
-		stage.TableRows_reference[instance] = instance
+		stage.TableRows_reference[instance] = instance.GongCopy().(*TableRow)
 	}
 
 	stage.TableStyles_reference = make(map[*TableStyle]*TableStyle)
 	for instance := range stage.TableStyles {
-		stage.TableStyles_reference[instance] = instance
+		stage.TableStyles_reference[instance] = instance.GongCopy().(*TableStyle)
 	}
 
 	stage.Texts_reference = make(map[*Text]*Text)
 	for instance := range stage.Texts {
-		stage.Texts_reference[instance] = instance
+		stage.Texts_reference[instance] = instance.GongCopy().(*Text)
 	}
 
 }

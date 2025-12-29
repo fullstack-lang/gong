@@ -176,28 +176,21 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Arrow:
 		stage.OnAfterArrowUpdateCallback = any(callback).(OnAfterUpdateInterface[Arrow])
-	
 	case *Bar:
 		stage.OnAfterBarUpdateCallback = any(callback).(OnAfterUpdateInterface[Bar])
-	
 	case *Gantt:
 		stage.OnAfterGanttUpdateCallback = any(callback).(OnAfterUpdateInterface[Gantt])
-	
 	case *Group:
 		stage.OnAfterGroupUpdateCallback = any(callback).(OnAfterUpdateInterface[Group])
-	
 	case *Lane:
 		stage.OnAfterLaneUpdateCallback = any(callback).(OnAfterUpdateInterface[Lane])
-	
 	case *LaneUse:
 		stage.OnAfterLaneUseUpdateCallback = any(callback).(OnAfterUpdateInterface[LaneUse])
-	
 	case *Milestone:
 		stage.OnAfterMilestoneUpdateCallback = any(callback).(OnAfterUpdateInterface[Milestone])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -207,25 +200,18 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Arrow:
 		stage.OnAfterArrowCreateCallback = any(callback).(OnAfterCreateInterface[Arrow])
-	
 	case *Bar:
 		stage.OnAfterBarCreateCallback = any(callback).(OnAfterCreateInterface[Bar])
-	
 	case *Gantt:
 		stage.OnAfterGanttCreateCallback = any(callback).(OnAfterCreateInterface[Gantt])
-	
 	case *Group:
 		stage.OnAfterGroupCreateCallback = any(callback).(OnAfterCreateInterface[Group])
-	
 	case *Lane:
 		stage.OnAfterLaneCreateCallback = any(callback).(OnAfterCreateInterface[Lane])
-	
 	case *LaneUse:
 		stage.OnAfterLaneUseCreateCallback = any(callback).(OnAfterCreateInterface[LaneUse])
-	
 	case *Milestone:
 		stage.OnAfterMilestoneCreateCallback = any(callback).(OnAfterCreateInterface[Milestone])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -235,25 +221,18 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Arrow:
 		stage.OnAfterArrowDeleteCallback = any(callback).(OnAfterDeleteInterface[Arrow])
-	
 	case *Bar:
 		stage.OnAfterBarDeleteCallback = any(callback).(OnAfterDeleteInterface[Bar])
-	
 	case *Gantt:
 		stage.OnAfterGanttDeleteCallback = any(callback).(OnAfterDeleteInterface[Gantt])
-	
 	case *Group:
 		stage.OnAfterGroupDeleteCallback = any(callback).(OnAfterDeleteInterface[Group])
-	
 	case *Lane:
 		stage.OnAfterLaneDeleteCallback = any(callback).(OnAfterDeleteInterface[Lane])
-	
 	case *LaneUse:
 		stage.OnAfterLaneUseDeleteCallback = any(callback).(OnAfterDeleteInterface[LaneUse])
-	
 	case *Milestone:
 		stage.OnAfterMilestoneDeleteCallback = any(callback).(OnAfterDeleteInterface[Milestone])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -263,24 +242,17 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Arrow:
 		stage.OnAfterArrowReadCallback = any(callback).(OnAfterReadInterface[Arrow])
-	
 	case *Bar:
 		stage.OnAfterBarReadCallback = any(callback).(OnAfterReadInterface[Bar])
-	
 	case *Gantt:
 		stage.OnAfterGanttReadCallback = any(callback).(OnAfterReadInterface[Gantt])
-	
 	case *Group:
 		stage.OnAfterGroupReadCallback = any(callback).(OnAfterReadInterface[Group])
-	
 	case *Lane:
 		stage.OnAfterLaneReadCallback = any(callback).(OnAfterReadInterface[Lane])
-	
 	case *LaneUse:
 		stage.OnAfterLaneUseReadCallback = any(callback).(OnAfterReadInterface[LaneUse])
-	
 	case *Milestone:
 		stage.OnAfterMilestoneReadCallback = any(callback).(OnAfterReadInterface[Milestone])
-	
 	}
 }
