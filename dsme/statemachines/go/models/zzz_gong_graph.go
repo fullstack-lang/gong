@@ -1382,7 +1382,6 @@ func (stage *Stage) UnstageBranchTransition_Shape(transition_shape *Transition_S
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1420,43 +1419,43 @@ func (architecture *Architecture) GongDiff(architectureOther *Architecture) (dif
 		diffs = append(diffs, "Name")
 	}
 	StateMachinesDifferent := false
-    if len(architecture.StateMachines) != len(architectureOther.StateMachines) {
-        StateMachinesDifferent = true
-    } else {
-        for i := range architecture.StateMachines {
-            if (architecture.StateMachines[i] == nil) != (architectureOther.StateMachines[i] == nil) {
-                StateMachinesDifferent = true
-                break
-            } else if architecture.StateMachines[i] != nil && architectureOther.StateMachines[i] != nil {
-                if len(architecture.StateMachines[i].GongDiff(architectureOther.StateMachines[i])) > 0 {
-                    StateMachinesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if StateMachinesDifferent {
-        diffs = append(diffs, "StateMachines")
-    }
+	if len(architecture.StateMachines) != len(architectureOther.StateMachines) {
+		StateMachinesDifferent = true
+	} else {
+		for i := range architecture.StateMachines {
+			if (architecture.StateMachines[i] == nil) != (architectureOther.StateMachines[i] == nil) {
+				StateMachinesDifferent = true
+				break
+			} else if architecture.StateMachines[i] != nil && architectureOther.StateMachines[i] != nil {
+				if len(architecture.StateMachines[i].GongDiff(architectureOther.StateMachines[i])) > 0 {
+					StateMachinesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StateMachinesDifferent {
+		diffs = append(diffs, "StateMachines")
+	}
 	RolesDifferent := false
-    if len(architecture.Roles) != len(architectureOther.Roles) {
-        RolesDifferent = true
-    } else {
-        for i := range architecture.Roles {
-            if (architecture.Roles[i] == nil) != (architectureOther.Roles[i] == nil) {
-                RolesDifferent = true
-                break
-            } else if architecture.Roles[i] != nil && architectureOther.Roles[i] != nil {
-                if len(architecture.Roles[i].GongDiff(architectureOther.Roles[i])) > 0 {
-                    RolesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RolesDifferent {
-        diffs = append(diffs, "Roles")
-    }
+	if len(architecture.Roles) != len(architectureOther.Roles) {
+		RolesDifferent = true
+	} else {
+		for i := range architecture.Roles {
+			if (architecture.Roles[i] == nil) != (architectureOther.Roles[i] == nil) {
+				RolesDifferent = true
+				break
+			} else if architecture.Roles[i] != nil && architectureOther.Roles[i] != nil {
+				if len(architecture.Roles[i].GongDiff(architectureOther.Roles[i])) > 0 {
+					RolesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RolesDifferent {
+		diffs = append(diffs, "Roles")
+	}
 	if architecture.NbPixPerCharacter != architectureOther.NbPixPerCharacter {
 		diffs = append(diffs, "NbPixPerCharacter")
 	}
@@ -1484,43 +1483,43 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		diffs = append(diffs, "IsInRenameMode")
 	}
 	State_ShapesDifferent := false
-    if len(diagram.State_Shapes) != len(diagramOther.State_Shapes) {
-        State_ShapesDifferent = true
-    } else {
-        for i := range diagram.State_Shapes {
-            if (diagram.State_Shapes[i] == nil) != (diagramOther.State_Shapes[i] == nil) {
-                State_ShapesDifferent = true
-                break
-            } else if diagram.State_Shapes[i] != nil && diagramOther.State_Shapes[i] != nil {
-                if len(diagram.State_Shapes[i].GongDiff(diagramOther.State_Shapes[i])) > 0 {
-                    State_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if State_ShapesDifferent {
-        diffs = append(diffs, "State_Shapes")
-    }
+	if len(diagram.State_Shapes) != len(diagramOther.State_Shapes) {
+		State_ShapesDifferent = true
+	} else {
+		for i := range diagram.State_Shapes {
+			if (diagram.State_Shapes[i] == nil) != (diagramOther.State_Shapes[i] == nil) {
+				State_ShapesDifferent = true
+				break
+			} else if diagram.State_Shapes[i] != nil && diagramOther.State_Shapes[i] != nil {
+				if len(diagram.State_Shapes[i].GongDiff(diagramOther.State_Shapes[i])) > 0 {
+					State_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if State_ShapesDifferent {
+		diffs = append(diffs, "State_Shapes")
+	}
 	Transition_ShapesDifferent := false
-    if len(diagram.Transition_Shapes) != len(diagramOther.Transition_Shapes) {
-        Transition_ShapesDifferent = true
-    } else {
-        for i := range diagram.Transition_Shapes {
-            if (diagram.Transition_Shapes[i] == nil) != (diagramOther.Transition_Shapes[i] == nil) {
-                Transition_ShapesDifferent = true
-                break
-            } else if diagram.Transition_Shapes[i] != nil && diagramOther.Transition_Shapes[i] != nil {
-                if len(diagram.Transition_Shapes[i].GongDiff(diagramOther.Transition_Shapes[i])) > 0 {
-                    Transition_ShapesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Transition_ShapesDifferent {
-        diffs = append(diffs, "Transition_Shapes")
-    }
+	if len(diagram.Transition_Shapes) != len(diagramOther.Transition_Shapes) {
+		Transition_ShapesDifferent = true
+	} else {
+		for i := range diagram.Transition_Shapes {
+			if (diagram.Transition_Shapes[i] == nil) != (diagramOther.Transition_Shapes[i] == nil) {
+				Transition_ShapesDifferent = true
+				break
+			} else if diagram.Transition_Shapes[i] != nil && diagramOther.Transition_Shapes[i] != nil {
+				if len(diagram.Transition_Shapes[i].GongDiff(diagramOther.Transition_Shapes[i])) > 0 {
+					Transition_ShapesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Transition_ShapesDifferent {
+		diffs = append(diffs, "Transition_Shapes")
+	}
 
 	return
 }
@@ -1610,24 +1609,24 @@ func (object *Object) GongDiff(objectOther *Object) (diffs []string) {
 		diffs = append(diffs, "Rank")
 	}
 	MessagesDifferent := false
-    if len(object.Messages) != len(objectOther.Messages) {
-        MessagesDifferent = true
-    } else {
-        for i := range object.Messages {
-            if (object.Messages[i] == nil) != (objectOther.Messages[i] == nil) {
-                MessagesDifferent = true
-                break
-            } else if object.Messages[i] != nil && objectOther.Messages[i] != nil {
-                if len(object.Messages[i].GongDiff(objectOther.Messages[i])) > 0 {
-                    MessagesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if MessagesDifferent {
-        diffs = append(diffs, "Messages")
-    }
+	if len(object.Messages) != len(objectOther.Messages) {
+		MessagesDifferent = true
+	} else {
+		for i := range object.Messages {
+			if (object.Messages[i] == nil) != (objectOther.Messages[i] == nil) {
+				MessagesDifferent = true
+				break
+			} else if object.Messages[i] != nil && objectOther.Messages[i] != nil {
+				if len(object.Messages[i].GongDiff(objectOther.Messages[i])) > 0 {
+					MessagesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if MessagesDifferent {
+		diffs = append(diffs, "Messages")
+	}
 
 	return
 }
@@ -1643,24 +1642,24 @@ func (role *Role) GongDiff(roleOther *Role) (diffs []string) {
 		diffs = append(diffs, "Acronym")
 	}
 	RolesWithSamePermissionsDifferent := false
-    if len(role.RolesWithSamePermissions) != len(roleOther.RolesWithSamePermissions) {
-        RolesWithSamePermissionsDifferent = true
-    } else {
-        for i := range role.RolesWithSamePermissions {
-            if (role.RolesWithSamePermissions[i] == nil) != (roleOther.RolesWithSamePermissions[i] == nil) {
-                RolesWithSamePermissionsDifferent = true
-                break
-            } else if role.RolesWithSamePermissions[i] != nil && roleOther.RolesWithSamePermissions[i] != nil {
-                if len(role.RolesWithSamePermissions[i].GongDiff(roleOther.RolesWithSamePermissions[i])) > 0 {
-                    RolesWithSamePermissionsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RolesWithSamePermissionsDifferent {
-        diffs = append(diffs, "RolesWithSamePermissions")
-    }
+	if len(role.RolesWithSamePermissions) != len(roleOther.RolesWithSamePermissions) {
+		RolesWithSamePermissionsDifferent = true
+	} else {
+		for i := range role.RolesWithSamePermissions {
+			if (role.RolesWithSamePermissions[i] == nil) != (roleOther.RolesWithSamePermissions[i] == nil) {
+				RolesWithSamePermissionsDifferent = true
+				break
+			} else if role.RolesWithSamePermissions[i] != nil && roleOther.RolesWithSamePermissions[i] != nil {
+				if len(role.RolesWithSamePermissions[i].GongDiff(roleOther.RolesWithSamePermissions[i])) > 0 {
+					RolesWithSamePermissionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RolesWithSamePermissionsDifferent {
+		diffs = append(diffs, "RolesWithSamePermissions")
+	}
 
 	return
 }
@@ -1689,43 +1688,43 @@ func (state *State) GongDiff(stateOther *State) (diffs []string) {
 		diffs = append(diffs, "IsEndState")
 	}
 	SubStatesDifferent := false
-    if len(state.SubStates) != len(stateOther.SubStates) {
-        SubStatesDifferent = true
-    } else {
-        for i := range state.SubStates {
-            if (state.SubStates[i] == nil) != (stateOther.SubStates[i] == nil) {
-                SubStatesDifferent = true
-                break
-            } else if state.SubStates[i] != nil && stateOther.SubStates[i] != nil {
-                if len(state.SubStates[i].GongDiff(stateOther.SubStates[i])) > 0 {
-                    SubStatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if SubStatesDifferent {
-        diffs = append(diffs, "SubStates")
-    }
+	if len(state.SubStates) != len(stateOther.SubStates) {
+		SubStatesDifferent = true
+	} else {
+		for i := range state.SubStates {
+			if (state.SubStates[i] == nil) != (stateOther.SubStates[i] == nil) {
+				SubStatesDifferent = true
+				break
+			} else if state.SubStates[i] != nil && stateOther.SubStates[i] != nil {
+				if len(state.SubStates[i].GongDiff(stateOther.SubStates[i])) > 0 {
+					SubStatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if SubStatesDifferent {
+		diffs = append(diffs, "SubStates")
+	}
 	DiagramsDifferent := false
-    if len(state.Diagrams) != len(stateOther.Diagrams) {
-        DiagramsDifferent = true
-    } else {
-        for i := range state.Diagrams {
-            if (state.Diagrams[i] == nil) != (stateOther.Diagrams[i] == nil) {
-                DiagramsDifferent = true
-                break
-            } else if state.Diagrams[i] != nil && stateOther.Diagrams[i] != nil {
-                if len(state.Diagrams[i].GongDiff(stateOther.Diagrams[i])) > 0 {
-                    DiagramsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DiagramsDifferent {
-        diffs = append(diffs, "Diagrams")
-    }
+	if len(state.Diagrams) != len(stateOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range state.Diagrams {
+			if (state.Diagrams[i] == nil) != (stateOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if state.Diagrams[i] != nil && stateOther.Diagrams[i] != nil {
+				if len(state.Diagrams[i].GongDiff(stateOther.Diagrams[i])) > 0 {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		diffs = append(diffs, "Diagrams")
+	}
 	if (state.Entry == nil) != (stateOther.Entry == nil) {
 		diffs = append(diffs, "Entry")
 	} else if state.Entry != nil && stateOther.Entry != nil {
@@ -1734,24 +1733,24 @@ func (state *State) GongDiff(stateOther *State) (diffs []string) {
 		}
 	}
 	ActivitiesDifferent := false
-    if len(state.Activities) != len(stateOther.Activities) {
-        ActivitiesDifferent = true
-    } else {
-        for i := range state.Activities {
-            if (state.Activities[i] == nil) != (stateOther.Activities[i] == nil) {
-                ActivitiesDifferent = true
-                break
-            } else if state.Activities[i] != nil && stateOther.Activities[i] != nil {
-                if len(state.Activities[i].GongDiff(stateOther.Activities[i])) > 0 {
-                    ActivitiesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ActivitiesDifferent {
-        diffs = append(diffs, "Activities")
-    }
+	if len(state.Activities) != len(stateOther.Activities) {
+		ActivitiesDifferent = true
+	} else {
+		for i := range state.Activities {
+			if (state.Activities[i] == nil) != (stateOther.Activities[i] == nil) {
+				ActivitiesDifferent = true
+				break
+			} else if state.Activities[i] != nil && stateOther.Activities[i] != nil {
+				if len(state.Activities[i].GongDiff(stateOther.Activities[i])) > 0 {
+					ActivitiesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ActivitiesDifferent {
+		diffs = append(diffs, "Activities")
+	}
 	if (state.Exit == nil) != (stateOther.Exit == nil) {
 		diffs = append(diffs, "Exit")
 	} else if state.Exit != nil && stateOther.Exit != nil {
@@ -1774,43 +1773,43 @@ func (statemachine *StateMachine) GongDiff(statemachineOther *StateMachine) (dif
 		diffs = append(diffs, "IsNodeExpanded")
 	}
 	StatesDifferent := false
-    if len(statemachine.States) != len(statemachineOther.States) {
-        StatesDifferent = true
-    } else {
-        for i := range statemachine.States {
-            if (statemachine.States[i] == nil) != (statemachineOther.States[i] == nil) {
-                StatesDifferent = true
-                break
-            } else if statemachine.States[i] != nil && statemachineOther.States[i] != nil {
-                if len(statemachine.States[i].GongDiff(statemachineOther.States[i])) > 0 {
-                    StatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if StatesDifferent {
-        diffs = append(diffs, "States")
-    }
+	if len(statemachine.States) != len(statemachineOther.States) {
+		StatesDifferent = true
+	} else {
+		for i := range statemachine.States {
+			if (statemachine.States[i] == nil) != (statemachineOther.States[i] == nil) {
+				StatesDifferent = true
+				break
+			} else if statemachine.States[i] != nil && statemachineOther.States[i] != nil {
+				if len(statemachine.States[i].GongDiff(statemachineOther.States[i])) > 0 {
+					StatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if StatesDifferent {
+		diffs = append(diffs, "States")
+	}
 	DiagramsDifferent := false
-    if len(statemachine.Diagrams) != len(statemachineOther.Diagrams) {
-        DiagramsDifferent = true
-    } else {
-        for i := range statemachine.Diagrams {
-            if (statemachine.Diagrams[i] == nil) != (statemachineOther.Diagrams[i] == nil) {
-                DiagramsDifferent = true
-                break
-            } else if statemachine.Diagrams[i] != nil && statemachineOther.Diagrams[i] != nil {
-                if len(statemachine.Diagrams[i].GongDiff(statemachineOther.Diagrams[i])) > 0 {
-                    DiagramsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DiagramsDifferent {
-        diffs = append(diffs, "Diagrams")
-    }
+	if len(statemachine.Diagrams) != len(statemachineOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range statemachine.Diagrams {
+			if (statemachine.Diagrams[i] == nil) != (statemachineOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if statemachine.Diagrams[i] != nil && statemachineOther.Diagrams[i] != nil {
+				if len(statemachine.Diagrams[i].GongDiff(statemachineOther.Diagrams[i])) > 0 {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		diffs = append(diffs, "Diagrams")
+	}
 	if (statemachine.InitialState == nil) != (statemachineOther.InitialState == nil) {
 		diffs = append(diffs, "InitialState")
 	} else if statemachine.InitialState != nil && statemachineOther.InitialState != nil {
@@ -1877,43 +1876,43 @@ func (transition *Transition) GongDiff(transitionOther *Transition) (diffs []str
 		}
 	}
 	RolesWithPermissionsDifferent := false
-    if len(transition.RolesWithPermissions) != len(transitionOther.RolesWithPermissions) {
-        RolesWithPermissionsDifferent = true
-    } else {
-        for i := range transition.RolesWithPermissions {
-            if (transition.RolesWithPermissions[i] == nil) != (transitionOther.RolesWithPermissions[i] == nil) {
-                RolesWithPermissionsDifferent = true
-                break
-            } else if transition.RolesWithPermissions[i] != nil && transitionOther.RolesWithPermissions[i] != nil {
-                if len(transition.RolesWithPermissions[i].GongDiff(transitionOther.RolesWithPermissions[i])) > 0 {
-                    RolesWithPermissionsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RolesWithPermissionsDifferent {
-        diffs = append(diffs, "RolesWithPermissions")
-    }
+	if len(transition.RolesWithPermissions) != len(transitionOther.RolesWithPermissions) {
+		RolesWithPermissionsDifferent = true
+	} else {
+		for i := range transition.RolesWithPermissions {
+			if (transition.RolesWithPermissions[i] == nil) != (transitionOther.RolesWithPermissions[i] == nil) {
+				RolesWithPermissionsDifferent = true
+				break
+			} else if transition.RolesWithPermissions[i] != nil && transitionOther.RolesWithPermissions[i] != nil {
+				if len(transition.RolesWithPermissions[i].GongDiff(transitionOther.RolesWithPermissions[i])) > 0 {
+					RolesWithPermissionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RolesWithPermissionsDifferent {
+		diffs = append(diffs, "RolesWithPermissions")
+	}
 	GeneratedMessagesDifferent := false
-    if len(transition.GeneratedMessages) != len(transitionOther.GeneratedMessages) {
-        GeneratedMessagesDifferent = true
-    } else {
-        for i := range transition.GeneratedMessages {
-            if (transition.GeneratedMessages[i] == nil) != (transitionOther.GeneratedMessages[i] == nil) {
-                GeneratedMessagesDifferent = true
-                break
-            } else if transition.GeneratedMessages[i] != nil && transitionOther.GeneratedMessages[i] != nil {
-                if len(transition.GeneratedMessages[i].GongDiff(transitionOther.GeneratedMessages[i])) > 0 {
-                    GeneratedMessagesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GeneratedMessagesDifferent {
-        diffs = append(diffs, "GeneratedMessages")
-    }
+	if len(transition.GeneratedMessages) != len(transitionOther.GeneratedMessages) {
+		GeneratedMessagesDifferent = true
+	} else {
+		for i := range transition.GeneratedMessages {
+			if (transition.GeneratedMessages[i] == nil) != (transitionOther.GeneratedMessages[i] == nil) {
+				GeneratedMessagesDifferent = true
+				break
+			} else if transition.GeneratedMessages[i] != nil && transitionOther.GeneratedMessages[i] != nil {
+				if len(transition.GeneratedMessages[i].GongDiff(transitionOther.GeneratedMessages[i])) > 0 {
+					GeneratedMessagesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GeneratedMessagesDifferent {
+		diffs = append(diffs, "GeneratedMessages")
+	}
 	if (transition.Guard == nil) != (transitionOther.Guard == nil) {
 		diffs = append(diffs, "Guard")
 	} else if transition.Guard != nil && transitionOther.Guard != nil {
@@ -1922,24 +1921,24 @@ func (transition *Transition) GongDiff(transitionOther *Transition) (diffs []str
 		}
 	}
 	DiagramsDifferent := false
-    if len(transition.Diagrams) != len(transitionOther.Diagrams) {
-        DiagramsDifferent = true
-    } else {
-        for i := range transition.Diagrams {
-            if (transition.Diagrams[i] == nil) != (transitionOther.Diagrams[i] == nil) {
-                DiagramsDifferent = true
-                break
-            } else if transition.Diagrams[i] != nil && transitionOther.Diagrams[i] != nil {
-                if len(transition.Diagrams[i].GongDiff(transitionOther.Diagrams[i])) > 0 {
-                    DiagramsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DiagramsDifferent {
-        diffs = append(diffs, "Diagrams")
-    }
+	if len(transition.Diagrams) != len(transitionOther.Diagrams) {
+		DiagramsDifferent = true
+	} else {
+		for i := range transition.Diagrams {
+			if (transition.Diagrams[i] == nil) != (transitionOther.Diagrams[i] == nil) {
+				DiagramsDifferent = true
+				break
+			} else if transition.Diagrams[i] != nil && transitionOther.Diagrams[i] != nil {
+				if len(transition.Diagrams[i].GongDiff(transitionOther.Diagrams[i])) > 0 {
+					DiagramsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DiagramsDifferent {
+		diffs = append(diffs, "Diagrams")
+	}
 
 	return
 }

@@ -122,19 +122,15 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Button:
 		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
-	
 	case *Node:
 		stage.OnAfterNodeUpdateCallback = any(callback).(OnAfterUpdateInterface[Node])
-	
 	case *SVGIcon:
 		stage.OnAfterSVGIconUpdateCallback = any(callback).(OnAfterUpdateInterface[SVGIcon])
-	
 	case *Tree:
 		stage.OnAfterTreeUpdateCallback = any(callback).(OnAfterUpdateInterface[Tree])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -144,16 +140,12 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
-	
 	case *Node:
 		stage.OnAfterNodeCreateCallback = any(callback).(OnAfterCreateInterface[Node])
-	
 	case *SVGIcon:
 		stage.OnAfterSVGIconCreateCallback = any(callback).(OnAfterCreateInterface[SVGIcon])
-	
 	case *Tree:
 		stage.OnAfterTreeCreateCallback = any(callback).(OnAfterCreateInterface[Tree])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -163,16 +155,12 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
-	
 	case *Node:
 		stage.OnAfterNodeDeleteCallback = any(callback).(OnAfterDeleteInterface[Node])
-	
 	case *SVGIcon:
 		stage.OnAfterSVGIconDeleteCallback = any(callback).(OnAfterDeleteInterface[SVGIcon])
-	
 	case *Tree:
 		stage.OnAfterTreeDeleteCallback = any(callback).(OnAfterDeleteInterface[Tree])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -182,15 +170,11 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Button:
 		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
-	
 	case *Node:
 		stage.OnAfterNodeReadCallback = any(callback).(OnAfterReadInterface[Node])
-	
 	case *SVGIcon:
 		stage.OnAfterSVGIconReadCallback = any(callback).(OnAfterReadInterface[SVGIcon])
-	
 	case *Tree:
 		stage.OnAfterTreeReadCallback = any(callback).(OnAfterReadInterface[Tree])
-	
 	}
 }

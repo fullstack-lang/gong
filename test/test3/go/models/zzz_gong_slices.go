@@ -1,7 +1,10 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
@@ -66,7 +69,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of A "+a.Name,
+					"Commit detected new instance of A "+a.Name,
 				)
 			}
 		} else {
@@ -75,7 +78,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Modified instance of A "+a.Name,
+						"Commit detected modified instance of A "+a.Name + " diffs on fields: "+strings.Join(diffs, ", "),
 					)
 				}
 				lenModifiedInstances++
@@ -90,7 +93,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of A "+a.Name,
+					"Commit detected deleted instance of A "+a.Name,
 				)
 			}
 		}
@@ -108,7 +111,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of B "+b.Name,
+					"Commit detected new instance of B "+b.Name,
 				)
 			}
 		} else {
@@ -117,7 +120,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Modified instance of B "+b.Name,
+						"Commit detected modified instance of B "+b.Name + " diffs on fields: "+strings.Join(diffs, ", "),
 					)
 				}
 				lenModifiedInstances++
@@ -132,7 +135,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of B "+b.Name,
+					"Commit detected deleted instance of B "+b.Name,
 				)
 			}
 		}

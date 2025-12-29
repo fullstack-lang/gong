@@ -401,7 +401,6 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -520,43 +519,43 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 		}
 	}
 	ChildrenDifferent := false
-    if len(node.Children) != len(nodeOther.Children) {
-        ChildrenDifferent = true
-    } else {
-        for i := range node.Children {
-            if (node.Children[i] == nil) != (nodeOther.Children[i] == nil) {
-                ChildrenDifferent = true
-                break
-            } else if node.Children[i] != nil && nodeOther.Children[i] != nil {
-                if len(node.Children[i].GongDiff(nodeOther.Children[i])) > 0 {
-                    ChildrenDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ChildrenDifferent {
-        diffs = append(diffs, "Children")
-    }
+	if len(node.Children) != len(nodeOther.Children) {
+		ChildrenDifferent = true
+	} else {
+		for i := range node.Children {
+			if (node.Children[i] == nil) != (nodeOther.Children[i] == nil) {
+				ChildrenDifferent = true
+				break
+			} else if node.Children[i] != nil && nodeOther.Children[i] != nil {
+				if len(node.Children[i].GongDiff(nodeOther.Children[i])) > 0 {
+					ChildrenDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ChildrenDifferent {
+		diffs = append(diffs, "Children")
+	}
 	ButtonsDifferent := false
-    if len(node.Buttons) != len(nodeOther.Buttons) {
-        ButtonsDifferent = true
-    } else {
-        for i := range node.Buttons {
-            if (node.Buttons[i] == nil) != (nodeOther.Buttons[i] == nil) {
-                ButtonsDifferent = true
-                break
-            } else if node.Buttons[i] != nil && nodeOther.Buttons[i] != nil {
-                if len(node.Buttons[i].GongDiff(nodeOther.Buttons[i])) > 0 {
-                    ButtonsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ButtonsDifferent {
-        diffs = append(diffs, "Buttons")
-    }
+	if len(node.Buttons) != len(nodeOther.Buttons) {
+		ButtonsDifferent = true
+	} else {
+		for i := range node.Buttons {
+			if (node.Buttons[i] == nil) != (nodeOther.Buttons[i] == nil) {
+				ButtonsDifferent = true
+				break
+			} else if node.Buttons[i] != nil && nodeOther.Buttons[i] != nil {
+				if len(node.Buttons[i].GongDiff(nodeOther.Buttons[i])) > 0 {
+					ButtonsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonsDifferent {
+		diffs = append(diffs, "Buttons")
+	}
 
 	return
 }
@@ -583,24 +582,24 @@ func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	RootNodesDifferent := false
-    if len(tree.RootNodes) != len(treeOther.RootNodes) {
-        RootNodesDifferent = true
-    } else {
-        for i := range tree.RootNodes {
-            if (tree.RootNodes[i] == nil) != (treeOther.RootNodes[i] == nil) {
-                RootNodesDifferent = true
-                break
-            } else if tree.RootNodes[i] != nil && treeOther.RootNodes[i] != nil {
-                if len(tree.RootNodes[i].GongDiff(treeOther.RootNodes[i])) > 0 {
-                    RootNodesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RootNodesDifferent {
-        diffs = append(diffs, "RootNodes")
-    }
+	if len(tree.RootNodes) != len(treeOther.RootNodes) {
+		RootNodesDifferent = true
+	} else {
+		for i := range tree.RootNodes {
+			if (tree.RootNodes[i] == nil) != (treeOther.RootNodes[i] == nil) {
+				RootNodesDifferent = true
+				break
+			} else if tree.RootNodes[i] != nil && treeOther.RootNodes[i] != nil {
+				if len(tree.RootNodes[i].GongDiff(treeOther.RootNodes[i])) > 0 {
+					RootNodesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootNodesDifferent {
+		diffs = append(diffs, "RootNodes")
+	}
 
 	return
 }

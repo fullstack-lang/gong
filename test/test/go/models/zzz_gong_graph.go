@@ -752,7 +752,6 @@ func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -772,24 +771,24 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	AnarrayofbDifferent := false
-    if len(astruct.Anarrayofb) != len(astructOther.Anarrayofb) {
-        AnarrayofbDifferent = true
-    } else {
-        for i := range astruct.Anarrayofb {
-            if (astruct.Anarrayofb[i] == nil) != (astructOther.Anarrayofb[i] == nil) {
-                AnarrayofbDifferent = true
-                break
-            } else if astruct.Anarrayofb[i] != nil && astructOther.Anarrayofb[i] != nil {
-                if len(astruct.Anarrayofb[i].GongDiff(astructOther.Anarrayofb[i])) > 0 {
-                    AnarrayofbDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnarrayofbDifferent {
-        diffs = append(diffs, "Anarrayofb")
-    }
+	if len(astruct.Anarrayofb) != len(astructOther.Anarrayofb) {
+		AnarrayofbDifferent = true
+	} else {
+		for i := range astruct.Anarrayofb {
+			if (astruct.Anarrayofb[i] == nil) != (astructOther.Anarrayofb[i] == nil) {
+				AnarrayofbDifferent = true
+				break
+			} else if astruct.Anarrayofb[i] != nil && astructOther.Anarrayofb[i] != nil {
+				if len(astruct.Anarrayofb[i].GongDiff(astructOther.Anarrayofb[i])) > 0 {
+					AnarrayofbDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnarrayofbDifferent {
+		diffs = append(diffs, "Anarrayofb")
+	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
 		diffs = append(diffs, "Anotherassociationtob_2")
 	} else if astruct.Anotherassociationtob_2 != nil && astructOther.Anotherassociationtob_2 != nil {
@@ -861,24 +860,24 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	Dstruct4sDifferent := false
-    if len(astruct.Dstruct4s) != len(astructOther.Dstruct4s) {
-        Dstruct4sDifferent = true
-    } else {
-        for i := range astruct.Dstruct4s {
-            if (astruct.Dstruct4s[i] == nil) != (astructOther.Dstruct4s[i] == nil) {
-                Dstruct4sDifferent = true
-                break
-            } else if astruct.Dstruct4s[i] != nil && astructOther.Dstruct4s[i] != nil {
-                if len(astruct.Dstruct4s[i].GongDiff(astructOther.Dstruct4s[i])) > 0 {
-                    Dstruct4sDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Dstruct4sDifferent {
-        diffs = append(diffs, "Dstruct4s")
-    }
+	if len(astruct.Dstruct4s) != len(astructOther.Dstruct4s) {
+		Dstruct4sDifferent = true
+	} else {
+		for i := range astruct.Dstruct4s {
+			if (astruct.Dstruct4s[i] == nil) != (astructOther.Dstruct4s[i] == nil) {
+				Dstruct4sDifferent = true
+				break
+			} else if astruct.Dstruct4s[i] != nil && astructOther.Dstruct4s[i] != nil {
+				if len(astruct.Dstruct4s[i].GongDiff(astructOther.Dstruct4s[i])) > 0 {
+					Dstruct4sDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Dstruct4sDifferent {
+		diffs = append(diffs, "Dstruct4s")
+	}
 	if astruct.Floatfield != astructOther.Floatfield {
 		diffs = append(diffs, "Floatfield")
 	}
@@ -892,81 +891,81 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		diffs = append(diffs, "Duration1")
 	}
 	AnarrayofaDifferent := false
-    if len(astruct.Anarrayofa) != len(astructOther.Anarrayofa) {
-        AnarrayofaDifferent = true
-    } else {
-        for i := range astruct.Anarrayofa {
-            if (astruct.Anarrayofa[i] == nil) != (astructOther.Anarrayofa[i] == nil) {
-                AnarrayofaDifferent = true
-                break
-            } else if astruct.Anarrayofa[i] != nil && astructOther.Anarrayofa[i] != nil {
-                if len(astruct.Anarrayofa[i].GongDiff(astructOther.Anarrayofa[i])) > 0 {
-                    AnarrayofaDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnarrayofaDifferent {
-        diffs = append(diffs, "Anarrayofa")
-    }
+	if len(astruct.Anarrayofa) != len(astructOther.Anarrayofa) {
+		AnarrayofaDifferent = true
+	} else {
+		for i := range astruct.Anarrayofa {
+			if (astruct.Anarrayofa[i] == nil) != (astructOther.Anarrayofa[i] == nil) {
+				AnarrayofaDifferent = true
+				break
+			} else if astruct.Anarrayofa[i] != nil && astructOther.Anarrayofa[i] != nil {
+				if len(astruct.Anarrayofa[i].GongDiff(astructOther.Anarrayofa[i])) > 0 {
+					AnarrayofaDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnarrayofaDifferent {
+		diffs = append(diffs, "Anarrayofa")
+	}
 	AnotherarrayofbDifferent := false
-    if len(astruct.Anotherarrayofb) != len(astructOther.Anotherarrayofb) {
-        AnotherarrayofbDifferent = true
-    } else {
-        for i := range astruct.Anotherarrayofb {
-            if (astruct.Anotherarrayofb[i] == nil) != (astructOther.Anotherarrayofb[i] == nil) {
-                AnotherarrayofbDifferent = true
-                break
-            } else if astruct.Anotherarrayofb[i] != nil && astructOther.Anotherarrayofb[i] != nil {
-                if len(astruct.Anotherarrayofb[i].GongDiff(astructOther.Anotherarrayofb[i])) > 0 {
-                    AnotherarrayofbDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnotherarrayofbDifferent {
-        diffs = append(diffs, "Anotherarrayofb")
-    }
+	if len(astruct.Anotherarrayofb) != len(astructOther.Anotherarrayofb) {
+		AnotherarrayofbDifferent = true
+	} else {
+		for i := range astruct.Anotherarrayofb {
+			if (astruct.Anotherarrayofb[i] == nil) != (astructOther.Anotherarrayofb[i] == nil) {
+				AnotherarrayofbDifferent = true
+				break
+			} else if astruct.Anotherarrayofb[i] != nil && astructOther.Anotherarrayofb[i] != nil {
+				if len(astruct.Anotherarrayofb[i].GongDiff(astructOther.Anotherarrayofb[i])) > 0 {
+					AnotherarrayofbDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnotherarrayofbDifferent {
+		diffs = append(diffs, "Anotherarrayofb")
+	}
 	AnarrayofbUseDifferent := false
-    if len(astruct.AnarrayofbUse) != len(astructOther.AnarrayofbUse) {
-        AnarrayofbUseDifferent = true
-    } else {
-        for i := range astruct.AnarrayofbUse {
-            if (astruct.AnarrayofbUse[i] == nil) != (astructOther.AnarrayofbUse[i] == nil) {
-                AnarrayofbUseDifferent = true
-                break
-            } else if astruct.AnarrayofbUse[i] != nil && astructOther.AnarrayofbUse[i] != nil {
-                if len(astruct.AnarrayofbUse[i].GongDiff(astructOther.AnarrayofbUse[i])) > 0 {
-                    AnarrayofbUseDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnarrayofbUseDifferent {
-        diffs = append(diffs, "AnarrayofbUse")
-    }
+	if len(astruct.AnarrayofbUse) != len(astructOther.AnarrayofbUse) {
+		AnarrayofbUseDifferent = true
+	} else {
+		for i := range astruct.AnarrayofbUse {
+			if (astruct.AnarrayofbUse[i] == nil) != (astructOther.AnarrayofbUse[i] == nil) {
+				AnarrayofbUseDifferent = true
+				break
+			} else if astruct.AnarrayofbUse[i] != nil && astructOther.AnarrayofbUse[i] != nil {
+				if len(astruct.AnarrayofbUse[i].GongDiff(astructOther.AnarrayofbUse[i])) > 0 {
+					AnarrayofbUseDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnarrayofbUseDifferent {
+		diffs = append(diffs, "AnarrayofbUse")
+	}
 	Anarrayofb2UseDifferent := false
-    if len(astruct.Anarrayofb2Use) != len(astructOther.Anarrayofb2Use) {
-        Anarrayofb2UseDifferent = true
-    } else {
-        for i := range astruct.Anarrayofb2Use {
-            if (astruct.Anarrayofb2Use[i] == nil) != (astructOther.Anarrayofb2Use[i] == nil) {
-                Anarrayofb2UseDifferent = true
-                break
-            } else if astruct.Anarrayofb2Use[i] != nil && astructOther.Anarrayofb2Use[i] != nil {
-                if len(astruct.Anarrayofb2Use[i].GongDiff(astructOther.Anarrayofb2Use[i])) > 0 {
-                    Anarrayofb2UseDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if Anarrayofb2UseDifferent {
-        diffs = append(diffs, "Anarrayofb2Use")
-    }
+	if len(astruct.Anarrayofb2Use) != len(astructOther.Anarrayofb2Use) {
+		Anarrayofb2UseDifferent = true
+	} else {
+		for i := range astruct.Anarrayofb2Use {
+			if (astruct.Anarrayofb2Use[i] == nil) != (astructOther.Anarrayofb2Use[i] == nil) {
+				Anarrayofb2UseDifferent = true
+				break
+			} else if astruct.Anarrayofb2Use[i] != nil && astructOther.Anarrayofb2Use[i] != nil {
+				if len(astruct.Anarrayofb2Use[i].GongDiff(astructOther.Anarrayofb2Use[i])) > 0 {
+					Anarrayofb2UseDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if Anarrayofb2UseDifferent {
+		diffs = append(diffs, "Anarrayofb2Use")
+	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
 		diffs = append(diffs, "AnAstruct")
 	} else if astruct.AnAstruct != nil && astructOther.AnAstruct != nil {
@@ -1048,24 +1047,24 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	AnarrayofbDifferent := false
-    if len(dstruct.Anarrayofb) != len(dstructOther.Anarrayofb) {
-        AnarrayofbDifferent = true
-    } else {
-        for i := range dstruct.Anarrayofb {
-            if (dstruct.Anarrayofb[i] == nil) != (dstructOther.Anarrayofb[i] == nil) {
-                AnarrayofbDifferent = true
-                break
-            } else if dstruct.Anarrayofb[i] != nil && dstructOther.Anarrayofb[i] != nil {
-                if len(dstruct.Anarrayofb[i].GongDiff(dstructOther.Anarrayofb[i])) > 0 {
-                    AnarrayofbDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnarrayofbDifferent {
-        diffs = append(diffs, "Anarrayofb")
-    }
+	if len(dstruct.Anarrayofb) != len(dstructOther.Anarrayofb) {
+		AnarrayofbDifferent = true
+	} else {
+		for i := range dstruct.Anarrayofb {
+			if (dstruct.Anarrayofb[i] == nil) != (dstructOther.Anarrayofb[i] == nil) {
+				AnarrayofbDifferent = true
+				break
+			} else if dstruct.Anarrayofb[i] != nil && dstructOther.Anarrayofb[i] != nil {
+				if len(dstruct.Anarrayofb[i].GongDiff(dstructOther.Anarrayofb[i])) > 0 {
+					AnarrayofbDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnarrayofbDifferent {
+		diffs = append(diffs, "Anarrayofb")
+	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
 		diffs = append(diffs, "Gstruct")
 	} else if dstruct.Gstruct != nil && dstructOther.Gstruct != nil {
@@ -1074,24 +1073,24 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 		}
 	}
 	GstructsDifferent := false
-    if len(dstruct.Gstructs) != len(dstructOther.Gstructs) {
-        GstructsDifferent = true
-    } else {
-        for i := range dstruct.Gstructs {
-            if (dstruct.Gstructs[i] == nil) != (dstructOther.Gstructs[i] == nil) {
-                GstructsDifferent = true
-                break
-            } else if dstruct.Gstructs[i] != nil && dstructOther.Gstructs[i] != nil {
-                if len(dstruct.Gstructs[i].GongDiff(dstructOther.Gstructs[i])) > 0 {
-                    GstructsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GstructsDifferent {
-        diffs = append(diffs, "Gstructs")
-    }
+	if len(dstruct.Gstructs) != len(dstructOther.Gstructs) {
+		GstructsDifferent = true
+	} else {
+		for i := range dstruct.Gstructs {
+			if (dstruct.Gstructs[i] == nil) != (dstructOther.Gstructs[i] == nil) {
+				GstructsDifferent = true
+				break
+			} else if dstruct.Gstructs[i] != nil && dstructOther.Gstructs[i] != nil {
+				if len(dstruct.Gstructs[i].GongDiff(dstructOther.Gstructs[i])) > 0 {
+					GstructsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GstructsDifferent {
+		diffs = append(diffs, "Gstructs")
+	}
 
 	return
 }

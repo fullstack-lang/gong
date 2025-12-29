@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -122,7 +126,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (astruct *Astruct) GongCopy() GongstructIF {
 	newInstance := *astruct
@@ -159,24 +162,35 @@ func (gstruct *Gstruct) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var astructs_newInstances []*Astruct
 	var astructs_deletedInstances []*Astruct
 
 	// parse all staged instances and check if they have a reference
 	for astruct := range stage.Astructs {
-		if _, ok := stage.Astructs_reference[astruct]; !ok {
+		if ref, ok := stage.Astructs_reference[astruct]; !ok {
 			astructs_newInstances = append(astructs_newInstances, astruct)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Astruct "+astruct.Name,
+					"Commit detected new instance of Astruct "+astruct.Name,
 				)
+			}
+		} else {
+			diffs := astruct.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Astruct "+astruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -188,7 +202,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Astruct "+astruct.Name,
+					"Commit detected deleted instance of Astruct "+astruct.Name,
 				)
 			}
 		}
@@ -201,13 +215,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for astructbstruct2use := range stage.AstructBstruct2Uses {
-		if _, ok := stage.AstructBstruct2Uses_reference[astructbstruct2use]; !ok {
+		if ref, ok := stage.AstructBstruct2Uses_reference[astructbstruct2use]; !ok {
 			astructbstruct2uses_newInstances = append(astructbstruct2uses_newInstances, astructbstruct2use)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of AstructBstruct2Use "+astructbstruct2use.Name,
+					"Commit detected new instance of AstructBstruct2Use "+astructbstruct2use.Name,
 				)
+			}
+		} else {
+			diffs := astructbstruct2use.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of AstructBstruct2Use "+astructbstruct2use.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -219,7 +244,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of AstructBstruct2Use "+astructbstruct2use.Name,
+					"Commit detected deleted instance of AstructBstruct2Use "+astructbstruct2use.Name,
 				)
 			}
 		}
@@ -232,13 +257,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for astructbstructuse := range stage.AstructBstructUses {
-		if _, ok := stage.AstructBstructUses_reference[astructbstructuse]; !ok {
+		if ref, ok := stage.AstructBstructUses_reference[astructbstructuse]; !ok {
 			astructbstructuses_newInstances = append(astructbstructuses_newInstances, astructbstructuse)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of AstructBstructUse "+astructbstructuse.Name,
+					"Commit detected new instance of AstructBstructUse "+astructbstructuse.Name,
 				)
+			}
+		} else {
+			diffs := astructbstructuse.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of AstructBstructUse "+astructbstructuse.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -250,7 +286,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of AstructBstructUse "+astructbstructuse.Name,
+					"Commit detected deleted instance of AstructBstructUse "+astructbstructuse.Name,
 				)
 			}
 		}
@@ -263,13 +299,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for bstruct := range stage.Bstructs {
-		if _, ok := stage.Bstructs_reference[bstruct]; !ok {
+		if ref, ok := stage.Bstructs_reference[bstruct]; !ok {
 			bstructs_newInstances = append(bstructs_newInstances, bstruct)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Bstruct "+bstruct.Name,
+					"Commit detected new instance of Bstruct "+bstruct.Name,
 				)
+			}
+		} else {
+			diffs := bstruct.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Bstruct "+bstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -281,7 +328,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Bstruct "+bstruct.Name,
+					"Commit detected deleted instance of Bstruct "+bstruct.Name,
 				)
 			}
 		}
@@ -294,13 +341,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for dstruct := range stage.Dstructs {
-		if _, ok := stage.Dstructs_reference[dstruct]; !ok {
+		if ref, ok := stage.Dstructs_reference[dstruct]; !ok {
 			dstructs_newInstances = append(dstructs_newInstances, dstruct)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Dstruct "+dstruct.Name,
+					"Commit detected new instance of Dstruct "+dstruct.Name,
 				)
+			}
+		} else {
+			diffs := dstruct.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Dstruct "+dstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -312,7 +370,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Dstruct "+dstruct.Name,
+					"Commit detected deleted instance of Dstruct "+dstruct.Name,
 				)
 			}
 		}
@@ -325,13 +383,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for f0123456789012345678901234567890 := range stage.F0123456789012345678901234567890s {
-		if _, ok := stage.F0123456789012345678901234567890s_reference[f0123456789012345678901234567890]; !ok {
+		if ref, ok := stage.F0123456789012345678901234567890s_reference[f0123456789012345678901234567890]; !ok {
 			f0123456789012345678901234567890s_newInstances = append(f0123456789012345678901234567890s_newInstances, f0123456789012345678901234567890)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
+					"Commit detected new instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
 				)
+			}
+		} else {
+			diffs := f0123456789012345678901234567890.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -343,7 +412,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
+					"Commit detected deleted instance of F0123456789012345678901234567890 "+f0123456789012345678901234567890.Name,
 				)
 			}
 		}
@@ -356,13 +425,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for gstruct := range stage.Gstructs {
-		if _, ok := stage.Gstructs_reference[gstruct]; !ok {
+		if ref, ok := stage.Gstructs_reference[gstruct]; !ok {
 			gstructs_newInstances = append(gstructs_newInstances, gstruct)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Gstruct "+gstruct.Name,
+					"Commit detected new instance of Gstruct "+gstruct.Name,
 				)
+			}
+		} else {
+			diffs := gstruct.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Gstruct "+gstruct.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -374,7 +454,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Gstruct "+gstruct.Name,
+					"Commit detected deleted instance of Gstruct "+gstruct.Name,
 				)
 			}
 		}
@@ -383,7 +463,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(gstructs_newInstances)
 	lenDeletedInstances += len(gstructs_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -396,37 +476,37 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Astructs_reference = make(map[*Astruct]*Astruct)
 	for instance := range stage.Astructs {
-		stage.Astructs_reference[instance] = instance
+		stage.Astructs_reference[instance] = instance.GongCopy().(*Astruct)
 	}
 
 	stage.AstructBstruct2Uses_reference = make(map[*AstructBstruct2Use]*AstructBstruct2Use)
 	for instance := range stage.AstructBstruct2Uses {
-		stage.AstructBstruct2Uses_reference[instance] = instance
+		stage.AstructBstruct2Uses_reference[instance] = instance.GongCopy().(*AstructBstruct2Use)
 	}
 
 	stage.AstructBstructUses_reference = make(map[*AstructBstructUse]*AstructBstructUse)
 	for instance := range stage.AstructBstructUses {
-		stage.AstructBstructUses_reference[instance] = instance
+		stage.AstructBstructUses_reference[instance] = instance.GongCopy().(*AstructBstructUse)
 	}
 
 	stage.Bstructs_reference = make(map[*Bstruct]*Bstruct)
 	for instance := range stage.Bstructs {
-		stage.Bstructs_reference[instance] = instance
+		stage.Bstructs_reference[instance] = instance.GongCopy().(*Bstruct)
 	}
 
 	stage.Dstructs_reference = make(map[*Dstruct]*Dstruct)
 	for instance := range stage.Dstructs {
-		stage.Dstructs_reference[instance] = instance
+		stage.Dstructs_reference[instance] = instance.GongCopy().(*Dstruct)
 	}
 
 	stage.F0123456789012345678901234567890s_reference = make(map[*F0123456789012345678901234567890]*F0123456789012345678901234567890)
 	for instance := range stage.F0123456789012345678901234567890s {
-		stage.F0123456789012345678901234567890s_reference[instance] = instance
+		stage.F0123456789012345678901234567890s_reference[instance] = instance.GongCopy().(*F0123456789012345678901234567890)
 	}
 
 	stage.Gstructs_reference = make(map[*Gstruct]*Gstruct)
 	for instance := range stage.Gstructs {
-		stage.Gstructs_reference[instance] = instance
+		stage.Gstructs_reference[instance] = instance.GongCopy().(*Gstruct)
 	}
 
 }

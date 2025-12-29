@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -52,7 +56,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (chapter *Chapter) GongCopy() GongstructIF {
 	newInstance := *chapter
@@ -69,24 +72,35 @@ func (page *Page) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var chapters_newInstances []*Chapter
 	var chapters_deletedInstances []*Chapter
 
 	// parse all staged instances and check if they have a reference
 	for chapter := range stage.Chapters {
-		if _, ok := stage.Chapters_reference[chapter]; !ok {
+		if ref, ok := stage.Chapters_reference[chapter]; !ok {
 			chapters_newInstances = append(chapters_newInstances, chapter)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Chapter "+chapter.Name,
+					"Commit detected new instance of Chapter "+chapter.Name,
 				)
+			}
+		} else {
+			diffs := chapter.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Chapter "+chapter.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -98,7 +112,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Chapter "+chapter.Name,
+					"Commit detected deleted instance of Chapter "+chapter.Name,
 				)
 			}
 		}
@@ -111,13 +125,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for content := range stage.Contents {
-		if _, ok := stage.Contents_reference[content]; !ok {
+		if ref, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Content "+content.Name,
+					"Commit detected new instance of Content "+content.Name,
 				)
+			}
+		} else {
+			diffs := content.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Content "+content.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -129,7 +154,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Content "+content.Name,
+					"Commit detected deleted instance of Content "+content.Name,
 				)
 			}
 		}
@@ -142,13 +167,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for page := range stage.Pages {
-		if _, ok := stage.Pages_reference[page]; !ok {
+		if ref, ok := stage.Pages_reference[page]; !ok {
 			pages_newInstances = append(pages_newInstances, page)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Page "+page.Name,
+					"Commit detected new instance of Page "+page.Name,
 				)
+			}
+		} else {
+			diffs := page.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Page "+page.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -160,7 +196,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Page "+page.Name,
+					"Commit detected deleted instance of Page "+page.Name,
 				)
 			}
 		}
@@ -169,7 +205,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(pages_newInstances)
 	lenDeletedInstances += len(pages_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -182,17 +218,17 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Chapters_reference = make(map[*Chapter]*Chapter)
 	for instance := range stage.Chapters {
-		stage.Chapters_reference[instance] = instance
+		stage.Chapters_reference[instance] = instance.GongCopy().(*Chapter)
 	}
 
 	stage.Contents_reference = make(map[*Content]*Content)
 	for instance := range stage.Contents {
-		stage.Contents_reference[instance] = instance
+		stage.Contents_reference[instance] = instance.GongCopy().(*Content)
 	}
 
 	stage.Pages_reference = make(map[*Page]*Page)
 	for instance := range stage.Pages {
-		stage.Pages_reference[instance] = instance
+		stage.Pages_reference[instance] = instance.GongCopy().(*Page)
 	}
 
 }

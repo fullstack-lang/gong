@@ -320,52 +320,37 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
-	
 	case *Note:
 		stage.OnAfterNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[Note])
-	
 	case *NoteProductShape:
 		stage.OnAfterNoteProductShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteProductShape])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteShape])
-	
 	case *NoteTaskShape:
 		stage.OnAfterNoteTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[NoteTaskShape])
-	
 	case *Product:
 		stage.OnAfterProductUpdateCallback = any(callback).(OnAfterUpdateInterface[Product])
-	
 	case *ProductCompositionShape:
 		stage.OnAfterProductCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductCompositionShape])
-	
 	case *ProductShape:
 		stage.OnAfterProductShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[ProductShape])
-	
 	case *Project:
 		stage.OnAfterProjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Project])
-	
 	case *Root:
 		stage.OnAfterRootUpdateCallback = any(callback).(OnAfterUpdateInterface[Root])
-	
 	case *Task:
 		stage.OnAfterTaskUpdateCallback = any(callback).(OnAfterUpdateInterface[Task])
-	
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskCompositionShape])
-	
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskInputShape])
-	
 	case *TaskOutputShape:
 		stage.OnAfterTaskOutputShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskOutputShape])
-	
 	case *TaskShape:
 		stage.OnAfterTaskShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[TaskShape])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -375,49 +360,34 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
-	
 	case *Note:
 		stage.OnAfterNoteCreateCallback = any(callback).(OnAfterCreateInterface[Note])
-	
 	case *NoteProductShape:
 		stage.OnAfterNoteProductShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteProductShape])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteShape])
-	
 	case *NoteTaskShape:
 		stage.OnAfterNoteTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[NoteTaskShape])
-	
 	case *Product:
 		stage.OnAfterProductCreateCallback = any(callback).(OnAfterCreateInterface[Product])
-	
 	case *ProductCompositionShape:
 		stage.OnAfterProductCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductCompositionShape])
-	
 	case *ProductShape:
 		stage.OnAfterProductShapeCreateCallback = any(callback).(OnAfterCreateInterface[ProductShape])
-	
 	case *Project:
 		stage.OnAfterProjectCreateCallback = any(callback).(OnAfterCreateInterface[Project])
-	
 	case *Root:
 		stage.OnAfterRootCreateCallback = any(callback).(OnAfterCreateInterface[Root])
-	
 	case *Task:
 		stage.OnAfterTaskCreateCallback = any(callback).(OnAfterCreateInterface[Task])
-	
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskCompositionShape])
-	
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskInputShape])
-	
 	case *TaskOutputShape:
 		stage.OnAfterTaskOutputShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskOutputShape])
-	
 	case *TaskShape:
 		stage.OnAfterTaskShapeCreateCallback = any(callback).(OnAfterCreateInterface[TaskShape])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -427,49 +397,34 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
-	
 	case *Note:
 		stage.OnAfterNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[Note])
-	
 	case *NoteProductShape:
 		stage.OnAfterNoteProductShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteProductShape])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteShape])
-	
 	case *NoteTaskShape:
 		stage.OnAfterNoteTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[NoteTaskShape])
-	
 	case *Product:
 		stage.OnAfterProductDeleteCallback = any(callback).(OnAfterDeleteInterface[Product])
-	
 	case *ProductCompositionShape:
 		stage.OnAfterProductCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductCompositionShape])
-	
 	case *ProductShape:
 		stage.OnAfterProductShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[ProductShape])
-	
 	case *Project:
 		stage.OnAfterProjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Project])
-	
 	case *Root:
 		stage.OnAfterRootDeleteCallback = any(callback).(OnAfterDeleteInterface[Root])
-	
 	case *Task:
 		stage.OnAfterTaskDeleteCallback = any(callback).(OnAfterDeleteInterface[Task])
-	
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskCompositionShape])
-	
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskInputShape])
-	
 	case *TaskOutputShape:
 		stage.OnAfterTaskOutputShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskOutputShape])
-	
 	case *TaskShape:
 		stage.OnAfterTaskShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[TaskShape])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -479,48 +434,33 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
-	
 	case *Note:
 		stage.OnAfterNoteReadCallback = any(callback).(OnAfterReadInterface[Note])
-	
 	case *NoteProductShape:
 		stage.OnAfterNoteProductShapeReadCallback = any(callback).(OnAfterReadInterface[NoteProductShape])
-	
 	case *NoteShape:
 		stage.OnAfterNoteShapeReadCallback = any(callback).(OnAfterReadInterface[NoteShape])
-	
 	case *NoteTaskShape:
 		stage.OnAfterNoteTaskShapeReadCallback = any(callback).(OnAfterReadInterface[NoteTaskShape])
-	
 	case *Product:
 		stage.OnAfterProductReadCallback = any(callback).(OnAfterReadInterface[Product])
-	
 	case *ProductCompositionShape:
 		stage.OnAfterProductCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[ProductCompositionShape])
-	
 	case *ProductShape:
 		stage.OnAfterProductShapeReadCallback = any(callback).(OnAfterReadInterface[ProductShape])
-	
 	case *Project:
 		stage.OnAfterProjectReadCallback = any(callback).(OnAfterReadInterface[Project])
-	
 	case *Root:
 		stage.OnAfterRootReadCallback = any(callback).(OnAfterReadInterface[Root])
-	
 	case *Task:
 		stage.OnAfterTaskReadCallback = any(callback).(OnAfterReadInterface[Task])
-	
 	case *TaskCompositionShape:
 		stage.OnAfterTaskCompositionShapeReadCallback = any(callback).(OnAfterReadInterface[TaskCompositionShape])
-	
 	case *TaskInputShape:
 		stage.OnAfterTaskInputShapeReadCallback = any(callback).(OnAfterReadInterface[TaskInputShape])
-	
 	case *TaskOutputShape:
 		stage.OnAfterTaskOutputShapeReadCallback = any(callback).(OnAfterReadInterface[TaskOutputShape])
-	
 	case *TaskShape:
 		stage.OnAfterTaskShapeReadCallback = any(callback).(OnAfterReadInterface[TaskShape])
-	
 	}
 }

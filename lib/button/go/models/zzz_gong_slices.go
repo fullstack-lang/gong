@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -80,7 +84,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (button *Button) GongCopy() GongstructIF {
 	newInstance := *button
@@ -107,24 +110,35 @@ func (layout *Layout) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var buttons_newInstances []*Button
 	var buttons_deletedInstances []*Button
 
 	// parse all staged instances and check if they have a reference
 	for button := range stage.Buttons {
-		if _, ok := stage.Buttons_reference[button]; !ok {
+		if ref, ok := stage.Buttons_reference[button]; !ok {
 			buttons_newInstances = append(buttons_newInstances, button)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Button "+button.Name,
+					"Commit detected new instance of Button "+button.Name,
 				)
+			}
+		} else {
+			diffs := button.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Button "+button.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -136,7 +150,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Button "+button.Name,
+					"Commit detected deleted instance of Button "+button.Name,
 				)
 			}
 		}
@@ -149,13 +163,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for buttontoggle := range stage.ButtonToggles {
-		if _, ok := stage.ButtonToggles_reference[buttontoggle]; !ok {
+		if ref, ok := stage.ButtonToggles_reference[buttontoggle]; !ok {
 			buttontoggles_newInstances = append(buttontoggles_newInstances, buttontoggle)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of ButtonToggle "+buttontoggle.Name,
+					"Commit detected new instance of ButtonToggle "+buttontoggle.Name,
 				)
+			}
+		} else {
+			diffs := buttontoggle.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of ButtonToggle "+buttontoggle.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -167,7 +192,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of ButtonToggle "+buttontoggle.Name,
+					"Commit detected deleted instance of ButtonToggle "+buttontoggle.Name,
 				)
 			}
 		}
@@ -180,13 +205,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for group := range stage.Groups {
-		if _, ok := stage.Groups_reference[group]; !ok {
+		if ref, ok := stage.Groups_reference[group]; !ok {
 			groups_newInstances = append(groups_newInstances, group)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Group "+group.Name,
+					"Commit detected new instance of Group "+group.Name,
 				)
+			}
+		} else {
+			diffs := group.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Group "+group.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -198,7 +234,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Group "+group.Name,
+					"Commit detected deleted instance of Group "+group.Name,
 				)
 			}
 		}
@@ -211,13 +247,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for grouptoogle := range stage.GroupToogles {
-		if _, ok := stage.GroupToogles_reference[grouptoogle]; !ok {
+		if ref, ok := stage.GroupToogles_reference[grouptoogle]; !ok {
 			grouptoogles_newInstances = append(grouptoogles_newInstances, grouptoogle)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of GroupToogle "+grouptoogle.Name,
+					"Commit detected new instance of GroupToogle "+grouptoogle.Name,
 				)
+			}
+		} else {
+			diffs := grouptoogle.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of GroupToogle "+grouptoogle.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -229,7 +276,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of GroupToogle "+grouptoogle.Name,
+					"Commit detected deleted instance of GroupToogle "+grouptoogle.Name,
 				)
 			}
 		}
@@ -242,13 +289,24 @@ func (stage *Stage) ComputeDifference() {
 
 	// parse all staged instances and check if they have a reference
 	for layout := range stage.Layouts {
-		if _, ok := stage.Layouts_reference[layout]; !ok {
+		if ref, ok := stage.Layouts_reference[layout]; !ok {
 			layouts_newInstances = append(layouts_newInstances, layout)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Layout "+layout.Name,
+					"Commit detected new instance of Layout "+layout.Name,
 				)
+			}
+		} else {
+			diffs := layout.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Layout "+layout.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -260,7 +318,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Layout "+layout.Name,
+					"Commit detected deleted instance of Layout "+layout.Name,
 				)
 			}
 		}
@@ -269,7 +327,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(layouts_newInstances)
 	lenDeletedInstances += len(layouts_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -282,27 +340,27 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Buttons_reference = make(map[*Button]*Button)
 	for instance := range stage.Buttons {
-		stage.Buttons_reference[instance] = instance
+		stage.Buttons_reference[instance] = instance.GongCopy().(*Button)
 	}
 
 	stage.ButtonToggles_reference = make(map[*ButtonToggle]*ButtonToggle)
 	for instance := range stage.ButtonToggles {
-		stage.ButtonToggles_reference[instance] = instance
+		stage.ButtonToggles_reference[instance] = instance.GongCopy().(*ButtonToggle)
 	}
 
 	stage.Groups_reference = make(map[*Group]*Group)
 	for instance := range stage.Groups {
-		stage.Groups_reference[instance] = instance
+		stage.Groups_reference[instance] = instance.GongCopy().(*Group)
 	}
 
 	stage.GroupToogles_reference = make(map[*GroupToogle]*GroupToogle)
 	for instance := range stage.GroupToogles {
-		stage.GroupToogles_reference[instance] = instance
+		stage.GroupToogles_reference[instance] = instance.GongCopy().(*GroupToogle)
 	}
 
 	stage.Layouts_reference = make(map[*Layout]*Layout)
 	for instance := range stage.Layouts {
-		stage.Layouts_reference[instance] = instance
+		stage.Layouts_reference[instance] = instance.GongCopy().(*Layout)
 	}
 
 }

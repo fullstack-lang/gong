@@ -1,7 +1,11 @@
 // generated code - do not edit
 package models
 
-import "time"
+import (
+	"strings"
+	"time"
+)
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -24,31 +28,41 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (cursor *Cursor) GongCopy() GongstructIF {
 	newInstance := *cursor
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var cursors_newInstances []*Cursor
 	var cursors_deletedInstances []*Cursor
 
 	// parse all staged instances and check if they have a reference
 	for cursor := range stage.Cursors {
-		if _, ok := stage.Cursors_reference[cursor]; !ok {
+		if ref, ok := stage.Cursors_reference[cursor]; !ok {
 			cursors_newInstances = append(cursors_newInstances, cursor)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"New instance of Cursor "+cursor.Name,
+					"Commit detected new instance of Cursor "+cursor.Name,
 				)
+			}
+		} else {
+			diffs := cursor.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of Cursor "+cursor.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+					)
+				}
+				lenModifiedInstances++
 			}
 		}
 	}
@@ -60,7 +74,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Deleted instance of Cursor "+cursor.Name,
+					"Commit detected deleted instance of Cursor "+cursor.Name,
 				)
 			}
 		}
@@ -69,7 +83,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(cursors_newInstances)
 	lenDeletedInstances += len(cursors_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -82,7 +96,7 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.Cursors_reference = make(map[*Cursor]*Cursor)
 	for instance := range stage.Cursors {
-		stage.Cursors_reference[instance] = instance
+		stage.Cursors_reference[instance] = instance.GongCopy().(*Cursor)
 	}
 
 }

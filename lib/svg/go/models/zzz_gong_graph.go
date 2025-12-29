@@ -1904,7 +1904,6 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -1976,24 +1975,24 @@ func (circle *Circle) GongDiff(circleOther *Circle) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimationsDifferent := false
-    if len(circle.Animations) != len(circleOther.Animations) {
-        AnimationsDifferent = true
-    } else {
-        for i := range circle.Animations {
-            if (circle.Animations[i] == nil) != (circleOther.Animations[i] == nil) {
-                AnimationsDifferent = true
-                break
-            } else if circle.Animations[i] != nil && circleOther.Animations[i] != nil {
-                if len(circle.Animations[i].GongDiff(circleOther.Animations[i])) > 0 {
-                    AnimationsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimationsDifferent {
-        diffs = append(diffs, "Animations")
-    }
+	if len(circle.Animations) != len(circleOther.Animations) {
+		AnimationsDifferent = true
+	} else {
+		for i := range circle.Animations {
+			if (circle.Animations[i] == nil) != (circleOther.Animations[i] == nil) {
+				AnimationsDifferent = true
+				break
+			} else if circle.Animations[i] != nil && circleOther.Animations[i] != nil {
+				if len(circle.Animations[i].GongDiff(circleOther.Animations[i])) > 0 {
+					AnimationsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimationsDifferent {
+		diffs = append(diffs, "Animations")
+	}
 
 	return
 }
@@ -2077,24 +2076,24 @@ func (ellipse *Ellipse) GongDiff(ellipseOther *Ellipse) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(ellipse.Animates) != len(ellipseOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range ellipse.Animates {
-            if (ellipse.Animates[i] == nil) != (ellipseOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if ellipse.Animates[i] != nil && ellipseOther.Animates[i] != nil {
-                if len(ellipse.Animates[i].GongDiff(ellipseOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(ellipse.Animates) != len(ellipseOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range ellipse.Animates {
+			if (ellipse.Animates[i] == nil) != (ellipseOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if ellipse.Animates[i] != nil && ellipseOther.Animates[i] != nil {
+				if len(ellipse.Animates[i].GongDiff(ellipseOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -2107,195 +2106,195 @@ func (layer *Layer) GongDiff(layerOther *Layer) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	RectsDifferent := false
-    if len(layer.Rects) != len(layerOther.Rects) {
-        RectsDifferent = true
-    } else {
-        for i := range layer.Rects {
-            if (layer.Rects[i] == nil) != (layerOther.Rects[i] == nil) {
-                RectsDifferent = true
-                break
-            } else if layer.Rects[i] != nil && layerOther.Rects[i] != nil {
-                if len(layer.Rects[i].GongDiff(layerOther.Rects[i])) > 0 {
-                    RectsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RectsDifferent {
-        diffs = append(diffs, "Rects")
-    }
+	if len(layer.Rects) != len(layerOther.Rects) {
+		RectsDifferent = true
+	} else {
+		for i := range layer.Rects {
+			if (layer.Rects[i] == nil) != (layerOther.Rects[i] == nil) {
+				RectsDifferent = true
+				break
+			} else if layer.Rects[i] != nil && layerOther.Rects[i] != nil {
+				if len(layer.Rects[i].GongDiff(layerOther.Rects[i])) > 0 {
+					RectsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectsDifferent {
+		diffs = append(diffs, "Rects")
+	}
 	TextsDifferent := false
-    if len(layer.Texts) != len(layerOther.Texts) {
-        TextsDifferent = true
-    } else {
-        for i := range layer.Texts {
-            if (layer.Texts[i] == nil) != (layerOther.Texts[i] == nil) {
-                TextsDifferent = true
-                break
-            } else if layer.Texts[i] != nil && layerOther.Texts[i] != nil {
-                if len(layer.Texts[i].GongDiff(layerOther.Texts[i])) > 0 {
-                    TextsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TextsDifferent {
-        diffs = append(diffs, "Texts")
-    }
+	if len(layer.Texts) != len(layerOther.Texts) {
+		TextsDifferent = true
+	} else {
+		for i := range layer.Texts {
+			if (layer.Texts[i] == nil) != (layerOther.Texts[i] == nil) {
+				TextsDifferent = true
+				break
+			} else if layer.Texts[i] != nil && layerOther.Texts[i] != nil {
+				if len(layer.Texts[i].GongDiff(layerOther.Texts[i])) > 0 {
+					TextsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TextsDifferent {
+		diffs = append(diffs, "Texts")
+	}
 	CirclesDifferent := false
-    if len(layer.Circles) != len(layerOther.Circles) {
-        CirclesDifferent = true
-    } else {
-        for i := range layer.Circles {
-            if (layer.Circles[i] == nil) != (layerOther.Circles[i] == nil) {
-                CirclesDifferent = true
-                break
-            } else if layer.Circles[i] != nil && layerOther.Circles[i] != nil {
-                if len(layer.Circles[i].GongDiff(layerOther.Circles[i])) > 0 {
-                    CirclesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if CirclesDifferent {
-        diffs = append(diffs, "Circles")
-    }
+	if len(layer.Circles) != len(layerOther.Circles) {
+		CirclesDifferent = true
+	} else {
+		for i := range layer.Circles {
+			if (layer.Circles[i] == nil) != (layerOther.Circles[i] == nil) {
+				CirclesDifferent = true
+				break
+			} else if layer.Circles[i] != nil && layerOther.Circles[i] != nil {
+				if len(layer.Circles[i].GongDiff(layerOther.Circles[i])) > 0 {
+					CirclesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if CirclesDifferent {
+		diffs = append(diffs, "Circles")
+	}
 	LinesDifferent := false
-    if len(layer.Lines) != len(layerOther.Lines) {
-        LinesDifferent = true
-    } else {
-        for i := range layer.Lines {
-            if (layer.Lines[i] == nil) != (layerOther.Lines[i] == nil) {
-                LinesDifferent = true
-                break
-            } else if layer.Lines[i] != nil && layerOther.Lines[i] != nil {
-                if len(layer.Lines[i].GongDiff(layerOther.Lines[i])) > 0 {
-                    LinesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LinesDifferent {
-        diffs = append(diffs, "Lines")
-    }
+	if len(layer.Lines) != len(layerOther.Lines) {
+		LinesDifferent = true
+	} else {
+		for i := range layer.Lines {
+			if (layer.Lines[i] == nil) != (layerOther.Lines[i] == nil) {
+				LinesDifferent = true
+				break
+			} else if layer.Lines[i] != nil && layerOther.Lines[i] != nil {
+				if len(layer.Lines[i].GongDiff(layerOther.Lines[i])) > 0 {
+					LinesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LinesDifferent {
+		diffs = append(diffs, "Lines")
+	}
 	EllipsesDifferent := false
-    if len(layer.Ellipses) != len(layerOther.Ellipses) {
-        EllipsesDifferent = true
-    } else {
-        for i := range layer.Ellipses {
-            if (layer.Ellipses[i] == nil) != (layerOther.Ellipses[i] == nil) {
-                EllipsesDifferent = true
-                break
-            } else if layer.Ellipses[i] != nil && layerOther.Ellipses[i] != nil {
-                if len(layer.Ellipses[i].GongDiff(layerOther.Ellipses[i])) > 0 {
-                    EllipsesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if EllipsesDifferent {
-        diffs = append(diffs, "Ellipses")
-    }
+	if len(layer.Ellipses) != len(layerOther.Ellipses) {
+		EllipsesDifferent = true
+	} else {
+		for i := range layer.Ellipses {
+			if (layer.Ellipses[i] == nil) != (layerOther.Ellipses[i] == nil) {
+				EllipsesDifferent = true
+				break
+			} else if layer.Ellipses[i] != nil && layerOther.Ellipses[i] != nil {
+				if len(layer.Ellipses[i].GongDiff(layerOther.Ellipses[i])) > 0 {
+					EllipsesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if EllipsesDifferent {
+		diffs = append(diffs, "Ellipses")
+	}
 	PolylinesDifferent := false
-    if len(layer.Polylines) != len(layerOther.Polylines) {
-        PolylinesDifferent = true
-    } else {
-        for i := range layer.Polylines {
-            if (layer.Polylines[i] == nil) != (layerOther.Polylines[i] == nil) {
-                PolylinesDifferent = true
-                break
-            } else if layer.Polylines[i] != nil && layerOther.Polylines[i] != nil {
-                if len(layer.Polylines[i].GongDiff(layerOther.Polylines[i])) > 0 {
-                    PolylinesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if PolylinesDifferent {
-        diffs = append(diffs, "Polylines")
-    }
+	if len(layer.Polylines) != len(layerOther.Polylines) {
+		PolylinesDifferent = true
+	} else {
+		for i := range layer.Polylines {
+			if (layer.Polylines[i] == nil) != (layerOther.Polylines[i] == nil) {
+				PolylinesDifferent = true
+				break
+			} else if layer.Polylines[i] != nil && layerOther.Polylines[i] != nil {
+				if len(layer.Polylines[i].GongDiff(layerOther.Polylines[i])) > 0 {
+					PolylinesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PolylinesDifferent {
+		diffs = append(diffs, "Polylines")
+	}
 	PolygonesDifferent := false
-    if len(layer.Polygones) != len(layerOther.Polygones) {
-        PolygonesDifferent = true
-    } else {
-        for i := range layer.Polygones {
-            if (layer.Polygones[i] == nil) != (layerOther.Polygones[i] == nil) {
-                PolygonesDifferent = true
-                break
-            } else if layer.Polygones[i] != nil && layerOther.Polygones[i] != nil {
-                if len(layer.Polygones[i].GongDiff(layerOther.Polygones[i])) > 0 {
-                    PolygonesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if PolygonesDifferent {
-        diffs = append(diffs, "Polygones")
-    }
+	if len(layer.Polygones) != len(layerOther.Polygones) {
+		PolygonesDifferent = true
+	} else {
+		for i := range layer.Polygones {
+			if (layer.Polygones[i] == nil) != (layerOther.Polygones[i] == nil) {
+				PolygonesDifferent = true
+				break
+			} else if layer.Polygones[i] != nil && layerOther.Polygones[i] != nil {
+				if len(layer.Polygones[i].GongDiff(layerOther.Polygones[i])) > 0 {
+					PolygonesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PolygonesDifferent {
+		diffs = append(diffs, "Polygones")
+	}
 	PathsDifferent := false
-    if len(layer.Paths) != len(layerOther.Paths) {
-        PathsDifferent = true
-    } else {
-        for i := range layer.Paths {
-            if (layer.Paths[i] == nil) != (layerOther.Paths[i] == nil) {
-                PathsDifferent = true
-                break
-            } else if layer.Paths[i] != nil && layerOther.Paths[i] != nil {
-                if len(layer.Paths[i].GongDiff(layerOther.Paths[i])) > 0 {
-                    PathsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if PathsDifferent {
-        diffs = append(diffs, "Paths")
-    }
+	if len(layer.Paths) != len(layerOther.Paths) {
+		PathsDifferent = true
+	} else {
+		for i := range layer.Paths {
+			if (layer.Paths[i] == nil) != (layerOther.Paths[i] == nil) {
+				PathsDifferent = true
+				break
+			} else if layer.Paths[i] != nil && layerOther.Paths[i] != nil {
+				if len(layer.Paths[i].GongDiff(layerOther.Paths[i])) > 0 {
+					PathsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if PathsDifferent {
+		diffs = append(diffs, "Paths")
+	}
 	LinksDifferent := false
-    if len(layer.Links) != len(layerOther.Links) {
-        LinksDifferent = true
-    } else {
-        for i := range layer.Links {
-            if (layer.Links[i] == nil) != (layerOther.Links[i] == nil) {
-                LinksDifferent = true
-                break
-            } else if layer.Links[i] != nil && layerOther.Links[i] != nil {
-                if len(layer.Links[i].GongDiff(layerOther.Links[i])) > 0 {
-                    LinksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LinksDifferent {
-        diffs = append(diffs, "Links")
-    }
+	if len(layer.Links) != len(layerOther.Links) {
+		LinksDifferent = true
+	} else {
+		for i := range layer.Links {
+			if (layer.Links[i] == nil) != (layerOther.Links[i] == nil) {
+				LinksDifferent = true
+				break
+			} else if layer.Links[i] != nil && layerOther.Links[i] != nil {
+				if len(layer.Links[i].GongDiff(layerOther.Links[i])) > 0 {
+					LinksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LinksDifferent {
+		diffs = append(diffs, "Links")
+	}
 	RectLinkLinksDifferent := false
-    if len(layer.RectLinkLinks) != len(layerOther.RectLinkLinks) {
-        RectLinkLinksDifferent = true
-    } else {
-        for i := range layer.RectLinkLinks {
-            if (layer.RectLinkLinks[i] == nil) != (layerOther.RectLinkLinks[i] == nil) {
-                RectLinkLinksDifferent = true
-                break
-            } else if layer.RectLinkLinks[i] != nil && layerOther.RectLinkLinks[i] != nil {
-                if len(layer.RectLinkLinks[i].GongDiff(layerOther.RectLinkLinks[i])) > 0 {
-                    RectLinkLinksDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RectLinkLinksDifferent {
-        diffs = append(diffs, "RectLinkLinks")
-    }
+	if len(layer.RectLinkLinks) != len(layerOther.RectLinkLinks) {
+		RectLinkLinksDifferent = true
+	} else {
+		for i := range layer.RectLinkLinks {
+			if (layer.RectLinkLinks[i] == nil) != (layerOther.RectLinkLinks[i] == nil) {
+				RectLinkLinksDifferent = true
+				break
+			} else if layer.RectLinkLinks[i] != nil && layerOther.RectLinkLinks[i] != nil {
+				if len(layer.RectLinkLinks[i].GongDiff(layerOther.RectLinkLinks[i])) > 0 {
+					RectLinkLinksDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectLinkLinksDifferent {
+		diffs = append(diffs, "RectLinkLinks")
+	}
 
 	return
 }
@@ -2344,24 +2343,24 @@ func (line *Line) GongDiff(lineOther *Line) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(line.Animates) != len(lineOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range line.Animates {
-            if (line.Animates[i] == nil) != (lineOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if line.Animates[i] != nil && lineOther.Animates[i] != nil {
-                if len(line.Animates[i].GongDiff(lineOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(line.Animates) != len(lineOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range line.Animates {
+			if (line.Animates[i] == nil) != (lineOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if line.Animates[i] != nil && lineOther.Animates[i] != nil {
+				if len(line.Animates[i].GongDiff(lineOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 	if line.MouseClickX != lineOther.MouseClickX {
 		diffs = append(diffs, "MouseClickX")
 	}
@@ -2442,62 +2441,62 @@ func (link *Link) GongDiff(linkOther *Link) (diffs []string) {
 		diffs = append(diffs, "StartArrowOffset")
 	}
 	TextAtArrowStartDifferent := false
-    if len(link.TextAtArrowStart) != len(linkOther.TextAtArrowStart) {
-        TextAtArrowStartDifferent = true
-    } else {
-        for i := range link.TextAtArrowStart {
-            if (link.TextAtArrowStart[i] == nil) != (linkOther.TextAtArrowStart[i] == nil) {
-                TextAtArrowStartDifferent = true
-                break
-            } else if link.TextAtArrowStart[i] != nil && linkOther.TextAtArrowStart[i] != nil {
-                if len(link.TextAtArrowStart[i].GongDiff(linkOther.TextAtArrowStart[i])) > 0 {
-                    TextAtArrowStartDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TextAtArrowStartDifferent {
-        diffs = append(diffs, "TextAtArrowStart")
-    }
+	if len(link.TextAtArrowStart) != len(linkOther.TextAtArrowStart) {
+		TextAtArrowStartDifferent = true
+	} else {
+		for i := range link.TextAtArrowStart {
+			if (link.TextAtArrowStart[i] == nil) != (linkOther.TextAtArrowStart[i] == nil) {
+				TextAtArrowStartDifferent = true
+				break
+			} else if link.TextAtArrowStart[i] != nil && linkOther.TextAtArrowStart[i] != nil {
+				if len(link.TextAtArrowStart[i].GongDiff(linkOther.TextAtArrowStart[i])) > 0 {
+					TextAtArrowStartDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TextAtArrowStartDifferent {
+		diffs = append(diffs, "TextAtArrowStart")
+	}
 	TextAtArrowEndDifferent := false
-    if len(link.TextAtArrowEnd) != len(linkOther.TextAtArrowEnd) {
-        TextAtArrowEndDifferent = true
-    } else {
-        for i := range link.TextAtArrowEnd {
-            if (link.TextAtArrowEnd[i] == nil) != (linkOther.TextAtArrowEnd[i] == nil) {
-                TextAtArrowEndDifferent = true
-                break
-            } else if link.TextAtArrowEnd[i] != nil && linkOther.TextAtArrowEnd[i] != nil {
-                if len(link.TextAtArrowEnd[i].GongDiff(linkOther.TextAtArrowEnd[i])) > 0 {
-                    TextAtArrowEndDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if TextAtArrowEndDifferent {
-        diffs = append(diffs, "TextAtArrowEnd")
-    }
+	if len(link.TextAtArrowEnd) != len(linkOther.TextAtArrowEnd) {
+		TextAtArrowEndDifferent = true
+	} else {
+		for i := range link.TextAtArrowEnd {
+			if (link.TextAtArrowEnd[i] == nil) != (linkOther.TextAtArrowEnd[i] == nil) {
+				TextAtArrowEndDifferent = true
+				break
+			} else if link.TextAtArrowEnd[i] != nil && linkOther.TextAtArrowEnd[i] != nil {
+				if len(link.TextAtArrowEnd[i].GongDiff(linkOther.TextAtArrowEnd[i])) > 0 {
+					TextAtArrowEndDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if TextAtArrowEndDifferent {
+		diffs = append(diffs, "TextAtArrowEnd")
+	}
 	ControlPointsDifferent := false
-    if len(link.ControlPoints) != len(linkOther.ControlPoints) {
-        ControlPointsDifferent = true
-    } else {
-        for i := range link.ControlPoints {
-            if (link.ControlPoints[i] == nil) != (linkOther.ControlPoints[i] == nil) {
-                ControlPointsDifferent = true
-                break
-            } else if link.ControlPoints[i] != nil && linkOther.ControlPoints[i] != nil {
-                if len(link.ControlPoints[i].GongDiff(linkOther.ControlPoints[i])) > 0 {
-                    ControlPointsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ControlPointsDifferent {
-        diffs = append(diffs, "ControlPoints")
-    }
+	if len(link.ControlPoints) != len(linkOther.ControlPoints) {
+		ControlPointsDifferent = true
+	} else {
+		for i := range link.ControlPoints {
+			if (link.ControlPoints[i] == nil) != (linkOther.ControlPoints[i] == nil) {
+				ControlPointsDifferent = true
+				break
+			} else if link.ControlPoints[i] != nil && linkOther.ControlPoints[i] != nil {
+				if len(link.ControlPoints[i].GongDiff(linkOther.ControlPoints[i])) > 0 {
+					ControlPointsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ControlPointsDifferent {
+		diffs = append(diffs, "ControlPoints")
+	}
 	if link.Color != linkOther.Color {
 		diffs = append(diffs, "Color")
 	}
@@ -2600,24 +2599,24 @@ func (linkanchoredtext *LinkAnchoredText) GongDiff(linkanchoredtextOther *LinkAn
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(linkanchoredtext.Animates) != len(linkanchoredtextOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range linkanchoredtext.Animates {
-            if (linkanchoredtext.Animates[i] == nil) != (linkanchoredtextOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if linkanchoredtext.Animates[i] != nil && linkanchoredtextOther.Animates[i] != nil {
-                if len(linkanchoredtext.Animates[i].GongDiff(linkanchoredtextOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(linkanchoredtext.Animates) != len(linkanchoredtextOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range linkanchoredtext.Animates {
+			if (linkanchoredtext.Animates[i] == nil) != (linkanchoredtextOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if linkanchoredtext.Animates[i] != nil && linkanchoredtextOther.Animates[i] != nil {
+				if len(linkanchoredtext.Animates[i].GongDiff(linkanchoredtextOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -2657,24 +2656,24 @@ func (path *Path) GongDiff(pathOther *Path) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(path.Animates) != len(pathOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range path.Animates {
-            if (path.Animates[i] == nil) != (pathOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if path.Animates[i] != nil && pathOther.Animates[i] != nil {
-                if len(path.Animates[i].GongDiff(pathOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(path.Animates) != len(pathOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range path.Animates {
+			if (path.Animates[i] == nil) != (pathOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if path.Animates[i] != nil && pathOther.Animates[i] != nil {
+				if len(path.Animates[i].GongDiff(pathOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -2731,24 +2730,24 @@ func (polygone *Polygone) GongDiff(polygoneOther *Polygone) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(polygone.Animates) != len(polygoneOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range polygone.Animates {
-            if (polygone.Animates[i] == nil) != (polygoneOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if polygone.Animates[i] != nil && polygoneOther.Animates[i] != nil {
-                if len(polygone.Animates[i].GongDiff(polygoneOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(polygone.Animates) != len(polygoneOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range polygone.Animates {
+			if (polygone.Animates[i] == nil) != (polygoneOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if polygone.Animates[i] != nil && polygoneOther.Animates[i] != nil {
+				if len(polygone.Animates[i].GongDiff(polygoneOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -2788,24 +2787,24 @@ func (polyline *Polyline) GongDiff(polylineOther *Polyline) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(polyline.Animates) != len(polylineOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range polyline.Animates {
-            if (polyline.Animates[i] == nil) != (polylineOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if polyline.Animates[i] != nil && polylineOther.Animates[i] != nil {
-                if len(polyline.Animates[i].GongDiff(polylineOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(polyline.Animates) != len(polylineOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range polyline.Animates {
+			if (polyline.Animates[i] == nil) != (polylineOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if polyline.Animates[i] != nil && polylineOther.Animates[i] != nil {
+				if len(polyline.Animates[i].GongDiff(polylineOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -2857,62 +2856,62 @@ func (rect *Rect) GongDiff(rectOther *Rect) (diffs []string) {
 		diffs = append(diffs, "Transform")
 	}
 	HoveringTriggerDifferent := false
-    if len(rect.HoveringTrigger) != len(rectOther.HoveringTrigger) {
-        HoveringTriggerDifferent = true
-    } else {
-        for i := range rect.HoveringTrigger {
-            if (rect.HoveringTrigger[i] == nil) != (rectOther.HoveringTrigger[i] == nil) {
-                HoveringTriggerDifferent = true
-                break
-            } else if rect.HoveringTrigger[i] != nil && rectOther.HoveringTrigger[i] != nil {
-                if len(rect.HoveringTrigger[i].GongDiff(rectOther.HoveringTrigger[i])) > 0 {
-                    HoveringTriggerDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if HoveringTriggerDifferent {
-        diffs = append(diffs, "HoveringTrigger")
-    }
+	if len(rect.HoveringTrigger) != len(rectOther.HoveringTrigger) {
+		HoveringTriggerDifferent = true
+	} else {
+		for i := range rect.HoveringTrigger {
+			if (rect.HoveringTrigger[i] == nil) != (rectOther.HoveringTrigger[i] == nil) {
+				HoveringTriggerDifferent = true
+				break
+			} else if rect.HoveringTrigger[i] != nil && rectOther.HoveringTrigger[i] != nil {
+				if len(rect.HoveringTrigger[i].GongDiff(rectOther.HoveringTrigger[i])) > 0 {
+					HoveringTriggerDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if HoveringTriggerDifferent {
+		diffs = append(diffs, "HoveringTrigger")
+	}
 	DisplayConditionsDifferent := false
-    if len(rect.DisplayConditions) != len(rectOther.DisplayConditions) {
-        DisplayConditionsDifferent = true
-    } else {
-        for i := range rect.DisplayConditions {
-            if (rect.DisplayConditions[i] == nil) != (rectOther.DisplayConditions[i] == nil) {
-                DisplayConditionsDifferent = true
-                break
-            } else if rect.DisplayConditions[i] != nil && rectOther.DisplayConditions[i] != nil {
-                if len(rect.DisplayConditions[i].GongDiff(rectOther.DisplayConditions[i])) > 0 {
-                    DisplayConditionsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if DisplayConditionsDifferent {
-        diffs = append(diffs, "DisplayConditions")
-    }
+	if len(rect.DisplayConditions) != len(rectOther.DisplayConditions) {
+		DisplayConditionsDifferent = true
+	} else {
+		for i := range rect.DisplayConditions {
+			if (rect.DisplayConditions[i] == nil) != (rectOther.DisplayConditions[i] == nil) {
+				DisplayConditionsDifferent = true
+				break
+			} else if rect.DisplayConditions[i] != nil && rectOther.DisplayConditions[i] != nil {
+				if len(rect.DisplayConditions[i].GongDiff(rectOther.DisplayConditions[i])) > 0 {
+					DisplayConditionsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if DisplayConditionsDifferent {
+		diffs = append(diffs, "DisplayConditions")
+	}
 	AnimationsDifferent := false
-    if len(rect.Animations) != len(rectOther.Animations) {
-        AnimationsDifferent = true
-    } else {
-        for i := range rect.Animations {
-            if (rect.Animations[i] == nil) != (rectOther.Animations[i] == nil) {
-                AnimationsDifferent = true
-                break
-            } else if rect.Animations[i] != nil && rectOther.Animations[i] != nil {
-                if len(rect.Animations[i].GongDiff(rectOther.Animations[i])) > 0 {
-                    AnimationsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimationsDifferent {
-        diffs = append(diffs, "Animations")
-    }
+	if len(rect.Animations) != len(rectOther.Animations) {
+		AnimationsDifferent = true
+	} else {
+		for i := range rect.Animations {
+			if (rect.Animations[i] == nil) != (rectOther.Animations[i] == nil) {
+				AnimationsDifferent = true
+				break
+			} else if rect.Animations[i] != nil && rectOther.Animations[i] != nil {
+				if len(rect.Animations[i].GongDiff(rectOther.Animations[i])) > 0 {
+					AnimationsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimationsDifferent {
+		diffs = append(diffs, "Animations")
+	}
 	if rect.IsSelectable != rectOther.IsSelectable {
 		diffs = append(diffs, "IsSelectable")
 	}
@@ -2953,62 +2952,62 @@ func (rect *Rect) GongDiff(rectOther *Rect) (diffs []string) {
 		diffs = append(diffs, "CanMoveVerticaly")
 	}
 	RectAnchoredTextsDifferent := false
-    if len(rect.RectAnchoredTexts) != len(rectOther.RectAnchoredTexts) {
-        RectAnchoredTextsDifferent = true
-    } else {
-        for i := range rect.RectAnchoredTexts {
-            if (rect.RectAnchoredTexts[i] == nil) != (rectOther.RectAnchoredTexts[i] == nil) {
-                RectAnchoredTextsDifferent = true
-                break
-            } else if rect.RectAnchoredTexts[i] != nil && rectOther.RectAnchoredTexts[i] != nil {
-                if len(rect.RectAnchoredTexts[i].GongDiff(rectOther.RectAnchoredTexts[i])) > 0 {
-                    RectAnchoredTextsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RectAnchoredTextsDifferent {
-        diffs = append(diffs, "RectAnchoredTexts")
-    }
+	if len(rect.RectAnchoredTexts) != len(rectOther.RectAnchoredTexts) {
+		RectAnchoredTextsDifferent = true
+	} else {
+		for i := range rect.RectAnchoredTexts {
+			if (rect.RectAnchoredTexts[i] == nil) != (rectOther.RectAnchoredTexts[i] == nil) {
+				RectAnchoredTextsDifferent = true
+				break
+			} else if rect.RectAnchoredTexts[i] != nil && rectOther.RectAnchoredTexts[i] != nil {
+				if len(rect.RectAnchoredTexts[i].GongDiff(rectOther.RectAnchoredTexts[i])) > 0 {
+					RectAnchoredTextsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectAnchoredTextsDifferent {
+		diffs = append(diffs, "RectAnchoredTexts")
+	}
 	RectAnchoredRectsDifferent := false
-    if len(rect.RectAnchoredRects) != len(rectOther.RectAnchoredRects) {
-        RectAnchoredRectsDifferent = true
-    } else {
-        for i := range rect.RectAnchoredRects {
-            if (rect.RectAnchoredRects[i] == nil) != (rectOther.RectAnchoredRects[i] == nil) {
-                RectAnchoredRectsDifferent = true
-                break
-            } else if rect.RectAnchoredRects[i] != nil && rectOther.RectAnchoredRects[i] != nil {
-                if len(rect.RectAnchoredRects[i].GongDiff(rectOther.RectAnchoredRects[i])) > 0 {
-                    RectAnchoredRectsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RectAnchoredRectsDifferent {
-        diffs = append(diffs, "RectAnchoredRects")
-    }
+	if len(rect.RectAnchoredRects) != len(rectOther.RectAnchoredRects) {
+		RectAnchoredRectsDifferent = true
+	} else {
+		for i := range rect.RectAnchoredRects {
+			if (rect.RectAnchoredRects[i] == nil) != (rectOther.RectAnchoredRects[i] == nil) {
+				RectAnchoredRectsDifferent = true
+				break
+			} else if rect.RectAnchoredRects[i] != nil && rectOther.RectAnchoredRects[i] != nil {
+				if len(rect.RectAnchoredRects[i].GongDiff(rectOther.RectAnchoredRects[i])) > 0 {
+					RectAnchoredRectsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectAnchoredRectsDifferent {
+		diffs = append(diffs, "RectAnchoredRects")
+	}
 	RectAnchoredPathsDifferent := false
-    if len(rect.RectAnchoredPaths) != len(rectOther.RectAnchoredPaths) {
-        RectAnchoredPathsDifferent = true
-    } else {
-        for i := range rect.RectAnchoredPaths {
-            if (rect.RectAnchoredPaths[i] == nil) != (rectOther.RectAnchoredPaths[i] == nil) {
-                RectAnchoredPathsDifferent = true
-                break
-            } else if rect.RectAnchoredPaths[i] != nil && rectOther.RectAnchoredPaths[i] != nil {
-                if len(rect.RectAnchoredPaths[i].GongDiff(rectOther.RectAnchoredPaths[i])) > 0 {
-                    RectAnchoredPathsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if RectAnchoredPathsDifferent {
-        diffs = append(diffs, "RectAnchoredPaths")
-    }
+	if len(rect.RectAnchoredPaths) != len(rectOther.RectAnchoredPaths) {
+		RectAnchoredPathsDifferent = true
+	} else {
+		for i := range rect.RectAnchoredPaths {
+			if (rect.RectAnchoredPaths[i] == nil) != (rectOther.RectAnchoredPaths[i] == nil) {
+				RectAnchoredPathsDifferent = true
+				break
+			} else if rect.RectAnchoredPaths[i] != nil && rectOther.RectAnchoredPaths[i] != nil {
+				if len(rect.RectAnchoredPaths[i].GongDiff(rectOther.RectAnchoredPaths[i])) > 0 {
+					RectAnchoredPathsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RectAnchoredPathsDifferent {
+		diffs = append(diffs, "RectAnchoredPaths")
+	}
 	if rect.ChangeColorWhenHovered != rectOther.ChangeColorWhenHovered {
 		diffs = append(diffs, "ChangeColorWhenHovered")
 	}
@@ -3241,24 +3240,24 @@ func (rectanchoredtext *RectAnchoredText) GongDiff(rectanchoredtextOther *RectAn
 		diffs = append(diffs, "Transform")
 	}
 	AnimatesDifferent := false
-    if len(rectanchoredtext.Animates) != len(rectanchoredtextOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range rectanchoredtext.Animates {
-            if (rectanchoredtext.Animates[i] == nil) != (rectanchoredtextOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if rectanchoredtext.Animates[i] != nil && rectanchoredtextOther.Animates[i] != nil {
-                if len(rectanchoredtext.Animates[i].GongDiff(rectanchoredtextOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(rectanchoredtext.Animates) != len(rectanchoredtextOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range rectanchoredtext.Animates {
+			if (rectanchoredtext.Animates[i] == nil) != (rectanchoredtextOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if rectanchoredtext.Animates[i] != nil && rectanchoredtextOther.Animates[i] != nil {
+				if len(rectanchoredtext.Animates[i].GongDiff(rectanchoredtextOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }
@@ -3323,24 +3322,24 @@ func (svg *SVG) GongDiff(svgOther *SVG) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	LayersDifferent := false
-    if len(svg.Layers) != len(svgOther.Layers) {
-        LayersDifferent = true
-    } else {
-        for i := range svg.Layers {
-            if (svg.Layers[i] == nil) != (svgOther.Layers[i] == nil) {
-                LayersDifferent = true
-                break
-            } else if svg.Layers[i] != nil && svgOther.Layers[i] != nil {
-                if len(svg.Layers[i].GongDiff(svgOther.Layers[i])) > 0 {
-                    LayersDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if LayersDifferent {
-        diffs = append(diffs, "Layers")
-    }
+	if len(svg.Layers) != len(svgOther.Layers) {
+		LayersDifferent = true
+	} else {
+		for i := range svg.Layers {
+			if (svg.Layers[i] == nil) != (svgOther.Layers[i] == nil) {
+				LayersDifferent = true
+				break
+			} else if svg.Layers[i] != nil && svgOther.Layers[i] != nil {
+				if len(svg.Layers[i].GongDiff(svgOther.Layers[i])) > 0 {
+					LayersDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LayersDifferent {
+		diffs = append(diffs, "Layers")
+	}
 	if svg.DrawingState != svgOther.DrawingState {
 		diffs = append(diffs, "DrawingState")
 	}
@@ -3462,24 +3461,24 @@ func (text *Text) GongDiff(textOther *Text) (diffs []string) {
 		diffs = append(diffs, "WhiteSpace")
 	}
 	AnimatesDifferent := false
-    if len(text.Animates) != len(textOther.Animates) {
-        AnimatesDifferent = true
-    } else {
-        for i := range text.Animates {
-            if (text.Animates[i] == nil) != (textOther.Animates[i] == nil) {
-                AnimatesDifferent = true
-                break
-            } else if text.Animates[i] != nil && textOther.Animates[i] != nil {
-                if len(text.Animates[i].GongDiff(textOther.Animates[i])) > 0 {
-                    AnimatesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if AnimatesDifferent {
-        diffs = append(diffs, "Animates")
-    }
+	if len(text.Animates) != len(textOther.Animates) {
+		AnimatesDifferent = true
+	} else {
+		for i := range text.Animates {
+			if (text.Animates[i] == nil) != (textOther.Animates[i] == nil) {
+				AnimatesDifferent = true
+				break
+			} else if text.Animates[i] != nil && textOther.Animates[i] != nil {
+				if len(text.Animates[i].GongDiff(textOther.Animates[i])) > 0 {
+					AnimatesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AnimatesDifferent {
+		diffs = append(diffs, "Animates")
+	}
 
 	return
 }

@@ -706,7 +706,7 @@ type GongstructEnumIntField interface {
 }
 
 type PointerToGongstructEnumIntField interface {
-	*EngineDriverState | *EngineRunMode | *EngineStopMode
+	//insertion point for pointers to enum int types | *EngineDriverState | *EngineRunMode | *EngineStopMode
 	FromCodeString(input string) (err error)
 }
 

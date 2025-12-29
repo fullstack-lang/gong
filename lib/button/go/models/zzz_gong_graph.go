@@ -464,7 +464,6 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -529,24 +528,24 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 		diffs = append(diffs, "Percentage")
 	}
 	ButtonsDifferent := false
-    if len(group.Buttons) != len(groupOther.Buttons) {
-        ButtonsDifferent = true
-    } else {
-        for i := range group.Buttons {
-            if (group.Buttons[i] == nil) != (groupOther.Buttons[i] == nil) {
-                ButtonsDifferent = true
-                break
-            } else if group.Buttons[i] != nil && groupOther.Buttons[i] != nil {
-                if len(group.Buttons[i].GongDiff(groupOther.Buttons[i])) > 0 {
-                    ButtonsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ButtonsDifferent {
-        diffs = append(diffs, "Buttons")
-    }
+	if len(group.Buttons) != len(groupOther.Buttons) {
+		ButtonsDifferent = true
+	} else {
+		for i := range group.Buttons {
+			if (group.Buttons[i] == nil) != (groupOther.Buttons[i] == nil) {
+				ButtonsDifferent = true
+				break
+			} else if group.Buttons[i] != nil && groupOther.Buttons[i] != nil {
+				if len(group.Buttons[i].GongDiff(groupOther.Buttons[i])) > 0 {
+					ButtonsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonsDifferent {
+		diffs = append(diffs, "Buttons")
+	}
 	if group.NbColumns != groupOther.NbColumns {
 		diffs = append(diffs, "NbColumns")
 	}
@@ -565,24 +564,24 @@ func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs [
 		diffs = append(diffs, "Percentage")
 	}
 	ButtonTogglesDifferent := false
-    if len(grouptoogle.ButtonToggles) != len(grouptoogleOther.ButtonToggles) {
-        ButtonTogglesDifferent = true
-    } else {
-        for i := range grouptoogle.ButtonToggles {
-            if (grouptoogle.ButtonToggles[i] == nil) != (grouptoogleOther.ButtonToggles[i] == nil) {
-                ButtonTogglesDifferent = true
-                break
-            } else if grouptoogle.ButtonToggles[i] != nil && grouptoogleOther.ButtonToggles[i] != nil {
-                if len(grouptoogle.ButtonToggles[i].GongDiff(grouptoogleOther.ButtonToggles[i])) > 0 {
-                    ButtonTogglesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if ButtonTogglesDifferent {
-        diffs = append(diffs, "ButtonToggles")
-    }
+	if len(grouptoogle.ButtonToggles) != len(grouptoogleOther.ButtonToggles) {
+		ButtonTogglesDifferent = true
+	} else {
+		for i := range grouptoogle.ButtonToggles {
+			if (grouptoogle.ButtonToggles[i] == nil) != (grouptoogleOther.ButtonToggles[i] == nil) {
+				ButtonTogglesDifferent = true
+				break
+			} else if grouptoogle.ButtonToggles[i] != nil && grouptoogleOther.ButtonToggles[i] != nil {
+				if len(grouptoogle.ButtonToggles[i].GongDiff(grouptoogleOther.ButtonToggles[i])) > 0 {
+					ButtonTogglesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonTogglesDifferent {
+		diffs = append(diffs, "ButtonToggles")
+	}
 	if grouptoogle.IsSingleSelector != grouptoogleOther.IsSingleSelector {
 		diffs = append(diffs, "IsSingleSelector")
 	}
@@ -598,43 +597,43 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 		diffs = append(diffs, "Name")
 	}
 	GroupsDifferent := false
-    if len(layout.Groups) != len(layoutOther.Groups) {
-        GroupsDifferent = true
-    } else {
-        for i := range layout.Groups {
-            if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
-                GroupsDifferent = true
-                break
-            } else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
-                if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
-                    GroupsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GroupsDifferent {
-        diffs = append(diffs, "Groups")
-    }
+	if len(layout.Groups) != len(layoutOther.Groups) {
+		GroupsDifferent = true
+	} else {
+		for i := range layout.Groups {
+			if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
+				GroupsDifferent = true
+				break
+			} else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
+				if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
+					GroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupsDifferent {
+		diffs = append(diffs, "Groups")
+	}
 	GroupTooglesDifferent := false
-    if len(layout.GroupToogles) != len(layoutOther.GroupToogles) {
-        GroupTooglesDifferent = true
-    } else {
-        for i := range layout.GroupToogles {
-            if (layout.GroupToogles[i] == nil) != (layoutOther.GroupToogles[i] == nil) {
-                GroupTooglesDifferent = true
-                break
-            } else if layout.GroupToogles[i] != nil && layoutOther.GroupToogles[i] != nil {
-                if len(layout.GroupToogles[i].GongDiff(layoutOther.GroupToogles[i])) > 0 {
-                    GroupTooglesDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if GroupTooglesDifferent {
-        diffs = append(diffs, "GroupToogles")
-    }
+	if len(layout.GroupToogles) != len(layoutOther.GroupToogles) {
+		GroupTooglesDifferent = true
+	} else {
+		for i := range layout.GroupToogles {
+			if (layout.GroupToogles[i] == nil) != (layoutOther.GroupToogles[i] == nil) {
+				GroupTooglesDifferent = true
+				break
+			} else if layout.GroupToogles[i] != nil && layoutOther.GroupToogles[i] != nil {
+				if len(layout.GroupToogles[i].GongDiff(layoutOther.GroupToogles[i])) > 0 {
+					GroupTooglesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupTooglesDifferent {
+		diffs = append(diffs, "GroupToogles")
+	}
 
 	return
 }
