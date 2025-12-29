@@ -511,6 +511,38 @@ func (stage *Stage) ComputeReference() {
 
 }
 
-func (aStruct *Astruct) GongGetOrder(stage *Stage) uint {
-	return stage.AstructMap_Staged_Order[aStruct]
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (astruct *Astruct) GongGetOrder(stage *Stage) uint {
+	return stage.AstructMap_Staged_Order[astruct]
 }
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetOrder(stage *Stage) uint {
+	return stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use]
+}
+
+func (astructbstructuse *AstructBstructUse) GongGetOrder(stage *Stage) uint {
+	return stage.AstructBstructUseMap_Staged_Order[astructbstructuse]
+}
+
+func (bstruct *Bstruct) GongGetOrder(stage *Stage) uint {
+	return stage.BstructMap_Staged_Order[bstruct]
+}
+
+func (dstruct *Dstruct) GongGetOrder(stage *Stage) uint {
+	return stage.DstructMap_Staged_Order[dstruct]
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetOrder(stage *Stage) uint {
+	return stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890]
+}
+
+func (gstruct *Gstruct) GongGetOrder(stage *Stage) uint {
+	return stage.GstructMap_Staged_Order[gstruct]
+}
+
