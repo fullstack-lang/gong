@@ -2,6 +2,7 @@
 package models
 
 import "time"
+
 var __GongSliceTemplate_time__dummyDeclaration time.Duration
 var _ = __GongSliceTemplate_time__dummyDeclaration
 
@@ -38,7 +39,6 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
-
 // insertion point per named struct
 func (a *A) GongCopy() GongstructIF {
 	newInstance := *a
@@ -50,24 +50,35 @@ func (b *B) GongCopy() GongstructIF {
 	return &newInstance
 }
 
-
 func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
+	var lenModeifiedInstances int
 	var lenDeletedInstances int
-	
+
 	// insertion point per named struct
 	var as_newInstances []*A
 	var as_deletedInstances []*A
 
 	// parse all staged instances and check if they have a reference
 	for a := range stage.As {
-		if _, ok := stage.As_reference[a]; !ok {
+		if ref, ok := stage.As_reference[a]; !ok {
 			as_newInstances = append(as_newInstances, a)
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
 					"New instance of A "+a.Name,
 				)
+			}
+		} else {
+			diffs := a.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Modified instance of A "+a.Name,
+					)
+				}
+				lenModeifiedInstances++
 			}
 		}
 	}
@@ -119,7 +130,7 @@ func (stage *Stage) ComputeDifference() {
 	lenNewInstances += len(bs_newInstances)
 	lenDeletedInstances += len(bs_deletedInstances)
 
-	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModeifiedInstances > 0 {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().CommitNotificationTable()
 		}
@@ -132,12 +143,12 @@ func (stage *Stage) ComputeReference() {
 	// insertion point per named struct
 	stage.As_reference = make(map[*A]*A)
 	for instance := range stage.As {
-		stage.As_reference[instance] = instance
+		stage.As_reference[instance] = instance.GongCopy().(*A)
 	}
 
 	stage.Bs_reference = make(map[*B]*B)
 	for instance := range stage.Bs {
-		stage.Bs_reference[instance] = instance
+		stage.Bs_reference[instance] = instance.GongCopy().(*B)
 	}
 
 }
