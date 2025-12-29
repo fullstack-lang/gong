@@ -192,6 +192,7 @@ func (probe *Probe) CommitNotificationTable() {
 
 func (probe *Probe) ResetNotifications() {
 	probe.notification = make([]*Notification, 0)
+	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {

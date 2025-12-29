@@ -95,7 +95,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Content "+content.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Content \""+content.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -137,7 +137,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of JpgImage "+jpgimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of JpgImage \""+jpgimage.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -179,7 +179,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of PngImage "+pngimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of PngImage \""+pngimage.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -221,7 +221,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of SvgImage "+svgimage.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of SvgImage \""+svgimage.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -246,9 +246,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(svgimages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().CommitNotificationTable()
-		}
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
 	}
 }
 
