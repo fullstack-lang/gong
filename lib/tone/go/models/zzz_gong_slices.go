@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -90,7 +91,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Freqency \""+freqency.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Freqency \""+freqency.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -132,7 +133,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Note \""+note.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Note \""+note.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -174,7 +175,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Player \""+player.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Player \""+player.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -225,3 +226,41 @@ func (stage *Stage) ComputeReference() {
 	}
 
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (freqency *Freqency) GongGetOrder(stage *Stage) uint {
+	return stage.FreqencyMap_Staged_Order[freqency]
+}
+
+func (note *Note) GongGetOrder(stage *Stage) uint {
+	return stage.NoteMap_Staged_Order[note]
+}
+
+func (player *Player) GongGetOrder(stage *Stage) uint {
+	return stage.PlayerMap_Staged_Order[player]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (freqency *Freqency) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", freqency.GongGetGongstructName(), freqency.GongGetOrder(stage))
+}
+
+func (note *Note) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", note.GongGetGongstructName(), note.GongGetOrder(stage))
+}
+
+func (player *Player) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", player.GongGetGongstructName(), player.GongGetOrder(stage))
+}
+

@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -372,7 +373,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Cell \""+cell.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Cell \""+cell.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -414,7 +415,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellBoolean \""+cellboolean.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CellBoolean \""+cellboolean.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -456,7 +457,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellFloat64 \""+cellfloat64.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CellFloat64 \""+cellfloat64.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -498,7 +499,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellIcon \""+cellicon.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CellIcon \""+cellicon.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -540,7 +541,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellInt \""+cellint.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CellInt \""+cellint.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -582,7 +583,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellString \""+cellstring.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CellString \""+cellstring.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -624,7 +625,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CheckBox \""+checkbox.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of CheckBox \""+checkbox.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -666,7 +667,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of DisplayedColumn \""+displayedcolumn.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of DisplayedColumn \""+displayedcolumn.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -708,7 +709,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormDiv \""+formdiv.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormDiv \""+formdiv.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -750,7 +751,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormEditAssocButton \""+formeditassocbutton.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormEditAssocButton \""+formeditassocbutton.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -792,7 +793,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormField \""+formfield.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormField \""+formfield.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -834,7 +835,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldDate \""+formfielddate.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldDate \""+formfielddate.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -876,7 +877,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldDateTime \""+formfielddatetime.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldDateTime \""+formfielddatetime.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -918,7 +919,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldFloat64 \""+formfieldfloat64.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldFloat64 \""+formfieldfloat64.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -960,7 +961,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldInt \""+formfieldint.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldInt \""+formfieldint.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1002,7 +1003,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldSelect \""+formfieldselect.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldSelect \""+formfieldselect.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1044,7 +1045,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldString \""+formfieldstring.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldString \""+formfieldstring.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1086,7 +1087,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldTime \""+formfieldtime.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormFieldTime \""+formfieldtime.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1128,7 +1129,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormGroup \""+formgroup.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormGroup \""+formgroup.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1170,7 +1171,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormSortAssocButton \""+formsortassocbutton.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of FormSortAssocButton \""+formsortassocbutton.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1212,7 +1213,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Option \""+option.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Option \""+option.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1254,7 +1255,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Row \""+row.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Row \""+row.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1296,7 +1297,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Table \""+table.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Table \""+table.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1447,3 +1448,201 @@ func (stage *Stage) ComputeReference() {
 	}
 
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (cell *Cell) GongGetOrder(stage *Stage) uint {
+	return stage.CellMap_Staged_Order[cell]
+}
+
+func (cellboolean *CellBoolean) GongGetOrder(stage *Stage) uint {
+	return stage.CellBooleanMap_Staged_Order[cellboolean]
+}
+
+func (cellfloat64 *CellFloat64) GongGetOrder(stage *Stage) uint {
+	return stage.CellFloat64Map_Staged_Order[cellfloat64]
+}
+
+func (cellicon *CellIcon) GongGetOrder(stage *Stage) uint {
+	return stage.CellIconMap_Staged_Order[cellicon]
+}
+
+func (cellint *CellInt) GongGetOrder(stage *Stage) uint {
+	return stage.CellIntMap_Staged_Order[cellint]
+}
+
+func (cellstring *CellString) GongGetOrder(stage *Stage) uint {
+	return stage.CellStringMap_Staged_Order[cellstring]
+}
+
+func (checkbox *CheckBox) GongGetOrder(stage *Stage) uint {
+	return stage.CheckBoxMap_Staged_Order[checkbox]
+}
+
+func (displayedcolumn *DisplayedColumn) GongGetOrder(stage *Stage) uint {
+	return stage.DisplayedColumnMap_Staged_Order[displayedcolumn]
+}
+
+func (formdiv *FormDiv) GongGetOrder(stage *Stage) uint {
+	return stage.FormDivMap_Staged_Order[formdiv]
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongGetOrder(stage *Stage) uint {
+	return stage.FormEditAssocButtonMap_Staged_Order[formeditassocbutton]
+}
+
+func (formfield *FormField) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldMap_Staged_Order[formfield]
+}
+
+func (formfielddate *FormFieldDate) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldDateMap_Staged_Order[formfielddate]
+}
+
+func (formfielddatetime *FormFieldDateTime) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldDateTimeMap_Staged_Order[formfielddatetime]
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldFloat64Map_Staged_Order[formfieldfloat64]
+}
+
+func (formfieldint *FormFieldInt) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldIntMap_Staged_Order[formfieldint]
+}
+
+func (formfieldselect *FormFieldSelect) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldSelectMap_Staged_Order[formfieldselect]
+}
+
+func (formfieldstring *FormFieldString) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldStringMap_Staged_Order[formfieldstring]
+}
+
+func (formfieldtime *FormFieldTime) GongGetOrder(stage *Stage) uint {
+	return stage.FormFieldTimeMap_Staged_Order[formfieldtime]
+}
+
+func (formgroup *FormGroup) GongGetOrder(stage *Stage) uint {
+	return stage.FormGroupMap_Staged_Order[formgroup]
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongGetOrder(stage *Stage) uint {
+	return stage.FormSortAssocButtonMap_Staged_Order[formsortassocbutton]
+}
+
+func (option *Option) GongGetOrder(stage *Stage) uint {
+	return stage.OptionMap_Staged_Order[option]
+}
+
+func (row *Row) GongGetOrder(stage *Stage) uint {
+	return stage.RowMap_Staged_Order[row]
+}
+
+func (table *Table) GongGetOrder(stage *Stage) uint {
+	return stage.TableMap_Staged_Order[table]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (cell *Cell) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cell.GongGetGongstructName(), cell.GongGetOrder(stage))
+}
+
+func (cellboolean *CellBoolean) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellboolean.GongGetGongstructName(), cellboolean.GongGetOrder(stage))
+}
+
+func (cellfloat64 *CellFloat64) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellfloat64.GongGetGongstructName(), cellfloat64.GongGetOrder(stage))
+}
+
+func (cellicon *CellIcon) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellicon.GongGetGongstructName(), cellicon.GongGetOrder(stage))
+}
+
+func (cellint *CellInt) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellint.GongGetGongstructName(), cellint.GongGetOrder(stage))
+}
+
+func (cellstring *CellString) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cellstring.GongGetGongstructName(), cellstring.GongGetOrder(stage))
+}
+
+func (checkbox *CheckBox) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", checkbox.GongGetGongstructName(), checkbox.GongGetOrder(stage))
+}
+
+func (displayedcolumn *DisplayedColumn) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", displayedcolumn.GongGetGongstructName(), displayedcolumn.GongGetOrder(stage))
+}
+
+func (formdiv *FormDiv) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formdiv.GongGetGongstructName(), formdiv.GongGetOrder(stage))
+}
+
+func (formeditassocbutton *FormEditAssocButton) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formeditassocbutton.GongGetGongstructName(), formeditassocbutton.GongGetOrder(stage))
+}
+
+func (formfield *FormField) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfield.GongGetGongstructName(), formfield.GongGetOrder(stage))
+}
+
+func (formfielddate *FormFieldDate) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfielddate.GongGetGongstructName(), formfielddate.GongGetOrder(stage))
+}
+
+func (formfielddatetime *FormFieldDateTime) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfielddatetime.GongGetGongstructName(), formfielddatetime.GongGetOrder(stage))
+}
+
+func (formfieldfloat64 *FormFieldFloat64) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldfloat64.GongGetGongstructName(), formfieldfloat64.GongGetOrder(stage))
+}
+
+func (formfieldint *FormFieldInt) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldint.GongGetGongstructName(), formfieldint.GongGetOrder(stage))
+}
+
+func (formfieldselect *FormFieldSelect) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldselect.GongGetGongstructName(), formfieldselect.GongGetOrder(stage))
+}
+
+func (formfieldstring *FormFieldString) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldstring.GongGetGongstructName(), formfieldstring.GongGetOrder(stage))
+}
+
+func (formfieldtime *FormFieldTime) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formfieldtime.GongGetGongstructName(), formfieldtime.GongGetOrder(stage))
+}
+
+func (formgroup *FormGroup) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formgroup.GongGetGongstructName(), formgroup.GongGetOrder(stage))
+}
+
+func (formsortassocbutton *FormSortAssocButton) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", formsortassocbutton.GongGetGongstructName(), formsortassocbutton.GongGetOrder(stage))
+}
+
+func (option *Option) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", option.GongGetGongstructName(), option.GongGetOrder(stage))
+}
+
+func (row *Row) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", row.GongGetGongstructName(), row.GongGetOrder(stage))
+}
+
+func (table *Table) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetOrder(stage))
+}
+

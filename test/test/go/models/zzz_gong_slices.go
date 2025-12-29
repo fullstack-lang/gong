@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -544,5 +545,39 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGe
 
 func (gstruct *Gstruct) GongGetOrder(stage *Stage) uint {
 	return stage.GstructMap_Staged_Order[gstruct]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (astruct *Astruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astruct.GongGetGongstructName(), astruct.GongGetOrder(stage))
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstruct2use.GongGetGongstructName(), astructbstruct2use.GongGetOrder(stage))
+}
+
+func (astructbstructuse *AstructBstructUse) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstructuse.GongGetGongstructName(), astructbstructuse.GongGetOrder(stage))
+}
+
+func (bstruct *Bstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", bstruct.GongGetGongstructName(), bstruct.GongGetOrder(stage))
+}
+
+func (dstruct *Dstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", dstruct.GongGetGongstructName(), dstruct.GongGetOrder(stage))
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", f0123456789012345678901234567890.GongGetGongstructName(), f0123456789012345678901234567890.GongGetOrder(stage))
+}
+
+func (gstruct *Gstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gstruct.GongGetGongstructName(), gstruct.GongGetOrder(stage))
 }
 
