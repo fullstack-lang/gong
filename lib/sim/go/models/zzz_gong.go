@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Commands           map[*Command]struct{}
+	Commands_reference map[*Command]*Command
 	Commands_mapString map[string]*Command
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterCommandReadCallback   OnAfterReadInterface[Command]
 
 	DummyAgents           map[*DummyAgent]struct{}
+	DummyAgents_reference map[*DummyAgent]*DummyAgent
 	DummyAgents_mapString map[string]*DummyAgent
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterDummyAgentReadCallback   OnAfterReadInterface[DummyAgent]
 
 	Engines           map[*Engine]struct{}
+	Engines_reference map[*Engine]*Engine
 	Engines_mapString map[string]*Engine
 
 	// insertion point for slice of pointers maps
@@ -121,6 +124,7 @@ type Stage struct {
 	OnAfterEngineReadCallback   OnAfterReadInterface[Engine]
 
 	Events           map[*Event]struct{}
+	Events_reference map[*Event]*Event
 	Events_mapString map[string]*Event
 
 	// insertion point for slice of pointers maps
@@ -130,6 +134,7 @@ type Stage struct {
 	OnAfterEventReadCallback   OnAfterReadInterface[Event]
 
 	Statuss           map[*Status]struct{}
+	Statuss_reference map[*Status]*Status
 	Statuss_mapString map[string]*Status
 
 	// insertion point for slice of pointers maps
@@ -139,6 +144,7 @@ type Stage struct {
 	OnAfterStatusReadCallback   OnAfterReadInterface[Status]
 
 	UpdateStates           map[*UpdateState]struct{}
+	UpdateStates_reference map[*UpdateState]*UpdateState
 	UpdateStates_mapString map[string]*UpdateState
 
 	// insertion point for slice of pointers maps
@@ -195,8 +201,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -207,10 +222,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -506,8 +517,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Status"},
 			{name: "UpdateState"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -581,7 +590,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -2242,4 +2257,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

@@ -58,11 +58,11 @@ func NewLevel1Stack(
 	marshallOnCommit string,
 	withProbe bool,
 	embeddedDiagrams bool,
-) (miniStack *Level1Stack) {
+) (level1Stack *Level1Stack) {
 
-	miniStack = new(Level1Stack)
+	level1Stack = new(Level1Stack)
 	stage := models.NewStage(stackPath)
-	miniStack.Stage = stage
+	level1Stack.Stage = stage
 
 	if unmarshallFromCode != "" {
 		err := models.ParseAstFile(stage, unmarshallFromCode, true)
@@ -75,6 +75,7 @@ func NewLevel1Stack(
 
 		stage.ComputeReverseMaps()
 		stage.ComputeInstancesNb()
+		stage.ComputeReference()
 	} else {
 		// in case the database is used, checkout the content to the stage
 		stage.Checkout()
@@ -87,18 +88,20 @@ func NewLevel1Stack(
 		stage.OnInitCommitCallback = hook
 	}
 
-	miniStack.R = split_static.ServeStaticFiles(false)
+	level1Stack.R = split_static.ServeStaticFiles(false)
 	if withProbe {
 		// if the application edits the diagrams via the probe, it is surmised
 		// that the application is launched from "go/cmd/<appl>/". Therefore, to reach
 		// "go/diagrams/diagrams.go", the path is "../../diagrams/diagrams.go"
-		miniStack.Probe = probe.NewProbe(
-			miniStack.R,
+		level1Stack.Probe = probe.NewProbe(
+			level1Stack.R,
 			xlsx_go.GoModelsDir,
 			xlsx_go.GoDiagramsDir,
 			embeddedDiagrams,
 			stage,
 		)
+
+		stage.SetProbeIF(level1Stack.Probe)
 	}
 
 	// add orchestration

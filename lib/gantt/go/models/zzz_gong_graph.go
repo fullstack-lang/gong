@@ -661,3 +661,325 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 	}
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (arrow *Arrow) GongDiff(arrowOther *Arrow) (diffs []string) {
+	// insertion point for field diffs
+	if arrow.Name != arrowOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (arrow.From == nil) != (arrowOther.From == nil) {
+		diffs = append(diffs, "From")
+	} else if arrow.From != nil && arrowOther.From != nil {
+		if arrow.From != arrowOther.From {
+			diffs = append(diffs, "From")
+		}
+	}
+	if (arrow.To == nil) != (arrowOther.To == nil) {
+		diffs = append(diffs, "To")
+	} else if arrow.To != nil && arrowOther.To != nil {
+		if arrow.To != arrowOther.To {
+			diffs = append(diffs, "To")
+		}
+	}
+	if arrow.OptionnalColor != arrowOther.OptionnalColor {
+		diffs = append(diffs, "OptionnalColor")
+	}
+	if arrow.OptionnalStroke != arrowOther.OptionnalStroke {
+		diffs = append(diffs, "OptionnalStroke")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (bar *Bar) GongDiff(barOther *Bar) (diffs []string) {
+	// insertion point for field diffs
+	if bar.Name != barOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if bar.ComputedDuration != barOther.ComputedDuration {
+		diffs = append(diffs, "ComputedDuration")
+	}
+	if bar.OptionnalColor != barOther.OptionnalColor {
+		diffs = append(diffs, "OptionnalColor")
+	}
+	if bar.OptionnalStroke != barOther.OptionnalStroke {
+		diffs = append(diffs, "OptionnalStroke")
+	}
+	if bar.FillOpacity != barOther.FillOpacity {
+		diffs = append(diffs, "FillOpacity")
+	}
+	if bar.StrokeWidth != barOther.StrokeWidth {
+		diffs = append(diffs, "StrokeWidth")
+	}
+	if bar.StrokeDashArray != barOther.StrokeDashArray {
+		diffs = append(diffs, "StrokeDashArray")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
+	// insertion point for field diffs
+	if gantt.Name != ganttOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if gantt.ComputedDuration != ganttOther.ComputedDuration {
+		diffs = append(diffs, "ComputedDuration")
+	}
+	if gantt.UseManualStartAndEndDates != ganttOther.UseManualStartAndEndDates {
+		diffs = append(diffs, "UseManualStartAndEndDates")
+	}
+	if gantt.LaneHeight != ganttOther.LaneHeight {
+		diffs = append(diffs, "LaneHeight")
+	}
+	if gantt.RatioBarToLaneHeight != ganttOther.RatioBarToLaneHeight {
+		diffs = append(diffs, "RatioBarToLaneHeight")
+	}
+	if gantt.YTopMargin != ganttOther.YTopMargin {
+		diffs = append(diffs, "YTopMargin")
+	}
+	if gantt.XLeftText != ganttOther.XLeftText {
+		diffs = append(diffs, "XLeftText")
+	}
+	if gantt.TextHeight != ganttOther.TextHeight {
+		diffs = append(diffs, "TextHeight")
+	}
+	if gantt.XLeftLanes != ganttOther.XLeftLanes {
+		diffs = append(diffs, "XLeftLanes")
+	}
+	if gantt.XRightMargin != ganttOther.XRightMargin {
+		diffs = append(diffs, "XRightMargin")
+	}
+	if gantt.ArrowLengthToTheRightOfStartBar != ganttOther.ArrowLengthToTheRightOfStartBar {
+		diffs = append(diffs, "ArrowLengthToTheRightOfStartBar")
+	}
+	if gantt.ArrowTipLenght != ganttOther.ArrowTipLenght {
+		diffs = append(diffs, "ArrowTipLenght")
+	}
+	if gantt.TimeLine_Color != ganttOther.TimeLine_Color {
+		diffs = append(diffs, "TimeLine_Color")
+	}
+	if gantt.TimeLine_FillOpacity != ganttOther.TimeLine_FillOpacity {
+		diffs = append(diffs, "TimeLine_FillOpacity")
+	}
+	if gantt.TimeLine_Stroke != ganttOther.TimeLine_Stroke {
+		diffs = append(diffs, "TimeLine_Stroke")
+	}
+	if gantt.TimeLine_StrokeWidth != ganttOther.TimeLine_StrokeWidth {
+		diffs = append(diffs, "TimeLine_StrokeWidth")
+	}
+	if gantt.Group_Stroke != ganttOther.Group_Stroke {
+		diffs = append(diffs, "Group_Stroke")
+	}
+	if gantt.Group_StrokeWidth != ganttOther.Group_StrokeWidth {
+		diffs = append(diffs, "Group_StrokeWidth")
+	}
+	if gantt.Group_StrokeDashArray != ganttOther.Group_StrokeDashArray {
+		diffs = append(diffs, "Group_StrokeDashArray")
+	}
+	if gantt.DateYOffset != ganttOther.DateYOffset {
+		diffs = append(diffs, "DateYOffset")
+	}
+	if gantt.AlignOnStartEndOnYearStart != ganttOther.AlignOnStartEndOnYearStart {
+		diffs = append(diffs, "AlignOnStartEndOnYearStart")
+	}
+	LanesDifferent := false
+	if len(gantt.Lanes) != len(ganttOther.Lanes) {
+		LanesDifferent = true
+	} else {
+		for i := range gantt.Lanes {
+			if (gantt.Lanes[i] == nil) != (ganttOther.Lanes[i] == nil) {
+				LanesDifferent = true
+				break
+			} else if gantt.Lanes[i] != nil && ganttOther.Lanes[i] != nil {
+				if len(gantt.Lanes[i].GongDiff(ganttOther.Lanes[i])) > 0 {
+					LanesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LanesDifferent {
+		diffs = append(diffs, "Lanes")
+	}
+	MilestonesDifferent := false
+	if len(gantt.Milestones) != len(ganttOther.Milestones) {
+		MilestonesDifferent = true
+	} else {
+		for i := range gantt.Milestones {
+			if (gantt.Milestones[i] == nil) != (ganttOther.Milestones[i] == nil) {
+				MilestonesDifferent = true
+				break
+			} else if gantt.Milestones[i] != nil && ganttOther.Milestones[i] != nil {
+				if len(gantt.Milestones[i].GongDiff(ganttOther.Milestones[i])) > 0 {
+					MilestonesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if MilestonesDifferent {
+		diffs = append(diffs, "Milestones")
+	}
+	GroupsDifferent := false
+	if len(gantt.Groups) != len(ganttOther.Groups) {
+		GroupsDifferent = true
+	} else {
+		for i := range gantt.Groups {
+			if (gantt.Groups[i] == nil) != (ganttOther.Groups[i] == nil) {
+				GroupsDifferent = true
+				break
+			} else if gantt.Groups[i] != nil && ganttOther.Groups[i] != nil {
+				if len(gantt.Groups[i].GongDiff(ganttOther.Groups[i])) > 0 {
+					GroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupsDifferent {
+		diffs = append(diffs, "Groups")
+	}
+	ArrowsDifferent := false
+	if len(gantt.Arrows) != len(ganttOther.Arrows) {
+		ArrowsDifferent = true
+	} else {
+		for i := range gantt.Arrows {
+			if (gantt.Arrows[i] == nil) != (ganttOther.Arrows[i] == nil) {
+				ArrowsDifferent = true
+				break
+			} else if gantt.Arrows[i] != nil && ganttOther.Arrows[i] != nil {
+				if len(gantt.Arrows[i].GongDiff(ganttOther.Arrows[i])) > 0 {
+					ArrowsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ArrowsDifferent {
+		diffs = append(diffs, "Arrows")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
+	// insertion point for field diffs
+	if group.Name != groupOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	GroupLanesDifferent := false
+	if len(group.GroupLanes) != len(groupOther.GroupLanes) {
+		GroupLanesDifferent = true
+	} else {
+		for i := range group.GroupLanes {
+			if (group.GroupLanes[i] == nil) != (groupOther.GroupLanes[i] == nil) {
+				GroupLanesDifferent = true
+				break
+			} else if group.GroupLanes[i] != nil && groupOther.GroupLanes[i] != nil {
+				if len(group.GroupLanes[i].GongDiff(groupOther.GroupLanes[i])) > 0 {
+					GroupLanesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupLanesDifferent {
+		diffs = append(diffs, "GroupLanes")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
+	// insertion point for field diffs
+	if lane.Name != laneOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if lane.Order != laneOther.Order {
+		diffs = append(diffs, "Order")
+	}
+	BarsDifferent := false
+	if len(lane.Bars) != len(laneOther.Bars) {
+		BarsDifferent = true
+	} else {
+		for i := range lane.Bars {
+			if (lane.Bars[i] == nil) != (laneOther.Bars[i] == nil) {
+				BarsDifferent = true
+				break
+			} else if lane.Bars[i] != nil && laneOther.Bars[i] != nil {
+				if len(lane.Bars[i].GongDiff(laneOther.Bars[i])) > 0 {
+					BarsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if BarsDifferent {
+		diffs = append(diffs, "Bars")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (laneuse *LaneUse) GongDiff(laneuseOther *LaneUse) (diffs []string) {
+	// insertion point for field diffs
+	if laneuse.Name != laneuseOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (laneuse.Lane == nil) != (laneuseOther.Lane == nil) {
+		diffs = append(diffs, "Lane")
+	} else if laneuse.Lane != nil && laneuseOther.Lane != nil {
+		if laneuse.Lane != laneuseOther.Lane {
+			diffs = append(diffs, "Lane")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string) {
+	// insertion point for field diffs
+	if milestone.Name != milestoneOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if milestone.DisplayVerticalBar != milestoneOther.DisplayVerticalBar {
+		diffs = append(diffs, "DisplayVerticalBar")
+	}
+	LanesToDisplayDifferent := false
+	if len(milestone.LanesToDisplay) != len(milestoneOther.LanesToDisplay) {
+		LanesToDisplayDifferent = true
+	} else {
+		for i := range milestone.LanesToDisplay {
+			if (milestone.LanesToDisplay[i] == nil) != (milestoneOther.LanesToDisplay[i] == nil) {
+				LanesToDisplayDifferent = true
+				break
+			} else if milestone.LanesToDisplay[i] != nil && milestoneOther.LanesToDisplay[i] != nil {
+				if len(milestone.LanesToDisplay[i].GongDiff(milestoneOther.LanesToDisplay[i])) > 0 {
+					LanesToDisplayDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if LanesToDisplayDifferent {
+		diffs = append(diffs, "LanesToDisplay")
+	}
+
+	return
+}

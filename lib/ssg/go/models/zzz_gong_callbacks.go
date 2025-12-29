@@ -104,16 +104,13 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Chapter:
 		stage.OnAfterChapterUpdateCallback = any(callback).(OnAfterUpdateInterface[Chapter])
-	
 	case *Content:
 		stage.OnAfterContentUpdateCallback = any(callback).(OnAfterUpdateInterface[Content])
-	
 	case *Page:
 		stage.OnAfterPageUpdateCallback = any(callback).(OnAfterUpdateInterface[Page])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -123,13 +120,10 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Chapter:
 		stage.OnAfterChapterCreateCallback = any(callback).(OnAfterCreateInterface[Chapter])
-	
 	case *Content:
 		stage.OnAfterContentCreateCallback = any(callback).(OnAfterCreateInterface[Content])
-	
 	case *Page:
 		stage.OnAfterPageCreateCallback = any(callback).(OnAfterCreateInterface[Page])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -139,13 +133,10 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Chapter:
 		stage.OnAfterChapterDeleteCallback = any(callback).(OnAfterDeleteInterface[Chapter])
-	
 	case *Content:
 		stage.OnAfterContentDeleteCallback = any(callback).(OnAfterDeleteInterface[Content])
-	
 	case *Page:
 		stage.OnAfterPageDeleteCallback = any(callback).(OnAfterDeleteInterface[Page])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -155,12 +146,9 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Chapter:
 		stage.OnAfterChapterReadCallback = any(callback).(OnAfterReadInterface[Chapter])
-	
 	case *Content:
 		stage.OnAfterContentReadCallback = any(callback).(OnAfterReadInterface[Content])
-	
 	case *Page:
 		stage.OnAfterPageReadCallback = any(callback).(OnAfterReadInterface[Page])
-	
 	}
 }

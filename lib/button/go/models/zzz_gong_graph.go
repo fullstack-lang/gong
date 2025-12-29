@@ -463,3 +463,177 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 	}
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+	// insertion point for field diffs
+	if button.Name != buttonOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if button.Label != buttonOther.Label {
+		diffs = append(diffs, "Label")
+	}
+	if button.Icon != buttonOther.Icon {
+		diffs = append(diffs, "Icon")
+	}
+	if button.IsDisabled != buttonOther.IsDisabled {
+		diffs = append(diffs, "IsDisabled")
+	}
+	if button.Color != buttonOther.Color {
+		diffs = append(diffs, "Color")
+	}
+	if button.MatButtonType != buttonOther.MatButtonType {
+		diffs = append(diffs, "MatButtonType")
+	}
+	if button.MatButtonAppearance != buttonOther.MatButtonAppearance {
+		diffs = append(diffs, "MatButtonAppearance")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (buttontoggle *ButtonToggle) GongDiff(buttontoggleOther *ButtonToggle) (diffs []string) {
+	// insertion point for field diffs
+	if buttontoggle.Name != buttontoggleOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if buttontoggle.Label != buttontoggleOther.Label {
+		diffs = append(diffs, "Label")
+	}
+	if buttontoggle.Icon != buttontoggleOther.Icon {
+		diffs = append(diffs, "Icon")
+	}
+	if buttontoggle.IsDisabled != buttontoggleOther.IsDisabled {
+		diffs = append(diffs, "IsDisabled")
+	}
+	if buttontoggle.IsChecked != buttontoggleOther.IsChecked {
+		diffs = append(diffs, "IsChecked")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
+	// insertion point for field diffs
+	if group.Name != groupOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if group.Percentage != groupOther.Percentage {
+		diffs = append(diffs, "Percentage")
+	}
+	ButtonsDifferent := false
+	if len(group.Buttons) != len(groupOther.Buttons) {
+		ButtonsDifferent = true
+	} else {
+		for i := range group.Buttons {
+			if (group.Buttons[i] == nil) != (groupOther.Buttons[i] == nil) {
+				ButtonsDifferent = true
+				break
+			} else if group.Buttons[i] != nil && groupOther.Buttons[i] != nil {
+				if len(group.Buttons[i].GongDiff(groupOther.Buttons[i])) > 0 {
+					ButtonsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonsDifferent {
+		diffs = append(diffs, "Buttons")
+	}
+	if group.NbColumns != groupOther.NbColumns {
+		diffs = append(diffs, "NbColumns")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs []string) {
+	// insertion point for field diffs
+	if grouptoogle.Name != grouptoogleOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if grouptoogle.Percentage != grouptoogleOther.Percentage {
+		diffs = append(diffs, "Percentage")
+	}
+	ButtonTogglesDifferent := false
+	if len(grouptoogle.ButtonToggles) != len(grouptoogleOther.ButtonToggles) {
+		ButtonTogglesDifferent = true
+	} else {
+		for i := range grouptoogle.ButtonToggles {
+			if (grouptoogle.ButtonToggles[i] == nil) != (grouptoogleOther.ButtonToggles[i] == nil) {
+				ButtonTogglesDifferent = true
+				break
+			} else if grouptoogle.ButtonToggles[i] != nil && grouptoogleOther.ButtonToggles[i] != nil {
+				if len(grouptoogle.ButtonToggles[i].GongDiff(grouptoogleOther.ButtonToggles[i])) > 0 {
+					ButtonTogglesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if ButtonTogglesDifferent {
+		diffs = append(diffs, "ButtonToggles")
+	}
+	if grouptoogle.IsSingleSelector != grouptoogleOther.IsSingleSelector {
+		diffs = append(diffs, "IsSingleSelector")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
+	// insertion point for field diffs
+	if layout.Name != layoutOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	GroupsDifferent := false
+	if len(layout.Groups) != len(layoutOther.Groups) {
+		GroupsDifferent = true
+	} else {
+		for i := range layout.Groups {
+			if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
+				GroupsDifferent = true
+				break
+			} else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
+				if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
+					GroupsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupsDifferent {
+		diffs = append(diffs, "Groups")
+	}
+	GroupTooglesDifferent := false
+	if len(layout.GroupToogles) != len(layoutOther.GroupToogles) {
+		GroupTooglesDifferent = true
+	} else {
+		for i := range layout.GroupToogles {
+			if (layout.GroupToogles[i] == nil) != (layoutOther.GroupToogles[i] == nil) {
+				GroupTooglesDifferent = true
+				break
+			} else if layout.GroupToogles[i] != nil && layoutOther.GroupToogles[i] != nil {
+				if len(layout.GroupToogles[i].GongDiff(layoutOther.GroupToogles[i])) > 0 {
+					GroupTooglesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if GroupTooglesDifferent {
+		diffs = append(diffs, "GroupToogles")
+	}
+
+	return
+}

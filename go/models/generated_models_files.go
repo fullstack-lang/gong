@@ -12,6 +12,7 @@ var GeneratedModelFiles = []string{
 	string(GeneratedGongDiffGoFilePath),
 	string(GeneratedGongEnumGoFilePath),
 	string(GeneratedGongGoFilePath),
+	string(GeneratedGongGoSplitFilePath),
 	string(GeneratedGongGraphGoFilePath),
 	string(GeneratedGongMarshallGoFilePath),
 	string(GeneratedGongOrchestratorGoFilePath),
@@ -59,6 +60,7 @@ const (
 	GeneratedGongDiffGoFilePath            GeneratedGoFilePath = "zzz_gong_diff.go"
 	GeneratedGongEnumGoFilePath            GeneratedGoFilePath = "zzz_gong_enum.go"
 	GeneratedGongGoFilePath                GeneratedGoFilePath = "zzz_gong.go"
+	GeneratedGongGoSplitFilePath           GeneratedGoFilePath = "zzz_gong_split.go"
 	GeneratedGongGraphGoFilePath           GeneratedGoFilePath = "zzz_gong_graph.go"
 	GeneratedGongMarshallGoFilePath        GeneratedGoFilePath = "zzz_gong_marshall.go"
 	GeneratedGongOrchestratorGoFilePath    GeneratedGoFilePath = "zzz_gong_orchestrator.go"

@@ -7,13 +7,13 @@ func (inst *Button) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Buttons":
-				if _group, ok := stage.Group_Buttons_reverseMap[inst]; ok {
-					res = _group.Name
-				}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			if _group, ok := stage.Group_Buttons_reverseMap[inst]; ok {
+				res = _group.Name
 			}
+		}
 	}
 	return
 }
@@ -23,13 +23,13 @@ func (inst *ButtonToggle) GongGetReverseFieldOwnerName(stage *Stage, reverseFiel
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GroupToogle":
-			switch reverseField.Fieldname {
-			case "ButtonToggles":
-				if _grouptoogle, ok := stage.GroupToogle_ButtonToggles_reverseMap[inst]; ok {
-					res = _grouptoogle.Name
-				}
+	case "GroupToogle":
+		switch reverseField.Fieldname {
+		case "ButtonToggles":
+			if _grouptoogle, ok := stage.GroupToogle_ButtonToggles_reverseMap[inst]; ok {
+				res = _grouptoogle.Name
 			}
+		}
 	}
 	return
 }
@@ -39,13 +39,13 @@ func (inst *Group) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "Groups":
-				if _layout, ok := stage.Layout_Groups_reverseMap[inst]; ok {
-					res = _layout.Name
-				}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "Groups":
+			if _layout, ok := stage.Layout_Groups_reverseMap[inst]; ok {
+				res = _layout.Name
 			}
+		}
 	}
 	return
 }
@@ -55,13 +55,13 @@ func (inst *GroupToogle) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "GroupToogles":
-				if _layout, ok := stage.Layout_GroupToogles_reverseMap[inst]; ok {
-					res = _layout.Name
-				}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "GroupToogles":
+			if _layout, ok := stage.Layout_GroupToogles_reverseMap[inst]; ok {
+				res = _layout.Name
 			}
+		}
 	}
 	return
 }
@@ -75,18 +75,17 @@ func (inst *Layout) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rev
 	return
 }
 
-
 // insertion point
 func (inst *Button) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Group":
-			switch reverseField.Fieldname {
-			case "Buttons":
-				res = stage.Group_Buttons_reverseMap[inst]
-			}
+	case "Group":
+		switch reverseField.Fieldname {
+		case "Buttons":
+			res = stage.Group_Buttons_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -96,11 +95,11 @@ func (inst *ButtonToggle) GongGetReverseFieldOwner(stage *Stage, reverseField *R
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "GroupToogle":
-			switch reverseField.Fieldname {
-			case "ButtonToggles":
-				res = stage.GroupToogle_ButtonToggles_reverseMap[inst]
-			}
+	case "GroupToogle":
+		switch reverseField.Fieldname {
+		case "ButtonToggles":
+			res = stage.GroupToogle_ButtonToggles_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -110,11 +109,11 @@ func (inst *Group) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseF
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "Groups":
-				res = stage.Layout_Groups_reverseMap[inst]
-			}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "Groups":
+			res = stage.Layout_Groups_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -124,11 +123,11 @@ func (inst *GroupToogle) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Layout":
-			switch reverseField.Fieldname {
-			case "GroupToogles":
-				res = stage.Layout_GroupToogles_reverseMap[inst]
-			}
+	case "Layout":
+		switch reverseField.Fieldname {
+		case "GroupToogles":
+			res = stage.Layout_GroupToogles_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -141,4 +140,3 @@ func (inst *Layout) GongGetReverseFieldOwner(stage *Stage, reverseField *Reverse
 	}
 	return res
 }
-
