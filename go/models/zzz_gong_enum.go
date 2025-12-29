@@ -48,6 +48,8 @@ func (generatedgofilepath GeneratedGoFilePath) ToString() (res string) {
 		res = "zzz_gong_enum.go"
 	case GeneratedGongGoFilePath:
 		res = "zzz_gong.go"
+	case GeneratedGongGoSplitFilePath:
+		res = "zzz_gong_split.go"
 	case GeneratedGongGraphGoFilePath:
 		res = "zzz_gong_graph.go"
 	case GeneratedGongMarshallGoFilePath:
@@ -135,6 +137,9 @@ func (generatedgofilepath *GeneratedGoFilePath) FromString(input string) (err er
 	case "zzz_gong.go":
 		*generatedgofilepath = GeneratedGongGoFilePath
 		return
+	case "zzz_gong_split.go":
+		*generatedgofilepath = GeneratedGongGoSplitFilePath
+		return
 	case "zzz_gong_graph.go":
 		*generatedgofilepath = GeneratedGongGraphGoFilePath
 		return
@@ -215,6 +220,8 @@ func (generatedgofilepath *GeneratedGoFilePath) FromCodeString(input string) (er
 		*generatedgofilepath = GeneratedGongEnumGoFilePath
 	case "GeneratedGongGoFilePath":
 		*generatedgofilepath = GeneratedGongGoFilePath
+	case "GeneratedGongGoSplitFilePath":
+		*generatedgofilepath = GeneratedGongGoSplitFilePath
 	case "GeneratedGongGraphGoFilePath":
 		*generatedgofilepath = GeneratedGongGraphGoFilePath
 	case "GeneratedGongMarshallGoFilePath":
@@ -285,6 +292,8 @@ func (generatedgofilepath *GeneratedGoFilePath) ToCodeString() (res string) {
 		res = "GeneratedGongEnumGoFilePath"
 	case GeneratedGongGoFilePath:
 		res = "GeneratedGongGoFilePath"
+	case GeneratedGongGoSplitFilePath:
+		res = "GeneratedGongGoSplitFilePath"
 	case GeneratedGongGraphGoFilePath:
 		res = "GeneratedGongGraphGoFilePath"
 	case GeneratedGongMarshallGoFilePath:
@@ -335,6 +344,7 @@ func (generatedgofilepath GeneratedGoFilePath) Codes() (res []string) {
 	res = append(res, "GeneratedGongDiffGoFilePath")
 	res = append(res, "GeneratedGongEnumGoFilePath")
 	res = append(res, "GeneratedGongGoFilePath")
+	res = append(res, "GeneratedGongGoSplitFilePath")
 	res = append(res, "GeneratedGongGraphGoFilePath")
 	res = append(res, "GeneratedGongMarshallGoFilePath")
 	res = append(res, "GeneratedGongOrchestratorGoFilePath")
@@ -374,6 +384,7 @@ func (generatedgofilepath GeneratedGoFilePath) CodeValues() (res []string) {
 	res = append(res, "zzz_gong_diff.go")
 	res = append(res, "zzz_gong_enum.go")
 	res = append(res, "zzz_gong.go")
+	res = append(res, "zzz_gong_split.go")
 	res = append(res, "zzz_gong_graph.go")
 	res = append(res, "zzz_gong_marshall.go")
 	res = append(res, "zzz_gong_orchestrator.go")

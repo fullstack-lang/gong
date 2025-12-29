@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Buttons           map[*Button]struct{}
+	Buttons_reference map[*Button]*Button
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
 	ButtonToggles           map[*ButtonToggle]struct{}
+	ButtonToggles_reference map[*ButtonToggle]*ButtonToggle
 	ButtonToggles_mapString map[string]*ButtonToggle
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterButtonToggleReadCallback   OnAfterReadInterface[ButtonToggle]
 
 	Groups           map[*Group]struct{}
+	Groups_reference map[*Group]*Group
 	Groups_mapString map[string]*Group
 
 	// insertion point for slice of pointers maps
@@ -123,6 +126,7 @@ type Stage struct {
 	OnAfterGroupReadCallback   OnAfterReadInterface[Group]
 
 	GroupToogles           map[*GroupToogle]struct{}
+	GroupToogles_reference map[*GroupToogle]*GroupToogle
 	GroupToogles_mapString map[string]*GroupToogle
 
 	// insertion point for slice of pointers maps
@@ -134,6 +138,7 @@ type Stage struct {
 	OnAfterGroupToogleReadCallback   OnAfterReadInterface[GroupToogle]
 
 	Layouts           map[*Layout]struct{}
+	Layouts_reference map[*Layout]*Layout
 	Layouts_mapString map[string]*Layout
 
 	// insertion point for slice of pointers maps
@@ -191,8 +196,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -203,10 +217,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -478,8 +488,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "GroupToogle"},
 			{name: "Layout"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

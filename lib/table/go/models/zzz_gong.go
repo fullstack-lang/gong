@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Cells           map[*Cell]struct{}
+	Cells_reference map[*Cell]*Cell
 	Cells_mapString map[string]*Cell
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterCellReadCallback   OnAfterReadInterface[Cell]
 
 	CellBooleans           map[*CellBoolean]struct{}
+	CellBooleans_reference map[*CellBoolean]*CellBoolean
 	CellBooleans_mapString map[string]*CellBoolean
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterCellBooleanReadCallback   OnAfterReadInterface[CellBoolean]
 
 	CellFloat64s           map[*CellFloat64]struct{}
+	CellFloat64s_reference map[*CellFloat64]*CellFloat64
 	CellFloat64s_mapString map[string]*CellFloat64
 
 	// insertion point for slice of pointers maps
@@ -121,6 +124,7 @@ type Stage struct {
 	OnAfterCellFloat64ReadCallback   OnAfterReadInterface[CellFloat64]
 
 	CellIcons           map[*CellIcon]struct{}
+	CellIcons_reference map[*CellIcon]*CellIcon
 	CellIcons_mapString map[string]*CellIcon
 
 	// insertion point for slice of pointers maps
@@ -130,6 +134,7 @@ type Stage struct {
 	OnAfterCellIconReadCallback   OnAfterReadInterface[CellIcon]
 
 	CellInts           map[*CellInt]struct{}
+	CellInts_reference map[*CellInt]*CellInt
 	CellInts_mapString map[string]*CellInt
 
 	// insertion point for slice of pointers maps
@@ -139,6 +144,7 @@ type Stage struct {
 	OnAfterCellIntReadCallback   OnAfterReadInterface[CellInt]
 
 	CellStrings           map[*CellString]struct{}
+	CellStrings_reference map[*CellString]*CellString
 	CellStrings_mapString map[string]*CellString
 
 	// insertion point for slice of pointers maps
@@ -148,6 +154,7 @@ type Stage struct {
 	OnAfterCellStringReadCallback   OnAfterReadInterface[CellString]
 
 	CheckBoxs           map[*CheckBox]struct{}
+	CheckBoxs_reference map[*CheckBox]*CheckBox
 	CheckBoxs_mapString map[string]*CheckBox
 
 	// insertion point for slice of pointers maps
@@ -157,6 +164,7 @@ type Stage struct {
 	OnAfterCheckBoxReadCallback   OnAfterReadInterface[CheckBox]
 
 	DisplayedColumns           map[*DisplayedColumn]struct{}
+	DisplayedColumns_reference map[*DisplayedColumn]*DisplayedColumn
 	DisplayedColumns_mapString map[string]*DisplayedColumn
 
 	// insertion point for slice of pointers maps
@@ -166,6 +174,7 @@ type Stage struct {
 	OnAfterDisplayedColumnReadCallback   OnAfterReadInterface[DisplayedColumn]
 
 	FormDivs           map[*FormDiv]struct{}
+	FormDivs_reference map[*FormDiv]*FormDiv
 	FormDivs_mapString map[string]*FormDiv
 
 	// insertion point for slice of pointers maps
@@ -179,6 +188,7 @@ type Stage struct {
 	OnAfterFormDivReadCallback   OnAfterReadInterface[FormDiv]
 
 	FormEditAssocButtons           map[*FormEditAssocButton]struct{}
+	FormEditAssocButtons_reference map[*FormEditAssocButton]*FormEditAssocButton
 	FormEditAssocButtons_mapString map[string]*FormEditAssocButton
 
 	// insertion point for slice of pointers maps
@@ -188,6 +198,7 @@ type Stage struct {
 	OnAfterFormEditAssocButtonReadCallback   OnAfterReadInterface[FormEditAssocButton]
 
 	FormFields           map[*FormField]struct{}
+	FormFields_reference map[*FormField]*FormField
 	FormFields_mapString map[string]*FormField
 
 	// insertion point for slice of pointers maps
@@ -197,6 +208,7 @@ type Stage struct {
 	OnAfterFormFieldReadCallback   OnAfterReadInterface[FormField]
 
 	FormFieldDates           map[*FormFieldDate]struct{}
+	FormFieldDates_reference map[*FormFieldDate]*FormFieldDate
 	FormFieldDates_mapString map[string]*FormFieldDate
 
 	// insertion point for slice of pointers maps
@@ -206,6 +218,7 @@ type Stage struct {
 	OnAfterFormFieldDateReadCallback   OnAfterReadInterface[FormFieldDate]
 
 	FormFieldDateTimes           map[*FormFieldDateTime]struct{}
+	FormFieldDateTimes_reference map[*FormFieldDateTime]*FormFieldDateTime
 	FormFieldDateTimes_mapString map[string]*FormFieldDateTime
 
 	// insertion point for slice of pointers maps
@@ -215,6 +228,7 @@ type Stage struct {
 	OnAfterFormFieldDateTimeReadCallback   OnAfterReadInterface[FormFieldDateTime]
 
 	FormFieldFloat64s           map[*FormFieldFloat64]struct{}
+	FormFieldFloat64s_reference map[*FormFieldFloat64]*FormFieldFloat64
 	FormFieldFloat64s_mapString map[string]*FormFieldFloat64
 
 	// insertion point for slice of pointers maps
@@ -224,6 +238,7 @@ type Stage struct {
 	OnAfterFormFieldFloat64ReadCallback   OnAfterReadInterface[FormFieldFloat64]
 
 	FormFieldInts           map[*FormFieldInt]struct{}
+	FormFieldInts_reference map[*FormFieldInt]*FormFieldInt
 	FormFieldInts_mapString map[string]*FormFieldInt
 
 	// insertion point for slice of pointers maps
@@ -233,6 +248,7 @@ type Stage struct {
 	OnAfterFormFieldIntReadCallback   OnAfterReadInterface[FormFieldInt]
 
 	FormFieldSelects           map[*FormFieldSelect]struct{}
+	FormFieldSelects_reference map[*FormFieldSelect]*FormFieldSelect
 	FormFieldSelects_mapString map[string]*FormFieldSelect
 
 	// insertion point for slice of pointers maps
@@ -244,6 +260,7 @@ type Stage struct {
 	OnAfterFormFieldSelectReadCallback   OnAfterReadInterface[FormFieldSelect]
 
 	FormFieldStrings           map[*FormFieldString]struct{}
+	FormFieldStrings_reference map[*FormFieldString]*FormFieldString
 	FormFieldStrings_mapString map[string]*FormFieldString
 
 	// insertion point for slice of pointers maps
@@ -253,6 +270,7 @@ type Stage struct {
 	OnAfterFormFieldStringReadCallback   OnAfterReadInterface[FormFieldString]
 
 	FormFieldTimes           map[*FormFieldTime]struct{}
+	FormFieldTimes_reference map[*FormFieldTime]*FormFieldTime
 	FormFieldTimes_mapString map[string]*FormFieldTime
 
 	// insertion point for slice of pointers maps
@@ -262,6 +280,7 @@ type Stage struct {
 	OnAfterFormFieldTimeReadCallback   OnAfterReadInterface[FormFieldTime]
 
 	FormGroups           map[*FormGroup]struct{}
+	FormGroups_reference map[*FormGroup]*FormGroup
 	FormGroups_mapString map[string]*FormGroup
 
 	// insertion point for slice of pointers maps
@@ -273,6 +292,7 @@ type Stage struct {
 	OnAfterFormGroupReadCallback   OnAfterReadInterface[FormGroup]
 
 	FormSortAssocButtons           map[*FormSortAssocButton]struct{}
+	FormSortAssocButtons_reference map[*FormSortAssocButton]*FormSortAssocButton
 	FormSortAssocButtons_mapString map[string]*FormSortAssocButton
 
 	// insertion point for slice of pointers maps
@@ -282,6 +302,7 @@ type Stage struct {
 	OnAfterFormSortAssocButtonReadCallback   OnAfterReadInterface[FormSortAssocButton]
 
 	Options           map[*Option]struct{}
+	Options_reference map[*Option]*Option
 	Options_mapString map[string]*Option
 
 	// insertion point for slice of pointers maps
@@ -291,6 +312,7 @@ type Stage struct {
 	OnAfterOptionReadCallback   OnAfterReadInterface[Option]
 
 	Rows           map[*Row]struct{}
+	Rows_reference map[*Row]*Row
 	Rows_mapString map[string]*Row
 
 	// insertion point for slice of pointers maps
@@ -302,6 +324,7 @@ type Stage struct {
 	OnAfterRowReadCallback   OnAfterReadInterface[Row]
 
 	Tables           map[*Table]struct{}
+	Tables_reference map[*Table]*Table
 	Tables_mapString map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -413,8 +436,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -425,10 +457,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -1132,8 +1160,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Row"},
 			{name: "Table"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return

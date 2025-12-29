@@ -301,3 +301,115 @@ func (stage *Stage) UnstageBranchPage(page *Page) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (chapter *Chapter) GongDiff(chapterOther *Chapter) (diffs []string) {
+	// insertion point for field diffs
+	if chapter.Name != chapterOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if chapter.MardownContent != chapterOther.MardownContent {
+		diffs = append(diffs, "MardownContent")
+	}
+	PagesDifferent := false
+    if len(chapter.Pages) != len(chapterOther.Pages) {
+        PagesDifferent = true
+    } else {
+        for i := range chapter.Pages {
+            if (chapter.Pages[i] == nil) != (chapterOther.Pages[i] == nil) {
+                PagesDifferent = true
+                break
+            } else if chapter.Pages[i] != nil && chapterOther.Pages[i] != nil {
+                if len(chapter.Pages[i].GongDiff(chapterOther.Pages[i])) > 0 {
+                    PagesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if PagesDifferent {
+        diffs = append(diffs, "Pages")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (content *Content) GongDiff(contentOther *Content) (diffs []string) {
+	// insertion point for field diffs
+	if content.Name != contentOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if content.MardownContent != contentOther.MardownContent {
+		diffs = append(diffs, "MardownContent")
+	}
+	if content.ContentPath != contentOther.ContentPath {
+		diffs = append(diffs, "ContentPath")
+	}
+	if content.OutputPath != contentOther.OutputPath {
+		diffs = append(diffs, "OutputPath")
+	}
+	if content.LayoutPath != contentOther.LayoutPath {
+		diffs = append(diffs, "LayoutPath")
+	}
+	if content.StaticPath != contentOther.StaticPath {
+		diffs = append(diffs, "StaticPath")
+	}
+	if content.IsBespokeLogoFileName != contentOther.IsBespokeLogoFileName {
+		diffs = append(diffs, "IsBespokeLogoFileName")
+	}
+	if content.BespokeLogoFileName != contentOther.BespokeLogoFileName {
+		diffs = append(diffs, "BespokeLogoFileName")
+	}
+	if content.IsBespokePageTileLogoFileName != contentOther.IsBespokePageTileLogoFileName {
+		diffs = append(diffs, "IsBespokePageTileLogoFileName")
+	}
+	if content.BespokePageTileLogoFileName != contentOther.BespokePageTileLogoFileName {
+		diffs = append(diffs, "BespokePageTileLogoFileName")
+	}
+	if content.Target != contentOther.Target {
+		diffs = append(diffs, "Target")
+	}
+	ChaptersDifferent := false
+    if len(content.Chapters) != len(contentOther.Chapters) {
+        ChaptersDifferent = true
+    } else {
+        for i := range content.Chapters {
+            if (content.Chapters[i] == nil) != (contentOther.Chapters[i] == nil) {
+                ChaptersDifferent = true
+                break
+            } else if content.Chapters[i] != nil && contentOther.Chapters[i] != nil {
+                if len(content.Chapters[i].GongDiff(contentOther.Chapters[i])) > 0 {
+                    ChaptersDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ChaptersDifferent {
+        diffs = append(diffs, "Chapters")
+    }
+	if content.VersionInfo != contentOther.VersionInfo {
+		diffs = append(diffs, "VersionInfo")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (page *Page) GongDiff(pageOther *Page) (diffs []string) {
+	// insertion point for field diffs
+	if page.Name != pageOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if page.MardownContent != pageOther.MardownContent {
+		diffs = append(diffs, "MardownContent")
+	}
+
+	return
+}

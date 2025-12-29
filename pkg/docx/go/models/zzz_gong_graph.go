@@ -1543,3 +1543,583 @@ func (stage *Stage) UnstageBranchText(text *Text) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (body *Body) GongDiff(bodyOther *Body) (diffs []string) {
+	// insertion point for field diffs
+	if body.Name != bodyOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	ParagraphsDifferent := false
+    if len(body.Paragraphs) != len(bodyOther.Paragraphs) {
+        ParagraphsDifferent = true
+    } else {
+        for i := range body.Paragraphs {
+            if (body.Paragraphs[i] == nil) != (bodyOther.Paragraphs[i] == nil) {
+                ParagraphsDifferent = true
+                break
+            } else if body.Paragraphs[i] != nil && bodyOther.Paragraphs[i] != nil {
+                if len(body.Paragraphs[i].GongDiff(bodyOther.Paragraphs[i])) > 0 {
+                    ParagraphsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ParagraphsDifferent {
+        diffs = append(diffs, "Paragraphs")
+    }
+	TablesDifferent := false
+    if len(body.Tables) != len(bodyOther.Tables) {
+        TablesDifferent = true
+    } else {
+        for i := range body.Tables {
+            if (body.Tables[i] == nil) != (bodyOther.Tables[i] == nil) {
+                TablesDifferent = true
+                break
+            } else if body.Tables[i] != nil && bodyOther.Tables[i] != nil {
+                if len(body.Tables[i].GongDiff(bodyOther.Tables[i])) > 0 {
+                    TablesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if TablesDifferent {
+        diffs = append(diffs, "Tables")
+    }
+	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
+		diffs = append(diffs, "LastParagraph")
+	} else if body.LastParagraph != nil && bodyOther.LastParagraph != nil {
+		if body.LastParagraph != bodyOther.LastParagraph {
+			diffs = append(diffs, "LastParagraph")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (document *Document) GongDiff(documentOther *Document) (diffs []string) {
+	// insertion point for field diffs
+	if document.Name != documentOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (document.File == nil) != (documentOther.File == nil) {
+		diffs = append(diffs, "File")
+	} else if document.File != nil && documentOther.File != nil {
+		if document.File != documentOther.File {
+			diffs = append(diffs, "File")
+		}
+	}
+	if (document.Root == nil) != (documentOther.Root == nil) {
+		diffs = append(diffs, "Root")
+	} else if document.Root != nil && documentOther.Root != nil {
+		if document.Root != documentOther.Root {
+			diffs = append(diffs, "Root")
+		}
+	}
+	if (document.Body == nil) != (documentOther.Body == nil) {
+		diffs = append(diffs, "Body")
+	} else if document.Body != nil && documentOther.Body != nil {
+		if document.Body != documentOther.Body {
+			diffs = append(diffs, "Body")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (docx *Docx) GongDiff(docxOther *Docx) (diffs []string) {
+	// insertion point for field diffs
+	if docx.Name != docxOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	FilesDifferent := false
+    if len(docx.Files) != len(docxOther.Files) {
+        FilesDifferent = true
+    } else {
+        for i := range docx.Files {
+            if (docx.Files[i] == nil) != (docxOther.Files[i] == nil) {
+                FilesDifferent = true
+                break
+            } else if docx.Files[i] != nil && docxOther.Files[i] != nil {
+                if len(docx.Files[i].GongDiff(docxOther.Files[i])) > 0 {
+                    FilesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if FilesDifferent {
+        diffs = append(diffs, "Files")
+    }
+	if (docx.Document == nil) != (docxOther.Document == nil) {
+		diffs = append(diffs, "Document")
+	} else if docx.Document != nil && docxOther.Document != nil {
+		if docx.Document != docxOther.Document {
+			diffs = append(diffs, "Document")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (file *File) GongDiff(fileOther *File) (diffs []string) {
+	// insertion point for field diffs
+	if file.Name != fileOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
+	// insertion point for field diffs
+	if node.Name != nodeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	NodesDifferent := false
+    if len(node.Nodes) != len(nodeOther.Nodes) {
+        NodesDifferent = true
+    } else {
+        for i := range node.Nodes {
+            if (node.Nodes[i] == nil) != (nodeOther.Nodes[i] == nil) {
+                NodesDifferent = true
+                break
+            } else if node.Nodes[i] != nil && nodeOther.Nodes[i] != nil {
+                if len(node.Nodes[i].GongDiff(nodeOther.Nodes[i])) > 0 {
+                    NodesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if NodesDifferent {
+        diffs = append(diffs, "Nodes")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (paragraph *Paragraph) GongDiff(paragraphOther *Paragraph) (diffs []string) {
+	// insertion point for field diffs
+	if paragraph.Name != paragraphOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if paragraph.Content != paragraphOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (paragraph.Node == nil) != (paragraphOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if paragraph.Node != nil && paragraphOther.Node != nil {
+		if paragraph.Node != paragraphOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if (paragraph.ParagraphProperties == nil) != (paragraphOther.ParagraphProperties == nil) {
+		diffs = append(diffs, "ParagraphProperties")
+	} else if paragraph.ParagraphProperties != nil && paragraphOther.ParagraphProperties != nil {
+		if paragraph.ParagraphProperties != paragraphOther.ParagraphProperties {
+			diffs = append(diffs, "ParagraphProperties")
+		}
+	}
+	RunesDifferent := false
+    if len(paragraph.Runes) != len(paragraphOther.Runes) {
+        RunesDifferent = true
+    } else {
+        for i := range paragraph.Runes {
+            if (paragraph.Runes[i] == nil) != (paragraphOther.Runes[i] == nil) {
+                RunesDifferent = true
+                break
+            } else if paragraph.Runes[i] != nil && paragraphOther.Runes[i] != nil {
+                if len(paragraph.Runes[i].GongDiff(paragraphOther.Runes[i])) > 0 {
+                    RunesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if RunesDifferent {
+        diffs = append(diffs, "Runes")
+    }
+	if paragraph.Text != paragraphOther.Text {
+		diffs = append(diffs, "Text")
+	}
+	if (paragraph.Next == nil) != (paragraphOther.Next == nil) {
+		diffs = append(diffs, "Next")
+	} else if paragraph.Next != nil && paragraphOther.Next != nil {
+		if paragraph.Next != paragraphOther.Next {
+			diffs = append(diffs, "Next")
+		}
+	}
+	if (paragraph.Previous == nil) != (paragraphOther.Previous == nil) {
+		diffs = append(diffs, "Previous")
+	} else if paragraph.Previous != nil && paragraphOther.Previous != nil {
+		if paragraph.Previous != paragraphOther.Previous {
+			diffs = append(diffs, "Previous")
+		}
+	}
+	if (paragraph.EnclosingBody == nil) != (paragraphOther.EnclosingBody == nil) {
+		diffs = append(diffs, "EnclosingBody")
+	} else if paragraph.EnclosingBody != nil && paragraphOther.EnclosingBody != nil {
+		if paragraph.EnclosingBody != paragraphOther.EnclosingBody {
+			diffs = append(diffs, "EnclosingBody")
+		}
+	}
+	if (paragraph.EnclosingTableColumn == nil) != (paragraphOther.EnclosingTableColumn == nil) {
+		diffs = append(diffs, "EnclosingTableColumn")
+	} else if paragraph.EnclosingTableColumn != nil && paragraphOther.EnclosingTableColumn != nil {
+		if paragraph.EnclosingTableColumn != paragraphOther.EnclosingTableColumn {
+			diffs = append(diffs, "EnclosingTableColumn")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (paragraphproperties *ParagraphProperties) GongDiff(paragraphpropertiesOther *ParagraphProperties) (diffs []string) {
+	// insertion point for field diffs
+	if paragraphproperties.Name != paragraphpropertiesOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if paragraphproperties.Content != paragraphpropertiesOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (paragraphproperties.ParagraphStyle == nil) != (paragraphpropertiesOther.ParagraphStyle == nil) {
+		diffs = append(diffs, "ParagraphStyle")
+	} else if paragraphproperties.ParagraphStyle != nil && paragraphpropertiesOther.ParagraphStyle != nil {
+		if paragraphproperties.ParagraphStyle != paragraphpropertiesOther.ParagraphStyle {
+			diffs = append(diffs, "ParagraphStyle")
+		}
+	}
+	if (paragraphproperties.Node == nil) != (paragraphpropertiesOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if paragraphproperties.Node != nil && paragraphpropertiesOther.Node != nil {
+		if paragraphproperties.Node != paragraphpropertiesOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (paragraphstyle *ParagraphStyle) GongDiff(paragraphstyleOther *ParagraphStyle) (diffs []string) {
+	// insertion point for field diffs
+	if paragraphstyle.Name != paragraphstyleOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (paragraphstyle.Node == nil) != (paragraphstyleOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if paragraphstyle.Node != nil && paragraphstyleOther.Node != nil {
+		if paragraphstyle.Node != paragraphstyleOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if paragraphstyle.Content != paragraphstyleOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if paragraphstyle.ValAttr != paragraphstyleOther.ValAttr {
+		diffs = append(diffs, "ValAttr")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (rune *Rune) GongDiff(runeOther *Rune) (diffs []string) {
+	// insertion point for field diffs
+	if rune.Name != runeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if rune.Content != runeOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (rune.Node == nil) != (runeOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if rune.Node != nil && runeOther.Node != nil {
+		if rune.Node != runeOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if (rune.Text == nil) != (runeOther.Text == nil) {
+		diffs = append(diffs, "Text")
+	} else if rune.Text != nil && runeOther.Text != nil {
+		if rune.Text != runeOther.Text {
+			diffs = append(diffs, "Text")
+		}
+	}
+	if (rune.RuneProperties == nil) != (runeOther.RuneProperties == nil) {
+		diffs = append(diffs, "RuneProperties")
+	} else if rune.RuneProperties != nil && runeOther.RuneProperties != nil {
+		if rune.RuneProperties != runeOther.RuneProperties {
+			diffs = append(diffs, "RuneProperties")
+		}
+	}
+	if (rune.EnclosingParagraph == nil) != (runeOther.EnclosingParagraph == nil) {
+		diffs = append(diffs, "EnclosingParagraph")
+	} else if rune.EnclosingParagraph != nil && runeOther.EnclosingParagraph != nil {
+		if rune.EnclosingParagraph != runeOther.EnclosingParagraph {
+			diffs = append(diffs, "EnclosingParagraph")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (runeproperties *RuneProperties) GongDiff(runepropertiesOther *RuneProperties) (diffs []string) {
+	// insertion point for field diffs
+	if runeproperties.Name != runepropertiesOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (runeproperties.Node == nil) != (runepropertiesOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if runeproperties.Node != nil && runepropertiesOther.Node != nil {
+		if runeproperties.Node != runepropertiesOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if runeproperties.IsBold != runepropertiesOther.IsBold {
+		diffs = append(diffs, "IsBold")
+	}
+	if runeproperties.IsStrike != runepropertiesOther.IsStrike {
+		diffs = append(diffs, "IsStrike")
+	}
+	if runeproperties.IsItalic != runepropertiesOther.IsItalic {
+		diffs = append(diffs, "IsItalic")
+	}
+	if runeproperties.Content != runepropertiesOther.Content {
+		diffs = append(diffs, "Content")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
+	// insertion point for field diffs
+	if table.Name != tableOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (table.Node == nil) != (tableOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if table.Node != nil && tableOther.Node != nil {
+		if table.Node != tableOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if table.Content != tableOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (table.TableProperties == nil) != (tableOther.TableProperties == nil) {
+		diffs = append(diffs, "TableProperties")
+	} else if table.TableProperties != nil && tableOther.TableProperties != nil {
+		if table.TableProperties != tableOther.TableProperties {
+			diffs = append(diffs, "TableProperties")
+		}
+	}
+	TableRowsDifferent := false
+    if len(table.TableRows) != len(tableOther.TableRows) {
+        TableRowsDifferent = true
+    } else {
+        for i := range table.TableRows {
+            if (table.TableRows[i] == nil) != (tableOther.TableRows[i] == nil) {
+                TableRowsDifferent = true
+                break
+            } else if table.TableRows[i] != nil && tableOther.TableRows[i] != nil {
+                if len(table.TableRows[i].GongDiff(tableOther.TableRows[i])) > 0 {
+                    TableRowsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if TableRowsDifferent {
+        diffs = append(diffs, "TableRows")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tablecolumn *TableColumn) GongDiff(tablecolumnOther *TableColumn) (diffs []string) {
+	// insertion point for field diffs
+	if tablecolumn.Name != tablecolumnOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if tablecolumn.Content != tablecolumnOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (tablecolumn.Node == nil) != (tablecolumnOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if tablecolumn.Node != nil && tablecolumnOther.Node != nil {
+		if tablecolumn.Node != tablecolumnOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	ParagraphsDifferent := false
+    if len(tablecolumn.Paragraphs) != len(tablecolumnOther.Paragraphs) {
+        ParagraphsDifferent = true
+    } else {
+        for i := range tablecolumn.Paragraphs {
+            if (tablecolumn.Paragraphs[i] == nil) != (tablecolumnOther.Paragraphs[i] == nil) {
+                ParagraphsDifferent = true
+                break
+            } else if tablecolumn.Paragraphs[i] != nil && tablecolumnOther.Paragraphs[i] != nil {
+                if len(tablecolumn.Paragraphs[i].GongDiff(tablecolumnOther.Paragraphs[i])) > 0 {
+                    ParagraphsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if ParagraphsDifferent {
+        diffs = append(diffs, "Paragraphs")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tableproperties *TableProperties) GongDiff(tablepropertiesOther *TableProperties) (diffs []string) {
+	// insertion point for field diffs
+	if tableproperties.Name != tablepropertiesOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (tableproperties.Node == nil) != (tablepropertiesOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if tableproperties.Node != nil && tablepropertiesOther.Node != nil {
+		if tableproperties.Node != tablepropertiesOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if tableproperties.Content != tablepropertiesOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (tableproperties.TableStyle == nil) != (tablepropertiesOther.TableStyle == nil) {
+		diffs = append(diffs, "TableStyle")
+	} else if tableproperties.TableStyle != nil && tablepropertiesOther.TableStyle != nil {
+		if tableproperties.TableStyle != tablepropertiesOther.TableStyle {
+			diffs = append(diffs, "TableStyle")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tablerow *TableRow) GongDiff(tablerowOther *TableRow) (diffs []string) {
+	// insertion point for field diffs
+	if tablerow.Name != tablerowOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if tablerow.Content != tablerowOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (tablerow.Node == nil) != (tablerowOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if tablerow.Node != nil && tablerowOther.Node != nil {
+		if tablerow.Node != tablerowOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	TableColumnsDifferent := false
+    if len(tablerow.TableColumns) != len(tablerowOther.TableColumns) {
+        TableColumnsDifferent = true
+    } else {
+        for i := range tablerow.TableColumns {
+            if (tablerow.TableColumns[i] == nil) != (tablerowOther.TableColumns[i] == nil) {
+                TableColumnsDifferent = true
+                break
+            } else if tablerow.TableColumns[i] != nil && tablerowOther.TableColumns[i] != nil {
+                if len(tablerow.TableColumns[i].GongDiff(tablerowOther.TableColumns[i])) > 0 {
+                    TableColumnsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if TableColumnsDifferent {
+        diffs = append(diffs, "TableColumns")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tablestyle *TableStyle) GongDiff(tablestyleOther *TableStyle) (diffs []string) {
+	// insertion point for field diffs
+	if tablestyle.Name != tablestyleOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if (tablestyle.Node == nil) != (tablestyleOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if tablestyle.Node != nil && tablestyleOther.Node != nil {
+		if tablestyle.Node != tablestyleOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if tablestyle.Content != tablestyleOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if tablestyle.Val != tablestyleOther.Val {
+		diffs = append(diffs, "Val")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (text *Text) GongDiff(textOther *Text) (diffs []string) {
+	// insertion point for field diffs
+	if text.Name != textOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if text.Content != textOther.Content {
+		diffs = append(diffs, "Content")
+	}
+	if (text.Node == nil) != (textOther.Node == nil) {
+		diffs = append(diffs, "Node")
+	} else if text.Node != nil && textOther.Node != nil {
+		if text.Node != textOther.Node {
+			diffs = append(diffs, "Node")
+		}
+	}
+	if text.PreserveWhiteSpace != textOther.PreserveWhiteSpace {
+		diffs = append(diffs, "PreserveWhiteSpace")
+	}
+	if (text.EnclosingRune == nil) != (textOther.EnclosingRune == nil) {
+		diffs = append(diffs, "EnclosingRune")
+	} else if text.EnclosingRune != nil && textOther.EnclosingRune != nil {
+		if text.EnclosingRune != textOther.EnclosingRune {
+			diffs = append(diffs, "EnclosingRune")
+		}
+	}
+
+	return
+}

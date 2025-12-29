@@ -57,25 +57,6 @@ func updateAndCommitTree(
 		},
 	}
 
-	notificationButton := &tree.Button{
-		Name:            "NotificationButton",
-		Icon:            string(gongtree_buttons.BUTTON_notifications),
-		HasToolTip:      true,
-		ToolTipText:     "Update notification probe",
-		ToolTipPosition: tree.Left,
-	}
-	topNode.Buttons = append(topNode.Buttons, notificationButton)
-	notificationButton.Impl = &tree.FunctionalButtonProxy{
-		OnUpdated: func(stage *tree.Stage,
-			stagedButton, frontButton *tree.Button) {
-			probe.stageOfInterest.ComputeInstancesNb()
-			probe.docStager.SetMap_GongStructName_InstancesNb(
-				probe.stageOfInterest.Map_GongStructName_InstancesNb,
-			)
-			probe.Notification()
-		},
-	}
-
 	notificationsResetButton := &tree.Button{
 		Name:            "NotificationsResetButton",
 		Icon:            string(gongtree_buttons.BUTTON_reset_tv),

@@ -48,6 +48,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (chapter *Chapter) GongCopy() GongstructIF {
 	newInstance := *chapter
@@ -64,10 +65,94 @@ func (page *Page) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var chapters_newInstances []*Chapter
+	var chapters_deletedInstances []*Chapter
+
+	// parse all staged instances and check if they have a reference
+	for chapter := range stage.Chapters {
+		if _, ok := stage.Chapters_reference[chapter]; !ok {
+			chapters_newInstances = append(chapters_newInstances, chapter)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for chapter := range stage.Chapters_reference {
+		if _, ok := stage.Chapters[chapter]; !ok {
+			chapters_deletedInstances = append(chapters_deletedInstances, chapter)
+		}
+	}
+
+	lenNewInstances += len(chapters_newInstances)
+	lenDeletedInstances += len(chapters_deletedInstances)
+	var contents_newInstances []*Content
+	var contents_deletedInstances []*Content
+
+	// parse all staged instances and check if they have a reference
+	for content := range stage.Contents {
+		if _, ok := stage.Contents_reference[content]; !ok {
+			contents_newInstances = append(contents_newInstances, content)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for content := range stage.Contents_reference {
+		if _, ok := stage.Contents[content]; !ok {
+			contents_deletedInstances = append(contents_deletedInstances, content)
+		}
+	}
+
+	lenNewInstances += len(contents_newInstances)
+	lenDeletedInstances += len(contents_deletedInstances)
+	var pages_newInstances []*Page
+	var pages_deletedInstances []*Page
+
+	// parse all staged instances and check if they have a reference
+	for page := range stage.Pages {
+		if _, ok := stage.Pages_reference[page]; !ok {
+			pages_newInstances = append(pages_newInstances, page)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for page := range stage.Pages_reference {
+		if _, ok := stage.Pages[page]; !ok {
+			pages_deletedInstances = append(pages_deletedInstances, page)
+		}
+	}
+
+	lenNewInstances += len(pages_newInstances)
+	lenDeletedInstances += len(pages_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Chapters_reference = make(map[*Chapter]*Chapter)
+	for instance := range stage.Chapters {
+		stage.Chapters_reference[instance] = instance
 	}
+
+	stage.Contents_reference = make(map[*Content]*Content)
+	for instance := range stage.Contents {
+		stage.Contents_reference[instance] = instance
+	}
+
+	stage.Pages_reference = make(map[*Page]*Page)
+	for instance := range stage.Pages {
+		stage.Pages_reference[instance] = instance
+	}
+
 }

@@ -160,6 +160,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (assplit *AsSplit) GongCopy() GongstructIF {
 	newInstance := *assplit
@@ -256,10 +257,478 @@ func (xlsx *Xlsx) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var assplits_newInstances []*AsSplit
+	var assplits_deletedInstances []*AsSplit
+
+	// parse all staged instances and check if they have a reference
+	for assplit := range stage.AsSplits {
+		if _, ok := stage.AsSplits_reference[assplit]; !ok {
+			assplits_newInstances = append(assplits_newInstances, assplit)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for assplit := range stage.AsSplits_reference {
+		if _, ok := stage.AsSplits[assplit]; !ok {
+			assplits_deletedInstances = append(assplits_deletedInstances, assplit)
+		}
+	}
+
+	lenNewInstances += len(assplits_newInstances)
+	lenDeletedInstances += len(assplits_deletedInstances)
+	var assplitareas_newInstances []*AsSplitArea
+	var assplitareas_deletedInstances []*AsSplitArea
+
+	// parse all staged instances and check if they have a reference
+	for assplitarea := range stage.AsSplitAreas {
+		if _, ok := stage.AsSplitAreas_reference[assplitarea]; !ok {
+			assplitareas_newInstances = append(assplitareas_newInstances, assplitarea)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for assplitarea := range stage.AsSplitAreas_reference {
+		if _, ok := stage.AsSplitAreas[assplitarea]; !ok {
+			assplitareas_deletedInstances = append(assplitareas_deletedInstances, assplitarea)
+		}
+	}
+
+	lenNewInstances += len(assplitareas_newInstances)
+	lenDeletedInstances += len(assplitareas_deletedInstances)
+	var buttons_newInstances []*Button
+	var buttons_deletedInstances []*Button
+
+	// parse all staged instances and check if they have a reference
+	for button := range stage.Buttons {
+		if _, ok := stage.Buttons_reference[button]; !ok {
+			buttons_newInstances = append(buttons_newInstances, button)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for button := range stage.Buttons_reference {
+		if _, ok := stage.Buttons[button]; !ok {
+			buttons_deletedInstances = append(buttons_deletedInstances, button)
+		}
+	}
+
+	lenNewInstances += len(buttons_newInstances)
+	lenDeletedInstances += len(buttons_deletedInstances)
+	var cursors_newInstances []*Cursor
+	var cursors_deletedInstances []*Cursor
+
+	// parse all staged instances and check if they have a reference
+	for cursor := range stage.Cursors {
+		if _, ok := stage.Cursors_reference[cursor]; !ok {
+			cursors_newInstances = append(cursors_newInstances, cursor)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cursor := range stage.Cursors_reference {
+		if _, ok := stage.Cursors[cursor]; !ok {
+			cursors_deletedInstances = append(cursors_deletedInstances, cursor)
+		}
+	}
+
+	lenNewInstances += len(cursors_newInstances)
+	lenDeletedInstances += len(cursors_deletedInstances)
+	var favicons_newInstances []*FavIcon
+	var favicons_deletedInstances []*FavIcon
+
+	// parse all staged instances and check if they have a reference
+	for favicon := range stage.FavIcons {
+		if _, ok := stage.FavIcons_reference[favicon]; !ok {
+			favicons_newInstances = append(favicons_newInstances, favicon)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for favicon := range stage.FavIcons_reference {
+		if _, ok := stage.FavIcons[favicon]; !ok {
+			favicons_deletedInstances = append(favicons_deletedInstances, favicon)
+		}
+	}
+
+	lenNewInstances += len(favicons_newInstances)
+	lenDeletedInstances += len(favicons_deletedInstances)
+	var forms_newInstances []*Form
+	var forms_deletedInstances []*Form
+
+	// parse all staged instances and check if they have a reference
+	for form := range stage.Forms {
+		if _, ok := stage.Forms_reference[form]; !ok {
+			forms_newInstances = append(forms_newInstances, form)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for form := range stage.Forms_reference {
+		if _, ok := stage.Forms[form]; !ok {
+			forms_deletedInstances = append(forms_deletedInstances, form)
+		}
+	}
+
+	lenNewInstances += len(forms_newInstances)
+	lenDeletedInstances += len(forms_deletedInstances)
+	var loads_newInstances []*Load
+	var loads_deletedInstances []*Load
+
+	// parse all staged instances and check if they have a reference
+	for load := range stage.Loads {
+		if _, ok := stage.Loads_reference[load]; !ok {
+			loads_newInstances = append(loads_newInstances, load)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for load := range stage.Loads_reference {
+		if _, ok := stage.Loads[load]; !ok {
+			loads_deletedInstances = append(loads_deletedInstances, load)
+		}
+	}
+
+	lenNewInstances += len(loads_newInstances)
+	lenDeletedInstances += len(loads_deletedInstances)
+	var logoonthelefts_newInstances []*LogoOnTheLeft
+	var logoonthelefts_deletedInstances []*LogoOnTheLeft
+
+	// parse all staged instances and check if they have a reference
+	for logoontheleft := range stage.LogoOnTheLefts {
+		if _, ok := stage.LogoOnTheLefts_reference[logoontheleft]; !ok {
+			logoonthelefts_newInstances = append(logoonthelefts_newInstances, logoontheleft)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for logoontheleft := range stage.LogoOnTheLefts_reference {
+		if _, ok := stage.LogoOnTheLefts[logoontheleft]; !ok {
+			logoonthelefts_deletedInstances = append(logoonthelefts_deletedInstances, logoontheleft)
+		}
+	}
+
+	lenNewInstances += len(logoonthelefts_newInstances)
+	lenDeletedInstances += len(logoonthelefts_deletedInstances)
+	var logoontherights_newInstances []*LogoOnTheRight
+	var logoontherights_deletedInstances []*LogoOnTheRight
+
+	// parse all staged instances and check if they have a reference
+	for logoontheright := range stage.LogoOnTheRights {
+		if _, ok := stage.LogoOnTheRights_reference[logoontheright]; !ok {
+			logoontherights_newInstances = append(logoontherights_newInstances, logoontheright)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for logoontheright := range stage.LogoOnTheRights_reference {
+		if _, ok := stage.LogoOnTheRights[logoontheright]; !ok {
+			logoontherights_deletedInstances = append(logoontherights_deletedInstances, logoontheright)
+		}
+	}
+
+	lenNewInstances += len(logoontherights_newInstances)
+	lenDeletedInstances += len(logoontherights_deletedInstances)
+	var markdowns_newInstances []*Markdown
+	var markdowns_deletedInstances []*Markdown
+
+	// parse all staged instances and check if they have a reference
+	for markdown := range stage.Markdowns {
+		if _, ok := stage.Markdowns_reference[markdown]; !ok {
+			markdowns_newInstances = append(markdowns_newInstances, markdown)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for markdown := range stage.Markdowns_reference {
+		if _, ok := stage.Markdowns[markdown]; !ok {
+			markdowns_deletedInstances = append(markdowns_deletedInstances, markdown)
+		}
+	}
+
+	lenNewInstances += len(markdowns_newInstances)
+	lenDeletedInstances += len(markdowns_deletedInstances)
+	var sliders_newInstances []*Slider
+	var sliders_deletedInstances []*Slider
+
+	// parse all staged instances and check if they have a reference
+	for slider := range stage.Sliders {
+		if _, ok := stage.Sliders_reference[slider]; !ok {
+			sliders_newInstances = append(sliders_newInstances, slider)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for slider := range stage.Sliders_reference {
+		if _, ok := stage.Sliders[slider]; !ok {
+			sliders_deletedInstances = append(sliders_deletedInstances, slider)
+		}
+	}
+
+	lenNewInstances += len(sliders_newInstances)
+	lenDeletedInstances += len(sliders_deletedInstances)
+	var splits_newInstances []*Split
+	var splits_deletedInstances []*Split
+
+	// parse all staged instances and check if they have a reference
+	for split := range stage.Splits {
+		if _, ok := stage.Splits_reference[split]; !ok {
+			splits_newInstances = append(splits_newInstances, split)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for split := range stage.Splits_reference {
+		if _, ok := stage.Splits[split]; !ok {
+			splits_deletedInstances = append(splits_deletedInstances, split)
+		}
+	}
+
+	lenNewInstances += len(splits_newInstances)
+	lenDeletedInstances += len(splits_deletedInstances)
+	var svgs_newInstances []*Svg
+	var svgs_deletedInstances []*Svg
+
+	// parse all staged instances and check if they have a reference
+	for svg := range stage.Svgs {
+		if _, ok := stage.Svgs_reference[svg]; !ok {
+			svgs_newInstances = append(svgs_newInstances, svg)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for svg := range stage.Svgs_reference {
+		if _, ok := stage.Svgs[svg]; !ok {
+			svgs_deletedInstances = append(svgs_deletedInstances, svg)
+		}
+	}
+
+	lenNewInstances += len(svgs_newInstances)
+	lenDeletedInstances += len(svgs_deletedInstances)
+	var tables_newInstances []*Table
+	var tables_deletedInstances []*Table
+
+	// parse all staged instances and check if they have a reference
+	for table := range stage.Tables {
+		if _, ok := stage.Tables_reference[table]; !ok {
+			tables_newInstances = append(tables_newInstances, table)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for table := range stage.Tables_reference {
+		if _, ok := stage.Tables[table]; !ok {
+			tables_deletedInstances = append(tables_deletedInstances, table)
+		}
+	}
+
+	lenNewInstances += len(tables_newInstances)
+	lenDeletedInstances += len(tables_deletedInstances)
+	var titles_newInstances []*Title
+	var titles_deletedInstances []*Title
+
+	// parse all staged instances and check if they have a reference
+	for title := range stage.Titles {
+		if _, ok := stage.Titles_reference[title]; !ok {
+			titles_newInstances = append(titles_newInstances, title)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for title := range stage.Titles_reference {
+		if _, ok := stage.Titles[title]; !ok {
+			titles_deletedInstances = append(titles_deletedInstances, title)
+		}
+	}
+
+	lenNewInstances += len(titles_newInstances)
+	lenDeletedInstances += len(titles_deletedInstances)
+	var tones_newInstances []*Tone
+	var tones_deletedInstances []*Tone
+
+	// parse all staged instances and check if they have a reference
+	for tone := range stage.Tones {
+		if _, ok := stage.Tones_reference[tone]; !ok {
+			tones_newInstances = append(tones_newInstances, tone)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for tone := range stage.Tones_reference {
+		if _, ok := stage.Tones[tone]; !ok {
+			tones_deletedInstances = append(tones_deletedInstances, tone)
+		}
+	}
+
+	lenNewInstances += len(tones_newInstances)
+	lenDeletedInstances += len(tones_deletedInstances)
+	var trees_newInstances []*Tree
+	var trees_deletedInstances []*Tree
+
+	// parse all staged instances and check if they have a reference
+	for tree := range stage.Trees {
+		if _, ok := stage.Trees_reference[tree]; !ok {
+			trees_newInstances = append(trees_newInstances, tree)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for tree := range stage.Trees_reference {
+		if _, ok := stage.Trees[tree]; !ok {
+			trees_deletedInstances = append(trees_deletedInstances, tree)
+		}
+	}
+
+	lenNewInstances += len(trees_newInstances)
+	lenDeletedInstances += len(trees_deletedInstances)
+	var views_newInstances []*View
+	var views_deletedInstances []*View
+
+	// parse all staged instances and check if they have a reference
+	for view := range stage.Views {
+		if _, ok := stage.Views_reference[view]; !ok {
+			views_newInstances = append(views_newInstances, view)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for view := range stage.Views_reference {
+		if _, ok := stage.Views[view]; !ok {
+			views_deletedInstances = append(views_deletedInstances, view)
+		}
+	}
+
+	lenNewInstances += len(views_newInstances)
+	lenDeletedInstances += len(views_deletedInstances)
+	var xlsxs_newInstances []*Xlsx
+	var xlsxs_deletedInstances []*Xlsx
+
+	// parse all staged instances and check if they have a reference
+	for xlsx := range stage.Xlsxs {
+		if _, ok := stage.Xlsxs_reference[xlsx]; !ok {
+			xlsxs_newInstances = append(xlsxs_newInstances, xlsx)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for xlsx := range stage.Xlsxs_reference {
+		if _, ok := stage.Xlsxs[xlsx]; !ok {
+			xlsxs_deletedInstances = append(xlsxs_deletedInstances, xlsx)
+		}
+	}
+
+	lenNewInstances += len(xlsxs_newInstances)
+	lenDeletedInstances += len(xlsxs_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.AsSplits_reference = make(map[*AsSplit]*AsSplit)
+	for instance := range stage.AsSplits {
+		stage.AsSplits_reference[instance] = instance
 	}
+
+	stage.AsSplitAreas_reference = make(map[*AsSplitArea]*AsSplitArea)
+	for instance := range stage.AsSplitAreas {
+		stage.AsSplitAreas_reference[instance] = instance
+	}
+
+	stage.Buttons_reference = make(map[*Button]*Button)
+	for instance := range stage.Buttons {
+		stage.Buttons_reference[instance] = instance
+	}
+
+	stage.Cursors_reference = make(map[*Cursor]*Cursor)
+	for instance := range stage.Cursors {
+		stage.Cursors_reference[instance] = instance
+	}
+
+	stage.FavIcons_reference = make(map[*FavIcon]*FavIcon)
+	for instance := range stage.FavIcons {
+		stage.FavIcons_reference[instance] = instance
+	}
+
+	stage.Forms_reference = make(map[*Form]*Form)
+	for instance := range stage.Forms {
+		stage.Forms_reference[instance] = instance
+	}
+
+	stage.Loads_reference = make(map[*Load]*Load)
+	for instance := range stage.Loads {
+		stage.Loads_reference[instance] = instance
+	}
+
+	stage.LogoOnTheLefts_reference = make(map[*LogoOnTheLeft]*LogoOnTheLeft)
+	for instance := range stage.LogoOnTheLefts {
+		stage.LogoOnTheLefts_reference[instance] = instance
+	}
+
+	stage.LogoOnTheRights_reference = make(map[*LogoOnTheRight]*LogoOnTheRight)
+	for instance := range stage.LogoOnTheRights {
+		stage.LogoOnTheRights_reference[instance] = instance
+	}
+
+	stage.Markdowns_reference = make(map[*Markdown]*Markdown)
+	for instance := range stage.Markdowns {
+		stage.Markdowns_reference[instance] = instance
+	}
+
+	stage.Sliders_reference = make(map[*Slider]*Slider)
+	for instance := range stage.Sliders {
+		stage.Sliders_reference[instance] = instance
+	}
+
+	stage.Splits_reference = make(map[*Split]*Split)
+	for instance := range stage.Splits {
+		stage.Splits_reference[instance] = instance
+	}
+
+	stage.Svgs_reference = make(map[*Svg]*Svg)
+	for instance := range stage.Svgs {
+		stage.Svgs_reference[instance] = instance
+	}
+
+	stage.Tables_reference = make(map[*Table]*Table)
+	for instance := range stage.Tables {
+		stage.Tables_reference[instance] = instance
+	}
+
+	stage.Titles_reference = make(map[*Title]*Title)
+	for instance := range stage.Titles {
+		stage.Titles_reference[instance] = instance
+	}
+
+	stage.Tones_reference = make(map[*Tone]*Tone)
+	for instance := range stage.Tones {
+		stage.Tones_reference[instance] = instance
+	}
+
+	stage.Trees_reference = make(map[*Tree]*Tree)
+	for instance := range stage.Trees {
+		stage.Trees_reference[instance] = instance
+	}
+
+	stage.Views_reference = make(map[*View]*View)
+	for instance := range stage.Views {
+		stage.Views_reference[instance] = instance
+	}
+
+	stage.Xlsxs_reference = make(map[*Xlsx]*Xlsx)
+	for instance := range stage.Xlsxs {
+		stage.Xlsxs_reference[instance] = instance
+	}
+
 }

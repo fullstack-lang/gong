@@ -76,6 +76,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongCopy() GongstructIF {
 	newInstance := *displayselection
@@ -102,10 +103,142 @@ func (xlsheet *XLSheet) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var displayselections_newInstances []*DisplaySelection
+	var displayselections_deletedInstances []*DisplaySelection
+
+	// parse all staged instances and check if they have a reference
+	for displayselection := range stage.DisplaySelections {
+		if _, ok := stage.DisplaySelections_reference[displayselection]; !ok {
+			displayselections_newInstances = append(displayselections_newInstances, displayselection)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for displayselection := range stage.DisplaySelections_reference {
+		if _, ok := stage.DisplaySelections[displayselection]; !ok {
+			displayselections_deletedInstances = append(displayselections_deletedInstances, displayselection)
+		}
+	}
+
+	lenNewInstances += len(displayselections_newInstances)
+	lenDeletedInstances += len(displayselections_deletedInstances)
+	var xlcells_newInstances []*XLCell
+	var xlcells_deletedInstances []*XLCell
+
+	// parse all staged instances and check if they have a reference
+	for xlcell := range stage.XLCells {
+		if _, ok := stage.XLCells_reference[xlcell]; !ok {
+			xlcells_newInstances = append(xlcells_newInstances, xlcell)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for xlcell := range stage.XLCells_reference {
+		if _, ok := stage.XLCells[xlcell]; !ok {
+			xlcells_deletedInstances = append(xlcells_deletedInstances, xlcell)
+		}
+	}
+
+	lenNewInstances += len(xlcells_newInstances)
+	lenDeletedInstances += len(xlcells_deletedInstances)
+	var xlfiles_newInstances []*XLFile
+	var xlfiles_deletedInstances []*XLFile
+
+	// parse all staged instances and check if they have a reference
+	for xlfile := range stage.XLFiles {
+		if _, ok := stage.XLFiles_reference[xlfile]; !ok {
+			xlfiles_newInstances = append(xlfiles_newInstances, xlfile)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for xlfile := range stage.XLFiles_reference {
+		if _, ok := stage.XLFiles[xlfile]; !ok {
+			xlfiles_deletedInstances = append(xlfiles_deletedInstances, xlfile)
+		}
+	}
+
+	lenNewInstances += len(xlfiles_newInstances)
+	lenDeletedInstances += len(xlfiles_deletedInstances)
+	var xlrows_newInstances []*XLRow
+	var xlrows_deletedInstances []*XLRow
+
+	// parse all staged instances and check if they have a reference
+	for xlrow := range stage.XLRows {
+		if _, ok := stage.XLRows_reference[xlrow]; !ok {
+			xlrows_newInstances = append(xlrows_newInstances, xlrow)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for xlrow := range stage.XLRows_reference {
+		if _, ok := stage.XLRows[xlrow]; !ok {
+			xlrows_deletedInstances = append(xlrows_deletedInstances, xlrow)
+		}
+	}
+
+	lenNewInstances += len(xlrows_newInstances)
+	lenDeletedInstances += len(xlrows_deletedInstances)
+	var xlsheets_newInstances []*XLSheet
+	var xlsheets_deletedInstances []*XLSheet
+
+	// parse all staged instances and check if they have a reference
+	for xlsheet := range stage.XLSheets {
+		if _, ok := stage.XLSheets_reference[xlsheet]; !ok {
+			xlsheets_newInstances = append(xlsheets_newInstances, xlsheet)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for xlsheet := range stage.XLSheets_reference {
+		if _, ok := stage.XLSheets[xlsheet]; !ok {
+			xlsheets_deletedInstances = append(xlsheets_deletedInstances, xlsheet)
+		}
+	}
+
+	lenNewInstances += len(xlsheets_newInstances)
+	lenDeletedInstances += len(xlsheets_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.DisplaySelections_reference = make(map[*DisplaySelection]*DisplaySelection)
+	for instance := range stage.DisplaySelections {
+		stage.DisplaySelections_reference[instance] = instance
 	}
+
+	stage.XLCells_reference = make(map[*XLCell]*XLCell)
+	for instance := range stage.XLCells {
+		stage.XLCells_reference[instance] = instance
+	}
+
+	stage.XLFiles_reference = make(map[*XLFile]*XLFile)
+	for instance := range stage.XLFiles {
+		stage.XLFiles_reference[instance] = instance
+	}
+
+	stage.XLRows_reference = make(map[*XLRow]*XLRow)
+	for instance := range stage.XLRows {
+		stage.XLRows_reference[instance] = instance
+	}
+
+	stage.XLSheets_reference = make(map[*XLSheet]*XLSheet)
+	for instance := range stage.XLSheets {
+		stage.XLSheets_reference[instance] = instance
+	}
+
 }

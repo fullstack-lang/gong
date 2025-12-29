@@ -223,6 +223,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (cell *Cell) GongCopy() GongstructIF {
 	newInstance := *cell
@@ -339,10 +340,574 @@ func (table *Table) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var cells_newInstances []*Cell
+	var cells_deletedInstances []*Cell
+
+	// parse all staged instances and check if they have a reference
+	for cell := range stage.Cells {
+		if _, ok := stage.Cells_reference[cell]; !ok {
+			cells_newInstances = append(cells_newInstances, cell)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cell := range stage.Cells_reference {
+		if _, ok := stage.Cells[cell]; !ok {
+			cells_deletedInstances = append(cells_deletedInstances, cell)
+		}
+	}
+
+	lenNewInstances += len(cells_newInstances)
+	lenDeletedInstances += len(cells_deletedInstances)
+	var cellbooleans_newInstances []*CellBoolean
+	var cellbooleans_deletedInstances []*CellBoolean
+
+	// parse all staged instances and check if they have a reference
+	for cellboolean := range stage.CellBooleans {
+		if _, ok := stage.CellBooleans_reference[cellboolean]; !ok {
+			cellbooleans_newInstances = append(cellbooleans_newInstances, cellboolean)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cellboolean := range stage.CellBooleans_reference {
+		if _, ok := stage.CellBooleans[cellboolean]; !ok {
+			cellbooleans_deletedInstances = append(cellbooleans_deletedInstances, cellboolean)
+		}
+	}
+
+	lenNewInstances += len(cellbooleans_newInstances)
+	lenDeletedInstances += len(cellbooleans_deletedInstances)
+	var cellfloat64s_newInstances []*CellFloat64
+	var cellfloat64s_deletedInstances []*CellFloat64
+
+	// parse all staged instances and check if they have a reference
+	for cellfloat64 := range stage.CellFloat64s {
+		if _, ok := stage.CellFloat64s_reference[cellfloat64]; !ok {
+			cellfloat64s_newInstances = append(cellfloat64s_newInstances, cellfloat64)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cellfloat64 := range stage.CellFloat64s_reference {
+		if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
+			cellfloat64s_deletedInstances = append(cellfloat64s_deletedInstances, cellfloat64)
+		}
+	}
+
+	lenNewInstances += len(cellfloat64s_newInstances)
+	lenDeletedInstances += len(cellfloat64s_deletedInstances)
+	var cellicons_newInstances []*CellIcon
+	var cellicons_deletedInstances []*CellIcon
+
+	// parse all staged instances and check if they have a reference
+	for cellicon := range stage.CellIcons {
+		if _, ok := stage.CellIcons_reference[cellicon]; !ok {
+			cellicons_newInstances = append(cellicons_newInstances, cellicon)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cellicon := range stage.CellIcons_reference {
+		if _, ok := stage.CellIcons[cellicon]; !ok {
+			cellicons_deletedInstances = append(cellicons_deletedInstances, cellicon)
+		}
+	}
+
+	lenNewInstances += len(cellicons_newInstances)
+	lenDeletedInstances += len(cellicons_deletedInstances)
+	var cellints_newInstances []*CellInt
+	var cellints_deletedInstances []*CellInt
+
+	// parse all staged instances and check if they have a reference
+	for cellint := range stage.CellInts {
+		if _, ok := stage.CellInts_reference[cellint]; !ok {
+			cellints_newInstances = append(cellints_newInstances, cellint)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cellint := range stage.CellInts_reference {
+		if _, ok := stage.CellInts[cellint]; !ok {
+			cellints_deletedInstances = append(cellints_deletedInstances, cellint)
+		}
+	}
+
+	lenNewInstances += len(cellints_newInstances)
+	lenDeletedInstances += len(cellints_deletedInstances)
+	var cellstrings_newInstances []*CellString
+	var cellstrings_deletedInstances []*CellString
+
+	// parse all staged instances and check if they have a reference
+	for cellstring := range stage.CellStrings {
+		if _, ok := stage.CellStrings_reference[cellstring]; !ok {
+			cellstrings_newInstances = append(cellstrings_newInstances, cellstring)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for cellstring := range stage.CellStrings_reference {
+		if _, ok := stage.CellStrings[cellstring]; !ok {
+			cellstrings_deletedInstances = append(cellstrings_deletedInstances, cellstring)
+		}
+	}
+
+	lenNewInstances += len(cellstrings_newInstances)
+	lenDeletedInstances += len(cellstrings_deletedInstances)
+	var checkboxs_newInstances []*CheckBox
+	var checkboxs_deletedInstances []*CheckBox
+
+	// parse all staged instances and check if they have a reference
+	for checkbox := range stage.CheckBoxs {
+		if _, ok := stage.CheckBoxs_reference[checkbox]; !ok {
+			checkboxs_newInstances = append(checkboxs_newInstances, checkbox)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for checkbox := range stage.CheckBoxs_reference {
+		if _, ok := stage.CheckBoxs[checkbox]; !ok {
+			checkboxs_deletedInstances = append(checkboxs_deletedInstances, checkbox)
+		}
+	}
+
+	lenNewInstances += len(checkboxs_newInstances)
+	lenDeletedInstances += len(checkboxs_deletedInstances)
+	var displayedcolumns_newInstances []*DisplayedColumn
+	var displayedcolumns_deletedInstances []*DisplayedColumn
+
+	// parse all staged instances and check if they have a reference
+	for displayedcolumn := range stage.DisplayedColumns {
+		if _, ok := stage.DisplayedColumns_reference[displayedcolumn]; !ok {
+			displayedcolumns_newInstances = append(displayedcolumns_newInstances, displayedcolumn)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for displayedcolumn := range stage.DisplayedColumns_reference {
+		if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
+			displayedcolumns_deletedInstances = append(displayedcolumns_deletedInstances, displayedcolumn)
+		}
+	}
+
+	lenNewInstances += len(displayedcolumns_newInstances)
+	lenDeletedInstances += len(displayedcolumns_deletedInstances)
+	var formdivs_newInstances []*FormDiv
+	var formdivs_deletedInstances []*FormDiv
+
+	// parse all staged instances and check if they have a reference
+	for formdiv := range stage.FormDivs {
+		if _, ok := stage.FormDivs_reference[formdiv]; !ok {
+			formdivs_newInstances = append(formdivs_newInstances, formdiv)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formdiv := range stage.FormDivs_reference {
+		if _, ok := stage.FormDivs[formdiv]; !ok {
+			formdivs_deletedInstances = append(formdivs_deletedInstances, formdiv)
+		}
+	}
+
+	lenNewInstances += len(formdivs_newInstances)
+	lenDeletedInstances += len(formdivs_deletedInstances)
+	var formeditassocbuttons_newInstances []*FormEditAssocButton
+	var formeditassocbuttons_deletedInstances []*FormEditAssocButton
+
+	// parse all staged instances and check if they have a reference
+	for formeditassocbutton := range stage.FormEditAssocButtons {
+		if _, ok := stage.FormEditAssocButtons_reference[formeditassocbutton]; !ok {
+			formeditassocbuttons_newInstances = append(formeditassocbuttons_newInstances, formeditassocbutton)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formeditassocbutton := range stage.FormEditAssocButtons_reference {
+		if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
+			formeditassocbuttons_deletedInstances = append(formeditassocbuttons_deletedInstances, formeditassocbutton)
+		}
+	}
+
+	lenNewInstances += len(formeditassocbuttons_newInstances)
+	lenDeletedInstances += len(formeditassocbuttons_deletedInstances)
+	var formfields_newInstances []*FormField
+	var formfields_deletedInstances []*FormField
+
+	// parse all staged instances and check if they have a reference
+	for formfield := range stage.FormFields {
+		if _, ok := stage.FormFields_reference[formfield]; !ok {
+			formfields_newInstances = append(formfields_newInstances, formfield)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfield := range stage.FormFields_reference {
+		if _, ok := stage.FormFields[formfield]; !ok {
+			formfields_deletedInstances = append(formfields_deletedInstances, formfield)
+		}
+	}
+
+	lenNewInstances += len(formfields_newInstances)
+	lenDeletedInstances += len(formfields_deletedInstances)
+	var formfielddates_newInstances []*FormFieldDate
+	var formfielddates_deletedInstances []*FormFieldDate
+
+	// parse all staged instances and check if they have a reference
+	for formfielddate := range stage.FormFieldDates {
+		if _, ok := stage.FormFieldDates_reference[formfielddate]; !ok {
+			formfielddates_newInstances = append(formfielddates_newInstances, formfielddate)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfielddate := range stage.FormFieldDates_reference {
+		if _, ok := stage.FormFieldDates[formfielddate]; !ok {
+			formfielddates_deletedInstances = append(formfielddates_deletedInstances, formfielddate)
+		}
+	}
+
+	lenNewInstances += len(formfielddates_newInstances)
+	lenDeletedInstances += len(formfielddates_deletedInstances)
+	var formfielddatetimes_newInstances []*FormFieldDateTime
+	var formfielddatetimes_deletedInstances []*FormFieldDateTime
+
+	// parse all staged instances and check if they have a reference
+	for formfielddatetime := range stage.FormFieldDateTimes {
+		if _, ok := stage.FormFieldDateTimes_reference[formfielddatetime]; !ok {
+			formfielddatetimes_newInstances = append(formfielddatetimes_newInstances, formfielddatetime)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfielddatetime := range stage.FormFieldDateTimes_reference {
+		if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
+			formfielddatetimes_deletedInstances = append(formfielddatetimes_deletedInstances, formfielddatetime)
+		}
+	}
+
+	lenNewInstances += len(formfielddatetimes_newInstances)
+	lenDeletedInstances += len(formfielddatetimes_deletedInstances)
+	var formfieldfloat64s_newInstances []*FormFieldFloat64
+	var formfieldfloat64s_deletedInstances []*FormFieldFloat64
+
+	// parse all staged instances and check if they have a reference
+	for formfieldfloat64 := range stage.FormFieldFloat64s {
+		if _, ok := stage.FormFieldFloat64s_reference[formfieldfloat64]; !ok {
+			formfieldfloat64s_newInstances = append(formfieldfloat64s_newInstances, formfieldfloat64)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfieldfloat64 := range stage.FormFieldFloat64s_reference {
+		if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
+			formfieldfloat64s_deletedInstances = append(formfieldfloat64s_deletedInstances, formfieldfloat64)
+		}
+	}
+
+	lenNewInstances += len(formfieldfloat64s_newInstances)
+	lenDeletedInstances += len(formfieldfloat64s_deletedInstances)
+	var formfieldints_newInstances []*FormFieldInt
+	var formfieldints_deletedInstances []*FormFieldInt
+
+	// parse all staged instances and check if they have a reference
+	for formfieldint := range stage.FormFieldInts {
+		if _, ok := stage.FormFieldInts_reference[formfieldint]; !ok {
+			formfieldints_newInstances = append(formfieldints_newInstances, formfieldint)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfieldint := range stage.FormFieldInts_reference {
+		if _, ok := stage.FormFieldInts[formfieldint]; !ok {
+			formfieldints_deletedInstances = append(formfieldints_deletedInstances, formfieldint)
+		}
+	}
+
+	lenNewInstances += len(formfieldints_newInstances)
+	lenDeletedInstances += len(formfieldints_deletedInstances)
+	var formfieldselects_newInstances []*FormFieldSelect
+	var formfieldselects_deletedInstances []*FormFieldSelect
+
+	// parse all staged instances and check if they have a reference
+	for formfieldselect := range stage.FormFieldSelects {
+		if _, ok := stage.FormFieldSelects_reference[formfieldselect]; !ok {
+			formfieldselects_newInstances = append(formfieldselects_newInstances, formfieldselect)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfieldselect := range stage.FormFieldSelects_reference {
+		if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
+			formfieldselects_deletedInstances = append(formfieldselects_deletedInstances, formfieldselect)
+		}
+	}
+
+	lenNewInstances += len(formfieldselects_newInstances)
+	lenDeletedInstances += len(formfieldselects_deletedInstances)
+	var formfieldstrings_newInstances []*FormFieldString
+	var formfieldstrings_deletedInstances []*FormFieldString
+
+	// parse all staged instances and check if they have a reference
+	for formfieldstring := range stage.FormFieldStrings {
+		if _, ok := stage.FormFieldStrings_reference[formfieldstring]; !ok {
+			formfieldstrings_newInstances = append(formfieldstrings_newInstances, formfieldstring)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfieldstring := range stage.FormFieldStrings_reference {
+		if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
+			formfieldstrings_deletedInstances = append(formfieldstrings_deletedInstances, formfieldstring)
+		}
+	}
+
+	lenNewInstances += len(formfieldstrings_newInstances)
+	lenDeletedInstances += len(formfieldstrings_deletedInstances)
+	var formfieldtimes_newInstances []*FormFieldTime
+	var formfieldtimes_deletedInstances []*FormFieldTime
+
+	// parse all staged instances and check if they have a reference
+	for formfieldtime := range stage.FormFieldTimes {
+		if _, ok := stage.FormFieldTimes_reference[formfieldtime]; !ok {
+			formfieldtimes_newInstances = append(formfieldtimes_newInstances, formfieldtime)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formfieldtime := range stage.FormFieldTimes_reference {
+		if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
+			formfieldtimes_deletedInstances = append(formfieldtimes_deletedInstances, formfieldtime)
+		}
+	}
+
+	lenNewInstances += len(formfieldtimes_newInstances)
+	lenDeletedInstances += len(formfieldtimes_deletedInstances)
+	var formgroups_newInstances []*FormGroup
+	var formgroups_deletedInstances []*FormGroup
+
+	// parse all staged instances and check if they have a reference
+	for formgroup := range stage.FormGroups {
+		if _, ok := stage.FormGroups_reference[formgroup]; !ok {
+			formgroups_newInstances = append(formgroups_newInstances, formgroup)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formgroup := range stage.FormGroups_reference {
+		if _, ok := stage.FormGroups[formgroup]; !ok {
+			formgroups_deletedInstances = append(formgroups_deletedInstances, formgroup)
+		}
+	}
+
+	lenNewInstances += len(formgroups_newInstances)
+	lenDeletedInstances += len(formgroups_deletedInstances)
+	var formsortassocbuttons_newInstances []*FormSortAssocButton
+	var formsortassocbuttons_deletedInstances []*FormSortAssocButton
+
+	// parse all staged instances and check if they have a reference
+	for formsortassocbutton := range stage.FormSortAssocButtons {
+		if _, ok := stage.FormSortAssocButtons_reference[formsortassocbutton]; !ok {
+			formsortassocbuttons_newInstances = append(formsortassocbuttons_newInstances, formsortassocbutton)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for formsortassocbutton := range stage.FormSortAssocButtons_reference {
+		if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
+			formsortassocbuttons_deletedInstances = append(formsortassocbuttons_deletedInstances, formsortassocbutton)
+		}
+	}
+
+	lenNewInstances += len(formsortassocbuttons_newInstances)
+	lenDeletedInstances += len(formsortassocbuttons_deletedInstances)
+	var options_newInstances []*Option
+	var options_deletedInstances []*Option
+
+	// parse all staged instances and check if they have a reference
+	for option := range stage.Options {
+		if _, ok := stage.Options_reference[option]; !ok {
+			options_newInstances = append(options_newInstances, option)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for option := range stage.Options_reference {
+		if _, ok := stage.Options[option]; !ok {
+			options_deletedInstances = append(options_deletedInstances, option)
+		}
+	}
+
+	lenNewInstances += len(options_newInstances)
+	lenDeletedInstances += len(options_deletedInstances)
+	var rows_newInstances []*Row
+	var rows_deletedInstances []*Row
+
+	// parse all staged instances and check if they have a reference
+	for row := range stage.Rows {
+		if _, ok := stage.Rows_reference[row]; !ok {
+			rows_newInstances = append(rows_newInstances, row)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for row := range stage.Rows_reference {
+		if _, ok := stage.Rows[row]; !ok {
+			rows_deletedInstances = append(rows_deletedInstances, row)
+		}
+	}
+
+	lenNewInstances += len(rows_newInstances)
+	lenDeletedInstances += len(rows_deletedInstances)
+	var tables_newInstances []*Table
+	var tables_deletedInstances []*Table
+
+	// parse all staged instances and check if they have a reference
+	for table := range stage.Tables {
+		if _, ok := stage.Tables_reference[table]; !ok {
+			tables_newInstances = append(tables_newInstances, table)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for table := range stage.Tables_reference {
+		if _, ok := stage.Tables[table]; !ok {
+			tables_deletedInstances = append(tables_deletedInstances, table)
+		}
+	}
+
+	lenNewInstances += len(tables_newInstances)
+	lenDeletedInstances += len(tables_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Cells_reference = make(map[*Cell]*Cell)
+	for instance := range stage.Cells {
+		stage.Cells_reference[instance] = instance
 	}
+
+	stage.CellBooleans_reference = make(map[*CellBoolean]*CellBoolean)
+	for instance := range stage.CellBooleans {
+		stage.CellBooleans_reference[instance] = instance
+	}
+
+	stage.CellFloat64s_reference = make(map[*CellFloat64]*CellFloat64)
+	for instance := range stage.CellFloat64s {
+		stage.CellFloat64s_reference[instance] = instance
+	}
+
+	stage.CellIcons_reference = make(map[*CellIcon]*CellIcon)
+	for instance := range stage.CellIcons {
+		stage.CellIcons_reference[instance] = instance
+	}
+
+	stage.CellInts_reference = make(map[*CellInt]*CellInt)
+	for instance := range stage.CellInts {
+		stage.CellInts_reference[instance] = instance
+	}
+
+	stage.CellStrings_reference = make(map[*CellString]*CellString)
+	for instance := range stage.CellStrings {
+		stage.CellStrings_reference[instance] = instance
+	}
+
+	stage.CheckBoxs_reference = make(map[*CheckBox]*CheckBox)
+	for instance := range stage.CheckBoxs {
+		stage.CheckBoxs_reference[instance] = instance
+	}
+
+	stage.DisplayedColumns_reference = make(map[*DisplayedColumn]*DisplayedColumn)
+	for instance := range stage.DisplayedColumns {
+		stage.DisplayedColumns_reference[instance] = instance
+	}
+
+	stage.FormDivs_reference = make(map[*FormDiv]*FormDiv)
+	for instance := range stage.FormDivs {
+		stage.FormDivs_reference[instance] = instance
+	}
+
+	stage.FormEditAssocButtons_reference = make(map[*FormEditAssocButton]*FormEditAssocButton)
+	for instance := range stage.FormEditAssocButtons {
+		stage.FormEditAssocButtons_reference[instance] = instance
+	}
+
+	stage.FormFields_reference = make(map[*FormField]*FormField)
+	for instance := range stage.FormFields {
+		stage.FormFields_reference[instance] = instance
+	}
+
+	stage.FormFieldDates_reference = make(map[*FormFieldDate]*FormFieldDate)
+	for instance := range stage.FormFieldDates {
+		stage.FormFieldDates_reference[instance] = instance
+	}
+
+	stage.FormFieldDateTimes_reference = make(map[*FormFieldDateTime]*FormFieldDateTime)
+	for instance := range stage.FormFieldDateTimes {
+		stage.FormFieldDateTimes_reference[instance] = instance
+	}
+
+	stage.FormFieldFloat64s_reference = make(map[*FormFieldFloat64]*FormFieldFloat64)
+	for instance := range stage.FormFieldFloat64s {
+		stage.FormFieldFloat64s_reference[instance] = instance
+	}
+
+	stage.FormFieldInts_reference = make(map[*FormFieldInt]*FormFieldInt)
+	for instance := range stage.FormFieldInts {
+		stage.FormFieldInts_reference[instance] = instance
+	}
+
+	stage.FormFieldSelects_reference = make(map[*FormFieldSelect]*FormFieldSelect)
+	for instance := range stage.FormFieldSelects {
+		stage.FormFieldSelects_reference[instance] = instance
+	}
+
+	stage.FormFieldStrings_reference = make(map[*FormFieldString]*FormFieldString)
+	for instance := range stage.FormFieldStrings {
+		stage.FormFieldStrings_reference[instance] = instance
+	}
+
+	stage.FormFieldTimes_reference = make(map[*FormFieldTime]*FormFieldTime)
+	for instance := range stage.FormFieldTimes {
+		stage.FormFieldTimes_reference[instance] = instance
+	}
+
+	stage.FormGroups_reference = make(map[*FormGroup]*FormGroup)
+	for instance := range stage.FormGroups {
+		stage.FormGroups_reference[instance] = instance
+	}
+
+	stage.FormSortAssocButtons_reference = make(map[*FormSortAssocButton]*FormSortAssocButton)
+	for instance := range stage.FormSortAssocButtons {
+		stage.FormSortAssocButtons_reference[instance] = instance
+	}
+
+	stage.Options_reference = make(map[*Option]*Option)
+	for instance := range stage.Options {
+		stage.Options_reference[instance] = instance
+	}
+
+	stage.Rows_reference = make(map[*Row]*Row)
+	for instance := range stage.Rows {
+		stage.Rows_reference[instance] = instance
+	}
+
+	stage.Tables_reference = make(map[*Table]*Table)
+	for instance := range stage.Tables {
+		stage.Tables_reference[instance] = instance
+	}
+
 }

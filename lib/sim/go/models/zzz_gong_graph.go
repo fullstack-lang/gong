@@ -508,3 +508,132 @@ func (stage *Stage) UnstageBranchUpdateState(updatestate *UpdateState) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (command *Command) GongDiff(commandOther *Command) (diffs []string) {
+	// insertion point for field diffs
+	if command.Name != commandOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if command.Command != commandOther.Command {
+		diffs = append(diffs, "Command")
+	}
+	if command.CommandDate != commandOther.CommandDate {
+		diffs = append(diffs, "CommandDate")
+	}
+	if (command.Engine == nil) != (commandOther.Engine == nil) {
+		diffs = append(diffs, "Engine")
+	} else if command.Engine != nil && commandOther.Engine != nil {
+		if command.Engine != commandOther.Engine {
+			diffs = append(diffs, "Engine")
+		}
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (dummyagent *DummyAgent) GongDiff(dummyagentOther *DummyAgent) (diffs []string) {
+	// insertion point for field diffs
+	if dummyagent.TechName != dummyagentOther.TechName {
+		diffs = append(diffs, "TechName")
+	}
+	if dummyagent.Name != dummyagentOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (engine *Engine) GongDiff(engineOther *Engine) (diffs []string) {
+	// insertion point for field diffs
+	if engine.Name != engineOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if engine.EndTime != engineOther.EndTime {
+		diffs = append(diffs, "EndTime")
+	}
+	if engine.CurrentTime != engineOther.CurrentTime {
+		diffs = append(diffs, "CurrentTime")
+	}
+	if engine.DisplayFormat != engineOther.DisplayFormat {
+		diffs = append(diffs, "DisplayFormat")
+	}
+	if engine.SecondsSinceStart != engineOther.SecondsSinceStart {
+		diffs = append(diffs, "SecondsSinceStart")
+	}
+	if engine.Fired != engineOther.Fired {
+		diffs = append(diffs, "Fired")
+	}
+	if engine.ControlMode != engineOther.ControlMode {
+		diffs = append(diffs, "ControlMode")
+	}
+	if engine.State != engineOther.State {
+		diffs = append(diffs, "State")
+	}
+	if engine.Speed != engineOther.Speed {
+		diffs = append(diffs, "Speed")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (event *Event) GongDiff(eventOther *Event) (diffs []string) {
+	// insertion point for field diffs
+	if event.Name != eventOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if event.Duration != eventOther.Duration {
+		diffs = append(diffs, "Duration")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (status *Status) GongDiff(statusOther *Status) (diffs []string) {
+	// insertion point for field diffs
+	if status.Name != statusOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if status.CurrentCommand != statusOther.CurrentCommand {
+		diffs = append(diffs, "CurrentCommand")
+	}
+	if status.CompletionDate != statusOther.CompletionDate {
+		diffs = append(diffs, "CompletionDate")
+	}
+	if status.CurrentSpeedCommand != statusOther.CurrentSpeedCommand {
+		diffs = append(diffs, "CurrentSpeedCommand")
+	}
+	if status.SpeedCommandCompletionDate != statusOther.SpeedCommandCompletionDate {
+		diffs = append(diffs, "SpeedCommandCompletionDate")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (updatestate *UpdateState) GongDiff(updatestateOther *UpdateState) (diffs []string) {
+	// insertion point for field diffs
+	if updatestate.Name != updatestateOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if updatestate.Duration != updatestateOther.Duration {
+		diffs = append(diffs, "Duration")
+	}
+	if updatestate.Period != updatestateOther.Period {
+		diffs = append(diffs, "Period")
+	}
+
+	return
+}

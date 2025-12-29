@@ -382,3 +382,148 @@ func (stage *Stage) UnstageBranchSlider(slider *Slider) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (checkbox *Checkbox) GongDiff(checkboxOther *Checkbox) (diffs []string) {
+	// insertion point for field diffs
+	if checkbox.Name != checkboxOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if checkbox.ValueBool != checkboxOther.ValueBool {
+		diffs = append(diffs, "ValueBool")
+	}
+	if checkbox.LabelForTrue != checkboxOther.LabelForTrue {
+		diffs = append(diffs, "LabelForTrue")
+	}
+	if checkbox.LabelForFalse != checkboxOther.LabelForFalse {
+		diffs = append(diffs, "LabelForFalse")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
+	// insertion point for field diffs
+	if group.Name != groupOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if group.Percentage != groupOther.Percentage {
+		diffs = append(diffs, "Percentage")
+	}
+	SlidersDifferent := false
+    if len(group.Sliders) != len(groupOther.Sliders) {
+        SlidersDifferent = true
+    } else {
+        for i := range group.Sliders {
+            if (group.Sliders[i] == nil) != (groupOther.Sliders[i] == nil) {
+                SlidersDifferent = true
+                break
+            } else if group.Sliders[i] != nil && groupOther.Sliders[i] != nil {
+                if len(group.Sliders[i].GongDiff(groupOther.Sliders[i])) > 0 {
+                    SlidersDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if SlidersDifferent {
+        diffs = append(diffs, "Sliders")
+    }
+	CheckboxesDifferent := false
+    if len(group.Checkboxes) != len(groupOther.Checkboxes) {
+        CheckboxesDifferent = true
+    } else {
+        for i := range group.Checkboxes {
+            if (group.Checkboxes[i] == nil) != (groupOther.Checkboxes[i] == nil) {
+                CheckboxesDifferent = true
+                break
+            } else if group.Checkboxes[i] != nil && groupOther.Checkboxes[i] != nil {
+                if len(group.Checkboxes[i].GongDiff(groupOther.Checkboxes[i])) > 0 {
+                    CheckboxesDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if CheckboxesDifferent {
+        diffs = append(diffs, "Checkboxes")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
+	// insertion point for field diffs
+	if layout.Name != layoutOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	GroupsDifferent := false
+    if len(layout.Groups) != len(layoutOther.Groups) {
+        GroupsDifferent = true
+    } else {
+        for i := range layout.Groups {
+            if (layout.Groups[i] == nil) != (layoutOther.Groups[i] == nil) {
+                GroupsDifferent = true
+                break
+            } else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
+                if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
+                    GroupsDifferent = true
+                    break
+                }
+            }
+        }
+    }
+    if GroupsDifferent {
+        diffs = append(diffs, "Groups")
+    }
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (slider *Slider) GongDiff(sliderOther *Slider) (diffs []string) {
+	// insertion point for field diffs
+	if slider.Name != sliderOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if slider.IsFloat64 != sliderOther.IsFloat64 {
+		diffs = append(diffs, "IsFloat64")
+	}
+	if slider.IsInt != sliderOther.IsInt {
+		diffs = append(diffs, "IsInt")
+	}
+	if slider.MinInt != sliderOther.MinInt {
+		diffs = append(diffs, "MinInt")
+	}
+	if slider.MaxInt != sliderOther.MaxInt {
+		diffs = append(diffs, "MaxInt")
+	}
+	if slider.StepInt != sliderOther.StepInt {
+		diffs = append(diffs, "StepInt")
+	}
+	if slider.ValueInt != sliderOther.ValueInt {
+		diffs = append(diffs, "ValueInt")
+	}
+	if slider.MinFloat64 != sliderOther.MinFloat64 {
+		diffs = append(diffs, "MinFloat64")
+	}
+	if slider.MaxFloat64 != sliderOther.MaxFloat64 {
+		diffs = append(diffs, "MaxFloat64")
+	}
+	if slider.StepFloat64 != sliderOther.StepFloat64 {
+		diffs = append(diffs, "StepFloat64")
+	}
+	if slider.ValueFloat64 != sliderOther.ValueFloat64 {
+		diffs = append(diffs, "ValueFloat64")
+	}
+
+	return
+}

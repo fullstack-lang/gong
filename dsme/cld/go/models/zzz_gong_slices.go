@@ -125,6 +125,7 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 	return
 }
 
+
 // insertion point per named struct
 func (category1 *Category1) GongCopy() GongstructIF {
 	newInstance := *category1
@@ -181,10 +182,286 @@ func (influenceshape *InfluenceShape) GongCopy() GongstructIF {
 	return &newInstance
 }
 
+
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenDeletedInstances int
+	
+	// insertion point per named struct
+	var category1s_newInstances []*Category1
+	var category1s_deletedInstances []*Category1
+
+	// parse all staged instances and check if they have a reference
+	for category1 := range stage.Category1s {
+		if _, ok := stage.Category1s_reference[category1]; !ok {
+			category1s_newInstances = append(category1s_newInstances, category1)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category1 := range stage.Category1s_reference {
+		if _, ok := stage.Category1s[category1]; !ok {
+			category1s_deletedInstances = append(category1s_deletedInstances, category1)
+		}
+	}
+
+	lenNewInstances += len(category1s_newInstances)
+	lenDeletedInstances += len(category1s_deletedInstances)
+	var category1shapes_newInstances []*Category1Shape
+	var category1shapes_deletedInstances []*Category1Shape
+
+	// parse all staged instances and check if they have a reference
+	for category1shape := range stage.Category1Shapes {
+		if _, ok := stage.Category1Shapes_reference[category1shape]; !ok {
+			category1shapes_newInstances = append(category1shapes_newInstances, category1shape)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category1shape := range stage.Category1Shapes_reference {
+		if _, ok := stage.Category1Shapes[category1shape]; !ok {
+			category1shapes_deletedInstances = append(category1shapes_deletedInstances, category1shape)
+		}
+	}
+
+	lenNewInstances += len(category1shapes_newInstances)
+	lenDeletedInstances += len(category1shapes_deletedInstances)
+	var category2s_newInstances []*Category2
+	var category2s_deletedInstances []*Category2
+
+	// parse all staged instances and check if they have a reference
+	for category2 := range stage.Category2s {
+		if _, ok := stage.Category2s_reference[category2]; !ok {
+			category2s_newInstances = append(category2s_newInstances, category2)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category2 := range stage.Category2s_reference {
+		if _, ok := stage.Category2s[category2]; !ok {
+			category2s_deletedInstances = append(category2s_deletedInstances, category2)
+		}
+	}
+
+	lenNewInstances += len(category2s_newInstances)
+	lenDeletedInstances += len(category2s_deletedInstances)
+	var category2shapes_newInstances []*Category2Shape
+	var category2shapes_deletedInstances []*Category2Shape
+
+	// parse all staged instances and check if they have a reference
+	for category2shape := range stage.Category2Shapes {
+		if _, ok := stage.Category2Shapes_reference[category2shape]; !ok {
+			category2shapes_newInstances = append(category2shapes_newInstances, category2shape)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category2shape := range stage.Category2Shapes_reference {
+		if _, ok := stage.Category2Shapes[category2shape]; !ok {
+			category2shapes_deletedInstances = append(category2shapes_deletedInstances, category2shape)
+		}
+	}
+
+	lenNewInstances += len(category2shapes_newInstances)
+	lenDeletedInstances += len(category2shapes_deletedInstances)
+	var category3s_newInstances []*Category3
+	var category3s_deletedInstances []*Category3
+
+	// parse all staged instances and check if they have a reference
+	for category3 := range stage.Category3s {
+		if _, ok := stage.Category3s_reference[category3]; !ok {
+			category3s_newInstances = append(category3s_newInstances, category3)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category3 := range stage.Category3s_reference {
+		if _, ok := stage.Category3s[category3]; !ok {
+			category3s_deletedInstances = append(category3s_deletedInstances, category3)
+		}
+	}
+
+	lenNewInstances += len(category3s_newInstances)
+	lenDeletedInstances += len(category3s_deletedInstances)
+	var category3shapes_newInstances []*Category3Shape
+	var category3shapes_deletedInstances []*Category3Shape
+
+	// parse all staged instances and check if they have a reference
+	for category3shape := range stage.Category3Shapes {
+		if _, ok := stage.Category3Shapes_reference[category3shape]; !ok {
+			category3shapes_newInstances = append(category3shapes_newInstances, category3shape)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for category3shape := range stage.Category3Shapes_reference {
+		if _, ok := stage.Category3Shapes[category3shape]; !ok {
+			category3shapes_deletedInstances = append(category3shapes_deletedInstances, category3shape)
+		}
+	}
+
+	lenNewInstances += len(category3shapes_newInstances)
+	lenDeletedInstances += len(category3shapes_deletedInstances)
+	var controlpointshapes_newInstances []*ControlPointShape
+	var controlpointshapes_deletedInstances []*ControlPointShape
+
+	// parse all staged instances and check if they have a reference
+	for controlpointshape := range stage.ControlPointShapes {
+		if _, ok := stage.ControlPointShapes_reference[controlpointshape]; !ok {
+			controlpointshapes_newInstances = append(controlpointshapes_newInstances, controlpointshape)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for controlpointshape := range stage.ControlPointShapes_reference {
+		if _, ok := stage.ControlPointShapes[controlpointshape]; !ok {
+			controlpointshapes_deletedInstances = append(controlpointshapes_deletedInstances, controlpointshape)
+		}
+	}
+
+	lenNewInstances += len(controlpointshapes_newInstances)
+	lenDeletedInstances += len(controlpointshapes_deletedInstances)
+	var desks_newInstances []*Desk
+	var desks_deletedInstances []*Desk
+
+	// parse all staged instances and check if they have a reference
+	for desk := range stage.Desks {
+		if _, ok := stage.Desks_reference[desk]; !ok {
+			desks_newInstances = append(desks_newInstances, desk)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for desk := range stage.Desks_reference {
+		if _, ok := stage.Desks[desk]; !ok {
+			desks_deletedInstances = append(desks_deletedInstances, desk)
+		}
+	}
+
+	lenNewInstances += len(desks_newInstances)
+	lenDeletedInstances += len(desks_deletedInstances)
+	var diagrams_newInstances []*Diagram
+	var diagrams_deletedInstances []*Diagram
+
+	// parse all staged instances and check if they have a reference
+	for diagram := range stage.Diagrams {
+		if _, ok := stage.Diagrams_reference[diagram]; !ok {
+			diagrams_newInstances = append(diagrams_newInstances, diagram)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for diagram := range stage.Diagrams_reference {
+		if _, ok := stage.Diagrams[diagram]; !ok {
+			diagrams_deletedInstances = append(diagrams_deletedInstances, diagram)
+		}
+	}
+
+	lenNewInstances += len(diagrams_newInstances)
+	lenDeletedInstances += len(diagrams_deletedInstances)
+	var influences_newInstances []*Influence
+	var influences_deletedInstances []*Influence
+
+	// parse all staged instances and check if they have a reference
+	for influence := range stage.Influences {
+		if _, ok := stage.Influences_reference[influence]; !ok {
+			influences_newInstances = append(influences_newInstances, influence)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for influence := range stage.Influences_reference {
+		if _, ok := stage.Influences[influence]; !ok {
+			influences_deletedInstances = append(influences_deletedInstances, influence)
+		}
+	}
+
+	lenNewInstances += len(influences_newInstances)
+	lenDeletedInstances += len(influences_deletedInstances)
+	var influenceshapes_newInstances []*InfluenceShape
+	var influenceshapes_deletedInstances []*InfluenceShape
+
+	// parse all staged instances and check if they have a reference
+	for influenceshape := range stage.InfluenceShapes {
+		if _, ok := stage.InfluenceShapes_reference[influenceshape]; !ok {
+			influenceshapes_newInstances = append(influenceshapes_newInstances, influenceshape)
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for influenceshape := range stage.InfluenceShapes_reference {
+		if _, ok := stage.InfluenceShapes[influenceshape]; !ok {
+			influenceshapes_deletedInstances = append(influenceshapes_deletedInstances, influenceshape)
+		}
+	}
+
+	lenNewInstances += len(influenceshapes_newInstances)
+	lenDeletedInstances += len(influenceshapes_deletedInstances)
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().CommitNotificationTable()
+		}
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
+
+	// insertion point per named struct
+	stage.Category1s_reference = make(map[*Category1]*Category1)
+	for instance := range stage.Category1s {
+		stage.Category1s_reference[instance] = instance
 	}
+
+	stage.Category1Shapes_reference = make(map[*Category1Shape]*Category1Shape)
+	for instance := range stage.Category1Shapes {
+		stage.Category1Shapes_reference[instance] = instance
+	}
+
+	stage.Category2s_reference = make(map[*Category2]*Category2)
+	for instance := range stage.Category2s {
+		stage.Category2s_reference[instance] = instance
+	}
+
+	stage.Category2Shapes_reference = make(map[*Category2Shape]*Category2Shape)
+	for instance := range stage.Category2Shapes {
+		stage.Category2Shapes_reference[instance] = instance
+	}
+
+	stage.Category3s_reference = make(map[*Category3]*Category3)
+	for instance := range stage.Category3s {
+		stage.Category3s_reference[instance] = instance
+	}
+
+	stage.Category3Shapes_reference = make(map[*Category3Shape]*Category3Shape)
+	for instance := range stage.Category3Shapes {
+		stage.Category3Shapes_reference[instance] = instance
+	}
+
+	stage.ControlPointShapes_reference = make(map[*ControlPointShape]*ControlPointShape)
+	for instance := range stage.ControlPointShapes {
+		stage.ControlPointShapes_reference[instance] = instance
+	}
+
+	stage.Desks_reference = make(map[*Desk]*Desk)
+	for instance := range stage.Desks {
+		stage.Desks_reference[instance] = instance
+	}
+
+	stage.Diagrams_reference = make(map[*Diagram]*Diagram)
+	for instance := range stage.Diagrams {
+		stage.Diagrams_reference[instance] = instance
+	}
+
+	stage.Influences_reference = make(map[*Influence]*Influence)
+	for instance := range stage.Influences {
+		stage.Influences_reference[instance] = instance
+	}
+
+	stage.InfluenceShapes_reference = make(map[*InfluenceShape]*InfluenceShape)
+	for instance := range stage.InfluenceShapes {
+		stage.InfluenceShapes_reference[instance] = instance
+	}
+
 }
