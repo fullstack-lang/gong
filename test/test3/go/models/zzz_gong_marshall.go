@@ -300,3 +300,15 @@ func generatesIdentifier(gongStructName string, idx int, instanceName string) (i
 
 	return
 }
+
+// unique identifier per struct
+func generatesIdentifier2[T GongstructIF](stage *Stage, instance T) (identifier string) {
+
+	name := instance.GongGetGongstructName()
+	idx := instance.GongGetOrder(stage)
+
+	//#1030
+	identifier = fmt.Sprintf("__%s__%08d_", name, idx)
+
+	return
+}
