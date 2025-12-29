@@ -120,7 +120,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astruct := range astructOrdered {
-	
+
 		identifiersDecl += astruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -255,7 +255,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstruct2use := range astructbstruct2useOrdered {
-	
+
 		identifiersDecl += astructbstruct2use.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -286,7 +286,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstructuse := range astructbstructuseOrdered {
-	
+
 		identifiersDecl += astructbstructuse.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -317,7 +317,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, bstruct := range bstructOrdered {
-	
+
 		identifiersDecl += bstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -366,7 +366,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, dstruct := range dstructOrdered {
-	
+
 		identifiersDecl += dstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -397,7 +397,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-	
+
 		identifiersDecl += f0123456789012345678901234567890.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -434,7 +434,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, gstruct := range gstructOrdered {
-	
+
 		identifiersDecl += gstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
@@ -752,6 +752,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		}
 
 		// res = strings.ReplaceAll(res, "{{EntriesDocLinkStringDocLinkIdentifier}}", entries)
+	}
+	return
+}
+
+func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (setValueField string) {
+	switch fieldName {
+	case "Name":
+		setValueField = StringInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
+	case "Aenum":
+		setValueField = StringEnumInitStatement
+		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
+		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
 	}
 	return
 }
