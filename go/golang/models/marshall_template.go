@@ -164,4 +164,5 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	return
 }
-`
+
+// insertion initialization of objects to stage{{` + string(rune(ModelGongMarshallMarshalFieldMethods)) + `}}`
