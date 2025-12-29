@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -295,7 +296,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Body \""+body.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Body \""+body.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -337,7 +338,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Document \""+document.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Document \""+document.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -379,7 +380,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Docx \""+docx.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Docx \""+docx.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -421,7 +422,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of File \""+file.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of File \""+file.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -463,7 +464,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Node \""+node.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Node \""+node.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -505,7 +506,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Paragraph \""+paragraph.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Paragraph \""+paragraph.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -547,7 +548,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of ParagraphProperties \""+paragraphproperties.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of ParagraphProperties \""+paragraphproperties.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -589,7 +590,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of ParagraphStyle \""+paragraphstyle.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of ParagraphStyle \""+paragraphstyle.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -631,7 +632,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Rune \""+rune.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Rune \""+rune.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -673,7 +674,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of RuneProperties \""+runeproperties.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of RuneProperties \""+runeproperties.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -715,7 +716,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Table \""+table.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Table \""+table.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -757,7 +758,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of TableColumn \""+tablecolumn.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of TableColumn \""+tablecolumn.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -799,7 +800,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of TableProperties \""+tableproperties.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of TableProperties \""+tableproperties.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -841,7 +842,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of TableRow \""+tablerow.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of TableRow \""+tablerow.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -883,7 +884,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of TableStyle \""+tablestyle.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of TableStyle \""+tablestyle.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -925,7 +926,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Text \""+text.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Text \""+text.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1041,3 +1042,145 @@ func (stage *Stage) ComputeReference() {
 	}
 
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (body *Body) GongGetOrder(stage *Stage) uint {
+	return stage.BodyMap_Staged_Order[body]
+}
+
+func (document *Document) GongGetOrder(stage *Stage) uint {
+	return stage.DocumentMap_Staged_Order[document]
+}
+
+func (docx *Docx) GongGetOrder(stage *Stage) uint {
+	return stage.DocxMap_Staged_Order[docx]
+}
+
+func (file *File) GongGetOrder(stage *Stage) uint {
+	return stage.FileMap_Staged_Order[file]
+}
+
+func (node *Node) GongGetOrder(stage *Stage) uint {
+	return stage.NodeMap_Staged_Order[node]
+}
+
+func (paragraph *Paragraph) GongGetOrder(stage *Stage) uint {
+	return stage.ParagraphMap_Staged_Order[paragraph]
+}
+
+func (paragraphproperties *ParagraphProperties) GongGetOrder(stage *Stage) uint {
+	return stage.ParagraphPropertiesMap_Staged_Order[paragraphproperties]
+}
+
+func (paragraphstyle *ParagraphStyle) GongGetOrder(stage *Stage) uint {
+	return stage.ParagraphStyleMap_Staged_Order[paragraphstyle]
+}
+
+func (rune *Rune) GongGetOrder(stage *Stage) uint {
+	return stage.RuneMap_Staged_Order[rune]
+}
+
+func (runeproperties *RuneProperties) GongGetOrder(stage *Stage) uint {
+	return stage.RunePropertiesMap_Staged_Order[runeproperties]
+}
+
+func (table *Table) GongGetOrder(stage *Stage) uint {
+	return stage.TableMap_Staged_Order[table]
+}
+
+func (tablecolumn *TableColumn) GongGetOrder(stage *Stage) uint {
+	return stage.TableColumnMap_Staged_Order[tablecolumn]
+}
+
+func (tableproperties *TableProperties) GongGetOrder(stage *Stage) uint {
+	return stage.TablePropertiesMap_Staged_Order[tableproperties]
+}
+
+func (tablerow *TableRow) GongGetOrder(stage *Stage) uint {
+	return stage.TableRowMap_Staged_Order[tablerow]
+}
+
+func (tablestyle *TableStyle) GongGetOrder(stage *Stage) uint {
+	return stage.TableStyleMap_Staged_Order[tablestyle]
+}
+
+func (text *Text) GongGetOrder(stage *Stage) uint {
+	return stage.TextMap_Staged_Order[text]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (body *Body) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", body.GongGetGongstructName(), body.GongGetOrder(stage))
+}
+
+func (document *Document) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", document.GongGetGongstructName(), document.GongGetOrder(stage))
+}
+
+func (docx *Docx) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", docx.GongGetGongstructName(), docx.GongGetOrder(stage))
+}
+
+func (file *File) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", file.GongGetGongstructName(), file.GongGetOrder(stage))
+}
+
+func (node *Node) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", node.GongGetGongstructName(), node.GongGetOrder(stage))
+}
+
+func (paragraph *Paragraph) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", paragraph.GongGetGongstructName(), paragraph.GongGetOrder(stage))
+}
+
+func (paragraphproperties *ParagraphProperties) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", paragraphproperties.GongGetGongstructName(), paragraphproperties.GongGetOrder(stage))
+}
+
+func (paragraphstyle *ParagraphStyle) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", paragraphstyle.GongGetGongstructName(), paragraphstyle.GongGetOrder(stage))
+}
+
+func (rune *Rune) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", rune.GongGetGongstructName(), rune.GongGetOrder(stage))
+}
+
+func (runeproperties *RuneProperties) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", runeproperties.GongGetGongstructName(), runeproperties.GongGetOrder(stage))
+}
+
+func (table *Table) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", table.GongGetGongstructName(), table.GongGetOrder(stage))
+}
+
+func (tablecolumn *TableColumn) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tablecolumn.GongGetGongstructName(), tablecolumn.GongGetOrder(stage))
+}
+
+func (tableproperties *TableProperties) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tableproperties.GongGetGongstructName(), tableproperties.GongGetOrder(stage))
+}
+
+func (tablerow *TableRow) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tablerow.GongGetGongstructName(), tablerow.GongGetOrder(stage))
+}
+
+func (tablestyle *TableStyle) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", tablestyle.GongGetGongstructName(), tablestyle.GongGetOrder(stage))
+}
+
+func (text *Text) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", text.GongGetGongstructName(), text.GongGetOrder(stage))
+}
+
