@@ -355,3 +355,60 @@ func (stage *Stage) UnstageBranchSvgImage(svgimage *SvgImage) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (content *Content) GongDiff(contentOther *Content) (diffs []string) {
+	// insertion point for field diffs
+	if content.Name != contentOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if content.Content != contentOther.Content {
+		diffs = append(diffs, "Content")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (jpgimage *JpgImage) GongDiff(jpgimageOther *JpgImage) (diffs []string) {
+	// insertion point for field diffs
+	if jpgimage.Name != jpgimageOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if jpgimage.Base64Content != jpgimageOther.Base64Content {
+		diffs = append(diffs, "Base64Content")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (pngimage *PngImage) GongDiff(pngimageOther *PngImage) (diffs []string) {
+	// insertion point for field diffs
+	if pngimage.Name != pngimageOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if pngimage.Base64Content != pngimageOther.Base64Content {
+		diffs = append(diffs, "Base64Content")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (svgimage *SvgImage) GongDiff(svgimageOther *SvgImage) (diffs []string) {
+	// insertion point for field diffs
+	if svgimage.Name != svgimageOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if svgimage.Content != svgimageOther.Content {
+		diffs = append(diffs, "Content")
+	}
+
+	return
+}

@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Animates           map[*Animate]struct{}
+	Animates_reference map[*Animate]*Animate
 	Animates_mapString map[string]*Animate
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterAnimateReadCallback   OnAfterReadInterface[Animate]
 
 	Circles           map[*Circle]struct{}
+	Circles_reference map[*Circle]*Circle
 	Circles_mapString map[string]*Circle
 
 	// insertion point for slice of pointers maps
@@ -114,6 +116,7 @@ type Stage struct {
 	OnAfterCircleReadCallback   OnAfterReadInterface[Circle]
 
 	Conditions           map[*Condition]struct{}
+	Conditions_reference map[*Condition]*Condition
 	Conditions_mapString map[string]*Condition
 
 	// insertion point for slice of pointers maps
@@ -123,6 +126,7 @@ type Stage struct {
 	OnAfterConditionReadCallback   OnAfterReadInterface[Condition]
 
 	ControlPoints           map[*ControlPoint]struct{}
+	ControlPoints_reference map[*ControlPoint]*ControlPoint
 	ControlPoints_mapString map[string]*ControlPoint
 
 	// insertion point for slice of pointers maps
@@ -132,6 +136,7 @@ type Stage struct {
 	OnAfterControlPointReadCallback   OnAfterReadInterface[ControlPoint]
 
 	Ellipses           map[*Ellipse]struct{}
+	Ellipses_reference map[*Ellipse]*Ellipse
 	Ellipses_mapString map[string]*Ellipse
 
 	// insertion point for slice of pointers maps
@@ -143,6 +148,7 @@ type Stage struct {
 	OnAfterEllipseReadCallback   OnAfterReadInterface[Ellipse]
 
 	Layers           map[*Layer]struct{}
+	Layers_reference map[*Layer]*Layer
 	Layers_mapString map[string]*Layer
 
 	// insertion point for slice of pointers maps
@@ -172,6 +178,7 @@ type Stage struct {
 	OnAfterLayerReadCallback   OnAfterReadInterface[Layer]
 
 	Lines           map[*Line]struct{}
+	Lines_reference map[*Line]*Line
 	Lines_mapString map[string]*Line
 
 	// insertion point for slice of pointers maps
@@ -183,6 +190,7 @@ type Stage struct {
 	OnAfterLineReadCallback   OnAfterReadInterface[Line]
 
 	Links           map[*Link]struct{}
+	Links_reference map[*Link]*Link
 	Links_mapString map[string]*Link
 
 	// insertion point for slice of pointers maps
@@ -198,6 +206,7 @@ type Stage struct {
 	OnAfterLinkReadCallback   OnAfterReadInterface[Link]
 
 	LinkAnchoredTexts           map[*LinkAnchoredText]struct{}
+	LinkAnchoredTexts_reference map[*LinkAnchoredText]*LinkAnchoredText
 	LinkAnchoredTexts_mapString map[string]*LinkAnchoredText
 
 	// insertion point for slice of pointers maps
@@ -209,6 +218,7 @@ type Stage struct {
 	OnAfterLinkAnchoredTextReadCallback   OnAfterReadInterface[LinkAnchoredText]
 
 	Paths           map[*Path]struct{}
+	Paths_reference map[*Path]*Path
 	Paths_mapString map[string]*Path
 
 	// insertion point for slice of pointers maps
@@ -220,6 +230,7 @@ type Stage struct {
 	OnAfterPathReadCallback   OnAfterReadInterface[Path]
 
 	Points           map[*Point]struct{}
+	Points_reference map[*Point]*Point
 	Points_mapString map[string]*Point
 
 	// insertion point for slice of pointers maps
@@ -229,6 +240,7 @@ type Stage struct {
 	OnAfterPointReadCallback   OnAfterReadInterface[Point]
 
 	Polygones           map[*Polygone]struct{}
+	Polygones_reference map[*Polygone]*Polygone
 	Polygones_mapString map[string]*Polygone
 
 	// insertion point for slice of pointers maps
@@ -240,6 +252,7 @@ type Stage struct {
 	OnAfterPolygoneReadCallback   OnAfterReadInterface[Polygone]
 
 	Polylines           map[*Polyline]struct{}
+	Polylines_reference map[*Polyline]*Polyline
 	Polylines_mapString map[string]*Polyline
 
 	// insertion point for slice of pointers maps
@@ -251,6 +264,7 @@ type Stage struct {
 	OnAfterPolylineReadCallback   OnAfterReadInterface[Polyline]
 
 	Rects           map[*Rect]struct{}
+	Rects_reference map[*Rect]*Rect
 	Rects_mapString map[string]*Rect
 
 	// insertion point for slice of pointers maps
@@ -272,6 +286,7 @@ type Stage struct {
 	OnAfterRectReadCallback   OnAfterReadInterface[Rect]
 
 	RectAnchoredPaths           map[*RectAnchoredPath]struct{}
+	RectAnchoredPaths_reference map[*RectAnchoredPath]*RectAnchoredPath
 	RectAnchoredPaths_mapString map[string]*RectAnchoredPath
 
 	// insertion point for slice of pointers maps
@@ -281,6 +296,7 @@ type Stage struct {
 	OnAfterRectAnchoredPathReadCallback   OnAfterReadInterface[RectAnchoredPath]
 
 	RectAnchoredRects           map[*RectAnchoredRect]struct{}
+	RectAnchoredRects_reference map[*RectAnchoredRect]*RectAnchoredRect
 	RectAnchoredRects_mapString map[string]*RectAnchoredRect
 
 	// insertion point for slice of pointers maps
@@ -290,6 +306,7 @@ type Stage struct {
 	OnAfterRectAnchoredRectReadCallback   OnAfterReadInterface[RectAnchoredRect]
 
 	RectAnchoredTexts           map[*RectAnchoredText]struct{}
+	RectAnchoredTexts_reference map[*RectAnchoredText]*RectAnchoredText
 	RectAnchoredTexts_mapString map[string]*RectAnchoredText
 
 	// insertion point for slice of pointers maps
@@ -301,6 +318,7 @@ type Stage struct {
 	OnAfterRectAnchoredTextReadCallback   OnAfterReadInterface[RectAnchoredText]
 
 	RectLinkLinks           map[*RectLinkLink]struct{}
+	RectLinkLinks_reference map[*RectLinkLink]*RectLinkLink
 	RectLinkLinks_mapString map[string]*RectLinkLink
 
 	// insertion point for slice of pointers maps
@@ -310,6 +328,7 @@ type Stage struct {
 	OnAfterRectLinkLinkReadCallback   OnAfterReadInterface[RectLinkLink]
 
 	SVGs           map[*SVG]struct{}
+	SVGs_reference map[*SVG]*SVG
 	SVGs_mapString map[string]*SVG
 
 	// insertion point for slice of pointers maps
@@ -321,6 +340,7 @@ type Stage struct {
 	OnAfterSVGReadCallback   OnAfterReadInterface[SVG]
 
 	SvgTexts           map[*SvgText]struct{}
+	SvgTexts_reference map[*SvgText]*SvgText
 	SvgTexts_mapString map[string]*SvgText
 
 	// insertion point for slice of pointers maps
@@ -330,6 +350,7 @@ type Stage struct {
 	OnAfterSvgTextReadCallback   OnAfterReadInterface[SvgText]
 
 	Texts           map[*Text]struct{}
+	Texts_reference map[*Text]*Text
 	Texts_mapString map[string]*Text
 
 	// insertion point for slice of pointers maps
@@ -433,8 +454,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -445,10 +475,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -1104,8 +1130,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "SvgText"},
 			{name: "Text"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -1239,7 +1263,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -8892,4 +8922,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

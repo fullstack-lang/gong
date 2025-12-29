@@ -320,52 +320,37 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Action:
 		stage.OnAfterActionUpdateCallback = any(callback).(OnAfterUpdateInterface[Action])
-	
 	case *Activities:
 		stage.OnAfterActivitiesUpdateCallback = any(callback).(OnAfterUpdateInterface[Activities])
-	
 	case *Architecture:
 		stage.OnAfterArchitectureUpdateCallback = any(callback).(OnAfterUpdateInterface[Architecture])
-	
 	case *Diagram:
 		stage.OnAfterDiagramUpdateCallback = any(callback).(OnAfterUpdateInterface[Diagram])
-	
 	case *Guard:
 		stage.OnAfterGuardUpdateCallback = any(callback).(OnAfterUpdateInterface[Guard])
-	
 	case *Kill:
 		stage.OnAfterKillUpdateCallback = any(callback).(OnAfterUpdateInterface[Kill])
-	
 	case *Message:
 		stage.OnAfterMessageUpdateCallback = any(callback).(OnAfterUpdateInterface[Message])
-	
 	case *MessageType:
 		stage.OnAfterMessageTypeUpdateCallback = any(callback).(OnAfterUpdateInterface[MessageType])
-	
 	case *Object:
 		stage.OnAfterObjectUpdateCallback = any(callback).(OnAfterUpdateInterface[Object])
-	
 	case *Role:
 		stage.OnAfterRoleUpdateCallback = any(callback).(OnAfterUpdateInterface[Role])
-	
 	case *State:
 		stage.OnAfterStateUpdateCallback = any(callback).(OnAfterUpdateInterface[State])
-	
 	case *StateMachine:
 		stage.OnAfterStateMachineUpdateCallback = any(callback).(OnAfterUpdateInterface[StateMachine])
-	
 	case *StateShape:
 		stage.OnAfterStateShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[StateShape])
-	
 	case *Transition:
 		stage.OnAfterTransitionUpdateCallback = any(callback).(OnAfterUpdateInterface[Transition])
-	
 	case *Transition_Shape:
 		stage.OnAfterTransition_ShapeUpdateCallback = any(callback).(OnAfterUpdateInterface[Transition_Shape])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -375,49 +360,34 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Action:
 		stage.OnAfterActionCreateCallback = any(callback).(OnAfterCreateInterface[Action])
-	
 	case *Activities:
 		stage.OnAfterActivitiesCreateCallback = any(callback).(OnAfterCreateInterface[Activities])
-	
 	case *Architecture:
 		stage.OnAfterArchitectureCreateCallback = any(callback).(OnAfterCreateInterface[Architecture])
-	
 	case *Diagram:
 		stage.OnAfterDiagramCreateCallback = any(callback).(OnAfterCreateInterface[Diagram])
-	
 	case *Guard:
 		stage.OnAfterGuardCreateCallback = any(callback).(OnAfterCreateInterface[Guard])
-	
 	case *Kill:
 		stage.OnAfterKillCreateCallback = any(callback).(OnAfterCreateInterface[Kill])
-	
 	case *Message:
 		stage.OnAfterMessageCreateCallback = any(callback).(OnAfterCreateInterface[Message])
-	
 	case *MessageType:
 		stage.OnAfterMessageTypeCreateCallback = any(callback).(OnAfterCreateInterface[MessageType])
-	
 	case *Object:
 		stage.OnAfterObjectCreateCallback = any(callback).(OnAfterCreateInterface[Object])
-	
 	case *Role:
 		stage.OnAfterRoleCreateCallback = any(callback).(OnAfterCreateInterface[Role])
-	
 	case *State:
 		stage.OnAfterStateCreateCallback = any(callback).(OnAfterCreateInterface[State])
-	
 	case *StateMachine:
 		stage.OnAfterStateMachineCreateCallback = any(callback).(OnAfterCreateInterface[StateMachine])
-	
 	case *StateShape:
 		stage.OnAfterStateShapeCreateCallback = any(callback).(OnAfterCreateInterface[StateShape])
-	
 	case *Transition:
 		stage.OnAfterTransitionCreateCallback = any(callback).(OnAfterCreateInterface[Transition])
-	
 	case *Transition_Shape:
 		stage.OnAfterTransition_ShapeCreateCallback = any(callback).(OnAfterCreateInterface[Transition_Shape])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -427,49 +397,34 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Action:
 		stage.OnAfterActionDeleteCallback = any(callback).(OnAfterDeleteInterface[Action])
-	
 	case *Activities:
 		stage.OnAfterActivitiesDeleteCallback = any(callback).(OnAfterDeleteInterface[Activities])
-	
 	case *Architecture:
 		stage.OnAfterArchitectureDeleteCallback = any(callback).(OnAfterDeleteInterface[Architecture])
-	
 	case *Diagram:
 		stage.OnAfterDiagramDeleteCallback = any(callback).(OnAfterDeleteInterface[Diagram])
-	
 	case *Guard:
 		stage.OnAfterGuardDeleteCallback = any(callback).(OnAfterDeleteInterface[Guard])
-	
 	case *Kill:
 		stage.OnAfterKillDeleteCallback = any(callback).(OnAfterDeleteInterface[Kill])
-	
 	case *Message:
 		stage.OnAfterMessageDeleteCallback = any(callback).(OnAfterDeleteInterface[Message])
-	
 	case *MessageType:
 		stage.OnAfterMessageTypeDeleteCallback = any(callback).(OnAfterDeleteInterface[MessageType])
-	
 	case *Object:
 		stage.OnAfterObjectDeleteCallback = any(callback).(OnAfterDeleteInterface[Object])
-	
 	case *Role:
 		stage.OnAfterRoleDeleteCallback = any(callback).(OnAfterDeleteInterface[Role])
-	
 	case *State:
 		stage.OnAfterStateDeleteCallback = any(callback).(OnAfterDeleteInterface[State])
-	
 	case *StateMachine:
 		stage.OnAfterStateMachineDeleteCallback = any(callback).(OnAfterDeleteInterface[StateMachine])
-	
 	case *StateShape:
 		stage.OnAfterStateShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[StateShape])
-	
 	case *Transition:
 		stage.OnAfterTransitionDeleteCallback = any(callback).(OnAfterDeleteInterface[Transition])
-	
 	case *Transition_Shape:
 		stage.OnAfterTransition_ShapeDeleteCallback = any(callback).(OnAfterDeleteInterface[Transition_Shape])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -479,48 +434,33 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Action:
 		stage.OnAfterActionReadCallback = any(callback).(OnAfterReadInterface[Action])
-	
 	case *Activities:
 		stage.OnAfterActivitiesReadCallback = any(callback).(OnAfterReadInterface[Activities])
-	
 	case *Architecture:
 		stage.OnAfterArchitectureReadCallback = any(callback).(OnAfterReadInterface[Architecture])
-	
 	case *Diagram:
 		stage.OnAfterDiagramReadCallback = any(callback).(OnAfterReadInterface[Diagram])
-	
 	case *Guard:
 		stage.OnAfterGuardReadCallback = any(callback).(OnAfterReadInterface[Guard])
-	
 	case *Kill:
 		stage.OnAfterKillReadCallback = any(callback).(OnAfterReadInterface[Kill])
-	
 	case *Message:
 		stage.OnAfterMessageReadCallback = any(callback).(OnAfterReadInterface[Message])
-	
 	case *MessageType:
 		stage.OnAfterMessageTypeReadCallback = any(callback).(OnAfterReadInterface[MessageType])
-	
 	case *Object:
 		stage.OnAfterObjectReadCallback = any(callback).(OnAfterReadInterface[Object])
-	
 	case *Role:
 		stage.OnAfterRoleReadCallback = any(callback).(OnAfterReadInterface[Role])
-	
 	case *State:
 		stage.OnAfterStateReadCallback = any(callback).(OnAfterReadInterface[State])
-	
 	case *StateMachine:
 		stage.OnAfterStateMachineReadCallback = any(callback).(OnAfterReadInterface[StateMachine])
-	
 	case *StateShape:
 		stage.OnAfterStateShapeReadCallback = any(callback).(OnAfterReadInterface[StateShape])
-	
 	case *Transition:
 		stage.OnAfterTransitionReadCallback = any(callback).(OnAfterReadInterface[Transition])
-	
 	case *Transition_Shape:
 		stage.OnAfterTransition_ShapeReadCallback = any(callback).(OnAfterReadInterface[Transition_Shape])
-	
 	}
 }

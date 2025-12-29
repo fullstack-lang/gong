@@ -428,70 +428,49 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *Animate:
 		stage.OnAfterAnimateUpdateCallback = any(callback).(OnAfterUpdateInterface[Animate])
-	
 	case *Circle:
 		stage.OnAfterCircleUpdateCallback = any(callback).(OnAfterUpdateInterface[Circle])
-	
 	case *Condition:
 		stage.OnAfterConditionUpdateCallback = any(callback).(OnAfterUpdateInterface[Condition])
-	
 	case *ControlPoint:
 		stage.OnAfterControlPointUpdateCallback = any(callback).(OnAfterUpdateInterface[ControlPoint])
-	
 	case *Ellipse:
 		stage.OnAfterEllipseUpdateCallback = any(callback).(OnAfterUpdateInterface[Ellipse])
-	
 	case *Layer:
 		stage.OnAfterLayerUpdateCallback = any(callback).(OnAfterUpdateInterface[Layer])
-	
 	case *Line:
 		stage.OnAfterLineUpdateCallback = any(callback).(OnAfterUpdateInterface[Line])
-	
 	case *Link:
 		stage.OnAfterLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[Link])
-	
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextUpdateCallback = any(callback).(OnAfterUpdateInterface[LinkAnchoredText])
-	
 	case *Path:
 		stage.OnAfterPathUpdateCallback = any(callback).(OnAfterUpdateInterface[Path])
-	
 	case *Point:
 		stage.OnAfterPointUpdateCallback = any(callback).(OnAfterUpdateInterface[Point])
-	
 	case *Polygone:
 		stage.OnAfterPolygoneUpdateCallback = any(callback).(OnAfterUpdateInterface[Polygone])
-	
 	case *Polyline:
 		stage.OnAfterPolylineUpdateCallback = any(callback).(OnAfterUpdateInterface[Polyline])
-	
 	case *Rect:
 		stage.OnAfterRectUpdateCallback = any(callback).(OnAfterUpdateInterface[Rect])
-	
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredPath])
-	
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredRect])
-	
 	case *RectAnchoredText:
 		stage.OnAfterRectAnchoredTextUpdateCallback = any(callback).(OnAfterUpdateInterface[RectAnchoredText])
-	
 	case *RectLinkLink:
 		stage.OnAfterRectLinkLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[RectLinkLink])
-	
 	case *SVG:
 		stage.OnAfterSVGUpdateCallback = any(callback).(OnAfterUpdateInterface[SVG])
-	
 	case *SvgText:
 		stage.OnAfterSvgTextUpdateCallback = any(callback).(OnAfterUpdateInterface[SvgText])
-	
 	case *Text:
 		stage.OnAfterTextUpdateCallback = any(callback).(OnAfterUpdateInterface[Text])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -501,67 +480,46 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Animate:
 		stage.OnAfterAnimateCreateCallback = any(callback).(OnAfterCreateInterface[Animate])
-	
 	case *Circle:
 		stage.OnAfterCircleCreateCallback = any(callback).(OnAfterCreateInterface[Circle])
-	
 	case *Condition:
 		stage.OnAfterConditionCreateCallback = any(callback).(OnAfterCreateInterface[Condition])
-	
 	case *ControlPoint:
 		stage.OnAfterControlPointCreateCallback = any(callback).(OnAfterCreateInterface[ControlPoint])
-	
 	case *Ellipse:
 		stage.OnAfterEllipseCreateCallback = any(callback).(OnAfterCreateInterface[Ellipse])
-	
 	case *Layer:
 		stage.OnAfterLayerCreateCallback = any(callback).(OnAfterCreateInterface[Layer])
-	
 	case *Line:
 		stage.OnAfterLineCreateCallback = any(callback).(OnAfterCreateInterface[Line])
-	
 	case *Link:
 		stage.OnAfterLinkCreateCallback = any(callback).(OnAfterCreateInterface[Link])
-	
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextCreateCallback = any(callback).(OnAfterCreateInterface[LinkAnchoredText])
-	
 	case *Path:
 		stage.OnAfterPathCreateCallback = any(callback).(OnAfterCreateInterface[Path])
-	
 	case *Point:
 		stage.OnAfterPointCreateCallback = any(callback).(OnAfterCreateInterface[Point])
-	
 	case *Polygone:
 		stage.OnAfterPolygoneCreateCallback = any(callback).(OnAfterCreateInterface[Polygone])
-	
 	case *Polyline:
 		stage.OnAfterPolylineCreateCallback = any(callback).(OnAfterCreateInterface[Polyline])
-	
 	case *Rect:
 		stage.OnAfterRectCreateCallback = any(callback).(OnAfterCreateInterface[Rect])
-	
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredPath])
-	
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredRect])
-	
 	case *RectAnchoredText:
 		stage.OnAfterRectAnchoredTextCreateCallback = any(callback).(OnAfterCreateInterface[RectAnchoredText])
-	
 	case *RectLinkLink:
 		stage.OnAfterRectLinkLinkCreateCallback = any(callback).(OnAfterCreateInterface[RectLinkLink])
-	
 	case *SVG:
 		stage.OnAfterSVGCreateCallback = any(callback).(OnAfterCreateInterface[SVG])
-	
 	case *SvgText:
 		stage.OnAfterSvgTextCreateCallback = any(callback).(OnAfterCreateInterface[SvgText])
-	
 	case *Text:
 		stage.OnAfterTextCreateCallback = any(callback).(OnAfterCreateInterface[Text])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -571,67 +529,46 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *Animate:
 		stage.OnAfterAnimateDeleteCallback = any(callback).(OnAfterDeleteInterface[Animate])
-	
 	case *Circle:
 		stage.OnAfterCircleDeleteCallback = any(callback).(OnAfterDeleteInterface[Circle])
-	
 	case *Condition:
 		stage.OnAfterConditionDeleteCallback = any(callback).(OnAfterDeleteInterface[Condition])
-	
 	case *ControlPoint:
 		stage.OnAfterControlPointDeleteCallback = any(callback).(OnAfterDeleteInterface[ControlPoint])
-	
 	case *Ellipse:
 		stage.OnAfterEllipseDeleteCallback = any(callback).(OnAfterDeleteInterface[Ellipse])
-	
 	case *Layer:
 		stage.OnAfterLayerDeleteCallback = any(callback).(OnAfterDeleteInterface[Layer])
-	
 	case *Line:
 		stage.OnAfterLineDeleteCallback = any(callback).(OnAfterDeleteInterface[Line])
-	
 	case *Link:
 		stage.OnAfterLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[Link])
-	
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextDeleteCallback = any(callback).(OnAfterDeleteInterface[LinkAnchoredText])
-	
 	case *Path:
 		stage.OnAfterPathDeleteCallback = any(callback).(OnAfterDeleteInterface[Path])
-	
 	case *Point:
 		stage.OnAfterPointDeleteCallback = any(callback).(OnAfterDeleteInterface[Point])
-	
 	case *Polygone:
 		stage.OnAfterPolygoneDeleteCallback = any(callback).(OnAfterDeleteInterface[Polygone])
-	
 	case *Polyline:
 		stage.OnAfterPolylineDeleteCallback = any(callback).(OnAfterDeleteInterface[Polyline])
-	
 	case *Rect:
 		stage.OnAfterRectDeleteCallback = any(callback).(OnAfterDeleteInterface[Rect])
-	
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredPath])
-	
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredRect])
-	
 	case *RectAnchoredText:
 		stage.OnAfterRectAnchoredTextDeleteCallback = any(callback).(OnAfterDeleteInterface[RectAnchoredText])
-	
 	case *RectLinkLink:
 		stage.OnAfterRectLinkLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[RectLinkLink])
-	
 	case *SVG:
 		stage.OnAfterSVGDeleteCallback = any(callback).(OnAfterDeleteInterface[SVG])
-	
 	case *SvgText:
 		stage.OnAfterSvgTextDeleteCallback = any(callback).(OnAfterDeleteInterface[SvgText])
-	
 	case *Text:
 		stage.OnAfterTextDeleteCallback = any(callback).(OnAfterDeleteInterface[Text])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -641,66 +578,45 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *Animate:
 		stage.OnAfterAnimateReadCallback = any(callback).(OnAfterReadInterface[Animate])
-	
 	case *Circle:
 		stage.OnAfterCircleReadCallback = any(callback).(OnAfterReadInterface[Circle])
-	
 	case *Condition:
 		stage.OnAfterConditionReadCallback = any(callback).(OnAfterReadInterface[Condition])
-	
 	case *ControlPoint:
 		stage.OnAfterControlPointReadCallback = any(callback).(OnAfterReadInterface[ControlPoint])
-	
 	case *Ellipse:
 		stage.OnAfterEllipseReadCallback = any(callback).(OnAfterReadInterface[Ellipse])
-	
 	case *Layer:
 		stage.OnAfterLayerReadCallback = any(callback).(OnAfterReadInterface[Layer])
-	
 	case *Line:
 		stage.OnAfterLineReadCallback = any(callback).(OnAfterReadInterface[Line])
-	
 	case *Link:
 		stage.OnAfterLinkReadCallback = any(callback).(OnAfterReadInterface[Link])
-	
 	case *LinkAnchoredText:
 		stage.OnAfterLinkAnchoredTextReadCallback = any(callback).(OnAfterReadInterface[LinkAnchoredText])
-	
 	case *Path:
 		stage.OnAfterPathReadCallback = any(callback).(OnAfterReadInterface[Path])
-	
 	case *Point:
 		stage.OnAfterPointReadCallback = any(callback).(OnAfterReadInterface[Point])
-	
 	case *Polygone:
 		stage.OnAfterPolygoneReadCallback = any(callback).(OnAfterReadInterface[Polygone])
-	
 	case *Polyline:
 		stage.OnAfterPolylineReadCallback = any(callback).(OnAfterReadInterface[Polyline])
-	
 	case *Rect:
 		stage.OnAfterRectReadCallback = any(callback).(OnAfterReadInterface[Rect])
-	
 	case *RectAnchoredPath:
 		stage.OnAfterRectAnchoredPathReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredPath])
-	
 	case *RectAnchoredRect:
 		stage.OnAfterRectAnchoredRectReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredRect])
-	
 	case *RectAnchoredText:
 		stage.OnAfterRectAnchoredTextReadCallback = any(callback).(OnAfterReadInterface[RectAnchoredText])
-	
 	case *RectLinkLink:
 		stage.OnAfterRectLinkLinkReadCallback = any(callback).(OnAfterReadInterface[RectLinkLink])
-	
 	case *SVG:
 		stage.OnAfterSVGReadCallback = any(callback).(OnAfterReadInterface[SVG])
-	
 	case *SvgText:
 		stage.OnAfterSvgTextReadCallback = any(callback).(OnAfterReadInterface[SvgText])
-	
 	case *Text:
 		stage.OnAfterTextReadCallback = any(callback).(OnAfterReadInterface[Text])
-	
 	}
 }

@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Bodys           map[*Body]struct{}
+	Bodys_reference map[*Body]*Body
 	Bodys_mapString map[string]*Body
 
 	// insertion point for slice of pointers maps
@@ -107,6 +108,7 @@ type Stage struct {
 	OnAfterBodyReadCallback   OnAfterReadInterface[Body]
 
 	Documents           map[*Document]struct{}
+	Documents_reference map[*Document]*Document
 	Documents_mapString map[string]*Document
 
 	// insertion point for slice of pointers maps
@@ -116,6 +118,7 @@ type Stage struct {
 	OnAfterDocumentReadCallback   OnAfterReadInterface[Document]
 
 	Docxs           map[*Docx]struct{}
+	Docxs_reference map[*Docx]*Docx
 	Docxs_mapString map[string]*Docx
 
 	// insertion point for slice of pointers maps
@@ -127,6 +130,7 @@ type Stage struct {
 	OnAfterDocxReadCallback   OnAfterReadInterface[Docx]
 
 	Files           map[*File]struct{}
+	Files_reference map[*File]*File
 	Files_mapString map[string]*File
 
 	// insertion point for slice of pointers maps
@@ -136,6 +140,7 @@ type Stage struct {
 	OnAfterFileReadCallback   OnAfterReadInterface[File]
 
 	Nodes           map[*Node]struct{}
+	Nodes_reference map[*Node]*Node
 	Nodes_mapString map[string]*Node
 
 	// insertion point for slice of pointers maps
@@ -147,6 +152,7 @@ type Stage struct {
 	OnAfterNodeReadCallback   OnAfterReadInterface[Node]
 
 	Paragraphs           map[*Paragraph]struct{}
+	Paragraphs_reference map[*Paragraph]*Paragraph
 	Paragraphs_mapString map[string]*Paragraph
 
 	// insertion point for slice of pointers maps
@@ -158,6 +164,7 @@ type Stage struct {
 	OnAfterParagraphReadCallback   OnAfterReadInterface[Paragraph]
 
 	ParagraphPropertiess           map[*ParagraphProperties]struct{}
+	ParagraphPropertiess_reference map[*ParagraphProperties]*ParagraphProperties
 	ParagraphPropertiess_mapString map[string]*ParagraphProperties
 
 	// insertion point for slice of pointers maps
@@ -167,6 +174,7 @@ type Stage struct {
 	OnAfterParagraphPropertiesReadCallback   OnAfterReadInterface[ParagraphProperties]
 
 	ParagraphStyles           map[*ParagraphStyle]struct{}
+	ParagraphStyles_reference map[*ParagraphStyle]*ParagraphStyle
 	ParagraphStyles_mapString map[string]*ParagraphStyle
 
 	// insertion point for slice of pointers maps
@@ -176,6 +184,7 @@ type Stage struct {
 	OnAfterParagraphStyleReadCallback   OnAfterReadInterface[ParagraphStyle]
 
 	Runes           map[*Rune]struct{}
+	Runes_reference map[*Rune]*Rune
 	Runes_mapString map[string]*Rune
 
 	// insertion point for slice of pointers maps
@@ -185,6 +194,7 @@ type Stage struct {
 	OnAfterRuneReadCallback   OnAfterReadInterface[Rune]
 
 	RunePropertiess           map[*RuneProperties]struct{}
+	RunePropertiess_reference map[*RuneProperties]*RuneProperties
 	RunePropertiess_mapString map[string]*RuneProperties
 
 	// insertion point for slice of pointers maps
@@ -194,6 +204,7 @@ type Stage struct {
 	OnAfterRunePropertiesReadCallback   OnAfterReadInterface[RuneProperties]
 
 	Tables           map[*Table]struct{}
+	Tables_reference map[*Table]*Table
 	Tables_mapString map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -205,6 +216,7 @@ type Stage struct {
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
 	TableColumns           map[*TableColumn]struct{}
+	TableColumns_reference map[*TableColumn]*TableColumn
 	TableColumns_mapString map[string]*TableColumn
 
 	// insertion point for slice of pointers maps
@@ -216,6 +228,7 @@ type Stage struct {
 	OnAfterTableColumnReadCallback   OnAfterReadInterface[TableColumn]
 
 	TablePropertiess           map[*TableProperties]struct{}
+	TablePropertiess_reference map[*TableProperties]*TableProperties
 	TablePropertiess_mapString map[string]*TableProperties
 
 	// insertion point for slice of pointers maps
@@ -225,6 +238,7 @@ type Stage struct {
 	OnAfterTablePropertiesReadCallback   OnAfterReadInterface[TableProperties]
 
 	TableRows           map[*TableRow]struct{}
+	TableRows_reference map[*TableRow]*TableRow
 	TableRows_mapString map[string]*TableRow
 
 	// insertion point for slice of pointers maps
@@ -236,6 +250,7 @@ type Stage struct {
 	OnAfterTableRowReadCallback   OnAfterReadInterface[TableRow]
 
 	TableStyles           map[*TableStyle]struct{}
+	TableStyles_reference map[*TableStyle]*TableStyle
 	TableStyles_mapString map[string]*TableStyle
 
 	// insertion point for slice of pointers maps
@@ -245,6 +260,7 @@ type Stage struct {
 	OnAfterTableStyleReadCallback   OnAfterReadInterface[TableStyle]
 
 	Texts           map[*Text]struct{}
+	Texts_reference map[*Text]*Text
 	Texts_mapString map[string]*Text
 
 	// insertion point for slice of pointers maps
@@ -331,8 +347,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -343,10 +368,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -882,8 +903,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "TableStyle"},
 			{name: "Text"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -997,7 +1016,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -5677,4 +5702,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

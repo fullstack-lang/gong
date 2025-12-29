@@ -16,6 +16,14 @@ import (
 const GongSliceTemplate = `// generated code - do not edit
 package models
 
+import (
+	"strings"
+	"time"
+)
+
+var __GongSliceTemplate_time__dummyDeclaration time.Duration
+var _ = __GongSliceTemplate_time__dummyDeclaration
+
 // ComputeReverseMaps computes the reverse map, for all intances, for all slice to pointers field
 // Its complexity is in O(n)O(p) where p is the number of pointers
 func (stage *Stage) ComputeReverseMaps() {
@@ -29,12 +37,24 @@ func (stage *Stage) GetInstances() (res []GongstructIF) {
 }
 
 // insertion point per named struct{{` + string(rune(GongSliceGongCopy)) + `}}
+func (stage *Stage) ComputeDifference() {
+	var lenNewInstances int
+	var lenModifiedInstances int
+	var lenDeletedInstances int
+
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
+
+	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
+	}
+}
+
 // ComputeReference will creates a deep copy of each of the staged elements
 func (stage *Stage) ComputeReference() {
-	stage.reference = make(map[GongstructIF]GongstructIF)
-	for _, instance := range stage.GetInstances() {
-		stage.reference[instance] = instance.GongCopy()
-	}
+
+	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 }
 `
 
@@ -45,6 +65,8 @@ const (
 	GongSliceReverseMapCompute
 	GongSliceGetInstances
 	GongSliceGongCopy
+	GongSliceGongComputeDifference
+	GongSliceGongComputeReference
 	GongSliceGongstructInsertionNb
 )
 
@@ -68,6 +90,56 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 	newInstance := *{{structname}}
 	return &newInstance
 }
+`,
+	GongSliceGongComputeDifference: `
+	var {{structname}}s_newInstances []*{{Structname}}
+	var {{structname}}s_deletedInstances []*{{Structname}}
+
+	// parse all staged instances and check if they have a reference
+	for {{structname}} := range stage.{{Structname}}s {
+		if ref, ok := stage.{{Structname}}s_reference[{{structname}}]; !ok {
+			{{structname}}s_newInstances = append({{structname}}s_newInstances, {{structname}})
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Commit detected new instance of {{Structname}} "+{{structname}}.Name,
+				)
+			}
+		} else {
+			diffs := {{structname}}.GongDiff(ref)
+			if len(diffs) > 0 {
+				if stage.GetProbeIF() != nil {
+					stage.GetProbeIF().AddNotification(
+						time.Now(),
+						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+					)
+				}
+				lenModifiedInstances++
+			}
+		}
+	}
+
+	// parse all reference instances and check if they are still staged
+	for {{structname}} := range stage.{{Structname}}s_reference {
+		if _, ok := stage.{{Structname}}s[{{structname}}]; !ok {
+			{{structname}}s_deletedInstances = append({{structname}}s_deletedInstances, {{structname}})
+			if stage.GetProbeIF() != nil {
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					"Commit detected deleted instance of {{Structname}} "+{{structname}}.Name,
+				)
+			}
+		}
+	}
+
+	lenNewInstances += len({{structname}}s_newInstances)
+	lenDeletedInstances += len({{structname}}s_deletedInstances)`,
+
+	GongSliceGongComputeReference: `
+	stage.{{Structname}}s_reference = make(map[*{{Structname}}]*{{Structname}})
+	for instance := range stage.{{Structname}}s {
+		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
+	}
 `,
 }
 

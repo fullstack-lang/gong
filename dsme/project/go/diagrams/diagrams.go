@@ -50,8 +50,8 @@ func _(stage *models.Stage) {
 	__Classdiagram__00000000_Default.ShowLinkNames = true
 	__Classdiagram__00000000_Default.IsInRenameMode = false
 	__Classdiagram__00000000_Default.IsExpanded = true
-	__Classdiagram__00000000_Default.NodeGongStructsIsExpanded = true
-	__Classdiagram__00000000_Default.NodeGongStructNodeExpansion = `[false,true,false,true,false,true]`
+	__Classdiagram__00000000_Default.NodeGongStructsIsExpanded = false
+	__Classdiagram__00000000_Default.NodeGongStructNodeExpansion = `[false,false,false,false,false,false]`
 	__Classdiagram__00000000_Default.NodeGongEnumsIsExpanded = false
 	__Classdiagram__00000000_Default.NodeGongEnumNodeExpansion = ``
 	__Classdiagram__00000000_Default.NodeGongNotesIsExpanded = false

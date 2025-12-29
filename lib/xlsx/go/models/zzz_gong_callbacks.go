@@ -140,22 +140,17 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *DisplaySelection:
 		stage.OnAfterDisplaySelectionUpdateCallback = any(callback).(OnAfterUpdateInterface[DisplaySelection])
-	
 	case *XLCell:
 		stage.OnAfterXLCellUpdateCallback = any(callback).(OnAfterUpdateInterface[XLCell])
-	
 	case *XLFile:
 		stage.OnAfterXLFileUpdateCallback = any(callback).(OnAfterUpdateInterface[XLFile])
-	
 	case *XLRow:
 		stage.OnAfterXLRowUpdateCallback = any(callback).(OnAfterUpdateInterface[XLRow])
-	
 	case *XLSheet:
 		stage.OnAfterXLSheetUpdateCallback = any(callback).(OnAfterUpdateInterface[XLSheet])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -165,19 +160,14 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *DisplaySelection:
 		stage.OnAfterDisplaySelectionCreateCallback = any(callback).(OnAfterCreateInterface[DisplaySelection])
-	
 	case *XLCell:
 		stage.OnAfterXLCellCreateCallback = any(callback).(OnAfterCreateInterface[XLCell])
-	
 	case *XLFile:
 		stage.OnAfterXLFileCreateCallback = any(callback).(OnAfterCreateInterface[XLFile])
-	
 	case *XLRow:
 		stage.OnAfterXLRowCreateCallback = any(callback).(OnAfterCreateInterface[XLRow])
-	
 	case *XLSheet:
 		stage.OnAfterXLSheetCreateCallback = any(callback).(OnAfterCreateInterface[XLSheet])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -187,19 +177,14 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *DisplaySelection:
 		stage.OnAfterDisplaySelectionDeleteCallback = any(callback).(OnAfterDeleteInterface[DisplaySelection])
-	
 	case *XLCell:
 		stage.OnAfterXLCellDeleteCallback = any(callback).(OnAfterDeleteInterface[XLCell])
-	
 	case *XLFile:
 		stage.OnAfterXLFileDeleteCallback = any(callback).(OnAfterDeleteInterface[XLFile])
-	
 	case *XLRow:
 		stage.OnAfterXLRowDeleteCallback = any(callback).(OnAfterDeleteInterface[XLRow])
-	
 	case *XLSheet:
 		stage.OnAfterXLSheetDeleteCallback = any(callback).(OnAfterDeleteInterface[XLSheet])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -209,18 +194,13 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *DisplaySelection:
 		stage.OnAfterDisplaySelectionReadCallback = any(callback).(OnAfterReadInterface[DisplaySelection])
-	
 	case *XLCell:
 		stage.OnAfterXLCellReadCallback = any(callback).(OnAfterReadInterface[XLCell])
-	
 	case *XLFile:
 		stage.OnAfterXLFileReadCallback = any(callback).(OnAfterReadInterface[XLFile])
-	
 	case *XLRow:
 		stage.OnAfterXLRowReadCallback = any(callback).(OnAfterReadInterface[XLRow])
-	
 	case *XLSheet:
 		stage.OnAfterXLSheetReadCallback = any(callback).(OnAfterReadInterface[XLSheet])
-	
 	}
 }

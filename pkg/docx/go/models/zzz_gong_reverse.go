@@ -34,13 +34,13 @@ func (inst *File) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Docx":
-			switch reverseField.Fieldname {
-			case "Files":
-				if _docx, ok := stage.Docx_Files_reverseMap[inst]; ok {
-					res = _docx.Name
-				}
+	case "Docx":
+		switch reverseField.Fieldname {
+		case "Files":
+			if _docx, ok := stage.Docx_Files_reverseMap[inst]; ok {
+				res = _docx.Name
 			}
+		}
 	}
 	return
 }
@@ -50,13 +50,13 @@ func (inst *Node) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Node":
-			switch reverseField.Fieldname {
-			case "Nodes":
-				if _node, ok := stage.Node_Nodes_reverseMap[inst]; ok {
-					res = _node.Name
-				}
+	case "Node":
+		switch reverseField.Fieldname {
+		case "Nodes":
+			if _node, ok := stage.Node_Nodes_reverseMap[inst]; ok {
+				res = _node.Name
 			}
+		}
 	}
 	return
 }
@@ -66,20 +66,20 @@ func (inst *Paragraph) GongGetReverseFieldOwnerName(stage *Stage, reverseField *
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Body":
-			switch reverseField.Fieldname {
-			case "Paragraphs":
-				if _body, ok := stage.Body_Paragraphs_reverseMap[inst]; ok {
-					res = _body.Name
-				}
+	case "Body":
+		switch reverseField.Fieldname {
+		case "Paragraphs":
+			if _body, ok := stage.Body_Paragraphs_reverseMap[inst]; ok {
+				res = _body.Name
 			}
-		case "TableColumn":
-			switch reverseField.Fieldname {
-			case "Paragraphs":
-				if _tablecolumn, ok := stage.TableColumn_Paragraphs_reverseMap[inst]; ok {
-					res = _tablecolumn.Name
-				}
+		}
+	case "TableColumn":
+		switch reverseField.Fieldname {
+		case "Paragraphs":
+			if _tablecolumn, ok := stage.TableColumn_Paragraphs_reverseMap[inst]; ok {
+				res = _tablecolumn.Name
 			}
+		}
 	}
 	return
 }
@@ -107,13 +107,13 @@ func (inst *Rune) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Paragraph":
-			switch reverseField.Fieldname {
-			case "Runes":
-				if _paragraph, ok := stage.Paragraph_Runes_reverseMap[inst]; ok {
-					res = _paragraph.Name
-				}
+	case "Paragraph":
+		switch reverseField.Fieldname {
+		case "Runes":
+			if _paragraph, ok := stage.Paragraph_Runes_reverseMap[inst]; ok {
+				res = _paragraph.Name
 			}
+		}
 	}
 	return
 }
@@ -132,13 +132,13 @@ func (inst *Table) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Reve
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Body":
-			switch reverseField.Fieldname {
-			case "Tables":
-				if _body, ok := stage.Body_Tables_reverseMap[inst]; ok {
-					res = _body.Name
-				}
+	case "Body":
+		switch reverseField.Fieldname {
+		case "Tables":
+			if _body, ok := stage.Body_Tables_reverseMap[inst]; ok {
+				res = _body.Name
 			}
+		}
 	}
 	return
 }
@@ -148,13 +148,13 @@ func (inst *TableColumn) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "TableRow":
-			switch reverseField.Fieldname {
-			case "TableColumns":
-				if _tablerow, ok := stage.TableRow_TableColumns_reverseMap[inst]; ok {
-					res = _tablerow.Name
-				}
+	case "TableRow":
+		switch reverseField.Fieldname {
+		case "TableColumns":
+			if _tablerow, ok := stage.TableRow_TableColumns_reverseMap[inst]; ok {
+				res = _tablerow.Name
 			}
+		}
 	}
 	return
 }
@@ -173,13 +173,13 @@ func (inst *TableRow) GongGetReverseFieldOwnerName(stage *Stage, reverseField *R
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Table":
-			switch reverseField.Fieldname {
-			case "TableRows":
-				if _table, ok := stage.Table_TableRows_reverseMap[inst]; ok {
-					res = _table.Name
-				}
+	case "Table":
+		switch reverseField.Fieldname {
+		case "TableRows":
+			if _table, ok := stage.Table_TableRows_reverseMap[inst]; ok {
+				res = _table.Name
 			}
+		}
 	}
 	return
 }
@@ -201,7 +201,6 @@ func (inst *Text) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	}
 	return
 }
-
 
 // insertion point
 func (inst *Body) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
@@ -236,11 +235,11 @@ func (inst *File) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Docx":
-			switch reverseField.Fieldname {
-			case "Files":
-				res = stage.Docx_Files_reverseMap[inst]
-			}
+	case "Docx":
+		switch reverseField.Fieldname {
+		case "Files":
+			res = stage.Docx_Files_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -250,11 +249,11 @@ func (inst *Node) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Node":
-			switch reverseField.Fieldname {
-			case "Nodes":
-				res = stage.Node_Nodes_reverseMap[inst]
-			}
+	case "Node":
+		switch reverseField.Fieldname {
+		case "Nodes":
+			res = stage.Node_Nodes_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -264,16 +263,16 @@ func (inst *Paragraph) GongGetReverseFieldOwner(stage *Stage, reverseField *Reve
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Body":
-			switch reverseField.Fieldname {
-			case "Paragraphs":
-				res = stage.Body_Paragraphs_reverseMap[inst]
-			}
-		case "TableColumn":
-			switch reverseField.Fieldname {
-			case "Paragraphs":
-				res = stage.TableColumn_Paragraphs_reverseMap[inst]
-			}
+	case "Body":
+		switch reverseField.Fieldname {
+		case "Paragraphs":
+			res = stage.Body_Paragraphs_reverseMap[inst]
+		}
+	case "TableColumn":
+		switch reverseField.Fieldname {
+		case "Paragraphs":
+			res = stage.TableColumn_Paragraphs_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -301,11 +300,11 @@ func (inst *Rune) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Paragraph":
-			switch reverseField.Fieldname {
-			case "Runes":
-				res = stage.Paragraph_Runes_reverseMap[inst]
-			}
+	case "Paragraph":
+		switch reverseField.Fieldname {
+		case "Runes":
+			res = stage.Paragraph_Runes_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -324,11 +323,11 @@ func (inst *Table) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseF
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Body":
-			switch reverseField.Fieldname {
-			case "Tables":
-				res = stage.Body_Tables_reverseMap[inst]
-			}
+	case "Body":
+		switch reverseField.Fieldname {
+		case "Tables":
+			res = stage.Body_Tables_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -338,11 +337,11 @@ func (inst *TableColumn) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "TableRow":
-			switch reverseField.Fieldname {
-			case "TableColumns":
-				res = stage.TableRow_TableColumns_reverseMap[inst]
-			}
+	case "TableRow":
+		switch reverseField.Fieldname {
+		case "TableColumns":
+			res = stage.TableRow_TableColumns_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -361,11 +360,11 @@ func (inst *TableRow) GongGetReverseFieldOwner(stage *Stage, reverseField *Rever
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-		case "Table":
-			switch reverseField.Fieldname {
-			case "TableRows":
-				res = stage.Table_TableRows_reverseMap[inst]
-			}
+	case "Table":
+		switch reverseField.Fieldname {
+		case "TableRows":
+			res = stage.Table_TableRows_reverseMap[inst]
+		}
 	}
 	return res
 }
@@ -387,4 +386,3 @@ func (inst *Text) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	}
 	return res
 }
-

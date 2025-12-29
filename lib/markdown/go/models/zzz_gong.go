@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Contents           map[*Content]struct{}
+	Contents_reference map[*Content]*Content
 	Contents_mapString map[string]*Content
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterContentReadCallback   OnAfterReadInterface[Content]
 
 	JpgImages           map[*JpgImage]struct{}
+	JpgImages_reference map[*JpgImage]*JpgImage
 	JpgImages_mapString map[string]*JpgImage
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterJpgImageReadCallback   OnAfterReadInterface[JpgImage]
 
 	PngImages           map[*PngImage]struct{}
+	PngImages_reference map[*PngImage]*PngImage
 	PngImages_mapString map[string]*PngImage
 
 	// insertion point for slice of pointers maps
@@ -121,6 +124,7 @@ type Stage struct {
 	OnAfterPngImageReadCallback   OnAfterReadInterface[PngImage]
 
 	SvgImages           map[*SvgImage]struct{}
+	SvgImages_reference map[*SvgImage]*SvgImage
 	SvgImages_mapString map[string]*SvgImage
 
 	// insertion point for slice of pointers maps
@@ -171,8 +175,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -183,10 +196,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -434,8 +443,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "PngImage"},
 			{name: "SvgImage"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -501,7 +508,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1549,4 +1562,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

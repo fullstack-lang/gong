@@ -248,40 +248,29 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-		// insertion point
+	// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[GongBasicField])
-	
 	case *GongEnum:
 		stage.OnAfterGongEnumUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnum])
-	
 	case *GongEnumValue:
 		stage.OnAfterGongEnumValueUpdateCallback = any(callback).(OnAfterUpdateInterface[GongEnumValue])
-	
 	case *GongLink:
 		stage.OnAfterGongLinkUpdateCallback = any(callback).(OnAfterUpdateInterface[GongLink])
-	
 	case *GongNote:
 		stage.OnAfterGongNoteUpdateCallback = any(callback).(OnAfterUpdateInterface[GongNote])
-	
 	case *GongStruct:
 		stage.OnAfterGongStructUpdateCallback = any(callback).(OnAfterUpdateInterface[GongStruct])
-	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[GongTimeField])
-	
 	case *MetaReference:
 		stage.OnAfterMetaReferenceUpdateCallback = any(callback).(OnAfterUpdateInterface[MetaReference])
-	
 	case *ModelPkg:
 		stage.OnAfterModelPkgUpdateCallback = any(callback).(OnAfterUpdateInterface[ModelPkg])
-	
 	case *PointerToGongStructField:
 		stage.OnAfterPointerToGongStructFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[PointerToGongStructField])
-	
 	case *SliceOfPointerToGongStructField:
 		stage.OnAfterSliceOfPointerToGongStructFieldUpdateCallback = any(callback).(OnAfterUpdateInterface[SliceOfPointerToGongStructField])
-	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -291,37 +280,26 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldCreateCallback = any(callback).(OnAfterCreateInterface[GongBasicField])
-	
 	case *GongEnum:
 		stage.OnAfterGongEnumCreateCallback = any(callback).(OnAfterCreateInterface[GongEnum])
-	
 	case *GongEnumValue:
 		stage.OnAfterGongEnumValueCreateCallback = any(callback).(OnAfterCreateInterface[GongEnumValue])
-	
 	case *GongLink:
 		stage.OnAfterGongLinkCreateCallback = any(callback).(OnAfterCreateInterface[GongLink])
-	
 	case *GongNote:
 		stage.OnAfterGongNoteCreateCallback = any(callback).(OnAfterCreateInterface[GongNote])
-	
 	case *GongStruct:
 		stage.OnAfterGongStructCreateCallback = any(callback).(OnAfterCreateInterface[GongStruct])
-	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldCreateCallback = any(callback).(OnAfterCreateInterface[GongTimeField])
-	
 	case *MetaReference:
 		stage.OnAfterMetaReferenceCreateCallback = any(callback).(OnAfterCreateInterface[MetaReference])
-	
 	case *ModelPkg:
 		stage.OnAfterModelPkgCreateCallback = any(callback).(OnAfterCreateInterface[ModelPkg])
-	
 	case *PointerToGongStructField:
 		stage.OnAfterPointerToGongStructFieldCreateCallback = any(callback).(OnAfterCreateInterface[PointerToGongStructField])
-	
 	case *SliceOfPointerToGongStructField:
 		stage.OnAfterSliceOfPointerToGongStructFieldCreateCallback = any(callback).(OnAfterCreateInterface[SliceOfPointerToGongStructField])
-	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -331,37 +309,26 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[GongBasicField])
-	
 	case *GongEnum:
 		stage.OnAfterGongEnumDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnum])
-	
 	case *GongEnumValue:
 		stage.OnAfterGongEnumValueDeleteCallback = any(callback).(OnAfterDeleteInterface[GongEnumValue])
-	
 	case *GongLink:
 		stage.OnAfterGongLinkDeleteCallback = any(callback).(OnAfterDeleteInterface[GongLink])
-	
 	case *GongNote:
 		stage.OnAfterGongNoteDeleteCallback = any(callback).(OnAfterDeleteInterface[GongNote])
-	
 	case *GongStruct:
 		stage.OnAfterGongStructDeleteCallback = any(callback).(OnAfterDeleteInterface[GongStruct])
-	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[GongTimeField])
-	
 	case *MetaReference:
 		stage.OnAfterMetaReferenceDeleteCallback = any(callback).(OnAfterDeleteInterface[MetaReference])
-	
 	case *ModelPkg:
 		stage.OnAfterModelPkgDeleteCallback = any(callback).(OnAfterDeleteInterface[ModelPkg])
-	
 	case *PointerToGongStructField:
 		stage.OnAfterPointerToGongStructFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[PointerToGongStructField])
-	
 	case *SliceOfPointerToGongStructField:
 		stage.OnAfterSliceOfPointerToGongStructFieldDeleteCallback = any(callback).(OnAfterDeleteInterface[SliceOfPointerToGongStructField])
-	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -371,36 +338,25 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *GongBasicField:
 		stage.OnAfterGongBasicFieldReadCallback = any(callback).(OnAfterReadInterface[GongBasicField])
-	
 	case *GongEnum:
 		stage.OnAfterGongEnumReadCallback = any(callback).(OnAfterReadInterface[GongEnum])
-	
 	case *GongEnumValue:
 		stage.OnAfterGongEnumValueReadCallback = any(callback).(OnAfterReadInterface[GongEnumValue])
-	
 	case *GongLink:
 		stage.OnAfterGongLinkReadCallback = any(callback).(OnAfterReadInterface[GongLink])
-	
 	case *GongNote:
 		stage.OnAfterGongNoteReadCallback = any(callback).(OnAfterReadInterface[GongNote])
-	
 	case *GongStruct:
 		stage.OnAfterGongStructReadCallback = any(callback).(OnAfterReadInterface[GongStruct])
-	
 	case *GongTimeField:
 		stage.OnAfterGongTimeFieldReadCallback = any(callback).(OnAfterReadInterface[GongTimeField])
-	
 	case *MetaReference:
 		stage.OnAfterMetaReferenceReadCallback = any(callback).(OnAfterReadInterface[MetaReference])
-	
 	case *ModelPkg:
 		stage.OnAfterModelPkgReadCallback = any(callback).(OnAfterReadInterface[ModelPkg])
-	
 	case *PointerToGongStructField:
 		stage.OnAfterPointerToGongStructFieldReadCallback = any(callback).(OnAfterReadInterface[PointerToGongStructField])
-	
 	case *SliceOfPointerToGongStructField:
 		stage.OnAfterSliceOfPointerToGongStructFieldReadCallback = any(callback).(OnAfterReadInterface[SliceOfPointerToGongStructField])
-	
 	}
 }

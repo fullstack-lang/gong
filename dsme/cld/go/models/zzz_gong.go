@@ -94,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	Category1s           map[*Category1]struct{}
+	Category1s_reference map[*Category1]*Category1
 	Category1s_mapString map[string]*Category1
 
 	// insertion point for slice of pointers maps
@@ -103,6 +104,7 @@ type Stage struct {
 	OnAfterCategory1ReadCallback   OnAfterReadInterface[Category1]
 
 	Category1Shapes           map[*Category1Shape]struct{}
+	Category1Shapes_reference map[*Category1Shape]*Category1Shape
 	Category1Shapes_mapString map[string]*Category1Shape
 
 	// insertion point for slice of pointers maps
@@ -112,6 +114,7 @@ type Stage struct {
 	OnAfterCategory1ShapeReadCallback   OnAfterReadInterface[Category1Shape]
 
 	Category2s           map[*Category2]struct{}
+	Category2s_reference map[*Category2]*Category2
 	Category2s_mapString map[string]*Category2
 
 	// insertion point for slice of pointers maps
@@ -121,6 +124,7 @@ type Stage struct {
 	OnAfterCategory2ReadCallback   OnAfterReadInterface[Category2]
 
 	Category2Shapes           map[*Category2Shape]struct{}
+	Category2Shapes_reference map[*Category2Shape]*Category2Shape
 	Category2Shapes_mapString map[string]*Category2Shape
 
 	// insertion point for slice of pointers maps
@@ -130,6 +134,7 @@ type Stage struct {
 	OnAfterCategory2ShapeReadCallback   OnAfterReadInterface[Category2Shape]
 
 	Category3s           map[*Category3]struct{}
+	Category3s_reference map[*Category3]*Category3
 	Category3s_mapString map[string]*Category3
 
 	// insertion point for slice of pointers maps
@@ -139,6 +144,7 @@ type Stage struct {
 	OnAfterCategory3ReadCallback   OnAfterReadInterface[Category3]
 
 	Category3Shapes           map[*Category3Shape]struct{}
+	Category3Shapes_reference map[*Category3Shape]*Category3Shape
 	Category3Shapes_mapString map[string]*Category3Shape
 
 	// insertion point for slice of pointers maps
@@ -148,6 +154,7 @@ type Stage struct {
 	OnAfterCategory3ShapeReadCallback   OnAfterReadInterface[Category3Shape]
 
 	ControlPointShapes           map[*ControlPointShape]struct{}
+	ControlPointShapes_reference map[*ControlPointShape]*ControlPointShape
 	ControlPointShapes_mapString map[string]*ControlPointShape
 
 	// insertion point for slice of pointers maps
@@ -157,6 +164,7 @@ type Stage struct {
 	OnAfterControlPointShapeReadCallback   OnAfterReadInterface[ControlPointShape]
 
 	Desks           map[*Desk]struct{}
+	Desks_reference map[*Desk]*Desk
 	Desks_mapString map[string]*Desk
 
 	// insertion point for slice of pointers maps
@@ -166,6 +174,7 @@ type Stage struct {
 	OnAfterDeskReadCallback   OnAfterReadInterface[Desk]
 
 	Diagrams           map[*Diagram]struct{}
+	Diagrams_reference map[*Diagram]*Diagram
 	Diagrams_mapString map[string]*Diagram
 
 	// insertion point for slice of pointers maps
@@ -183,6 +192,7 @@ type Stage struct {
 	OnAfterDiagramReadCallback   OnAfterReadInterface[Diagram]
 
 	Influences           map[*Influence]struct{}
+	Influences_reference map[*Influence]*Influence
 	Influences_mapString map[string]*Influence
 
 	// insertion point for slice of pointers maps
@@ -192,6 +202,7 @@ type Stage struct {
 	OnAfterInfluenceReadCallback   OnAfterReadInterface[Influence]
 
 	InfluenceShapes           map[*InfluenceShape]struct{}
+	InfluenceShapes_reference map[*InfluenceShape]*InfluenceShape
 	InfluenceShapes_mapString map[string]*InfluenceShape
 
 	// insertion point for slice of pointers maps
@@ -265,8 +276,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -277,10 +297,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -696,8 +712,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "Influence"},
 			{name: "InfluenceShape"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -791,7 +805,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -4261,4 +4281,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template

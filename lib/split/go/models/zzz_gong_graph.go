@@ -1570,3 +1570,432 @@ func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
+	// insertion point for field diffs
+	if assplit.Name != assplitOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if assplit.Direction != assplitOther.Direction {
+		diffs = append(diffs, "Direction")
+	}
+	AsSplitAreasDifferent := false
+	if len(assplit.AsSplitAreas) != len(assplitOther.AsSplitAreas) {
+		AsSplitAreasDifferent = true
+	} else {
+		for i := range assplit.AsSplitAreas {
+			if (assplit.AsSplitAreas[i] == nil) != (assplitOther.AsSplitAreas[i] == nil) {
+				AsSplitAreasDifferent = true
+				break
+			} else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
+				if len(assplit.AsSplitAreas[i].GongDiff(assplitOther.AsSplitAreas[i])) > 0 {
+					AsSplitAreasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if AsSplitAreasDifferent {
+		diffs = append(diffs, "AsSplitAreas")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (assplitarea *AsSplitArea) GongDiff(assplitareaOther *AsSplitArea) (diffs []string) {
+	// insertion point for field diffs
+	if assplitarea.Name != assplitareaOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if assplitarea.ShowNameInHeader != assplitareaOther.ShowNameInHeader {
+		diffs = append(diffs, "ShowNameInHeader")
+	}
+	if assplitarea.Size != assplitareaOther.Size {
+		diffs = append(diffs, "Size")
+	}
+	if assplitarea.IsAny != assplitareaOther.IsAny {
+		diffs = append(diffs, "IsAny")
+	}
+	if (assplitarea.AsSplit == nil) != (assplitareaOther.AsSplit == nil) {
+		diffs = append(diffs, "AsSplit")
+	} else if assplitarea.AsSplit != nil && assplitareaOther.AsSplit != nil {
+		if assplitarea.AsSplit != assplitareaOther.AsSplit {
+			diffs = append(diffs, "AsSplit")
+		}
+	}
+	if (assplitarea.Button == nil) != (assplitareaOther.Button == nil) {
+		diffs = append(diffs, "Button")
+	} else if assplitarea.Button != nil && assplitareaOther.Button != nil {
+		if assplitarea.Button != assplitareaOther.Button {
+			diffs = append(diffs, "Button")
+		}
+	}
+	if (assplitarea.Cursor == nil) != (assplitareaOther.Cursor == nil) {
+		diffs = append(diffs, "Cursor")
+	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
+		if assplitarea.Cursor != assplitareaOther.Cursor {
+			diffs = append(diffs, "Cursor")
+		}
+	}
+	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
+		diffs = append(diffs, "Form")
+	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
+		if assplitarea.Form != assplitareaOther.Form {
+			diffs = append(diffs, "Form")
+		}
+	}
+	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
+		diffs = append(diffs, "Load")
+	} else if assplitarea.Load != nil && assplitareaOther.Load != nil {
+		if assplitarea.Load != assplitareaOther.Load {
+			diffs = append(diffs, "Load")
+		}
+	}
+	if (assplitarea.Markdown == nil) != (assplitareaOther.Markdown == nil) {
+		diffs = append(diffs, "Markdown")
+	} else if assplitarea.Markdown != nil && assplitareaOther.Markdown != nil {
+		if assplitarea.Markdown != assplitareaOther.Markdown {
+			diffs = append(diffs, "Markdown")
+		}
+	}
+	if (assplitarea.Slider == nil) != (assplitareaOther.Slider == nil) {
+		diffs = append(diffs, "Slider")
+	} else if assplitarea.Slider != nil && assplitareaOther.Slider != nil {
+		if assplitarea.Slider != assplitareaOther.Slider {
+			diffs = append(diffs, "Slider")
+		}
+	}
+	if (assplitarea.Split == nil) != (assplitareaOther.Split == nil) {
+		diffs = append(diffs, "Split")
+	} else if assplitarea.Split != nil && assplitareaOther.Split != nil {
+		if assplitarea.Split != assplitareaOther.Split {
+			diffs = append(diffs, "Split")
+		}
+	}
+	if (assplitarea.Svg == nil) != (assplitareaOther.Svg == nil) {
+		diffs = append(diffs, "Svg")
+	} else if assplitarea.Svg != nil && assplitareaOther.Svg != nil {
+		if assplitarea.Svg != assplitareaOther.Svg {
+			diffs = append(diffs, "Svg")
+		}
+	}
+	if (assplitarea.Table == nil) != (assplitareaOther.Table == nil) {
+		diffs = append(diffs, "Table")
+	} else if assplitarea.Table != nil && assplitareaOther.Table != nil {
+		if assplitarea.Table != assplitareaOther.Table {
+			diffs = append(diffs, "Table")
+		}
+	}
+	if (assplitarea.Tone == nil) != (assplitareaOther.Tone == nil) {
+		diffs = append(diffs, "Tone")
+	} else if assplitarea.Tone != nil && assplitareaOther.Tone != nil {
+		if assplitarea.Tone != assplitareaOther.Tone {
+			diffs = append(diffs, "Tone")
+		}
+	}
+	if (assplitarea.Tree == nil) != (assplitareaOther.Tree == nil) {
+		diffs = append(diffs, "Tree")
+	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
+		if assplitarea.Tree != assplitareaOther.Tree {
+			diffs = append(diffs, "Tree")
+		}
+	}
+	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
+		diffs = append(diffs, "Xlsx")
+	} else if assplitarea.Xlsx != nil && assplitareaOther.Xlsx != nil {
+		if assplitarea.Xlsx != assplitareaOther.Xlsx {
+			diffs = append(diffs, "Xlsx")
+		}
+	}
+	if assplitarea.HasDiv != assplitareaOther.HasDiv {
+		diffs = append(diffs, "HasDiv")
+	}
+	if assplitarea.DivStyle != assplitareaOther.DivStyle {
+		diffs = append(diffs, "DivStyle")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+	// insertion point for field diffs
+	if button.Name != buttonOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if button.StackName != buttonOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (cursor *Cursor) GongDiff(cursorOther *Cursor) (diffs []string) {
+	// insertion point for field diffs
+	if cursor.Name != cursorOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if cursor.StackName != cursorOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+	if cursor.Style != cursorOther.Style {
+		diffs = append(diffs, "Style")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (favicon *FavIcon) GongDiff(faviconOther *FavIcon) (diffs []string) {
+	// insertion point for field diffs
+	if favicon.Name != faviconOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if favicon.SVG != faviconOther.SVG {
+		diffs = append(diffs, "SVG")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (form *Form) GongDiff(formOther *Form) (diffs []string) {
+	// insertion point for field diffs
+	if form.Name != formOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if form.StackName != formOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (load *Load) GongDiff(loadOther *Load) (diffs []string) {
+	// insertion point for field diffs
+	if load.Name != loadOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if load.StackName != loadOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (logoontheleft *LogoOnTheLeft) GongDiff(logoontheleftOther *LogoOnTheLeft) (diffs []string) {
+	// insertion point for field diffs
+	if logoontheleft.Name != logoontheleftOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if logoontheleft.Width != logoontheleftOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if logoontheleft.Height != logoontheleftOther.Height {
+		diffs = append(diffs, "Height")
+	}
+	if logoontheleft.SVG != logoontheleftOther.SVG {
+		diffs = append(diffs, "SVG")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (logoontheright *LogoOnTheRight) GongDiff(logoontherightOther *LogoOnTheRight) (diffs []string) {
+	// insertion point for field diffs
+	if logoontheright.Name != logoontherightOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if logoontheright.Width != logoontherightOther.Width {
+		diffs = append(diffs, "Width")
+	}
+	if logoontheright.Height != logoontherightOther.Height {
+		diffs = append(diffs, "Height")
+	}
+	if logoontheright.SVG != logoontherightOther.SVG {
+		diffs = append(diffs, "SVG")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (markdown *Markdown) GongDiff(markdownOther *Markdown) (diffs []string) {
+	// insertion point for field diffs
+	if markdown.Name != markdownOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if markdown.StackName != markdownOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (slider *Slider) GongDiff(sliderOther *Slider) (diffs []string) {
+	// insertion point for field diffs
+	if slider.Name != sliderOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if slider.StackName != sliderOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (split *Split) GongDiff(splitOther *Split) (diffs []string) {
+	// insertion point for field diffs
+	if split.Name != splitOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if split.StackName != splitOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (svg *Svg) GongDiff(svgOther *Svg) (diffs []string) {
+	// insertion point for field diffs
+	if svg.Name != svgOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if svg.StackName != svgOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+	if svg.Style != svgOther.Style {
+		diffs = append(diffs, "Style")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
+	// insertion point for field diffs
+	if table.Name != tableOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if table.StackName != tableOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (title *Title) GongDiff(titleOther *Title) (diffs []string) {
+	// insertion point for field diffs
+	if title.Name != titleOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tone *Tone) GongDiff(toneOther *Tone) (diffs []string) {
+	// insertion point for field diffs
+	if tone.Name != toneOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if tone.StackName != toneOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
+	// insertion point for field diffs
+	if tree.Name != treeOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if tree.StackName != treeOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (view *View) GongDiff(viewOther *View) (diffs []string) {
+	// insertion point for field diffs
+	if view.Name != viewOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if view.ShowViewName != viewOther.ShowViewName {
+		diffs = append(diffs, "ShowViewName")
+	}
+	RootAsSplitAreasDifferent := false
+	if len(view.RootAsSplitAreas) != len(viewOther.RootAsSplitAreas) {
+		RootAsSplitAreasDifferent = true
+	} else {
+		for i := range view.RootAsSplitAreas {
+			if (view.RootAsSplitAreas[i] == nil) != (viewOther.RootAsSplitAreas[i] == nil) {
+				RootAsSplitAreasDifferent = true
+				break
+			} else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
+				if len(view.RootAsSplitAreas[i].GongDiff(viewOther.RootAsSplitAreas[i])) > 0 {
+					RootAsSplitAreasDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if RootAsSplitAreasDifferent {
+		diffs = append(diffs, "RootAsSplitAreas")
+	}
+	if view.IsSelectedView != viewOther.IsSelectedView {
+		diffs = append(diffs, "IsSelectedView")
+	}
+	if view.Direction != viewOther.Direction {
+		diffs = append(diffs, "Direction")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (xlsx *Xlsx) GongDiff(xlsxOther *Xlsx) (diffs []string) {
+	// insertion point for field diffs
+	if xlsx.Name != xlsxOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if xlsx.StackName != xlsxOther.StackName {
+		diffs = append(diffs, "StackName")
+	}
+
+	return
+}

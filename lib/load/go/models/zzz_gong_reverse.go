@@ -29,7 +29,6 @@ func (inst *Message) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Re
 	return
 }
 
-
 // insertion point
 func (inst *FileToDownload) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -57,4 +56,3 @@ func (inst *Message) GongGetReverseFieldOwner(stage *Stage, reverseField *Revers
 	}
 	return res
 }
-

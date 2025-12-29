@@ -63,6 +63,8 @@ Ailleurs, bien loin d’ici! trop tard! jamais peut-être!
 Car j’ignore où tu fuis, tu ne sais où je vais,
 O toi que j’eusse aimée, ô toi qui le savais!`)
 
+	stager.probeForm.CommitNotificationTable()
+
 	callbacks := &BeforeCommitImplementation{
 		stager: stager,
 	}

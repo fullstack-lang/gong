@@ -292,3 +292,71 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (freqency *Freqency) GongDiff(freqencyOther *Freqency) (diffs []string) {
+	// insertion point for field diffs
+	if freqency.Name != freqencyOther.Name {
+		diffs = append(diffs, "Name")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
+	// insertion point for field diffs
+	if note.Name != noteOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	FrequenciesDifferent := false
+	if len(note.Frequencies) != len(noteOther.Frequencies) {
+		FrequenciesDifferent = true
+	} else {
+		for i := range note.Frequencies {
+			if (note.Frequencies[i] == nil) != (noteOther.Frequencies[i] == nil) {
+				FrequenciesDifferent = true
+				break
+			} else if note.Frequencies[i] != nil && noteOther.Frequencies[i] != nil {
+				if len(note.Frequencies[i].GongDiff(noteOther.Frequencies[i])) > 0 {
+					FrequenciesDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if FrequenciesDifferent {
+		diffs = append(diffs, "Frequencies")
+	}
+	if note.Start != noteOther.Start {
+		diffs = append(diffs, "Start")
+	}
+	if note.Duration != noteOther.Duration {
+		diffs = append(diffs, "Duration")
+	}
+	if note.Velocity != noteOther.Velocity {
+		diffs = append(diffs, "Velocity")
+	}
+	if note.Info != noteOther.Info {
+		diffs = append(diffs, "Info")
+	}
+
+	return
+}
+
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (player *Player) GongDiff(playerOther *Player) (diffs []string) {
+	// insertion point for field diffs
+	if player.Name != playerOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if player.Status != playerOther.Status {
+		diffs = append(diffs, "Status")
+	}
+
+	return
+}

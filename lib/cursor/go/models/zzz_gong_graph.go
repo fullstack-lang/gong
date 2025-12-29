@@ -139,3 +139,57 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 	//insertion point for the staging of instances referenced by slice of pointers
 
 }
+
+// insertion point for diff per struct
+// GongDiff computes the diff between the instance and another instance of same gong struct type
+// and returns the list of differences as strings
+func (cursor *Cursor) GongDiff(cursorOther *Cursor) (diffs []string) {
+	// insertion point for field diffs
+	if cursor.Name != cursorOther.Name {
+		diffs = append(diffs, "Name")
+	}
+	if cursor.StartX != cursorOther.StartX {
+		diffs = append(diffs, "StartX")
+	}
+	if cursor.EndX != cursorOther.EndX {
+		diffs = append(diffs, "EndX")
+	}
+	if cursor.Y1 != cursorOther.Y1 {
+		diffs = append(diffs, "Y1")
+	}
+	if cursor.Y2 != cursorOther.Y2 {
+		diffs = append(diffs, "Y2")
+	}
+	if cursor.DurationSeconds != cursorOther.DurationSeconds {
+		diffs = append(diffs, "DurationSeconds")
+	}
+	if cursor.Color != cursorOther.Color {
+		diffs = append(diffs, "Color")
+	}
+	if cursor.FillOpacity != cursorOther.FillOpacity {
+		diffs = append(diffs, "FillOpacity")
+	}
+	if cursor.Stroke != cursorOther.Stroke {
+		diffs = append(diffs, "Stroke")
+	}
+	if cursor.StrokeOpacity != cursorOther.StrokeOpacity {
+		diffs = append(diffs, "StrokeOpacity")
+	}
+	if cursor.StrokeWidth != cursorOther.StrokeWidth {
+		diffs = append(diffs, "StrokeWidth")
+	}
+	if cursor.StrokeDashArray != cursorOther.StrokeDashArray {
+		diffs = append(diffs, "StrokeDashArray")
+	}
+	if cursor.StrokeDashArrayWhenSelected != cursorOther.StrokeDashArrayWhenSelected {
+		diffs = append(diffs, "StrokeDashArrayWhenSelected")
+	}
+	if cursor.Transform != cursorOther.Transform {
+		diffs = append(diffs, "Transform")
+	}
+	if cursor.IsPlaying != cursorOther.IsPlaying {
+		diffs = append(diffs, "IsPlaying")
+	}
+
+	return
+}

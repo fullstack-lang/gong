@@ -224,6 +224,11 @@ func (probe *Probe) UpdateAndCommitNotificationTable() {
 	column.Name = "Message"
 	table.DisplayedColumns = append(table.DisplayedColumns, column)
 
+	// sort notifications by date
+	sort.Slice(probe.notification, func(i, j int) bool {
+		return probe.notification[i].Date.After(probe.notification[j].Date)
+	})
+
 	for _, notification := range probe.notification {
 		row := new(gongtable.Row)
 		table.Rows = append(table.Rows, row)
