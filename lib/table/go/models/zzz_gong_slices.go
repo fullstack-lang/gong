@@ -372,7 +372,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Cell "+cell.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Cell \""+cell.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -414,7 +414,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellBoolean "+cellboolean.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CellBoolean \""+cellboolean.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -456,7 +456,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellFloat64 "+cellfloat64.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CellFloat64 \""+cellfloat64.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -498,7 +498,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellIcon "+cellicon.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CellIcon \""+cellicon.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -540,7 +540,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellInt "+cellint.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CellInt \""+cellint.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -582,7 +582,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CellString "+cellstring.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CellString \""+cellstring.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -624,7 +624,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of CheckBox "+checkbox.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of CheckBox \""+checkbox.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -666,7 +666,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of DisplayedColumn "+displayedcolumn.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of DisplayedColumn \""+displayedcolumn.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -708,7 +708,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormDiv "+formdiv.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormDiv \""+formdiv.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -750,7 +750,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormEditAssocButton "+formeditassocbutton.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormEditAssocButton \""+formeditassocbutton.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -792,7 +792,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormField "+formfield.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormField \""+formfield.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -834,7 +834,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldDate "+formfielddate.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldDate \""+formfielddate.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -876,7 +876,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldDateTime "+formfielddatetime.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldDateTime \""+formfielddatetime.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -918,7 +918,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldFloat64 "+formfieldfloat64.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldFloat64 \""+formfieldfloat64.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -960,7 +960,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldInt "+formfieldint.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldInt \""+formfieldint.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1002,7 +1002,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldSelect "+formfieldselect.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldSelect \""+formfieldselect.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1044,7 +1044,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldString "+formfieldstring.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldString \""+formfieldstring.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1086,7 +1086,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormFieldTime "+formfieldtime.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormFieldTime \""+formfieldtime.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1128,7 +1128,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormGroup "+formgroup.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormGroup \""+formgroup.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1170,7 +1170,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of FormSortAssocButton "+formsortassocbutton.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of FormSortAssocButton \""+formsortassocbutton.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1212,7 +1212,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Option "+option.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Option \""+option.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1254,7 +1254,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Row "+row.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Row \""+row.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1296,7 +1296,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Table "+table.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of Table \""+table.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1321,9 +1321,9 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(tables_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().CommitNotificationTable()
-		}
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
 	}
 }
 

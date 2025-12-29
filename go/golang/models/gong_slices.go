@@ -45,9 +45,9 @@ func (stage *Stage) ComputeDifference() {
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		if stage.GetProbeIF() != nil {
-			stage.GetProbeIF().CommitNotificationTable()
-		}
+		// if stage.GetProbeIF() != nil {
+		// 	stage.GetProbeIF().CommitNotificationTable()
+		// }
 	}
 }
 
@@ -111,7 +111,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of {{Structname}} "+{{structname}}.Name + " diffs on fields: "+strings.Join(diffs, ", "),
+						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
