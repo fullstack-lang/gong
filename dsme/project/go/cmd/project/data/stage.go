@@ -23,1306 +23,1326 @@ func _(stage *models.Stage) {
 
 	// Declaration of instances to stage
 
-	__Diagram__00000042_NewDiagram := (&models.Diagram{}).Stage(stage)
-	__Diagram__00000057_NewDiagram := (&models.Diagram{}).Stage(stage)
-	__Diagram__00000058_NewDiagram := (&models.Diagram{}).Stage(stage)
-	__Diagram__00000061_Work_diagram_x := (&models.Diagram{}).Stage(stage)
+	__Diagram__00000042_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
+	__Diagram__00000057_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
+	__Diagram__00000058_ := (&models.Diagram{Name: `NewDiagram`}).Stage(stage)
+	__Diagram__00000061_ := (&models.Diagram{Name: `Work diagram x`}).Stage(stage)
 
-	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line := (&models.Note{}).Stage(stage)
-	__Note__00000001_Second_Note := (&models.Note{}).Stage(stage)
-	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage := (&models.Note{}).Stage(stage)
-	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff := (&models.Note{}).Stage(stage)
-	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998 := (&models.Note{}).Stage(stage)
+	__Note__00000000_ := (&models.Note{Name: `This is an example to explain a particular product
 
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications := (&models.NoteProductShape{}).Stage(stage)
+This has lot of lines of explaining
 
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram := (&models.NoteShape{}).Stage(stage)
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram := (&models.NoteShape{}).Stage(stage)
-	__NoteShape__00000002_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
-	__NoteShape__00000003_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
-	__NoteShape__00000004_NewNote_NewDiagram := (&models.NoteShape{}).Stage(stage)
+another line`}).Stage(stage)
+	__Note__00000001_ := (&models.Note{Name: `Second Note`}).Stage(stage)
+	__Note__00000002_ := (&models.Note{Name: `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`}).Stage(stage)
+	__Note__00000003_ := (&models.Note{Name: `The probe Notfication Table Allows the verification of commit diff`}).Stage(stage)
+	__Note__00000004_ := (&models.Note{Name: `https://github.com/fullstack-lang/gong/issues/998`}).Stage(stage)
 
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs := (&models.NoteTaskShape{}).Stage(stage)
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff := (&models.NoteTaskShape{}).Stage(stage)
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications := (&models.NoteTaskShape{}).Stage(stage)
+	__NoteProductShape__00000000_ := (&models.NoteProductShape{Name: `This is an example to explain a particular product
 
-	__Product__00000000_UX := (&models.Product{}).Stage(stage)
-	__Product__00000001_Backend := (&models.Product{}).Stage(stage)
-	__Product__00000002_WBS_tree := (&models.Product{}).Stage(stage)
-	__Product__00000004_PBS_tree := (&models.Product{}).Stage(stage)
-	__Product__00000005_views := (&models.Product{}).Stage(stage)
-	__Product__00000006_Semantic_Enforcer := (&models.Product{}).Stage(stage)
-	__Product__00000009_Docx_Backend := (&models.Product{}).Stage(stage)
-	__Product__00000010_Specifications := (&models.Product{}).Stage(stage)
-	__Product__00000011_Product_1 := (&models.Product{}).Stage(stage)
-	__Product__00000013_Product_1_1 := (&models.Product{}).Stage(stage)
-	__Product__00000014_Product_1_2 := (&models.Product{}).Stage(stage)
-	__Product__00000015_Product_2 := (&models.Product{}).Stage(stage)
-	__Product__00000016_Product_1_2_1 := (&models.Product{}).Stage(stage)
-	__Product__00000017_Product_2_1 := (&models.Product{}).Stage(stage)
-	__Product__00000018_Product_2_2 := (&models.Product{}).Stage(stage)
-	__Product__00000019_Probe_Views := (&models.Product{}).Stage(stage)
-	__Product__00000020_Application_Views := (&models.Product{}).Stage(stage)
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage := (&models.Product{}).Stage(stage)
-	__Product__00000022_New_Commit_code := (&models.Product{}).Stage(stage)
-	__Product__00000025_Probe_Notification_Table := (&models.Product{}).Stage(stage)
-	__Product__00000026__instance_GongDiff_another_instance_ := (&models.Product{}).Stage(stage)
-	__Product__00000027_append_log_when_marshalling := (&models.Product{}).Stage(stage)
-	__Product__00000028_New_Umarshall_code := (&models.Product{}).Stage(stage)
-	__Product__00000029_Probe_Undo := (&models.Product{}).Stage(stage)
-	__Product__00000030_Probe_Redo := (&models.Product{}).Stage(stage)
-	__Product__00000031_New_Probe := (&models.Product{}).Stage(stage)
-	__Product__00000033_Reverse_Commit_log_Code := (&models.Product{}).Stage(stage)
-	__Product__00000034_Rebase_Log_Commits := (&models.Product{}).Stage(stage)
+This has lot of lines of explaining
 
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1 := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1 := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2 := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1 := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2 := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000291_UX_to_WBS_tree := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000292_UX_to_PBS_tree := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000293_views_to_Probe_Views := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000294_views_to_Application_Views := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000295_UX_to_views := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct := (&models.ProductCompositionShape{}).Stage(stage)
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits := (&models.ProductCompositionShape{}).Stage(stage)
+another line to Specifications`}).Stage(stage)
 
-	__ProductShape__00000330_Product_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000331_Product_1_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000332_Product_1_2_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000333_Product_1_2_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000334_Product_2_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000335_Product_2_1_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000336_Product_2_2_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000455_Specifications_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000456_UX_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000457_WBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000458_PBS_tree_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000459_views_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000460_Probe_Views_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000461_Application_Views_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000462_Backend_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000464_Docx_Backend_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000465_Specifications_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000467_New_Commit_code_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000468_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000469_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000470_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000472_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000473_Probe_Redo_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000474_New_Probe_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000475_NewProduct_NewDiagram := (&models.ProductShape{}).Stage(stage)
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram := (&models.ProductShape{}).Stage(stage)
+	__NoteShape__00000000_ := (&models.NoteShape{Name: `This is an example to explain a particular product
 
-	__Project__00000000_Project_Editor := (&models.Project{}).Stage(stage)
-	__Project__00000001_DSME_Docx := (&models.Project{}).Stage(stage)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934 := (&models.Project{}).Stage(stage)
+This has lot of lines of explaining
 
-	__Root__00000000_Root := (&models.Root{}).Stage(stage)
+another line-NewDiagram`}).Stage(stage)
+	__NoteShape__00000001_ := (&models.NoteShape{Name: `This is an example to explain a particular product
 
-	__Task__00000000_Develop_Backend := (&models.Task{}).Stage(stage)
-	__Task__00000001_Dev_WBS_Tree := (&models.Task{}).Stage(stage)
-	__Task__00000002_Dev_PBS_Tree := (&models.Task{}).Stage(stage)
-	__Task__00000003_Task_1 := (&models.Task{}).Stage(stage)
-	__Task__00000004_Dev_views := (&models.Task{}).Stage(stage)
-	__Task__00000005_Dev_UXx := (&models.Task{}).Stage(stage)
-	__Task__00000006_Write_Specs := (&models.Task{}).Stage(stage)
-	__Task__00000007_Compute_all_Instance_Diff := (&models.Task{}).Stage(stage)
-	__Task__00000008_code_GongDiff_per_instance := (&models.Task{}).Stage(stage)
-	__Task__00000009_Develop_Probe_Notifications := (&models.Task{}).Stage(stage)
+This has lot of lines of explaining
 
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx := (&models.TaskCompositionShape{}).Stage(stage)
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views := (&models.TaskCompositionShape{}).Stage(stage)
+another line-NewDiagram`}).Stage(stage)
+	__NoteShape__00000002_ := (&models.NoteShape{Name: `NewNote-NewDiagram`}).Stage(stage)
+	__NoteShape__00000003_ := (&models.NoteShape{Name: `NewNote-NewDiagram`}).Stage(stage)
+	__NoteShape__00000004_ := (&models.NoteShape{Name: `NewNote-NewDiagram`}).Stage(stage)
 
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications := (&models.TaskInputShape{}).Stage(stage)
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table := (&models.TaskInputShape{}).Stage(stage)
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table := (&models.TaskInputShape{}).Stage(stage)
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_ := (&models.TaskInputShape{}).Stage(stage)
+	__NoteTaskShape__00000000_ := (&models.NoteTaskShape{Name: `This is an example to explain a particular product
 
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000061_Dev_UXx_to_views := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_ := (&models.TaskOutputShape{}).Stage(stage)
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code := (&models.TaskOutputShape{}).Stage(stage)
+This has lot of lines of explaining
 
-	__TaskShape__00000012_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000013_Develop_Backend_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000014_Dev_views_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000015_Dev_UXx_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000018_Write_Specs_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000020_NewTask_NewDiagram := (&models.TaskShape{}).Stage(stage)
-	__TaskShape__00000021_NewTask_NewDiagram := (&models.TaskShape{}).Stage(stage)
+another line to Write Specs`}).Stage(stage)
+	__NoteTaskShape__00000001_ := (&models.NoteTaskShape{Name: `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage to Compute all Instance Diff`}).Stage(stage)
+	__NoteTaskShape__00000002_ := (&models.NoteTaskShape{Name: `https://github.com/fullstack-lang/gong/issues/998 to Develop Probe Notifications`}).Stage(stage)
+
+	__Product__00000000_ := (&models.Product{Name: `UX`}).Stage(stage)
+	__Product__00000001_ := (&models.Product{Name: `Backend`}).Stage(stage)
+	__Product__00000002_ := (&models.Product{Name: `WBS tree`}).Stage(stage)
+	__Product__00000004_ := (&models.Product{Name: `PBS tree`}).Stage(stage)
+	__Product__00000005_ := (&models.Product{Name: `views`}).Stage(stage)
+	__Product__00000006_ := (&models.Product{Name: `Semantic Enforcer`}).Stage(stage)
+	__Product__00000009_ := (&models.Product{Name: `Docx Backend`}).Stage(stage)
+	__Product__00000010_ := (&models.Product{Name: `Specifications`}).Stage(stage)
+	__Product__00000011_ := (&models.Product{Name: `Product 1`}).Stage(stage)
+	__Product__00000013_ := (&models.Product{Name: `Product 1.1`}).Stage(stage)
+	__Product__00000014_ := (&models.Product{Name: `Product 1.2`}).Stage(stage)
+	__Product__00000015_ := (&models.Product{Name: `Product 2`}).Stage(stage)
+	__Product__00000016_ := (&models.Product{Name: `Product 1.2.1`}).Stage(stage)
+	__Product__00000017_ := (&models.Product{Name: `Product 2.1`}).Stage(stage)
+	__Product__00000018_ := (&models.Product{Name: `Product 2.2`}).Stage(stage)
+	__Product__00000019_ := (&models.Product{Name: `Probe Views`}).Stage(stage)
+	__Product__00000020_ := (&models.Product{Name: `Application Views`}).Stage(stage)
+	__Product__00000021_ := (&models.Product{Name: `String of all New+Stage/ Updated/ Unstage`}).Stage(stage)
+	__Product__00000022_ := (&models.Product{Name: `New Commit code`}).Stage(stage)
+	__Product__00000025_ := (&models.Product{Name: `Probe Notification Table`}).Stage(stage)
+	__Product__00000026_ := (&models.Product{Name: `<instance>. GongDiff(another instance)`}).Stage(stage)
+	__Product__00000027_ := (&models.Product{Name: `append log when marshalling`}).Stage(stage)
+	__Product__00000028_ := (&models.Product{Name: `New Umarshall code`}).Stage(stage)
+	__Product__00000029_ := (&models.Product{Name: `Probe Undo`}).Stage(stage)
+	__Product__00000030_ := (&models.Product{Name: `Probe Redo`}).Stage(stage)
+	__Product__00000031_ := (&models.Product{Name: `New Probe`}).Stage(stage)
+	__Product__00000033_ := (&models.Product{Name: `Reverse Commit log Code`}).Stage(stage)
+	__Product__00000034_ := (&models.Product{Name: `Rebase Log Commits`}).Stage(stage)
+
+	__ProductCompositionShape__00000204_ := (&models.ProductCompositionShape{Name: `Product 1 to Product 1.1`}).Stage(stage)
+	__ProductCompositionShape__00000205_ := (&models.ProductCompositionShape{Name: `Product 1.2 to Product 1.2.1`}).Stage(stage)
+	__ProductCompositionShape__00000206_ := (&models.ProductCompositionShape{Name: `Product 1 to Product 1.2`}).Stage(stage)
+	__ProductCompositionShape__00000207_ := (&models.ProductCompositionShape{Name: `Product 2 to Product 2.1`}).Stage(stage)
+	__ProductCompositionShape__00000208_ := (&models.ProductCompositionShape{Name: `Product 2 to Product 2.2`}).Stage(stage)
+	__ProductCompositionShape__00000291_ := (&models.ProductCompositionShape{Name: `UX to WBS tree`}).Stage(stage)
+	__ProductCompositionShape__00000292_ := (&models.ProductCompositionShape{Name: `UX to PBS tree`}).Stage(stage)
+	__ProductCompositionShape__00000293_ := (&models.ProductCompositionShape{Name: `views to Probe Views`}).Stage(stage)
+	__ProductCompositionShape__00000294_ := (&models.ProductCompositionShape{Name: `views to Application Views`}).Stage(stage)
+	__ProductCompositionShape__00000295_ := (&models.ProductCompositionShape{Name: `UX to views`}).Stage(stage)
+	__ProductCompositionShape__00000296_ := (&models.ProductCompositionShape{Name: `Backend to Semantic Enforcer`}).Stage(stage)
+	__ProductCompositionShape__00000297_ := (&models.ProductCompositionShape{Name: `Backend to Docx Backend`}).Stage(stage)
+	__ProductCompositionShape__00000298_ := (&models.ProductCompositionShape{Name: `New Commit code to String of New+Stage/Updated/Unstage`}).Stage(stage)
+	__ProductCompositionShape__00000300_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Undo`}).Stage(stage)
+	__ProductCompositionShape__00000301_ := (&models.ProductCompositionShape{Name: `New Probe to Probe Redo`}).Stage(stage)
+	__ProductCompositionShape__00000302_ := (&models.ProductCompositionShape{Name: `New Commit code to NewProduct`}).Stage(stage)
+	__ProductCompositionShape__00000303_ := (&models.ProductCompositionShape{Name: `New Probe to Rebase Log Commits`}).Stage(stage)
+
+	__ProductShape__00000330_ := (&models.ProductShape{Name: `Product 1-NewDiagram`}).Stage(stage)
+	__ProductShape__00000331_ := (&models.ProductShape{Name: `Product 1.1-NewDiagram`}).Stage(stage)
+	__ProductShape__00000332_ := (&models.ProductShape{Name: `Product 1.2-NewDiagram`}).Stage(stage)
+	__ProductShape__00000333_ := (&models.ProductShape{Name: `Product 1.2.1-NewDiagram`}).Stage(stage)
+	__ProductShape__00000334_ := (&models.ProductShape{Name: `Product 2-NewDiagram`}).Stage(stage)
+	__ProductShape__00000335_ := (&models.ProductShape{Name: `Product 2.1-NewDiagram`}).Stage(stage)
+	__ProductShape__00000336_ := (&models.ProductShape{Name: `Product 2.2-NewDiagram`}).Stage(stage)
+	__ProductShape__00000455_ := (&models.ProductShape{Name: `Specifications-NewDiagram`}).Stage(stage)
+	__ProductShape__00000456_ := (&models.ProductShape{Name: `UX-NewDiagram`}).Stage(stage)
+	__ProductShape__00000457_ := (&models.ProductShape{Name: `WBS tree-NewDiagram`}).Stage(stage)
+	__ProductShape__00000458_ := (&models.ProductShape{Name: `PBS tree-NewDiagram`}).Stage(stage)
+	__ProductShape__00000459_ := (&models.ProductShape{Name: `views-NewDiagram`}).Stage(stage)
+	__ProductShape__00000460_ := (&models.ProductShape{Name: `Probe Views-NewDiagram`}).Stage(stage)
+	__ProductShape__00000461_ := (&models.ProductShape{Name: `Application Views-NewDiagram`}).Stage(stage)
+	__ProductShape__00000462_ := (&models.ProductShape{Name: `Backend-NewDiagram`}).Stage(stage)
+	__ProductShape__00000463_ := (&models.ProductShape{Name: `Semantic Enforcer-NewDiagram`}).Stage(stage)
+	__ProductShape__00000464_ := (&models.ProductShape{Name: `Docx Backend-NewDiagram`}).Stage(stage)
+	__ProductShape__00000465_ := (&models.ProductShape{Name: `Specifications-NewDiagram`}).Stage(stage)
+	__ProductShape__00000466_ := (&models.ProductShape{Name: `String of New+Stage/Updated/Unstage-NewDiagram`}).Stage(stage)
+	__ProductShape__00000467_ := (&models.ProductShape{Name: `New Commit code-NewDiagram`}).Stage(stage)
+	__ProductShape__00000468_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000469_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000470_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000471_ := (&models.ProductShape{Name: `New Umarshall code-NewDiagram`}).Stage(stage)
+	__ProductShape__00000472_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000473_ := (&models.ProductShape{Name: `Probe Redo-NewDiagram`}).Stage(stage)
+	__ProductShape__00000474_ := (&models.ProductShape{Name: `New Probe-NewDiagram`}).Stage(stage)
+	__ProductShape__00000475_ := (&models.ProductShape{Name: `NewProduct-NewDiagram`}).Stage(stage)
+	__ProductShape__00000476_ := (&models.ProductShape{Name: `Rebase Log Commits-NewDiagram`}).Stage(stage)
+
+	__Project__00000000_ := (&models.Project{Name: `Project Editor`}).Stage(stage)
+	__Project__00000001_ := (&models.Project{Name: `DSME Docx`}).Stage(stage)
+	__Project__00000002_ := (&models.Project{Name: `gong : persist stage.go as an history of commits  #934`}).Stage(stage)
+
+	__Root__00000000_ := (&models.Root{Name: `Root`}).Stage(stage)
+
+	__Task__00000000_ := (&models.Task{Name: `Develop Backend`}).Stage(stage)
+	__Task__00000001_ := (&models.Task{Name: `Dev WBS Tree`}).Stage(stage)
+	__Task__00000002_ := (&models.Task{Name: `Dev PBS Tree`}).Stage(stage)
+	__Task__00000003_ := (&models.Task{Name: `Task 1`}).Stage(stage)
+	__Task__00000004_ := (&models.Task{Name: `Dev views`}).Stage(stage)
+	__Task__00000005_ := (&models.Task{Name: `Dev UXx`}).Stage(stage)
+	__Task__00000006_ := (&models.Task{Name: `Write Specs`}).Stage(stage)
+	__Task__00000007_ := (&models.Task{Name: `Compute all Instance Diff`}).Stage(stage)
+	__Task__00000008_ := (&models.Task{Name: `code GongDiff per instance`}).Stage(stage)
+	__Task__00000009_ := (&models.Task{Name: `Develop Probe Notifications`}).Stage(stage)
+
+	__TaskCompositionShape__00000005_ := (&models.TaskCompositionShape{Name: `Develop Backend to Dev UXx`}).Stage(stage)
+	__TaskCompositionShape__00000006_ := (&models.TaskCompositionShape{Name: `Develop Backend to Dev views`}).Stage(stage)
+
+	__TaskInputShape__00000000_ := (&models.TaskInputShape{Name: `Develop Backend to Specifications`}).Stage(stage)
+	__TaskInputShape__00000001_ := (&models.TaskInputShape{Name: `code GongDiff to Probe Notification Table`}).Stage(stage)
+	__TaskInputShape__00000002_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to Probe Notification Table`}).Stage(stage)
+	__TaskInputShape__00000003_ := (&models.TaskInputShape{Name: `Compute all Instance Diff to <instance>. GongDiff(another instance)`}).Stage(stage)
+
+	__TaskOutputShape__00000059_ := (&models.TaskOutputShape{Name: `Dev UXx to WBS tree`}).Stage(stage)
+	__TaskOutputShape__00000060_ := (&models.TaskOutputShape{Name: `Dev UXx to PBS tree`}).Stage(stage)
+	__TaskOutputShape__00000061_ := (&models.TaskOutputShape{Name: `Dev UXx to views`}).Stage(stage)
+	__TaskOutputShape__00000063_ := (&models.TaskOutputShape{Name: `Compute Instance Diff to String of New+Stage/Updated/Unstage`}).Stage(stage)
+	__TaskOutputShape__00000064_ := (&models.TaskOutputShape{Name: `Develop Probe Notifications to Probe Notification Table`}).Stage(stage)
+	__TaskOutputShape__00000065_ := (&models.TaskOutputShape{Name: `code GongDiff per instance to <instance>. GongDiff(another instance)`}).Stage(stage)
+	__TaskOutputShape__00000066_ := (&models.TaskOutputShape{Name: `Compute all Instance Diff to Reverse Commit log Code`}).Stage(stage)
+
+	__TaskShape__00000012_ := (&models.TaskShape{Name: `Write Specs-NewDiagram`}).Stage(stage)
+	__TaskShape__00000013_ := (&models.TaskShape{Name: `Develop Backend-NewDiagram`}).Stage(stage)
+	__TaskShape__00000014_ := (&models.TaskShape{Name: `Dev views-NewDiagram`}).Stage(stage)
+	__TaskShape__00000015_ := (&models.TaskShape{Name: `Dev UXx-NewDiagram`}).Stage(stage)
+	__TaskShape__00000016_ := (&models.TaskShape{Name: `Dev WBS Tree-NewDiagram`}).Stage(stage)
+	__TaskShape__00000017_ := (&models.TaskShape{Name: `Dev PBS Tree-NewDiagram`}).Stage(stage)
+	__TaskShape__00000018_ := (&models.TaskShape{Name: `Write Specs-NewDiagram`}).Stage(stage)
+	__TaskShape__00000019_ := (&models.TaskShape{Name: `zzz_gong : compute instance.GongDiff(another_instance)-NewDiagram`}).Stage(stage)
+	__TaskShape__00000020_ := (&models.TaskShape{Name: `NewTask-NewDiagram`}).Stage(stage)
+	__TaskShape__00000021_ := (&models.TaskShape{Name: `NewTask-NewDiagram`}).Stage(stage)
 
 	// Setup of values
 
-	__Diagram__00000042_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000042_NewDiagram.IsChecked = false
-	__Diagram__00000042_NewDiagram.IsEditable_ = true
-	__Diagram__00000042_NewDiagram.IsInRenameMode = false
-	__Diagram__00000042_NewDiagram.ShowPrefix = true
-	__Diagram__00000042_NewDiagram.DefaultBoxWidth = 150.000000
-	__Diagram__00000042_NewDiagram.DefaultBoxHeigth = 70.000000
-	__Diagram__00000042_NewDiagram.IsExpanded = false
-	__Diagram__00000042_NewDiagram.ComputedPrefix = ``
-	__Diagram__00000042_NewDiagram.IsPBSNodeExpanded = true
-	__Diagram__00000042_NewDiagram.IsWBSNodeExpanded = true
-	__Diagram__00000042_NewDiagram.IsNotesNodeExpanded = false
+	__Diagram__00000042_.Name = `NewDiagram`
+	__Diagram__00000042_.IsChecked = false
+	__Diagram__00000042_.IsEditable_ = true
+	__Diagram__00000042_.IsInRenameMode = false
+	__Diagram__00000042_.ShowPrefix = true
+	__Diagram__00000042_.DefaultBoxWidth = 150.000000
+	__Diagram__00000042_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000042_.IsExpanded = false
+	__Diagram__00000042_.ComputedPrefix = ``
+	__Diagram__00000042_.IsPBSNodeExpanded = true
+	__Diagram__00000042_.IsWBSNodeExpanded = true
+	__Diagram__00000042_.IsNotesNodeExpanded = false
 
-	__Diagram__00000057_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000057_NewDiagram.IsChecked = false
-	__Diagram__00000057_NewDiagram.IsEditable_ = true
-	__Diagram__00000057_NewDiagram.IsInRenameMode = false
-	__Diagram__00000057_NewDiagram.ShowPrefix = false
-	__Diagram__00000057_NewDiagram.DefaultBoxWidth = 150.000000
-	__Diagram__00000057_NewDiagram.DefaultBoxHeigth = 70.000000
-	__Diagram__00000057_NewDiagram.IsExpanded = false
-	__Diagram__00000057_NewDiagram.ComputedPrefix = ``
-	__Diagram__00000057_NewDiagram.IsPBSNodeExpanded = true
-	__Diagram__00000057_NewDiagram.IsWBSNodeExpanded = false
-	__Diagram__00000057_NewDiagram.IsNotesNodeExpanded = false
+	__Diagram__00000057_.Name = `NewDiagram`
+	__Diagram__00000057_.IsChecked = false
+	__Diagram__00000057_.IsEditable_ = true
+	__Diagram__00000057_.IsInRenameMode = false
+	__Diagram__00000057_.ShowPrefix = false
+	__Diagram__00000057_.DefaultBoxWidth = 150.000000
+	__Diagram__00000057_.DefaultBoxHeigth = 70.000000
+	__Diagram__00000057_.IsExpanded = false
+	__Diagram__00000057_.ComputedPrefix = ``
+	__Diagram__00000057_.IsPBSNodeExpanded = true
+	__Diagram__00000057_.IsWBSNodeExpanded = false
+	__Diagram__00000057_.IsNotesNodeExpanded = false
 
-	__Diagram__00000058_NewDiagram.Name = `NewDiagram`
-	__Diagram__00000058_NewDiagram.IsChecked = false
-	__Diagram__00000058_NewDiagram.IsEditable_ = true
-	__Diagram__00000058_NewDiagram.IsInRenameMode = false
-	__Diagram__00000058_NewDiagram.ShowPrefix = false
-	__Diagram__00000058_NewDiagram.DefaultBoxWidth = 250.000000
-	__Diagram__00000058_NewDiagram.DefaultBoxHeigth = 100.000000
-	__Diagram__00000058_NewDiagram.IsExpanded = false
-	__Diagram__00000058_NewDiagram.ComputedPrefix = ``
-	__Diagram__00000058_NewDiagram.IsPBSNodeExpanded = false
-	__Diagram__00000058_NewDiagram.IsWBSNodeExpanded = true
-	__Diagram__00000058_NewDiagram.IsNotesNodeExpanded = false
+	__Diagram__00000058_.Name = `NewDiagram`
+	__Diagram__00000058_.IsChecked = false
+	__Diagram__00000058_.IsEditable_ = true
+	__Diagram__00000058_.IsInRenameMode = false
+	__Diagram__00000058_.ShowPrefix = false
+	__Diagram__00000058_.DefaultBoxWidth = 250.000000
+	__Diagram__00000058_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000058_.IsExpanded = false
+	__Diagram__00000058_.ComputedPrefix = ``
+	__Diagram__00000058_.IsPBSNodeExpanded = false
+	__Diagram__00000058_.IsWBSNodeExpanded = true
+	__Diagram__00000058_.IsNotesNodeExpanded = false
 
-	__Diagram__00000061_Work_diagram_x.Name = `Work diagram x`
-	__Diagram__00000061_Work_diagram_x.IsChecked = false
-	__Diagram__00000061_Work_diagram_x.IsEditable_ = true
-	__Diagram__00000061_Work_diagram_x.IsInRenameMode = false
-	__Diagram__00000061_Work_diagram_x.ShowPrefix = false
-	__Diagram__00000061_Work_diagram_x.DefaultBoxWidth = 250.000000
-	__Diagram__00000061_Work_diagram_x.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_Work_diagram_x.IsExpanded = true
-	__Diagram__00000061_Work_diagram_x.ComputedPrefix = ``
-	__Diagram__00000061_Work_diagram_x.IsPBSNodeExpanded = false
-	__Diagram__00000061_Work_diagram_x.IsWBSNodeExpanded = false
-	__Diagram__00000061_Work_diagram_x.IsNotesNodeExpanded = false
+	__Diagram__00000061_.Name = `Work diagram x`
+	__Diagram__00000061_.IsChecked = true
+	__Diagram__00000061_.IsEditable_ = true
+	__Diagram__00000061_.IsInRenameMode = false
+	__Diagram__00000061_.ShowPrefix = false
+	__Diagram__00000061_.DefaultBoxWidth = 250.000000
+	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
+	__Diagram__00000061_.IsExpanded = true
+	__Diagram__00000061_.ComputedPrefix = ``
+	__Diagram__00000061_.IsPBSNodeExpanded = false
+	__Diagram__00000061_.IsWBSNodeExpanded = false
+	__Diagram__00000061_.IsNotesNodeExpanded = false
 
-	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Name = `This is an example to explain a particular product
+	__Note__00000000_.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
 
 another line`
-	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.IsExpanded = false
+	__Note__00000000_.IsExpanded = false
 
-	__Note__00000001_Second_Note.Name = `Second Note`
-	__Note__00000001_Second_Note.IsExpanded = false
+	__Note__00000001_.Name = `Second Note`
+	__Note__00000001_.IsExpanded = false
 
-	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`
-	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.IsExpanded = false
+	__Note__00000002_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage`
+	__Note__00000002_.IsExpanded = false
 
-	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff.Name = `The probe Notfication Table Allows the verification of commit diff`
-	__Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff.IsExpanded = false
+	__Note__00000003_.Name = `The probe Notfication Table Allows the verification of commit diff`
+	__Note__00000003_.IsExpanded = false
 
-	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Name = `https://github.com/fullstack-lang/gong/issues/998`
-	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.IsExpanded = false
+	__Note__00000004_.Name = `https://github.com/fullstack-lang/gong/issues/998`
+	__Note__00000004_.IsExpanded = false
 
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Name = `This is an example to explain a particular product
+	__NoteProductShape__00000000_.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
 
 another line to Specifications`
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.StartRatio = 0.500000
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.EndRatio = 0.500000
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.CornerOffsetRatio = 1.680000
+	__NoteProductShape__00000000_.StartRatio = 0.500000
+	__NoteProductShape__00000000_.EndRatio = 0.500000
+	__NoteProductShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteProductShape__00000000_.CornerOffsetRatio = 1.680000
 
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Name = `This is an example to explain a particular product
-
-This has lot of lines of explaining
-
-another line-NewDiagram`
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.IsExpanded = false
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.X = 421.108494
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Y = 147.407017
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Width = 394.000000
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Height = 87.000000
-
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Name = `This is an example to explain a particular product
+	__NoteShape__00000000_.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
 
 another line-NewDiagram`
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.IsExpanded = false
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.X = 593.993664
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Y = 146.586415
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Width = 406.000000
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Height = 100.000000
+	__NoteShape__00000000_.IsExpanded = false
+	__NoteShape__00000000_.X = 421.108494
+	__NoteShape__00000000_.Y = 147.407017
+	__NoteShape__00000000_.Width = 394.000000
+	__NoteShape__00000000_.Height = 87.000000
 
-	__NoteShape__00000002_NewNote_NewDiagram.Name = `NewNote-NewDiagram`
-	__NoteShape__00000002_NewNote_NewDiagram.IsExpanded = false
-	__NoteShape__00000002_NewNote_NewDiagram.X = 235.404861
-	__NoteShape__00000002_NewNote_NewDiagram.Y = 699.960749
-	__NoteShape__00000002_NewNote_NewDiagram.Width = 250.000000
-	__NoteShape__00000002_NewNote_NewDiagram.Height = 100.000000
+	__NoteShape__00000001_.Name = `This is an example to explain a particular product
 
-	__NoteShape__00000003_NewNote_NewDiagram.Name = `NewNote-NewDiagram`
-	__NoteShape__00000003_NewNote_NewDiagram.IsExpanded = false
-	__NoteShape__00000003_NewNote_NewDiagram.X = 358.407081
-	__NoteShape__00000003_NewNote_NewDiagram.Y = 205.370815
-	__NoteShape__00000003_NewNote_NewDiagram.Width = 250.000000
-	__NoteShape__00000003_NewNote_NewDiagram.Height = 100.000000
+This has lot of lines of explaining
 
-	__NoteShape__00000004_NewNote_NewDiagram.Name = `NewNote-NewDiagram`
-	__NoteShape__00000004_NewNote_NewDiagram.IsExpanded = false
-	__NoteShape__00000004_NewNote_NewDiagram.X = 62.079720
-	__NoteShape__00000004_NewNote_NewDiagram.Y = 546.901476
-	__NoteShape__00000004_NewNote_NewDiagram.Width = 411.000000
-	__NoteShape__00000004_NewNote_NewDiagram.Height = 53.000000
+another line-NewDiagram`
+	__NoteShape__00000001_.IsExpanded = false
+	__NoteShape__00000001_.X = 593.993664
+	__NoteShape__00000001_.Y = 146.586415
+	__NoteShape__00000001_.Width = 406.000000
+	__NoteShape__00000001_.Height = 100.000000
 
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Name = `This is an example to explain a particular product
+	__NoteShape__00000002_.Name = `NewNote-NewDiagram`
+	__NoteShape__00000002_.IsExpanded = false
+	__NoteShape__00000002_.X = 235.404861
+	__NoteShape__00000002_.Y = 699.960749
+	__NoteShape__00000002_.Width = 250.000000
+	__NoteShape__00000002_.Height = 100.000000
+
+	__NoteShape__00000003_.Name = `NewNote-NewDiagram`
+	__NoteShape__00000003_.IsExpanded = false
+	__NoteShape__00000003_.X = 358.407081
+	__NoteShape__00000003_.Y = 205.370815
+	__NoteShape__00000003_.Width = 250.000000
+	__NoteShape__00000003_.Height = 100.000000
+
+	__NoteShape__00000004_.Name = `NewNote-NewDiagram`
+	__NoteShape__00000004_.IsExpanded = false
+	__NoteShape__00000004_.X = 62.079720
+	__NoteShape__00000004_.Y = 546.901476
+	__NoteShape__00000004_.Width = 411.000000
+	__NoteShape__00000004_.Height = 53.000000
+
+	__NoteTaskShape__00000000_.Name = `This is an example to explain a particular product
 
 This has lot of lines of explaining
 
 another line to Write Specs`
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.StartRatio = 0.500000
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.EndRatio = 0.500000
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.CornerOffsetRatio = 1.680000
-
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage to Compute all Instance Diff`
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.StartRatio = 0.500000
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.EndRatio = 0.500000
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.CornerOffsetRatio = 1.680000
-
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Name = `https://github.com/fullstack-lang/gong/issues/998 to Develop Probe Notifications`
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.StartRatio = 0.500000
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.EndRatio = 0.500000
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.StartOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.EndOrientation = models.ORIENTATION_VERTICAL
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.CornerOffsetRatio = 1.680000
-
-	__Product__00000000_UX.Name = `UX`
-	__Product__00000000_UX.IsExpanded = true
-	__Product__00000000_UX.ComputedPrefix = `2`
-	__Product__00000000_UX.IsProducersNodeExpanded = false
-	__Product__00000000_UX.IsConsumersNodeExpanded = false
-
-	__Product__00000001_Backend.Name = `Backend`
-	__Product__00000001_Backend.IsExpanded = true
-	__Product__00000001_Backend.ComputedPrefix = `3`
-	__Product__00000001_Backend.IsProducersNodeExpanded = false
-	__Product__00000001_Backend.IsConsumersNodeExpanded = false
-
-	__Product__00000002_WBS_tree.Name = `WBS tree`
-	__Product__00000002_WBS_tree.IsExpanded = false
-	__Product__00000002_WBS_tree.ComputedPrefix = `2.1`
-	__Product__00000002_WBS_tree.IsProducersNodeExpanded = false
-	__Product__00000002_WBS_tree.IsConsumersNodeExpanded = false
-
-	__Product__00000004_PBS_tree.Name = `PBS tree`
-	__Product__00000004_PBS_tree.IsExpanded = false
-	__Product__00000004_PBS_tree.ComputedPrefix = `2.2`
-	__Product__00000004_PBS_tree.IsProducersNodeExpanded = true
-	__Product__00000004_PBS_tree.IsConsumersNodeExpanded = false
-
-	__Product__00000005_views.Name = `views`
-	__Product__00000005_views.IsExpanded = true
-	__Product__00000005_views.ComputedPrefix = `2.3`
-	__Product__00000005_views.IsProducersNodeExpanded = false
-	__Product__00000005_views.IsConsumersNodeExpanded = false
-
-	__Product__00000006_Semantic_Enforcer.Name = `Semantic Enforcer`
-	__Product__00000006_Semantic_Enforcer.IsExpanded = false
-	__Product__00000006_Semantic_Enforcer.ComputedPrefix = `3.1`
-	__Product__00000006_Semantic_Enforcer.IsProducersNodeExpanded = false
-	__Product__00000006_Semantic_Enforcer.IsConsumersNodeExpanded = false
-
-	__Product__00000009_Docx_Backend.Name = `Docx Backend`
-	__Product__00000009_Docx_Backend.IsExpanded = false
-	__Product__00000009_Docx_Backend.ComputedPrefix = `3.2`
-	__Product__00000009_Docx_Backend.IsProducersNodeExpanded = false
-	__Product__00000009_Docx_Backend.IsConsumersNodeExpanded = false
-
-	__Product__00000010_Specifications.Name = `Specifications`
-	__Product__00000010_Specifications.IsExpanded = false
-	__Product__00000010_Specifications.ComputedPrefix = `1`
-	__Product__00000010_Specifications.IsProducersNodeExpanded = false
-	__Product__00000010_Specifications.IsConsumersNodeExpanded = false
-
-	__Product__00000011_Product_1.Name = `Product 1`
-	__Product__00000011_Product_1.IsExpanded = true
-	__Product__00000011_Product_1.ComputedPrefix = `1`
-	__Product__00000011_Product_1.IsProducersNodeExpanded = false
-	__Product__00000011_Product_1.IsConsumersNodeExpanded = false
-
-	__Product__00000013_Product_1_1.Name = `Product 1.1`
-	__Product__00000013_Product_1_1.IsExpanded = false
-	__Product__00000013_Product_1_1.ComputedPrefix = `1.1`
-	__Product__00000013_Product_1_1.IsProducersNodeExpanded = false
-	__Product__00000013_Product_1_1.IsConsumersNodeExpanded = false
-
-	__Product__00000014_Product_1_2.Name = `Product 1.2`
-	__Product__00000014_Product_1_2.IsExpanded = true
-	__Product__00000014_Product_1_2.ComputedPrefix = `1.2`
-	__Product__00000014_Product_1_2.IsProducersNodeExpanded = false
-	__Product__00000014_Product_1_2.IsConsumersNodeExpanded = false
-
-	__Product__00000015_Product_2.Name = `Product 2`
-	__Product__00000015_Product_2.IsExpanded = true
-	__Product__00000015_Product_2.ComputedPrefix = `2`
-	__Product__00000015_Product_2.IsProducersNodeExpanded = false
-	__Product__00000015_Product_2.IsConsumersNodeExpanded = false
-
-	__Product__00000016_Product_1_2_1.Name = `Product 1.2.1`
-	__Product__00000016_Product_1_2_1.IsExpanded = false
-	__Product__00000016_Product_1_2_1.ComputedPrefix = `1.2.1`
-	__Product__00000016_Product_1_2_1.IsProducersNodeExpanded = false
-	__Product__00000016_Product_1_2_1.IsConsumersNodeExpanded = false
-
-	__Product__00000017_Product_2_1.Name = `Product 2.1`
-	__Product__00000017_Product_2_1.IsExpanded = false
-	__Product__00000017_Product_2_1.ComputedPrefix = `2.1`
-	__Product__00000017_Product_2_1.IsProducersNodeExpanded = false
-	__Product__00000017_Product_2_1.IsConsumersNodeExpanded = false
-
-	__Product__00000018_Product_2_2.Name = `Product 2.2`
-	__Product__00000018_Product_2_2.IsExpanded = false
-	__Product__00000018_Product_2_2.ComputedPrefix = `2.2`
-	__Product__00000018_Product_2_2.IsProducersNodeExpanded = false
-	__Product__00000018_Product_2_2.IsConsumersNodeExpanded = false
-
-	__Product__00000019_Probe_Views.Name = `Probe Views`
-	__Product__00000019_Probe_Views.IsExpanded = false
-	__Product__00000019_Probe_Views.ComputedPrefix = `2.3.1`
-	__Product__00000019_Probe_Views.IsProducersNodeExpanded = false
-	__Product__00000019_Probe_Views.IsConsumersNodeExpanded = false
-
-	__Product__00000020_Application_Views.Name = `Application Views`
-	__Product__00000020_Application_Views.IsExpanded = false
-	__Product__00000020_Application_Views.ComputedPrefix = `2.3.2`
-	__Product__00000020_Application_Views.IsProducersNodeExpanded = false
-	__Product__00000020_Application_Views.IsConsumersNodeExpanded = false
-
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage.Name = `String of all New+Stage/ Updated/ Unstage`
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage.IsExpanded = false
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage.ComputedPrefix = `1.1`
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage.IsProducersNodeExpanded = false
-	__Product__00000021_String_of_all_New_Stage_Updated_Unstage.IsConsumersNodeExpanded = false
-
-	__Product__00000022_New_Commit_code.Name = `New Commit code`
-	__Product__00000022_New_Commit_code.IsExpanded = false
-	__Product__00000022_New_Commit_code.ComputedPrefix = `1`
-	__Product__00000022_New_Commit_code.IsProducersNodeExpanded = false
-	__Product__00000022_New_Commit_code.IsConsumersNodeExpanded = false
-
-	__Product__00000025_Probe_Notification_Table.Name = `Probe Notification Table`
-	__Product__00000025_Probe_Notification_Table.IsExpanded = false
-	__Product__00000025_Probe_Notification_Table.ComputedPrefix = `2`
-	__Product__00000025_Probe_Notification_Table.IsProducersNodeExpanded = false
-	__Product__00000025_Probe_Notification_Table.IsConsumersNodeExpanded = false
-
-	__Product__00000026__instance_GongDiff_another_instance_.Name = `<instance>. GongDiff(another instance)`
-	__Product__00000026__instance_GongDiff_another_instance_.IsExpanded = false
-	__Product__00000026__instance_GongDiff_another_instance_.ComputedPrefix = `3`
-	__Product__00000026__instance_GongDiff_another_instance_.IsProducersNodeExpanded = false
-	__Product__00000026__instance_GongDiff_another_instance_.IsConsumersNodeExpanded = false
-
-	__Product__00000027_append_log_when_marshalling.Name = `append log when marshalling`
-	__Product__00000027_append_log_when_marshalling.IsExpanded = false
-	__Product__00000027_append_log_when_marshalling.ComputedPrefix = `4`
-	__Product__00000027_append_log_when_marshalling.IsProducersNodeExpanded = false
-	__Product__00000027_append_log_when_marshalling.IsConsumersNodeExpanded = false
-
-	__Product__00000028_New_Umarshall_code.Name = `New Umarshall code`
-	__Product__00000028_New_Umarshall_code.IsExpanded = false
-	__Product__00000028_New_Umarshall_code.ComputedPrefix = `5`
-	__Product__00000028_New_Umarshall_code.IsProducersNodeExpanded = false
-	__Product__00000028_New_Umarshall_code.IsConsumersNodeExpanded = false
-
-	__Product__00000029_Probe_Undo.Name = `Probe Undo`
-	__Product__00000029_Probe_Undo.IsExpanded = false
-	__Product__00000029_Probe_Undo.ComputedPrefix = `6.1`
-	__Product__00000029_Probe_Undo.IsProducersNodeExpanded = false
-	__Product__00000029_Probe_Undo.IsConsumersNodeExpanded = false
-
-	__Product__00000030_Probe_Redo.Name = `Probe Redo`
-	__Product__00000030_Probe_Redo.IsExpanded = false
-	__Product__00000030_Probe_Redo.ComputedPrefix = `6.2`
-	__Product__00000030_Probe_Redo.IsProducersNodeExpanded = false
-	__Product__00000030_Probe_Redo.IsConsumersNodeExpanded = false
-
-	__Product__00000031_New_Probe.Name = `New Probe`
-	__Product__00000031_New_Probe.IsExpanded = true
-	__Product__00000031_New_Probe.ComputedPrefix = `6`
-	__Product__00000031_New_Probe.IsProducersNodeExpanded = false
-	__Product__00000031_New_Probe.IsConsumersNodeExpanded = false
-
-	__Product__00000033_Reverse_Commit_log_Code.Name = `Reverse Commit log Code`
-	__Product__00000033_Reverse_Commit_log_Code.IsExpanded = false
-	__Product__00000033_Reverse_Commit_log_Code.ComputedPrefix = `1.2`
-	__Product__00000033_Reverse_Commit_log_Code.IsProducersNodeExpanded = false
-	__Product__00000033_Reverse_Commit_log_Code.IsConsumersNodeExpanded = false
-
-	__Product__00000034_Rebase_Log_Commits.Name = `Rebase Log Commits`
-	__Product__00000034_Rebase_Log_Commits.IsExpanded = false
-	__Product__00000034_Rebase_Log_Commits.ComputedPrefix = `6.3`
-	__Product__00000034_Rebase_Log_Commits.IsProducersNodeExpanded = false
-	__Product__00000034_Rebase_Log_Commits.IsConsumersNodeExpanded = false
-
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.Name = `Product 1 to Product 1.1`
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.StartRatio = 0.500000
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.EndRatio = 0.500000
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.Name = `Product 1.2 to Product 1.2.1`
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.StartRatio = 0.500000
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.EndRatio = 0.500000
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.Name = `Product 1 to Product 1.2`
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.StartRatio = 0.500000
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.EndRatio = 0.500000
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.Name = `Product 2 to Product 2.1`
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.StartRatio = 0.500000
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.EndRatio = 0.500000
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.Name = `Product 2 to Product 2.2`
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.StartRatio = 0.500000
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.EndRatio = 0.500000
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.Name = `UX to WBS tree`
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.StartRatio = 0.500000
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.EndRatio = 0.500000
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.Name = `UX to PBS tree`
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.StartRatio = 0.500000
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.EndRatio = 0.500000
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000293_views_to_Probe_Views.Name = `views to Probe Views`
-	__ProductCompositionShape__00000293_views_to_Probe_Views.StartRatio = 0.500000
-	__ProductCompositionShape__00000293_views_to_Probe_Views.EndRatio = 0.500000
-	__ProductCompositionShape__00000293_views_to_Probe_Views.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000293_views_to_Probe_Views.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000293_views_to_Probe_Views.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000294_views_to_Application_Views.Name = `views to Application Views`
-	__ProductCompositionShape__00000294_views_to_Application_Views.StartRatio = 0.500000
-	__ProductCompositionShape__00000294_views_to_Application_Views.EndRatio = 0.500000
-	__ProductCompositionShape__00000294_views_to_Application_Views.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000294_views_to_Application_Views.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000294_views_to_Application_Views.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000295_UX_to_views.Name = `UX to views`
-	__ProductCompositionShape__00000295_UX_to_views.StartRatio = 0.500000
-	__ProductCompositionShape__00000295_UX_to_views.EndRatio = 0.500000
-	__ProductCompositionShape__00000295_UX_to_views.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000295_UX_to_views.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000295_UX_to_views.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.Name = `Backend to Semantic Enforcer`
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.StartRatio = 0.500000
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.EndRatio = 0.500000
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.Name = `Backend to Docx Backend`
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.StartRatio = 0.500000
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.EndRatio = 0.500000
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.CornerOffsetRatio = 1.500000
-
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.Name = `New Commit code to String of New+Stage/Updated/Unstage`
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.StartRatio = 0.500000
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.EndRatio = 0.500000
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.Name = `New Probe to Probe Undo`
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.StartRatio = 0.500000
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.EndRatio = 0.500000
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.Name = `New Probe to Probe Redo`
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.StartRatio = 0.500000
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.EndRatio = 0.500000
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.Name = `New Commit code to NewProduct`
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.StartRatio = 0.500000
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.EndRatio = 0.500000
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.CornerOffsetRatio = 1.680000
-
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.Name = `New Probe to Rebase Log Commits`
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.StartRatio = 0.500000
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.EndRatio = 0.500000
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.StartOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.EndOrientation = models.ORIENTATION_VERTICAL
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.CornerOffsetRatio = 1.680000
-
-	__ProductShape__00000330_Product_1_NewDiagram.Name = `Product 1-NewDiagram`
-	__ProductShape__00000330_Product_1_NewDiagram.IsExpanded = false
-	__ProductShape__00000330_Product_1_NewDiagram.X = 122.500000
-	__ProductShape__00000330_Product_1_NewDiagram.Y = 10.000000
-	__ProductShape__00000330_Product_1_NewDiagram.Width = 150.000000
-	__ProductShape__00000330_Product_1_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000331_Product_1_1_NewDiagram.Name = `Product 1.1-NewDiagram`
-	__ProductShape__00000331_Product_1_1_NewDiagram.IsExpanded = false
-	__ProductShape__00000331_Product_1_1_NewDiagram.X = 10.000000
-	__ProductShape__00000331_Product_1_1_NewDiagram.Y = 150.000000
-	__ProductShape__00000331_Product_1_1_NewDiagram.Width = 150.000000
-	__ProductShape__00000331_Product_1_1_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000332_Product_1_2_NewDiagram.Name = `Product 1.2-NewDiagram`
-	__ProductShape__00000332_Product_1_2_NewDiagram.IsExpanded = false
-	__ProductShape__00000332_Product_1_2_NewDiagram.X = 235.000000
-	__ProductShape__00000332_Product_1_2_NewDiagram.Y = 150.000000
-	__ProductShape__00000332_Product_1_2_NewDiagram.Width = 150.000000
-	__ProductShape__00000332_Product_1_2_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.Name = `Product 1.2.1-NewDiagram`
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.IsExpanded = false
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.X = 235.000000
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.Y = 290.000000
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.Width = 150.000000
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000334_Product_2_NewDiagram.Name = `Product 2-NewDiagram`
-	__ProductShape__00000334_Product_2_NewDiagram.IsExpanded = false
-	__ProductShape__00000334_Product_2_NewDiagram.X = 572.500000
-	__ProductShape__00000334_Product_2_NewDiagram.Y = 10.000000
-	__ProductShape__00000334_Product_2_NewDiagram.Width = 150.000000
-	__ProductShape__00000334_Product_2_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000335_Product_2_1_NewDiagram.Name = `Product 2.1-NewDiagram`
-	__ProductShape__00000335_Product_2_1_NewDiagram.IsExpanded = false
-	__ProductShape__00000335_Product_2_1_NewDiagram.X = 460.000000
-	__ProductShape__00000335_Product_2_1_NewDiagram.Y = 150.000000
-	__ProductShape__00000335_Product_2_1_NewDiagram.Width = 150.000000
-	__ProductShape__00000335_Product_2_1_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000336_Product_2_2_NewDiagram.Name = `Product 2.2-NewDiagram`
-	__ProductShape__00000336_Product_2_2_NewDiagram.IsExpanded = false
-	__ProductShape__00000336_Product_2_2_NewDiagram.X = 685.000000
-	__ProductShape__00000336_Product_2_2_NewDiagram.Y = 150.000000
-	__ProductShape__00000336_Product_2_2_NewDiagram.Width = 150.000000
-	__ProductShape__00000336_Product_2_2_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000455_Specifications_NewDiagram.Name = `Specifications-NewDiagram`
-	__ProductShape__00000455_Specifications_NewDiagram.IsExpanded = false
-	__ProductShape__00000455_Specifications_NewDiagram.X = 50.000000
-	__ProductShape__00000455_Specifications_NewDiagram.Y = 50.000000
-	__ProductShape__00000455_Specifications_NewDiagram.Width = 150.000000
-	__ProductShape__00000455_Specifications_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000456_UX_NewDiagram.Name = `UX-NewDiagram`
-	__ProductShape__00000456_UX_NewDiagram.IsExpanded = false
-	__ProductShape__00000456_UX_NewDiagram.X = 985.500000
-	__ProductShape__00000456_UX_NewDiagram.Y = 655.000000
-	__ProductShape__00000456_UX_NewDiagram.Width = 150.000000
-	__ProductShape__00000456_UX_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000457_WBS_tree_NewDiagram.Name = `WBS tree-NewDiagram`
-	__ProductShape__00000457_WBS_tree_NewDiagram.IsExpanded = false
-	__ProductShape__00000457_WBS_tree_NewDiagram.X = 648.000000
-	__ProductShape__00000457_WBS_tree_NewDiagram.Y = 795.000000
-	__ProductShape__00000457_WBS_tree_NewDiagram.Width = 150.000000
-	__ProductShape__00000457_WBS_tree_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000458_PBS_tree_NewDiagram.Name = `PBS tree-NewDiagram`
-	__ProductShape__00000458_PBS_tree_NewDiagram.IsExpanded = false
-	__ProductShape__00000458_PBS_tree_NewDiagram.X = 873.000000
-	__ProductShape__00000458_PBS_tree_NewDiagram.Y = 795.000000
-	__ProductShape__00000458_PBS_tree_NewDiagram.Width = 150.000000
-	__ProductShape__00000458_PBS_tree_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000459_views_NewDiagram.Name = `views-NewDiagram`
-	__ProductShape__00000459_views_NewDiagram.IsExpanded = false
-	__ProductShape__00000459_views_NewDiagram.X = 1210.500000
-	__ProductShape__00000459_views_NewDiagram.Y = 795.000000
-	__ProductShape__00000459_views_NewDiagram.Width = 150.000000
-	__ProductShape__00000459_views_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000460_Probe_Views_NewDiagram.Name = `Probe Views-NewDiagram`
-	__ProductShape__00000460_Probe_Views_NewDiagram.IsExpanded = false
-	__ProductShape__00000460_Probe_Views_NewDiagram.X = 1130.000000
-	__ProductShape__00000460_Probe_Views_NewDiagram.Y = 1048.000000
-	__ProductShape__00000460_Probe_Views_NewDiagram.Width = 150.000000
-	__ProductShape__00000460_Probe_Views_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000461_Application_Views_NewDiagram.Name = `Application Views-NewDiagram`
-	__ProductShape__00000461_Application_Views_NewDiagram.IsExpanded = false
-	__ProductShape__00000461_Application_Views_NewDiagram.X = 1326.000000
-	__ProductShape__00000461_Application_Views_NewDiagram.Y = 1032.000000
-	__ProductShape__00000461_Application_Views_NewDiagram.Width = 150.000000
-	__ProductShape__00000461_Application_Views_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000462_Backend_NewDiagram.Name = `Backend-NewDiagram`
-	__ProductShape__00000462_Backend_NewDiagram.IsExpanded = false
-	__ProductShape__00000462_Backend_NewDiagram.X = 1287.500000
-	__ProductShape__00000462_Backend_NewDiagram.Y = 50.000000
-	__ProductShape__00000462_Backend_NewDiagram.Width = 150.000000
-	__ProductShape__00000462_Backend_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Name = `Semantic Enforcer-NewDiagram`
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.IsExpanded = false
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.X = 1175.000000
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Y = 190.000000
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Width = 150.000000
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000464_Docx_Backend_NewDiagram.Name = `Docx Backend-NewDiagram`
-	__ProductShape__00000464_Docx_Backend_NewDiagram.IsExpanded = false
-	__ProductShape__00000464_Docx_Backend_NewDiagram.X = 1400.000000
-	__ProductShape__00000464_Docx_Backend_NewDiagram.Y = 190.000000
-	__ProductShape__00000464_Docx_Backend_NewDiagram.Width = 150.000000
-	__ProductShape__00000464_Docx_Backend_NewDiagram.Height = 70.000000
-
-	__ProductShape__00000465_Specifications_NewDiagram.Name = `Specifications-NewDiagram`
-	__ProductShape__00000465_Specifications_NewDiagram.IsExpanded = false
-	__ProductShape__00000465_Specifications_NewDiagram.X = 464.316495
-	__ProductShape__00000465_Specifications_NewDiagram.Y = 455.964161
-	__ProductShape__00000465_Specifications_NewDiagram.Width = 250.000000
-	__ProductShape__00000465_Specifications_NewDiagram.Height = 100.000000
-
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Name = `String of New+Stage/Updated/Unstage-NewDiagram`
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.IsExpanded = false
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.X = 960.183991
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Y = 602.413298
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Width = 176.000000
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Height = 78.000000
-
-	__ProductShape__00000467_New_Commit_code_NewDiagram.Name = `New Commit code-NewDiagram`
-	__ProductShape__00000467_New_Commit_code_NewDiagram.IsExpanded = false
-	__ProductShape__00000467_New_Commit_code_NewDiagram.X = 1083.350565
-	__ProductShape__00000467_New_Commit_code_NewDiagram.Y = 355.227692
-	__ProductShape__00000467_New_Commit_code_NewDiagram.Width = 154.000000
-	__ProductShape__00000467_New_Commit_code_NewDiagram.Height = 65.000000
-
-	__ProductShape__00000468_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000468_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000468_NewProduct_NewDiagram.X = 351.066958
-	__ProductShape__00000468_NewProduct_NewDiagram.Y = 444.727459
-	__ProductShape__00000468_NewProduct_NewDiagram.Width = 202.000000
-	__ProductShape__00000468_NewProduct_NewDiagram.Height = 52.000000
-
-	__ProductShape__00000469_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000469_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000469_NewProduct_NewDiagram.X = 729.358054
-	__ProductShape__00000469_NewProduct_NewDiagram.Y = 441.125900
-	__ProductShape__00000469_NewProduct_NewDiagram.Width = 155.000000
-	__ProductShape__00000469_NewProduct_NewDiagram.Height = 79.000000
-
-	__ProductShape__00000470_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000470_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000470_NewProduct_NewDiagram.X = 1173.329023
-	__ProductShape__00000470_NewProduct_NewDiagram.Y = 603.974873
-	__ProductShape__00000470_NewProduct_NewDiagram.Width = 154.000000
-	__ProductShape__00000470_NewProduct_NewDiagram.Height = 75.000000
-
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Name = `New Umarshall code-NewDiagram`
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.IsExpanded = false
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.X = 1369.716678
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Y = 604.610369
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Width = 134.000000
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Height = 72.000000
-
-	__ProductShape__00000472_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000472_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000472_NewProduct_NewDiagram.X = 868.696003
-	__ProductShape__00000472_NewProduct_NewDiagram.Y = 958.377332
-	__ProductShape__00000472_NewProduct_NewDiagram.Width = 122.000000
-	__ProductShape__00000472_NewProduct_NewDiagram.Height = 55.000000
-
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Name = `Probe Redo-NewDiagram`
-	__ProductShape__00000473_Probe_Redo_NewDiagram.IsExpanded = false
-	__ProductShape__00000473_Probe_Redo_NewDiagram.X = 1085.554776
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Y = 955.390410
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Width = 116.000000
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Height = 63.000000
-
-	__ProductShape__00000474_New_Probe_NewDiagram.Name = `New Probe-NewDiagram`
-	__ProductShape__00000474_New_Probe_NewDiagram.IsExpanded = false
-	__ProductShape__00000474_New_Probe_NewDiagram.X = 984.621771
-	__ProductShape__00000474_New_Probe_NewDiagram.Y = 831.569774
-	__ProductShape__00000474_New_Probe_NewDiagram.Width = 122.000000
-	__ProductShape__00000474_New_Probe_NewDiagram.Height = 53.000000
-
-	__ProductShape__00000475_NewProduct_NewDiagram.Name = `NewProduct-NewDiagram`
-	__ProductShape__00000475_NewProduct_NewDiagram.IsExpanded = false
-	__ProductShape__00000475_NewProduct_NewDiagram.X = 1090.724901
-	__ProductShape__00000475_NewProduct_NewDiagram.Y = 723.341831
-	__ProductShape__00000475_NewProduct_NewDiagram.Width = 141.000000
-	__ProductShape__00000475_NewProduct_NewDiagram.Height = 66.000000
-
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Name = `Rebase Log Commits-NewDiagram`
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.IsExpanded = false
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.X = 1289.656434
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Y = 958.230597
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Width = 126.000000
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Height = 65.000000
-
-	__Project__00000000_Project_Editor.Name = `Project Editor`
-	__Project__00000000_Project_Editor.IsPBSNodeExpanded = false
-	__Project__00000000_Project_Editor.IsWBSNodeExpanded = false
-	__Project__00000000_Project_Editor.IsDiagramsNodeExpanded = true
-	__Project__00000000_Project_Editor.IsNotesNodeExpanded = true
-	__Project__00000000_Project_Editor.IsExpanded = false
-	__Project__00000000_Project_Editor.ComputedPrefix = ``
-
-	__Project__00000001_DSME_Docx.Name = `DSME Docx`
-	__Project__00000001_DSME_Docx.IsPBSNodeExpanded = false
-	__Project__00000001_DSME_Docx.IsWBSNodeExpanded = false
-	__Project__00000001_DSME_Docx.IsDiagramsNodeExpanded = true
-	__Project__00000001_DSME_Docx.IsNotesNodeExpanded = false
-	__Project__00000001_DSME_Docx.IsExpanded = true
-	__Project__00000001_DSME_Docx.ComputedPrefix = ``
-
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Name = `gong : persist stage.go as an history of commits  #934`
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.IsPBSNodeExpanded = false
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.IsWBSNodeExpanded = false
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.IsDiagramsNodeExpanded = true
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.IsNotesNodeExpanded = false
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.IsExpanded = true
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.ComputedPrefix = ``
-
-	__Root__00000000_Root.Name = `Root`
-	__Root__00000000_Root.NbPixPerCharacter = 8.000000
-
-	__Task__00000000_Develop_Backend.Name = `Develop Backend`
-	__Task__00000000_Develop_Backend.IsExpanded = false
-	__Task__00000000_Develop_Backend.ComputedPrefix = `2`
-	__Task__00000000_Develop_Backend.IsInputsNodeExpanded = false
-	__Task__00000000_Develop_Backend.IsOutputsNodeExpanded = false
-
-	__Task__00000001_Dev_WBS_Tree.Name = `Dev WBS Tree`
-	__Task__00000001_Dev_WBS_Tree.IsExpanded = false
-	__Task__00000001_Dev_WBS_Tree.ComputedPrefix = `3`
-	__Task__00000001_Dev_WBS_Tree.IsInputsNodeExpanded = false
-	__Task__00000001_Dev_WBS_Tree.IsOutputsNodeExpanded = false
-
-	__Task__00000002_Dev_PBS_Tree.Name = `Dev PBS Tree`
-	__Task__00000002_Dev_PBS_Tree.IsExpanded = false
-	__Task__00000002_Dev_PBS_Tree.ComputedPrefix = `4`
-	__Task__00000002_Dev_PBS_Tree.IsInputsNodeExpanded = false
-	__Task__00000002_Dev_PBS_Tree.IsOutputsNodeExpanded = false
-
-	__Task__00000003_Task_1.Name = `Task 1`
-	__Task__00000003_Task_1.IsExpanded = true
-	__Task__00000003_Task_1.ComputedPrefix = `1`
-	__Task__00000003_Task_1.IsInputsNodeExpanded = true
-	__Task__00000003_Task_1.IsOutputsNodeExpanded = true
-
-	__Task__00000004_Dev_views.Name = `Dev views`
-	__Task__00000004_Dev_views.IsExpanded = false
-	__Task__00000004_Dev_views.ComputedPrefix = `2.1`
-	__Task__00000004_Dev_views.IsInputsNodeExpanded = false
-	__Task__00000004_Dev_views.IsOutputsNodeExpanded = false
-
-	__Task__00000005_Dev_UXx.Name = `Dev UXx`
-	__Task__00000005_Dev_UXx.IsExpanded = true
-	__Task__00000005_Dev_UXx.ComputedPrefix = `2.2`
-	__Task__00000005_Dev_UXx.IsInputsNodeExpanded = false
-	__Task__00000005_Dev_UXx.IsOutputsNodeExpanded = false
-
-	__Task__00000006_Write_Specs.Name = `Write Specs`
-	__Task__00000006_Write_Specs.IsExpanded = false
-	__Task__00000006_Write_Specs.ComputedPrefix = `1`
-	__Task__00000006_Write_Specs.IsInputsNodeExpanded = false
-	__Task__00000006_Write_Specs.IsOutputsNodeExpanded = false
-
-	__Task__00000007_Compute_all_Instance_Diff.Name = `Compute all Instance Diff`
-	__Task__00000007_Compute_all_Instance_Diff.IsExpanded = false
-	__Task__00000007_Compute_all_Instance_Diff.ComputedPrefix = `3`
-	__Task__00000007_Compute_all_Instance_Diff.IsInputsNodeExpanded = false
-	__Task__00000007_Compute_all_Instance_Diff.IsOutputsNodeExpanded = false
-
-	__Task__00000008_code_GongDiff_per_instance.Name = `code GongDiff per instance`
-	__Task__00000008_code_GongDiff_per_instance.IsExpanded = false
-	__Task__00000008_code_GongDiff_per_instance.ComputedPrefix = `1`
-	__Task__00000008_code_GongDiff_per_instance.IsInputsNodeExpanded = false
-	__Task__00000008_code_GongDiff_per_instance.IsOutputsNodeExpanded = false
-
-	__Task__00000009_Develop_Probe_Notifications.Name = `Develop Probe Notifications`
-	__Task__00000009_Develop_Probe_Notifications.IsExpanded = false
-	__Task__00000009_Develop_Probe_Notifications.ComputedPrefix = `2`
-	__Task__00000009_Develop_Probe_Notifications.IsInputsNodeExpanded = false
-	__Task__00000009_Develop_Probe_Notifications.IsOutputsNodeExpanded = false
-
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.Name = `Develop Backend to Dev UXx`
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.StartRatio = 0.500000
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.EndRatio = 0.500000
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.CornerOffsetRatio = 1.500000
-
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.Name = `Develop Backend to Dev views`
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.StartRatio = 0.500000
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.EndRatio = 0.500000
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.CornerOffsetRatio = 1.680000
-
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.Name = `Develop Backend to Specifications`
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.StartRatio = 0.500000
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.EndRatio = 0.500000
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.CornerOffsetRatio = 1.680000
-
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.Name = `code GongDiff to Probe Notification Table`
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.StartRatio = 0.500000
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.EndRatio = 0.500000
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.CornerOffsetRatio = 1.360756
-
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.Name = `Compute all Instance Diff to Probe Notification Table`
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.StartRatio = 0.500000
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.EndRatio = 0.500000
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.CornerOffsetRatio = 1.357371
-
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.Name = `Compute all Instance Diff to <instance>. GongDiff(another instance)`
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.StartRatio = 0.386437
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.EndRatio = 0.339346
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.CornerOffsetRatio = 1.428860
-
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.Name = `Dev UXx to WBS tree`
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.StartRatio = 0.500000
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.EndRatio = 0.814193
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.CornerOffsetRatio = 2.585993
-
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.Name = `Dev UXx to PBS tree`
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.StartRatio = 0.500000
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.EndRatio = 0.147526
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.CornerOffsetRatio = 2.300279
-
-	__TaskOutputShape__00000061_Dev_UXx_to_views.Name = `Dev UXx to views`
-	__TaskOutputShape__00000061_Dev_UXx_to_views.StartRatio = 0.500000
-	__TaskOutputShape__00000061_Dev_UXx_to_views.EndRatio = 0.630859
-	__TaskOutputShape__00000061_Dev_UXx_to_views.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000061_Dev_UXx_to_views.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000061_Dev_UXx_to_views.CornerOffsetRatio = -0.214007
-
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Name = `Compute Instance Diff to String of New+Stage/Updated/Unstage`
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.StartRatio = 0.500000
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.EndRatio = 0.500000
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.CornerOffsetRatio = 1.268543
-
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.Name = `Develop Probe Notifications to Probe Notification Table`
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.StartRatio = 0.576061
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.EndRatio = 0.524585
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.StartOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.CornerOffsetRatio = 1.098375
-
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.Name = `code GongDiff per instance to <instance>. GongDiff(another instance)`
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.StartRatio = 0.297200
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.EndRatio = 0.296115
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.CornerOffsetRatio = 1.527224
-
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Name = `Compute all Instance Diff to Reverse Commit log Code`
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.StartRatio = 0.592847
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.EndRatio = 0.500000
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.CornerOffsetRatio = 1.013411
-
-	__TaskShape__00000012_Write_Specs_NewDiagram.Name = `Write Specs-NewDiagram`
-	__TaskShape__00000012_Write_Specs_NewDiagram.IsExpanded = false
-	__TaskShape__00000012_Write_Specs_NewDiagram.X = 81.000000
-	__TaskShape__00000012_Write_Specs_NewDiagram.Y = 589.000000
-	__TaskShape__00000012_Write_Specs_NewDiagram.Width = 150.000000
-	__TaskShape__00000012_Write_Specs_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000013_Develop_Backend_NewDiagram.Name = `Develop Backend-NewDiagram`
-	__TaskShape__00000013_Develop_Backend_NewDiagram.IsExpanded = false
-	__TaskShape__00000013_Develop_Backend_NewDiagram.X = 394.500000
-	__TaskShape__00000013_Develop_Backend_NewDiagram.Y = 401.000000
-	__TaskShape__00000013_Develop_Backend_NewDiagram.Width = 150.000000
-	__TaskShape__00000013_Develop_Backend_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000014_Dev_views_NewDiagram.Name = `Dev views-NewDiagram`
-	__TaskShape__00000014_Dev_views_NewDiagram.IsExpanded = false
-	__TaskShape__00000014_Dev_views_NewDiagram.X = 282.000000
-	__TaskShape__00000014_Dev_views_NewDiagram.Y = 541.000000
-	__TaskShape__00000014_Dev_views_NewDiagram.Width = 150.000000
-	__TaskShape__00000014_Dev_views_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000015_Dev_UXx_NewDiagram.Name = `Dev UXx-NewDiagram`
-	__TaskShape__00000015_Dev_UXx_NewDiagram.IsExpanded = false
-	__TaskShape__00000015_Dev_UXx_NewDiagram.X = 581.000000
-	__TaskShape__00000015_Dev_UXx_NewDiagram.Y = 401.000000
-	__TaskShape__00000015_Dev_UXx_NewDiagram.Width = 150.000000
-	__TaskShape__00000015_Dev_UXx_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Name = `Dev WBS Tree-NewDiagram`
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.IsExpanded = false
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.X = 499.000000
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Y = 659.000000
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Width = 150.000000
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Name = `Dev PBS Tree-NewDiagram`
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.IsExpanded = false
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.X = 943.000000
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Y = 541.000000
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Width = 150.000000
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Height = 70.000000
-
-	__TaskShape__00000018_Write_Specs_NewDiagram.Name = `Write Specs-NewDiagram`
-	__TaskShape__00000018_Write_Specs_NewDiagram.IsExpanded = false
-	__TaskShape__00000018_Write_Specs_NewDiagram.X = 110.625134
-	__TaskShape__00000018_Write_Specs_NewDiagram.Y = 239.889513
-	__TaskShape__00000018_Write_Specs_NewDiagram.Width = 250.000000
-	__TaskShape__00000018_Write_Specs_NewDiagram.Height = 100.000000
-
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Name = `zzz_gong : compute instance.GongDiff(another_instance)-NewDiagram`
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.IsExpanded = false
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.X = 746.000000
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Y = 604.000000
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Width = 132.000000
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Height = 75.000000
-
-	__TaskShape__00000020_NewTask_NewDiagram.Name = `NewTask-NewDiagram`
-	__TaskShape__00000020_NewTask_NewDiagram.IsExpanded = false
-	__TaskShape__00000020_NewTask_NewDiagram.X = 737.214318
-	__TaskShape__00000020_NewTask_NewDiagram.Y = 316.572924
-	__TaskShape__00000020_NewTask_NewDiagram.Width = 144.000000
-	__TaskShape__00000020_NewTask_NewDiagram.Height = 71.000000
-
-	__TaskShape__00000021_NewTask_NewDiagram.Name = `NewTask-NewDiagram`
-	__TaskShape__00000021_NewTask_NewDiagram.IsExpanded = false
-	__TaskShape__00000021_NewTask_NewDiagram.X = 122.662171
-	__TaskShape__00000021_NewTask_NewDiagram.Y = 302.681593
-	__TaskShape__00000021_NewTask_NewDiagram.Width = 140.000000
-	__TaskShape__00000021_NewTask_NewDiagram.Height = 70.000000
+	__NoteTaskShape__00000000_.StartRatio = 0.500000
+	__NoteTaskShape__00000000_.EndRatio = 0.500000
+	__NoteTaskShape__00000000_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000000_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000000_.CornerOffsetRatio = 1.680000
+
+	__NoteTaskShape__00000001_.Name = `The algo uses the stage.reference to computes all new/deleted/modified instances of the stage to Compute all Instance Diff`
+	__NoteTaskShape__00000001_.StartRatio = 0.500000
+	__NoteTaskShape__00000001_.EndRatio = 0.500000
+	__NoteTaskShape__00000001_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000001_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000001_.CornerOffsetRatio = 1.680000
+
+	__NoteTaskShape__00000002_.Name = `https://github.com/fullstack-lang/gong/issues/998 to Develop Probe Notifications`
+	__NoteTaskShape__00000002_.StartRatio = 0.500000
+	__NoteTaskShape__00000002_.EndRatio = 0.500000
+	__NoteTaskShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_.EndOrientation = models.ORIENTATION_VERTICAL
+	__NoteTaskShape__00000002_.CornerOffsetRatio = 1.680000
+
+	__Product__00000000_.Name = `UX`
+	__Product__00000000_.IsExpanded = true
+	__Product__00000000_.ComputedPrefix = `2`
+	__Product__00000000_.IsProducersNodeExpanded = false
+	__Product__00000000_.IsConsumersNodeExpanded = false
+
+	__Product__00000001_.Name = `Backend`
+	__Product__00000001_.IsExpanded = true
+	__Product__00000001_.ComputedPrefix = `3`
+	__Product__00000001_.IsProducersNodeExpanded = false
+	__Product__00000001_.IsConsumersNodeExpanded = false
+
+	__Product__00000002_.Name = `WBS tree`
+	__Product__00000002_.IsExpanded = false
+	__Product__00000002_.ComputedPrefix = `2.1`
+	__Product__00000002_.IsProducersNodeExpanded = false
+	__Product__00000002_.IsConsumersNodeExpanded = false
+
+	__Product__00000004_.Name = `PBS tree`
+	__Product__00000004_.IsExpanded = false
+	__Product__00000004_.ComputedPrefix = `2.2`
+	__Product__00000004_.IsProducersNodeExpanded = true
+	__Product__00000004_.IsConsumersNodeExpanded = false
+
+	__Product__00000005_.Name = `views`
+	__Product__00000005_.IsExpanded = true
+	__Product__00000005_.ComputedPrefix = `2.3`
+	__Product__00000005_.IsProducersNodeExpanded = false
+	__Product__00000005_.IsConsumersNodeExpanded = false
+
+	__Product__00000006_.Name = `Semantic Enforcer`
+	__Product__00000006_.IsExpanded = false
+	__Product__00000006_.ComputedPrefix = `3.1`
+	__Product__00000006_.IsProducersNodeExpanded = false
+	__Product__00000006_.IsConsumersNodeExpanded = false
+
+	__Product__00000009_.Name = `Docx Backend`
+	__Product__00000009_.IsExpanded = false
+	__Product__00000009_.ComputedPrefix = `3.2`
+	__Product__00000009_.IsProducersNodeExpanded = false
+	__Product__00000009_.IsConsumersNodeExpanded = false
+
+	__Product__00000010_.Name = `Specifications`
+	__Product__00000010_.IsExpanded = false
+	__Product__00000010_.ComputedPrefix = `1`
+	__Product__00000010_.IsProducersNodeExpanded = false
+	__Product__00000010_.IsConsumersNodeExpanded = false
+
+	__Product__00000011_.Name = `Product 1`
+	__Product__00000011_.IsExpanded = true
+	__Product__00000011_.ComputedPrefix = `1`
+	__Product__00000011_.IsProducersNodeExpanded = false
+	__Product__00000011_.IsConsumersNodeExpanded = false
+
+	__Product__00000013_.Name = `Product 1.1`
+	__Product__00000013_.IsExpanded = false
+	__Product__00000013_.ComputedPrefix = `1.1`
+	__Product__00000013_.IsProducersNodeExpanded = false
+	__Product__00000013_.IsConsumersNodeExpanded = false
+
+	__Product__00000014_.Name = `Product 1.2`
+	__Product__00000014_.IsExpanded = true
+	__Product__00000014_.ComputedPrefix = `1.2`
+	__Product__00000014_.IsProducersNodeExpanded = false
+	__Product__00000014_.IsConsumersNodeExpanded = false
+
+	__Product__00000015_.Name = `Product 2`
+	__Product__00000015_.IsExpanded = true
+	__Product__00000015_.ComputedPrefix = `2`
+	__Product__00000015_.IsProducersNodeExpanded = false
+	__Product__00000015_.IsConsumersNodeExpanded = false
+
+	__Product__00000016_.Name = `Product 1.2.1`
+	__Product__00000016_.IsExpanded = false
+	__Product__00000016_.ComputedPrefix = `1.2.1`
+	__Product__00000016_.IsProducersNodeExpanded = false
+	__Product__00000016_.IsConsumersNodeExpanded = false
+
+	__Product__00000017_.Name = `Product 2.1`
+	__Product__00000017_.IsExpanded = false
+	__Product__00000017_.ComputedPrefix = `2.1`
+	__Product__00000017_.IsProducersNodeExpanded = false
+	__Product__00000017_.IsConsumersNodeExpanded = false
+
+	__Product__00000018_.Name = `Product 2.2`
+	__Product__00000018_.IsExpanded = false
+	__Product__00000018_.ComputedPrefix = `2.2`
+	__Product__00000018_.IsProducersNodeExpanded = false
+	__Product__00000018_.IsConsumersNodeExpanded = false
+
+	__Product__00000019_.Name = `Probe Views`
+	__Product__00000019_.IsExpanded = false
+	__Product__00000019_.ComputedPrefix = `2.3.1`
+	__Product__00000019_.IsProducersNodeExpanded = false
+	__Product__00000019_.IsConsumersNodeExpanded = false
+
+	__Product__00000020_.Name = `Application Views`
+	__Product__00000020_.IsExpanded = false
+	__Product__00000020_.ComputedPrefix = `2.3.2`
+	__Product__00000020_.IsProducersNodeExpanded = false
+	__Product__00000020_.IsConsumersNodeExpanded = false
+
+	__Product__00000021_.Name = `String of all New+Stage/ Updated/ Unstage`
+	__Product__00000021_.IsExpanded = false
+	__Product__00000021_.ComputedPrefix = `1.1`
+	__Product__00000021_.IsProducersNodeExpanded = false
+	__Product__00000021_.IsConsumersNodeExpanded = false
+
+	__Product__00000022_.Name = `New Commit code`
+	__Product__00000022_.IsExpanded = false
+	__Product__00000022_.ComputedPrefix = `1`
+	__Product__00000022_.IsProducersNodeExpanded = false
+	__Product__00000022_.IsConsumersNodeExpanded = false
+
+	__Product__00000025_.Name = `Probe Notification Table`
+	__Product__00000025_.IsExpanded = false
+	__Product__00000025_.ComputedPrefix = `2`
+	__Product__00000025_.IsProducersNodeExpanded = false
+	__Product__00000025_.IsConsumersNodeExpanded = false
+
+	__Product__00000026_.Name = `<instance>. GongDiff(another instance)`
+	__Product__00000026_.IsExpanded = false
+	__Product__00000026_.ComputedPrefix = `3`
+	__Product__00000026_.IsProducersNodeExpanded = false
+	__Product__00000026_.IsConsumersNodeExpanded = false
+
+	__Product__00000027_.Name = `append log when marshalling`
+	__Product__00000027_.IsExpanded = false
+	__Product__00000027_.ComputedPrefix = `4`
+	__Product__00000027_.IsProducersNodeExpanded = false
+	__Product__00000027_.IsConsumersNodeExpanded = false
+
+	__Product__00000028_.Name = `New Umarshall code`
+	__Product__00000028_.IsExpanded = false
+	__Product__00000028_.ComputedPrefix = `5`
+	__Product__00000028_.IsProducersNodeExpanded = false
+	__Product__00000028_.IsConsumersNodeExpanded = false
+
+	__Product__00000029_.Name = `Probe Undo`
+	__Product__00000029_.IsExpanded = false
+	__Product__00000029_.ComputedPrefix = `6.1`
+	__Product__00000029_.IsProducersNodeExpanded = false
+	__Product__00000029_.IsConsumersNodeExpanded = false
+
+	__Product__00000030_.Name = `Probe Redo`
+	__Product__00000030_.IsExpanded = false
+	__Product__00000030_.ComputedPrefix = `6.2`
+	__Product__00000030_.IsProducersNodeExpanded = false
+	__Product__00000030_.IsConsumersNodeExpanded = false
+
+	__Product__00000031_.Name = `New Probe`
+	__Product__00000031_.IsExpanded = true
+	__Product__00000031_.ComputedPrefix = `6`
+	__Product__00000031_.IsProducersNodeExpanded = false
+	__Product__00000031_.IsConsumersNodeExpanded = false
+
+	__Product__00000033_.Name = `Reverse Commit log Code`
+	__Product__00000033_.IsExpanded = false
+	__Product__00000033_.ComputedPrefix = `1.2`
+	__Product__00000033_.IsProducersNodeExpanded = false
+	__Product__00000033_.IsConsumersNodeExpanded = false
+
+	__Product__00000034_.Name = `Rebase Log Commits`
+	__Product__00000034_.IsExpanded = false
+	__Product__00000034_.ComputedPrefix = `6.3`
+	__Product__00000034_.IsProducersNodeExpanded = false
+	__Product__00000034_.IsConsumersNodeExpanded = false
+
+	__ProductCompositionShape__00000204_.Name = `Product 1 to Product 1.1`
+	__ProductCompositionShape__00000204_.StartRatio = 0.500000
+	__ProductCompositionShape__00000204_.EndRatio = 0.500000
+	__ProductCompositionShape__00000204_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000204_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000204_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000205_.Name = `Product 1.2 to Product 1.2.1`
+	__ProductCompositionShape__00000205_.StartRatio = 0.500000
+	__ProductCompositionShape__00000205_.EndRatio = 0.500000
+	__ProductCompositionShape__00000205_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000205_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000205_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000206_.Name = `Product 1 to Product 1.2`
+	__ProductCompositionShape__00000206_.StartRatio = 0.500000
+	__ProductCompositionShape__00000206_.EndRatio = 0.500000
+	__ProductCompositionShape__00000206_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000206_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000206_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000207_.Name = `Product 2 to Product 2.1`
+	__ProductCompositionShape__00000207_.StartRatio = 0.500000
+	__ProductCompositionShape__00000207_.EndRatio = 0.500000
+	__ProductCompositionShape__00000207_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000207_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000207_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000208_.Name = `Product 2 to Product 2.2`
+	__ProductCompositionShape__00000208_.StartRatio = 0.500000
+	__ProductCompositionShape__00000208_.EndRatio = 0.500000
+	__ProductCompositionShape__00000208_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000208_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000208_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000291_.Name = `UX to WBS tree`
+	__ProductCompositionShape__00000291_.StartRatio = 0.500000
+	__ProductCompositionShape__00000291_.EndRatio = 0.500000
+	__ProductCompositionShape__00000291_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000291_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000291_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000292_.Name = `UX to PBS tree`
+	__ProductCompositionShape__00000292_.StartRatio = 0.500000
+	__ProductCompositionShape__00000292_.EndRatio = 0.500000
+	__ProductCompositionShape__00000292_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000292_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000292_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000293_.Name = `views to Probe Views`
+	__ProductCompositionShape__00000293_.StartRatio = 0.500000
+	__ProductCompositionShape__00000293_.EndRatio = 0.500000
+	__ProductCompositionShape__00000293_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000293_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000293_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000294_.Name = `views to Application Views`
+	__ProductCompositionShape__00000294_.StartRatio = 0.500000
+	__ProductCompositionShape__00000294_.EndRatio = 0.500000
+	__ProductCompositionShape__00000294_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000294_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000294_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000295_.Name = `UX to views`
+	__ProductCompositionShape__00000295_.StartRatio = 0.500000
+	__ProductCompositionShape__00000295_.EndRatio = 0.500000
+	__ProductCompositionShape__00000295_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000295_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000295_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000296_.Name = `Backend to Semantic Enforcer`
+	__ProductCompositionShape__00000296_.StartRatio = 0.500000
+	__ProductCompositionShape__00000296_.EndRatio = 0.500000
+	__ProductCompositionShape__00000296_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000296_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000296_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000297_.Name = `Backend to Docx Backend`
+	__ProductCompositionShape__00000297_.StartRatio = 0.500000
+	__ProductCompositionShape__00000297_.EndRatio = 0.500000
+	__ProductCompositionShape__00000297_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000297_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000297_.CornerOffsetRatio = 1.500000
+
+	__ProductCompositionShape__00000298_.Name = `New Commit code to String of New+Stage/Updated/Unstage`
+	__ProductCompositionShape__00000298_.StartRatio = 0.500000
+	__ProductCompositionShape__00000298_.EndRatio = 0.500000
+	__ProductCompositionShape__00000298_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000298_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000298_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000300_.Name = `New Probe to Probe Undo`
+	__ProductCompositionShape__00000300_.StartRatio = 0.500000
+	__ProductCompositionShape__00000300_.EndRatio = 0.500000
+	__ProductCompositionShape__00000300_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000300_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000300_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000301_.Name = `New Probe to Probe Redo`
+	__ProductCompositionShape__00000301_.StartRatio = 0.500000
+	__ProductCompositionShape__00000301_.EndRatio = 0.500000
+	__ProductCompositionShape__00000301_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000301_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000301_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000302_.Name = `New Commit code to NewProduct`
+	__ProductCompositionShape__00000302_.StartRatio = 0.500000
+	__ProductCompositionShape__00000302_.EndRatio = 0.500000
+	__ProductCompositionShape__00000302_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000302_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000302_.CornerOffsetRatio = 1.680000
+
+	__ProductCompositionShape__00000303_.Name = `New Probe to Rebase Log Commits`
+	__ProductCompositionShape__00000303_.StartRatio = 0.500000
+	__ProductCompositionShape__00000303_.EndRatio = 0.500000
+	__ProductCompositionShape__00000303_.StartOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000303_.EndOrientation = models.ORIENTATION_VERTICAL
+	__ProductCompositionShape__00000303_.CornerOffsetRatio = 1.680000
+
+	__ProductShape__00000330_.Name = `Product 1-NewDiagram`
+	__ProductShape__00000330_.IsExpanded = false
+	__ProductShape__00000330_.X = 122.500000
+	__ProductShape__00000330_.Y = 10.000000
+	__ProductShape__00000330_.Width = 150.000000
+	__ProductShape__00000330_.Height = 70.000000
+
+	__ProductShape__00000331_.Name = `Product 1.1-NewDiagram`
+	__ProductShape__00000331_.IsExpanded = false
+	__ProductShape__00000331_.X = 10.000000
+	__ProductShape__00000331_.Y = 150.000000
+	__ProductShape__00000331_.Width = 150.000000
+	__ProductShape__00000331_.Height = 70.000000
+
+	__ProductShape__00000332_.Name = `Product 1.2-NewDiagram`
+	__ProductShape__00000332_.IsExpanded = false
+	__ProductShape__00000332_.X = 235.000000
+	__ProductShape__00000332_.Y = 150.000000
+	__ProductShape__00000332_.Width = 150.000000
+	__ProductShape__00000332_.Height = 70.000000
+
+	__ProductShape__00000333_.Name = `Product 1.2.1-NewDiagram`
+	__ProductShape__00000333_.IsExpanded = false
+	__ProductShape__00000333_.X = 235.000000
+	__ProductShape__00000333_.Y = 290.000000
+	__ProductShape__00000333_.Width = 150.000000
+	__ProductShape__00000333_.Height = 70.000000
+
+	__ProductShape__00000334_.Name = `Product 2-NewDiagram`
+	__ProductShape__00000334_.IsExpanded = false
+	__ProductShape__00000334_.X = 572.500000
+	__ProductShape__00000334_.Y = 10.000000
+	__ProductShape__00000334_.Width = 150.000000
+	__ProductShape__00000334_.Height = 70.000000
+
+	__ProductShape__00000335_.Name = `Product 2.1-NewDiagram`
+	__ProductShape__00000335_.IsExpanded = false
+	__ProductShape__00000335_.X = 460.000000
+	__ProductShape__00000335_.Y = 150.000000
+	__ProductShape__00000335_.Width = 150.000000
+	__ProductShape__00000335_.Height = 70.000000
+
+	__ProductShape__00000336_.Name = `Product 2.2-NewDiagram`
+	__ProductShape__00000336_.IsExpanded = false
+	__ProductShape__00000336_.X = 685.000000
+	__ProductShape__00000336_.Y = 150.000000
+	__ProductShape__00000336_.Width = 150.000000
+	__ProductShape__00000336_.Height = 70.000000
+
+	__ProductShape__00000455_.Name = `Specifications-NewDiagram`
+	__ProductShape__00000455_.IsExpanded = false
+	__ProductShape__00000455_.X = 50.000000
+	__ProductShape__00000455_.Y = 50.000000
+	__ProductShape__00000455_.Width = 150.000000
+	__ProductShape__00000455_.Height = 70.000000
+
+	__ProductShape__00000456_.Name = `UX-NewDiagram`
+	__ProductShape__00000456_.IsExpanded = false
+	__ProductShape__00000456_.X = 985.500000
+	__ProductShape__00000456_.Y = 655.000000
+	__ProductShape__00000456_.Width = 150.000000
+	__ProductShape__00000456_.Height = 70.000000
+
+	__ProductShape__00000457_.Name = `WBS tree-NewDiagram`
+	__ProductShape__00000457_.IsExpanded = false
+	__ProductShape__00000457_.X = 648.000000
+	__ProductShape__00000457_.Y = 795.000000
+	__ProductShape__00000457_.Width = 150.000000
+	__ProductShape__00000457_.Height = 70.000000
+
+	__ProductShape__00000458_.Name = `PBS tree-NewDiagram`
+	__ProductShape__00000458_.IsExpanded = false
+	__ProductShape__00000458_.X = 873.000000
+	__ProductShape__00000458_.Y = 795.000000
+	__ProductShape__00000458_.Width = 150.000000
+	__ProductShape__00000458_.Height = 70.000000
+
+	__ProductShape__00000459_.Name = `views-NewDiagram`
+	__ProductShape__00000459_.IsExpanded = false
+	__ProductShape__00000459_.X = 1210.500000
+	__ProductShape__00000459_.Y = 795.000000
+	__ProductShape__00000459_.Width = 150.000000
+	__ProductShape__00000459_.Height = 70.000000
+
+	__ProductShape__00000460_.Name = `Probe Views-NewDiagram`
+	__ProductShape__00000460_.IsExpanded = false
+	__ProductShape__00000460_.X = 1130.000000
+	__ProductShape__00000460_.Y = 1048.000000
+	__ProductShape__00000460_.Width = 150.000000
+	__ProductShape__00000460_.Height = 70.000000
+
+	__ProductShape__00000461_.Name = `Application Views-NewDiagram`
+	__ProductShape__00000461_.IsExpanded = false
+	__ProductShape__00000461_.X = 1326.000000
+	__ProductShape__00000461_.Y = 1032.000000
+	__ProductShape__00000461_.Width = 150.000000
+	__ProductShape__00000461_.Height = 70.000000
+
+	__ProductShape__00000462_.Name = `Backend-NewDiagram`
+	__ProductShape__00000462_.IsExpanded = false
+	__ProductShape__00000462_.X = 1287.500000
+	__ProductShape__00000462_.Y = 50.000000
+	__ProductShape__00000462_.Width = 150.000000
+	__ProductShape__00000462_.Height = 70.000000
+
+	__ProductShape__00000463_.Name = `Semantic Enforcer-NewDiagram`
+	__ProductShape__00000463_.IsExpanded = false
+	__ProductShape__00000463_.X = 1175.000000
+	__ProductShape__00000463_.Y = 190.000000
+	__ProductShape__00000463_.Width = 150.000000
+	__ProductShape__00000463_.Height = 70.000000
+
+	__ProductShape__00000464_.Name = `Docx Backend-NewDiagram`
+	__ProductShape__00000464_.IsExpanded = false
+	__ProductShape__00000464_.X = 1400.000000
+	__ProductShape__00000464_.Y = 190.000000
+	__ProductShape__00000464_.Width = 150.000000
+	__ProductShape__00000464_.Height = 70.000000
+
+	__ProductShape__00000465_.Name = `Specifications-NewDiagram`
+	__ProductShape__00000465_.IsExpanded = false
+	__ProductShape__00000465_.X = 464.316495
+	__ProductShape__00000465_.Y = 455.964161
+	__ProductShape__00000465_.Width = 250.000000
+	__ProductShape__00000465_.Height = 100.000000
+
+	__ProductShape__00000466_.Name = `String of New+Stage/Updated/Unstage-NewDiagram`
+	__ProductShape__00000466_.IsExpanded = false
+	__ProductShape__00000466_.X = 960.183991
+	__ProductShape__00000466_.Y = 602.413298
+	__ProductShape__00000466_.Width = 176.000000
+	__ProductShape__00000466_.Height = 78.000000
+
+	__ProductShape__00000467_.Name = `New Commit code-NewDiagram`
+	__ProductShape__00000467_.IsExpanded = false
+	__ProductShape__00000467_.X = 1083.350565
+	__ProductShape__00000467_.Y = 355.227692
+	__ProductShape__00000467_.Width = 154.000000
+	__ProductShape__00000467_.Height = 65.000000
+
+	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000468_.IsExpanded = false
+	__ProductShape__00000468_.X = 351.066958
+	__ProductShape__00000468_.Y = 444.727459
+	__ProductShape__00000468_.Width = 202.000000
+	__ProductShape__00000468_.Height = 52.000000
+
+	__ProductShape__00000469_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000469_.IsExpanded = false
+	__ProductShape__00000469_.X = 729.358054
+	__ProductShape__00000469_.Y = 441.125900
+	__ProductShape__00000469_.Width = 155.000000
+	__ProductShape__00000469_.Height = 79.000000
+
+	__ProductShape__00000470_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000470_.IsExpanded = false
+	__ProductShape__00000470_.X = 1173.329023
+	__ProductShape__00000470_.Y = 603.974873
+	__ProductShape__00000470_.Width = 154.000000
+	__ProductShape__00000470_.Height = 75.000000
+
+	__ProductShape__00000471_.Name = `New Umarshall code-NewDiagram`
+	__ProductShape__00000471_.IsExpanded = false
+	__ProductShape__00000471_.X = 1369.716678
+	__ProductShape__00000471_.Y = 604.610369
+	__ProductShape__00000471_.Width = 134.000000
+	__ProductShape__00000471_.Height = 72.000000
+
+	__ProductShape__00000472_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000472_.IsExpanded = false
+	__ProductShape__00000472_.X = 868.696003
+	__ProductShape__00000472_.Y = 958.377332
+	__ProductShape__00000472_.Width = 122.000000
+	__ProductShape__00000472_.Height = 55.000000
+
+	__ProductShape__00000473_.Name = `Probe Redo-NewDiagram`
+	__ProductShape__00000473_.IsExpanded = false
+	__ProductShape__00000473_.X = 1085.554776
+	__ProductShape__00000473_.Y = 955.390410
+	__ProductShape__00000473_.Width = 116.000000
+	__ProductShape__00000473_.Height = 63.000000
+
+	__ProductShape__00000474_.Name = `New Probe-NewDiagram`
+	__ProductShape__00000474_.IsExpanded = false
+	__ProductShape__00000474_.X = 984.621771
+	__ProductShape__00000474_.Y = 831.569774
+	__ProductShape__00000474_.Width = 122.000000
+	__ProductShape__00000474_.Height = 53.000000
+
+	__ProductShape__00000475_.Name = `NewProduct-NewDiagram`
+	__ProductShape__00000475_.IsExpanded = false
+	__ProductShape__00000475_.X = 1090.724901
+	__ProductShape__00000475_.Y = 723.341831
+	__ProductShape__00000475_.Width = 141.000000
+	__ProductShape__00000475_.Height = 66.000000
+
+	__ProductShape__00000476_.Name = `Rebase Log Commits-NewDiagram`
+	__ProductShape__00000476_.IsExpanded = false
+	__ProductShape__00000476_.X = 1289.656434
+	__ProductShape__00000476_.Y = 958.230597
+	__ProductShape__00000476_.Width = 126.000000
+	__ProductShape__00000476_.Height = 65.000000
+
+	__Project__00000000_.Name = `Project Editor`
+	__Project__00000000_.IsPBSNodeExpanded = false
+	__Project__00000000_.IsWBSNodeExpanded = false
+	__Project__00000000_.IsDiagramsNodeExpanded = true
+	__Project__00000000_.IsNotesNodeExpanded = true
+	__Project__00000000_.IsExpanded = false
+	__Project__00000000_.ComputedPrefix = ``
+
+	__Project__00000001_.Name = `DSME Docx`
+	__Project__00000001_.IsPBSNodeExpanded = false
+	__Project__00000001_.IsWBSNodeExpanded = false
+	__Project__00000001_.IsDiagramsNodeExpanded = true
+	__Project__00000001_.IsNotesNodeExpanded = false
+	__Project__00000001_.IsExpanded = true
+	__Project__00000001_.ComputedPrefix = ``
+
+	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
+	__Project__00000002_.IsPBSNodeExpanded = false
+	__Project__00000002_.IsWBSNodeExpanded = false
+	__Project__00000002_.IsDiagramsNodeExpanded = true
+	__Project__00000002_.IsNotesNodeExpanded = false
+	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.ComputedPrefix = ``
+
+	__Root__00000000_.Name = `Root`
+	__Root__00000000_.NbPixPerCharacter = 8.000000
+
+	__Task__00000000_.Name = `Develop Backend`
+	__Task__00000000_.IsExpanded = false
+	__Task__00000000_.ComputedPrefix = `2`
+	__Task__00000000_.IsInputsNodeExpanded = false
+	__Task__00000000_.IsOutputsNodeExpanded = false
+
+	__Task__00000001_.Name = `Dev WBS Tree`
+	__Task__00000001_.IsExpanded = false
+	__Task__00000001_.ComputedPrefix = `3`
+	__Task__00000001_.IsInputsNodeExpanded = false
+	__Task__00000001_.IsOutputsNodeExpanded = false
+
+	__Task__00000002_.Name = `Dev PBS Tree`
+	__Task__00000002_.IsExpanded = false
+	__Task__00000002_.ComputedPrefix = `4`
+	__Task__00000002_.IsInputsNodeExpanded = false
+	__Task__00000002_.IsOutputsNodeExpanded = false
+
+	__Task__00000003_.Name = `Task 1`
+	__Task__00000003_.IsExpanded = true
+	__Task__00000003_.ComputedPrefix = `1`
+	__Task__00000003_.IsInputsNodeExpanded = true
+	__Task__00000003_.IsOutputsNodeExpanded = true
+
+	__Task__00000004_.Name = `Dev views`
+	__Task__00000004_.IsExpanded = false
+	__Task__00000004_.ComputedPrefix = `2.1`
+	__Task__00000004_.IsInputsNodeExpanded = false
+	__Task__00000004_.IsOutputsNodeExpanded = false
+
+	__Task__00000005_.Name = `Dev UXx`
+	__Task__00000005_.IsExpanded = true
+	__Task__00000005_.ComputedPrefix = `2.2`
+	__Task__00000005_.IsInputsNodeExpanded = false
+	__Task__00000005_.IsOutputsNodeExpanded = false
+
+	__Task__00000006_.Name = `Write Specs`
+	__Task__00000006_.IsExpanded = false
+	__Task__00000006_.ComputedPrefix = `1`
+	__Task__00000006_.IsInputsNodeExpanded = false
+	__Task__00000006_.IsOutputsNodeExpanded = false
+
+	__Task__00000007_.Name = `Compute all Instance Diff`
+	__Task__00000007_.IsExpanded = false
+	__Task__00000007_.ComputedPrefix = `3`
+	__Task__00000007_.IsInputsNodeExpanded = false
+	__Task__00000007_.IsOutputsNodeExpanded = false
+
+	__Task__00000008_.Name = `code GongDiff per instance`
+	__Task__00000008_.IsExpanded = false
+	__Task__00000008_.ComputedPrefix = `1`
+	__Task__00000008_.IsInputsNodeExpanded = false
+	__Task__00000008_.IsOutputsNodeExpanded = false
+
+	__Task__00000009_.Name = `Develop Probe Notifications`
+	__Task__00000009_.IsExpanded = false
+	__Task__00000009_.ComputedPrefix = `2`
+	__Task__00000009_.IsInputsNodeExpanded = false
+	__Task__00000009_.IsOutputsNodeExpanded = false
+
+	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
+	__TaskCompositionShape__00000005_.StartRatio = 0.500000
+	__TaskCompositionShape__00000005_.EndRatio = 0.500000
+	__TaskCompositionShape__00000005_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000005_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000005_.CornerOffsetRatio = 1.500000
+
+	__TaskCompositionShape__00000006_.Name = `Develop Backend to Dev views`
+	__TaskCompositionShape__00000006_.StartRatio = 0.500000
+	__TaskCompositionShape__00000006_.EndRatio = 0.500000
+	__TaskCompositionShape__00000006_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000006_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskCompositionShape__00000006_.CornerOffsetRatio = 1.680000
+
+	__TaskInputShape__00000000_.Name = `Develop Backend to Specifications`
+	__TaskInputShape__00000000_.StartRatio = 0.500000
+	__TaskInputShape__00000000_.EndRatio = 0.500000
+	__TaskInputShape__00000000_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000000_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000000_.CornerOffsetRatio = 1.680000
+
+	__TaskInputShape__00000001_.Name = `code GongDiff to Probe Notification Table`
+	__TaskInputShape__00000001_.StartRatio = 0.500000
+	__TaskInputShape__00000001_.EndRatio = 0.500000
+	__TaskInputShape__00000001_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000001_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000001_.CornerOffsetRatio = 1.360756
+
+	__TaskInputShape__00000002_.Name = `Compute all Instance Diff to Probe Notification Table`
+	__TaskInputShape__00000002_.StartRatio = 0.500000
+	__TaskInputShape__00000002_.EndRatio = 0.500000
+	__TaskInputShape__00000002_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskInputShape__00000002_.CornerOffsetRatio = 1.357371
+
+	__TaskInputShape__00000003_.Name = `Compute all Instance Diff to <instance>. GongDiff(another instance)`
+	__TaskInputShape__00000003_.StartRatio = 0.386437
+	__TaskInputShape__00000003_.EndRatio = 0.339346
+	__TaskInputShape__00000003_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskInputShape__00000003_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskInputShape__00000003_.CornerOffsetRatio = 1.428860
+
+	__TaskOutputShape__00000059_.Name = `Dev UXx to WBS tree`
+	__TaskOutputShape__00000059_.StartRatio = 0.500000
+	__TaskOutputShape__00000059_.EndRatio = 0.814193
+	__TaskOutputShape__00000059_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000059_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000059_.CornerOffsetRatio = 2.585993
+
+	__TaskOutputShape__00000060_.Name = `Dev UXx to PBS tree`
+	__TaskOutputShape__00000060_.StartRatio = 0.500000
+	__TaskOutputShape__00000060_.EndRatio = 0.147526
+	__TaskOutputShape__00000060_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000060_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000060_.CornerOffsetRatio = 2.300279
+
+	__TaskOutputShape__00000061_.Name = `Dev UXx to views`
+	__TaskOutputShape__00000061_.StartRatio = 0.500000
+	__TaskOutputShape__00000061_.EndRatio = 0.630859
+	__TaskOutputShape__00000061_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000061_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000061_.CornerOffsetRatio = -0.214007
+
+	__TaskOutputShape__00000063_.Name = `Compute Instance Diff to String of New+Stage/Updated/Unstage`
+	__TaskOutputShape__00000063_.StartRatio = 0.500000
+	__TaskOutputShape__00000063_.EndRatio = 0.500000
+	__TaskOutputShape__00000063_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000063_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000063_.CornerOffsetRatio = 1.268543
+
+	__TaskOutputShape__00000064_.Name = `Develop Probe Notifications to Probe Notification Table`
+	__TaskOutputShape__00000064_.StartRatio = 0.576061
+	__TaskOutputShape__00000064_.EndRatio = 0.524585
+	__TaskOutputShape__00000064_.StartOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000064_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000064_.CornerOffsetRatio = 1.098375
+
+	__TaskOutputShape__00000065_.Name = `code GongDiff per instance to <instance>. GongDiff(another instance)`
+	__TaskOutputShape__00000065_.StartRatio = 0.297200
+	__TaskOutputShape__00000065_.EndRatio = 0.296115
+	__TaskOutputShape__00000065_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000065_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000065_.CornerOffsetRatio = 1.527224
+
+	__TaskOutputShape__00000066_.Name = `Compute all Instance Diff to Reverse Commit log Code`
+	__TaskOutputShape__00000066_.StartRatio = 0.592847
+	__TaskOutputShape__00000066_.EndRatio = 0.500000
+	__TaskOutputShape__00000066_.StartOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000066_.EndOrientation = models.ORIENTATION_HORIZONTAL
+	__TaskOutputShape__00000066_.CornerOffsetRatio = 1.013411
+
+	__TaskShape__00000012_.Name = `Write Specs-NewDiagram`
+	__TaskShape__00000012_.IsExpanded = false
+	__TaskShape__00000012_.X = 81.000000
+	__TaskShape__00000012_.Y = 589.000000
+	__TaskShape__00000012_.Width = 150.000000
+	__TaskShape__00000012_.Height = 70.000000
+
+	__TaskShape__00000013_.Name = `Develop Backend-NewDiagram`
+	__TaskShape__00000013_.IsExpanded = false
+	__TaskShape__00000013_.X = 394.500000
+	__TaskShape__00000013_.Y = 401.000000
+	__TaskShape__00000013_.Width = 150.000000
+	__TaskShape__00000013_.Height = 70.000000
+
+	__TaskShape__00000014_.Name = `Dev views-NewDiagram`
+	__TaskShape__00000014_.IsExpanded = false
+	__TaskShape__00000014_.X = 282.000000
+	__TaskShape__00000014_.Y = 541.000000
+	__TaskShape__00000014_.Width = 150.000000
+	__TaskShape__00000014_.Height = 70.000000
+
+	__TaskShape__00000015_.Name = `Dev UXx-NewDiagram`
+	__TaskShape__00000015_.IsExpanded = false
+	__TaskShape__00000015_.X = 581.000000
+	__TaskShape__00000015_.Y = 401.000000
+	__TaskShape__00000015_.Width = 150.000000
+	__TaskShape__00000015_.Height = 70.000000
+
+	__TaskShape__00000016_.Name = `Dev WBS Tree-NewDiagram`
+	__TaskShape__00000016_.IsExpanded = false
+	__TaskShape__00000016_.X = 499.000000
+	__TaskShape__00000016_.Y = 659.000000
+	__TaskShape__00000016_.Width = 150.000000
+	__TaskShape__00000016_.Height = 70.000000
+
+	__TaskShape__00000017_.Name = `Dev PBS Tree-NewDiagram`
+	__TaskShape__00000017_.IsExpanded = false
+	__TaskShape__00000017_.X = 943.000000
+	__TaskShape__00000017_.Y = 541.000000
+	__TaskShape__00000017_.Width = 150.000000
+	__TaskShape__00000017_.Height = 70.000000
+
+	__TaskShape__00000018_.Name = `Write Specs-NewDiagram`
+	__TaskShape__00000018_.IsExpanded = false
+	__TaskShape__00000018_.X = 110.625134
+	__TaskShape__00000018_.Y = 239.889513
+	__TaskShape__00000018_.Width = 250.000000
+	__TaskShape__00000018_.Height = 100.000000
+
+	__TaskShape__00000019_.Name = `zzz_gong : compute instance.GongDiff(another_instance)-NewDiagram`
+	__TaskShape__00000019_.IsExpanded = false
+	__TaskShape__00000019_.X = 746.000000
+	__TaskShape__00000019_.Y = 604.000000
+	__TaskShape__00000019_.Width = 132.000000
+	__TaskShape__00000019_.Height = 75.000000
+
+	__TaskShape__00000020_.Name = `NewTask-NewDiagram`
+	__TaskShape__00000020_.IsExpanded = false
+	__TaskShape__00000020_.X = 737.214318
+	__TaskShape__00000020_.Y = 316.572924
+	__TaskShape__00000020_.Width = 144.000000
+	__TaskShape__00000020_.Height = 71.000000
+
+	__TaskShape__00000021_.Name = `NewTask-NewDiagram`
+	__TaskShape__00000021_.IsExpanded = false
+	__TaskShape__00000021_.X = 122.662171
+	__TaskShape__00000021_.Y = 302.681593
+	__TaskShape__00000021_.Width = 140.000000
+	__TaskShape__00000021_.Height = 70.000000
 
 	// Setup of pointers
 	// setup of Diagram instances pointers
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000330_Product_1_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000331_Product_1_1_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000332_Product_1_2_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000333_Product_1_2_1_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000334_Product_2_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000335_Product_2_1_NewDiagram)
-	__Diagram__00000042_NewDiagram.Product_Shapes = append(__Diagram__00000042_NewDiagram.Product_Shapes, __ProductShape__00000336_Product_2_2_NewDiagram)
-	__Diagram__00000042_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000042_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000015_Product_2)
-	__Diagram__00000042_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000042_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000204_Product_1_to_Product_1_1)
-	__Diagram__00000042_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000042_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1)
-	__Diagram__00000042_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000042_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000206_Product_1_to_Product_1_2)
-	__Diagram__00000042_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000042_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000207_Product_2_to_Product_2_1)
-	__Diagram__00000042_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000042_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000208_Product_2_to_Product_2_2)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000455_Specifications_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000456_UX_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000457_WBS_tree_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000458_PBS_tree_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000459_views_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000460_Probe_Views_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000461_Application_Views_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000462_Backend_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000463_Semantic_Enforcer_NewDiagram)
-	__Diagram__00000057_NewDiagram.Product_Shapes = append(__Diagram__00000057_NewDiagram.Product_Shapes, __ProductShape__00000464_Docx_Backend_NewDiagram)
-	__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000000_UX)
-	__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000005_views)
-	__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_NewDiagram.ProductsWhoseNodeIsExpanded, __Product__00000001_Backend)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000291_UX_to_WBS_tree)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000292_UX_to_PBS_tree)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000293_views_to_Probe_Views)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000294_views_to_Application_Views)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000295_UX_to_views)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer)
-	__Diagram__00000057_NewDiagram.ProductComposition_Shapes = append(__Diagram__00000057_NewDiagram.ProductComposition_Shapes, __ProductCompositionShape__00000297_Backend_to_Docx_Backend)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000012_Write_Specs_NewDiagram)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000013_Develop_Backend_NewDiagram)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000014_Dev_views_NewDiagram)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000015_Dev_UXx_NewDiagram)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000016_Dev_WBS_Tree_NewDiagram)
-	__Diagram__00000057_NewDiagram.Task_Shapes = append(__Diagram__00000057_NewDiagram.Task_Shapes, __TaskShape__00000017_Dev_PBS_Tree_NewDiagram)
-	__Diagram__00000057_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000057_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000000_Develop_Backend)
-	__Diagram__00000057_NewDiagram.TasksWhoseNodeIsExpanded = append(__Diagram__00000057_NewDiagram.TasksWhoseNodeIsExpanded, __Task__00000005_Dev_UXx)
-	__Diagram__00000057_NewDiagram.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000057_NewDiagram.TasksWhoseInputNodeIsExpanded, __Task__00000000_Develop_Backend)
-	__Diagram__00000057_NewDiagram.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000057_NewDiagram.TasksWhoseOutputNodeIsExpanded, __Task__00000005_Dev_UXx)
-	__Diagram__00000057_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000057_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx)
-	__Diagram__00000057_NewDiagram.TaskComposition_Shapes = append(__Diagram__00000057_NewDiagram.TaskComposition_Shapes, __TaskCompositionShape__00000006_Develop_Backend_to_Dev_views)
-	__Diagram__00000057_NewDiagram.TaskInputShapes = append(__Diagram__00000057_NewDiagram.TaskInputShapes, __TaskInputShape__00000000_Develop_Backend_to_Specifications)
-	__Diagram__00000057_NewDiagram.TaskOutputShapes = append(__Diagram__00000057_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000059_Dev_UXx_to_WBS_tree)
-	__Diagram__00000057_NewDiagram.TaskOutputShapes = append(__Diagram__00000057_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000060_Dev_UXx_to_PBS_tree)
-	__Diagram__00000057_NewDiagram.TaskOutputShapes = append(__Diagram__00000057_NewDiagram.TaskOutputShapes, __TaskOutputShape__00000061_Dev_UXx_to_views)
-	__Diagram__00000057_NewDiagram.Note_Shapes = append(__Diagram__00000057_NewDiagram.Note_Shapes, __NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram)
-	__Diagram__00000058_NewDiagram.Product_Shapes = append(__Diagram__00000058_NewDiagram.Product_Shapes, __ProductShape__00000465_Specifications_NewDiagram)
-	__Diagram__00000058_NewDiagram.Task_Shapes = append(__Diagram__00000058_NewDiagram.Task_Shapes, __TaskShape__00000018_Write_Specs_NewDiagram)
-	__Diagram__00000058_NewDiagram.Note_Shapes = append(__Diagram__00000058_NewDiagram.Note_Shapes, __NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram)
-	__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded = append(__Diagram__00000058_NewDiagram.NotesWhoseNodeIsExpanded, __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line)
-	__Diagram__00000058_NewDiagram.NoteProductShapes = append(__Diagram__00000058_NewDiagram.NoteProductShapes, __NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications)
-	__Diagram__00000058_NewDiagram.NoteTaskShapes = append(__Diagram__00000058_NewDiagram.NoteTaskShapes, __NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000467_New_Commit_code_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000468_NewProduct_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000469_NewProduct_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000470_NewProduct_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000471_New_Umarshall_code_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000472_NewProduct_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000473_Probe_Redo_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000474_New_Probe_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000475_NewProduct_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Product_Shapes = append(__Diagram__00000061_Work_diagram_x.Product_Shapes, __ProductShape__00000476_Rebase_Log_Commits_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_Work_diagram_x.ProductsWhoseNodeIsExpanded, __Product__00000022_New_Commit_code)
-	__Diagram__00000061_Work_diagram_x.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_Work_diagram_x.ProductsWhoseNodeIsExpanded, __Product__00000031_New_Probe)
-	__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes = append(__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes, __ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage)
-	__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes = append(__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes, __ProductCompositionShape__00000300_New_Probe_to_Probe_Undo)
-	__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes = append(__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes, __ProductCompositionShape__00000301_New_Probe_to_Probe_Redo)
-	__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes = append(__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes, __ProductCompositionShape__00000302_New_Commit_code_to_NewProduct)
-	__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes = append(__Diagram__00000061_Work_diagram_x.ProductComposition_Shapes, __ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits)
-	__Diagram__00000061_Work_diagram_x.Task_Shapes = append(__Diagram__00000061_Work_diagram_x.Task_Shapes, __TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Task_Shapes = append(__Diagram__00000061_Work_diagram_x.Task_Shapes, __TaskShape__00000020_NewTask_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Task_Shapes = append(__Diagram__00000061_Work_diagram_x.Task_Shapes, __TaskShape__00000021_NewTask_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_Work_diagram_x.TasksWhoseNodeIsExpanded, __Task__00000007_Compute_all_Instance_Diff)
-	__Diagram__00000061_Work_diagram_x.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_Work_diagram_x.TasksWhoseOutputNodeIsExpanded, __Task__00000007_Compute_all_Instance_Diff)
-	__Diagram__00000061_Work_diagram_x.TaskInputShapes = append(__Diagram__00000061_Work_diagram_x.TaskInputShapes, __TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table)
-	__Diagram__00000061_Work_diagram_x.TaskInputShapes = append(__Diagram__00000061_Work_diagram_x.TaskInputShapes, __TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table)
-	__Diagram__00000061_Work_diagram_x.TaskInputShapes = append(__Diagram__00000061_Work_diagram_x.TaskInputShapes, __TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_)
-	__Diagram__00000061_Work_diagram_x.TaskOutputShapes = append(__Diagram__00000061_Work_diagram_x.TaskOutputShapes, __TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage)
-	__Diagram__00000061_Work_diagram_x.TaskOutputShapes = append(__Diagram__00000061_Work_diagram_x.TaskOutputShapes, __TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table)
-	__Diagram__00000061_Work_diagram_x.TaskOutputShapes = append(__Diagram__00000061_Work_diagram_x.TaskOutputShapes, __TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_)
-	__Diagram__00000061_Work_diagram_x.TaskOutputShapes = append(__Diagram__00000061_Work_diagram_x.TaskOutputShapes, __TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code)
-	__Diagram__00000061_Work_diagram_x.Note_Shapes = append(__Diagram__00000061_Work_diagram_x.Note_Shapes, __NoteShape__00000002_NewNote_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Note_Shapes = append(__Diagram__00000061_Work_diagram_x.Note_Shapes, __NoteShape__00000003_NewNote_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.Note_Shapes = append(__Diagram__00000061_Work_diagram_x.Note_Shapes, __NoteShape__00000004_NewNote_NewDiagram)
-	__Diagram__00000061_Work_diagram_x.NotesWhoseNodeIsExpanded = append(__Diagram__00000061_Work_diagram_x.NotesWhoseNodeIsExpanded, __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage)
-	__Diagram__00000061_Work_diagram_x.NoteTaskShapes = append(__Diagram__00000061_Work_diagram_x.NoteTaskShapes, __NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff)
-	__Diagram__00000061_Work_diagram_x.NoteTaskShapes = append(__Diagram__00000061_Work_diagram_x.NoteTaskShapes, __NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000331_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000332_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000333_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000334_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000335_)
+	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000336_)
+	__Diagram__00000042_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000042_.ProductsWhoseNodeIsExpanded, __Product__00000015_)
+	__Diagram__00000042_.ProductComposition_Shapes = append(__Diagram__00000042_.ProductComposition_Shapes, __ProductCompositionShape__00000204_)
+	__Diagram__00000042_.ProductComposition_Shapes = append(__Diagram__00000042_.ProductComposition_Shapes, __ProductCompositionShape__00000205_)
+	__Diagram__00000042_.ProductComposition_Shapes = append(__Diagram__00000042_.ProductComposition_Shapes, __ProductCompositionShape__00000206_)
+	__Diagram__00000042_.ProductComposition_Shapes = append(__Diagram__00000042_.ProductComposition_Shapes, __ProductCompositionShape__00000207_)
+	__Diagram__00000042_.ProductComposition_Shapes = append(__Diagram__00000042_.ProductComposition_Shapes, __ProductCompositionShape__00000208_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000455_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000456_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000457_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000458_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000459_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000460_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000461_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000462_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000463_)
+	__Diagram__00000057_.Product_Shapes = append(__Diagram__00000057_.Product_Shapes, __ProductShape__00000464_)
+	__Diagram__00000057_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_.ProductsWhoseNodeIsExpanded, __Product__00000000_)
+	__Diagram__00000057_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_.ProductsWhoseNodeIsExpanded, __Product__00000005_)
+	__Diagram__00000057_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000057_.ProductsWhoseNodeIsExpanded, __Product__00000001_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000291_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000292_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000293_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000294_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000295_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000296_)
+	__Diagram__00000057_.ProductComposition_Shapes = append(__Diagram__00000057_.ProductComposition_Shapes, __ProductCompositionShape__00000297_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000012_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000013_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000014_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000015_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000016_)
+	__Diagram__00000057_.Task_Shapes = append(__Diagram__00000057_.Task_Shapes, __TaskShape__00000017_)
+	__Diagram__00000057_.TasksWhoseNodeIsExpanded = append(__Diagram__00000057_.TasksWhoseNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000057_.TasksWhoseNodeIsExpanded = append(__Diagram__00000057_.TasksWhoseNodeIsExpanded, __Task__00000005_)
+	__Diagram__00000057_.TasksWhoseInputNodeIsExpanded = append(__Diagram__00000057_.TasksWhoseInputNodeIsExpanded, __Task__00000000_)
+	__Diagram__00000057_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000057_.TasksWhoseOutputNodeIsExpanded, __Task__00000005_)
+	__Diagram__00000057_.TaskComposition_Shapes = append(__Diagram__00000057_.TaskComposition_Shapes, __TaskCompositionShape__00000005_)
+	__Diagram__00000057_.TaskComposition_Shapes = append(__Diagram__00000057_.TaskComposition_Shapes, __TaskCompositionShape__00000006_)
+	__Diagram__00000057_.TaskInputShapes = append(__Diagram__00000057_.TaskInputShapes, __TaskInputShape__00000000_)
+	__Diagram__00000057_.TaskOutputShapes = append(__Diagram__00000057_.TaskOutputShapes, __TaskOutputShape__00000059_)
+	__Diagram__00000057_.TaskOutputShapes = append(__Diagram__00000057_.TaskOutputShapes, __TaskOutputShape__00000060_)
+	__Diagram__00000057_.TaskOutputShapes = append(__Diagram__00000057_.TaskOutputShapes, __TaskOutputShape__00000061_)
+	__Diagram__00000057_.Note_Shapes = append(__Diagram__00000057_.Note_Shapes, __NoteShape__00000000_)
+	__Diagram__00000058_.Product_Shapes = append(__Diagram__00000058_.Product_Shapes, __ProductShape__00000465_)
+	__Diagram__00000058_.Task_Shapes = append(__Diagram__00000058_.Task_Shapes, __TaskShape__00000018_)
+	__Diagram__00000058_.Note_Shapes = append(__Diagram__00000058_.Note_Shapes, __NoteShape__00000001_)
+	__Diagram__00000058_.NotesWhoseNodeIsExpanded = append(__Diagram__00000058_.NotesWhoseNodeIsExpanded, __Note__00000000_)
+	__Diagram__00000058_.NoteProductShapes = append(__Diagram__00000058_.NoteProductShapes, __NoteProductShape__00000000_)
+	__Diagram__00000058_.NoteTaskShapes = append(__Diagram__00000058_.NoteTaskShapes, __NoteTaskShape__00000000_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000466_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000467_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000468_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000469_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000470_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000471_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000472_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000473_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000474_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000475_)
+	__Diagram__00000061_.Product_Shapes = append(__Diagram__00000061_.Product_Shapes, __ProductShape__00000476_)
+	__Diagram__00000061_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_.ProductsWhoseNodeIsExpanded, __Product__00000022_)
+	__Diagram__00000061_.ProductsWhoseNodeIsExpanded = append(__Diagram__00000061_.ProductsWhoseNodeIsExpanded, __Product__00000031_)
+	__Diagram__00000061_.ProductComposition_Shapes = append(__Diagram__00000061_.ProductComposition_Shapes, __ProductCompositionShape__00000298_)
+	__Diagram__00000061_.ProductComposition_Shapes = append(__Diagram__00000061_.ProductComposition_Shapes, __ProductCompositionShape__00000300_)
+	__Diagram__00000061_.ProductComposition_Shapes = append(__Diagram__00000061_.ProductComposition_Shapes, __ProductCompositionShape__00000301_)
+	__Diagram__00000061_.ProductComposition_Shapes = append(__Diagram__00000061_.ProductComposition_Shapes, __ProductCompositionShape__00000302_)
+	__Diagram__00000061_.ProductComposition_Shapes = append(__Diagram__00000061_.ProductComposition_Shapes, __ProductCompositionShape__00000303_)
+	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000019_)
+	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000020_)
+	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000021_)
+	__Diagram__00000061_.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseNodeIsExpanded, __Task__00000007_)
+	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
+	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
+	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000002_)
+	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000003_)
+	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000063_)
+	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000064_)
+	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000065_)
+	__Diagram__00000061_.TaskOutputShapes = append(__Diagram__00000061_.TaskOutputShapes, __TaskOutputShape__00000066_)
+	__Diagram__00000061_.Note_Shapes = append(__Diagram__00000061_.Note_Shapes, __NoteShape__00000002_)
+	__Diagram__00000061_.Note_Shapes = append(__Diagram__00000061_.Note_Shapes, __NoteShape__00000003_)
+	__Diagram__00000061_.Note_Shapes = append(__Diagram__00000061_.Note_Shapes, __NoteShape__00000004_)
+	__Diagram__00000061_.NotesWhoseNodeIsExpanded = append(__Diagram__00000061_.NotesWhoseNodeIsExpanded, __Note__00000002_)
+	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000001_)
+	__Diagram__00000061_.NoteTaskShapes = append(__Diagram__00000061_.NoteTaskShapes, __NoteTaskShape__00000002_)
 	// setup of Note instances pointers
-	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Products, __Product__00000010_Specifications)
-	__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks = append(__Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line.Tasks, __Task__00000006_Write_Specs)
-	__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.Tasks = append(__Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage.Tasks, __Task__00000007_Compute_all_Instance_Diff)
-	__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Tasks = append(__Note__00000004_https_github_com_fullstack_lang_gong_issues_998.Tasks, __Task__00000009_Develop_Probe_Notifications)
+	__Note__00000000_.Products = append(__Note__00000000_.Products, __Product__00000010_)
+	__Note__00000000_.Tasks = append(__Note__00000000_.Tasks, __Task__00000006_)
+	__Note__00000002_.Tasks = append(__Note__00000002_.Tasks, __Task__00000007_)
+	__Note__00000004_.Tasks = append(__Note__00000004_.Tasks, __Task__00000009_)
 	// setup of NoteProductShape instances pointers
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
-	__NoteProductShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Specifications.Product = __Product__00000010_Specifications
+	__NoteProductShape__00000000_.Note = __Note__00000000_
+	__NoteProductShape__00000000_.Product = __Product__00000010_
 	// setup of NoteShape instances pointers
-	__NoteShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
-	__NoteShape__00000001_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_NewDiagram.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
-	__NoteShape__00000002_NewNote_NewDiagram.Note = __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage
-	__NoteShape__00000003_NewNote_NewDiagram.Note = __Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff
-	__NoteShape__00000004_NewNote_NewDiagram.Note = __Note__00000004_https_github_com_fullstack_lang_gong_issues_998
+	__NoteShape__00000000_.Note = __Note__00000000_
+	__NoteShape__00000001_.Note = __Note__00000000_
+	__NoteShape__00000002_.Note = __Note__00000002_
+	__NoteShape__00000003_.Note = __Note__00000003_
+	__NoteShape__00000004_.Note = __Note__00000004_
 	// setup of NoteTaskShape instances pointers
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Note = __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line
-	__NoteTaskShape__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line_to_Write_Specs.Task = __Task__00000006_Write_Specs
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.Note = __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage
-	__NoteTaskShape__00000001_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage_to_Compute_all_Instance_Diff.Task = __Task__00000007_Compute_all_Instance_Diff
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Note = __Note__00000004_https_github_com_fullstack_lang_gong_issues_998
-	__NoteTaskShape__00000002_https_github_com_fullstack_lang_gong_issues_998_to_Develop_Probe_Notifications.Task = __Task__00000009_Develop_Probe_Notifications
+	__NoteTaskShape__00000000_.Note = __Note__00000000_
+	__NoteTaskShape__00000000_.Task = __Task__00000006_
+	__NoteTaskShape__00000001_.Note = __Note__00000002_
+	__NoteTaskShape__00000001_.Task = __Task__00000007_
+	__NoteTaskShape__00000002_.Note = __Note__00000004_
+	__NoteTaskShape__00000002_.Task = __Task__00000009_
 	// setup of Product instances pointers
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000002_WBS_tree)
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000004_PBS_tree)
-	__Product__00000000_UX.SubProducts = append(__Product__00000000_UX.SubProducts, __Product__00000005_views)
-	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000006_Semantic_Enforcer)
-	__Product__00000001_Backend.SubProducts = append(__Product__00000001_Backend.SubProducts, __Product__00000009_Docx_Backend)
-	__Product__00000005_views.SubProducts = append(__Product__00000005_views.SubProducts, __Product__00000019_Probe_Views)
-	__Product__00000005_views.SubProducts = append(__Product__00000005_views.SubProducts, __Product__00000020_Application_Views)
-	__Product__00000011_Product_1.SubProducts = append(__Product__00000011_Product_1.SubProducts, __Product__00000013_Product_1_1)
-	__Product__00000011_Product_1.SubProducts = append(__Product__00000011_Product_1.SubProducts, __Product__00000014_Product_1_2)
-	__Product__00000014_Product_1_2.SubProducts = append(__Product__00000014_Product_1_2.SubProducts, __Product__00000016_Product_1_2_1)
-	__Product__00000015_Product_2.SubProducts = append(__Product__00000015_Product_2.SubProducts, __Product__00000017_Product_2_1)
-	__Product__00000015_Product_2.SubProducts = append(__Product__00000015_Product_2.SubProducts, __Product__00000018_Product_2_2)
-	__Product__00000022_New_Commit_code.SubProducts = append(__Product__00000022_New_Commit_code.SubProducts, __Product__00000021_String_of_all_New_Stage_Updated_Unstage)
-	__Product__00000022_New_Commit_code.SubProducts = append(__Product__00000022_New_Commit_code.SubProducts, __Product__00000033_Reverse_Commit_log_Code)
-	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000029_Probe_Undo)
-	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000030_Probe_Redo)
-	__Product__00000031_New_Probe.SubProducts = append(__Product__00000031_New_Probe.SubProducts, __Product__00000034_Rebase_Log_Commits)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000002_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000004_)
+	__Product__00000000_.SubProducts = append(__Product__00000000_.SubProducts, __Product__00000005_)
+	__Product__00000001_.SubProducts = append(__Product__00000001_.SubProducts, __Product__00000006_)
+	__Product__00000001_.SubProducts = append(__Product__00000001_.SubProducts, __Product__00000009_)
+	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000019_)
+	__Product__00000005_.SubProducts = append(__Product__00000005_.SubProducts, __Product__00000020_)
+	__Product__00000011_.SubProducts = append(__Product__00000011_.SubProducts, __Product__00000013_)
+	__Product__00000011_.SubProducts = append(__Product__00000011_.SubProducts, __Product__00000014_)
+	__Product__00000014_.SubProducts = append(__Product__00000014_.SubProducts, __Product__00000016_)
+	__Product__00000015_.SubProducts = append(__Product__00000015_.SubProducts, __Product__00000017_)
+	__Product__00000015_.SubProducts = append(__Product__00000015_.SubProducts, __Product__00000018_)
+	__Product__00000022_.SubProducts = append(__Product__00000022_.SubProducts, __Product__00000021_)
+	__Product__00000022_.SubProducts = append(__Product__00000022_.SubProducts, __Product__00000033_)
+	__Product__00000031_.SubProducts = append(__Product__00000031_.SubProducts, __Product__00000029_)
+	__Product__00000031_.SubProducts = append(__Product__00000031_.SubProducts, __Product__00000030_)
+	__Product__00000031_.SubProducts = append(__Product__00000031_.SubProducts, __Product__00000034_)
 	// setup of ProductCompositionShape instances pointers
-	__ProductCompositionShape__00000204_Product_1_to_Product_1_1.Product = __Product__00000013_Product_1_1
-	__ProductCompositionShape__00000205_Product_1_2_to_Product_1_2_1.Product = __Product__00000016_Product_1_2_1
-	__ProductCompositionShape__00000206_Product_1_to_Product_1_2.Product = __Product__00000014_Product_1_2
-	__ProductCompositionShape__00000207_Product_2_to_Product_2_1.Product = __Product__00000017_Product_2_1
-	__ProductCompositionShape__00000208_Product_2_to_Product_2_2.Product = __Product__00000018_Product_2_2
-	__ProductCompositionShape__00000291_UX_to_WBS_tree.Product = __Product__00000002_WBS_tree
-	__ProductCompositionShape__00000292_UX_to_PBS_tree.Product = __Product__00000004_PBS_tree
-	__ProductCompositionShape__00000293_views_to_Probe_Views.Product = __Product__00000019_Probe_Views
-	__ProductCompositionShape__00000294_views_to_Application_Views.Product = __Product__00000020_Application_Views
-	__ProductCompositionShape__00000295_UX_to_views.Product = __Product__00000005_views
-	__ProductCompositionShape__00000296_Backend_to_Semantic_Enforcer.Product = __Product__00000006_Semantic_Enforcer
-	__ProductCompositionShape__00000297_Backend_to_Docx_Backend.Product = __Product__00000009_Docx_Backend
-	__ProductCompositionShape__00000298_New_Commit_code_to_String_of_New_Stage_Updated_Unstage.Product = __Product__00000021_String_of_all_New_Stage_Updated_Unstage
-	__ProductCompositionShape__00000300_New_Probe_to_Probe_Undo.Product = __Product__00000029_Probe_Undo
-	__ProductCompositionShape__00000301_New_Probe_to_Probe_Redo.Product = __Product__00000030_Probe_Redo
-	__ProductCompositionShape__00000302_New_Commit_code_to_NewProduct.Product = __Product__00000033_Reverse_Commit_log_Code
-	__ProductCompositionShape__00000303_New_Probe_to_Rebase_Log_Commits.Product = __Product__00000034_Rebase_Log_Commits
+	__ProductCompositionShape__00000204_.Product = __Product__00000013_
+	__ProductCompositionShape__00000205_.Product = __Product__00000016_
+	__ProductCompositionShape__00000206_.Product = __Product__00000014_
+	__ProductCompositionShape__00000207_.Product = __Product__00000017_
+	__ProductCompositionShape__00000208_.Product = __Product__00000018_
+	__ProductCompositionShape__00000291_.Product = __Product__00000002_
+	__ProductCompositionShape__00000292_.Product = __Product__00000004_
+	__ProductCompositionShape__00000293_.Product = __Product__00000019_
+	__ProductCompositionShape__00000294_.Product = __Product__00000020_
+	__ProductCompositionShape__00000295_.Product = __Product__00000005_
+	__ProductCompositionShape__00000296_.Product = __Product__00000006_
+	__ProductCompositionShape__00000297_.Product = __Product__00000009_
+	__ProductCompositionShape__00000298_.Product = __Product__00000021_
+	__ProductCompositionShape__00000300_.Product = __Product__00000029_
+	__ProductCompositionShape__00000301_.Product = __Product__00000030_
+	__ProductCompositionShape__00000302_.Product = __Product__00000033_
+	__ProductCompositionShape__00000303_.Product = __Product__00000034_
 	// setup of ProductShape instances pointers
-	__ProductShape__00000330_Product_1_NewDiagram.Product = __Product__00000011_Product_1
-	__ProductShape__00000331_Product_1_1_NewDiagram.Product = __Product__00000013_Product_1_1
-	__ProductShape__00000332_Product_1_2_NewDiagram.Product = __Product__00000014_Product_1_2
-	__ProductShape__00000333_Product_1_2_1_NewDiagram.Product = __Product__00000016_Product_1_2_1
-	__ProductShape__00000334_Product_2_NewDiagram.Product = __Product__00000015_Product_2
-	__ProductShape__00000335_Product_2_1_NewDiagram.Product = __Product__00000017_Product_2_1
-	__ProductShape__00000336_Product_2_2_NewDiagram.Product = __Product__00000018_Product_2_2
-	__ProductShape__00000455_Specifications_NewDiagram.Product = __Product__00000010_Specifications
-	__ProductShape__00000456_UX_NewDiagram.Product = __Product__00000000_UX
-	__ProductShape__00000457_WBS_tree_NewDiagram.Product = __Product__00000002_WBS_tree
-	__ProductShape__00000458_PBS_tree_NewDiagram.Product = __Product__00000004_PBS_tree
-	__ProductShape__00000459_views_NewDiagram.Product = __Product__00000005_views
-	__ProductShape__00000460_Probe_Views_NewDiagram.Product = __Product__00000019_Probe_Views
-	__ProductShape__00000461_Application_Views_NewDiagram.Product = __Product__00000020_Application_Views
-	__ProductShape__00000462_Backend_NewDiagram.Product = __Product__00000001_Backend
-	__ProductShape__00000463_Semantic_Enforcer_NewDiagram.Product = __Product__00000006_Semantic_Enforcer
-	__ProductShape__00000464_Docx_Backend_NewDiagram.Product = __Product__00000009_Docx_Backend
-	__ProductShape__00000465_Specifications_NewDiagram.Product = __Product__00000010_Specifications
-	__ProductShape__00000466_String_of_New_Stage_Updated_Unstage_NewDiagram.Product = __Product__00000021_String_of_all_New_Stage_Updated_Unstage
-	__ProductShape__00000467_New_Commit_code_NewDiagram.Product = __Product__00000022_New_Commit_code
-	__ProductShape__00000468_NewProduct_NewDiagram.Product = __Product__00000025_Probe_Notification_Table
-	__ProductShape__00000469_NewProduct_NewDiagram.Product = __Product__00000026__instance_GongDiff_another_instance_
-	__ProductShape__00000470_NewProduct_NewDiagram.Product = __Product__00000027_append_log_when_marshalling
-	__ProductShape__00000471_New_Umarshall_code_NewDiagram.Product = __Product__00000028_New_Umarshall_code
-	__ProductShape__00000472_NewProduct_NewDiagram.Product = __Product__00000029_Probe_Undo
-	__ProductShape__00000473_Probe_Redo_NewDiagram.Product = __Product__00000030_Probe_Redo
-	__ProductShape__00000474_New_Probe_NewDiagram.Product = __Product__00000031_New_Probe
-	__ProductShape__00000475_NewProduct_NewDiagram.Product = __Product__00000033_Reverse_Commit_log_Code
-	__ProductShape__00000476_Rebase_Log_Commits_NewDiagram.Product = __Product__00000034_Rebase_Log_Commits
+	__ProductShape__00000330_.Product = __Product__00000011_
+	__ProductShape__00000331_.Product = __Product__00000013_
+	__ProductShape__00000332_.Product = __Product__00000014_
+	__ProductShape__00000333_.Product = __Product__00000016_
+	__ProductShape__00000334_.Product = __Product__00000015_
+	__ProductShape__00000335_.Product = __Product__00000017_
+	__ProductShape__00000336_.Product = __Product__00000018_
+	__ProductShape__00000455_.Product = __Product__00000010_
+	__ProductShape__00000456_.Product = __Product__00000000_
+	__ProductShape__00000457_.Product = __Product__00000002_
+	__ProductShape__00000458_.Product = __Product__00000004_
+	__ProductShape__00000459_.Product = __Product__00000005_
+	__ProductShape__00000460_.Product = __Product__00000019_
+	__ProductShape__00000461_.Product = __Product__00000020_
+	__ProductShape__00000462_.Product = __Product__00000001_
+	__ProductShape__00000463_.Product = __Product__00000006_
+	__ProductShape__00000464_.Product = __Product__00000009_
+	__ProductShape__00000465_.Product = __Product__00000010_
+	__ProductShape__00000466_.Product = __Product__00000021_
+	__ProductShape__00000467_.Product = __Product__00000022_
+	__ProductShape__00000468_.Product = __Product__00000025_
+	__ProductShape__00000469_.Product = __Product__00000026_
+	__ProductShape__00000470_.Product = __Product__00000027_
+	__ProductShape__00000471_.Product = __Product__00000028_
+	__ProductShape__00000472_.Product = __Product__00000029_
+	__ProductShape__00000473_.Product = __Product__00000030_
+	__ProductShape__00000474_.Product = __Product__00000031_
+	__ProductShape__00000475_.Product = __Product__00000033_
+	__ProductShape__00000476_.Product = __Product__00000034_
 	// setup of Project instances pointers
-	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000010_Specifications)
-	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000000_UX)
-	__Project__00000000_Project_Editor.RootProducts = append(__Project__00000000_Project_Editor.RootProducts, __Product__00000001_Backend)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000006_Write_Specs)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000000_Develop_Backend)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000001_Dev_WBS_Tree)
-	__Project__00000000_Project_Editor.RootTasks = append(__Project__00000000_Project_Editor.RootTasks, __Task__00000002_Dev_PBS_Tree)
-	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000057_NewDiagram)
-	__Project__00000000_Project_Editor.Diagrams = append(__Project__00000000_Project_Editor.Diagrams, __Diagram__00000058_NewDiagram)
-	__Project__00000000_Project_Editor.Notes = append(__Project__00000000_Project_Editor.Notes, __Note__00000000_This_is_an_example_to_explain_a_particular_product_This_has_lot_of_lines_of_explaining_another_line)
-	__Project__00000000_Project_Editor.Notes = append(__Project__00000000_Project_Editor.Notes, __Note__00000001_Second_Note)
-	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000011_Product_1)
-	__Project__00000001_DSME_Docx.RootProducts = append(__Project__00000001_DSME_Docx.RootProducts, __Product__00000015_Product_2)
-	__Project__00000001_DSME_Docx.RootTasks = append(__Project__00000001_DSME_Docx.RootTasks, __Task__00000003_Task_1)
-	__Project__00000001_DSME_Docx.Diagrams = append(__Project__00000001_DSME_Docx.Diagrams, __Diagram__00000042_NewDiagram)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000022_New_Commit_code)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000025_Probe_Notification_Table)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000026__instance_GongDiff_another_instance_)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000027_append_log_when_marshalling)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000028_New_Umarshall_code)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootProducts, __Product__00000031_New_Probe)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks, __Task__00000008_code_GongDiff_per_instance)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks, __Task__00000009_Develop_Probe_Notifications)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.RootTasks, __Task__00000007_Compute_all_Instance_Diff)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Diagrams = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Diagrams, __Diagram__00000061_Work_diagram_x)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes, __Note__00000002_The_algo_uses_the_stage_reference_to_computes_all_new_deleted_modified_instances_of_the_stage)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes, __Note__00000003_The_probe_Notfication_Table_Allows_the_verification_of_commit_diff)
-	__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes = append(__Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934.Notes, __Note__00000004_https_github_com_fullstack_lang_gong_issues_998)
+	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000010_)
+	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000000_)
+	__Project__00000000_.RootProducts = append(__Project__00000000_.RootProducts, __Product__00000001_)
+	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000006_)
+	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000000_)
+	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000001_)
+	__Project__00000000_.RootTasks = append(__Project__00000000_.RootTasks, __Task__00000002_)
+	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000057_)
+	__Project__00000000_.Diagrams = append(__Project__00000000_.Diagrams, __Diagram__00000058_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000000_)
+	__Project__00000000_.Notes = append(__Project__00000000_.Notes, __Note__00000001_)
+	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000011_)
+	__Project__00000001_.RootProducts = append(__Project__00000001_.RootProducts, __Product__00000015_)
+	__Project__00000001_.RootTasks = append(__Project__00000001_.RootTasks, __Task__00000003_)
+	__Project__00000001_.Diagrams = append(__Project__00000001_.Diagrams, __Diagram__00000042_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000022_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000025_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000026_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000027_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000028_)
+	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000031_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000008_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000007_)
+	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
+	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
+	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)
+	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000004_)
 	// setup of Root instances pointers
-	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000000_Project_Editor)
-	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000001_DSME_Docx)
-	__Root__00000000_Root.Projects = append(__Root__00000000_Root.Projects, __Project__00000002_gong_persist_stage_go_as_an_history_of_commits_934)
+	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000000_)
+	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000001_)
+	__Root__00000000_.Projects = append(__Root__00000000_.Projects, __Project__00000002_)
 	// setup of Task instances pointers
-	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000004_Dev_views)
-	__Task__00000000_Develop_Backend.SubTasks = append(__Task__00000000_Develop_Backend.SubTasks, __Task__00000005_Dev_UXx)
-	__Task__00000000_Develop_Backend.Inputs = append(__Task__00000000_Develop_Backend.Inputs, __Product__00000010_Specifications)
-	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000002_WBS_tree)
-	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000004_PBS_tree)
-	__Task__00000005_Dev_UXx.Outputs = append(__Task__00000005_Dev_UXx.Outputs, __Product__00000005_views)
-	__Task__00000006_Write_Specs.Outputs = append(__Task__00000006_Write_Specs.Outputs, __Product__00000010_Specifications)
-	__Task__00000007_Compute_all_Instance_Diff.Inputs = append(__Task__00000007_Compute_all_Instance_Diff.Inputs, __Product__00000025_Probe_Notification_Table)
-	__Task__00000007_Compute_all_Instance_Diff.Inputs = append(__Task__00000007_Compute_all_Instance_Diff.Inputs, __Product__00000026__instance_GongDiff_another_instance_)
-	__Task__00000007_Compute_all_Instance_Diff.Outputs = append(__Task__00000007_Compute_all_Instance_Diff.Outputs, __Product__00000021_String_of_all_New_Stage_Updated_Unstage)
-	__Task__00000007_Compute_all_Instance_Diff.Outputs = append(__Task__00000007_Compute_all_Instance_Diff.Outputs, __Product__00000033_Reverse_Commit_log_Code)
-	__Task__00000008_code_GongDiff_per_instance.Inputs = append(__Task__00000008_code_GongDiff_per_instance.Inputs, __Product__00000025_Probe_Notification_Table)
-	__Task__00000008_code_GongDiff_per_instance.Outputs = append(__Task__00000008_code_GongDiff_per_instance.Outputs, __Product__00000026__instance_GongDiff_another_instance_)
-	__Task__00000009_Develop_Probe_Notifications.Outputs = append(__Task__00000009_Develop_Probe_Notifications.Outputs, __Product__00000025_Probe_Notification_Table)
+	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000004_)
+	__Task__00000000_.SubTasks = append(__Task__00000000_.SubTasks, __Task__00000005_)
+	__Task__00000000_.Inputs = append(__Task__00000000_.Inputs, __Product__00000010_)
+	__Task__00000005_.Outputs = append(__Task__00000005_.Outputs, __Product__00000002_)
+	__Task__00000005_.Outputs = append(__Task__00000005_.Outputs, __Product__00000004_)
+	__Task__00000005_.Outputs = append(__Task__00000005_.Outputs, __Product__00000005_)
+	__Task__00000006_.Outputs = append(__Task__00000006_.Outputs, __Product__00000010_)
+	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000025_)
+	__Task__00000007_.Inputs = append(__Task__00000007_.Inputs, __Product__00000026_)
+	__Task__00000007_.Outputs = append(__Task__00000007_.Outputs, __Product__00000021_)
+	__Task__00000007_.Outputs = append(__Task__00000007_.Outputs, __Product__00000033_)
+	__Task__00000008_.Inputs = append(__Task__00000008_.Inputs, __Product__00000025_)
+	__Task__00000008_.Outputs = append(__Task__00000008_.Outputs, __Product__00000026_)
+	__Task__00000009_.Outputs = append(__Task__00000009_.Outputs, __Product__00000025_)
 	// setup of TaskCompositionShape instances pointers
-	__TaskCompositionShape__00000005_Develop_Backend_to_Dev_UXx.Task = __Task__00000005_Dev_UXx
-	__TaskCompositionShape__00000006_Develop_Backend_to_Dev_views.Task = __Task__00000004_Dev_views
+	__TaskCompositionShape__00000005_.Task = __Task__00000005_
+	__TaskCompositionShape__00000006_.Task = __Task__00000004_
 	// setup of TaskInputShape instances pointers
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.Task = __Task__00000000_Develop_Backend
-	__TaskInputShape__00000000_Develop_Backend_to_Specifications.Product = __Product__00000010_Specifications
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.Task = __Task__00000008_code_GongDiff_per_instance
-	__TaskInputShape__00000001_code_GongDiff_to_Probe_Notification_Table.Product = __Product__00000025_Probe_Notification_Table
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.Task = __Task__00000007_Compute_all_Instance_Diff
-	__TaskInputShape__00000002_Compute_all_Instance_Diff_to_Probe_Notification_Table.Product = __Product__00000025_Probe_Notification_Table
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.Task = __Task__00000007_Compute_all_Instance_Diff
-	__TaskInputShape__00000003_Compute_all_Instance_Diff_to_instance_GongDiff_another_instance_.Product = __Product__00000026__instance_GongDiff_another_instance_
+	__TaskInputShape__00000000_.Task = __Task__00000000_
+	__TaskInputShape__00000000_.Product = __Product__00000010_
+	__TaskInputShape__00000001_.Task = __Task__00000008_
+	__TaskInputShape__00000001_.Product = __Product__00000025_
+	__TaskInputShape__00000002_.Task = __Task__00000007_
+	__TaskInputShape__00000002_.Product = __Product__00000025_
+	__TaskInputShape__00000003_.Task = __Task__00000007_
+	__TaskInputShape__00000003_.Product = __Product__00000026_
 	// setup of TaskOutputShape instances pointers
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.Task = __Task__00000005_Dev_UXx
-	__TaskOutputShape__00000059_Dev_UXx_to_WBS_tree.Product = __Product__00000002_WBS_tree
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.Task = __Task__00000005_Dev_UXx
-	__TaskOutputShape__00000060_Dev_UXx_to_PBS_tree.Product = __Product__00000004_PBS_tree
-	__TaskOutputShape__00000061_Dev_UXx_to_views.Task = __Task__00000005_Dev_UXx
-	__TaskOutputShape__00000061_Dev_UXx_to_views.Product = __Product__00000005_views
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Task = __Task__00000007_Compute_all_Instance_Diff
-	__TaskOutputShape__00000063_Compute_Instance_Diff_to_String_of_New_Stage_Updated_Unstage.Product = __Product__00000021_String_of_all_New_Stage_Updated_Unstage
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.Task = __Task__00000009_Develop_Probe_Notifications
-	__TaskOutputShape__00000064_Develop_Probe_Notifications_to_Probe_Notification_Table.Product = __Product__00000025_Probe_Notification_Table
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.Task = __Task__00000008_code_GongDiff_per_instance
-	__TaskOutputShape__00000065_code_GongDiff_per_instance_to_instance_GongDiff_another_instance_.Product = __Product__00000026__instance_GongDiff_another_instance_
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Task = __Task__00000007_Compute_all_Instance_Diff
-	__TaskOutputShape__00000066_Compute_all_Instance_Diff_to_Reverse_Commit_log_Code.Product = __Product__00000033_Reverse_Commit_log_Code
+	__TaskOutputShape__00000059_.Task = __Task__00000005_
+	__TaskOutputShape__00000059_.Product = __Product__00000002_
+	__TaskOutputShape__00000060_.Task = __Task__00000005_
+	__TaskOutputShape__00000060_.Product = __Product__00000004_
+	__TaskOutputShape__00000061_.Task = __Task__00000005_
+	__TaskOutputShape__00000061_.Product = __Product__00000005_
+	__TaskOutputShape__00000063_.Task = __Task__00000007_
+	__TaskOutputShape__00000063_.Product = __Product__00000021_
+	__TaskOutputShape__00000064_.Task = __Task__00000009_
+	__TaskOutputShape__00000064_.Product = __Product__00000025_
+	__TaskOutputShape__00000065_.Task = __Task__00000008_
+	__TaskOutputShape__00000065_.Product = __Product__00000026_
+	__TaskOutputShape__00000066_.Task = __Task__00000007_
+	__TaskOutputShape__00000066_.Product = __Product__00000033_
 	// setup of TaskShape instances pointers
-	__TaskShape__00000012_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
-	__TaskShape__00000013_Develop_Backend_NewDiagram.Task = __Task__00000000_Develop_Backend
-	__TaskShape__00000014_Dev_views_NewDiagram.Task = __Task__00000004_Dev_views
-	__TaskShape__00000015_Dev_UXx_NewDiagram.Task = __Task__00000005_Dev_UXx
-	__TaskShape__00000016_Dev_WBS_Tree_NewDiagram.Task = __Task__00000001_Dev_WBS_Tree
-	__TaskShape__00000017_Dev_PBS_Tree_NewDiagram.Task = __Task__00000002_Dev_PBS_Tree
-	__TaskShape__00000018_Write_Specs_NewDiagram.Task = __Task__00000006_Write_Specs
-	__TaskShape__00000019_zzz_gong_compute_instance_GongDiff_another_instance_NewDiagram.Task = __Task__00000007_Compute_all_Instance_Diff
-	__TaskShape__00000020_NewTask_NewDiagram.Task = __Task__00000008_code_GongDiff_per_instance
-	__TaskShape__00000021_NewTask_NewDiagram.Task = __Task__00000009_Develop_Probe_Notifications
+	__TaskShape__00000012_.Task = __Task__00000006_
+	__TaskShape__00000013_.Task = __Task__00000000_
+	__TaskShape__00000014_.Task = __Task__00000004_
+	__TaskShape__00000015_.Task = __Task__00000005_
+	__TaskShape__00000016_.Task = __Task__00000001_
+	__TaskShape__00000017_.Task = __Task__00000002_
+	__TaskShape__00000018_.Task = __Task__00000006_
+	__TaskShape__00000019_.Task = __Task__00000007_
+	__TaskShape__00000020_.Task = __Task__00000008_
+	__TaskShape__00000021_.Task = __Task__00000009_
 }
 
