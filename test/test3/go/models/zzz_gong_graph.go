@@ -230,7 +230,6 @@ func (stage *Stage) UnstageBranchB(b *B) {
 
 }
 
-
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
@@ -247,24 +246,24 @@ func (a *A) GongDiff(aOther *A) (diffs []string) {
 		}
 	}
 	BsDifferent := false
-    if len(a.Bs) != len(aOther.Bs) {
-        BsDifferent = true
-    } else {
-        for i := range a.Bs {
-            if (a.Bs[i] == nil) != (aOther.Bs[i] == nil) {
-                BsDifferent = true
-                break
-            } else if a.Bs[i] != nil && aOther.Bs[i] != nil {
-                if len(a.Bs[i].GongDiff(aOther.Bs[i])) > 0 {
-                    BsDifferent = true
-                    break
-                }
-            }
-        }
-    }
-    if BsDifferent {
-        diffs = append(diffs, "Bs")
-    }
+	if len(a.Bs) != len(aOther.Bs) {
+		BsDifferent = true
+	} else {
+		for i := range a.Bs {
+			if (a.Bs[i] == nil) != (aOther.Bs[i] == nil) {
+				BsDifferent = true
+				break
+			} else if a.Bs[i] != nil && aOther.Bs[i] != nil {
+				if len(a.Bs[i].GongDiff(aOther.Bs[i])) > 0 {
+					BsDifferent = true
+					break
+				}
+			}
+		}
+	}
+	if BsDifferent {
+		diffs = append(diffs, "Bs")
+	}
 
 	return
 }
