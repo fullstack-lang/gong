@@ -37,8 +37,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values{{ValueInitializers}}
 
 	// insertion point for setup of pointers{{PointersInitializers}}
-}
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -333,329 +332,254 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion initialization of objects to stage
 func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.Name))
 	case "Icon":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Icon")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.Icon))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Icon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.Icon))
 	case "IsDisabled":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsDisabled")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.IsDisabled))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsDisabled")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.IsDisabled))
 	case "HasToolTip":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasToolTip")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.HasToolTip))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", button.HasToolTip))
 	case "ToolTipText":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipText")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(button.ToolTipText))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(button.ToolTipText))
 	case "ToolTipPosition":
 		if button.ToolTipPosition != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", button.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipPosition")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+button.ToolTipPosition.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+button.ToolTipPosition.ToCodeString())
 		}
 
 	case "SVGIcon":
 		if button.SVGIcon != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", button.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SVGIcon")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", button.SVGIcon.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", button.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVGIcon")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", button.SVGIcon.GongGetIdentifier(stage))
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Button", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (node *Node) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.Name))
 	case "FontStyle":
 		if node.FontStyle != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FontStyle")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+node.FontStyle.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FontStyle")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.FontStyle.ToCodeString())
 		}
 	case "BackgroundColor":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BackgroundColor")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.BackgroundColor))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BackgroundColor")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.BackgroundColor))
 	case "IsExpanded":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsExpanded")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsExpanded))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsExpanded")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsExpanded))
 	case "HasCheckboxButton":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasCheckboxButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasCheckboxButton))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasCheckboxButton")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasCheckboxButton))
 	case "IsChecked":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsChecked")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsChecked))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsChecked))
 	case "IsCheckboxDisabled":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsCheckboxDisabled")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsCheckboxDisabled))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsCheckboxDisabled")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsCheckboxDisabled))
 	case "CheckboxHasToolTip":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CheckboxHasToolTip")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.CheckboxHasToolTip))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxHasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.CheckboxHasToolTip))
 	case "CheckboxToolTipText":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CheckboxToolTipText")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.CheckboxToolTipText))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.CheckboxToolTipText))
 	case "CheckboxToolTipPosition":
 		if node.CheckboxToolTipPosition != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CheckboxToolTipPosition")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+node.CheckboxToolTipPosition.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CheckboxToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.CheckboxToolTipPosition.ToCodeString())
 		}
 	case "HasSecondCheckboxButton":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasSecondCheckboxButton")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasSecondCheckboxButton))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasSecondCheckboxButton")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasSecondCheckboxButton))
 	case "IsSecondCheckboxChecked":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSecondCheckboxChecked")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxChecked))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSecondCheckboxChecked")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxChecked))
 	case "IsSecondCheckboxDisabled":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsSecondCheckboxDisabled")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxDisabled))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsSecondCheckboxDisabled")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsSecondCheckboxDisabled))
 	case "SecondCheckboxHasToolTip":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SecondCheckboxHasToolTip")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.SecondCheckboxHasToolTip))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxHasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.SecondCheckboxHasToolTip))
 	case "SecondCheckboxToolTipText":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SecondCheckboxToolTipText")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.SecondCheckboxToolTipText))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.SecondCheckboxToolTipText))
 	case "SecondCheckboxToolTipPosition":
 		if node.SecondCheckboxToolTipPosition != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SecondCheckboxToolTipPosition")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+node.SecondCheckboxToolTipPosition.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondCheckboxToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.SecondCheckboxToolTipPosition.ToCodeString())
 		}
 	case "TextAfterSecondCheckbox":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TextAfterSecondCheckbox")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.TextAfterSecondCheckbox))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextAfterSecondCheckbox")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.TextAfterSecondCheckbox))
 	case "HasToolTip":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasToolTip")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasToolTip))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasToolTip")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.HasToolTip))
 	case "ToolTipText":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipText")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.ToolTipText))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.ToolTipText))
 	case "ToolTipPosition":
 		if node.ToolTipPosition != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ToolTipPosition")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+node.ToolTipPosition.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ToolTipPosition")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+node.ToolTipPosition.ToCodeString())
 		}
 	case "IsInEditMode":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInEditMode")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInEditMode))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInEditMode")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsInEditMode))
 	case "IsNodeClickable":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsNodeClickable")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsNodeClickable))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsNodeClickable")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsNodeClickable))
 	case "IsWithPreceedingIcon":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsWithPreceedingIcon")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPreceedingIcon))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithPreceedingIcon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", node.IsWithPreceedingIcon))
 	case "PreceedingIcon":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", node.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "PreceedingIcon")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(node.PreceedingIcon))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingIcon")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(node.PreceedingIcon))
 
 	case "PreceedingSVGIcon":
 		if node.PreceedingSVGIcon != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "PreceedingSVGIcon")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", node.PreceedingSVGIcon.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", node.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PreceedingSVGIcon")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", node.PreceedingSVGIcon.GongGetIdentifier(stage))
 		}
 	case "Children":
 		for _, _node := range node.Children {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Children")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Children")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
+			res += tmp
 		}
 	case "Buttons":
 		for _, _button := range node.Buttons {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", node.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Buttons")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", node.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Buttons")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _button.GongGetIdentifier(stage))
+			res += tmp
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Node", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (svgicon *SVGIcon) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgicon.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgicon.Name))
 	case "SVG":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SVG")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgicon.SVG))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgicon.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SVG")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgicon.SVG))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SVGIcon", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", tree.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(tree.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", tree.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(tree.Name))
 
 	case "RootNodes":
 		for _, _node := range tree.RootNodes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", tree.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "RootNodes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", tree.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "RootNodes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _node.GongGetIdentifier(stage))
+			res += tmp
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tree", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }

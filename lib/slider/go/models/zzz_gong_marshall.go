@@ -37,8 +37,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values{{ValueInitializers}}
 
 	// insertion point for setup of pointers{{PointersInitializers}}
-}
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -316,213 +315,155 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion initialization of objects to stage
 func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(checkbox.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.Name))
 	case "ValueBool":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ValueBool")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", checkbox.ValueBool))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueBool")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", checkbox.ValueBool))
 	case "LabelForTrue":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "LabelForTrue")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForTrue))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForTrue")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForTrue))
 	case "LabelForFalse":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "LabelForFalse")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForFalse))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LabelForFalse")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(checkbox.LabelForFalse))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Checkbox", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", group.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(group.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(group.Name))
 	case "Percentage":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", group.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Percentage")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", group.Percentage))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Percentage")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", group.Percentage))
 
 	case "Sliders":
 		for _, _slider := range group.Sliders {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", group.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Sliders")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _slider.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Sliders")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _slider.GongGetIdentifier(stage))
+			res += tmp
 		}
 	case "Checkboxes":
 		for _, _checkbox := range group.Checkboxes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", group.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Checkboxes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Checkboxes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _checkbox.GongGetIdentifier(stage))
+			res += tmp
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Group", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", layout.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(layout.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", layout.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(layout.Name))
 
 	case "Groups":
 		for _, _group := range layout.Groups {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", layout.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Groups")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", layout.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
+			res += tmp
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Layout", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(slider.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(slider.Name))
 	case "IsFloat64":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsFloat64")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsFloat64))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsFloat64")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsFloat64))
 	case "IsInt":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsInt")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsInt))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsInt")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", slider.IsInt))
 	case "MinInt":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinInt")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MinInt))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinInt")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MinInt))
 	case "MaxInt":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxInt")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MaxInt))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxInt")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.MaxInt))
 	case "StepInt":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StepInt")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.StepInt))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StepInt")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.StepInt))
 	case "ValueInt":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ValueInt")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.ValueInt))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueInt")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", slider.ValueInt))
 	case "MinFloat64":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MinFloat64")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MinFloat64))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MinFloat64")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MinFloat64))
 	case "MaxFloat64":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaxFloat64")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MaxFloat64))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaxFloat64")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.MaxFloat64))
 	case "StepFloat64":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StepFloat64")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.StepFloat64))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StepFloat64")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.StepFloat64))
 	case "ValueFloat64":
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", slider.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ValueFloat64")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.ValueFloat64))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", slider.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ValueFloat64")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", slider.ValueFloat64))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }

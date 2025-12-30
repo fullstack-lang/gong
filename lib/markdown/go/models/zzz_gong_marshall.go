@@ -37,8 +37,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values{{ValueInitializers}}
 
 	// insertion point for setup of pointers{{PointersInitializers}}
-}
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -303,129 +302,81 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion initialization of objects to stage
 func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", content.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Name))
 	case "Content":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", content.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Content))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Content", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
 	case "Base64Content":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct JpgImage", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
 	case "Base64Content":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct PngImage", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
 	case "Content":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }

@@ -37,8 +37,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values{{ValueInitializers}}
 
 	// insertion point for setup of pointers{{PointersInitializers}}
-}
-`
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
@@ -267,91 +266,56 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 
 // insertion initialization of objects to stage
 func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetodownload.Name))
 	case "Base64EncodedContent":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Base64EncodedContent))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetodownload.Base64EncodedContent))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FileToDownload", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (filetoupload *FileToUpload) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetoupload.Name))
 	case "Base64EncodedContent":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Base64EncodedContent))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetoupload.Base64EncodedContent))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct FileToUpload", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
 func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res string) {
-	var setValueField, setPointerField string
-	_ = setValueField
-	_ = setPointerField
-	initializerStatements := ""
-	_ = initializerStatements
-	pointersInitializesStatements := ""
-	_ = pointersInitializesStatements
 
 	switch fieldName {
 	case "Name":
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", message.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(message.Name))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", message.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(message.Name))
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Message", fieldName)
 	}
-
-	// temporary kludge to reuse existing template code
-	res = initializerStatements + pointersInitializesStatements
 	return
 }

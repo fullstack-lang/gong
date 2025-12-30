@@ -156,10 +156,11 @@ sqd
 
 	// insertion point for setup of pointers
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000000_)
+	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000001_)
+	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000003_)
+	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000004_)
 	__Astruct__00000000_.Anarrayofb2Use = append(__Astruct__00000000_.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000000_)
-	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000004_)
-	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000003_)
 	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_
 	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_
 	__Dstruct__00000000_.Anarrayofb = append(__Dstruct__00000000_.Anarrayofb, __Bstruct__00000001_)
