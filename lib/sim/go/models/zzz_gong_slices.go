@@ -497,7 +497,7 @@ func (status *Status) GongMarshallIdentifier(stage *Stage) (decl string) {
 	return
 }
 func (updatestate *UpdateState) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = IdentifiersDeclsWithoutNameInit
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "UpdateState")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", updatestate.Name)
