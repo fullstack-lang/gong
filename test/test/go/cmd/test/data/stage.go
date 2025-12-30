@@ -21,7 +21,7 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage
+	// insertion point for declaration of instances to stage
 
 	__Astruct__00000000_ := (&models.Astruct{Name: `A0xxdd`}).Stage(stage)
 	__Astruct__00000001_ := (&models.Astruct{Name: `A1`}).Stage(stage)
@@ -41,7 +41,7 @@ func _(stage *models.Stage) {
 	__Gstruct__00000000_ := (&models.Gstruct{}).Stage(stage)
 	__Gstruct__00000001_ := (&models.Gstruct{}).Stage(stage)
 
-	// Setup of values
+	// insertion point for initialization of values
 
 	__Astruct__00000000_.Name = `A0xxdd`
 	__Astruct__00000000_.Date, _ = time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", "2042-11-14 03:08:21 +0000 UTC")
@@ -154,19 +154,13 @@ sqd
 	__Gstruct__00000001_.Floatfield2 = 0.000000
 	__Gstruct__00000001_.Intfield = 0
 
-	// Setup of pointers
-	// setup of Astruct instances pointers
+	// insertion point for setup of pointers
 	__Astruct__00000000_.Anarrayofb = append(__Astruct__00000000_.Anarrayofb, __Bstruct__00000000_)
 	__Astruct__00000000_.Anarrayofb2Use = append(__Astruct__00000000_.Anarrayofb2Use, __AstructBstruct2Use__00000001_)
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000000_)
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000004_)
 	__Astruct__00000001_.Anarrayofb = append(__Astruct__00000001_.Anarrayofb, __Bstruct__00000003_)
-	// setup of AstructBstruct2Use instances pointers
 	__AstructBstruct2Use__00000000_.Bstrcut2 = __Bstruct__00000000_
 	__AstructBstruct2Use__00000001_.Bstrcut2 = __Bstruct__00000000_
-	// setup of Bstruct instances pointers
-	// setup of Dstruct instances pointers
 	__Dstruct__00000000_.Anarrayofb = append(__Dstruct__00000000_.Anarrayofb, __Bstruct__00000001_)
-	// setup of Gstruct instances pointers
 }
-
