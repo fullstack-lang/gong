@@ -38,8 +38,8 @@ func _(stage *models.Stage) {
 
 	__Dstruct__00000000_ := (&models.Dstruct{Name: `D1`}).Stage(stage)
 
-	__Gstruct__00000000_ := (&models.Gstruct{Name: ``}).Stage(stage)
-	__Gstruct__00000001_ := (&models.Gstruct{Name: `g2`}).Stage(stage)
+	__Gstruct__00000000_ := (&models.Gstruct{}).Stage(stage)
+	__Gstruct__00000001_ := (&models.Gstruct{}).Stage(stage)
 
 	// Setup of values
 
