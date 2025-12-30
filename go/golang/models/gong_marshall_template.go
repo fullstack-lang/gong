@@ -34,11 +34,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
+	// insertion point for setup of pointers{{PointersInitializers}}
 }
 ` + "`" + `
 
@@ -52,7 +52,7 @@ const IdentifiersDecls = ` + "`" + `
 // previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
 // simpler version but the name of the instance cannot be human read before the fields initialization
 const IdentifiersDeclsWithoutNameInit = ` + "`" + `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` + "`" + `/* */
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` + "`" + ` /* */
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` +
