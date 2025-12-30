@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -187,7 +188,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Astruct \""+astruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Astruct \""+astruct.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -229,7 +230,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of AstructBstruct2Use \""+astructbstruct2use.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of AstructBstruct2Use \""+astructbstruct2use.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -271,7 +272,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of AstructBstructUse \""+astructbstructuse.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of AstructBstructUse \""+astructbstructuse.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -313,7 +314,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Bstruct \""+bstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Bstruct \""+bstruct.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -355,7 +356,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Dstruct \""+dstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Dstruct \""+dstruct.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -397,7 +398,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of F0123456789012345678901234567890 \""+f0123456789012345678901234567890.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of F0123456789012345678901234567890 \""+f0123456789012345678901234567890.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -439,7 +440,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Gstruct \""+gstruct.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Gstruct \""+gstruct.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -509,4 +510,126 @@ func (stage *Stage) ComputeReference() {
 		stage.Gstructs_reference[instance] = instance.GongCopy().(*Gstruct)
 	}
 
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (astruct *Astruct) GongGetOrder(stage *Stage) uint {
+	return stage.AstructMap_Staged_Order[astruct]
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetOrder(stage *Stage) uint {
+	return stage.AstructBstruct2UseMap_Staged_Order[astructbstruct2use]
+}
+
+func (astructbstructuse *AstructBstructUse) GongGetOrder(stage *Stage) uint {
+	return stage.AstructBstructUseMap_Staged_Order[astructbstructuse]
+}
+
+func (bstruct *Bstruct) GongGetOrder(stage *Stage) uint {
+	return stage.BstructMap_Staged_Order[bstruct]
+}
+
+func (dstruct *Dstruct) GongGetOrder(stage *Stage) uint {
+	return stage.DstructMap_Staged_Order[dstruct]
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetOrder(stage *Stage) uint {
+	return stage.F0123456789012345678901234567890Map_Staged_Order[f0123456789012345678901234567890]
+}
+
+func (gstruct *Gstruct) GongGetOrder(stage *Stage) uint {
+	return stage.GstructMap_Staged_Order[gstruct]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (astruct *Astruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astruct.GongGetGongstructName(), astruct.GongGetOrder(stage))
+}
+
+func (astructbstruct2use *AstructBstruct2Use) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstruct2use.GongGetGongstructName(), astructbstruct2use.GongGetOrder(stage))
+}
+
+func (astructbstructuse *AstructBstructUse) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", astructbstructuse.GongGetGongstructName(), astructbstructuse.GongGetOrder(stage))
+}
+
+func (bstruct *Bstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", bstruct.GongGetGongstructName(), bstruct.GongGetOrder(stage))
+}
+
+func (dstruct *Dstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", dstruct.GongGetGongstructName(), dstruct.GongGetOrder(stage))
+}
+
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", f0123456789012345678901234567890.GongGetGongstructName(), f0123456789012345678901234567890.GongGetOrder(stage))
+}
+
+func (gstruct *Gstruct) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", gstruct.GongGetGongstructName(), gstruct.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (astruct *Astruct) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Astruct")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astruct.Name)
+	return
+}
+func (astructbstruct2use *AstructBstruct2Use) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstruct2Use")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstruct2use.Name)
+	return
+}
+func (astructbstructuse *AstructBstructUse) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "AstructBstructUse")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", astructbstructuse.Name)
+	return
+}
+func (bstruct *Bstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bstruct")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bstruct.Name)
+	return
+}
+func (dstruct *Dstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Dstruct")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dstruct.Name)
+	return
+}
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "F0123456789012345678901234567890")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Name)
+	return
+}
+func (gstruct *Gstruct) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDeclsWithoutNameInit
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gstruct")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gstruct.Name)
+	return
 }

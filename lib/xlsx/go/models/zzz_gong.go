@@ -1156,6 +1156,7 @@ type GongstructIF interface {
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
+	GongGetOrder(stage *Stage) uint
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF

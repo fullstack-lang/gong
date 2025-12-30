@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_FileToDownload_Identifiers := make(map[*FileToDownload]string)
-	_ = map_FileToDownload_Identifiers
-
 	filetodownloadOrdered := []*FileToDownload{}
 	for filetodownload := range stage.FileToDownloads {
 		filetodownloadOrdered = append(filetodownloadOrdered, filetodownload)
@@ -127,33 +125,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, filetodownload := range filetodownloadOrdered {
 
-		id = generatesIdentifier("FileToDownload", int(stage.FileToDownloadMap_Staged_Order[filetodownload]), filetodownload.Name)
-		map_FileToDownload_Identifiers[filetodownload] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetodownload.Name)
-		identifiersDecl += decl
+		identifiersDecl += filetodownload.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetodownload.Base64EncodedContent))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += filetodownload.GongMarshallField(stage, "Name")
+		initializerStatements += filetodownload.GongMarshallField(stage, "Base64EncodedContent")
 	}
-
-	map_FileToUpload_Identifiers := make(map[*FileToUpload]string)
-	_ = map_FileToUpload_Identifiers
 
 	filetouploadOrdered := []*FileToUpload{}
 	for filetoupload := range stage.FileToUploads {
@@ -174,33 +152,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, filetoupload := range filetouploadOrdered {
 
-		id = generatesIdentifier("FileToUpload", int(stage.FileToUploadMap_Staged_Order[filetoupload]), filetoupload.Name)
-		map_FileToUpload_Identifiers[filetoupload] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetoupload.Name)
-		identifiersDecl += decl
+		identifiersDecl += filetoupload.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64EncodedContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(filetoupload.Base64EncodedContent))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += filetoupload.GongMarshallField(stage, "Name")
+		initializerStatements += filetoupload.GongMarshallField(stage, "Base64EncodedContent")
 	}
-
-	map_Message_Identifiers := make(map[*Message]string)
-	_ = map_Message_Identifiers
 
 	messageOrdered := []*Message{}
 	for message := range stage.Messages {
@@ -221,63 +179,36 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, message := range messageOrdered {
 
-		id = generatesIdentifier("Message", int(stage.MessageMap_Staged_Order[message]), message.Name)
-		map_Message_Identifiers[message] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", message.Name)
-		identifiersDecl += decl
+		identifiersDecl += message.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(message.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += message.GongMarshallField(stage, "Name")
 	}
 
 	// insertion initialization of objects to stage
-	if len(filetodownloadOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of FileToDownload instances pointers"
-	}
 	for _, filetodownload := range filetodownloadOrdered {
+		_ = filetodownload
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("FileToDownload", int(stage.FileToDownloadMap_Staged_Order[filetodownload]), filetodownload.Name)
-		map_FileToDownload_Identifiers[filetodownload] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(filetouploadOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of FileToUpload instances pointers"
-	}
 	for _, filetoupload := range filetouploadOrdered {
+		_ = filetoupload
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("FileToUpload", int(stage.FileToUploadMap_Staged_Order[filetoupload]), filetoupload.Name)
-		map_FileToUpload_Identifiers[filetoupload] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(messageOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Message instances pointers"
-	}
 	for _, message := range messageOrdered {
+		_ = message
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Message", int(stage.MessageMap_Staged_Order[message]), message.Name)
-		map_Message_Identifiers[message] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -333,20 +264,58 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetodownload.Name))
+	case "Base64EncodedContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetodownload.Base64EncodedContent))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FileToDownload", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (filetoupload *FileToUpload) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetoupload.Name))
+	case "Base64EncodedContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64EncodedContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(filetoupload.Base64EncodedContent))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct FileToUpload", fieldName)
+	}
+	return
+}
+
+func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", message.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(message.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Message", fieldName)
+	}
 	return
 }

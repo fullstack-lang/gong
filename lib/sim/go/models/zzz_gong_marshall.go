@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_Command_Identifiers := make(map[*Command]string)
-	_ = map_Command_Identifiers
-
 	commandOrdered := []*Command{}
 	for command := range stage.Commands {
 		commandOrdered = append(commandOrdered, command)
@@ -127,41 +125,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, command := range commandOrdered {
 
-		id = generatesIdentifier("Command", int(stage.CommandMap_Staged_Order[command]), command.Name)
-		map_Command_Identifiers[command] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Command")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", command.Name)
-		identifiersDecl += decl
+		identifiersDecl += command.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(command.Name))
-		initializerStatements += setValueField
-
-		if command.Command != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Command")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+command.Command.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CommandDate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(command.CommandDate))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += command.GongMarshallField(stage, "Name")
+		initializerStatements += command.GongMarshallField(stage, "Command")
+		initializerStatements += command.GongMarshallField(stage, "CommandDate")
+		pointersInitializesStatements += command.GongMarshallField(stage, "Engine")
 	}
-
-	map_DummyAgent_Identifiers := make(map[*DummyAgent]string)
-	_ = map_DummyAgent_Identifiers
 
 	dummyagentOrdered := []*DummyAgent{}
 	for dummyagent := range stage.DummyAgents {
@@ -182,33 +154,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, dummyagent := range dummyagentOrdered {
 
-		id = generatesIdentifier("DummyAgent", int(stage.DummyAgentMap_Staged_Order[dummyagent]), dummyagent.Name)
-		map_DummyAgent_Identifiers[dummyagent] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DummyAgent")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", dummyagent.Name)
-		identifiersDecl += decl
+		identifiersDecl += dummyagent.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TechName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dummyagent.TechName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dummyagent.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += dummyagent.GongMarshallField(stage, "TechName")
+		initializerStatements += dummyagent.GongMarshallField(stage, "Name")
 	}
-
-	map_Engine_Identifiers := make(map[*Engine]string)
-	_ = map_Engine_Identifiers
 
 	engineOrdered := []*Engine{}
 	for engine := range stage.Engines {
@@ -229,79 +181,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, engine := range engineOrdered {
 
-		id = generatesIdentifier("Engine", int(stage.EngineMap_Staged_Order[engine]), engine.Name)
-		map_Engine_Identifiers[engine] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Engine")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", engine.Name)
-		identifiersDecl += decl
+		identifiersDecl += engine.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(engine.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndTime")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(engine.EndTime))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CurrentTime")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(engine.CurrentTime))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DisplayFormat")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(engine.DisplayFormat))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SecondsSinceStart")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", engine.SecondsSinceStart))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Fired")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", engine.Fired))
-		initializerStatements += setValueField
-
-		if engine.ControlMode != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ControlMode")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+engine.ControlMode.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if engine.State != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "State")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+engine.State.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Speed")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", engine.Speed))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += engine.GongMarshallField(stage, "Name")
+		initializerStatements += engine.GongMarshallField(stage, "EndTime")
+		initializerStatements += engine.GongMarshallField(stage, "CurrentTime")
+		initializerStatements += engine.GongMarshallField(stage, "DisplayFormat")
+		initializerStatements += engine.GongMarshallField(stage, "SecondsSinceStart")
+		initializerStatements += engine.GongMarshallField(stage, "Fired")
+		initializerStatements += engine.GongMarshallField(stage, "ControlMode")
+		initializerStatements += engine.GongMarshallField(stage, "State")
+		initializerStatements += engine.GongMarshallField(stage, "Speed")
 	}
-
-	map_Event_Identifiers := make(map[*Event]string)
-	_ = map_Event_Identifiers
 
 	eventOrdered := []*Event{}
 	for event := range stage.Events {
@@ -322,33 +215,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, event := range eventOrdered {
 
-		id = generatesIdentifier("Event", int(stage.EventMap_Staged_Order[event]), event.Name)
-		map_Event_Identifiers[event] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Event")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", event.Name)
-		identifiersDecl += decl
+		identifiersDecl += event.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(event.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Duration")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", event.Duration))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += event.GongMarshallField(stage, "Name")
+		initializerStatements += event.GongMarshallField(stage, "Duration")
 	}
-
-	map_Status_Identifiers := make(map[*Status]string)
-	_ = map_Status_Identifiers
 
 	statusOrdered := []*Status{}
 	for status := range stage.Statuss {
@@ -369,55 +242,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, status := range statusOrdered {
 
-		id = generatesIdentifier("Status", int(stage.StatusMap_Staged_Order[status]), status.Name)
-		map_Status_Identifiers[status] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Status")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", status.Name)
-		identifiersDecl += decl
+		identifiersDecl += status.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(status.Name))
-		initializerStatements += setValueField
-
-		if status.CurrentCommand != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CurrentCommand")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+status.CurrentCommand.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CompletionDate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(status.CompletionDate))
-		initializerStatements += setValueField
-
-		if status.CurrentSpeedCommand != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CurrentSpeedCommand")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+status.CurrentSpeedCommand.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "SpeedCommandCompletionDate")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(status.SpeedCommandCompletionDate))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += status.GongMarshallField(stage, "Name")
+		initializerStatements += status.GongMarshallField(stage, "CurrentCommand")
+		initializerStatements += status.GongMarshallField(stage, "CompletionDate")
+		initializerStatements += status.GongMarshallField(stage, "CurrentSpeedCommand")
+		initializerStatements += status.GongMarshallField(stage, "SpeedCommandCompletionDate")
 	}
-
-	map_UpdateState_Identifiers := make(map[*UpdateState]string)
-	_ = map_UpdateState_Identifiers
 
 	updatestateOrdered := []*UpdateState{}
 	for updatestate := range stage.UpdateStates {
@@ -438,122 +272,62 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, updatestate := range updatestateOrdered {
 
-		id = generatesIdentifier("UpdateState", int(stage.UpdateStateMap_Staged_Order[updatestate]), updatestate.Name)
-		map_UpdateState_Identifiers[updatestate] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "UpdateState")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", updatestate.Name)
-		identifiersDecl += decl
+		identifiersDecl += updatestate.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(updatestate.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Duration")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", updatestate.Duration))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Period")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", updatestate.Period))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += updatestate.GongMarshallField(stage, "Name")
+		initializerStatements += updatestate.GongMarshallField(stage, "Duration")
+		initializerStatements += updatestate.GongMarshallField(stage, "Period")
 	}
 
 	// insertion initialization of objects to stage
-	if len(commandOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Command instances pointers"
-	}
 	for _, command := range commandOrdered {
+		_ = command
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Command", int(stage.CommandMap_Staged_Order[command]), command.Name)
-		map_Command_Identifiers[command] = id
-
-		// Initialisation of values
-		if command.Engine != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Engine")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Engine_Identifiers[command.Engine])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(dummyagentOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of DummyAgent instances pointers"
-	}
 	for _, dummyagent := range dummyagentOrdered {
+		_ = dummyagent
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("DummyAgent", int(stage.DummyAgentMap_Staged_Order[dummyagent]), dummyagent.Name)
-		map_DummyAgent_Identifiers[dummyagent] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(engineOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Engine instances pointers"
-	}
 	for _, engine := range engineOrdered {
+		_ = engine
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Engine", int(stage.EngineMap_Staged_Order[engine]), engine.Name)
-		map_Engine_Identifiers[engine] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(eventOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Event instances pointers"
-	}
 	for _, event := range eventOrdered {
+		_ = event
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Event", int(stage.EventMap_Staged_Order[event]), event.Name)
-		map_Event_Identifiers[event] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(statusOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Status instances pointers"
-	}
 	for _, status := range statusOrdered {
+		_ = status
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Status", int(stage.StatusMap_Staged_Order[status]), status.Name)
-		map_Status_Identifiers[status] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(updatestateOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of UpdateState instances pointers"
-	}
 	for _, updatestate := range updatestateOrdered {
+		_ = updatestate
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("UpdateState", int(stage.UpdateStateMap_Staged_Order[updatestate]), updatestate.Name)
-		map_UpdateState_Identifiers[updatestate] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -609,20 +383,200 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (command *Command) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(command.Name))
+	case "Command":
+		if command.Command != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Command")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+command.Command.ToCodeString())
+		}
+	case "CommandDate":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CommandDate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(command.CommandDate))
+
+	case "Engine":
+		if command.Engine != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", command.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Engine")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", command.Engine.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Command", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (dummyagent *DummyAgent) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "TechName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TechName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(dummyagent.TechName))
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", dummyagent.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(dummyagent.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct DummyAgent", fieldName)
+	}
+	return
+}
+
+func (engine *Engine) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.Name))
+	case "EndTime":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "EndTime")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.EndTime))
+	case "CurrentTime":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentTime")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.CurrentTime))
+	case "DisplayFormat":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayFormat")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(engine.DisplayFormat))
+	case "SecondsSinceStart":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SecondsSinceStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", engine.SecondsSinceStart))
+	case "Fired":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Fired")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", engine.Fired))
+	case "ControlMode":
+		if engine.ControlMode != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ControlMode")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+engine.ControlMode.ToCodeString())
+		}
+	case "State":
+		if engine.State != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "State")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+engine.State.ToCodeString())
+		}
+	case "Speed":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", engine.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Speed")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", engine.Speed))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Engine", fieldName)
+	}
+	return
+}
+
+func (event *Event) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", event.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(event.Name))
+	case "Duration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", event.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", event.Duration))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Event", fieldName)
+	}
+	return
+}
+
+func (status *Status) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.Name))
+	case "CurrentCommand":
+		if status.CurrentCommand != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentCommand")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+status.CurrentCommand.ToCodeString())
+		}
+	case "CompletionDate":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompletionDate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.CompletionDate))
+	case "CurrentSpeedCommand":
+		if status.CurrentSpeedCommand != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CurrentSpeedCommand")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+status.CurrentSpeedCommand.ToCodeString())
+		}
+	case "SpeedCommandCompletionDate":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", status.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "SpeedCommandCompletionDate")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(status.SpeedCommandCompletionDate))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Status", fieldName)
+	}
+	return
+}
+
+func (updatestate *UpdateState) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(updatestate.Name))
+	case "Duration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Duration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", updatestate.Duration))
+	case "Period":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", updatestate.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Period")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", updatestate.Period))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct UpdateState", fieldName)
+	}
 	return
 }

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_Chapter_Identifiers := make(map[*Chapter]string)
-	_ = map_Chapter_Identifiers
-
 	chapterOrdered := []*Chapter{}
 	for chapter := range stage.Chapters {
 		chapterOrdered = append(chapterOrdered, chapter)
@@ -127,33 +125,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, chapter := range chapterOrdered {
 
-		id = generatesIdentifier("Chapter", int(stage.ChapterMap_Staged_Order[chapter]), chapter.Name)
-		map_Chapter_Identifiers[chapter] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Chapter")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", chapter.Name)
-		identifiersDecl += decl
+		identifiersDecl += chapter.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(chapter.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MardownContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(chapter.MardownContent))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += chapter.GongMarshallField(stage, "Name")
+		initializerStatements += chapter.GongMarshallField(stage, "MardownContent")
+		pointersInitializesStatements += chapter.GongMarshallField(stage, "Pages")
 	}
-
-	map_Content_Identifiers := make(map[*Content]string)
-	_ = map_Content_Identifiers
 
 	contentOrdered := []*Content{}
 	for content := range stage.Contents {
@@ -174,95 +153,24 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, content := range contentOrdered {
 
-		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
-		map_Content_Identifiers[content] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
-		identifiersDecl += decl
+		identifiersDecl += content.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MardownContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.MardownContent))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ContentPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.ContentPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OutputPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.OutputPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "LayoutPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.LayoutPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StaticPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.StaticPath))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsBespokeLogoFileName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokeLogoFileName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeLogoFileName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.BespokeLogoFileName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsBespokePageTileLogoFileName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokePageTileLogoFileName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokePageTileLogoFileName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.BespokePageTileLogoFileName))
-		initializerStatements += setValueField
-
-		if content.Target != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Target")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+content.Target.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "VersionInfo")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.VersionInfo))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += content.GongMarshallField(stage, "Name")
+		initializerStatements += content.GongMarshallField(stage, "MardownContent")
+		initializerStatements += content.GongMarshallField(stage, "ContentPath")
+		initializerStatements += content.GongMarshallField(stage, "OutputPath")
+		initializerStatements += content.GongMarshallField(stage, "LayoutPath")
+		initializerStatements += content.GongMarshallField(stage, "StaticPath")
+		initializerStatements += content.GongMarshallField(stage, "IsBespokeLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "BespokeLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "IsBespokePageTileLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "BespokePageTileLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "Target")
+		pointersInitializesStatements += content.GongMarshallField(stage, "Chapters")
+		initializerStatements += content.GongMarshallField(stage, "VersionInfo")
 	}
-
-	map_Page_Identifiers := make(map[*Page]string)
-	_ = map_Page_Identifiers
 
 	pageOrdered := []*Page{}
 	for page := range stage.Pages {
@@ -283,85 +191,37 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, page := range pageOrdered {
 
-		id = generatesIdentifier("Page", int(stage.PageMap_Staged_Order[page]), page.Name)
-		map_Page_Identifiers[page] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", page.Name)
-		identifiersDecl += decl
+		identifiersDecl += page.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(page.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MardownContent")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(page.MardownContent))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += page.GongMarshallField(stage, "Name")
+		initializerStatements += page.GongMarshallField(stage, "MardownContent")
 	}
 
 	// insertion initialization of objects to stage
-	if len(chapterOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Chapter instances pointers"
-	}
 	for _, chapter := range chapterOrdered {
+		_ = chapter
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Chapter", int(stage.ChapterMap_Staged_Order[chapter]), chapter.Name)
-		map_Chapter_Identifiers[chapter] = id
-
-		// Initialisation of values
-		for _, _page := range chapter.Pages {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Pages")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Page_Identifiers[_page])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(contentOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Content instances pointers"
-	}
 	for _, content := range contentOrdered {
+		_ = content
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
-		map_Content_Identifiers[content] = id
-
-		// Initialisation of values
-		for _, _chapter := range content.Chapters {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Chapters")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Chapter_Identifiers[_chapter])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(pageOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Page instances pointers"
-	}
 	for _, page := range pageOrdered {
+		_ = page
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Page", int(stage.PageMap_Staged_Order[page]), page.Name)
-		map_Page_Identifiers[page] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -417,20 +277,131 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(chapter.Name))
+	case "MardownContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(chapter.MardownContent))
+
+	case "Pages":
+		for _, _page := range chapter.Pages {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Pages")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _page.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Chapter", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Name))
+	case "MardownContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.MardownContent))
+	case "ContentPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ContentPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.ContentPath))
+	case "OutputPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OutputPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.OutputPath))
+	case "LayoutPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LayoutPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.LayoutPath))
+	case "StaticPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.StaticPath))
+	case "IsBespokeLogoFileName":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokeLogoFileName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokeLogoFileName))
+	case "BespokeLogoFileName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeLogoFileName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.BespokeLogoFileName))
+	case "IsBespokePageTileLogoFileName":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokePageTileLogoFileName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", content.IsBespokePageTileLogoFileName))
+	case "BespokePageTileLogoFileName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokePageTileLogoFileName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.BespokePageTileLogoFileName))
+	case "Target":
+		if content.Target != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Target")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+content.Target.ToCodeString())
+		}
+	case "VersionInfo":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "VersionInfo")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.VersionInfo))
+
+	case "Chapters":
+		for _, _chapter := range content.Chapters {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", content.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Chapters")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _chapter.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Content", fieldName)
+	}
+	return
+}
+
+func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(page.Name))
+	case "MardownContent":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", page.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MardownContent")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(page.MardownContent))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Page", fieldName)
+	}
 	return
 }
