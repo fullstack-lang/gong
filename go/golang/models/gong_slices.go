@@ -17,6 +17,7 @@ const GongSliceTemplate = `// generated code - do not edit
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -56,6 +57,23 @@ func (stage *Stage) ComputeReference() {
 
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeReference)) + `}}
 }
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct{{` + string(rune(GongSliceGongGetOrder)) + `}}
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct{{` + string(rune(GongSliceGongGetIdentifier)) + `}}
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -67,6 +85,9 @@ const (
 	GongSliceGongCopy
 	GongSliceGongComputeDifference
 	GongSliceGongComputeReference
+	GongSliceGongGetOrder
+	GongSliceGongGetIdentifier
+	GongSliceMarshallDeclaration
 	GongSliceGongstructInsertionNb
 )
 
@@ -111,7 +132,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -141,6 +162,25 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 		stage.{{Structname}}s_reference[instance] = instance.GongCopy().(*{{Structname}})
 	}
 `,
+
+	GongSliceGongGetOrder: `
+func ({{structname}} *{{Structname}}) GongGetOrder(stage *Stage) uint {
+	return stage.{{Structname}}Map_Staged_Order[{{structname}}]
+}
+`,
+	GongSliceGongGetIdentifier: `
+func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", {{structname}}.GongGetGongstructName(), {{structname}}.GongGetOrder(stage))
+}
+`,
+	GongSliceMarshallDeclaration: `
+func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+	return
+}`,
 }
 
 type GongSliceSubTemplateId int
@@ -268,6 +308,22 @@ func CodeGeneratorModelGongSlice(
 				"{{Structname}}", gongStruct.Name,
 				"{{perFieldCode}}", perFieldCode,
 				"{{sliceOfPointerFieldReverseMapComputationCode}}", sliceOfPointerFieldReverseMapComputationCode)
+
+			// case where the i
+			if GongSliceMarshallDeclaration == subStructTemplate {
+				// find the "Name" field
+				nameFieldIsEmbedded := false
+				for _, field := range gongStruct.Fields {
+					if field.GetName() == "Name" && field.GetCompositeStructName() != "" {
+						nameFieldIsEmbedded = true
+					}
+				}
+				if nameFieldIsEmbedded {
+					// go does not hanldledirect reference to embedded fields in struct literals (https://github.com/golang/go/issues/9859)
+					// therefore, we simplify the code generation
+					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "IdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
+				}
+			}
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}

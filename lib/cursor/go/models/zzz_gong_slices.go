@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -59,7 +60,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Cursor \""+cursor.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Cursor \""+cursor.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -99,4 +100,36 @@ func (stage *Stage) ComputeReference() {
 		stage.Cursors_reference[instance] = instance.GongCopy().(*Cursor)
 	}
 
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
+	return stage.CursorMap_Staged_Order[cursor]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", cursor.GongGetGongstructName(), cursor.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
+	return
 }

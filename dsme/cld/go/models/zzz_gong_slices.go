@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -214,7 +215,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category1 \""+category1.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category1 \""+category1.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -256,7 +257,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category1Shape \""+category1shape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category1Shape \""+category1shape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -298,7 +299,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category2 \""+category2.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category2 \""+category2.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -340,7 +341,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category2Shape \""+category2shape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category2Shape \""+category2shape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -382,7 +383,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category3 \""+category3.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category3 \""+category3.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -424,7 +425,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Category3Shape \""+category3shape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Category3Shape \""+category3shape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -466,7 +467,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of ControlPointShape \""+controlpointshape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of ControlPointShape \""+controlpointshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -508,7 +509,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Desk \""+desk.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Desk \""+desk.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -550,7 +551,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Diagram \""+diagram.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Diagram \""+diagram.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -592,7 +593,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Influence \""+influence.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Influence \""+influence.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -634,7 +635,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of InfluenceShape \""+influenceshape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of InfluenceShape \""+influenceshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -724,4 +725,186 @@ func (stage *Stage) ComputeReference() {
 		stage.InfluenceShapes_reference[instance] = instance.GongCopy().(*InfluenceShape)
 	}
 
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (category1 *Category1) GongGetOrder(stage *Stage) uint {
+	return stage.Category1Map_Staged_Order[category1]
+}
+
+func (category1shape *Category1Shape) GongGetOrder(stage *Stage) uint {
+	return stage.Category1ShapeMap_Staged_Order[category1shape]
+}
+
+func (category2 *Category2) GongGetOrder(stage *Stage) uint {
+	return stage.Category2Map_Staged_Order[category2]
+}
+
+func (category2shape *Category2Shape) GongGetOrder(stage *Stage) uint {
+	return stage.Category2ShapeMap_Staged_Order[category2shape]
+}
+
+func (category3 *Category3) GongGetOrder(stage *Stage) uint {
+	return stage.Category3Map_Staged_Order[category3]
+}
+
+func (category3shape *Category3Shape) GongGetOrder(stage *Stage) uint {
+	return stage.Category3ShapeMap_Staged_Order[category3shape]
+}
+
+func (controlpointshape *ControlPointShape) GongGetOrder(stage *Stage) uint {
+	return stage.ControlPointShapeMap_Staged_Order[controlpointshape]
+}
+
+func (desk *Desk) GongGetOrder(stage *Stage) uint {
+	return stage.DeskMap_Staged_Order[desk]
+}
+
+func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
+	return stage.DiagramMap_Staged_Order[diagram]
+}
+
+func (influence *Influence) GongGetOrder(stage *Stage) uint {
+	return stage.InfluenceMap_Staged_Order[influence]
+}
+
+func (influenceshape *InfluenceShape) GongGetOrder(stage *Stage) uint {
+	return stage.InfluenceShapeMap_Staged_Order[influenceshape]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (category1 *Category1) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category1.GongGetGongstructName(), category1.GongGetOrder(stage))
+}
+
+func (category1shape *Category1Shape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category1shape.GongGetGongstructName(), category1shape.GongGetOrder(stage))
+}
+
+func (category2 *Category2) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category2.GongGetGongstructName(), category2.GongGetOrder(stage))
+}
+
+func (category2shape *Category2Shape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category2shape.GongGetGongstructName(), category2shape.GongGetOrder(stage))
+}
+
+func (category3 *Category3) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category3.GongGetGongstructName(), category3.GongGetOrder(stage))
+}
+
+func (category3shape *Category3Shape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", category3shape.GongGetGongstructName(), category3shape.GongGetOrder(stage))
+}
+
+func (controlpointshape *ControlPointShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", controlpointshape.GongGetGongstructName(), controlpointshape.GongGetOrder(stage))
+}
+
+func (desk *Desk) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", desk.GongGetGongstructName(), desk.GongGetOrder(stage))
+}
+
+func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+}
+
+func (influence *Influence) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", influence.GongGetGongstructName(), influence.GongGetOrder(stage))
+}
+
+func (influenceshape *InfluenceShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", influenceshape.GongGetGongstructName(), influenceshape.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (category1 *Category1) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1.Name)
+	return
+}
+func (category1shape *Category1Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1shape.Name)
+	return
+}
+func (category2 *Category2) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2.Name)
+	return
+}
+func (category2shape *Category2Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2shape.Name)
+	return
+}
+func (category3 *Category3) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3.Name)
+	return
+}
+func (category3shape *Category3Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3shape.Name)
+	return
+}
+func (controlpointshape *ControlPointShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlPointShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", controlpointshape.Name)
+	return
+}
+func (desk *Desk) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", desk.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Desk")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", desk.Name)
+	return
+}
+func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
+	return
+}
+func (influence *Influence) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influence.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Influence")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influence.Name)
+	return
+}
+func (influenceshape *InfluenceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InfluenceShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influenceshape.Name)
+	return
 }

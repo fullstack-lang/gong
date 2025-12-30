@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_Arrow_Identifiers := make(map[*Arrow]string)
-	_ = map_Arrow_Identifiers
-
 	arrowOrdered := []*Arrow{}
 	for arrow := range stage.Arrows {
 		arrowOrdered = append(arrowOrdered, arrow)
@@ -127,39 +125,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, arrow := range arrowOrdered {
 
-		id = generatesIdentifier("Arrow", int(stage.ArrowMap_Staged_Order[arrow]), arrow.Name)
-		map_Arrow_Identifiers[arrow] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Arrow")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", arrow.Name)
-		identifiersDecl += decl
+		identifiersDecl += arrow.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(arrow.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OptionnalColor")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(arrow.OptionnalColor))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OptionnalStroke")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(arrow.OptionnalStroke))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += arrow.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += arrow.GongMarshallField(stage, "From")
+		pointersInitializesStatements += arrow.GongMarshallField(stage, "To")
+		initializerStatements += arrow.GongMarshallField(stage, "OptionnalColor")
+		initializerStatements += arrow.GongMarshallField(stage, "OptionnalStroke")
 	}
-
-	map_Bar_Identifiers := make(map[*Bar]string)
-	_ = map_Bar_Identifiers
 
 	barOrdered := []*Bar{}
 	for bar := range stage.Bars {
@@ -180,75 +155,20 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, bar := range barOrdered {
 
-		id = generatesIdentifier("Bar", int(stage.BarMap_Staged_Order[bar]), bar.Name)
-		map_Bar_Identifiers[bar] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Bar")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", bar.Name)
-		identifiersDecl += decl
+		identifiersDecl += bar.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bar.Name))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Start")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", bar.Start.String())
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "End")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", bar.End.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ComputedDuration")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bar.ComputedDuration))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OptionnalColor")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bar.OptionnalColor))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OptionnalStroke")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bar.OptionnalStroke))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FillOpacity")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.FillOpacity))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.StrokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeDashArray")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bar.StrokeDashArray))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += bar.GongMarshallField(stage, "Name")
+		initializerStatements += bar.GongMarshallField(stage, "Start")
+		initializerStatements += bar.GongMarshallField(stage, "End")
+		initializerStatements += bar.GongMarshallField(stage, "ComputedDuration")
+		initializerStatements += bar.GongMarshallField(stage, "OptionnalColor")
+		initializerStatements += bar.GongMarshallField(stage, "OptionnalStroke")
+		initializerStatements += bar.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += bar.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += bar.GongMarshallField(stage, "StrokeDashArray")
 	}
-
-	map_Gantt_Identifiers := make(map[*Gantt]string)
-	_ = map_Gantt_Identifiers
 
 	ganttOrdered := []*Gantt{}
 	for gantt := range stage.Gantts {
@@ -269,171 +189,40 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gantt := range ganttOrdered {
 
-		id = generatesIdentifier("Gantt", int(stage.GanttMap_Staged_Order[gantt]), gantt.Name)
-		map_Gantt_Identifiers[gantt] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Gantt")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gantt.Name)
-		identifiersDecl += decl
+		identifiersDecl += gantt.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gantt.Name))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ComputedStart")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", gantt.ComputedStart.String())
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ComputedEnd")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", gantt.ComputedEnd.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ComputedDuration")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gantt.ComputedDuration))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.UseManualStartAndEndDates))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ManualStart")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", gantt.ManualStart.String())
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ManualEnd")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", gantt.ManualEnd.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "LaneHeight")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.LaneHeight))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.RatioBarToLaneHeight))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "YTopMargin")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.YTopMargin))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "XLeftText")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftText))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TextHeight")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TextHeight))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "XLeftLanes")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftLanes))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "XRightMargin")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XRightMargin))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowLengthToTheRightOfStartBar))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ArrowTipLenght")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowTipLenght))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TimeLine_Color")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gantt.TimeLine_Color))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_FillOpacity))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TimeLine_Stroke")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gantt.TimeLine_Stroke))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_StrokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Group_Stroke")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gantt.Group_Stroke))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Group_StrokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.Group_StrokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gantt.Group_StrokeDashArray))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DateYOffset")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.DateYOffset))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.AlignOnStartEndOnYearStart))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gantt.GongMarshallField(stage, "Name")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedStart")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedEnd")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedDuration")
+		initializerStatements += gantt.GongMarshallField(stage, "UseManualStartAndEndDates")
+		initializerStatements += gantt.GongMarshallField(stage, "ManualStart")
+		initializerStatements += gantt.GongMarshallField(stage, "ManualEnd")
+		initializerStatements += gantt.GongMarshallField(stage, "LaneHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "RatioBarToLaneHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "YTopMargin")
+		initializerStatements += gantt.GongMarshallField(stage, "XLeftText")
+		initializerStatements += gantt.GongMarshallField(stage, "TextHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "XLeftLanes")
+		initializerStatements += gantt.GongMarshallField(stage, "XRightMargin")
+		initializerStatements += gantt.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar")
+		initializerStatements += gantt.GongMarshallField(stage, "ArrowTipLenght")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_Color")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_FillOpacity")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_Stroke")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_StrokeWidth")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_Stroke")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_StrokeWidth")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_StrokeDashArray")
+		initializerStatements += gantt.GongMarshallField(stage, "DateYOffset")
+		initializerStatements += gantt.GongMarshallField(stage, "AlignOnStartEndOnYearStart")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Lanes")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Milestones")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Groups")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Arrows")
 	}
-
-	map_Group_Identifiers := make(map[*Group]string)
-	_ = map_Group_Identifiers
 
 	groupOrdered := []*Group{}
 	for group := range stage.Groups {
@@ -454,27 +243,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, group := range groupOrdered {
 
-		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
-		map_Group_Identifiers[group] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Group")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", group.Name)
-		identifiersDecl += decl
+		identifiersDecl += group.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(group.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += group.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += group.GongMarshallField(stage, "GroupLanes")
 	}
-
-	map_Lane_Identifiers := make(map[*Lane]string)
-	_ = map_Lane_Identifiers
 
 	laneOrdered := []*Lane{}
 	for lane := range stage.Lanes {
@@ -495,33 +270,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, lane := range laneOrdered {
 
-		id = generatesIdentifier("Lane", int(stage.LaneMap_Staged_Order[lane]), lane.Name)
-		map_Lane_Identifiers[lane] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Lane")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", lane.Name)
-		identifiersDecl += decl
+		identifiersDecl += lane.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(lane.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Order")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", lane.Order))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += lane.GongMarshallField(stage, "Name")
+		initializerStatements += lane.GongMarshallField(stage, "Order")
+		pointersInitializesStatements += lane.GongMarshallField(stage, "Bars")
 	}
-
-	map_LaneUse_Identifiers := make(map[*LaneUse]string)
-	_ = map_LaneUse_Identifiers
 
 	laneuseOrdered := []*LaneUse{}
 	for laneuse := range stage.LaneUses {
@@ -542,27 +298,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, laneuse := range laneuseOrdered {
 
-		id = generatesIdentifier("LaneUse", int(stage.LaneUseMap_Staged_Order[laneuse]), laneuse.Name)
-		map_LaneUse_Identifiers[laneuse] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "LaneUse")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", laneuse.Name)
-		identifiersDecl += decl
+		identifiersDecl += laneuse.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(laneuse.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += laneuse.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += laneuse.GongMarshallField(stage, "Lane")
 	}
-
-	map_Milestone_Identifiers := make(map[*Milestone]string)
-	_ = map_Milestone_Identifiers
 
 	milestoneOrdered := []*Milestone{}
 	for milestone := range stage.Milestones {
@@ -583,207 +325,71 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, milestone := range milestoneOrdered {
 
-		id = generatesIdentifier("Milestone", int(stage.MilestoneMap_Staged_Order[milestone]), milestone.Name)
-		map_Milestone_Identifiers[milestone] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Milestone")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", milestone.Name)
-		identifiersDecl += decl
+		identifiersDecl += milestone.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(milestone.Name))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", milestone.Date.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DisplayVerticalBar")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestone.DisplayVerticalBar))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += milestone.GongMarshallField(stage, "Name")
+		initializerStatements += milestone.GongMarshallField(stage, "Date")
+		initializerStatements += milestone.GongMarshallField(stage, "DisplayVerticalBar")
+		pointersInitializesStatements += milestone.GongMarshallField(stage, "LanesToDisplay")
 	}
 
 	// insertion initialization of objects to stage
-	if len(arrowOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Arrow instances pointers"
-	}
 	for _, arrow := range arrowOrdered {
+		_ = arrow
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Arrow", int(stage.ArrowMap_Staged_Order[arrow]), arrow.Name)
-		map_Arrow_Identifiers[arrow] = id
-
-		// Initialisation of values
-		if arrow.From != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "From")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bar_Identifiers[arrow.From])
-			pointersInitializesStatements += setPointerField
-		}
-
-		if arrow.To != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "To")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bar_Identifiers[arrow.To])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(barOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Bar instances pointers"
-	}
 	for _, bar := range barOrdered {
+		_ = bar
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Bar", int(stage.BarMap_Staged_Order[bar]), bar.Name)
-		map_Bar_Identifiers[bar] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(ganttOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Gantt instances pointers"
-	}
 	for _, gantt := range ganttOrdered {
+		_ = gantt
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Gantt", int(stage.GanttMap_Staged_Order[gantt]), gantt.Name)
-		map_Gantt_Identifiers[gantt] = id
-
-		// Initialisation of values
-		for _, _lane := range gantt.Lanes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Lanes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Lane_Identifiers[_lane])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _milestone := range gantt.Milestones {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Milestones")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Milestone_Identifiers[_milestone])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _group := range gantt.Groups {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Groups")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Group_Identifiers[_group])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _arrow := range gantt.Arrows {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Arrows")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Arrow_Identifiers[_arrow])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(groupOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Group instances pointers"
-	}
 	for _, group := range groupOrdered {
+		_ = group
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Group", int(stage.GroupMap_Staged_Order[group]), group.Name)
-		map_Group_Identifiers[group] = id
-
-		// Initialisation of values
-		for _, _lane := range group.GroupLanes {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GroupLanes")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Lane_Identifiers[_lane])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(laneOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Lane instances pointers"
-	}
 	for _, lane := range laneOrdered {
+		_ = lane
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Lane", int(stage.LaneMap_Staged_Order[lane]), lane.Name)
-		map_Lane_Identifiers[lane] = id
-
-		// Initialisation of values
-		for _, _bar := range lane.Bars {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bars")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Bar_Identifiers[_bar])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(laneuseOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of LaneUse instances pointers"
-	}
 	for _, laneuse := range laneuseOrdered {
+		_ = laneuse
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("LaneUse", int(stage.LaneUseMap_Staged_Order[laneuse]), laneuse.Name)
-		map_LaneUse_Identifiers[laneuse] = id
-
-		// Initialisation of values
-		if laneuse.Lane != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Lane")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Lane_Identifiers[laneuse.Lane])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(milestoneOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Milestone instances pointers"
-	}
 	for _, milestone := range milestoneOrdered {
+		_ = milestone
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Milestone", int(stage.MilestoneMap_Staged_Order[milestone]), milestone.Name)
-		map_Milestone_Identifiers[milestone] = id
-
-		// Initialisation of values
-		for _, _lane := range milestone.LanesToDisplay {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "LanesToDisplay")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_Lane_Identifiers[_lane])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -839,20 +445,370 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(arrow.Name))
+	case "OptionnalColor":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(arrow.OptionnalColor))
+	case "OptionnalStroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(arrow.OptionnalStroke))
+
+	case "From":
+		if arrow.From != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "From")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", arrow.From.GongGetIdentifier(stage))
+		}
+	case "To":
+		if arrow.To != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", arrow.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "To")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", arrow.To.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Arrow", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (bar *Bar) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(bar.Name))
+	case "Start":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Start")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", bar.Start.String())
+	case "End":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "End")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", bar.End.String())
+	case "ComputedDuration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bar.ComputedDuration))
+	case "OptionnalColor":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalColor")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(bar.OptionnalColor))
+	case "OptionnalStroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OptionnalStroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(bar.OptionnalStroke))
+	case "FillOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FillOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.FillOpacity))
+	case "StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bar.StrokeWidth))
+	case "StrokeDashArray":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", bar.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StrokeDashArray")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(bar.StrokeDashArray))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Bar", fieldName)
+	}
+	return
+}
+
+func (gantt *Gantt) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gantt.Name))
+	case "ComputedStart":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ComputedStart.String())
+	case "ComputedEnd":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedEnd")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ComputedEnd.String())
+	case "ComputedDuration":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ComputedDuration")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gantt.ComputedDuration))
+	case "UseManualStartAndEndDates":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "UseManualStartAndEndDates")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.UseManualStartAndEndDates))
+	case "ManualStart":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ManualStart.String())
+	case "ManualEnd":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ManualEnd")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gantt.ManualEnd.String())
+	case "LaneHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "LaneHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.LaneHeight))
+	case "RatioBarToLaneHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "RatioBarToLaneHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.RatioBarToLaneHeight))
+	case "YTopMargin":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "YTopMargin")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.YTopMargin))
+	case "XLeftText":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftText")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftText))
+	case "TextHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TextHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TextHeight))
+	case "XLeftLanes":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XLeftLanes")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XLeftLanes))
+	case "XRightMargin":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "XRightMargin")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.XRightMargin))
+	case "ArrowLengthToTheRightOfStartBar":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowLengthToTheRightOfStartBar")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowLengthToTheRightOfStartBar))
+	case "ArrowTipLenght":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ArrowTipLenght")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.ArrowTipLenght))
+	case "TimeLine_Color":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Color")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gantt.TimeLine_Color))
+	case "TimeLine_FillOpacity":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_FillOpacity")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_FillOpacity))
+	case "TimeLine_Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gantt.TimeLine_Stroke))
+	case "TimeLine_StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "TimeLine_StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.TimeLine_StrokeWidth))
+	case "Group_Stroke":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_Stroke")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gantt.Group_Stroke))
+	case "Group_StrokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.Group_StrokeWidth))
+	case "Group_StrokeDashArray":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Group_StrokeDashArray")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gantt.Group_StrokeDashArray))
+	case "DateYOffset":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DateYOffset")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gantt.DateYOffset))
+	case "AlignOnStartEndOnYearStart":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "AlignOnStartEndOnYearStart")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gantt.AlignOnStartEndOnYearStart))
+
+	case "Lanes":
+		for _, _lane := range gantt.Lanes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Lanes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "Milestones":
+		for _, _milestone := range gantt.Milestones {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Milestones")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _milestone.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "Groups":
+		for _, _group := range gantt.Groups {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Groups")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _group.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "Arrows":
+		for _, _arrow := range gantt.Arrows {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gantt.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Arrows")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _arrow.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Gantt", fieldName)
+	}
+	return
+}
+
+func (group *Group) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", group.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(group.Name))
+
+	case "GroupLanes":
+		for _, _lane := range group.GroupLanes {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", group.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GroupLanes")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Group", fieldName)
+	}
+	return
+}
+
+func (lane *Lane) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(lane.Name))
+	case "Order":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", lane.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Order")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", lane.Order))
+
+	case "Bars":
+		for _, _bar := range lane.Bars {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", lane.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Bars")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _bar.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Lane", fieldName)
+	}
+	return
+}
+
+func (laneuse *LaneUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(laneuse.Name))
+
+	case "Lane":
+		if laneuse.Lane != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", laneuse.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Lane")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", laneuse.Lane.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct LaneUse", fieldName)
+	}
+	return
+}
+
+func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(milestone.Name))
+	case "Date":
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Date")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", milestone.Date.String())
+	case "DisplayVerticalBar":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DisplayVerticalBar")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", milestone.DisplayVerticalBar))
+
+	case "LanesToDisplay":
+		for _, _lane := range milestone.LanesToDisplay {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", milestone.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "LanesToDisplay")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _lane.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Milestone", fieldName)
+	}
 	return
 }

@@ -21,6 +21,7 @@ type ModelGongMarshallStructInsertionId int
 const (
 	ModelGongMarshallStructInsertionUnmarshallDeclarations ModelGongMarshallStructInsertionId = iota
 	ModelGongMarshallStructInsertionUnmarshallPointersInitializations
+	ModelGongMarshallMarshalFieldMethods
 	ModelGongMarshallStructInsertionsNb
 )
 
@@ -28,9 +29,6 @@ var ModelGongMarshallStructSubTemplateCode map[ModelGongMarshallStructInsertionI
 map[ModelGongMarshallStructInsertionId]string{
 
 	ModelGongMarshallStructInsertionUnmarshallDeclarations: `
-	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
-	_ = map_{{Structname}}_Identifiers
-
 	{{structname}}Ordered := []*{{Structname}}{}
 	for {{structname}} := range stage.{{Structname}}s {
 		{{structname}}Ordered = append({{structname}}Ordered, {{structname}})
@@ -50,33 +48,32 @@ map[ModelGongMarshallStructInsertionId]string{
 	}
 	for _, {{structname}} := range {{structname}}Ordered {
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
-		map_{{Structname}}_Identifiers[{{structname}}] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
-		identifiersDecl += decl
+		identifiersDecl += {{structname}}.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values{{ValuesInitialization}}
+		// Insertion point for basic fields value assignment{{ValuesInitialization}}
 	}
 `,
 
 	ModelGongMarshallStructInsertionUnmarshallPointersInitializations: `
-	if len({{structname}}Ordered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of {{Structname}} instances pointers"
-	}
 	for _, {{structname}} := range {{structname}}Ordered {
+		_ = {{structname}}
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
-		map_{{Structname}}_Identifiers[{{structname}}] = id
-
-		// Initialisation of values{{PointersInitialization}}
+		// Insertion point for pointers initialization{{PointersInitialization}}
 	}
+`,
+	ModelGongMarshallMarshalFieldMethods: `
+func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+{{ValuesInitialization2}}
+{{PointersInitialization2}}	default:
+		log.Panicf("Unknown field %s for Gongstruct {{Structname}}", fieldName)
+	}
+	return
+}
 `,
 }
 
@@ -93,89 +90,86 @@ const (
 	GongMarshallFileFieldSubTmplSetTimeField
 	GongMarshallFileFieldSubTmplSetPointerField
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField
+	GongMarshallNonPointerFieldInitializerStatement
+	GongMarshallPointerFieldInitializerStatement
 )
 
 var GongMarshallFileFieldFieldSubTemplateCode map[GongMarshallFilePerStructSubTemplateId]string = // declaration of the sub templates
 map[GongMarshallFilePerStructSubTemplateId]string{
 
 	GongMarshallFileFieldSubTmplSetBasicFieldBool: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", {{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetTimeField: `
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
-		initializerStatements += setValueField
+		res = TimeInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.String())
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldInt: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", {{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumString: `
 		if {{structname}}.{{FieldName}} != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
-			initializerStatements += setValueField
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 		}
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldEnumInt: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+{{structname}}.{{FieldName}}.ToCodeString())
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldFloat64: `
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", {{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldString: `
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
-		initializerStatements += setValueField
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string({{structname}}.{{FieldName}}))
 `,
 	GongMarshallFileFieldSubTmplSetBasicFieldMeta: `
 		if str, ok := {{structname}}.{{FieldName}}.(string); ok {
-			setValueField = MetaFieldStructInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
-			initializerStatements += setValueField
+			res = MetaFieldStructInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", str)
 		}
 `,
 	GongMarshallFileFieldSubTmplSetPointerField: `
 		if {{structname}}.{{FieldName}} != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[{{structname}}.{{FieldName}}])
-			pointersInitializesStatements += setPointerField
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "{{FieldName}}")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", {{structname}}.{{FieldName}}.GongGetIdentifier(stage))
 		}
 `,
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField: `
 		for _, _{{assocstructname}} := range {{structname}}.{{FieldName}} {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "{{FieldName}}")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_{{AssocStructName}}_Identifiers[_{{assocstructname}}])
-			pointersInitializesStatements += setPointerField
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "{{FieldName}}")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _{{assocstructname}}.GongGetIdentifier(stage))
+			res += tmp
 		}
 `,
+	GongMarshallNonPointerFieldInitializerStatement: `
+		initializerStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
+	GongMarshallPointerFieldInitializerStatement: `
+		pointersInitializesStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
 }
 
 func CodeGeneratorModelGongMarshall(
@@ -209,65 +203,86 @@ func CodeGeneratorModelGongMarshall(
 		for subStructTemplate := range ModelGongMarshallStructSubTemplateCode {
 
 			valInitCode := ""
+			valInitCode2 := ""
 			pointerInitCode := ""
+			pointerInitCode2 := ""
 
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
 				case *models.GongBasicField:
+					valInitCode2 += `	case "` + field.GetName() + `":`
+					tmp := ""
 
 					switch field.GetBasicKind() {
 					case types.String:
 						if field.GongEnum == nil {
-
-							valInitCode += models.Replace1(
+							tmp = models.Replace1(
 								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldString],
 								"{{FieldName}}", field.Name)
-
 						} else {
-							valInitCode += models.Replace1(
+							tmp = models.Replace1(
 								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldEnumString],
 								"{{FieldName}}", field.Name)
 						}
 					case types.Bool:
-						valInitCode += models.Replace1(
+						tmp = models.Replace1(
 							GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldBool],
 							"{{FieldName}}", field.Name)
 					case types.Float64:
-						valInitCode += models.Replace1(
+						tmp = models.Replace1(
 							GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldFloat64],
 							"{{FieldName}}", field.Name)
 					case types.Int, types.Int64:
 						if field.GongEnum == nil {
-							valInitCode += models.Replace1(
+							tmp = models.Replace1(
 								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldInt],
 								"{{FieldName}}", field.Name)
 						} else {
-							valInitCode += models.Replace1(
+							tmp = models.Replace1(
 								GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldEnumInt],
 								"{{FieldName}}", field.Name)
 						}
 					case types.UntypedNil:
-						valInitCode += models.Replace1(
+						tmp = models.Replace1(
 							GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetBasicFieldMeta],
 							"{{FieldName}}", field.Name)
 					default:
 					}
-				case *models.GongTimeField:
 					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallNonPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
+					valInitCode2 += tmp
+				case *models.GongTimeField:
+					valInitCode2 += `	case "` + field.GetName() + `":`
+					tmp := models.Replace1(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetTimeField],
 						"{{FieldName}}", field.Name)
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallNonPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
+					valInitCode2 += tmp
 				case *models.PointerToGongStructField:
-					pointerInitCode += models.Replace2(
+					pointerInitCode2 += `	case "` + field.GetName() + `":`
+					tmp := models.Replace2(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetPointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
+					pointerInitCode2 += tmp
 				case *models.SliceOfPointerToGongStructField:
-					pointerInitCode += models.Replace3(
+					pointerInitCode2 += `	case "` + field.GetName() + `":`
+					tmp := models.Replace3(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetSliceOfPointersField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
+					pointerInitCode2 += tmp
 				default:
 				}
 
@@ -277,15 +292,26 @@ func CodeGeneratorModelGongMarshall(
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
+			valInitCode2 = models.Replace2(valInitCode2,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
 			pointerInitCode = models.Replace2(pointerInitCode,
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name)
 
-			generatedCodeFromSubTemplate := models.Replace4(ModelGongMarshallStructSubTemplateCode[subStructTemplate],
+			pointerInitCode2 = models.Replace2(pointerInitCode2,
+				"{{structname}}", strings.ToLower(gongStruct.Name),
+				"{{Structname}}", gongStruct.Name)
+
+			generatedCodeFromSubTemplate := models.Replace6(ModelGongMarshallStructSubTemplateCode[subStructTemplate],
 				"{{structname}}", strings.ToLower(gongStruct.Name),
 				"{{Structname}}", gongStruct.Name,
 				"{{ValuesInitialization}}", valInitCode,
-				"{{PointersInitialization}}", pointerInitCode)
+				"{{ValuesInitialization2}}", valInitCode2,
+				"{{PointersInitialization}}", pointerInitCode,
+				"{{PointersInitialization2}}", pointerInitCode2,
+			)
 
 			subStructCodes[subStructTemplate] += generatedCodeFromSubTemplate
 		}
