@@ -32,11 +32,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
+	// insertion point for setup of pointers{{PointersInitializers}}
 }
 `
 
@@ -46,7 +46,7 @@ const IdentifiersDecls = `
 // previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
 // simpler version but the name of the instance cannot be human read before the fields initialization
 const IdentifiersDeclsWithoutNameInit = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)`/* */
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -125,113 +125,35 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, cursor := range cursorOrdered {
-	
+
 		identifiersDecl += cursor.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StartX")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StartX))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "EndX")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.EndX))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y1")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.Y1))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Y2")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.Y2))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DurationSeconds")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.DurationSeconds))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Color")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.Color))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FillOpacity")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.FillOpacity))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Stroke")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.Stroke))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeOpacity")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StrokeOpacity))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", cursor.StrokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeDashArray")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.StrokeDashArray))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StrokeDashArrayWhenSelected")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.StrokeDashArrayWhenSelected))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Transform")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(cursor.Transform))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", cursor.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsPlaying")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", cursor.IsPlaying))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += cursor.GongMarshallField(stage, "Name")
+		initializerStatements += cursor.GongMarshallField(stage, "StartX")
+		initializerStatements += cursor.GongMarshallField(stage, "EndX")
+		initializerStatements += cursor.GongMarshallField(stage, "Y1")
+		initializerStatements += cursor.GongMarshallField(stage, "Y2")
+		initializerStatements += cursor.GongMarshallField(stage, "DurationSeconds")
+		initializerStatements += cursor.GongMarshallField(stage, "Color")
+		initializerStatements += cursor.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += cursor.GongMarshallField(stage, "Stroke")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += cursor.GongMarshallField(stage, "Transform")
+		initializerStatements += cursor.GongMarshallField(stage, "IsPlaying")
 	}
 
 	// insertion initialization of objects to stage
-	if len(cursorOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Cursor instances pointers"
-	}
 	for _, cursor := range cursorOrdered {
 		_ = cursor
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -288,7 +210,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion initialization of objects to stage
-func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -386,9 +311,11 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (setValu
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", cursor.IsPlaying))
 		initializerStatements += setValueField
 
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Cursor", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }

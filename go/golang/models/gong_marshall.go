@@ -47,28 +47,28 @@ map[ModelGongMarshallStructInsertionId]string{
 		identifiersDecl += "\n"
 	}
 	for _, {{structname}} := range {{structname}}Ordered {
-	
+
 		identifiersDecl += {{structname}}.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values{{ValuesInitialization}}
+		// Insertion point for basic fields value assignment{{ValuesInitialization}}
 	}
 `,
 
 	ModelGongMarshallStructInsertionUnmarshallPointersInitializations: `
-	if len({{structname}}Ordered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of {{Structname}} instances pointers"
-	}
 	for _, {{structname}} := range {{structname}}Ordered {
 		_ = {{structname}}
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values{{PointersInitialization}}
+		// Insertion point for pointers initialization{{PointersInitialization}}
 	}
 `,
 	ModelGongMarshallMarshalFieldMethods: `
-func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -76,10 +76,12 @@ func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName 
 
 	switch fieldName {
 {{ValuesInitialization2}}
-{{PointersInitialization2}}
-	default:
+{{PointersInitialization2}}	default:
 		log.Panicf("Unknown field %s for Gongstruct {{Structname}}", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 `,
@@ -98,6 +100,8 @@ const (
 	GongMarshallFileFieldSubTmplSetTimeField
 	GongMarshallFileFieldSubTmplSetPointerField
 	GongMarshallFileFieldSubTmplSetSliceOfPointersField
+	GongMarshallNonPointerFieldInitializerStatement
+	GongMarshallPointerFieldInitializerStatement
 )
 
 var GongMarshallFileFieldFieldSubTemplateCode map[GongMarshallFilePerStructSubTemplateId]string = // declaration of the sub templates
@@ -181,6 +185,10 @@ map[GongMarshallFilePerStructSubTemplateId]string{
 			pointersInitializesStatements += setPointerField
 		}
 `,
+	GongMarshallNonPointerFieldInitializerStatement: `
+		initializerStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
+	GongMarshallPointerFieldInitializerStatement: `
+		pointersInitializesStatements += {{structname}}.GongMarshallField(stage, "{{FieldName}}")`,
 }
 
 func CodeGeneratorModelGongMarshall(
@@ -260,14 +268,18 @@ func CodeGeneratorModelGongMarshall(
 							"{{FieldName}}", field.Name)
 					default:
 					}
-					valInitCode += tmp
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallNonPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
 					valInitCode2 += tmp
 				case *models.GongTimeField:
 					valInitCode2 += `	case "` + field.GetName() + `":`
 					tmp := models.Replace1(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetTimeField],
 						"{{FieldName}}", field.Name)
-					valInitCode += tmp
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallNonPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
 					valInitCode2 += tmp
 				case *models.PointerToGongStructField:
 					pointerInitCode2 += `	case "` + field.GetName() + `":`
@@ -275,7 +287,9 @@ func CodeGeneratorModelGongMarshall(
 						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallFileFieldSubTmplSetPointerField],
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name)
-					pointerInitCode += tmp
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
 					pointerInitCode2 += tmp
 				case *models.SliceOfPointerToGongStructField:
 					pointerInitCode2 += `	case "` + field.GetName() + `":`
@@ -284,7 +298,9 @@ func CodeGeneratorModelGongMarshall(
 						"{{FieldName}}", field.Name,
 						"{{AssocStructName}}", field.GongStruct.Name,
 						"{{assocstructname}}", strings.ToLower(field.GongStruct.Name))
-					pointerInitCode += tmp
+					valInitCode += models.Replace1(
+						GongMarshallFileFieldFieldSubTemplateCode[GongMarshallPointerFieldInitializerStatement],
+						"{{FieldName}}", field.Name)
 					pointerInitCode2 += tmp
 				default:
 				}

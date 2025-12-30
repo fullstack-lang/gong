@@ -32,11 +32,11 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
+	// insertion point for setup of pointers{{PointersInitializers}}
 }
 `
 
@@ -46,7 +46,7 @@ const IdentifiersDecls = `
 // previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
 // simpler version but the name of the instance cannot be human read before the fields initialization
 const IdentifiersDeclsWithoutNameInit = `
-	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)`/* */
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -125,121 +125,43 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astruct := range astructOrdered {
-	
+
 		identifiersDecl += astruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.Name))
-		initializerStatements += setValueField
-
-		if str, ok := astruct.Field.(string); ok {
-			setValueField = MetaFieldStructInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Field")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", str)
-			initializerStatements += setValueField
-		}
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date.String())
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date2")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", astruct.Date2.String())
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Booleanfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Booleanfield))
-		initializerStatements += setValueField
-
-		if astruct.Aenum != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if astruct.Aenum_2 != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Aenum_2")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Aenum_2.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		if astruct.Benum != "" {
-			setValueField = StringEnumInitStatement
-			setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Benum")
-			setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.Benum.ToCodeString())
-			initializerStatements += setValueField
-		}
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CEnum")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+astruct.CEnum.ToCodeString())
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.CName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CFloatfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.CFloatfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", astruct.Floatfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Intfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Anotherbooleanfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", astruct.Anotherbooleanfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Duration1")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", astruct.Duration1))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TextFieldBespokeSize")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.TextFieldBespokeSize))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "TextArea")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astruct.TextArea))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += astruct.GongMarshallField(stage, "Name")
+		initializerStatements += astruct.GongMarshallField(stage, "Field")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Associationtob")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofb")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anotherassociationtob_2")
+		initializerStatements += astruct.GongMarshallField(stage, "Date")
+		initializerStatements += astruct.GongMarshallField(stage, "Date2")
+		initializerStatements += astruct.GongMarshallField(stage, "Booleanfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Aenum")
+		initializerStatements += astruct.GongMarshallField(stage, "Aenum_2")
+		initializerStatements += astruct.GongMarshallField(stage, "Benum")
+		initializerStatements += astruct.GongMarshallField(stage, "CEnum")
+		initializerStatements += astruct.GongMarshallField(stage, "CName")
+		initializerStatements += astruct.GongMarshallField(stage, "CFloatfield")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Bstruct")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Bstruct2")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct2")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct3")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct4")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct4s")
+		initializerStatements += astruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Intfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Anotherbooleanfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Duration1")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofa")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anotherarrayofb")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "AnarrayofbUse")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofb2Use")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "AnAstruct")
+		initializerStatements += astruct.GongMarshallField(stage, "TextFieldBespokeSize")
+		initializerStatements += astruct.GongMarshallField(stage, "TextArea")
 	}
 
 	astructbstruct2useOrdered := []*AstructBstruct2Use{}
@@ -260,17 +182,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstruct2use := range astructbstruct2useOrdered {
-	
+
 		identifiersDecl += astructbstruct2use.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstruct2use.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += astructbstruct2use.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += astructbstruct2use.GongMarshallField(stage, "Bstrcut2")
 	}
 
 	astructbstructuseOrdered := []*AstructBstructUse{}
@@ -291,17 +209,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, astructbstructuse := range astructbstructuseOrdered {
-	
+
 		identifiersDecl += astructbstructuse.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(astructbstructuse.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += astructbstructuse.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += astructbstructuse.GongMarshallField(stage, "Bstruct2")
 	}
 
 	bstructOrdered := []*Bstruct{}
@@ -322,35 +236,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, bstruct := range bstructOrdered {
-	
+
 		identifiersDecl += bstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(bstruct.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", bstruct.Floatfield2))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", bstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += bstruct.GongMarshallField(stage, "Name")
+		initializerStatements += bstruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += bstruct.GongMarshallField(stage, "Floatfield2")
+		initializerStatements += bstruct.GongMarshallField(stage, "Intfield")
 	}
 
 	dstructOrdered := []*Dstruct{}
@@ -371,17 +265,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, dstruct := range dstructOrdered {
-	
+
 		identifiersDecl += dstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(dstruct.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += dstruct.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Anarrayofb")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Gstruct")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Gstructs")
 	}
 
 	f0123456789012345678901234567890Ordered := []*F0123456789012345678901234567890{}
@@ -402,23 +294,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
-	
+
 		identifiersDecl += f0123456789012345678901234567890.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(f0123456789012345678901234567890.Name))
-		initializerStatements += setValueField
-
-		setValueField = TimeInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", f0123456789012345678901234567890.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Date")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Date.String())
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += f0123456789012345678901234567890.GongMarshallField(stage, "Name")
+		initializerStatements += f0123456789012345678901234567890.GongMarshallField(stage, "Date")
 	}
 
 	gstructOrdered := []*Gstruct{}
@@ -439,273 +321,72 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		identifiersDecl += "\n"
 	}
 	for _, gstruct := range gstructOrdered {
-	
+
 		identifiersDecl += gstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gstruct.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Floatfield2")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%f", gstruct.Floatfield2))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", gstruct.GongGetIdentifier(stage))
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Intfield")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gstruct.Intfield))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gstruct.GongMarshallField(stage, "Name")
+		initializerStatements += gstruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += gstruct.GongMarshallField(stage, "Floatfield2")
+		initializerStatements += gstruct.GongMarshallField(stage, "Intfield")
 	}
 
 	// insertion initialization of objects to stage
-	if len(astructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Astruct instances pointers"
-	}
 	for _, astruct := range astructOrdered {
 		_ = astruct
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
-		if astruct.Associationtob != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Associationtob")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Associationtob.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _bstruct := range astruct.Anarrayofb {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Anotherassociationtob_2 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherassociationtob_2")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Anotherassociationtob_2.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Bstruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Bstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Bstruct2 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct2")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Bstruct2.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Dstruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Dstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Dstruct2 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct2")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Dstruct2.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Dstruct3 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct3")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Dstruct3.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.Dstruct4 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct4")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.Dstruct4.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _dstruct := range astruct.Dstruct4s {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Dstruct4s")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _dstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _astruct := range astruct.Anarrayofa {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofa")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _astruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _bstruct := range astruct.Anotherarrayofb {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anotherarrayofb")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _astructbstructuse := range astruct.AnarrayofbUse {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnarrayofbUse")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _astructbstructuse.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _astructbstruct2use := range astruct.Anarrayofb2Use {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb2Use")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _astructbstruct2use.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if astruct.AnAstruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "AnAstruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.AnAstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(astructbstruct2useOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of AstructBstruct2Use instances pointers"
-	}
 	for _, astructbstruct2use := range astructbstruct2useOrdered {
 		_ = astructbstruct2use
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
-		if astructbstruct2use.Bstrcut2 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astructbstruct2use.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstrcut2")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astructbstruct2use.Bstrcut2.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(astructbstructuseOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of AstructBstructUse instances pointers"
-	}
 	for _, astructbstructuse := range astructbstructuseOrdered {
 		_ = astructbstructuse
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
-		if astructbstructuse.Bstruct2 != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", astructbstructuse.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Bstruct2")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astructbstructuse.Bstruct2.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(bstructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Bstruct instances pointers"
-	}
 	for _, bstruct := range bstructOrdered {
 		_ = bstruct
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(dstructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Dstruct instances pointers"
-	}
 	for _, dstruct := range dstructOrdered {
 		_ = dstruct
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
-		for _, _bstruct := range dstruct.Anarrayofb {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Anarrayofb")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _bstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		if dstruct.Gstruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Gstruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", dstruct.Gstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _gstruct := range dstruct.Gstructs {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", dstruct.GongGetIdentifier(stage))
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Gstructs")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _gstruct.GongGetIdentifier(stage))
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(f0123456789012345678901234567890Ordered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of F0123456789012345678901234567890 instances pointers"
-	}
 	for _, f0123456789012345678901234567890 := range f0123456789012345678901234567890Ordered {
 		_ = f0123456789012345678901234567890
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(gstructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Gstruct instances pointers"
-	}
 	for _, gstruct := range gstructOrdered {
 		_ = gstruct
 		var setPointerField string
 		_ = setPointerField
 
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -762,7 +443,10 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion initialization of objects to stage
-func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1000,14 +684,19 @@ func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (setVa
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astruct.AnAstruct.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Astruct", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1029,14 +718,19 @@ func (astructbstruct2use *AstructBstruct2Use) GongMarshallField(stage *Stage, fi
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astructbstruct2use.Bstrcut2.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AstructBstruct2Use", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1058,14 +752,19 @@ func (astructbstructuse *AstructBstructUse) GongMarshallField(stage *Stage, fiel
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", astructbstructuse.Bstruct2.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct AstructBstructUse", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1097,14 +796,19 @@ func (bstruct *Bstruct) GongMarshallField(stage *Stage, fieldName string) (setVa
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", bstruct.Intfield))
 		initializerStatements += setValueField
 
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Bstruct", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1142,14 +846,19 @@ func (dstruct *Dstruct) GongMarshallField(stage *Stage, fieldName string) (setVa
 			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", _gstruct.GongGetIdentifier(stage))
 			pointersInitializesStatements += setPointerField
 		}
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Dstruct", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1169,14 +878,19 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMa
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", f0123456789012345678901234567890.Date.String())
 		initializerStatements += setValueField
 
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct F0123456789012345678901234567890", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
 
-func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (setValueField, setPointerField string) {
+func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
+	var setValueField, setPointerField string
+	_ = setValueField
+	_ = setPointerField
 	initializerStatements := ""
 	_ = initializerStatements
 	pointersInitializesStatements := ""
@@ -1208,9 +922,11 @@ func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (setVa
 		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gstruct.Intfield))
 		initializerStatements += setValueField
 
-
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Gstruct", fieldName)
 	}
+
+	// temporary kludge to reuse existing template code
+	res = initializerStatements + pointersInitializesStatements
 	return
 }
