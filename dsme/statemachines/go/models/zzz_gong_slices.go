@@ -2,6 +2,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -325,7 +326,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Action \""+action.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Action \""+action.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -367,7 +368,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Activities \""+activities.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Activities \""+activities.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -409,7 +410,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Architecture \""+architecture.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Architecture \""+architecture.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -451,7 +452,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Diagram \""+diagram.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Diagram \""+diagram.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -493,7 +494,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Guard \""+guard.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Guard \""+guard.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -535,7 +536,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Kill \""+kill.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Kill \""+kill.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -577,7 +578,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Message \""+message.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Message \""+message.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -619,7 +620,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of MessageType \""+messagetype.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of MessageType \""+messagetype.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -661,7 +662,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Object \""+object.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Object \""+object.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -703,7 +704,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Role \""+role.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Role \""+role.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -745,7 +746,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of State \""+state.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of State \""+state.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -787,7 +788,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of StateMachine \""+statemachine.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of StateMachine \""+statemachine.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -829,7 +830,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of StateShape \""+stateshape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of StateShape \""+stateshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -871,7 +872,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Transition \""+transition.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Transition \""+transition.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -913,7 +914,7 @@ func (stage *Stage) ComputeDifference() {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
 						time.Now(),
-						"Commit detected modified instance of Transition_Shape \""+transition_shape.Name + "\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
+						"Commit detected modified instance of Transition_Shape \""+transition_shape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
 				}
 				lenModifiedInstances++
@@ -1023,4 +1024,246 @@ func (stage *Stage) ComputeReference() {
 		stage.Transition_Shapes_reference[instance] = instance.GongCopy().(*Transition_Shape)
 	}
 
+}
+
+// GongGetOrder returns the order of the instance in the staging area
+// This order is set at staging time, and reflects the order of creation of the instances
+// in the staging area
+// It is used when rendering slices of GongstructIF to keep a deterministic order
+// which is important for frontends such as web frontends
+// to avoid unnecessary re-renderings
+// insertion point per named struct
+func (action *Action) GongGetOrder(stage *Stage) uint {
+	return stage.ActionMap_Staged_Order[action]
+}
+
+func (activities *Activities) GongGetOrder(stage *Stage) uint {
+	return stage.ActivitiesMap_Staged_Order[activities]
+}
+
+func (architecture *Architecture) GongGetOrder(stage *Stage) uint {
+	return stage.ArchitectureMap_Staged_Order[architecture]
+}
+
+func (diagram *Diagram) GongGetOrder(stage *Stage) uint {
+	return stage.DiagramMap_Staged_Order[diagram]
+}
+
+func (guard *Guard) GongGetOrder(stage *Stage) uint {
+	return stage.GuardMap_Staged_Order[guard]
+}
+
+func (kill *Kill) GongGetOrder(stage *Stage) uint {
+	return stage.KillMap_Staged_Order[kill]
+}
+
+func (message *Message) GongGetOrder(stage *Stage) uint {
+	return stage.MessageMap_Staged_Order[message]
+}
+
+func (messagetype *MessageType) GongGetOrder(stage *Stage) uint {
+	return stage.MessageTypeMap_Staged_Order[messagetype]
+}
+
+func (object *Object) GongGetOrder(stage *Stage) uint {
+	return stage.ObjectMap_Staged_Order[object]
+}
+
+func (role *Role) GongGetOrder(stage *Stage) uint {
+	return stage.RoleMap_Staged_Order[role]
+}
+
+func (state *State) GongGetOrder(stage *Stage) uint {
+	return stage.StateMap_Staged_Order[state]
+}
+
+func (statemachine *StateMachine) GongGetOrder(stage *Stage) uint {
+	return stage.StateMachineMap_Staged_Order[statemachine]
+}
+
+func (stateshape *StateShape) GongGetOrder(stage *Stage) uint {
+	return stage.StateShapeMap_Staged_Order[stateshape]
+}
+
+func (transition *Transition) GongGetOrder(stage *Stage) uint {
+	return stage.TransitionMap_Staged_Order[transition]
+}
+
+func (transition_shape *Transition_Shape) GongGetOrder(stage *Stage) uint {
+	return stage.Transition_ShapeMap_Staged_Order[transition_shape]
+}
+
+
+// GongGetIdentifier returns a unique identifier of the instance in the staging area
+// This identifier is composed of the Gongstruct name and the order of the instance
+// in the staging area
+// It is used to identify instances across sessions
+// insertion point per named struct
+func (action *Action) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", action.GongGetGongstructName(), action.GongGetOrder(stage))
+}
+
+func (activities *Activities) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", activities.GongGetGongstructName(), activities.GongGetOrder(stage))
+}
+
+func (architecture *Architecture) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", architecture.GongGetGongstructName(), architecture.GongGetOrder(stage))
+}
+
+func (diagram *Diagram) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", diagram.GongGetGongstructName(), diagram.GongGetOrder(stage))
+}
+
+func (guard *Guard) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", guard.GongGetGongstructName(), guard.GongGetOrder(stage))
+}
+
+func (kill *Kill) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", kill.GongGetGongstructName(), kill.GongGetOrder(stage))
+}
+
+func (message *Message) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", message.GongGetGongstructName(), message.GongGetOrder(stage))
+}
+
+func (messagetype *MessageType) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", messagetype.GongGetGongstructName(), messagetype.GongGetOrder(stage))
+}
+
+func (object *Object) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", object.GongGetGongstructName(), object.GongGetOrder(stage))
+}
+
+func (role *Role) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", role.GongGetGongstructName(), role.GongGetOrder(stage))
+}
+
+func (state *State) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", state.GongGetGongstructName(), state.GongGetOrder(stage))
+}
+
+func (statemachine *StateMachine) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", statemachine.GongGetGongstructName(), statemachine.GongGetOrder(stage))
+}
+
+func (stateshape *StateShape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", stateshape.GongGetGongstructName(), stateshape.GongGetOrder(stage))
+}
+
+func (transition *Transition) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", transition.GongGetGongstructName(), transition.GongGetOrder(stage))
+}
+
+func (transition_shape *Transition_Shape) GongGetIdentifier(stage *Stage) string {
+	return fmt.Sprintf("__%s__%08d_", transition_shape.GongGetGongstructName(), transition_shape.GongGetOrder(stage))
+}
+
+// MarshallIdentifier returns the code to instantiate the instance
+// in a marshalling file
+// insertion point per named struct
+func (action *Action) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", action.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Action")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", action.Name)
+	return
+}
+func (activities *Activities) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", activities.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Activities")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", activities.Name)
+	return
+}
+func (architecture *Architecture) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", architecture.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Architecture")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", architecture.Name)
+	return
+}
+func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
+	return
+}
+func (guard *Guard) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", guard.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Guard")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", guard.Name)
+	return
+}
+func (kill *Kill) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", kill.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Kill")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", kill.Name)
+	return
+}
+func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", message.Name)
+	return
+}
+func (messagetype *MessageType) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", messagetype.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MessageType")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", messagetype.Name)
+	return
+}
+func (object *Object) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", object.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Object")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", object.Name)
+	return
+}
+func (role *Role) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", role.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Role")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", role.Name)
+	return
+}
+func (state *State) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", state.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "State")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", state.Name)
+	return
+}
+func (statemachine *StateMachine) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", statemachine.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StateMachine")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", statemachine.Name)
+	return
+}
+func (stateshape *StateShape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", stateshape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "StateShape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", stateshape.Name)
+	return
+}
+func (transition *Transition) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Transition")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", transition.Name)
+	return
+}
+func (transition_shape *Transition_Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
+	decl = IdentifiersDecls
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", transition_shape.GongGetIdentifier(stage))
+	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Transition_Shape")
+	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", transition_shape.Name)
+	return
 }

@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -35,13 +34,12 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-` + "`" + `
+	// insertion point for setup of pointers{{PointersInitializers}}
+}` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
@@ -49,6 +47,11 @@ const IdentifiersDecls = ` + "`" + `
 	`{{GeneratedFieldNameValue}}` +
 	"`" + " + \"" + "`" + `"` + ` + ` + "`" +
 	`}).Stage(stage)` + "`" + `
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = ` + "`" + `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` + "`" + ` /* */
 
 const StringInitStatement = ` + "`" + `
 	{{Identifier}}.{{GeneratedFieldName}} = ` +
@@ -106,8 +109,6 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
@@ -168,21 +169,4 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
-
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
-	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
-
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
-
-	return
-}
-`
+// insertion initialization of objects to stage{{` + string(rune(ModelGongMarshallMarshalFieldMethods)) + `}}`

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_Content_Identifiers := make(map[*Content]string)
-	_ = map_Content_Identifiers
-
 	contentOrdered := []*Content{}
 	for content := range stage.Contents {
 		contentOrdered = append(contentOrdered, content)
@@ -127,33 +125,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, content := range contentOrdered {
 
-		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
-		map_Content_Identifiers[content] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
-		identifiersDecl += decl
+		identifiersDecl += content.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(content.Content))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += content.GongMarshallField(stage, "Name")
+		initializerStatements += content.GongMarshallField(stage, "Content")
 	}
-
-	map_JpgImage_Identifiers := make(map[*JpgImage]string)
-	_ = map_JpgImage_Identifiers
 
 	jpgimageOrdered := []*JpgImage{}
 	for jpgimage := range stage.JpgImages {
@@ -174,33 +152,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, jpgimage := range jpgimageOrdered {
 
-		id = generatesIdentifier("JpgImage", int(stage.JpgImageMap_Staged_Order[jpgimage]), jpgimage.Name)
-		map_JpgImage_Identifiers[jpgimage] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "JpgImage")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", jpgimage.Name)
-		identifiersDecl += decl
+		identifiersDecl += jpgimage.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += jpgimage.GongMarshallField(stage, "Name")
+		initializerStatements += jpgimage.GongMarshallField(stage, "Base64Content")
 	}
-
-	map_PngImage_Identifiers := make(map[*PngImage]string)
-	_ = map_PngImage_Identifiers
 
 	pngimageOrdered := []*PngImage{}
 	for pngimage := range stage.PngImages {
@@ -221,33 +179,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, pngimage := range pngimageOrdered {
 
-		id = generatesIdentifier("PngImage", int(stage.PngImageMap_Staged_Order[pngimage]), pngimage.Name)
-		map_PngImage_Identifiers[pngimage] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PngImage")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pngimage.Name)
-		identifiersDecl += decl
+		identifiersDecl += pngimage.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Base64Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += pngimage.GongMarshallField(stage, "Name")
+		initializerStatements += pngimage.GongMarshallField(stage, "Base64Content")
 	}
-
-	map_SvgImage_Identifiers := make(map[*SvgImage]string)
-	_ = map_SvgImage_Identifiers
 
 	svgimageOrdered := []*SvgImage{}
 	for svgimage := range stage.SvgImages {
@@ -268,82 +206,45 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, svgimage := range svgimageOrdered {
 
-		id = generatesIdentifier("SvgImage", int(stage.SvgImageMap_Staged_Order[svgimage]), svgimage.Name)
-		map_SvgImage_Identifiers[svgimage] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SvgImage")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", svgimage.Name)
-		identifiersDecl += decl
+		identifiersDecl += svgimage.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Content")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += svgimage.GongMarshallField(stage, "Name")
+		initializerStatements += svgimage.GongMarshallField(stage, "Content")
 	}
 
 	// insertion initialization of objects to stage
-	if len(contentOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of Content instances pointers"
-	}
 	for _, content := range contentOrdered {
+		_ = content
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("Content", int(stage.ContentMap_Staged_Order[content]), content.Name)
-		map_Content_Identifiers[content] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(jpgimageOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of JpgImage instances pointers"
-	}
 	for _, jpgimage := range jpgimageOrdered {
+		_ = jpgimage
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("JpgImage", int(stage.JpgImageMap_Staged_Order[jpgimage]), jpgimage.Name)
-		map_JpgImage_Identifiers[jpgimage] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(pngimageOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of PngImage instances pointers"
-	}
 	for _, pngimage := range pngimageOrdered {
+		_ = pngimage
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("PngImage", int(stage.PngImageMap_Staged_Order[pngimage]), pngimage.Name)
-		map_PngImage_Identifiers[pngimage] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(svgimageOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of SvgImage instances pointers"
-	}
 	for _, svgimage := range svgimageOrdered {
+		_ = svgimage
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SvgImage", int(stage.SvgImageMap_Staged_Order[svgimage]), svgimage.Name)
-		map_SvgImage_Identifiers[svgimage] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -399,20 +300,83 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Name))
+	case "Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", content.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(content.Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct Content", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (jpgimage *JpgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Name))
+	case "Base64Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", jpgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(jpgimage.Base64Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct JpgImage", fieldName)
+	}
+	return
+}
+
+func (pngimage *PngImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Name))
+	case "Base64Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pngimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Base64Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pngimage.Base64Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PngImage", fieldName)
+	}
+	return
+}
+
+func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Name))
+	case "Content":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", svgimage.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Content")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(svgimage.Content))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)
+	}
 	return
 }

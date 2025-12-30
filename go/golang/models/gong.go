@@ -252,8 +252,6 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	}
 `,
 	ModelGongStructInsertionUnmarshallDeclarations: `
-	map_{{Structname}}_Identifiers := make(map[*{{Structname}}]string)
-	_ = map_{{Structname}}_Identifiers
 
 	{{structname}}Ordered := []*{{Structname}}{}
 	for {{structname}} := range stage.{{Structname}}s {
@@ -264,8 +262,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 	})
 	for _, {{structname}} := range {{structname}}Ordered {
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
-		map_{{Structname}}_Identifiers[{{structname}}] = id
+		id = {{structname}}.GongGetIdentifier(stage)
 
 		decl = IdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
@@ -282,8 +279,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("{{Structname}}", int(stage.{{Structname}}Map_Staged_Order[{{structname}}]), {{structname}}.Name)
-		map_{{Structname}}_Identifiers[{{structname}}] = id
+		id = {{structname}}.GongGetIdentifier(stage)
 
 		// Initialisation of values{{PointersInitialization}}
 	}

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -33,16 +32,20 @@ var _ map[string]any = map[string]any{
 // function will stage objects
 func _(stage *models.Stage) {
 
-	// Declaration of instances to stage{{Identifiers}}
+	// insertion point for declaration of instances to stage{{Identifiers}}
 
-	// Setup of values{{ValueInitializers}}
+	// insertion point for initialization of values{{ValueInitializers}}
 
-	// Setup of pointers{{PointersInitializers}}
-}
-`
+	// insertion point for setup of pointers{{PointersInitializers}}
+}`
 
 const IdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+// previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
+// simpler version but the name of the instance cannot be human read before the fields initialization
+const IdentifiersDeclsWithoutNameInit = `
+	{{Identifier}} := (&models.{{GeneratedStructName}}{}).Stage(stage)` /* */
 
 const StringInitStatement = `
 	{{Identifier}}.{{GeneratedFieldName}} = ` + "`" + `{{GeneratedFieldNameValue}}` + "`"
@@ -97,17 +100,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	initializerStatements := ""
 	pointersInitializesStatements := ""
 
-	id := ""
-	_ = id
 	decl := ""
 	_ = decl
 	setValueField := ""
 	_ = setValueField
 
 	// insertion initialization of objects to stage
-	map_GongBasicField_Identifiers := make(map[*GongBasicField]string)
-	_ = map_GongBasicField_Identifiers
-
 	gongbasicfieldOrdered := []*GongBasicField{}
 	for gongbasicfield := range stage.GongBasicFields {
 		gongbasicfieldOrdered = append(gongbasicfieldOrdered, gongbasicfield)
@@ -127,81 +125,22 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongbasicfield := range gongbasicfieldOrdered {
 
-		id = generatesIdentifier("GongBasicField", int(stage.GongBasicFieldMap_Staged_Order[gongbasicfield]), gongbasicfield.Name)
-		map_GongBasicField_Identifiers[gongbasicfield] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongBasicField")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongbasicfield.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongbasicfield.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongbasicfield.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BasicKindName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongbasicfield.BasicKindName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DeclaredType")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongbasicfield.DeclaredType))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CompositeStructName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongbasicfield.CompositeStructName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Index")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.Index))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsTextArea")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsTextArea))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsBespokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsBespokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeWidth")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.BespokeWidth))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsBespokeHeight")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsBespokeHeight))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeHeight")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.BespokeHeight))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "Name")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BasicKindName")
+		pointersInitializesStatements += gongbasicfield.GongMarshallField(stage, "GongEnum")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "DeclaredType")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "Index")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsTextArea")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsBespokeWidth")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BespokeWidth")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsBespokeHeight")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BespokeHeight")
 	}
-
-	map_GongEnum_Identifiers := make(map[*GongEnum]string)
-	_ = map_GongEnum_Identifiers
 
 	gongenumOrdered := []*GongEnum{}
 	for gongenum := range stage.GongEnums {
@@ -222,33 +161,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongenum := range gongenumOrdered {
 
-		id = generatesIdentifier("GongEnum", int(stage.GongEnumMap_Staged_Order[gongenum]), gongenum.Name)
-		map_GongEnum_Identifiers[gongenum] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnum")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenum.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongenum.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenum.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Type")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", "models."+gongenum.Type.ToCodeString())
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongenum.GongMarshallField(stage, "Name")
+		initializerStatements += gongenum.GongMarshallField(stage, "Type")
+		pointersInitializesStatements += gongenum.GongMarshallField(stage, "GongEnumValues")
 	}
-
-	map_GongEnumValue_Identifiers := make(map[*GongEnumValue]string)
-	_ = map_GongEnumValue_Identifiers
 
 	gongenumvalueOrdered := []*GongEnumValue{}
 	for gongenumvalue := range stage.GongEnumValues {
@@ -269,33 +189,13 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongenumvalue := range gongenumvalueOrdered {
 
-		id = generatesIdentifier("GongEnumValue", int(stage.GongEnumValueMap_Staged_Order[gongenumvalue]), gongenumvalue.Name)
-		map_GongEnumValue_Identifiers[gongenumvalue] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongEnumValue")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongenumvalue.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongenumvalue.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Value")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Value))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongenumvalue.GongMarshallField(stage, "Name")
+		initializerStatements += gongenumvalue.GongMarshallField(stage, "Value")
 	}
-
-	map_GongLink_Identifiers := make(map[*GongLink]string)
-	_ = map_GongLink_Identifiers
 
 	gonglinkOrdered := []*GongLink{}
 	for gonglink := range stage.GongLinks {
@@ -316,39 +216,14 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gonglink := range gonglinkOrdered {
 
-		id = generatesIdentifier("GongLink", int(stage.GongLinkMap_Staged_Order[gonglink]), gonglink.Name)
-		map_GongLink_Identifiers[gonglink] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongLink")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gonglink.Name)
-		identifiersDecl += decl
+		identifiersDecl += gonglink.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Recv")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.Recv))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ImportPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gonglink.ImportPath))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gonglink.GongMarshallField(stage, "Name")
+		initializerStatements += gonglink.GongMarshallField(stage, "Recv")
+		initializerStatements += gonglink.GongMarshallField(stage, "ImportPath")
 	}
-
-	map_GongNote_Identifiers := make(map[*GongNote]string)
-	_ = map_GongNote_Identifiers
 
 	gongnoteOrdered := []*GongNote{}
 	for gongnote := range stage.GongNotes {
@@ -369,39 +244,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongnote := range gongnoteOrdered {
 
-		id = generatesIdentifier("GongNote", int(stage.GongNoteMap_Staged_Order[gongnote]), gongnote.Name)
-		map_GongNote_Identifiers[gongnote] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongNote")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongnote.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongnote.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongnote.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Body")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongnote.Body))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BodyHTML")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongnote.BodyHTML))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongnote.GongMarshallField(stage, "Name")
+		initializerStatements += gongnote.GongMarshallField(stage, "Body")
+		initializerStatements += gongnote.GongMarshallField(stage, "BodyHTML")
+		pointersInitializesStatements += gongnote.GongMarshallField(stage, "Links")
 	}
-
-	map_GongStruct_Identifiers := make(map[*GongStruct]string)
-	_ = map_GongStruct_Identifiers
 
 	gongstructOrdered := []*GongStruct{}
 	for gongstruct := range stage.GongStructs {
@@ -422,39 +273,18 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongstruct := range gongstructOrdered {
 
-		id = generatesIdentifier("GongStruct", int(stage.GongStructMap_Staged_Order[gongstruct]), gongstruct.Name)
-		map_GongStruct_Identifiers[gongstruct] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongStruct")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongstruct.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongstruct.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongstruct.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "HasOnAfterUpdateSignature")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.HasOnAfterUpdateSignature))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsIgnoredForFront")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.IsIgnoredForFront))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongstruct.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "GongBasicFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "GongTimeFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "PointerToGongStructFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "SliceOfPointerToGongStructFields")
+		initializerStatements += gongstruct.GongMarshallField(stage, "HasOnAfterUpdateSignature")
+		initializerStatements += gongstruct.GongMarshallField(stage, "IsIgnoredForFront")
 	}
-
-	map_GongTimeField_Identifiers := make(map[*GongTimeField]string)
-	_ = map_GongTimeField_Identifiers
 
 	gongtimefieldOrdered := []*GongTimeField{}
 	for gongtimefield := range stage.GongTimeFields {
@@ -475,45 +305,15 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, gongtimefield := range gongtimefieldOrdered {
 
-		id = generatesIdentifier("GongTimeField", int(stage.GongTimeFieldMap_Staged_Order[gongtimefield]), gongtimefield.Name)
-		map_GongTimeField_Identifiers[gongtimefield] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "GongTimeField")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", gongtimefield.Name)
-		identifiersDecl += decl
+		identifiersDecl += gongtimefield.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongtimefield.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Index")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongtimefield.Index))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CompositeStructName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongtimefield.CompositeStructName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "BespokeTimeFormat")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(gongtimefield.BespokeTimeFormat))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += gongtimefield.GongMarshallField(stage, "Name")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "Index")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "BespokeTimeFormat")
 	}
-
-	map_MetaReference_Identifiers := make(map[*MetaReference]string)
-	_ = map_MetaReference_Identifiers
 
 	metareferenceOrdered := []*MetaReference{}
 	for metareference := range stage.MetaReferences {
@@ -534,27 +334,12 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, metareference := range metareferenceOrdered {
 
-		id = generatesIdentifier("MetaReference", int(stage.MetaReferenceMap_Staged_Order[metareference]), metareference.Name)
-		map_MetaReference_Identifiers[metareference] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "MetaReference")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", metareference.Name)
-		identifiersDecl += decl
+		identifiersDecl += metareference.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(metareference.Name))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += metareference.GongMarshallField(stage, "Name")
 	}
-
-	map_ModelPkg_Identifiers := make(map[*ModelPkg]string)
-	_ = map_ModelPkg_Identifiers
 
 	modelpkgOrdered := []*ModelPkg{}
 	for modelpkg := range stage.ModelPkgs {
@@ -575,129 +360,29 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, modelpkg := range modelpkgOrdered {
 
-		id = generatesIdentifier("ModelPkg", int(stage.ModelPkgMap_Staged_Order[modelpkg]), modelpkg.Name)
-		map_ModelPkg_Identifiers[modelpkg] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ModelPkg")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", modelpkg.Name)
-		identifiersDecl += decl
+		identifiersDecl += modelpkg.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.Name))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "PkgPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.PkgPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "PathToGoSubDirectory")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.PathToGoSubDirectory))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "OrmPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.OrmPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DbOrmPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.DbOrmPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DbLiteOrmPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.DbLiteOrmPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "DbPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.DbPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ControllersPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.ControllersPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "FullstackPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.FullstackPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StackPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.StackPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Level1StackPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.Level1StackPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "StaticPkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.StaticPkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "ProbePkgGenPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.ProbePkgGenPath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NgWorkspacePath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspacePath))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NgWorkspaceName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspaceName))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NgDataLibrarySourceCodeDirectory")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.NgDataLibrarySourceCodeDirectory))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "NgSpecificLibrarySourceCodeDirectory")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.NgSpecificLibrarySourceCodeDirectory))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "MaterialLibDatamodelTargetPath")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(modelpkg.MaterialLibDatamodelTargetPath))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += modelpkg.GongMarshallField(stage, "Name")
+		initializerStatements += modelpkg.GongMarshallField(stage, "PkgPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "PathToGoSubDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "OrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbOrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbLiteOrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "ControllersPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "FullstackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "StackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "Level1StackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "StaticPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "ProbePkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgWorkspacePath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgWorkspaceName")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgDataLibrarySourceCodeDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgSpecificLibrarySourceCodeDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "MaterialLibDatamodelTargetPath")
 	}
-
-	map_PointerToGongStructField_Identifiers := make(map[*PointerToGongStructField]string)
-	_ = map_PointerToGongStructField_Identifiers
 
 	pointertogongstructfieldOrdered := []*PointerToGongStructField{}
 	for pointertogongstructfield := range stage.PointerToGongStructFields {
@@ -718,45 +403,16 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, pointertogongstructfield := range pointertogongstructfieldOrdered {
 
-		id = generatesIdentifier("PointerToGongStructField", int(stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield]), pointertogongstructfield.Name)
-		map_PointerToGongStructField_Identifiers[pointertogongstructfield] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "PointerToGongStructField")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", pointertogongstructfield.Name)
-		identifiersDecl += decl
+		identifiersDecl += pointertogongstructfield.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Index")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", pointertogongstructfield.Index))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CompositeStructName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.CompositeStructName))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "IsType")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", pointertogongstructfield.IsType))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += pointertogongstructfield.GongMarshallField(stage, "GongStruct")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "Index")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "IsType")
 	}
-
-	map_SliceOfPointerToGongStructField_Identifiers := make(map[*SliceOfPointerToGongStructField]string)
-	_ = map_SliceOfPointerToGongStructField_Identifiers
 
 	sliceofpointertogongstructfieldOrdered := []*SliceOfPointerToGongStructField{}
 	for sliceofpointertogongstructfield := range stage.SliceOfPointerToGongStructFields {
@@ -777,251 +433,103 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	}
 	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
 
-		id = generatesIdentifier("SliceOfPointerToGongStructField", int(stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield]), sliceofpointertogongstructfield.Name)
-		map_SliceOfPointerToGongStructField_Identifiers[sliceofpointertogongstructfield] = id
-
-		decl = IdentifiersDecls
-		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
-		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "SliceOfPointerToGongStructField")
-		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", sliceofpointertogongstructfield.Name)
-		identifiersDecl += decl
+		identifiersDecl += sliceofpointertogongstructfield.GongMarshallIdentifier(stage)
 
 		initializerStatements += "\n"
-		// Initialisation of values
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Name")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.Name))
-		initializerStatements += setValueField
-
-		setValueField = NumberInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "Index")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", sliceofpointertogongstructfield.Index))
-		initializerStatements += setValueField
-
-		setValueField = StringInitStatement
-		setValueField = strings.ReplaceAll(setValueField, "{{Identifier}}", id)
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldName}}", "CompositeStructName")
-		setValueField = strings.ReplaceAll(setValueField, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.CompositeStructName))
-		initializerStatements += setValueField
-
+		// Insertion point for basic fields value assignment
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "GongStruct")
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "Index")
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName")
 	}
 
 	// insertion initialization of objects to stage
-	if len(gongbasicfieldOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongBasicField instances pointers"
-	}
 	for _, gongbasicfield := range gongbasicfieldOrdered {
+		_ = gongbasicfield
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongBasicField", int(stage.GongBasicFieldMap_Staged_Order[gongbasicfield]), gongbasicfield.Name)
-		map_GongBasicField_Identifiers[gongbasicfield] = id
-
-		// Initialisation of values
-		if gongbasicfield.GongEnum != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongEnum")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongEnum_Identifiers[gongbasicfield.GongEnum])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(gongenumOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongEnum instances pointers"
-	}
 	for _, gongenum := range gongenumOrdered {
+		_ = gongenum
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongEnum", int(stage.GongEnumMap_Staged_Order[gongenum]), gongenum.Name)
-		map_GongEnum_Identifiers[gongenum] = id
-
-		// Initialisation of values
-		for _, _gongenumvalue := range gongenum.GongEnumValues {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongEnumValues")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongEnumValue_Identifiers[_gongenumvalue])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(gongenumvalueOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongEnumValue instances pointers"
-	}
 	for _, gongenumvalue := range gongenumvalueOrdered {
+		_ = gongenumvalue
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongEnumValue", int(stage.GongEnumValueMap_Staged_Order[gongenumvalue]), gongenumvalue.Name)
-		map_GongEnumValue_Identifiers[gongenumvalue] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(gonglinkOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongLink instances pointers"
-	}
 	for _, gonglink := range gonglinkOrdered {
+		_ = gonglink
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongLink", int(stage.GongLinkMap_Staged_Order[gonglink]), gonglink.Name)
-		map_GongLink_Identifiers[gonglink] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(gongnoteOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongNote instances pointers"
-	}
 	for _, gongnote := range gongnoteOrdered {
+		_ = gongnote
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongNote", int(stage.GongNoteMap_Staged_Order[gongnote]), gongnote.Name)
-		map_GongNote_Identifiers[gongnote] = id
-
-		// Initialisation of values
-		for _, _gonglink := range gongnote.Links {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "Links")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongLink_Identifiers[_gonglink])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(gongstructOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongStruct instances pointers"
-	}
 	for _, gongstruct := range gongstructOrdered {
+		_ = gongstruct
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongStruct", int(stage.GongStructMap_Staged_Order[gongstruct]), gongstruct.Name)
-		map_GongStruct_Identifiers[gongstruct] = id
-
-		// Initialisation of values
-		for _, _gongbasicfield := range gongstruct.GongBasicFields {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongBasicFields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongBasicField_Identifiers[_gongbasicfield])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _gongtimefield := range gongstruct.GongTimeFields {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongTimeFields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongTimeField_Identifiers[_gongtimefield])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _pointertogongstructfield := range gongstruct.PointerToGongStructFields {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "PointerToGongStructFields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_PointerToGongStructField_Identifiers[_pointertogongstructfield])
-			pointersInitializesStatements += setPointerField
-		}
-
-		for _, _sliceofpointertogongstructfield := range gongstruct.SliceOfPointerToGongStructFields {
-			setPointerField = SliceOfPointersFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "SliceOfPointerToGongStructFields")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_SliceOfPointerToGongStructField_Identifiers[_sliceofpointertogongstructfield])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(gongtimefieldOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of GongTimeField instances pointers"
-	}
 	for _, gongtimefield := range gongtimefieldOrdered {
+		_ = gongtimefield
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("GongTimeField", int(stage.GongTimeFieldMap_Staged_Order[gongtimefield]), gongtimefield.Name)
-		map_GongTimeField_Identifiers[gongtimefield] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(metareferenceOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of MetaReference instances pointers"
-	}
 	for _, metareference := range metareferenceOrdered {
+		_ = metareference
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("MetaReference", int(stage.MetaReferenceMap_Staged_Order[metareference]), metareference.Name)
-		map_MetaReference_Identifiers[metareference] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(modelpkgOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of ModelPkg instances pointers"
-	}
 	for _, modelpkg := range modelpkgOrdered {
+		_ = modelpkg
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("ModelPkg", int(stage.ModelPkgMap_Staged_Order[modelpkg]), modelpkg.Name)
-		map_ModelPkg_Identifiers[modelpkg] = id
-
-		// Initialisation of values
+		// Insertion point for pointers initialization
 	}
 
-	if len(pointertogongstructfieldOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of PointerToGongStructField instances pointers"
-	}
 	for _, pointertogongstructfield := range pointertogongstructfieldOrdered {
+		_ = pointertogongstructfield
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("PointerToGongStructField", int(stage.PointerToGongStructFieldMap_Staged_Order[pointertogongstructfield]), pointertogongstructfield.Name)
-		map_PointerToGongStructField_Identifiers[pointertogongstructfield] = id
-
-		// Initialisation of values
-		if pointertogongstructfield.GongStruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongStruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongStruct_Identifiers[pointertogongstructfield.GongStruct])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
-	if len(sliceofpointertogongstructfieldOrdered) > 0 {
-		pointersInitializesStatements += "\n\t// setup of SliceOfPointerToGongStructField instances pointers"
-	}
 	for _, sliceofpointertogongstructfield := range sliceofpointertogongstructfieldOrdered {
+		_ = sliceofpointertogongstructfield
 		var setPointerField string
 		_ = setPointerField
 
-		id = generatesIdentifier("SliceOfPointerToGongStructField", int(stage.SliceOfPointerToGongStructFieldMap_Staged_Order[sliceofpointertogongstructfield]), sliceofpointertogongstructfield.Name)
-		map_SliceOfPointerToGongStructField_Identifiers[sliceofpointertogongstructfield] = id
-
-		// Initialisation of values
-		if sliceofpointertogongstructfield.GongStruct != nil {
-			setPointerField = PointerFieldInitStatement
-			setPointerField = strings.ReplaceAll(setPointerField, "{{Identifier}}", id)
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldName}}", "GongStruct")
-			setPointerField = strings.ReplaceAll(setPointerField, "{{GeneratedFieldNameValue}}", map_GongStruct_Identifiers[sliceofpointertogongstructfield.GongStruct])
-			pointersInitializesStatements += setPointerField
-		}
-
+		// Insertion point for pointers initialization
 	}
 
 	res = strings.ReplaceAll(res, "{{Identifiers}}", identifiersDecl)
@@ -1077,20 +585,447 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// unique identifier per struct
-func generatesIdentifier(gongStructName string, idx int, instanceName string) (identifier string) {
+// insertion initialization of objects to stage
+func (gongbasicfield *GongBasicField) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
-	identifier = instanceName
-	// Make a Regex to say we only want letters and numbers
-	reg, err := regexp.Compile("[^a-zA-Z0-9]+")
-	if err != nil {
-		log.Fatal(err)
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.Name))
+	case "BasicKindName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BasicKindName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.BasicKindName))
+	case "DeclaredType":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DeclaredType")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.DeclaredType))
+	case "CompositeStructName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongbasicfield.CompositeStructName))
+	case "Index":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Index")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.Index))
+	case "IsTextArea":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsTextArea")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsTextArea))
+	case "IsBespokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsBespokeWidth))
+	case "BespokeWidth":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeWidth")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.BespokeWidth))
+	case "IsBespokeHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsBespokeHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongbasicfield.IsBespokeHeight))
+	case "BespokeHeight":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeHeight")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongbasicfield.BespokeHeight))
+
+	case "GongEnum":
+		if gongbasicfield.GongEnum != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", gongbasicfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GongEnum")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", gongbasicfield.GongEnum.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongBasicField", fieldName)
 	}
-	processedString := reg.ReplaceAllString(instanceName, "_")
-	_ = processedString
+	return
+}
 
-	//#1030
-	identifier = fmt.Sprintf("__%s__%08d_", gongStructName, idx)
+func (gongenum *GongEnum) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenum.Name))
+	case "Type":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Type")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+gongenum.Type.ToCodeString())
+
+	case "GongEnumValues":
+		for _, _gongenumvalue := range gongenum.GongEnumValues {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongenum.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GongEnumValues")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _gongenumvalue.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongEnum", fieldName)
+	}
+	return
+}
+
+func (gongenumvalue *GongEnumValue) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Name))
+	case "Value":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongenumvalue.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Value")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongenumvalue.Value))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongEnumValue", fieldName)
+	}
+	return
+}
+
+func (gonglink *GongLink) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.Name))
+	case "Recv":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Recv")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.Recv))
+	case "ImportPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gonglink.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ImportPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gonglink.ImportPath))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongLink", fieldName)
+	}
+	return
+}
+
+func (gongnote *GongNote) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.Name))
+	case "Body":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Body")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.Body))
+	case "BodyHTML":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BodyHTML")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongnote.BodyHTML))
+
+	case "Links":
+		for _, _gonglink := range gongnote.Links {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongnote.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "Links")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _gonglink.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongNote", fieldName)
+	}
+	return
+}
+
+func (gongstruct *GongStruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongstruct.Name))
+	case "HasOnAfterUpdateSignature":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "HasOnAfterUpdateSignature")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.HasOnAfterUpdateSignature))
+	case "IsIgnoredForFront":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsIgnoredForFront")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", gongstruct.IsIgnoredForFront))
+
+	case "GongBasicFields":
+		for _, _gongbasicfield := range gongstruct.GongBasicFields {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GongBasicFields")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _gongbasicfield.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "GongTimeFields":
+		for _, _gongtimefield := range gongstruct.GongTimeFields {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "GongTimeFields")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _gongtimefield.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "PointerToGongStructFields":
+		for _, _pointertogongstructfield := range gongstruct.PointerToGongStructFields {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "PointerToGongStructFields")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _pointertogongstructfield.GongGetIdentifier(stage))
+			res += tmp
+		}
+	case "SliceOfPointerToGongStructFields":
+		for _, _sliceofpointertogongstructfield := range gongstruct.SliceOfPointerToGongStructFields {
+			tmp := SliceOfPointersFieldInitStatement
+			tmp = strings.ReplaceAll(tmp, "{{Identifier}}", gongstruct.GongGetIdentifier(stage))
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldName}}", "SliceOfPointerToGongStructFields")
+			tmp = strings.ReplaceAll(tmp, "{{GeneratedFieldNameValue}}", _sliceofpointertogongstructfield.GongGetIdentifier(stage))
+			res += tmp
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongStruct", fieldName)
+	}
+	return
+}
+
+func (gongtimefield *GongTimeField) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.Name))
+	case "Index":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Index")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", gongtimefield.Index))
+	case "CompositeStructName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.CompositeStructName))
+	case "BespokeTimeFormat":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", gongtimefield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "BespokeTimeFormat")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(gongtimefield.BespokeTimeFormat))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct GongTimeField", fieldName)
+	}
+	return
+}
+
+func (metareference *MetaReference) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", metareference.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(metareference.Name))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct MetaReference", fieldName)
+	}
+	return
+}
+
+func (modelpkg *ModelPkg) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.Name))
+	case "PkgPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PkgPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.PkgPath))
+	case "PathToGoSubDirectory":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "PathToGoSubDirectory")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.PathToGoSubDirectory))
+	case "OrmPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "OrmPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.OrmPkgGenPath))
+	case "DbOrmPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbOrmPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbOrmPkgGenPath))
+	case "DbLiteOrmPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbLiteOrmPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbLiteOrmPkgGenPath))
+	case "DbPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "DbPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.DbPkgGenPath))
+	case "ControllersPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ControllersPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.ControllersPkgGenPath))
+	case "FullstackPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "FullstackPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.FullstackPkgGenPath))
+	case "StackPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StackPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.StackPkgGenPath))
+	case "Level1StackPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Level1StackPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.Level1StackPkgGenPath))
+	case "StaticPkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "StaticPkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.StaticPkgGenPath))
+	case "ProbePkgGenPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "ProbePkgGenPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.ProbePkgGenPath))
+	case "NgWorkspacePath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgWorkspacePath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspacePath))
+	case "NgWorkspaceName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgWorkspaceName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgWorkspaceName))
+	case "NgDataLibrarySourceCodeDirectory":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgDataLibrarySourceCodeDirectory")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgDataLibrarySourceCodeDirectory))
+	case "NgSpecificLibrarySourceCodeDirectory":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "NgSpecificLibrarySourceCodeDirectory")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.NgSpecificLibrarySourceCodeDirectory))
+	case "MaterialLibDatamodelTargetPath":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", modelpkg.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "MaterialLibDatamodelTargetPath")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(modelpkg.MaterialLibDatamodelTargetPath))
+
+	default:
+		log.Panicf("Unknown field %s for Gongstruct ModelPkg", fieldName)
+	}
+	return
+}
+
+func (pointertogongstructfield *PointerToGongStructField) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.Name))
+	case "Index":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Index")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", pointertogongstructfield.Index))
+	case "CompositeStructName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(pointertogongstructfield.CompositeStructName))
+	case "IsType":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsType")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", pointertogongstructfield.IsType))
+
+	case "GongStruct":
+		if pointertogongstructfield.GongStruct != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", pointertogongstructfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GongStruct")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", pointertogongstructfield.GongStruct.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct PointerToGongStructField", fieldName)
+	}
+	return
+}
+
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallField(stage *Stage, fieldName string) (res string) {
+
+	switch fieldName {
+	case "Name":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.Name))
+	case "Index":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Index")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%d", sliceofpointertogongstructfield.Index))
+	case "CompositeStructName":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "CompositeStructName")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(sliceofpointertogongstructfield.CompositeStructName))
+
+	case "GongStruct":
+		if sliceofpointertogongstructfield.GongStruct != nil {
+			res = PointerFieldInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", sliceofpointertogongstructfield.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "GongStruct")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", sliceofpointertogongstructfield.GongStruct.GongGetIdentifier(stage))
+		}
+	default:
+		log.Panicf("Unknown field %s for Gongstruct SliceOfPointerToGongStructField", fieldName)
+	}
 	return
 }
