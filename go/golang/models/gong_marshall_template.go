@@ -39,8 +39,7 @@ func _(stage *models.Stage) {
 	// insertion point for initialization of values{{ValueInitializers}}
 
 	// insertion point for setup of pointers{{PointersInitializers}}
-}
-` + "`" + `
+}` + "`" + `
 
 const IdentifiersDecls = ` + "`" + `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` +
