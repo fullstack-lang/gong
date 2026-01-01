@@ -1458,6 +1458,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Product[identifier].Name = fielValue
+				case "Description":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Product[identifier].Description = fielValue
 				case "ComputedPrefix":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
@@ -1562,6 +1566,10 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
 					__gong__map_Task[identifier].Name = fielValue
+				case "Description":
+					// remove first and last char
+					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]
+					__gong__map_Task[identifier].Description = fielValue
 				case "ComputedPrefix":
 					// remove first and last char
 					fielValue := basicLit.Value[1 : len(basicLit.Value)-1]

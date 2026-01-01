@@ -1991,6 +1991,9 @@ func (product *Product) GongDiff(productOther *Product) (diffs []string) {
 	if product.Name != productOther.Name {
 		diffs = append(diffs, "Name")
 	}
+	if product.Description != productOther.Description {
+		diffs = append(diffs, "Description")
+	}
 	SubProductsDifferent := false
 	if len(product.SubProducts) != len(productOther.SubProducts) {
 		SubProductsDifferent = true
@@ -2274,6 +2277,9 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 	// insertion point for field diffs
 	if task.Name != taskOther.Name {
 		diffs = append(diffs, "Name")
+	}
+	if task.Description != taskOther.Description {
+		diffs = append(diffs, "Description")
 	}
 	SubTasksDifferent := false
 	if len(task.SubTasks) != len(taskOther.SubTasks) {

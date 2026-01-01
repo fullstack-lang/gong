@@ -308,6 +308,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += "\n"
 		// Insertion point for basic fields value assignment
 		initializerStatements += product.GongMarshallField(stage, "Name")
+		initializerStatements += product.GongMarshallField(stage, "Description")
 		pointersInitializesStatements += product.GongMarshallField(stage, "SubProducts")
 		initializerStatements += product.GongMarshallField(stage, "IsExpanded")
 		initializerStatements += product.GongMarshallField(stage, "ComputedPrefix")
@@ -469,6 +470,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += "\n"
 		// Insertion point for basic fields value assignment
 		initializerStatements += task.GongMarshallField(stage, "Name")
+		initializerStatements += task.GongMarshallField(stage, "Description")
 		pointersInitializesStatements += task.GongMarshallField(stage, "SubTasks")
 		initializerStatements += task.GongMarshallField(stage, "IsExpanded")
 		initializerStatements += task.GongMarshallField(stage, "ComputedPrefix")
@@ -1172,6 +1174,11 @@ func (product *Product) GongMarshallField(stage *Stage, fieldName string) (res s
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(product.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(product.Description))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", product.GongGetIdentifier(stage))
@@ -1434,6 +1441,11 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Name")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(task.Name))
+	case "Description":
+		res = StringInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Description")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", string(task.Description))
 	case "IsExpanded":
 		res = NumberInitStatement
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
