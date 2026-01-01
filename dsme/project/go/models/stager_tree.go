@@ -1,6 +1,8 @@
 package models
 
 import (
+	"slices"
+
 	tree "github.com/fullstack-lang/gong/lib/tree/go/models"
 
 	"github.com/fullstack-lang/gong/lib/tree/go/buttons"
@@ -259,6 +261,8 @@ func (stager *Stager) tree() {
 					HasToolTip:      true,
 					ToolTipPosition: tree.Above,
 					ToolTipText:     "Add note to diagram",
+
+					IsExpanded: slices.Index(diagram.NotesWhoseNodeIsExpanded, note) != -1,
 				}
 				notesNode.Children = append(notesNode.Children, noteNode)
 
