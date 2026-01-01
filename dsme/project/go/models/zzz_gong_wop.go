@@ -150,6 +150,8 @@ type Product_WOP struct {
 
 	Name string
 
+	Description string
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -162,6 +164,7 @@ type Product_WOP struct {
 func (from *Product) CopyBasicFields(to *Product) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsProducersNodeExpanded = from.IsProducersNodeExpanded
@@ -268,6 +271,8 @@ type Task_WOP struct {
 
 	Name string
 
+	Description string
+
 	IsExpanded bool
 
 	ComputedPrefix string
@@ -280,6 +285,7 @@ type Task_WOP struct {
 func (from *Task) CopyBasicFields(to *Task) {
 	// insertion point
 	to.Name = from.Name
+	to.Description = from.Description
 	to.IsExpanded = from.IsExpanded
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded

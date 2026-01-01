@@ -1400,6 +1400,8 @@ func (productFormCallback *ProductFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(product_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(product_.Description), formDiv)
 		case "SubProducts":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Product](productFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Product, 0)
@@ -2734,6 +2736,8 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 		// insertion point per field
 		case "Name":
 			FormDivBasicFieldToField(&(task_.Name), formDiv)
+		case "Description":
+			FormDivBasicFieldToField(&(task_.Description), formDiv)
 		case "SubTasks":
 			instanceSet := *models.GetGongstructInstancesSetFromPointerType[*models.Task](taskFormCallback.probe.stageOfInterest)
 			instanceSlice := make([]*models.Task, 0)
