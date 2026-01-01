@@ -155,6 +155,7 @@ func OnUpdateElementInDiagram[
 					*elementsWhoseNodeIsExpanded = slices.Delete(*elementsWhoseNodeIsExpanded, idx, idx+1)
 				}
 			}
+			stager.stage.Commit()
 			return
 		}
 
