@@ -4109,6 +4109,10 @@ func (product *Product) GongGetFieldHeaders() (res []GongFieldHeader) {
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
+			Name:               "Description",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
 			Name:                 "SubProducts",
 			GongFieldValueType:   GongFieldValueTypeSliceOfPointers,
 			TargetGongstructName: "Product",
@@ -4295,6 +4299,10 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 	res = []GongFieldHeader{
 		{
 			Name:               "Name",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Description",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
 		{
@@ -4877,6 +4885,8 @@ func (product *Product) GongGetFieldValue(fieldName string, stage *Stage) (res G
 	// string value of fields
 	case "Name":
 		res.valueString = product.Name
+	case "Description":
+		res.valueString = product.Description
 	case "SubProducts":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range product.SubProducts {
@@ -5087,6 +5097,8 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 	// string value of fields
 	case "Name":
 		res.valueString = task.Name
+	case "Description":
+		res.valueString = task.Description
 	case "SubTasks":
 		res.GongFieldValueType = GongFieldValueTypeSliceOfPointers
 		for idx, __instance__ := range task.SubTasks {
@@ -5676,6 +5688,8 @@ func (product *Product) GongSetFieldValue(fieldName string, value GongFieldValue
 	// insertion point for per field code
 	case "Name":
 		product.Name = value.GetValueString()
+	case "Description":
+		product.Description = value.GetValueString()
 	case "SubProducts":
 		product.SubProducts = make([]*Product, 0)
 		ids := strings.Split(value.ids, ";")
@@ -5907,6 +5921,8 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 	// insertion point for per field code
 	case "Name":
 		task.Name = value.GetValueString()
+	case "Description":
+		task.Description = value.GetValueString()
 	case "SubTasks":
 		task.SubTasks = make([]*Task, 0)
 		ids := strings.Split(value.ids, ";")

@@ -92,6 +92,9 @@ func (r *ExpandableNodeObject) GetComputedWidth() int {
 type Task struct {
 	Name string
 
+	//gong:text width:300 height:300
+	Description string
+
 	SubTasks []*Task
 
 	ExpandableNodeObject
@@ -121,6 +124,9 @@ const NoteSemantic = ""
 
 type Product struct {
 	Name string
+
+	//gong:text width:300 height:300
+	Description string
 
 	SubProducts []*Product
 
