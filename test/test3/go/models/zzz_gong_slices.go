@@ -59,11 +59,11 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var as_newInstances []*A
 	var as_deletedInstances []*A
-
-	var pointersInitializesStatements string
 
 	// parse all staged instances and check if they have a reference
 	for a := range stage.As {
@@ -126,6 +126,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of B "+b.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					b.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := b.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := b.GongDiff(ref)

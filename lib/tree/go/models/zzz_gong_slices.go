@@ -97,6 +97,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var buttons_newInstances []*Button
 	var buttons_deletedInstances []*Button
@@ -110,6 +112,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Button "+button.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					button.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := button.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := button.GongDiff(ref)
@@ -152,6 +164,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Node "+node.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					node.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := node.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := node.GongDiff(ref)
@@ -194,6 +216,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of SVGIcon "+svgicon.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					svgicon.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := svgicon.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := svgicon.GongDiff(ref)
@@ -236,6 +268,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Tree "+tree.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					tree.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := tree.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := tree.GongDiff(ref)
@@ -271,6 +313,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -322,7 +373,6 @@ func (svgicon *SVGIcon) GongGetOrder(stage *Stage) uint {
 func (tree *Tree) GongGetOrder(stage *Stage) uint {
 	return stage.TreeMap_Staged_Order[tree]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

@@ -76,6 +76,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var contents_newInstances []*Content
 	var contents_deletedInstances []*Content
@@ -89,6 +91,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Content "+content.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					content.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := content.GongDiff(ref)
@@ -131,6 +143,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of JpgImage "+jpgimage.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					jpgimage.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := jpgimage.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := jpgimage.GongDiff(ref)
@@ -173,6 +195,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of PngImage "+pngimage.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					pngimage.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := pngimage.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := pngimage.GongDiff(ref)
@@ -215,6 +247,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of SvgImage "+svgimage.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					svgimage.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := svgimage.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := svgimage.GongDiff(ref)
@@ -250,6 +292,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -301,7 +352,6 @@ func (pngimage *PngImage) GongGetOrder(stage *Stage) uint {
 func (svgimage *SvgImage) GongGetOrder(stage *Stage) uint {
 	return stage.SvgImageMap_Staged_Order[svgimage]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
