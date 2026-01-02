@@ -154,6 +154,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 						time.Now(),
 						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							{{structname}}.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
