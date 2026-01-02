@@ -123,7 +123,6 @@ func NewStack(
 
 		stage.ComputeReverseMaps()
 		stage.ComputeInstancesNb()
-		stage.ComputeReference()
 	} else {
 		// in case the database is used, checkout the content to the stage
 		stage.Checkout()
@@ -147,8 +146,6 @@ func NewStack(
 			embeddedDiagrams,
 			stage,
 		)
-
-		stage.SetProbeIF(stack.Probe)
 	}
 
 	return
