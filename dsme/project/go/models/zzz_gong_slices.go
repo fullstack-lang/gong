@@ -431,6 +431,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Diagram \""+diagram.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							diagram.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -483,6 +489,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Note \""+note.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							note.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -535,6 +547,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of NoteProductShape \""+noteproductshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							noteproductshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -587,6 +605,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of NoteShape \""+noteshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							noteshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -639,6 +663,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of NoteTaskShape \""+notetaskshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							notetaskshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -691,6 +721,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Product \""+product.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							product.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -743,6 +779,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of ProductCompositionShape \""+productcompositionshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							productcompositionshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -795,6 +837,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of ProductShape \""+productshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							productshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -847,6 +895,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Project \""+project.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							project.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -899,6 +953,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Root \""+root.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							root.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -951,6 +1011,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Task \""+task.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							task.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -1003,6 +1069,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of TaskCompositionShape \""+taskcompositionshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							taskcompositionshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -1055,6 +1127,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of TaskInputShape \""+taskinputshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							taskinputshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -1107,6 +1185,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of TaskOutputShape \""+taskoutputshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							taskoutputshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -1159,6 +1243,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of TaskShape \""+taskshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							taskshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}

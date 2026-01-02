@@ -105,6 +105,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Freqency \""+freqency.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							freqency.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -157,6 +163,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Note \""+note.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							note.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -209,6 +221,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Player \""+player.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							player.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}

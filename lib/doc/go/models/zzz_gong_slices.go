@@ -226,6 +226,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of AttributeShape \""+attributeshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							attributeshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -278,6 +284,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Classdiagram \""+classdiagram.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							classdiagram.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -330,6 +342,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of DiagramPackage \""+diagrampackage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							diagrampackage.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -382,6 +400,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of GongEnumShape \""+gongenumshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							gongenumshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -434,6 +458,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of GongEnumValueShape \""+gongenumvalueshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							gongenumvalueshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -486,6 +516,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of GongNoteLinkShape \""+gongnotelinkshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							gongnotelinkshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -538,6 +574,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of GongNoteShape \""+gongnoteshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							gongnoteshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -590,6 +632,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of GongStructShape \""+gongstructshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							gongstructshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -642,6 +690,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of LinkShape \""+linkshape.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							linkshape.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}

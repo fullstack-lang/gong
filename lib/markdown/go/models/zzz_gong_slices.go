@@ -110,6 +110,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Content \""+content.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							content.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -162,6 +168,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of JpgImage \""+jpgimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							jpgimage.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -214,6 +226,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of PngImage \""+pngimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							pngimage.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -266,6 +284,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of SvgImage \""+svgimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							svgimage.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
