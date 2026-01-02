@@ -3,7 +3,6 @@ package probe
 
 import (
 	"embed"
-	"time"
 
 	"github.com/gin-gonic/gin"
 
@@ -25,14 +24,13 @@ import (
 )
 
 type Probe struct {
-	r                      *gin.Engine
-	stageOfInterest        *models.Stage
-	gongStage              *gong_models.Stage
-	treeStage              *tree.Stage
-	formStage              *form.Stage
-	tableStage             *form.Stage
-	notificationTableStage *form.Stage
-	splitStage             *split.Stage
+	r               *gin.Engine
+	stageOfInterest *models.Stage
+	gongStage       *gong_models.Stage
+	treeStage       *tree.Stage
+	formStage       *form.Stage
+	tableStage      *form.Stage
+	splitStage      *split.Stage
 
 	// AsSplit to be used if one need only the data editor
 	dataEditor *split.AsSplit
@@ -41,8 +39,6 @@ type Probe struct {
 	diagramEditor *split.AsSplitArea
 
 	docStager *doc.Stager
-
-	notification []*Notification
 }
 
 func NewProbe(
@@ -67,22 +63,18 @@ func NewProbe(
 	tableStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeTableStageName())
 	tableStage.Commit()
 
-	notificationTableStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeNotificationTableStageName())
-	notificationTableStage.Commit()
-
 	// stage for reusable form
 	formStage, _ := gongtable_fullstack.NewStackInstance(r, stageOfInterest.GetProbeFormStageName())
 	formStage.Commit()
 
 	probe = &Probe{
-		r:                      r,
-		stageOfInterest:        stageOfInterest,
-		gongStage:              stage,
-		treeStage:              treeStage,
-		formStage:              formStage,
-		tableStage:             tableStage,
-		notificationTableStage: notificationTableStage,
-		splitStage:             splitStage,
+		r:               r,
+		stageOfInterest: stageOfInterest,
+		gongStage:       stage,
+		treeStage:       treeStage,
+		formStage:       formStage,
+		tableStage:      tableStage,
+		splitStage:      splitStage,
 	}
 
 	// prepare the receiving AsSplitArea
@@ -110,57 +102,41 @@ func NewProbe(
 		Name:      "Top, sidebar, table & form",
 		Direction: split.Horizontal,
 		AsSplitAreas: []*split.AsSplitArea{
-			{
+			(&split.AsSplitArea{
 				Name: "sidebar tree",
 				Size: 20,
-				Tree: &split.Tree{
+				Tree: (&split.Tree{
 					Name:      "Sidebar",
 					StackName: probe.treeStage.GetName(),
-				},
-			},
-			{
-				Name: "both tables",
-				AsSplit: &split.AsSplit{
-					Direction: split.Vertical,
-					AsSplitAreas: []*split.AsSplitArea{
-						{
-							Name: "table",
-							Size: 50,
-							Table: &split.Table{
-								Name:      "Table",
-								StackName: probe.tableStage.GetName(),
-							},
-						},
-						{
-							Name: "notification table",
-							Size: 50,
-							Table: &split.Table{
-								Name:      "Table",
-								StackName: probe.notificationTableStage.GetName(),
-							},
-						},
-					},
-				},
-			},
-			{
+				}),
+			}),
+			(&split.AsSplitArea{
+				Name: "table",
+				Size: 50,
+				Table: (&split.Table{
+					Name:      "Table",
+					StackName: probe.tableStage.GetName(),
+				}),
+			}),
+			(&split.AsSplitArea{
 				Name: "form",
 				Size: 30,
-				Form: &split.Form{
+				Form: (&split.Form{
 					Name:      "Form",
 					StackName: probe.formStage.GetName(),
-				},
-			},
+				}),
+			}),
 		},
 	}
 
 	split.StageBranch(probe.splitStage, &split.View{
 		Name: "Main view",
 		RootAsSplitAreas: []*split.AsSplitArea{
-			{
+			(&split.AsSplitArea{
 				Name:    "Top",
 				Size:    50,
 				AsSplit: probe.dataEditor,
-			},
+			}),
 			probe.diagramEditor,
 		},
 	})
@@ -174,23 +150,6 @@ func NewProbe(
 func (probe *Probe) Refresh() {
 	updateAndCommitTree(probe)
 	probe.docStager.UpdateAndCommitSVGStage()
-}
-
-func (probe *Probe) AddNotification(date time.Time, message string) {
-	notification := Notification{
-		Date:    date,
-		Message: message,
-	}
-	probe.notification = append(probe.notification, &notification)
-}
-
-func (probe *Probe) CommitNotificationTable() {
-	probe.UpdateAndCommitNotificationTable()
-}
-
-func (probe *Probe) ResetNotifications() {
-	probe.notification = make([]*Notification, 0)
-	probe.UpdateAndCommitNotificationTable()
 }
 
 func (probe *Probe) GetFormStage() *form.Stage {
@@ -207,9 +166,4 @@ func (probe *Probe) GetDiagramEditor() *split.AsSplitArea {
 
 func (probe *Probe) FillUpFormFromGongstruct(instance any, formName string) {
 	FillUpFormFromGongstruct(instance, probe)
-}
-
-type Notification struct {
-	Date    time.Time
-	Message string
 }
