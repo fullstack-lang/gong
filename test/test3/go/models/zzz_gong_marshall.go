@@ -230,7 +230,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (a *A) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -272,6 +272,28 @@ func (b *B) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct B", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (a *A) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += a.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += a.GongMarshallField(stage, "B")
+		pointersInitializesStatements += a.GongMarshallField(stage, "Bs")
+	}
+	return
+}
+func (b *B) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += b.GongMarshallField(stage, "Name")
 	}
 	return
 }

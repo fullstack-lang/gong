@@ -208,7 +208,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -290,6 +290,31 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Cursor", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cursor.GongMarshallField(stage, "Name")
+		initializerStatements += cursor.GongMarshallField(stage, "StartX")
+		initializerStatements += cursor.GongMarshallField(stage, "EndX")
+		initializerStatements += cursor.GongMarshallField(stage, "Y1")
+		initializerStatements += cursor.GongMarshallField(stage, "Y2")
+		initializerStatements += cursor.GongMarshallField(stage, "DurationSeconds")
+		initializerStatements += cursor.GongMarshallField(stage, "Color")
+		initializerStatements += cursor.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += cursor.GongMarshallField(stage, "Stroke")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += cursor.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += cursor.GongMarshallField(stage, "Transform")
+		initializerStatements += cursor.GongMarshallField(stage, "IsPlaying")
 	}
 	return
 }

@@ -445,7 +445,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (arrow *Arrow) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -809,6 +809,118 @@ func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (r
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Milestone", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (arrow *Arrow) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += arrow.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += arrow.GongMarshallField(stage, "From")
+		pointersInitializesStatements += arrow.GongMarshallField(stage, "To")
+		initializerStatements += arrow.GongMarshallField(stage, "OptionnalColor")
+		initializerStatements += arrow.GongMarshallField(stage, "OptionnalStroke")
+	}
+	return
+}
+func (bar *Bar) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += bar.GongMarshallField(stage, "Name")
+		initializerStatements += bar.GongMarshallField(stage, "Start")
+		initializerStatements += bar.GongMarshallField(stage, "End")
+		initializerStatements += bar.GongMarshallField(stage, "ComputedDuration")
+		initializerStatements += bar.GongMarshallField(stage, "OptionnalColor")
+		initializerStatements += bar.GongMarshallField(stage, "OptionnalStroke")
+		initializerStatements += bar.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += bar.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += bar.GongMarshallField(stage, "StrokeDashArray")
+	}
+	return
+}
+func (gantt *Gantt) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gantt.GongMarshallField(stage, "Name")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedStart")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedEnd")
+		initializerStatements += gantt.GongMarshallField(stage, "ComputedDuration")
+		initializerStatements += gantt.GongMarshallField(stage, "UseManualStartAndEndDates")
+		initializerStatements += gantt.GongMarshallField(stage, "ManualStart")
+		initializerStatements += gantt.GongMarshallField(stage, "ManualEnd")
+		initializerStatements += gantt.GongMarshallField(stage, "LaneHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "RatioBarToLaneHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "YTopMargin")
+		initializerStatements += gantt.GongMarshallField(stage, "XLeftText")
+		initializerStatements += gantt.GongMarshallField(stage, "TextHeight")
+		initializerStatements += gantt.GongMarshallField(stage, "XLeftLanes")
+		initializerStatements += gantt.GongMarshallField(stage, "XRightMargin")
+		initializerStatements += gantt.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar")
+		initializerStatements += gantt.GongMarshallField(stage, "ArrowTipLenght")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_Color")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_FillOpacity")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_Stroke")
+		initializerStatements += gantt.GongMarshallField(stage, "TimeLine_StrokeWidth")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_Stroke")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_StrokeWidth")
+		initializerStatements += gantt.GongMarshallField(stage, "Group_StrokeDashArray")
+		initializerStatements += gantt.GongMarshallField(stage, "DateYOffset")
+		initializerStatements += gantt.GongMarshallField(stage, "AlignOnStartEndOnYearStart")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Lanes")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Milestones")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Groups")
+		pointersInitializesStatements += gantt.GongMarshallField(stage, "Arrows")
+	}
+	return
+}
+func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += group.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += group.GongMarshallField(stage, "GroupLanes")
+	}
+	return
+}
+func (lane *Lane) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += lane.GongMarshallField(stage, "Name")
+		initializerStatements += lane.GongMarshallField(stage, "Order")
+		pointersInitializesStatements += lane.GongMarshallField(stage, "Bars")
+	}
+	return
+}
+func (laneuse *LaneUse) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += laneuse.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += laneuse.GongMarshallField(stage, "Lane")
+	}
+	return
+}
+func (milestone *Milestone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += milestone.GongMarshallField(stage, "Name")
+		initializerStatements += milestone.GongMarshallField(stage, "Date")
+		initializerStatements += milestone.GongMarshallField(stage, "DisplayVerticalBar")
+		pointersInitializesStatements += milestone.GongMarshallField(stage, "LanesToDisplay")
 	}
 	return
 }

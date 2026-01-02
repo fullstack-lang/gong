@@ -585,7 +585,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (gongbasicfield *GongBasicField) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1026,6 +1026,158 @@ func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMars
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SliceOfPointerToGongStructField", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (gongbasicfield *GongBasicField) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "Name")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BasicKindName")
+		pointersInitializesStatements += gongbasicfield.GongMarshallField(stage, "GongEnum")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "DeclaredType")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "Index")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsTextArea")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsBespokeWidth")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BespokeWidth")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "IsBespokeHeight")
+		initializerStatements += gongbasicfield.GongMarshallField(stage, "BespokeHeight")
+	}
+	return
+}
+func (gongenum *GongEnum) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongenum.GongMarshallField(stage, "Name")
+		initializerStatements += gongenum.GongMarshallField(stage, "Type")
+		pointersInitializesStatements += gongenum.GongMarshallField(stage, "GongEnumValues")
+	}
+	return
+}
+func (gongenumvalue *GongEnumValue) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongenumvalue.GongMarshallField(stage, "Name")
+		initializerStatements += gongenumvalue.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (gonglink *GongLink) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gonglink.GongMarshallField(stage, "Name")
+		initializerStatements += gonglink.GongMarshallField(stage, "Recv")
+		initializerStatements += gonglink.GongMarshallField(stage, "ImportPath")
+	}
+	return
+}
+func (gongnote *GongNote) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongnote.GongMarshallField(stage, "Name")
+		initializerStatements += gongnote.GongMarshallField(stage, "Body")
+		initializerStatements += gongnote.GongMarshallField(stage, "BodyHTML")
+		pointersInitializesStatements += gongnote.GongMarshallField(stage, "Links")
+	}
+	return
+}
+func (gongstruct *GongStruct) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongstruct.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "GongBasicFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "GongTimeFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "PointerToGongStructFields")
+		pointersInitializesStatements += gongstruct.GongMarshallField(stage, "SliceOfPointerToGongStructFields")
+		initializerStatements += gongstruct.GongMarshallField(stage, "HasOnAfterUpdateSignature")
+		initializerStatements += gongstruct.GongMarshallField(stage, "IsIgnoredForFront")
+	}
+	return
+}
+func (gongtimefield *GongTimeField) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongtimefield.GongMarshallField(stage, "Name")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "Index")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += gongtimefield.GongMarshallField(stage, "BespokeTimeFormat")
+	}
+	return
+}
+func (metareference *MetaReference) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += metareference.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (modelpkg *ModelPkg) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += modelpkg.GongMarshallField(stage, "Name")
+		initializerStatements += modelpkg.GongMarshallField(stage, "PkgPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "PathToGoSubDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "OrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbOrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbLiteOrmPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "DbPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "ControllersPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "FullstackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "StackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "Level1StackPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "StaticPkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "ProbePkgGenPath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgWorkspacePath")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgWorkspaceName")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgDataLibrarySourceCodeDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "NgSpecificLibrarySourceCodeDirectory")
+		initializerStatements += modelpkg.GongMarshallField(stage, "MaterialLibDatamodelTargetPath")
+	}
+	return
+}
+func (pointertogongstructfield *PointerToGongStructField) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += pointertogongstructfield.GongMarshallField(stage, "GongStruct")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "Index")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "CompositeStructName")
+		initializerStatements += pointertogongstructfield.GongMarshallField(stage, "IsType")
+	}
+	return
+}
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "GongStruct")
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "Index")
+		initializerStatements += sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName")
 	}
 	return
 }
