@@ -64,6 +64,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var filetodownloads_newInstances []*FileToDownload
 	var filetodownloads_deletedInstances []*FileToDownload
@@ -77,6 +79,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of FileToDownload "+filetodownload.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					filetodownload.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := filetodownload.GongDiff(ref)
@@ -119,6 +131,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of FileToUpload "+filetoupload.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					filetoupload.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := filetoupload.GongDiff(ref)
@@ -161,6 +183,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Message "+message.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					message.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := message.GongDiff(ref)
@@ -196,6 +228,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -238,7 +279,6 @@ func (filetoupload *FileToUpload) GongGetOrder(stage *Stage) uint {
 func (message *Message) GongGetOrder(stage *Stage) uint {
 	return stage.MessageMap_Staged_Order[message]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

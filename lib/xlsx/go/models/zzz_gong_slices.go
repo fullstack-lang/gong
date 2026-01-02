@@ -116,6 +116,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var displayselections_newInstances []*DisplaySelection
 	var displayselections_deletedInstances []*DisplaySelection
@@ -129,6 +131,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of DisplaySelection "+displayselection.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					displayselection.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := displayselection.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := displayselection.GongDiff(ref)
@@ -171,6 +183,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLCell "+xlcell.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlcell.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlcell.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlcell.GongDiff(ref)
@@ -213,6 +235,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLFile "+xlfile.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlfile.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlfile.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlfile.GongDiff(ref)
@@ -255,6 +287,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLRow "+xlrow.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlrow.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlrow.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlrow.GongDiff(ref)
@@ -297,6 +339,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLSheet "+xlsheet.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlsheet.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlsheet.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlsheet.GongDiff(ref)
@@ -332,6 +384,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -392,7 +453,6 @@ func (xlrow *XLRow) GongGetOrder(stage *Stage) uint {
 func (xlsheet *XLSheet) GongGetOrder(stage *Stage) uint {
 	return stage.XLSheetMap_Staged_Order[xlsheet]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

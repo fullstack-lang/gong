@@ -195,6 +195,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var category1s_newInstances []*Category1
 	var category1s_deletedInstances []*Category1
@@ -208,6 +210,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category1 "+category1.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category1.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category1.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category1.GongDiff(ref)
@@ -250,6 +262,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category1Shape "+category1shape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category1shape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category1shape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category1shape.GongDiff(ref)
@@ -292,6 +314,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category2 "+category2.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category2.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category2.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category2.GongDiff(ref)
@@ -334,6 +366,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category2Shape "+category2shape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category2shape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category2shape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category2shape.GongDiff(ref)
@@ -376,6 +418,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category3 "+category3.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category3.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category3.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category3.GongDiff(ref)
@@ -418,6 +470,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Category3Shape "+category3shape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					category3shape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := category3shape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := category3shape.GongDiff(ref)
@@ -460,6 +522,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of ControlPointShape "+controlpointshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					controlpointshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := controlpointshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := controlpointshape.GongDiff(ref)
@@ -502,6 +574,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Desk "+desk.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					desk.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := desk.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := desk.GongDiff(ref)
@@ -544,6 +626,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Diagram "+diagram.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					diagram.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := diagram.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := diagram.GongDiff(ref)
@@ -586,6 +678,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Influence "+influence.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					influence.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := influence.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := influence.GongDiff(ref)
@@ -628,6 +730,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of InfluenceShape "+influenceshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					influenceshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := influenceshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := influenceshape.GongDiff(ref)
@@ -663,6 +775,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -777,7 +898,6 @@ func (influence *Influence) GongGetOrder(stage *Stage) uint {
 func (influenceshape *InfluenceShape) GongGetOrder(stage *Stage) uint {
 	return stage.InfluenceShapeMap_Staged_Order[influenceshape]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
