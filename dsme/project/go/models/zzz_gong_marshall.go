@@ -784,7 +784,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (diagram *Diagram) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1707,6 +1707,257 @@ func (taskshape *TaskShape) GongMarshallField(stage *Stage, fieldName string) (r
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct TaskShape", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (diagram *Diagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += diagram.GongMarshallField(stage, "Name")
+		initializerStatements += diagram.GongMarshallField(stage, "IsChecked")
+		initializerStatements += diagram.GongMarshallField(stage, "IsEditable_")
+		initializerStatements += diagram.GongMarshallField(stage, "IsInRenameMode")
+		initializerStatements += diagram.GongMarshallField(stage, "ShowPrefix")
+		initializerStatements += diagram.GongMarshallField(stage, "DefaultBoxWidth")
+		initializerStatements += diagram.GongMarshallField(stage, "DefaultBoxHeigth")
+		initializerStatements += diagram.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += diagram.GongMarshallField(stage, "ComputedPrefix")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "Product_Shapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded")
+		initializerStatements += diagram.GongMarshallField(stage, "IsPBSNodeExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "ProductComposition_Shapes")
+		initializerStatements += diagram.GongMarshallField(stage, "IsWBSNodeExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "Task_Shapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TaskComposition_Shapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TaskInputShapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "TaskOutputShapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "Note_Shapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded")
+		initializerStatements += diagram.GongMarshallField(stage, "IsNotesNodeExpanded")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "NoteProductShapes")
+		pointersInitializesStatements += diagram.GongMarshallField(stage, "NoteTaskShapes")
+	}
+	return
+}
+func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += note.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += note.GongMarshallField(stage, "Products")
+		pointersInitializesStatements += note.GongMarshallField(stage, "Tasks")
+		initializerStatements += note.GongMarshallField(stage, "IsExpanded")
+	}
+	return
+}
+func (noteproductshape *NoteProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += noteproductshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += noteproductshape.GongMarshallField(stage, "Note")
+		pointersInitializesStatements += noteproductshape.GongMarshallField(stage, "Product")
+		initializerStatements += noteproductshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += noteproductshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += noteproductshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += noteproductshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += noteproductshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (noteshape *NoteShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += noteshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += noteshape.GongMarshallField(stage, "Note")
+		initializerStatements += noteshape.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += noteshape.GongMarshallField(stage, "X")
+		initializerStatements += noteshape.GongMarshallField(stage, "Y")
+		initializerStatements += noteshape.GongMarshallField(stage, "Width")
+		initializerStatements += noteshape.GongMarshallField(stage, "Height")
+	}
+	return
+}
+func (notetaskshape *NoteTaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += notetaskshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += notetaskshape.GongMarshallField(stage, "Note")
+		pointersInitializesStatements += notetaskshape.GongMarshallField(stage, "Task")
+		initializerStatements += notetaskshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += notetaskshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += notetaskshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += notetaskshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += notetaskshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (product *Product) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += product.GongMarshallField(stage, "Name")
+		initializerStatements += product.GongMarshallField(stage, "Description")
+		pointersInitializesStatements += product.GongMarshallField(stage, "SubProducts")
+		initializerStatements += product.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += product.GongMarshallField(stage, "ComputedPrefix")
+		initializerStatements += product.GongMarshallField(stage, "IsProducersNodeExpanded")
+		initializerStatements += product.GongMarshallField(stage, "IsConsumersNodeExpanded")
+	}
+	return
+}
+func (productcompositionshape *ProductCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += productcompositionshape.GongMarshallField(stage, "Product")
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += productcompositionshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (productshape *ProductShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += productshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += productshape.GongMarshallField(stage, "Product")
+		initializerStatements += productshape.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += productshape.GongMarshallField(stage, "X")
+		initializerStatements += productshape.GongMarshallField(stage, "Y")
+		initializerStatements += productshape.GongMarshallField(stage, "Width")
+		initializerStatements += productshape.GongMarshallField(stage, "Height")
+	}
+	return
+}
+func (project *Project) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += project.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += project.GongMarshallField(stage, "RootProducts")
+		initializerStatements += project.GongMarshallField(stage, "IsPBSNodeExpanded")
+		pointersInitializesStatements += project.GongMarshallField(stage, "RootTasks")
+		initializerStatements += project.GongMarshallField(stage, "IsWBSNodeExpanded")
+		pointersInitializesStatements += project.GongMarshallField(stage, "Diagrams")
+		initializerStatements += project.GongMarshallField(stage, "IsDiagramsNodeExpanded")
+		pointersInitializesStatements += project.GongMarshallField(stage, "Notes")
+		initializerStatements += project.GongMarshallField(stage, "IsNotesNodeExpanded")
+		initializerStatements += project.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += project.GongMarshallField(stage, "ComputedPrefix")
+	}
+	return
+}
+func (root *Root) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += root.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += root.GongMarshallField(stage, "Projects")
+		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedProducts")
+		pointersInitializesStatements += root.GongMarshallField(stage, "OrphanedTasks")
+		initializerStatements += root.GongMarshallField(stage, "NbPixPerCharacter")
+	}
+	return
+}
+func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += task.GongMarshallField(stage, "Name")
+		initializerStatements += task.GongMarshallField(stage, "Description")
+		pointersInitializesStatements += task.GongMarshallField(stage, "SubTasks")
+		initializerStatements += task.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += task.GongMarshallField(stage, "ComputedPrefix")
+		pointersInitializesStatements += task.GongMarshallField(stage, "Inputs")
+		initializerStatements += task.GongMarshallField(stage, "IsInputsNodeExpanded")
+		pointersInitializesStatements += task.GongMarshallField(stage, "Outputs")
+		initializerStatements += task.GongMarshallField(stage, "IsOutputsNodeExpanded")
+	}
+	return
+}
+func (taskcompositionshape *TaskCompositionShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += taskcompositionshape.GongMarshallField(stage, "Task")
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += taskcompositionshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (taskinputshape *TaskInputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += taskinputshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += taskinputshape.GongMarshallField(stage, "Task")
+		pointersInitializesStatements += taskinputshape.GongMarshallField(stage, "Product")
+		initializerStatements += taskinputshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += taskinputshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += taskinputshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += taskinputshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += taskinputshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (taskoutputshape *TaskOutputShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += taskoutputshape.GongMarshallField(stage, "Task")
+		pointersInitializesStatements += taskoutputshape.GongMarshallField(stage, "Product")
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += taskoutputshape.GongMarshallField(stage, "CornerOffsetRatio")
+	}
+	return
+}
+func (taskshape *TaskShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += taskshape.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += taskshape.GongMarshallField(stage, "Task")
+		initializerStatements += taskshape.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += taskshape.GongMarshallField(stage, "X")
+		initializerStatements += taskshape.GongMarshallField(stage, "Y")
+		initializerStatements += taskshape.GongMarshallField(stage, "Width")
+		initializerStatements += taskshape.GongMarshallField(stage, "Height")
 	}
 	return
 }

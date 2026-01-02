@@ -264,7 +264,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (filetodownload *FileToDownload) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -316,6 +316,37 @@ func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Message", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += filetodownload.GongMarshallField(stage, "Name")
+		initializerStatements += filetodownload.GongMarshallField(stage, "Base64EncodedContent")
+	}
+	return
+}
+func (filetoupload *FileToUpload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += filetoupload.GongMarshallField(stage, "Name")
+		initializerStatements += filetoupload.GongMarshallField(stage, "Base64EncodedContent")
+	}
+	return
+}
+func (message *Message) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += message.GongMarshallField(stage, "Name")
 	}
 	return
 }

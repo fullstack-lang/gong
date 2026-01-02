@@ -330,7 +330,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -580,6 +580,78 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Tree", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += button.GongMarshallField(stage, "Name")
+		initializerStatements += button.GongMarshallField(stage, "Icon")
+		pointersInitializesStatements += button.GongMarshallField(stage, "SVGIcon")
+		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
+		initializerStatements += button.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += button.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += button.GongMarshallField(stage, "ToolTipPosition")
+	}
+	return
+}
+func (node *Node) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += node.GongMarshallField(stage, "Name")
+		initializerStatements += node.GongMarshallField(stage, "FontStyle")
+		initializerStatements += node.GongMarshallField(stage, "BackgroundColor")
+		initializerStatements += node.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += node.GongMarshallField(stage, "HasCheckboxButton")
+		initializerStatements += node.GongMarshallField(stage, "IsChecked")
+		initializerStatements += node.GongMarshallField(stage, "IsCheckboxDisabled")
+		initializerStatements += node.GongMarshallField(stage, "CheckboxHasToolTip")
+		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipText")
+		initializerStatements += node.GongMarshallField(stage, "CheckboxToolTipPosition")
+		initializerStatements += node.GongMarshallField(stage, "HasSecondCheckboxButton")
+		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxChecked")
+		initializerStatements += node.GongMarshallField(stage, "IsSecondCheckboxDisabled")
+		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxHasToolTip")
+		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipText")
+		initializerStatements += node.GongMarshallField(stage, "SecondCheckboxToolTipPosition")
+		initializerStatements += node.GongMarshallField(stage, "TextAfterSecondCheckbox")
+		initializerStatements += node.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += node.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += node.GongMarshallField(stage, "ToolTipPosition")
+		initializerStatements += node.GongMarshallField(stage, "IsInEditMode")
+		initializerStatements += node.GongMarshallField(stage, "IsNodeClickable")
+		initializerStatements += node.GongMarshallField(stage, "IsWithPreceedingIcon")
+		initializerStatements += node.GongMarshallField(stage, "PreceedingIcon")
+		pointersInitializesStatements += node.GongMarshallField(stage, "PreceedingSVGIcon")
+		pointersInitializesStatements += node.GongMarshallField(stage, "Children")
+		pointersInitializesStatements += node.GongMarshallField(stage, "Buttons")
+	}
+	return
+}
+func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += svgicon.GongMarshallField(stage, "Name")
+		initializerStatements += svgicon.GongMarshallField(stage, "SVG")
+	}
+	return
+}
+func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += tree.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += tree.GongMarshallField(stage, "RootNodes")
 	}
 	return
 }
