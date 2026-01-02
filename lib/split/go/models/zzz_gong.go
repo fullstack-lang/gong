@@ -31,6 +31,7 @@ var _ = strings.Clone("")
 
 const ProbeTreeSidebarSuffix = ":sidebar of the probe"
 const ProbeTableSuffix = ":table of the probe"
+const ProbeNotificationTableSuffix = ":notification table of the probe"
 const ProbeFormSuffix = ":form of the probe"
 const ProbeSplitSuffix = ":probe of the probe"
 
@@ -44,6 +45,10 @@ func (stage *Stage) GetProbeFormStageName() string {
 
 func (stage *Stage) GetProbeTableStageName() string {
 	return stage.GetType() + ":" + stage.GetName() + ProbeTableSuffix
+}
+
+func (stage *Stage) GetProbeNotificationTableStageName() string {
+	return stage.GetType() + ":" + stage.GetName() + ProbeNotificationTableSuffix
 }
 
 func (stage *Stage) GetProbeSplitStageName() string {
@@ -89,6 +94,7 @@ type Stage struct {
 
 	// insertion point for definition of arrays registering instances
 	AsSplits           map[*AsSplit]struct{}
+	AsSplits_reference map[*AsSplit]*AsSplit
 	AsSplits_mapString map[string]*AsSplit
 
 	// insertion point for slice of pointers maps
@@ -100,6 +106,7 @@ type Stage struct {
 	OnAfterAsSplitReadCallback   OnAfterReadInterface[AsSplit]
 
 	AsSplitAreas           map[*AsSplitArea]struct{}
+	AsSplitAreas_reference map[*AsSplitArea]*AsSplitArea
 	AsSplitAreas_mapString map[string]*AsSplitArea
 
 	// insertion point for slice of pointers maps
@@ -109,6 +116,7 @@ type Stage struct {
 	OnAfterAsSplitAreaReadCallback   OnAfterReadInterface[AsSplitArea]
 
 	Buttons           map[*Button]struct{}
+	Buttons_reference map[*Button]*Button
 	Buttons_mapString map[string]*Button
 
 	// insertion point for slice of pointers maps
@@ -118,6 +126,7 @@ type Stage struct {
 	OnAfterButtonReadCallback   OnAfterReadInterface[Button]
 
 	Cursors           map[*Cursor]struct{}
+	Cursors_reference map[*Cursor]*Cursor
 	Cursors_mapString map[string]*Cursor
 
 	// insertion point for slice of pointers maps
@@ -127,6 +136,7 @@ type Stage struct {
 	OnAfterCursorReadCallback   OnAfterReadInterface[Cursor]
 
 	FavIcons           map[*FavIcon]struct{}
+	FavIcons_reference map[*FavIcon]*FavIcon
 	FavIcons_mapString map[string]*FavIcon
 
 	// insertion point for slice of pointers maps
@@ -136,6 +146,7 @@ type Stage struct {
 	OnAfterFavIconReadCallback   OnAfterReadInterface[FavIcon]
 
 	Forms           map[*Form]struct{}
+	Forms_reference map[*Form]*Form
 	Forms_mapString map[string]*Form
 
 	// insertion point for slice of pointers maps
@@ -145,6 +156,7 @@ type Stage struct {
 	OnAfterFormReadCallback   OnAfterReadInterface[Form]
 
 	Loads           map[*Load]struct{}
+	Loads_reference map[*Load]*Load
 	Loads_mapString map[string]*Load
 
 	// insertion point for slice of pointers maps
@@ -154,6 +166,7 @@ type Stage struct {
 	OnAfterLoadReadCallback   OnAfterReadInterface[Load]
 
 	LogoOnTheLefts           map[*LogoOnTheLeft]struct{}
+	LogoOnTheLefts_reference map[*LogoOnTheLeft]*LogoOnTheLeft
 	LogoOnTheLefts_mapString map[string]*LogoOnTheLeft
 
 	// insertion point for slice of pointers maps
@@ -163,6 +176,7 @@ type Stage struct {
 	OnAfterLogoOnTheLeftReadCallback   OnAfterReadInterface[LogoOnTheLeft]
 
 	LogoOnTheRights           map[*LogoOnTheRight]struct{}
+	LogoOnTheRights_reference map[*LogoOnTheRight]*LogoOnTheRight
 	LogoOnTheRights_mapString map[string]*LogoOnTheRight
 
 	// insertion point for slice of pointers maps
@@ -172,6 +186,7 @@ type Stage struct {
 	OnAfterLogoOnTheRightReadCallback   OnAfterReadInterface[LogoOnTheRight]
 
 	Markdowns           map[*Markdown]struct{}
+	Markdowns_reference map[*Markdown]*Markdown
 	Markdowns_mapString map[string]*Markdown
 
 	// insertion point for slice of pointers maps
@@ -181,6 +196,7 @@ type Stage struct {
 	OnAfterMarkdownReadCallback   OnAfterReadInterface[Markdown]
 
 	Sliders           map[*Slider]struct{}
+	Sliders_reference map[*Slider]*Slider
 	Sliders_mapString map[string]*Slider
 
 	// insertion point for slice of pointers maps
@@ -190,6 +206,7 @@ type Stage struct {
 	OnAfterSliderReadCallback   OnAfterReadInterface[Slider]
 
 	Splits           map[*Split]struct{}
+	Splits_reference map[*Split]*Split
 	Splits_mapString map[string]*Split
 
 	// insertion point for slice of pointers maps
@@ -199,6 +216,7 @@ type Stage struct {
 	OnAfterSplitReadCallback   OnAfterReadInterface[Split]
 
 	Svgs           map[*Svg]struct{}
+	Svgs_reference map[*Svg]*Svg
 	Svgs_mapString map[string]*Svg
 
 	// insertion point for slice of pointers maps
@@ -208,6 +226,7 @@ type Stage struct {
 	OnAfterSvgReadCallback   OnAfterReadInterface[Svg]
 
 	Tables           map[*Table]struct{}
+	Tables_reference map[*Table]*Table
 	Tables_mapString map[string]*Table
 
 	// insertion point for slice of pointers maps
@@ -217,6 +236,7 @@ type Stage struct {
 	OnAfterTableReadCallback   OnAfterReadInterface[Table]
 
 	Titles           map[*Title]struct{}
+	Titles_reference map[*Title]*Title
 	Titles_mapString map[string]*Title
 
 	// insertion point for slice of pointers maps
@@ -226,6 +246,7 @@ type Stage struct {
 	OnAfterTitleReadCallback   OnAfterReadInterface[Title]
 
 	Tones           map[*Tone]struct{}
+	Tones_reference map[*Tone]*Tone
 	Tones_mapString map[string]*Tone
 
 	// insertion point for slice of pointers maps
@@ -235,6 +256,7 @@ type Stage struct {
 	OnAfterToneReadCallback   OnAfterReadInterface[Tone]
 
 	Trees           map[*Tree]struct{}
+	Trees_reference map[*Tree]*Tree
 	Trees_mapString map[string]*Tree
 
 	// insertion point for slice of pointers maps
@@ -244,6 +266,7 @@ type Stage struct {
 	OnAfterTreeReadCallback   OnAfterReadInterface[Tree]
 
 	Views           map[*View]struct{}
+	Views_reference map[*View]*View
 	Views_mapString map[string]*View
 
 	// insertion point for slice of pointers maps
@@ -255,6 +278,7 @@ type Stage struct {
 	OnAfterViewReadCallback   OnAfterReadInterface[View]
 
 	Xlsxs           map[*Xlsx]struct{}
+	Xlsxs_reference map[*Xlsx]*Xlsx
 	Xlsxs_mapString map[string]*Xlsx
 
 	// insertion point for slice of pointers maps
@@ -350,8 +374,17 @@ type Stage struct {
 
 	NamedStructs []*NamedStruct
 
-	// for the computation of the diff at each commit we need
-	reference map[GongstructIF]GongstructIF
+	// probeIF is the interface to the probe that allows log
+	// commit event to the probe
+	probeIF ProbeIF
+}
+
+func (stage *Stage) SetProbeIF(probeIF ProbeIF) {
+	stage.probeIF = probeIF
+}
+
+func (stage *Stage) GetProbeIF() ProbeIF {
+	return stage.probeIF
 }
 
 // GetNamedStructs implements models.ProbebStage.
@@ -362,10 +395,6 @@ func (stage *Stage) GetNamedStructsNames() (res []string) {
 	}
 
 	return
-}
-
-func (stage *Stage) GetReference() map[GongstructIF]GongstructIF {
-	return stage.reference
 }
 
 func GetNamedStructInstances[T PointerToGongstruct](set map[T]struct{}, order map[T]uint) (res []string) {
@@ -973,8 +1002,6 @@ func NewStage(name string) (stage *Stage) {
 			{name: "View"},
 			{name: "Xlsx"},
 		}, // end of insertion point
-
-		reference: make(map[GongstructIF]GongstructIF),
 	}
 
 	return
@@ -1100,7 +1127,13 @@ func (stage *Stage) Commit() {
 		stage.BackRepo.Commit(stage)
 	}
 	stage.ComputeInstancesNb()
+	stage.ComputeDifference()
 	stage.ComputeReference()
+
+	if stage.GetProbeIF() != nil {
+		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().CommitNotificationTable()
+	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -1246,7 +1279,7 @@ func (assplit *AsSplit) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (assplit *AsSplit) SetName(name string) (){
+func (assplit *AsSplit) SetName(name string) {
 	assplit.Name = name
 }
 
@@ -1332,7 +1365,7 @@ func (assplitarea *AsSplitArea) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (assplitarea *AsSplitArea) SetName(name string) (){
+func (assplitarea *AsSplitArea) SetName(name string) {
 	assplitarea.Name = name
 }
 
@@ -1418,7 +1451,7 @@ func (button *Button) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (button *Button) SetName(name string) (){
+func (button *Button) SetName(name string) {
 	button.Name = name
 }
 
@@ -1504,7 +1537,7 @@ func (cursor *Cursor) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (cursor *Cursor) SetName(name string) (){
+func (cursor *Cursor) SetName(name string) {
 	cursor.Name = name
 }
 
@@ -1590,7 +1623,7 @@ func (favicon *FavIcon) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (favicon *FavIcon) SetName(name string) (){
+func (favicon *FavIcon) SetName(name string) {
 	favicon.Name = name
 }
 
@@ -1676,7 +1709,7 @@ func (form *Form) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (form *Form) SetName(name string) (){
+func (form *Form) SetName(name string) {
 	form.Name = name
 }
 
@@ -1762,7 +1795,7 @@ func (load *Load) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (load *Load) SetName(name string) (){
+func (load *Load) SetName(name string) {
 	load.Name = name
 }
 
@@ -1848,7 +1881,7 @@ func (logoontheleft *LogoOnTheLeft) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (logoontheleft *LogoOnTheLeft) SetName(name string) (){
+func (logoontheleft *LogoOnTheLeft) SetName(name string) {
 	logoontheleft.Name = name
 }
 
@@ -1934,7 +1967,7 @@ func (logoontheright *LogoOnTheRight) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (logoontheright *LogoOnTheRight) SetName(name string) (){
+func (logoontheright *LogoOnTheRight) SetName(name string) {
 	logoontheright.Name = name
 }
 
@@ -2020,7 +2053,7 @@ func (markdown *Markdown) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (markdown *Markdown) SetName(name string) (){
+func (markdown *Markdown) SetName(name string) {
 	markdown.Name = name
 }
 
@@ -2106,7 +2139,7 @@ func (slider *Slider) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (slider *Slider) SetName(name string) (){
+func (slider *Slider) SetName(name string) {
 	slider.Name = name
 }
 
@@ -2192,7 +2225,7 @@ func (split *Split) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (split *Split) SetName(name string) (){
+func (split *Split) SetName(name string) {
 	split.Name = name
 }
 
@@ -2278,7 +2311,7 @@ func (svg *Svg) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (svg *Svg) SetName(name string) (){
+func (svg *Svg) SetName(name string) {
 	svg.Name = name
 }
 
@@ -2364,7 +2397,7 @@ func (table *Table) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (table *Table) SetName(name string) (){
+func (table *Table) SetName(name string) {
 	table.Name = name
 }
 
@@ -2450,7 +2483,7 @@ func (title *Title) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (title *Title) SetName(name string) (){
+func (title *Title) SetName(name string) {
 	title.Name = name
 }
 
@@ -2536,7 +2569,7 @@ func (tone *Tone) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tone *Tone) SetName(name string) (){
+func (tone *Tone) SetName(name string) {
 	tone.Name = name
 }
 
@@ -2622,7 +2655,7 @@ func (tree *Tree) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (tree *Tree) SetName(name string) (){
+func (tree *Tree) SetName(name string) {
 	tree.Name = name
 }
 
@@ -2708,7 +2741,7 @@ func (view *View) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (view *View) SetName(name string) (){
+func (view *View) SetName(name string) {
 	view.Name = name
 }
 
@@ -2794,7 +2827,7 @@ func (xlsx *Xlsx) GetName() (res string) {
 }
 
 // for satisfaction of GongStruct interface
-func (xlsx *Xlsx) SetName(name string) (){
+func (xlsx *Xlsx) SetName(name string) {
 	xlsx.Name = name
 }
 
@@ -3107,6 +3140,7 @@ type GongstructIF interface {
 	GongGetFieldValue(fieldName string, stage *Stage) GongFieldValue
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
+	GongGetOrder(stage *Stage) uint
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF
@@ -5530,4 +5564,5 @@ func (stage *Stage) ResetMapStrings() {
 	}
 
 }
+
 // Last line of the template
