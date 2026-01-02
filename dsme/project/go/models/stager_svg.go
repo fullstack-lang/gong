@@ -156,7 +156,8 @@ func (stager *Stager) svg() {
 		note := noteShape.Note
 
 		if note == nil {
-			log.Panic("There should be a note")
+			log.Println("There should be a note")
+			continue
 		}
 
 		rect := svgRect(
