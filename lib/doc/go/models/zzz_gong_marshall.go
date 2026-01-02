@@ -536,7 +536,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (attributeshape *AttributeShape) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1066,6 +1066,159 @@ func (linkshape *LinkShape) GongMarshallField(stage *Stage, fieldName string) (r
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct LinkShape", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (attributeshape *AttributeShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += attributeshape.GongMarshallField(stage, "Name")
+		initializerStatements += attributeshape.GongMarshallField(stage, "IdentifierMeta")
+		initializerStatements += attributeshape.GongMarshallField(stage, "FieldTypeAsString")
+		initializerStatements += attributeshape.GongMarshallField(stage, "Structname")
+		initializerStatements += attributeshape.GongMarshallField(stage, "Fieldtypename")
+	}
+	return
+}
+func (classdiagram *Classdiagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += classdiagram.GongMarshallField(stage, "Name")
+		initializerStatements += classdiagram.GongMarshallField(stage, "Description")
+		initializerStatements += classdiagram.GongMarshallField(stage, "IsIncludedInStaticWebSite")
+		pointersInitializesStatements += classdiagram.GongMarshallField(stage, "GongStructShapes")
+		pointersInitializesStatements += classdiagram.GongMarshallField(stage, "GongEnumShapes")
+		pointersInitializesStatements += classdiagram.GongMarshallField(stage, "GongNoteShapes")
+		initializerStatements += classdiagram.GongMarshallField(stage, "ShowNbInstances")
+		initializerStatements += classdiagram.GongMarshallField(stage, "ShowMultiplicity")
+		initializerStatements += classdiagram.GongMarshallField(stage, "ShowLinkNames")
+		initializerStatements += classdiagram.GongMarshallField(stage, "IsInRenameMode")
+		initializerStatements += classdiagram.GongMarshallField(stage, "IsExpanded")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongStructsIsExpanded")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongStructNodeExpansion")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongEnumsIsExpanded")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongEnumNodeExpansion")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongNotesIsExpanded")
+		initializerStatements += classdiagram.GongMarshallField(stage, "NodeGongNoteNodeExpansion")
+	}
+	return
+}
+func (diagrampackage *DiagramPackage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += diagrampackage.GongMarshallField(stage, "Name")
+		initializerStatements += diagrampackage.GongMarshallField(stage, "Path")
+		initializerStatements += diagrampackage.GongMarshallField(stage, "GongModelPath")
+		pointersInitializesStatements += diagrampackage.GongMarshallField(stage, "Classdiagrams")
+		pointersInitializesStatements += diagrampackage.GongMarshallField(stage, "SelectedClassdiagram")
+		initializerStatements += diagrampackage.GongMarshallField(stage, "AbsolutePathToDiagramPackage")
+	}
+	return
+}
+func (gongenumshape *GongEnumShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongenumshape.GongMarshallField(stage, "Name")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "X")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "Y")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "IdentifierMeta")
+		pointersInitializesStatements += gongenumshape.GongMarshallField(stage, "GongEnumValueShapes")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "Width")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "Height")
+		initializerStatements += gongenumshape.GongMarshallField(stage, "IsExpanded")
+	}
+	return
+}
+func (gongenumvalueshape *GongEnumValueShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongenumvalueshape.GongMarshallField(stage, "Name")
+		initializerStatements += gongenumvalueshape.GongMarshallField(stage, "IdentifierMeta")
+	}
+	return
+}
+func (gongnotelinkshape *GongNoteLinkShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongnotelinkshape.GongMarshallField(stage, "Name")
+		initializerStatements += gongnotelinkshape.GongMarshallField(stage, "Identifier")
+		initializerStatements += gongnotelinkshape.GongMarshallField(stage, "Type")
+	}
+	return
+}
+func (gongnoteshape *GongNoteShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Name")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Identifier")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Body")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "BodyHTML")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "X")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Y")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Width")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Height")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "Matched")
+		pointersInitializesStatements += gongnoteshape.GongMarshallField(stage, "GongNoteLinkShapes")
+		initializerStatements += gongnoteshape.GongMarshallField(stage, "IsExpanded")
+	}
+	return
+}
+func (gongstructshape *GongStructShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gongstructshape.GongMarshallField(stage, "Name")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "X")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "Y")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "IdentifierMeta")
+		pointersInitializesStatements += gongstructshape.GongMarshallField(stage, "AttributeShapes")
+		pointersInitializesStatements += gongstructshape.GongMarshallField(stage, "LinkShapes")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "Width")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "Height")
+		initializerStatements += gongstructshape.GongMarshallField(stage, "IsSelected")
+	}
+	return
+}
+func (linkshape *LinkShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += linkshape.GongMarshallField(stage, "Name")
+		initializerStatements += linkshape.GongMarshallField(stage, "IdentifierMeta")
+		initializerStatements += linkshape.GongMarshallField(stage, "FieldTypeIdentifierMeta")
+		initializerStatements += linkshape.GongMarshallField(stage, "FieldOffsetX")
+		initializerStatements += linkshape.GongMarshallField(stage, "FieldOffsetY")
+		initializerStatements += linkshape.GongMarshallField(stage, "TargetMultiplicity")
+		initializerStatements += linkshape.GongMarshallField(stage, "TargetMultiplicityOffsetX")
+		initializerStatements += linkshape.GongMarshallField(stage, "TargetMultiplicityOffsetY")
+		initializerStatements += linkshape.GongMarshallField(stage, "SourceMultiplicity")
+		initializerStatements += linkshape.GongMarshallField(stage, "SourceMultiplicityOffsetX")
+		initializerStatements += linkshape.GongMarshallField(stage, "SourceMultiplicityOffsetY")
+		initializerStatements += linkshape.GongMarshallField(stage, "X")
+		initializerStatements += linkshape.GongMarshallField(stage, "Y")
+		initializerStatements += linkshape.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += linkshape.GongMarshallField(stage, "StartRatio")
+		initializerStatements += linkshape.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += linkshape.GongMarshallField(stage, "EndRatio")
+		initializerStatements += linkshape.GongMarshallField(stage, "CornerOffsetRatio")
 	}
 	return
 }

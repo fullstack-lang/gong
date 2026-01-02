@@ -441,7 +441,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (astruct *Astruct) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -814,6 +814,114 @@ func (gstruct *Gstruct) GongMarshallField(stage *Stage, fieldName string) (res s
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Gstruct", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (astruct *Astruct) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += astruct.GongMarshallField(stage, "Name")
+		initializerStatements += astruct.GongMarshallField(stage, "Field")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Associationtob")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofb")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anotherassociationtob_2")
+		initializerStatements += astruct.GongMarshallField(stage, "Date")
+		initializerStatements += astruct.GongMarshallField(stage, "Date2")
+		initializerStatements += astruct.GongMarshallField(stage, "Booleanfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Aenum")
+		initializerStatements += astruct.GongMarshallField(stage, "Aenum_2")
+		initializerStatements += astruct.GongMarshallField(stage, "Benum")
+		initializerStatements += astruct.GongMarshallField(stage, "CEnum")
+		initializerStatements += astruct.GongMarshallField(stage, "CName")
+		initializerStatements += astruct.GongMarshallField(stage, "CFloatfield")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Bstruct")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Bstruct2")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct2")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct3")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct4")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Dstruct4s")
+		initializerStatements += astruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Intfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Anotherbooleanfield")
+		initializerStatements += astruct.GongMarshallField(stage, "Duration1")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofa")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anotherarrayofb")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "AnarrayofbUse")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "Anarrayofb2Use")
+		pointersInitializesStatements += astruct.GongMarshallField(stage, "AnAstruct")
+		initializerStatements += astruct.GongMarshallField(stage, "TextFieldBespokeSize")
+		initializerStatements += astruct.GongMarshallField(stage, "TextArea")
+	}
+	return
+}
+func (astructbstruct2use *AstructBstruct2Use) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += astructbstruct2use.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += astructbstruct2use.GongMarshallField(stage, "Bstrcut2")
+	}
+	return
+}
+func (astructbstructuse *AstructBstructUse) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += astructbstructuse.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += astructbstructuse.GongMarshallField(stage, "Bstruct2")
+	}
+	return
+}
+func (bstruct *Bstruct) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += bstruct.GongMarshallField(stage, "Name")
+		initializerStatements += bstruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += bstruct.GongMarshallField(stage, "Floatfield2")
+		initializerStatements += bstruct.GongMarshallField(stage, "Intfield")
+	}
+	return
+}
+func (dstruct *Dstruct) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += dstruct.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Anarrayofb")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Gstruct")
+		pointersInitializesStatements += dstruct.GongMarshallField(stage, "Gstructs")
+	}
+	return
+}
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += f0123456789012345678901234567890.GongMarshallField(stage, "Name")
+		initializerStatements += f0123456789012345678901234567890.GongMarshallField(stage, "Date")
+	}
+	return
+}
+func (gstruct *Gstruct) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += gstruct.GongMarshallField(stage, "Name")
+		initializerStatements += gstruct.GongMarshallField(stage, "Floatfield")
+		initializerStatements += gstruct.GongMarshallField(stage, "Floatfield2")
+		initializerStatements += gstruct.GongMarshallField(stage, "Intfield")
 	}
 	return
 }

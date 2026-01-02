@@ -268,7 +268,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (freqency *Freqency) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -345,6 +345,41 @@ func (player *Player) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Player", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (freqency *Freqency) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += freqency.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += note.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += note.GongMarshallField(stage, "Frequencies")
+		initializerStatements += note.GongMarshallField(stage, "Start")
+		initializerStatements += note.GongMarshallField(stage, "Duration")
+		initializerStatements += note.GongMarshallField(stage, "Velocity")
+		initializerStatements += note.GongMarshallField(stage, "Info")
+	}
+	return
+}
+func (player *Player) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += player.GongMarshallField(stage, "Name")
+		initializerStatements += player.GongMarshallField(stage, "Status")
 	}
 	return
 }

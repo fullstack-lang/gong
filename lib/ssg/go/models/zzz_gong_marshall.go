@@ -277,7 +277,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (chapter *Chapter) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -402,6 +402,50 @@ func (page *Page) GongMarshallField(stage *Stage, fieldName string) (res string)
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Page", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (chapter *Chapter) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += chapter.GongMarshallField(stage, "Name")
+		initializerStatements += chapter.GongMarshallField(stage, "MardownContent")
+		pointersInitializesStatements += chapter.GongMarshallField(stage, "Pages")
+	}
+	return
+}
+func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += content.GongMarshallField(stage, "Name")
+		initializerStatements += content.GongMarshallField(stage, "MardownContent")
+		initializerStatements += content.GongMarshallField(stage, "ContentPath")
+		initializerStatements += content.GongMarshallField(stage, "OutputPath")
+		initializerStatements += content.GongMarshallField(stage, "LayoutPath")
+		initializerStatements += content.GongMarshallField(stage, "StaticPath")
+		initializerStatements += content.GongMarshallField(stage, "IsBespokeLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "BespokeLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "IsBespokePageTileLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "BespokePageTileLogoFileName")
+		initializerStatements += content.GongMarshallField(stage, "Target")
+		pointersInitializesStatements += content.GongMarshallField(stage, "Chapters")
+		initializerStatements += content.GongMarshallField(stage, "VersionInfo")
+	}
+	return
+}
+func (page *Page) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += page.GongMarshallField(stage, "Name")
+		initializerStatements += page.GongMarshallField(stage, "MardownContent")
 	}
 	return
 }
