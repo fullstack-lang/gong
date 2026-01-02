@@ -313,7 +313,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (checkbox *Checkbox) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -464,6 +464,61 @@ func (slider *Slider) GongMarshallField(stage *Stage, fieldName string) (res str
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Slider", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (checkbox *Checkbox) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += checkbox.GongMarshallField(stage, "Name")
+		initializerStatements += checkbox.GongMarshallField(stage, "ValueBool")
+		initializerStatements += checkbox.GongMarshallField(stage, "LabelForTrue")
+		initializerStatements += checkbox.GongMarshallField(stage, "LabelForFalse")
+	}
+	return
+}
+func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += group.GongMarshallField(stage, "Name")
+		initializerStatements += group.GongMarshallField(stage, "Percentage")
+		pointersInitializesStatements += group.GongMarshallField(stage, "Sliders")
+		pointersInitializesStatements += group.GongMarshallField(stage, "Checkboxes")
+	}
+	return
+}
+func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += layout.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
+	}
+	return
+}
+func (slider *Slider) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += slider.GongMarshallField(stage, "Name")
+		initializerStatements += slider.GongMarshallField(stage, "IsFloat64")
+		initializerStatements += slider.GongMarshallField(stage, "IsInt")
+		initializerStatements += slider.GongMarshallField(stage, "MinInt")
+		initializerStatements += slider.GongMarshallField(stage, "MaxInt")
+		initializerStatements += slider.GongMarshallField(stage, "StepInt")
+		initializerStatements += slider.GongMarshallField(stage, "ValueInt")
+		initializerStatements += slider.GongMarshallField(stage, "MinFloat64")
+		initializerStatements += slider.GongMarshallField(stage, "MaxFloat64")
+		initializerStatements += slider.GongMarshallField(stage, "StepFloat64")
+		initializerStatements += slider.GongMarshallField(stage, "ValueFloat64")
 	}
 	return
 }

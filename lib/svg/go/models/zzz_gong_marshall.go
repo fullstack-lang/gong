@@ -1159,7 +1159,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (animate *Animate) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -3035,6 +3035,482 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Text", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (animate *Animate) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += animate.GongMarshallField(stage, "Name")
+		initializerStatements += animate.GongMarshallField(stage, "AttributeName")
+		initializerStatements += animate.GongMarshallField(stage, "Values")
+		initializerStatements += animate.GongMarshallField(stage, "From")
+		initializerStatements += animate.GongMarshallField(stage, "To")
+		initializerStatements += animate.GongMarshallField(stage, "Dur")
+		initializerStatements += animate.GongMarshallField(stage, "RepeatCount")
+	}
+	return
+}
+func (circle *Circle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += circle.GongMarshallField(stage, "Name")
+		initializerStatements += circle.GongMarshallField(stage, "CX")
+		initializerStatements += circle.GongMarshallField(stage, "CY")
+		initializerStatements += circle.GongMarshallField(stage, "Radius")
+		initializerStatements += circle.GongMarshallField(stage, "Color")
+		initializerStatements += circle.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += circle.GongMarshallField(stage, "Stroke")
+		initializerStatements += circle.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += circle.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += circle.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += circle.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += circle.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += circle.GongMarshallField(stage, "Animations")
+	}
+	return
+}
+func (condition *Condition) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += condition.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (controlpoint *ControlPoint) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += controlpoint.GongMarshallField(stage, "Name")
+		initializerStatements += controlpoint.GongMarshallField(stage, "X_Relative")
+		initializerStatements += controlpoint.GongMarshallField(stage, "Y_Relative")
+		pointersInitializesStatements += controlpoint.GongMarshallField(stage, "ClosestRect")
+	}
+	return
+}
+func (ellipse *Ellipse) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += ellipse.GongMarshallField(stage, "Name")
+		initializerStatements += ellipse.GongMarshallField(stage, "CX")
+		initializerStatements += ellipse.GongMarshallField(stage, "CY")
+		initializerStatements += ellipse.GongMarshallField(stage, "RX")
+		initializerStatements += ellipse.GongMarshallField(stage, "RY")
+		initializerStatements += ellipse.GongMarshallField(stage, "Color")
+		initializerStatements += ellipse.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += ellipse.GongMarshallField(stage, "Stroke")
+		initializerStatements += ellipse.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += ellipse.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += ellipse.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += ellipse.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += ellipse.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += ellipse.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (layer *Layer) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += layer.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Rects")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Texts")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Circles")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Lines")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Ellipses")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Polylines")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Polygones")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Paths")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "Links")
+		pointersInitializesStatements += layer.GongMarshallField(stage, "RectLinkLinks")
+	}
+	return
+}
+func (line *Line) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += line.GongMarshallField(stage, "Name")
+		initializerStatements += line.GongMarshallField(stage, "X1")
+		initializerStatements += line.GongMarshallField(stage, "Y1")
+		initializerStatements += line.GongMarshallField(stage, "X2")
+		initializerStatements += line.GongMarshallField(stage, "Y2")
+		initializerStatements += line.GongMarshallField(stage, "Color")
+		initializerStatements += line.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += line.GongMarshallField(stage, "Stroke")
+		initializerStatements += line.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += line.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += line.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += line.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += line.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += line.GongMarshallField(stage, "Animates")
+		initializerStatements += line.GongMarshallField(stage, "MouseClickX")
+		initializerStatements += line.GongMarshallField(stage, "MouseClickY")
+	}
+	return
+}
+func (link *Link) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += link.GongMarshallField(stage, "Name")
+		initializerStatements += link.GongMarshallField(stage, "Type")
+		initializerStatements += link.GongMarshallField(stage, "IsBezierCurve")
+		pointersInitializesStatements += link.GongMarshallField(stage, "Start")
+		initializerStatements += link.GongMarshallField(stage, "StartAnchorType")
+		pointersInitializesStatements += link.GongMarshallField(stage, "End")
+		initializerStatements += link.GongMarshallField(stage, "EndAnchorType")
+		initializerStatements += link.GongMarshallField(stage, "StartOrientation")
+		initializerStatements += link.GongMarshallField(stage, "StartRatio")
+		initializerStatements += link.GongMarshallField(stage, "EndOrientation")
+		initializerStatements += link.GongMarshallField(stage, "EndRatio")
+		initializerStatements += link.GongMarshallField(stage, "CornerOffsetRatio")
+		initializerStatements += link.GongMarshallField(stage, "CornerRadius")
+		initializerStatements += link.GongMarshallField(stage, "HasEndArrow")
+		initializerStatements += link.GongMarshallField(stage, "EndArrowSize")
+		initializerStatements += link.GongMarshallField(stage, "EndArrowOffset")
+		initializerStatements += link.GongMarshallField(stage, "HasStartArrow")
+		initializerStatements += link.GongMarshallField(stage, "StartArrowSize")
+		initializerStatements += link.GongMarshallField(stage, "StartArrowOffset")
+		pointersInitializesStatements += link.GongMarshallField(stage, "TextAtArrowStart")
+		pointersInitializesStatements += link.GongMarshallField(stage, "TextAtArrowEnd")
+		pointersInitializesStatements += link.GongMarshallField(stage, "ControlPoints")
+		initializerStatements += link.GongMarshallField(stage, "Color")
+		initializerStatements += link.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += link.GongMarshallField(stage, "Stroke")
+		initializerStatements += link.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += link.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += link.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += link.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += link.GongMarshallField(stage, "Transform")
+		initializerStatements += link.GongMarshallField(stage, "MouseX")
+		initializerStatements += link.GongMarshallField(stage, "MouseY")
+		initializerStatements += link.GongMarshallField(stage, "MouseEventKey")
+	}
+	return
+}
+func (linkanchoredtext *LinkAnchoredText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Name")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Content")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "AutomaticLayout")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "LinkAnchorType")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "X_Offset")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Y_Offset")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "FontWeight")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "FontSize")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "FontStyle")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "LetterSpacing")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "FontFamily")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "WhiteSpace")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Color")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Stroke")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += linkanchoredtext.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (path *Path) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += path.GongMarshallField(stage, "Name")
+		initializerStatements += path.GongMarshallField(stage, "Definition")
+		initializerStatements += path.GongMarshallField(stage, "Color")
+		initializerStatements += path.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += path.GongMarshallField(stage, "Stroke")
+		initializerStatements += path.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += path.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += path.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += path.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += path.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += path.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (point *Point) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += point.GongMarshallField(stage, "Name")
+		initializerStatements += point.GongMarshallField(stage, "X")
+		initializerStatements += point.GongMarshallField(stage, "Y")
+	}
+	return
+}
+func (polygone *Polygone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += polygone.GongMarshallField(stage, "Name")
+		initializerStatements += polygone.GongMarshallField(stage, "Points")
+		initializerStatements += polygone.GongMarshallField(stage, "Color")
+		initializerStatements += polygone.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += polygone.GongMarshallField(stage, "Stroke")
+		initializerStatements += polygone.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += polygone.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += polygone.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += polygone.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += polygone.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += polygone.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (polyline *Polyline) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += polyline.GongMarshallField(stage, "Name")
+		initializerStatements += polyline.GongMarshallField(stage, "Points")
+		initializerStatements += polyline.GongMarshallField(stage, "Color")
+		initializerStatements += polyline.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += polyline.GongMarshallField(stage, "Stroke")
+		initializerStatements += polyline.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += polyline.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += polyline.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += polyline.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += polyline.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += polyline.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (rect *Rect) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += rect.GongMarshallField(stage, "Name")
+		initializerStatements += rect.GongMarshallField(stage, "X")
+		initializerStatements += rect.GongMarshallField(stage, "Y")
+		initializerStatements += rect.GongMarshallField(stage, "Width")
+		initializerStatements += rect.GongMarshallField(stage, "Height")
+		initializerStatements += rect.GongMarshallField(stage, "RX")
+		initializerStatements += rect.GongMarshallField(stage, "Color")
+		initializerStatements += rect.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += rect.GongMarshallField(stage, "Stroke")
+		initializerStatements += rect.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += rect.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += rect.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += rect.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += rect.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "HoveringTrigger")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "DisplayConditions")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "Animations")
+		initializerStatements += rect.GongMarshallField(stage, "IsSelectable")
+		initializerStatements += rect.GongMarshallField(stage, "IsSelected")
+		initializerStatements += rect.GongMarshallField(stage, "CanHaveLeftHandle")
+		initializerStatements += rect.GongMarshallField(stage, "HasLeftHandle")
+		initializerStatements += rect.GongMarshallField(stage, "CanHaveRightHandle")
+		initializerStatements += rect.GongMarshallField(stage, "HasRightHandle")
+		initializerStatements += rect.GongMarshallField(stage, "CanHaveTopHandle")
+		initializerStatements += rect.GongMarshallField(stage, "HasTopHandle")
+		initializerStatements += rect.GongMarshallField(stage, "IsScalingProportionally")
+		initializerStatements += rect.GongMarshallField(stage, "CanHaveBottomHandle")
+		initializerStatements += rect.GongMarshallField(stage, "HasBottomHandle")
+		initializerStatements += rect.GongMarshallField(stage, "CanMoveHorizontaly")
+		initializerStatements += rect.GongMarshallField(stage, "CanMoveVerticaly")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "RectAnchoredTexts")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "RectAnchoredRects")
+		pointersInitializesStatements += rect.GongMarshallField(stage, "RectAnchoredPaths")
+		initializerStatements += rect.GongMarshallField(stage, "ChangeColorWhenHovered")
+		initializerStatements += rect.GongMarshallField(stage, "ColorWhenHovered")
+		initializerStatements += rect.GongMarshallField(stage, "OriginalColor")
+		initializerStatements += rect.GongMarshallField(stage, "FillOpacityWhenHovered")
+		initializerStatements += rect.GongMarshallField(stage, "OriginalFillOpacity")
+		initializerStatements += rect.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += rect.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += rect.GongMarshallField(stage, "ToolTipPosition")
+		initializerStatements += rect.GongMarshallField(stage, "MouseX")
+		initializerStatements += rect.GongMarshallField(stage, "MouseY")
+		initializerStatements += rect.GongMarshallField(stage, "MouseEventKey")
+	}
+	return
+}
+func (rectanchoredpath *RectAnchoredPath) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Name")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Definition")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "X_Offset")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Y_Offset")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "RectAnchorType")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "ScalePropotionnally")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "AppliedScaling")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Color")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Stroke")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Transform")
+	}
+	return
+}
+func (rectanchoredrect *RectAnchoredRect) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Name")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "X")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Y")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Width")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Height")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "RX")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "X_Offset")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Y_Offset")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "RectAnchorType")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "WidthFollowRect")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "HeightFollowRect")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Color")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Stroke")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Transform")
+	}
+	return
+}
+func (rectanchoredtext *RectAnchoredText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Name")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Content")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "FontWeight")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "FontSize")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "FontStyle")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "LetterSpacing")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "FontFamily")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "WhiteSpace")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "X_Offset")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Y_Offset")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "RectAnchorType")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "TextAnchorType")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "DominantBaseline")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "WritingMode")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Color")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Stroke")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Transform")
+		pointersInitializesStatements += rectanchoredtext.GongMarshallField(stage, "Animates")
+	}
+	return
+}
+func (rectlinklink *RectLinkLink) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += rectlinklink.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += rectlinklink.GongMarshallField(stage, "Start")
+		pointersInitializesStatements += rectlinklink.GongMarshallField(stage, "End")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "TargetAnchorPosition")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "Color")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "Stroke")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += rectlinklink.GongMarshallField(stage, "Transform")
+	}
+	return
+}
+func (svg *SVG) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += svg.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += svg.GongMarshallField(stage, "Layers")
+		initializerStatements += svg.GongMarshallField(stage, "DrawingState")
+		pointersInitializesStatements += svg.GongMarshallField(stage, "StartRect")
+		pointersInitializesStatements += svg.GongMarshallField(stage, "EndRect")
+		initializerStatements += svg.GongMarshallField(stage, "IsEditable")
+		initializerStatements += svg.GongMarshallField(stage, "IsSVGFrontEndFileGenerated")
+		initializerStatements += svg.GongMarshallField(stage, "IsSVGBackEndFileGenerated")
+		initializerStatements += svg.GongMarshallField(stage, "DefaultDirectoryForGeneratedImages")
+		initializerStatements += svg.GongMarshallField(stage, "IsControlBannerHidden")
+		initializerStatements += svg.GongMarshallField(stage, "OverrideWidth")
+		initializerStatements += svg.GongMarshallField(stage, "OverriddenWidth")
+		initializerStatements += svg.GongMarshallField(stage, "OverrideHeight")
+		initializerStatements += svg.GongMarshallField(stage, "OverriddenHeight")
+	}
+	return
+}
+func (svgtext *SvgText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += svgtext.GongMarshallField(stage, "Name")
+		initializerStatements += svgtext.GongMarshallField(stage, "Text")
+	}
+	return
+}
+func (text *Text) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += text.GongMarshallField(stage, "Name")
+		initializerStatements += text.GongMarshallField(stage, "X")
+		initializerStatements += text.GongMarshallField(stage, "Y")
+		initializerStatements += text.GongMarshallField(stage, "Content")
+		initializerStatements += text.GongMarshallField(stage, "Color")
+		initializerStatements += text.GongMarshallField(stage, "FillOpacity")
+		initializerStatements += text.GongMarshallField(stage, "Stroke")
+		initializerStatements += text.GongMarshallField(stage, "StrokeOpacity")
+		initializerStatements += text.GongMarshallField(stage, "StrokeWidth")
+		initializerStatements += text.GongMarshallField(stage, "StrokeDashArray")
+		initializerStatements += text.GongMarshallField(stage, "StrokeDashArrayWhenSelected")
+		initializerStatements += text.GongMarshallField(stage, "Transform")
+		initializerStatements += text.GongMarshallField(stage, "FontWeight")
+		initializerStatements += text.GongMarshallField(stage, "FontSize")
+		initializerStatements += text.GongMarshallField(stage, "FontStyle")
+		initializerStatements += text.GongMarshallField(stage, "LetterSpacing")
+		initializerStatements += text.GongMarshallField(stage, "FontFamily")
+		initializerStatements += text.GongMarshallField(stage, "WhiteSpace")
+		pointersInitializesStatements += text.GongMarshallField(stage, "Animates")
 	}
 	return
 }

@@ -1023,7 +1023,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (cell *Cell) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -1825,6 +1825,296 @@ func (table *Table) GongMarshallField(stage *Stage, fieldName string) (res strin
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Table", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (cell *Cell) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cell.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += cell.GongMarshallField(stage, "CellString")
+		pointersInitializesStatements += cell.GongMarshallField(stage, "CellFloat64")
+		pointersInitializesStatements += cell.GongMarshallField(stage, "CellInt")
+		pointersInitializesStatements += cell.GongMarshallField(stage, "CellBool")
+		pointersInitializesStatements += cell.GongMarshallField(stage, "CellIcon")
+	}
+	return
+}
+func (cellboolean *CellBoolean) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cellboolean.GongMarshallField(stage, "Name")
+		initializerStatements += cellboolean.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (cellfloat64 *CellFloat64) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cellfloat64.GongMarshallField(stage, "Name")
+		initializerStatements += cellfloat64.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (cellicon *CellIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cellicon.GongMarshallField(stage, "Name")
+		initializerStatements += cellicon.GongMarshallField(stage, "Icon")
+		initializerStatements += cellicon.GongMarshallField(stage, "NeedsConfirmation")
+		initializerStatements += cellicon.GongMarshallField(stage, "ConfirmationMessage")
+	}
+	return
+}
+func (cellint *CellInt) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cellint.GongMarshallField(stage, "Name")
+		initializerStatements += cellint.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (cellstring *CellString) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += cellstring.GongMarshallField(stage, "Name")
+		initializerStatements += cellstring.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (checkbox *CheckBox) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += checkbox.GongMarshallField(stage, "Name")
+		initializerStatements += checkbox.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (displayedcolumn *DisplayedColumn) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += displayedcolumn.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (formdiv *FormDiv) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formdiv.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += formdiv.GongMarshallField(stage, "FormFields")
+		pointersInitializesStatements += formdiv.GongMarshallField(stage, "CheckBoxs")
+		pointersInitializesStatements += formdiv.GongMarshallField(stage, "FormEditAssocButton")
+		pointersInitializesStatements += formdiv.GongMarshallField(stage, "FormSortAssocButton")
+	}
+	return
+}
+func (formeditassocbutton *FormEditAssocButton) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "Name")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "Label")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "AssociationStorage")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "HasChanged")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "IsForSavePurpose")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += formeditassocbutton.GongMarshallField(stage, "MatTooltipShowDelay")
+	}
+	return
+}
+func (formfield *FormField) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfield.GongMarshallField(stage, "Name")
+		initializerStatements += formfield.GongMarshallField(stage, "InputTypeEnum")
+		initializerStatements += formfield.GongMarshallField(stage, "Label")
+		initializerStatements += formfield.GongMarshallField(stage, "Placeholder")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldString")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldFloat64")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldInt")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldDate")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldTime")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldDateTime")
+		pointersInitializesStatements += formfield.GongMarshallField(stage, "FormFieldSelect")
+		initializerStatements += formfield.GongMarshallField(stage, "HasBespokeWidth")
+		initializerStatements += formfield.GongMarshallField(stage, "BespokeWidthPx")
+		initializerStatements += formfield.GongMarshallField(stage, "HasBespokeHeight")
+		initializerStatements += formfield.GongMarshallField(stage, "BespokeHeightPx")
+	}
+	return
+}
+func (formfielddate *FormFieldDate) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfielddate.GongMarshallField(stage, "Name")
+		initializerStatements += formfielddate.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (formfielddatetime *FormFieldDateTime) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfielddatetime.GongMarshallField(stage, "Name")
+		initializerStatements += formfielddatetime.GongMarshallField(stage, "Value")
+	}
+	return
+}
+func (formfieldfloat64 *FormFieldFloat64) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "Name")
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "Value")
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "HasMinValidator")
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "MinValue")
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "HasMaxValidator")
+		initializerStatements += formfieldfloat64.GongMarshallField(stage, "MaxValue")
+	}
+	return
+}
+func (formfieldint *FormFieldInt) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfieldint.GongMarshallField(stage, "Name")
+		initializerStatements += formfieldint.GongMarshallField(stage, "Value")
+		initializerStatements += formfieldint.GongMarshallField(stage, "HasMinValidator")
+		initializerStatements += formfieldint.GongMarshallField(stage, "MinValue")
+		initializerStatements += formfieldint.GongMarshallField(stage, "HasMaxValidator")
+		initializerStatements += formfieldint.GongMarshallField(stage, "MaxValue")
+	}
+	return
+}
+func (formfieldselect *FormFieldSelect) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfieldselect.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += formfieldselect.GongMarshallField(stage, "Value")
+		pointersInitializesStatements += formfieldselect.GongMarshallField(stage, "Options")
+		initializerStatements += formfieldselect.GongMarshallField(stage, "CanBeEmpty")
+		initializerStatements += formfieldselect.GongMarshallField(stage, "PreserveInitialOrder")
+	}
+	return
+}
+func (formfieldstring *FormFieldString) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfieldstring.GongMarshallField(stage, "Name")
+		initializerStatements += formfieldstring.GongMarshallField(stage, "Value")
+		initializerStatements += formfieldstring.GongMarshallField(stage, "IsTextArea")
+	}
+	return
+}
+func (formfieldtime *FormFieldTime) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formfieldtime.GongMarshallField(stage, "Name")
+		initializerStatements += formfieldtime.GongMarshallField(stage, "Value")
+		initializerStatements += formfieldtime.GongMarshallField(stage, "Step")
+	}
+	return
+}
+func (formgroup *FormGroup) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formgroup.GongMarshallField(stage, "Name")
+		initializerStatements += formgroup.GongMarshallField(stage, "Label")
+		pointersInitializesStatements += formgroup.GongMarshallField(stage, "FormDivs")
+		initializerStatements += formgroup.GongMarshallField(stage, "HasSuppressButton")
+		initializerStatements += formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed")
+	}
+	return
+}
+func (formsortassocbutton *FormSortAssocButton) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += formsortassocbutton.GongMarshallField(stage, "Name")
+		initializerStatements += formsortassocbutton.GongMarshallField(stage, "Label")
+		initializerStatements += formsortassocbutton.GongMarshallField(stage, "HasToolTip")
+		initializerStatements += formsortassocbutton.GongMarshallField(stage, "ToolTipText")
+		initializerStatements += formsortassocbutton.GongMarshallField(stage, "MatTooltipShowDelay")
+		pointersInitializesStatements += formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton")
+	}
+	return
+}
+func (option *Option) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += option.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (row *Row) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += row.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += row.GongMarshallField(stage, "Cells")
+		initializerStatements += row.GongMarshallField(stage, "IsChecked")
+	}
+	return
+}
+func (table *Table) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += table.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += table.GongMarshallField(stage, "DisplayedColumns")
+		pointersInitializesStatements += table.GongMarshallField(stage, "Rows")
+		initializerStatements += table.GongMarshallField(stage, "HasFiltering")
+		initializerStatements += table.GongMarshallField(stage, "HasColumnSorting")
+		initializerStatements += table.GongMarshallField(stage, "HasPaginator")
+		initializerStatements += table.GongMarshallField(stage, "HasCheckableRows")
+		initializerStatements += table.GongMarshallField(stage, "HasSaveButton")
+		initializerStatements += table.GongMarshallField(stage, "SaveButtonLabel")
+		initializerStatements += table.GongMarshallField(stage, "CanDragDropRows")
+		initializerStatements += table.GongMarshallField(stage, "HasCloseButton")
+		initializerStatements += table.GongMarshallField(stage, "SavingInProgress")
+		initializerStatements += table.GongMarshallField(stage, "NbOfStickyColumns")
 	}
 	return
 }

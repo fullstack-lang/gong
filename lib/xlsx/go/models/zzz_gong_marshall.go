@@ -343,7 +343,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (displayselection *DisplaySelection) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -496,6 +496,66 @@ func (xlsheet *XLSheet) GongMarshallField(stage *Stage, fieldName string) (res s
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct XLSheet", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (displayselection *DisplaySelection) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += displayselection.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += displayselection.GongMarshallField(stage, "XLFile")
+		pointersInitializesStatements += displayselection.GongMarshallField(stage, "XLSheet")
+	}
+	return
+}
+func (xlcell *XLCell) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += xlcell.GongMarshallField(stage, "Name")
+		initializerStatements += xlcell.GongMarshallField(stage, "X")
+		initializerStatements += xlcell.GongMarshallField(stage, "Y")
+	}
+	return
+}
+func (xlfile *XLFile) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += xlfile.GongMarshallField(stage, "Name")
+		initializerStatements += xlfile.GongMarshallField(stage, "NbSheets")
+		pointersInitializesStatements += xlfile.GongMarshallField(stage, "Sheets")
+	}
+	return
+}
+func (xlrow *XLRow) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += xlrow.GongMarshallField(stage, "Name")
+		initializerStatements += xlrow.GongMarshallField(stage, "RowIndex")
+		pointersInitializesStatements += xlrow.GongMarshallField(stage, "Cells")
+	}
+	return
+}
+func (xlsheet *XLSheet) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += xlsheet.GongMarshallField(stage, "Name")
+		initializerStatements += xlsheet.GongMarshallField(stage, "MaxRow")
+		initializerStatements += xlsheet.GongMarshallField(stage, "MaxCol")
+		initializerStatements += xlsheet.GongMarshallField(stage, "NbRows")
+		pointersInitializesStatements += xlsheet.GongMarshallField(stage, "Rows")
+		pointersInitializesStatements += xlsheet.GongMarshallField(stage, "SheetCells")
 	}
 	return
 }
