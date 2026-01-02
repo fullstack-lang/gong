@@ -405,6 +405,7 @@ func addAddItemButton[T Gongstruct, PT interface {
 			item.SetName("New" + GetGongstructNameFromPointer(item))
 			item.StageVoid(stager.stage)
 			*items = append(*items, item)
+			stager.stage.ComputeReverseMaps() // this is important, otherwise, the form is not correctly initialized
 
 			// check if the item is a diagram, if so, set the IsEditable_ field to true
 			if diagram, ok := any(item).(*Diagram); ok {

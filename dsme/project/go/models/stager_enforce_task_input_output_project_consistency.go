@@ -1,5 +1,7 @@
 package models
 
+// enforceTaskInputOutputProjectConsistency ensures that the input and output
+// products of a task belong to the same project as the task itself.
 func (stager *Stager) enforceTaskInputOutputProjectConsistency() (needCommit bool) {
 	stage := stager.stage
 

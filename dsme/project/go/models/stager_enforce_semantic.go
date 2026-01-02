@@ -31,11 +31,6 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 
 	root := stager.root
 
-	if root.NbPixPerCharacter == 0 {
-		root.NbPixPerCharacter = 8
-		needCommit = true
-	}
-
 	// Enforce that all projects are appended to the [root]
 	// if one project is not appended, append it
 	for _, project := range GetGongstrucsSorted[*Project](stage) {
@@ -68,16 +63,23 @@ func (stager *Stager) enforceSemantic() (needCommit bool) {
 		needCommit = true
 	}
 
-	if stager.enforceProductCompositionShapes() {
-		needCommit = true
-	}
+	// Semantic for shapes relation to concrete objects
+	{
+		if stager.enforceProductCompositionShapes() {
+			needCommit = true
+		}
 
-	if stager.enforceTaskCompositionShapes() {
-		needCommit = true
-	}
+		if stager.enforceTaskCompositionShapes() {
+			needCommit = true
+		}
 
-	if stager.enforceTaskInputOutputShapes() {
-		needCommit = true
+		if stager.enforceTaskInputOutputShapes() {
+			needCommit = true
+		}
+
+		if stager.enforceNoteRelatedShapes() {
+			needCommit = true
+		}
 	}
 
 	if stager.enforceShapeOrphans() {
