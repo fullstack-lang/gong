@@ -392,45 +392,64 @@ func SetCallbackAfterUpdateFromFront[Type Gongstruct](stage *Stage, callback OnA
 
 	var instance Type
 	switch any(instance).(type) {
-	// insertion point
+		// insertion point
 	case *AsSplit:
 		stage.OnAfterAsSplitUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplit])
+	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaUpdateCallback = any(callback).(OnAfterUpdateInterface[AsSplitArea])
+	
 	case *Button:
 		stage.OnAfterButtonUpdateCallback = any(callback).(OnAfterUpdateInterface[Button])
+	
 	case *Cursor:
 		stage.OnAfterCursorUpdateCallback = any(callback).(OnAfterUpdateInterface[Cursor])
+	
 	case *FavIcon:
 		stage.OnAfterFavIconUpdateCallback = any(callback).(OnAfterUpdateInterface[FavIcon])
+	
 	case *Form:
 		stage.OnAfterFormUpdateCallback = any(callback).(OnAfterUpdateInterface[Form])
+	
 	case *Load:
 		stage.OnAfterLoadUpdateCallback = any(callback).(OnAfterUpdateInterface[Load])
+	
 	case *LogoOnTheLeft:
 		stage.OnAfterLogoOnTheLeftUpdateCallback = any(callback).(OnAfterUpdateInterface[LogoOnTheLeft])
+	
 	case *LogoOnTheRight:
 		stage.OnAfterLogoOnTheRightUpdateCallback = any(callback).(OnAfterUpdateInterface[LogoOnTheRight])
+	
 	case *Markdown:
 		stage.OnAfterMarkdownUpdateCallback = any(callback).(OnAfterUpdateInterface[Markdown])
+	
 	case *Slider:
 		stage.OnAfterSliderUpdateCallback = any(callback).(OnAfterUpdateInterface[Slider])
+	
 	case *Split:
 		stage.OnAfterSplitUpdateCallback = any(callback).(OnAfterUpdateInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgUpdateCallback = any(callback).(OnAfterUpdateInterface[Svg])
+	
 	case *Table:
 		stage.OnAfterTableUpdateCallback = any(callback).(OnAfterUpdateInterface[Table])
+	
 	case *Title:
 		stage.OnAfterTitleUpdateCallback = any(callback).(OnAfterUpdateInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneUpdateCallback = any(callback).(OnAfterUpdateInterface[Tone])
+	
 	case *Tree:
 		stage.OnAfterTreeUpdateCallback = any(callback).(OnAfterUpdateInterface[Tree])
+	
 	case *View:
 		stage.OnAfterViewUpdateCallback = any(callback).(OnAfterUpdateInterface[View])
+	
 	case *Xlsx:
 		stage.OnAfterXlsxUpdateCallback = any(callback).(OnAfterUpdateInterface[Xlsx])
+	
 	}
 }
 func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnAfterCreateInterface[Type]) {
@@ -440,42 +459,61 @@ func SetCallbackAfterCreateFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *AsSplit:
 		stage.OnAfterAsSplitCreateCallback = any(callback).(OnAfterCreateInterface[AsSplit])
+	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaCreateCallback = any(callback).(OnAfterCreateInterface[AsSplitArea])
+	
 	case *Button:
 		stage.OnAfterButtonCreateCallback = any(callback).(OnAfterCreateInterface[Button])
+	
 	case *Cursor:
 		stage.OnAfterCursorCreateCallback = any(callback).(OnAfterCreateInterface[Cursor])
+	
 	case *FavIcon:
 		stage.OnAfterFavIconCreateCallback = any(callback).(OnAfterCreateInterface[FavIcon])
+	
 	case *Form:
 		stage.OnAfterFormCreateCallback = any(callback).(OnAfterCreateInterface[Form])
+	
 	case *Load:
 		stage.OnAfterLoadCreateCallback = any(callback).(OnAfterCreateInterface[Load])
+	
 	case *LogoOnTheLeft:
 		stage.OnAfterLogoOnTheLeftCreateCallback = any(callback).(OnAfterCreateInterface[LogoOnTheLeft])
+	
 	case *LogoOnTheRight:
 		stage.OnAfterLogoOnTheRightCreateCallback = any(callback).(OnAfterCreateInterface[LogoOnTheRight])
+	
 	case *Markdown:
 		stage.OnAfterMarkdownCreateCallback = any(callback).(OnAfterCreateInterface[Markdown])
+	
 	case *Slider:
 		stage.OnAfterSliderCreateCallback = any(callback).(OnAfterCreateInterface[Slider])
+	
 	case *Split:
 		stage.OnAfterSplitCreateCallback = any(callback).(OnAfterCreateInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgCreateCallback = any(callback).(OnAfterCreateInterface[Svg])
+	
 	case *Table:
 		stage.OnAfterTableCreateCallback = any(callback).(OnAfterCreateInterface[Table])
+	
 	case *Title:
 		stage.OnAfterTitleCreateCallback = any(callback).(OnAfterCreateInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneCreateCallback = any(callback).(OnAfterCreateInterface[Tone])
+	
 	case *Tree:
 		stage.OnAfterTreeCreateCallback = any(callback).(OnAfterCreateInterface[Tree])
+	
 	case *View:
 		stage.OnAfterViewCreateCallback = any(callback).(OnAfterCreateInterface[View])
+	
 	case *Xlsx:
 		stage.OnAfterXlsxCreateCallback = any(callback).(OnAfterCreateInterface[Xlsx])
+	
 	}
 }
 func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnAfterDeleteInterface[Type]) {
@@ -485,42 +523,61 @@ func SetCallbackAfterDeleteFromFront[Type Gongstruct](stage *Stage, callback OnA
 		// insertion point
 	case *AsSplit:
 		stage.OnAfterAsSplitDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplit])
+	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaDeleteCallback = any(callback).(OnAfterDeleteInterface[AsSplitArea])
+	
 	case *Button:
 		stage.OnAfterButtonDeleteCallback = any(callback).(OnAfterDeleteInterface[Button])
+	
 	case *Cursor:
 		stage.OnAfterCursorDeleteCallback = any(callback).(OnAfterDeleteInterface[Cursor])
+	
 	case *FavIcon:
 		stage.OnAfterFavIconDeleteCallback = any(callback).(OnAfterDeleteInterface[FavIcon])
+	
 	case *Form:
 		stage.OnAfterFormDeleteCallback = any(callback).(OnAfterDeleteInterface[Form])
+	
 	case *Load:
 		stage.OnAfterLoadDeleteCallback = any(callback).(OnAfterDeleteInterface[Load])
+	
 	case *LogoOnTheLeft:
 		stage.OnAfterLogoOnTheLeftDeleteCallback = any(callback).(OnAfterDeleteInterface[LogoOnTheLeft])
+	
 	case *LogoOnTheRight:
 		stage.OnAfterLogoOnTheRightDeleteCallback = any(callback).(OnAfterDeleteInterface[LogoOnTheRight])
+	
 	case *Markdown:
 		stage.OnAfterMarkdownDeleteCallback = any(callback).(OnAfterDeleteInterface[Markdown])
+	
 	case *Slider:
 		stage.OnAfterSliderDeleteCallback = any(callback).(OnAfterDeleteInterface[Slider])
+	
 	case *Split:
 		stage.OnAfterSplitDeleteCallback = any(callback).(OnAfterDeleteInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgDeleteCallback = any(callback).(OnAfterDeleteInterface[Svg])
+	
 	case *Table:
 		stage.OnAfterTableDeleteCallback = any(callback).(OnAfterDeleteInterface[Table])
+	
 	case *Title:
 		stage.OnAfterTitleDeleteCallback = any(callback).(OnAfterDeleteInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneDeleteCallback = any(callback).(OnAfterDeleteInterface[Tone])
+	
 	case *Tree:
 		stage.OnAfterTreeDeleteCallback = any(callback).(OnAfterDeleteInterface[Tree])
+	
 	case *View:
 		stage.OnAfterViewDeleteCallback = any(callback).(OnAfterDeleteInterface[View])
+	
 	case *Xlsx:
 		stage.OnAfterXlsxDeleteCallback = any(callback).(OnAfterDeleteInterface[Xlsx])
+	
 	}
 }
 func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAfterReadInterface[Type]) {
@@ -530,41 +587,60 @@ func SetCallbackAfterReadFromFront[Type Gongstruct](stage *Stage, callback OnAft
 		// insertion point
 	case *AsSplit:
 		stage.OnAfterAsSplitReadCallback = any(callback).(OnAfterReadInterface[AsSplit])
+	
 	case *AsSplitArea:
 		stage.OnAfterAsSplitAreaReadCallback = any(callback).(OnAfterReadInterface[AsSplitArea])
+	
 	case *Button:
 		stage.OnAfterButtonReadCallback = any(callback).(OnAfterReadInterface[Button])
+	
 	case *Cursor:
 		stage.OnAfterCursorReadCallback = any(callback).(OnAfterReadInterface[Cursor])
+	
 	case *FavIcon:
 		stage.OnAfterFavIconReadCallback = any(callback).(OnAfterReadInterface[FavIcon])
+	
 	case *Form:
 		stage.OnAfterFormReadCallback = any(callback).(OnAfterReadInterface[Form])
+	
 	case *Load:
 		stage.OnAfterLoadReadCallback = any(callback).(OnAfterReadInterface[Load])
+	
 	case *LogoOnTheLeft:
 		stage.OnAfterLogoOnTheLeftReadCallback = any(callback).(OnAfterReadInterface[LogoOnTheLeft])
+	
 	case *LogoOnTheRight:
 		stage.OnAfterLogoOnTheRightReadCallback = any(callback).(OnAfterReadInterface[LogoOnTheRight])
+	
 	case *Markdown:
 		stage.OnAfterMarkdownReadCallback = any(callback).(OnAfterReadInterface[Markdown])
+	
 	case *Slider:
 		stage.OnAfterSliderReadCallback = any(callback).(OnAfterReadInterface[Slider])
+	
 	case *Split:
 		stage.OnAfterSplitReadCallback = any(callback).(OnAfterReadInterface[Split])
+	
 	case *Svg:
 		stage.OnAfterSvgReadCallback = any(callback).(OnAfterReadInterface[Svg])
+	
 	case *Table:
 		stage.OnAfterTableReadCallback = any(callback).(OnAfterReadInterface[Table])
+	
 	case *Title:
 		stage.OnAfterTitleReadCallback = any(callback).(OnAfterReadInterface[Title])
+	
 	case *Tone:
 		stage.OnAfterToneReadCallback = any(callback).(OnAfterReadInterface[Tone])
+	
 	case *Tree:
 		stage.OnAfterTreeReadCallback = any(callback).(OnAfterReadInterface[Tree])
+	
 	case *View:
 		stage.OnAfterViewReadCallback = any(callback).(OnAfterReadInterface[View])
+	
 	case *Xlsx:
 		stage.OnAfterXlsxReadCallback = any(callback).(OnAfterReadInterface[Xlsx])
+	
 	}
 }

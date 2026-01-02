@@ -16,20 +16,20 @@ func (inst *AsSplitArea) GongGetReverseFieldOwnerName(stage *Stage, reverseField
 	res = ""
 	switch reverseField.GongstructName {
 	// insertion point
-	case "AsSplit":
-		switch reverseField.Fieldname {
-		case "AsSplitAreas":
-			if _assplit, ok := stage.AsSplit_AsSplitAreas_reverseMap[inst]; ok {
-				res = _assplit.Name
+		case "AsSplit":
+			switch reverseField.Fieldname {
+			case "AsSplitAreas":
+				if _assplit, ok := stage.AsSplit_AsSplitAreas_reverseMap[inst]; ok {
+					res = _assplit.Name
+				}
 			}
-		}
-	case "View":
-		switch reverseField.Fieldname {
-		case "RootAsSplitAreas":
-			if _view, ok := stage.View_RootAsSplitAreas_reverseMap[inst]; ok {
-				res = _view.Name
+		case "View":
+			switch reverseField.Fieldname {
+			case "RootAsSplitAreas":
+				if _view, ok := stage.View_RootAsSplitAreas_reverseMap[inst]; ok {
+					res = _view.Name
+				}
 			}
-		}
 	}
 	return
 }
@@ -187,6 +187,7 @@ func (inst *Xlsx) GongGetReverseFieldOwnerName(stage *Stage, reverseField *Rever
 	return
 }
 
+
 // insertion point
 func (inst *AsSplit) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) (res GongstructIF) {
 
@@ -202,16 +203,16 @@ func (inst *AsSplitArea) GongGetReverseFieldOwner(stage *Stage, reverseField *Re
 	res = nil
 	switch reverseField.GongstructName {
 	// insertion point
-	case "AsSplit":
-		switch reverseField.Fieldname {
-		case "AsSplitAreas":
-			res = stage.AsSplit_AsSplitAreas_reverseMap[inst]
-		}
-	case "View":
-		switch reverseField.Fieldname {
-		case "RootAsSplitAreas":
-			res = stage.View_RootAsSplitAreas_reverseMap[inst]
-		}
+		case "AsSplit":
+			switch reverseField.Fieldname {
+			case "AsSplitAreas":
+				res = stage.AsSplit_AsSplitAreas_reverseMap[inst]
+			}
+		case "View":
+			switch reverseField.Fieldname {
+			case "RootAsSplitAreas":
+				res = stage.View_RootAsSplitAreas_reverseMap[inst]
+			}
 	}
 	return res
 }
@@ -368,3 +369,4 @@ func (inst *Xlsx) GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseFi
 	}
 	return res
 }
+

@@ -598,10 +598,30 @@ export class SvgSpecificComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.State == StateEnumType.RECTS_DRAGGING) {
       this.State = StateEnumType.WAITING_FOR_USER_INPUT
       console.log(getFunctionName(), "state at exit", this.State)
-      this.rectService.updateFront(this.draggedRect!, this.Name).subscribe(
-        () => {
+
+      // Create a set to ensure we don't update the same rect twice 
+      // (in case draggedRect is also IsSelected)
+      let rectsToUpdate = new Set<svg.Rect>()
+
+      if (this.draggedRect) {
+        rectsToUpdate.add(this.draggedRect)
+      }
+
+      for (let layer of this.gongsvgFrontRepo?.getFrontArray<svg.Layer>(svg.Layer.GONGSTRUCT_NAME)!) {
+        for (let rect of layer.Rects) {
+          if (rect.IsSelected) {
+            rectsToUpdate.add(rect)
+          }
         }
-      )
+      }
+
+      for (let rect of rectsToUpdate) {
+        this.rectService.updateFront(rect, this.Name).subscribe(
+          () => {
+            // console.log("RECTS_DRAGGING, updated", rect.Name)
+          }
+        )
+      }
     }
 
     if (this.State == StateEnumType.CONTROL_POINT_DRAGGING) {
