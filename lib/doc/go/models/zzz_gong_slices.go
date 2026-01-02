@@ -192,6 +192,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var attributeshapes_newInstances []*AttributeShape
 	var attributeshapes_deletedInstances []*AttributeShape
@@ -205,6 +207,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of AttributeShape "+attributeshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					attributeshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := attributeshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := attributeshape.GongDiff(ref)
@@ -247,6 +259,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Classdiagram "+classdiagram.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					classdiagram.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := classdiagram.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := classdiagram.GongDiff(ref)
@@ -289,6 +311,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of DiagramPackage "+diagrampackage.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					diagrampackage.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := diagrampackage.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := diagrampackage.GongDiff(ref)
@@ -331,6 +363,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GongEnumShape "+gongenumshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					gongenumshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := gongenumshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := gongenumshape.GongDiff(ref)
@@ -373,6 +415,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GongEnumValueShape "+gongenumvalueshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					gongenumvalueshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := gongenumvalueshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := gongenumvalueshape.GongDiff(ref)
@@ -415,6 +467,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GongNoteLinkShape "+gongnotelinkshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					gongnotelinkshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := gongnotelinkshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := gongnotelinkshape.GongDiff(ref)
@@ -457,6 +519,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GongNoteShape "+gongnoteshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					gongnoteshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := gongnoteshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := gongnoteshape.GongDiff(ref)
@@ -499,6 +571,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GongStructShape "+gongstructshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					gongstructshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := gongstructshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := gongstructshape.GongDiff(ref)
@@ -541,6 +623,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of LinkShape "+linkshape.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					linkshape.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := linkshape.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := linkshape.GongDiff(ref)
@@ -576,6 +668,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -672,7 +773,6 @@ func (gongstructshape *GongStructShape) GongGetOrder(stage *Stage) uint {
 func (linkshape *LinkShape) GongGetOrder(stage *Stage) uint {
 	return stage.LinkShapeMap_Staged_Order[linkshape]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

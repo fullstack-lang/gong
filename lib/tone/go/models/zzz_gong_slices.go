@@ -71,6 +71,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var freqencys_newInstances []*Freqency
 	var freqencys_deletedInstances []*Freqency
@@ -84,6 +86,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Freqency "+freqency.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					freqency.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := freqency.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := freqency.GongDiff(ref)
@@ -126,6 +138,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Note "+note.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					note.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := note.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := note.GongDiff(ref)
@@ -168,6 +190,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Player "+player.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					player.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := player.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := player.GongDiff(ref)
@@ -203,6 +235,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -245,7 +286,6 @@ func (note *Note) GongGetOrder(stage *Stage) uint {
 func (player *Player) GongGetOrder(stage *Stage) uint {
 	return stage.PlayerMap_Staged_Order[player]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

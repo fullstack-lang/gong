@@ -116,6 +116,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var buttons_newInstances []*Button
 	var buttons_deletedInstances []*Button
@@ -129,6 +131,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Button "+button.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					button.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := button.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := button.GongDiff(ref)
@@ -171,6 +183,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of ButtonToggle "+buttontoggle.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					buttontoggle.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := buttontoggle.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := buttontoggle.GongDiff(ref)
@@ -213,6 +235,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Group "+group.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					group.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := group.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := group.GongDiff(ref)
@@ -255,6 +287,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of GroupToogle "+grouptoogle.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					grouptoogle.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := grouptoogle.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := grouptoogle.GongDiff(ref)
@@ -297,6 +339,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Layout "+layout.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					layout.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := layout.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := layout.GongDiff(ref)
@@ -332,6 +384,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -392,7 +453,6 @@ func (grouptoogle *GroupToogle) GongGetOrder(stage *Stage) uint {
 func (layout *Layout) GongGetOrder(stage *Stage) uint {
 	return stage.LayoutMap_Staged_Order[layout]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

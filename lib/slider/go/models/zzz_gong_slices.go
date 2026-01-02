@@ -97,6 +97,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var checkboxs_newInstances []*Checkbox
 	var checkboxs_deletedInstances []*Checkbox
@@ -110,6 +112,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Checkbox "+checkbox.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					checkbox.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := checkbox.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := checkbox.GongDiff(ref)
@@ -152,6 +164,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Group "+group.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					group.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := group.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := group.GongDiff(ref)
@@ -194,6 +216,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Layout "+layout.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					layout.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := layout.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := layout.GongDiff(ref)
@@ -236,6 +268,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Slider "+slider.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					slider.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := slider.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := slider.GongDiff(ref)
@@ -271,6 +313,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -322,7 +373,6 @@ func (layout *Layout) GongGetOrder(stage *Stage) uint {
 func (slider *Slider) GongGetOrder(stage *Stage) uint {
 	return stage.SliderMap_Staged_Order[slider]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

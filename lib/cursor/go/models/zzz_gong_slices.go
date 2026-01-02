@@ -40,6 +40,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var cursors_newInstances []*Cursor
 	var cursors_deletedInstances []*Cursor
@@ -53,6 +55,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Cursor "+cursor.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					cursor.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := cursor.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := cursor.GongDiff(ref)
@@ -89,6 +101,15 @@ func (stage *Stage) ComputeDifference() {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
 	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
+	}
 }
 
 // ComputeReference will creates a deep copy of each of the staged elements
@@ -112,7 +133,6 @@ func (stage *Stage) ComputeReference() {
 func (cursor *Cursor) GongGetOrder(stage *Stage) uint {
 	return stage.CursorMap_Staged_Order[cursor]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance

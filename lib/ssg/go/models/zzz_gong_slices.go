@@ -78,6 +78,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var chapters_newInstances []*Chapter
 	var chapters_deletedInstances []*Chapter
@@ -91,6 +93,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Chapter "+chapter.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					chapter.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := chapter.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := chapter.GongDiff(ref)
@@ -133,6 +145,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Content "+content.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					content.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := content.GongDiff(ref)
@@ -175,6 +197,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Page "+page.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					page.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := page.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := page.GongDiff(ref)
@@ -210,6 +242,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -252,7 +293,6 @@ func (content *Content) GongGetOrder(stage *Stage) uint {
 func (page *Page) GongGetOrder(stage *Stage) uint {
 	return stage.PageMap_Staged_Order[page]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
