@@ -2,6 +2,8 @@ package models
 
 import "slices"
 
+// enforceTaskInputOutputShapes ensures that TaskInputShape and TaskOutputShape
+// instances only connect tasks and products that are visually present in the diagram.
 func (stager *Stager) enforceTaskInputOutputShapes() (needCommit bool) {
 	for _, diagram := range GetGongstrucsSorted[*Diagram](stager.stage) {
 
