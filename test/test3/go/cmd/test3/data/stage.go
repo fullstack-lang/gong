@@ -26,7 +26,7 @@ func _(stage *models.Stage) {
 	__A__00000000_ := (&models.A{Name: `A09xxx`}).Stage(stage)
 	__A__00000001_ := (&models.A{Name: `ddd`}).Stage(stage)
 	__A__00000002_ := (&models.A{Name: ``}).Stage(stage)
-	__A__00000003_ := (&models.A{Name: `fsfdq`}).Stage(stage)
+	__A__00000004_ := (&models.A{Name: `dqdqssdqsd`}).Stage(stage)
 
 	__B__00000001_ := (&models.B{Name: `1___0009`}).Stage(stage)
 	__B__00000002_ := (&models.B{Name: `2gfsdfggf`}).Stage(stage)
@@ -70,7 +70,7 @@ func _(stage *models.Stage) {
 
 	__A__00000002_.Name = ``
 
-	__A__00000003_.Name = `fsfdq`
+	__A__00000004_.Name = `dqdqssdqsd`
 
 	__B__00000001_.Name = `1___0009`
 
@@ -143,4 +143,8 @@ func _(stage *models.Stage) {
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000002_)
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000004_)
 	__A__00000002_.Bs = append(__A__00000002_.Bs, __B__00000003_)
+	__A__00000004_.B = __B__00000010_
+	__A__00000004_.Bs = append(__A__00000004_.Bs, __B__00000004_)
+	__A__00000004_.Bs = append(__A__00000004_.Bs, __B__00000005_)
+	__A__00000004_.Bs = append(__A__00000004_.Bs, __B__00000006_)
 }
