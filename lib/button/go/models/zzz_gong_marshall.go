@@ -348,7 +348,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (button *Button) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -528,6 +528,71 @@ func (layout *Layout) GongMarshallField(stage *Stage, fieldName string) (res str
 		}
 	default:
 		log.Panicf("Unknown field %s for Gongstruct Layout", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += button.GongMarshallField(stage, "Name")
+		initializerStatements += button.GongMarshallField(stage, "Label")
+		initializerStatements += button.GongMarshallField(stage, "Icon")
+		initializerStatements += button.GongMarshallField(stage, "IsDisabled")
+		initializerStatements += button.GongMarshallField(stage, "Color")
+		initializerStatements += button.GongMarshallField(stage, "MatButtonType")
+		initializerStatements += button.GongMarshallField(stage, "MatButtonAppearance")
+	}
+	return
+}
+func (buttontoggle *ButtonToggle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += buttontoggle.GongMarshallField(stage, "Name")
+		initializerStatements += buttontoggle.GongMarshallField(stage, "Label")
+		initializerStatements += buttontoggle.GongMarshallField(stage, "Icon")
+		initializerStatements += buttontoggle.GongMarshallField(stage, "IsDisabled")
+		initializerStatements += buttontoggle.GongMarshallField(stage, "IsChecked")
+	}
+	return
+}
+func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += group.GongMarshallField(stage, "Name")
+		initializerStatements += group.GongMarshallField(stage, "Percentage")
+		pointersInitializesStatements += group.GongMarshallField(stage, "Buttons")
+		initializerStatements += group.GongMarshallField(stage, "NbColumns")
+	}
+	return
+}
+func (grouptoogle *GroupToogle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += grouptoogle.GongMarshallField(stage, "Name")
+		initializerStatements += grouptoogle.GongMarshallField(stage, "Percentage")
+		pointersInitializesStatements += grouptoogle.GongMarshallField(stage, "ButtonToggles")
+		initializerStatements += grouptoogle.GongMarshallField(stage, "IsSingleSelector")
+	}
+	return
+}
+func (layout *Layout) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += layout.GongMarshallField(stage, "Name")
+		pointersInitializesStatements += layout.GongMarshallField(stage, "Groups")
+		pointersInitializesStatements += layout.GongMarshallField(stage, "GroupToogles")
 	}
 	return
 }

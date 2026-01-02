@@ -300,7 +300,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (content *Content) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -377,6 +377,48 @@ func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct SvgImage", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += content.GongMarshallField(stage, "Name")
+		initializerStatements += content.GongMarshallField(stage, "Content")
+	}
+	return
+}
+func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += jpgimage.GongMarshallField(stage, "Name")
+		initializerStatements += jpgimage.GongMarshallField(stage, "Base64Content")
+	}
+	return
+}
+func (pngimage *PngImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += pngimage.GongMarshallField(stage, "Name")
+		initializerStatements += pngimage.GongMarshallField(stage, "Base64Content")
+	}
+	return
+}
+func (svgimage *SvgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += svgimage.GongMarshallField(stage, "Name")
+		initializerStatements += svgimage.GongMarshallField(stage, "Content")
 	}
 	return
 }

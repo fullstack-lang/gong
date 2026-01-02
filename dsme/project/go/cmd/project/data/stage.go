@@ -254,10 +254,10 @@ another line to Write Specs`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.IsExpanded = true
+	__Diagram__00000061_.IsExpanded = false
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = false
-	__Diagram__00000061_.IsWBSNodeExpanded = true
+	__Diagram__00000061_.IsWBSNodeExpanded = false
 	__Diagram__00000061_.IsNotesNodeExpanded = false
 
 	__Note__00000000_.Name = `This is an example to explain a particular product
@@ -1351,7 +1351,6 @@ another line to Write Specs`
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000020_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000021_)
 	__Diagram__00000061_.Task_Shapes = append(__Diagram__00000061_.Task_Shapes, __TaskShape__00000022_)
-	__Diagram__00000061_.TasksWhoseNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000007_)
 	__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded = append(__Diagram__00000061_.TasksWhoseOutputNodeIsExpanded, __Task__00000010_)
 	__Diagram__00000061_.TaskInputShapes = append(__Diagram__00000061_.TaskInputShapes, __TaskInputShape__00000001_)
