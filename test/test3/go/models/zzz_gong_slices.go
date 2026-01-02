@@ -63,6 +63,8 @@ func (stage *Stage) ComputeDifference() {
 	var as_newInstances []*A
 	var as_deletedInstances []*A
 
+	var pointersInitializesStatements string
+
 	// parse all staged instances and check if they have a reference
 	for a := range stage.As {
 		if ref, ok := stage.As_reference[a]; !ok {
@@ -72,6 +74,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of A "+a.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					a.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := a.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := a.GongDiff(ref)
@@ -150,6 +162,15 @@ func (stage *Stage) ComputeDifference() {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
 	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
+	}
 }
 
 // ComputeReference will creates a deep copy of each of the staged elements
@@ -182,7 +203,6 @@ func (a *A) GongGetOrder(stage *Stage) uint {
 func (b *B) GongGetOrder(stage *Stage) uint {
 	return stage.BMap_Staged_Order[b]
 }
-
 
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
