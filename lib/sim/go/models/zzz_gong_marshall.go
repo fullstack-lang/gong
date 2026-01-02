@@ -383,7 +383,7 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 	return
 }
 
-// insertion initialization of objects to stage
+// insertion point for marshall field methods
 func (command *Command) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -577,6 +577,81 @@ func (updatestate *UpdateState) GongMarshallField(stage *Stage, fieldName string
 
 	default:
 		log.Panicf("Unknown field %s for Gongstruct UpdateState", fieldName)
+	}
+	return
+}
+
+// insertion point for marshall all fields methods
+func (command *Command) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += command.GongMarshallField(stage, "Name")
+		initializerStatements += command.GongMarshallField(stage, "Command")
+		initializerStatements += command.GongMarshallField(stage, "CommandDate")
+		pointersInitializesStatements += command.GongMarshallField(stage, "Engine")
+	}
+	return
+}
+func (dummyagent *DummyAgent) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += dummyagent.GongMarshallField(stage, "TechName")
+		initializerStatements += dummyagent.GongMarshallField(stage, "Name")
+	}
+	return
+}
+func (engine *Engine) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += engine.GongMarshallField(stage, "Name")
+		initializerStatements += engine.GongMarshallField(stage, "EndTime")
+		initializerStatements += engine.GongMarshallField(stage, "CurrentTime")
+		initializerStatements += engine.GongMarshallField(stage, "DisplayFormat")
+		initializerStatements += engine.GongMarshallField(stage, "SecondsSinceStart")
+		initializerStatements += engine.GongMarshallField(stage, "Fired")
+		initializerStatements += engine.GongMarshallField(stage, "ControlMode")
+		initializerStatements += engine.GongMarshallField(stage, "State")
+		initializerStatements += engine.GongMarshallField(stage, "Speed")
+	}
+	return
+}
+func (event *Event) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += event.GongMarshallField(stage, "Name")
+		initializerStatements += event.GongMarshallField(stage, "Duration")
+	}
+	return
+}
+func (status *Status) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += status.GongMarshallField(stage, "Name")
+		initializerStatements += status.GongMarshallField(stage, "CurrentCommand")
+		initializerStatements += status.GongMarshallField(stage, "CompletionDate")
+		initializerStatements += status.GongMarshallField(stage, "CurrentSpeedCommand")
+		initializerStatements += status.GongMarshallField(stage, "SpeedCommandCompletionDate")
+	}
+	return
+}
+func (updatestate *UpdateState) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment
+		initializerStatements += updatestate.GongMarshallField(stage, "Name")
+		initializerStatements += updatestate.GongMarshallField(stage, "Duration")
+		initializerStatements += updatestate.GongMarshallField(stage, "Period")
 	}
 	return
 }

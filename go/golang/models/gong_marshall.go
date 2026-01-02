@@ -21,7 +21,8 @@ type ModelGongMarshallStructInsertionId int
 const (
 	ModelGongMarshallStructInsertionUnmarshallDeclarations ModelGongMarshallStructInsertionId = iota
 	ModelGongMarshallStructInsertionUnmarshallPointersInitializations
-	ModelGongMarshallMarshalFieldMethods
+	ModelGongMarshallMarshallFieldMethods
+	ModelGongMarshallMarshallAllFieldsMethods
 	ModelGongMarshallStructInsertionsNb
 )
 
@@ -64,7 +65,7 @@ map[ModelGongMarshallStructInsertionId]string{
 		// Insertion point for pointers initialization{{PointersInitialization}}
 	}
 `,
-	ModelGongMarshallMarshalFieldMethods: `
+	ModelGongMarshallMarshallFieldMethods: `
 func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName string) (res string) {
 
 	switch fieldName {
@@ -75,6 +76,15 @@ func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName 
 	return
 }
 `,
+	ModelGongMarshallMarshallAllFieldsMethods: `
+func ({{structname}} *{{Structname}}) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
+
+	initializerStatements += "\n"
+	pointersInitializesStatements += "\n"
+	{ // Insertion point for basic fields value assignment{{ValuesInitialization}}
+	}
+	return
+}`,
 }
 
 type GongMarshallFilePerStructSubTemplateId int
