@@ -264,7 +264,7 @@ func ({{structname}} *{{Structname}}) SetName(name string) {
 
 		id = {{structname}}.GongGetIdentifier(stage)
 
-		decl = IdentifiersDecls
+		decl = GongIdentifiersDecls
 		decl = strings.ReplaceAll(decl, "{{Identifier}}", id)
 		decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 		decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
