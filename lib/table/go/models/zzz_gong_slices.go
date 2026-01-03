@@ -406,7 +406,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Cell "+cell.Name,
+					cell.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -464,7 +464,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CellBoolean "+cellboolean.Name,
+					cellboolean.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -522,7 +522,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CellFloat64 "+cellfloat64.Name,
+					cellfloat64.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -580,7 +580,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CellIcon "+cellicon.Name,
+					cellicon.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -638,7 +638,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CellInt "+cellint.Name,
+					cellint.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -696,7 +696,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CellString "+cellstring.Name,
+					cellstring.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -754,7 +754,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of CheckBox "+checkbox.Name,
+					checkbox.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -812,7 +812,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of DisplayedColumn "+displayedcolumn.Name,
+					displayedcolumn.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -870,7 +870,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormDiv "+formdiv.Name,
+					formdiv.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -928,7 +928,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormEditAssocButton "+formeditassocbutton.Name,
+					formeditassocbutton.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -986,7 +986,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormField "+formfield.Name,
+					formfield.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1044,7 +1044,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldDate "+formfielddate.Name,
+					formfielddate.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1102,7 +1102,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldDateTime "+formfielddatetime.Name,
+					formfielddatetime.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1160,7 +1160,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldFloat64 "+formfieldfloat64.Name,
+					formfieldfloat64.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1218,7 +1218,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldInt "+formfieldint.Name,
+					formfieldint.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1276,7 +1276,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldSelect "+formfieldselect.Name,
+					formfieldselect.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1334,7 +1334,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldString "+formfieldstring.Name,
+					formfieldstring.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1392,7 +1392,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormFieldTime "+formfieldtime.Name,
+					formfieldtime.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1450,7 +1450,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormGroup "+formgroup.Name,
+					formgroup.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1508,7 +1508,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FormSortAssocButton "+formsortassocbutton.Name,
+					formsortassocbutton.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1566,7 +1566,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Option "+option.Name,
+					option.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1624,7 +1624,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Row "+row.Name,
+					row.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1682,7 +1682,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Table "+table.Name,
+					table.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -2028,163 +2028,280 @@ func (table *Table) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (cell *Cell) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cell")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cell.Name)
 	return
 }
 func (cellboolean *CellBoolean) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellBoolean")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellboolean.Name)
 	return
 }
 func (cellfloat64 *CellFloat64) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellFloat64")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellfloat64.Name)
 	return
 }
 func (cellicon *CellIcon) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellIcon")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellicon.Name)
 	return
 }
 func (cellint *CellInt) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellInt")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellint.Name)
 	return
 }
 func (cellstring *CellString) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CellString")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cellstring.Name)
 	return
 }
 func (checkbox *CheckBox) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "CheckBox")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", checkbox.Name)
 	return
 }
 func (displayedcolumn *DisplayedColumn) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplayedColumn")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayedcolumn.Name)
 	return
 }
 func (formdiv *FormDiv) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormDiv")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formdiv.Name)
 	return
 }
 func (formeditassocbutton *FormEditAssocButton) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormEditAssocButton")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formeditassocbutton.Name)
 	return
 }
 func (formfield *FormField) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormField")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfield.Name)
 	return
 }
 func (formfielddate *FormFieldDate) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDate")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddate.Name)
 	return
 }
 func (formfielddatetime *FormFieldDateTime) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldDateTime")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfielddatetime.Name)
 	return
 }
 func (formfieldfloat64 *FormFieldFloat64) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldFloat64")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldfloat64.Name)
 	return
 }
 func (formfieldint *FormFieldInt) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldInt")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldint.Name)
 	return
 }
 func (formfieldselect *FormFieldSelect) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldSelect")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldselect.Name)
 	return
 }
 func (formfieldstring *FormFieldString) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldString")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldstring.Name)
 	return
 }
 func (formfieldtime *FormFieldTime) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormFieldTime")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formfieldtime.Name)
 	return
 }
 func (formgroup *FormGroup) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormGroup")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formgroup.Name)
 	return
 }
 func (formsortassocbutton *FormSortAssocButton) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FormSortAssocButton")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", formsortassocbutton.Name)
 	return
 }
 func (option *Option) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Option")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", option.Name)
 	return
 }
 func (row *Row) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Row")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", row.Name)
 	return
 }
 func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Table")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
+	return
+}
+
+// insertion point for unstaging
+func (cell *Cell) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cell.GongGetIdentifier(stage))
+	return
+}
+func (cellboolean *CellBoolean) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellboolean.GongGetIdentifier(stage))
+	return
+}
+func (cellfloat64 *CellFloat64) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellfloat64.GongGetIdentifier(stage))
+	return
+}
+func (cellicon *CellIcon) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellicon.GongGetIdentifier(stage))
+	return
+}
+func (cellint *CellInt) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellint.GongGetIdentifier(stage))
+	return
+}
+func (cellstring *CellString) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cellstring.GongGetIdentifier(stage))
+	return
+}
+func (checkbox *CheckBox) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", checkbox.GongGetIdentifier(stage))
+	return
+}
+func (displayedcolumn *DisplayedColumn) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayedcolumn.GongGetIdentifier(stage))
+	return
+}
+func (formdiv *FormDiv) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formdiv.GongGetIdentifier(stage))
+	return
+}
+func (formeditassocbutton *FormEditAssocButton) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formeditassocbutton.GongGetIdentifier(stage))
+	return
+}
+func (formfield *FormField) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfield.GongGetIdentifier(stage))
+	return
+}
+func (formfielddate *FormFieldDate) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddate.GongGetIdentifier(stage))
+	return
+}
+func (formfielddatetime *FormFieldDateTime) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfielddatetime.GongGetIdentifier(stage))
+	return
+}
+func (formfieldfloat64 *FormFieldFloat64) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldfloat64.GongGetIdentifier(stage))
+	return
+}
+func (formfieldint *FormFieldInt) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldint.GongGetIdentifier(stage))
+	return
+}
+func (formfieldselect *FormFieldSelect) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldselect.GongGetIdentifier(stage))
+	return
+}
+func (formfieldstring *FormFieldString) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldstring.GongGetIdentifier(stage))
+	return
+}
+func (formfieldtime *FormFieldTime) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formfieldtime.GongGetIdentifier(stage))
+	return
+}
+func (formgroup *FormGroup) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formgroup.GongGetIdentifier(stage))
+	return
+}
+func (formsortassocbutton *FormSortAssocButton) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", formsortassocbutton.GongGetIdentifier(stage))
+	return
+}
+func (option *Option) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", option.GongGetIdentifier(stage))
+	return
+}
+func (row *Row) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", row.GongGetIdentifier(stage))
+	return
+}
+func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	return
 }

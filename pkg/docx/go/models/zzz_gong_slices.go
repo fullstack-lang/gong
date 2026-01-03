@@ -329,7 +329,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Body "+body.Name,
+					body.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -387,7 +387,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Document "+document.Name,
+					document.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -445,7 +445,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Docx "+docx.Name,
+					docx.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -503,7 +503,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of File "+file.Name,
+					file.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -561,7 +561,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Node "+node.Name,
+					node.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -619,7 +619,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Paragraph "+paragraph.Name,
+					paragraph.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -677,7 +677,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of ParagraphProperties "+paragraphproperties.Name,
+					paragraphproperties.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -735,7 +735,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of ParagraphStyle "+paragraphstyle.Name,
+					paragraphstyle.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -793,7 +793,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Rune "+rune.Name,
+					rune.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -851,7 +851,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of RuneProperties "+runeproperties.Name,
+					runeproperties.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -909,7 +909,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Table "+table.Name,
+					table.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -967,7 +967,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of TableColumn "+tablecolumn.Name,
+					tablecolumn.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1025,7 +1025,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of TableProperties "+tableproperties.Name,
+					tableproperties.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1083,7 +1083,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of TableRow "+tablerow.Name,
+					tablerow.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1141,7 +1141,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of TableStyle "+tablestyle.Name,
+					tablestyle.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1199,7 +1199,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Text "+text.Name,
+					text.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1454,114 +1454,196 @@ func (text *Text) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (body *Body) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", body.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Body")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", body.Name)
 	return
 }
 func (document *Document) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", document.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Document")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", document.Name)
 	return
 }
 func (docx *Docx) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", docx.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Docx")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", docx.Name)
 	return
 }
 func (file *File) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", file.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "File")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", file.Name)
 	return
 }
 func (node *Node) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Node")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", node.Name)
 	return
 }
 func (paragraph *Paragraph) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Paragraph")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraph.Name)
 	return
 }
 func (paragraphproperties *ParagraphProperties) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParagraphProperties")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraphproperties.Name)
 	return
 }
 func (paragraphstyle *ParagraphStyle) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ParagraphStyle")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", paragraphstyle.Name)
 	return
 }
 func (rune *Rune) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", rune.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Rune")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", rune.Name)
 	return
 }
 func (runeproperties *RuneProperties) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "RuneProperties")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", runeproperties.Name)
 	return
 }
 func (table *Table) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Table")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", table.Name)
 	return
 }
 func (tablecolumn *TableColumn) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableColumn")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablecolumn.Name)
 	return
 }
 func (tableproperties *TableProperties) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableProperties")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tableproperties.Name)
 	return
 }
 func (tablerow *TableRow) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableRow")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablerow.Name)
 	return
 }
 func (tablestyle *TableStyle) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "TableStyle")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", tablestyle.Name)
 	return
 }
 func (text *Text) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", text.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Text")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", text.Name)
+	return
+}
+
+// insertion point for unstaging
+func (body *Body) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", body.GongGetIdentifier(stage))
+	return
+}
+func (document *Document) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", document.GongGetIdentifier(stage))
+	return
+}
+func (docx *Docx) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", docx.GongGetIdentifier(stage))
+	return
+}
+func (file *File) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", file.GongGetIdentifier(stage))
+	return
+}
+func (node *Node) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", node.GongGetIdentifier(stage))
+	return
+}
+func (paragraph *Paragraph) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraph.GongGetIdentifier(stage))
+	return
+}
+func (paragraphproperties *ParagraphProperties) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphproperties.GongGetIdentifier(stage))
+	return
+}
+func (paragraphstyle *ParagraphStyle) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", paragraphstyle.GongGetIdentifier(stage))
+	return
+}
+func (rune *Rune) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", rune.GongGetIdentifier(stage))
+	return
+}
+func (runeproperties *RuneProperties) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", runeproperties.GongGetIdentifier(stage))
+	return
+}
+func (table *Table) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", table.GongGetIdentifier(stage))
+	return
+}
+func (tablecolumn *TableColumn) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablecolumn.GongGetIdentifier(stage))
+	return
+}
+func (tableproperties *TableProperties) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tableproperties.GongGetIdentifier(stage))
+	return
+}
+func (tablerow *TableRow) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablerow.GongGetIdentifier(stage))
+	return
+}
+func (tablestyle *TableStyle) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", tablestyle.GongGetIdentifier(stage))
+	return
+}
+func (text *Text) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", text.GongGetIdentifier(stage))
 	return
 }

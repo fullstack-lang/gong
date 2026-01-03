@@ -248,7 +248,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category1 "+category1.Name,
+					category1.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -306,7 +306,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category1Shape "+category1shape.Name,
+					category1shape.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -364,7 +364,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category2 "+category2.Name,
+					category2.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -422,7 +422,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category2Shape "+category2shape.Name,
+					category2shape.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -480,7 +480,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category3 "+category3.Name,
+					category3.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -538,7 +538,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Category3Shape "+category3shape.Name,
+					category3shape.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -596,7 +596,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of ControlPointShape "+controlpointshape.Name,
+					controlpointshape.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -654,7 +654,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Desk "+desk.Name,
+					desk.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -712,7 +712,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Diagram "+diagram.Name,
+					diagram.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -770,7 +770,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Influence "+influence.Name,
+					influence.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -828,7 +828,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of InfluenceShape "+influenceshape.Name,
+					influenceshape.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -1018,79 +1018,136 @@ func (influenceshape *InfluenceShape) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (category1 *Category1) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1.Name)
 	return
 }
 func (category1shape *Category1Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category1Shape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category1shape.Name)
 	return
 }
 func (category2 *Category2) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2.Name)
 	return
 }
 func (category2shape *Category2Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category2Shape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category2shape.Name)
 	return
 }
 func (category3 *Category3) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3.Name)
 	return
 }
 func (category3shape *Category3Shape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Category3Shape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", category3shape.Name)
 	return
 }
 func (controlpointshape *ControlPointShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "ControlPointShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", controlpointshape.Name)
 	return
 }
 func (desk *Desk) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", desk.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Desk")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", desk.Name)
 	return
 }
 func (diagram *Diagram) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Diagram")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", diagram.Name)
 	return
 }
 func (influence *Influence) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", influence.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Influence")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influence.Name)
 	return
 }
 func (influenceshape *InfluenceShape) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "InfluenceShape")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", influenceshape.Name)
+	return
+}
+
+// insertion point for unstaging
+func (category1 *Category1) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1.GongGetIdentifier(stage))
+	return
+}
+func (category1shape *Category1Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category1shape.GongGetIdentifier(stage))
+	return
+}
+func (category2 *Category2) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2.GongGetIdentifier(stage))
+	return
+}
+func (category2shape *Category2Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category2shape.GongGetIdentifier(stage))
+	return
+}
+func (category3 *Category3) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3.GongGetIdentifier(stage))
+	return
+}
+func (category3shape *Category3Shape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", category3shape.GongGetIdentifier(stage))
+	return
+}
+func (controlpointshape *ControlPointShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", controlpointshape.GongGetIdentifier(stage))
+	return
+}
+func (desk *Desk) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", desk.GongGetIdentifier(stage))
+	return
+}
+func (diagram *Diagram) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", diagram.GongGetIdentifier(stage))
+	return
+}
+func (influence *Influence) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influence.GongGetIdentifier(stage))
+	return
+}
+func (influenceshape *InfluenceShape) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", influenceshape.GongGetIdentifier(stage))
 	return
 }
