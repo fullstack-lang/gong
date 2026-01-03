@@ -64,6 +64,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var filetodownloads_newInstances []*FileToDownload
 	var filetodownloads_deletedInstances []*FileToDownload
@@ -77,6 +79,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of FileToDownload "+filetodownload.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					filetodownload.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := filetodownload.GongDiff(ref)
@@ -86,6 +98,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of FileToDownload \""+filetodownload.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							filetodownload.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -99,7 +117,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FileToDownload "+filetodownload.Name,
+					filetodownload.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -119,6 +137,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of FileToUpload "+filetoupload.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					filetoupload.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := filetoupload.GongDiff(ref)
@@ -128,6 +156,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of FileToUpload \""+filetoupload.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							filetoupload.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -141,7 +175,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of FileToUpload "+filetoupload.Name,
+					filetoupload.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -161,6 +195,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of Message "+message.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					message.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := message.GongDiff(ref)
@@ -170,6 +214,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of Message \""+message.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							message.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -183,7 +233,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Message "+message.Name,
+					message.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -196,6 +246,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -239,7 +298,6 @@ func (message *Message) GongGetOrder(stage *Stage) uint {
 	return stage.MessageMap_Staged_Order[message]
 }
 
-
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -261,23 +319,40 @@ func (message *Message) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (filetodownload *FileToDownload) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToDownload")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetodownload.Name)
 	return
 }
 func (filetoupload *FileToUpload) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "FileToUpload")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", filetoupload.Name)
 	return
 }
 func (message *Message) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Message")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", message.Name)
+	return
+}
+
+// insertion point for unstaging
+func (filetodownload *FileToDownload) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetodownload.GongGetIdentifier(stage))
+	return
+}
+func (filetoupload *FileToUpload) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", filetoupload.GongGetIdentifier(stage))
+	return
+}
+func (message *Message) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", message.GongGetIdentifier(stage))
 	return
 }

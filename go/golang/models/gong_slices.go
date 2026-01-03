@@ -43,12 +43,23 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct{{` + string(rune(GongSliceGongComputeDifference)) + `}}
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -65,7 +76,6 @@ func (stage *Stage) ComputeReference() {
 // which is important for frontends such as web frontends
 // to avoid unnecessary re-renderings
 // insertion point per named struct{{` + string(rune(GongSliceGongGetOrder)) + `}}
-
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -74,6 +84,8 @@ func (stage *Stage) ComputeReference() {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
+
+// insertion point for unstaging{{` + string(rune(GongSliceMarshallUnstaging)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -88,6 +100,7 @@ const (
 	GongSliceGongGetOrder
 	GongSliceGongGetIdentifier
 	GongSliceMarshallDeclaration
+	GongSliceMarshallUnstaging
 	GongSliceGongstructInsertionNb
 )
 
@@ -125,6 +138,16 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 					time.Now(),
 					"Commit detected new instance of {{Structname}} "+{{structname}}.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					{{structname}}.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := {{structname}}.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := {{structname}}.GongDiff(ref)
@@ -134,6 +157,12 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 						time.Now(),
 						"Commit detected modified instance of {{Structname}} \""+{{structname}}.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							{{structname}}.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -147,7 +176,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of {{Structname}} "+{{structname}}.Name,
+					{{structname}}.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -175,10 +204,16 @@ func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
 `,
 	GongSliceMarshallDeclaration: `
 func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+	return
+}`,
+	GongSliceMarshallUnstaging: `
+func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	return
 }`,
 }
@@ -321,7 +356,7 @@ func CodeGeneratorModelGongSlice(
 				if nameFieldIsEmbedded {
 					// go does not hanldledirect reference to embedded fields in struct literals (https://github.com/golang/go/issues/9859)
 					// therefore, we simplify the code generation
-					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "IdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
+					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "GongIdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
 				}
 			}
 
