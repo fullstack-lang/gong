@@ -902,8 +902,8 @@ another line to Write Specs`
 
 	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000468_.IsExpanded = false
-	__ProductShape__00000468_.X = 37.066958
-	__ProductShape__00000468_.Y = 960.727459
+	__ProductShape__00000468_.X = 41.066958
+	__ProductShape__00000468_.Y = 1016.727459
 	__ProductShape__00000468_.Width = 202.000000
 	__ProductShape__00000468_.Height = 52.000000
 
@@ -965,8 +965,8 @@ another line to Write Specs`
 
 	__ProductShape__00000477_.Name = `Probe display the marshalled commit-Work diagram x`
 	__ProductShape__00000477_.IsExpanded = false
-	__ProductShape__00000477_.X = 298.092048
-	__ProductShape__00000477_.Y = 960.996299
+	__ProductShape__00000477_.X = 295.092048
+	__ProductShape__00000477_.Y = 1019.996299
 	__ProductShape__00000477_.Width = 250.000000
 	__ProductShape__00000477_.Height = 70.000000
 
@@ -1002,7 +1002,7 @@ another line to Write Specs`
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
 	__Project__00000002_.IsPBSNodeExpanded = false
-	__Project__00000002_.IsWBSNodeExpanded = false
+	__Project__00000002_.IsWBSNodeExpanded = true
 	__Project__00000002_.IsDiagramsNodeExpanded = true
 	__Project__00000002_.IsNotesNodeExpanded = true
 	__Project__00000002_.IsExpanded = true

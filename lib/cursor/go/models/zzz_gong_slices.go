@@ -93,7 +93,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Cursor "+cursor.Name,
+					cursor.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -153,9 +153,16 @@ func (cursor *Cursor) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (cursor *Cursor) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Cursor")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", cursor.Name)
+	return
+}
+
+// insertion point for unstaging
+func (cursor *Cursor) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", cursor.GongGetIdentifier(stage))
 	return
 }

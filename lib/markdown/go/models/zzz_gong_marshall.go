@@ -39,8 +39,11 @@ func _(stage *models.Stage) {
 	// insertion point for setup of pointers{{PointersInitializers}}
 }`
 
-const IdentifiersDecls = `
+const GongIdentifiersDecls = `
 	{{Identifier}} := (&models.{{GeneratedStructName}}{Name: ` + "`" + `{{GeneratedFieldNameValue}}` + "`" + `}).Stage(stage)`
+
+const GongUnstageStmt = `
+	{{Identifier}}.Unstage(stage)`
 
 // previous version does not hanldle embedded structs (https://github.com/golang/go/issues/9859)
 // simpler version but the name of the instance cannot be human read before the fields initialization
