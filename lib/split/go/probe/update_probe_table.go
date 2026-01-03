@@ -102,7 +102,20 @@ func updateProbeTable[T models.PointerToGongstruct](
 			NeedsConfirmation:   true,
 			ConfirmationMessage: "Do you confirm tou want to delete this instance ?",
 		}
-		cellIcon.Impl = NewCellDeleteIconImplPointerToGongstruct(structInstance, probe)
+		cellIcon.Impl = &gongtable.FunctionalCellIconProxy{
+			OnUpdated: func(stage *gongtable.Stage, cellIcon, updatedCellIcon *gongtable.CellIcon) {
+				structInstance.UnstageVoid(probe.stageOfInterest)
+
+				// after a delete of an instance, the stage might be dirty if a pointer or a slice of pointer
+				// reference the deleted instance.
+				// therefore, it is mandatory to clean the stage of interest
+				probe.stageOfInterest.Clean()
+				probe.stageOfInterest.Commit()
+
+				updateProbeTable[T](probe)
+				updateAndCommitTree(probe)
+			},
+		}
 		cell.CellIcon = cellIcon
 
 		for _, fieldName := range fields {
@@ -188,4 +201,54 @@ func (rowUpdate *RowUpdate[T]) RowUpdated(stage *gongtable.Stage, row, updatedRo
 	// log.Println("RowUpdate: RowUpdated", updatedRow.Name)
 
 	FillUpFormFromGongstruct(rowUpdate.Instance, rowUpdate.probe)
+}
+
+func (probe *Probe) UpdateAndCommitNotificationTable() {
+	probe.notificationTableStage.Reset()
+
+	table := new(gongtable.Table)
+	table.Name = TableName
+	table.HasColumnSorting = true
+	table.HasFiltering = true
+	table.HasPaginator = true
+	table.HasCheckableRows = false
+	table.HasSaveButton = false
+
+	column := new(gongtable.DisplayedColumn)
+	column.Name = "Date"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	column = new(gongtable.DisplayedColumn)
+	column.Name = "Message"
+	table.DisplayedColumns = append(table.DisplayedColumns, column)
+
+	// sort notifications by date
+	sort.Slice(probe.notification, func(i, j int) bool {
+		return probe.notification[i].Date.After(probe.notification[j].Date)
+	})
+
+	for _, notification := range probe.notification {
+		row := new(gongtable.Row)
+		table.Rows = append(table.Rows, row)
+
+		{
+			cell := new(gongtable.Cell)
+			cellString := new(gongtable.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Date.Format("2006-01-02 15:04:05")
+			row.Cells = append(row.Cells, cell)
+		}
+
+		{
+			cell := new(gongtable.Cell)
+			cellString := new(gongtable.CellString)
+			cell.CellString = cellString
+			cellString.Value = notification.Message
+			row.Cells = append(row.Cells, cell)
+		}
+	}
+
+	gongtable.StageBranch(probe.notificationTableStage, table)
+
+	probe.notificationTableStage.Commit()
 }

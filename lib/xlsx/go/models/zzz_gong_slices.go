@@ -116,6 +116,8 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
+	var pointersInitializesStatements string
+
 	// insertion point per named struct
 	var displayselections_newInstances []*DisplaySelection
 	var displayselections_deletedInstances []*DisplaySelection
@@ -129,6 +131,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of DisplaySelection "+displayselection.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					displayselection.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := displayselection.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := displayselection.GongDiff(ref)
@@ -138,6 +150,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of DisplaySelection \""+displayselection.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							displayselection.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -151,7 +169,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of DisplaySelection "+displayselection.Name,
+					displayselection.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -171,6 +189,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLCell "+xlcell.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlcell.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlcell.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlcell.GongDiff(ref)
@@ -180,6 +208,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of XLCell \""+xlcell.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							xlcell.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -193,7 +227,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of XLCell "+xlcell.Name,
+					xlcell.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -213,6 +247,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLFile "+xlfile.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlfile.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlfile.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlfile.GongDiff(ref)
@@ -222,6 +266,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of XLFile \""+xlfile.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							xlfile.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -235,7 +285,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of XLFile "+xlfile.Name,
+					xlfile.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -255,6 +305,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLRow "+xlrow.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlrow.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlrow.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlrow.GongDiff(ref)
@@ -264,6 +324,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of XLRow \""+xlrow.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							xlrow.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -277,7 +343,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of XLRow "+xlrow.Name,
+					xlrow.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -297,6 +363,16 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					"Commit detected new instance of XLSheet "+xlsheet.Name,
 				)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					xlsheet.GongMarshallIdentifier(stage),
+				)
+				basicFieldInitializers, pointersInitializations := xlsheet.GongMarshallAllFields(stage)
+				stage.GetProbeIF().AddNotification(
+					time.Now(),
+					basicFieldInitializers,
+				)
+				pointersInitializesStatements += pointersInitializations
 			}
 		} else {
 			diffs := xlsheet.GongDiff(ref)
@@ -306,6 +382,12 @@ func (stage *Stage) ComputeDifference() {
 						time.Now(),
 						"Commit detected modified instance of XLSheet \""+xlsheet.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
 					)
+					for _, diff := range diffs {
+						stage.GetProbeIF().AddNotification(
+							time.Now(),
+							xlsheet.GongMarshallField(stage, diff),
+						)
+					}
 				}
 				lenModifiedInstances++
 			}
@@ -319,7 +401,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of XLSheet "+xlsheet.Name,
+					xlsheet.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -332,6 +414,15 @@ func (stage *Stage) ComputeDifference() {
 		// if stage.GetProbeIF() != nil {
 		// 	stage.GetProbeIF().CommitNotificationTable()
 		// }
+	}
+
+	if pointersInitializesStatements != "" {
+		if stage.GetProbeIF() != nil {
+			stage.GetProbeIF().AddNotification(
+				time.Now(),
+				pointersInitializesStatements,
+			)
+		}
 	}
 }
 
@@ -393,7 +484,6 @@ func (xlsheet *XLSheet) GongGetOrder(stage *Stage) uint {
 	return stage.XLSheetMap_Staged_Order[xlsheet]
 }
 
-
 // GongGetIdentifier returns a unique identifier of the instance in the staging area
 // This identifier is composed of the Gongstruct name and the order of the instance
 // in the staging area
@@ -423,37 +513,64 @@ func (xlsheet *XLSheet) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (displayselection *DisplaySelection) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "DisplaySelection")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", displayselection.Name)
 	return
 }
 func (xlcell *XLCell) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLCell")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlcell.Name)
 	return
 }
 func (xlfile *XLFile) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLFile")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlfile.Name)
 	return
 }
 func (xlrow *XLRow) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLRow")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlrow.Name)
 	return
 }
 func (xlsheet *XLSheet) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "XLSheet")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", xlsheet.Name)
+	return
+}
+
+// insertion point for unstaging
+func (displayselection *DisplaySelection) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", displayselection.GongGetIdentifier(stage))
+	return
+}
+func (xlcell *XLCell) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlcell.GongGetIdentifier(stage))
+	return
+}
+func (xlfile *XLFile) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlfile.GongGetIdentifier(stage))
+	return
+}
+func (xlrow *XLRow) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlrow.GongGetIdentifier(stage))
+	return
+}
+func (xlsheet *XLSheet) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", xlsheet.GongGetIdentifier(stage))
 	return
 }

@@ -254,7 +254,7 @@ another line to Write Specs`}).Stage(stage)
 	__Diagram__00000061_.ShowPrefix = true
 	__Diagram__00000061_.DefaultBoxWidth = 250.000000
 	__Diagram__00000061_.DefaultBoxHeigth = 100.000000
-	__Diagram__00000061_.IsExpanded = false
+	__Diagram__00000061_.IsExpanded = true
 	__Diagram__00000061_.ComputedPrefix = ``
 	__Diagram__00000061_.IsPBSNodeExpanded = false
 	__Diagram__00000061_.IsWBSNodeExpanded = false
@@ -902,8 +902,8 @@ another line to Write Specs`
 
 	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000468_.IsExpanded = false
-	__ProductShape__00000468_.X = 37.066958
-	__ProductShape__00000468_.Y = 960.727459
+	__ProductShape__00000468_.X = 41.066958
+	__ProductShape__00000468_.Y = 1016.727459
 	__ProductShape__00000468_.Width = 202.000000
 	__ProductShape__00000468_.Height = 52.000000
 
@@ -965,8 +965,8 @@ another line to Write Specs`
 
 	__ProductShape__00000477_.Name = `Probe display the marshalled commit-Work diagram x`
 	__ProductShape__00000477_.IsExpanded = false
-	__ProductShape__00000477_.X = 298.092048
-	__ProductShape__00000477_.Y = 960.996299
+	__ProductShape__00000477_.X = 295.092048
+	__ProductShape__00000477_.Y = 1019.996299
 	__ProductShape__00000477_.Width = 250.000000
 	__ProductShape__00000477_.Height = 70.000000
 
@@ -1002,7 +1002,7 @@ another line to Write Specs`
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
 	__Project__00000002_.IsPBSNodeExpanded = false
-	__Project__00000002_.IsWBSNodeExpanded = false
+	__Project__00000002_.IsWBSNodeExpanded = true
 	__Project__00000002_.IsDiagramsNodeExpanded = true
 	__Project__00000002_.IsNotesNodeExpanded = true
 	__Project__00000002_.IsExpanded = true
@@ -1181,7 +1181,7 @@ another line to Write Specs`
 
 	__TaskOutputShape__00000067_.Name = `#1038 Display the the commit diff in the probe as marshalled go statements to Probe display the marshalled commit`
 	__TaskOutputShape__00000067_.StartRatio = 0.386529
-	__TaskOutputShape__00000067_.EndRatio = 0.564655
+	__TaskOutputShape__00000067_.EndRatio = 0.691171
 	__TaskOutputShape__00000067_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000067_.EndOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000067_.CornerOffsetRatio = -0.206357
@@ -1258,8 +1258,8 @@ another line to Write Specs`
 
 	__TaskShape__00000022_.Name = `Unstage Method Marshalling-Work diagram x`
 	__TaskShape__00000022_.IsExpanded = false
-	__TaskShape__00000022_.X = 347.623689
-	__TaskShape__00000022_.Y = 1126.641570
+	__TaskShape__00000022_.X = 370.623689
+	__TaskShape__00000022_.Y = 1157.641570
 	__TaskShape__00000022_.Width = 250.000000
 	__TaskShape__00000022_.Height = 100.000000
 
