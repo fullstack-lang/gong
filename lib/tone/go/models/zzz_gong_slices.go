@@ -124,7 +124,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Freqency "+freqency.Name,
+					freqency.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -182,7 +182,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Note "+note.Name,
+					note.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -240,7 +240,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Player "+player.Name,
+					player.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -326,23 +326,40 @@ func (player *Player) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (freqency *Freqency) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Freqency")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", freqency.Name)
 	return
 }
 func (note *Note) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Note")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", note.Name)
 	return
 }
 func (player *Player) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Player")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", player.Name)
+	return
+}
+
+// insertion point for unstaging
+func (freqency *Freqency) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", freqency.GongGetIdentifier(stage))
+	return
+}
+func (note *Note) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", note.GongGetIdentifier(stage))
+	return
+}
+func (player *Player) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", player.GongGetIdentifier(stage))
 	return
 }

@@ -131,7 +131,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Chapter "+chapter.Name,
+					chapter.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -189,7 +189,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Content "+content.Name,
+					content.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -247,7 +247,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of Page "+page.Name,
+					page.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -333,23 +333,40 @@ func (page *Page) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (chapter *Chapter) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Chapter")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", chapter.Name)
 	return
 }
 func (content *Content) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Content")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", content.Name)
 	return
 }
 func (page *Page) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "Page")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", page.Name)
+	return
+}
+
+// insertion point for unstaging
+func (chapter *Chapter) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", chapter.GongGetIdentifier(stage))
+	return
+}
+func (content *Content) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", content.GongGetIdentifier(stage))
+	return
+}
+func (page *Page) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", page.GongGetIdentifier(stage))
 	return
 }

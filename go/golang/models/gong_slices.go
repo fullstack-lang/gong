@@ -84,6 +84,8 @@ func (stage *Stage) ComputeReference() {
 // MarshallIdentifier returns the code to instantiate the instance
 // in a marshalling file
 // insertion point per named struct{{` + string(rune(GongSliceMarshallDeclaration)) + `}}
+
+// insertion point for unstaging{{` + string(rune(GongSliceMarshallUnstaging)) + `}}
 `
 
 type GongSliceGongstructInsertionId int
@@ -98,6 +100,7 @@ const (
 	GongSliceGongGetOrder
 	GongSliceGongGetIdentifier
 	GongSliceMarshallDeclaration
+	GongSliceMarshallUnstaging
 	GongSliceGongstructInsertionNb
 )
 
@@ -173,7 +176,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of {{Structname}} "+{{structname}}.Name,
+					{{structname}}.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -201,10 +204,16 @@ func ({{structname}} *{{Structname}}) GongGetIdentifier(stage *Stage) string {
 `,
 	GongSliceMarshallDeclaration: `
 func ({{structname}} *{{Structname}}) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "{{Structname}}")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", {{structname}}.Name)
+	return
+}`,
+	GongSliceMarshallUnstaging: `
+func ({{structname}} *{{Structname}}) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", {{structname}}.GongGetIdentifier(stage))
 	return
 }`,
 }
@@ -347,7 +356,7 @@ func CodeGeneratorModelGongSlice(
 				if nameFieldIsEmbedded {
 					// go does not hanldledirect reference to embedded fields in struct literals (https://github.com/golang/go/issues/9859)
 					// therefore, we simplify the code generation
-					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "IdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
+					generatedCodeFromSubTemplate = strings.ReplaceAll(generatedCodeFromSubTemplate, "GongIdentifiersDecls", "IdentifiersDeclsWithoutNameInit")
 				}
 			}
 

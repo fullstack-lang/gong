@@ -112,7 +112,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of A "+a.Name,
+					a.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -170,7 +170,7 @@ func (stage *Stage) ComputeDifference() {
 			if stage.GetProbeIF() != nil {
 				stage.GetProbeIF().AddNotification(
 					time.Now(),
-					"Commit detected deleted instance of B "+b.Name,
+					b.GongMarshallUnstaging(stage),
 				)
 			}
 		}
@@ -243,16 +243,28 @@ func (b *B) GongGetIdentifier(stage *Stage) string {
 // in a marshalling file
 // insertion point per named struct
 func (a *A) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "A")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", a.Name)
 	return
 }
 func (b *B) GongMarshallIdentifier(stage *Stage) (decl string) {
-	decl = IdentifiersDecls
+	decl = GongIdentifiersDecls
 	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
 	decl = strings.ReplaceAll(decl, "{{GeneratedStructName}}", "B")
 	decl = strings.ReplaceAll(decl, "{{GeneratedFieldNameValue}}", b.Name)
+	return
+}
+
+// insertion point for unstaging
+func (a *A) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", a.GongGetIdentifier(stage))
+	return
+}
+func (b *B) GongMarshallUnstaging(stage *Stage) (decl string) {
+	decl = GongUnstageStmt
+	decl = strings.ReplaceAll(decl, "{{Identifier}}", b.GongGetIdentifier(stage))
 	return
 }
