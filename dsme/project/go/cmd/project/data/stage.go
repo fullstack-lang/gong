@@ -987,9 +987,9 @@ another line to Write Specs`
 	__Project__00000000_.Name = `Project Editor`
 	__Project__00000000_.IsPBSNodeExpanded = false
 	__Project__00000000_.IsWBSNodeExpanded = false
-	__Project__00000000_.IsDiagramsNodeExpanded = true
-	__Project__00000000_.IsNotesNodeExpanded = true
-	__Project__00000000_.IsExpanded = false
+	__Project__00000000_.IsDiagramsNodeExpanded = false
+	__Project__00000000_.IsNotesNodeExpanded = false
+	__Project__00000000_.IsExpanded = true
 	__Project__00000000_.ComputedPrefix = ``
 
 	__Project__00000001_.Name = `DSME Docx`
@@ -997,7 +997,7 @@ another line to Write Specs`
 	__Project__00000001_.IsWBSNodeExpanded = false
 	__Project__00000001_.IsDiagramsNodeExpanded = true
 	__Project__00000001_.IsNotesNodeExpanded = false
-	__Project__00000001_.IsExpanded = true
+	__Project__00000001_.IsExpanded = false
 	__Project__00000001_.ComputedPrefix = ``
 
 	__Project__00000002_.Name = `gong : persist stage.go as an history of commits  #934`
@@ -1005,7 +1005,7 @@ another line to Write Specs`
 	__Project__00000002_.IsWBSNodeExpanded = true
 	__Project__00000002_.IsDiagramsNodeExpanded = true
 	__Project__00000002_.IsNotesNodeExpanded = true
-	__Project__00000002_.IsExpanded = true
+	__Project__00000002_.IsExpanded = false
 	__Project__00000002_.ComputedPrefix = ``
 
 	__Root__00000000_.Name = `Root`
@@ -1017,6 +1017,7 @@ another line to Write Specs`
 	__Task__00000000_.ComputedPrefix = `2`
 	__Task__00000000_.IsInputsNodeExpanded = false
 	__Task__00000000_.IsOutputsNodeExpanded = false
+	__Task__00000000_.IsWithCompletion = false
 
 	__Task__00000001_.Name = `Dev WBS Tree`
 	__Task__00000001_.Description = ``
@@ -1024,6 +1025,7 @@ another line to Write Specs`
 	__Task__00000001_.ComputedPrefix = `3`
 	__Task__00000001_.IsInputsNodeExpanded = false
 	__Task__00000001_.IsOutputsNodeExpanded = false
+	__Task__00000001_.IsWithCompletion = false
 
 	__Task__00000002_.Name = `Dev PBS Tree`
 	__Task__00000002_.Description = ``
@@ -1031,6 +1033,7 @@ another line to Write Specs`
 	__Task__00000002_.ComputedPrefix = `4`
 	__Task__00000002_.IsInputsNodeExpanded = false
 	__Task__00000002_.IsOutputsNodeExpanded = false
+	__Task__00000002_.IsWithCompletion = false
 
 	__Task__00000003_.Name = `Task 1`
 	__Task__00000003_.Description = ``
@@ -1038,6 +1041,7 @@ another line to Write Specs`
 	__Task__00000003_.ComputedPrefix = `1`
 	__Task__00000003_.IsInputsNodeExpanded = true
 	__Task__00000003_.IsOutputsNodeExpanded = true
+	__Task__00000003_.IsWithCompletion = false
 
 	__Task__00000004_.Name = `Dev views`
 	__Task__00000004_.Description = ``
@@ -1045,6 +1049,7 @@ another line to Write Specs`
 	__Task__00000004_.ComputedPrefix = `2.1`
 	__Task__00000004_.IsInputsNodeExpanded = false
 	__Task__00000004_.IsOutputsNodeExpanded = false
+	__Task__00000004_.IsWithCompletion = false
 
 	__Task__00000005_.Name = `Dev UXx`
 	__Task__00000005_.Description = ``
@@ -1052,6 +1057,7 @@ another line to Write Specs`
 	__Task__00000005_.ComputedPrefix = `2.2`
 	__Task__00000005_.IsInputsNodeExpanded = false
 	__Task__00000005_.IsOutputsNodeExpanded = false
+	__Task__00000005_.IsWithCompletion = false
 
 	__Task__00000006_.Name = `Write Specs`
 	__Task__00000006_.Description = ``
@@ -1059,6 +1065,7 @@ another line to Write Specs`
 	__Task__00000006_.ComputedPrefix = `1`
 	__Task__00000006_.IsInputsNodeExpanded = false
 	__Task__00000006_.IsOutputsNodeExpanded = false
+	__Task__00000006_.IsWithCompletion = false
 
 	__Task__00000007_.Name = `Compute all Instance Diff`
 	__Task__00000007_.Description = ``
@@ -1066,6 +1073,7 @@ another line to Write Specs`
 	__Task__00000007_.ComputedPrefix = `3`
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
+	__Task__00000007_.IsWithCompletion = false
 
 	__Task__00000008_.Name = `code GongDiff per instance`
 	__Task__00000008_.Description = ``
@@ -1073,6 +1081,7 @@ another line to Write Specs`
 	__Task__00000008_.ComputedPrefix = `1`
 	__Task__00000008_.IsInputsNodeExpanded = false
 	__Task__00000008_.IsOutputsNodeExpanded = false
+	__Task__00000008_.IsWithCompletion = false
 
 	__Task__00000009_.Name = `Develop Probe Notifications`
 	__Task__00000009_.Description = ``
@@ -1080,6 +1089,7 @@ another line to Write Specs`
 	__Task__00000009_.ComputedPrefix = `2`
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
+	__Task__00000009_.IsWithCompletion = false
 
 	__Task__00000010_.Name = `#1038 Display the the commit diff in the probe as marshalled go statements`
 	__Task__00000010_.Description = ``
@@ -1087,6 +1097,8 @@ another line to Write Specs`
 	__Task__00000010_.ComputedPrefix = `4`
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
+	__Task__00000010_.IsWithCompletion = true
+	__Task__00000010_.Completion = models.PERCENT_50
 
 	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_.StartRatio = 0.500000
@@ -1258,10 +1270,10 @@ another line to Write Specs`
 
 	__TaskShape__00000022_.Name = `Unstage Method Marshalling-Work diagram x`
 	__TaskShape__00000022_.IsExpanded = false
-	__TaskShape__00000022_.X = 370.623689
-	__TaskShape__00000022_.Y = 1157.641570
-	__TaskShape__00000022_.Width = 250.000000
-	__TaskShape__00000022_.Height = 100.000000
+	__TaskShape__00000022_.X = 585.623689
+	__TaskShape__00000022_.Y = 1176.641570
+	__TaskShape__00000022_.Width = 339.000000
+	__TaskShape__00000022_.Height = 79.000000
 
 	// insertion point for setup of pointers
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)

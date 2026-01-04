@@ -110,7 +110,22 @@ type Task struct {
 	// a parentTask is computed at each UX look. It can be null if the
 	// task is a root task or an orphaned task
 	parentTask *Task
+
+	// Completion Management
+	IsWithCompletion bool
+	Completion       CompletionEnum
 }
+
+// CompletionEnum
+type CompletionEnum string
+
+const (
+	PERCENT_100 CompletionEnum = "100 %"
+	PERCENT_75  CompletionEnum = "75 %"
+	PERCENT_50  CompletionEnum = "50 %"
+	PERCENT_25  CompletionEnum = "25 %"
+	PERCENT_00  CompletionEnum = "0 %"
+)
 
 // GONGDOC(NoteSemantic): Note on the models semantic
 //

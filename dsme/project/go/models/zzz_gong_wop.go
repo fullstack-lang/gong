@@ -280,6 +280,10 @@ type Task_WOP struct {
 	IsInputsNodeExpanded bool
 
 	IsOutputsNodeExpanded bool
+
+	IsWithCompletion bool
+
+	Completion CompletionEnum
 }
 
 func (from *Task) CopyBasicFields(to *Task) {
@@ -290,6 +294,8 @@ func (from *Task) CopyBasicFields(to *Task) {
 	to.ComputedPrefix = from.ComputedPrefix
 	to.IsInputsNodeExpanded = from.IsInputsNodeExpanded
 	to.IsOutputsNodeExpanded = from.IsOutputsNodeExpanded
+	to.IsWithCompletion = from.IsWithCompletion
+	to.Completion = from.Completion
 }
 
 type TaskCompositionShape_WOP struct {

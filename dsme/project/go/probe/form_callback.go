@@ -2839,6 +2839,10 @@ func (taskFormCallback *TaskFormCallback) OnSave() {
 
 		case "IsOutputsNodeExpanded":
 			FormDivBasicFieldToField(&(task_.IsOutputsNodeExpanded), formDiv)
+		case "IsWithCompletion":
+			FormDivBasicFieldToField(&(task_.IsWithCompletion), formDiv)
+		case "Completion":
+			FormDivEnumStringFieldToField(&(task_.Completion), formDiv)
 		case "Diagram:TasksWhoseNodeIsExpanded":
 			// WARNING : this form deals with the N-N association "Diagram.TasksWhoseNodeIsExpanded []*Task" but
 			// it work only for 1-N associations (TODO: #660, enable this form only for field with //gong:1_N magic code)

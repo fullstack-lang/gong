@@ -3,6 +3,9 @@ package models
 import (
 	"log"
 
+	icons "github.com/fullstack-lang/gong/dsme/project/go/icons"
+	"github.com/fullstack-lang/gong/dsme/project/go/icons/path"
+
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
 )
 
@@ -87,6 +90,48 @@ func (stager *Stager) svg() {
 			layer)
 		diagram.map_Task_Rect[taskShape.Task] = rect
 		diagram.map_SvgRect_TaskShape[rect] = taskShape
+
+		if taskShape.Task.IsWithCompletion {
+			rectAnchoredPath := new(svg.RectAnchoredPath)
+			rect.IsScalingProportionally = false
+			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, rectAnchoredPath)
+
+			var svgContent string
+			switch taskShape.Task.Completion {
+			case PERCENT_100:
+				svgContent = icons.Percent_100_Icon.SVG
+			case PERCENT_75:
+				svgContent = icons.Percent_075_Icon.SVG
+			case PERCENT_50:
+				svgContent = icons.Percent_050_Icon.SVG
+			case PERCENT_25:
+				svgContent = icons.Percent_025_Icon.SVG
+			case PERCENT_00:
+				svgContent = icons.Percent_000_Icon.SVG
+			}
+			{
+
+				paths, error := path.ExtractSVGPaths(svgContent)
+				if error != nil {
+					log.Fatalln("Bad icon file", svgContent)
+				}
+				rectAnchoredPath.Definition = paths[0]
+			}
+
+			rectAnchoredPath.Name = "Percentage"
+
+			rectAnchoredPath.ScalePropotionnally = true
+			rectAnchoredPath.AppliedScaling = 0.08
+
+			rectAnchoredPath.Stroke = svg.Black.ToString()
+			rectAnchoredPath.StrokeWidth = 2
+			rectAnchoredPath.StrokeOpacity = 1
+
+			rectAnchoredPath.Color = svg.Gray.ToString()
+			rectAnchoredPath.FillOpacity = 0.8
+
+			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
+		}
 	}
 
 	for _, taskCompositionShape := range diagram.TaskComposition_Shapes {

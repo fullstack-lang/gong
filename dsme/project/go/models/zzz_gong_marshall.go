@@ -481,6 +481,8 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 		initializerStatements += task.GongMarshallField(stage, "IsInputsNodeExpanded")
 		pointersInitializesStatements += task.GongMarshallField(stage, "Outputs")
 		initializerStatements += task.GongMarshallField(stage, "IsOutputsNodeExpanded")
+		initializerStatements += task.GongMarshallField(stage, "IsWithCompletion")
+		initializerStatements += task.GongMarshallField(stage, "Completion")
 	}
 
 	taskcompositionshapeOrdered := []*TaskCompositionShape{}
@@ -1469,6 +1471,18 @@ func (task *Task) GongMarshallField(stage *Stage, fieldName string) (res string)
 		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
 		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsOutputsNodeExpanded")
 		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsOutputsNodeExpanded))
+	case "IsWithCompletion":
+		res = NumberInitStatement
+		res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+		res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "IsWithCompletion")
+		res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", fmt.Sprintf("%t", task.IsWithCompletion))
+	case "Completion":
+		if task.Completion != "" {
+			res = StringEnumInitStatement
+			res = strings.ReplaceAll(res, "{{Identifier}}", task.GongGetIdentifier(stage))
+			res = strings.ReplaceAll(res, "{{GeneratedFieldName}}", "Completion")
+			res = strings.ReplaceAll(res, "{{GeneratedFieldNameValue}}", "models."+task.Completion.ToCodeString())
+		}
 
 	case "SubTasks":
 		for _, _task := range task.SubTasks {
@@ -1899,6 +1913,8 @@ func (task *Task) GongMarshallAllFields(stage *Stage) (initializerStatements str
 		initializerStatements += task.GongMarshallField(stage, "IsInputsNodeExpanded")
 		pointersInitializesStatements += task.GongMarshallField(stage, "Outputs")
 		initializerStatements += task.GongMarshallField(stage, "IsOutputsNodeExpanded")
+		initializerStatements += task.GongMarshallField(stage, "IsWithCompletion")
+		initializerStatements += task.GongMarshallField(stage, "Completion")
 	}
 	return
 }

@@ -1931,6 +1931,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 						log.Fatalln(err)
 					}
 					__gong__map_Task[identifier].IsOutputsNodeExpanded = fielValue
+				case "IsWithCompletion":
+					// convert string to boolean
+					fielValue, err := strconv.ParseBool(ident.Name)
+					if err != nil {
+						log.Fatalln(err)
+					}
+					__gong__map_Task[identifier].IsWithCompletion = fielValue
 				}
 			case "TaskCompositionShape":
 				switch fieldName {
@@ -2116,6 +2123,13 @@ func UnmarshallGongstructStaging(stage *Stage, cmap *ast.CommentMap, assignStmt 
 				case "Task":
 					switch fieldName {
 					// insertion point for selector expr assign code
+					case "Completion":
+						var val CompletionEnum
+						err := (&val).FromCodeString(enumValue)
+						if err != nil {
+							log.Fatalln(err)
+						}
+						__gong__map_Task[identifier].Completion = CompletionEnum(val)
 					}
 				case "TaskCompositionShape":
 					switch fieldName {

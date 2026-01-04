@@ -2350,6 +2350,12 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
 		diffs = append(diffs, "IsOutputsNodeExpanded")
 	}
+	if task.IsWithCompletion != taskOther.IsWithCompletion {
+		diffs = append(diffs, "IsWithCompletion")
+	}
+	if task.Completion != taskOther.Completion {
+		diffs = append(diffs, "Completion")
+	}
 
 	return
 }
