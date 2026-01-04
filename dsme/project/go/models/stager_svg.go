@@ -3,14 +3,13 @@ package models
 import (
 	"log"
 
-	icons "github.com/fullstack-lang/gong/dsme/project/go/icons"
-	"github.com/fullstack-lang/gong/dsme/project/go/icons/path"
-
 	svg "github.com/fullstack-lang/gong/lib/svg/go/models"
+	"github.com/fullstack-lang/gong/pkg/strutils"
 )
 
 func (stager *Stager) svg() {
 	stager.svgStage.Reset()
+	root := stager.root
 
 	svgStage := stager.svgStage
 	svgObject := (&svg.SVG{Name: `SVG`})
@@ -96,41 +95,41 @@ func (stager *Stager) svg() {
 			rect.IsScalingProportionally = false
 			rect.RectAnchoredPaths = append(rect.RectAnchoredPaths, rectAnchoredPath)
 
-			var svgContent string
 			switch taskShape.Task.Completion {
 			case PERCENT_100:
-				svgContent = icons.Percent_100_Icon.SVG
-			case PERCENT_75:
-				svgContent = icons.Percent_075_Icon.SVG
-			case PERCENT_50:
-				svgContent = icons.Percent_050_Icon.SVG
-			case PERCENT_25:
-				svgContent = icons.Percent_025_Icon.SVG
-			case PERCENT_00:
-				svgContent = icons.Percent_000_Icon.SVG
-			}
-			{
-
-				paths, error := path.ExtractSVGPaths(svgContent)
-				if error != nil {
-					log.Fatalln("Bad icon file", svgContent)
-				}
-				rectAnchoredPath.Definition = paths[0]
+				rectAnchoredPath.Definition = "M 5.56,0 c -3.08,0 -5.56,2.48 -5.56,5.56 v 42.97 c 0,3.08 2.48,5.56 5.56,5.56 h 13.89 c 3.08,0 5.56,-2.48 5.56,-5.56 v -42.97 c 0,-3.08 -2.48,-5.56 -5.56,-5.56 z M 5.56,2.70 h 13.89 c 1.54,0 2.78,1.24 2.78,2.78 v 43.06 c 0,1.54 -1.24,2.78 -2.78,2.78 H 5.56 c -1.54,0 -2.78,-1.24 -2.78,-2.78 v -43.06 c 0,-1.54 1.24,-2.78 2.78,-2.78 z m 1.38,4.16 v 6.85 h 11.11 v -6.85 z m 0,11.35 v 6.68 h 11.11 v -6.68 z m 0,11.08 v 6.60 h 11.11 v -6.60 z m 0,11.05 v 6.67 h 11.11 v -6.67 z"
+			case PERCENT_075:
+				rectAnchoredPath.Definition = "M 5.56,0 c -3.08,0 -5.56,2.48 -5.56,5.56 v 42.97 c 0,3.08 2.48,5.56 5.56,5.56 h 13.89 c 3.08,0 5.56,-2.48 5.56,-5.56 v -42.97 c 0,-3.08 -2.48,-5.56 -5.56,-5.56 z M 5.56,2.70 h 13.89 c 1.54,0 2.78,1.24 2.78,2.78 v 43.06 c 0,1.54 -1.24,2.78 -2.78,2.78 H 5.56 c -1.54,0 -2.78,-1.24 -2.78,-2.78 v -43.06 c 0,-1.54 1.24,-2.78 2.78,-2.78 z m 1.38,15.51 v 6.68 h 11.11 v -6.68 z m 0,11.09 v 6.60 h 11.11 v -6.60 z m 0,11.04 v 6.67 h 11.11 v -6.67 z"
+			case PERCENT_050:
+				rectAnchoredPath.Definition = "M 5.56,0 c -3.08,0 -5.56,2.48 -5.56,5.56 v 42.97 c 0,3.08 2.48,5.56 5.56,5.56 h 13.89 c 3.08,0 5.56,-2.48 5.56,-5.56 v -42.97 c 0,-3.08 -2.48,-5.56 -5.56,-5.56 z M 5.56,2.70 h 13.89 c 1.54,0 2.78,1.24 2.78,2.78 v 43.06 c 0,1.54 -1.24,2.78 -2.78,2.78 H 5.56 c -1.54,0 -2.78,-1.24 -2.78,-2.78 v -43.06 c 0,-1.54 1.24,-2.78 2.78,-2.78 z m 1.39,26.6 v 6.6 h 11.11 v -6.6 z m 0,11.05 v 6.67 h 11.11 v -6.67 z"
+			case PERCENT_025:
+				rectAnchoredPath.Definition = "M 5.56,0 c -3.08,0 -5.56,2.48 -5.56,5.56 v 42.97 c 0,3.08 2.48,5.56 5.56,5.56 h 13.89 c 3.08,0 5.56,-2.48 5.56,-5.56 v -42.97 c 0,-3.08 -2.48,-5.56 -5.56,-5.56 z M 5.56,2.70 h 13.89 c 1.54,0 2.78,1.24 2.78,2.78 v 43.06 c 0,1.54 -1.24,2.78 -2.78,2.78 H 5.56 c -1.54,0 -2.78,-1.24 -2.78,-2.78 v -43.06 c 0,-1.54 1.24,-2.78 2.78,-2.78 z M 6.94,40.34 v 6.67 h 11.11 v -6.67 z"
+			case PERCENT_000:
+				rectAnchoredPath.Definition = "M 4.99,0 c -2.81,0.28 -4.99,2.65 -4.99,5.53 v 42.95 c 0,3.08 2.51,5.53 5.59,5.53 h 13.88 c 3.08,0 5.53,-2.45 5.53,-5.53 v -42.95 c 0,-3.08 -2.46,-5.53 -5.53,-5.53 h -13.88 c -0.19,0 -0.41,-0.02 -0.60,0 z m 0.60,2.66 h 13.88 c 1.54,0 2.77,1.23 2.77,2.77 v 43.06 c 0,1.54 -1.23,2.77 -2.77,2.77 h -13.88 c -1.54,0 -2.82,-1.23 -2.82,-2.77 v -43.06 c 0,-1.54 1.28,-2.77 2.82,-2.77 z"
 			}
 
 			rectAnchoredPath.Name = "Percentage"
 
-			rectAnchoredPath.ScalePropotionnally = true
-			rectAnchoredPath.AppliedScaling = 0.08
+			// rectAnchoredPath.ScalePropotionnally = true
+			// rectAnchoredPath.AppliedScaling = 0.08
 
-			rectAnchoredPath.Stroke = svg.Black.ToString()
+			rectAnchoredPath.Stroke = svg.Lightgray.ToString()
 			rectAnchoredPath.StrokeWidth = 2
 			rectAnchoredPath.StrokeOpacity = 1
 
-			rectAnchoredPath.Color = svg.Gray.ToString()
+			rectAnchoredPath.Color = svg.Lightgray.ToString()
 			rectAnchoredPath.FillOpacity = 0.8
+			rectAnchoredPath.X_Offset = 4
+			rectAnchoredPath.Y_Offset = 14
 
 			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
+
+			// shift the text on the right
+			title := rect.RectAnchoredTexts[0]
+			if rect.Width > 20 {
+				title.Content = strutils.WrapString(title.Content, int((rect.Width-20)/root.NbPixPerCharacter))
+			}
+			title.X_Offset = 14
 		}
 	}
 
