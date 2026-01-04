@@ -1073,7 +1073,8 @@ another line to Write Specs`
 	__Task__00000007_.ComputedPrefix = `3`
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
-	__Task__00000007_.IsWithCompletion = false
+	__Task__00000007_.IsWithCompletion = true
+	__Task__00000007_.Completion = models.PERCENT_025
 
 	__Task__00000008_.Name = `code GongDiff per instance`
 	__Task__00000008_.Description = ``
@@ -1081,7 +1082,8 @@ another line to Write Specs`
 	__Task__00000008_.ComputedPrefix = `1`
 	__Task__00000008_.IsInputsNodeExpanded = false
 	__Task__00000008_.IsOutputsNodeExpanded = false
-	__Task__00000008_.IsWithCompletion = false
+	__Task__00000008_.IsWithCompletion = true
+	__Task__00000008_.Completion = models.PERCENT_075
 
 	__Task__00000009_.Name = `Develop Probe Notifications`
 	__Task__00000009_.Description = ``
@@ -1089,7 +1091,8 @@ another line to Write Specs`
 	__Task__00000009_.ComputedPrefix = `2`
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
-	__Task__00000009_.IsWithCompletion = false
+	__Task__00000009_.IsWithCompletion = true
+	__Task__00000009_.Completion = models.PERCENT_100
 
 	__Task__00000010_.Name = `#1038 Display the the commit diff in the probe as marshalled go statements`
 	__Task__00000010_.Description = ``
@@ -1130,7 +1133,7 @@ another line to Write Specs`
 
 	__TaskInputShape__00000002_.Name = `Compute all Instance Diff to Probe Notification Table`
 	__TaskInputShape__00000002_.StartRatio = 0.392024
-	__TaskInputShape__00000002_.EndRatio = 0.500000
+	__TaskInputShape__00000002_.EndRatio = 0.440078
 	__TaskInputShape__00000002_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskInputShape__00000002_.EndOrientation = models.ORIENTATION_HORIZONTAL
 	__TaskInputShape__00000002_.CornerOffsetRatio = -0.552338
@@ -1171,7 +1174,7 @@ another line to Write Specs`
 	__TaskOutputShape__00000063_.CornerOffsetRatio = 1.268543
 
 	__TaskOutputShape__00000064_.Name = `Develop Probe Notifications to Probe Notification Table`
-	__TaskOutputShape__00000064_.StartRatio = 0.389955
+	__TaskOutputShape__00000064_.StartRatio = 0.266561
 	__TaskOutputShape__00000064_.EndRatio = 0.194004
 	__TaskOutputShape__00000064_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000064_.EndOrientation = models.ORIENTATION_VERTICAL
@@ -1249,30 +1252,30 @@ another line to Write Specs`
 
 	__TaskShape__00000019_.Name = `zzz_gong : compute instance.GongDiff(another_instance)-NewDiagram`
 	__TaskShape__00000019_.IsExpanded = false
-	__TaskShape__00000019_.X = 846.000000
-	__TaskShape__00000019_.Y = 244.000000
-	__TaskShape__00000019_.Width = 132.000000
+	__TaskShape__00000019_.X = 790.000000
+	__TaskShape__00000019_.Y = 280.000000
+	__TaskShape__00000019_.Width = 178.000000
 	__TaskShape__00000019_.Height = 75.000000
 
 	__TaskShape__00000020_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000020_.IsExpanded = false
-	__TaskShape__00000020_.X = 406.214318
-	__TaskShape__00000020_.Y = 328.572924
-	__TaskShape__00000020_.Width = 144.000000
-	__TaskShape__00000020_.Height = 71.000000
+	__TaskShape__00000020_.X = 269.214318
+	__TaskShape__00000020_.Y = 366.572924
+	__TaskShape__00000020_.Width = 195.000000
+	__TaskShape__00000020_.Height = 72.000000
 
 	__TaskShape__00000021_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000021_.IsExpanded = false
-	__TaskShape__00000021_.X = 27.662171
+	__TaskShape__00000021_.X = 28.662171
 	__TaskShape__00000021_.Y = 190.681593
-	__TaskShape__00000021_.Width = 140.000000
-	__TaskShape__00000021_.Height = 70.000000
+	__TaskShape__00000021_.Width = 217.000000
+	__TaskShape__00000021_.Height = 82.000000
 
 	__TaskShape__00000022_.Name = `Unstage Method Marshalling-Work diagram x`
 	__TaskShape__00000022_.IsExpanded = false
-	__TaskShape__00000022_.X = 434.623689
+	__TaskShape__00000022_.X = 435.623689
 	__TaskShape__00000022_.Y = 1149.641570
-	__TaskShape__00000022_.Width = 332.000000
+	__TaskShape__00000022_.Width = 293.000000
 	__TaskShape__00000022_.Height = 130.000000
 
 	// insertion point for setup of pointers
