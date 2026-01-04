@@ -4336,6 +4336,14 @@ func (task *Task) GongGetFieldHeaders() (res []GongFieldHeader) {
 			Name:               "IsOutputsNodeExpanded",
 			GongFieldValueType: GongFieldValueTypeBasicKind,
 		},
+		{
+			Name:               "IsWithCompletion",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
+		{
+			Name:               "Completion",
+			GongFieldValueType: GongFieldValueTypeBasicKind,
+		},
 	}
 	return
 }
@@ -5143,6 +5151,13 @@ func (task *Task) GongGetFieldValue(fieldName string, stage *Stage) (res GongFie
 		res.valueString = fmt.Sprintf("%t", task.IsOutputsNodeExpanded)
 		res.valueBool = task.IsOutputsNodeExpanded
 		res.GongFieldValueType = GongFieldValueTypeBool
+	case "IsWithCompletion":
+		res.valueString = fmt.Sprintf("%t", task.IsWithCompletion)
+		res.valueBool = task.IsWithCompletion
+		res.GongFieldValueType = GongFieldValueTypeBool
+	case "Completion":
+		enum := task.Completion
+		res.valueString = enum.ToCodeString()
 	}
 	return
 }
@@ -5973,6 +5988,10 @@ func (task *Task) GongSetFieldValue(fieldName string, value GongFieldValue, stag
 		}
 	case "IsOutputsNodeExpanded":
 		task.IsOutputsNodeExpanded = value.GetValueBool()
+	case "IsWithCompletion":
+		task.IsWithCompletion = value.GetValueBool()
+	case "Completion":
+		task.Completion.FromCodeString(value.GetValueString())
 	default:
 		return fmt.Errorf("unknown field %s", fieldName)
 	}
