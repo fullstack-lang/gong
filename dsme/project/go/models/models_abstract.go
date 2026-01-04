@@ -121,10 +121,10 @@ type CompletionEnum string
 
 const (
 	PERCENT_100 CompletionEnum = "100 %"
-	PERCENT_75  CompletionEnum = "75 %"
-	PERCENT_50  CompletionEnum = "50 %"
-	PERCENT_25  CompletionEnum = "25 %"
-	PERCENT_00  CompletionEnum = "0 %"
+	PERCENT_075 CompletionEnum = "75 %"
+	PERCENT_050 CompletionEnum = "50 %"
+	PERCENT_025 CompletionEnum = "25 %"
+	PERCENT_000 CompletionEnum = "0 %"
 )
 
 // GONGDOC(NoteSemantic): Note on the models semantic

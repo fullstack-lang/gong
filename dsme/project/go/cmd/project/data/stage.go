@@ -1098,7 +1098,7 @@ another line to Write Specs`
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
 	__Task__00000010_.IsWithCompletion = true
-	__Task__00000010_.Completion = models.PERCENT_50
+	__Task__00000010_.Completion = models.PERCENT_100
 
 	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_.StartRatio = 0.500000
@@ -1196,7 +1196,7 @@ another line to Write Specs`
 	__TaskOutputShape__00000067_.EndRatio = 0.691171
 	__TaskOutputShape__00000067_.StartOrientation = models.ORIENTATION_VERTICAL
 	__TaskOutputShape__00000067_.EndOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000067_.CornerOffsetRatio = -0.206357
+	__TaskOutputShape__00000067_.CornerOffsetRatio = -1.172604
 
 	__TaskShape__00000012_.Name = `Write Specs-NewDiagram`
 	__TaskShape__00000012_.IsExpanded = false
@@ -1270,10 +1270,10 @@ another line to Write Specs`
 
 	__TaskShape__00000022_.Name = `Unstage Method Marshalling-Work diagram x`
 	__TaskShape__00000022_.IsExpanded = false
-	__TaskShape__00000022_.X = 585.623689
-	__TaskShape__00000022_.Y = 1176.641570
-	__TaskShape__00000022_.Width = 339.000000
-	__TaskShape__00000022_.Height = 79.000000
+	__TaskShape__00000022_.X = 434.623689
+	__TaskShape__00000022_.Y = 1149.641570
+	__TaskShape__00000022_.Width = 332.000000
+	__TaskShape__00000022_.Height = 130.000000
 
 	// insertion point for setup of pointers
 	__Diagram__00000042_.Product_Shapes = append(__Diagram__00000042_.Product_Shapes, __ProductShape__00000330_)
