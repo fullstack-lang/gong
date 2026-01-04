@@ -119,17 +119,21 @@ func (stager *Stager) svg() {
 
 			rectAnchoredPath.Color = svg.Lightgray.ToString()
 			rectAnchoredPath.FillOpacity = 0.8
-			rectAnchoredPath.X_Offset = 4
-			rectAnchoredPath.Y_Offset = 14
+
+			distanceFromBorder := 10.0
+			iconWidth := 25.0
+
+			rectAnchoredPath.X_Offset = distanceFromBorder
+			rectAnchoredPath.Y_Offset = distanceFromBorder
 
 			rectAnchoredPath.RectAnchorType = svg.RECT_TOP_LEFT
 
 			// shift the text on the right
 			title := rect.RectAnchoredTexts[0]
-			if rect.Width > 20 {
-				title.Content = strutils.WrapString(title.Content, int((rect.Width-20)/root.NbPixPerCharacter))
+			if rect.Width > (distanceFromBorder + iconWidth) {
+				title.Content = strutils.WrapString(title.Content, int((rect.Width-(distanceFromBorder+iconWidth))/root.NbPixPerCharacter))
 			}
-			title.X_Offset = 14
+			title.X_Offset = (distanceFromBorder + iconWidth) / 2.0
 		}
 	}
 
