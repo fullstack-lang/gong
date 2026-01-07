@@ -2262,6 +2262,9 @@ func (formfielddate *FormFieldDate) GongDiff(formfielddateOther *FormFieldDate) 
 	if formfielddate.Name != formfielddateOther.Name {
 		diffs = append(diffs, "Name")
 	}
+	if formfielddate.Value != formfielddateOther.Value {
+		diffs = append(diffs, "Value")
+	}
 
 	return
 }
@@ -2272,6 +2275,9 @@ func (formfielddatetime *FormFieldDateTime) GongDiff(formfielddatetimeOther *For
 	// insertion point for field diffs
 	if formfielddatetime.Name != formfielddatetimeOther.Name {
 		diffs = append(diffs, "Name")
+	}
+	if formfielddatetime.Value != formfielddatetimeOther.Value {
+		diffs = append(diffs, "Value")
 	}
 
 	return
@@ -2395,6 +2401,9 @@ func (formfieldtime *FormFieldTime) GongDiff(formfieldtimeOther *FormFieldTime) 
 	// insertion point for field diffs
 	if formfieldtime.Name != formfieldtimeOther.Name {
 		diffs = append(diffs, "Name")
+	}
+	if formfieldtime.Value != formfieldtimeOther.Value {
+		diffs = append(diffs, "Value")
 	}
 	if formfieldtime.Step != formfieldtimeOther.Step {
 		diffs = append(diffs, "Step")
