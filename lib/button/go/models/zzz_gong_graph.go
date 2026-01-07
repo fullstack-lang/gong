@@ -467,28 +467,28 @@ func (stage *Stage) UnstageBranchLayout(layout *Layout) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []string) {
 	// insertion point for field diffs
 	if button.Name != buttonOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, button.GongMarshallField(stage, "Name"))
 	}
 	if button.Label != buttonOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, button.GongMarshallField(stage, "Label"))
 	}
 	if button.Icon != buttonOther.Icon {
-		diffs = append(diffs, "Icon")
+		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
 	}
 	if button.IsDisabled != buttonOther.IsDisabled {
-		diffs = append(diffs, "IsDisabled")
+		diffs = append(diffs, button.GongMarshallField(stage, "IsDisabled"))
 	}
 	if button.Color != buttonOther.Color {
-		diffs = append(diffs, "Color")
+		diffs = append(diffs, button.GongMarshallField(stage, "Color"))
 	}
 	if button.MatButtonType != buttonOther.MatButtonType {
-		diffs = append(diffs, "MatButtonType")
+		diffs = append(diffs, button.GongMarshallField(stage, "MatButtonType"))
 	}
 	if button.MatButtonAppearance != buttonOther.MatButtonAppearance {
-		diffs = append(diffs, "MatButtonAppearance")
+		diffs = append(diffs, button.GongMarshallField(stage, "MatButtonAppearance"))
 	}
 
 	return
@@ -496,22 +496,22 @@ func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (buttontoggle *ButtonToggle) GongDiff(buttontoggleOther *ButtonToggle) (diffs []string) {
+func (buttontoggle *ButtonToggle) GongDiff(stage *Stage, buttontoggleOther *ButtonToggle) (diffs []string) {
 	// insertion point for field diffs
 	if buttontoggle.Name != buttontoggleOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, buttontoggle.GongMarshallField(stage, "Name"))
 	}
 	if buttontoggle.Label != buttontoggleOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, buttontoggle.GongMarshallField(stage, "Label"))
 	}
 	if buttontoggle.Icon != buttontoggleOther.Icon {
-		diffs = append(diffs, "Icon")
+		diffs = append(diffs, buttontoggle.GongMarshallField(stage, "Icon"))
 	}
 	if buttontoggle.IsDisabled != buttontoggleOther.IsDisabled {
-		diffs = append(diffs, "IsDisabled")
+		diffs = append(diffs, buttontoggle.GongMarshallField(stage, "IsDisabled"))
 	}
 	if buttontoggle.IsChecked != buttontoggleOther.IsChecked {
-		diffs = append(diffs, "IsChecked")
+		diffs = append(diffs, buttontoggle.GongMarshallField(stage, "IsChecked"))
 	}
 
 	return
@@ -519,13 +519,13 @@ func (buttontoggle *ButtonToggle) GongDiff(buttontoggleOther *ButtonToggle) (dif
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
+func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	// insertion point for field diffs
 	if group.Name != groupOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, group.GongMarshallField(stage, "Name"))
 	}
 	if group.Percentage != groupOther.Percentage {
-		diffs = append(diffs, "Percentage")
+		diffs = append(diffs, group.GongMarshallField(stage, "Percentage"))
 	}
 	ButtonsDifferent := false
 	if len(group.Buttons) != len(groupOther.Buttons) {
@@ -536,7 +536,8 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 				ButtonsDifferent = true
 				break
 			} else if group.Buttons[i] != nil && groupOther.Buttons[i] != nil {
-				if len(group.Buttons[i].GongDiff(groupOther.Buttons[i])) > 0 {
+			 	// this is a pointer comparaison
+				if group.Buttons[i] != groupOther.Buttons[i] {
 					ButtonsDifferent = true
 					break
 				}
@@ -544,10 +545,10 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		diffs = append(diffs, "Buttons")
+		diffs = append(diffs, group.GongMarshallField(stage, "Buttons"))
 	}
 	if group.NbColumns != groupOther.NbColumns {
-		diffs = append(diffs, "NbColumns")
+		diffs = append(diffs, group.GongMarshallField(stage, "NbColumns"))
 	}
 
 	return
@@ -555,13 +556,13 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs []string) {
+func (grouptoogle *GroupToogle) GongDiff(stage *Stage, grouptoogleOther *GroupToogle) (diffs []string) {
 	// insertion point for field diffs
 	if grouptoogle.Name != grouptoogleOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, grouptoogle.GongMarshallField(stage, "Name"))
 	}
 	if grouptoogle.Percentage != grouptoogleOther.Percentage {
-		diffs = append(diffs, "Percentage")
+		diffs = append(diffs, grouptoogle.GongMarshallField(stage, "Percentage"))
 	}
 	ButtonTogglesDifferent := false
 	if len(grouptoogle.ButtonToggles) != len(grouptoogleOther.ButtonToggles) {
@@ -572,7 +573,8 @@ func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs [
 				ButtonTogglesDifferent = true
 				break
 			} else if grouptoogle.ButtonToggles[i] != nil && grouptoogleOther.ButtonToggles[i] != nil {
-				if len(grouptoogle.ButtonToggles[i].GongDiff(grouptoogleOther.ButtonToggles[i])) > 0 {
+			 	// this is a pointer comparaison
+				if grouptoogle.ButtonToggles[i] != grouptoogleOther.ButtonToggles[i] {
 					ButtonTogglesDifferent = true
 					break
 				}
@@ -580,10 +582,10 @@ func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs [
 		}
 	}
 	if ButtonTogglesDifferent {
-		diffs = append(diffs, "ButtonToggles")
+		diffs = append(diffs, grouptoogle.GongMarshallField(stage, "ButtonToggles"))
 	}
 	if grouptoogle.IsSingleSelector != grouptoogleOther.IsSingleSelector {
-		diffs = append(diffs, "IsSingleSelector")
+		diffs = append(diffs, grouptoogle.GongMarshallField(stage, "IsSingleSelector"))
 	}
 
 	return
@@ -591,10 +593,10 @@ func (grouptoogle *GroupToogle) GongDiff(grouptoogleOther *GroupToogle) (diffs [
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
+func (layout *Layout) GongDiff(stage *Stage, layoutOther *Layout) (diffs []string) {
 	// insertion point for field diffs
 	if layout.Name != layoutOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, layout.GongMarshallField(stage, "Name"))
 	}
 	GroupsDifferent := false
 	if len(layout.Groups) != len(layoutOther.Groups) {
@@ -605,7 +607,8 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 				GroupsDifferent = true
 				break
 			} else if layout.Groups[i] != nil && layoutOther.Groups[i] != nil {
-				if len(layout.Groups[i].GongDiff(layoutOther.Groups[i])) > 0 {
+			 	// this is a pointer comparaison
+				if layout.Groups[i] != layoutOther.Groups[i] {
 					GroupsDifferent = true
 					break
 				}
@@ -613,7 +616,7 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		diffs = append(diffs, "Groups")
+		diffs = append(diffs, layout.GongMarshallField(stage, "Groups"))
 	}
 	GroupTooglesDifferent := false
 	if len(layout.GroupToogles) != len(layoutOther.GroupToogles) {
@@ -624,7 +627,8 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 				GroupTooglesDifferent = true
 				break
 			} else if layout.GroupToogles[i] != nil && layoutOther.GroupToogles[i] != nil {
-				if len(layout.GroupToogles[i].GongDiff(layoutOther.GroupToogles[i])) > 0 {
+			 	// this is a pointer comparaison
+				if layout.GroupToogles[i] != layoutOther.GroupToogles[i] {
 					GroupTooglesDifferent = true
 					break
 				}
@@ -632,7 +636,7 @@ func (layout *Layout) GongDiff(layoutOther *Layout) (diffs []string) {
 		}
 	}
 	if GroupTooglesDifferent {
-		diffs = append(diffs, "GroupToogles")
+		diffs = append(diffs, layout.GongMarshallField(stage, "GroupToogles"))
 	}
 
 	return

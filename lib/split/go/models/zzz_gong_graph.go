@@ -1574,13 +1574,13 @@ func (stage *Stage) UnstageBranchXlsx(xlsx *Xlsx) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
+func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []string) {
 	// insertion point for field diffs
 	if assplit.Name != assplitOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, assplit.GongMarshallField(stage, "Name"))
 	}
 	if assplit.Direction != assplitOther.Direction {
-		diffs = append(diffs, "Direction")
+		diffs = append(diffs, assplit.GongMarshallField(stage, "Direction"))
 	}
 	AsSplitAreasDifferent := false
 	if len(assplit.AsSplitAreas) != len(assplitOther.AsSplitAreas) {
@@ -1591,7 +1591,8 @@ func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
 				AsSplitAreasDifferent = true
 				break
 			} else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
-				if len(assplit.AsSplitAreas[i].GongDiff(assplitOther.AsSplitAreas[i])) > 0 {
+			 	// this is a pointer comparaison
+				if assplit.AsSplitAreas[i] != assplitOther.AsSplitAreas[i] {
 					AsSplitAreasDifferent = true
 					break
 				}
@@ -1599,7 +1600,7 @@ func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
 		}
 	}
 	if AsSplitAreasDifferent {
-		diffs = append(diffs, "AsSplitAreas")
+		diffs = append(diffs, assplit.GongMarshallField(stage, "AsSplitAreas"))
 	}
 
 	return
@@ -1607,116 +1608,116 @@ func (assplit *AsSplit) GongDiff(assplitOther *AsSplit) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (assplitarea *AsSplitArea) GongDiff(assplitareaOther *AsSplitArea) (diffs []string) {
+func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplitArea) (diffs []string) {
 	// insertion point for field diffs
 	if assplitarea.Name != assplitareaOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Name"))
 	}
 	if assplitarea.ShowNameInHeader != assplitareaOther.ShowNameInHeader {
-		diffs = append(diffs, "ShowNameInHeader")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "ShowNameInHeader"))
 	}
 	if assplitarea.Size != assplitareaOther.Size {
-		diffs = append(diffs, "Size")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Size"))
 	}
 	if assplitarea.IsAny != assplitareaOther.IsAny {
-		diffs = append(diffs, "IsAny")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "IsAny"))
 	}
 	if (assplitarea.AsSplit == nil) != (assplitareaOther.AsSplit == nil) {
 		diffs = append(diffs, "AsSplit")
 	} else if assplitarea.AsSplit != nil && assplitareaOther.AsSplit != nil {
 		if assplitarea.AsSplit != assplitareaOther.AsSplit {
-			diffs = append(diffs, "AsSplit")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
 		}
 	}
 	if (assplitarea.Button == nil) != (assplitareaOther.Button == nil) {
 		diffs = append(diffs, "Button")
 	} else if assplitarea.Button != nil && assplitareaOther.Button != nil {
 		if assplitarea.Button != assplitareaOther.Button {
-			diffs = append(diffs, "Button")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 		}
 	}
 	if (assplitarea.Cursor == nil) != (assplitareaOther.Cursor == nil) {
 		diffs = append(diffs, "Cursor")
 	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
 		if assplitarea.Cursor != assplitareaOther.Cursor {
-			diffs = append(diffs, "Cursor")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 		}
 	}
 	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
 		diffs = append(diffs, "Form")
 	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
 		if assplitarea.Form != assplitareaOther.Form {
-			diffs = append(diffs, "Form")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 		}
 	}
 	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
 		diffs = append(diffs, "Load")
 	} else if assplitarea.Load != nil && assplitareaOther.Load != nil {
 		if assplitarea.Load != assplitareaOther.Load {
-			diffs = append(diffs, "Load")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
 		}
 	}
 	if (assplitarea.Markdown == nil) != (assplitareaOther.Markdown == nil) {
 		diffs = append(diffs, "Markdown")
 	} else if assplitarea.Markdown != nil && assplitareaOther.Markdown != nil {
 		if assplitarea.Markdown != assplitareaOther.Markdown {
-			diffs = append(diffs, "Markdown")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
 		}
 	}
 	if (assplitarea.Slider == nil) != (assplitareaOther.Slider == nil) {
 		diffs = append(diffs, "Slider")
 	} else if assplitarea.Slider != nil && assplitareaOther.Slider != nil {
 		if assplitarea.Slider != assplitareaOther.Slider {
-			diffs = append(diffs, "Slider")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 		}
 	}
 	if (assplitarea.Split == nil) != (assplitareaOther.Split == nil) {
 		diffs = append(diffs, "Split")
 	} else if assplitarea.Split != nil && assplitareaOther.Split != nil {
 		if assplitarea.Split != assplitareaOther.Split {
-			diffs = append(diffs, "Split")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
 		}
 	}
 	if (assplitarea.Svg == nil) != (assplitareaOther.Svg == nil) {
 		diffs = append(diffs, "Svg")
 	} else if assplitarea.Svg != nil && assplitareaOther.Svg != nil {
 		if assplitarea.Svg != assplitareaOther.Svg {
-			diffs = append(diffs, "Svg")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
 		}
 	}
 	if (assplitarea.Table == nil) != (assplitareaOther.Table == nil) {
 		diffs = append(diffs, "Table")
 	} else if assplitarea.Table != nil && assplitareaOther.Table != nil {
 		if assplitarea.Table != assplitareaOther.Table {
-			diffs = append(diffs, "Table")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
 		}
 	}
 	if (assplitarea.Tone == nil) != (assplitareaOther.Tone == nil) {
 		diffs = append(diffs, "Tone")
 	} else if assplitarea.Tone != nil && assplitareaOther.Tone != nil {
 		if assplitarea.Tone != assplitareaOther.Tone {
-			diffs = append(diffs, "Tone")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
 		}
 	}
 	if (assplitarea.Tree == nil) != (assplitareaOther.Tree == nil) {
 		diffs = append(diffs, "Tree")
 	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
 		if assplitarea.Tree != assplitareaOther.Tree {
-			diffs = append(diffs, "Tree")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
 		}
 	}
 	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
 		diffs = append(diffs, "Xlsx")
 	} else if assplitarea.Xlsx != nil && assplitareaOther.Xlsx != nil {
 		if assplitarea.Xlsx != assplitareaOther.Xlsx {
-			diffs = append(diffs, "Xlsx")
+			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
 		}
 	}
 	if assplitarea.HasDiv != assplitareaOther.HasDiv {
-		diffs = append(diffs, "HasDiv")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "HasDiv"))
 	}
 	if assplitarea.DivStyle != assplitareaOther.DivStyle {
-		diffs = append(diffs, "DivStyle")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "DivStyle"))
 	}
 
 	return
@@ -1724,13 +1725,13 @@ func (assplitarea *AsSplitArea) GongDiff(assplitareaOther *AsSplitArea) (diffs [
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []string) {
 	// insertion point for field diffs
 	if button.Name != buttonOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, button.GongMarshallField(stage, "Name"))
 	}
 	if button.StackName != buttonOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, button.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1738,16 +1739,16 @@ func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cursor *Cursor) GongDiff(cursorOther *Cursor) (diffs []string) {
+func (cursor *Cursor) GongDiff(stage *Stage, cursorOther *Cursor) (diffs []string) {
 	// insertion point for field diffs
 	if cursor.Name != cursorOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Name"))
 	}
 	if cursor.StackName != cursorOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StackName"))
 	}
 	if cursor.Style != cursorOther.Style {
-		diffs = append(diffs, "Style")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Style"))
 	}
 
 	return
@@ -1755,13 +1756,13 @@ func (cursor *Cursor) GongDiff(cursorOther *Cursor) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (favicon *FavIcon) GongDiff(faviconOther *FavIcon) (diffs []string) {
+func (favicon *FavIcon) GongDiff(stage *Stage, faviconOther *FavIcon) (diffs []string) {
 	// insertion point for field diffs
 	if favicon.Name != faviconOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, favicon.GongMarshallField(stage, "Name"))
 	}
 	if favicon.SVG != faviconOther.SVG {
-		diffs = append(diffs, "SVG")
+		diffs = append(diffs, favicon.GongMarshallField(stage, "SVG"))
 	}
 
 	return
@@ -1769,13 +1770,13 @@ func (favicon *FavIcon) GongDiff(faviconOther *FavIcon) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (form *Form) GongDiff(formOther *Form) (diffs []string) {
+func (form *Form) GongDiff(stage *Stage, formOther *Form) (diffs []string) {
 	// insertion point for field diffs
 	if form.Name != formOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, form.GongMarshallField(stage, "Name"))
 	}
 	if form.StackName != formOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, form.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1783,13 +1784,13 @@ func (form *Form) GongDiff(formOther *Form) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (load *Load) GongDiff(loadOther *Load) (diffs []string) {
+func (load *Load) GongDiff(stage *Stage, loadOther *Load) (diffs []string) {
 	// insertion point for field diffs
 	if load.Name != loadOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, load.GongMarshallField(stage, "Name"))
 	}
 	if load.StackName != loadOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, load.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1797,19 +1798,19 @@ func (load *Load) GongDiff(loadOther *Load) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (logoontheleft *LogoOnTheLeft) GongDiff(logoontheleftOther *LogoOnTheLeft) (diffs []string) {
+func (logoontheleft *LogoOnTheLeft) GongDiff(stage *Stage, logoontheleftOther *LogoOnTheLeft) (diffs []string) {
 	// insertion point for field diffs
 	if logoontheleft.Name != logoontheleftOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, logoontheleft.GongMarshallField(stage, "Name"))
 	}
 	if logoontheleft.Width != logoontheleftOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, logoontheleft.GongMarshallField(stage, "Width"))
 	}
 	if logoontheleft.Height != logoontheleftOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, logoontheleft.GongMarshallField(stage, "Height"))
 	}
 	if logoontheleft.SVG != logoontheleftOther.SVG {
-		diffs = append(diffs, "SVG")
+		diffs = append(diffs, logoontheleft.GongMarshallField(stage, "SVG"))
 	}
 
 	return
@@ -1817,19 +1818,19 @@ func (logoontheleft *LogoOnTheLeft) GongDiff(logoontheleftOther *LogoOnTheLeft) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (logoontheright *LogoOnTheRight) GongDiff(logoontherightOther *LogoOnTheRight) (diffs []string) {
+func (logoontheright *LogoOnTheRight) GongDiff(stage *Stage, logoontherightOther *LogoOnTheRight) (diffs []string) {
 	// insertion point for field diffs
 	if logoontheright.Name != logoontherightOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, logoontheright.GongMarshallField(stage, "Name"))
 	}
 	if logoontheright.Width != logoontherightOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, logoontheright.GongMarshallField(stage, "Width"))
 	}
 	if logoontheright.Height != logoontherightOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, logoontheright.GongMarshallField(stage, "Height"))
 	}
 	if logoontheright.SVG != logoontherightOther.SVG {
-		diffs = append(diffs, "SVG")
+		diffs = append(diffs, logoontheright.GongMarshallField(stage, "SVG"))
 	}
 
 	return
@@ -1837,13 +1838,13 @@ func (logoontheright *LogoOnTheRight) GongDiff(logoontherightOther *LogoOnTheRig
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (markdown *Markdown) GongDiff(markdownOther *Markdown) (diffs []string) {
+func (markdown *Markdown) GongDiff(stage *Stage, markdownOther *Markdown) (diffs []string) {
 	// insertion point for field diffs
 	if markdown.Name != markdownOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, markdown.GongMarshallField(stage, "Name"))
 	}
 	if markdown.StackName != markdownOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, markdown.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1851,13 +1852,13 @@ func (markdown *Markdown) GongDiff(markdownOther *Markdown) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (slider *Slider) GongDiff(sliderOther *Slider) (diffs []string) {
+func (slider *Slider) GongDiff(stage *Stage, sliderOther *Slider) (diffs []string) {
 	// insertion point for field diffs
 	if slider.Name != sliderOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, slider.GongMarshallField(stage, "Name"))
 	}
 	if slider.StackName != sliderOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, slider.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1865,13 +1866,13 @@ func (slider *Slider) GongDiff(sliderOther *Slider) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (split *Split) GongDiff(splitOther *Split) (diffs []string) {
+func (split *Split) GongDiff(stage *Stage, splitOther *Split) (diffs []string) {
 	// insertion point for field diffs
 	if split.Name != splitOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, split.GongMarshallField(stage, "Name"))
 	}
 	if split.StackName != splitOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, split.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1879,16 +1880,16 @@ func (split *Split) GongDiff(splitOther *Split) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (svg *Svg) GongDiff(svgOther *Svg) (diffs []string) {
+func (svg *Svg) GongDiff(stage *Stage, svgOther *Svg) (diffs []string) {
 	// insertion point for field diffs
 	if svg.Name != svgOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, svg.GongMarshallField(stage, "Name"))
 	}
 	if svg.StackName != svgOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, svg.GongMarshallField(stage, "StackName"))
 	}
 	if svg.Style != svgOther.Style {
-		diffs = append(diffs, "Style")
+		diffs = append(diffs, svg.GongMarshallField(stage, "Style"))
 	}
 
 	return
@@ -1896,13 +1897,13 @@ func (svg *Svg) GongDiff(svgOther *Svg) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
+func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	// insertion point for field diffs
 	if table.Name != tableOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, table.GongMarshallField(stage, "Name"))
 	}
 	if table.StackName != tableOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, table.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1910,10 +1911,10 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (title *Title) GongDiff(titleOther *Title) (diffs []string) {
+func (title *Title) GongDiff(stage *Stage, titleOther *Title) (diffs []string) {
 	// insertion point for field diffs
 	if title.Name != titleOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, title.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -1921,13 +1922,13 @@ func (title *Title) GongDiff(titleOther *Title) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (tone *Tone) GongDiff(toneOther *Tone) (diffs []string) {
+func (tone *Tone) GongDiff(stage *Stage, toneOther *Tone) (diffs []string) {
 	// insertion point for field diffs
 	if tone.Name != toneOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, tone.GongMarshallField(stage, "Name"))
 	}
 	if tone.StackName != toneOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, tone.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1935,13 +1936,13 @@ func (tone *Tone) GongDiff(toneOther *Tone) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
+func (tree *Tree) GongDiff(stage *Stage, treeOther *Tree) (diffs []string) {
 	// insertion point for field diffs
 	if tree.Name != treeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, tree.GongMarshallField(stage, "Name"))
 	}
 	if tree.StackName != treeOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, tree.GongMarshallField(stage, "StackName"))
 	}
 
 	return
@@ -1949,13 +1950,13 @@ func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (view *View) GongDiff(viewOther *View) (diffs []string) {
+func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 	// insertion point for field diffs
 	if view.Name != viewOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, view.GongMarshallField(stage, "Name"))
 	}
 	if view.ShowViewName != viewOther.ShowViewName {
-		diffs = append(diffs, "ShowViewName")
+		diffs = append(diffs, view.GongMarshallField(stage, "ShowViewName"))
 	}
 	RootAsSplitAreasDifferent := false
 	if len(view.RootAsSplitAreas) != len(viewOther.RootAsSplitAreas) {
@@ -1966,7 +1967,8 @@ func (view *View) GongDiff(viewOther *View) (diffs []string) {
 				RootAsSplitAreasDifferent = true
 				break
 			} else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
-				if len(view.RootAsSplitAreas[i].GongDiff(viewOther.RootAsSplitAreas[i])) > 0 {
+			 	// this is a pointer comparaison
+				if view.RootAsSplitAreas[i] != viewOther.RootAsSplitAreas[i] {
 					RootAsSplitAreasDifferent = true
 					break
 				}
@@ -1974,13 +1976,13 @@ func (view *View) GongDiff(viewOther *View) (diffs []string) {
 		}
 	}
 	if RootAsSplitAreasDifferent {
-		diffs = append(diffs, "RootAsSplitAreas")
+		diffs = append(diffs, view.GongMarshallField(stage, "RootAsSplitAreas"))
 	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
-		diffs = append(diffs, "IsSelectedView")
+		diffs = append(diffs, view.GongMarshallField(stage, "IsSelectedView"))
 	}
 	if view.Direction != viewOther.Direction {
-		diffs = append(diffs, "Direction")
+		diffs = append(diffs, view.GongMarshallField(stage, "Direction"))
 	}
 
 	return
@@ -1988,13 +1990,13 @@ func (view *View) GongDiff(viewOther *View) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (xlsx *Xlsx) GongDiff(xlsxOther *Xlsx) (diffs []string) {
+func (xlsx *Xlsx) GongDiff(stage *Stage, xlsxOther *Xlsx) (diffs []string) {
 	// insertion point for field diffs
 	if xlsx.Name != xlsxOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, xlsx.GongMarshallField(stage, "Name"))
 	}
 	if xlsx.StackName != xlsxOther.StackName {
-		diffs = append(diffs, "StackName")
+		diffs = append(diffs, xlsx.GongMarshallField(stage, "StackName"))
 	}
 
 	return

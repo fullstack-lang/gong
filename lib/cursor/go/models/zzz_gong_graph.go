@@ -143,52 +143,52 @@ func (stage *Stage) UnstageBranchCursor(cursor *Cursor) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cursor *Cursor) GongDiff(cursorOther *Cursor) (diffs []string) {
+func (cursor *Cursor) GongDiff(stage *Stage, cursorOther *Cursor) (diffs []string) {
 	// insertion point for field diffs
 	if cursor.Name != cursorOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Name"))
 	}
 	if cursor.StartX != cursorOther.StartX {
-		diffs = append(diffs, "StartX")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StartX"))
 	}
 	if cursor.EndX != cursorOther.EndX {
-		diffs = append(diffs, "EndX")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "EndX"))
 	}
 	if cursor.Y1 != cursorOther.Y1 {
-		diffs = append(diffs, "Y1")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Y1"))
 	}
 	if cursor.Y2 != cursorOther.Y2 {
-		diffs = append(diffs, "Y2")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Y2"))
 	}
 	if cursor.DurationSeconds != cursorOther.DurationSeconds {
-		diffs = append(diffs, "DurationSeconds")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "DurationSeconds"))
 	}
 	if cursor.Color != cursorOther.Color {
-		diffs = append(diffs, "Color")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Color"))
 	}
 	if cursor.FillOpacity != cursorOther.FillOpacity {
-		diffs = append(diffs, "FillOpacity")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "FillOpacity"))
 	}
 	if cursor.Stroke != cursorOther.Stroke {
-		diffs = append(diffs, "Stroke")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Stroke"))
 	}
 	if cursor.StrokeOpacity != cursorOther.StrokeOpacity {
-		diffs = append(diffs, "StrokeOpacity")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StrokeOpacity"))
 	}
 	if cursor.StrokeWidth != cursorOther.StrokeWidth {
-		diffs = append(diffs, "StrokeWidth")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StrokeWidth"))
 	}
 	if cursor.StrokeDashArray != cursorOther.StrokeDashArray {
-		diffs = append(diffs, "StrokeDashArray")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StrokeDashArray"))
 	}
 	if cursor.StrokeDashArrayWhenSelected != cursorOther.StrokeDashArrayWhenSelected {
-		diffs = append(diffs, "StrokeDashArrayWhenSelected")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "StrokeDashArrayWhenSelected"))
 	}
 	if cursor.Transform != cursorOther.Transform {
-		diffs = append(diffs, "Transform")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "Transform"))
 	}
 	if cursor.IsPlaying != cursorOther.IsPlaying {
-		diffs = append(diffs, "IsPlaying")
+		diffs = append(diffs, cursor.GongMarshallField(stage, "IsPlaying"))
 	}
 
 	return
