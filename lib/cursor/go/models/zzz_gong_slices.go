@@ -39,8 +39,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var cursors_newInstances []*Cursor
@@ -50,36 +55,16 @@ func (stage *Stage) ComputeDifference() {
 	for cursor := range stage.Cursors {
 		if ref, ok := stage.Cursors_reference[cursor]; !ok {
 			cursors_newInstances = append(cursors_newInstances, cursor)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Cursor "+cursor.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cursor.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cursor.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cursor.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cursor.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cursor.GongDiff(ref)
+			diffs := cursor.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Cursor \""+cursor.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cursor.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cursor.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -90,12 +75,7 @@ func (stage *Stage) ComputeDifference() {
 	for cursor := range stage.Cursors_reference {
 		if _, ok := stage.Cursors[cursor]; !ok {
 			cursors_deletedInstances = append(cursors_deletedInstances, cursor)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cursor.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cursor.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -103,16 +83,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(cursors_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}

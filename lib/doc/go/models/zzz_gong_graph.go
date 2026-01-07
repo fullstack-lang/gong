@@ -800,22 +800,22 @@ func (stage *Stage) UnstageBranchLinkShape(linkshape *LinkShape) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (attributeshape *AttributeShape) GongDiff(attributeshapeOther *AttributeShape) (diffs []string) {
+func (attributeshape *AttributeShape) GongDiff(stage *Stage, attributeshapeOther *AttributeShape) (diffs []string) {
 	// insertion point for field diffs
 	if attributeshape.Name != attributeshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "Name"))
 	}
 	if attributeshape.IdentifierMeta != attributeshapeOther.IdentifierMeta {
-		diffs = append(diffs, "IdentifierMeta")
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
 	if attributeshape.FieldTypeAsString != attributeshapeOther.FieldTypeAsString {
-		diffs = append(diffs, "FieldTypeAsString")
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "FieldTypeAsString"))
 	}
 	if attributeshape.Structname != attributeshapeOther.Structname {
-		diffs = append(diffs, "Structname")
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "Structname"))
 	}
 	if attributeshape.Fieldtypename != attributeshapeOther.Fieldtypename {
-		diffs = append(diffs, "Fieldtypename")
+		diffs = append(diffs, attributeshape.GongMarshallField(stage, "Fieldtypename"))
 	}
 
 	return
@@ -823,16 +823,16 @@ func (attributeshape *AttributeShape) GongDiff(attributeshapeOther *AttributeSha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (diffs []string) {
+func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Classdiagram) (diffs []string) {
 	// insertion point for field diffs
 	if classdiagram.Name != classdiagramOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "Name"))
 	}
 	if classdiagram.Description != classdiagramOther.Description {
-		diffs = append(diffs, "Description")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "Description"))
 	}
 	if classdiagram.IsIncludedInStaticWebSite != classdiagramOther.IsIncludedInStaticWebSite {
-		diffs = append(diffs, "IsIncludedInStaticWebSite")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "IsIncludedInStaticWebSite"))
 	}
 	GongStructShapesDifferent := false
 	if len(classdiagram.GongStructShapes) != len(classdiagramOther.GongStructShapes) {
@@ -843,7 +843,8 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 				GongStructShapesDifferent = true
 				break
 			} else if classdiagram.GongStructShapes[i] != nil && classdiagramOther.GongStructShapes[i] != nil {
-				if len(classdiagram.GongStructShapes[i].GongDiff(classdiagramOther.GongStructShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if classdiagram.GongStructShapes[i] != classdiagramOther.GongStructShapes[i] {
 					GongStructShapesDifferent = true
 					break
 				}
@@ -851,7 +852,7 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 		}
 	}
 	if GongStructShapesDifferent {
-		diffs = append(diffs, "GongStructShapes")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongStructShapes"))
 	}
 	GongEnumShapesDifferent := false
 	if len(classdiagram.GongEnumShapes) != len(classdiagramOther.GongEnumShapes) {
@@ -862,7 +863,8 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 				GongEnumShapesDifferent = true
 				break
 			} else if classdiagram.GongEnumShapes[i] != nil && classdiagramOther.GongEnumShapes[i] != nil {
-				if len(classdiagram.GongEnumShapes[i].GongDiff(classdiagramOther.GongEnumShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if classdiagram.GongEnumShapes[i] != classdiagramOther.GongEnumShapes[i] {
 					GongEnumShapesDifferent = true
 					break
 				}
@@ -870,7 +872,7 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 		}
 	}
 	if GongEnumShapesDifferent {
-		diffs = append(diffs, "GongEnumShapes")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongEnumShapes"))
 	}
 	GongNoteShapesDifferent := false
 	if len(classdiagram.GongNoteShapes) != len(classdiagramOther.GongNoteShapes) {
@@ -881,7 +883,8 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 				GongNoteShapesDifferent = true
 				break
 			} else if classdiagram.GongNoteShapes[i] != nil && classdiagramOther.GongNoteShapes[i] != nil {
-				if len(classdiagram.GongNoteShapes[i].GongDiff(classdiagramOther.GongNoteShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if classdiagram.GongNoteShapes[i] != classdiagramOther.GongNoteShapes[i] {
 					GongNoteShapesDifferent = true
 					break
 				}
@@ -889,40 +892,40 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 		}
 	}
 	if GongNoteShapesDifferent {
-		diffs = append(diffs, "GongNoteShapes")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongNoteShapes"))
 	}
 	if classdiagram.ShowNbInstances != classdiagramOther.ShowNbInstances {
-		diffs = append(diffs, "ShowNbInstances")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "ShowNbInstances"))
 	}
 	if classdiagram.ShowMultiplicity != classdiagramOther.ShowMultiplicity {
-		diffs = append(diffs, "ShowMultiplicity")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "ShowMultiplicity"))
 	}
 	if classdiagram.ShowLinkNames != classdiagramOther.ShowLinkNames {
-		diffs = append(diffs, "ShowLinkNames")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "ShowLinkNames"))
 	}
 	if classdiagram.IsInRenameMode != classdiagramOther.IsInRenameMode {
-		diffs = append(diffs, "IsInRenameMode")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	if classdiagram.IsExpanded != classdiagramOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "IsExpanded"))
 	}
 	if classdiagram.NodeGongStructsIsExpanded != classdiagramOther.NodeGongStructsIsExpanded {
-		diffs = append(diffs, "NodeGongStructsIsExpanded")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongStructsIsExpanded"))
 	}
 	if classdiagram.NodeGongStructNodeExpansion != classdiagramOther.NodeGongStructNodeExpansion {
-		diffs = append(diffs, "NodeGongStructNodeExpansion")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongStructNodeExpansion"))
 	}
 	if classdiagram.NodeGongEnumsIsExpanded != classdiagramOther.NodeGongEnumsIsExpanded {
-		diffs = append(diffs, "NodeGongEnumsIsExpanded")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongEnumsIsExpanded"))
 	}
 	if classdiagram.NodeGongEnumNodeExpansion != classdiagramOther.NodeGongEnumNodeExpansion {
-		diffs = append(diffs, "NodeGongEnumNodeExpansion")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongEnumNodeExpansion"))
 	}
 	if classdiagram.NodeGongNotesIsExpanded != classdiagramOther.NodeGongNotesIsExpanded {
-		diffs = append(diffs, "NodeGongNotesIsExpanded")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongNotesIsExpanded"))
 	}
 	if classdiagram.NodeGongNoteNodeExpansion != classdiagramOther.NodeGongNoteNodeExpansion {
-		diffs = append(diffs, "NodeGongNoteNodeExpansion")
+		diffs = append(diffs, classdiagram.GongMarshallField(stage, "NodeGongNoteNodeExpansion"))
 	}
 
 	return
@@ -930,16 +933,16 @@ func (classdiagram *Classdiagram) GongDiff(classdiagramOther *Classdiagram) (dif
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (diagrampackage *DiagramPackage) GongDiff(diagrampackageOther *DiagramPackage) (diffs []string) {
+func (diagrampackage *DiagramPackage) GongDiff(stage *Stage, diagrampackageOther *DiagramPackage) (diffs []string) {
 	// insertion point for field diffs
 	if diagrampackage.Name != diagrampackageOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "Name"))
 	}
 	if diagrampackage.Path != diagrampackageOther.Path {
-		diffs = append(diffs, "Path")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "Path"))
 	}
 	if diagrampackage.GongModelPath != diagrampackageOther.GongModelPath {
-		diffs = append(diffs, "GongModelPath")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "GongModelPath"))
 	}
 	ClassdiagramsDifferent := false
 	if len(diagrampackage.Classdiagrams) != len(diagrampackageOther.Classdiagrams) {
@@ -950,7 +953,8 @@ func (diagrampackage *DiagramPackage) GongDiff(diagrampackageOther *DiagramPacka
 				ClassdiagramsDifferent = true
 				break
 			} else if diagrampackage.Classdiagrams[i] != nil && diagrampackageOther.Classdiagrams[i] != nil {
-				if len(diagrampackage.Classdiagrams[i].GongDiff(diagrampackageOther.Classdiagrams[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagrampackage.Classdiagrams[i] != diagrampackageOther.Classdiagrams[i] {
 					ClassdiagramsDifferent = true
 					break
 				}
@@ -958,17 +962,17 @@ func (diagrampackage *DiagramPackage) GongDiff(diagrampackageOther *DiagramPacka
 		}
 	}
 	if ClassdiagramsDifferent {
-		diffs = append(diffs, "Classdiagrams")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "Classdiagrams"))
 	}
 	if (diagrampackage.SelectedClassdiagram == nil) != (diagrampackageOther.SelectedClassdiagram == nil) {
 		diffs = append(diffs, "SelectedClassdiagram")
 	} else if diagrampackage.SelectedClassdiagram != nil && diagrampackageOther.SelectedClassdiagram != nil {
 		if diagrampackage.SelectedClassdiagram != diagrampackageOther.SelectedClassdiagram {
-			diffs = append(diffs, "SelectedClassdiagram")
+			diffs = append(diffs, diagrampackage.GongMarshallField(stage, "SelectedClassdiagram"))
 		}
 	}
 	if diagrampackage.AbsolutePathToDiagramPackage != diagrampackageOther.AbsolutePathToDiagramPackage {
-		diffs = append(diffs, "AbsolutePathToDiagramPackage")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "AbsolutePathToDiagramPackage"))
 	}
 
 	return
@@ -976,19 +980,19 @@ func (diagrampackage *DiagramPackage) GongDiff(diagrampackageOther *DiagramPacka
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongenumshape *GongEnumShape) GongDiff(gongenumshapeOther *GongEnumShape) (diffs []string) {
+func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *GongEnumShape) (diffs []string) {
 	// insertion point for field diffs
 	if gongenumshape.Name != gongenumshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Name"))
 	}
 	if gongenumshape.X != gongenumshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "X"))
 	}
 	if gongenumshape.Y != gongenumshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Y"))
 	}
 	if gongenumshape.IdentifierMeta != gongenumshapeOther.IdentifierMeta {
-		diffs = append(diffs, "IdentifierMeta")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
 	GongEnumValueShapesDifferent := false
 	if len(gongenumshape.GongEnumValueShapes) != len(gongenumshapeOther.GongEnumValueShapes) {
@@ -999,7 +1003,8 @@ func (gongenumshape *GongEnumShape) GongDiff(gongenumshapeOther *GongEnumShape) 
 				GongEnumValueShapesDifferent = true
 				break
 			} else if gongenumshape.GongEnumValueShapes[i] != nil && gongenumshapeOther.GongEnumValueShapes[i] != nil {
-				if len(gongenumshape.GongEnumValueShapes[i].GongDiff(gongenumshapeOther.GongEnumValueShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongenumshape.GongEnumValueShapes[i] != gongenumshapeOther.GongEnumValueShapes[i] {
 					GongEnumValueShapesDifferent = true
 					break
 				}
@@ -1007,16 +1012,16 @@ func (gongenumshape *GongEnumShape) GongDiff(gongenumshapeOther *GongEnumShape) 
 		}
 	}
 	if GongEnumValueShapesDifferent {
-		diffs = append(diffs, "GongEnumValueShapes")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
 	}
 	if gongenumshape.Width != gongenumshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Width"))
 	}
 	if gongenumshape.Height != gongenumshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Height"))
 	}
 	if gongenumshape.IsExpanded != gongenumshapeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1024,13 +1029,13 @@ func (gongenumshape *GongEnumShape) GongDiff(gongenumshapeOther *GongEnumShape) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongenumvalueshape *GongEnumValueShape) GongDiff(gongenumvalueshapeOther *GongEnumValueShape) (diffs []string) {
+func (gongenumvalueshape *GongEnumValueShape) GongDiff(stage *Stage, gongenumvalueshapeOther *GongEnumValueShape) (diffs []string) {
 	// insertion point for field diffs
 	if gongenumvalueshape.Name != gongenumvalueshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongenumvalueshape.GongMarshallField(stage, "Name"))
 	}
 	if gongenumvalueshape.IdentifierMeta != gongenumvalueshapeOther.IdentifierMeta {
-		diffs = append(diffs, "IdentifierMeta")
+		diffs = append(diffs, gongenumvalueshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
 
 	return
@@ -1038,16 +1043,16 @@ func (gongenumvalueshape *GongEnumValueShape) GongDiff(gongenumvalueshapeOther *
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongnotelinkshape *GongNoteLinkShape) GongDiff(gongnotelinkshapeOther *GongNoteLinkShape) (diffs []string) {
+func (gongnotelinkshape *GongNoteLinkShape) GongDiff(stage *Stage, gongnotelinkshapeOther *GongNoteLinkShape) (diffs []string) {
 	// insertion point for field diffs
 	if gongnotelinkshape.Name != gongnotelinkshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongnotelinkshape.GongMarshallField(stage, "Name"))
 	}
 	if gongnotelinkshape.Identifier != gongnotelinkshapeOther.Identifier {
-		diffs = append(diffs, "Identifier")
+		diffs = append(diffs, gongnotelinkshape.GongMarshallField(stage, "Identifier"))
 	}
 	if gongnotelinkshape.Type != gongnotelinkshapeOther.Type {
-		diffs = append(diffs, "Type")
+		diffs = append(diffs, gongnotelinkshape.GongMarshallField(stage, "Type"))
 	}
 
 	return
@@ -1055,34 +1060,34 @@ func (gongnotelinkshape *GongNoteLinkShape) GongDiff(gongnotelinkshapeOther *Gon
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongnoteshape *GongNoteShape) GongDiff(gongnoteshapeOther *GongNoteShape) (diffs []string) {
+func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *GongNoteShape) (diffs []string) {
 	// insertion point for field diffs
 	if gongnoteshape.Name != gongnoteshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Name"))
 	}
 	if gongnoteshape.Identifier != gongnoteshapeOther.Identifier {
-		diffs = append(diffs, "Identifier")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Identifier"))
 	}
 	if gongnoteshape.Body != gongnoteshapeOther.Body {
-		diffs = append(diffs, "Body")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Body"))
 	}
 	if gongnoteshape.BodyHTML != gongnoteshapeOther.BodyHTML {
-		diffs = append(diffs, "BodyHTML")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "BodyHTML"))
 	}
 	if gongnoteshape.X != gongnoteshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "X"))
 	}
 	if gongnoteshape.Y != gongnoteshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Y"))
 	}
 	if gongnoteshape.Width != gongnoteshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Width"))
 	}
 	if gongnoteshape.Height != gongnoteshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Height"))
 	}
 	if gongnoteshape.Matched != gongnoteshapeOther.Matched {
-		diffs = append(diffs, "Matched")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "Matched"))
 	}
 	GongNoteLinkShapesDifferent := false
 	if len(gongnoteshape.GongNoteLinkShapes) != len(gongnoteshapeOther.GongNoteLinkShapes) {
@@ -1093,7 +1098,8 @@ func (gongnoteshape *GongNoteShape) GongDiff(gongnoteshapeOther *GongNoteShape) 
 				GongNoteLinkShapesDifferent = true
 				break
 			} else if gongnoteshape.GongNoteLinkShapes[i] != nil && gongnoteshapeOther.GongNoteLinkShapes[i] != nil {
-				if len(gongnoteshape.GongNoteLinkShapes[i].GongDiff(gongnoteshapeOther.GongNoteLinkShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongnoteshape.GongNoteLinkShapes[i] != gongnoteshapeOther.GongNoteLinkShapes[i] {
 					GongNoteLinkShapesDifferent = true
 					break
 				}
@@ -1101,10 +1107,10 @@ func (gongnoteshape *GongNoteShape) GongDiff(gongnoteshapeOther *GongNoteShape) 
 		}
 	}
 	if GongNoteLinkShapesDifferent {
-		diffs = append(diffs, "GongNoteLinkShapes")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "GongNoteLinkShapes"))
 	}
 	if gongnoteshape.IsExpanded != gongnoteshapeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1112,19 +1118,19 @@ func (gongnoteshape *GongNoteShape) GongDiff(gongnoteshapeOther *GongNoteShape) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStructShape) (diffs []string) {
+func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOther *GongStructShape) (diffs []string) {
 	// insertion point for field diffs
 	if gongstructshape.Name != gongstructshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Name"))
 	}
 	if gongstructshape.X != gongstructshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "X"))
 	}
 	if gongstructshape.Y != gongstructshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Y"))
 	}
 	if gongstructshape.IdentifierMeta != gongstructshapeOther.IdentifierMeta {
-		diffs = append(diffs, "IdentifierMeta")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
 	AttributeShapesDifferent := false
 	if len(gongstructshape.AttributeShapes) != len(gongstructshapeOther.AttributeShapes) {
@@ -1135,7 +1141,8 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 				AttributeShapesDifferent = true
 				break
 			} else if gongstructshape.AttributeShapes[i] != nil && gongstructshapeOther.AttributeShapes[i] != nil {
-				if len(gongstructshape.AttributeShapes[i].GongDiff(gongstructshapeOther.AttributeShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstructshape.AttributeShapes[i] != gongstructshapeOther.AttributeShapes[i] {
 					AttributeShapesDifferent = true
 					break
 				}
@@ -1143,7 +1150,7 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 		}
 	}
 	if AttributeShapesDifferent {
-		diffs = append(diffs, "AttributeShapes")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "AttributeShapes"))
 	}
 	LinkShapesDifferent := false
 	if len(gongstructshape.LinkShapes) != len(gongstructshapeOther.LinkShapes) {
@@ -1154,7 +1161,8 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 				LinkShapesDifferent = true
 				break
 			} else if gongstructshape.LinkShapes[i] != nil && gongstructshapeOther.LinkShapes[i] != nil {
-				if len(gongstructshape.LinkShapes[i].GongDiff(gongstructshapeOther.LinkShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstructshape.LinkShapes[i] != gongstructshapeOther.LinkShapes[i] {
 					LinkShapesDifferent = true
 					break
 				}
@@ -1162,16 +1170,16 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 		}
 	}
 	if LinkShapesDifferent {
-		diffs = append(diffs, "LinkShapes")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "LinkShapes"))
 	}
 	if gongstructshape.Width != gongstructshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Width"))
 	}
 	if gongstructshape.Height != gongstructshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Height"))
 	}
 	if gongstructshape.IsSelected != gongstructshapeOther.IsSelected {
-		diffs = append(diffs, "IsSelected")
+		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "IsSelected"))
 	}
 
 	return
@@ -1179,61 +1187,61 @@ func (gongstructshape *GongStructShape) GongDiff(gongstructshapeOther *GongStruc
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (linkshape *LinkShape) GongDiff(linkshapeOther *LinkShape) (diffs []string) {
+func (linkshape *LinkShape) GongDiff(stage *Stage, linkshapeOther *LinkShape) (diffs []string) {
 	// insertion point for field diffs
 	if linkshape.Name != linkshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "Name"))
 	}
 	if linkshape.IdentifierMeta != linkshapeOther.IdentifierMeta {
-		diffs = append(diffs, "IdentifierMeta")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "IdentifierMeta"))
 	}
 	if linkshape.FieldTypeIdentifierMeta != linkshapeOther.FieldTypeIdentifierMeta {
-		diffs = append(diffs, "FieldTypeIdentifierMeta")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "FieldTypeIdentifierMeta"))
 	}
 	if linkshape.FieldOffsetX != linkshapeOther.FieldOffsetX {
-		diffs = append(diffs, "FieldOffsetX")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "FieldOffsetX"))
 	}
 	if linkshape.FieldOffsetY != linkshapeOther.FieldOffsetY {
-		diffs = append(diffs, "FieldOffsetY")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "FieldOffsetY"))
 	}
 	if linkshape.TargetMultiplicity != linkshapeOther.TargetMultiplicity {
-		diffs = append(diffs, "TargetMultiplicity")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "TargetMultiplicity"))
 	}
 	if linkshape.TargetMultiplicityOffsetX != linkshapeOther.TargetMultiplicityOffsetX {
-		diffs = append(diffs, "TargetMultiplicityOffsetX")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "TargetMultiplicityOffsetX"))
 	}
 	if linkshape.TargetMultiplicityOffsetY != linkshapeOther.TargetMultiplicityOffsetY {
-		diffs = append(diffs, "TargetMultiplicityOffsetY")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "TargetMultiplicityOffsetY"))
 	}
 	if linkshape.SourceMultiplicity != linkshapeOther.SourceMultiplicity {
-		diffs = append(diffs, "SourceMultiplicity")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "SourceMultiplicity"))
 	}
 	if linkshape.SourceMultiplicityOffsetX != linkshapeOther.SourceMultiplicityOffsetX {
-		diffs = append(diffs, "SourceMultiplicityOffsetX")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "SourceMultiplicityOffsetX"))
 	}
 	if linkshape.SourceMultiplicityOffsetY != linkshapeOther.SourceMultiplicityOffsetY {
-		diffs = append(diffs, "SourceMultiplicityOffsetY")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "SourceMultiplicityOffsetY"))
 	}
 	if linkshape.X != linkshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "X"))
 	}
 	if linkshape.Y != linkshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "Y"))
 	}
 	if linkshape.StartOrientation != linkshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if linkshape.StartRatio != linkshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if linkshape.EndOrientation != linkshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if linkshape.EndRatio != linkshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if linkshape.CornerOffsetRatio != linkshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, linkshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return

@@ -404,32 +404,32 @@ func (stage *Stage) UnstageBranchTree(tree *Tree) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
+func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []string) {
 	// insertion point for field diffs
 	if button.Name != buttonOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, button.GongMarshallField(stage, "Name"))
 	}
 	if button.Icon != buttonOther.Icon {
-		diffs = append(diffs, "Icon")
+		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
 	}
 	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
 		diffs = append(diffs, "SVGIcon")
 	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
 		if button.SVGIcon != buttonOther.SVGIcon {
-			diffs = append(diffs, "SVGIcon")
+			diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
 		}
 	}
 	if button.IsDisabled != buttonOther.IsDisabled {
-		diffs = append(diffs, "IsDisabled")
+		diffs = append(diffs, button.GongMarshallField(stage, "IsDisabled"))
 	}
 	if button.HasToolTip != buttonOther.HasToolTip {
-		diffs = append(diffs, "HasToolTip")
+		diffs = append(diffs, button.GongMarshallField(stage, "HasToolTip"))
 	}
 	if button.ToolTipText != buttonOther.ToolTipText {
-		diffs = append(diffs, "ToolTipText")
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipText"))
 	}
 	if button.ToolTipPosition != buttonOther.ToolTipPosition {
-		diffs = append(diffs, "ToolTipPosition")
+		diffs = append(diffs, button.GongMarshallField(stage, "ToolTipPosition"))
 	}
 
 	return
@@ -437,85 +437,85 @@ func (button *Button) GongDiff(buttonOther *Button) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
+func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 	// insertion point for field diffs
 	if node.Name != nodeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, node.GongMarshallField(stage, "Name"))
 	}
 	if node.FontStyle != nodeOther.FontStyle {
-		diffs = append(diffs, "FontStyle")
+		diffs = append(diffs, node.GongMarshallField(stage, "FontStyle"))
 	}
 	if node.BackgroundColor != nodeOther.BackgroundColor {
-		diffs = append(diffs, "BackgroundColor")
+		diffs = append(diffs, node.GongMarshallField(stage, "BackgroundColor"))
 	}
 	if node.IsExpanded != nodeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsExpanded"))
 	}
 	if node.HasCheckboxButton != nodeOther.HasCheckboxButton {
-		diffs = append(diffs, "HasCheckboxButton")
+		diffs = append(diffs, node.GongMarshallField(stage, "HasCheckboxButton"))
 	}
 	if node.IsChecked != nodeOther.IsChecked {
-		diffs = append(diffs, "IsChecked")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsChecked"))
 	}
 	if node.IsCheckboxDisabled != nodeOther.IsCheckboxDisabled {
-		diffs = append(diffs, "IsCheckboxDisabled")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsCheckboxDisabled"))
 	}
 	if node.CheckboxHasToolTip != nodeOther.CheckboxHasToolTip {
-		diffs = append(diffs, "CheckboxHasToolTip")
+		diffs = append(diffs, node.GongMarshallField(stage, "CheckboxHasToolTip"))
 	}
 	if node.CheckboxToolTipText != nodeOther.CheckboxToolTipText {
-		diffs = append(diffs, "CheckboxToolTipText")
+		diffs = append(diffs, node.GongMarshallField(stage, "CheckboxToolTipText"))
 	}
 	if node.CheckboxToolTipPosition != nodeOther.CheckboxToolTipPosition {
-		diffs = append(diffs, "CheckboxToolTipPosition")
+		diffs = append(diffs, node.GongMarshallField(stage, "CheckboxToolTipPosition"))
 	}
 	if node.HasSecondCheckboxButton != nodeOther.HasSecondCheckboxButton {
-		diffs = append(diffs, "HasSecondCheckboxButton")
+		diffs = append(diffs, node.GongMarshallField(stage, "HasSecondCheckboxButton"))
 	}
 	if node.IsSecondCheckboxChecked != nodeOther.IsSecondCheckboxChecked {
-		diffs = append(diffs, "IsSecondCheckboxChecked")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsSecondCheckboxChecked"))
 	}
 	if node.IsSecondCheckboxDisabled != nodeOther.IsSecondCheckboxDisabled {
-		diffs = append(diffs, "IsSecondCheckboxDisabled")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsSecondCheckboxDisabled"))
 	}
 	if node.SecondCheckboxHasToolTip != nodeOther.SecondCheckboxHasToolTip {
-		diffs = append(diffs, "SecondCheckboxHasToolTip")
+		diffs = append(diffs, node.GongMarshallField(stage, "SecondCheckboxHasToolTip"))
 	}
 	if node.SecondCheckboxToolTipText != nodeOther.SecondCheckboxToolTipText {
-		diffs = append(diffs, "SecondCheckboxToolTipText")
+		diffs = append(diffs, node.GongMarshallField(stage, "SecondCheckboxToolTipText"))
 	}
 	if node.SecondCheckboxToolTipPosition != nodeOther.SecondCheckboxToolTipPosition {
-		diffs = append(diffs, "SecondCheckboxToolTipPosition")
+		diffs = append(diffs, node.GongMarshallField(stage, "SecondCheckboxToolTipPosition"))
 	}
 	if node.TextAfterSecondCheckbox != nodeOther.TextAfterSecondCheckbox {
-		diffs = append(diffs, "TextAfterSecondCheckbox")
+		diffs = append(diffs, node.GongMarshallField(stage, "TextAfterSecondCheckbox"))
 	}
 	if node.HasToolTip != nodeOther.HasToolTip {
-		diffs = append(diffs, "HasToolTip")
+		diffs = append(diffs, node.GongMarshallField(stage, "HasToolTip"))
 	}
 	if node.ToolTipText != nodeOther.ToolTipText {
-		diffs = append(diffs, "ToolTipText")
+		diffs = append(diffs, node.GongMarshallField(stage, "ToolTipText"))
 	}
 	if node.ToolTipPosition != nodeOther.ToolTipPosition {
-		diffs = append(diffs, "ToolTipPosition")
+		diffs = append(diffs, node.GongMarshallField(stage, "ToolTipPosition"))
 	}
 	if node.IsInEditMode != nodeOther.IsInEditMode {
-		diffs = append(diffs, "IsInEditMode")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsInEditMode"))
 	}
 	if node.IsNodeClickable != nodeOther.IsNodeClickable {
-		diffs = append(diffs, "IsNodeClickable")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsNodeClickable"))
 	}
 	if node.IsWithPreceedingIcon != nodeOther.IsWithPreceedingIcon {
-		diffs = append(diffs, "IsWithPreceedingIcon")
+		diffs = append(diffs, node.GongMarshallField(stage, "IsWithPreceedingIcon"))
 	}
 	if node.PreceedingIcon != nodeOther.PreceedingIcon {
-		diffs = append(diffs, "PreceedingIcon")
+		diffs = append(diffs, node.GongMarshallField(stage, "PreceedingIcon"))
 	}
 	if (node.PreceedingSVGIcon == nil) != (nodeOther.PreceedingSVGIcon == nil) {
 		diffs = append(diffs, "PreceedingSVGIcon")
 	} else if node.PreceedingSVGIcon != nil && nodeOther.PreceedingSVGIcon != nil {
 		if node.PreceedingSVGIcon != nodeOther.PreceedingSVGIcon {
-			diffs = append(diffs, "PreceedingSVGIcon")
+			diffs = append(diffs, node.GongMarshallField(stage, "PreceedingSVGIcon"))
 		}
 	}
 	ChildrenDifferent := false
@@ -527,7 +527,8 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 				ChildrenDifferent = true
 				break
 			} else if node.Children[i] != nil && nodeOther.Children[i] != nil {
-				if len(node.Children[i].GongDiff(nodeOther.Children[i])) > 0 {
+			 	// this is a pointer comparaison
+				if node.Children[i] != nodeOther.Children[i] {
 					ChildrenDifferent = true
 					break
 				}
@@ -535,7 +536,7 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 		}
 	}
 	if ChildrenDifferent {
-		diffs = append(diffs, "Children")
+		diffs = append(diffs, node.GongMarshallField(stage, "Children"))
 	}
 	ButtonsDifferent := false
 	if len(node.Buttons) != len(nodeOther.Buttons) {
@@ -546,7 +547,8 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 				ButtonsDifferent = true
 				break
 			} else if node.Buttons[i] != nil && nodeOther.Buttons[i] != nil {
-				if len(node.Buttons[i].GongDiff(nodeOther.Buttons[i])) > 0 {
+			 	// this is a pointer comparaison
+				if node.Buttons[i] != nodeOther.Buttons[i] {
 					ButtonsDifferent = true
 					break
 				}
@@ -554,7 +556,7 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 		}
 	}
 	if ButtonsDifferent {
-		diffs = append(diffs, "Buttons")
+		diffs = append(diffs, node.GongMarshallField(stage, "Buttons"))
 	}
 
 	return
@@ -562,13 +564,13 @@ func (node *Node) GongDiff(nodeOther *Node) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (svgicon *SVGIcon) GongDiff(svgiconOther *SVGIcon) (diffs []string) {
+func (svgicon *SVGIcon) GongDiff(stage *Stage, svgiconOther *SVGIcon) (diffs []string) {
 	// insertion point for field diffs
 	if svgicon.Name != svgiconOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, svgicon.GongMarshallField(stage, "Name"))
 	}
 	if svgicon.SVG != svgiconOther.SVG {
-		diffs = append(diffs, "SVG")
+		diffs = append(diffs, svgicon.GongMarshallField(stage, "SVG"))
 	}
 
 	return
@@ -576,10 +578,10 @@ func (svgicon *SVGIcon) GongDiff(svgiconOther *SVGIcon) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
+func (tree *Tree) GongDiff(stage *Stage, treeOther *Tree) (diffs []string) {
 	// insertion point for field diffs
 	if tree.Name != treeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, tree.GongMarshallField(stage, "Name"))
 	}
 	RootNodesDifferent := false
 	if len(tree.RootNodes) != len(treeOther.RootNodes) {
@@ -590,7 +592,8 @@ func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
 				RootNodesDifferent = true
 				break
 			} else if tree.RootNodes[i] != nil && treeOther.RootNodes[i] != nil {
-				if len(tree.RootNodes[i].GongDiff(treeOther.RootNodes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if tree.RootNodes[i] != treeOther.RootNodes[i] {
 					RootNodesDifferent = true
 					break
 				}
@@ -598,7 +601,7 @@ func (tree *Tree) GongDiff(treeOther *Tree) (diffs []string) {
 		}
 	}
 	if RootNodesDifferent {
-		diffs = append(diffs, "RootNodes")
+		diffs = append(diffs, tree.GongMarshallField(stage, "RootNodes"))
 	}
 
 	return
