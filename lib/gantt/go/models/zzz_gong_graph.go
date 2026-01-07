@@ -701,6 +701,12 @@ func (bar *Bar) GongDiff(barOther *Bar) (diffs []string) {
 	if bar.Name != barOther.Name {
 		diffs = append(diffs, "Name")
 	}
+	if bar.Start != barOther.Start {
+		diffs = append(diffs, "Start")
+	}
+	if bar.End != barOther.End {
+		diffs = append(diffs, "End")
+	}
 	if bar.ComputedDuration != barOther.ComputedDuration {
 		diffs = append(diffs, "ComputedDuration")
 	}
@@ -730,11 +736,23 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 	if gantt.Name != ganttOther.Name {
 		diffs = append(diffs, "Name")
 	}
+	if gantt.ComputedStart != ganttOther.ComputedStart {
+		diffs = append(diffs, "ComputedStart")
+	}
+	if gantt.ComputedEnd != ganttOther.ComputedEnd {
+		diffs = append(diffs, "ComputedEnd")
+	}
 	if gantt.ComputedDuration != ganttOther.ComputedDuration {
 		diffs = append(diffs, "ComputedDuration")
 	}
 	if gantt.UseManualStartAndEndDates != ganttOther.UseManualStartAndEndDates {
 		diffs = append(diffs, "UseManualStartAndEndDates")
+	}
+	if gantt.ManualStart != ganttOther.ManualStart {
+		diffs = append(diffs, "ManualStart")
+	}
+	if gantt.ManualEnd != ganttOther.ManualEnd {
+		diffs = append(diffs, "ManualEnd")
 	}
 	if gantt.LaneHeight != ganttOther.LaneHeight {
 		diffs = append(diffs, "LaneHeight")
@@ -957,6 +975,9 @@ func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string)
 	// insertion point for field diffs
 	if milestone.Name != milestoneOther.Name {
 		diffs = append(diffs, "Name")
+	}
+	if milestone.Date != milestoneOther.Date {
+		diffs = append(diffs, "Date")
 	}
 	if milestone.DisplayVerticalBar != milestoneOther.DisplayVerticalBar {
 		diffs = append(diffs, "DisplayVerticalBar")

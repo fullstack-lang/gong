@@ -314,10 +314,10 @@ func CodeGeneratorModelGongGraph(
 			for _, field := range gongStruct.Fields {
 
 				switch field := field.(type) {
-				case *models.GongBasicField:
+				case *models.GongBasicField, *models.GongTimeField:
 					fieldDiff += models.Replace1(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphBasicFieldDiff],
-						"{{FieldName}}", field.Name)
+						"{{FieldName}}", field.GetName())
 				case *models.PointerToGongStructField:
 					pointerStagingCode += models.Replace2(
 						GongGraphFileFieldFieldSubTemplateCode[GongGraphFileFieldSubTmplStagePointerField],

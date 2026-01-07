@@ -1608,6 +1608,9 @@ func (object *Object) GongDiff(objectOther *Object) (diffs []string) {
 	if object.Rank != objectOther.Rank {
 		diffs = append(diffs, "Rank")
 	}
+	if object.DOF != objectOther.DOF {
+		diffs = append(diffs, "DOF")
+	}
 	MessagesDifferent := false
 	if len(object.Messages) != len(objectOther.Messages) {
 		MessagesDifferent = true
