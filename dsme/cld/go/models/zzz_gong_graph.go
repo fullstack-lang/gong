@@ -1007,10 +1007,10 @@ func (stage *Stage) UnstageBranchInfluenceShape(influenceshape *InfluenceShape) 
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category1 *Category1) GongDiff(category1Other *Category1) (diffs []string) {
+func (category1 *Category1) GongDiff(stage *Stage, category1Other *Category1) (diffs []string) {
 	// insertion point for field diffs
 	if category1.Name != category1Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category1.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -1018,29 +1018,29 @@ func (category1 *Category1) GongDiff(category1Other *Category1) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category1shape *Category1Shape) GongDiff(category1shapeOther *Category1Shape) (diffs []string) {
+func (category1shape *Category1Shape) GongDiff(stage *Stage, category1shapeOther *Category1Shape) (diffs []string) {
 	// insertion point for field diffs
 	if category1shape.Name != category1shapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "Name"))
 	}
 	if (category1shape.Category1 == nil) != (category1shapeOther.Category1 == nil) {
 		diffs = append(diffs, "Category1")
 	} else if category1shape.Category1 != nil && category1shapeOther.Category1 != nil {
 		if category1shape.Category1 != category1shapeOther.Category1 {
-			diffs = append(diffs, "Category1")
+			diffs = append(diffs, category1shape.GongMarshallField(stage, "Category1"))
 		}
 	}
 	if category1shape.X != category1shapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "X"))
 	}
 	if category1shape.Y != category1shapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "Y"))
 	}
 	if category1shape.Width != category1shapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "Width"))
 	}
 	if category1shape.Height != category1shapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, category1shape.GongMarshallField(stage, "Height"))
 	}
 
 	return
@@ -1048,10 +1048,10 @@ func (category1shape *Category1Shape) GongDiff(category1shapeOther *Category1Sha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category2 *Category2) GongDiff(category2Other *Category2) (diffs []string) {
+func (category2 *Category2) GongDiff(stage *Stage, category2Other *Category2) (diffs []string) {
 	// insertion point for field diffs
 	if category2.Name != category2Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category2.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -1059,29 +1059,29 @@ func (category2 *Category2) GongDiff(category2Other *Category2) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category2shape *Category2Shape) GongDiff(category2shapeOther *Category2Shape) (diffs []string) {
+func (category2shape *Category2Shape) GongDiff(stage *Stage, category2shapeOther *Category2Shape) (diffs []string) {
 	// insertion point for field diffs
 	if category2shape.Name != category2shapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "Name"))
 	}
 	if (category2shape.Category2 == nil) != (category2shapeOther.Category2 == nil) {
 		diffs = append(diffs, "Category2")
 	} else if category2shape.Category2 != nil && category2shapeOther.Category2 != nil {
 		if category2shape.Category2 != category2shapeOther.Category2 {
-			diffs = append(diffs, "Category2")
+			diffs = append(diffs, category2shape.GongMarshallField(stage, "Category2"))
 		}
 	}
 	if category2shape.X != category2shapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "X"))
 	}
 	if category2shape.Y != category2shapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "Y"))
 	}
 	if category2shape.Width != category2shapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "Width"))
 	}
 	if category2shape.Height != category2shapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, category2shape.GongMarshallField(stage, "Height"))
 	}
 
 	return
@@ -1089,10 +1089,10 @@ func (category2shape *Category2Shape) GongDiff(category2shapeOther *Category2Sha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category3 *Category3) GongDiff(category3Other *Category3) (diffs []string) {
+func (category3 *Category3) GongDiff(stage *Stage, category3Other *Category3) (diffs []string) {
 	// insertion point for field diffs
 	if category3.Name != category3Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category3.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -1100,29 +1100,29 @@ func (category3 *Category3) GongDiff(category3Other *Category3) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (category3shape *Category3Shape) GongDiff(category3shapeOther *Category3Shape) (diffs []string) {
+func (category3shape *Category3Shape) GongDiff(stage *Stage, category3shapeOther *Category3Shape) (diffs []string) {
 	// insertion point for field diffs
 	if category3shape.Name != category3shapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "Name"))
 	}
 	if (category3shape.Category3 == nil) != (category3shapeOther.Category3 == nil) {
 		diffs = append(diffs, "Category3")
 	} else if category3shape.Category3 != nil && category3shapeOther.Category3 != nil {
 		if category3shape.Category3 != category3shapeOther.Category3 {
-			diffs = append(diffs, "Category3")
+			diffs = append(diffs, category3shape.GongMarshallField(stage, "Category3"))
 		}
 	}
 	if category3shape.X != category3shapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "X"))
 	}
 	if category3shape.Y != category3shapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "Y"))
 	}
 	if category3shape.Width != category3shapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "Width"))
 	}
 	if category3shape.Height != category3shapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, category3shape.GongMarshallField(stage, "Height"))
 	}
 
 	return
@@ -1130,19 +1130,19 @@ func (category3shape *Category3Shape) GongDiff(category3shapeOther *Category3Sha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (controlpointshape *ControlPointShape) GongDiff(controlpointshapeOther *ControlPointShape) (diffs []string) {
+func (controlpointshape *ControlPointShape) GongDiff(stage *Stage, controlpointshapeOther *ControlPointShape) (diffs []string) {
 	// insertion point for field diffs
 	if controlpointshape.Name != controlpointshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Name"))
 	}
 	if controlpointshape.X_Relative != controlpointshapeOther.X_Relative {
-		diffs = append(diffs, "X_Relative")
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "X_Relative"))
 	}
 	if controlpointshape.Y_Relative != controlpointshapeOther.Y_Relative {
-		diffs = append(diffs, "Y_Relative")
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "Y_Relative"))
 	}
 	if controlpointshape.IsStartShapeTheClosestShape != controlpointshapeOther.IsStartShapeTheClosestShape {
-		diffs = append(diffs, "IsStartShapeTheClosestShape")
+		diffs = append(diffs, controlpointshape.GongMarshallField(stage, "IsStartShapeTheClosestShape"))
 	}
 
 	return
@@ -1150,16 +1150,16 @@ func (controlpointshape *ControlPointShape) GongDiff(controlpointshapeOther *Con
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (desk *Desk) GongDiff(deskOther *Desk) (diffs []string) {
+func (desk *Desk) GongDiff(stage *Stage, deskOther *Desk) (diffs []string) {
 	// insertion point for field diffs
 	if desk.Name != deskOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, desk.GongMarshallField(stage, "Name"))
 	}
 	if (desk.SelectedDiagram == nil) != (deskOther.SelectedDiagram == nil) {
 		diffs = append(diffs, "SelectedDiagram")
 	} else if desk.SelectedDiagram != nil && deskOther.SelectedDiagram != nil {
 		if desk.SelectedDiagram != deskOther.SelectedDiagram {
-			diffs = append(diffs, "SelectedDiagram")
+			diffs = append(diffs, desk.GongMarshallField(stage, "SelectedDiagram"))
 		}
 	}
 
@@ -1168,10 +1168,10 @@ func (desk *Desk) GongDiff(deskOther *Desk) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
+func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []string) {
 	// insertion point for field diffs
 	if diagram.Name != diagramOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
 	}
 	Category1ShapesDifferent := false
 	if len(diagram.Category1Shapes) != len(diagramOther.Category1Shapes) {
@@ -1182,7 +1182,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Category1ShapesDifferent = true
 				break
 			} else if diagram.Category1Shapes[i] != nil && diagramOther.Category1Shapes[i] != nil {
-				if len(diagram.Category1Shapes[i].GongDiff(diagramOther.Category1Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Category1Shapes[i] != diagramOther.Category1Shapes[i] {
 					Category1ShapesDifferent = true
 					break
 				}
@@ -1190,7 +1191,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Category1ShapesDifferent {
-		diffs = append(diffs, "Category1Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1Shapes"))
 	}
 	Category2ShapesDifferent := false
 	if len(diagram.Category2Shapes) != len(diagramOther.Category2Shapes) {
@@ -1201,7 +1202,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Category2ShapesDifferent = true
 				break
 			} else if diagram.Category2Shapes[i] != nil && diagramOther.Category2Shapes[i] != nil {
-				if len(diagram.Category2Shapes[i].GongDiff(diagramOther.Category2Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Category2Shapes[i] != diagramOther.Category2Shapes[i] {
 					Category2ShapesDifferent = true
 					break
 				}
@@ -1209,7 +1211,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Category2ShapesDifferent {
-		diffs = append(diffs, "Category2Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2Shapes"))
 	}
 	Category3ShapesDifferent := false
 	if len(diagram.Category3Shapes) != len(diagramOther.Category3Shapes) {
@@ -1220,7 +1222,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Category3ShapesDifferent = true
 				break
 			} else if diagram.Category3Shapes[i] != nil && diagramOther.Category3Shapes[i] != nil {
-				if len(diagram.Category3Shapes[i].GongDiff(diagramOther.Category3Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Category3Shapes[i] != diagramOther.Category3Shapes[i] {
 					Category3ShapesDifferent = true
 					break
 				}
@@ -1228,7 +1231,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Category3ShapesDifferent {
-		diffs = append(diffs, "Category3Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3Shapes"))
 	}
 	InfluenceShapesDifferent := false
 	if len(diagram.InfluenceShapes) != len(diagramOther.InfluenceShapes) {
@@ -1239,7 +1242,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				InfluenceShapesDifferent = true
 				break
 			} else if diagram.InfluenceShapes[i] != nil && diagramOther.InfluenceShapes[i] != nil {
-				if len(diagram.InfluenceShapes[i].GongDiff(diagramOther.InfluenceShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.InfluenceShapes[i] != diagramOther.InfluenceShapes[i] {
 					InfluenceShapesDifferent = true
 					break
 				}
@@ -1247,154 +1251,154 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if InfluenceShapesDifferent {
-		diffs = append(diffs, "InfluenceShapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceShapes"))
 	}
 	if diagram.IsEditable != diagramOther.IsEditable {
-		diffs = append(diffs, "IsEditable")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable"))
 	}
 	if diagram.IsNodeExpanded != diagramOther.IsNodeExpanded {
-		diffs = append(diffs, "IsNodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNodeExpanded"))
 	}
 	if diagram.IsCategory1NodeExpanded != diagramOther.IsCategory1NodeExpanded {
-		diffs = append(diffs, "IsCategory1NodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory1NodeExpanded"))
 	}
 	if diagram.IsCategory2NodeExpanded != diagramOther.IsCategory2NodeExpanded {
-		diffs = append(diffs, "IsCategory2NodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory2NodeExpanded"))
 	}
 	if diagram.IsCategory3NodeExpanded != diagramOther.IsCategory3NodeExpanded {
-		diffs = append(diffs, "IsCategory3NodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory3NodeExpanded"))
 	}
 	if diagram.IsInfluenceCategoryNodeExpanded != diagramOther.IsInfluenceCategoryNodeExpanded {
-		diffs = append(diffs, "IsInfluenceCategoryNodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInfluenceCategoryNodeExpanded"))
 	}
 	if diagram.IsCategory1Shown != diagramOther.IsCategory1Shown {
-		diffs = append(diffs, "IsCategory1Shown")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory1Shown"))
 	}
 	if diagram.IsCategory2Shown != diagramOther.IsCategory2Shown {
-		diffs = append(diffs, "IsCategory2Shown")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory2Shown"))
 	}
 	if diagram.IsCategory3Shown != diagramOther.IsCategory3Shown {
-		diffs = append(diffs, "IsCategory3Shown")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsCategory3Shown"))
 	}
 	if diagram.IsInfluenceCategoryShown != diagramOther.IsInfluenceCategoryShown {
-		diffs = append(diffs, "IsInfluenceCategoryShown")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInfluenceCategoryShown"))
 	}
 	if diagram.XMargin != diagramOther.XMargin {
-		diffs = append(diffs, "XMargin")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "XMargin"))
 	}
 	if diagram.YMargin != diagramOther.YMargin {
-		diffs = append(diffs, "YMargin")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "YMargin"))
 	}
 	if diagram.Height != diagramOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Height"))
 	}
 	if diagram.Width != diagramOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Width"))
 	}
 	if diagram.NbPixPerCharacter != diagramOther.NbPixPerCharacter {
-		diffs = append(diffs, "NbPixPerCharacter")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
 	if diagram.RedColorCode != diagramOther.RedColorCode {
-		diffs = append(diffs, "RedColorCode")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "RedColorCode"))
 	}
 	if diagram.BackgroundGreyColorCode != diagramOther.BackgroundGreyColorCode {
-		diffs = append(diffs, "BackgroundGreyColorCode")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "BackgroundGreyColorCode"))
 	}
 	if diagram.GrayColorCode != diagramOther.GrayColorCode {
-		diffs = append(diffs, "GrayColorCode")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "GrayColorCode"))
 	}
 	if diagram.Category1RectAnchorType != diagramOther.Category1RectAnchorType {
-		diffs = append(diffs, "Category1RectAnchorType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1RectAnchorType"))
 	}
 	if diagram.Category1TextAnchorType != diagramOther.Category1TextAnchorType {
-		diffs = append(diffs, "Category1TextAnchorType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1TextAnchorType"))
 	}
 	if diagram.Category1DominantBaselineType != diagramOther.Category1DominantBaselineType {
-		diffs = append(diffs, "Category1DominantBaselineType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1DominantBaselineType"))
 	}
 	if diagram.Category1FontSize != diagramOther.Category1FontSize {
-		diffs = append(diffs, "Category1FontSize")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1FontSize"))
 	}
 	if diagram.Category1FontWeigth != diagramOther.Category1FontWeigth {
-		diffs = append(diffs, "Category1FontWeigth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1FontWeigth"))
 	}
 	if diagram.Category1FontFamily != diagramOther.Category1FontFamily {
-		diffs = append(diffs, "Category1FontFamily")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1FontFamily"))
 	}
 	if diagram.Category1LetterSpacing != diagramOther.Category1LetterSpacing {
-		diffs = append(diffs, "Category1LetterSpacing")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category1LetterSpacing"))
 	}
 	if diagram.Category2TypeFontSize != diagramOther.Category2TypeFontSize {
-		diffs = append(diffs, "Category2TypeFontSize")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2TypeFontSize"))
 	}
 	if diagram.Category2TypeFontWeigth != diagramOther.Category2TypeFontWeigth {
-		diffs = append(diffs, "Category2TypeFontWeigth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2TypeFontWeigth"))
 	}
 	if diagram.Category2TypeFontFamily != diagramOther.Category2TypeFontFamily {
-		diffs = append(diffs, "Category2TypeFontFamily")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2TypeFontFamily"))
 	}
 	if diagram.Category2TypeLetterSpacing != diagramOther.Category2TypeLetterSpacing {
-		diffs = append(diffs, "Category2TypeLetterSpacing")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2TypeLetterSpacing"))
 	}
 	if diagram.Category2TypeRectAnchorType != diagramOther.Category2TypeRectAnchorType {
-		diffs = append(diffs, "Category2TypeRectAnchorType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2TypeRectAnchorType"))
 	}
 	if diagram.Category2DominantBaselineType != diagramOther.Category2DominantBaselineType {
-		diffs = append(diffs, "Category2DominantBaselineType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2DominantBaselineType"))
 	}
 	if diagram.Category2StrokeWidth != diagramOther.Category2StrokeWidth {
-		diffs = append(diffs, "Category2StrokeWidth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category2StrokeWidth"))
 	}
 	if diagram.Category3RectAnchorType != diagramOther.Category3RectAnchorType {
-		diffs = append(diffs, "Category3RectAnchorType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3RectAnchorType"))
 	}
 	if diagram.Category3TextAnchorType != diagramOther.Category3TextAnchorType {
-		diffs = append(diffs, "Category3TextAnchorType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3TextAnchorType"))
 	}
 	if diagram.Category3DominantBaselineType != diagramOther.Category3DominantBaselineType {
-		diffs = append(diffs, "Category3DominantBaselineType")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3DominantBaselineType"))
 	}
 	if diagram.Category3FontSize != diagramOther.Category3FontSize {
-		diffs = append(diffs, "Category3FontSize")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3FontSize"))
 	}
 	if diagram.Category3FontWeigth != diagramOther.Category3FontWeigth {
-		diffs = append(diffs, "Category3FontWeigth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3FontWeigth"))
 	}
 	if diagram.Category3FontFamily != diagramOther.Category3FontFamily {
-		diffs = append(diffs, "Category3FontFamily")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3FontFamily"))
 	}
 	if diagram.Category3LetterSpacing != diagramOther.Category3LetterSpacing {
-		diffs = append(diffs, "Category3LetterSpacing")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Category3LetterSpacing"))
 	}
 	if diagram.InfluenceStrokeWidth != diagramOther.InfluenceStrokeWidth {
-		diffs = append(diffs, "InfluenceStrokeWidth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceStrokeWidth"))
 	}
 	if diagram.InfluenceArrowSize != diagramOther.InfluenceArrowSize {
-		diffs = append(diffs, "InfluenceArrowSize")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceArrowSize"))
 	}
 	if diagram.InfluenceArrowStartOffset != diagramOther.InfluenceArrowStartOffset {
-		diffs = append(diffs, "InfluenceArrowStartOffset")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceArrowStartOffset"))
 	}
 	if diagram.InfluenceArrowEndOffset != diagramOther.InfluenceArrowEndOffset {
-		diffs = append(diffs, "InfluenceArrowEndOffset")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceArrowEndOffset"))
 	}
 	if diagram.InfluenceCornerRadius != diagramOther.InfluenceCornerRadius {
-		diffs = append(diffs, "InfluenceCornerRadius")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceCornerRadius"))
 	}
 	if diagram.InfluenceFontSize != diagramOther.InfluenceFontSize {
-		diffs = append(diffs, "InfluenceFontSize")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceFontSize"))
 	}
 	if diagram.InfluenceFontWeigth != diagramOther.InfluenceFontWeigth {
-		diffs = append(diffs, "InfluenceFontWeigth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceFontWeigth"))
 	}
 	if diagram.InfluenceFontFamily != diagramOther.InfluenceFontFamily {
-		diffs = append(diffs, "InfluenceFontFamily")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceFontFamily"))
 	}
 	if diagram.InfluenceLetterSpacing != diagramOther.InfluenceLetterSpacing {
-		diffs = append(diffs, "InfluenceLetterSpacing")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceLetterSpacing"))
 	}
 	if diagram.InfluenceDashedLinePattern != diagramOther.InfluenceDashedLinePattern {
-		diffs = append(diffs, "InfluenceDashedLinePattern")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "InfluenceDashedLinePattern"))
 	}
 
 	return
@@ -1402,58 +1406,58 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (influence *Influence) GongDiff(influenceOther *Influence) (diffs []string) {
+func (influence *Influence) GongDiff(stage *Stage, influenceOther *Influence) (diffs []string) {
 	// insertion point for field diffs
 	if influence.Name != influenceOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, influence.GongMarshallField(stage, "Name"))
 	}
 	if (influence.SourceCategory1 == nil) != (influenceOther.SourceCategory1 == nil) {
 		diffs = append(diffs, "SourceCategory1")
 	} else if influence.SourceCategory1 != nil && influenceOther.SourceCategory1 != nil {
 		if influence.SourceCategory1 != influenceOther.SourceCategory1 {
-			diffs = append(diffs, "SourceCategory1")
+			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory1"))
 		}
 	}
 	if (influence.SourceCategory2 == nil) != (influenceOther.SourceCategory2 == nil) {
 		diffs = append(diffs, "SourceCategory2")
 	} else if influence.SourceCategory2 != nil && influenceOther.SourceCategory2 != nil {
 		if influence.SourceCategory2 != influenceOther.SourceCategory2 {
-			diffs = append(diffs, "SourceCategory2")
+			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory2"))
 		}
 	}
 	if (influence.SourceCategory3 == nil) != (influenceOther.SourceCategory3 == nil) {
 		diffs = append(diffs, "SourceCategory3")
 	} else if influence.SourceCategory3 != nil && influenceOther.SourceCategory3 != nil {
 		if influence.SourceCategory3 != influenceOther.SourceCategory3 {
-			diffs = append(diffs, "SourceCategory3")
+			diffs = append(diffs, influence.GongMarshallField(stage, "SourceCategory3"))
 		}
 	}
 	if (influence.TargetCategory1 == nil) != (influenceOther.TargetCategory1 == nil) {
 		diffs = append(diffs, "TargetCategory1")
 	} else if influence.TargetCategory1 != nil && influenceOther.TargetCategory1 != nil {
 		if influence.TargetCategory1 != influenceOther.TargetCategory1 {
-			diffs = append(diffs, "TargetCategory1")
+			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory1"))
 		}
 	}
 	if (influence.TargetCategory2 == nil) != (influenceOther.TargetCategory2 == nil) {
 		diffs = append(diffs, "TargetCategory2")
 	} else if influence.TargetCategory2 != nil && influenceOther.TargetCategory2 != nil {
 		if influence.TargetCategory2 != influenceOther.TargetCategory2 {
-			diffs = append(diffs, "TargetCategory2")
+			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory2"))
 		}
 	}
 	if (influence.TargetCategory3 == nil) != (influenceOther.TargetCategory3 == nil) {
 		diffs = append(diffs, "TargetCategory3")
 	} else if influence.TargetCategory3 != nil && influenceOther.TargetCategory3 != nil {
 		if influence.TargetCategory3 != influenceOther.TargetCategory3 {
-			diffs = append(diffs, "TargetCategory3")
+			diffs = append(diffs, influence.GongMarshallField(stage, "TargetCategory3"))
 		}
 	}
 	if influence.IsHypothtical != influenceOther.IsHypothtical {
-		diffs = append(diffs, "IsHypothtical")
+		diffs = append(diffs, influence.GongMarshallField(stage, "IsHypothtical"))
 	}
 	if influence.TextAtEndOfArrow != influenceOther.TextAtEndOfArrow {
-		diffs = append(diffs, "TextAtEndOfArrow")
+		diffs = append(diffs, influence.GongMarshallField(stage, "TextAtEndOfArrow"))
 	}
 
 	return
@@ -1461,16 +1465,16 @@ func (influence *Influence) GongDiff(influenceOther *Influence) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (influenceshape *InfluenceShape) GongDiff(influenceshapeOther *InfluenceShape) (diffs []string) {
+func (influenceshape *InfluenceShape) GongDiff(stage *Stage, influenceshapeOther *InfluenceShape) (diffs []string) {
 	// insertion point for field diffs
 	if influenceshape.Name != influenceshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, influenceshape.GongMarshallField(stage, "Name"))
 	}
 	if (influenceshape.Influence == nil) != (influenceshapeOther.Influence == nil) {
 		diffs = append(diffs, "Influence")
 	} else if influenceshape.Influence != nil && influenceshapeOther.Influence != nil {
 		if influenceshape.Influence != influenceshapeOther.Influence {
-			diffs = append(diffs, "Influence")
+			diffs = append(diffs, influenceshape.GongMarshallField(stage, "Influence"))
 		}
 	}
 	ControlPointShapesDifferent := false
@@ -1482,7 +1486,8 @@ func (influenceshape *InfluenceShape) GongDiff(influenceshapeOther *InfluenceSha
 				ControlPointShapesDifferent = true
 				break
 			} else if influenceshape.ControlPointShapes[i] != nil && influenceshapeOther.ControlPointShapes[i] != nil {
-				if len(influenceshape.ControlPointShapes[i].GongDiff(influenceshapeOther.ControlPointShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if influenceshape.ControlPointShapes[i] != influenceshapeOther.ControlPointShapes[i] {
 					ControlPointShapesDifferent = true
 					break
 				}
@@ -1490,7 +1495,7 @@ func (influenceshape *InfluenceShape) GongDiff(influenceshapeOther *InfluenceSha
 		}
 	}
 	if ControlPointShapesDifferent {
-		diffs = append(diffs, "ControlPointShapes")
+		diffs = append(diffs, influenceshape.GongMarshallField(stage, "ControlPointShapes"))
 	}
 
 	return

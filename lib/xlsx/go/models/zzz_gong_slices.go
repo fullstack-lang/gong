@@ -115,8 +115,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var displayselections_newInstances []*DisplaySelection
@@ -126,36 +131,16 @@ func (stage *Stage) ComputeDifference() {
 	for displayselection := range stage.DisplaySelections {
 		if ref, ok := stage.DisplaySelections_reference[displayselection]; !ok {
 			displayselections_newInstances = append(displayselections_newInstances, displayselection)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of DisplaySelection "+displayselection.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					displayselection.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := displayselection.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += displayselection.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := displayselection.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := displayselection.GongDiff(ref)
+			diffs := displayselection.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of DisplaySelection \""+displayselection.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							displayselection.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", displayselection.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -166,12 +151,7 @@ func (stage *Stage) ComputeDifference() {
 	for displayselection := range stage.DisplaySelections_reference {
 		if _, ok := stage.DisplaySelections[displayselection]; !ok {
 			displayselections_deletedInstances = append(displayselections_deletedInstances, displayselection)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					displayselection.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += displayselection.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -184,36 +164,16 @@ func (stage *Stage) ComputeDifference() {
 	for xlcell := range stage.XLCells {
 		if ref, ok := stage.XLCells_reference[xlcell]; !ok {
 			xlcells_newInstances = append(xlcells_newInstances, xlcell)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of XLCell "+xlcell.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlcell.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := xlcell.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += xlcell.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := xlcell.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := xlcell.GongDiff(ref)
+			diffs := xlcell.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of XLCell \""+xlcell.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							xlcell.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlcell.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -224,12 +184,7 @@ func (stage *Stage) ComputeDifference() {
 	for xlcell := range stage.XLCells_reference {
 		if _, ok := stage.XLCells[xlcell]; !ok {
 			xlcells_deletedInstances = append(xlcells_deletedInstances, xlcell)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlcell.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += xlcell.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -242,36 +197,16 @@ func (stage *Stage) ComputeDifference() {
 	for xlfile := range stage.XLFiles {
 		if ref, ok := stage.XLFiles_reference[xlfile]; !ok {
 			xlfiles_newInstances = append(xlfiles_newInstances, xlfile)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of XLFile "+xlfile.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlfile.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := xlfile.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += xlfile.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := xlfile.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := xlfile.GongDiff(ref)
+			diffs := xlfile.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of XLFile \""+xlfile.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							xlfile.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlfile.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -282,12 +217,7 @@ func (stage *Stage) ComputeDifference() {
 	for xlfile := range stage.XLFiles_reference {
 		if _, ok := stage.XLFiles[xlfile]; !ok {
 			xlfiles_deletedInstances = append(xlfiles_deletedInstances, xlfile)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlfile.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += xlfile.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -300,36 +230,16 @@ func (stage *Stage) ComputeDifference() {
 	for xlrow := range stage.XLRows {
 		if ref, ok := stage.XLRows_reference[xlrow]; !ok {
 			xlrows_newInstances = append(xlrows_newInstances, xlrow)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of XLRow "+xlrow.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlrow.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := xlrow.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += xlrow.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := xlrow.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := xlrow.GongDiff(ref)
+			diffs := xlrow.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of XLRow \""+xlrow.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							xlrow.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlrow.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -340,12 +250,7 @@ func (stage *Stage) ComputeDifference() {
 	for xlrow := range stage.XLRows_reference {
 		if _, ok := stage.XLRows[xlrow]; !ok {
 			xlrows_deletedInstances = append(xlrows_deletedInstances, xlrow)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlrow.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += xlrow.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -358,36 +263,16 @@ func (stage *Stage) ComputeDifference() {
 	for xlsheet := range stage.XLSheets {
 		if ref, ok := stage.XLSheets_reference[xlsheet]; !ok {
 			xlsheets_newInstances = append(xlsheets_newInstances, xlsheet)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of XLSheet "+xlsheet.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlsheet.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := xlsheet.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += xlsheet.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := xlsheet.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := xlsheet.GongDiff(ref)
+			diffs := xlsheet.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of XLSheet \""+xlsheet.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							xlsheet.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlsheet.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -398,12 +283,7 @@ func (stage *Stage) ComputeDifference() {
 	for xlsheet := range stage.XLSheets_reference {
 		if _, ok := stage.XLSheets[xlsheet]; !ok {
 			xlsheets_deletedInstances = append(xlsheets_deletedInstances, xlsheet)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					xlsheet.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += xlsheet.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -411,16 +291,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}

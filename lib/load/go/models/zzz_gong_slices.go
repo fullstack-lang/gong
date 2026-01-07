@@ -63,8 +63,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var filetodownloads_newInstances []*FileToDownload
@@ -74,36 +79,16 @@ func (stage *Stage) ComputeDifference() {
 	for filetodownload := range stage.FileToDownloads {
 		if ref, ok := stage.FileToDownloads_reference[filetodownload]; !ok {
 			filetodownloads_newInstances = append(filetodownloads_newInstances, filetodownload)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FileToDownload "+filetodownload.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					filetodownload.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += filetodownload.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := filetodownload.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := filetodownload.GongDiff(ref)
+			diffs := filetodownload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FileToDownload \""+filetodownload.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							filetodownload.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetodownload.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -114,12 +99,7 @@ func (stage *Stage) ComputeDifference() {
 	for filetodownload := range stage.FileToDownloads_reference {
 		if _, ok := stage.FileToDownloads[filetodownload]; !ok {
 			filetodownloads_deletedInstances = append(filetodownloads_deletedInstances, filetodownload)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					filetodownload.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += filetodownload.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -132,36 +112,16 @@ func (stage *Stage) ComputeDifference() {
 	for filetoupload := range stage.FileToUploads {
 		if ref, ok := stage.FileToUploads_reference[filetoupload]; !ok {
 			filetouploads_newInstances = append(filetouploads_newInstances, filetoupload)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FileToUpload "+filetoupload.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					filetoupload.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += filetoupload.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := filetoupload.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := filetoupload.GongDiff(ref)
+			diffs := filetoupload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FileToUpload \""+filetoupload.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							filetoupload.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetoupload.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -172,12 +132,7 @@ func (stage *Stage) ComputeDifference() {
 	for filetoupload := range stage.FileToUploads_reference {
 		if _, ok := stage.FileToUploads[filetoupload]; !ok {
 			filetouploads_deletedInstances = append(filetouploads_deletedInstances, filetoupload)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					filetoupload.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += filetoupload.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -190,36 +145,16 @@ func (stage *Stage) ComputeDifference() {
 	for message := range stage.Messages {
 		if ref, ok := stage.Messages_reference[message]; !ok {
 			messages_newInstances = append(messages_newInstances, message)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Message "+message.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					message.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += message.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := message.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := message.GongDiff(ref)
+			diffs := message.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Message \""+message.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							message.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", message.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -230,12 +165,7 @@ func (stage *Stage) ComputeDifference() {
 	for message := range stage.Messages_reference {
 		if _, ok := stage.Messages[message]; !ok {
 			messages_deletedInstances = append(messages_deletedInstances, message)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					message.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += message.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -243,16 +173,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(messages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}

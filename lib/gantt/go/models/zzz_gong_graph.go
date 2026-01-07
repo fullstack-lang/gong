@@ -665,30 +665,30 @@ func (stage *Stage) UnstageBranchMilestone(milestone *Milestone) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (arrow *Arrow) GongDiff(arrowOther *Arrow) (diffs []string) {
+func (arrow *Arrow) GongDiff(stage *Stage, arrowOther *Arrow) (diffs []string) {
 	// insertion point for field diffs
 	if arrow.Name != arrowOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, arrow.GongMarshallField(stage, "Name"))
 	}
 	if (arrow.From == nil) != (arrowOther.From == nil) {
 		diffs = append(diffs, "From")
 	} else if arrow.From != nil && arrowOther.From != nil {
 		if arrow.From != arrowOther.From {
-			diffs = append(diffs, "From")
+			diffs = append(diffs, arrow.GongMarshallField(stage, "From"))
 		}
 	}
 	if (arrow.To == nil) != (arrowOther.To == nil) {
 		diffs = append(diffs, "To")
 	} else if arrow.To != nil && arrowOther.To != nil {
 		if arrow.To != arrowOther.To {
-			diffs = append(diffs, "To")
+			diffs = append(diffs, arrow.GongMarshallField(stage, "To"))
 		}
 	}
 	if arrow.OptionnalColor != arrowOther.OptionnalColor {
-		diffs = append(diffs, "OptionnalColor")
+		diffs = append(diffs, arrow.GongMarshallField(stage, "OptionnalColor"))
 	}
 	if arrow.OptionnalStroke != arrowOther.OptionnalStroke {
-		diffs = append(diffs, "OptionnalStroke")
+		diffs = append(diffs, arrow.GongMarshallField(stage, "OptionnalStroke"))
 	}
 
 	return
@@ -696,34 +696,34 @@ func (arrow *Arrow) GongDiff(arrowOther *Arrow) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (bar *Bar) GongDiff(barOther *Bar) (diffs []string) {
+func (bar *Bar) GongDiff(stage *Stage, barOther *Bar) (diffs []string) {
 	// insertion point for field diffs
 	if bar.Name != barOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, bar.GongMarshallField(stage, "Name"))
 	}
 	if bar.Start != barOther.Start {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, bar.GongMarshallField(stage, "Start"))
 	}
 	if bar.End != barOther.End {
-		diffs = append(diffs, "End")
+		diffs = append(diffs, bar.GongMarshallField(stage, "End"))
 	}
 	if bar.ComputedDuration != barOther.ComputedDuration {
-		diffs = append(diffs, "ComputedDuration")
+		diffs = append(diffs, bar.GongMarshallField(stage, "ComputedDuration"))
 	}
 	if bar.OptionnalColor != barOther.OptionnalColor {
-		diffs = append(diffs, "OptionnalColor")
+		diffs = append(diffs, bar.GongMarshallField(stage, "OptionnalColor"))
 	}
 	if bar.OptionnalStroke != barOther.OptionnalStroke {
-		diffs = append(diffs, "OptionnalStroke")
+		diffs = append(diffs, bar.GongMarshallField(stage, "OptionnalStroke"))
 	}
 	if bar.FillOpacity != barOther.FillOpacity {
-		diffs = append(diffs, "FillOpacity")
+		diffs = append(diffs, bar.GongMarshallField(stage, "FillOpacity"))
 	}
 	if bar.StrokeWidth != barOther.StrokeWidth {
-		diffs = append(diffs, "StrokeWidth")
+		diffs = append(diffs, bar.GongMarshallField(stage, "StrokeWidth"))
 	}
 	if bar.StrokeDashArray != barOther.StrokeDashArray {
-		diffs = append(diffs, "StrokeDashArray")
+		diffs = append(diffs, bar.GongMarshallField(stage, "StrokeDashArray"))
 	}
 
 	return
@@ -731,82 +731,82 @@ func (bar *Bar) GongDiff(barOther *Bar) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
+func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 	// insertion point for field diffs
 	if gantt.Name != ganttOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Name"))
 	}
 	if gantt.ComputedStart != ganttOther.ComputedStart {
-		diffs = append(diffs, "ComputedStart")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ComputedStart"))
 	}
 	if gantt.ComputedEnd != ganttOther.ComputedEnd {
-		diffs = append(diffs, "ComputedEnd")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ComputedEnd"))
 	}
 	if gantt.ComputedDuration != ganttOther.ComputedDuration {
-		diffs = append(diffs, "ComputedDuration")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ComputedDuration"))
 	}
 	if gantt.UseManualStartAndEndDates != ganttOther.UseManualStartAndEndDates {
-		diffs = append(diffs, "UseManualStartAndEndDates")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "UseManualStartAndEndDates"))
 	}
 	if gantt.ManualStart != ganttOther.ManualStart {
-		diffs = append(diffs, "ManualStart")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ManualStart"))
 	}
 	if gantt.ManualEnd != ganttOther.ManualEnd {
-		diffs = append(diffs, "ManualEnd")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ManualEnd"))
 	}
 	if gantt.LaneHeight != ganttOther.LaneHeight {
-		diffs = append(diffs, "LaneHeight")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "LaneHeight"))
 	}
 	if gantt.RatioBarToLaneHeight != ganttOther.RatioBarToLaneHeight {
-		diffs = append(diffs, "RatioBarToLaneHeight")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "RatioBarToLaneHeight"))
 	}
 	if gantt.YTopMargin != ganttOther.YTopMargin {
-		diffs = append(diffs, "YTopMargin")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "YTopMargin"))
 	}
 	if gantt.XLeftText != ganttOther.XLeftText {
-		diffs = append(diffs, "XLeftText")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "XLeftText"))
 	}
 	if gantt.TextHeight != ganttOther.TextHeight {
-		diffs = append(diffs, "TextHeight")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "TextHeight"))
 	}
 	if gantt.XLeftLanes != ganttOther.XLeftLanes {
-		diffs = append(diffs, "XLeftLanes")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "XLeftLanes"))
 	}
 	if gantt.XRightMargin != ganttOther.XRightMargin {
-		diffs = append(diffs, "XRightMargin")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "XRightMargin"))
 	}
 	if gantt.ArrowLengthToTheRightOfStartBar != ganttOther.ArrowLengthToTheRightOfStartBar {
-		diffs = append(diffs, "ArrowLengthToTheRightOfStartBar")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ArrowLengthToTheRightOfStartBar"))
 	}
 	if gantt.ArrowTipLenght != ganttOther.ArrowTipLenght {
-		diffs = append(diffs, "ArrowTipLenght")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "ArrowTipLenght"))
 	}
 	if gantt.TimeLine_Color != ganttOther.TimeLine_Color {
-		diffs = append(diffs, "TimeLine_Color")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "TimeLine_Color"))
 	}
 	if gantt.TimeLine_FillOpacity != ganttOther.TimeLine_FillOpacity {
-		diffs = append(diffs, "TimeLine_FillOpacity")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "TimeLine_FillOpacity"))
 	}
 	if gantt.TimeLine_Stroke != ganttOther.TimeLine_Stroke {
-		diffs = append(diffs, "TimeLine_Stroke")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "TimeLine_Stroke"))
 	}
 	if gantt.TimeLine_StrokeWidth != ganttOther.TimeLine_StrokeWidth {
-		diffs = append(diffs, "TimeLine_StrokeWidth")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "TimeLine_StrokeWidth"))
 	}
 	if gantt.Group_Stroke != ganttOther.Group_Stroke {
-		diffs = append(diffs, "Group_Stroke")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Group_Stroke"))
 	}
 	if gantt.Group_StrokeWidth != ganttOther.Group_StrokeWidth {
-		diffs = append(diffs, "Group_StrokeWidth")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Group_StrokeWidth"))
 	}
 	if gantt.Group_StrokeDashArray != ganttOther.Group_StrokeDashArray {
-		diffs = append(diffs, "Group_StrokeDashArray")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Group_StrokeDashArray"))
 	}
 	if gantt.DateYOffset != ganttOther.DateYOffset {
-		diffs = append(diffs, "DateYOffset")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "DateYOffset"))
 	}
 	if gantt.AlignOnStartEndOnYearStart != ganttOther.AlignOnStartEndOnYearStart {
-		diffs = append(diffs, "AlignOnStartEndOnYearStart")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "AlignOnStartEndOnYearStart"))
 	}
 	LanesDifferent := false
 	if len(gantt.Lanes) != len(ganttOther.Lanes) {
@@ -817,7 +817,8 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 				LanesDifferent = true
 				break
 			} else if gantt.Lanes[i] != nil && ganttOther.Lanes[i] != nil {
-				if len(gantt.Lanes[i].GongDiff(ganttOther.Lanes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gantt.Lanes[i] != ganttOther.Lanes[i] {
 					LanesDifferent = true
 					break
 				}
@@ -825,7 +826,7 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if LanesDifferent {
-		diffs = append(diffs, "Lanes")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Lanes"))
 	}
 	MilestonesDifferent := false
 	if len(gantt.Milestones) != len(ganttOther.Milestones) {
@@ -836,7 +837,8 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 				MilestonesDifferent = true
 				break
 			} else if gantt.Milestones[i] != nil && ganttOther.Milestones[i] != nil {
-				if len(gantt.Milestones[i].GongDiff(ganttOther.Milestones[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gantt.Milestones[i] != ganttOther.Milestones[i] {
 					MilestonesDifferent = true
 					break
 				}
@@ -844,7 +846,7 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if MilestonesDifferent {
-		diffs = append(diffs, "Milestones")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Milestones"))
 	}
 	GroupsDifferent := false
 	if len(gantt.Groups) != len(ganttOther.Groups) {
@@ -855,7 +857,8 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 				GroupsDifferent = true
 				break
 			} else if gantt.Groups[i] != nil && ganttOther.Groups[i] != nil {
-				if len(gantt.Groups[i].GongDiff(ganttOther.Groups[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gantt.Groups[i] != ganttOther.Groups[i] {
 					GroupsDifferent = true
 					break
 				}
@@ -863,7 +866,7 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		diffs = append(diffs, "Groups")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Groups"))
 	}
 	ArrowsDifferent := false
 	if len(gantt.Arrows) != len(ganttOther.Arrows) {
@@ -874,7 +877,8 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 				ArrowsDifferent = true
 				break
 			} else if gantt.Arrows[i] != nil && ganttOther.Arrows[i] != nil {
-				if len(gantt.Arrows[i].GongDiff(ganttOther.Arrows[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gantt.Arrows[i] != ganttOther.Arrows[i] {
 					ArrowsDifferent = true
 					break
 				}
@@ -882,7 +886,7 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if ArrowsDifferent {
-		diffs = append(diffs, "Arrows")
+		diffs = append(diffs, gantt.GongMarshallField(stage, "Arrows"))
 	}
 
 	return
@@ -890,10 +894,10 @@ func (gantt *Gantt) GongDiff(ganttOther *Gantt) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
+func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 	// insertion point for field diffs
 	if group.Name != groupOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, group.GongMarshallField(stage, "Name"))
 	}
 	GroupLanesDifferent := false
 	if len(group.GroupLanes) != len(groupOther.GroupLanes) {
@@ -904,7 +908,8 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 				GroupLanesDifferent = true
 				break
 			} else if group.GroupLanes[i] != nil && groupOther.GroupLanes[i] != nil {
-				if len(group.GroupLanes[i].GongDiff(groupOther.GroupLanes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if group.GroupLanes[i] != groupOther.GroupLanes[i] {
 					GroupLanesDifferent = true
 					break
 				}
@@ -912,7 +917,7 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupLanesDifferent {
-		diffs = append(diffs, "GroupLanes")
+		diffs = append(diffs, group.GongMarshallField(stage, "GroupLanes"))
 	}
 
 	return
@@ -920,13 +925,13 @@ func (group *Group) GongDiff(groupOther *Group) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
+func (lane *Lane) GongDiff(stage *Stage, laneOther *Lane) (diffs []string) {
 	// insertion point for field diffs
 	if lane.Name != laneOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, lane.GongMarshallField(stage, "Name"))
 	}
 	if lane.Order != laneOther.Order {
-		diffs = append(diffs, "Order")
+		diffs = append(diffs, lane.GongMarshallField(stage, "Order"))
 	}
 	BarsDifferent := false
 	if len(lane.Bars) != len(laneOther.Bars) {
@@ -937,7 +942,8 @@ func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
 				BarsDifferent = true
 				break
 			} else if lane.Bars[i] != nil && laneOther.Bars[i] != nil {
-				if len(lane.Bars[i].GongDiff(laneOther.Bars[i])) > 0 {
+			 	// this is a pointer comparaison
+				if lane.Bars[i] != laneOther.Bars[i] {
 					BarsDifferent = true
 					break
 				}
@@ -945,7 +951,7 @@ func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
 		}
 	}
 	if BarsDifferent {
-		diffs = append(diffs, "Bars")
+		diffs = append(diffs, lane.GongMarshallField(stage, "Bars"))
 	}
 
 	return
@@ -953,16 +959,16 @@ func (lane *Lane) GongDiff(laneOther *Lane) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (laneuse *LaneUse) GongDiff(laneuseOther *LaneUse) (diffs []string) {
+func (laneuse *LaneUse) GongDiff(stage *Stage, laneuseOther *LaneUse) (diffs []string) {
 	// insertion point for field diffs
 	if laneuse.Name != laneuseOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, laneuse.GongMarshallField(stage, "Name"))
 	}
 	if (laneuse.Lane == nil) != (laneuseOther.Lane == nil) {
 		diffs = append(diffs, "Lane")
 	} else if laneuse.Lane != nil && laneuseOther.Lane != nil {
 		if laneuse.Lane != laneuseOther.Lane {
-			diffs = append(diffs, "Lane")
+			diffs = append(diffs, laneuse.GongMarshallField(stage, "Lane"))
 		}
 	}
 
@@ -971,16 +977,16 @@ func (laneuse *LaneUse) GongDiff(laneuseOther *LaneUse) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string) {
+func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (diffs []string) {
 	// insertion point for field diffs
 	if milestone.Name != milestoneOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, milestone.GongMarshallField(stage, "Name"))
 	}
 	if milestone.Date != milestoneOther.Date {
-		diffs = append(diffs, "Date")
+		diffs = append(diffs, milestone.GongMarshallField(stage, "Date"))
 	}
 	if milestone.DisplayVerticalBar != milestoneOther.DisplayVerticalBar {
-		diffs = append(diffs, "DisplayVerticalBar")
+		diffs = append(diffs, milestone.GongMarshallField(stage, "DisplayVerticalBar"))
 	}
 	LanesToDisplayDifferent := false
 	if len(milestone.LanesToDisplay) != len(milestoneOther.LanesToDisplay) {
@@ -991,7 +997,8 @@ func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string)
 				LanesToDisplayDifferent = true
 				break
 			} else if milestone.LanesToDisplay[i] != nil && milestoneOther.LanesToDisplay[i] != nil {
-				if len(milestone.LanesToDisplay[i].GongDiff(milestoneOther.LanesToDisplay[i])) > 0 {
+			 	// this is a pointer comparaison
+				if milestone.LanesToDisplay[i] != milestoneOther.LanesToDisplay[i] {
 					LanesToDisplayDifferent = true
 					break
 				}
@@ -999,7 +1006,7 @@ func (milestone *Milestone) GongDiff(milestoneOther *Milestone) (diffs []string)
 		}
 	}
 	if LanesToDisplayDifferent {
-		diffs = append(diffs, "LanesToDisplay")
+		diffs = append(diffs, milestone.GongMarshallField(stage, "LanesToDisplay"))
 	}
 
 	return

@@ -1511,34 +1511,34 @@ func (stage *Stage) UnstageBranchTaskShape(taskshape *TaskShape) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
+func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []string) {
 	// insertion point for field diffs
 	if diagram.Name != diagramOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Name"))
 	}
 	if diagram.IsChecked != diagramOther.IsChecked {
-		diffs = append(diffs, "IsChecked")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsChecked"))
 	}
 	if diagram.IsEditable_ != diagramOther.IsEditable_ {
-		diffs = append(diffs, "IsEditable_")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsEditable_"))
 	}
 	if diagram.IsInRenameMode != diagramOther.IsInRenameMode {
-		diffs = append(diffs, "IsInRenameMode")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsInRenameMode"))
 	}
 	if diagram.ShowPrefix != diagramOther.ShowPrefix {
-		diffs = append(diffs, "ShowPrefix")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ShowPrefix"))
 	}
 	if diagram.DefaultBoxWidth != diagramOther.DefaultBoxWidth {
-		diffs = append(diffs, "DefaultBoxWidth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxWidth"))
 	}
 	if diagram.DefaultBoxHeigth != diagramOther.DefaultBoxHeigth {
-		diffs = append(diffs, "DefaultBoxHeigth")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "DefaultBoxHeigth"))
 	}
 	if diagram.IsExpanded != diagramOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsExpanded"))
 	}
 	if diagram.ComputedPrefix != diagramOther.ComputedPrefix {
-		diffs = append(diffs, "ComputedPrefix")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	Product_ShapesDifferent := false
 	if len(diagram.Product_Shapes) != len(diagramOther.Product_Shapes) {
@@ -1549,7 +1549,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Product_ShapesDifferent = true
 				break
 			} else if diagram.Product_Shapes[i] != nil && diagramOther.Product_Shapes[i] != nil {
-				if len(diagram.Product_Shapes[i].GongDiff(diagramOther.Product_Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Product_Shapes[i] != diagramOther.Product_Shapes[i] {
 					Product_ShapesDifferent = true
 					break
 				}
@@ -1557,7 +1558,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Product_ShapesDifferent {
-		diffs = append(diffs, "Product_Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Product_Shapes"))
 	}
 	ProductsWhoseNodeIsExpandedDifferent := false
 	if len(diagram.ProductsWhoseNodeIsExpanded) != len(diagramOther.ProductsWhoseNodeIsExpanded) {
@@ -1568,7 +1569,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				ProductsWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.ProductsWhoseNodeIsExpanded[i] != nil && diagramOther.ProductsWhoseNodeIsExpanded[i] != nil {
-				if len(diagram.ProductsWhoseNodeIsExpanded[i].GongDiff(diagramOther.ProductsWhoseNodeIsExpanded[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.ProductsWhoseNodeIsExpanded[i] != diagramOther.ProductsWhoseNodeIsExpanded[i] {
 					ProductsWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -1576,10 +1578,10 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if ProductsWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, "ProductsWhoseNodeIsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
-		diffs = append(diffs, "IsPBSNodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
 	}
 	ProductComposition_ShapesDifferent := false
 	if len(diagram.ProductComposition_Shapes) != len(diagramOther.ProductComposition_Shapes) {
@@ -1590,7 +1592,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				ProductComposition_ShapesDifferent = true
 				break
 			} else if diagram.ProductComposition_Shapes[i] != nil && diagramOther.ProductComposition_Shapes[i] != nil {
-				if len(diagram.ProductComposition_Shapes[i].GongDiff(diagramOther.ProductComposition_Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.ProductComposition_Shapes[i] != diagramOther.ProductComposition_Shapes[i] {
 					ProductComposition_ShapesDifferent = true
 					break
 				}
@@ -1598,10 +1601,10 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if ProductComposition_ShapesDifferent {
-		diffs = append(diffs, "ProductComposition_Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "ProductComposition_Shapes"))
 	}
 	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
-		diffs = append(diffs, "IsWBSNodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
 	}
 	Task_ShapesDifferent := false
 	if len(diagram.Task_Shapes) != len(diagramOther.Task_Shapes) {
@@ -1612,7 +1615,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Task_ShapesDifferent = true
 				break
 			} else if diagram.Task_Shapes[i] != nil && diagramOther.Task_Shapes[i] != nil {
-				if len(diagram.Task_Shapes[i].GongDiff(diagramOther.Task_Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Task_Shapes[i] != diagramOther.Task_Shapes[i] {
 					Task_ShapesDifferent = true
 					break
 				}
@@ -1620,7 +1624,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Task_ShapesDifferent {
-		diffs = append(diffs, "Task_Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Task_Shapes"))
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseNodeIsExpanded) != len(diagramOther.TasksWhoseNodeIsExpanded) {
@@ -1631,7 +1635,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TasksWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseNodeIsExpanded[i] != nil && diagramOther.TasksWhoseNodeIsExpanded[i] != nil {
-				if len(diagram.TasksWhoseNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseNodeIsExpanded[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TasksWhoseNodeIsExpanded[i] != diagramOther.TasksWhoseNodeIsExpanded[i] {
 					TasksWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -1639,7 +1644,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, "TasksWhoseNodeIsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
 	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseInputNodeIsExpanded) != len(diagramOther.TasksWhoseInputNodeIsExpanded) {
@@ -1650,7 +1655,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TasksWhoseInputNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseInputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseInputNodeIsExpanded[i] != nil {
-				if len(diagram.TasksWhoseInputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseInputNodeIsExpanded[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TasksWhoseInputNodeIsExpanded[i] != diagramOther.TasksWhoseInputNodeIsExpanded[i] {
 					TasksWhoseInputNodeIsExpandedDifferent = true
 					break
 				}
@@ -1658,7 +1664,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TasksWhoseInputNodeIsExpandedDifferent {
-		diffs = append(diffs, "TasksWhoseInputNodeIsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
 	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseOutputNodeIsExpanded) != len(diagramOther.TasksWhoseOutputNodeIsExpanded) {
@@ -1669,7 +1675,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TasksWhoseOutputNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
-				if len(diagram.TasksWhoseOutputNodeIsExpanded[i].GongDiff(diagramOther.TasksWhoseOutputNodeIsExpanded[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TasksWhoseOutputNodeIsExpanded[i] != diagramOther.TasksWhoseOutputNodeIsExpanded[i] {
 					TasksWhoseOutputNodeIsExpandedDifferent = true
 					break
 				}
@@ -1677,7 +1684,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
-		diffs = append(diffs, "TasksWhoseOutputNodeIsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
 	}
 	TaskComposition_ShapesDifferent := false
 	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
@@ -1688,7 +1695,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TaskComposition_ShapesDifferent = true
 				break
 			} else if diagram.TaskComposition_Shapes[i] != nil && diagramOther.TaskComposition_Shapes[i] != nil {
-				if len(diagram.TaskComposition_Shapes[i].GongDiff(diagramOther.TaskComposition_Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TaskComposition_Shapes[i] != diagramOther.TaskComposition_Shapes[i] {
 					TaskComposition_ShapesDifferent = true
 					break
 				}
@@ -1696,7 +1704,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TaskComposition_ShapesDifferent {
-		diffs = append(diffs, "TaskComposition_Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
 	}
 	TaskInputShapesDifferent := false
 	if len(diagram.TaskInputShapes) != len(diagramOther.TaskInputShapes) {
@@ -1707,7 +1715,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TaskInputShapesDifferent = true
 				break
 			} else if diagram.TaskInputShapes[i] != nil && diagramOther.TaskInputShapes[i] != nil {
-				if len(diagram.TaskInputShapes[i].GongDiff(diagramOther.TaskInputShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TaskInputShapes[i] != diagramOther.TaskInputShapes[i] {
 					TaskInputShapesDifferent = true
 					break
 				}
@@ -1715,7 +1724,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TaskInputShapesDifferent {
-		diffs = append(diffs, "TaskInputShapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskInputShapes"))
 	}
 	TaskOutputShapesDifferent := false
 	if len(diagram.TaskOutputShapes) != len(diagramOther.TaskOutputShapes) {
@@ -1726,7 +1735,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				TaskOutputShapesDifferent = true
 				break
 			} else if diagram.TaskOutputShapes[i] != nil && diagramOther.TaskOutputShapes[i] != nil {
-				if len(diagram.TaskOutputShapes[i].GongDiff(diagramOther.TaskOutputShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.TaskOutputShapes[i] != diagramOther.TaskOutputShapes[i] {
 					TaskOutputShapesDifferent = true
 					break
 				}
@@ -1734,7 +1744,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if TaskOutputShapesDifferent {
-		diffs = append(diffs, "TaskOutputShapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskOutputShapes"))
 	}
 	Note_ShapesDifferent := false
 	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
@@ -1745,7 +1755,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				Note_ShapesDifferent = true
 				break
 			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
-				if len(diagram.Note_Shapes[i].GongDiff(diagramOther.Note_Shapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.Note_Shapes[i] != diagramOther.Note_Shapes[i] {
 					Note_ShapesDifferent = true
 					break
 				}
@@ -1753,7 +1764,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if Note_ShapesDifferent {
-		diffs = append(diffs, "Note_Shapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "Note_Shapes"))
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
 	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
@@ -1764,7 +1775,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				NotesWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
-				if len(diagram.NotesWhoseNodeIsExpanded[i].GongDiff(diagramOther.NotesWhoseNodeIsExpanded[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.NotesWhoseNodeIsExpanded[i] != diagramOther.NotesWhoseNodeIsExpanded[i] {
 					NotesWhoseNodeIsExpandedDifferent = true
 					break
 				}
@@ -1772,10 +1784,10 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, "NotesWhoseNodeIsExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
-		diffs = append(diffs, "IsNotesNodeExpanded")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
 	}
 	NoteProductShapesDifferent := false
 	if len(diagram.NoteProductShapes) != len(diagramOther.NoteProductShapes) {
@@ -1786,7 +1798,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				NoteProductShapesDifferent = true
 				break
 			} else if diagram.NoteProductShapes[i] != nil && diagramOther.NoteProductShapes[i] != nil {
-				if len(diagram.NoteProductShapes[i].GongDiff(diagramOther.NoteProductShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.NoteProductShapes[i] != diagramOther.NoteProductShapes[i] {
 					NoteProductShapesDifferent = true
 					break
 				}
@@ -1794,7 +1807,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if NoteProductShapesDifferent {
-		diffs = append(diffs, "NoteProductShapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "NoteProductShapes"))
 	}
 	NoteTaskShapesDifferent := false
 	if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
@@ -1805,7 +1818,8 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 				NoteTaskShapesDifferent = true
 				break
 			} else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
-				if len(diagram.NoteTaskShapes[i].GongDiff(diagramOther.NoteTaskShapes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if diagram.NoteTaskShapes[i] != diagramOther.NoteTaskShapes[i] {
 					NoteTaskShapesDifferent = true
 					break
 				}
@@ -1813,7 +1827,7 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 		}
 	}
 	if NoteTaskShapesDifferent {
-		diffs = append(diffs, "NoteTaskShapes")
+		diffs = append(diffs, diagram.GongMarshallField(stage, "NoteTaskShapes"))
 	}
 
 	return
@@ -1821,10 +1835,10 @@ func (diagram *Diagram) GongDiff(diagramOther *Diagram) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
+func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	// insertion point for field diffs
 	if note.Name != noteOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
 	}
 	ProductsDifferent := false
 	if len(note.Products) != len(noteOther.Products) {
@@ -1835,7 +1849,8 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 				ProductsDifferent = true
 				break
 			} else if note.Products[i] != nil && noteOther.Products[i] != nil {
-				if len(note.Products[i].GongDiff(noteOther.Products[i])) > 0 {
+			 	// this is a pointer comparaison
+				if note.Products[i] != noteOther.Products[i] {
 					ProductsDifferent = true
 					break
 				}
@@ -1843,7 +1858,7 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 		}
 	}
 	if ProductsDifferent {
-		diffs = append(diffs, "Products")
+		diffs = append(diffs, note.GongMarshallField(stage, "Products"))
 	}
 	TasksDifferent := false
 	if len(note.Tasks) != len(noteOther.Tasks) {
@@ -1854,7 +1869,8 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 				TasksDifferent = true
 				break
 			} else if note.Tasks[i] != nil && noteOther.Tasks[i] != nil {
-				if len(note.Tasks[i].GongDiff(noteOther.Tasks[i])) > 0 {
+			 	// this is a pointer comparaison
+				if note.Tasks[i] != noteOther.Tasks[i] {
 					TasksDifferent = true
 					break
 				}
@@ -1862,10 +1878,10 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		diffs = append(diffs, "Tasks")
+		diffs = append(diffs, note.GongMarshallField(stage, "Tasks"))
 	}
 	if note.IsExpanded != noteOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
 	}
 
 	return
@@ -1873,39 +1889,39 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (noteproductshape *NoteProductShape) GongDiff(noteproductshapeOther *NoteProductShape) (diffs []string) {
+func (noteproductshape *NoteProductShape) GongDiff(stage *Stage, noteproductshapeOther *NoteProductShape) (diffs []string) {
 	// insertion point for field diffs
 	if noteproductshape.Name != noteproductshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Name"))
 	}
 	if (noteproductshape.Note == nil) != (noteproductshapeOther.Note == nil) {
 		diffs = append(diffs, "Note")
 	} else if noteproductshape.Note != nil && noteproductshapeOther.Note != nil {
 		if noteproductshape.Note != noteproductshapeOther.Note {
-			diffs = append(diffs, "Note")
+			diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Note"))
 		}
 	}
 	if (noteproductshape.Product == nil) != (noteproductshapeOther.Product == nil) {
 		diffs = append(diffs, "Product")
 	} else if noteproductshape.Product != nil && noteproductshapeOther.Product != nil {
 		if noteproductshape.Product != noteproductshapeOther.Product {
-			diffs = append(diffs, "Product")
+			diffs = append(diffs, noteproductshape.GongMarshallField(stage, "Product"))
 		}
 	}
 	if noteproductshape.StartRatio != noteproductshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if noteproductshape.EndRatio != noteproductshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if noteproductshape.StartOrientation != noteproductshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if noteproductshape.EndOrientation != noteproductshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if noteproductshape.CornerOffsetRatio != noteproductshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, noteproductshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -1913,32 +1929,32 @@ func (noteproductshape *NoteProductShape) GongDiff(noteproductshapeOther *NotePr
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (noteshape *NoteShape) GongDiff(noteshapeOther *NoteShape) (diffs []string) {
+func (noteshape *NoteShape) GongDiff(stage *Stage, noteshapeOther *NoteShape) (diffs []string) {
 	// insertion point for field diffs
 	if noteshape.Name != noteshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Name"))
 	}
 	if (noteshape.Note == nil) != (noteshapeOther.Note == nil) {
 		diffs = append(diffs, "Note")
 	} else if noteshape.Note != nil && noteshapeOther.Note != nil {
 		if noteshape.Note != noteshapeOther.Note {
-			diffs = append(diffs, "Note")
+			diffs = append(diffs, noteshape.GongMarshallField(stage, "Note"))
 		}
 	}
 	if noteshape.IsExpanded != noteshapeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "IsExpanded"))
 	}
 	if noteshape.X != noteshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "X"))
 	}
 	if noteshape.Y != noteshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Y"))
 	}
 	if noteshape.Width != noteshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Width"))
 	}
 	if noteshape.Height != noteshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, noteshape.GongMarshallField(stage, "Height"))
 	}
 
 	return
@@ -1946,39 +1962,39 @@ func (noteshape *NoteShape) GongDiff(noteshapeOther *NoteShape) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (notetaskshape *NoteTaskShape) GongDiff(notetaskshapeOther *NoteTaskShape) (diffs []string) {
+func (notetaskshape *NoteTaskShape) GongDiff(stage *Stage, notetaskshapeOther *NoteTaskShape) (diffs []string) {
 	// insertion point for field diffs
 	if notetaskshape.Name != notetaskshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Name"))
 	}
 	if (notetaskshape.Note == nil) != (notetaskshapeOther.Note == nil) {
 		diffs = append(diffs, "Note")
 	} else if notetaskshape.Note != nil && notetaskshapeOther.Note != nil {
 		if notetaskshape.Note != notetaskshapeOther.Note {
-			diffs = append(diffs, "Note")
+			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Note"))
 		}
 	}
 	if (notetaskshape.Task == nil) != (notetaskshapeOther.Task == nil) {
 		diffs = append(diffs, "Task")
 	} else if notetaskshape.Task != nil && notetaskshapeOther.Task != nil {
 		if notetaskshape.Task != notetaskshapeOther.Task {
-			diffs = append(diffs, "Task")
+			diffs = append(diffs, notetaskshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if notetaskshape.StartRatio != notetaskshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if notetaskshape.EndRatio != notetaskshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if notetaskshape.StartOrientation != notetaskshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if notetaskshape.EndOrientation != notetaskshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if notetaskshape.CornerOffsetRatio != notetaskshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, notetaskshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -1986,13 +2002,13 @@ func (notetaskshape *NoteTaskShape) GongDiff(notetaskshapeOther *NoteTaskShape) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (product *Product) GongDiff(productOther *Product) (diffs []string) {
+func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []string) {
 	// insertion point for field diffs
 	if product.Name != productOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, product.GongMarshallField(stage, "Name"))
 	}
 	if product.Description != productOther.Description {
-		diffs = append(diffs, "Description")
+		diffs = append(diffs, product.GongMarshallField(stage, "Description"))
 	}
 	SubProductsDifferent := false
 	if len(product.SubProducts) != len(productOther.SubProducts) {
@@ -2003,7 +2019,8 @@ func (product *Product) GongDiff(productOther *Product) (diffs []string) {
 				SubProductsDifferent = true
 				break
 			} else if product.SubProducts[i] != nil && productOther.SubProducts[i] != nil {
-				if len(product.SubProducts[i].GongDiff(productOther.SubProducts[i])) > 0 {
+			 	// this is a pointer comparaison
+				if product.SubProducts[i] != productOther.SubProducts[i] {
 					SubProductsDifferent = true
 					break
 				}
@@ -2011,19 +2028,19 @@ func (product *Product) GongDiff(productOther *Product) (diffs []string) {
 		}
 	}
 	if SubProductsDifferent {
-		diffs = append(diffs, "SubProducts")
+		diffs = append(diffs, product.GongMarshallField(stage, "SubProducts"))
 	}
 	if product.IsExpanded != productOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
 	}
 	if product.ComputedPrefix != productOther.ComputedPrefix {
-		diffs = append(diffs, "ComputedPrefix")
+		diffs = append(diffs, product.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	if product.IsProducersNodeExpanded != productOther.IsProducersNodeExpanded {
-		diffs = append(diffs, "IsProducersNodeExpanded")
+		diffs = append(diffs, product.GongMarshallField(stage, "IsProducersNodeExpanded"))
 	}
 	if product.IsConsumersNodeExpanded != productOther.IsConsumersNodeExpanded {
-		diffs = append(diffs, "IsConsumersNodeExpanded")
+		diffs = append(diffs, product.GongMarshallField(stage, "IsConsumersNodeExpanded"))
 	}
 
 	return
@@ -2031,32 +2048,32 @@ func (product *Product) GongDiff(productOther *Product) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (productcompositionshape *ProductCompositionShape) GongDiff(productcompositionshapeOther *ProductCompositionShape) (diffs []string) {
+func (productcompositionshape *ProductCompositionShape) GongDiff(stage *Stage, productcompositionshapeOther *ProductCompositionShape) (diffs []string) {
 	// insertion point for field diffs
 	if productcompositionshape.Name != productcompositionshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "Name"))
 	}
 	if (productcompositionshape.Product == nil) != (productcompositionshapeOther.Product == nil) {
 		diffs = append(diffs, "Product")
 	} else if productcompositionshape.Product != nil && productcompositionshapeOther.Product != nil {
 		if productcompositionshape.Product != productcompositionshapeOther.Product {
-			diffs = append(diffs, "Product")
+			diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "Product"))
 		}
 	}
 	if productcompositionshape.StartRatio != productcompositionshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if productcompositionshape.EndRatio != productcompositionshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if productcompositionshape.StartOrientation != productcompositionshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if productcompositionshape.EndOrientation != productcompositionshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if productcompositionshape.CornerOffsetRatio != productcompositionshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, productcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -2064,32 +2081,32 @@ func (productcompositionshape *ProductCompositionShape) GongDiff(productcomposit
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (productshape *ProductShape) GongDiff(productshapeOther *ProductShape) (diffs []string) {
+func (productshape *ProductShape) GongDiff(stage *Stage, productshapeOther *ProductShape) (diffs []string) {
 	// insertion point for field diffs
 	if productshape.Name != productshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "Name"))
 	}
 	if (productshape.Product == nil) != (productshapeOther.Product == nil) {
 		diffs = append(diffs, "Product")
 	} else if productshape.Product != nil && productshapeOther.Product != nil {
 		if productshape.Product != productshapeOther.Product {
-			diffs = append(diffs, "Product")
+			diffs = append(diffs, productshape.GongMarshallField(stage, "Product"))
 		}
 	}
 	if productshape.IsExpanded != productshapeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "IsExpanded"))
 	}
 	if productshape.X != productshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "X"))
 	}
 	if productshape.Y != productshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "Y"))
 	}
 	if productshape.Width != productshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "Width"))
 	}
 	if productshape.Height != productshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, productshape.GongMarshallField(stage, "Height"))
 	}
 
 	return
@@ -2097,10 +2114,10 @@ func (productshape *ProductShape) GongDiff(productshapeOther *ProductShape) (dif
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
+func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []string) {
 	// insertion point for field diffs
 	if project.Name != projectOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, project.GongMarshallField(stage, "Name"))
 	}
 	RootProductsDifferent := false
 	if len(project.RootProducts) != len(projectOther.RootProducts) {
@@ -2111,7 +2128,8 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 				RootProductsDifferent = true
 				break
 			} else if project.RootProducts[i] != nil && projectOther.RootProducts[i] != nil {
-				if len(project.RootProducts[i].GongDiff(projectOther.RootProducts[i])) > 0 {
+			 	// this is a pointer comparaison
+				if project.RootProducts[i] != projectOther.RootProducts[i] {
 					RootProductsDifferent = true
 					break
 				}
@@ -2119,10 +2137,10 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 		}
 	}
 	if RootProductsDifferent {
-		diffs = append(diffs, "RootProducts")
+		diffs = append(diffs, project.GongMarshallField(stage, "RootProducts"))
 	}
 	if project.IsPBSNodeExpanded != projectOther.IsPBSNodeExpanded {
-		diffs = append(diffs, "IsPBSNodeExpanded")
+		diffs = append(diffs, project.GongMarshallField(stage, "IsPBSNodeExpanded"))
 	}
 	RootTasksDifferent := false
 	if len(project.RootTasks) != len(projectOther.RootTasks) {
@@ -2133,7 +2151,8 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 				RootTasksDifferent = true
 				break
 			} else if project.RootTasks[i] != nil && projectOther.RootTasks[i] != nil {
-				if len(project.RootTasks[i].GongDiff(projectOther.RootTasks[i])) > 0 {
+			 	// this is a pointer comparaison
+				if project.RootTasks[i] != projectOther.RootTasks[i] {
 					RootTasksDifferent = true
 					break
 				}
@@ -2141,10 +2160,10 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 		}
 	}
 	if RootTasksDifferent {
-		diffs = append(diffs, "RootTasks")
+		diffs = append(diffs, project.GongMarshallField(stage, "RootTasks"))
 	}
 	if project.IsWBSNodeExpanded != projectOther.IsWBSNodeExpanded {
-		diffs = append(diffs, "IsWBSNodeExpanded")
+		diffs = append(diffs, project.GongMarshallField(stage, "IsWBSNodeExpanded"))
 	}
 	DiagramsDifferent := false
 	if len(project.Diagrams) != len(projectOther.Diagrams) {
@@ -2155,7 +2174,8 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 				DiagramsDifferent = true
 				break
 			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
-				if len(project.Diagrams[i].GongDiff(projectOther.Diagrams[i])) > 0 {
+			 	// this is a pointer comparaison
+				if project.Diagrams[i] != projectOther.Diagrams[i] {
 					DiagramsDifferent = true
 					break
 				}
@@ -2163,10 +2183,10 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 		}
 	}
 	if DiagramsDifferent {
-		diffs = append(diffs, "Diagrams")
+		diffs = append(diffs, project.GongMarshallField(stage, "Diagrams"))
 	}
 	if project.IsDiagramsNodeExpanded != projectOther.IsDiagramsNodeExpanded {
-		diffs = append(diffs, "IsDiagramsNodeExpanded")
+		diffs = append(diffs, project.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
 	}
 	NotesDifferent := false
 	if len(project.Notes) != len(projectOther.Notes) {
@@ -2177,7 +2197,8 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 				NotesDifferent = true
 				break
 			} else if project.Notes[i] != nil && projectOther.Notes[i] != nil {
-				if len(project.Notes[i].GongDiff(projectOther.Notes[i])) > 0 {
+			 	// this is a pointer comparaison
+				if project.Notes[i] != projectOther.Notes[i] {
 					NotesDifferent = true
 					break
 				}
@@ -2185,16 +2206,16 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 		}
 	}
 	if NotesDifferent {
-		diffs = append(diffs, "Notes")
+		diffs = append(diffs, project.GongMarshallField(stage, "Notes"))
 	}
 	if project.IsNotesNodeExpanded != projectOther.IsNotesNodeExpanded {
-		diffs = append(diffs, "IsNotesNodeExpanded")
+		diffs = append(diffs, project.GongMarshallField(stage, "IsNotesNodeExpanded"))
 	}
 	if project.IsExpanded != projectOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, project.GongMarshallField(stage, "IsExpanded"))
 	}
 	if project.ComputedPrefix != projectOther.ComputedPrefix {
-		diffs = append(diffs, "ComputedPrefix")
+		diffs = append(diffs, project.GongMarshallField(stage, "ComputedPrefix"))
 	}
 
 	return
@@ -2202,10 +2223,10 @@ func (project *Project) GongDiff(projectOther *Project) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
+func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 	// insertion point for field diffs
 	if root.Name != rootOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, root.GongMarshallField(stage, "Name"))
 	}
 	ProjectsDifferent := false
 	if len(root.Projects) != len(rootOther.Projects) {
@@ -2216,7 +2237,8 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 				ProjectsDifferent = true
 				break
 			} else if root.Projects[i] != nil && rootOther.Projects[i] != nil {
-				if len(root.Projects[i].GongDiff(rootOther.Projects[i])) > 0 {
+			 	// this is a pointer comparaison
+				if root.Projects[i] != rootOther.Projects[i] {
 					ProjectsDifferent = true
 					break
 				}
@@ -2224,7 +2246,7 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 		}
 	}
 	if ProjectsDifferent {
-		diffs = append(diffs, "Projects")
+		diffs = append(diffs, root.GongMarshallField(stage, "Projects"))
 	}
 	OrphanedProductsDifferent := false
 	if len(root.OrphanedProducts) != len(rootOther.OrphanedProducts) {
@@ -2235,7 +2257,8 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 				OrphanedProductsDifferent = true
 				break
 			} else if root.OrphanedProducts[i] != nil && rootOther.OrphanedProducts[i] != nil {
-				if len(root.OrphanedProducts[i].GongDiff(rootOther.OrphanedProducts[i])) > 0 {
+			 	// this is a pointer comparaison
+				if root.OrphanedProducts[i] != rootOther.OrphanedProducts[i] {
 					OrphanedProductsDifferent = true
 					break
 				}
@@ -2243,7 +2266,7 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 		}
 	}
 	if OrphanedProductsDifferent {
-		diffs = append(diffs, "OrphanedProducts")
+		diffs = append(diffs, root.GongMarshallField(stage, "OrphanedProducts"))
 	}
 	OrphanedTasksDifferent := false
 	if len(root.OrphanedTasks) != len(rootOther.OrphanedTasks) {
@@ -2254,7 +2277,8 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 				OrphanedTasksDifferent = true
 				break
 			} else if root.OrphanedTasks[i] != nil && rootOther.OrphanedTasks[i] != nil {
-				if len(root.OrphanedTasks[i].GongDiff(rootOther.OrphanedTasks[i])) > 0 {
+			 	// this is a pointer comparaison
+				if root.OrphanedTasks[i] != rootOther.OrphanedTasks[i] {
 					OrphanedTasksDifferent = true
 					break
 				}
@@ -2262,10 +2286,10 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 		}
 	}
 	if OrphanedTasksDifferent {
-		diffs = append(diffs, "OrphanedTasks")
+		diffs = append(diffs, root.GongMarshallField(stage, "OrphanedTasks"))
 	}
 	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {
-		diffs = append(diffs, "NbPixPerCharacter")
+		diffs = append(diffs, root.GongMarshallField(stage, "NbPixPerCharacter"))
 	}
 
 	return
@@ -2273,13 +2297,13 @@ func (root *Root) GongDiff(rootOther *Root) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
+func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 	// insertion point for field diffs
 	if task.Name != taskOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, task.GongMarshallField(stage, "Name"))
 	}
 	if task.Description != taskOther.Description {
-		diffs = append(diffs, "Description")
+		diffs = append(diffs, task.GongMarshallField(stage, "Description"))
 	}
 	SubTasksDifferent := false
 	if len(task.SubTasks) != len(taskOther.SubTasks) {
@@ -2290,7 +2314,8 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 				SubTasksDifferent = true
 				break
 			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-				if len(task.SubTasks[i].GongDiff(taskOther.SubTasks[i])) > 0 {
+			 	// this is a pointer comparaison
+				if task.SubTasks[i] != taskOther.SubTasks[i] {
 					SubTasksDifferent = true
 					break
 				}
@@ -2298,13 +2323,13 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 		}
 	}
 	if SubTasksDifferent {
-		diffs = append(diffs, "SubTasks")
+		diffs = append(diffs, task.GongMarshallField(stage, "SubTasks"))
 	}
 	if task.IsExpanded != taskOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
 	}
 	if task.ComputedPrefix != taskOther.ComputedPrefix {
-		diffs = append(diffs, "ComputedPrefix")
+		diffs = append(diffs, task.GongMarshallField(stage, "ComputedPrefix"))
 	}
 	InputsDifferent := false
 	if len(task.Inputs) != len(taskOther.Inputs) {
@@ -2315,7 +2340,8 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 				InputsDifferent = true
 				break
 			} else if task.Inputs[i] != nil && taskOther.Inputs[i] != nil {
-				if len(task.Inputs[i].GongDiff(taskOther.Inputs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if task.Inputs[i] != taskOther.Inputs[i] {
 					InputsDifferent = true
 					break
 				}
@@ -2323,10 +2349,10 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 		}
 	}
 	if InputsDifferent {
-		diffs = append(diffs, "Inputs")
+		diffs = append(diffs, task.GongMarshallField(stage, "Inputs"))
 	}
 	if task.IsInputsNodeExpanded != taskOther.IsInputsNodeExpanded {
-		diffs = append(diffs, "IsInputsNodeExpanded")
+		diffs = append(diffs, task.GongMarshallField(stage, "IsInputsNodeExpanded"))
 	}
 	OutputsDifferent := false
 	if len(task.Outputs) != len(taskOther.Outputs) {
@@ -2337,7 +2363,8 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 				OutputsDifferent = true
 				break
 			} else if task.Outputs[i] != nil && taskOther.Outputs[i] != nil {
-				if len(task.Outputs[i].GongDiff(taskOther.Outputs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if task.Outputs[i] != taskOther.Outputs[i] {
 					OutputsDifferent = true
 					break
 				}
@@ -2345,16 +2372,16 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 		}
 	}
 	if OutputsDifferent {
-		diffs = append(diffs, "Outputs")
+		diffs = append(diffs, task.GongMarshallField(stage, "Outputs"))
 	}
 	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
-		diffs = append(diffs, "IsOutputsNodeExpanded")
+		diffs = append(diffs, task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
 	}
 	if task.IsWithCompletion != taskOther.IsWithCompletion {
-		diffs = append(diffs, "IsWithCompletion")
+		diffs = append(diffs, task.GongMarshallField(stage, "IsWithCompletion"))
 	}
 	if task.Completion != taskOther.Completion {
-		diffs = append(diffs, "Completion")
+		diffs = append(diffs, task.GongMarshallField(stage, "Completion"))
 	}
 
 	return
@@ -2362,32 +2389,32 @@ func (task *Task) GongDiff(taskOther *Task) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (taskcompositionshape *TaskCompositionShape) GongDiff(taskcompositionshapeOther *TaskCompositionShape) (diffs []string) {
+func (taskcompositionshape *TaskCompositionShape) GongDiff(stage *Stage, taskcompositionshapeOther *TaskCompositionShape) (diffs []string) {
 	// insertion point for field diffs
 	if taskcompositionshape.Name != taskcompositionshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskcompositionshape.Task == nil) != (taskcompositionshapeOther.Task == nil) {
 		diffs = append(diffs, "Task")
 	} else if taskcompositionshape.Task != nil && taskcompositionshapeOther.Task != nil {
 		if taskcompositionshape.Task != taskcompositionshapeOther.Task {
-			diffs = append(diffs, "Task")
+			diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if taskcompositionshape.StartRatio != taskcompositionshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if taskcompositionshape.EndRatio != taskcompositionshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if taskcompositionshape.StartOrientation != taskcompositionshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if taskcompositionshape.EndOrientation != taskcompositionshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if taskcompositionshape.CornerOffsetRatio != taskcompositionshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, taskcompositionshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -2395,39 +2422,39 @@ func (taskcompositionshape *TaskCompositionShape) GongDiff(taskcompositionshapeO
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (taskinputshape *TaskInputShape) GongDiff(taskinputshapeOther *TaskInputShape) (diffs []string) {
+func (taskinputshape *TaskInputShape) GongDiff(stage *Stage, taskinputshapeOther *TaskInputShape) (diffs []string) {
 	// insertion point for field diffs
 	if taskinputshape.Name != taskinputshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskinputshape.Task == nil) != (taskinputshapeOther.Task == nil) {
 		diffs = append(diffs, "Task")
 	} else if taskinputshape.Task != nil && taskinputshapeOther.Task != nil {
 		if taskinputshape.Task != taskinputshapeOther.Task {
-			diffs = append(diffs, "Task")
+			diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if (taskinputshape.Product == nil) != (taskinputshapeOther.Product == nil) {
 		diffs = append(diffs, "Product")
 	} else if taskinputshape.Product != nil && taskinputshapeOther.Product != nil {
 		if taskinputshape.Product != taskinputshapeOther.Product {
-			diffs = append(diffs, "Product")
+			diffs = append(diffs, taskinputshape.GongMarshallField(stage, "Product"))
 		}
 	}
 	if taskinputshape.StartRatio != taskinputshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if taskinputshape.EndRatio != taskinputshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if taskinputshape.StartOrientation != taskinputshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if taskinputshape.EndOrientation != taskinputshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if taskinputshape.CornerOffsetRatio != taskinputshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, taskinputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -2435,39 +2462,39 @@ func (taskinputshape *TaskInputShape) GongDiff(taskinputshapeOther *TaskInputSha
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (taskoutputshape *TaskOutputShape) GongDiff(taskoutputshapeOther *TaskOutputShape) (diffs []string) {
+func (taskoutputshape *TaskOutputShape) GongDiff(stage *Stage, taskoutputshapeOther *TaskOutputShape) (diffs []string) {
 	// insertion point for field diffs
 	if taskoutputshape.Name != taskoutputshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskoutputshape.Task == nil) != (taskoutputshapeOther.Task == nil) {
 		diffs = append(diffs, "Task")
 	} else if taskoutputshape.Task != nil && taskoutputshapeOther.Task != nil {
 		if taskoutputshape.Task != taskoutputshapeOther.Task {
-			diffs = append(diffs, "Task")
+			diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if (taskoutputshape.Product == nil) != (taskoutputshapeOther.Product == nil) {
 		diffs = append(diffs, "Product")
 	} else if taskoutputshape.Product != nil && taskoutputshapeOther.Product != nil {
 		if taskoutputshape.Product != taskoutputshapeOther.Product {
-			diffs = append(diffs, "Product")
+			diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "Product"))
 		}
 	}
 	if taskoutputshape.StartRatio != taskoutputshapeOther.StartRatio {
-		diffs = append(diffs, "StartRatio")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "StartRatio"))
 	}
 	if taskoutputshape.EndRatio != taskoutputshapeOther.EndRatio {
-		diffs = append(diffs, "EndRatio")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "EndRatio"))
 	}
 	if taskoutputshape.StartOrientation != taskoutputshapeOther.StartOrientation {
-		diffs = append(diffs, "StartOrientation")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "StartOrientation"))
 	}
 	if taskoutputshape.EndOrientation != taskoutputshapeOther.EndOrientation {
-		diffs = append(diffs, "EndOrientation")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "EndOrientation"))
 	}
 	if taskoutputshape.CornerOffsetRatio != taskoutputshapeOther.CornerOffsetRatio {
-		diffs = append(diffs, "CornerOffsetRatio")
+		diffs = append(diffs, taskoutputshape.GongMarshallField(stage, "CornerOffsetRatio"))
 	}
 
 	return
@@ -2475,32 +2502,32 @@ func (taskoutputshape *TaskOutputShape) GongDiff(taskoutputshapeOther *TaskOutpu
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (taskshape *TaskShape) GongDiff(taskshapeOther *TaskShape) (diffs []string) {
+func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (diffs []string) {
 	// insertion point for field diffs
 	if taskshape.Name != taskshapeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "Name"))
 	}
 	if (taskshape.Task == nil) != (taskshapeOther.Task == nil) {
 		diffs = append(diffs, "Task")
 	} else if taskshape.Task != nil && taskshapeOther.Task != nil {
 		if taskshape.Task != taskshapeOther.Task {
-			diffs = append(diffs, "Task")
+			diffs = append(diffs, taskshape.GongMarshallField(stage, "Task"))
 		}
 	}
 	if taskshape.IsExpanded != taskshapeOther.IsExpanded {
-		diffs = append(diffs, "IsExpanded")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "IsExpanded"))
 	}
 	if taskshape.X != taskshapeOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "X"))
 	}
 	if taskshape.Y != taskshapeOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "Y"))
 	}
 	if taskshape.Width != taskshapeOther.Width {
-		diffs = append(diffs, "Width")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "Width"))
 	}
 	if taskshape.Height != taskshapeOther.Height {
-		diffs = append(diffs, "Height")
+		diffs = append(diffs, taskshape.GongMarshallField(stage, "Height"))
 	}
 
 	return

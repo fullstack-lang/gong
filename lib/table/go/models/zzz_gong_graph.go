@@ -1934,44 +1934,44 @@ func (stage *Stage) UnstageBranchTable(table *Table) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cell *Cell) GongDiff(cellOther *Cell) (diffs []string) {
+func (cell *Cell) GongDiff(stage *Stage, cellOther *Cell) (diffs []string) {
 	// insertion point for field diffs
 	if cell.Name != cellOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cell.GongMarshallField(stage, "Name"))
 	}
 	if (cell.CellString == nil) != (cellOther.CellString == nil) {
 		diffs = append(diffs, "CellString")
 	} else if cell.CellString != nil && cellOther.CellString != nil {
 		if cell.CellString != cellOther.CellString {
-			diffs = append(diffs, "CellString")
+			diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
 		}
 	}
 	if (cell.CellFloat64 == nil) != (cellOther.CellFloat64 == nil) {
 		diffs = append(diffs, "CellFloat64")
 	} else if cell.CellFloat64 != nil && cellOther.CellFloat64 != nil {
 		if cell.CellFloat64 != cellOther.CellFloat64 {
-			diffs = append(diffs, "CellFloat64")
+			diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
 		}
 	}
 	if (cell.CellInt == nil) != (cellOther.CellInt == nil) {
 		diffs = append(diffs, "CellInt")
 	} else if cell.CellInt != nil && cellOther.CellInt != nil {
 		if cell.CellInt != cellOther.CellInt {
-			diffs = append(diffs, "CellInt")
+			diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
 		}
 	}
 	if (cell.CellBool == nil) != (cellOther.CellBool == nil) {
 		diffs = append(diffs, "CellBool")
 	} else if cell.CellBool != nil && cellOther.CellBool != nil {
 		if cell.CellBool != cellOther.CellBool {
-			diffs = append(diffs, "CellBool")
+			diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
 		}
 	}
 	if (cell.CellIcon == nil) != (cellOther.CellIcon == nil) {
 		diffs = append(diffs, "CellIcon")
 	} else if cell.CellIcon != nil && cellOther.CellIcon != nil {
 		if cell.CellIcon != cellOther.CellIcon {
-			diffs = append(diffs, "CellIcon")
+			diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
 		}
 	}
 
@@ -1980,13 +1980,13 @@ func (cell *Cell) GongDiff(cellOther *Cell) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cellboolean *CellBoolean) GongDiff(cellbooleanOther *CellBoolean) (diffs []string) {
+func (cellboolean *CellBoolean) GongDiff(stage *Stage, cellbooleanOther *CellBoolean) (diffs []string) {
 	// insertion point for field diffs
 	if cellboolean.Name != cellbooleanOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cellboolean.GongMarshallField(stage, "Name"))
 	}
 	if cellboolean.Value != cellbooleanOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, cellboolean.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -1994,13 +1994,13 @@ func (cellboolean *CellBoolean) GongDiff(cellbooleanOther *CellBoolean) (diffs [
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cellfloat64 *CellFloat64) GongDiff(cellfloat64Other *CellFloat64) (diffs []string) {
+func (cellfloat64 *CellFloat64) GongDiff(stage *Stage, cellfloat64Other *CellFloat64) (diffs []string) {
 	// insertion point for field diffs
 	if cellfloat64.Name != cellfloat64Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cellfloat64.GongMarshallField(stage, "Name"))
 	}
 	if cellfloat64.Value != cellfloat64Other.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, cellfloat64.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2008,19 +2008,19 @@ func (cellfloat64 *CellFloat64) GongDiff(cellfloat64Other *CellFloat64) (diffs [
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cellicon *CellIcon) GongDiff(celliconOther *CellIcon) (diffs []string) {
+func (cellicon *CellIcon) GongDiff(stage *Stage, celliconOther *CellIcon) (diffs []string) {
 	// insertion point for field diffs
 	if cellicon.Name != celliconOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cellicon.GongMarshallField(stage, "Name"))
 	}
 	if cellicon.Icon != celliconOther.Icon {
-		diffs = append(diffs, "Icon")
+		diffs = append(diffs, cellicon.GongMarshallField(stage, "Icon"))
 	}
 	if cellicon.NeedsConfirmation != celliconOther.NeedsConfirmation {
-		diffs = append(diffs, "NeedsConfirmation")
+		diffs = append(diffs, cellicon.GongMarshallField(stage, "NeedsConfirmation"))
 	}
 	if cellicon.ConfirmationMessage != celliconOther.ConfirmationMessage {
-		diffs = append(diffs, "ConfirmationMessage")
+		diffs = append(diffs, cellicon.GongMarshallField(stage, "ConfirmationMessage"))
 	}
 
 	return
@@ -2028,13 +2028,13 @@ func (cellicon *CellIcon) GongDiff(celliconOther *CellIcon) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cellint *CellInt) GongDiff(cellintOther *CellInt) (diffs []string) {
+func (cellint *CellInt) GongDiff(stage *Stage, cellintOther *CellInt) (diffs []string) {
 	// insertion point for field diffs
 	if cellint.Name != cellintOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cellint.GongMarshallField(stage, "Name"))
 	}
 	if cellint.Value != cellintOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, cellint.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2042,13 +2042,13 @@ func (cellint *CellInt) GongDiff(cellintOther *CellInt) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (cellstring *CellString) GongDiff(cellstringOther *CellString) (diffs []string) {
+func (cellstring *CellString) GongDiff(stage *Stage, cellstringOther *CellString) (diffs []string) {
 	// insertion point for field diffs
 	if cellstring.Name != cellstringOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, cellstring.GongMarshallField(stage, "Name"))
 	}
 	if cellstring.Value != cellstringOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, cellstring.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2056,13 +2056,13 @@ func (cellstring *CellString) GongDiff(cellstringOther *CellString) (diffs []str
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (checkbox *CheckBox) GongDiff(checkboxOther *CheckBox) (diffs []string) {
+func (checkbox *CheckBox) GongDiff(stage *Stage, checkboxOther *CheckBox) (diffs []string) {
 	// insertion point for field diffs
 	if checkbox.Name != checkboxOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "Name"))
 	}
 	if checkbox.Value != checkboxOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, checkbox.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2070,10 +2070,10 @@ func (checkbox *CheckBox) GongDiff(checkboxOther *CheckBox) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (displayedcolumn *DisplayedColumn) GongDiff(displayedcolumnOther *DisplayedColumn) (diffs []string) {
+func (displayedcolumn *DisplayedColumn) GongDiff(stage *Stage, displayedcolumnOther *DisplayedColumn) (diffs []string) {
 	// insertion point for field diffs
 	if displayedcolumn.Name != displayedcolumnOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, displayedcolumn.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -2081,10 +2081,10 @@ func (displayedcolumn *DisplayedColumn) GongDiff(displayedcolumnOther *Displayed
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
+func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []string) {
 	// insertion point for field diffs
 	if formdiv.Name != formdivOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "Name"))
 	}
 	FormFieldsDifferent := false
 	if len(formdiv.FormFields) != len(formdivOther.FormFields) {
@@ -2095,7 +2095,8 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 				FormFieldsDifferent = true
 				break
 			} else if formdiv.FormFields[i] != nil && formdivOther.FormFields[i] != nil {
-				if len(formdiv.FormFields[i].GongDiff(formdivOther.FormFields[i])) > 0 {
+			 	// this is a pointer comparaison
+				if formdiv.FormFields[i] != formdivOther.FormFields[i] {
 					FormFieldsDifferent = true
 					break
 				}
@@ -2103,7 +2104,7 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 		}
 	}
 	if FormFieldsDifferent {
-		diffs = append(diffs, "FormFields")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormFields"))
 	}
 	CheckBoxsDifferent := false
 	if len(formdiv.CheckBoxs) != len(formdivOther.CheckBoxs) {
@@ -2114,7 +2115,8 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 				CheckBoxsDifferent = true
 				break
 			} else if formdiv.CheckBoxs[i] != nil && formdivOther.CheckBoxs[i] != nil {
-				if len(formdiv.CheckBoxs[i].GongDiff(formdivOther.CheckBoxs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if formdiv.CheckBoxs[i] != formdivOther.CheckBoxs[i] {
 					CheckBoxsDifferent = true
 					break
 				}
@@ -2122,20 +2124,20 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 		}
 	}
 	if CheckBoxsDifferent {
-		diffs = append(diffs, "CheckBoxs")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "CheckBoxs"))
 	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
 		diffs = append(diffs, "FormEditAssocButton")
 	} else if formdiv.FormEditAssocButton != nil && formdivOther.FormEditAssocButton != nil {
 		if formdiv.FormEditAssocButton != formdivOther.FormEditAssocButton {
-			diffs = append(diffs, "FormEditAssocButton")
+			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		}
 	}
 	if (formdiv.FormSortAssocButton == nil) != (formdivOther.FormSortAssocButton == nil) {
 		diffs = append(diffs, "FormSortAssocButton")
 	} else if formdiv.FormSortAssocButton != nil && formdivOther.FormSortAssocButton != nil {
 		if formdiv.FormSortAssocButton != formdivOther.FormSortAssocButton {
-			diffs = append(diffs, "FormSortAssocButton")
+			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 		}
 	}
 
@@ -2144,31 +2146,31 @@ func (formdiv *FormDiv) GongDiff(formdivOther *FormDiv) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formeditassocbutton *FormEditAssocButton) GongDiff(formeditassocbuttonOther *FormEditAssocButton) (diffs []string) {
+func (formeditassocbutton *FormEditAssocButton) GongDiff(stage *Stage, formeditassocbuttonOther *FormEditAssocButton) (diffs []string) {
 	// insertion point for field diffs
 	if formeditassocbutton.Name != formeditassocbuttonOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "Name"))
 	}
 	if formeditassocbutton.Label != formeditassocbuttonOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "Label"))
 	}
 	if formeditassocbutton.AssociationStorage != formeditassocbuttonOther.AssociationStorage {
-		diffs = append(diffs, "AssociationStorage")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "AssociationStorage"))
 	}
 	if formeditassocbutton.HasChanged != formeditassocbuttonOther.HasChanged {
-		diffs = append(diffs, "HasChanged")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "HasChanged"))
 	}
 	if formeditassocbutton.IsForSavePurpose != formeditassocbuttonOther.IsForSavePurpose {
-		diffs = append(diffs, "IsForSavePurpose")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "IsForSavePurpose"))
 	}
 	if formeditassocbutton.HasToolTip != formeditassocbuttonOther.HasToolTip {
-		diffs = append(diffs, "HasToolTip")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "HasToolTip"))
 	}
 	if formeditassocbutton.ToolTipText != formeditassocbuttonOther.ToolTipText {
-		diffs = append(diffs, "ToolTipText")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "ToolTipText"))
 	}
 	if formeditassocbutton.MatTooltipShowDelay != formeditassocbuttonOther.MatTooltipShowDelay {
-		diffs = append(diffs, "MatTooltipShowDelay")
+		diffs = append(diffs, formeditassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
 	}
 
 	return
@@ -2176,80 +2178,80 @@ func (formeditassocbutton *FormEditAssocButton) GongDiff(formeditassocbuttonOthe
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfield *FormField) GongDiff(formfieldOther *FormField) (diffs []string) {
+func (formfield *FormField) GongDiff(stage *Stage, formfieldOther *FormField) (diffs []string) {
 	// insertion point for field diffs
 	if formfield.Name != formfieldOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "Name"))
 	}
 	if formfield.InputTypeEnum != formfieldOther.InputTypeEnum {
-		diffs = append(diffs, "InputTypeEnum")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "InputTypeEnum"))
 	}
 	if formfield.Label != formfieldOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "Label"))
 	}
 	if formfield.Placeholder != formfieldOther.Placeholder {
-		diffs = append(diffs, "Placeholder")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "Placeholder"))
 	}
 	if (formfield.FormFieldString == nil) != (formfieldOther.FormFieldString == nil) {
 		diffs = append(diffs, "FormFieldString")
 	} else if formfield.FormFieldString != nil && formfieldOther.FormFieldString != nil {
 		if formfield.FormFieldString != formfieldOther.FormFieldString {
-			diffs = append(diffs, "FormFieldString")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldString"))
 		}
 	}
 	if (formfield.FormFieldFloat64 == nil) != (formfieldOther.FormFieldFloat64 == nil) {
 		diffs = append(diffs, "FormFieldFloat64")
 	} else if formfield.FormFieldFloat64 != nil && formfieldOther.FormFieldFloat64 != nil {
 		if formfield.FormFieldFloat64 != formfieldOther.FormFieldFloat64 {
-			diffs = append(diffs, "FormFieldFloat64")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldFloat64"))
 		}
 	}
 	if (formfield.FormFieldInt == nil) != (formfieldOther.FormFieldInt == nil) {
 		diffs = append(diffs, "FormFieldInt")
 	} else if formfield.FormFieldInt != nil && formfieldOther.FormFieldInt != nil {
 		if formfield.FormFieldInt != formfieldOther.FormFieldInt {
-			diffs = append(diffs, "FormFieldInt")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldInt"))
 		}
 	}
 	if (formfield.FormFieldDate == nil) != (formfieldOther.FormFieldDate == nil) {
 		diffs = append(diffs, "FormFieldDate")
 	} else if formfield.FormFieldDate != nil && formfieldOther.FormFieldDate != nil {
 		if formfield.FormFieldDate != formfieldOther.FormFieldDate {
-			diffs = append(diffs, "FormFieldDate")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDate"))
 		}
 	}
 	if (formfield.FormFieldTime == nil) != (formfieldOther.FormFieldTime == nil) {
 		diffs = append(diffs, "FormFieldTime")
 	} else if formfield.FormFieldTime != nil && formfieldOther.FormFieldTime != nil {
 		if formfield.FormFieldTime != formfieldOther.FormFieldTime {
-			diffs = append(diffs, "FormFieldTime")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldTime"))
 		}
 	}
 	if (formfield.FormFieldDateTime == nil) != (formfieldOther.FormFieldDateTime == nil) {
 		diffs = append(diffs, "FormFieldDateTime")
 	} else if formfield.FormFieldDateTime != nil && formfieldOther.FormFieldDateTime != nil {
 		if formfield.FormFieldDateTime != formfieldOther.FormFieldDateTime {
-			diffs = append(diffs, "FormFieldDateTime")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDateTime"))
 		}
 	}
 	if (formfield.FormFieldSelect == nil) != (formfieldOther.FormFieldSelect == nil) {
 		diffs = append(diffs, "FormFieldSelect")
 	} else if formfield.FormFieldSelect != nil && formfieldOther.FormFieldSelect != nil {
 		if formfield.FormFieldSelect != formfieldOther.FormFieldSelect {
-			diffs = append(diffs, "FormFieldSelect")
+			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldSelect"))
 		}
 	}
 	if formfield.HasBespokeWidth != formfieldOther.HasBespokeWidth {
-		diffs = append(diffs, "HasBespokeWidth")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "HasBespokeWidth"))
 	}
 	if formfield.BespokeWidthPx != formfieldOther.BespokeWidthPx {
-		diffs = append(diffs, "BespokeWidthPx")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "BespokeWidthPx"))
 	}
 	if formfield.HasBespokeHeight != formfieldOther.HasBespokeHeight {
-		diffs = append(diffs, "HasBespokeHeight")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "HasBespokeHeight"))
 	}
 	if formfield.BespokeHeightPx != formfieldOther.BespokeHeightPx {
-		diffs = append(diffs, "BespokeHeightPx")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "BespokeHeightPx"))
 	}
 
 	return
@@ -2257,13 +2259,13 @@ func (formfield *FormField) GongDiff(formfieldOther *FormField) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfielddate *FormFieldDate) GongDiff(formfielddateOther *FormFieldDate) (diffs []string) {
+func (formfielddate *FormFieldDate) GongDiff(stage *Stage, formfielddateOther *FormFieldDate) (diffs []string) {
 	// insertion point for field diffs
 	if formfielddate.Name != formfielddateOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfielddate.GongMarshallField(stage, "Name"))
 	}
 	if formfielddate.Value != formfielddateOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfielddate.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2271,13 +2273,13 @@ func (formfielddate *FormFieldDate) GongDiff(formfielddateOther *FormFieldDate) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfielddatetime *FormFieldDateTime) GongDiff(formfielddatetimeOther *FormFieldDateTime) (diffs []string) {
+func (formfielddatetime *FormFieldDateTime) GongDiff(stage *Stage, formfielddatetimeOther *FormFieldDateTime) (diffs []string) {
 	// insertion point for field diffs
 	if formfielddatetime.Name != formfielddatetimeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfielddatetime.GongMarshallField(stage, "Name"))
 	}
 	if formfielddatetime.Value != formfielddatetimeOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfielddatetime.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -2285,25 +2287,25 @@ func (formfielddatetime *FormFieldDateTime) GongDiff(formfielddatetimeOther *For
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfieldfloat64 *FormFieldFloat64) GongDiff(formfieldfloat64Other *FormFieldFloat64) (diffs []string) {
+func (formfieldfloat64 *FormFieldFloat64) GongDiff(stage *Stage, formfieldfloat64Other *FormFieldFloat64) (diffs []string) {
 	// insertion point for field diffs
 	if formfieldfloat64.Name != formfieldfloat64Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "Name"))
 	}
 	if formfieldfloat64.Value != formfieldfloat64Other.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "Value"))
 	}
 	if formfieldfloat64.HasMinValidator != formfieldfloat64Other.HasMinValidator {
-		diffs = append(diffs, "HasMinValidator")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "HasMinValidator"))
 	}
 	if formfieldfloat64.MinValue != formfieldfloat64Other.MinValue {
-		diffs = append(diffs, "MinValue")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "MinValue"))
 	}
 	if formfieldfloat64.HasMaxValidator != formfieldfloat64Other.HasMaxValidator {
-		diffs = append(diffs, "HasMaxValidator")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "HasMaxValidator"))
 	}
 	if formfieldfloat64.MaxValue != formfieldfloat64Other.MaxValue {
-		diffs = append(diffs, "MaxValue")
+		diffs = append(diffs, formfieldfloat64.GongMarshallField(stage, "MaxValue"))
 	}
 
 	return
@@ -2311,25 +2313,25 @@ func (formfieldfloat64 *FormFieldFloat64) GongDiff(formfieldfloat64Other *FormFi
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfieldint *FormFieldInt) GongDiff(formfieldintOther *FormFieldInt) (diffs []string) {
+func (formfieldint *FormFieldInt) GongDiff(stage *Stage, formfieldintOther *FormFieldInt) (diffs []string) {
 	// insertion point for field diffs
 	if formfieldint.Name != formfieldintOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "Name"))
 	}
 	if formfieldint.Value != formfieldintOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "Value"))
 	}
 	if formfieldint.HasMinValidator != formfieldintOther.HasMinValidator {
-		diffs = append(diffs, "HasMinValidator")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "HasMinValidator"))
 	}
 	if formfieldint.MinValue != formfieldintOther.MinValue {
-		diffs = append(diffs, "MinValue")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "MinValue"))
 	}
 	if formfieldint.HasMaxValidator != formfieldintOther.HasMaxValidator {
-		diffs = append(diffs, "HasMaxValidator")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "HasMaxValidator"))
 	}
 	if formfieldint.MaxValue != formfieldintOther.MaxValue {
-		diffs = append(diffs, "MaxValue")
+		diffs = append(diffs, formfieldint.GongMarshallField(stage, "MaxValue"))
 	}
 
 	return
@@ -2337,16 +2339,16 @@ func (formfieldint *FormFieldInt) GongDiff(formfieldintOther *FormFieldInt) (dif
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfieldselect *FormFieldSelect) GongDiff(formfieldselectOther *FormFieldSelect) (diffs []string) {
+func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOther *FormFieldSelect) (diffs []string) {
 	// insertion point for field diffs
 	if formfieldselect.Name != formfieldselectOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Name"))
 	}
 	if (formfieldselect.Value == nil) != (formfieldselectOther.Value == nil) {
 		diffs = append(diffs, "Value")
 	} else if formfieldselect.Value != nil && formfieldselectOther.Value != nil {
 		if formfieldselect.Value != formfieldselectOther.Value {
-			diffs = append(diffs, "Value")
+			diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Value"))
 		}
 	}
 	OptionsDifferent := false
@@ -2358,7 +2360,8 @@ func (formfieldselect *FormFieldSelect) GongDiff(formfieldselectOther *FormField
 				OptionsDifferent = true
 				break
 			} else if formfieldselect.Options[i] != nil && formfieldselectOther.Options[i] != nil {
-				if len(formfieldselect.Options[i].GongDiff(formfieldselectOther.Options[i])) > 0 {
+			 	// this is a pointer comparaison
+				if formfieldselect.Options[i] != formfieldselectOther.Options[i] {
 					OptionsDifferent = true
 					break
 				}
@@ -2366,13 +2369,13 @@ func (formfieldselect *FormFieldSelect) GongDiff(formfieldselectOther *FormField
 		}
 	}
 	if OptionsDifferent {
-		diffs = append(diffs, "Options")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Options"))
 	}
 	if formfieldselect.CanBeEmpty != formfieldselectOther.CanBeEmpty {
-		diffs = append(diffs, "CanBeEmpty")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "CanBeEmpty"))
 	}
 	if formfieldselect.PreserveInitialOrder != formfieldselectOther.PreserveInitialOrder {
-		diffs = append(diffs, "PreserveInitialOrder")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "PreserveInitialOrder"))
 	}
 
 	return
@@ -2380,16 +2383,16 @@ func (formfieldselect *FormFieldSelect) GongDiff(formfieldselectOther *FormField
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfieldstring *FormFieldString) GongDiff(formfieldstringOther *FormFieldString) (diffs []string) {
+func (formfieldstring *FormFieldString) GongDiff(stage *Stage, formfieldstringOther *FormFieldString) (diffs []string) {
 	// insertion point for field diffs
 	if formfieldstring.Name != formfieldstringOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfieldstring.GongMarshallField(stage, "Name"))
 	}
 	if formfieldstring.Value != formfieldstringOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldstring.GongMarshallField(stage, "Value"))
 	}
 	if formfieldstring.IsTextArea != formfieldstringOther.IsTextArea {
-		diffs = append(diffs, "IsTextArea")
+		diffs = append(diffs, formfieldstring.GongMarshallField(stage, "IsTextArea"))
 	}
 
 	return
@@ -2397,16 +2400,16 @@ func (formfieldstring *FormFieldString) GongDiff(formfieldstringOther *FormField
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formfieldtime *FormFieldTime) GongDiff(formfieldtimeOther *FormFieldTime) (diffs []string) {
+func (formfieldtime *FormFieldTime) GongDiff(stage *Stage, formfieldtimeOther *FormFieldTime) (diffs []string) {
 	// insertion point for field diffs
 	if formfieldtime.Name != formfieldtimeOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formfieldtime.GongMarshallField(stage, "Name"))
 	}
 	if formfieldtime.Value != formfieldtimeOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldtime.GongMarshallField(stage, "Value"))
 	}
 	if formfieldtime.Step != formfieldtimeOther.Step {
-		diffs = append(diffs, "Step")
+		diffs = append(diffs, formfieldtime.GongMarshallField(stage, "Step"))
 	}
 
 	return
@@ -2414,13 +2417,13 @@ func (formfieldtime *FormFieldTime) GongDiff(formfieldtimeOther *FormFieldTime) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formgroup *FormGroup) GongDiff(formgroupOther *FormGroup) (diffs []string) {
+func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (diffs []string) {
 	// insertion point for field diffs
 	if formgroup.Name != formgroupOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "Name"))
 	}
 	if formgroup.Label != formgroupOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "Label"))
 	}
 	FormDivsDifferent := false
 	if len(formgroup.FormDivs) != len(formgroupOther.FormDivs) {
@@ -2431,7 +2434,8 @@ func (formgroup *FormGroup) GongDiff(formgroupOther *FormGroup) (diffs []string)
 				FormDivsDifferent = true
 				break
 			} else if formgroup.FormDivs[i] != nil && formgroupOther.FormDivs[i] != nil {
-				if len(formgroup.FormDivs[i].GongDiff(formgroupOther.FormDivs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if formgroup.FormDivs[i] != formgroupOther.FormDivs[i] {
 					FormDivsDifferent = true
 					break
 				}
@@ -2439,13 +2443,13 @@ func (formgroup *FormGroup) GongDiff(formgroupOther *FormGroup) (diffs []string)
 		}
 	}
 	if FormDivsDifferent {
-		diffs = append(diffs, "FormDivs")
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "FormDivs"))
 	}
 	if formgroup.HasSuppressButton != formgroupOther.HasSuppressButton {
-		diffs = append(diffs, "HasSuppressButton")
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "HasSuppressButton"))
 	}
 	if formgroup.HasSuppressButtonBeenPressed != formgroupOther.HasSuppressButtonBeenPressed {
-		diffs = append(diffs, "HasSuppressButtonBeenPressed")
+		diffs = append(diffs, formgroup.GongMarshallField(stage, "HasSuppressButtonBeenPressed"))
 	}
 
 	return
@@ -2453,28 +2457,28 @@ func (formgroup *FormGroup) GongDiff(formgroupOther *FormGroup) (diffs []string)
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (formsortassocbutton *FormSortAssocButton) GongDiff(formsortassocbuttonOther *FormSortAssocButton) (diffs []string) {
+func (formsortassocbutton *FormSortAssocButton) GongDiff(stage *Stage, formsortassocbuttonOther *FormSortAssocButton) (diffs []string) {
 	// insertion point for field diffs
 	if formsortassocbutton.Name != formsortassocbuttonOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "Name"))
 	}
 	if formsortassocbutton.Label != formsortassocbuttonOther.Label {
-		diffs = append(diffs, "Label")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "Label"))
 	}
 	if formsortassocbutton.HasToolTip != formsortassocbuttonOther.HasToolTip {
-		diffs = append(diffs, "HasToolTip")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "HasToolTip"))
 	}
 	if formsortassocbutton.ToolTipText != formsortassocbuttonOther.ToolTipText {
-		diffs = append(diffs, "ToolTipText")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "ToolTipText"))
 	}
 	if formsortassocbutton.MatTooltipShowDelay != formsortassocbuttonOther.MatTooltipShowDelay {
-		diffs = append(diffs, "MatTooltipShowDelay")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
 	}
 	if (formsortassocbutton.FormEditAssocButton == nil) != (formsortassocbuttonOther.FormEditAssocButton == nil) {
 		diffs = append(diffs, "FormEditAssocButton")
 	} else if formsortassocbutton.FormEditAssocButton != nil && formsortassocbuttonOther.FormEditAssocButton != nil {
 		if formsortassocbutton.FormEditAssocButton != formsortassocbuttonOther.FormEditAssocButton {
-			diffs = append(diffs, "FormEditAssocButton")
+			diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
 		}
 	}
 
@@ -2483,10 +2487,10 @@ func (formsortassocbutton *FormSortAssocButton) GongDiff(formsortassocbuttonOthe
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (option *Option) GongDiff(optionOther *Option) (diffs []string) {
+func (option *Option) GongDiff(stage *Stage, optionOther *Option) (diffs []string) {
 	// insertion point for field diffs
 	if option.Name != optionOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, option.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -2494,10 +2498,10 @@ func (option *Option) GongDiff(optionOther *Option) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (row *Row) GongDiff(rowOther *Row) (diffs []string) {
+func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 	// insertion point for field diffs
 	if row.Name != rowOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, row.GongMarshallField(stage, "Name"))
 	}
 	CellsDifferent := false
 	if len(row.Cells) != len(rowOther.Cells) {
@@ -2508,7 +2512,8 @@ func (row *Row) GongDiff(rowOther *Row) (diffs []string) {
 				CellsDifferent = true
 				break
 			} else if row.Cells[i] != nil && rowOther.Cells[i] != nil {
-				if len(row.Cells[i].GongDiff(rowOther.Cells[i])) > 0 {
+			 	// this is a pointer comparaison
+				if row.Cells[i] != rowOther.Cells[i] {
 					CellsDifferent = true
 					break
 				}
@@ -2516,10 +2521,10 @@ func (row *Row) GongDiff(rowOther *Row) (diffs []string) {
 		}
 	}
 	if CellsDifferent {
-		diffs = append(diffs, "Cells")
+		diffs = append(diffs, row.GongMarshallField(stage, "Cells"))
 	}
 	if row.IsChecked != rowOther.IsChecked {
-		diffs = append(diffs, "IsChecked")
+		diffs = append(diffs, row.GongMarshallField(stage, "IsChecked"))
 	}
 
 	return
@@ -2527,10 +2532,10 @@ func (row *Row) GongDiff(rowOther *Row) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
+func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	// insertion point for field diffs
 	if table.Name != tableOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, table.GongMarshallField(stage, "Name"))
 	}
 	DisplayedColumnsDifferent := false
 	if len(table.DisplayedColumns) != len(tableOther.DisplayedColumns) {
@@ -2541,7 +2546,8 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 				DisplayedColumnsDifferent = true
 				break
 			} else if table.DisplayedColumns[i] != nil && tableOther.DisplayedColumns[i] != nil {
-				if len(table.DisplayedColumns[i].GongDiff(tableOther.DisplayedColumns[i])) > 0 {
+			 	// this is a pointer comparaison
+				if table.DisplayedColumns[i] != tableOther.DisplayedColumns[i] {
 					DisplayedColumnsDifferent = true
 					break
 				}
@@ -2549,7 +2555,7 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 		}
 	}
 	if DisplayedColumnsDifferent {
-		diffs = append(diffs, "DisplayedColumns")
+		diffs = append(diffs, table.GongMarshallField(stage, "DisplayedColumns"))
 	}
 	RowsDifferent := false
 	if len(table.Rows) != len(tableOther.Rows) {
@@ -2560,7 +2566,8 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 				RowsDifferent = true
 				break
 			} else if table.Rows[i] != nil && tableOther.Rows[i] != nil {
-				if len(table.Rows[i].GongDiff(tableOther.Rows[i])) > 0 {
+			 	// this is a pointer comparaison
+				if table.Rows[i] != tableOther.Rows[i] {
 					RowsDifferent = true
 					break
 				}
@@ -2568,37 +2575,37 @@ func (table *Table) GongDiff(tableOther *Table) (diffs []string) {
 		}
 	}
 	if RowsDifferent {
-		diffs = append(diffs, "Rows")
+		diffs = append(diffs, table.GongMarshallField(stage, "Rows"))
 	}
 	if table.HasFiltering != tableOther.HasFiltering {
-		diffs = append(diffs, "HasFiltering")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasFiltering"))
 	}
 	if table.HasColumnSorting != tableOther.HasColumnSorting {
-		diffs = append(diffs, "HasColumnSorting")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasColumnSorting"))
 	}
 	if table.HasPaginator != tableOther.HasPaginator {
-		diffs = append(diffs, "HasPaginator")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasPaginator"))
 	}
 	if table.HasCheckableRows != tableOther.HasCheckableRows {
-		diffs = append(diffs, "HasCheckableRows")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasCheckableRows"))
 	}
 	if table.HasSaveButton != tableOther.HasSaveButton {
-		diffs = append(diffs, "HasSaveButton")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasSaveButton"))
 	}
 	if table.SaveButtonLabel != tableOther.SaveButtonLabel {
-		diffs = append(diffs, "SaveButtonLabel")
+		diffs = append(diffs, table.GongMarshallField(stage, "SaveButtonLabel"))
 	}
 	if table.CanDragDropRows != tableOther.CanDragDropRows {
-		diffs = append(diffs, "CanDragDropRows")
+		diffs = append(diffs, table.GongMarshallField(stage, "CanDragDropRows"))
 	}
 	if table.HasCloseButton != tableOther.HasCloseButton {
-		diffs = append(diffs, "HasCloseButton")
+		diffs = append(diffs, table.GongMarshallField(stage, "HasCloseButton"))
 	}
 	if table.SavingInProgress != tableOther.SavingInProgress {
-		diffs = append(diffs, "SavingInProgress")
+		diffs = append(diffs, table.GongMarshallField(stage, "SavingInProgress"))
 	}
 	if table.NbOfStickyColumns != tableOther.NbOfStickyColumns {
-		diffs = append(diffs, "NbOfStickyColumns")
+		diffs = append(diffs, table.GongMarshallField(stage, "NbOfStickyColumns"))
 	}
 
 	return
