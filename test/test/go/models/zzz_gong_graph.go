@@ -796,6 +796,12 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 			diffs = append(diffs, "Anotherassociationtob_2")
 		}
 	}
+	if astruct.Date != astructOther.Date {
+		diffs = append(diffs, "Date")
+	}
+	if astruct.Date2 != astructOther.Date2 {
+		diffs = append(diffs, "Date2")
+	}
 	if astruct.Booleanfield != astructOther.Booleanfield {
 		diffs = append(diffs, "Booleanfield")
 	}
@@ -1101,6 +1107,9 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongDi
 	// insertion point for field diffs
 	if f0123456789012345678901234567890.Name != f0123456789012345678901234567890Other.Name {
 		diffs = append(diffs, "Name")
+	}
+	if f0123456789012345678901234567890.Date != f0123456789012345678901234567890Other.Date {
+		diffs = append(diffs, "Date")
 	}
 
 	return
