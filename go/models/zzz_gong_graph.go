@@ -944,44 +944,44 @@ func (stage *Stage) UnstageBranchSliceOfPointerToGongStructField(sliceofpointert
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongbasicfield *GongBasicField) GongDiff(gongbasicfieldOther *GongBasicField) (diffs []string) {
+func (gongbasicfield *GongBasicField) GongDiff(stage *Stage, gongbasicfieldOther *GongBasicField) (diffs []string) {
 	// insertion point for field diffs
 	if gongbasicfield.Name != gongbasicfieldOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "Name"))
 	}
 	if gongbasicfield.BasicKindName != gongbasicfieldOther.BasicKindName {
-		diffs = append(diffs, "BasicKindName")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "BasicKindName"))
 	}
 	if (gongbasicfield.GongEnum == nil) != (gongbasicfieldOther.GongEnum == nil) {
 		diffs = append(diffs, "GongEnum")
 	} else if gongbasicfield.GongEnum != nil && gongbasicfieldOther.GongEnum != nil {
 		if gongbasicfield.GongEnum != gongbasicfieldOther.GongEnum {
-			diffs = append(diffs, "GongEnum")
+			diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "GongEnum"))
 		}
 	}
 	if gongbasicfield.DeclaredType != gongbasicfieldOther.DeclaredType {
-		diffs = append(diffs, "DeclaredType")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "DeclaredType"))
 	}
 	if gongbasicfield.CompositeStructName != gongbasicfieldOther.CompositeStructName {
-		diffs = append(diffs, "CompositeStructName")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "CompositeStructName"))
 	}
 	if gongbasicfield.Index != gongbasicfieldOther.Index {
-		diffs = append(diffs, "Index")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "Index"))
 	}
 	if gongbasicfield.IsTextArea != gongbasicfieldOther.IsTextArea {
-		diffs = append(diffs, "IsTextArea")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsTextArea"))
 	}
 	if gongbasicfield.IsBespokeWidth != gongbasicfieldOther.IsBespokeWidth {
-		diffs = append(diffs, "IsBespokeWidth")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsBespokeWidth"))
 	}
 	if gongbasicfield.BespokeWidth != gongbasicfieldOther.BespokeWidth {
-		diffs = append(diffs, "BespokeWidth")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "BespokeWidth"))
 	}
 	if gongbasicfield.IsBespokeHeight != gongbasicfieldOther.IsBespokeHeight {
-		diffs = append(diffs, "IsBespokeHeight")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "IsBespokeHeight"))
 	}
 	if gongbasicfield.BespokeHeight != gongbasicfieldOther.BespokeHeight {
-		diffs = append(diffs, "BespokeHeight")
+		diffs = append(diffs, gongbasicfield.GongMarshallField(stage, "BespokeHeight"))
 	}
 
 	return
@@ -989,13 +989,13 @@ func (gongbasicfield *GongBasicField) GongDiff(gongbasicfieldOther *GongBasicFie
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongenum *GongEnum) GongDiff(gongenumOther *GongEnum) (diffs []string) {
+func (gongenum *GongEnum) GongDiff(stage *Stage, gongenumOther *GongEnum) (diffs []string) {
 	// insertion point for field diffs
 	if gongenum.Name != gongenumOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongenum.GongMarshallField(stage, "Name"))
 	}
 	if gongenum.Type != gongenumOther.Type {
-		diffs = append(diffs, "Type")
+		diffs = append(diffs, gongenum.GongMarshallField(stage, "Type"))
 	}
 	GongEnumValuesDifferent := false
 	if len(gongenum.GongEnumValues) != len(gongenumOther.GongEnumValues) {
@@ -1006,7 +1006,8 @@ func (gongenum *GongEnum) GongDiff(gongenumOther *GongEnum) (diffs []string) {
 				GongEnumValuesDifferent = true
 				break
 			} else if gongenum.GongEnumValues[i] != nil && gongenumOther.GongEnumValues[i] != nil {
-				if len(gongenum.GongEnumValues[i].GongDiff(gongenumOther.GongEnumValues[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongenum.GongEnumValues[i] != gongenumOther.GongEnumValues[i] {
 					GongEnumValuesDifferent = true
 					break
 				}
@@ -1014,7 +1015,7 @@ func (gongenum *GongEnum) GongDiff(gongenumOther *GongEnum) (diffs []string) {
 		}
 	}
 	if GongEnumValuesDifferent {
-		diffs = append(diffs, "GongEnumValues")
+		diffs = append(diffs, gongenum.GongMarshallField(stage, "GongEnumValues"))
 	}
 
 	return
@@ -1022,13 +1023,13 @@ func (gongenum *GongEnum) GongDiff(gongenumOther *GongEnum) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongenumvalue *GongEnumValue) GongDiff(gongenumvalueOther *GongEnumValue) (diffs []string) {
+func (gongenumvalue *GongEnumValue) GongDiff(stage *Stage, gongenumvalueOther *GongEnumValue) (diffs []string) {
 	// insertion point for field diffs
 	if gongenumvalue.Name != gongenumvalueOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongenumvalue.GongMarshallField(stage, "Name"))
 	}
 	if gongenumvalue.Value != gongenumvalueOther.Value {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, gongenumvalue.GongMarshallField(stage, "Value"))
 	}
 
 	return
@@ -1036,16 +1037,16 @@ func (gongenumvalue *GongEnumValue) GongDiff(gongenumvalueOther *GongEnumValue) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gonglink *GongLink) GongDiff(gonglinkOther *GongLink) (diffs []string) {
+func (gonglink *GongLink) GongDiff(stage *Stage, gonglinkOther *GongLink) (diffs []string) {
 	// insertion point for field diffs
 	if gonglink.Name != gonglinkOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gonglink.GongMarshallField(stage, "Name"))
 	}
 	if gonglink.Recv != gonglinkOther.Recv {
-		diffs = append(diffs, "Recv")
+		diffs = append(diffs, gonglink.GongMarshallField(stage, "Recv"))
 	}
 	if gonglink.ImportPath != gonglinkOther.ImportPath {
-		diffs = append(diffs, "ImportPath")
+		diffs = append(diffs, gonglink.GongMarshallField(stage, "ImportPath"))
 	}
 
 	return
@@ -1053,16 +1054,16 @@ func (gonglink *GongLink) GongDiff(gonglinkOther *GongLink) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongnote *GongNote) GongDiff(gongnoteOther *GongNote) (diffs []string) {
+func (gongnote *GongNote) GongDiff(stage *Stage, gongnoteOther *GongNote) (diffs []string) {
 	// insertion point for field diffs
 	if gongnote.Name != gongnoteOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongnote.GongMarshallField(stage, "Name"))
 	}
 	if gongnote.Body != gongnoteOther.Body {
-		diffs = append(diffs, "Body")
+		diffs = append(diffs, gongnote.GongMarshallField(stage, "Body"))
 	}
 	if gongnote.BodyHTML != gongnoteOther.BodyHTML {
-		diffs = append(diffs, "BodyHTML")
+		diffs = append(diffs, gongnote.GongMarshallField(stage, "BodyHTML"))
 	}
 	LinksDifferent := false
 	if len(gongnote.Links) != len(gongnoteOther.Links) {
@@ -1073,7 +1074,8 @@ func (gongnote *GongNote) GongDiff(gongnoteOther *GongNote) (diffs []string) {
 				LinksDifferent = true
 				break
 			} else if gongnote.Links[i] != nil && gongnoteOther.Links[i] != nil {
-				if len(gongnote.Links[i].GongDiff(gongnoteOther.Links[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongnote.Links[i] != gongnoteOther.Links[i] {
 					LinksDifferent = true
 					break
 				}
@@ -1081,7 +1083,7 @@ func (gongnote *GongNote) GongDiff(gongnoteOther *GongNote) (diffs []string) {
 		}
 	}
 	if LinksDifferent {
-		diffs = append(diffs, "Links")
+		diffs = append(diffs, gongnote.GongMarshallField(stage, "Links"))
 	}
 
 	return
@@ -1089,10 +1091,10 @@ func (gongnote *GongNote) GongDiff(gongnoteOther *GongNote) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []string) {
+func (gongstruct *GongStruct) GongDiff(stage *Stage, gongstructOther *GongStruct) (diffs []string) {
 	// insertion point for field diffs
 	if gongstruct.Name != gongstructOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "Name"))
 	}
 	GongBasicFieldsDifferent := false
 	if len(gongstruct.GongBasicFields) != len(gongstructOther.GongBasicFields) {
@@ -1103,7 +1105,8 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 				GongBasicFieldsDifferent = true
 				break
 			} else if gongstruct.GongBasicFields[i] != nil && gongstructOther.GongBasicFields[i] != nil {
-				if len(gongstruct.GongBasicFields[i].GongDiff(gongstructOther.GongBasicFields[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstruct.GongBasicFields[i] != gongstructOther.GongBasicFields[i] {
 					GongBasicFieldsDifferent = true
 					break
 				}
@@ -1111,7 +1114,7 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 		}
 	}
 	if GongBasicFieldsDifferent {
-		diffs = append(diffs, "GongBasicFields")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "GongBasicFields"))
 	}
 	GongTimeFieldsDifferent := false
 	if len(gongstruct.GongTimeFields) != len(gongstructOther.GongTimeFields) {
@@ -1122,7 +1125,8 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 				GongTimeFieldsDifferent = true
 				break
 			} else if gongstruct.GongTimeFields[i] != nil && gongstructOther.GongTimeFields[i] != nil {
-				if len(gongstruct.GongTimeFields[i].GongDiff(gongstructOther.GongTimeFields[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstruct.GongTimeFields[i] != gongstructOther.GongTimeFields[i] {
 					GongTimeFieldsDifferent = true
 					break
 				}
@@ -1130,7 +1134,7 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 		}
 	}
 	if GongTimeFieldsDifferent {
-		diffs = append(diffs, "GongTimeFields")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "GongTimeFields"))
 	}
 	PointerToGongStructFieldsDifferent := false
 	if len(gongstruct.PointerToGongStructFields) != len(gongstructOther.PointerToGongStructFields) {
@@ -1141,7 +1145,8 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 				PointerToGongStructFieldsDifferent = true
 				break
 			} else if gongstruct.PointerToGongStructFields[i] != nil && gongstructOther.PointerToGongStructFields[i] != nil {
-				if len(gongstruct.PointerToGongStructFields[i].GongDiff(gongstructOther.PointerToGongStructFields[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstruct.PointerToGongStructFields[i] != gongstructOther.PointerToGongStructFields[i] {
 					PointerToGongStructFieldsDifferent = true
 					break
 				}
@@ -1149,7 +1154,7 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 		}
 	}
 	if PointerToGongStructFieldsDifferent {
-		diffs = append(diffs, "PointerToGongStructFields")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "PointerToGongStructFields"))
 	}
 	SliceOfPointerToGongStructFieldsDifferent := false
 	if len(gongstruct.SliceOfPointerToGongStructFields) != len(gongstructOther.SliceOfPointerToGongStructFields) {
@@ -1160,7 +1165,8 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 				SliceOfPointerToGongStructFieldsDifferent = true
 				break
 			} else if gongstruct.SliceOfPointerToGongStructFields[i] != nil && gongstructOther.SliceOfPointerToGongStructFields[i] != nil {
-				if len(gongstruct.SliceOfPointerToGongStructFields[i].GongDiff(gongstructOther.SliceOfPointerToGongStructFields[i])) > 0 {
+			 	// this is a pointer comparaison
+				if gongstruct.SliceOfPointerToGongStructFields[i] != gongstructOther.SliceOfPointerToGongStructFields[i] {
 					SliceOfPointerToGongStructFieldsDifferent = true
 					break
 				}
@@ -1168,13 +1174,13 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 		}
 	}
 	if SliceOfPointerToGongStructFieldsDifferent {
-		diffs = append(diffs, "SliceOfPointerToGongStructFields")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "SliceOfPointerToGongStructFields"))
 	}
 	if gongstruct.HasOnAfterUpdateSignature != gongstructOther.HasOnAfterUpdateSignature {
-		diffs = append(diffs, "HasOnAfterUpdateSignature")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "HasOnAfterUpdateSignature"))
 	}
 	if gongstruct.IsIgnoredForFront != gongstructOther.IsIgnoredForFront {
-		diffs = append(diffs, "IsIgnoredForFront")
+		diffs = append(diffs, gongstruct.GongMarshallField(stage, "IsIgnoredForFront"))
 	}
 
 	return
@@ -1182,19 +1188,19 @@ func (gongstruct *GongStruct) GongDiff(gongstructOther *GongStruct) (diffs []str
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gongtimefield *GongTimeField) GongDiff(gongtimefieldOther *GongTimeField) (diffs []string) {
+func (gongtimefield *GongTimeField) GongDiff(stage *Stage, gongtimefieldOther *GongTimeField) (diffs []string) {
 	// insertion point for field diffs
 	if gongtimefield.Name != gongtimefieldOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "Name"))
 	}
 	if gongtimefield.Index != gongtimefieldOther.Index {
-		diffs = append(diffs, "Index")
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "Index"))
 	}
 	if gongtimefield.CompositeStructName != gongtimefieldOther.CompositeStructName {
-		diffs = append(diffs, "CompositeStructName")
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "CompositeStructName"))
 	}
 	if gongtimefield.BespokeTimeFormat != gongtimefieldOther.BespokeTimeFormat {
-		diffs = append(diffs, "BespokeTimeFormat")
+		diffs = append(diffs, gongtimefield.GongMarshallField(stage, "BespokeTimeFormat"))
 	}
 
 	return
@@ -1202,10 +1208,10 @@ func (gongtimefield *GongTimeField) GongDiff(gongtimefieldOther *GongTimeField) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (metareference *MetaReference) GongDiff(metareferenceOther *MetaReference) (diffs []string) {
+func (metareference *MetaReference) GongDiff(stage *Stage, metareferenceOther *MetaReference) (diffs []string) {
 	// insertion point for field diffs
 	if metareference.Name != metareferenceOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, metareference.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -1213,61 +1219,61 @@ func (metareference *MetaReference) GongDiff(metareferenceOther *MetaReference) 
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (modelpkg *ModelPkg) GongDiff(modelpkgOther *ModelPkg) (diffs []string) {
+func (modelpkg *ModelPkg) GongDiff(stage *Stage, modelpkgOther *ModelPkg) (diffs []string) {
 	// insertion point for field diffs
 	if modelpkg.Name != modelpkgOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "Name"))
 	}
 	if modelpkg.PkgPath != modelpkgOther.PkgPath {
-		diffs = append(diffs, "PkgPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "PkgPath"))
 	}
 	if modelpkg.PathToGoSubDirectory != modelpkgOther.PathToGoSubDirectory {
-		diffs = append(diffs, "PathToGoSubDirectory")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "PathToGoSubDirectory"))
 	}
 	if modelpkg.OrmPkgGenPath != modelpkgOther.OrmPkgGenPath {
-		diffs = append(diffs, "OrmPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "OrmPkgGenPath"))
 	}
 	if modelpkg.DbOrmPkgGenPath != modelpkgOther.DbOrmPkgGenPath {
-		diffs = append(diffs, "DbOrmPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "DbOrmPkgGenPath"))
 	}
 	if modelpkg.DbLiteOrmPkgGenPath != modelpkgOther.DbLiteOrmPkgGenPath {
-		diffs = append(diffs, "DbLiteOrmPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "DbLiteOrmPkgGenPath"))
 	}
 	if modelpkg.DbPkgGenPath != modelpkgOther.DbPkgGenPath {
-		diffs = append(diffs, "DbPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "DbPkgGenPath"))
 	}
 	if modelpkg.ControllersPkgGenPath != modelpkgOther.ControllersPkgGenPath {
-		diffs = append(diffs, "ControllersPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "ControllersPkgGenPath"))
 	}
 	if modelpkg.FullstackPkgGenPath != modelpkgOther.FullstackPkgGenPath {
-		diffs = append(diffs, "FullstackPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "FullstackPkgGenPath"))
 	}
 	if modelpkg.StackPkgGenPath != modelpkgOther.StackPkgGenPath {
-		diffs = append(diffs, "StackPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "StackPkgGenPath"))
 	}
 	if modelpkg.Level1StackPkgGenPath != modelpkgOther.Level1StackPkgGenPath {
-		diffs = append(diffs, "Level1StackPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "Level1StackPkgGenPath"))
 	}
 	if modelpkg.StaticPkgGenPath != modelpkgOther.StaticPkgGenPath {
-		diffs = append(diffs, "StaticPkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "StaticPkgGenPath"))
 	}
 	if modelpkg.ProbePkgGenPath != modelpkgOther.ProbePkgGenPath {
-		diffs = append(diffs, "ProbePkgGenPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "ProbePkgGenPath"))
 	}
 	if modelpkg.NgWorkspacePath != modelpkgOther.NgWorkspacePath {
-		diffs = append(diffs, "NgWorkspacePath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "NgWorkspacePath"))
 	}
 	if modelpkg.NgWorkspaceName != modelpkgOther.NgWorkspaceName {
-		diffs = append(diffs, "NgWorkspaceName")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "NgWorkspaceName"))
 	}
 	if modelpkg.NgDataLibrarySourceCodeDirectory != modelpkgOther.NgDataLibrarySourceCodeDirectory {
-		diffs = append(diffs, "NgDataLibrarySourceCodeDirectory")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "NgDataLibrarySourceCodeDirectory"))
 	}
 	if modelpkg.NgSpecificLibrarySourceCodeDirectory != modelpkgOther.NgSpecificLibrarySourceCodeDirectory {
-		diffs = append(diffs, "NgSpecificLibrarySourceCodeDirectory")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "NgSpecificLibrarySourceCodeDirectory"))
 	}
 	if modelpkg.MaterialLibDatamodelTargetPath != modelpkgOther.MaterialLibDatamodelTargetPath {
-		diffs = append(diffs, "MaterialLibDatamodelTargetPath")
+		diffs = append(diffs, modelpkg.GongMarshallField(stage, "MaterialLibDatamodelTargetPath"))
 	}
 
 	return
@@ -1275,26 +1281,26 @@ func (modelpkg *ModelPkg) GongDiff(modelpkgOther *ModelPkg) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (pointertogongstructfield *PointerToGongStructField) GongDiff(pointertogongstructfieldOther *PointerToGongStructField) (diffs []string) {
+func (pointertogongstructfield *PointerToGongStructField) GongDiff(stage *Stage, pointertogongstructfieldOther *PointerToGongStructField) (diffs []string) {
 	// insertion point for field diffs
 	if pointertogongstructfield.Name != pointertogongstructfieldOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "Name"))
 	}
 	if (pointertogongstructfield.GongStruct == nil) != (pointertogongstructfieldOther.GongStruct == nil) {
 		diffs = append(diffs, "GongStruct")
 	} else if pointertogongstructfield.GongStruct != nil && pointertogongstructfieldOther.GongStruct != nil {
 		if pointertogongstructfield.GongStruct != pointertogongstructfieldOther.GongStruct {
-			diffs = append(diffs, "GongStruct")
+			diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "GongStruct"))
 		}
 	}
 	if pointertogongstructfield.Index != pointertogongstructfieldOther.Index {
-		diffs = append(diffs, "Index")
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "Index"))
 	}
 	if pointertogongstructfield.CompositeStructName != pointertogongstructfieldOther.CompositeStructName {
-		diffs = append(diffs, "CompositeStructName")
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 	}
 	if pointertogongstructfield.IsType != pointertogongstructfieldOther.IsType {
-		diffs = append(diffs, "IsType")
+		diffs = append(diffs, pointertogongstructfield.GongMarshallField(stage, "IsType"))
 	}
 
 	return
@@ -1302,23 +1308,23 @@ func (pointertogongstructfield *PointerToGongStructField) GongDiff(pointertogong
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff(sliceofpointertogongstructfieldOther *SliceOfPointerToGongStructField) (diffs []string) {
+func (sliceofpointertogongstructfield *SliceOfPointerToGongStructField) GongDiff(stage *Stage, sliceofpointertogongstructfieldOther *SliceOfPointerToGongStructField) (diffs []string) {
 	// insertion point for field diffs
 	if sliceofpointertogongstructfield.Name != sliceofpointertogongstructfieldOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "Name"))
 	}
 	if (sliceofpointertogongstructfield.GongStruct == nil) != (sliceofpointertogongstructfieldOther.GongStruct == nil) {
 		diffs = append(diffs, "GongStruct")
 	} else if sliceofpointertogongstructfield.GongStruct != nil && sliceofpointertogongstructfieldOther.GongStruct != nil {
 		if sliceofpointertogongstructfield.GongStruct != sliceofpointertogongstructfieldOther.GongStruct {
-			diffs = append(diffs, "GongStruct")
+			diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "GongStruct"))
 		}
 	}
 	if sliceofpointertogongstructfield.Index != sliceofpointertogongstructfieldOther.Index {
-		diffs = append(diffs, "Index")
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "Index"))
 	}
 	if sliceofpointertogongstructfield.CompositeStructName != sliceofpointertogongstructfieldOther.CompositeStructName {
-		diffs = append(diffs, "CompositeStructName")
+		diffs = append(diffs, sliceofpointertogongstructfield.GongMarshallField(stage, "CompositeStructName"))
 	}
 
 	return

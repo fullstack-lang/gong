@@ -233,16 +233,16 @@ func (stage *Stage) UnstageBranchB(b *B) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (a *A) GongDiff(aOther *A) (diffs []string) {
+func (a *A) GongDiff(stage *Stage, aOther *A) (diffs []string) {
 	// insertion point for field diffs
 	if a.Name != aOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, a.GongMarshallField(stage, "Name"))
 	}
 	if (a.B == nil) != (aOther.B == nil) {
 		diffs = append(diffs, "B")
 	} else if a.B != nil && aOther.B != nil {
 		if a.B != aOther.B {
-			diffs = append(diffs, "B")
+			diffs = append(diffs, a.GongMarshallField(stage, "B"))
 		}
 	}
 	BsDifferent := false
@@ -254,7 +254,8 @@ func (a *A) GongDiff(aOther *A) (diffs []string) {
 				BsDifferent = true
 				break
 			} else if a.Bs[i] != nil && aOther.Bs[i] != nil {
-				if len(a.Bs[i].GongDiff(aOther.Bs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if a.Bs[i] != aOther.Bs[i] {
 					BsDifferent = true
 					break
 				}
@@ -262,7 +263,7 @@ func (a *A) GongDiff(aOther *A) (diffs []string) {
 		}
 	}
 	if BsDifferent {
-		diffs = append(diffs, "Bs")
+		diffs = append(diffs, a.GongMarshallField(stage, "Bs"))
 	}
 
 	return
@@ -270,10 +271,10 @@ func (a *A) GongDiff(aOther *A) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (b *B) GongDiff(bOther *B) (diffs []string) {
+func (b *B) GongDiff(stage *Stage, bOther *B) (diffs []string) {
 	// insertion point for field diffs
 	if b.Name != bOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, b.GongMarshallField(stage, "Name"))
 	}
 
 	return

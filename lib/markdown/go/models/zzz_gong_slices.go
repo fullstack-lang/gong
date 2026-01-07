@@ -75,8 +75,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var contents_newInstances []*Content
@@ -86,36 +91,16 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents {
 		if ref, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Content "+content.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					content.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += content.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := content.GongDiff(ref)
+			diffs := content.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Content \""+content.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							content.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", content.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -126,12 +111,7 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents_reference {
 		if _, ok := stage.Contents[content]; !ok {
 			contents_deletedInstances = append(contents_deletedInstances, content)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					content.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += content.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -144,36 +124,16 @@ func (stage *Stage) ComputeDifference() {
 	for jpgimage := range stage.JpgImages {
 		if ref, ok := stage.JpgImages_reference[jpgimage]; !ok {
 			jpgimages_newInstances = append(jpgimages_newInstances, jpgimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of JpgImage "+jpgimage.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					jpgimage.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := jpgimage.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += jpgimage.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := jpgimage.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := jpgimage.GongDiff(ref)
+			diffs := jpgimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of JpgImage \""+jpgimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							jpgimage.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", jpgimage.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -184,12 +144,7 @@ func (stage *Stage) ComputeDifference() {
 	for jpgimage := range stage.JpgImages_reference {
 		if _, ok := stage.JpgImages[jpgimage]; !ok {
 			jpgimages_deletedInstances = append(jpgimages_deletedInstances, jpgimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					jpgimage.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += jpgimage.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -202,36 +157,16 @@ func (stage *Stage) ComputeDifference() {
 	for pngimage := range stage.PngImages {
 		if ref, ok := stage.PngImages_reference[pngimage]; !ok {
 			pngimages_newInstances = append(pngimages_newInstances, pngimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of PngImage "+pngimage.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					pngimage.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := pngimage.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += pngimage.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := pngimage.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := pngimage.GongDiff(ref)
+			diffs := pngimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of PngImage \""+pngimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							pngimage.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", pngimage.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -242,12 +177,7 @@ func (stage *Stage) ComputeDifference() {
 	for pngimage := range stage.PngImages_reference {
 		if _, ok := stage.PngImages[pngimage]; !ok {
 			pngimages_deletedInstances = append(pngimages_deletedInstances, pngimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					pngimage.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += pngimage.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -260,36 +190,16 @@ func (stage *Stage) ComputeDifference() {
 	for svgimage := range stage.SvgImages {
 		if ref, ok := stage.SvgImages_reference[svgimage]; !ok {
 			svgimages_newInstances = append(svgimages_newInstances, svgimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of SvgImage "+svgimage.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					svgimage.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := svgimage.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += svgimage.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := svgimage.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := svgimage.GongDiff(ref)
+			diffs := svgimage.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of SvgImage \""+svgimage.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							svgimage.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", svgimage.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -300,12 +210,7 @@ func (stage *Stage) ComputeDifference() {
 	for svgimage := range stage.SvgImages_reference {
 		if _, ok := stage.SvgImages[svgimage]; !ok {
 			svgimages_deletedInstances = append(svgimages_deletedInstances, svgimage)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					svgimage.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += svgimage.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -313,16 +218,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(svgimages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}
