@@ -485,23 +485,23 @@ func (stage *Stage) UnstageBranchXLSheet(xlsheet *XLSheet) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (displayselection *DisplaySelection) GongDiff(displayselectionOther *DisplaySelection) (diffs []string) {
+func (displayselection *DisplaySelection) GongDiff(stage *Stage, displayselectionOther *DisplaySelection) (diffs []string) {
 	// insertion point for field diffs
 	if displayselection.Name != displayselectionOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, displayselection.GongMarshallField(stage, "Name"))
 	}
 	if (displayselection.XLFile == nil) != (displayselectionOther.XLFile == nil) {
 		diffs = append(diffs, "XLFile")
 	} else if displayselection.XLFile != nil && displayselectionOther.XLFile != nil {
 		if displayselection.XLFile != displayselectionOther.XLFile {
-			diffs = append(diffs, "XLFile")
+			diffs = append(diffs, displayselection.GongMarshallField(stage, "XLFile"))
 		}
 	}
 	if (displayselection.XLSheet == nil) != (displayselectionOther.XLSheet == nil) {
 		diffs = append(diffs, "XLSheet")
 	} else if displayselection.XLSheet != nil && displayselectionOther.XLSheet != nil {
 		if displayselection.XLSheet != displayselectionOther.XLSheet {
-			diffs = append(diffs, "XLSheet")
+			diffs = append(diffs, displayselection.GongMarshallField(stage, "XLSheet"))
 		}
 	}
 
@@ -510,16 +510,16 @@ func (displayselection *DisplaySelection) GongDiff(displayselectionOther *Displa
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (xlcell *XLCell) GongDiff(xlcellOther *XLCell) (diffs []string) {
+func (xlcell *XLCell) GongDiff(stage *Stage, xlcellOther *XLCell) (diffs []string) {
 	// insertion point for field diffs
 	if xlcell.Name != xlcellOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, xlcell.GongMarshallField(stage, "Name"))
 	}
 	if xlcell.X != xlcellOther.X {
-		diffs = append(diffs, "X")
+		diffs = append(diffs, xlcell.GongMarshallField(stage, "X"))
 	}
 	if xlcell.Y != xlcellOther.Y {
-		diffs = append(diffs, "Y")
+		diffs = append(diffs, xlcell.GongMarshallField(stage, "Y"))
 	}
 
 	return
@@ -527,13 +527,13 @@ func (xlcell *XLCell) GongDiff(xlcellOther *XLCell) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (xlfile *XLFile) GongDiff(xlfileOther *XLFile) (diffs []string) {
+func (xlfile *XLFile) GongDiff(stage *Stage, xlfileOther *XLFile) (diffs []string) {
 	// insertion point for field diffs
 	if xlfile.Name != xlfileOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, xlfile.GongMarshallField(stage, "Name"))
 	}
 	if xlfile.NbSheets != xlfileOther.NbSheets {
-		diffs = append(diffs, "NbSheets")
+		diffs = append(diffs, xlfile.GongMarshallField(stage, "NbSheets"))
 	}
 	SheetsDifferent := false
 	if len(xlfile.Sheets) != len(xlfileOther.Sheets) {
@@ -544,7 +544,8 @@ func (xlfile *XLFile) GongDiff(xlfileOther *XLFile) (diffs []string) {
 				SheetsDifferent = true
 				break
 			} else if xlfile.Sheets[i] != nil && xlfileOther.Sheets[i] != nil {
-				if len(xlfile.Sheets[i].GongDiff(xlfileOther.Sheets[i])) > 0 {
+			 	// this is a pointer comparaison
+				if xlfile.Sheets[i] != xlfileOther.Sheets[i] {
 					SheetsDifferent = true
 					break
 				}
@@ -552,7 +553,7 @@ func (xlfile *XLFile) GongDiff(xlfileOther *XLFile) (diffs []string) {
 		}
 	}
 	if SheetsDifferent {
-		diffs = append(diffs, "Sheets")
+		diffs = append(diffs, xlfile.GongMarshallField(stage, "Sheets"))
 	}
 
 	return
@@ -560,13 +561,13 @@ func (xlfile *XLFile) GongDiff(xlfileOther *XLFile) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (xlrow *XLRow) GongDiff(xlrowOther *XLRow) (diffs []string) {
+func (xlrow *XLRow) GongDiff(stage *Stage, xlrowOther *XLRow) (diffs []string) {
 	// insertion point for field diffs
 	if xlrow.Name != xlrowOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, xlrow.GongMarshallField(stage, "Name"))
 	}
 	if xlrow.RowIndex != xlrowOther.RowIndex {
-		diffs = append(diffs, "RowIndex")
+		diffs = append(diffs, xlrow.GongMarshallField(stage, "RowIndex"))
 	}
 	CellsDifferent := false
 	if len(xlrow.Cells) != len(xlrowOther.Cells) {
@@ -577,7 +578,8 @@ func (xlrow *XLRow) GongDiff(xlrowOther *XLRow) (diffs []string) {
 				CellsDifferent = true
 				break
 			} else if xlrow.Cells[i] != nil && xlrowOther.Cells[i] != nil {
-				if len(xlrow.Cells[i].GongDiff(xlrowOther.Cells[i])) > 0 {
+			 	// this is a pointer comparaison
+				if xlrow.Cells[i] != xlrowOther.Cells[i] {
 					CellsDifferent = true
 					break
 				}
@@ -585,7 +587,7 @@ func (xlrow *XLRow) GongDiff(xlrowOther *XLRow) (diffs []string) {
 		}
 	}
 	if CellsDifferent {
-		diffs = append(diffs, "Cells")
+		diffs = append(diffs, xlrow.GongMarshallField(stage, "Cells"))
 	}
 
 	return
@@ -593,19 +595,19 @@ func (xlrow *XLRow) GongDiff(xlrowOther *XLRow) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
+func (xlsheet *XLSheet) GongDiff(stage *Stage, xlsheetOther *XLSheet) (diffs []string) {
 	// insertion point for field diffs
 	if xlsheet.Name != xlsheetOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "Name"))
 	}
 	if xlsheet.MaxRow != xlsheetOther.MaxRow {
-		diffs = append(diffs, "MaxRow")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "MaxRow"))
 	}
 	if xlsheet.MaxCol != xlsheetOther.MaxCol {
-		diffs = append(diffs, "MaxCol")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "MaxCol"))
 	}
 	if xlsheet.NbRows != xlsheetOther.NbRows {
-		diffs = append(diffs, "NbRows")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "NbRows"))
 	}
 	RowsDifferent := false
 	if len(xlsheet.Rows) != len(xlsheetOther.Rows) {
@@ -616,7 +618,8 @@ func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
 				RowsDifferent = true
 				break
 			} else if xlsheet.Rows[i] != nil && xlsheetOther.Rows[i] != nil {
-				if len(xlsheet.Rows[i].GongDiff(xlsheetOther.Rows[i])) > 0 {
+			 	// this is a pointer comparaison
+				if xlsheet.Rows[i] != xlsheetOther.Rows[i] {
 					RowsDifferent = true
 					break
 				}
@@ -624,7 +627,7 @@ func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
 		}
 	}
 	if RowsDifferent {
-		diffs = append(diffs, "Rows")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "Rows"))
 	}
 	SheetCellsDifferent := false
 	if len(xlsheet.SheetCells) != len(xlsheetOther.SheetCells) {
@@ -635,7 +638,8 @@ func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
 				SheetCellsDifferent = true
 				break
 			} else if xlsheet.SheetCells[i] != nil && xlsheetOther.SheetCells[i] != nil {
-				if len(xlsheet.SheetCells[i].GongDiff(xlsheetOther.SheetCells[i])) > 0 {
+			 	// this is a pointer comparaison
+				if xlsheet.SheetCells[i] != xlsheetOther.SheetCells[i] {
 					SheetCellsDifferent = true
 					break
 				}
@@ -643,7 +647,7 @@ func (xlsheet *XLSheet) GongDiff(xlsheetOther *XLSheet) (diffs []string) {
 		}
 	}
 	if SheetCellsDifferent {
-		diffs = append(diffs, "SheetCells")
+		diffs = append(diffs, xlsheet.GongMarshallField(stage, "SheetCells"))
 	}
 
 	return

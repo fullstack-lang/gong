@@ -755,19 +755,19 @@ func (stage *Stage) UnstageBranchGstruct(gstruct *Gstruct) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
+func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []string) {
 	// insertion point for field diffs
 	if astruct.Name != astructOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Name"))
 	}
 	if astruct.Field != astructOther.Field {
-		diffs = append(diffs, "Field")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Field"))
 	}
 	if (astruct.Associationtob == nil) != (astructOther.Associationtob == nil) {
 		diffs = append(diffs, "Associationtob")
 	} else if astruct.Associationtob != nil && astructOther.Associationtob != nil {
 		if astruct.Associationtob != astructOther.Associationtob {
-			diffs = append(diffs, "Associationtob")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Associationtob"))
 		}
 	}
 	AnarrayofbDifferent := false
@@ -779,7 +779,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				AnarrayofbDifferent = true
 				break
 			} else if astruct.Anarrayofb[i] != nil && astructOther.Anarrayofb[i] != nil {
-				if len(astruct.Anarrayofb[i].GongDiff(astructOther.Anarrayofb[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.Anarrayofb[i] != astructOther.Anarrayofb[i] {
 					AnarrayofbDifferent = true
 					break
 				}
@@ -787,82 +788,82 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if AnarrayofbDifferent {
-		diffs = append(diffs, "Anarrayofb")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofb"))
 	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
 		diffs = append(diffs, "Anotherassociationtob_2")
 	} else if astruct.Anotherassociationtob_2 != nil && astructOther.Anotherassociationtob_2 != nil {
 		if astruct.Anotherassociationtob_2 != astructOther.Anotherassociationtob_2 {
-			diffs = append(diffs, "Anotherassociationtob_2")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
 		}
 	}
 	if astruct.Date != astructOther.Date {
-		diffs = append(diffs, "Date")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Date"))
 	}
 	if astruct.Date2 != astructOther.Date2 {
-		diffs = append(diffs, "Date2")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Date2"))
 	}
 	if astruct.Booleanfield != astructOther.Booleanfield {
-		diffs = append(diffs, "Booleanfield")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Booleanfield"))
 	}
 	if astruct.Aenum != astructOther.Aenum {
-		diffs = append(diffs, "Aenum")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Aenum"))
 	}
 	if astruct.Aenum_2 != astructOther.Aenum_2 {
-		diffs = append(diffs, "Aenum_2")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Aenum_2"))
 	}
 	if astruct.Benum != astructOther.Benum {
-		diffs = append(diffs, "Benum")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Benum"))
 	}
 	if astruct.CEnum != astructOther.CEnum {
-		diffs = append(diffs, "CEnum")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "CEnum"))
 	}
 	if astruct.CName != astructOther.CName {
-		diffs = append(diffs, "CName")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "CName"))
 	}
 	if astruct.CFloatfield != astructOther.CFloatfield {
-		diffs = append(diffs, "CFloatfield")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "CFloatfield"))
 	}
 	if (astruct.Bstruct == nil) != (astructOther.Bstruct == nil) {
 		diffs = append(diffs, "Bstruct")
 	} else if astruct.Bstruct != nil && astructOther.Bstruct != nil {
 		if astruct.Bstruct != astructOther.Bstruct {
-			diffs = append(diffs, "Bstruct")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct"))
 		}
 	}
 	if (astruct.Bstruct2 == nil) != (astructOther.Bstruct2 == nil) {
 		diffs = append(diffs, "Bstruct2")
 	} else if astruct.Bstruct2 != nil && astructOther.Bstruct2 != nil {
 		if astruct.Bstruct2 != astructOther.Bstruct2 {
-			diffs = append(diffs, "Bstruct2")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct2"))
 		}
 	}
 	if (astruct.Dstruct == nil) != (astructOther.Dstruct == nil) {
 		diffs = append(diffs, "Dstruct")
 	} else if astruct.Dstruct != nil && astructOther.Dstruct != nil {
 		if astruct.Dstruct != astructOther.Dstruct {
-			diffs = append(diffs, "Dstruct")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct"))
 		}
 	}
 	if (astruct.Dstruct2 == nil) != (astructOther.Dstruct2 == nil) {
 		diffs = append(diffs, "Dstruct2")
 	} else if astruct.Dstruct2 != nil && astructOther.Dstruct2 != nil {
 		if astruct.Dstruct2 != astructOther.Dstruct2 {
-			diffs = append(diffs, "Dstruct2")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct2"))
 		}
 	}
 	if (astruct.Dstruct3 == nil) != (astructOther.Dstruct3 == nil) {
 		diffs = append(diffs, "Dstruct3")
 	} else if astruct.Dstruct3 != nil && astructOther.Dstruct3 != nil {
 		if astruct.Dstruct3 != astructOther.Dstruct3 {
-			diffs = append(diffs, "Dstruct3")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct3"))
 		}
 	}
 	if (astruct.Dstruct4 == nil) != (astructOther.Dstruct4 == nil) {
 		diffs = append(diffs, "Dstruct4")
 	} else if astruct.Dstruct4 != nil && astructOther.Dstruct4 != nil {
 		if astruct.Dstruct4 != astructOther.Dstruct4 {
-			diffs = append(diffs, "Dstruct4")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4"))
 		}
 	}
 	Dstruct4sDifferent := false
@@ -874,7 +875,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				Dstruct4sDifferent = true
 				break
 			} else if astruct.Dstruct4s[i] != nil && astructOther.Dstruct4s[i] != nil {
-				if len(astruct.Dstruct4s[i].GongDiff(astructOther.Dstruct4s[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.Dstruct4s[i] != astructOther.Dstruct4s[i] {
 					Dstruct4sDifferent = true
 					break
 				}
@@ -882,19 +884,19 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if Dstruct4sDifferent {
-		diffs = append(diffs, "Dstruct4s")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4s"))
 	}
 	if astruct.Floatfield != astructOther.Floatfield {
-		diffs = append(diffs, "Floatfield")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Floatfield"))
 	}
 	if astruct.Intfield != astructOther.Intfield {
-		diffs = append(diffs, "Intfield")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Intfield"))
 	}
 	if astruct.Anotherbooleanfield != astructOther.Anotherbooleanfield {
-		diffs = append(diffs, "Anotherbooleanfield")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherbooleanfield"))
 	}
 	if astruct.Duration1 != astructOther.Duration1 {
-		diffs = append(diffs, "Duration1")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Duration1"))
 	}
 	AnarrayofaDifferent := false
 	if len(astruct.Anarrayofa) != len(astructOther.Anarrayofa) {
@@ -905,7 +907,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				AnarrayofaDifferent = true
 				break
 			} else if astruct.Anarrayofa[i] != nil && astructOther.Anarrayofa[i] != nil {
-				if len(astruct.Anarrayofa[i].GongDiff(astructOther.Anarrayofa[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.Anarrayofa[i] != astructOther.Anarrayofa[i] {
 					AnarrayofaDifferent = true
 					break
 				}
@@ -913,7 +916,7 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if AnarrayofaDifferent {
-		diffs = append(diffs, "Anarrayofa")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofa"))
 	}
 	AnotherarrayofbDifferent := false
 	if len(astruct.Anotherarrayofb) != len(astructOther.Anotherarrayofb) {
@@ -924,7 +927,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				AnotherarrayofbDifferent = true
 				break
 			} else if astruct.Anotherarrayofb[i] != nil && astructOther.Anotherarrayofb[i] != nil {
-				if len(astruct.Anotherarrayofb[i].GongDiff(astructOther.Anotherarrayofb[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.Anotherarrayofb[i] != astructOther.Anotherarrayofb[i] {
 					AnotherarrayofbDifferent = true
 					break
 				}
@@ -932,7 +936,7 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if AnotherarrayofbDifferent {
-		diffs = append(diffs, "Anotherarrayofb")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherarrayofb"))
 	}
 	AnarrayofbUseDifferent := false
 	if len(astruct.AnarrayofbUse) != len(astructOther.AnarrayofbUse) {
@@ -943,7 +947,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				AnarrayofbUseDifferent = true
 				break
 			} else if astruct.AnarrayofbUse[i] != nil && astructOther.AnarrayofbUse[i] != nil {
-				if len(astruct.AnarrayofbUse[i].GongDiff(astructOther.AnarrayofbUse[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.AnarrayofbUse[i] != astructOther.AnarrayofbUse[i] {
 					AnarrayofbUseDifferent = true
 					break
 				}
@@ -951,7 +956,7 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if AnarrayofbUseDifferent {
-		diffs = append(diffs, "AnarrayofbUse")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "AnarrayofbUse"))
 	}
 	Anarrayofb2UseDifferent := false
 	if len(astruct.Anarrayofb2Use) != len(astructOther.Anarrayofb2Use) {
@@ -962,7 +967,8 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 				Anarrayofb2UseDifferent = true
 				break
 			} else if astruct.Anarrayofb2Use[i] != nil && astructOther.Anarrayofb2Use[i] != nil {
-				if len(astruct.Anarrayofb2Use[i].GongDiff(astructOther.Anarrayofb2Use[i])) > 0 {
+			 	// this is a pointer comparaison
+				if astruct.Anarrayofb2Use[i] != astructOther.Anarrayofb2Use[i] {
 					Anarrayofb2UseDifferent = true
 					break
 				}
@@ -970,20 +976,20 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 		}
 	}
 	if Anarrayofb2UseDifferent {
-		diffs = append(diffs, "Anarrayofb2Use")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anarrayofb2Use"))
 	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
 		diffs = append(diffs, "AnAstruct")
 	} else if astruct.AnAstruct != nil && astructOther.AnAstruct != nil {
 		if astruct.AnAstruct != astructOther.AnAstruct {
-			diffs = append(diffs, "AnAstruct")
+			diffs = append(diffs, astruct.GongMarshallField(stage, "AnAstruct"))
 		}
 	}
 	if astruct.TextFieldBespokeSize != astructOther.TextFieldBespokeSize {
-		diffs = append(diffs, "TextFieldBespokeSize")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "TextFieldBespokeSize"))
 	}
 	if astruct.TextArea != astructOther.TextArea {
-		diffs = append(diffs, "TextArea")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "TextArea"))
 	}
 
 	return
@@ -991,16 +997,16 @@ func (astruct *Astruct) GongDiff(astructOther *Astruct) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (astructbstruct2use *AstructBstruct2Use) GongDiff(astructbstruct2useOther *AstructBstruct2Use) (diffs []string) {
+func (astructbstruct2use *AstructBstruct2Use) GongDiff(stage *Stage, astructbstruct2useOther *AstructBstruct2Use) (diffs []string) {
 	// insertion point for field diffs
 	if astructbstruct2use.Name != astructbstruct2useOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Name"))
 	}
 	if (astructbstruct2use.Bstrcut2 == nil) != (astructbstruct2useOther.Bstrcut2 == nil) {
 		diffs = append(diffs, "Bstrcut2")
 	} else if astructbstruct2use.Bstrcut2 != nil && astructbstruct2useOther.Bstrcut2 != nil {
 		if astructbstruct2use.Bstrcut2 != astructbstruct2useOther.Bstrcut2 {
-			diffs = append(diffs, "Bstrcut2")
+			diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
 		}
 	}
 
@@ -1009,16 +1015,16 @@ func (astructbstruct2use *AstructBstruct2Use) GongDiff(astructbstruct2useOther *
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (astructbstructuse *AstructBstructUse) GongDiff(astructbstructuseOther *AstructBstructUse) (diffs []string) {
+func (astructbstructuse *AstructBstructUse) GongDiff(stage *Stage, astructbstructuseOther *AstructBstructUse) (diffs []string) {
 	// insertion point for field diffs
 	if astructbstructuse.Name != astructbstructuseOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Name"))
 	}
 	if (astructbstructuse.Bstruct2 == nil) != (astructbstructuseOther.Bstruct2 == nil) {
 		diffs = append(diffs, "Bstruct2")
 	} else if astructbstructuse.Bstruct2 != nil && astructbstructuseOther.Bstruct2 != nil {
 		if astructbstructuse.Bstruct2 != astructbstructuseOther.Bstruct2 {
-			diffs = append(diffs, "Bstruct2")
+			diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Bstruct2"))
 		}
 	}
 
@@ -1027,19 +1033,19 @@ func (astructbstructuse *AstructBstructUse) GongDiff(astructbstructuseOther *Ast
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (bstruct *Bstruct) GongDiff(bstructOther *Bstruct) (diffs []string) {
+func (bstruct *Bstruct) GongDiff(stage *Stage, bstructOther *Bstruct) (diffs []string) {
 	// insertion point for field diffs
 	if bstruct.Name != bstructOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, bstruct.GongMarshallField(stage, "Name"))
 	}
 	if bstruct.Floatfield != bstructOther.Floatfield {
-		diffs = append(diffs, "Floatfield")
+		diffs = append(diffs, bstruct.GongMarshallField(stage, "Floatfield"))
 	}
 	if bstruct.Floatfield2 != bstructOther.Floatfield2 {
-		diffs = append(diffs, "Floatfield2")
+		diffs = append(diffs, bstruct.GongMarshallField(stage, "Floatfield2"))
 	}
 	if bstruct.Intfield != bstructOther.Intfield {
-		diffs = append(diffs, "Intfield")
+		diffs = append(diffs, bstruct.GongMarshallField(stage, "Intfield"))
 	}
 
 	return
@@ -1047,10 +1053,10 @@ func (bstruct *Bstruct) GongDiff(bstructOther *Bstruct) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
+func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []string) {
 	// insertion point for field diffs
 	if dstruct.Name != dstructOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, dstruct.GongMarshallField(stage, "Name"))
 	}
 	AnarrayofbDifferent := false
 	if len(dstruct.Anarrayofb) != len(dstructOther.Anarrayofb) {
@@ -1061,7 +1067,8 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 				AnarrayofbDifferent = true
 				break
 			} else if dstruct.Anarrayofb[i] != nil && dstructOther.Anarrayofb[i] != nil {
-				if len(dstruct.Anarrayofb[i].GongDiff(dstructOther.Anarrayofb[i])) > 0 {
+			 	// this is a pointer comparaison
+				if dstruct.Anarrayofb[i] != dstructOther.Anarrayofb[i] {
 					AnarrayofbDifferent = true
 					break
 				}
@@ -1069,13 +1076,13 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 		}
 	}
 	if AnarrayofbDifferent {
-		diffs = append(diffs, "Anarrayofb")
+		diffs = append(diffs, dstruct.GongMarshallField(stage, "Anarrayofb"))
 	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
 		diffs = append(diffs, "Gstruct")
 	} else if dstruct.Gstruct != nil && dstructOther.Gstruct != nil {
 		if dstruct.Gstruct != dstructOther.Gstruct {
-			diffs = append(diffs, "Gstruct")
+			diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstruct"))
 		}
 	}
 	GstructsDifferent := false
@@ -1087,7 +1094,8 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 				GstructsDifferent = true
 				break
 			} else if dstruct.Gstructs[i] != nil && dstructOther.Gstructs[i] != nil {
-				if len(dstruct.Gstructs[i].GongDiff(dstructOther.Gstructs[i])) > 0 {
+			 	// this is a pointer comparaison
+				if dstruct.Gstructs[i] != dstructOther.Gstructs[i] {
 					GstructsDifferent = true
 					break
 				}
@@ -1095,7 +1103,7 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 		}
 	}
 	if GstructsDifferent {
-		diffs = append(diffs, "Gstructs")
+		diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstructs"))
 	}
 
 	return
@@ -1103,13 +1111,13 @@ func (dstruct *Dstruct) GongDiff(dstructOther *Dstruct) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongDiff(f0123456789012345678901234567890Other *F0123456789012345678901234567890) (diffs []string) {
+func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongDiff(stage *Stage, f0123456789012345678901234567890Other *F0123456789012345678901234567890) (diffs []string) {
 	// insertion point for field diffs
 	if f0123456789012345678901234567890.Name != f0123456789012345678901234567890Other.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, f0123456789012345678901234567890.GongMarshallField(stage, "Name"))
 	}
 	if f0123456789012345678901234567890.Date != f0123456789012345678901234567890Other.Date {
-		diffs = append(diffs, "Date")
+		diffs = append(diffs, f0123456789012345678901234567890.GongMarshallField(stage, "Date"))
 	}
 
 	return
@@ -1117,19 +1125,19 @@ func (f0123456789012345678901234567890 *F0123456789012345678901234567890) GongDi
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (gstruct *Gstruct) GongDiff(gstructOther *Gstruct) (diffs []string) {
+func (gstruct *Gstruct) GongDiff(stage *Stage, gstructOther *Gstruct) (diffs []string) {
 	// insertion point for field diffs
 	if gstruct.Name != gstructOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, gstruct.GongMarshallField(stage, "Name"))
 	}
 	if gstruct.Floatfield != gstructOther.Floatfield {
-		diffs = append(diffs, "Floatfield")
+		diffs = append(diffs, gstruct.GongMarshallField(stage, "Floatfield"))
 	}
 	if gstruct.Floatfield2 != gstructOther.Floatfield2 {
-		diffs = append(diffs, "Floatfield2")
+		diffs = append(diffs, gstruct.GongMarshallField(stage, "Floatfield2"))
 	}
 	if gstruct.Intfield != gstructOther.Intfield {
-		diffs = append(diffs, "Intfield")
+		diffs = append(diffs, gstruct.GongMarshallField(stage, "Intfield"))
 	}
 
 	return

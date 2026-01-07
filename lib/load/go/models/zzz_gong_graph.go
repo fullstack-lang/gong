@@ -287,13 +287,13 @@ func (stage *Stage) UnstageBranchMessage(message *Message) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (filetodownload *FileToDownload) GongDiff(filetodownloadOther *FileToDownload) (diffs []string) {
+func (filetodownload *FileToDownload) GongDiff(stage *Stage, filetodownloadOther *FileToDownload) (diffs []string) {
 	// insertion point for field diffs
 	if filetodownload.Name != filetodownloadOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, filetodownload.GongMarshallField(stage, "Name"))
 	}
 	if filetodownload.Base64EncodedContent != filetodownloadOther.Base64EncodedContent {
-		diffs = append(diffs, "Base64EncodedContent")
+		diffs = append(diffs, filetodownload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 
 	return
@@ -301,13 +301,13 @@ func (filetodownload *FileToDownload) GongDiff(filetodownloadOther *FileToDownlo
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (filetoupload *FileToUpload) GongDiff(filetouploadOther *FileToUpload) (diffs []string) {
+func (filetoupload *FileToUpload) GongDiff(stage *Stage, filetouploadOther *FileToUpload) (diffs []string) {
 	// insertion point for field diffs
 	if filetoupload.Name != filetouploadOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, filetoupload.GongMarshallField(stage, "Name"))
 	}
 	if filetoupload.Base64EncodedContent != filetouploadOther.Base64EncodedContent {
-		diffs = append(diffs, "Base64EncodedContent")
+		diffs = append(diffs, filetoupload.GongMarshallField(stage, "Base64EncodedContent"))
 	}
 
 	return
@@ -315,10 +315,10 @@ func (filetoupload *FileToUpload) GongDiff(filetouploadOther *FileToUpload) (dif
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (message *Message) GongDiff(messageOther *Message) (diffs []string) {
+func (message *Message) GongDiff(stage *Stage, messageOther *Message) (diffs []string) {
 	// insertion point for field diffs
 	if message.Name != messageOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, message.GongMarshallField(stage, "Name"))
 	}
 
 	return

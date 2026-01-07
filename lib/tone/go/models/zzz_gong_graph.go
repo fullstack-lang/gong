@@ -296,10 +296,10 @@ func (stage *Stage) UnstageBranchPlayer(player *Player) {
 // insertion point for diff per struct
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (freqency *Freqency) GongDiff(freqencyOther *Freqency) (diffs []string) {
+func (freqency *Freqency) GongDiff(stage *Stage, freqencyOther *Freqency) (diffs []string) {
 	// insertion point for field diffs
 	if freqency.Name != freqencyOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, freqency.GongMarshallField(stage, "Name"))
 	}
 
 	return
@@ -307,10 +307,10 @@ func (freqency *Freqency) GongDiff(freqencyOther *Freqency) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
+func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 	// insertion point for field diffs
 	if note.Name != noteOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, note.GongMarshallField(stage, "Name"))
 	}
 	FrequenciesDifferent := false
 	if len(note.Frequencies) != len(noteOther.Frequencies) {
@@ -321,7 +321,8 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 				FrequenciesDifferent = true
 				break
 			} else if note.Frequencies[i] != nil && noteOther.Frequencies[i] != nil {
-				if len(note.Frequencies[i].GongDiff(noteOther.Frequencies[i])) > 0 {
+			 	// this is a pointer comparaison
+				if note.Frequencies[i] != noteOther.Frequencies[i] {
 					FrequenciesDifferent = true
 					break
 				}
@@ -329,19 +330,19 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 		}
 	}
 	if FrequenciesDifferent {
-		diffs = append(diffs, "Frequencies")
+		diffs = append(diffs, note.GongMarshallField(stage, "Frequencies"))
 	}
 	if note.Start != noteOther.Start {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, note.GongMarshallField(stage, "Start"))
 	}
 	if note.Duration != noteOther.Duration {
-		diffs = append(diffs, "Duration")
+		diffs = append(diffs, note.GongMarshallField(stage, "Duration"))
 	}
 	if note.Velocity != noteOther.Velocity {
-		diffs = append(diffs, "Velocity")
+		diffs = append(diffs, note.GongMarshallField(stage, "Velocity"))
 	}
 	if note.Info != noteOther.Info {
-		diffs = append(diffs, "Info")
+		diffs = append(diffs, note.GongMarshallField(stage, "Info"))
 	}
 
 	return
@@ -349,13 +350,13 @@ func (note *Note) GongDiff(noteOther *Note) (diffs []string) {
 
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func (player *Player) GongDiff(playerOther *Player) (diffs []string) {
+func (player *Player) GongDiff(stage *Stage, playerOther *Player) (diffs []string) {
 	// insertion point for field diffs
 	if player.Name != playerOther.Name {
-		diffs = append(diffs, "Name")
+		diffs = append(diffs, player.GongMarshallField(stage, "Name"))
 	}
 	if player.Status != playerOther.Status {
-		diffs = append(diffs, "Status")
+		diffs = append(diffs, player.GongMarshallField(stage, "Status"))
 	}
 
 	return

@@ -352,8 +352,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var cells_newInstances []*Cell
@@ -363,36 +368,16 @@ func (stage *Stage) ComputeDifference() {
 	for cell := range stage.Cells {
 		if ref, ok := stage.Cells_reference[cell]; !ok {
 			cells_newInstances = append(cells_newInstances, cell)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Cell "+cell.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cell.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cell.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cell.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cell.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cell.GongDiff(ref)
+			diffs := cell.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Cell \""+cell.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cell.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cell.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -403,12 +388,7 @@ func (stage *Stage) ComputeDifference() {
 	for cell := range stage.Cells_reference {
 		if _, ok := stage.Cells[cell]; !ok {
 			cells_deletedInstances = append(cells_deletedInstances, cell)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cell.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cell.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -421,36 +401,16 @@ func (stage *Stage) ComputeDifference() {
 	for cellboolean := range stage.CellBooleans {
 		if ref, ok := stage.CellBooleans_reference[cellboolean]; !ok {
 			cellbooleans_newInstances = append(cellbooleans_newInstances, cellboolean)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CellBoolean "+cellboolean.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellboolean.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cellboolean.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cellboolean.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cellboolean.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cellboolean.GongDiff(ref)
+			diffs := cellboolean.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CellBoolean \""+cellboolean.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cellboolean.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cellboolean.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -461,12 +421,7 @@ func (stage *Stage) ComputeDifference() {
 	for cellboolean := range stage.CellBooleans_reference {
 		if _, ok := stage.CellBooleans[cellboolean]; !ok {
 			cellbooleans_deletedInstances = append(cellbooleans_deletedInstances, cellboolean)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellboolean.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cellboolean.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -479,36 +434,16 @@ func (stage *Stage) ComputeDifference() {
 	for cellfloat64 := range stage.CellFloat64s {
 		if ref, ok := stage.CellFloat64s_reference[cellfloat64]; !ok {
 			cellfloat64s_newInstances = append(cellfloat64s_newInstances, cellfloat64)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CellFloat64 "+cellfloat64.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellfloat64.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cellfloat64.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cellfloat64.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cellfloat64.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cellfloat64.GongDiff(ref)
+			diffs := cellfloat64.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CellFloat64 \""+cellfloat64.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cellfloat64.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cellfloat64.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -519,12 +454,7 @@ func (stage *Stage) ComputeDifference() {
 	for cellfloat64 := range stage.CellFloat64s_reference {
 		if _, ok := stage.CellFloat64s[cellfloat64]; !ok {
 			cellfloat64s_deletedInstances = append(cellfloat64s_deletedInstances, cellfloat64)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellfloat64.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cellfloat64.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -537,36 +467,16 @@ func (stage *Stage) ComputeDifference() {
 	for cellicon := range stage.CellIcons {
 		if ref, ok := stage.CellIcons_reference[cellicon]; !ok {
 			cellicons_newInstances = append(cellicons_newInstances, cellicon)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CellIcon "+cellicon.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellicon.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cellicon.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cellicon.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cellicon.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cellicon.GongDiff(ref)
+			diffs := cellicon.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CellIcon \""+cellicon.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cellicon.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cellicon.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -577,12 +487,7 @@ func (stage *Stage) ComputeDifference() {
 	for cellicon := range stage.CellIcons_reference {
 		if _, ok := stage.CellIcons[cellicon]; !ok {
 			cellicons_deletedInstances = append(cellicons_deletedInstances, cellicon)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellicon.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cellicon.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -595,36 +500,16 @@ func (stage *Stage) ComputeDifference() {
 	for cellint := range stage.CellInts {
 		if ref, ok := stage.CellInts_reference[cellint]; !ok {
 			cellints_newInstances = append(cellints_newInstances, cellint)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CellInt "+cellint.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellint.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cellint.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cellint.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cellint.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cellint.GongDiff(ref)
+			diffs := cellint.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CellInt \""+cellint.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cellint.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cellint.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -635,12 +520,7 @@ func (stage *Stage) ComputeDifference() {
 	for cellint := range stage.CellInts_reference {
 		if _, ok := stage.CellInts[cellint]; !ok {
 			cellints_deletedInstances = append(cellints_deletedInstances, cellint)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellint.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cellint.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -653,36 +533,16 @@ func (stage *Stage) ComputeDifference() {
 	for cellstring := range stage.CellStrings {
 		if ref, ok := stage.CellStrings_reference[cellstring]; !ok {
 			cellstrings_newInstances = append(cellstrings_newInstances, cellstring)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CellString "+cellstring.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellstring.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := cellstring.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += cellstring.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := cellstring.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := cellstring.GongDiff(ref)
+			diffs := cellstring.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CellString \""+cellstring.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							cellstring.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", cellstring.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -693,12 +553,7 @@ func (stage *Stage) ComputeDifference() {
 	for cellstring := range stage.CellStrings_reference {
 		if _, ok := stage.CellStrings[cellstring]; !ok {
 			cellstrings_deletedInstances = append(cellstrings_deletedInstances, cellstring)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					cellstring.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += cellstring.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -711,36 +566,16 @@ func (stage *Stage) ComputeDifference() {
 	for checkbox := range stage.CheckBoxs {
 		if ref, ok := stage.CheckBoxs_reference[checkbox]; !ok {
 			checkboxs_newInstances = append(checkboxs_newInstances, checkbox)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of CheckBox "+checkbox.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					checkbox.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := checkbox.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += checkbox.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := checkbox.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := checkbox.GongDiff(ref)
+			diffs := checkbox.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of CheckBox \""+checkbox.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							checkbox.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", checkbox.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -751,12 +586,7 @@ func (stage *Stage) ComputeDifference() {
 	for checkbox := range stage.CheckBoxs_reference {
 		if _, ok := stage.CheckBoxs[checkbox]; !ok {
 			checkboxs_deletedInstances = append(checkboxs_deletedInstances, checkbox)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					checkbox.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += checkbox.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -769,36 +599,16 @@ func (stage *Stage) ComputeDifference() {
 	for displayedcolumn := range stage.DisplayedColumns {
 		if ref, ok := stage.DisplayedColumns_reference[displayedcolumn]; !ok {
 			displayedcolumns_newInstances = append(displayedcolumns_newInstances, displayedcolumn)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of DisplayedColumn "+displayedcolumn.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					displayedcolumn.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := displayedcolumn.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += displayedcolumn.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := displayedcolumn.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := displayedcolumn.GongDiff(ref)
+			diffs := displayedcolumn.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of DisplayedColumn \""+displayedcolumn.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							displayedcolumn.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", displayedcolumn.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -809,12 +619,7 @@ func (stage *Stage) ComputeDifference() {
 	for displayedcolumn := range stage.DisplayedColumns_reference {
 		if _, ok := stage.DisplayedColumns[displayedcolumn]; !ok {
 			displayedcolumns_deletedInstances = append(displayedcolumns_deletedInstances, displayedcolumn)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					displayedcolumn.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += displayedcolumn.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -827,36 +632,16 @@ func (stage *Stage) ComputeDifference() {
 	for formdiv := range stage.FormDivs {
 		if ref, ok := stage.FormDivs_reference[formdiv]; !ok {
 			formdivs_newInstances = append(formdivs_newInstances, formdiv)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormDiv "+formdiv.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formdiv.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formdiv.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formdiv.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formdiv.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formdiv.GongDiff(ref)
+			diffs := formdiv.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormDiv \""+formdiv.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formdiv.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formdiv.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -867,12 +652,7 @@ func (stage *Stage) ComputeDifference() {
 	for formdiv := range stage.FormDivs_reference {
 		if _, ok := stage.FormDivs[formdiv]; !ok {
 			formdivs_deletedInstances = append(formdivs_deletedInstances, formdiv)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formdiv.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formdiv.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -885,36 +665,16 @@ func (stage *Stage) ComputeDifference() {
 	for formeditassocbutton := range stage.FormEditAssocButtons {
 		if ref, ok := stage.FormEditAssocButtons_reference[formeditassocbutton]; !ok {
 			formeditassocbuttons_newInstances = append(formeditassocbuttons_newInstances, formeditassocbutton)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormEditAssocButton "+formeditassocbutton.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formeditassocbutton.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formeditassocbutton.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formeditassocbutton.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formeditassocbutton.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formeditassocbutton.GongDiff(ref)
+			diffs := formeditassocbutton.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormEditAssocButton \""+formeditassocbutton.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formeditassocbutton.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formeditassocbutton.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -925,12 +685,7 @@ func (stage *Stage) ComputeDifference() {
 	for formeditassocbutton := range stage.FormEditAssocButtons_reference {
 		if _, ok := stage.FormEditAssocButtons[formeditassocbutton]; !ok {
 			formeditassocbuttons_deletedInstances = append(formeditassocbuttons_deletedInstances, formeditassocbutton)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formeditassocbutton.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formeditassocbutton.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -943,36 +698,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfield := range stage.FormFields {
 		if ref, ok := stage.FormFields_reference[formfield]; !ok {
 			formfields_newInstances = append(formfields_newInstances, formfield)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormField "+formfield.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfield.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfield.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfield.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfield.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfield.GongDiff(ref)
+			diffs := formfield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormField \""+formfield.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfield.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfield.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -983,12 +718,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfield := range stage.FormFields_reference {
 		if _, ok := stage.FormFields[formfield]; !ok {
 			formfields_deletedInstances = append(formfields_deletedInstances, formfield)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfield.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfield.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1001,36 +731,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddate := range stage.FormFieldDates {
 		if ref, ok := stage.FormFieldDates_reference[formfielddate]; !ok {
 			formfielddates_newInstances = append(formfielddates_newInstances, formfielddate)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldDate "+formfielddate.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfielddate.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfielddate.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfielddate.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfielddate.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfielddate.GongDiff(ref)
+			diffs := formfielddate.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldDate \""+formfielddate.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfielddate.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfielddate.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1041,12 +751,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddate := range stage.FormFieldDates_reference {
 		if _, ok := stage.FormFieldDates[formfielddate]; !ok {
 			formfielddates_deletedInstances = append(formfielddates_deletedInstances, formfielddate)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfielddate.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfielddate.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1059,36 +764,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddatetime := range stage.FormFieldDateTimes {
 		if ref, ok := stage.FormFieldDateTimes_reference[formfielddatetime]; !ok {
 			formfielddatetimes_newInstances = append(formfielddatetimes_newInstances, formfielddatetime)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldDateTime "+formfielddatetime.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfielddatetime.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfielddatetime.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfielddatetime.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfielddatetime.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfielddatetime.GongDiff(ref)
+			diffs := formfielddatetime.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldDateTime \""+formfielddatetime.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfielddatetime.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfielddatetime.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1099,12 +784,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfielddatetime := range stage.FormFieldDateTimes_reference {
 		if _, ok := stage.FormFieldDateTimes[formfielddatetime]; !ok {
 			formfielddatetimes_deletedInstances = append(formfielddatetimes_deletedInstances, formfielddatetime)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfielddatetime.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfielddatetime.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1117,36 +797,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldfloat64 := range stage.FormFieldFloat64s {
 		if ref, ok := stage.FormFieldFloat64s_reference[formfieldfloat64]; !ok {
 			formfieldfloat64s_newInstances = append(formfieldfloat64s_newInstances, formfieldfloat64)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldFloat64 "+formfieldfloat64.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldfloat64.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfieldfloat64.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfieldfloat64.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfieldfloat64.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfieldfloat64.GongDiff(ref)
+			diffs := formfieldfloat64.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldFloat64 \""+formfieldfloat64.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfieldfloat64.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfieldfloat64.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1157,12 +817,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldfloat64 := range stage.FormFieldFloat64s_reference {
 		if _, ok := stage.FormFieldFloat64s[formfieldfloat64]; !ok {
 			formfieldfloat64s_deletedInstances = append(formfieldfloat64s_deletedInstances, formfieldfloat64)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldfloat64.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfieldfloat64.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1175,36 +830,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldint := range stage.FormFieldInts {
 		if ref, ok := stage.FormFieldInts_reference[formfieldint]; !ok {
 			formfieldints_newInstances = append(formfieldints_newInstances, formfieldint)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldInt "+formfieldint.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldint.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfieldint.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfieldint.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfieldint.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfieldint.GongDiff(ref)
+			diffs := formfieldint.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldInt \""+formfieldint.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfieldint.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfieldint.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1215,12 +850,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldint := range stage.FormFieldInts_reference {
 		if _, ok := stage.FormFieldInts[formfieldint]; !ok {
 			formfieldints_deletedInstances = append(formfieldints_deletedInstances, formfieldint)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldint.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfieldint.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1233,36 +863,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldselect := range stage.FormFieldSelects {
 		if ref, ok := stage.FormFieldSelects_reference[formfieldselect]; !ok {
 			formfieldselects_newInstances = append(formfieldselects_newInstances, formfieldselect)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldSelect "+formfieldselect.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldselect.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfieldselect.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfieldselect.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfieldselect.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfieldselect.GongDiff(ref)
+			diffs := formfieldselect.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldSelect \""+formfieldselect.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfieldselect.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfieldselect.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1273,12 +883,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldselect := range stage.FormFieldSelects_reference {
 		if _, ok := stage.FormFieldSelects[formfieldselect]; !ok {
 			formfieldselects_deletedInstances = append(formfieldselects_deletedInstances, formfieldselect)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldselect.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfieldselect.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1291,36 +896,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldstring := range stage.FormFieldStrings {
 		if ref, ok := stage.FormFieldStrings_reference[formfieldstring]; !ok {
 			formfieldstrings_newInstances = append(formfieldstrings_newInstances, formfieldstring)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldString "+formfieldstring.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldstring.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfieldstring.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfieldstring.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfieldstring.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfieldstring.GongDiff(ref)
+			diffs := formfieldstring.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldString \""+formfieldstring.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfieldstring.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfieldstring.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1331,12 +916,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldstring := range stage.FormFieldStrings_reference {
 		if _, ok := stage.FormFieldStrings[formfieldstring]; !ok {
 			formfieldstrings_deletedInstances = append(formfieldstrings_deletedInstances, formfieldstring)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldstring.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfieldstring.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1349,36 +929,16 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldtime := range stage.FormFieldTimes {
 		if ref, ok := stage.FormFieldTimes_reference[formfieldtime]; !ok {
 			formfieldtimes_newInstances = append(formfieldtimes_newInstances, formfieldtime)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormFieldTime "+formfieldtime.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldtime.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formfieldtime.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formfieldtime.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formfieldtime.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formfieldtime.GongDiff(ref)
+			diffs := formfieldtime.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormFieldTime \""+formfieldtime.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formfieldtime.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formfieldtime.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1389,12 +949,7 @@ func (stage *Stage) ComputeDifference() {
 	for formfieldtime := range stage.FormFieldTimes_reference {
 		if _, ok := stage.FormFieldTimes[formfieldtime]; !ok {
 			formfieldtimes_deletedInstances = append(formfieldtimes_deletedInstances, formfieldtime)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formfieldtime.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formfieldtime.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1407,36 +962,16 @@ func (stage *Stage) ComputeDifference() {
 	for formgroup := range stage.FormGroups {
 		if ref, ok := stage.FormGroups_reference[formgroup]; !ok {
 			formgroups_newInstances = append(formgroups_newInstances, formgroup)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormGroup "+formgroup.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formgroup.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formgroup.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formgroup.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formgroup.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formgroup.GongDiff(ref)
+			diffs := formgroup.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormGroup \""+formgroup.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formgroup.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formgroup.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1447,12 +982,7 @@ func (stage *Stage) ComputeDifference() {
 	for formgroup := range stage.FormGroups_reference {
 		if _, ok := stage.FormGroups[formgroup]; !ok {
 			formgroups_deletedInstances = append(formgroups_deletedInstances, formgroup)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formgroup.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formgroup.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1465,36 +995,16 @@ func (stage *Stage) ComputeDifference() {
 	for formsortassocbutton := range stage.FormSortAssocButtons {
 		if ref, ok := stage.FormSortAssocButtons_reference[formsortassocbutton]; !ok {
 			formsortassocbuttons_newInstances = append(formsortassocbuttons_newInstances, formsortassocbutton)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of FormSortAssocButton "+formsortassocbutton.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formsortassocbutton.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := formsortassocbutton.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += formsortassocbutton.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := formsortassocbutton.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := formsortassocbutton.GongDiff(ref)
+			diffs := formsortassocbutton.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of FormSortAssocButton \""+formsortassocbutton.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							formsortassocbutton.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", formsortassocbutton.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1505,12 +1015,7 @@ func (stage *Stage) ComputeDifference() {
 	for formsortassocbutton := range stage.FormSortAssocButtons_reference {
 		if _, ok := stage.FormSortAssocButtons[formsortassocbutton]; !ok {
 			formsortassocbuttons_deletedInstances = append(formsortassocbuttons_deletedInstances, formsortassocbutton)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					formsortassocbutton.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += formsortassocbutton.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1523,36 +1028,16 @@ func (stage *Stage) ComputeDifference() {
 	for option := range stage.Options {
 		if ref, ok := stage.Options_reference[option]; !ok {
 			options_newInstances = append(options_newInstances, option)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Option "+option.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					option.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := option.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += option.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := option.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := option.GongDiff(ref)
+			diffs := option.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Option \""+option.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							option.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", option.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1563,12 +1048,7 @@ func (stage *Stage) ComputeDifference() {
 	for option := range stage.Options_reference {
 		if _, ok := stage.Options[option]; !ok {
 			options_deletedInstances = append(options_deletedInstances, option)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					option.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += option.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1581,36 +1061,16 @@ func (stage *Stage) ComputeDifference() {
 	for row := range stage.Rows {
 		if ref, ok := stage.Rows_reference[row]; !ok {
 			rows_newInstances = append(rows_newInstances, row)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Row "+row.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					row.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := row.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += row.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := row.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := row.GongDiff(ref)
+			diffs := row.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Row \""+row.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							row.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", row.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1621,12 +1081,7 @@ func (stage *Stage) ComputeDifference() {
 	for row := range stage.Rows_reference {
 		if _, ok := stage.Rows[row]; !ok {
 			rows_deletedInstances = append(rows_deletedInstances, row)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					row.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += row.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1639,36 +1094,16 @@ func (stage *Stage) ComputeDifference() {
 	for table := range stage.Tables {
 		if ref, ok := stage.Tables_reference[table]; !ok {
 			tables_newInstances = append(tables_newInstances, table)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Table "+table.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					table.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := table.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += table.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := table.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := table.GongDiff(ref)
+			diffs := table.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Table \""+table.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							table.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", table.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -1679,12 +1114,7 @@ func (stage *Stage) ComputeDifference() {
 	for table := range stage.Tables_reference {
 		if _, ok := stage.Tables[table]; !ok {
 			tables_deletedInstances = append(tables_deletedInstances, table)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					table.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += table.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -1692,16 +1122,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(tables_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}

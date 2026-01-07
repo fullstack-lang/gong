@@ -77,8 +77,13 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-
-	var pointersInitializesStatements string
+	
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldsEditStmt string
+	_ = fieldsEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// insertion point per named struct
 	var chapters_newInstances []*Chapter
@@ -88,36 +93,16 @@ func (stage *Stage) ComputeDifference() {
 	for chapter := range stage.Chapters {
 		if ref, ok := stage.Chapters_reference[chapter]; !ok {
 			chapters_newInstances = append(chapters_newInstances, chapter)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Chapter "+chapter.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					chapter.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := chapter.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += chapter.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := chapter.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := chapter.GongDiff(ref)
+			diffs := chapter.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Chapter \""+chapter.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							chapter.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", chapter.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -128,12 +113,7 @@ func (stage *Stage) ComputeDifference() {
 	for chapter := range stage.Chapters_reference {
 		if _, ok := stage.Chapters[chapter]; !ok {
 			chapters_deletedInstances = append(chapters_deletedInstances, chapter)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					chapter.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += chapter.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -146,36 +126,16 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents {
 		if ref, ok := stage.Contents_reference[content]; !ok {
 			contents_newInstances = append(contents_newInstances, content)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Content "+content.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					content.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += content.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := content.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := content.GongDiff(ref)
+			diffs := content.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Content \""+content.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							content.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", content.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -186,12 +146,7 @@ func (stage *Stage) ComputeDifference() {
 	for content := range stage.Contents_reference {
 		if _, ok := stage.Contents[content]; !ok {
 			contents_deletedInstances = append(contents_deletedInstances, content)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					content.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += content.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -204,36 +159,16 @@ func (stage *Stage) ComputeDifference() {
 	for page := range stage.Pages {
 		if ref, ok := stage.Pages_reference[page]; !ok {
 			pages_newInstances = append(pages_newInstances, page)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of Page "+page.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					page.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := page.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+			newInstancesStmt += page.GongMarshallIdentifier(stage)
+			fieldInitializers, pointersInitializations := page.GongMarshallAllFields(stage)
+			fieldsEditStmt += fieldInitializers
+			fieldsEditStmt += pointersInitializations
 		} else {
-			diffs := page.GongDiff(ref)
+			diffs := page.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				if stage.GetProbeIF() != nil {
-					stage.GetProbeIF().AddNotification(
-						time.Now(),
-						"Commit detected modified instance of Page \""+page.Name+"\" diffs on fields: \""+strings.Join(diffs, ", \"")+"\"",
-					)
-					for _, diff := range diffs {
-						stage.GetProbeIF().AddNotification(
-							time.Now(),
-							page.GongMarshallField(stage, diff),
-						)
-					}
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", page.GetName())
+				for _, diff := range diffs {
+					fieldsEditStmt += diff
 				}
 				lenModifiedInstances++
 			}
@@ -244,12 +179,7 @@ func (stage *Stage) ComputeDifference() {
 	for page := range stage.Pages_reference {
 		if _, ok := stage.Pages[page]; !ok {
 			pages_deletedInstances = append(pages_deletedInstances, page)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					page.GongMarshallUnstaging(stage),
-				)
-			}
+			deletedInstancesStmt += page.GongMarshallUnstaging(stage)
 		}
 	}
 
@@ -257,16 +187,10 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(pages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
-		// if stage.GetProbeIF() != nil {
-		// 	stage.GetProbeIF().CommitNotificationTable()
-		// }
-	}
-
-	if pointersInitializesStatements != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
 			)
 		}
 	}

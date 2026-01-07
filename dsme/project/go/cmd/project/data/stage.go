@@ -908,8 +908,8 @@ another line to Write Specs`
 
 	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000468_.IsExpanded = false
-	__ProductShape__00000468_.X = 41.066958
-	__ProductShape__00000468_.Y = 1016.727459
+	__ProductShape__00000468_.X = 33.066958
+	__ProductShape__00000468_.Y = 952.727459
 	__ProductShape__00000468_.Width = 202.000000
 	__ProductShape__00000468_.Height = 52.000000
 
@@ -971,8 +971,8 @@ another line to Write Specs`
 
 	__ProductShape__00000477_.Name = `Probe display the marshalled commit-Work diagram x`
 	__ProductShape__00000477_.IsExpanded = false
-	__ProductShape__00000477_.X = 295.092048
-	__ProductShape__00000477_.Y = 1019.996299
+	__ProductShape__00000477_.X = 287.092048
+	__ProductShape__00000477_.Y = 955.996299
 	__ProductShape__00000477_.Width = 250.000000
 	__ProductShape__00000477_.Height = 70.000000
 
@@ -1116,7 +1116,7 @@ another line to Write Specs`
 	__Task__00000011_.IsInputsNodeExpanded = false
 	__Task__00000011_.IsOutputsNodeExpanded = false
 	__Task__00000011_.IsWithCompletion = true
-	__Task__00000011_.Completion = models.PERCENT_000
+	__Task__00000011_.Completion = models.PERCENT_100
 
 	__Task__00000012_.Name = `Compute diff in slices with minimal edit distance #1045`
 	__Task__00000012_.Description = ``

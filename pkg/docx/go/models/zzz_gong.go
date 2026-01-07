@@ -1020,7 +1020,7 @@ func (stage *Stage) Commit() {
 	stage.ComputeReference()
 
 	if stage.GetProbeIF() != nil {
-		stage.GetProbeIF().AddNotification(time.Now(), "Commit performed")
+		stage.GetProbeIF().AddNotification(time.Now(), "\t// Commit performed")
 		stage.GetProbeIF().CommitNotificationTable()
 	}
 }

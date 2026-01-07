@@ -185,7 +185,7 @@ func (stage *Stage) UnstageBranch{{Structname}}({{structname}} *{{Structname}}) 
 	ModelGongGraphDiff: `
 // GongDiff computes the diff between the instance and another instance of same gong struct type
 // and returns the list of differences as strings
-func ({{structname}} *{{Structname}}) GongDiff({{structname}}Other *{{Structname}}) (diffs []string) {
+func ({{structname}} *{{Structname}}) GongDiff(stage *Stage, {{structname}}Other *{{Structname}}) (diffs []string) {
 	// insertion point for field diffs{{FieldDiff}}
 
 	return
@@ -241,14 +241,14 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	}`,
 	GongGraphBasicFieldDiff: `
 	if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
-		diffs = append(diffs, "{{FieldName}}")
+		diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
 	}`,
 	GongGraphPointerFieldDiff: `
 	if ({{structname}}.{{FieldName}} == nil) != ({{structname}}Other.{{FieldName}} == nil) {
 		diffs = append(diffs, "{{FieldName}}")
 	} else if {{structname}}.{{FieldName}} != nil && {{structname}}Other.{{FieldName}} != nil {
 		if {{structname}}.{{FieldName}} != {{structname}}Other.{{FieldName}} {
-			diffs = append(diffs, "{{FieldName}}")
+			diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
 		}
 	}`,
 	GongGraphSliceOfPointerFieldDiff: `
@@ -261,7 +261,8 @@ map[GongGraphFilePerStructSubTemplateId]string{
 				{{FieldName}}Different = true
 				break
 			} else if {{structname}}.{{FieldName}}[i] != nil && {{structname}}Other.{{FieldName}}[i] != nil {
-				if len({{structname}}.{{FieldName}}[i].GongDiff({{structname}}Other.{{FieldName}}[i])) > 0 {
+			 	// this is a pointer comparaison
+				if {{structname}}.{{FieldName}}[i] != {{structname}}Other.{{FieldName}}[i] {
 					{{FieldName}}Different = true
 					break
 				}
@@ -269,7 +270,7 @@ map[GongGraphFilePerStructSubTemplateId]string{
 		}
 	}
 	if {{FieldName}}Different {
-		diffs = append(diffs, "{{FieldName}}")
+		diffs = append(diffs, {{structname}}.GongMarshallField(stage, "{{FieldName}}"))
 	}`,
 }
 
