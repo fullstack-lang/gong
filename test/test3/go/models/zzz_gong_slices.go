@@ -59,34 +59,32 @@ func (stage *Stage) ComputeDifference() {
 	var lenModifiedInstances int
 	var lenDeletedInstances int
 
-	var pointersInitializesStatements string
-
 	// insertion point per named struct
 	var as_newInstances []*A
 	var as_deletedInstances []*A
+
+	var newInstancesStmt string
+	_ = newInstancesStmt
+	var fieldEditStmt string
+	_ = fieldEditStmt
+	var pointersEditStmt string
+	_ = pointersEditStmt
+	var deletedInstancesStmt string
+	_ = deletedInstancesStmt
 
 	// parse all staged instances and check if they have a reference
 	for a := range stage.As {
 		if ref, ok := stage.As_reference[a]; !ok {
 			as_newInstances = append(as_newInstances, a)
-			if stage.GetProbeIF() != nil {
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					"Commit detected new instance of A "+a.Name,
-				)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					a.GongMarshallIdentifier(stage),
-				)
-				basicFieldInitializers, pointersInitializations := a.GongMarshallAllFields(stage)
-				stage.GetProbeIF().AddNotification(
-					time.Now(),
-					basicFieldInitializers,
-				)
-				pointersInitializesStatements += pointersInitializations
-			}
+
+			newInstancesStmt += a.GongMarshallIdentifier(stage) + "\n"
+
+			basicFieldInitializers, pointersInitializations := a.GongMarshallAllFields(stage)
+			fieldEditStmt += basicFieldInitializers + "\n"
+			pointersEditStmt += pointersInitializations
 		} else {
-			diffs := a.GongDiff(ref)
+			diffs := a.GongDiff(stage, ref)
+
 			if len(diffs) > 0 {
 				if stage.GetProbeIF() != nil {
 					stage.GetProbeIF().AddNotification(
@@ -141,7 +139,7 @@ func (stage *Stage) ComputeDifference() {
 					time.Now(),
 					basicFieldInitializers,
 				)
-				pointersInitializesStatements += pointersInitializations
+				pointersEditStmt += pointersInitializations
 			}
 		} else {
 			diffs := b.GongDiff(ref)
@@ -185,11 +183,11 @@ func (stage *Stage) ComputeDifference() {
 		// }
 	}
 
-	if pointersInitializesStatements != "" {
+	if pointersEditStmt != "" {
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				pointersInitializesStatements,
+				newInstancesStmt+pointersEditStmt+deletedInstancesStmt,
 			)
 		}
 	}
