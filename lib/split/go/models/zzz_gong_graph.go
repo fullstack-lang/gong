@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1591,7 +1593,7 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 				AsSplitAreasDifferent = true
 				break
 			} else if assplit.AsSplitAreas[i] != nil && assplitOther.AsSplitAreas[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if assplit.AsSplitAreas[i] != assplitOther.AsSplitAreas[i] {
 					AsSplitAreasDifferent = true
 					break
@@ -1600,7 +1602,8 @@ func (assplit *AsSplit) GongDiff(stage *Stage, assplitOther *AsSplit) (diffs []s
 		}
 	}
 	if AsSplitAreasDifferent {
-		diffs = append(diffs, assplit.GongMarshallField(stage, "AsSplitAreas"))
+		ops := Diff(stage, assplit, assplitOther, "AsSplitAreas", assplitOther.AsSplitAreas, assplit.AsSplitAreas)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1623,91 +1626,91 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "IsAny"))
 	}
 	if (assplitarea.AsSplit == nil) != (assplitareaOther.AsSplit == nil) {
-		diffs = append(diffs, "AsSplit")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
 	} else if assplitarea.AsSplit != nil && assplitareaOther.AsSplit != nil {
 		if assplitarea.AsSplit != assplitareaOther.AsSplit {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
 		}
 	}
 	if (assplitarea.Button == nil) != (assplitareaOther.Button == nil) {
-		diffs = append(diffs, "Button")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 	} else if assplitarea.Button != nil && assplitareaOther.Button != nil {
 		if assplitarea.Button != assplitareaOther.Button {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 		}
 	}
 	if (assplitarea.Cursor == nil) != (assplitareaOther.Cursor == nil) {
-		diffs = append(diffs, "Cursor")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
 		if assplitarea.Cursor != assplitareaOther.Cursor {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 		}
 	}
 	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
-		diffs = append(diffs, "Form")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
 		if assplitarea.Form != assplitareaOther.Form {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 		}
 	}
 	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
-		diffs = append(diffs, "Load")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
 	} else if assplitarea.Load != nil && assplitareaOther.Load != nil {
 		if assplitarea.Load != assplitareaOther.Load {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
 		}
 	}
 	if (assplitarea.Markdown == nil) != (assplitareaOther.Markdown == nil) {
-		diffs = append(diffs, "Markdown")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
 	} else if assplitarea.Markdown != nil && assplitareaOther.Markdown != nil {
 		if assplitarea.Markdown != assplitareaOther.Markdown {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
 		}
 	}
 	if (assplitarea.Slider == nil) != (assplitareaOther.Slider == nil) {
-		diffs = append(diffs, "Slider")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 	} else if assplitarea.Slider != nil && assplitareaOther.Slider != nil {
 		if assplitarea.Slider != assplitareaOther.Slider {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 		}
 	}
 	if (assplitarea.Split == nil) != (assplitareaOther.Split == nil) {
-		diffs = append(diffs, "Split")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
 	} else if assplitarea.Split != nil && assplitareaOther.Split != nil {
 		if assplitarea.Split != assplitareaOther.Split {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
 		}
 	}
 	if (assplitarea.Svg == nil) != (assplitareaOther.Svg == nil) {
-		diffs = append(diffs, "Svg")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
 	} else if assplitarea.Svg != nil && assplitareaOther.Svg != nil {
 		if assplitarea.Svg != assplitareaOther.Svg {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
 		}
 	}
 	if (assplitarea.Table == nil) != (assplitareaOther.Table == nil) {
-		diffs = append(diffs, "Table")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
 	} else if assplitarea.Table != nil && assplitareaOther.Table != nil {
 		if assplitarea.Table != assplitareaOther.Table {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
 		}
 	}
 	if (assplitarea.Tone == nil) != (assplitareaOther.Tone == nil) {
-		diffs = append(diffs, "Tone")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
 	} else if assplitarea.Tone != nil && assplitareaOther.Tone != nil {
 		if assplitarea.Tone != assplitareaOther.Tone {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
 		}
 	}
 	if (assplitarea.Tree == nil) != (assplitareaOther.Tree == nil) {
-		diffs = append(diffs, "Tree")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
 	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
 		if assplitarea.Tree != assplitareaOther.Tree {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
 		}
 	}
 	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
-		diffs = append(diffs, "Xlsx")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
 	} else if assplitarea.Xlsx != nil && assplitareaOther.Xlsx != nil {
 		if assplitarea.Xlsx != assplitareaOther.Xlsx {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
@@ -1967,7 +1970,7 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 				RootAsSplitAreasDifferent = true
 				break
 			} else if view.RootAsSplitAreas[i] != nil && viewOther.RootAsSplitAreas[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if view.RootAsSplitAreas[i] != viewOther.RootAsSplitAreas[i] {
 					RootAsSplitAreasDifferent = true
 					break
@@ -1976,7 +1979,8 @@ func (view *View) GongDiff(stage *Stage, viewOther *View) (diffs []string) {
 		}
 	}
 	if RootAsSplitAreasDifferent {
-		diffs = append(diffs, view.GongMarshallField(stage, "RootAsSplitAreas"))
+		ops := Diff(stage, view, viewOther, "RootAsSplitAreas", viewOther.RootAsSplitAreas, view.RootAsSplitAreas)
+		diffs = append(diffs, ops)
 	}
 	if view.IsSelectedView != viewOther.IsSelectedView {
 		diffs = append(diffs, view.GongMarshallField(stage, "IsSelectedView"))
@@ -2000,4 +2004,81 @@ func (xlsx *Xlsx) GongDiff(stage *Stage, xlsxOther *Xlsx) (diffs []string) {
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

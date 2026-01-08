@@ -300,8 +300,6 @@ func (cursor *Cursor) GongMarshallField(stage *Stage, fieldName string) (res str
 // insertion point for marshall all fields methods
 func (cursor *Cursor) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += cursor.GongMarshallField(stage, "Name")
 		initializerStatements += cursor.GongMarshallField(stage, "StartX")

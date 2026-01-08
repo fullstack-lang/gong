@@ -326,8 +326,6 @@ func (message *Message) GongMarshallField(stage *Stage, fieldName string) (res s
 // insertion point for marshall all fields methods
 func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += filetodownload.GongMarshallField(stage, "Name")
 		initializerStatements += filetodownload.GongMarshallField(stage, "Base64EncodedContent")
@@ -336,8 +334,6 @@ func (filetodownload *FileToDownload) GongMarshallAllFields(stage *Stage) (initi
 }
 func (filetoupload *FileToUpload) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += filetoupload.GongMarshallField(stage, "Name")
 		initializerStatements += filetoupload.GongMarshallField(stage, "Base64EncodedContent")
@@ -346,8 +342,6 @@ func (filetoupload *FileToUpload) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (message *Message) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += message.GongMarshallField(stage, "Name")
 	}
