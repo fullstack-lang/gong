@@ -173,4 +173,5 @@ func (stage *Stage) MarshallToString(modelsPackageName, packageName string) (res
 }
 
 // insertion point for marshall field methods{{` + string(rune(ModelGongMarshallMarshallFieldMethods)) + `}}
-// insertion point for marshall all fields methods{{` + string(rune(ModelGongMarshallMarshallAllFieldsMethods)) + `}}`
+// insertion point for marshall all fields methods{{` + string(rune(ModelGongMarshallMarshallAllFieldsMethods)) + `}}
+`

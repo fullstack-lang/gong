@@ -908,8 +908,8 @@ another line to Write Specs`
 
 	__ProductShape__00000468_.Name = `NewProduct-NewDiagram`
 	__ProductShape__00000468_.IsExpanded = false
-	__ProductShape__00000468_.X = 33.066958
-	__ProductShape__00000468_.Y = 952.727459
+	__ProductShape__00000468_.X = 55.066958
+	__ProductShape__00000468_.Y = 955.727459
 	__ProductShape__00000468_.Width = 202.000000
 	__ProductShape__00000468_.Height = 52.000000
 
@@ -971,8 +971,8 @@ another line to Write Specs`
 
 	__ProductShape__00000477_.Name = `Probe display the marshalled commit-Work diagram x`
 	__ProductShape__00000477_.IsExpanded = false
-	__ProductShape__00000477_.X = 287.092048
-	__ProductShape__00000477_.Y = 955.996299
+	__ProductShape__00000477_.X = 305.092048
+	__ProductShape__00000477_.Y = 958.996299
 	__ProductShape__00000477_.Width = 250.000000
 	__ProductShape__00000477_.Height = 70.000000
 
@@ -1076,7 +1076,7 @@ another line to Write Specs`
 	__Task__00000007_.Name = `Compute all Instance Diff`
 	__Task__00000007_.Description = ``
 	__Task__00000007_.IsExpanded = false
-	__Task__00000007_.ComputedPrefix = `3`
+	__Task__00000007_.ComputedPrefix = `2`
 	__Task__00000007_.IsInputsNodeExpanded = false
 	__Task__00000007_.IsOutputsNodeExpanded = false
 	__Task__00000007_.IsWithCompletion = true
@@ -1094,7 +1094,7 @@ another line to Write Specs`
 	__Task__00000009_.Name = `Develop Probe Notifications`
 	__Task__00000009_.Description = ``
 	__Task__00000009_.IsExpanded = false
-	__Task__00000009_.ComputedPrefix = `2`
+	__Task__00000009_.ComputedPrefix = `6`
 	__Task__00000009_.IsInputsNodeExpanded = false
 	__Task__00000009_.IsOutputsNodeExpanded = false
 	__Task__00000009_.IsWithCompletion = true
@@ -1103,7 +1103,7 @@ another line to Write Specs`
 	__Task__00000010_.Name = `Display the the commit diff in the probe as marshalled go statements #1038 `
 	__Task__00000010_.Description = ``
 	__Task__00000010_.IsExpanded = false
-	__Task__00000010_.ComputedPrefix = `4`
+	__Task__00000010_.ComputedPrefix = `3`
 	__Task__00000010_.IsInputsNodeExpanded = false
 	__Task__00000010_.IsOutputsNodeExpanded = false
 	__Task__00000010_.IsWithCompletion = true
@@ -1112,7 +1112,7 @@ another line to Write Specs`
 	__Task__00000011_.Name = `Put the commit forward text in one notification #1044`
 	__Task__00000011_.Description = ``
 	__Task__00000011_.IsExpanded = false
-	__Task__00000011_.ComputedPrefix = `5`
+	__Task__00000011_.ComputedPrefix = `4`
 	__Task__00000011_.IsInputsNodeExpanded = false
 	__Task__00000011_.IsOutputsNodeExpanded = false
 	__Task__00000011_.IsWithCompletion = true
@@ -1121,11 +1121,11 @@ another line to Write Specs`
 	__Task__00000012_.Name = `Compute diff in slices with minimal edit distance #1045`
 	__Task__00000012_.Description = ``
 	__Task__00000012_.IsExpanded = false
-	__Task__00000012_.ComputedPrefix = `6`
+	__Task__00000012_.ComputedPrefix = `5`
 	__Task__00000012_.IsInputsNodeExpanded = false
 	__Task__00000012_.IsOutputsNodeExpanded = false
 	__Task__00000012_.IsWithCompletion = true
-	__Task__00000012_.Completion = models.PERCENT_000
+	__Task__00000012_.Completion = models.PERCENT_100
 
 	__TaskCompositionShape__00000005_.Name = `Develop Backend to Dev UXx`
 	__TaskCompositionShape__00000005_.StartRatio = 0.500000
@@ -1227,17 +1227,17 @@ another line to Write Specs`
 
 	__TaskOutputShape__00000068_.Name = `Put the commit forward text in one notification #1044 to Probe display the marshalled commit`
 	__TaskOutputShape__00000068_.StartRatio = 0.320898
-	__TaskOutputShape__00000068_.EndRatio = 0.714422
+	__TaskOutputShape__00000068_.EndRatio = 0.856655
 	__TaskOutputShape__00000068_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000068_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000068_.CornerOffsetRatio = -0.049912
+	__TaskOutputShape__00000068_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000068_.CornerOffsetRatio = -1.026162
 
 	__TaskOutputShape__00000069_.Name = `Compute diff in slices with minimal edit distance #1045 to Probe display the marshalled commit`
 	__TaskOutputShape__00000069_.StartRatio = 0.133143
-	__TaskOutputShape__00000069_.EndRatio = 0.500000
+	__TaskOutputShape__00000069_.EndRatio = 0.988655
 	__TaskOutputShape__00000069_.StartOrientation = models.ORIENTATION_VERTICAL
-	__TaskOutputShape__00000069_.EndOrientation = models.ORIENTATION_HORIZONTAL
-	__TaskOutputShape__00000069_.CornerOffsetRatio = -0.221033
+	__TaskOutputShape__00000069_.EndOrientation = models.ORIENTATION_VERTICAL
+	__TaskOutputShape__00000069_.CornerOffsetRatio = -1.387283
 
 	__TaskShape__00000012_.Name = `Write Specs-NewDiagram`
 	__TaskShape__00000012_.IsExpanded = false
@@ -1297,15 +1297,15 @@ another line to Write Specs`
 
 	__TaskShape__00000020_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000020_.IsExpanded = false
-	__TaskShape__00000020_.X = 269.214318
-	__TaskShape__00000020_.Y = 366.572924
+	__TaskShape__00000020_.X = 253.214318
+	__TaskShape__00000020_.Y = 379.572924
 	__TaskShape__00000020_.Width = 195.000000
 	__TaskShape__00000020_.Height = 72.000000
 
 	__TaskShape__00000021_.Name = `NewTask-NewDiagram`
 	__TaskShape__00000021_.IsExpanded = false
-	__TaskShape__00000021_.X = 28.662171
-	__TaskShape__00000021_.Y = 190.681593
+	__TaskShape__00000021_.X = 12.662171
+	__TaskShape__00000021_.Y = 203.681593
 	__TaskShape__00000021_.Width = 217.000000
 	__TaskShape__00000021_.Height = 82.000000
 
@@ -1561,11 +1561,11 @@ another line to Write Specs`
 	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000022_)
 	__Project__00000002_.RootProducts = append(__Project__00000002_.RootProducts, __Product__00000031_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000008_)
-	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000007_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000010_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000011_)
 	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000012_)
+	__Project__00000002_.RootTasks = append(__Project__00000002_.RootTasks, __Task__00000009_)
 	__Project__00000002_.Diagrams = append(__Project__00000002_.Diagrams, __Diagram__00000061_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000002_)
 	__Project__00000002_.Notes = append(__Project__00000002_.Notes, __Note__00000003_)

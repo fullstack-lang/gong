@@ -590,8 +590,6 @@ func (tree *Tree) GongMarshallField(stage *Stage, fieldName string) (res string)
 // insertion point for marshall all fields methods
 func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += button.GongMarshallField(stage, "Name")
 		initializerStatements += button.GongMarshallField(stage, "Icon")
@@ -605,8 +603,6 @@ func (button *Button) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (node *Node) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += node.GongMarshallField(stage, "Name")
 		initializerStatements += node.GongMarshallField(stage, "FontStyle")
@@ -640,8 +636,6 @@ func (node *Node) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += svgicon.GongMarshallField(stage, "Name")
 		initializerStatements += svgicon.GongMarshallField(stage, "SVG")
@@ -650,8 +644,6 @@ func (svgicon *SVGIcon) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (tree *Tree) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += tree.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += tree.GongMarshallField(stage, "RootNodes")

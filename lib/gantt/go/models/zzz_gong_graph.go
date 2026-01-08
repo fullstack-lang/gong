@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -671,14 +673,14 @@ func (arrow *Arrow) GongDiff(stage *Stage, arrowOther *Arrow) (diffs []string) {
 		diffs = append(diffs, arrow.GongMarshallField(stage, "Name"))
 	}
 	if (arrow.From == nil) != (arrowOther.From == nil) {
-		diffs = append(diffs, "From")
+		diffs = append(diffs, arrow.GongMarshallField(stage, "From"))
 	} else if arrow.From != nil && arrowOther.From != nil {
 		if arrow.From != arrowOther.From {
 			diffs = append(diffs, arrow.GongMarshallField(stage, "From"))
 		}
 	}
 	if (arrow.To == nil) != (arrowOther.To == nil) {
-		diffs = append(diffs, "To")
+		diffs = append(diffs, arrow.GongMarshallField(stage, "To"))
 	} else if arrow.To != nil && arrowOther.To != nil {
 		if arrow.To != arrowOther.To {
 			diffs = append(diffs, arrow.GongMarshallField(stage, "To"))
@@ -817,7 +819,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 				LanesDifferent = true
 				break
 			} else if gantt.Lanes[i] != nil && ganttOther.Lanes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gantt.Lanes[i] != ganttOther.Lanes[i] {
 					LanesDifferent = true
 					break
@@ -826,7 +828,8 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if LanesDifferent {
-		diffs = append(diffs, gantt.GongMarshallField(stage, "Lanes"))
+		ops := Diff(stage, gantt, ganttOther, "Lanes", ganttOther.Lanes, gantt.Lanes)
+		diffs = append(diffs, ops)
 	}
 	MilestonesDifferent := false
 	if len(gantt.Milestones) != len(ganttOther.Milestones) {
@@ -837,7 +840,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 				MilestonesDifferent = true
 				break
 			} else if gantt.Milestones[i] != nil && ganttOther.Milestones[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gantt.Milestones[i] != ganttOther.Milestones[i] {
 					MilestonesDifferent = true
 					break
@@ -846,7 +849,8 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if MilestonesDifferent {
-		diffs = append(diffs, gantt.GongMarshallField(stage, "Milestones"))
+		ops := Diff(stage, gantt, ganttOther, "Milestones", ganttOther.Milestones, gantt.Milestones)
+		diffs = append(diffs, ops)
 	}
 	GroupsDifferent := false
 	if len(gantt.Groups) != len(ganttOther.Groups) {
@@ -857,7 +861,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 				GroupsDifferent = true
 				break
 			} else if gantt.Groups[i] != nil && ganttOther.Groups[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gantt.Groups[i] != ganttOther.Groups[i] {
 					GroupsDifferent = true
 					break
@@ -866,7 +870,8 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if GroupsDifferent {
-		diffs = append(diffs, gantt.GongMarshallField(stage, "Groups"))
+		ops := Diff(stage, gantt, ganttOther, "Groups", ganttOther.Groups, gantt.Groups)
+		diffs = append(diffs, ops)
 	}
 	ArrowsDifferent := false
 	if len(gantt.Arrows) != len(ganttOther.Arrows) {
@@ -877,7 +882,7 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 				ArrowsDifferent = true
 				break
 			} else if gantt.Arrows[i] != nil && ganttOther.Arrows[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gantt.Arrows[i] != ganttOther.Arrows[i] {
 					ArrowsDifferent = true
 					break
@@ -886,7 +891,8 @@ func (gantt *Gantt) GongDiff(stage *Stage, ganttOther *Gantt) (diffs []string) {
 		}
 	}
 	if ArrowsDifferent {
-		diffs = append(diffs, gantt.GongMarshallField(stage, "Arrows"))
+		ops := Diff(stage, gantt, ganttOther, "Arrows", ganttOther.Arrows, gantt.Arrows)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -908,7 +914,7 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 				GroupLanesDifferent = true
 				break
 			} else if group.GroupLanes[i] != nil && groupOther.GroupLanes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if group.GroupLanes[i] != groupOther.GroupLanes[i] {
 					GroupLanesDifferent = true
 					break
@@ -917,7 +923,8 @@ func (group *Group) GongDiff(stage *Stage, groupOther *Group) (diffs []string) {
 		}
 	}
 	if GroupLanesDifferent {
-		diffs = append(diffs, group.GongMarshallField(stage, "GroupLanes"))
+		ops := Diff(stage, group, groupOther, "GroupLanes", groupOther.GroupLanes, group.GroupLanes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -942,7 +949,7 @@ func (lane *Lane) GongDiff(stage *Stage, laneOther *Lane) (diffs []string) {
 				BarsDifferent = true
 				break
 			} else if lane.Bars[i] != nil && laneOther.Bars[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if lane.Bars[i] != laneOther.Bars[i] {
 					BarsDifferent = true
 					break
@@ -951,7 +958,8 @@ func (lane *Lane) GongDiff(stage *Stage, laneOther *Lane) (diffs []string) {
 		}
 	}
 	if BarsDifferent {
-		diffs = append(diffs, lane.GongMarshallField(stage, "Bars"))
+		ops := Diff(stage, lane, laneOther, "Bars", laneOther.Bars, lane.Bars)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -965,7 +973,7 @@ func (laneuse *LaneUse) GongDiff(stage *Stage, laneuseOther *LaneUse) (diffs []s
 		diffs = append(diffs, laneuse.GongMarshallField(stage, "Name"))
 	}
 	if (laneuse.Lane == nil) != (laneuseOther.Lane == nil) {
-		diffs = append(diffs, "Lane")
+		diffs = append(diffs, laneuse.GongMarshallField(stage, "Lane"))
 	} else if laneuse.Lane != nil && laneuseOther.Lane != nil {
 		if laneuse.Lane != laneuseOther.Lane {
 			diffs = append(diffs, laneuse.GongMarshallField(stage, "Lane"))
@@ -997,7 +1005,7 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 				LanesToDisplayDifferent = true
 				break
 			} else if milestone.LanesToDisplay[i] != nil && milestoneOther.LanesToDisplay[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if milestone.LanesToDisplay[i] != milestoneOther.LanesToDisplay[i] {
 					LanesToDisplayDifferent = true
 					break
@@ -1006,8 +1014,86 @@ func (milestone *Milestone) GongDiff(stage *Stage, milestoneOther *Milestone) (d
 		}
 	}
 	if LanesToDisplayDifferent {
-		diffs = append(diffs, milestone.GongMarshallField(stage, "LanesToDisplay"))
+		ops := Diff(stage, milestone, milestoneOther, "LanesToDisplay", milestoneOther.LanesToDisplay, milestone.LanesToDisplay)
+		diffs = append(diffs, ops)
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

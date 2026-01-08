@@ -63,13 +63,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var filetodownloads_newInstances []*FileToDownload
@@ -86,7 +90,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := filetodownload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetodownload.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", filetodownload.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -119,7 +123,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := filetoupload.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", filetoupload.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", filetoupload.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -152,7 +156,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := message.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", message.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", message.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -173,11 +177,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(messages_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }

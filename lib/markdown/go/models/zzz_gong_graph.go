@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -411,4 +413,81 @@ func (svgimage *SvgImage) GongDiff(stage *Stage, svgimageOther *SvgImage) (diffs
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

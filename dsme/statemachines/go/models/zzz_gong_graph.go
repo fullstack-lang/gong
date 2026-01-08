@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1427,7 +1429,7 @@ func (architecture *Architecture) GongDiff(stage *Stage, architectureOther *Arch
 				StateMachinesDifferent = true
 				break
 			} else if architecture.StateMachines[i] != nil && architectureOther.StateMachines[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if architecture.StateMachines[i] != architectureOther.StateMachines[i] {
 					StateMachinesDifferent = true
 					break
@@ -1436,7 +1438,8 @@ func (architecture *Architecture) GongDiff(stage *Stage, architectureOther *Arch
 		}
 	}
 	if StateMachinesDifferent {
-		diffs = append(diffs, architecture.GongMarshallField(stage, "StateMachines"))
+		ops := Diff(stage, architecture, architectureOther, "StateMachines", architectureOther.StateMachines, architecture.StateMachines)
+		diffs = append(diffs, ops)
 	}
 	RolesDifferent := false
 	if len(architecture.Roles) != len(architectureOther.Roles) {
@@ -1447,7 +1450,7 @@ func (architecture *Architecture) GongDiff(stage *Stage, architectureOther *Arch
 				RolesDifferent = true
 				break
 			} else if architecture.Roles[i] != nil && architectureOther.Roles[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if architecture.Roles[i] != architectureOther.Roles[i] {
 					RolesDifferent = true
 					break
@@ -1456,7 +1459,8 @@ func (architecture *Architecture) GongDiff(stage *Stage, architectureOther *Arch
 		}
 	}
 	if RolesDifferent {
-		diffs = append(diffs, architecture.GongMarshallField(stage, "Roles"))
+		ops := Diff(stage, architecture, architectureOther, "Roles", architectureOther.Roles, architecture.Roles)
+		diffs = append(diffs, ops)
 	}
 	if architecture.NbPixPerCharacter != architectureOther.NbPixPerCharacter {
 		diffs = append(diffs, architecture.GongMarshallField(stage, "NbPixPerCharacter"))
@@ -1493,7 +1497,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				State_ShapesDifferent = true
 				break
 			} else if diagram.State_Shapes[i] != nil && diagramOther.State_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.State_Shapes[i] != diagramOther.State_Shapes[i] {
 					State_ShapesDifferent = true
 					break
@@ -1502,7 +1506,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if State_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "State_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "State_Shapes", diagramOther.State_Shapes, diagram.State_Shapes)
+		diffs = append(diffs, ops)
 	}
 	Transition_ShapesDifferent := false
 	if len(diagram.Transition_Shapes) != len(diagramOther.Transition_Shapes) {
@@ -1513,7 +1518,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				Transition_ShapesDifferent = true
 				break
 			} else if diagram.Transition_Shapes[i] != nil && diagramOther.Transition_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.Transition_Shapes[i] != diagramOther.Transition_Shapes[i] {
 					Transition_ShapesDifferent = true
 					break
@@ -1522,7 +1527,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Transition_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Transition_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "Transition_Shapes", diagramOther.Transition_Shapes, diagram.Transition_Shapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1561,14 +1567,14 @@ func (message *Message) GongDiff(stage *Stage, messageOther *Message) (diffs []s
 		diffs = append(diffs, message.GongMarshallField(stage, "IsSelected"))
 	}
 	if (message.MessageType == nil) != (messageOther.MessageType == nil) {
-		diffs = append(diffs, "MessageType")
+		diffs = append(diffs, message.GongMarshallField(stage, "MessageType"))
 	} else if message.MessageType != nil && messageOther.MessageType != nil {
 		if message.MessageType != messageOther.MessageType {
 			diffs = append(diffs, message.GongMarshallField(stage, "MessageType"))
 		}
 	}
 	if (message.OriginTransition == nil) != (messageOther.OriginTransition == nil) {
-		diffs = append(diffs, "OriginTransition")
+		diffs = append(diffs, message.GongMarshallField(stage, "OriginTransition"))
 	} else if message.OriginTransition != nil && messageOther.OriginTransition != nil {
 		if message.OriginTransition != messageOther.OriginTransition {
 			diffs = append(diffs, message.GongMarshallField(stage, "OriginTransition"))
@@ -1600,7 +1606,7 @@ func (object *Object) GongDiff(stage *Stage, objectOther *Object) (diffs []strin
 		diffs = append(diffs, object.GongMarshallField(stage, "Name"))
 	}
 	if (object.State == nil) != (objectOther.State == nil) {
-		diffs = append(diffs, "State")
+		diffs = append(diffs, object.GongMarshallField(stage, "State"))
 	} else if object.State != nil && objectOther.State != nil {
 		if object.State != objectOther.State {
 			diffs = append(diffs, object.GongMarshallField(stage, "State"))
@@ -1624,7 +1630,7 @@ func (object *Object) GongDiff(stage *Stage, objectOther *Object) (diffs []strin
 				MessagesDifferent = true
 				break
 			} else if object.Messages[i] != nil && objectOther.Messages[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if object.Messages[i] != objectOther.Messages[i] {
 					MessagesDifferent = true
 					break
@@ -1633,7 +1639,8 @@ func (object *Object) GongDiff(stage *Stage, objectOther *Object) (diffs []strin
 		}
 	}
 	if MessagesDifferent {
-		diffs = append(diffs, object.GongMarshallField(stage, "Messages"))
+		ops := Diff(stage, object, objectOther, "Messages", objectOther.Messages, object.Messages)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1658,7 +1665,7 @@ func (role *Role) GongDiff(stage *Stage, roleOther *Role) (diffs []string) {
 				RolesWithSamePermissionsDifferent = true
 				break
 			} else if role.RolesWithSamePermissions[i] != nil && roleOther.RolesWithSamePermissions[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if role.RolesWithSamePermissions[i] != roleOther.RolesWithSamePermissions[i] {
 					RolesWithSamePermissionsDifferent = true
 					break
@@ -1667,7 +1674,8 @@ func (role *Role) GongDiff(stage *Stage, roleOther *Role) (diffs []string) {
 		}
 	}
 	if RolesWithSamePermissionsDifferent {
-		diffs = append(diffs, role.GongMarshallField(stage, "RolesWithSamePermissions"))
+		ops := Diff(stage, role, roleOther, "RolesWithSamePermissions", roleOther.RolesWithSamePermissions, role.RolesWithSamePermissions)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1681,7 +1689,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		diffs = append(diffs, state.GongMarshallField(stage, "Name"))
 	}
 	if (state.Parent == nil) != (stateOther.Parent == nil) {
-		diffs = append(diffs, "Parent")
+		diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
 	} else if state.Parent != nil && stateOther.Parent != nil {
 		if state.Parent != stateOther.Parent {
 			diffs = append(diffs, state.GongMarshallField(stage, "Parent"))
@@ -1705,7 +1713,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 				SubStatesDifferent = true
 				break
 			} else if state.SubStates[i] != nil && stateOther.SubStates[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if state.SubStates[i] != stateOther.SubStates[i] {
 					SubStatesDifferent = true
 					break
@@ -1714,7 +1722,8 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if SubStatesDifferent {
-		diffs = append(diffs, state.GongMarshallField(stage, "SubStates"))
+		ops := Diff(stage, state, stateOther, "SubStates", stateOther.SubStates, state.SubStates)
+		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
 	if len(state.Diagrams) != len(stateOther.Diagrams) {
@@ -1725,7 +1734,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 				DiagramsDifferent = true
 				break
 			} else if state.Diagrams[i] != nil && stateOther.Diagrams[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if state.Diagrams[i] != stateOther.Diagrams[i] {
 					DiagramsDifferent = true
 					break
@@ -1734,10 +1743,11 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if DiagramsDifferent {
-		diffs = append(diffs, state.GongMarshallField(stage, "Diagrams"))
+		ops := Diff(stage, state, stateOther, "Diagrams", stateOther.Diagrams, state.Diagrams)
+		diffs = append(diffs, ops)
 	}
 	if (state.Entry == nil) != (stateOther.Entry == nil) {
-		diffs = append(diffs, "Entry")
+		diffs = append(diffs, state.GongMarshallField(stage, "Entry"))
 	} else if state.Entry != nil && stateOther.Entry != nil {
 		if state.Entry != stateOther.Entry {
 			diffs = append(diffs, state.GongMarshallField(stage, "Entry"))
@@ -1752,7 +1762,7 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 				ActivitiesDifferent = true
 				break
 			} else if state.Activities[i] != nil && stateOther.Activities[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if state.Activities[i] != stateOther.Activities[i] {
 					ActivitiesDifferent = true
 					break
@@ -1761,10 +1771,11 @@ func (state *State) GongDiff(stage *Stage, stateOther *State) (diffs []string) {
 		}
 	}
 	if ActivitiesDifferent {
-		diffs = append(diffs, state.GongMarshallField(stage, "Activities"))
+		ops := Diff(stage, state, stateOther, "Activities", stateOther.Activities, state.Activities)
+		diffs = append(diffs, ops)
 	}
 	if (state.Exit == nil) != (stateOther.Exit == nil) {
-		diffs = append(diffs, "Exit")
+		diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
 	} else if state.Exit != nil && stateOther.Exit != nil {
 		if state.Exit != stateOther.Exit {
 			diffs = append(diffs, state.GongMarshallField(stage, "Exit"))
@@ -1793,7 +1804,7 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 				StatesDifferent = true
 				break
 			} else if statemachine.States[i] != nil && statemachineOther.States[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if statemachine.States[i] != statemachineOther.States[i] {
 					StatesDifferent = true
 					break
@@ -1802,7 +1813,8 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		}
 	}
 	if StatesDifferent {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "States"))
+		ops := Diff(stage, statemachine, statemachineOther, "States", statemachineOther.States, statemachine.States)
+		diffs = append(diffs, ops)
 	}
 	DiagramsDifferent := false
 	if len(statemachine.Diagrams) != len(statemachineOther.Diagrams) {
@@ -1813,7 +1825,7 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 				DiagramsDifferent = true
 				break
 			} else if statemachine.Diagrams[i] != nil && statemachineOther.Diagrams[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if statemachine.Diagrams[i] != statemachineOther.Diagrams[i] {
 					DiagramsDifferent = true
 					break
@@ -1822,10 +1834,11 @@ func (statemachine *StateMachine) GongDiff(stage *Stage, statemachineOther *Stat
 		}
 	}
 	if DiagramsDifferent {
-		diffs = append(diffs, statemachine.GongMarshallField(stage, "Diagrams"))
+		ops := Diff(stage, statemachine, statemachineOther, "Diagrams", statemachineOther.Diagrams, statemachine.Diagrams)
+		diffs = append(diffs, ops)
 	}
 	if (statemachine.InitialState == nil) != (statemachineOther.InitialState == nil) {
-		diffs = append(diffs, "InitialState")
+		diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
 	} else if statemachine.InitialState != nil && statemachineOther.InitialState != nil {
 		if statemachine.InitialState != statemachineOther.InitialState {
 			diffs = append(diffs, statemachine.GongMarshallField(stage, "InitialState"))
@@ -1843,7 +1856,7 @@ func (stateshape *StateShape) GongDiff(stage *Stage, stateshapeOther *StateShape
 		diffs = append(diffs, stateshape.GongMarshallField(stage, "Name"))
 	}
 	if (stateshape.State == nil) != (stateshapeOther.State == nil) {
-		diffs = append(diffs, "State")
+		diffs = append(diffs, stateshape.GongMarshallField(stage, "State"))
 	} else if stateshape.State != nil && stateshapeOther.State != nil {
 		if stateshape.State != stateshapeOther.State {
 			diffs = append(diffs, stateshape.GongMarshallField(stage, "State"))
@@ -1876,14 +1889,14 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		diffs = append(diffs, transition.GongMarshallField(stage, "Name"))
 	}
 	if (transition.Start == nil) != (transitionOther.Start == nil) {
-		diffs = append(diffs, "Start")
+		diffs = append(diffs, transition.GongMarshallField(stage, "Start"))
 	} else if transition.Start != nil && transitionOther.Start != nil {
 		if transition.Start != transitionOther.Start {
 			diffs = append(diffs, transition.GongMarshallField(stage, "Start"))
 		}
 	}
 	if (transition.End == nil) != (transitionOther.End == nil) {
-		diffs = append(diffs, "End")
+		diffs = append(diffs, transition.GongMarshallField(stage, "End"))
 	} else if transition.End != nil && transitionOther.End != nil {
 		if transition.End != transitionOther.End {
 			diffs = append(diffs, transition.GongMarshallField(stage, "End"))
@@ -1898,7 +1911,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 				RolesWithPermissionsDifferent = true
 				break
 			} else if transition.RolesWithPermissions[i] != nil && transitionOther.RolesWithPermissions[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if transition.RolesWithPermissions[i] != transitionOther.RolesWithPermissions[i] {
 					RolesWithPermissionsDifferent = true
 					break
@@ -1907,7 +1920,8 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if RolesWithPermissionsDifferent {
-		diffs = append(diffs, transition.GongMarshallField(stage, "RolesWithPermissions"))
+		ops := Diff(stage, transition, transitionOther, "RolesWithPermissions", transitionOther.RolesWithPermissions, transition.RolesWithPermissions)
+		diffs = append(diffs, ops)
 	}
 	GeneratedMessagesDifferent := false
 	if len(transition.GeneratedMessages) != len(transitionOther.GeneratedMessages) {
@@ -1918,7 +1932,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 				GeneratedMessagesDifferent = true
 				break
 			} else if transition.GeneratedMessages[i] != nil && transitionOther.GeneratedMessages[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if transition.GeneratedMessages[i] != transitionOther.GeneratedMessages[i] {
 					GeneratedMessagesDifferent = true
 					break
@@ -1927,10 +1941,11 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if GeneratedMessagesDifferent {
-		diffs = append(diffs, transition.GongMarshallField(stage, "GeneratedMessages"))
+		ops := Diff(stage, transition, transitionOther, "GeneratedMessages", transitionOther.GeneratedMessages, transition.GeneratedMessages)
+		diffs = append(diffs, ops)
 	}
 	if (transition.Guard == nil) != (transitionOther.Guard == nil) {
-		diffs = append(diffs, "Guard")
+		diffs = append(diffs, transition.GongMarshallField(stage, "Guard"))
 	} else if transition.Guard != nil && transitionOther.Guard != nil {
 		if transition.Guard != transitionOther.Guard {
 			diffs = append(diffs, transition.GongMarshallField(stage, "Guard"))
@@ -1945,7 +1960,7 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 				DiagramsDifferent = true
 				break
 			} else if transition.Diagrams[i] != nil && transitionOther.Diagrams[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if transition.Diagrams[i] != transitionOther.Diagrams[i] {
 					DiagramsDifferent = true
 					break
@@ -1954,7 +1969,8 @@ func (transition *Transition) GongDiff(stage *Stage, transitionOther *Transition
 		}
 	}
 	if DiagramsDifferent {
-		diffs = append(diffs, transition.GongMarshallField(stage, "Diagrams"))
+		ops := Diff(stage, transition, transitionOther, "Diagrams", transitionOther.Diagrams, transition.Diagrams)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1968,7 +1984,7 @@ func (transition_shape *Transition_Shape) GongDiff(stage *Stage, transition_shap
 		diffs = append(diffs, transition_shape.GongMarshallField(stage, "Name"))
 	}
 	if (transition_shape.Transition == nil) != (transition_shapeOther.Transition == nil) {
-		diffs = append(diffs, "Transition")
+		diffs = append(diffs, transition_shape.GongMarshallField(stage, "Transition"))
 	} else if transition_shape.Transition != nil && transition_shapeOther.Transition != nil {
 		if transition_shape.Transition != transition_shapeOther.Transition {
 			diffs = append(diffs, transition_shape.GongMarshallField(stage, "Transition"))
@@ -1991,4 +2007,81 @@ func (transition_shape *Transition_Shape) GongDiff(stage *Stage, transition_shap
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

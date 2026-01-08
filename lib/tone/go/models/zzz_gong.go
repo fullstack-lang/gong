@@ -471,11 +471,6 @@ func (stage *Stage) Commit() {
 	stage.ComputeInstancesNb()
 	stage.ComputeDifference()
 	stage.ComputeReference()
-
-	if stage.GetProbeIF() != nil {
-		stage.GetProbeIF().AddNotification(time.Now(), "\t// Commit performed")
-		stage.GetProbeIF().CommitNotificationTable()
-	}
 }
 
 func (stage *Stage) ComputeInstancesNb() {
@@ -867,6 +862,7 @@ type GongstructIF interface {
 	GongSetFieldValue(fieldName string, value GongFieldValue, stage *Stage) error
 	GongGetGongstructName() string
 	GongGetOrder(stage *Stage) uint
+	GongGetIdentifier(stage *Stage) string
 	GongCopy() GongstructIF
 	GongGetReverseFieldOwnerName(stage *Stage, reverseField *ReverseField) string
 	GongGetReverseFieldOwner(stage *Stage, reverseField *ReverseField) GongstructIF

@@ -387,8 +387,6 @@ func (svgimage *SvgImage) GongMarshallField(stage *Stage, fieldName string) (res
 // insertion point for marshall all fields methods
 func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += content.GongMarshallField(stage, "Name")
 		initializerStatements += content.GongMarshallField(stage, "Content")
@@ -397,8 +395,6 @@ func (content *Content) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += jpgimage.GongMarshallField(stage, "Name")
 		initializerStatements += jpgimage.GongMarshallField(stage, "Base64Content")
@@ -407,8 +403,6 @@ func (jpgimage *JpgImage) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (pngimage *PngImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += pngimage.GongMarshallField(stage, "Name")
 		initializerStatements += pngimage.GongMarshallField(stage, "Base64Content")
@@ -417,8 +411,6 @@ func (pngimage *PngImage) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (svgimage *SvgImage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += svgimage.GongMarshallField(stage, "Name")
 		initializerStatements += svgimage.GongMarshallField(stage, "Content")

@@ -3045,8 +3045,6 @@ func (text *Text) GongMarshallField(stage *Stage, fieldName string) (res string)
 // insertion point for marshall all fields methods
 func (animate *Animate) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += animate.GongMarshallField(stage, "Name")
 		initializerStatements += animate.GongMarshallField(stage, "AttributeName")
@@ -3060,8 +3058,6 @@ func (animate *Animate) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (circle *Circle) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += circle.GongMarshallField(stage, "Name")
 		initializerStatements += circle.GongMarshallField(stage, "CX")
@@ -3081,8 +3077,6 @@ func (circle *Circle) GongMarshallAllFields(stage *Stage) (initializerStatements
 }
 func (condition *Condition) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += condition.GongMarshallField(stage, "Name")
 	}
@@ -3090,8 +3084,6 @@ func (condition *Condition) GongMarshallAllFields(stage *Stage) (initializerStat
 }
 func (controlpoint *ControlPoint) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += controlpoint.GongMarshallField(stage, "Name")
 		initializerStatements += controlpoint.GongMarshallField(stage, "X_Relative")
@@ -3102,8 +3094,6 @@ func (controlpoint *ControlPoint) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (ellipse *Ellipse) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += ellipse.GongMarshallField(stage, "Name")
 		initializerStatements += ellipse.GongMarshallField(stage, "CX")
@@ -3124,8 +3114,6 @@ func (ellipse *Ellipse) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (layer *Layer) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += layer.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += layer.GongMarshallField(stage, "Rects")
@@ -3143,8 +3131,6 @@ func (layer *Layer) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (line *Line) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += line.GongMarshallField(stage, "Name")
 		initializerStatements += line.GongMarshallField(stage, "X1")
@@ -3167,8 +3153,6 @@ func (line *Line) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (link *Link) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += link.GongMarshallField(stage, "Name")
 		initializerStatements += link.GongMarshallField(stage, "Type")
@@ -3208,8 +3192,6 @@ func (link *Link) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (linkanchoredtext *LinkAnchoredText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Name")
 		initializerStatements += linkanchoredtext.GongMarshallField(stage, "Content")
@@ -3237,8 +3219,6 @@ func (linkanchoredtext *LinkAnchoredText) GongMarshallAllFields(stage *Stage) (i
 }
 func (path *Path) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += path.GongMarshallField(stage, "Name")
 		initializerStatements += path.GongMarshallField(stage, "Definition")
@@ -3256,8 +3236,6 @@ func (path *Path) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (point *Point) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += point.GongMarshallField(stage, "Name")
 		initializerStatements += point.GongMarshallField(stage, "X")
@@ -3267,8 +3245,6 @@ func (point *Point) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (polygone *Polygone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += polygone.GongMarshallField(stage, "Name")
 		initializerStatements += polygone.GongMarshallField(stage, "Points")
@@ -3286,8 +3262,6 @@ func (polygone *Polygone) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (polyline *Polyline) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += polyline.GongMarshallField(stage, "Name")
 		initializerStatements += polyline.GongMarshallField(stage, "Points")
@@ -3305,8 +3279,6 @@ func (polyline *Polyline) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (rect *Rect) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += rect.GongMarshallField(stage, "Name")
 		initializerStatements += rect.GongMarshallField(stage, "X")
@@ -3357,8 +3329,6 @@ func (rect *Rect) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (rectanchoredpath *RectAnchoredPath) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Name")
 		initializerStatements += rectanchoredpath.GongMarshallField(stage, "Definition")
@@ -3380,8 +3350,6 @@ func (rectanchoredpath *RectAnchoredPath) GongMarshallAllFields(stage *Stage) (i
 }
 func (rectanchoredrect *RectAnchoredRect) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += rectanchoredrect.GongMarshallField(stage, "Name")
 		initializerStatements += rectanchoredrect.GongMarshallField(stage, "X")
@@ -3409,8 +3377,6 @@ func (rectanchoredrect *RectAnchoredRect) GongMarshallAllFields(stage *Stage) (i
 }
 func (rectanchoredtext *RectAnchoredText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Name")
 		initializerStatements += rectanchoredtext.GongMarshallField(stage, "Content")
@@ -3440,8 +3406,6 @@ func (rectanchoredtext *RectAnchoredText) GongMarshallAllFields(stage *Stage) (i
 }
 func (rectlinklink *RectLinkLink) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += rectlinklink.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += rectlinklink.GongMarshallField(stage, "Start")
@@ -3460,8 +3424,6 @@ func (rectlinklink *RectLinkLink) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (svg *SVG) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += svg.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += svg.GongMarshallField(stage, "Layers")
@@ -3482,8 +3444,6 @@ func (svg *SVG) GongMarshallAllFields(stage *Stage) (initializerStatements strin
 }
 func (svgtext *SvgText) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += svgtext.GongMarshallField(stage, "Name")
 		initializerStatements += svgtext.GongMarshallField(stage, "Text")
@@ -3492,8 +3452,6 @@ func (svgtext *SvgText) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (text *Text) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += text.GongMarshallField(stage, "Name")
 		initializerStatements += text.GongMarshallField(stage, "X")

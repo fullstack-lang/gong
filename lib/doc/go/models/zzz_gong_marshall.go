@@ -1076,8 +1076,6 @@ func (linkshape *LinkShape) GongMarshallField(stage *Stage, fieldName string) (r
 // insertion point for marshall all fields methods
 func (attributeshape *AttributeShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += attributeshape.GongMarshallField(stage, "Name")
 		initializerStatements += attributeshape.GongMarshallField(stage, "IdentifierMeta")
@@ -1089,8 +1087,6 @@ func (attributeshape *AttributeShape) GongMarshallAllFields(stage *Stage) (initi
 }
 func (classdiagram *Classdiagram) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += classdiagram.GongMarshallField(stage, "Name")
 		initializerStatements += classdiagram.GongMarshallField(stage, "Description")
@@ -1114,8 +1110,6 @@ func (classdiagram *Classdiagram) GongMarshallAllFields(stage *Stage) (initializ
 }
 func (diagrampackage *DiagramPackage) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += diagrampackage.GongMarshallField(stage, "Name")
 		initializerStatements += diagrampackage.GongMarshallField(stage, "Path")
@@ -1128,8 +1122,6 @@ func (diagrampackage *DiagramPackage) GongMarshallAllFields(stage *Stage) (initi
 }
 func (gongenumshape *GongEnumShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gongenumshape.GongMarshallField(stage, "Name")
 		initializerStatements += gongenumshape.GongMarshallField(stage, "X")
@@ -1144,8 +1136,6 @@ func (gongenumshape *GongEnumShape) GongMarshallAllFields(stage *Stage) (initial
 }
 func (gongenumvalueshape *GongEnumValueShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gongenumvalueshape.GongMarshallField(stage, "Name")
 		initializerStatements += gongenumvalueshape.GongMarshallField(stage, "IdentifierMeta")
@@ -1154,8 +1144,6 @@ func (gongenumvalueshape *GongEnumValueShape) GongMarshallAllFields(stage *Stage
 }
 func (gongnotelinkshape *GongNoteLinkShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gongnotelinkshape.GongMarshallField(stage, "Name")
 		initializerStatements += gongnotelinkshape.GongMarshallField(stage, "Identifier")
@@ -1165,8 +1153,6 @@ func (gongnotelinkshape *GongNoteLinkShape) GongMarshallAllFields(stage *Stage) 
 }
 func (gongnoteshape *GongNoteShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gongnoteshape.GongMarshallField(stage, "Name")
 		initializerStatements += gongnoteshape.GongMarshallField(stage, "Identifier")
@@ -1184,8 +1170,6 @@ func (gongnoteshape *GongNoteShape) GongMarshallAllFields(stage *Stage) (initial
 }
 func (gongstructshape *GongStructShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gongstructshape.GongMarshallField(stage, "Name")
 		initializerStatements += gongstructshape.GongMarshallField(stage, "X")
@@ -1201,8 +1185,6 @@ func (gongstructshape *GongStructShape) GongMarshallAllFields(stage *Stage) (ini
 }
 func (linkshape *LinkShape) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += linkshape.GongMarshallField(stage, "Name")
 		initializerStatements += linkshape.GongMarshallField(stage, "IdentifierMeta")

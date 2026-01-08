@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -843,7 +845,7 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 				GongStructShapesDifferent = true
 				break
 			} else if classdiagram.GongStructShapes[i] != nil && classdiagramOther.GongStructShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if classdiagram.GongStructShapes[i] != classdiagramOther.GongStructShapes[i] {
 					GongStructShapesDifferent = true
 					break
@@ -852,7 +854,8 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongStructShapesDifferent {
-		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongStructShapes"))
+		ops := Diff(stage, classdiagram, classdiagramOther, "GongStructShapes", classdiagramOther.GongStructShapes, classdiagram.GongStructShapes)
+		diffs = append(diffs, ops)
 	}
 	GongEnumShapesDifferent := false
 	if len(classdiagram.GongEnumShapes) != len(classdiagramOther.GongEnumShapes) {
@@ -863,7 +866,7 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 				GongEnumShapesDifferent = true
 				break
 			} else if classdiagram.GongEnumShapes[i] != nil && classdiagramOther.GongEnumShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if classdiagram.GongEnumShapes[i] != classdiagramOther.GongEnumShapes[i] {
 					GongEnumShapesDifferent = true
 					break
@@ -872,7 +875,8 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongEnumShapesDifferent {
-		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongEnumShapes"))
+		ops := Diff(stage, classdiagram, classdiagramOther, "GongEnumShapes", classdiagramOther.GongEnumShapes, classdiagram.GongEnumShapes)
+		diffs = append(diffs, ops)
 	}
 	GongNoteShapesDifferent := false
 	if len(classdiagram.GongNoteShapes) != len(classdiagramOther.GongNoteShapes) {
@@ -883,7 +887,7 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 				GongNoteShapesDifferent = true
 				break
 			} else if classdiagram.GongNoteShapes[i] != nil && classdiagramOther.GongNoteShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if classdiagram.GongNoteShapes[i] != classdiagramOther.GongNoteShapes[i] {
 					GongNoteShapesDifferent = true
 					break
@@ -892,7 +896,8 @@ func (classdiagram *Classdiagram) GongDiff(stage *Stage, classdiagramOther *Clas
 		}
 	}
 	if GongNoteShapesDifferent {
-		diffs = append(diffs, classdiagram.GongMarshallField(stage, "GongNoteShapes"))
+		ops := Diff(stage, classdiagram, classdiagramOther, "GongNoteShapes", classdiagramOther.GongNoteShapes, classdiagram.GongNoteShapes)
+		diffs = append(diffs, ops)
 	}
 	if classdiagram.ShowNbInstances != classdiagramOther.ShowNbInstances {
 		diffs = append(diffs, classdiagram.GongMarshallField(stage, "ShowNbInstances"))
@@ -953,7 +958,7 @@ func (diagrampackage *DiagramPackage) GongDiff(stage *Stage, diagrampackageOther
 				ClassdiagramsDifferent = true
 				break
 			} else if diagrampackage.Classdiagrams[i] != nil && diagrampackageOther.Classdiagrams[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagrampackage.Classdiagrams[i] != diagrampackageOther.Classdiagrams[i] {
 					ClassdiagramsDifferent = true
 					break
@@ -962,10 +967,11 @@ func (diagrampackage *DiagramPackage) GongDiff(stage *Stage, diagrampackageOther
 		}
 	}
 	if ClassdiagramsDifferent {
-		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "Classdiagrams"))
+		ops := Diff(stage, diagrampackage, diagrampackageOther, "Classdiagrams", diagrampackageOther.Classdiagrams, diagrampackage.Classdiagrams)
+		diffs = append(diffs, ops)
 	}
 	if (diagrampackage.SelectedClassdiagram == nil) != (diagrampackageOther.SelectedClassdiagram == nil) {
-		diffs = append(diffs, "SelectedClassdiagram")
+		diffs = append(diffs, diagrampackage.GongMarshallField(stage, "SelectedClassdiagram"))
 	} else if diagrampackage.SelectedClassdiagram != nil && diagrampackageOther.SelectedClassdiagram != nil {
 		if diagrampackage.SelectedClassdiagram != diagrampackageOther.SelectedClassdiagram {
 			diffs = append(diffs, diagrampackage.GongMarshallField(stage, "SelectedClassdiagram"))
@@ -1003,7 +1009,7 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 				GongEnumValueShapesDifferent = true
 				break
 			} else if gongenumshape.GongEnumValueShapes[i] != nil && gongenumshapeOther.GongEnumValueShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gongenumshape.GongEnumValueShapes[i] != gongenumshapeOther.GongEnumValueShapes[i] {
 					GongEnumValueShapesDifferent = true
 					break
@@ -1012,7 +1018,8 @@ func (gongenumshape *GongEnumShape) GongDiff(stage *Stage, gongenumshapeOther *G
 		}
 	}
 	if GongEnumValueShapesDifferent {
-		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "GongEnumValueShapes"))
+		ops := Diff(stage, gongenumshape, gongenumshapeOther, "GongEnumValueShapes", gongenumshapeOther.GongEnumValueShapes, gongenumshape.GongEnumValueShapes)
+		diffs = append(diffs, ops)
 	}
 	if gongenumshape.Width != gongenumshapeOther.Width {
 		diffs = append(diffs, gongenumshape.GongMarshallField(stage, "Width"))
@@ -1098,7 +1105,7 @@ func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *G
 				GongNoteLinkShapesDifferent = true
 				break
 			} else if gongnoteshape.GongNoteLinkShapes[i] != nil && gongnoteshapeOther.GongNoteLinkShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gongnoteshape.GongNoteLinkShapes[i] != gongnoteshapeOther.GongNoteLinkShapes[i] {
 					GongNoteLinkShapesDifferent = true
 					break
@@ -1107,7 +1114,8 @@ func (gongnoteshape *GongNoteShape) GongDiff(stage *Stage, gongnoteshapeOther *G
 		}
 	}
 	if GongNoteLinkShapesDifferent {
-		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "GongNoteLinkShapes"))
+		ops := Diff(stage, gongnoteshape, gongnoteshapeOther, "GongNoteLinkShapes", gongnoteshapeOther.GongNoteLinkShapes, gongnoteshape.GongNoteLinkShapes)
+		diffs = append(diffs, ops)
 	}
 	if gongnoteshape.IsExpanded != gongnoteshapeOther.IsExpanded {
 		diffs = append(diffs, gongnoteshape.GongMarshallField(stage, "IsExpanded"))
@@ -1141,7 +1149,7 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 				AttributeShapesDifferent = true
 				break
 			} else if gongstructshape.AttributeShapes[i] != nil && gongstructshapeOther.AttributeShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gongstructshape.AttributeShapes[i] != gongstructshapeOther.AttributeShapes[i] {
 					AttributeShapesDifferent = true
 					break
@@ -1150,7 +1158,8 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 		}
 	}
 	if AttributeShapesDifferent {
-		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "AttributeShapes"))
+		ops := Diff(stage, gongstructshape, gongstructshapeOther, "AttributeShapes", gongstructshapeOther.AttributeShapes, gongstructshape.AttributeShapes)
+		diffs = append(diffs, ops)
 	}
 	LinkShapesDifferent := false
 	if len(gongstructshape.LinkShapes) != len(gongstructshapeOther.LinkShapes) {
@@ -1161,7 +1170,7 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 				LinkShapesDifferent = true
 				break
 			} else if gongstructshape.LinkShapes[i] != nil && gongstructshapeOther.LinkShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if gongstructshape.LinkShapes[i] != gongstructshapeOther.LinkShapes[i] {
 					LinkShapesDifferent = true
 					break
@@ -1170,7 +1179,8 @@ func (gongstructshape *GongStructShape) GongDiff(stage *Stage, gongstructshapeOt
 		}
 	}
 	if LinkShapesDifferent {
-		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "LinkShapes"))
+		ops := Diff(stage, gongstructshape, gongstructshapeOther, "LinkShapes", gongstructshapeOther.LinkShapes, gongstructshape.LinkShapes)
+		diffs = append(diffs, ops)
 	}
 	if gongstructshape.Width != gongstructshapeOther.Width {
 		diffs = append(diffs, gongstructshape.GongMarshallField(stage, "Width"))
@@ -1245,4 +1255,81 @@ func (linkshape *LinkShape) GongDiff(stage *Stage, linkshapeOther *LinkShape) (d
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }
