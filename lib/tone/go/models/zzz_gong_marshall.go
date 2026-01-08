@@ -355,8 +355,6 @@ func (player *Player) GongMarshallField(stage *Stage, fieldName string) (res str
 // insertion point for marshall all fields methods
 func (freqency *Freqency) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += freqency.GongMarshallField(stage, "Name")
 	}
@@ -364,8 +362,6 @@ func (freqency *Freqency) GongMarshallAllFields(stage *Stage) (initializerStatem
 }
 func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += note.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += note.GongMarshallField(stage, "Frequencies")
@@ -378,8 +374,6 @@ func (note *Note) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (player *Player) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += player.GongMarshallField(stage, "Name")
 		initializerStatements += player.GongMarshallField(stage, "Status")

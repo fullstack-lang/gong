@@ -194,13 +194,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var category1s_newInstances []*Category1
@@ -217,7 +221,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category1.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category1.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category1.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -250,7 +254,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category1shape.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category1shape.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category1shape.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -283,7 +287,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category2.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category2.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category2.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -316,7 +320,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category2shape.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category2shape.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category2shape.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -349,7 +353,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category3.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category3.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category3.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -382,7 +386,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := category3shape.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", category3shape.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", category3shape.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -415,7 +419,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := controlpointshape.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", controlpointshape.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", controlpointshape.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -448,7 +452,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := desk.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", desk.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", desk.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -481,7 +485,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := diagram.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", diagram.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", diagram.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -514,7 +518,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := influence.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", influence.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", influence.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -547,7 +551,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := influenceshape.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", influenceshape.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", influenceshape.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -568,11 +572,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(influenceshapes_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }

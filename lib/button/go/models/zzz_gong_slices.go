@@ -115,13 +115,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var buttons_newInstances []*Button
@@ -138,7 +142,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := button.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", button.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", button.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -171,7 +175,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := buttontoggle.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", buttontoggle.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", buttontoggle.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -204,7 +208,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := group.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", group.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", group.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -237,7 +241,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := grouptoogle.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", grouptoogle.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", grouptoogle.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -270,7 +274,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := layout.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", layout.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", layout.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -291,11 +295,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(layouts_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }

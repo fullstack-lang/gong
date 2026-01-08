@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1940,35 +1942,35 @@ func (cell *Cell) GongDiff(stage *Stage, cellOther *Cell) (diffs []string) {
 		diffs = append(diffs, cell.GongMarshallField(stage, "Name"))
 	}
 	if (cell.CellString == nil) != (cellOther.CellString == nil) {
-		diffs = append(diffs, "CellString")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
 	} else if cell.CellString != nil && cellOther.CellString != nil {
 		if cell.CellString != cellOther.CellString {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellString"))
 		}
 	}
 	if (cell.CellFloat64 == nil) != (cellOther.CellFloat64 == nil) {
-		diffs = append(diffs, "CellFloat64")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
 	} else if cell.CellFloat64 != nil && cellOther.CellFloat64 != nil {
 		if cell.CellFloat64 != cellOther.CellFloat64 {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellFloat64"))
 		}
 	}
 	if (cell.CellInt == nil) != (cellOther.CellInt == nil) {
-		diffs = append(diffs, "CellInt")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
 	} else if cell.CellInt != nil && cellOther.CellInt != nil {
 		if cell.CellInt != cellOther.CellInt {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellInt"))
 		}
 	}
 	if (cell.CellBool == nil) != (cellOther.CellBool == nil) {
-		diffs = append(diffs, "CellBool")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
 	} else if cell.CellBool != nil && cellOther.CellBool != nil {
 		if cell.CellBool != cellOther.CellBool {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellBool"))
 		}
 	}
 	if (cell.CellIcon == nil) != (cellOther.CellIcon == nil) {
-		diffs = append(diffs, "CellIcon")
+		diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
 	} else if cell.CellIcon != nil && cellOther.CellIcon != nil {
 		if cell.CellIcon != cellOther.CellIcon {
 			diffs = append(diffs, cell.GongMarshallField(stage, "CellIcon"))
@@ -2095,7 +2097,7 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 				FormFieldsDifferent = true
 				break
 			} else if formdiv.FormFields[i] != nil && formdivOther.FormFields[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if formdiv.FormFields[i] != formdivOther.FormFields[i] {
 					FormFieldsDifferent = true
 					break
@@ -2104,7 +2106,8 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if FormFieldsDifferent {
-		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormFields"))
+		ops := Diff(stage, formdiv, formdivOther, "FormFields", formdivOther.FormFields, formdiv.FormFields)
+		diffs = append(diffs, ops)
 	}
 	CheckBoxsDifferent := false
 	if len(formdiv.CheckBoxs) != len(formdivOther.CheckBoxs) {
@@ -2115,7 +2118,7 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 				CheckBoxsDifferent = true
 				break
 			} else if formdiv.CheckBoxs[i] != nil && formdivOther.CheckBoxs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if formdiv.CheckBoxs[i] != formdivOther.CheckBoxs[i] {
 					CheckBoxsDifferent = true
 					break
@@ -2124,17 +2127,18 @@ func (formdiv *FormDiv) GongDiff(stage *Stage, formdivOther *FormDiv) (diffs []s
 		}
 	}
 	if CheckBoxsDifferent {
-		diffs = append(diffs, formdiv.GongMarshallField(stage, "CheckBoxs"))
+		ops := Diff(stage, formdiv, formdivOther, "CheckBoxs", formdivOther.CheckBoxs, formdiv.CheckBoxs)
+		diffs = append(diffs, ops)
 	}
 	if (formdiv.FormEditAssocButton == nil) != (formdivOther.FormEditAssocButton == nil) {
-		diffs = append(diffs, "FormEditAssocButton")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 	} else if formdiv.FormEditAssocButton != nil && formdivOther.FormEditAssocButton != nil {
 		if formdiv.FormEditAssocButton != formdivOther.FormEditAssocButton {
 			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormEditAssocButton"))
 		}
 	}
 	if (formdiv.FormSortAssocButton == nil) != (formdivOther.FormSortAssocButton == nil) {
-		diffs = append(diffs, "FormSortAssocButton")
+		diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
 	} else if formdiv.FormSortAssocButton != nil && formdivOther.FormSortAssocButton != nil {
 		if formdiv.FormSortAssocButton != formdivOther.FormSortAssocButton {
 			diffs = append(diffs, formdiv.GongMarshallField(stage, "FormSortAssocButton"))
@@ -2193,49 +2197,49 @@ func (formfield *FormField) GongDiff(stage *Stage, formfieldOther *FormField) (d
 		diffs = append(diffs, formfield.GongMarshallField(stage, "Placeholder"))
 	}
 	if (formfield.FormFieldString == nil) != (formfieldOther.FormFieldString == nil) {
-		diffs = append(diffs, "FormFieldString")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldString"))
 	} else if formfield.FormFieldString != nil && formfieldOther.FormFieldString != nil {
 		if formfield.FormFieldString != formfieldOther.FormFieldString {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldString"))
 		}
 	}
 	if (formfield.FormFieldFloat64 == nil) != (formfieldOther.FormFieldFloat64 == nil) {
-		diffs = append(diffs, "FormFieldFloat64")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldFloat64"))
 	} else if formfield.FormFieldFloat64 != nil && formfieldOther.FormFieldFloat64 != nil {
 		if formfield.FormFieldFloat64 != formfieldOther.FormFieldFloat64 {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldFloat64"))
 		}
 	}
 	if (formfield.FormFieldInt == nil) != (formfieldOther.FormFieldInt == nil) {
-		diffs = append(diffs, "FormFieldInt")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldInt"))
 	} else if formfield.FormFieldInt != nil && formfieldOther.FormFieldInt != nil {
 		if formfield.FormFieldInt != formfieldOther.FormFieldInt {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldInt"))
 		}
 	}
 	if (formfield.FormFieldDate == nil) != (formfieldOther.FormFieldDate == nil) {
-		diffs = append(diffs, "FormFieldDate")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDate"))
 	} else if formfield.FormFieldDate != nil && formfieldOther.FormFieldDate != nil {
 		if formfield.FormFieldDate != formfieldOther.FormFieldDate {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDate"))
 		}
 	}
 	if (formfield.FormFieldTime == nil) != (formfieldOther.FormFieldTime == nil) {
-		diffs = append(diffs, "FormFieldTime")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldTime"))
 	} else if formfield.FormFieldTime != nil && formfieldOther.FormFieldTime != nil {
 		if formfield.FormFieldTime != formfieldOther.FormFieldTime {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldTime"))
 		}
 	}
 	if (formfield.FormFieldDateTime == nil) != (formfieldOther.FormFieldDateTime == nil) {
-		diffs = append(diffs, "FormFieldDateTime")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDateTime"))
 	} else if formfield.FormFieldDateTime != nil && formfieldOther.FormFieldDateTime != nil {
 		if formfield.FormFieldDateTime != formfieldOther.FormFieldDateTime {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldDateTime"))
 		}
 	}
 	if (formfield.FormFieldSelect == nil) != (formfieldOther.FormFieldSelect == nil) {
-		diffs = append(diffs, "FormFieldSelect")
+		diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldSelect"))
 	} else if formfield.FormFieldSelect != nil && formfieldOther.FormFieldSelect != nil {
 		if formfield.FormFieldSelect != formfieldOther.FormFieldSelect {
 			diffs = append(diffs, formfield.GongMarshallField(stage, "FormFieldSelect"))
@@ -2345,7 +2349,7 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Name"))
 	}
 	if (formfieldselect.Value == nil) != (formfieldselectOther.Value == nil) {
-		diffs = append(diffs, "Value")
+		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Value"))
 	} else if formfieldselect.Value != nil && formfieldselectOther.Value != nil {
 		if formfieldselect.Value != formfieldselectOther.Value {
 			diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Value"))
@@ -2360,7 +2364,7 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 				OptionsDifferent = true
 				break
 			} else if formfieldselect.Options[i] != nil && formfieldselectOther.Options[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if formfieldselect.Options[i] != formfieldselectOther.Options[i] {
 					OptionsDifferent = true
 					break
@@ -2369,7 +2373,8 @@ func (formfieldselect *FormFieldSelect) GongDiff(stage *Stage, formfieldselectOt
 		}
 	}
 	if OptionsDifferent {
-		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "Options"))
+		ops := Diff(stage, formfieldselect, formfieldselectOther, "Options", formfieldselectOther.Options, formfieldselect.Options)
+		diffs = append(diffs, ops)
 	}
 	if formfieldselect.CanBeEmpty != formfieldselectOther.CanBeEmpty {
 		diffs = append(diffs, formfieldselect.GongMarshallField(stage, "CanBeEmpty"))
@@ -2434,7 +2439,7 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 				FormDivsDifferent = true
 				break
 			} else if formgroup.FormDivs[i] != nil && formgroupOther.FormDivs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if formgroup.FormDivs[i] != formgroupOther.FormDivs[i] {
 					FormDivsDifferent = true
 					break
@@ -2443,7 +2448,8 @@ func (formgroup *FormGroup) GongDiff(stage *Stage, formgroupOther *FormGroup) (d
 		}
 	}
 	if FormDivsDifferent {
-		diffs = append(diffs, formgroup.GongMarshallField(stage, "FormDivs"))
+		ops := Diff(stage, formgroup, formgroupOther, "FormDivs", formgroupOther.FormDivs, formgroup.FormDivs)
+		diffs = append(diffs, ops)
 	}
 	if formgroup.HasSuppressButton != formgroupOther.HasSuppressButton {
 		diffs = append(diffs, formgroup.GongMarshallField(stage, "HasSuppressButton"))
@@ -2475,7 +2481,7 @@ func (formsortassocbutton *FormSortAssocButton) GongDiff(stage *Stage, formsorta
 		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "MatTooltipShowDelay"))
 	}
 	if (formsortassocbutton.FormEditAssocButton == nil) != (formsortassocbuttonOther.FormEditAssocButton == nil) {
-		diffs = append(diffs, "FormEditAssocButton")
+		diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
 	} else if formsortassocbutton.FormEditAssocButton != nil && formsortassocbuttonOther.FormEditAssocButton != nil {
 		if formsortassocbutton.FormEditAssocButton != formsortassocbuttonOther.FormEditAssocButton {
 			diffs = append(diffs, formsortassocbutton.GongMarshallField(stage, "FormEditAssocButton"))
@@ -2512,7 +2518,7 @@ func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 				CellsDifferent = true
 				break
 			} else if row.Cells[i] != nil && rowOther.Cells[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if row.Cells[i] != rowOther.Cells[i] {
 					CellsDifferent = true
 					break
@@ -2521,7 +2527,8 @@ func (row *Row) GongDiff(stage *Stage, rowOther *Row) (diffs []string) {
 		}
 	}
 	if CellsDifferent {
-		diffs = append(diffs, row.GongMarshallField(stage, "Cells"))
+		ops := Diff(stage, row, rowOther, "Cells", rowOther.Cells, row.Cells)
+		diffs = append(diffs, ops)
 	}
 	if row.IsChecked != rowOther.IsChecked {
 		diffs = append(diffs, row.GongMarshallField(stage, "IsChecked"))
@@ -2546,7 +2553,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 				DisplayedColumnsDifferent = true
 				break
 			} else if table.DisplayedColumns[i] != nil && tableOther.DisplayedColumns[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if table.DisplayedColumns[i] != tableOther.DisplayedColumns[i] {
 					DisplayedColumnsDifferent = true
 					break
@@ -2555,7 +2562,8 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if DisplayedColumnsDifferent {
-		diffs = append(diffs, table.GongMarshallField(stage, "DisplayedColumns"))
+		ops := Diff(stage, table, tableOther, "DisplayedColumns", tableOther.DisplayedColumns, table.DisplayedColumns)
+		diffs = append(diffs, ops)
 	}
 	RowsDifferent := false
 	if len(table.Rows) != len(tableOther.Rows) {
@@ -2566,7 +2574,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 				RowsDifferent = true
 				break
 			} else if table.Rows[i] != nil && tableOther.Rows[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if table.Rows[i] != tableOther.Rows[i] {
 					RowsDifferent = true
 					break
@@ -2575,7 +2583,8 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if RowsDifferent {
-		diffs = append(diffs, table.GongMarshallField(stage, "Rows"))
+		ops := Diff(stage, table, tableOther, "Rows", tableOther.Rows, table.Rows)
+		diffs = append(diffs, ops)
 	}
 	if table.HasFiltering != tableOther.HasFiltering {
 		diffs = append(diffs, table.GongMarshallField(stage, "HasFiltering"))
@@ -2609,4 +2618,81 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

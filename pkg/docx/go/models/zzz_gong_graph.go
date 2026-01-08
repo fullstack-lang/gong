@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1561,7 +1563,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 				ParagraphsDifferent = true
 				break
 			} else if body.Paragraphs[i] != nil && bodyOther.Paragraphs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if body.Paragraphs[i] != bodyOther.Paragraphs[i] {
 					ParagraphsDifferent = true
 					break
@@ -1570,7 +1572,8 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if ParagraphsDifferent {
-		diffs = append(diffs, body.GongMarshallField(stage, "Paragraphs"))
+		ops := Diff(stage, body, bodyOther, "Paragraphs", bodyOther.Paragraphs, body.Paragraphs)
+		diffs = append(diffs, ops)
 	}
 	TablesDifferent := false
 	if len(body.Tables) != len(bodyOther.Tables) {
@@ -1581,7 +1584,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 				TablesDifferent = true
 				break
 			} else if body.Tables[i] != nil && bodyOther.Tables[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if body.Tables[i] != bodyOther.Tables[i] {
 					TablesDifferent = true
 					break
@@ -1590,10 +1593,11 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if TablesDifferent {
-		diffs = append(diffs, body.GongMarshallField(stage, "Tables"))
+		ops := Diff(stage, body, bodyOther, "Tables", bodyOther.Tables, body.Tables)
+		diffs = append(diffs, ops)
 	}
 	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
-		diffs = append(diffs, "LastParagraph")
+		diffs = append(diffs, body.GongMarshallField(stage, "LastParagraph"))
 	} else if body.LastParagraph != nil && bodyOther.LastParagraph != nil {
 		if body.LastParagraph != bodyOther.LastParagraph {
 			diffs = append(diffs, body.GongMarshallField(stage, "LastParagraph"))
@@ -1611,21 +1615,21 @@ func (document *Document) GongDiff(stage *Stage, documentOther *Document) (diffs
 		diffs = append(diffs, document.GongMarshallField(stage, "Name"))
 	}
 	if (document.File == nil) != (documentOther.File == nil) {
-		diffs = append(diffs, "File")
+		diffs = append(diffs, document.GongMarshallField(stage, "File"))
 	} else if document.File != nil && documentOther.File != nil {
 		if document.File != documentOther.File {
 			diffs = append(diffs, document.GongMarshallField(stage, "File"))
 		}
 	}
 	if (document.Root == nil) != (documentOther.Root == nil) {
-		diffs = append(diffs, "Root")
+		diffs = append(diffs, document.GongMarshallField(stage, "Root"))
 	} else if document.Root != nil && documentOther.Root != nil {
 		if document.Root != documentOther.Root {
 			diffs = append(diffs, document.GongMarshallField(stage, "Root"))
 		}
 	}
 	if (document.Body == nil) != (documentOther.Body == nil) {
-		diffs = append(diffs, "Body")
+		diffs = append(diffs, document.GongMarshallField(stage, "Body"))
 	} else if document.Body != nil && documentOther.Body != nil {
 		if document.Body != documentOther.Body {
 			diffs = append(diffs, document.GongMarshallField(stage, "Body"))
@@ -1651,7 +1655,7 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 				FilesDifferent = true
 				break
 			} else if docx.Files[i] != nil && docxOther.Files[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if docx.Files[i] != docxOther.Files[i] {
 					FilesDifferent = true
 					break
@@ -1660,10 +1664,11 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 		}
 	}
 	if FilesDifferent {
-		diffs = append(diffs, docx.GongMarshallField(stage, "Files"))
+		ops := Diff(stage, docx, docxOther, "Files", docxOther.Files, docx.Files)
+		diffs = append(diffs, ops)
 	}
 	if (docx.Document == nil) != (docxOther.Document == nil) {
-		diffs = append(diffs, "Document")
+		diffs = append(diffs, docx.GongMarshallField(stage, "Document"))
 	} else if docx.Document != nil && docxOther.Document != nil {
 		if docx.Document != docxOther.Document {
 			diffs = append(diffs, docx.GongMarshallField(stage, "Document"))
@@ -1700,7 +1705,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 				NodesDifferent = true
 				break
 			} else if node.Nodes[i] != nil && nodeOther.Nodes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if node.Nodes[i] != nodeOther.Nodes[i] {
 					NodesDifferent = true
 					break
@@ -1709,7 +1714,8 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if NodesDifferent {
-		diffs = append(diffs, node.GongMarshallField(stage, "Nodes"))
+		ops := Diff(stage, node, nodeOther, "Nodes", nodeOther.Nodes, node.Nodes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1726,14 +1732,14 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		diffs = append(diffs, paragraph.GongMarshallField(stage, "Content"))
 	}
 	if (paragraph.Node == nil) != (paragraphOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "Node"))
 	} else if paragraph.Node != nil && paragraphOther.Node != nil {
 		if paragraph.Node != paragraphOther.Node {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "Node"))
 		}
 	}
 	if (paragraph.ParagraphProperties == nil) != (paragraphOther.ParagraphProperties == nil) {
-		diffs = append(diffs, "ParagraphProperties")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "ParagraphProperties"))
 	} else if paragraph.ParagraphProperties != nil && paragraphOther.ParagraphProperties != nil {
 		if paragraph.ParagraphProperties != paragraphOther.ParagraphProperties {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "ParagraphProperties"))
@@ -1748,7 +1754,7 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 				RunesDifferent = true
 				break
 			} else if paragraph.Runes[i] != nil && paragraphOther.Runes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if paragraph.Runes[i] != paragraphOther.Runes[i] {
 					RunesDifferent = true
 					break
@@ -1757,34 +1763,35 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		}
 	}
 	if RunesDifferent {
-		diffs = append(diffs, paragraph.GongMarshallField(stage, "Runes"))
+		ops := Diff(stage, paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
+		diffs = append(diffs, ops)
 	}
 	if paragraph.Text != paragraphOther.Text {
 		diffs = append(diffs, paragraph.GongMarshallField(stage, "Text"))
 	}
 	if (paragraph.Next == nil) != (paragraphOther.Next == nil) {
-		diffs = append(diffs, "Next")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "Next"))
 	} else if paragraph.Next != nil && paragraphOther.Next != nil {
 		if paragraph.Next != paragraphOther.Next {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "Next"))
 		}
 	}
 	if (paragraph.Previous == nil) != (paragraphOther.Previous == nil) {
-		diffs = append(diffs, "Previous")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "Previous"))
 	} else if paragraph.Previous != nil && paragraphOther.Previous != nil {
 		if paragraph.Previous != paragraphOther.Previous {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "Previous"))
 		}
 	}
 	if (paragraph.EnclosingBody == nil) != (paragraphOther.EnclosingBody == nil) {
-		diffs = append(diffs, "EnclosingBody")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "EnclosingBody"))
 	} else if paragraph.EnclosingBody != nil && paragraphOther.EnclosingBody != nil {
 		if paragraph.EnclosingBody != paragraphOther.EnclosingBody {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "EnclosingBody"))
 		}
 	}
 	if (paragraph.EnclosingTableColumn == nil) != (paragraphOther.EnclosingTableColumn == nil) {
-		diffs = append(diffs, "EnclosingTableColumn")
+		diffs = append(diffs, paragraph.GongMarshallField(stage, "EnclosingTableColumn"))
 	} else if paragraph.EnclosingTableColumn != nil && paragraphOther.EnclosingTableColumn != nil {
 		if paragraph.EnclosingTableColumn != paragraphOther.EnclosingTableColumn {
 			diffs = append(diffs, paragraph.GongMarshallField(stage, "EnclosingTableColumn"))
@@ -1805,14 +1812,14 @@ func (paragraphproperties *ParagraphProperties) GongDiff(stage *Stage, paragraph
 		diffs = append(diffs, paragraphproperties.GongMarshallField(stage, "Content"))
 	}
 	if (paragraphproperties.ParagraphStyle == nil) != (paragraphpropertiesOther.ParagraphStyle == nil) {
-		diffs = append(diffs, "ParagraphStyle")
+		diffs = append(diffs, paragraphproperties.GongMarshallField(stage, "ParagraphStyle"))
 	} else if paragraphproperties.ParagraphStyle != nil && paragraphpropertiesOther.ParagraphStyle != nil {
 		if paragraphproperties.ParagraphStyle != paragraphpropertiesOther.ParagraphStyle {
 			diffs = append(diffs, paragraphproperties.GongMarshallField(stage, "ParagraphStyle"))
 		}
 	}
 	if (paragraphproperties.Node == nil) != (paragraphpropertiesOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, paragraphproperties.GongMarshallField(stage, "Node"))
 	} else if paragraphproperties.Node != nil && paragraphpropertiesOther.Node != nil {
 		if paragraphproperties.Node != paragraphpropertiesOther.Node {
 			diffs = append(diffs, paragraphproperties.GongMarshallField(stage, "Node"))
@@ -1830,7 +1837,7 @@ func (paragraphstyle *ParagraphStyle) GongDiff(stage *Stage, paragraphstyleOther
 		diffs = append(diffs, paragraphstyle.GongMarshallField(stage, "Name"))
 	}
 	if (paragraphstyle.Node == nil) != (paragraphstyleOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, paragraphstyle.GongMarshallField(stage, "Node"))
 	} else if paragraphstyle.Node != nil && paragraphstyleOther.Node != nil {
 		if paragraphstyle.Node != paragraphstyleOther.Node {
 			diffs = append(diffs, paragraphstyle.GongMarshallField(stage, "Node"))
@@ -1857,28 +1864,28 @@ func (rune *Rune) GongDiff(stage *Stage, runeOther *Rune) (diffs []string) {
 		diffs = append(diffs, rune.GongMarshallField(stage, "Content"))
 	}
 	if (rune.Node == nil) != (runeOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, rune.GongMarshallField(stage, "Node"))
 	} else if rune.Node != nil && runeOther.Node != nil {
 		if rune.Node != runeOther.Node {
 			diffs = append(diffs, rune.GongMarshallField(stage, "Node"))
 		}
 	}
 	if (rune.Text == nil) != (runeOther.Text == nil) {
-		diffs = append(diffs, "Text")
+		diffs = append(diffs, rune.GongMarshallField(stage, "Text"))
 	} else if rune.Text != nil && runeOther.Text != nil {
 		if rune.Text != runeOther.Text {
 			diffs = append(diffs, rune.GongMarshallField(stage, "Text"))
 		}
 	}
 	if (rune.RuneProperties == nil) != (runeOther.RuneProperties == nil) {
-		diffs = append(diffs, "RuneProperties")
+		diffs = append(diffs, rune.GongMarshallField(stage, "RuneProperties"))
 	} else if rune.RuneProperties != nil && runeOther.RuneProperties != nil {
 		if rune.RuneProperties != runeOther.RuneProperties {
 			diffs = append(diffs, rune.GongMarshallField(stage, "RuneProperties"))
 		}
 	}
 	if (rune.EnclosingParagraph == nil) != (runeOther.EnclosingParagraph == nil) {
-		diffs = append(diffs, "EnclosingParagraph")
+		diffs = append(diffs, rune.GongMarshallField(stage, "EnclosingParagraph"))
 	} else if rune.EnclosingParagraph != nil && runeOther.EnclosingParagraph != nil {
 		if rune.EnclosingParagraph != runeOther.EnclosingParagraph {
 			diffs = append(diffs, rune.GongMarshallField(stage, "EnclosingParagraph"))
@@ -1896,7 +1903,7 @@ func (runeproperties *RuneProperties) GongDiff(stage *Stage, runepropertiesOther
 		diffs = append(diffs, runeproperties.GongMarshallField(stage, "Name"))
 	}
 	if (runeproperties.Node == nil) != (runepropertiesOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, runeproperties.GongMarshallField(stage, "Node"))
 	} else if runeproperties.Node != nil && runepropertiesOther.Node != nil {
 		if runeproperties.Node != runepropertiesOther.Node {
 			diffs = append(diffs, runeproperties.GongMarshallField(stage, "Node"))
@@ -1926,7 +1933,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		diffs = append(diffs, table.GongMarshallField(stage, "Name"))
 	}
 	if (table.Node == nil) != (tableOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, table.GongMarshallField(stage, "Node"))
 	} else if table.Node != nil && tableOther.Node != nil {
 		if table.Node != tableOther.Node {
 			diffs = append(diffs, table.GongMarshallField(stage, "Node"))
@@ -1936,7 +1943,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		diffs = append(diffs, table.GongMarshallField(stage, "Content"))
 	}
 	if (table.TableProperties == nil) != (tableOther.TableProperties == nil) {
-		diffs = append(diffs, "TableProperties")
+		diffs = append(diffs, table.GongMarshallField(stage, "TableProperties"))
 	} else if table.TableProperties != nil && tableOther.TableProperties != nil {
 		if table.TableProperties != tableOther.TableProperties {
 			diffs = append(diffs, table.GongMarshallField(stage, "TableProperties"))
@@ -1951,7 +1958,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 				TableRowsDifferent = true
 				break
 			} else if table.TableRows[i] != nil && tableOther.TableRows[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if table.TableRows[i] != tableOther.TableRows[i] {
 					TableRowsDifferent = true
 					break
@@ -1960,7 +1967,8 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if TableRowsDifferent {
-		diffs = append(diffs, table.GongMarshallField(stage, "TableRows"))
+		ops := Diff(stage, table, tableOther, "TableRows", tableOther.TableRows, table.TableRows)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1977,7 +1985,7 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 		diffs = append(diffs, tablecolumn.GongMarshallField(stage, "Content"))
 	}
 	if (tablecolumn.Node == nil) != (tablecolumnOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, tablecolumn.GongMarshallField(stage, "Node"))
 	} else if tablecolumn.Node != nil && tablecolumnOther.Node != nil {
 		if tablecolumn.Node != tablecolumnOther.Node {
 			diffs = append(diffs, tablecolumn.GongMarshallField(stage, "Node"))
@@ -1992,7 +2000,7 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 				ParagraphsDifferent = true
 				break
 			} else if tablecolumn.Paragraphs[i] != nil && tablecolumnOther.Paragraphs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if tablecolumn.Paragraphs[i] != tablecolumnOther.Paragraphs[i] {
 					ParagraphsDifferent = true
 					break
@@ -2001,7 +2009,8 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 		}
 	}
 	if ParagraphsDifferent {
-		diffs = append(diffs, tablecolumn.GongMarshallField(stage, "Paragraphs"))
+		ops := Diff(stage, tablecolumn, tablecolumnOther, "Paragraphs", tablecolumnOther.Paragraphs, tablecolumn.Paragraphs)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2015,7 +2024,7 @@ func (tableproperties *TableProperties) GongDiff(stage *Stage, tablepropertiesOt
 		diffs = append(diffs, tableproperties.GongMarshallField(stage, "Name"))
 	}
 	if (tableproperties.Node == nil) != (tablepropertiesOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, tableproperties.GongMarshallField(stage, "Node"))
 	} else if tableproperties.Node != nil && tablepropertiesOther.Node != nil {
 		if tableproperties.Node != tablepropertiesOther.Node {
 			diffs = append(diffs, tableproperties.GongMarshallField(stage, "Node"))
@@ -2025,7 +2034,7 @@ func (tableproperties *TableProperties) GongDiff(stage *Stage, tablepropertiesOt
 		diffs = append(diffs, tableproperties.GongMarshallField(stage, "Content"))
 	}
 	if (tableproperties.TableStyle == nil) != (tablepropertiesOther.TableStyle == nil) {
-		diffs = append(diffs, "TableStyle")
+		diffs = append(diffs, tableproperties.GongMarshallField(stage, "TableStyle"))
 	} else if tableproperties.TableStyle != nil && tablepropertiesOther.TableStyle != nil {
 		if tableproperties.TableStyle != tablepropertiesOther.TableStyle {
 			diffs = append(diffs, tableproperties.GongMarshallField(stage, "TableStyle"))
@@ -2046,7 +2055,7 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 		diffs = append(diffs, tablerow.GongMarshallField(stage, "Content"))
 	}
 	if (tablerow.Node == nil) != (tablerowOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, tablerow.GongMarshallField(stage, "Node"))
 	} else if tablerow.Node != nil && tablerowOther.Node != nil {
 		if tablerow.Node != tablerowOther.Node {
 			diffs = append(diffs, tablerow.GongMarshallField(stage, "Node"))
@@ -2061,7 +2070,7 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 				TableColumnsDifferent = true
 				break
 			} else if tablerow.TableColumns[i] != nil && tablerowOther.TableColumns[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if tablerow.TableColumns[i] != tablerowOther.TableColumns[i] {
 					TableColumnsDifferent = true
 					break
@@ -2070,7 +2079,8 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 		}
 	}
 	if TableColumnsDifferent {
-		diffs = append(diffs, tablerow.GongMarshallField(stage, "TableColumns"))
+		ops := Diff(stage, tablerow, tablerowOther, "TableColumns", tablerowOther.TableColumns, tablerow.TableColumns)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2084,7 +2094,7 @@ func (tablestyle *TableStyle) GongDiff(stage *Stage, tablestyleOther *TableStyle
 		diffs = append(diffs, tablestyle.GongMarshallField(stage, "Name"))
 	}
 	if (tablestyle.Node == nil) != (tablestyleOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, tablestyle.GongMarshallField(stage, "Node"))
 	} else if tablestyle.Node != nil && tablestyleOther.Node != nil {
 		if tablestyle.Node != tablestyleOther.Node {
 			diffs = append(diffs, tablestyle.GongMarshallField(stage, "Node"))
@@ -2111,7 +2121,7 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 		diffs = append(diffs, text.GongMarshallField(stage, "Content"))
 	}
 	if (text.Node == nil) != (textOther.Node == nil) {
-		diffs = append(diffs, "Node")
+		diffs = append(diffs, text.GongMarshallField(stage, "Node"))
 	} else if text.Node != nil && textOther.Node != nil {
 		if text.Node != textOther.Node {
 			diffs = append(diffs, text.GongMarshallField(stage, "Node"))
@@ -2121,7 +2131,7 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 		diffs = append(diffs, text.GongMarshallField(stage, "PreserveWhiteSpace"))
 	}
 	if (text.EnclosingRune == nil) != (textOther.EnclosingRune == nil) {
-		diffs = append(diffs, "EnclosingRune")
+		diffs = append(diffs, text.GongMarshallField(stage, "EnclosingRune"))
 	} else if text.EnclosingRune != nil && textOther.EnclosingRune != nil {
 		if text.EnclosingRune != textOther.EnclosingRune {
 			diffs = append(diffs, text.GongMarshallField(stage, "EnclosingRune"))
@@ -2129,4 +2139,81 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

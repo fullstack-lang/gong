@@ -115,13 +115,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var displayselections_newInstances []*DisplaySelection
@@ -138,7 +142,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := displayselection.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", displayselection.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", displayselection.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -171,7 +175,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlcell.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlcell.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlcell.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -204,7 +208,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlfile.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlfile.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlfile.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -237,7 +241,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlrow.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlrow.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlrow.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -270,7 +274,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlsheet.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlsheet.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", xlsheet.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -291,11 +295,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(xlsheets_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }
