@@ -505,7 +505,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := animate.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", animate.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", animate.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -538,7 +538,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := circle.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", circle.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", circle.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -571,7 +571,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := condition.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", condition.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", condition.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -604,7 +604,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := controlpoint.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", controlpoint.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", controlpoint.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -637,7 +637,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := ellipse.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", ellipse.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", ellipse.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -670,7 +670,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := layer.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", layer.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", layer.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -703,7 +703,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := line.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", line.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", line.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -736,7 +736,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := link.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", link.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", link.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -769,7 +769,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := linkanchoredtext.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", linkanchoredtext.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", linkanchoredtext.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -802,7 +802,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := path.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", path.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", path.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -835,7 +835,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := point.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", point.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", point.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -868,7 +868,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := polygone.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", polygone.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", polygone.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -901,7 +901,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := polyline.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", polyline.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", polyline.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -934,7 +934,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := rect.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", rect.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", rect.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -967,7 +967,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := rectanchoredpath.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", rectanchoredpath.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", rectanchoredpath.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1000,7 +1000,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := rectanchoredrect.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", rectanchoredrect.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", rectanchoredrect.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1033,7 +1033,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := rectanchoredtext.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", rectanchoredtext.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", rectanchoredtext.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1066,7 +1066,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := rectlinklink.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", rectlinklink.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", rectlinklink.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1099,7 +1099,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := svg.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", svg.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", svg.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1132,7 +1132,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := svgtext.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", svgtext.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", svgtext.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1165,7 +1165,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := text.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", text.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", text.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

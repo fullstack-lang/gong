@@ -93,7 +93,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := freqency.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", freqency.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", freqency.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -126,7 +126,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := note.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", note.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", note.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -159,7 +159,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := player.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", player.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", player.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

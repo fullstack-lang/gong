@@ -119,7 +119,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := checkbox.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", checkbox.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", checkbox.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -152,7 +152,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := group.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", group.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", group.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -185,7 +185,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := layout.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", layout.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", layout.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -218,7 +218,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := slider.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", slider.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", slider.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

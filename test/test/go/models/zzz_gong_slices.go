@@ -190,7 +190,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", astruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -223,7 +223,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astructbstruct2use.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", astructbstruct2use.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astructbstruct2use.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -256,7 +256,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := astructbstructuse.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", astructbstructuse.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", astructbstructuse.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -289,7 +289,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := bstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", bstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", bstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -322,7 +322,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := dstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", dstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", dstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -355,7 +355,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := f0123456789012345678901234567890.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", f0123456789012345678901234567890.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", f0123456789012345678901234567890.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -388,7 +388,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gstruct.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gstruct.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gstruct.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

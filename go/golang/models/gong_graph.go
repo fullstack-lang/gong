@@ -88,7 +88,7 @@ func UnstageBranch[Type Gongstruct](stage *Stage, instance *Type) {
 // insertion point for diff per struct{{` + string(rune(ModelGongGraphDiff)) + `}}
 // Diff returns the sequence of operations to transform oldSlice into newSlice.
 // It requires type T to be comparable (e.g., pointers, ints, strings).
-func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops []string) {
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
 	m, n := len(oldSlice), len(newSlice)
 
 	// 1. Build the LCS (Longest Common Subsequence) Matrix
@@ -133,7 +133,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops = append(ops, fmt.Sprintf("slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, k, k+1))
+			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -156,7 +156,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops = append(ops, fmt.Sprintf("slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage)))
+			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 
@@ -350,7 +350,7 @@ map[GongGraphFilePerStructSubTemplateId]string{
 	}
 	if {{FieldName}}Different {
 		ops := Diff(stage, {{structname}}, {{structname}}Other, "{{FieldName}}", {{structname}}Other.{{FieldName}}, {{structname}}.{{FieldName}})
-		diffs = append(diffs, ops...)
+		diffs = append(diffs, ops)
 	}`,
 }
 

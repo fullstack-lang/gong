@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1561,7 +1563,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 				ParagraphsDifferent = true
 				break
 			} else if body.Paragraphs[i] != nil && bodyOther.Paragraphs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if body.Paragraphs[i] != bodyOther.Paragraphs[i] {
 					ParagraphsDifferent = true
 					break
@@ -1570,7 +1572,8 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if ParagraphsDifferent {
-		diffs = append(diffs, body.GongMarshallField(stage, "Paragraphs"))
+		ops := Diff(stage, body, bodyOther, "Paragraphs", bodyOther.Paragraphs, body.Paragraphs)
+		diffs = append(diffs, ops)
 	}
 	TablesDifferent := false
 	if len(body.Tables) != len(bodyOther.Tables) {
@@ -1581,7 +1584,7 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 				TablesDifferent = true
 				break
 			} else if body.Tables[i] != nil && bodyOther.Tables[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if body.Tables[i] != bodyOther.Tables[i] {
 					TablesDifferent = true
 					break
@@ -1590,7 +1593,8 @@ func (body *Body) GongDiff(stage *Stage, bodyOther *Body) (diffs []string) {
 		}
 	}
 	if TablesDifferent {
-		diffs = append(diffs, body.GongMarshallField(stage, "Tables"))
+		ops := Diff(stage, body, bodyOther, "Tables", bodyOther.Tables, body.Tables)
+		diffs = append(diffs, ops)
 	}
 	if (body.LastParagraph == nil) != (bodyOther.LastParagraph == nil) {
 		diffs = append(diffs, "LastParagraph")
@@ -1651,7 +1655,7 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 				FilesDifferent = true
 				break
 			} else if docx.Files[i] != nil && docxOther.Files[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if docx.Files[i] != docxOther.Files[i] {
 					FilesDifferent = true
 					break
@@ -1660,7 +1664,8 @@ func (docx *Docx) GongDiff(stage *Stage, docxOther *Docx) (diffs []string) {
 		}
 	}
 	if FilesDifferent {
-		diffs = append(diffs, docx.GongMarshallField(stage, "Files"))
+		ops := Diff(stage, docx, docxOther, "Files", docxOther.Files, docx.Files)
+		diffs = append(diffs, ops)
 	}
 	if (docx.Document == nil) != (docxOther.Document == nil) {
 		diffs = append(diffs, "Document")
@@ -1700,7 +1705,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 				NodesDifferent = true
 				break
 			} else if node.Nodes[i] != nil && nodeOther.Nodes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if node.Nodes[i] != nodeOther.Nodes[i] {
 					NodesDifferent = true
 					break
@@ -1709,7 +1714,8 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		}
 	}
 	if NodesDifferent {
-		diffs = append(diffs, node.GongMarshallField(stage, "Nodes"))
+		ops := Diff(stage, node, nodeOther, "Nodes", nodeOther.Nodes, node.Nodes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1748,7 +1754,7 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 				RunesDifferent = true
 				break
 			} else if paragraph.Runes[i] != nil && paragraphOther.Runes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if paragraph.Runes[i] != paragraphOther.Runes[i] {
 					RunesDifferent = true
 					break
@@ -1757,7 +1763,8 @@ func (paragraph *Paragraph) GongDiff(stage *Stage, paragraphOther *Paragraph) (d
 		}
 	}
 	if RunesDifferent {
-		diffs = append(diffs, paragraph.GongMarshallField(stage, "Runes"))
+		ops := Diff(stage, paragraph, paragraphOther, "Runes", paragraphOther.Runes, paragraph.Runes)
+		diffs = append(diffs, ops)
 	}
 	if paragraph.Text != paragraphOther.Text {
 		diffs = append(diffs, paragraph.GongMarshallField(stage, "Text"))
@@ -1951,7 +1958,7 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 				TableRowsDifferent = true
 				break
 			} else if table.TableRows[i] != nil && tableOther.TableRows[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if table.TableRows[i] != tableOther.TableRows[i] {
 					TableRowsDifferent = true
 					break
@@ -1960,7 +1967,8 @@ func (table *Table) GongDiff(stage *Stage, tableOther *Table) (diffs []string) {
 		}
 	}
 	if TableRowsDifferent {
-		diffs = append(diffs, table.GongMarshallField(stage, "TableRows"))
+		ops := Diff(stage, table, tableOther, "TableRows", tableOther.TableRows, table.TableRows)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1992,7 +2000,7 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 				ParagraphsDifferent = true
 				break
 			} else if tablecolumn.Paragraphs[i] != nil && tablecolumnOther.Paragraphs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if tablecolumn.Paragraphs[i] != tablecolumnOther.Paragraphs[i] {
 					ParagraphsDifferent = true
 					break
@@ -2001,7 +2009,8 @@ func (tablecolumn *TableColumn) GongDiff(stage *Stage, tablecolumnOther *TableCo
 		}
 	}
 	if ParagraphsDifferent {
-		diffs = append(diffs, tablecolumn.GongMarshallField(stage, "Paragraphs"))
+		ops := Diff(stage, tablecolumn, tablecolumnOther, "Paragraphs", tablecolumnOther.Paragraphs, tablecolumn.Paragraphs)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2061,7 +2070,7 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 				TableColumnsDifferent = true
 				break
 			} else if tablerow.TableColumns[i] != nil && tablerowOther.TableColumns[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if tablerow.TableColumns[i] != tablerowOther.TableColumns[i] {
 					TableColumnsDifferent = true
 					break
@@ -2070,7 +2079,8 @@ func (tablerow *TableRow) GongDiff(stage *Stage, tablerowOther *TableRow) (diffs
 		}
 	}
 	if TableColumnsDifferent {
-		diffs = append(diffs, tablerow.GongMarshallField(stage, "TableColumns"))
+		ops := Diff(stage, tablerow, tablerowOther, "TableColumns", tablerowOther.TableColumns, tablerow.TableColumns)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -2129,4 +2139,81 @@ func (text *Text) GongDiff(stage *Stage, textOther *Text) (diffs []string) {
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

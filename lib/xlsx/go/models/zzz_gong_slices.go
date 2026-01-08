@@ -138,7 +138,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := displayselection.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", displayselection.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", displayselection.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -171,7 +171,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlcell.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlcell.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", xlcell.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -204,7 +204,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlfile.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlfile.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", xlfile.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -237,7 +237,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlrow.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlrow.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", xlrow.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -270,7 +270,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := xlsheet.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", xlsheet.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", xlsheet.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

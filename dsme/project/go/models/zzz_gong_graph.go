@@ -1,6 +1,8 @@
 // generated code - do not edit
 package models
 
+import "fmt"
+
 func IsStagedPointerToGongstruct[Type PointerToGongstruct](stage *Stage, instance Type) (ok bool) {
 
 	switch target := any(instance).(type) {
@@ -1549,7 +1551,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				Product_ShapesDifferent = true
 				break
 			} else if diagram.Product_Shapes[i] != nil && diagramOther.Product_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.Product_Shapes[i] != diagramOther.Product_Shapes[i] {
 					Product_ShapesDifferent = true
 					break
@@ -1558,7 +1560,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Product_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Product_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "Product_Shapes", diagramOther.Product_Shapes, diagram.Product_Shapes)
+		diffs = append(diffs, ops)
 	}
 	ProductsWhoseNodeIsExpandedDifferent := false
 	if len(diagram.ProductsWhoseNodeIsExpanded) != len(diagramOther.ProductsWhoseNodeIsExpanded) {
@@ -1569,7 +1572,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				ProductsWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.ProductsWhoseNodeIsExpanded[i] != nil && diagramOther.ProductsWhoseNodeIsExpanded[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.ProductsWhoseNodeIsExpanded[i] != diagramOther.ProductsWhoseNodeIsExpanded[i] {
 					ProductsWhoseNodeIsExpandedDifferent = true
 					break
@@ -1578,7 +1581,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductsWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ProductsWhoseNodeIsExpanded"))
+		ops := Diff(stage, diagram, diagramOther, "ProductsWhoseNodeIsExpanded", diagramOther.ProductsWhoseNodeIsExpanded, diagram.ProductsWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 	if diagram.IsPBSNodeExpanded != diagramOther.IsPBSNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsPBSNodeExpanded"))
@@ -1592,7 +1596,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				ProductComposition_ShapesDifferent = true
 				break
 			} else if diagram.ProductComposition_Shapes[i] != nil && diagramOther.ProductComposition_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.ProductComposition_Shapes[i] != diagramOther.ProductComposition_Shapes[i] {
 					ProductComposition_ShapesDifferent = true
 					break
@@ -1601,7 +1605,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if ProductComposition_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "ProductComposition_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "ProductComposition_Shapes", diagramOther.ProductComposition_Shapes, diagram.ProductComposition_Shapes)
+		diffs = append(diffs, ops)
 	}
 	if diagram.IsWBSNodeExpanded != diagramOther.IsWBSNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsWBSNodeExpanded"))
@@ -1615,7 +1620,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				Task_ShapesDifferent = true
 				break
 			} else if diagram.Task_Shapes[i] != nil && diagramOther.Task_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.Task_Shapes[i] != diagramOther.Task_Shapes[i] {
 					Task_ShapesDifferent = true
 					break
@@ -1624,7 +1629,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Task_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Task_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "Task_Shapes", diagramOther.Task_Shapes, diagram.Task_Shapes)
+		diffs = append(diffs, ops)
 	}
 	TasksWhoseNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseNodeIsExpanded) != len(diagramOther.TasksWhoseNodeIsExpanded) {
@@ -1635,7 +1641,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TasksWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseNodeIsExpanded[i] != nil && diagramOther.TasksWhoseNodeIsExpanded[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TasksWhoseNodeIsExpanded[i] != diagramOther.TasksWhoseNodeIsExpanded[i] {
 					TasksWhoseNodeIsExpandedDifferent = true
 					break
@@ -1644,7 +1650,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseNodeIsExpanded"))
+		ops := Diff(stage, diagram, diagramOther, "TasksWhoseNodeIsExpanded", diagramOther.TasksWhoseNodeIsExpanded, diagram.TasksWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 	TasksWhoseInputNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseInputNodeIsExpanded) != len(diagramOther.TasksWhoseInputNodeIsExpanded) {
@@ -1655,7 +1662,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TasksWhoseInputNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseInputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseInputNodeIsExpanded[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TasksWhoseInputNodeIsExpanded[i] != diagramOther.TasksWhoseInputNodeIsExpanded[i] {
 					TasksWhoseInputNodeIsExpandedDifferent = true
 					break
@@ -1664,7 +1671,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseInputNodeIsExpandedDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseInputNodeIsExpanded"))
+		ops := Diff(stage, diagram, diagramOther, "TasksWhoseInputNodeIsExpanded", diagramOther.TasksWhoseInputNodeIsExpanded, diagram.TasksWhoseInputNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 	TasksWhoseOutputNodeIsExpandedDifferent := false
 	if len(diagram.TasksWhoseOutputNodeIsExpanded) != len(diagramOther.TasksWhoseOutputNodeIsExpanded) {
@@ -1675,7 +1683,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TasksWhoseOutputNodeIsExpandedDifferent = true
 				break
 			} else if diagram.TasksWhoseOutputNodeIsExpanded[i] != nil && diagramOther.TasksWhoseOutputNodeIsExpanded[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TasksWhoseOutputNodeIsExpanded[i] != diagramOther.TasksWhoseOutputNodeIsExpanded[i] {
 					TasksWhoseOutputNodeIsExpandedDifferent = true
 					break
@@ -1684,7 +1692,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TasksWhoseOutputNodeIsExpandedDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TasksWhoseOutputNodeIsExpanded"))
+		ops := Diff(stage, diagram, diagramOther, "TasksWhoseOutputNodeIsExpanded", diagramOther.TasksWhoseOutputNodeIsExpanded, diagram.TasksWhoseOutputNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 	TaskComposition_ShapesDifferent := false
 	if len(diagram.TaskComposition_Shapes) != len(diagramOther.TaskComposition_Shapes) {
@@ -1695,7 +1704,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TaskComposition_ShapesDifferent = true
 				break
 			} else if diagram.TaskComposition_Shapes[i] != nil && diagramOther.TaskComposition_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TaskComposition_Shapes[i] != diagramOther.TaskComposition_Shapes[i] {
 					TaskComposition_ShapesDifferent = true
 					break
@@ -1704,7 +1713,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskComposition_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskComposition_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "TaskComposition_Shapes", diagramOther.TaskComposition_Shapes, diagram.TaskComposition_Shapes)
+		diffs = append(diffs, ops)
 	}
 	TaskInputShapesDifferent := false
 	if len(diagram.TaskInputShapes) != len(diagramOther.TaskInputShapes) {
@@ -1715,7 +1725,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TaskInputShapesDifferent = true
 				break
 			} else if diagram.TaskInputShapes[i] != nil && diagramOther.TaskInputShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TaskInputShapes[i] != diagramOther.TaskInputShapes[i] {
 					TaskInputShapesDifferent = true
 					break
@@ -1724,7 +1734,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskInputShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskInputShapes"))
+		ops := Diff(stage, diagram, diagramOther, "TaskInputShapes", diagramOther.TaskInputShapes, diagram.TaskInputShapes)
+		diffs = append(diffs, ops)
 	}
 	TaskOutputShapesDifferent := false
 	if len(diagram.TaskOutputShapes) != len(diagramOther.TaskOutputShapes) {
@@ -1735,7 +1746,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				TaskOutputShapesDifferent = true
 				break
 			} else if diagram.TaskOutputShapes[i] != nil && diagramOther.TaskOutputShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.TaskOutputShapes[i] != diagramOther.TaskOutputShapes[i] {
 					TaskOutputShapesDifferent = true
 					break
@@ -1744,7 +1755,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if TaskOutputShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "TaskOutputShapes"))
+		ops := Diff(stage, diagram, diagramOther, "TaskOutputShapes", diagramOther.TaskOutputShapes, diagram.TaskOutputShapes)
+		diffs = append(diffs, ops)
 	}
 	Note_ShapesDifferent := false
 	if len(diagram.Note_Shapes) != len(diagramOther.Note_Shapes) {
@@ -1755,7 +1767,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				Note_ShapesDifferent = true
 				break
 			} else if diagram.Note_Shapes[i] != nil && diagramOther.Note_Shapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.Note_Shapes[i] != diagramOther.Note_Shapes[i] {
 					Note_ShapesDifferent = true
 					break
@@ -1764,7 +1776,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if Note_ShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "Note_Shapes"))
+		ops := Diff(stage, diagram, diagramOther, "Note_Shapes", diagramOther.Note_Shapes, diagram.Note_Shapes)
+		diffs = append(diffs, ops)
 	}
 	NotesWhoseNodeIsExpandedDifferent := false
 	if len(diagram.NotesWhoseNodeIsExpanded) != len(diagramOther.NotesWhoseNodeIsExpanded) {
@@ -1775,7 +1788,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				NotesWhoseNodeIsExpandedDifferent = true
 				break
 			} else if diagram.NotesWhoseNodeIsExpanded[i] != nil && diagramOther.NotesWhoseNodeIsExpanded[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.NotesWhoseNodeIsExpanded[i] != diagramOther.NotesWhoseNodeIsExpanded[i] {
 					NotesWhoseNodeIsExpandedDifferent = true
 					break
@@ -1784,7 +1797,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NotesWhoseNodeIsExpandedDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "NotesWhoseNodeIsExpanded"))
+		ops := Diff(stage, diagram, diagramOther, "NotesWhoseNodeIsExpanded", diagramOther.NotesWhoseNodeIsExpanded, diagram.NotesWhoseNodeIsExpanded)
+		diffs = append(diffs, ops)
 	}
 	if diagram.IsNotesNodeExpanded != diagramOther.IsNotesNodeExpanded {
 		diffs = append(diffs, diagram.GongMarshallField(stage, "IsNotesNodeExpanded"))
@@ -1798,7 +1812,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				NoteProductShapesDifferent = true
 				break
 			} else if diagram.NoteProductShapes[i] != nil && diagramOther.NoteProductShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.NoteProductShapes[i] != diagramOther.NoteProductShapes[i] {
 					NoteProductShapesDifferent = true
 					break
@@ -1807,7 +1821,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteProductShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "NoteProductShapes"))
+		ops := Diff(stage, diagram, diagramOther, "NoteProductShapes", diagramOther.NoteProductShapes, diagram.NoteProductShapes)
+		diffs = append(diffs, ops)
 	}
 	NoteTaskShapesDifferent := false
 	if len(diagram.NoteTaskShapes) != len(diagramOther.NoteTaskShapes) {
@@ -1818,7 +1833,7 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 				NoteTaskShapesDifferent = true
 				break
 			} else if diagram.NoteTaskShapes[i] != nil && diagramOther.NoteTaskShapes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if diagram.NoteTaskShapes[i] != diagramOther.NoteTaskShapes[i] {
 					NoteTaskShapesDifferent = true
 					break
@@ -1827,7 +1842,8 @@ func (diagram *Diagram) GongDiff(stage *Stage, diagramOther *Diagram) (diffs []s
 		}
 	}
 	if NoteTaskShapesDifferent {
-		diffs = append(diffs, diagram.GongMarshallField(stage, "NoteTaskShapes"))
+		ops := Diff(stage, diagram, diagramOther, "NoteTaskShapes", diagramOther.NoteTaskShapes, diagram.NoteTaskShapes)
+		diffs = append(diffs, ops)
 	}
 
 	return
@@ -1849,7 +1865,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 				ProductsDifferent = true
 				break
 			} else if note.Products[i] != nil && noteOther.Products[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if note.Products[i] != noteOther.Products[i] {
 					ProductsDifferent = true
 					break
@@ -1858,7 +1874,8 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if ProductsDifferent {
-		diffs = append(diffs, note.GongMarshallField(stage, "Products"))
+		ops := Diff(stage, note, noteOther, "Products", noteOther.Products, note.Products)
+		diffs = append(diffs, ops)
 	}
 	TasksDifferent := false
 	if len(note.Tasks) != len(noteOther.Tasks) {
@@ -1869,7 +1886,7 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 				TasksDifferent = true
 				break
 			} else if note.Tasks[i] != nil && noteOther.Tasks[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if note.Tasks[i] != noteOther.Tasks[i] {
 					TasksDifferent = true
 					break
@@ -1878,7 +1895,8 @@ func (note *Note) GongDiff(stage *Stage, noteOther *Note) (diffs []string) {
 		}
 	}
 	if TasksDifferent {
-		diffs = append(diffs, note.GongMarshallField(stage, "Tasks"))
+		ops := Diff(stage, note, noteOther, "Tasks", noteOther.Tasks, note.Tasks)
+		diffs = append(diffs, ops)
 	}
 	if note.IsExpanded != noteOther.IsExpanded {
 		diffs = append(diffs, note.GongMarshallField(stage, "IsExpanded"))
@@ -2019,7 +2037,7 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 				SubProductsDifferent = true
 				break
 			} else if product.SubProducts[i] != nil && productOther.SubProducts[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if product.SubProducts[i] != productOther.SubProducts[i] {
 					SubProductsDifferent = true
 					break
@@ -2028,7 +2046,8 @@ func (product *Product) GongDiff(stage *Stage, productOther *Product) (diffs []s
 		}
 	}
 	if SubProductsDifferent {
-		diffs = append(diffs, product.GongMarshallField(stage, "SubProducts"))
+		ops := Diff(stage, product, productOther, "SubProducts", productOther.SubProducts, product.SubProducts)
+		diffs = append(diffs, ops)
 	}
 	if product.IsExpanded != productOther.IsExpanded {
 		diffs = append(diffs, product.GongMarshallField(stage, "IsExpanded"))
@@ -2128,7 +2147,7 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 				RootProductsDifferent = true
 				break
 			} else if project.RootProducts[i] != nil && projectOther.RootProducts[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if project.RootProducts[i] != projectOther.RootProducts[i] {
 					RootProductsDifferent = true
 					break
@@ -2137,7 +2156,8 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		}
 	}
 	if RootProductsDifferent {
-		diffs = append(diffs, project.GongMarshallField(stage, "RootProducts"))
+		ops := Diff(stage, project, projectOther, "RootProducts", projectOther.RootProducts, project.RootProducts)
+		diffs = append(diffs, ops)
 	}
 	if project.IsPBSNodeExpanded != projectOther.IsPBSNodeExpanded {
 		diffs = append(diffs, project.GongMarshallField(stage, "IsPBSNodeExpanded"))
@@ -2151,7 +2171,7 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 				RootTasksDifferent = true
 				break
 			} else if project.RootTasks[i] != nil && projectOther.RootTasks[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if project.RootTasks[i] != projectOther.RootTasks[i] {
 					RootTasksDifferent = true
 					break
@@ -2160,7 +2180,8 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		}
 	}
 	if RootTasksDifferent {
-		diffs = append(diffs, project.GongMarshallField(stage, "RootTasks"))
+		ops := Diff(stage, project, projectOther, "RootTasks", projectOther.RootTasks, project.RootTasks)
+		diffs = append(diffs, ops)
 	}
 	if project.IsWBSNodeExpanded != projectOther.IsWBSNodeExpanded {
 		diffs = append(diffs, project.GongMarshallField(stage, "IsWBSNodeExpanded"))
@@ -2174,7 +2195,7 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 				DiagramsDifferent = true
 				break
 			} else if project.Diagrams[i] != nil && projectOther.Diagrams[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if project.Diagrams[i] != projectOther.Diagrams[i] {
 					DiagramsDifferent = true
 					break
@@ -2183,7 +2204,8 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		}
 	}
 	if DiagramsDifferent {
-		diffs = append(diffs, project.GongMarshallField(stage, "Diagrams"))
+		ops := Diff(stage, project, projectOther, "Diagrams", projectOther.Diagrams, project.Diagrams)
+		diffs = append(diffs, ops)
 	}
 	if project.IsDiagramsNodeExpanded != projectOther.IsDiagramsNodeExpanded {
 		diffs = append(diffs, project.GongMarshallField(stage, "IsDiagramsNodeExpanded"))
@@ -2197,7 +2219,7 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 				NotesDifferent = true
 				break
 			} else if project.Notes[i] != nil && projectOther.Notes[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if project.Notes[i] != projectOther.Notes[i] {
 					NotesDifferent = true
 					break
@@ -2206,7 +2228,8 @@ func (project *Project) GongDiff(stage *Stage, projectOther *Project) (diffs []s
 		}
 	}
 	if NotesDifferent {
-		diffs = append(diffs, project.GongMarshallField(stage, "Notes"))
+		ops := Diff(stage, project, projectOther, "Notes", projectOther.Notes, project.Notes)
+		diffs = append(diffs, ops)
 	}
 	if project.IsNotesNodeExpanded != projectOther.IsNotesNodeExpanded {
 		diffs = append(diffs, project.GongMarshallField(stage, "IsNotesNodeExpanded"))
@@ -2237,7 +2260,7 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 				ProjectsDifferent = true
 				break
 			} else if root.Projects[i] != nil && rootOther.Projects[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if root.Projects[i] != rootOther.Projects[i] {
 					ProjectsDifferent = true
 					break
@@ -2246,7 +2269,8 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 		}
 	}
 	if ProjectsDifferent {
-		diffs = append(diffs, root.GongMarshallField(stage, "Projects"))
+		ops := Diff(stage, root, rootOther, "Projects", rootOther.Projects, root.Projects)
+		diffs = append(diffs, ops)
 	}
 	OrphanedProductsDifferent := false
 	if len(root.OrphanedProducts) != len(rootOther.OrphanedProducts) {
@@ -2257,7 +2281,7 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 				OrphanedProductsDifferent = true
 				break
 			} else if root.OrphanedProducts[i] != nil && rootOther.OrphanedProducts[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if root.OrphanedProducts[i] != rootOther.OrphanedProducts[i] {
 					OrphanedProductsDifferent = true
 					break
@@ -2266,7 +2290,8 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 		}
 	}
 	if OrphanedProductsDifferent {
-		diffs = append(diffs, root.GongMarshallField(stage, "OrphanedProducts"))
+		ops := Diff(stage, root, rootOther, "OrphanedProducts", rootOther.OrphanedProducts, root.OrphanedProducts)
+		diffs = append(diffs, ops)
 	}
 	OrphanedTasksDifferent := false
 	if len(root.OrphanedTasks) != len(rootOther.OrphanedTasks) {
@@ -2277,7 +2302,7 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 				OrphanedTasksDifferent = true
 				break
 			} else if root.OrphanedTasks[i] != nil && rootOther.OrphanedTasks[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if root.OrphanedTasks[i] != rootOther.OrphanedTasks[i] {
 					OrphanedTasksDifferent = true
 					break
@@ -2286,7 +2311,8 @@ func (root *Root) GongDiff(stage *Stage, rootOther *Root) (diffs []string) {
 		}
 	}
 	if OrphanedTasksDifferent {
-		diffs = append(diffs, root.GongMarshallField(stage, "OrphanedTasks"))
+		ops := Diff(stage, root, rootOther, "OrphanedTasks", rootOther.OrphanedTasks, root.OrphanedTasks)
+		diffs = append(diffs, ops)
 	}
 	if root.NbPixPerCharacter != rootOther.NbPixPerCharacter {
 		diffs = append(diffs, root.GongMarshallField(stage, "NbPixPerCharacter"))
@@ -2314,7 +2340,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 				SubTasksDifferent = true
 				break
 			} else if task.SubTasks[i] != nil && taskOther.SubTasks[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if task.SubTasks[i] != taskOther.SubTasks[i] {
 					SubTasksDifferent = true
 					break
@@ -2323,7 +2349,8 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if SubTasksDifferent {
-		diffs = append(diffs, task.GongMarshallField(stage, "SubTasks"))
+		ops := Diff(stage, task, taskOther, "SubTasks", taskOther.SubTasks, task.SubTasks)
+		diffs = append(diffs, ops)
 	}
 	if task.IsExpanded != taskOther.IsExpanded {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsExpanded"))
@@ -2340,7 +2367,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 				InputsDifferent = true
 				break
 			} else if task.Inputs[i] != nil && taskOther.Inputs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if task.Inputs[i] != taskOther.Inputs[i] {
 					InputsDifferent = true
 					break
@@ -2349,7 +2376,8 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if InputsDifferent {
-		diffs = append(diffs, task.GongMarshallField(stage, "Inputs"))
+		ops := Diff(stage, task, taskOther, "Inputs", taskOther.Inputs, task.Inputs)
+		diffs = append(diffs, ops)
 	}
 	if task.IsInputsNodeExpanded != taskOther.IsInputsNodeExpanded {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsInputsNodeExpanded"))
@@ -2363,7 +2391,7 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 				OutputsDifferent = true
 				break
 			} else if task.Outputs[i] != nil && taskOther.Outputs[i] != nil {
-			 	// this is a pointer comparaison
+				// this is a pointer comparaison
 				if task.Outputs[i] != taskOther.Outputs[i] {
 					OutputsDifferent = true
 					break
@@ -2372,7 +2400,8 @@ func (task *Task) GongDiff(stage *Stage, taskOther *Task) (diffs []string) {
 		}
 	}
 	if OutputsDifferent {
-		diffs = append(diffs, task.GongMarshallField(stage, "Outputs"))
+		ops := Diff(stage, task, taskOther, "Outputs", taskOther.Outputs, task.Outputs)
+		diffs = append(diffs, ops)
 	}
 	if task.IsOutputsNodeExpanded != taskOther.IsOutputsNodeExpanded {
 		diffs = append(diffs, task.GongMarshallField(stage, "IsOutputsNodeExpanded"))
@@ -2531,4 +2560,81 @@ func (taskshape *TaskShape) GongDiff(stage *Stage, taskshapeOther *TaskShape) (d
 	}
 
 	return
+}
+
+// Diff returns the sequence of operations to transform oldSlice into newSlice.
+// It requires type T to be comparable (e.g., pointers, ints, strings).
+func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, oldSlice, newSlice []T2) (ops string) {
+	m, n := len(oldSlice), len(newSlice)
+
+	// 1. Build the LCS (Longest Common Subsequence) Matrix
+	// This helps us find the "anchor" elements that shouldn't move.
+	dp := make([][]int, m+1)
+	for i := range dp {
+		dp[i] = make([]int, n+1)
+	}
+
+	for i := 0; i < m; i++ {
+		for j := 0; j < n; j++ {
+			if oldSlice[i] == newSlice[j] {
+				dp[i+1][j+1] = dp[i][j] + 1
+			} else {
+				// Take the maximum of previous options
+				if dp[i][j+1] > dp[i+1][j] {
+					dp[i+1][j+1] = dp[i][j+1]
+				} else {
+					dp[i+1][j+1] = dp[i+1][j]
+				}
+			}
+		}
+	}
+
+	// 2. Backtrack to find which indices in oldSlice are part of the LCS
+	// We use a map for O(1) lookups.
+	keptIndices := make(map[int]bool)
+	i, j := m, n
+	for i > 0 && j > 0 {
+		if oldSlice[i-1] == newSlice[j-1] {
+			keptIndices[i-1] = true
+			i--
+			j--
+		} else if dp[i-1][j] > dp[i][j-1] {
+			i--
+		} else {
+			j--
+		}
+	}
+
+	// 3. PHASE 1: Generate Deletions
+	// MUST go from High Index -> Low Index to preserve validity of lower indices.
+	for k := m - 1; k >= 0; k-- {
+		if !keptIndices[k] {
+			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+		}
+	}
+
+	// 4. PHASE 2: Generate Insertions
+	// We simulate the state of the slice after deletions to determine insertion points.
+	// The 'current' slice essentially consists of only the kept LCS items.
+
+	// Create a temporary view of what's left after deletions for tracking matches
+	var currentLCS []T2
+	for k := 0; k < m; k++ {
+		if keptIndices[k] {
+			currentLCS = append(currentLCS, oldSlice[k])
+		}
+	}
+
+	lcsIdx := 0
+	// Iterate through the NEW slice. If it matches the current LCS head, we keep it.
+	// If it doesn't match, it must be inserted here.
+	for k, targetVal := range newSlice {
+		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
+			lcsIdx++
+		} else {
+			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+		}
+	}
+
+	return ops
 }

@@ -183,7 +183,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := arrow.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", arrow.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", arrow.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -216,7 +216,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := bar.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", bar.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", bar.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -249,7 +249,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := gantt.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", gantt.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", gantt.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -282,7 +282,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := group.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", group.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", group.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -315,7 +315,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := lane.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", lane.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", lane.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -348,7 +348,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := laneuse.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", laneuse.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", laneuse.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -381,7 +381,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := milestone.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", milestone.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", milestone.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}

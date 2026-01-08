@@ -139,7 +139,7 @@ func ({{structname}} *{{Structname}}) GongCopy() GongstructIF {
 		} else {
 			diffs := {{structname}}.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance %s \n", {{structname}}.GetName())
+				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", {{structname}}.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
