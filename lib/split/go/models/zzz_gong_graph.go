@@ -1626,91 +1626,91 @@ func (assplitarea *AsSplitArea) GongDiff(stage *Stage, assplitareaOther *AsSplit
 		diffs = append(diffs, assplitarea.GongMarshallField(stage, "IsAny"))
 	}
 	if (assplitarea.AsSplit == nil) != (assplitareaOther.AsSplit == nil) {
-		diffs = append(diffs, "AsSplit")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
 	} else if assplitarea.AsSplit != nil && assplitareaOther.AsSplit != nil {
 		if assplitarea.AsSplit != assplitareaOther.AsSplit {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "AsSplit"))
 		}
 	}
 	if (assplitarea.Button == nil) != (assplitareaOther.Button == nil) {
-		diffs = append(diffs, "Button")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 	} else if assplitarea.Button != nil && assplitareaOther.Button != nil {
 		if assplitarea.Button != assplitareaOther.Button {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Button"))
 		}
 	}
 	if (assplitarea.Cursor == nil) != (assplitareaOther.Cursor == nil) {
-		diffs = append(diffs, "Cursor")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 	} else if assplitarea.Cursor != nil && assplitareaOther.Cursor != nil {
 		if assplitarea.Cursor != assplitareaOther.Cursor {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Cursor"))
 		}
 	}
 	if (assplitarea.Form == nil) != (assplitareaOther.Form == nil) {
-		diffs = append(diffs, "Form")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 	} else if assplitarea.Form != nil && assplitareaOther.Form != nil {
 		if assplitarea.Form != assplitareaOther.Form {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Form"))
 		}
 	}
 	if (assplitarea.Load == nil) != (assplitareaOther.Load == nil) {
-		diffs = append(diffs, "Load")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
 	} else if assplitarea.Load != nil && assplitareaOther.Load != nil {
 		if assplitarea.Load != assplitareaOther.Load {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Load"))
 		}
 	}
 	if (assplitarea.Markdown == nil) != (assplitareaOther.Markdown == nil) {
-		diffs = append(diffs, "Markdown")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
 	} else if assplitarea.Markdown != nil && assplitareaOther.Markdown != nil {
 		if assplitarea.Markdown != assplitareaOther.Markdown {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Markdown"))
 		}
 	}
 	if (assplitarea.Slider == nil) != (assplitareaOther.Slider == nil) {
-		diffs = append(diffs, "Slider")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 	} else if assplitarea.Slider != nil && assplitareaOther.Slider != nil {
 		if assplitarea.Slider != assplitareaOther.Slider {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Slider"))
 		}
 	}
 	if (assplitarea.Split == nil) != (assplitareaOther.Split == nil) {
-		diffs = append(diffs, "Split")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
 	} else if assplitarea.Split != nil && assplitareaOther.Split != nil {
 		if assplitarea.Split != assplitareaOther.Split {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Split"))
 		}
 	}
 	if (assplitarea.Svg == nil) != (assplitareaOther.Svg == nil) {
-		diffs = append(diffs, "Svg")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
 	} else if assplitarea.Svg != nil && assplitareaOther.Svg != nil {
 		if assplitarea.Svg != assplitareaOther.Svg {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Svg"))
 		}
 	}
 	if (assplitarea.Table == nil) != (assplitareaOther.Table == nil) {
-		diffs = append(diffs, "Table")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
 	} else if assplitarea.Table != nil && assplitareaOther.Table != nil {
 		if assplitarea.Table != assplitareaOther.Table {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Table"))
 		}
 	}
 	if (assplitarea.Tone == nil) != (assplitareaOther.Tone == nil) {
-		diffs = append(diffs, "Tone")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
 	} else if assplitarea.Tone != nil && assplitareaOther.Tone != nil {
 		if assplitarea.Tone != assplitareaOther.Tone {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tone"))
 		}
 	}
 	if (assplitarea.Tree == nil) != (assplitareaOther.Tree == nil) {
-		diffs = append(diffs, "Tree")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
 	} else if assplitarea.Tree != nil && assplitareaOther.Tree != nil {
 		if assplitarea.Tree != assplitareaOther.Tree {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Tree"))
 		}
 	}
 	if (assplitarea.Xlsx == nil) != (assplitareaOther.Xlsx == nil) {
-		diffs = append(diffs, "Xlsx")
+		diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
 	} else if assplitarea.Xlsx != nil && assplitareaOther.Xlsx != nil {
 		if assplitarea.Xlsx != assplitareaOther.Xlsx {
 			diffs = append(diffs, assplitarea.GongMarshallField(stage, "Xlsx"))
@@ -2053,7 +2053,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -2076,7 +2076,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

@@ -352,13 +352,17 @@ func (stage *Stage) ComputeDifference() {
 	var lenNewInstances int
 	var lenModifiedInstances int
 	var lenDeletedInstances int
-	
+
 	var newInstancesStmt string
 	_ = newInstancesStmt
 	var fieldsEditStmt string
 	_ = fieldsEditStmt
 	var deletedInstancesStmt string
 	_ = deletedInstancesStmt
+
+	// first clean the staging area to remove non staged instances
+	// from pointers fields and slices of pointers fields
+	stage.Clean()
 
 	// insertion point per named struct
 	var cells_newInstances []*Cell
@@ -375,7 +379,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cell.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cell.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cell.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -408,7 +412,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cellboolean.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cellboolean.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cellboolean.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -441,7 +445,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cellfloat64.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cellfloat64.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cellfloat64.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -474,7 +478,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cellicon.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cellicon.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cellicon.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -507,7 +511,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cellint.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cellint.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cellint.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -540,7 +544,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := cellstring.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", cellstring.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", cellstring.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -573,7 +577,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := checkbox.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", checkbox.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", checkbox.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -606,7 +610,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := displayedcolumn.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", displayedcolumn.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", displayedcolumn.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -639,7 +643,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formdiv.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formdiv.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formdiv.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -672,7 +676,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formeditassocbutton.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formeditassocbutton.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formeditassocbutton.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -705,7 +709,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfield.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfield.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfield.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -738,7 +742,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfielddate.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfielddate.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfielddate.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -771,7 +775,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfielddatetime.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfielddatetime.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfielddatetime.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -804,7 +808,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfieldfloat64.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfieldfloat64.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfieldfloat64.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -837,7 +841,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfieldint.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfieldint.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfieldint.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -870,7 +874,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfieldselect.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfieldselect.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfieldselect.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -903,7 +907,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfieldstring.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfieldstring.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfieldstring.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -936,7 +940,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formfieldtime.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formfieldtime.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formfieldtime.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -969,7 +973,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formgroup.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formgroup.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formgroup.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1002,7 +1006,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := formsortassocbutton.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", formsortassocbutton.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", formsortassocbutton.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1035,7 +1039,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := option.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", option.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", option.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1068,7 +1072,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := row.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", row.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", row.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1101,7 +1105,7 @@ func (stage *Stage) ComputeDifference() {
 		} else {
 			diffs := table.GongDiff(stage, ref)
 			if len(diffs) > 0 {
-				fieldsEditStmt += fmt.Sprintf("\t// modifications for instance \"%s\" \n", table.GetName())
+				fieldsEditStmt += fmt.Sprintf("\n\t// modifications for instance \"%s\"", table.GetName())
 				for _, diff := range diffs {
 					fieldsEditStmt += diff
 				}
@@ -1122,11 +1126,15 @@ func (stage *Stage) ComputeDifference() {
 	lenDeletedInstances += len(tables_deletedInstances)
 
 	if lenNewInstances > 0 || lenDeletedInstances > 0 || lenModifiedInstances > 0 {
+		notif := newInstancesStmt+fieldsEditStmt+deletedInstancesStmt
+		notif += fmt.Sprintf("\n\t// %s", time.Now().Format(time.RFC3339Nano))
+		notif += fmt.Sprintf("\n\tstage.Commit()")
 		if stage.GetProbeIF() != nil {
 			stage.GetProbeIF().AddNotification(
 				time.Now(),
-				newInstancesStmt+fieldsEditStmt+deletedInstancesStmt,
+				notif,
 			)
+			stage.GetProbeIF().CommitNotificationTable()
 		}
 	}
 }

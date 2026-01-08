@@ -819,8 +819,6 @@ func (milestone *Milestone) GongMarshallField(stage *Stage, fieldName string) (r
 // insertion point for marshall all fields methods
 func (arrow *Arrow) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += arrow.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += arrow.GongMarshallField(stage, "From")
@@ -832,8 +830,6 @@ func (arrow *Arrow) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (bar *Bar) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += bar.GongMarshallField(stage, "Name")
 		initializerStatements += bar.GongMarshallField(stage, "Start")
@@ -849,8 +845,6 @@ func (bar *Bar) GongMarshallAllFields(stage *Stage) (initializerStatements strin
 }
 func (gantt *Gantt) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += gantt.GongMarshallField(stage, "Name")
 		initializerStatements += gantt.GongMarshallField(stage, "ComputedStart")
@@ -886,8 +880,6 @@ func (gantt *Gantt) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += group.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += group.GongMarshallField(stage, "GroupLanes")
@@ -896,8 +888,6 @@ func (group *Group) GongMarshallAllFields(stage *Stage) (initializerStatements s
 }
 func (lane *Lane) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += lane.GongMarshallField(stage, "Name")
 		initializerStatements += lane.GongMarshallField(stage, "Order")
@@ -907,8 +897,6 @@ func (lane *Lane) GongMarshallAllFields(stage *Stage) (initializerStatements str
 }
 func (laneuse *LaneUse) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += laneuse.GongMarshallField(stage, "Name")
 		pointersInitializesStatements += laneuse.GongMarshallField(stage, "Lane")
@@ -917,8 +905,6 @@ func (laneuse *LaneUse) GongMarshallAllFields(stage *Stage) (initializerStatemen
 }
 func (milestone *Milestone) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment
 		initializerStatements += milestone.GongMarshallField(stage, "Name")
 		initializerStatements += milestone.GongMarshallField(stage, "Date")

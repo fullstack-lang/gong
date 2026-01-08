@@ -79,8 +79,6 @@ func ({{structname}} *{{Structname}}) GongMarshallField(stage *Stage, fieldName 
 	ModelGongMarshallMarshallAllFieldsMethods: `
 func ({{structname}} *{{Structname}}) GongMarshallAllFields(stage *Stage) (initializerStatements string, pointersInitializesStatements string) {
 
-	initializerStatements += "\n"
-	pointersInitializesStatements += "\n"
 	{ // Insertion point for basic fields value assignment{{ValuesInitialization}}
 	}
 	return

@@ -415,7 +415,7 @@ func (button *Button) GongDiff(stage *Stage, buttonOther *Button) (diffs []strin
 		diffs = append(diffs, button.GongMarshallField(stage, "Icon"))
 	}
 	if (button.SVGIcon == nil) != (buttonOther.SVGIcon == nil) {
-		diffs = append(diffs, "SVGIcon")
+		diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
 	} else if button.SVGIcon != nil && buttonOther.SVGIcon != nil {
 		if button.SVGIcon != buttonOther.SVGIcon {
 			diffs = append(diffs, button.GongMarshallField(stage, "SVGIcon"))
@@ -514,7 +514,7 @@ func (node *Node) GongDiff(stage *Stage, nodeOther *Node) (diffs []string) {
 		diffs = append(diffs, node.GongMarshallField(stage, "PreceedingIcon"))
 	}
 	if (node.PreceedingSVGIcon == nil) != (nodeOther.PreceedingSVGIcon == nil) {
-		diffs = append(diffs, "PreceedingSVGIcon")
+		diffs = append(diffs, node.GongMarshallField(stage, "PreceedingSVGIcon"))
 	} else if node.PreceedingSVGIcon != nil && nodeOther.PreceedingSVGIcon != nil {
 		if node.PreceedingSVGIcon != nodeOther.PreceedingSVGIcon {
 			diffs = append(diffs, node.GongMarshallField(stage, "PreceedingSVGIcon"))
@@ -659,7 +659,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -682,7 +682,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 

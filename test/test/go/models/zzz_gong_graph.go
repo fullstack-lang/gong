@@ -766,7 +766,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		diffs = append(diffs, astruct.GongMarshallField(stage, "Field"))
 	}
 	if (astruct.Associationtob == nil) != (astructOther.Associationtob == nil) {
-		diffs = append(diffs, "Associationtob")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Associationtob"))
 	} else if astruct.Associationtob != nil && astructOther.Associationtob != nil {
 		if astruct.Associationtob != astructOther.Associationtob {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Associationtob"))
@@ -794,7 +794,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if (astruct.Anotherassociationtob_2 == nil) != (astructOther.Anotherassociationtob_2 == nil) {
-		diffs = append(diffs, "Anotherassociationtob_2")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
 	} else if astruct.Anotherassociationtob_2 != nil && astructOther.Anotherassociationtob_2 != nil {
 		if astruct.Anotherassociationtob_2 != astructOther.Anotherassociationtob_2 {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Anotherassociationtob_2"))
@@ -828,42 +828,42 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		diffs = append(diffs, astruct.GongMarshallField(stage, "CFloatfield"))
 	}
 	if (astruct.Bstruct == nil) != (astructOther.Bstruct == nil) {
-		diffs = append(diffs, "Bstruct")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct"))
 	} else if astruct.Bstruct != nil && astructOther.Bstruct != nil {
 		if astruct.Bstruct != astructOther.Bstruct {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct"))
 		}
 	}
 	if (astruct.Bstruct2 == nil) != (astructOther.Bstruct2 == nil) {
-		diffs = append(diffs, "Bstruct2")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct2"))
 	} else if astruct.Bstruct2 != nil && astructOther.Bstruct2 != nil {
 		if astruct.Bstruct2 != astructOther.Bstruct2 {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Bstruct2"))
 		}
 	}
 	if (astruct.Dstruct == nil) != (astructOther.Dstruct == nil) {
-		diffs = append(diffs, "Dstruct")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct"))
 	} else if astruct.Dstruct != nil && astructOther.Dstruct != nil {
 		if astruct.Dstruct != astructOther.Dstruct {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct"))
 		}
 	}
 	if (astruct.Dstruct2 == nil) != (astructOther.Dstruct2 == nil) {
-		diffs = append(diffs, "Dstruct2")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct2"))
 	} else if astruct.Dstruct2 != nil && astructOther.Dstruct2 != nil {
 		if astruct.Dstruct2 != astructOther.Dstruct2 {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct2"))
 		}
 	}
 	if (astruct.Dstruct3 == nil) != (astructOther.Dstruct3 == nil) {
-		diffs = append(diffs, "Dstruct3")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct3"))
 	} else if astruct.Dstruct3 != nil && astructOther.Dstruct3 != nil {
 		if astruct.Dstruct3 != astructOther.Dstruct3 {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct3"))
 		}
 	}
 	if (astruct.Dstruct4 == nil) != (astructOther.Dstruct4 == nil) {
-		diffs = append(diffs, "Dstruct4")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4"))
 	} else if astruct.Dstruct4 != nil && astructOther.Dstruct4 != nil {
 		if astruct.Dstruct4 != astructOther.Dstruct4 {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "Dstruct4"))
@@ -987,7 +987,7 @@ func (astruct *Astruct) GongDiff(stage *Stage, astructOther *Astruct) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if (astruct.AnAstruct == nil) != (astructOther.AnAstruct == nil) {
-		diffs = append(diffs, "AnAstruct")
+		diffs = append(diffs, astruct.GongMarshallField(stage, "AnAstruct"))
 	} else if astruct.AnAstruct != nil && astructOther.AnAstruct != nil {
 		if astruct.AnAstruct != astructOther.AnAstruct {
 			diffs = append(diffs, astruct.GongMarshallField(stage, "AnAstruct"))
@@ -1011,7 +1011,7 @@ func (astructbstruct2use *AstructBstruct2Use) GongDiff(stage *Stage, astructbstr
 		diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Name"))
 	}
 	if (astructbstruct2use.Bstrcut2 == nil) != (astructbstruct2useOther.Bstrcut2 == nil) {
-		diffs = append(diffs, "Bstrcut2")
+		diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
 	} else if astructbstruct2use.Bstrcut2 != nil && astructbstruct2useOther.Bstrcut2 != nil {
 		if astructbstruct2use.Bstrcut2 != astructbstruct2useOther.Bstrcut2 {
 			diffs = append(diffs, astructbstruct2use.GongMarshallField(stage, "Bstrcut2"))
@@ -1029,7 +1029,7 @@ func (astructbstructuse *AstructBstructUse) GongDiff(stage *Stage, astructbstruc
 		diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Name"))
 	}
 	if (astructbstructuse.Bstruct2 == nil) != (astructbstructuseOther.Bstruct2 == nil) {
-		diffs = append(diffs, "Bstruct2")
+		diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Bstruct2"))
 	} else if astructbstructuse.Bstruct2 != nil && astructbstructuseOther.Bstruct2 != nil {
 		if astructbstructuse.Bstruct2 != astructbstructuseOther.Bstruct2 {
 			diffs = append(diffs, astructbstructuse.GongMarshallField(stage, "Bstruct2"))
@@ -1088,7 +1088,7 @@ func (dstruct *Dstruct) GongDiff(stage *Stage, dstructOther *Dstruct) (diffs []s
 		diffs = append(diffs, ops)
 	}
 	if (dstruct.Gstruct == nil) != (dstructOther.Gstruct == nil) {
-		diffs = append(diffs, "Gstruct")
+		diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstruct"))
 	} else if dstruct.Gstruct != nil && dstructOther.Gstruct != nil {
 		if dstruct.Gstruct != dstructOther.Gstruct {
 			diffs = append(diffs, dstruct.GongMarshallField(stage, "Gstruct"))
@@ -1200,7 +1200,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 	// MUST go from High Index -> Low Index to preserve validity of lower indices.
 	for k := m - 1; k >= 0; k-- {
 		if !keptIndices[k] {
-			ops += fmt.Sprintf("\t%s.%s = slices.Delete( %s.%s, %d, %d)\n", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Delete( %s.%s, %d, %d)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, k+1)
 		}
 	}
 
@@ -1223,7 +1223,7 @@ func Diff[T1, T2 PointerToGongstruct](stage *Stage, a, b T1, fieldName string, o
 		if lcsIdx < len(currentLCS) && currentLCS[lcsIdx] == targetVal {
 			lcsIdx++
 		} else {
-			ops += fmt.Sprintf("\t%s.%s = slices.Insert( %s.%s, %d, %s)\n",  a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
+			ops += fmt.Sprintf("\n\t%s.%s = slices.Insert( %s.%s, %d, %s)", a.GongGetIdentifier(stage), fieldName, a.GongGetIdentifier(stage), fieldName, k, targetVal.GongGetIdentifier(stage))
 		}
 	}
 
